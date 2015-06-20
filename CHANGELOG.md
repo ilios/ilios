@@ -1,0 +1,1527 @@
+# Change Log
+
+## [v3.0.0-beta1](https://github.com/ilios/ilios/tree/v3.0.0-beta1) (2015-06-19)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.4.8...v3.0.0-beta1)
+
+**Closed issues:**
+
+- Unable to Add Instructor To Session Offering [\#855](https://github.com/ilios/ilios/issues/855)
+
+- Session Toggles Return the Error Below When Change Event Occurs and Sometime Require Multiple Clicks [\#852](https://github.com/ilios/ilios/issues/852)
+
+- Unable to modify Session Type [\#848](https://github.com/ilios/ilios/issues/848)
+
+- Add Cohort fails to function [\#846](https://github.com/ilios/ilios/issues/846)
+
+- Learning Materials are not retrieving/displaying “status” or “instructional notes” in the edit form [\#845](https://github.com/ilios/ilios/issues/845)
+
+- Course Director Search Cancel Button Disappears [\#844](https://github.com/ilios/ilios/issues/844)
+
+- Course Director Search Not Returning Correct Results [\#843](https://github.com/ilios/ilios/issues/843)
+
+- Course Director Save Not Happening  [\#842](https://github.com/ilios/ilios/issues/842)
+
+- Manage MeSH Button Does Not Function [\#841](https://github.com/ilios/ilios/issues/841)
+
+- Clerkship Type Not Loading on Demo [\#838](https://github.com/ilios/ilios/issues/838)
+
+- Publish Course Not Working on Demo Server \(API\) [\#837](https://github.com/ilios/ilios/issues/837)
+
+- Save Event Not Working - Select Parent Objective for Course Objective [\#836](https://github.com/ilios/ilios/issues/836)
+
+- Session Type Endpoint Broken [\#835](https://github.com/ilios/ilios/issues/835)
+
+- Save Event For Adding Course Level Objective Not Working On Demo [\#834](https://github.com/ilios/ilios/issues/834)
+
+- Session Edit Not Working on Demo Site \(API Issue?\) [\#832](https://github.com/ilios/ilios/issues/832)
+
+- Add New Course \>\> Suggestion -- Place Add Cohort Higher on the Screen [\#808](https://github.com/ilios/ilios/issues/808)
+
+- MeSH Terms Search / Results Suggestions  [\#796](https://github.com/ilios/ilios/issues/796)
+
+- Add repo-specific .gitattributes file to force unix line-endings for all users [\#787](https://github.com/ilios/ilios/issues/787)
+
+- Vagrant needs to run on Windows -- errors with nfsd [\#779](https://github.com/ilios/ilios/issues/779)
+
+- Change from searchTerm to Q for special search [\#772](https://github.com/ilios/ilios/issues/772)
+
+- Fix session description endpoint [\#765](https://github.com/ilios/ilios/issues/765)
+
+- User role endpoint title [\#756](https://github.com/ilios/ilios/issues/756)
+
+- Session Endpoint [\#755](https://github.com/ilios/ilios/issues/755)
+
+- Add searchTerms to user api [\#738](https://github.com/ilios/ilios/issues/738)
+
+**Merged pull requests:**
+
+- API fixes from frontend testing [\#860](https://github.com/ilios/ilios/pull/860) ([jrjohnson](https://github.com/jrjohnson))
+
+- More API Tests [\#856](https://github.com/ilios/ilios/pull/856) ([jrjohnson](https://github.com/jrjohnson))
+
+- Fix issue with API relationships [\#853](https://github.com/ilios/ilios/pull/853) ([jrjohnson](https://github.com/jrjohnson))
+
+- Fixes routes and action implementations. Makes resources plural. [\#831](https://github.com/ilios/ilios/pull/831) ([vpassapera](https://github.com/vpassapera))
+
+- Added User Events API endpoint [\#830](https://github.com/ilios/ilios/pull/830) ([jrjohnson](https://github.com/jrjohnson))
+
+- Make the index file location configurable [\#828](https://github.com/ilios/ilios/pull/828) ([jrjohnson](https://github.com/jrjohnson))
+
+- Serve the frontend from symfony [\#827](https://github.com/ilios/ilios/pull/827) ([jrjohnson](https://github.com/jrjohnson))
+
+- Expose additional API data [\#826](https://github.com/ilios/ilios/pull/826) ([jrjohnson](https://github.com/jrjohnson))
+
+- Fixes to generated files to work with controller tests. [\#825](https://github.com/ilios/ilios/pull/825) ([vpassapera](https://github.com/vpassapera))
+
+- Added Some controller tests [\#823](https://github.com/ilios/ilios/pull/823) ([vpassapera](https://github.com/vpassapera))
+
+- Add title to department endpoint [\#817](https://github.com/ilios/ilios/pull/817) ([jrjohnson](https://github.com/jrjohnson))
+
+- changed SOD email to the new one, fixes \#815 [\#816](https://github.com/ilios/ilios/pull/816) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- user/user-role test fixture switcheroo [\#809](https://github.com/ilios/ilios/pull/809) ([stopfstedt](https://github.com/stopfstedt))
+
+- Better API for learning materials [\#807](https://github.com/ilios/ilios/pull/807) ([jrjohnson](https://github.com/jrjohnson))
+
+- Assorted API Improvements [\#804](https://github.com/ilios/ilios/pull/804) ([jrjohnson](https://github.com/jrjohnson))
+
+- Get all the pcrses [\#802](https://github.com/ilios/ilios/pull/802) ([stopfstedt](https://github.com/stopfstedt))
+
+- A few more data loaders and test fixtures [\#801](https://github.com/ilios/ilios/pull/801) ([stopfstedt](https://github.com/stopfstedt))
+
+- id attribute of identifiable entity can be string or int. [\#800](https://github.com/ilios/ilios/pull/800) ([stopfstedt](https://github.com/stopfstedt))
+
+- added equals sign for proper handling [\#791](https://github.com/ilios/ilios/pull/791) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- changed the .gitattributes file to enforce unix line ending on all .sh, .php, and .sql files in the repo [\#788](https://github.com/ilios/ilios/pull/788) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Fix session creation in API [\#786](https://github.com/ilios/ilios/pull/786) ([jrjohnson](https://github.com/jrjohnson))
+
+- Move php to Puppetfile [\#785](https://github.com/ilios/ilios/pull/785) ([vpassapera](https://github.com/vpassapera))
+
+- Validation tests [\#784](https://github.com/ilios/ilios/pull/784) ([dartajax](https://github.com/dartajax))
+
+- Slightly cleaner test code for the course entity [\#782](https://github.com/ilios/ilios/pull/782) ([jrjohnson](https://github.com/jrjohnson))
+
+- Branch vagrant shared folder config on windows. [\#780](https://github.com/ilios/ilios/pull/780) ([jrjohnson](https://github.com/jrjohnson))
+
+- Entity Annotation Validations [\#778](https://github.com/ilios/ilios/pull/778) ([jrjohnson](https://github.com/jrjohnson))
+
+- Use q= instead of searchTerm= for finding by string [\#774](https://github.com/ilios/ilios/pull/774) ([jrjohnson](https://github.com/jrjohnson))
+
+- Update composer.json [\#771](https://github.com/ilios/ilios/pull/771) ([vpassapera](https://github.com/vpassapera))
+
+- Add description and ID to session description endpoint [\#770](https://github.com/ilios/ilios/pull/770) ([jrjohnson](https://github.com/jrjohnson))
+
+- Use tdn generator and included types for forms [\#768](https://github.com/ilios/ilios/pull/768) ([jrjohnson](https://github.com/jrjohnson))
+
+- Update dependencies to fix issue with tdn/phptype tree [\#767](https://github.com/ilios/ilios/pull/767) ([jrjohnson](https://github.com/jrjohnson))
+
+- Annotations added to Entities [\#764](https://github.com/ilios/ilios/pull/764) ([dartajax](https://github.com/dartajax))
+
+- fixed typo [\#763](https://github.com/ilios/ilios/pull/763) ([stopfstedt](https://github.com/stopfstedt))
+
+- Added coveralls and minor cleanup [\#752](https://github.com/ilios/ilios/pull/752) ([jrjohnson](https://github.com/jrjohnson))
+
+- Userroles dataloader [\#751](https://github.com/ilios/ilios/pull/751) ([stopfstedt](https://github.com/stopfstedt))
+
+- Use custom Types and Transformers to handle data [\#750](https://github.com/ilios/ilios/pull/750) ([jrjohnson](https://github.com/jrjohnson))
+
+- Remove Code Igniter [\#749](https://github.com/ilios/ilios/pull/749) ([jrjohnson](https://github.com/jrjohnson))
+
+- Bring Ilios3 into Master [\#744](https://github.com/ilios/ilios/pull/744) ([jrjohnson](https://github.com/jrjohnson))
+
+- Validation and Tests [\#743](https://github.com/ilios/ilios/pull/743) ([jrjohnson](https://github.com/jrjohnson))
+
+- Trim vagrant mercilessly [\#742](https://github.com/ilios/ilios/pull/742) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add the ability to find users by searchTerm [\#741](https://github.com/ilios/ilios/pull/741) ([jrjohnson](https://github.com/jrjohnson))
+
+- Serialize Dates [\#740](https://github.com/ilios/ilios/pull/740) ([jrjohnson](https://github.com/jrjohnson))
+
+- API Changes [\#737](https://github.com/ilios/ilios/pull/737) ([jrjohnson](https://github.com/jrjohnson))
+
+- Fix API HTML Views [\#736](https://github.com/ilios/ilios/pull/736) ([jrjohnson](https://github.com/jrjohnson))
+
+- REST Api [\#735](https://github.com/ilios/ilios/pull/735) ([vpassapera](https://github.com/vpassapera))
+
+- changed variable reference assignment to support php 5.6 [\#731](https://github.com/ilios/ilios/pull/731) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Linting [\#727](https://github.com/ilios/ilios/pull/727) ([Trott](https://github.com/Trott))
+
+- updated CHANGELOG.txt, ready for release 2.4.8 [\#726](https://github.com/ilios/ilios/pull/726) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Update managers to support put/patch [\#821](https://github.com/ilios/ilios/pull/821) ([vpassapera](https://github.com/vpassapera))
+
+- Updates handlers for put / patch. [\#820](https://github.com/ilios/ilios/pull/820) ([vpassapera](https://github.com/vpassapera))
+
+- Adding controller tests. [\#819](https://github.com/ilios/ilios/pull/819) ([vpassapera](https://github.com/vpassapera))
+
+- \[WIP\] Controller Tests [\#818](https://github.com/ilios/ilios/pull/818) ([vpassapera](https://github.com/vpassapera))
+
+- added .idea directory to git ignore list. [\#798](https://github.com/ilios/ilios/pull/798) ([stopfstedt](https://github.com/stopfstedt))
+
+- Field validation [\#777](https://github.com/ilios/ilios/pull/777) ([dartajax](https://github.com/dartajax))
+
+- added annotations to Entities [\#762](https://github.com/ilios/ilios/pull/762) ([dartajax](https://github.com/dartajax))
+
+- Simplify [\#728](https://github.com/ilios/ilios/pull/728) ([Trott](https://github.com/Trott))
+
+- rm empty DOM node from default index.php [\#721](https://github.com/ilios/ilios/pull/721) ([Trott](https://github.com/Trott))
+
+- Added publish\_event\_id to calendary query to add draft status styling added to dashboard manager [\#720](https://github.com/ilios/ilios/pull/720) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Feature/user example [\#694](https://github.com/ilios/ilios/pull/694) ([vpassapera](https://github.com/vpassapera))
+
+## [v2.4.8](https://github.com/ilios/ilios/tree/v2.4.8) (2014-11-04)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.4.7...v2.4.8)
+
+**Closed issues:**
+
+- Save Event Not Firing When Adding A User \(Admin Console\) [\#715](https://github.com/ilios/ilios/issues/715)
+
+- MeSH Term Not Updating - Session Objectives [\#664](https://github.com/ilios/ilios/issues/664)
+
+- provide option for populating new user groups [\#611](https://github.com/ilios/ilios/issues/611)
+
+**Merged pull requests:**
+
+- Fix incorrectly dropped procedure [\#724](https://github.com/ilios/ilios/pull/724) ([jrjohnson](https://github.com/jrjohnson))
+
+- Changelog and version update for 2.4.8 [\#723](https://github.com/ilios/ilios/pull/723) ([jrjohnson](https://github.com/jrjohnson))
+
+- removed publish\_event\_id check and styling of in-draft offerings [\#722](https://github.com/ilios/ilios/pull/722) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- 'in-draft' status added for more prominent display [\#718](https://github.com/ilios/ilios/pull/718) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Only save former student role for existing users [\#716](https://github.com/ilios/ilios/pull/716) ([jrjohnson](https://github.com/jrjohnson))
+
+- 'scheduled' session icon color change [\#714](https://github.com/ilios/ilios/pull/714) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Allow learner groups to be created empty [\#713](https://github.com/ilios/ilios/pull/713) ([jrjohnson](https://github.com/jrjohnson))
+
+- updated version.php to reflect 2.4.8-prerelease [\#712](https://github.com/ilios/ilios/pull/712) ([thecoolestguy](https://github.com/thecoolestguy))
+
+## [v2.4.7](https://github.com/ilios/ilios/tree/v2.4.7) (2014-10-14)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.4.6...v2.4.7)
+
+**Closed issues:**
+
+- calendar download for instructor/director level users [\#221](https://github.com/ilios/ilios/issues/221)
+
+- Extend Calendar Feed time period [\#708](https://github.com/ilios/ilios/issues/708)
+
+- Special Cron Job for Syncing Users [\#677](https://github.com/ilios/ilios/issues/677)
+
+- Add MeSH\(x\) Label Not Displaying Correct Total \(x\) - Session - Objective [\#666](https://github.com/ilios/ilios/issues/666)
+
+- Disallow NULL password value for setups using anonymous LDAP binds [\#645](https://github.com/ilios/ilios/issues/645)
+
+- Show all associated student groups filter fails [\#636](https://github.com/ilios/ilios/issues/636)
+
+- "Filing" a course removes it from the calendar search/filter widget [\#576](https://github.com/ilios/ilios/issues/576)
+
+- Identifying students once they have graduated as "graduates" [\#327](https://github.com/ilios/ilios/issues/327)
+
+**Merged pull requests:**
+
+- updated version number in version.php [\#711](https://github.com/ilios/ilios/pull/711) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Changelog for 2.4.7 [\#710](https://github.com/ilios/ilios/pull/710) ([jrjohnson](https://github.com/jrjohnson))
+
+- changed date strings to reflect longer calendar period [\#709](https://github.com/ilios/ilios/pull/709) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- re-pointed learner function calls to the learner functions and not the instructor ones [\#707](https://github.com/ilios/ilios/pull/707) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- 576 course filing removal bug [\#706](https://github.com/ilios/ilios/pull/706) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Flag Former Students in the sync process [\#697](https://github.com/ilios/ilios/pull/697) ([jrjohnson](https://github.com/jrjohnson))
+
+- Objective mesh term counts properly updating on change. [\#696](https://github.com/ilios/ilios/pull/696) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Backport Vagrant Updates from I3 [\#691](https://github.com/ilios/ilios/pull/691) ([jrjohnson](https://github.com/jrjohnson))
+
+- Remove the sparse ember fronted [\#690](https://github.com/ilios/ilios/pull/690) ([jrjohnson](https://github.com/jrjohnson))
+
+- Fix Program Entity [\#689](https://github.com/ilios/ilios/pull/689) ([jrjohnson](https://github.com/jrjohnson))
+
+- WIP. system upgrade [\#687](https://github.com/ilios/ilios/pull/687) ([vpassapera](https://github.com/vpassapera))
+
+- Clean up LDAP login [\#685](https://github.com/ilios/ilios/pull/685) ([jrjohnson](https://github.com/jrjohnson))
+
+- Basic Structure and Dashboard [\#683](https://github.com/ilios/ilios/pull/683) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add a cron task to run the user sync process and nothing else. [\#678](https://github.com/ilios/ilios/pull/678) ([jrjohnson](https://github.com/jrjohnson))
+
+- \[WIP\]Feature/user example [\#693](https://github.com/ilios/ilios/pull/693) ([vpassapera](https://github.com/vpassapera))
+
+- WIP. User example to resolve \#686 [\#688](https://github.com/ilios/ilios/pull/688) ([vpassapera](https://github.com/vpassapera))
+
+## [v2.4.6](https://github.com/ilios/ilios/tree/v2.4.6) (2014-09-02)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.4.6-rc1...v2.4.6)
+
+**Closed issues:**
+
+- Make "Final" the Default Status for Uploading Learning Materials to Course and / or Session [\#672](https://github.com/ilios/ilios/issues/672)
+
+- Attempting to add Learning Material to course in Firefox closes dialog and refreshes course [\#668](https://github.com/ilios/ilios/issues/668)
+
+- Add MeSH\(null\) Label Displayed - Learning Materials - Session  [\#665](https://github.com/ilios/ilios/issues/665)
+
+- course dirty state interrupts session description save [\#663](https://github.com/ilios/ilios/issues/663)
+
+- An ugly Error msg is returned when no Email address is contained in shibboleth [\#657](https://github.com/ilios/ilios/issues/657)
+
+- decouple persisting learning materials from sessions/courses [\#205](https://github.com/ilios/ilios/issues/205)
+
+**Merged pull requests:**
+
+- fixed session description loss upon session publish in dirty course [\#676](https://github.com/ilios/ilios/pull/676) ([stopfstedt](https://github.com/stopfstedt))
+
+- changed default status selection of learning materials to 'final' \(index '1'\) [\#673](https://github.com/ilios/ilios/pull/673) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- learning material dialog disappears in firefox [\#669](https://github.com/ilios/ilios/pull/669) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- added learningmaterials to session cloning [\#667](https://github.com/ilios/ilios/pull/667) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- added description attribute to session clone [\#671](https://github.com/ilios/ilios/pull/671) ([thecoolestguy](https://github.com/thecoolestguy))
+
+## [v2.4.6-rc1](https://github.com/ilios/ilios/tree/v2.4.6-rc1) (2014-08-15)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.4.5...v2.4.6-rc1)
+
+**Closed issues:**
+
+- SQL generated from MeSH parser should use REPLACE syntax [\#304](https://github.com/ilios/ilios/issues/304)
+
+- change output from mesh parser from db to file [\#303](https://github.com/ilios/ilios/issues/303)
+
+**Merged pull requests:**
+
+- Update mesh tables install to 2014 mesh terms. [\#662](https://github.com/ilios/ilios/pull/662) ([jrjohnson](https://github.com/jrjohnson))
+
+- 205 decoupling learning material crud [\#661](https://github.com/ilios/ilios/pull/661) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Localsauce README tweaks [\#659](https://github.com/ilios/ilios/pull/659) ([stopfstedt](https://github.com/stopfstedt))
+
+- Better shibboleth authentication errors [\#658](https://github.com/ilios/ilios/pull/658) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v2.4.5](https://github.com/ilios/ilios/tree/v2.4.5) (2014-08-08)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.4.3...v2.4.5)
+
+**Closed issues:**
+
+- Unable to upload PPTX files [\#653](https://github.com/ilios/ilios/issues/653)
+
+- Validate curriculum inventory upload report against new corrigenda item [\#649](https://github.com/ilios/ilios/issues/649)
+
+- Error Received While Trying to add MeSH term to Program Year [\#617](https://github.com/ilios/ilios/issues/617)
+
+- Refactor CSV upload / user insert tool for instructor and learner groups [\#561](https://github.com/ilios/ilios/issues/561)
+
+- 403 Forbidden should return 403 not 200 [\#521](https://github.com/ilios/ilios/issues/521)
+
+- remove "GALEN ID" label and update the csv load [\#496](https://github.com/ilios/ilios/issues/496)
+
+- Modify "UC ID" labeling globally to "ID" [\#495](https://github.com/ilios/ilios/issues/495)
+
+- Provide method for adjusting "duration" for small group events [\#473](https://github.com/ilios/ilios/issues/473)
+
+- expand instruction in user guide etc. for CI management tools [\#423](https://github.com/ilios/ilios/issues/423)
+
+- update the data population for the PCRS to include AAMC last-minutes changes and addition of "x.99 - OTHER" categories [\#422](https://github.com/ilios/ilios/issues/422)
+
+- add timestamps to mesh\_\* tables \(MeSH Parser\) [\#302](https://github.com/ilios/ilios/issues/302)
+
+**Merged pull requests:**
+
+- Allow users to be added with Other ID [\#656](https://github.com/ilios/ilios/pull/656) ([jrjohnson](https://github.com/jrjohnson))
+
+- added uc\_uid mapping to shibboleth authentication [\#655](https://github.com/ilios/ilios/pull/655) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- added 'application/zip' identifier to pptx mime-type's array in mimes.php [\#654](https://github.com/ilios/ilios/pull/654) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Validate new Learners and Instructors [\#652](https://github.com/ilios/ilios/pull/652) ([jrjohnson](https://github.com/jrjohnson))
+
+- Fix Program Objective Mesh Search [\#651](https://github.com/ilios/ilios/pull/651) ([jrjohnson](https://github.com/jrjohnson))
+
+- Symfony Authenticated through Code Igniter [\#648](https://github.com/ilios/ilios/pull/648) ([jrjohnson](https://github.com/jrjohnson))
+
+- corrected given windows version in code comment. [\#647](https://github.com/ilios/ilios/pull/647) ([stopfstedt](https://github.com/stopfstedt))
+
+- First steps in Ilios 3 [\#646](https://github.com/ilios/ilios/pull/646) ([jrjohnson](https://github.com/jrjohnson))
+
+- UC\_ID and Galen ID references removed [\#644](https://github.com/ilios/ilios/pull/644) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add updated\_at and create\_at to mesh data tables [\#642](https://github.com/ilios/ilios/pull/642) ([jrjohnson](https://github.com/jrjohnson))
+
+- added changes from the re-tagged CodeIgniter 2.2.0 release. [\#638](https://github.com/ilios/ilios/pull/638) ([stopfstedt](https://github.com/stopfstedt))
+
+- Allow session offerings to be counted only once [\#635](https://github.com/ilios/ilios/pull/635) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v2.4.3](https://github.com/ilios/ilios/tree/v2.4.3) (2014-06-20)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.4.2...v2.4.3)
+
+**Closed issues:**
+
+- upgrade to codeigniter 2.2.0 [\#628](https://github.com/ilios/ilios/issues/628)
+
+- Add uc\_uid length limitations to configuration [\#626](https://github.com/ilios/ilios/issues/626)
+
+- Sauce for IE11 [\#461](https://github.com/ilios/ilios/issues/461)
+
+- Sauce for IE9 [\#460](https://github.com/ilios/ilios/issues/460)
+
+- Google Analytics [\#429](https://github.com/ilios/ilios/issues/429)
+
+**Merged pull requests:**
+
+- Changelog for 2.4.3 [\#634](https://github.com/ilios/ilios/pull/634) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add Google Analytics [\#632](https://github.com/ilios/ilios/pull/632) ([jrjohnson](https://github.com/jrjohnson))
+
+- enclosed uc\_uid length OR statement to group the conditions to be properly evaluated together [\#631](https://github.com/ilios/ilios/pull/631) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- adjusted title/hover message for uc id to be a variable value, see \#626 [\#630](https://github.com/ilios/ilios/pull/630) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Upgraded to CodeIgniter 2.2.0 [\#629](https://github.com/ilios/ilios/pull/629) ([stopfstedt](https://github.com/stopfstedt))
+
+- Uc uid configuration changes [\#627](https://github.com/ilios/ilios/pull/627) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Sauce and Travis improvements [\#625](https://github.com/ilios/ilios/pull/625) ([jrjohnson](https://github.com/jrjohnson))
+
+- Timeout LDAP connection after 2 minutes [\#624](https://github.com/ilios/ilios/pull/624) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add ldap error string to exceptions [\#623](https://github.com/ilios/ilios/pull/623) ([jrjohnson](https://github.com/jrjohnson))
+
+- correct minor typos in comments [\#622](https://github.com/ilios/ilios/pull/622) ([Trott](https://github.com/Trott))
+
+- Do background of Behat tests in database [\#621](https://github.com/ilios/ilios/pull/621) ([jrjohnson](https://github.com/jrjohnson))
+
+- Added audit log config to phing build [\#620](https://github.com/ilios/ilios/pull/620) ([jrjohnson](https://github.com/jrjohnson))
+
+- enforcing UTF-8 priority for mb\_detect\_order for CSV enrollments [\#619](https://github.com/ilios/ilios/pull/619) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- updated version.php to reflect next release version [\#618](https://github.com/ilios/ilios/pull/618) ([thecoolestguy](https://github.com/thecoolestguy))
+
+## [v2.4.2](https://github.com/ilios/ilios/tree/v2.4.2) (2014-05-21)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.4.2-prerelease-20140407...v2.4.2)
+
+**Closed issues:**
+
+- phpMyAdmin upload file size too small [\#604](https://github.com/ilios/ilios/issues/604)
+
+- Apostrophes in session\_type titles not being escaped on course model load [\#571](https://github.com/ilios/ilios/issues/571)
+
+- COPYRIGHT file conflicts with LICENSE file [\#558](https://github.com/ilios/ilios/issues/558)
+
+- Streamline Welcome Screen [\#542](https://github.com/ilios/ilios/issues/542)
+
+- Use single email value from 'mail' attribute when multiple values are returned by Shibboleth IDp  [\#614](https://github.com/ilios/ilios/issues/614)
+
+- Provide ability to configure the time step value for start/end times of calendar events [\#595](https://github.com/ilios/ilios/issues/595)
+
+- Public access to vagrant vm [\#568](https://github.com/ilios/ilios/issues/568)
+
+- Do we need to encrypt our sauce token? [\#563](https://github.com/ilios/ilios/issues/563)
+
+- ILM sessions do not sort by date [\#475](https://github.com/ilios/ilios/issues/475)
+
+- Create a CONTRIBUTING.md file [\#468](https://github.com/ilios/ilios/issues/468)
+
+- Replace iWaitSeconds\(\) \(sleep\) with spin\(\) in Behat tests [\#467](https://github.com/ilios/ilios/issues/467)
+
+- be more specific source of user input [\#462](https://github.com/ilios/ilios/issues/462)
+
+- PHPUnit tests should not have database side effects [\#458](https://github.com/ilios/ilios/issues/458)
+
+- behat step tweaks [\#457](https://github.com/ilios/ilios/issues/457)
+
+- Jasmine Unit Tests for ilios\_ui\_rte.js [\#449](https://github.com/ilios/ilios/issues/449)
+
+- Jasmine Unit Tests for ilios\_dom.js [\#448](https://github.com/ilios/ilios/issues/448)
+
+- Script/automate setup and run for behat tests [\#445](https://github.com/ilios/ilios/issues/445)
+
+- Update \(Create?\) High-Level Architecture Document [\#444](https://github.com/ilios/ilios/issues/444)
+
+- Create script to automate the regular dump of audit information to log [\#424](https://github.com/ilios/ilios/issues/424)
+
+**Merged pull requests:**
+
+- Fix for session not opening on course manager [\#616](https://github.com/ilios/ilios/pull/616) ([jrjohnson](https://github.com/jrjohnson))
+
+- updated CHANGELOG.txt and version.php files, ready for release 2.4.2 [\#615](https://github.com/ilios/ilios/pull/615) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Deal effectively with large audit\_atom table [\#613](https://github.com/ilios/ilios/pull/613) ([jrjohnson](https://github.com/jrjohnson))
+
+- added explode to account for shib 'mail' attributes returned as a 'SAML1... [\#612](https://github.com/ilios/ilios/pull/612) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Set high default vagrant php settings [\#608](https://github.com/ilios/ilios/pull/608) ([jrjohnson](https://github.com/jrjohnson))
+
+- Sessions sort by date in course manager [\#607](https://github.com/ilios/ilios/pull/607) ([jrjohnson](https://github.com/jrjohnson))
+
+- Learner Group Tests and cleanup [\#603](https://github.com/ilios/ilios/pull/603) ([jrjohnson](https://github.com/jrjohnson))
+
+- Instead of sleeping wait for ports to be open [\#602](https://github.com/ilios/ilios/pull/602) ([jrjohnson](https://github.com/jrjohnson))
+
+- Split sauce run into parts by tag [\#600](https://github.com/ilios/ilios/pull/600) ([jrjohnson](https://github.com/jrjohnson))
+
+- Remove goutte from tests [\#599](https://github.com/ilios/ilios/pull/599) ([jrjohnson](https://github.com/jrjohnson))
+
+- Calendar time step fix [\#598](https://github.com/ilios/ilios/pull/598) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Some improvements to vagrant [\#593](https://github.com/ilios/ilios/pull/593) ([jrjohnson](https://github.com/jrjohnson))
+
+- Travis speed improvements [\#591](https://github.com/ilios/ilios/pull/591) ([jrjohnson](https://github.com/jrjohnson))
+
+- Screenshots for failing steps [\#589](https://github.com/ilios/ilios/pull/589) ([jrjohnson](https://github.com/jrjohnson))
+
+- Sauce and travis improvements [\#588](https://github.com/ilios/ilios/pull/588) ([jrjohnson](https://github.com/jrjohnson))
+
+- Replace all calls to get\_post with either get or post specifically [\#587](https://github.com/ilios/ilios/pull/587) ([jrjohnson](https://github.com/jrjohnson))
+
+- Remove redundant search for user [\#582](https://github.com/ilios/ilios/pull/582) ([jrjohnson](https://github.com/jrjohnson))
+
+- Unit test cleanup [\#581](https://github.com/ilios/ilios/pull/581) ([stopfstedt](https://github.com/stopfstedt))
+
+- updated composer lock file with latest deps. [\#580](https://github.com/ilios/ilios/pull/580) ([stopfstedt](https://github.com/stopfstedt))
+
+- changed file perms to make user zero script executable. [\#579](https://github.com/ilios/ilios/pull/579) ([stopfstedt](https://github.com/stopfstedt))
+
+- Test Courses and Sessions [\#577](https://github.com/ilios/ilios/pull/577) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add vnd.ms-office as mime type [\#575](https://github.com/ilios/ilios/pull/575) ([jrjohnson](https://github.com/jrjohnson))
+
+- Test for ilios\_ui\_rte [\#574](https://github.com/ilios/ilios/pull/574) ([jrjohnson](https://github.com/jrjohnson))
+
+- Ilios ui js jasmine tests [\#573](https://github.com/ilios/ilios/pull/573) ([stopfstedt](https://github.com/stopfstedt))
+
+- escape quotes in session type titles properly. [\#572](https://github.com/ilios/ilios/pull/572) ([stopfstedt](https://github.com/stopfstedt))
+
+- Updates for Vagrant [\#569](https://github.com/ilios/ilios/pull/569) ([jrjohnson](https://github.com/jrjohnson))
+
+- Fix the Change School test [\#567](https://github.com/ilios/ilios/pull/567) ([jrjohnson](https://github.com/jrjohnson))
+
+- Reconfigure travis/sauce [\#565](https://github.com/ilios/ilios/pull/565) ([jrjohnson](https://github.com/jrjohnson))
+
+- Turn off the change school test [\#564](https://github.com/ilios/ilios/pull/564) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add Change School Functional Test [\#562](https://github.com/ilios/ilios/pull/562) ([jrjohnson](https://github.com/jrjohnson))
+
+- padding per @saschaben [\#560](https://github.com/ilios/ilios/pull/560) ([Trott](https://github.com/Trott))
+
+- Update COPYRIGHT.txt [\#559](https://github.com/ilios/ilios/pull/559) ([saschaben](https://github.com/saschaben))
+
+- Initial CONTRIBUTING.md file [\#557](https://github.com/ilios/ilios/pull/557) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add cron tasks to manage audit\_atom table  \#424 [\#556](https://github.com/ilios/ilios/pull/556) ([jrjohnson](https://github.com/jrjohnson))
+
+- Switch to project sauce user [\#554](https://github.com/ilios/ilios/pull/554) ([jrjohnson](https://github.com/jrjohnson))
+
+- making version.php release reflect simply '2.4.2-prerelease' [\#553](https://github.com/ilios/ilios/pull/553) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Removed all of the waiting in behat tests [\#552](https://github.com/ilios/ilios/pull/552) ([jrjohnson](https://github.com/jrjohnson))
+
+- v2.4.2-prerelease-20140407 [\#551](https://github.com/ilios/ilios/pull/551) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Slim, trim, fit welcome screen [\#531](https://github.com/ilios/ilios/pull/531) ([Trott](https://github.com/Trott))
+
+- Sleep between selenium and phantom [\#601](https://github.com/ilios/ilios/pull/601) ([jrjohnson](https://github.com/jrjohnson))
+
+- Learner Groups Fixes [\#597](https://github.com/ilios/ilios/pull/597) ([jrjohnson](https://github.com/jrjohnson))
+
+- Uci calendar time step fix [\#594](https://github.com/ilios/ilios/pull/594) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Learner Groups Fixes [\#590](https://github.com/ilios/ilios/pull/590) ([jrjohnson](https://github.com/jrjohnson))
+
+- Temporarily disable Save All Draft button [\#610](https://github.com/ilios/ilios/pull/610) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v2.4.2-prerelease-20140407](https://github.com/ilios/ilios/tree/v2.4.2-prerelease-20140407) (2014-04-07)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.4.1...v2.4.2-prerelease-20140407)
+
+**Closed issues:**
+
+- Remove final instance of abominable deepCloneAssociativeArray\(\) [\#548](https://github.com/ilios/ilios/issues/548)
+
+**Merged pull requests:**
+
+- Update version number to 2.4.1 [\#550](https://github.com/ilios/ilios/pull/550) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- rm deepCloneAssociativeArray\(\) [\#549](https://github.com/ilios/ilios/pull/549) ([Trott](https://github.com/Trott))
+
+- updated CHANGELOG.txt, ready for release 2.4.1 [\#547](https://github.com/ilios/ilios/pull/547) ([thecoolestguy](https://github.com/thecoolestguy))
+
+## [v2.4.1](https://github.com/ilios/ilios/tree/v2.4.1) (2014-04-04)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.4.0...v2.4.1)
+
+**Closed issues:**
+
+- calendar API feed URL must be 116 characters or less [\#512](https://github.com/ilios/ilios/issues/512)
+
+- death to "createContentContainerMarkup\(\)" [\#510](https://github.com/ilios/ilios/issues/510)
+
+- Change in COURSE DIRECTOR or COURSE MESH TERMS causes unlinking of course objectives [\#545](https://github.com/ilios/ilios/issues/545)
+
+- MyReports fails for instructor search [\#529](https://github.com/ilios/ilios/issues/529)
+
+- learning\_material::token CHAR -\> VARCHAR [\#519](https://github.com/ilios/ilios/issues/519)
+
+- Calendar feed URL length can be too long for use in Google Calendar [\#513](https://github.com/ilios/ilios/issues/513)
+
+- Run Jasmine tests on CI server [\#464](https://github.com/ilios/ilios/issues/464)
+
+- Documentation of security considerations for learning materials [\#414](https://github.com/ilios/ilios/issues/414)
+
+**Merged pull requests:**
+
+- 545 [\#546](https://github.com/ilios/ilios/pull/546) ([Trott](https://github.com/Trott))
+
+- Install phantomJS through composer [\#544](https://github.com/ilios/ilios/pull/544) ([jrjohnson](https://github.com/jrjohnson))
+
+- Behat composer and vagrant selenium [\#543](https://github.com/ilios/ilios/pull/543) ([jrjohnson](https://github.com/jrjohnson))
+
+- Don't say 403 when we're sending a 200 [\#540](https://github.com/ilios/ilios/pull/540) ([Trott](https://github.com/Trott))
+
+- rm empty rules [\#539](https://github.com/ilios/ilios/pull/539) ([Trott](https://github.com/Trott))
+
+- Fix session instructor report [\#538](https://github.com/ilios/ilios/pull/538) ([stopfstedt](https://github.com/stopfstedt))
+
+- fix string generation [\#537](https://github.com/ilios/ilios/pull/537) ([Trott](https://github.com/Trott))
+
+- tagged E2E and integration tests ... [\#535](https://github.com/ilios/ilios/pull/535) ([stopfstedt](https://github.com/stopfstedt))
+
+- renamed group tag 'user\_sync' to 'usersync' b/c phpunit doesn't like it. [\#534](https://github.com/ilios/ilios/pull/534) ([stopfstedt](https://github.com/stopfstedt))
+
+- upped dependencies to PHPUnit 4.0. [\#533](https://github.com/ilios/ilios/pull/533) ([stopfstedt](https://github.com/stopfstedt))
+
+- Replace indentation tabs [\#532](https://github.com/ilios/ilios/pull/532) ([stopfstedt](https://github.com/stopfstedt))
+
+- refactor css [\#530](https://github.com/ilios/ilios/pull/530) ([Trott](https://github.com/Trott))
+
+- update the copyright file for the current year [\#528](https://github.com/ilios/ilios/pull/528) ([Trott](https://github.com/Trott))
+
+- typo in variable name [\#527](https://github.com/ilios/ilios/pull/527) ([Trott](https://github.com/Trott))
+
+- remove unused images [\#526](https://github.com/ilios/ilios/pull/526) ([Trott](https://github.com/Trott))
+
+- image optimization [\#525](https://github.com/ilios/ilios/pull/525) ([Trott](https://github.com/Trott))
+
+- Run Jasmine specs on Travis via Phantom [\#524](https://github.com/ilios/ilios/pull/524) ([Trott](https://github.com/Trott))
+
+- go back to SHA-256 [\#522](https://github.com/ilios/ilios/pull/522) ([Trott](https://github.com/Trott))
+
+- created allow-all robots.txt file. [\#520](https://github.com/ilios/ilios/pull/520) ([stopfstedt](https://github.com/stopfstedt))
+
+- Untangle course content container [\#518](https://github.com/ilios/ilios/pull/518) ([stopfstedt](https://github.com/stopfstedt))
+
+- 513 calendar feed url length [\#517](https://github.com/ilios/ilios/pull/517) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- 513 calendar feed url length [\#516](https://github.com/ilios/ilios/pull/516) ([Trott](https://github.com/Trott))
+
+- defined with var so it is private [\#515](https://github.com/ilios/ilios/pull/515) ([Trott](https://github.com/Trott))
+
+- Remove JS blob from PHP file [\#514](https://github.com/ilios/ilios/pull/514) ([Trott](https://github.com/Trott))
+
+- cleaned up program container template [\#511](https://github.com/ilios/ilios/pull/511) ([stopfstedt](https://github.com/stopfstedt))
+
+- removed call to horrid markup generator function [\#509](https://github.com/ilios/ilios/pull/509) ([stopfstedt](https://github.com/stopfstedt))
+
+- rm JS blob from PHP file [\#508](https://github.com/ilios/ilios/pull/508) ([Trott](https://github.com/Trott))
+
+- Get rid of check for "ilios" in `namespace\(\)` call [\#507](https://github.com/ilios/ilios/pull/507) ([Trott](https://github.com/Trott))
+
+- Remove unnecessary global variable [\#506](https://github.com/ilios/ilios/pull/506) ([Trott](https://github.com/Trott))
+
+- mv JS out of PHP file [\#505](https://github.com/ilios/ilios/pull/505) ([Trott](https://github.com/Trott))
+
+- Rm ignorant snarky comment [\#504](https://github.com/ilios/ilios/pull/504) ([Trott](https://github.com/Trott))
+
+- refactor enum as an object  [\#503](https://github.com/ilios/ilios/pull/503) ([Trott](https://github.com/Trott))
+
+- Ilios utilities refactor [\#502](https://github.com/ilios/ilios/pull/502) ([Trott](https://github.com/Trott))
+
+- update/correct dependencies [\#501](https://github.com/ilios/ilios/pull/501) ([Trott](https://github.com/Trott))
+
+- add missing semicolons [\#500](https://github.com/ilios/ilios/pull/500) ([Trott](https://github.com/Trott))
+
+- comment cleanup [\#499](https://github.com/ilios/ilios/pull/499) ([Trott](https://github.com/Trott))
+
+- move day of week function code to the only place it is used [\#498](https://github.com/ilios/ilios/pull/498) ([Trott](https://github.com/Trott))
+
+- very partial course\_manager\_rollover spec [\#497](https://github.com/ilios/ilios/pull/497) ([Trott](https://github.com/Trott))
+
+- i'm so bummed out about this. [\#494](https://github.com/ilios/ilios/pull/494) ([stopfstedt](https://github.com/stopfstedt))
+
+- miao! [\#493](https://github.com/ilios/ilios/pull/493) ([stopfstedt](https://github.com/stopfstedt))
+
+- spec dir layout to reflect app/views dir layout [\#492](https://github.com/ilios/ilios/pull/492) ([Trott](https://github.com/Trott))
+
+- rm unnecessary var [\#491](https://github.com/ilios/ilios/pull/491) ([Trott](https://github.com/Trott))
+
+- shortString parameter is always called with false, remove it  [\#490](https://github.com/ilios/ilios/pull/490) ([Trott](https://github.com/Trott))
+
+- move the idle timer out of ilios\_base and into its own module [\#489](https://github.com/ilios/ilios/pull/489) ([Trott](https://github.com/Trott))
+
+- DRY code, add tests for new method [\#488](https://github.com/ilios/ilios/pull/488) ([Trott](https://github.com/Trott))
+
+- Refactor ilios.cim.js [\#487](https://github.com/ilios/ilios/pull/487) ([Trott](https://github.com/Trott))
+
+- updated CHANGELOG.txt, ready for release 2.4.0 [\#485](https://github.com/ilios/ilios/pull/485) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- 199 refresh learner group [\#484](https://github.com/ilios/ilios/pull/484) ([Trott](https://github.com/Trott))
+
+- template variable cleanup [\#483](https://github.com/ilios/ilios/pull/483) ([stopfstedt](https://github.com/stopfstedt))
+
+- img seems to need alt [\#482](https://github.com/ilios/ilios/pull/482) ([Trott](https://github.com/Trott))
+
+- size attribute on input of type file? Nope.... [\#481](https://github.com/ilios/ilios/pull/481) ([Trott](https://github.com/Trott))
+
+- action attribute is optional in HTML5, rm invalid value [\#480](https://github.com/ilios/ilios/pull/480) ([Trott](https://github.com/Trott))
+
+- class attribute should only appear once [\#479](https://github.com/ilios/ilios/pull/479) ([Trott](https://github.com/Trott))
+
+- Update report.php [\#536](https://github.com/ilios/ilios/pull/536) ([saschaben](https://github.com/saschaben))
+
+## [v2.4.0](https://github.com/ilios/ilios/tree/v2.4.0) (2014-02-20)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.3.2...v2.4.0)
+
+**Closed issues:**
+
+- Get behat tests to work in Travis [\#456](https://github.com/ilios/ilios/issues/456)
+
+- behat tests for \#199 [\#450](https://github.com/ilios/ilios/issues/450)
+
+- Sauce Labs or other integration for behat tests [\#446](https://github.com/ilios/ilios/issues/446)
+
+- Topics display list requires page refresh to show additions [\#442](https://github.com/ilios/ilios/issues/442)
+
+- update migration scripts to include data population for CI tools [\#433](https://github.com/ilios/ilios/issues/433)
+
+- Warn users that their calendar feed should be treated like a password [\#397](https://github.com/ilios/ilios/issues/397)
+
+- enable behat tests against vagrant [\#394](https://github.com/ilios/ilios/issues/394)
+
+- vagrant up does not work with vagrant 1.4.2 [\#392](https://github.com/ilios/ilios/issues/392)
+
+- Inability to access learning materials in shibboleth enabled systems [\#380](https://github.com/ilios/ilios/issues/380)
+
+- 'required' in CI Export for sessions [\#375](https://github.com/ilios/ilios/issues/375)
+
+- ilios.utilities.htmlEntities\(\) double encodes " [\#369](https://github.com/ilios/ilios/issues/369)
+
+- eliminate ilios.lang.startsWith\(\) function [\#361](https://github.com/ilios/ilios/issues/361)
+
+- eliminate ilios.lang.trim\(\) function [\#360](https://github.com/ilios/ilios/issues/360)
+
+- eliminate ilios.lang.endsWith\(\) function [\#359](https://github.com/ilios/ilios/issues/359)
+
+- DB install instructions incomplete [\#354](https://github.com/ilios/ilios/issues/354)
+
+- move webcal to webcals [\#348](https://github.com/ilios/ilios/issues/348)
+
+- rig up behat tests to CI process [\#342](https://github.com/ilios/ilios/issues/342)
+
+- Notes field in Learning Materials does not alert user if max char length is exceeded. [\#339](https://github.com/ilios/ilios/issues/339)
+
+- streamline auditing system [\#337](https://github.com/ilios/ilios/issues/337)
+
+- convert cucumber tests to behat [\#336](https://github.com/ilios/ilios/issues/336)
+
+- de-ajaxify the login "form" [\#335](https://github.com/ilios/ilios/issues/335)
+
+**Merged pull requests:**
+
+- if you omit the open tag, then omit the close tag too [\#478](https://github.com/ilios/ilios/pull/478) ([Trott](https://github.com/Trott))
+
+- follow redirects, you jerk! [\#477](https://github.com/ilios/ilios/pull/477) ([Trott](https://github.com/Trott))
+
+- php variable injection removal [\#476](https://github.com/ilios/ilios/pull/476) ([stopfstedt](https://github.com/stopfstedt))
+
+- template variable cleanup [\#474](https://github.com/ilios/ilios/pull/474) ([stopfstedt](https://github.com/stopfstedt))
+
+- Sauce fix [\#472](https://github.com/ilios/ilios/pull/472) ([Trott](https://github.com/Trott))
+
+- Configure Sauce defaults [\#471](https://github.com/ilios/ilios/pull/471) ([Trott](https://github.com/Trott))
+
+- Improve testability [\#470](https://github.com/ilios/ilios/pull/470) ([Trott](https://github.com/Trott))
+
+- specs into correct files [\#469](https://github.com/ilios/ilios/pull/469) ([Trott](https://github.com/Trott))
+
+- Composerize phing [\#466](https://github.com/ilios/ilios/pull/466) ([stopfstedt](https://github.com/stopfstedt))
+
+- Composerize phpunit [\#465](https://github.com/ilios/ilios/pull/465) ([stopfstedt](https://github.com/stopfstedt))
+
+- Run Selenium tests on Sauce  [\#463](https://github.com/ilios/ilios/pull/463) ([Trott](https://github.com/Trott))
+
+- Travis behat [\#459](https://github.com/ilios/ilios/pull/459) ([Trott](https://github.com/Trott))
+
+- Prefs refactor [\#451](https://github.com/ilios/ilios/pull/451) ([Trott](https://github.com/Trott))
+
+- fix topic updating [\#443](https://github.com/ilios/ilios/pull/443) ([Trott](https://github.com/Trott))
+
+- added charset test on output of Ilios\_PasswordUtils::generateToken\(\) [\#441](https://github.com/ilios/ilios/pull/441) ([stopfstedt](https://github.com/stopfstedt))
+
+- Decouple prefs [\#440](https://github.com/ilios/ilios/pull/440) ([Trott](https://github.com/Trott))
+
+- Learning materials public api [\#439](https://github.com/ilios/ilios/pull/439) ([stopfstedt](https://github.com/stopfstedt))
+
+- Pref model refactor [\#438](https://github.com/ilios/ilios/pull/438) ([Trott](https://github.com/Trott))
+
+- move ilios.alert.\* into its own file \(I hesitate to call it a module\) [\#437](https://github.com/ilios/ilios/pull/437) ([Trott](https://github.com/Trott))
+
+- Refactor [\#436](https://github.com/ilios/ilios/pull/436) ([Trott](https://github.com/Trott))
+
+- Truncate via css [\#435](https://github.com/ilios/ilios/pull/435) ([Trott](https://github.com/Trott))
+
+- file cleanup [\#434](https://github.com/ilios/ilios/pull/434) ([stopfstedt](https://github.com/stopfstedt))
+
+- update aamc\_pcrs data population [\#432](https://github.com/ilios/ilios/pull/432) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- refactor method that generates HTML string to instead append elements to DOM [\#431](https://github.com/ilios/ilios/pull/431) ([Trott](https://github.com/Trott))
+
+- Safe text replace [\#430](https://github.com/ilios/ilios/pull/430) ([Trott](https://github.com/Trott))
+
+- Cleanup [\#428](https://github.com/ilios/ilios/pull/428) ([Trott](https://github.com/Trott))
+
+- Cleanup [\#427](https://github.com/ilios/ilios/pull/427) ([Trott](https://github.com/Trott))
+
+- Ellipsis in css [\#426](https://github.com/ilios/ilios/pull/426) ([Trott](https://github.com/Trott))
+
+- do not use innerHTML for text [\#425](https://github.com/ilios/ilios/pull/425) ([Trott](https://github.com/Trott))
+
+- rm dead \(I think\) code [\#421](https://github.com/ilios/ilios/pull/421) ([Trott](https://github.com/Trott))
+
+- Cleanup [\#420](https://github.com/ilios/ilios/pull/420) ([Trott](https://github.com/Trott))
+
+- separated markup from js. added discipline init function to library file... [\#419](https://github.com/ilios/ilios/pull/419) ([stopfstedt](https://github.com/stopfstedt))
+
+- do not use innerHTML assignment when textNode will do [\#418](https://github.com/ilios/ilios/pull/418) ([Trott](https://github.com/Trott))
+
+- don't add plain text with innerHTML, use text nodes instead [\#417](https://github.com/ilios/ilios/pull/417) ([Trott](https://github.com/Trott))
+
+- refactored discipline picker for program years [\#416](https://github.com/ilios/ilios/pull/416) ([stopfstedt](https://github.com/stopfstedt))
+
+- prevent code injection [\#415](https://github.com/ilios/ilios/pull/415) ([Trott](https://github.com/Trott))
+
+- Js cleanup [\#413](https://github.com/ilios/ilios/pull/413) ([Trott](https://github.com/Trott))
+
+- explode awful PHP function that generates markup and a script tag [\#412](https://github.com/ilios/ilios/pull/412) ([Trott](https://github.com/Trott))
+
+- rm dead code [\#411](https://github.com/ilios/ilios/pull/411) ([Trott](https://github.com/Trott))
+
+- rm unused $alternativeAutoCompleteRequestGenerator [\#410](https://github.com/ilios/ilios/pull/410) ([Trott](https://github.com/Trott))
+
+- streamlined shibboleth logout process [\#409](https://github.com/ilios/ilios/pull/409) ([stopfstedt](https://github.com/stopfstedt))
+
+- removed all unnecessary JS libs and on-page code. [\#408](https://github.com/ilios/ilios/pull/408) ([stopfstedt](https://github.com/stopfstedt))
+
+- ignore .DS\_Store files created by OS X Finder [\#407](https://github.com/ilios/ilios/pull/407) ([Trott](https://github.com/Trott))
+
+- reworked data flow for user preferences from server to client side. [\#403](https://github.com/ilios/ilios/pull/403) ([stopfstedt](https://github.com/stopfstedt))
+
+- Preferences model cleanup [\#401](https://github.com/ilios/ilios/pull/401) ([stopfstedt](https://github.com/stopfstedt))
+
+- replaced all calls to ilios.lang.trim\(\) with calls to YAHOO.lang.trim\(\).... [\#400](https://github.com/ilios/ilios/pull/400) ([stopfstedt](https://github.com/stopfstedt))
+
+- ilios.lang.trim = YAHOO.lang.trim [\#399](https://github.com/ilios/ilios/pull/399) ([Trott](https://github.com/Trott))
+
+- simplifies auditing trail functionality and schema [\#398](https://github.com/ilios/ilios/pull/398) ([stopfstedt](https://github.com/stopfstedt))
+
+- Feed warning [\#396](https://github.com/ilios/ilios/pull/396) ([Trott](https://github.com/Trott))
+
+- Update instructions and .yml for testing against vagrant [\#395](https://github.com/ilios/ilios/pull/395) ([Trott](https://github.com/Trott))
+
+- vagrant 1.4.2 \(and probably earlier\) requires mount options to be an array [\#393](https://github.com/ilios/ilios/pull/393) ([Trott](https://github.com/Trott))
+
+- Global [\#391](https://github.com/ilios/ilios/pull/391) ([Trott](https://github.com/Trott))
+
+- createInformDialog\(\) specs [\#390](https://github.com/ilios/ilios/pull/390) ([Trott](https://github.com/Trott))
+
+- createConfirmDialog\(\) specs [\#389](https://github.com/ilios/ilios/pull/389) ([Trott](https://github.com/Trott))
+
+- Inform spec [\#385](https://github.com/ilios/ilios/pull/385) ([Trott](https://github.com/Trott))
+
+- add missing semicolons [\#384](https://github.com/ilios/ilios/pull/384) ([Trott](https://github.com/Trott))
+
+- added jasmine tests for base objects in ilios.cim.model namespace [\#383](https://github.com/ilios/ilios/pull/383) ([stopfstedt](https://github.com/stopfstedt))
+
+- specs for ilios.alert.alert\(\) [\#382](https://github.com/ilios/ilios/pull/382) ([Trott](https://github.com/Trott))
+
+- add spec for simpleHidingHandler [\#381](https://github.com/ilios/ilios/pull/381) ([Trott](https://github.com/Trott))
+
+- updateServerInteractionProgress\(\) specs [\#379](https://github.com/ilios/ilios/pull/379) ([Trott](https://github.com/Trott))
+
+- Fix script aggregation on win [\#378](https://github.com/ilios/ilios/pull/378) ([stopfstedt](https://github.com/stopfstedt))
+
+- removed d/l button. [\#377](https://github.com/ilios/ilios/pull/377) ([stopfstedt](https://github.com/stopfstedt))
+
+- negated supplemental into required in query projection. [\#376](https://github.com/ilios/ilios/pull/376) ([stopfstedt](https://github.com/stopfstedt))
+
+- networkActivityI18NStrings spec [\#373](https://github.com/ilios/ilios/pull/373) ([Trott](https://github.com/Trott))
+
+- Rm starts with ends with [\#372](https://github.com/ilios/ilios/pull/372) ([Trott](https://github.com/Trott))
+
+- Utilities specs [\#371](https://github.com/ilios/ilios/pull/371) ([Trott](https://github.com/Trott))
+
+- Utilities cleanup [\#362](https://github.com/ilios/ilios/pull/362) ([Trott](https://github.com/Trott))
+
+- ilios.lang unit tests \(and a bug fix\) [\#358](https://github.com/ilios/ilios/pull/358) ([Trott](https://github.com/Trott))
+
+- JS unit tests with Jasmine [\#357](https://github.com/ilios/ilios/pull/357) ([Trott](https://github.com/Trott))
+
+- cleanup on base object [\#356](https://github.com/ilios/ilios/pull/356) ([Trott](https://github.com/Trott))
+
+- Cleanup [\#355](https://github.com/ilios/ilios/pull/355) ([Trott](https://github.com/Trott))
+
+- Course manager session dom js cleanup [\#353](https://github.com/ilios/ilios/pull/353) ([Trott](https://github.com/Trott))
+
+- add missing semi-colons, add radix parameter for parseInt, rm var declar... [\#352](https://github.com/ilios/ilios/pull/352) ([Trott](https://github.com/Trott))
+
+- SQL syntax fixes [\#351](https://github.com/ilios/ilios/pull/351) ([stopfstedt](https://github.com/stopfstedt))
+
+- JS file cleanup [\#350](https://github.com/ilios/ilios/pull/350) ([Trott](https://github.com/Trott))
+
+- webcal -\> webcals [\#349](https://github.com/ilios/ilios/pull/349) ([Trott](https://github.com/Trott))
+
+- added migration for changing VARCHAR to TEXT for session\_learning\_materi... [\#347](https://github.com/ilios/ilios/pull/347) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- travis build script tweaks. [\#346](https://github.com/ilios/ilios/pull/346) ([stopfstedt](https://github.com/stopfstedt))
+
+- Fix lms in calendar feed [\#345](https://github.com/ilios/ilios/pull/345) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed timezone issue with ilm start/end time in calendar feed export. [\#344](https://github.com/ilios/ilios/pull/344) ([stopfstedt](https://github.com/stopfstedt))
+
+- various icalendar feed related bug fixes. [\#343](https://github.com/ilios/ilios/pull/343) ([stopfstedt](https://github.com/stopfstedt))
+
+- replaced cucumber with behat tests [\#341](https://github.com/ilios/ilios/pull/341) ([stopfstedt](https://github.com/stopfstedt))
+
+- un-breaks the default login mechanism. [\#340](https://github.com/ilios/ilios/pull/340) ([stopfstedt](https://github.com/stopfstedt))
+
+- Deajaxify login form [\#338](https://github.com/ilios/ilios/pull/338) ([stopfstedt](https://github.com/stopfstedt))
+
+- Delete table "database\_metadata" [\#334](https://github.com/ilios/ilios/pull/334) ([stopfstedt](https://github.com/stopfstedt))
+
+- Make interface marginally more usable in handhelds [\#333](https://github.com/ilios/ilios/pull/333) ([Trott](https://github.com/Trott))
+
+- improve footer link usability [\#332](https://github.com/ilios/ilios/pull/332) ([Trott](https://github.com/Trott))
+
+- Calendar api [\#331](https://github.com/ilios/ilios/pull/331) ([stopfstedt](https://github.com/stopfstedt))
+
+- missing semi-colon after object ZOMFG!!!!!11!!! [\#330](https://github.com/ilios/ilios/pull/330) ([Trott](https://github.com/Trott))
+
+- fix leaking global [\#329](https://github.com/ilios/ilios/pull/329) ([Trott](https://github.com/Trott))
+
+- code cleanup in the ilios web controller class. [\#299](https://github.com/ilios/ilios/pull/299) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v2.3.2](https://github.com/ilios/ilios/tree/v2.3.2) (2013-12-10)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.3.1...v2.3.2)
+
+**Closed issues:**
+
+- unlink competencies from PCRS [\#268](https://github.com/ilios/ilios/issues/268)
+
+- IE conditional classes not needed [\#262](https://github.com/ilios/ilios/issues/262)
+
+- replace dashes in inventory report id [\#295](https://github.com/ilios/ilios/issues/295)
+
+- improve topics picker performance [\#291](https://github.com/ilios/ilios/issues/291)
+
+- translation helper methods [\#288](https://github.com/ilios/ilios/issues/288)
+
+- simplify translation api [\#286](https://github.com/ilios/ilios/issues/286)
+
+- recurring events tool creates additional offerings when used with "create offerings by group" feature [\#275](https://github.com/ilios/ilios/issues/275)
+
+- mesh picker for my reports not functioning [\#260](https://github.com/ilios/ilios/issues/260)
+
+- associate each learner group with its "owning" cohort [\#214](https://github.com/ilios/ilios/issues/214)
+
+- refactor user/user-group join tables [\#211](https://github.com/ilios/ilios/issues/211)
+
+**Merged pull requests:**
+
+- v2.3.2 release preparations. [\#297](https://github.com/ilios/ilios/pull/297) ([stopfstedt](https://github.com/stopfstedt))
+
+- replaced dashes with x as delimiter in report id. [\#296](https://github.com/ilios/ilios/pull/296) ([stopfstedt](https://github.com/stopfstedt))
+
+- Ready to update group and cohort models [\#294](https://github.com/ilios/ilios/pull/294) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- added strategy check to multi-offering saving process in course manager. [\#293](https://github.com/ilios/ilios/pull/293) ([stopfstedt](https://github.com/stopfstedt))
+
+- replaced stored procedure "disciplines\_for\_title\_restricted\_by\_school" with simple sql queries. [\#292](https://github.com/ilios/ilios/pull/292) ([stopfstedt](https://github.com/stopfstedt))
+
+- converted calendar filter dialog templating functions to template. [\#290](https://github.com/ilios/ilios/pull/290) ([stopfstedt](https://github.com/stopfstedt))
+
+- DX improvement: replaced longhand calls to translation method with calls to shorter alias function. [\#289](https://github.com/ilios/ilios/pull/289) ([stopfstedt](https://github.com/stopfstedt))
+
+- removed language key variable. [\#287](https://github.com/ilios/ilios/pull/287) ([stopfstedt](https://github.com/stopfstedt))
+
+- eliminated populateI18NStringsForContentContainerGenerator\(\) and instead... [\#285](https://github.com/ilios/ilios/pull/285) ([stopfstedt](https://github.com/stopfstedt))
+
+- codebase reorg [\#284](https://github.com/ilios/ilios/pull/284) ([stopfstedt](https://github.com/stopfstedt))
+
+- dissolved utility method populateForAddNewMembersDialog\(\) by directly ca... [\#283](https://github.com/ilios/ilios/pull/283) ([stopfstedt](https://github.com/stopfstedt))
+
+- DRI  [\#282](https://github.com/ilios/ilios/pull/282) ([stopfstedt](https://github.com/stopfstedt))
+
+- improved docblock. freed result set. DTAP! [\#281](https://github.com/ilios/ilios/pull/281) ([stopfstedt](https://github.com/stopfstedt))
+
+- cleaned up method docblock. freed query result set. [\#280](https://github.com/ilios/ilios/pull/280) ([stopfstedt](https://github.com/stopfstedt))
+
+- code cleanup in User class. [\#279](https://github.com/ilios/ilios/pull/279) ([stopfstedt](https://github.com/stopfstedt))
+
+- bugfix: return empty array under the "instuctors" key by default. [\#278](https://github.com/ilios/ilios/pull/278) ([stopfstedt](https://github.com/stopfstedt))
+
+- replaced ilm\_session\_facet\_instructor with separate join tables. [\#277](https://github.com/ilios/ilios/pull/277) ([stopfstedt](https://github.com/stopfstedt))
+
+- replaced ilm\_session\_facet\_learner with separate join tables. [\#276](https://github.com/ilios/ilios/pull/276) ([stopfstedt](https://github.com/stopfstedt))
+
+- replaced offering\_learner with separate join tables. [\#274](https://github.com/ilios/ilios/pull/274) ([stopfstedt](https://github.com/stopfstedt))
+
+- code cleanup. [\#273](https://github.com/ilios/ilios/pull/273) ([stopfstedt](https://github.com/stopfstedt))
+
+- code cleanup in "session" model. [\#272](https://github.com/ilios/ilios/pull/272) ([stopfstedt](https://github.com/stopfstedt))
+
+- comments cleanup. [\#271](https://github.com/ilios/ilios/pull/271) ([stopfstedt](https://github.com/stopfstedt))
+
+- whitespace correction. [\#270](https://github.com/ilios/ilios/pull/270) ([stopfstedt](https://github.com/stopfstedt))
+
+- switched the order of PCRS and program objectives in relationship output [\#269](https://github.com/ilios/ilios/pull/269) ([stopfstedt](https://github.com/stopfstedt))
+
+- replaced offering\_instructor with proper join tables offering\_x\_instructor and offering\_x\_instructor\_group [\#267](https://github.com/ilios/ilios/pull/267) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed typo in variable name. [\#266](https://github.com/ilios/ilios/pull/266) ([stopfstedt](https://github.com/stopfstedt))
+
+- replaced group\_default\_instructor table with separate join tables. [\#265](https://github.com/ilios/ilios/pull/265) ([stopfstedt](https://github.com/stopfstedt))
+
+- rm all ie-lt\* classes, issue \#262 [\#264](https://github.com/ilios/ilios/pull/264) ([Trott](https://github.com/Trott))
+
+- fixes broken mesh picker dialog in reports UI. [\#263](https://github.com/ilios/ilios/pull/263) ([stopfstedt](https://github.com/stopfstedt))
+
+- replace Modernizr with html5shiv [\#261](https://github.com/ilios/ilios/pull/261) ([Trott](https://github.com/Trott))
+
+- Reinstate modernizr [\#259](https://github.com/ilios/ilios/pull/259) ([Trott](https://github.com/Trott))
+
+- Oh, hey, we load Modernizr and then...DON'T USE IT AT ALL. [\#258](https://github.com/ilios/ilios/pull/258) ([Trott](https://github.com/Trott))
+
+- move X-UA-Compatibility to header sent only to IE [\#257](https://github.com/ilios/ilios/pull/257) ([Trott](https://github.com/Trott))
+
+- indentation [\#255](https://github.com/ilios/ilios/pull/255) ([Trott](https://github.com/Trott))
+
+- changed native pdosqlexec call to a command line exec of mysql, pdosqlex... [\#250](https://github.com/ilios/ilios/pull/250) ([thecoolestguy](https://github.com/thecoolestguy))
+
+## [v2.3.1](https://github.com/ilios/ilios/tree/v2.3.1) (2013-11-01)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.3...v2.3.1)
+
+**Closed issues:**
+
+- lastest phing version fails in deploy-prepare task [\#248](https://github.com/ilios/ilios/issues/248)
+
+- test [\#192](https://github.com/ilios/ilios/issues/192)
+
+- CI business rules validations [\#246](https://github.com/ilios/ilios/issues/246)
+
+- character encoding issue with curr. inv. export [\#241](https://github.com/ilios/ilios/issues/241)
+
+- category element not properly namespaced in curr. inv. report [\#240](https://github.com/ilios/ilios/issues/240)
+
+- curriculum inventory export fails validation [\#239](https://github.com/ilios/ilios/issues/239)
+
+- External Course ID does not get cloned during course rollover [\#229](https://github.com/ilios/ilios/issues/229)
+
+- relative paths in yui-widgets.css stylesheet wrong [\#226](https://github.com/ilios/ilios/issues/226)
+
+- Curric Inventory Manager Date Range Display [\#225](https://github.com/ilios/ilios/issues/225)
+
+- change "no sessions found" label for course when loading sessions [\#203](https://github.com/ilios/ilios/issues/203)
+
+- "students requiring assignment" flag does not refresh properly [\#202](https://github.com/ilios/ilios/issues/202)
+
+- no dirty state alert for instructor groups page [\#201](https://github.com/ilios/ilios/issues/201)
+
+- no dirty state alert for learner groups page [\#200](https://github.com/ilios/ilios/issues/200)
+
+- character encoding issue with CSV upload [\#198](https://github.com/ilios/ilios/issues/198)
+
+- modify display for course names/IDs in calendar search [\#196](https://github.com/ilios/ilios/issues/196)
+
+- offering does not display in student search if published with no student group associations [\#195](https://github.com/ilios/ilios/issues/195)
+
+- recurring events display does not load correctly on event creation [\#193](https://github.com/ilios/ilios/issues/193)
+
+**Merged pull requests:**
+
+- fix for missing competency framework includes [\#254](https://github.com/ilios/ilios/pull/254) ([stopfstedt](https://github.com/stopfstedt))
+
+- escape spaces in URLs [\#253](https://github.com/ilios/ilios/pull/253) ([Trott](https://github.com/Trott))
+
+- bugfix: replaced tiny tiny dashes in PCRS urls. [\#252](https://github.com/ilios/ilios/pull/252) ([stopfstedt](https://github.com/stopfstedt))
+
+- 1997 called. They wanted their center tags back. [\#251](https://github.com/ilios/ilios/pull/251) ([Trott](https://github.com/Trott))
+
+- bugfix: corrected switcheroo of course/program objective relationships a... [\#249](https://github.com/ilios/ilios/pull/249) ([stopfstedt](https://github.com/stopfstedt))
+
+- Ci export fixes [\#247](https://github.com/ilios/ilios/pull/247) ([stopfstedt](https://github.com/stopfstedt))
+
+- style changes to calendar filter dialog elements [\#245](https://github.com/ilios/ilios/pull/245) ([stopfstedt](https://github.com/stopfstedt))
+
+- now throwing error for non-UTF8-encoded CSV uploads, added error text to... [\#244](https://github.com/ilios/ilios/pull/244) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- fixed typo in content-type response header declaration. the charset shou... [\#243](https://github.com/ilios/ilios/pull/243) ([stopfstedt](https://github.com/stopfstedt))
+
+- properly namespaces Category element in XML report. fixes \#240 [\#242](https://github.com/ilios/ilios/pull/242) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes \#195 [\#237](https://github.com/ilios/ilios/pull/237) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes \#200 [\#236](https://github.com/ilios/ilios/pull/236) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes \#201. [\#235](https://github.com/ilios/ilios/pull/235) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes \#203 [\#233](https://github.com/ilios/ilios/pull/233) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes \#202. added proper school context to cohortless student query. [\#232](https://github.com/ilios/ilios/pull/232) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes \#193. moved the addition of newly created offerings to the session... [\#231](https://github.com/ilios/ilios/pull/231) ([stopfstedt](https://github.com/stopfstedt))
+
+- added ext. id to course cloning process [\#230](https://github.com/ilios/ilios/pull/230) ([stopfstedt](https://github.com/stopfstedt))
+
+- path correction in stylesheet [\#228](https://github.com/ilios/ilios/pull/228) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed start/end date display switcheroo [\#227](https://github.com/ilios/ilios/pull/227) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes \#201 [\#234](https://github.com/ilios/ilios/pull/234) ([stopfstedt](https://github.com/stopfstedt))
+
+- footer shouldn't overlap other items [\#189](https://github.com/ilios/ilios/pull/189) ([Trott](https://github.com/Trott))
+
+- \#3871: Make appalling inline CSS abomination marginally less appalling [\#188](https://github.com/ilios/ilios/pull/188) ([Trott](https://github.com/Trott))
+
+- various bug fixes to curriculum inventory export  [\#238](https://github.com/ilios/ilios/pull/238) ([stopfstedt](https://github.com/stopfstedt))
+
+- footer shouldn't overlap other items just because I change window size... [\#191](https://github.com/ilios/ilios/pull/191) ([Trott](https://github.com/Trott))
+
+- Make appalling inline CSS abomination marginally less appalling [\#190](https://github.com/ilios/ilios/pull/190) ([Trott](https://github.com/Trott))
+
+## [v2.3](https://github.com/ilios/ilios/tree/v2.3) (2013-09-23)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.2.2...v2.3)
+
+**Merged pull requests:**
+
+- re-enable cucumber tests [\#187](https://github.com/ilios/ilios/pull/187) ([Trott](https://github.com/Trott))
+
+- Merge pull request \#185 from ilios/master [\#186](https://github.com/ilios/ilios/pull/186) ([stopfstedt](https://github.com/stopfstedt))
+
+- roll changes to master into release branch [\#185](https://github.com/ilios/ilios/pull/185) ([stopfstedt](https://github.com/stopfstedt))
+
+- incorporate vagrant updates into master repo [\#184](https://github.com/ilios/ilios/pull/184) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate rb2.3 into master [\#183](https://github.com/ilios/ilios/pull/183) ([stopfstedt](https://github.com/stopfstedt))
+
+- implemented Ilios session type to AAMC method mapping. [\#182](https://github.com/ilios/ilios/pull/182) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed regression in client-side sequence block form validation. refs \#37... [\#181](https://github.com/ilios/ilios/pull/181) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate release branch rb2.3 into master [\#180](https://github.com/ilios/ilios/pull/180) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate release branch rb2.3 into master [\#179](https://github.com/ilios/ilios/pull/179) ([stopfstedt](https://github.com/stopfstedt))
+
+- added course clerkship type info to course details display. refs \#3784 [\#178](https://github.com/ilios/ilios/pull/178) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate release branch rb2.3 into master [\#177](https://github.com/ilios/ilios/pull/177) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate rb2.3 into master [\#176](https://github.com/ilios/ilios/pull/176) ([stopfstedt](https://github.com/stopfstedt))
+
+- added /static to the list of directories that the web server must be abl... [\#175](https://github.com/ilios/ilios/pull/175) ([stopfstedt](https://github.com/stopfstedt))
+
+- Rb2.3 [\#174](https://github.com/ilios/ilios/pull/174) ([stopfstedt](https://github.com/stopfstedt))
+
+- updated changelog for v2.3.0 release. [\#173](https://github.com/ilios/ilios/pull/173) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate rb2.3 into master [\#172](https://github.com/ilios/ilios/pull/172) ([stopfstedt](https://github.com/stopfstedt))
+
+- bugfix: only show clerkshipmodel node in the export if the information i... [\#171](https://github.com/ilios/ilios/pull/171) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed condition for showing the link to currriculum inventory manager pa... [\#170](https://github.com/ilios/ilios/pull/170) ([stopfstedt](https://github.com/stopfstedt))
+
+- Merge pull request \#168 from ilios/master [\#169](https://github.com/ilios/ilios/pull/169) ([stopfstedt](https://github.com/stopfstedt))
+
+- roll master into 2.3 release branch [\#168](https://github.com/ilios/ilios/pull/168) ([stopfstedt](https://github.com/stopfstedt))
+
+- Curriculum inventory export [\#167](https://github.com/ilios/ilios/pull/167) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed typo in code comment. [\#165](https://github.com/ilios/ilios/pull/165) ([stopfstedt](https://github.com/stopfstedt))
+
+- took the -dev suffix off the version number. [\#164](https://github.com/ilios/ilios/pull/164) ([stopfstedt](https://github.com/stopfstedt))
+
+- bugfix: removed calls to deleted getCSSRule\(\) method. moved CSS rules in... [\#163](https://github.com/ilios/ilios/pull/163) ([stopfstedt](https://github.com/stopfstedt))
+
+- Feat569 [\#162](https://github.com/ilios/ilios/pull/162) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- added migrations table and default data population to db install process. [\#161](https://github.com/ilios/ilios/pull/161) ([stopfstedt](https://github.com/stopfstedt))
+
+- changed data type from VARCHAR to TEXT for learning\_materials::descripti... [\#160](https://github.com/ilios/ilios/pull/160) ([stopfstedt](https://github.com/stopfstedt))
+
+- merge rb2.2.2 into master [\#159](https://github.com/ilios/ilios/pull/159) ([stopfstedt](https://github.com/stopfstedt))
+
+- Feat565 [\#166](https://github.com/ilios/ilios/pull/166) ([thecoolestguy](https://github.com/thecoolestguy))
+
+## [v2.2.2](https://github.com/ilios/ilios/tree/v2.2.2) (2013-07-16)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.2.1...v2.2.2)
+
+**Merged pull requests:**
+
+- updated changelog. [\#158](https://github.com/ilios/ilios/pull/158) ([stopfstedt](https://github.com/stopfstedt))
+
+- merged rb2.2.2 into master [\#157](https://github.com/ilios/ilios/pull/157) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed learning material description display in course summary view. refs... [\#156](https://github.com/ilios/ilios/pull/156) ([stopfstedt](https://github.com/stopfstedt))
+
+- updated changelog with entries for v2.2.2 release. [\#155](https://github.com/ilios/ilios/pull/155) ([stopfstedt](https://github.com/stopfstedt))
+
+- merged rb2.2.2 into master [\#154](https://github.com/ilios/ilios/pull/154) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes url encoding/decoding issues with certain characters. [\#153](https://github.com/ilios/ilios/pull/153) ([stopfstedt](https://github.com/stopfstedt))
+
+- merged rb2.2.2 into master [\#152](https://github.com/ilios/ilios/pull/152) ([stopfstedt](https://github.com/stopfstedt))
+
+- cleanup. [\#151](https://github.com/ilios/ilios/pull/151) ([stopfstedt](https://github.com/stopfstedt))
+
+- purged unused/obsolete utility methods [\#150](https://github.com/ilios/ilios/pull/150) ([stopfstedt](https://github.com/stopfstedt))
+
+- cleanup [\#149](https://github.com/ilios/ilios/pull/149) ([stopfstedt](https://github.com/stopfstedt))
+
+- script cleanup [\#148](https://github.com/ilios/ilios/pull/148) ([stopfstedt](https://github.com/stopfstedt))
+
+- js file aggregation, yui kitchensink cleanup, other housekeeping [\#147](https://github.com/ilios/ilios/pull/147) ([stopfstedt](https://github.com/stopfstedt))
+
+- 'changed controller actions to handle password-less account credentials creation when LDAP authn is enabled. [\#146](https://github.com/ilios/ilios/pull/146) ([stopfstedt](https://github.com/stopfstedt))
+
+- code cleanup: line ending conversion and tab conversion. [\#145](https://github.com/ilios/ilios/pull/145) ([stopfstedt](https://github.com/stopfstedt))
+
+- added LDAP authn method. [\#144](https://github.com/ilios/ilios/pull/144) ([stopfstedt](https://github.com/stopfstedt))
+
+- upgraded to CodeIgniter v2.1.4 [\#143](https://github.com/ilios/ilios/pull/143) ([stopfstedt](https://github.com/stopfstedt))
+
+- added foreign key constraint on "competency\_id" column in "objective" table [\#142](https://github.com/ilios/ilios/pull/142) ([stopfstedt](https://github.com/stopfstedt))
+
+- bugfix [\#141](https://github.com/ilios/ilios/pull/141) ([stopfstedt](https://github.com/stopfstedt))
+
+- see rm ticket 3236 [\#140](https://github.com/ilios/ilios/pull/140) ([stopfstedt](https://github.com/stopfstedt))
+
+- added fkey on user::primary\_school\_id [\#139](https://github.com/ilios/ilios/pull/139) ([stopfstedt](https://github.com/stopfstedt))
+
+- add combined primary key to table program\_year\_director [\#138](https://github.com/ilios/ilios/pull/138) ([stopfstedt](https://github.com/stopfstedt))
+
+- added fkeys to table "program\_year\_director" [\#137](https://github.com/ilios/ilios/pull/137) ([stopfstedt](https://github.com/stopfstedt))
+
+- updated install instructions. [\#136](https://github.com/ilios/ilios/pull/136) ([stopfstedt](https://github.com/stopfstedt))
+
+- please merge [\#135](https://github.com/ilios/ilios/pull/135) ([stopfstedt](https://github.com/stopfstedt))
+
+- please review and merge [\#134](https://github.com/ilios/ilios/pull/134) ([stopfstedt](https://github.com/stopfstedt))
+
+- performance improvements when saving large learner group structures [\#133](https://github.com/ilios/ilios/pull/133) ([stopfstedt](https://github.com/stopfstedt))
+
+- bugfix for borked course container display. [\#132](https://github.com/ilios/ilios/pull/132) ([stopfstedt](https://github.com/stopfstedt))
+
+- bugfix for borked course container display. [\#131](https://github.com/ilios/ilios/pull/131) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed out-of-year range bug in academic year dropdown. [\#130](https://github.com/ilios/ilios/pull/130) ([stopfstedt](https://github.com/stopfstedt))
+
+- cleaned up createContentContainerMarkup\(\) and removed buttons for bulk saving operations from program manager page. [\#129](https://github.com/ilios/ilios/pull/129) ([stopfstedt](https://github.com/stopfstedt))
+
+- altered SQL query to include courses linked to groups via independent… [\#128](https://github.com/ilios/ilios/pull/128) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed bug that was preventing learner groups attached to ILMs from displaying in course "associated groups" list [\#127](https://github.com/ilios/ilios/pull/127) ([stopfstedt](https://github.com/stopfstedt))
+
+- refactored objectives-rollover method out of the base model and into the... [\#126](https://github.com/ilios/ilios/pull/126) ([stopfstedt](https://github.com/stopfstedt))
+
+- refactored save objective method out of the base model and into the obje... [\#125](https://github.com/ilios/ilios/pull/125) ([stopfstedt](https://github.com/stopfstedt))
+
+- refactored db transaction handling code [\#124](https://github.com/ilios/ilios/pull/124) ([stopfstedt](https://github.com/stopfstedt))
+
+- free db query results asap [\#123](https://github.com/ilios/ilios/pull/123) ([stopfstedt](https://github.com/stopfstedt))
+
+- bolshoi code docs cleanup. indentation fix - replaced tabs with blank sp... [\#122](https://github.com/ilios/ilios/pull/122) ([stopfstedt](https://github.com/stopfstedt))
+
+- please merge. [\#121](https://github.com/ilios/ilios/pull/121) ([stopfstedt](https://github.com/stopfstedt))
+
+- code cleanup [\#120](https://github.com/ilios/ilios/pull/120) ([stopfstedt](https://github.com/stopfstedt))
+
+- codebase cleanup [\#119](https://github.com/ilios/ilios/pull/119) ([stopfstedt](https://github.com/stopfstedt))
+
+- realigned various dashboard modals to open up top/center in the viewport [\#117](https://github.com/ilios/ilios/pull/117) ([stopfstedt](https://github.com/stopfstedt))
+
+- removed silly quotes. [\#116](https://github.com/ilios/ilios/pull/116) ([stopfstedt](https://github.com/stopfstedt))
+
+- dropped obsolete second parameter in function call. [\#115](https://github.com/ilios/ilios/pull/115) ([stopfstedt](https://github.com/stopfstedt))
+
+- full width calendar view [\#114](https://github.com/ilios/ilios/pull/114) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate branch rb2.2.1 [\#113](https://github.com/ilios/ilios/pull/113) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate release branch 2.2.2 [\#118](https://github.com/ilios/ilios/pull/118) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v2.2.1](https://github.com/ilios/ilios/tree/v2.2.1) (2013-03-22)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.2...v2.2.1)
+
+**Merged pull requests:**
+
+- changed session type colors once more. [\#112](https://github.com/ilios/ilios/pull/112) ([stopfstedt](https://github.com/stopfstedt))
+
+- various bug fixes related to authn. checks [\#111](https://github.com/ilios/ilios/pull/111) ([stopfstedt](https://github.com/stopfstedt))
+
+- bumped version number, updated changelog [\#109](https://github.com/ilios/ilios/pull/109) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate branch rb2.2.1 [\#108](https://github.com/ilios/ilios/pull/108) ([stopfstedt](https://github.com/stopfstedt))
+
+- bugfix for failed transaction handling in EDS student sync [\#107](https://github.com/ilios/ilios/pull/107) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate release branch [\#106](https://github.com/ilios/ilios/pull/106) ([stopfstedt](https://github.com/stopfstedt))
+
+- reconfigured session cookie to expire when browser gets closed. [\#105](https://github.com/ilios/ilios/pull/105) ([stopfstedt](https://github.com/stopfstedt))
+
+- odds'n'ends [\#104](https://github.com/ilios/ilios/pull/104) ([stopfstedt](https://github.com/stopfstedt))
+
+- bolshoi refactoring - change ALL the code! [\#103](https://github.com/ilios/ilios/pull/103) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate branch rb2.2.1 [\#102](https://github.com/ilios/ilios/pull/102) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed broken class constant reference. refs \#3267 [\#101](https://github.com/ilios/ilios/pull/101) ([stopfstedt](https://github.com/stopfstedt))
+
+- Improve LDAP bind error message [\#100](https://github.com/ilios/ilios/pull/100) ([Trott](https://github.com/Trott))
+
+- refactored application status controller. [\#99](https://github.com/ilios/ilios/pull/99) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed regression. [\#98](https://github.com/ilios/ilios/pull/98) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed edge case bug in migrations controller [\#97](https://github.com/ilios/ilios/pull/97) ([stopfstedt](https://github.com/stopfstedt))
+
+- added baseline migration [\#96](https://github.com/ilios/ilios/pull/96) ([stopfstedt](https://github.com/stopfstedt))
+
+- Bug1020 [\#95](https://github.com/ilios/ilios/pull/95) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- LDAP client configuration-cleanup/bugfix [\#94](https://github.com/ilios/ilios/pull/94) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed broken keypress event handling in user search form [\#93](https://github.com/ilios/ilios/pull/93) ([stopfstedt](https://github.com/stopfstedt))
+
+- dhtmlx scheduler version upgrade [\#92](https://github.com/ilios/ilios/pull/92) ([stopfstedt](https://github.com/stopfstedt))
+
+- codebase cleanup [\#91](https://github.com/ilios/ilios/pull/91) ([stopfstedt](https://github.com/stopfstedt))
+
+- made additions to .gitignore [\#90](https://github.com/ilios/ilios/pull/90) ([stopfstedt](https://github.com/stopfstedt))
+
+- added post-install instructions [\#89](https://github.com/ilios/ilios/pull/89) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate branch rb2.2.1 [\#110](https://github.com/ilios/ilios/pull/110) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v2.2](https://github.com/ilios/ilios/tree/v2.2) (2013-03-06)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.1.2...v2.2)
+
+**Merged pull requests:**
+
+- cleaned the script's header-comments. [\#88](https://github.com/ilios/ilios/pull/88) ([stopfstedt](https://github.com/stopfstedt))
+
+- replaced hardwired copyright year with date range [\#87](https://github.com/ilios/ilios/pull/87) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate release branch [\#86](https://github.com/ilios/ilios/pull/86) ([stopfstedt](https://github.com/stopfstedt))
+
+- improved input validation and error handling on bad data [\#85](https://github.com/ilios/ilios/pull/85) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes bug in objectives display in the offering details pane. [\#84](https://github.com/ilios/ilios/pull/84) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate branch rb2.2 [\#83](https://github.com/ilios/ilios/pull/83) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed broken markup in session details display on offering mngmt. page. ... [\#82](https://github.com/ilios/ilios/pull/82) ([stopfstedt](https://github.com/stopfstedt))
+
+- supplies mime-type correction for learning material upload [\#81](https://github.com/ilios/ilios/pull/81) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate rb2.2 into master [\#80](https://github.com/ilios/ilios/pull/80) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed regression in processing non-utf8 encoded user input [\#79](https://github.com/ilios/ilios/pull/79) ([stopfstedt](https://github.com/stopfstedt))
+
+- Upgrade Vagrant VM from Ubuntu 10 \(Lucid\) to Ubuntu 12 \(Precise\) [\#78](https://github.com/ilios/ilios/pull/78) ([Trott](https://github.com/Trott))
+
+- reintegrate rb2.2 into master [\#77](https://github.com/ilios/ilios/pull/77) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes bug in user sync process [\#76](https://github.com/ilios/ilios/pull/76) ([stopfstedt](https://github.com/stopfstedt))
+
+- Travis setup steps quiet [\#75](https://github.com/ilios/ilios/pull/75) ([Trott](https://github.com/Trott))
+
+- now throwing 404 error with filename when learning material is not found... [\#74](https://github.com/ilios/ilios/pull/74) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- phing build.xml + PHPUnit tests [\#73](https://github.com/ilios/ilios/pull/73) ([Trott](https://github.com/Trott))
+
+- reintegrate release branch [\#72](https://github.com/ilios/ilios/pull/72) ([stopfstedt](https://github.com/stopfstedt))
+
+- more filetype/mimetype mapping fixes [\#71](https://github.com/ilios/ilios/pull/71) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate release branch [\#70](https://github.com/ilios/ilios/pull/70) ([stopfstedt](https://github.com/stopfstedt))
+
+- various fixes and improvements [\#69](https://github.com/ilios/ilios/pull/69) ([stopfstedt](https://github.com/stopfstedt))
+
+- Get rid of DB warnings on CI phpunit tests using PHP 5.4 [\#68](https://github.com/ilios/ilios/pull/68) ([Trott](https://github.com/Trott))
+
+- bugfix to build script, refs RM issue 3174 [\#67](https://github.com/ilios/ilios/pull/67) ([stopfstedt](https://github.com/stopfstedt))
+
+- tweaked formatting [\#65](https://github.com/ilios/ilios/pull/65) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed typo in readme file. [\#64](https://github.com/ilios/ilios/pull/64) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed typo. [\#63](https://github.com/ilios/ilios/pull/63) ([stopfstedt](https://github.com/stopfstedt))
+
+- re-integrate release branch 2.2 [\#62](https://github.com/ilios/ilios/pull/62) ([stopfstedt](https://github.com/stopfstedt))
+
+- Travis integration [\#61](https://github.com/ilios/ilios/pull/61) ([Trott](https://github.com/Trott))
+
+- added missing comma. [\#60](https://github.com/ilios/ilios/pull/60) ([stopfstedt](https://github.com/stopfstedt))
+
+- updated install and upgrade instructions for v2.2 release. [\#59](https://github.com/ilios/ilios/pull/59) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed name of default php unit configuration file in the setup instructions [\#58](https://github.com/ilios/ilios/pull/58) ([stopfstedt](https://github.com/stopfstedt))
+
+- updated changelog, bumped version number [\#57](https://github.com/ilios/ilios/pull/57) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed stale data issue in instructor picker autocompleter [\#56](https://github.com/ilios/ilios/pull/56) ([stopfstedt](https://github.com/stopfstedt))
+
+- Cucumber tests [\#55](https://github.com/ilios/ilios/pull/55) ([Trott](https://github.com/Trott))
+
+- move tests to phpunit directory in preparation for adding other types of tests [\#54](https://github.com/ilios/ilios/pull/54) ([Trott](https://github.com/Trott))
+
+- expanded filetype whitelist for learning materials uploads [\#53](https://github.com/ilios/ilios/pull/53) ([stopfstedt](https://github.com/stopfstedt))
+
+- revert changes to gitignore list [\#52](https://github.com/ilios/ilios/pull/52) ([stopfstedt](https://github.com/stopfstedt))
+
+- update .gitignore for new CI file layout [\#51](https://github.com/ilios/ilios/pull/51) ([Trott](https://github.com/Trott))
+
+- fixes inability to de-select instructors/instructor-groups from ILMs in ... [\#50](https://github.com/ilios/ilios/pull/50) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes bug that is prohibiting program years from being deleted.  [\#49](https://github.com/ilios/ilios/pull/49) ([stopfstedt](https://github.com/stopfstedt))
+
+- codeigniter 2.x upgrade [\#48](https://github.com/ilios/ilios/pull/48) ([stopfstedt](https://github.com/stopfstedt))
+
+- Feat2902 [\#47](https://github.com/ilios/ilios/pull/47) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- changed comments in database config to reflect github repo and mysqli as... [\#46](https://github.com/ilios/ilios/pull/46) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- replaced short open php tag with longhand notation. refs \#3136 [\#45](https://github.com/ilios/ilios/pull/45) ([stopfstedt](https://github.com/stopfstedt))
+
+- bugfix 2608: fix grouping of competencies/session objectives in student calendar offerings details view. [\#44](https://github.com/ilios/ilios/pull/44) ([stopfstedt](https://github.com/stopfstedt))
+
+- removed embedded styles from offering mngmt. page template. refs \#2938 [\#43](https://github.com/ilios/ilios/pull/43) ([stopfstedt](https://github.com/stopfstedt))
+
+- feature request 2530: expose descriptor ids \(and tree node IDs\) in mesh search results [\#42](https://github.com/ilios/ilios/pull/42) ([stopfstedt](https://github.com/stopfstedt))
+
+- forced ilios.om.inspector.getSessionTypeTitleForId\(\) to always return a ... [\#41](https://github.com/ilios/ilios/pull/41) ([stopfstedt](https://github.com/stopfstedt))
+
+- session learning material search links are now hidden from display if th... [\#40](https://github.com/ilios/ilios/pull/40) ([stopfstedt](https://github.com/stopfstedt))
+
+- changed the default option in the group selections strategy select list ... [\#39](https://github.com/ilios/ilios/pull/39) ([stopfstedt](https://github.com/stopfstedt))
+
+- Feat3061 [\#38](https://github.com/ilios/ilios/pull/38) ([stopfstedt](https://github.com/stopfstedt))
+
+- renamed management console stylesheet for consistency reasons. refs \#3100 [\#37](https://github.com/ilios/ilios/pull/37) ([stopfstedt](https://github.com/stopfstedt))
+
+- drop ilios version number from project name in code comments. [\#36](https://github.com/ilios/ilios/pull/36) ([stopfstedt](https://github.com/stopfstedt))
+
+- bugfix: added missing expand/collapse widget and corresponding wrapper c... [\#35](https://github.com/ilios/ilios/pull/35) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate rb2.1.2 into master  [\#34](https://github.com/ilios/ilios/pull/34) ([stopfstedt](https://github.com/stopfstedt))
+
+- should not assume that builddir exists in build.xml [\#66](https://github.com/ilios/ilios/pull/66) ([Trott](https://github.com/Trott))
+
+## [v2.1.2](https://github.com/ilios/ilios/tree/v2.1.2) (2012-12-20)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v2.1.1...v2.1.2)
+
+**Merged pull requests:**
+
+- Bug 2959: corrected 1-tier competencies sorting mechanism. [\#33](https://github.com/ilios/ilios/pull/33) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate rb2.1.2 into master  [\#32](https://github.com/ilios/ilios/pull/32) ([stopfstedt](https://github.com/stopfstedt))
+
+- Update build.properties.sample [\#31](https://github.com/ilios/ilios/pull/31) ([ctam](https://github.com/ctam))
+
+- reintegrate rb2.1.2 into master [\#29](https://github.com/ilios/ilios/pull/29) ([stopfstedt](https://github.com/stopfstedt))
+
+- Admin3072 [\#28](https://github.com/ilios/ilios/pull/28) ([stopfstedt](https://github.com/stopfstedt))
+
+- BUG 2921: reminder alert messages do not capture primary owning school for course [\#27](https://github.com/ilios/ilios/pull/27) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate rb2.1.2 into master [\#26](https://github.com/ilios/ilios/pull/26) ([stopfstedt](https://github.com/stopfstedt))
+
+- updated UCSF/SOM teaching reminder email template. refs \#3023 [\#25](https://github.com/ilios/ilios/pull/25) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate rb2.1.1 into master [\#24](https://github.com/ilios/ilios/pull/24) ([stopfstedt](https://github.com/stopfstedt))
+
+- Feature 3024: display parent competency titles in learner course summary view [\#23](https://github.com/ilios/ilios/pull/23) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate rb2.1.2 into master  [\#22](https://github.com/ilios/ilios/pull/22) ([stopfstedt](https://github.com/stopfstedt))
+
+- added proper sort order to competency dropdown in program objective dialog [\#21](https://github.com/ilios/ilios/pull/21) ([stopfstedt](https://github.com/stopfstedt))
+
+- added download instructions to README file.  [\#20](https://github.com/ilios/ilios/pull/20) ([stopfstedt](https://github.com/stopfstedt))
+
+- added indexes/foreign key constraints for user\_x\_user\_role table [\#19](https://github.com/ilios/ilios/pull/19) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- refactored hardwired path to Shib Logout Service into a config setting. ... [\#18](https://github.com/ilios/ilios/pull/18) ([stopfstedt](https://github.com/stopfstedt))
+
+- modified idle page timeout mechanism to allow for logout url configurati... [\#17](https://github.com/ilios/ilios/pull/17) ([stopfstedt](https://github.com/stopfstedt))
+
+- added rewrite rule to redirect from ilios2.php to ilios.php. refs \#3059 [\#16](https://github.com/ilios/ilios/pull/16) ([stopfstedt](https://github.com/stopfstedt))
+
+- issue 3055: dropped Ilios version number from page titles [\#15](https://github.com/ilios/ilios/pull/15) ([stopfstedt](https://github.com/stopfstedt))
+
+- drop ilios version number from file- and classnames [\#14](https://github.com/ilios/ilios/pull/14) ([stopfstedt](https://github.com/stopfstedt))
+
+- Don't require executable bit set on .sh file [\#13](https://github.com/ilios/ilios/pull/13) ([Trott](https://github.com/Trott))
+
+- Remove alert index/foreign key-creation from 2.1.1 to 2.2 [\#12](https://github.com/ilios/ilios/pull/12) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- feature \#3051: add extracted mesh installation SQL script/remove tarball. [\#11](https://github.com/ilios/ilios/pull/11) ([stopfstedt](https://github.com/stopfstedt))
+
+- trim whitespace from database insertion values [\#8](https://github.com/ilios/ilios/pull/8) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- updated ilios logo [\#7](https://github.com/ilios/ilios/pull/7) ([stopfstedt](https://github.com/stopfstedt))
+
+- rm needed dirs from .gitignore [\#6](https://github.com/ilios/ilios/pull/6) ([Trott](https://github.com/Trott))
+
+- please merge project name changes on landing page [\#5](https://github.com/ilios/ilios/pull/5) ([stopfstedt](https://github.com/stopfstedt))
+
+- reintegrate rb2.1.2 into master  [\#30](https://github.com/ilios/ilios/pull/30) ([stopfstedt](https://github.com/stopfstedt))
+
+- feature \#3051: add extracted mesh installation SQL script/remove tarball. [\#10](https://github.com/ilios/ilios/pull/10) ([stopfstedt](https://github.com/stopfstedt))
+
+- Added indeces and foreign key constraints to alert\_instigator and alert\_change tables [\#9](https://github.com/ilios/ilios/pull/9) ([thecoolestguy](https://github.com/thecoolestguy))
+
+## [v2.1.1](https://github.com/ilios/ilios/tree/v2.1.1) (2012-12-07)
+
+**Merged pull requests:**
+
+- please merge with rb2.1.1 and master [\#4](https://github.com/ilios/ilios/pull/4) ([stopfstedt](https://github.com/stopfstedt))
+
+- Vagrant/Puppet easy dev/demo install [\#3](https://github.com/ilios/ilios/pull/3) ([Trott](https://github.com/Trott))
+
+- fixed broken SQL INSERT statement. refs \#3037 [\#1](https://github.com/ilios/ilios/pull/1) ([stopfstedt](https://github.com/stopfstedt))
+
+- Please merge to master  [\#2](https://github.com/ilios/ilios/pull/2) ([thecoolestguy](https://github.com/thecoolestguy))
+
+
+
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*

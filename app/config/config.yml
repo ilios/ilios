@@ -136,4 +136,4 @@ jms_di_extra:
 
 ilios_web:
     environment: staging
-    version: e448d43
+    version: 523691d

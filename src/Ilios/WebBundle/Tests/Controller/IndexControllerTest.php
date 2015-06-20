@@ -12,7 +12,12 @@ class IndexControllerTest extends WebTestCase
         $client->request('GET', '/');
         $response = $client->getResponse();
         $content = $response->getContent();
-        $text = file_get_contents('https://s3-us-west-1.amazonaws.com/iliosindex/index.html', false);
+
+        $container = $client->getContainer();
+        $version = $container->getParameter('ilios_web.version');
+        $url = $container->getParameter('ilios_web.bucket_url');
+        $fileName = $version?'ilios:' . $version:'index';
+        $text = file_get_contents($url . $fileName . '.html', false);
 
         $this->assertSame($text, $content);
 
