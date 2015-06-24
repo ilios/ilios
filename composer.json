@@ -22,7 +22,8 @@
         "nelmio/api-doc-bundle": "~2.0",
         "nelmio/cors-bundle": "~1.0",
         "jms/di-extra-bundle": "~1.5",
-        "stof/doctrine-extensions-bundle": "~1.1"
+        "stof/doctrine-extensions-bundle": "~1.1",
+        "firebase/php-jwt": "^2.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",

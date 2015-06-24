@@ -1,8 +1,13 @@
 security:
     firewalls:
-        anonymous:
-            anonymous: ~
+        default:
+            pattern:    ^/
+            stateless: true
+            jwt: ~
+            provider: ilios_database
 
     providers:
-        in_memory:
-            memory:
+        ilios_database:
+            entity:
+                class: IliosCoreBundle:User
+                property: id

@@ -1,5 +1,6 @@
 imports:
     - { resource: config.yml }
+    - { resource: security.yml }
 
 framework:
     router:
@@ -34,12 +35,3 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.comdoctrine:
-
-security:
-    firewalls:
-        test:
-            pattern:   ^/
-            anonymous: ~
-    providers:
-        users:
-            entity: { class: IliosCoreBundle:User, property: username }

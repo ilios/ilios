@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new Ilios\CoreBundle\IliosCoreBundle(),
             new Ilios\WebBundle\IliosWebBundle(),
+            new Ilios\AuthenticationBundle\IliosAuthenticationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
