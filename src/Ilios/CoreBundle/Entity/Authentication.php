@@ -1,48 +1,75 @@
 <?php
-
 namespace Ilios\CoreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
+
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class Authentication
  * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="authentication")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class Authentication implements AuthenticationInterface
 {
     /**
-     * @var int
-     */
-    private $personId;
+    * @var UserInterface
+    *
+    * @ORM\Id
+    * @ORM\OneToOne(targetEntity="User", inversedBy="authentication")
+    * @ORM\JoinColumns({
+    *   @ORM\JoinColumn(name="person_id", referencedColumnName="user_id", unique=true, onDelete="CASCADE")
+    * })
+    *
+    * @Assert\NotBlank()
+    */
+    protected $user;
 
     /**
-     * @var string
-     */
+    * @ORM\Column(name="username", type="string", unique=true, length=100)
+    * @var string
+    *
+    * @Assert\NotBlank()
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 100
+    * )
+    *
+    */
     private $username;
 
     /**
-     * @var string
-     */
+    * @ORM\Column(name="password_sha256", type="string", length=64, nullable=true)
+    * @var string
+    *
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 64
+    * )
+    *
+    */
     private $passwordSha256;
 
     /**
-     * @var UserInterface
-     */
-    private $user;
-
-    /**
-     * @param int $personId
-     */
-    public function setPersonId($personId)
-    {
-        $this->personId = $personId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPersonId()
-    {
-        return $this->personId;
-    }
+    * @ORM\Column(name="password_bcrypt", type="string", nullable=true)
+    * @var string
+    *
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 64
+    * )
+    *
+    */
+    private $passwordBcrypt;
 
     /**
      * @param string $username
@@ -74,6 +101,25 @@ class Authentication implements AuthenticationInterface
     public function getPasswordSha256()
     {
         return $this->passwordSha256;
+    }
+
+    /**
+     * @param string $passwordBcrypt
+     */
+    public function setPasswordBcrypt($passwordBcrypt)
+    {
+        if ($passwordBcrypt) {
+            $this->setPasswordSha256(null);
+        }
+        $this->passwordBcrypt = $passwordBcrypt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordBcrypt()
+    {
+        return $this->passwordBcrypt;
     }
 
     /**

@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -20,7 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *
  * @JMS\ExclusionPolicy("all")
  */
-class User implements UserInterface
+class User implements UserInterface, EncoderAwareInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
@@ -198,6 +199,13 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity="ApiKey", mappedBy="user")
      */
     protected $apiKey;
+
+    /**
+     * @var AuthenticationInterface
+     *
+     * @ORM\OneToOne(targetEntity="Authentication", mappedBy="user")
+     */
+    protected $authentication;
 
     /**
      * @var ArrayCollection|UserMadeReminderInterface[]
@@ -1157,6 +1165,22 @@ class User implements UserInterface
     }
 
     /**
+     * @param AuthenticationInterface $authentication
+     */
+    public function setAuthentication(CohortInterface $authentication = null)
+    {
+        $this->authentication = $authentication;
+    }
+
+    /**
+     * @return AuthenticationInterface
+     */
+    public function getAuthentication()
+    {
+        return $this->authentication;
+    }
+
+    /**
      * @inheritDoc
      */
     public function serialize()
@@ -1194,7 +1218,10 @@ class User implements UserInterface
      */
     public function getPassword()
     {
-        return '';
+        $newPassword = $this->getAuthentication()->getPasswordBcrypt();
+        $legacyPassword = $this->getAuthentication()->getPasswordSha256();
+
+        return $newPassword?$newPassword:$legacyPassword;
     }
 
     /**
@@ -1211,5 +1238,21 @@ class User implements UserInterface
     public function getUsername()
     {
         return (string) $this->id;
+    }
+
+    /**
+     * Use the old ilios legacy encoder for accounts
+     * that haven't changed their password
+     * @return [type] [description]
+     */
+    public function getEncoderName()
+    {
+        $hasBcryptPassword = (bool) $this->getAuthentication()->getPasswordBcrypt();
+
+        if (!$hasBcryptPassword) {
+            return 'ilios_legacy_encoder';
+        }
+
+        return null; // use the default encoder
     }
 }

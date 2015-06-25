@@ -134,6 +134,17 @@ jms_di_extra:
         all_bundles: false
         bundles: [@IliosCoreBundle]
 
+security:
+    encoders:
+        Ilios\CoreBundle\Entity\User:
+            algorithm: bcrypt
+        ilios_legacy_encoder:
+            id: ilios_authentication.form.legacy_encoder
+
 ilios_web:
     environment: staging
     version: 523691d
+
+ilios_authentication:
+    legacy_salt: "%legacy_password_salt%"
+    type: "%authentication_type%"

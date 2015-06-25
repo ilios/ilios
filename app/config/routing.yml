@@ -1,3 +1,7 @@
+IliosAuthenticationBundle:
+    resource: "@IliosAuthenticationBundle/Resources/config/routing.yml"
+    prefix:   /auth
+
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc

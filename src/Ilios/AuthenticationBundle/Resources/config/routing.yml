@@ -1,0 +1,6 @@
+ilios_authentication.index:
+    path:     /config
+    defaults: { _controller: IliosAuthenticationBundle:Config:index }
+ilios_authentication.login:
+    path:     /login
+    defaults: { _controller: IliosAuthenticationBundle:Authentication:login }

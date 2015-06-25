@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fe14c8bbf3f0287e1e9dcf7e93318c8d",
+    "hash": "40472785c68186a6dfb8082302eef479",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -979,6 +979,48 @@
                 "parameters management"
             ],
             "time": "2015-06-03 08:27:03"
+        },
+        {
+            "name": "ircmaxell/password-compat",
+            "version": "1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ircmaxell/password_compat.git",
+                "reference": "9b99377557a33a4129c9194e60a97a685fab21e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/9b99377557a33a4129c9194e60a97a685fab21e0",
+                "reference": "9b99377557a33a4129c9194e60a97a685fab21e0",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/password.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Ferrara",
+                    "email": "ircmaxell@php.net",
+                    "homepage": "http://blog.ircmaxell.com"
+                }
+            ],
+            "description": "A compatibility library for the proposed simplified password hashing algorithm: https://wiki.php.net/rfc/password_hash",
+            "homepage": "https://github.com/ircmaxell/password_compat",
+            "keywords": [
+                "hashing",
+                "password"
+            ],
+            "time": "2014-11-20 19:18:42"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -2112,12 +2154,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "21b7eb31c51d98e9da0543527a0242875f3d92b9"
+                "reference": "5a1b5d121689369cf7b54cc67b16216cfd4da7b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/21b7eb31c51d98e9da0543527a0242875f3d92b9",
-                "reference": "21b7eb31c51d98e9da0543527a0242875f3d92b9",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/5a1b5d121689369cf7b54cc67b16216cfd4da7b3",
+                "reference": "5a1b5d121689369cf7b54cc67b16216cfd4da7b3",
                 "shasum": ""
             },
             "require": {
@@ -2157,7 +2199,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2015-06-06 14:20:09"
+            "time": "2015-06-24 18:54:32"
         },
         {
             "name": "symfony/assetic-bundle",
@@ -2345,16 +2387,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "2.8.x-dev",
+            "version": "2.7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "dd7583d4851fa10f711b3f7e0727f80236b22f77"
+                "reference": "c216565bc2e24b34adb5490d41047eff09e38c91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/dd7583d4851fa10f711b3f7e0727f80236b22f77",
-                "reference": "dd7583d4851fa10f711b3f7e0727f80236b22f77",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/c216565bc2e24b34adb5490d41047eff09e38c91",
+                "reference": "c216565bc2e24b34adb5490d41047eff09e38c91",
                 "shasum": ""
             },
             "require": {
@@ -2423,7 +2465,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -2463,7 +2505,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-06-23 11:43:04"
+            "time": "2015-06-23 10:44:42"
         },
         {
             "name": "twig/extensions",
@@ -2523,12 +2565,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "e22fb8728b395b306a06785a3ae9b12f3fbc0294"
+                "reference": "12bf70d9addf613260056f9840aee23b151073f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e22fb8728b395b306a06785a3ae9b12f3fbc0294",
-                "reference": "e22fb8728b395b306a06785a3ae9b12f3fbc0294",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/12bf70d9addf613260056f9840aee23b151073f7",
+                "reference": "12bf70d9addf613260056f9840aee23b151073f7",
                 "shasum": ""
             },
             "require": {
@@ -2572,7 +2614,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-06-06 23:35:59"
+            "time": "2015-06-24 16:24:09"
         }
     ],
     "packages-dev": [
@@ -4756,7 +4798,6 @@
         "phpunit/phpunit-skeleton-generator": 0,
         "matthiasnoback/symfony-dependency-injection-test": 0,
         "matthiasnoback/symfony-config-test": 0,
-        "liip/functional-test-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
         "tdn/pilotbundle": 20
     },

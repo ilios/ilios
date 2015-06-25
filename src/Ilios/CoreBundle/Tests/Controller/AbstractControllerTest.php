@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Tdn\PhpTypes\Type\String;
+use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
 
 /**
  * Class AbstractControllerTest
@@ -15,6 +16,7 @@ use Tdn\PhpTypes\Type\String;
  */
 abstract class AbstractControllerTest extends WebTestCase
 {
+    use JsonControllerTest;
     /**
      * @var ContainerInterface
      */
@@ -66,35 +68,6 @@ abstract class AbstractControllerTest extends WebTestCase
             ],
             $content
         );
-    }
-
-    /**
-     * Check if the response is valid
-     * tests the status code, headers, and the content
-     * @param Response $response
-     * @param integer $statusCode
-     * @param boolean $checkValidJson
-     */
-    protected function assertJsonResponse(Response $response, $statusCode, $checkValidJson = true)
-    {
-        $this->assertEquals($statusCode, $response->getStatusCode(), $response->getContent());
-
-        if ($checkValidJson) {
-            $this->assertTrue(
-                $response->headers->contains(
-                    'Content-Type',
-                    'application/json'
-                ),
-                $response->headers
-            );
-
-            $decode = json_decode($response->getContent());
-
-            $this->assertTrue(
-                ($decode != null && $decode != false),
-                'Invalid JSON: [' . $response->getContent() . ']'
-            );
-        }
     }
 
     /**

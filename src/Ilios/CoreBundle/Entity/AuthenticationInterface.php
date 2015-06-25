@@ -9,16 +9,6 @@ namespace Ilios\CoreBundle\Entity;
 interface AuthenticationInterface
 {
     /**
-     * @param int $personId
-     */
-    public function setPersonId($personId);
-
-    /**
-     * @return int
-     */
-    public function getPersonId();
-
-    /**
      * @param string $username
      */
     public function setUsername($username);
@@ -37,6 +27,16 @@ interface AuthenticationInterface
      * @return string
      */
     public function getPasswordSha256();
+
+    /**
+     * @param string $passwordBcrypt
+     */
+    public function setPasswordBcrypt($passwordBcrypt);
+
+    /**
+     * @return string
+     */
+    public function getPasswordBcrypt();
 
     /**
      * @param UserInterface $user

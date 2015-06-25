@@ -22,6 +22,9 @@ class IliosAuthenticationExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('ilios_authentication.legacy_salt', $config['legacy_salt']);
+        $container->setParameter('ilios_authentication.type', $config['type']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

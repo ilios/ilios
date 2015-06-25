@@ -8,7 +8,7 @@
     },
     "require": {
         "php": "~5.4,>=5.4.4",
-        "symfony/symfony": "^2.6",
+        "symfony/symfony": "2.7.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "^1.2",
         "twig/extensions": "~1.0",
@@ -23,7 +23,8 @@
         "nelmio/cors-bundle": "~1.0",
         "jms/di-extra-bundle": "~1.5",
         "stof/doctrine-extensions-bundle": "~1.1",
-        "firebase/php-jwt": "^2.2"
+        "firebase/php-jwt": "^2.2",
+        "ircmaxell/password-compat": "^1.0.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",
@@ -35,7 +36,7 @@
         "instaclick/base-test-bundle": "^0.5",
         "mockery/mockery": "^0.9.3",
         "fzaninotto/faker": "^1.4",
-        "liip/functional-test-bundle": "~1.0@dev",
+        "liip/functional-test-bundle": "~1.2",
         "doctrine/doctrine-fixtures-bundle": "~2.2@dev",
         "tdn/pilotbundle": "dev-feature/controller-tests",
         "satooshi/php-coveralls": "0.6.*"

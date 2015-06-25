@@ -31,7 +31,7 @@ class LoadLearningMaterialData extends AbstractFixture implements
             ->get('ilioscore.dataloader.learningMaterial')
             ->getAll();
         foreach ($data as $arr) {
-            switch($arr['type']){
+            switch ($arr['type']) {
                 case 'citation':
                     $entity = new CitationLearningMaterial();
                     break;
