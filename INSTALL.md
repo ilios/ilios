@@ -74,8 +74,10 @@ mailer_password: null
 #en = 'english', enter your desired language ISO abbreviation, if different
 locale: en
 
-#this should be a long string of random characters and letters of your choosing.  If you are running in a load-balanced environment, 
-#these need to be the same for all servers being deployed-to 
+#this should be a long string of random characters and letters of your choosing.  If you are 
+#running in a load-balanced environment, these need to be the same on all the webservers in
+#the group. IMPORTANT:  You MUST change this to your own value as using the default value would
+#be EXTREMELY dangerous in a production enviroment!
 token: ThisCanBeWhateverYouLike
 
 #These should all be set to 'false' in a production environment
