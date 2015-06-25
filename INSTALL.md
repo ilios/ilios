@@ -78,7 +78,7 @@ locale: en
 #running in a load-balanced environment, these need to be the same on all the webservers in
 #the group. IMPORTANT:  You MUST change this to your own value as using the default value would
 #be EXTREMELY dangerous in a production enviroment!
-token: ThisCanBeWhateverYouLike
+token: ThisCanBeWhateverYouLike,JustMakeSureYouChangeIt!
 
 #These should all be set to 'false' in a production environment
 debug_toolbar: false
