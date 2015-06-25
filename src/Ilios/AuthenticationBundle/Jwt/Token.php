@@ -130,10 +130,13 @@ class Token extends AbstractToken
             throw new \Exception('Can not build a JWT, we have no user');
         }
         $now = new \DateTime();
+        $expires = new \Datetime();
+        $expires->add(12, 'hours');
         $arr = array(
             'iss' => 'ilios',
             'aud' => 'ilios',
             'iat' => $now->format('U'),
+            'exp' => $expires->format('U'),
             'user_id' => $this->user->getId()
         );
 
