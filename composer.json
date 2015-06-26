@@ -17,7 +17,6 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "symfony/assetic-bundle": "~2.4",
         "jms/serializer-bundle": "^0.13",
         "nelmio/api-doc-bundle": "~2.0",
         "nelmio/cors-bundle": "~1.0",

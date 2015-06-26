@@ -16,7 +16,6 @@ parameters:
 
     debug_toolbar:          true
     debug_redirects:        false
-    use_assetic_controller: true
 
     authentication_type: "form"
     legacy_password_salt: "Ilios2 ilios_authentication_internal_auth_salt value"
