@@ -3,6 +3,12 @@ security:
         api_docs:
             pattern:   ^/api/doc
             anonymous: ~
+        auth:
+            pattern:    ^/auth
+            stateless: true
+            jwt: ~
+            anonymous: ~
+            provider: ilios_user_entity
         default:
             pattern:    ^/api
             stateless: true

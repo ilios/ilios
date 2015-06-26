@@ -1247,9 +1247,7 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getEncoderName()
     {
-        $hasBcryptPassword = (bool) $this->getAuthentication()->getPasswordBcrypt();
-
-        if (!$hasBcryptPassword) {
+        if ($this->getAuthentication()->isLegacyAccount()) {
             return 'ilios_legacy_encoder';
         }
 

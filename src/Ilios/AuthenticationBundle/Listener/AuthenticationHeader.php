@@ -37,6 +37,9 @@ class AuthenticationHeader
             if (isset($all['Authorization'])) {
                 $headers->set('Authorization', $all['Authorization']);
             }
+            if (isset($all['authorization'])) {
+                $headers->set('Authorization', $all['authorization']);
+            }
         }
     }
 }

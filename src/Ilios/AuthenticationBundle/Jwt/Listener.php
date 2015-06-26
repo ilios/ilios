@@ -25,11 +25,11 @@ class Listener implements ListenerInterface
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
-        $secret
+        $jwtKey
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
-        $this->jwtKey = 'ilios.jwt.key.' . $secret;
+        $this->jwtKey = $jwtKey;
     }
 
     public function handle(GetResponseEvent $event)

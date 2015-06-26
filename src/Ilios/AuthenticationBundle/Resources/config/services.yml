@@ -17,9 +17,6 @@ services:
         arguments: ["@security.token_storage"]
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-    ilios_authentication.form.authenticator:
-        class:     Ilios\AuthenticationBundle\Form\Authenticator
-        arguments: ["@security.password_encoder", "%kernel.secret%"]
     ilios_authentication.form.legacy_encoder:
         class: Ilios\AuthenticationBundle\Form\Encoder
         arguments: ["%ilios_authentication.legacy_salt%"]

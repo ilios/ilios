@@ -29,11 +29,13 @@ class Token extends AbstractToken
      */
     protected $user;
 
+    const PREPEND_KEY = 'ilios.jwt.key.';
+
     public function __construct($key)
     {
         //allow for 5 seconds of clock skew
         TokenLib::$leeway = 5;
-        $this->key = $key;
+        $this->key = self::PREPEND_KEY . $key;
     }
 
     public function setRequest(Request $request)
@@ -67,6 +69,20 @@ class Token extends AbstractToken
         }
         $this->user = $user;
         $this->setAuthenticated(true);
+    }
+
+    public function getUser()
+    {
+        return (string) $this->user;
+    }
+
+    public function getUserId()
+    {
+        if ($this->user instanceof UserInterface) {
+            return $this->user->getId();
+        }
+
+        return null;
     }
 
     public function getUserName()
@@ -131,7 +147,7 @@ class Token extends AbstractToken
         }
         $now = new \DateTime();
         $expires = new \Datetime();
-        $expires->add(12, 'hours');
+        $expires->add(new \DateInterval("PT8H"));
         $arr = array(
             'iss' => 'ilios',
             'aud' => 'ilios',

@@ -137,4 +137,13 @@ class Authentication implements AuthenticationInterface
     {
         return $this->user;
     }
+
+    /**
+     * Check if this is a legacy account
+     * @return boolean
+     */
+    public function isLegacyAccount()
+    {
+        return (bool) $this->getPasswordSha256();
+    }
 }

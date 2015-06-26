@@ -112,4 +112,77 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertTrue(array_key_exists('errors', $response));
         $this->assertSame($response['errors'][0], "Incorrect username or password");
     }
+
+    public function testAuthenticatingLegacyUserChangesHash()
+    {
+        $client = static::createClient();
+
+        $em = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        $legacyUser = $em->getRepository('IliosCoreBundle:User')->find(1);
+        $authentication = $legacyUser->getAuthentication();
+        $this->assertTrue($authentication->isLegacyAccount());
+        $this->assertNotEmpty($authentication->getPasswordSha256());
+        $this->assertEmpty($authentication->getPasswordBcrypt());
+
+
+        $client->request('POST', '/auth/login', array(
+            'username' => 'legacyuser',
+            'password' => 'legacyuserpass'
+        ));
+
+        $response = $client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+
+        $client->request('POST', '/auth/login', array(
+            'username' => 'legacyuser',
+            'password' => 'legacyuserpass'
+        ));
+
+        $response = $client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+
+        $response = json_decode($response->getContent(), true);
+        $this->assertTrue(array_key_exists('jwt', $response));
+        $token = (array) TokenLib::decode($response['jwt']);
+        $this->assertTrue(array_key_exists('user_id', $token));
+        $this->assertSame(1, $token['user_id']);
+
+        $legacyUser = $em->getRepository('IliosCoreBundle:User')->find(1);
+        $authentication = $legacyUser->getAuthentication();
+        $this->assertFalse($authentication->isLegacyAccount());
+        $this->assertEmpty($authentication->getPasswordSha256());
+        $this->assertNotEmpty($authentication->getPasswordBcrypt());
+    }
+
+    public function testWhoAmI()
+    {
+        $client = static::createClient();
+
+        $client->request('POST', '/auth/login', array(
+            'username' => 'legacyuser',
+            'password' => 'legacyuserpass'
+        ));
+
+        $response = $client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $response = json_decode($response->getContent(), true);
+        $token = $response['jwt'];
+
+        $client->request(
+            'GET',
+            '/auth/whoami',
+            array(),
+            array(),
+            array('HTTP_Authorization' => 'Token ' . $token)
+        );
+        $response = $client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $response = json_decode($response->getContent(), true);
+
+        $this->assertTrue(array_key_exists('userId', $response), 'Response has user_id: ' . var_export($response, true));
+        $this->assertSame($response['userId'], 1, 'Response has the correct user id: ' . var_export($response, true));
+    }
 }
