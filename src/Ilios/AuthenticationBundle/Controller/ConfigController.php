@@ -10,7 +10,12 @@ class ConfigController extends Controller
     public function indexAction()
     {
         $configuration = [];
-        $configuration['type'] = $this->container->getParameter('ilios_authentication.type');
+        $type = $this->container->getParameter('ilios_authentication.type');
+        $configuration['type'] = $type;
+        if ($type == 'shibboleth') {
+            $url = $this->get('request')->getSchemeAndHttpHost();
+            $configuration['loginUrl'] = $url . '/Shibboleth.sso/Login';
+        }
         return new JsonResponse(array('config' => $configuration));
     }
 }

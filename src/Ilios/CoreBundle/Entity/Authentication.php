@@ -72,6 +72,19 @@ class Authentication implements AuthenticationInterface
     private $passwordBcrypt;
 
     /**
+    * @ORM\Column(name="eppn", type="string", nullable=true, unique=true)
+    * @var string
+    *
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 250
+    * )
+    *
+    */
+    private $eppn;
+
+    /**
      * @param string $username
      */
     public function setUsername($username)
@@ -136,6 +149,22 @@ class Authentication implements AuthenticationInterface
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @param string $eppn
+     */
+    public function setEppn($eppn)
+    {
+        $this->eppn = $eppn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEppn()
+    {
+        return $this->eppn;
     }
 
     /**

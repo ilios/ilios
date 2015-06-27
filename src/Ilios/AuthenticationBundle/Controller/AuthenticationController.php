@@ -85,4 +85,18 @@ class AuthenticationController extends Controller
 
         return new JsonResponse(array('jwt' => null), JsonResponse::HTTP_OK);
     }
+    public function tokenAction()
+    {
+        $shib = $this->container->get('ilios_authentication.shibboleth.authentication');
+
+        if ($user = $shib->getUser()) {
+            $jwtKey = $this->container->getParameter('kernel.secret');
+            $token = new JwtToken($jwtKey);
+            $token->setUser($user);
+            return new JsonResponse(array('jwt' => $token->getJwt()), JsonResponse::HTTP_OK);
+        }
+
+        return new JsonResponse(array('jwt' => null), JsonResponse::HTTP_OK);
+
+    }
 }

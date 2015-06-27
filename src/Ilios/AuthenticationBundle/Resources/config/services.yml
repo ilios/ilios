@@ -20,3 +20,7 @@ services:
     ilios_authentication.form.legacy_encoder:
         class: Ilios\AuthenticationBundle\Form\Encoder
         arguments: ["%ilios_authentication.legacy_salt%"]
+    ilios_authentication.shibboleth.authentication:
+        class: Ilios\AuthenticationBundle\Shibboleth\Authentication
+        scope: request
+        arguments: ["@request", "@ilioscore.authentication.manager"]

@@ -8,12 +8,13 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 
 /**
  * Class AuthenticationManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AuthenticationManager
+class AuthenticationManager implements AuthenticationManagerInterface
 {
     /**
      * @var EntityManager
