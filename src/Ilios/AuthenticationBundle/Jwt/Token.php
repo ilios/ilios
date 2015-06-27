@@ -42,7 +42,7 @@ class Token extends AbstractToken
     {
         $jwt = false;
 
-        $authorizationHeader = $request->headers->get('Authorization');
+        $authorizationHeader = $request->headers->get('X-JWT-Authorization');
         $matches = [];
         // we always take the Authorization header over the query param
         if (preg_match('/^Token (.*)$/', $authorizationHeader, $matches)) {
