@@ -4,7 +4,8 @@ namespace Ilios\AuthenticationBundle\Shibboleth;
 use Symfony\Component\HttpFoundation\Request;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 
-class Authentication {
+class Authentication
+{
     protected $request;
     protected $authManager;
     public function __construct(Request $request, AuthenticationManagerInterface $authManager)
@@ -22,7 +23,10 @@ class Authentication {
         if ($this->isAuthenticated()) {
             $eppn = $this->request->server->get('eppn');
             if (!$eppn) {
-                throw new \Exception("No 'eepn' found for authenticated user.  Dump of SERVER global: " . var_export($_SERVER, true));
+                throw new \Exception(
+                    "No 'eepn' found for authenticated user.  Dump of SERVER global: " .
+                    var_export($_SERVER, true)
+                );
             }
             $authEntity = $this->authManager->findAuthenticationBy(array('eppn' => $eppn));
             if ($authEntity) {

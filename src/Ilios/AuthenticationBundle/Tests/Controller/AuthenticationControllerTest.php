@@ -176,13 +176,20 @@ class AuthenticationControllerTest extends WebTestCase
             '/auth/whoami',
             array(),
             array(),
-            array('HTTP_Authorization' => 'Token ' . $token)
+            array('HTTP_X-JWT-Authorization' => 'Token ' . $token)
         );
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $response = json_decode($response->getContent(), true);
 
-        $this->assertTrue(array_key_exists('userId', $response), 'Response has user_id: ' . var_export($response, true));
-        $this->assertSame($response['userId'], 1, 'Response has the correct user id: ' . var_export($response, true));
+        $this->assertTrue(
+            array_key_exists('userId', $response),
+            'Response has user_id: ' . var_export($response, true)
+        );
+        $this->assertSame(
+            $response['userId'],
+            1,
+            'Response has the correct user id: ' . var_export($response, true)
+        );
     }
 }
