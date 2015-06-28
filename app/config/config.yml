@@ -29,7 +29,6 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
 # Doctrine Configuration
 doctrine:
@@ -73,6 +72,7 @@ fos_rest:
         failed_validation: HTTP_BAD_REQUEST
         default_engine: twig
     exception:
+        enabled: true
         codes:
             'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': 404
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
