@@ -14,3 +14,5 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
     debug_toolbar: true
     debug_redirects: false
+    authentication_type: form
+    legacy_password_salt: null
