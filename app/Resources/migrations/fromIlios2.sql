@@ -262,6 +262,7 @@ ALTER TABLE `mesh_user_selection` CONVERT TO CHARACTER SET utf8 COLLATE utf8_uni
 ALTER TABLE `instructor_group_x_user` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE `instructor_group_x_user` CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE `authentication` ADD `password_bcrypt` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `authentication` ADD `eppn` VARCHAR(255) DEFAULT NULL;
 ALTER TABLE `program_year_steward` ADD `program_year_steward_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
 ALTER TABLE `learning_material` ADD `type` VARCHAR(255) NOT NULL;
 ALTER TABLE `user` ADD `primary_cohort_id` INT DEFAULT NULL;
@@ -604,6 +605,7 @@ CREATE INDEX IDX_D97AE69DC32A47EE ON `alert_recipient` (school_id);
 CREATE UNIQUE INDEX UNIQ_C912ED9DA76ED395 ON `api_key` (user_id);
 CREATE UNIQUE INDEX api_key_api_key ON `api_key` (api_key);
 CREATE INDEX idx_audit_atom_created_at ON `audit_atom` (created_at);
+CREATE UNIQUE INDEX UNIQ_FEB4C9FDFC7885D4 ON `authentication` (eppn);
 CREATE UNIQUE INDEX UNIQ_FEB4C9FD217BBB47 ON `authentication` (person_id);
 CREATE UNIQUE INDEX UNIQ_FEB4C9FDF85E0677 ON `authentication` (username);
 CREATE INDEX IDX_80D53430DDDDCC69 ON `competency` (owning_school_id);
