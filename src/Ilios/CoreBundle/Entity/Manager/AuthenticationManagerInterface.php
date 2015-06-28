@@ -22,6 +22,13 @@ interface AuthenticationManagerInterface
     );
 
     /**
+     * @param string $username
+     *
+     * @return AuthenticationInterface
+     */
+    public function findAuthenticationByUsername($username);
+
+    /**
      * @param array $criteria
      * @param array $orderBy
      * @param integer $limit

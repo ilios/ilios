@@ -73,6 +73,17 @@ class AuthenticationManager implements AuthenticationManagerInterface
     }
 
     /**
+     * @param string $username
+     *
+     * @return AuthenticationInterface
+     */
+    public function findAuthenticationByUsername($username)
+    {
+        $username = strtolower($username);
+        return $this->repository->findOneByUsername($username);
+    }
+
+    /**
      * @param AuthenticationInterface $authentication
      * @param bool $andFlush
      * @param bool $forceId

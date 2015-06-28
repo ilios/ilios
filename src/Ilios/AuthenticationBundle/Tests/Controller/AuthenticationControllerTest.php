@@ -75,6 +75,46 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertSame(2, $token['user_id']);
     }
 
+    public function testAuthenticateLegacyUserCaseInsensitve()
+    {
+        $client = static::createClient();
+
+        $client->request('POST', '/auth/login', array(
+            'username' => 'LEGACYUSER',
+            'password' => 'legacyuserpass'
+        ));
+
+        $response = $client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+
+        $response = json_decode($response->getContent(), true);
+        $this->assertTrue(array_key_exists('jwt', $response));
+        $token = (array) TokenLib::decode($response['jwt']);
+        $this->assertTrue(array_key_exists('user_id', $token));
+        $this->assertSame(1, $token['user_id']);
+    }
+
+    public function testAuthenticateUserCaseInsensitive()
+    {
+        $client = static::createClient();
+
+        $client->request('POST', '/auth/login', array(
+            'username' => 'NEWUSER',
+            'password' => 'newuserpass'
+        ));
+
+        $response = $client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+
+        $response = json_decode($response->getContent(), true);
+        $this->assertTrue(array_key_exists('jwt', $response));
+        $token = (array) TokenLib::decode($response['jwt']);
+        $this->assertTrue(array_key_exists('user_id', $token));
+        $this->assertSame(2, $token['user_id']);
+    }
+
     public function testWrongLegacyPassword()
     {
         $client = static::createClient();

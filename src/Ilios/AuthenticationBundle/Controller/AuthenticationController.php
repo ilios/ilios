@@ -26,7 +26,7 @@ class AuthenticationController extends Controller
 
         if (empty($errors) && $type === 'form') {
             $authManager = $this->container->get('ilioscore.authentication.manager');
-            $authEntity = $authManager->findAuthenticationBy(array('username' => $username));
+            $authEntity = $authManager->findAuthenticationByUsername($username);
             if ($authEntity) {
                 $user = $authEntity->getUser();
                 $encoder = $this->container->get('security.password_encoder');
