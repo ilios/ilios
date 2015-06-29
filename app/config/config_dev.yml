@@ -1,5 +1,6 @@
 imports:
     - { resource: config.yml }
+    - { resource: security.yml }
 
 framework:
     router:
@@ -28,18 +29,5 @@ monolog:
         chromephp:
             type:   chromephp
             level:  info
-
-assetic:
-    use_controller: %use_assetic_controller%
-
 #swiftmailer:
 #    delivery_address: me@example.comdoctrine:
-
-security:
-    firewalls:
-        test:
-            pattern:   ^/
-            anonymous: ~
-    providers:
-        users:
-            entity: { class: IliosCoreBundle:User, property: username }

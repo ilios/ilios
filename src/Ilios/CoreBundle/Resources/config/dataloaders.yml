@@ -4,6 +4,7 @@ parameters:
     ilioscore.dataloader.alertchangetype.class: Ilios\CoreBundle\Tests\DataLoader\AlertChangeTypeData
     ilioscore.dataloader.alert.class: Ilios\CoreBundle\Tests\DataLoader\AlertData
     ilioscore.dataloader.assessmentoption.class: Ilios\CoreBundle\Tests\DataLoader\AssessmentOptionData
+    ilioscore.dataloader.authentication.class: Ilios\CoreBundle\Tests\DataLoader\AuthenticationData
     ilioscore.dataloader.cohort.class: Ilios\CoreBundle\Tests\DataLoader\CohortData
     ilioscore.dataloader.competency.class: Ilios\CoreBundle\Tests\DataLoader\CompetencyData
     ilioscore.dataloader.courselearningmaterial.class: Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData
@@ -54,6 +55,8 @@ services:
         class: %ilioscore.dataloader.alert.class%
     ilioscore.dataloader.assessmentoption:
         class: %ilioscore.dataloader.assessmentoption.class%
+    ilioscore.dataloader.authentication:
+        class: %ilioscore.dataloader.authentication.class%
     ilioscore.dataloader.cohort:
         class: %ilioscore.dataloader.cohort.class%
     ilioscore.dataloader.competency:

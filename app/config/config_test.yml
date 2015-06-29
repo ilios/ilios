@@ -5,10 +5,14 @@ security:
     firewalls:
         test:
             pattern:   ^/
+            jwt: ~
             anonymous: ~
     providers:
-        users:
-            entity: { class: IliosCoreBundle:User, property: username }
+        ilios_user_entity:
+            entity:
+                class: IliosCoreBundle:User
+                property: id
+
 
 framework:
     test: ~
@@ -41,9 +45,6 @@ monolog:
         console:
             type:   console
             bubble: false
-
-assetic:
-    use_controller: %use_assetic_controller%
 
 liip_functional_test:
     cache_sqlite_db: true

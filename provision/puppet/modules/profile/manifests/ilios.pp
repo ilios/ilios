@@ -25,6 +25,19 @@ class profile::ilios (
         override => 'all',
         port => '80',
         ip => '*',
-        require => [File[$docroot]]
+        require => [File[$docroot]],
+        directories => [
+            { 'path'     => '/',
+              'provider' => 'location',
+              'auth_type'     => 'shibboleth',
+              'require'     => 'shibboleth',
+             },
+             { 'path'     => '/var/www/ilios3',
+               'provider' => 'directory',
+               'options'     => 'FollowSymLinks MultiViews',
+               'allow_override'     => 'all',
+               'require'     => 'all granted',
+              },
+        ],
     }
 }

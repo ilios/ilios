@@ -36,3 +36,9 @@ profile::common::mysql::mysql_grants:
             - 'ALL'
         table: '*.*'
         user: 'ilios_user@%'
+
+profile::shibbolethsp::enabled: true
+profile::shibbolethsp::configPath: '/vagrant/provision/puppet/environments/dev/files/testshib-config/shibboleth2.xml'
+profile::shibbolethsp::spCertPath: '/vagrant/provision/puppet/environments/dev/files/testshib-config/sp-cert.pem'
+profile::shibbolethsp::spKeyPath: '/vagrant/provision/puppet/environments/dev/files/testshib-config/sp-key.pem'
+profile::shibbolethsp::shibbolethSpPackage: 'libapache2-mod-shib2'

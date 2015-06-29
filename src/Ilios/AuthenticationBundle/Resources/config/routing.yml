@@ -1,0 +1,15 @@
+ilios_authentication.config:
+    path:     /config
+    defaults: { _controller: IliosAuthenticationBundle:Config:index }
+ilios_authentication.login:
+    path:     /login
+    defaults: { _controller: IliosAuthenticationBundle:Authentication:login }
+ilios_authentication.whoami:
+    path:     /whoami
+    defaults: { _controller: IliosAuthenticationBundle:Authentication:whoami }
+ilios_authentication.refresh:
+    path:     /refresh
+    defaults: { _controller: IliosAuthenticationBundle:Authentication:refresh }
+ilios_authentication.token:
+    path:     /token
+    defaults: { _controller: IliosAuthenticationBundle:Authentication:token }

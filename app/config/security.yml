@@ -1,8 +1,22 @@
 security:
     firewalls:
-        anonymous:
+        api_docs:
+            pattern:   ^/api/doc
             anonymous: ~
+        auth:
+            pattern:    ^/auth
+            stateless: true
+            jwt: ~
+            anonymous: ~
+            provider: ilios_user_entity
+        default:
+            pattern:    ^/api
+            stateless: true
+            jwt: ~
+            provider: ilios_user_entity
 
     providers:
-        in_memory:
-            memory:
+        ilios_user_entity:
+            entity:
+                class: IliosCoreBundle:User
+                property: id

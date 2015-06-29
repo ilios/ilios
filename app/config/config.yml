@@ -29,16 +29,6 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
-
-# Assetic Configuration
-assetic:
-    debug:          "%kernel.debug%"
-    filters:
-        cssrewrite: ~
-        jsmin: ~
-        emberprecompile: ~
-        sass:    ~
 
 # Doctrine Configuration
 doctrine:
@@ -79,19 +69,14 @@ fos_rest:
         formats:
             xml: true
             json : true
-            html : true
-        templating_formats:
-            html: true
-        force_redirects:
-            html: true
         failed_validation: HTTP_BAD_REQUEST
         default_engine: twig
-#    format_listener:
-#        rules:
-#          - { path: '^/', priorities: ['html','json','xml','css','js'], fallback_format: html, prefer_extension: true }
     exception:
+        enabled: true
         codes:
+            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': 404
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException': 403
             'Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException': 500
 
 nelmio_cors:
@@ -134,6 +119,17 @@ jms_di_extra:
         all_bundles: false
         bundles: [@IliosCoreBundle]
 
+security:
+    encoders:
+        Ilios\CoreBundle\Entity\User:
+            algorithm: bcrypt
+        ilios_legacy_encoder:
+            id: ilios_authentication.form.legacy_encoder
+
 ilios_web:
     environment: staging
     version: 523691d
+
+ilios_authentication:
+    legacy_salt: "%legacy_password_salt%"
+    type: "%authentication_type%"
