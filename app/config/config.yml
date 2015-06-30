@@ -128,7 +128,7 @@ security:
 
 ilios_web:
     environment: staging
-    version: 523691d
+    version: 79b450c
 
 ilios_authentication:
     legacy_salt: "%legacy_password_salt%"

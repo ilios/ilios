@@ -1,5 +1,21 @@
 # Change Log
 
+## [v3.0.0-beta3](https://github.com/ilios/ilios/tree/v3.0.0-beta3)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta2...v3.0.0-beta3)
+
+**Merged pull requests:**
+
+- Authentication [\#864](https://github.com/ilios/ilios/pull/864) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.0.0-beta2](https://github.com/ilios/ilios/tree/v3.0.0-beta2) (2015-06-20)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta1...v3.0.0-beta2)
+
+**Merged pull requests:**
+
+- Release Preparation [\#861](https://github.com/ilios/ilios/pull/861) ([jrjohnson](https://github.com/jrjohnson))
+
 ## [v3.0.0-beta1](https://github.com/ilios/ilios/tree/v3.0.0-beta1) (2015-06-19)
 
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.8...v3.0.0-beta1)
