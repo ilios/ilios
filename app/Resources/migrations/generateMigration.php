@@ -80,6 +80,7 @@ class Migrate
     protected function getDropTriggers()
     {
         $queries = [];
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_session_pre_update`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_group_post_delete`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_instructor_post_delete`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_instructor_post_delete`";
