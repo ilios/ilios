@@ -3,3 +3,7 @@ services:
         class: Ilios\CoreBundle\EventListener\TimestampListener
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+    ilioscore.listener.updatesession:
+        class: Ilios\CoreBundle\EventListener\UpdateSessionTimestamp
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }

@@ -209,4 +209,61 @@ class SessionControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
     }
+    
+    public function testUpdatingIlmUpdatesSessionStamp()
+    {
+        $session = $this->container
+            ->get('ilioscore.dataloader.session')
+            ->getOne();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_sessions',
+                ['id' => $session['id']]
+            )
+        );
+
+        $response = $this->client->getResponse();
+
+        $data = json_decode($response->getContent(), true)['sessions'][0];
+        $firstUpdatedAt = new DateTime($data['updatedAt']);
+        sleep(1); //wait for one second
+        
+        $ilm = $this->container
+            ->get('ilioscore.dataloader.ilmsession')
+            ->getOne();
+        
+        $postData = $ilm;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['hours'] = $ilm['hours'] + 1;
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_ilmsessions',
+                ['id' => $ilm['id']]
+            ),
+            json_encode(['ilmSession' => $postData])
+        );
+        
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_sessions',
+                ['id' => $session['id']]
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $data = json_decode($response->getContent(), true)['sessions'][0];
+        $newUpdatedAt = new DateTime($data['updatedAt']);
+
+        $diff = $firstUpdatedAt->diff($newUpdatedAt);
+        $this->assertTrue(
+            $diff->s > 1,
+            'The updatedAt timestamp has increased.  Original: ' . $firstUpdatedAt->format('c') .
+            ' Now: ' . $newUpdatedAt->format('c')
+        );
+    }
 }
