@@ -205,7 +205,7 @@ class IlmSessionController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['ilmSessions'] =
+            $answer['ilmSession'] =
                 $this->getIlmSessionFacetHandler()->put(
                     $ilmSessionFacet,
                     $this->getPostData($request)
@@ -329,7 +329,7 @@ class IlmSessionController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('ilmSessionFacet');
+        $data = $request->request->get('ilmSession');
 
         if (empty($data)) {
             $data = $request->request->all();

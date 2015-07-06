@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Controller;
 
 use FOS\RestBundle\Util\Codes;
 use DateTime;
+
 /**
  * Session controller Test.
  * @package Ilios\CoreBundle\Test\Controller;

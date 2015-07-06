@@ -63,6 +63,7 @@ class IlmSessionFacet implements IlmSessionFacetInterface
      * @ORM\Column(name="due_date", type="date")
      *
      * @Assert\NotBlank()
+     * @Assert\DateTime()
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
@@ -185,7 +186,7 @@ class IlmSessionFacet implements IlmSessionFacetInterface
     /**
      * @param \DateTime $dueDate
      */
-    public function setDueDate(\DateTime $dueDate)
+    public function setDueDate(\DateTime $dueDate = null)
     {
         $this->dueDate = $dueDate;
     }

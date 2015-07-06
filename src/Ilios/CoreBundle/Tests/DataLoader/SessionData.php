@@ -18,6 +18,7 @@ class SessionData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'sessionType' => '1',
             'course' => '1',
+            'ilmSessionFacet' => '1',
             'disciplines' => ['1', '2'],
             'objectives' => ['1', '2'],
             'meshDescriptors' => [],

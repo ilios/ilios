@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
-use Ilios\CoreBundle\Entity\IlmSession;
+use Ilios\CoreBundle\Entity\IlmSessionFacet;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -27,8 +27,10 @@ class LoadIlmSessionData extends AbstractFixture implements
             ->get('ilioscore.dataloader.ilmSession')
             ->getAll();
         foreach ($data as $arr) {
-            $entity = new IlmSession();
+            $entity = new IlmSessionFacet();
             $entity->setId($arr['id']);
+            $entity->setHours($arr['hours']);
+            $entity->setDueDate(new \DateTime($arr['dueDate']));
             $manager->persist($entity);
             $this->addReference('ilmSessions' . $arr['id'], $entity);
         }
