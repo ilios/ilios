@@ -961,6 +961,12 @@ class Migrate
         );
 
         $changes[] = array(
+            'table' => 'authentication',
+            'column' => 'eppn',
+            'definition' => 'VARCHAR(255) DEFAULT NULL'
+        );
+
+        $changes[] = array(
             'table' => 'program_year_steward',
             'column' => 'program_year_steward_id',
             'definition' => 'INT AUTO_INCREMENT NOT NULL PRIMARY KEY'
@@ -3430,6 +3436,12 @@ class Migrate
             'index' => 'idx_audit_atom_created_at',
             'column' => 'created_at',
             'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'authentication',
+            'index' => 'UNIQ_FEB4C9FDFC7885D4',
+            'column' => 'eppn',
+            'unique' => true
         );
         $changes[] = array(
             'table' => 'authentication',
