@@ -9,14 +9,15 @@ class profile::shibbolethsp (
         include profile::common::apache
 
         package {$shibbolethSpPackage:
-            ensure     => latest,
-            require    => Class['apache']
+            ensure     => latest
         }
-        class{'apache::mod::shib': }
+        class{'apache::mod::shib': 
+            require  => [Package[$shibbolethSpPackage]],
+        }
 
         service {'shibd':
             enable   => true,
-            require  => [Class['apache::mod::shib'], Package[$shibbolethSpPackage]],
+            require  => [Package[$shibbolethSpPackage]],
         }
 
 
