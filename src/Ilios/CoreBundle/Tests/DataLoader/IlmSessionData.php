@@ -13,10 +13,10 @@ class IlmSessionData extends AbstractDataLoader
             'id' => 1,
             'hours' => $this->faker->randomDigitNotNull,
             'dueDate' => $dt->format('c'),
-            'learnerGroups' => [],
-            'instructorGroups' => [],
-            'instructors' => [],
-            'learners' => [],
+            'learnerGroups' => ['1'],
+            'instructorGroups' => ['1'],
+            'instructors' => ['1'],
+            'learners' => ['1'],
             'session' => 1
         );
 
@@ -31,10 +31,10 @@ class IlmSessionData extends AbstractDataLoader
             'id' => 2,
             'hours' => $this->faker->randomDigitNotNull,
             'dueDate' => $dt->format('c'),
-            'learnerGroups' => [],
-            'instructorGroups' => [],
-            'instructors' => [],
-            'learners' => [],
+            'learnerGroups' => ['1', '2'],
+            'instructorGroups' => ['1', '2'],
+            'instructors' => ['1', '2'],
+            'learners' => ['1', '2']
         );
     }
 

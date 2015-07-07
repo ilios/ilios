@@ -60,7 +60,7 @@ class SessionControllerTest extends AbstractControllerTest
         );
         $now = new DateTime();
         $diff = $now->diff($updatedAt);
-        $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
+        $this->assertTrue($diff->y < 1, 'The updatedAt timestamp is within the last year');
     }
 
     public function testGetAllSessions()
@@ -76,7 +76,7 @@ class SessionControllerTest extends AbstractControllerTest
             $updatedAt = new DateTime($response['updatedAt']);
             unset($response['updatedAt']);
             $diff = $now->diff($updatedAt);
-            $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
+            $this->assertTrue($diff->y < 1, 'The updatedAt timestamp is within the last year');
             $data[] = $response;
         }
         $this->assertEquals(
@@ -211,7 +211,13 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
     }
     
-    public function testUpdatingIlmUpdatesSessionStamp()
+    /**
+     * Grab the first session from the fixtures and get the updatedAt time
+     * from the server.
+     *
+     * @return DateTime
+     */
+    protected function getSessionUpdatedAt()
     {
         $session = $this->container
             ->get('ilioscore.dataloader.session')
@@ -228,8 +234,28 @@ class SessionControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $data = json_decode($response->getContent(), true)['sessions'][0];
-        $firstUpdatedAt = new DateTime($data['updatedAt']);
-        sleep(1); //wait for one second
+        return  new DateTime($data['updatedAt']);
+    }
+    
+    /**
+     * Test to see that the updatedAt timestamp has increased by at least one second
+     * @param  DateTime $original
+     */
+    protected function checkUpdatedAtIncreased(DateTime $original)
+    {
+        $now = $this->getSessionUpdatedAt();
+        $diff = $original->diff($now);
+        $this->assertTrue(
+            $diff->s > 1,
+            'The updatedAt timestamp has increased.  Original: ' . $original->format('c') .
+            ' Now: ' . $now->format('c')
+        );
+    }
+    
+    public function testUpdatingIlmUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
         
         $ilm = $this->container
             ->get('ilioscore.dataloader.ilmsession')
@@ -247,24 +273,107 @@ class SessionControllerTest extends AbstractControllerTest
             ),
             json_encode(['ilmSession' => $postData])
         );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testUpdatingIlmInstructorUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
         
+        $ilm = $this->container
+            ->get('ilioscore.dataloader.ilmsession')
+            ->getOne();
+        
+        $postData = $ilm;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['instructors'] = ["1", "2"];
         $this->createJsonRequest(
-            'GET',
+            'PUT',
             $this->getUrl(
-                'get_sessions',
-                ['id' => $session['id']]
-            )
+                'put_ilmsessions',
+                ['id' => $ilm['id']]
+            ),
+            json_encode(['ilmSession' => $postData])
         );
-
-        $response = $this->client->getResponse();
-        $data = json_decode($response->getContent(), true)['sessions'][0];
-        $newUpdatedAt = new DateTime($data['updatedAt']);
-
-        $diff = $firstUpdatedAt->diff($newUpdatedAt);
-        $this->assertTrue(
-            $diff->s > 1,
-            'The updatedAt timestamp has increased.  Original: ' . $firstUpdatedAt->format('c') .
-            ' Now: ' . $newUpdatedAt->format('c')
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testUpdatingIlmInstructorGroupsUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $ilm = $this->container
+            ->get('ilioscore.dataloader.ilmsession')
+            ->getOne();
+        
+        $postData = $ilm;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['instructorGroups'] = ["1", "2"];
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_ilmsessions',
+                ['id' => $ilm['id']]
+            ),
+            json_encode(['ilmSession' => $postData])
         );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testUpdatingIlmLearnerGroupsUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $ilm = $this->container
+            ->get('ilioscore.dataloader.ilmsession')
+            ->getOne();
+        
+        $postData = $ilm;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['learnerGroups'] = ["1", "2"];
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_ilmsessions',
+                ['id' => $ilm['id']]
+            ),
+            json_encode(['ilmSession' => $postData])
+        );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testUpdatingIlmLearnersUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $ilm = $this->container
+            ->get('ilioscore.dataloader.ilmsession')
+            ->getOne();
+        
+        $postData = $ilm;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['learners'] = ["1", "2"];
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_ilmsessions',
+                ['id' => $ilm['id']]
+            ),
+            json_encode(['ilmSession' => $postData])
+        );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
     }
 }

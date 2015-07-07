@@ -80,6 +80,15 @@ class Migrate
     protected function getDropTriggers()
     {
         $queries = [];
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_ilm_session_facet_post_update`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_post_insert`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_group_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_group_post_insert`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_learner_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_learner_post_insert`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_group_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_group_post_insert`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_session_pre_update`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_group_post_delete`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_instructor_post_delete`";

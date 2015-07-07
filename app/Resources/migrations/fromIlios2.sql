@@ -30,6 +30,15 @@ BEGIN
 END
 //
 delimiter ;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_post_update`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_post_delete`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_post_insert`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_group_post_delete`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_group_post_insert`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_learner_post_delete`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_learner_post_insert`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_group_post_delete`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_group_post_insert`;
 DROP TRIGGER IF EXISTS `trig_session_pre_update`;
 DROP TRIGGER IF EXISTS `trig_offering_x_group_post_delete`;
 DROP TRIGGER IF EXISTS `trig_offering_x_instructor_post_delete`;
