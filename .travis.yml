@@ -20,11 +20,14 @@ before_script:
 #initialize symfony sqlite test db
   - bin/console doctrine:database:create --env=test
   - bin/console doctrine:schema:create --env=test
+#create a temporary migration file
+  - php app/Resources/migrations/generateMigration.php > testmigrationfile.sql
 
 script:
   - bin/phpcs --standard=app/phpcs.xml src
   - bin/phpunit --coverage-clover build/logs/clover.xml
   - bin/console doctrine:schema:validate --env=dev
+  - /usr/bin/cmp -s "app/Resources/migrations/fromIlios2.sql" "testmigrationfile.sql"
 
 after_script:
   - php bin/coveralls #send test coverage informatio to coveralls

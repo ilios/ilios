@@ -179,7 +179,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
                 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceData',
             'ilioscore.dataloader.department.class' => 'Ilios\CoreBundle\Tests\DataLoader\DepartmentData',
             'ilioscore.dataloader.discipline.class' => 'Ilios\CoreBundle\Tests\DataLoader\DisciplineData',
-            'ilioscore.dataloader.ilmsessionfacet.class' => 'NOT_FOUND',
+            'ilioscore.dataloader.ilmsession.class' => 'Ilios\CoreBundle\Tests\DataLoader\IlmSessionData',
             'ilioscore.dataloader.ingestionexception.class' =>
                 'Ilios\CoreBundle\Tests\DataLoader\IngestionExceptionData',
             'ilioscore.dataloader.instructorgroup.class' => 'Ilios\CoreBundle\Tests\DataLoader\InstructorGroupData',
@@ -342,7 +342,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.curriculuminventorysequence',
             'ilioscore.dataloader.department',
             'ilioscore.dataloader.discipline',
-            'ilioscore.dataloader.ilmsessionfacet',
+            'ilioscore.dataloader.ilmsession',
             'ilioscore.dataloader.ingestionexception',
             'ilioscore.dataloader.instructorgroup',
             'ilioscore.dataloader.learnergroup',

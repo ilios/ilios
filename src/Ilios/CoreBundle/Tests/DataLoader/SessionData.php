@@ -16,16 +16,16 @@ class SessionData extends AbstractDataLoader
             'supplemental' => false,
             'deleted' => false,
             'publishedAsTbd' => false,
-            'updatedAt' => $this->faker->iso8601,
-            'sessionType' => "122",
-            'course' => "595",
-            'disciplines' => ['16'],
-            'objectives' => [],
+            'sessionType' => '1',
+            'course' => '1',
+            'ilmSessionFacet' => '1',
+            'disciplines' => ['1', '2'],
+            'objectives' => ['1', '2'],
             'meshDescriptors' => [],
-            'publishEvent' => "58417",
-            'learningMaterials' => [],
+            'publishEvent' => '1',
+            'sessionLearningMaterials' => ["1"],
             'instructionHours' => [],
-            'offerings' => []
+            'offerings' => ['1']
         );
 
 
@@ -34,7 +34,24 @@ class SessionData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 2,
+            'title' => $this->faker->text(10),
+            'attireRequired' => false,
+            'equipmentRequired' => false,
+            'supplemental' => false,
+            'deleted' => false,
+            'publishedAsTbd' => false,
+            'sessionType' => '1',
+            'course' => '1',
+            'disciplines' => ['1', '2'],
+            'objectives' => ['1', '2'],
+            'meshDescriptors' => [],
+            'publishEvent' => '1',
+            'sessionLearningMaterials' => ["1"],
+            'instructionHours' => [],
+            'offerings' => ['1']
+        );
     }
 
     public function createInvalid()

@@ -14,9 +14,9 @@ class ObjectiveData extends AbstractDataLoader
             'competency' => "1",
             'courses' => [],
             'programYears' => [],
-            'sessions' => [],
+            'sessions' => ['1'],
             'parents' => [],
-            'children' => [2],
+            'children' => ['2'],
             'meshDescriptors' => []
         );
 
@@ -24,10 +24,10 @@ class ObjectiveData extends AbstractDataLoader
             'id' => 2,
             'title' => $this->faker->text,
             'competency' => "1",
-            'courses' => [1],
+            'courses' => ['1'],
             'programYears' => [],
-            'sessions' => [],
-            'parents' => [1],
+            'sessions' => ['1'],
+            'parents' => ['1'],
             'children' => [],
             'meshDescriptors' => []
         );

@@ -8,11 +8,12 @@ class PublishEventData extends AbstractDataLoader
     {
         $arr = array();
 
-        // $arr[] = array(
-        //     'id' => 1,
-        //     'sessions' => [],
-        //     'courses' => []
-        // );
+        $arr[] = array(
+            'id' => 1,
+            'machineIp' => $this->faker->ipv4,
+            'sessions' => [1],
+            'courses' => []
+        );
 
 
         return $arr;

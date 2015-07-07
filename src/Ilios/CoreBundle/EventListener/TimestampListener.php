@@ -24,7 +24,7 @@ class TimestampListener implements EventSubscriber
             $uow->getScheduledEntityInsertions(),
             $uow->getScheduledEntityUpdates()
         );
-
+        
         foreach ($entities as $entity) {
             if ($entity instanceof TimestampableEntityInterface) {
                 $entity->stampUpdate();

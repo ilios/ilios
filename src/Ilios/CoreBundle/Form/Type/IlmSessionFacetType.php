@@ -16,7 +16,9 @@ class IlmSessionFacetType extends AbstractType
     {
         $builder
             ->add('hours')
-            ->add('dueDate')
+            ->add('dueDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
             ->add('learnerGroups', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"

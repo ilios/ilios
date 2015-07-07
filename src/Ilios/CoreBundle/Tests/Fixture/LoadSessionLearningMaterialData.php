@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Fixture;
 
 use Ilios\CoreBundle\Entity\SessionLearningMaterial;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadSessionLearningMaterialData extends AbstractFixture implements
     FixtureInterface,
+    DependentFixtureInterface,
     ContainerAwareInterface
 {
 
@@ -29,10 +31,20 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new SessionLearningMaterial();
             $entity->setId($arr['id']);
+            $entity->setRequired($arr['required']);
+            $entity->setSession($this->getReference('sessions' . $arr['session']));
+            
             $manager->persist($entity);
             $this->addReference('sessionLearningMaterials' . $arr['id'], $entity);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
+        );
     }
 }

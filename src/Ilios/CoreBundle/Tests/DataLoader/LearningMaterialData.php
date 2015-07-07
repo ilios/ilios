@@ -8,7 +8,7 @@ class LearningMaterialData extends AbstractDataLoader
     {
         $arr = array();
 
-        $arr[0] = array(
+        $arr[] = array(
             'id' => 1,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
@@ -18,12 +18,13 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "1",
             'status' => "1",
             'owningUser' => "1",
+            'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => [1],
             'citation' => $this->faker->text,
             'type' => "citation"
         );
 
-        $arr[1] = array(
+        $arr[] = array(
             'id' => 2,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,

@@ -14,7 +14,7 @@ class SessionTypeData extends AbstractDataLoader
             'assessmentOption' => "1",
             'owningSchool' => "1",
             'aamcMethods' => ['AM001', 'AM002'],
-            'sessions' => []
+            'sessions' => [1]
         );
 
         $arr[] = array(

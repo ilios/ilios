@@ -26,7 +26,7 @@ interface IlmSessionFacetInterface extends IdentifiableEntityInterface
     /**
      * @param \DateTime $dueDate
      */
-    public function setDueDate(\DateTime $dueDate);
+    public function setDueDate(\DateTime $dueDate = null);
 
     /**
      * @return \DateTime
