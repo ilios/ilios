@@ -30,6 +30,7 @@ BEGIN
 END
 //
 delimiter ;
+DROP TRIGGER IF EXISTS `trig_session_pre_update`;
 DROP TRIGGER IF EXISTS `trig_offering_x_group_post_delete`;
 DROP TRIGGER IF EXISTS `trig_offering_x_instructor_post_delete`;
 DROP TRIGGER IF EXISTS `trig_offering_instructor_post_delete`;
