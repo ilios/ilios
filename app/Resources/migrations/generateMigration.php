@@ -4074,6 +4074,13 @@ class Migrate
             'unique' => false
         );
 
+        $changes[] = array(
+            'table' => 'session',
+            'index' => 'UNIQ_D044D5D4504270C1',
+            'column' => 'ilm_session_facet_id',
+            'unique' => true
+        );
+
         $queries = array();
         foreach ($changes as $arr) {
             $unique = $arr['unique']?'UNIQUE ':'';
