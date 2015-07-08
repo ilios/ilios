@@ -44,7 +44,10 @@ class UpdateSessionTimestamp
         foreach ($entities as $entity) {
             switch (get_class($entity)) {
                 case 'Ilios\CoreBundle\Entity\IlmSessionFacet':
-                    $sessions[] = $entity->getSession();
+                    $session = $entity->getSession();
+                    if (! empty($session)) {
+                        $sessions[] = $session;
+                    }
                     break;
             }
         }
