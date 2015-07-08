@@ -179,7 +179,7 @@ class Session implements SessionInterface
     /**
      * @var IlmSessionFacetInterface
      *
-     * @ORM\ManyToOne(targetEntity="IlmSessionFacet", inversedBy="sessions")
+     * @ORM\OneToOne(targetEntity="IlmSessionFacet", inversedBy="sessions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id")
      * })
