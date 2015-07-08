@@ -430,6 +430,9 @@ class Course implements CourseInterface
     public function setDeleted($deleted)
     {
         $this->deleted = (boolean) $deleted;
+        foreach ($this->getSessions() as $session) {
+            $session->setDeleted($deleted);
+        }
     }
 
     /**

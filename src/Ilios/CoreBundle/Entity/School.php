@@ -279,6 +279,9 @@ class School implements SchoolInterface
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
+        foreach ($this->getDepartments() as $department) {
+            $department->setDeleted($deleted);
+        }
     }
 
     /**

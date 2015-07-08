@@ -377,6 +377,12 @@ class Session implements SessionInterface
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
+        //only cascade offering delete
+        if ($deleted) {
+            foreach ($this->getOfferings() as $offering) {
+                $offering->setDeleted(true);
+            }
+        }
     }
 
     /**

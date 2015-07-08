@@ -214,6 +214,9 @@ class Program implements ProgramInterface
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
+        foreach ($this->getProgramYears() as $programyear) {
+            $programYear->setDeleted($deleted);
+        }
     }
 
     /**
