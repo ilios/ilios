@@ -151,7 +151,7 @@ class IlmSessionFacet implements IlmSessionFacetInterface
      * @ORM\OneToOne(targetEntity="Session", mappedBy="ilmSessionFacet")
      *
      * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @JMS\Type("string")
      */
     protected $session;
 
