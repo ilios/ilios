@@ -22,6 +22,7 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
         array $criteria,
         array $orderBy = null
     ) {
+        $criteria['deleted'] = false;
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -39,6 +40,7 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
         $limit = null,
         $offset = null
     ) {
+        $criteria['deleted'] = false;
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -70,8 +72,8 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     public function deleteCourse(
         CourseInterface $course
     ) {
-        $this->em->remove($course);
-        $this->em->flush();
+        $course->setDeleted(true);
+        $this->updateCourse($course);
     }
 
     /**
