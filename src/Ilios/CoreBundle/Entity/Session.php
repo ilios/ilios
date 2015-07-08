@@ -181,7 +181,7 @@ class Session implements SessionInterface
      *
      * @ORM\OneToOne(targetEntity="IlmSessionFacet", inversedBy="sessions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id")
+     *   @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", nullable=true)
      * })
      *
      * @JMS\Expose
