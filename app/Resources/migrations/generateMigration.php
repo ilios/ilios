@@ -3973,6 +3973,12 @@ class Migrate
         );
         $changes[] = array(
             'table' => 'session',
+            'index' => 'UNIQ_D044D5D4504270C1',
+            'column' => 'ilm_session_facet_id',
+            'unique' => true
+        );
+        $changes[] = array(
+            'table' => 'session',
             'index' => 'IDX_D044D5D456C92BE0',
             'column' => 'publish_event_id',
             'unique' => false
@@ -4072,13 +4078,6 @@ class Migrate
             'index' => 'IDX_583C4078E0E3CA6',
             'column' => 'user_role_id',
             'unique' => false
-        );
-
-        $changes[] = array(
-            'table' => 'session',
-            'index' => 'UNIQ_D044D5D4504270C1',
-            'column' => 'ilm_session_facet_id',
-            'unique' => true
         );
 
         $queries = array();
