@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
+use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 
 /**
  * Interface OfferingInterface
@@ -14,7 +15,8 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
  */
 interface OfferingInterface extends
     IdentifiableEntityInterface,
-    StringableEntityInterface
+    StringableEntityInterface,
+    TimestampableEntityInterface
 {
     /**
      * @param string $room
@@ -55,16 +57,6 @@ interface OfferingInterface extends
      * @return boolean
      */
     public function isDeleted();
-
-    /**
-     * @param \DateTime $lastUpdatedOn
-     */
-    public function setLastUpdatedOn(\DateTime $lastUpdatedOn);
-
-    /**
-     * @return \DateTime
-     */
-    public function getLastUpdatedOn();
 
     /**
      * @param SessionInterface $session

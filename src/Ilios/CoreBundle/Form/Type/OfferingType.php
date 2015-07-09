@@ -16,10 +16,13 @@ class OfferingType extends AbstractType
     {
         $builder
             ->add('room')
-            ->add('startDate')
-            ->add('endDate')
+            ->add('startDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
+            ->add('endDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
             ->add('deleted', null, ['required' => false])
-            ->add('lastUpdatedOn')
             ->add('session', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
@@ -28,15 +31,15 @@ class OfferingType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('publishEvent', 'tdn_single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:PublishEvent"
-            ])
             ->add('instructorGroups', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:InstructorGroup"
             ])
-            ->add('users', 'tdn_many_related', [
+            ->add('learners', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
+            ->add('instructors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])

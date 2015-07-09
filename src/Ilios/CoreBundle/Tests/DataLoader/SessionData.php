@@ -25,7 +25,7 @@ class SessionData extends AbstractDataLoader
             'publishEvent' => '1',
             'sessionLearningMaterials' => ['1'],
             'instructionHours' => [],
-            'offerings' => ['1']
+            'offerings' => ['1', '2']
         );
 
 

@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class Offering
@@ -29,6 +30,7 @@ class Offering implements OfferingInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+    use TimestampableEntity;
 
     /**
      * @deprecated Replace with trait
@@ -110,9 +112,9 @@ class Offering implements OfferingInterface
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("lastUpdatedOn")
+     * @JMS\SerializedName("updatedAt")
      */
-    protected $lastUpdatedOn;
+    protected $updatedAt;
 
     /**
      * @var Session
@@ -240,7 +242,7 @@ class Offering implements OfferingInterface
     public function __construct()
     {
         $this->deleted = false;
-        $this->lastUpdatedOn = new \DateTime();
+        $this->updatedAt = new \DateTime();
         $this->learnerGroups = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->learners = new ArrayCollection();
@@ -267,7 +269,7 @@ class Offering implements OfferingInterface
     /**
      * @param \DateTime $startDate
      */
-    public function setStartDate(\DateTime $startDate)
+    public function setStartDate(\DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
@@ -283,7 +285,7 @@ class Offering implements OfferingInterface
     /**
      * @param \DateTime $endDate
      */
-    public function setEndDate(\DateTime $endDate)
+    public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
@@ -310,22 +312,6 @@ class Offering implements OfferingInterface
     public function isDeleted()
     {
         return $this->deleted;
-    }
-
-    /**
-     * @param \DateTime $lastUpdatedOn
-     */
-    public function setLastUpdatedOn(\DateTime $lastUpdatedOn)
-    {
-        $this->lastUpdatedOn = $lastUpdatedOn;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getLastUpdatedOn()
-    {
-        return $this->lastUpdatedOn;
     }
 
     /**

@@ -14,10 +14,22 @@ class OfferingData extends AbstractDataLoader
             'startDate' => "2014-09-15T15:00:00+00:00",
             'endDate' => "2014-09-15T17:00:00+00:00",
             'deleted' => false,
-            'lastUpdatedOn' => "2015-01-12T04:11:12+00:00",
-            'session' => "1",
+            'session' => '1',
             'learnerGroups' => [],
-            'publishEvent' => "",
+            'instructorGroups' => [],
+            'learners' => [],
+            'instructors' => [],
+            'recurringEvents' => []
+        );
+
+        $arr[] = array(
+            'id' => 2,
+            'room' => $this->faker->text(10),
+            'startDate' => "2014-09-15T15:00:00+00:00",
+            'endDate' => "2014-09-15T17:00:00+00:00",
+            'deleted' => false,
+            'session' => '1',
+            'learnerGroups' => [],
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => [],
@@ -30,7 +42,19 @@ class OfferingData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 3,
+            'room' => $this->faker->text(10),
+            'startDate' => "2014-09-15T15:00:00+00:00",
+            'endDate' => "2014-09-15T17:00:00+00:00",
+            'deleted' => false,
+            'session' => '1',
+            'learnerGroups' => [],
+            'instructorGroups' => [],
+            'learners' => [],
+            'instructors' => [],
+            'recurringEvents' => []
+        );
     }
 
     public function createInvalid()
