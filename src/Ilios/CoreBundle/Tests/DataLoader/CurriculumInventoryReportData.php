@@ -31,7 +31,13 @@ class CurriculumInventoryReportData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        $dt = $this->faker->dateTime;
+        $dt->setTime(0, 0, 0);
+        return array(
+            'year' => $this->faker->date('Y'),
+            'startDate' => $dt->format('c'),
+            'endDate' => $dt->format('c')
+        );
     }
 
     public function createInvalid()
