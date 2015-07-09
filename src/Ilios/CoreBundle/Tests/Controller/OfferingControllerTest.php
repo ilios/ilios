@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Tests\Controller;
 
 use FOS\RestBundle\Util\Codes;
-
+use DateTime;
 /**
  * Offering controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
@@ -16,14 +16,7 @@ class OfferingControllerTest extends AbstractControllerTest
     protected function getFixtures()
     {
         return [
-            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            // 'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData'
         ];
     }
 
@@ -54,10 +47,16 @@ class OfferingControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['offerings'][0];
+        $updatedAt = new DateTime($data['updatedAt']);
+        unset($data['updatedAt']);
         $this->assertEquals(
             $this->mockSerialize($offering),
-            json_decode($response->getContent(), true)['offerings'][0]
+            $data
         );
+        $now = new DateTime();
+        $diff = $now->diff($updatedAt);
+        $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
     }
 
     public function testGetAllOfferings()
@@ -66,13 +65,23 @@ class OfferingControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = [];
+        $responses = json_decode($response->getContent(), true)['offerings'];
+        $now = new DateTime();
+        foreach ($responses as $response) {
+            $updatedAt = new DateTime($response['updatedAt']);
+            unset($response['updatedAt']);
+            $diff = $now->diff($updatedAt);
+            $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
+            $data[] = $response;
+        }
         $this->assertEquals(
             $this->mockSerialize(
                 $this->container
                     ->get('ilioscore.dataloader.offering')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['offerings']
+            $data
         );
     }
 
@@ -94,11 +103,17 @@ class OfferingControllerTest extends AbstractControllerTest
         $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $responseData = json_decode($response->getContent(), true)['offerings'][0];
+        $updatedAt = new DateTime($responseData['updatedAt']);
+        unset($responseData['updatedAt']);
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['offerings'][0],
+            $responseData,
             $response->getContent()
         );
+        $now = new DateTime();
+        $diff = $now->diff($updatedAt);
+        $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
     }
 
     public function testPostBadOffering()
@@ -139,10 +154,17 @@ class OfferingControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $responseData = json_decode($response->getContent(), true)['offering'];
+        $updatedAt = new DateTime($responseData['updatedAt']);
+        unset($responseData['updatedAt']);
         $this->assertEquals(
-            $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['offering']
+            $data,
+            $responseData,
+            $response->getContent()
         );
+        $now = new DateTime();
+        $diff = $now->diff($updatedAt);
+        $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
     }
 
     public function testDeleteOffering()

@@ -22,7 +22,7 @@ class CourseType extends AbstractType
                 'widget' => 'single_text',
             ))
             ->add('endDate', 'datetime', array(
-            'widget' => 'single_text',
+                'widget' => 'single_text',
             ))
             ->add('deleted', null, ['required' => false])
             ->add('externalId', null, ['required' => false])

@@ -36,7 +36,6 @@ class ProgramYearData extends AbstractDataLoader
             'competencies' => [],
             'disciplines' => [],
             'objectives' => [],
-            'publishEvent' => null
         );
 
 
@@ -49,12 +48,14 @@ class ProgramYearData extends AbstractDataLoader
             'id' => 3,
             'startYear' => "2015",
             'program' => "1",
-            'cohort' => null,
             'directors' => [],
             'competencies' => [],
             'disciplines' => [],
             'objectives' => [],
-            'publishEvent' => null
+            'deleted' => true,
+            'locked' => true,
+            'archived' => true,
+            'publishedAsTbd' => false
         ];
     }
 
