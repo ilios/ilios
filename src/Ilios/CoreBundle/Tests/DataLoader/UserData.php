@@ -30,8 +30,8 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => ["1", "2"],
-            'roles' => [],
-            'cohorts' => [1]
+            'roles' => ['1'],
+            'cohorts' => ['1']
         );
 
         $arr[] = array(
@@ -55,7 +55,7 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => [],
+            'roles' => ['1'],
             'cohorts' => []
         );
 

@@ -41,7 +41,7 @@ parameters:
     ilioscore.dataloader.sessiontype.class: Ilios\CoreBundle\Tests\DataLoader\SessionTypeData
     ilioscore.dataloader.session.class: Ilios\CoreBundle\Tests\DataLoader\SessionData
     ilioscore.dataloader.usermadereminder.class: Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData
-    ilioscore.dataloader.userrole.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData
+    ilioscore.dataloader.userrole.class: Ilios\CoreBundle\Tests\DataLoader\UserRoleData
     ilioscore.dataloader.user.class: Ilios\CoreBundle\Tests\DataLoader\UserData
     ilioscore.dataloader.reportpovalue.class: Ilios\CoreBundle\Tests\DataLoader\ReportPoValueData
 

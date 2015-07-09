@@ -35,6 +35,9 @@ class LoadUserData extends AbstractFixture implements
             $entity->setLastName($arr['lastName']);
             $entity->setMiddleName($arr['middleName']);
             $entity->setEmail($arr['email']);
+            foreach ($arr['roles'] as $id) {
+                $entity->addRole($this->getReference('userRoles' . $id));
+            }
             foreach ($arr['cohorts'] as $id) {
                 $entity->addCohort($this->getReference('cohorts' . $id));
             }
@@ -54,6 +57,7 @@ class LoadUserData extends AbstractFixture implements
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadUserRoleData',
         );
     }
 }
