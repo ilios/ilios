@@ -12,19 +12,19 @@ class CurriculumInventoryExportData extends AbstractDataLoader
         $dt->setTime(0, 0, 0);
 
         $arr[] = array(
-            'report_id' => 1,
+            'report' => 1,
             'document' => $this->faker->text('200'),
-            'created_by' => 1,
-            'created_at' => $dt,
+            'createdBy' => 1,
+            'createdAt' => $dt,
         );
 
         $dt = $this->faker->dateTime;
         $dt->setTime(0, 0, 0);
         $arr[] = array(
-            'report_id' => 2,
+            'report' => 2,
             'document' => $this->faker->text('200'),
-            'created_by' => 1,
-            'created_at' => $dt,
+            'createdBy' => 1,
+            'createdAt' => $dt,
         );
         return $arr;
     }
@@ -34,10 +34,10 @@ class CurriculumInventoryExportData extends AbstractDataLoader
         $dt = $this->faker->dateTime;
         $dt->setTime(0, 0, 0);
         return array(
-            'report_id' => 3,
+            'report' => 3,
             'document' => $this->faker->text('200'),
-            'created_by' => 1,
-            'created_at' => $dt,
+            'createdBy' => 1,
+            'createdAt' => $dt,
         );
     }
 
