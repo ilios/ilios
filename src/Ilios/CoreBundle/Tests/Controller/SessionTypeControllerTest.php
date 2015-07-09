@@ -29,10 +29,7 @@ class SessionTypeControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-            'sessionTypeCssClass',
-            'assessment'
-        ];
+        return [];
     }
 
     public function testGetSessionType()

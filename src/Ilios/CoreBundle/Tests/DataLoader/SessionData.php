@@ -23,7 +23,7 @@ class SessionData extends AbstractDataLoader
             'objectives' => ['1', '2'],
             'meshDescriptors' => [],
             'publishEvent' => '1',
-            'sessionLearningMaterials' => ["1"],
+            'sessionLearningMaterials' => ['1'],
             'instructionHours' => [],
             'offerings' => ['1']
         );

@@ -10,18 +10,18 @@ class SessionTypeData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'title' => $this->faker->text,
-            'assessmentOption' => "1",
-            'owningSchool' => "1",
+            'title' => $this->faker->text(50),
+            'assessmentOption' => '1',
+            'owningSchool' => '1',
             'aamcMethods' => ['AM001', 'AM002'],
             'sessions' => [1]
         );
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text,
-            'assessmentOption' => "2",
-            'owningSchool' => "1",
+            'title' => $this->faker->text(50),
+            'assessmentOption' => '2',
+            'owningSchool' => '1',
             'aamcMethods' => ['AM001'],
             'sessions' => []
         );
@@ -32,7 +32,13 @@ class SessionTypeData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 3,
+            'title' => $this->faker->text(50),
+            'owningSchool' => '1',
+            'aamcMethods' => [],
+            'sessions' => []
+        );
     }
 
     public function createInvalid()
