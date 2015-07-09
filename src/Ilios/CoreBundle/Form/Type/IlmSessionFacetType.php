@@ -35,7 +35,7 @@ class IlmSessionFacetType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('sessions', 'tdn_many_related', [
+            ->add('session', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
