@@ -30,9 +30,12 @@ class LoadCurriculumInventoryExportData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryExport();
-            $entity->setReport($arr['report']);
+            $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report_id']));
+            $entity->setCreatedAt($arr['created_at']);
+            $entity->setCreatedBy($this->getReference('users' .$arr['created_by']));
+            $entity->setDocument($arr['document']);
             $manager->persist($entity);
-            $this->addReference('curriculumInventoryExports' . $arr['id'], $entity);
+            $this->addReference('curriculumInventoryExports' . $arr['report_id'], $entity);
         }
 
         $manager->flush();
@@ -41,6 +44,7 @@ class LoadCurriculumInventoryExportData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
         );
