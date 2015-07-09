@@ -29,6 +29,7 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryAcademicLevel();
             $entity->setId($arr['id']);
+            $entity->setName($arr['name']);
             $manager->persist($entity);
             $this->addReference('curriculumInventoryAcademicLevels' . $arr['id'], $entity);
         }

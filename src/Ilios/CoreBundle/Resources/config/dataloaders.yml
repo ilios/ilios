@@ -25,6 +25,7 @@ parameters:
     ilioscore.dataloader.learnergroup.class: Ilios\CoreBundle\Tests\DataLoader\LearnerGroupData
     ilioscore.dataloader.learningmaterialstatus.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialStatusData
     ilioscore.dataloader.learningmaterialuserrole.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData
+    ilioscore.dataloader.meshdescriptor.class: Ilios\CoreBundle\Tests\DataLoader\MeshDescriptorData
     ilioscore.dataloader.learningmaterial.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialData
     ilioscore.dataloader.objective.class: Ilios\CoreBundle\Tests\DataLoader\ObjectiveData
     ilioscore.dataloader.offering.class: Ilios\CoreBundle\Tests\DataLoader\OfferingData
@@ -99,6 +100,8 @@ services:
         class: %ilioscore.dataloader.learningmaterialuserrole.class%
     ilioscore.dataloader.learningmaterial:
         class: %ilioscore.dataloader.learningmaterial.class%
+    ilioscore.dataloader.meshdescriptor:
+        class: %ilioscore.dataloader.meshdescriptor.class%
     ilioscore.dataloader.objective:
         class: %ilioscore.dataloader.objective.class%
     ilioscore.dataloader.offering:

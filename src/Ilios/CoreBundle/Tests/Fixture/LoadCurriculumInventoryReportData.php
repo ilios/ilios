@@ -29,6 +29,7 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryReport();
             $entity->setId($arr['id']);
+            $entity->setYear($arr['year']);
             $manager->persist($entity);
             $this->addReference('curriculumInventoryReports' . $arr['id'], $entity);
         }

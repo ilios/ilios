@@ -6,7 +6,9 @@ class CurriculumInventoryExportData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = array(
+            'report' => 1
+        );
 
 
         return $arr;

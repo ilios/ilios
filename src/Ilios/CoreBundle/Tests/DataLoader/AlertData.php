@@ -7,27 +7,9 @@ class AlertData extends AbstractDataLoader
     protected function getData()
     {
         $arr = array();
-
         $arr[] = array(
-            'id' => 1,
-            'tableRowId' => 9,
-            'tableName' => "course",
-            'dispatched' => "1",
-            'changeTypes' => ['1', '2'],
-            'instigators' => ["1"],
-            'recipients' => []
+            'id' => 1
         );
-
-        $arr[] = array(
-            'id' => 2,
-            'tableRowId' => 9,
-            'tableName' => "course",
-            'dispatched' => "1",
-            'changeTypes' => ['2'],
-            'instigators' => ["1"],
-            'recipients' => [1]
-        );
-
 
         return $arr;
     }

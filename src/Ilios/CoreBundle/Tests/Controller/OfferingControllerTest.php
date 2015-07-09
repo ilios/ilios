@@ -23,7 +23,7 @@ class OfferingControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData'
+            // 'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData'
         ];
     }
 

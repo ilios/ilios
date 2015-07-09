@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * Class RecurringEvent
@@ -21,6 +22,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  */
 class RecurringEvent implements RecurringEventInterface
 {
+    use IdentifiableEntity;
     use StringableIdEntity;
     /**
      * @var int

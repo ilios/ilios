@@ -16,9 +16,7 @@ class RecurringEventControllerTest extends AbstractControllerTest
     protected function getFixtures()
     {
         return [
-            'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData',
+            // 'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData'
         ];
     }

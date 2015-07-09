@@ -28,7 +28,7 @@ class LoadCurriculumInventoryExportData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryExport();
-            $entity->setId($arr['id']);
+            $entity->setReport($arr['report']);
             $manager->persist($entity);
             $this->addReference('curriculumInventoryExports' . $arr['id'], $entity);
         }

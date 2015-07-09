@@ -2,12 +2,11 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class CurriculumInventorySequenceBlockData extends AbstractDataLoader
+class MeshDescriptorData extends AbstractDataLoader
 {
     protected function getData()
     {
         $arr = array();
-        
         $arr[] = array(
             'id' => 1
         );
