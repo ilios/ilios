@@ -1,11 +1,7 @@
 class profile::common::php (
     $user = 'vagrant',
     $group = $user,
-    $logs = '/home/vagrant/logs/php',
-    $xdebug_remote_port = 9000,
-    $xdebug_idekey = 'PHPSTORM',
-    $profiler_on  = false,
-    $profiler_dir = '/home/vagrant/profiler'
+    $logs = '/home/vagrant/logs/php'
 ) {
     include ['php', 'php::params']#, 'php::apache']
     $apis = [
