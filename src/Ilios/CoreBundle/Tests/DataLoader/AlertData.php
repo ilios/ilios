@@ -8,7 +8,13 @@ class AlertData extends AbstractDataLoader
     {
         $arr = array();
         $arr[] = array(
-            'id' => 1
+            'id' => 1,
+            'tableRowId' => 1,
+            'tableName' => 'course',
+            'dispatched' => '1',
+            'changeTypes' => ['1'],
+            'instigators' => [],
+            'recipients' => []
         );
 
         return $arr;
@@ -19,9 +25,9 @@ class AlertData extends AbstractDataLoader
         return [
             'id' => 3,
             'tableRowId' => $this->faker->randomDigit,
-            'tableName' => "course",
-            'dispatched' => "1",
-            'changeTypes' => [1],
+            'tableName' => 'course',
+            'dispatched' => '1',
+            'changeTypes' => ['1'],
             'instigators' => [],
             'recipients' => []
         ];
