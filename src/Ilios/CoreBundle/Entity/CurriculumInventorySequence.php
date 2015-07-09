@@ -7,7 +7,6 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * Class CurriculumInventorySequence
@@ -49,22 +48,6 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      *
     */
     protected $description;
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        throw new \LogicException('This is not implemented yet.');
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->report->getId();
-    }
 
     /**
      * @param CurriculumInventoryReportInterface $report
