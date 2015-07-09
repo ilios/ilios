@@ -15,11 +15,11 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
             'report_id' => 1,
         );
         $arr[] = array(
-            'id' => 10,
+            'id' => 2,
             'name' => $this->faker->text(10),
             'description' => $this->faker->text(100),
             'level' => $this->faker->numberBetween(1, 10),
-            'report_id' => 10,
+            'report_id' => 2,
         );
 
         return $arr;
@@ -28,10 +28,11 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
     public function create()
     {
         $arr = array(
+            'id' => 3,
             'name' => $this->faker->string(10),
             'description' => $this->faker->text(100),
             'level' => $this->faker->numberBetween(1, 10),
-            'report_id' => 1,
+            'report_id' => 3,
         );
         return $arr;
     }

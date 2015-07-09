@@ -7,28 +7,37 @@ class CurriculumInventoryExportData extends AbstractDataLoader
     protected function getData()
     {
         $arr = array();
+
+        $dt = $this->faker->dateTime;
+        $dt->setTime(0, 0, 0);
+
         $arr[] = array(
             'report_id' => 1,
-            'program_id' => '1',
-            'year' => $this->faker->date('Y'),
-            'name' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
-            'start_date' => $this->faker->date('Y-m-d'),
-            'end_date' => $this->faker->date('Y-m-d'),
+            'document' => $this->faker->text('200'),
+            'createdBy' => 1,
+            'createdOn' => $dt->format('c'),
         );
 
+        $dt = $this->faker->dateTime;
+        $dt->setTime(0, 0, 0);
+        $arr[] = array(
+            'report_id' => 1,
+            'document' => $this->faker->text('200'),
+            'createdBy' => 1,
+            'createdOn' => $dt->format('c'),
+        );
         return $arr;
     }
 
     public function create()
     {
+        $dt = $this->faker->dateTime;
+        $dt->setTime(0, 0, 0);
         return array(
-            'program_id' => '1',
-            'year' => $this->faker->date('Y'),
-            'name' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
-            'start_date' => $this->faker->date('Y-m-d'),
-            'end_date' => $this->faker->date('Y-m-d')
+            'report_id' => 3,
+            'document' => $this->faker->text('200'),
+            'createdBy' => 1,
+            'createdOn' => $dt->format('c'),
         );
     }
 
