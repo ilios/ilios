@@ -17,7 +17,7 @@ class IlmSessionData extends AbstractDataLoader
             'instructorGroups' => [],
             'instructors' => [],
             'learners' => [],
-            'sessions' => ['1']
+            'session' => 1
         );
 
         return $arr;
@@ -35,7 +35,6 @@ class IlmSessionData extends AbstractDataLoader
             'instructorGroups' => [],
             'instructors' => [],
             'learners' => [],
-            'sessions' => []
         );
     }
 

@@ -3973,6 +3973,12 @@ class Migrate
         );
         $changes[] = array(
             'table' => 'session',
+            'index' => 'UNIQ_D044D5D4504270C1',
+            'column' => 'ilm_session_facet_id',
+            'unique' => true
+        );
+        $changes[] = array(
+            'table' => 'session',
             'index' => 'IDX_D044D5D456C92BE0',
             'column' => 'publish_event_id',
             'unique' => false

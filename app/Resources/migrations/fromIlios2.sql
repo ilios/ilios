@@ -694,6 +694,7 @@ CREATE INDEX IDX_C42F7784A76ED395 ON `report` (user_id);
 CREATE UNIQUE INDEX UNIQ_9261FE834BD2A4C0 ON `report_po_value` (report_id);
 CREATE INDEX IDX_51B1C7F8B494B099 ON `recurring_event` (previous_recurring_event_id);
 CREATE INDEX IDX_51B1C7F882312E9D ON `recurring_event` (next_recurring_event_id);
+CREATE UNIQUE INDEX UNIQ_D044D5D4504270C1 ON `session` (ilm_session_facet_id);
 CREATE INDEX IDX_D044D5D456C92BE0 ON `session` (publish_event_id);
 CREATE UNIQUE INDEX UNIQ_91BD5E51613FECDF ON `session_description` (session_id);
 CREATE INDEX IDX_9BE2AF8D613FECDF ON `session_learning_material` (session_id);

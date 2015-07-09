@@ -146,14 +146,14 @@ class IlmSessionFacet implements IlmSessionFacetInterface
     protected $learners;
 
     /**
-     * @var ArrayCollection|SessionInterface[]
+     * @var SessionInterface
      *
-     * @ORM\OneToMany(targetEntity="Session", mappedBy="ilmSessionFacet")
+     * @ORM\OneToOne(targetEntity="Session", mappedBy="ilmSessionFacet")
      *
      * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @JMS\Type("string")
      */
-    protected $sessions;
+    protected $session;
 
     /**
      * Constructor
@@ -164,7 +164,6 @@ class IlmSessionFacet implements IlmSessionFacetInterface
         $this->instructors = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->learners = new ArrayCollection();
-        $this->sessions = new ArrayCollection();
     }
 
     /**
@@ -312,30 +311,19 @@ class IlmSessionFacet implements IlmSessionFacetInterface
     }
 
     /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions)
-    {
-        $this->sessions = new ArrayCollection();
-
-        foreach ($sessions as $session) {
-            $this->addSession($session);
-        }
-    }
-
-    /**
      * @param SessionInterface $session
      */
-    public function addSession(SessionInterface $session)
+    public function setSession(SessionInterface $session)
     {
-        $this->sessions->add($session);
+        $this->session = $session;
     }
 
+
     /**
-     * @return ArrayCollection|SessionInterface[]
+     * @return SessionInterface
      */
-    public function getSessions()
+    public function getSession()
     {
-        return $this->sessions;
+        return $this->session;
     }
 }

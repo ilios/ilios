@@ -94,17 +94,13 @@ interface IlmSessionFacetInterface extends IdentifiableEntityInterface
     public function getLearners();
 
     /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions);
-
-    /**
      * @param SessionInterface $session
      */
-    public function addSession(SessionInterface $session);
+    public function setSession(SessionInterface $session);
+
 
     /**
-     * @return ArrayCollection|SessionInterface[]
+     * @return SessionInterface
      */
-    public function getSessions();
+    public function getSession();
 }
