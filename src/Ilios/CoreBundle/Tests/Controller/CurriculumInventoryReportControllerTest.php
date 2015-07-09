@@ -69,13 +69,14 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $expected = $this->mockSerialize(
+            $this->container
+                ->get('ilioscore.dataloader.curriculuminventoryreport')
+                ->getAll()
+        );
+        $actual = json_decode($response->getContent(), true)['curriculumInventoryReports'];
         $this->assertEquals(
-            $this->mockSerialize(
-                $this->container
-                    ->get('ilioscore.dataloader.curriculuminventoryreport')
-                    ->getAll()
-            ),
-            json_decode($response->getContent(), true)['curriculumInventoryReports']
+            $expected, $actual
         );
     }
 
