@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Fixture;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryExport;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCurriculumInventoryExportData extends AbstractFixture implements
     FixtureInterface,
+    DependentFixtureInterface,
     ContainerAwareInterface
 {
 
