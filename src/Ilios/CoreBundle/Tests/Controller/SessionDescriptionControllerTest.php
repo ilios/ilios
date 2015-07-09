@@ -5,10 +5,10 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
- * Alert controller Test.
+ * SessionDescription controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
-class AlertControllerTest extends AbstractControllerTest
+class SessionDescriptionControllerTest extends AbstractControllerTest
 {
     /**
      * @return array|string
@@ -16,10 +16,8 @@ class AlertControllerTest extends AbstractControllerTest
     protected function getFixtures()
     {
         return [
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertChangeTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionDescriptionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
         ];
     }
 
@@ -32,18 +30,18 @@ class AlertControllerTest extends AbstractControllerTest
         ];
     }
 
-    public function testGetAlert()
+    public function testGetSessionDescription()
     {
-        $alert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $sessionDescription = $this->container
+            ->get('ilioscore.dataloader.sessiondescription')
             ->getOne()
         ;
 
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_alerts',
-                ['id' => $alert['id']]
+                'get_sessiondescriptions',
+                ['id' => $sessionDescription['session']]
             )
         );
 
@@ -51,30 +49,30 @@ class AlertControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($alert),
-            json_decode($response->getContent(), true)['alerts'][0]
+            $this->mockSerialize($sessionDescription),
+            json_decode($response->getContent(), true)['sessionDescriptions'][0]
         );
     }
 
-    public function testGetAllAlerts()
+    public function testGetAllSessionDescriptions()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_alerts'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_sessiondescriptions'));
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize(
                 $this->container
-                    ->get('ilioscore.dataloader.alert')
+                    ->get('ilioscore.dataloader.sessiondescription')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['alerts']
+            json_decode($response->getContent(), true)['sessionDescriptions']
         );
     }
 
-    public function testPostAlert()
+    public function testPostSessionDescription()
     {
-        $data = $this->container->get('ilioscore.dataloader.alert')
+        $data = $this->container->get('ilioscore.dataloader.sessiondescription')
             ->create();
         $postData = $data;
         //unset any parameters which should not be POSTed
@@ -82,8 +80,8 @@ class AlertControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_alerts'),
-            json_encode(['alert' => $postData])
+            $this->getUrl('post_sessiondescriptions'),
+            json_encode(['sessionDescription' => $postData])
         );
 
         $response = $this->client->getResponse();
@@ -92,32 +90,32 @@ class AlertControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['alerts'][0],
+            json_decode($response->getContent(), true)['sessionDescriptions'][0],
             $response->getContent()
         );
     }
 
-    public function testPostBadAlert()
+    public function testPostBadSessionDescription()
     {
-        $invalidAlert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $invalidSessionDescription = $this->container
+            ->get('ilioscore.dataloader.sessiondescription')
             ->createInvalid()
         ;
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_alerts'),
-            json_encode(['alert' => $invalidAlert])
+            $this->getUrl('post_sessiondescriptions'),
+            json_encode(['sessionDescription' => $invalidSessionDescription])
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
-    public function testPutAlert()
+    public function testPutSessionDescription()
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.alert')
+            ->get('ilioscore.dataloader.sessiondescription')
             ->getOne();
 
         $postData = $data;
@@ -127,32 +125,32 @@ class AlertControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
-                'put_alerts',
+                'put_sessiondescriptions',
                 ['id' => $data['id']]
             ),
-            json_encode(['alert' => $postData])
+            json_encode(['sessionDescription' => $postData])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['alert']
+            json_decode($response->getContent(), true)['sessionDescription']
         );
     }
 
-    public function testDeleteAlert()
+    public function testDeleteSessionDescription()
     {
-        $alert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $sessionDescription = $this->container
+            ->get('ilioscore.dataloader.sessiondescription')
             ->getOne()
         ;
 
         $this->client->request(
             'DELETE',
             $this->getUrl(
-                'delete_alerts',
-                ['id' => $alert['id']]
+                'delete_sessiondescriptions',
+                ['id' => $sessionDescription['session']]
             )
         );
 
@@ -161,8 +159,8 @@ class AlertControllerTest extends AbstractControllerTest
         $this->client->request(
             'GET',
             $this->getUrl(
-                'get_alerts',
-                ['id' => $alert['id']]
+                'get_sessiondescriptions',
+                ['id' => $sessionDescription['session']]
             )
         );
 
@@ -170,11 +168,11 @@ class AlertControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function testAlertNotFound()
+    public function testSessionDescriptionNotFound()
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_alerts', ['id' => '0'])
+            $this->getUrl('get_sessiondescriptions', ['id' => '0'])
         );
 
         $response = $this->client->getResponse();

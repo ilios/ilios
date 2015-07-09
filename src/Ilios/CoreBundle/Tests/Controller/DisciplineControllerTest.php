@@ -5,10 +5,10 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
- * Alert controller Test.
+ * Discipline controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
-class AlertControllerTest extends AbstractControllerTest
+class DisciplineControllerTest extends AbstractControllerTest
 {
     /**
      * @return array|string
@@ -16,10 +16,11 @@ class AlertControllerTest extends AbstractControllerTest
     protected function getFixtures()
     {
         return [
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertChangeTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadDisciplineData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
         ];
     }
 
@@ -32,18 +33,18 @@ class AlertControllerTest extends AbstractControllerTest
         ];
     }
 
-    public function testGetAlert()
+    public function testGetDiscipline()
     {
-        $alert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $discipline = $this->container
+            ->get('ilioscore.dataloader.discipline')
             ->getOne()
         ;
 
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_alerts',
-                ['id' => $alert['id']]
+                'get_disciplines',
+                ['id' => $discipline['id']]
             )
         );
 
@@ -51,30 +52,30 @@ class AlertControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($alert),
-            json_decode($response->getContent(), true)['alerts'][0]
+            $this->mockSerialize($discipline),
+            json_decode($response->getContent(), true)['disciplines'][0]
         );
     }
 
-    public function testGetAllAlerts()
+    public function testGetAllDisciplines()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_alerts'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_disciplines'));
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize(
                 $this->container
-                    ->get('ilioscore.dataloader.alert')
+                    ->get('ilioscore.dataloader.discipline')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['alerts']
+            json_decode($response->getContent(), true)['disciplines']
         );
     }
 
-    public function testPostAlert()
+    public function testPostDiscipline()
     {
-        $data = $this->container->get('ilioscore.dataloader.alert')
+        $data = $this->container->get('ilioscore.dataloader.discipline')
             ->create();
         $postData = $data;
         //unset any parameters which should not be POSTed
@@ -82,8 +83,8 @@ class AlertControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_alerts'),
-            json_encode(['alert' => $postData])
+            $this->getUrl('post_disciplines'),
+            json_encode(['discipline' => $postData])
         );
 
         $response = $this->client->getResponse();
@@ -92,32 +93,32 @@ class AlertControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['alerts'][0],
+            json_decode($response->getContent(), true)['disciplines'][0],
             $response->getContent()
         );
     }
 
-    public function testPostBadAlert()
+    public function testPostBadDiscipline()
     {
-        $invalidAlert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $invalidDiscipline = $this->container
+            ->get('ilioscore.dataloader.discipline')
             ->createInvalid()
         ;
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_alerts'),
-            json_encode(['alert' => $invalidAlert])
+            $this->getUrl('post_disciplines'),
+            json_encode(['discipline' => $invalidDiscipline])
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
-    public function testPutAlert()
+    public function testPutDiscipline()
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.alert')
+            ->get('ilioscore.dataloader.discipline')
             ->getOne();
 
         $postData = $data;
@@ -127,32 +128,32 @@ class AlertControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
-                'put_alerts',
+                'put_disciplines',
                 ['id' => $data['id']]
             ),
-            json_encode(['alert' => $postData])
+            json_encode(['discipline' => $postData])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['alert']
+            json_decode($response->getContent(), true)['discipline']
         );
     }
 
-    public function testDeleteAlert()
+    public function testDeleteDiscipline()
     {
-        $alert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $discipline = $this->container
+            ->get('ilioscore.dataloader.discipline')
             ->getOne()
         ;
 
         $this->client->request(
             'DELETE',
             $this->getUrl(
-                'delete_alerts',
-                ['id' => $alert['id']]
+                'delete_disciplines',
+                ['id' => $discipline['id']]
             )
         );
 
@@ -161,8 +162,8 @@ class AlertControllerTest extends AbstractControllerTest
         $this->client->request(
             'GET',
             $this->getUrl(
-                'get_alerts',
-                ['id' => $alert['id']]
+                'get_disciplines',
+                ['id' => $discipline['id']]
             )
         );
 
@@ -170,11 +171,11 @@ class AlertControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function testAlertNotFound()
+    public function testDisciplineNotFound()
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_alerts', ['id' => '0'])
+            $this->getUrl('get_disciplines', ['id' => '0'])
         );
 
         $response = $this->client->getResponse();

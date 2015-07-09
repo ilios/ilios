@@ -5,10 +5,10 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
- * Alert controller Test.
+ * LearningMaterialStatus controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
-class AlertControllerTest extends AbstractControllerTest
+class LearningMaterialStatusControllerTest extends AbstractControllerTest
 {
     /**
      * @return array|string
@@ -16,10 +16,8 @@ class AlertControllerTest extends AbstractControllerTest
     protected function getFixtures()
     {
         return [
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertChangeTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialStatusData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData'
         ];
     }
 
@@ -32,18 +30,18 @@ class AlertControllerTest extends AbstractControllerTest
         ];
     }
 
-    public function testGetAlert()
+    public function testGetLearningMaterialStatus()
     {
-        $alert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $learningMaterialStatus = $this->container
+            ->get('ilioscore.dataloader.learningmaterialstatus')
             ->getOne()
         ;
 
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_alerts',
-                ['id' => $alert['id']]
+                'get_learningmaterialstatuses',
+                ['id' => $learningMaterialStatus['id']]
             )
         );
 
@@ -51,30 +49,30 @@ class AlertControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($alert),
-            json_decode($response->getContent(), true)['alerts'][0]
+            $this->mockSerialize($learningMaterialStatus),
+            json_decode($response->getContent(), true)['learningMaterialStatuses'][0]
         );
     }
 
-    public function testGetAllAlerts()
+    public function testGetAllLearningMaterialStatuses()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_alerts'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_learningmaterialstatuses'));
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize(
                 $this->container
-                    ->get('ilioscore.dataloader.alert')
+                    ->get('ilioscore.dataloader.learningmaterialstatus')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['alerts']
+            json_decode($response->getContent(), true)['learningMaterialStatuses']
         );
     }
 
-    public function testPostAlert()
+    public function testPostLearningMaterialStatus()
     {
-        $data = $this->container->get('ilioscore.dataloader.alert')
+        $data = $this->container->get('ilioscore.dataloader.learningmaterialstatus')
             ->create();
         $postData = $data;
         //unset any parameters which should not be POSTed
@@ -82,8 +80,8 @@ class AlertControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_alerts'),
-            json_encode(['alert' => $postData])
+            $this->getUrl('post_learningmaterialstatuses'),
+            json_encode(['learningMaterialStatus' => $postData])
         );
 
         $response = $this->client->getResponse();
@@ -92,32 +90,32 @@ class AlertControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['alerts'][0],
+            json_decode($response->getContent(), true)['learningMaterialStatuses'][0],
             $response->getContent()
         );
     }
 
-    public function testPostBadAlert()
+    public function testPostBadLearningMaterialStatus()
     {
-        $invalidAlert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $invalidLearningMaterialStatus = $this->container
+            ->get('ilioscore.dataloader.learningmaterialstatus')
             ->createInvalid()
         ;
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_alerts'),
-            json_encode(['alert' => $invalidAlert])
+            $this->getUrl('post_learningmaterialstatuses'),
+            json_encode(['learningMaterialStatus' => $invalidLearningMaterialStatus])
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
-    public function testPutAlert()
+    public function testPutLearningMaterialStatus()
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.alert')
+            ->get('ilioscore.dataloader.learningmaterialstatus')
             ->getOne();
 
         $postData = $data;
@@ -127,32 +125,32 @@ class AlertControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
-                'put_alerts',
+                'put_learningmaterialstatuses',
                 ['id' => $data['id']]
             ),
-            json_encode(['alert' => $postData])
+            json_encode(['learningMaterialStatus' => $postData])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['alert']
+            json_decode($response->getContent(), true)['learningMaterialStatus']
         );
     }
 
-    public function testDeleteAlert()
+    public function testDeleteLearningMaterialStatus()
     {
-        $alert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $learningMaterialStatus = $this->container
+            ->get('ilioscore.dataloader.learningmaterialstatus')
             ->getOne()
         ;
 
         $this->client->request(
             'DELETE',
             $this->getUrl(
-                'delete_alerts',
-                ['id' => $alert['id']]
+                'delete_learningmaterialstatuses',
+                ['id' => $learningMaterialStatus['id']]
             )
         );
 
@@ -161,8 +159,8 @@ class AlertControllerTest extends AbstractControllerTest
         $this->client->request(
             'GET',
             $this->getUrl(
-                'get_alerts',
-                ['id' => $alert['id']]
+                'get_learningmaterialstatuses',
+                ['id' => $learningMaterialStatus['id']]
             )
         );
 
@@ -170,11 +168,11 @@ class AlertControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function testAlertNotFound()
+    public function testLearningMaterialStatusNotFound()
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_alerts', ['id' => '0'])
+            $this->getUrl('get_learningmaterialstatuses', ['id' => '0'])
         );
 
         $response = $this->client->getResponse();

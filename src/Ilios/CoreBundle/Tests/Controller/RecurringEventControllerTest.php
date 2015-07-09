@@ -5,10 +5,10 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
- * Alert controller Test.
+ * RecurringEvent controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
-class AlertControllerTest extends AbstractControllerTest
+class RecurringEventControllerTest extends AbstractControllerTest
 {
     /**
      * @return array|string
@@ -16,10 +16,10 @@ class AlertControllerTest extends AbstractControllerTest
     protected function getFixtures()
     {
         return [
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertChangeTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData'
         ];
     }
 
@@ -29,21 +29,30 @@ class AlertControllerTest extends AbstractControllerTest
     protected function getPrivateFields()
     {
         return [
+            'onSunday',
+            'onMonday',
+            'onTuesday',
+            'onWednesday',
+            'onThursday',
+            'onFriday',
+            'onSaturday',
+            'endDate',
+            'repetitionCount'
         ];
     }
 
-    public function testGetAlert()
+    public function testGetRecurringEvent()
     {
-        $alert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $recurringEvent = $this->container
+            ->get('ilioscore.dataloader.recurringevent')
             ->getOne()
         ;
 
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_alerts',
-                ['id' => $alert['id']]
+                'get_recurringevents',
+                ['id' => $recurringEvent['id']]
             )
         );
 
@@ -51,30 +60,30 @@ class AlertControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($alert),
-            json_decode($response->getContent(), true)['alerts'][0]
+            $this->mockSerialize($recurringEvent),
+            json_decode($response->getContent(), true)['recurringEvents'][0]
         );
     }
 
-    public function testGetAllAlerts()
+    public function testGetAllRecurringEvents()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_alerts'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_recurringevents'));
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize(
                 $this->container
-                    ->get('ilioscore.dataloader.alert')
+                    ->get('ilioscore.dataloader.recurringevent')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['alerts']
+            json_decode($response->getContent(), true)['recurringEvents']
         );
     }
 
-    public function testPostAlert()
+    public function testPostRecurringEvent()
     {
-        $data = $this->container->get('ilioscore.dataloader.alert')
+        $data = $this->container->get('ilioscore.dataloader.recurringevent')
             ->create();
         $postData = $data;
         //unset any parameters which should not be POSTed
@@ -82,8 +91,8 @@ class AlertControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_alerts'),
-            json_encode(['alert' => $postData])
+            $this->getUrl('post_recurringevents'),
+            json_encode(['recurringEvent' => $postData])
         );
 
         $response = $this->client->getResponse();
@@ -92,32 +101,32 @@ class AlertControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['alerts'][0],
+            json_decode($response->getContent(), true)['recurringEvents'][0],
             $response->getContent()
         );
     }
 
-    public function testPostBadAlert()
+    public function testPostBadRecurringEvent()
     {
-        $invalidAlert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $invalidRecurringEvent = $this->container
+            ->get('ilioscore.dataloader.recurringevent')
             ->createInvalid()
         ;
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_alerts'),
-            json_encode(['alert' => $invalidAlert])
+            $this->getUrl('post_recurringevents'),
+            json_encode(['recurringEvent' => $invalidRecurringEvent])
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
-    public function testPutAlert()
+    public function testPutRecurringEvent()
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.alert')
+            ->get('ilioscore.dataloader.recurringevent')
             ->getOne();
 
         $postData = $data;
@@ -127,32 +136,32 @@ class AlertControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
-                'put_alerts',
+                'put_recurringevents',
                 ['id' => $data['id']]
             ),
-            json_encode(['alert' => $postData])
+            json_encode(['recurringEvent' => $postData])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['alert']
+            json_decode($response->getContent(), true)['recurringEvent']
         );
     }
 
-    public function testDeleteAlert()
+    public function testDeleteRecurringEvent()
     {
-        $alert = $this->container
-            ->get('ilioscore.dataloader.alert')
+        $recurringEvent = $this->container
+            ->get('ilioscore.dataloader.recurringevent')
             ->getOne()
         ;
 
         $this->client->request(
             'DELETE',
             $this->getUrl(
-                'delete_alerts',
-                ['id' => $alert['id']]
+                'delete_recurringevents',
+                ['id' => $recurringEvent['id']]
             )
         );
 
@@ -161,8 +170,8 @@ class AlertControllerTest extends AbstractControllerTest
         $this->client->request(
             'GET',
             $this->getUrl(
-                'get_alerts',
-                ['id' => $alert['id']]
+                'get_recurringevents',
+                ['id' => $recurringEvent['id']]
             )
         );
 
@@ -170,11 +179,11 @@ class AlertControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function testAlertNotFound()
+    public function testRecurringEventNotFound()
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_alerts', ['id' => '0'])
+            $this->getUrl('get_recurringevents', ['id' => '0'])
         );
 
         $response = $this->client->getResponse();
