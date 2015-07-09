@@ -35,4 +35,12 @@ class LoadCurriculumInventoryExportData extends AbstractFixture implements
 
         $manager->flush();
     }
+
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
+        );
+    }
 }
