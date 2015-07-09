@@ -53,6 +53,12 @@ class profile::common::php (
         provider => 'apt'
     }
 
+    php::extension { 'php5-xdebug':
+        ensure => installed,
+        package => 'php5-xdebug',
+        provider => 'apt'
+    }
+
     php::apache::config { 'memory_limit':
         setting => 'memory_limit',
         value => '768M',
