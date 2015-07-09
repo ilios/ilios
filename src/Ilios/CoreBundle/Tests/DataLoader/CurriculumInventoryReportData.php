@@ -16,6 +16,16 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c')
         );
+
+        $dt = $this->faker->dateTime;
+        $dt->setTime(0, 0, 0);
+        $arr[] = array(
+            'id' => 10,
+            'year' => '2001',
+            'startDate' => $dt->format('c'),
+            'endDate' => $dt->format('c')
+        );
+
         return $arr;
     }
 
