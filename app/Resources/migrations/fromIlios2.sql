@@ -711,6 +711,7 @@ CREATE INDEX IDX_44EF4595A76ED395 ON `user_made_reminder` (user_id);
 CREATE INDEX IDX_4DFD48DA35983C93 ON `user_x_cohort` (cohort_id);
 CREATE INDEX IDX_583C407A76ED395 ON `user_x_user_role` (user_id);
 CREATE INDEX IDX_583C4078E0E3CA6 ON `user_x_user_role` (user_role_id);
+CREATE UNIQUE INDEX UNIQ_D044D5D4504270C1 ON `session` (ilm_session_facet_id);
 DELETE FROM objective_x_objective WHERE parent_objective_id NOT IN (select objective_id from objective);
 DELETE FROM objective_x_objective WHERE objective_id NOT IN (select objective_id from objective);
 DELETE FROM offering_x_group WHERE offering_id NOT IN (SELECT offering_id FROM offering);
