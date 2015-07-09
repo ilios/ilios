@@ -10,7 +10,7 @@ class DepartmentData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            // 'title' => "Department of Clinical Pharmacy",
+            'title' => "Department of Clinical Pharmacy",
             // 'school' => "3"
         );
 

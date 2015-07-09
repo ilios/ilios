@@ -29,6 +29,7 @@ class LoadDepartmentData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new Department();
             $entity->setId($arr['id']);
+            $entity->setTitle($arr['title']);
             $manager->persist($entity);
             $this->addReference('departments' . $arr['id'], $entity);
         }
