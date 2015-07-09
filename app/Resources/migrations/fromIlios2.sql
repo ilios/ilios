@@ -265,9 +265,7 @@ ALTER TABLE `instructor_group_x_user` CONVERT TO CHARACTER SET utf8 COLLATE utf8
 ALTER TABLE `authentication` ADD `password_bcrypt` VARCHAR(255) DEFAULT NULL;
 ALTER TABLE `authentication` ADD `eppn` VARCHAR(255) DEFAULT NULL;
 ALTER TABLE `program_year_steward` ADD `program_year_steward_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
-ALTER TABLE `learning_material` ADD `type` VARCHAR(255) NOT NULL;
 ALTER TABLE `user` ADD `primary_cohort_id` INT DEFAULT NULL;
-UPDATE learning_material set type= CASE WHEN citation IS NOT NULL THEN 'citation' WHEN filename IS NOT NULL THEN 'file' ELSE 'link' END;
 UPDATE user u SET primary_cohort_id = (SELECT cohort_id from user_x_cohort x WHERE x.user_id = u.user_id AND x.is_primary);
 ALTER TABLE `aamc_method` CHANGE `method_id` `method_id` VARCHAR(10) NOT NULL;
 ALTER TABLE `alert` CHANGE `alert_id` `alert_id` INT AUTO_INCREMENT NOT NULL;

@@ -973,12 +973,6 @@ class Migrate
         );
 
         $changes[] = array(
-            'table' => 'learning_material',
-            'column' => 'type',
-            'definition' => 'VARCHAR(255) NOT NULL'
-        );
-
-        $changes[] = array(
             'table' => 'user',
             'column' => 'primary_cohort_id',
             'definition' => 'INT DEFAULT NULL'
@@ -988,11 +982,6 @@ class Migrate
         foreach ($changes as $arr) {
             $queries[] = "ALTER TABLE `{$arr['table']}` ADD `{$arr['column']}` {$arr['definition']}";
         }
-
-        $queries[] = "UPDATE learning_material set type= CASE " .
-        "WHEN citation IS NOT NULL THEN 'citation' " .
-        "WHEN filename IS NOT NULL THEN 'file' " .
-        "ELSE 'link' END";
 
         $queries[] = "UPDATE user u SET primary_cohort_id = " .
         "(SELECT cohort_id from user_x_cohort x " .

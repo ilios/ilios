@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -11,12 +12,8 @@ use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
 
-use Ilios\CoreBundle\Entity\LearningMaterials\Citation;
-use Ilios\CoreBundle\Entity\LearningMaterials\File;
-use Ilios\CoreBundle\Entity\LearningMaterials\link;
-
 /**
- * Abstract Class LearningMaterial
+ * Class LearningMaterial
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Entity
@@ -24,17 +21,10 @@ use Ilios\CoreBundle\Entity\LearningMaterials\link;
  *  name="learning_material",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="idx_learning_material_token_unique", columns={"token"})}
  * )
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *   "file" = "Ilios\CoreBundle\Entity\LearningMaterials\File",
- *   "link" = "Ilios\CoreBundle\Entity\LearningMaterials\Link",
- *   "citation" = "Ilios\CoreBundle\Entity\LearningMaterials\Citation"
- * })
  *
  * @JMS\ExclusionPolicy("all")
  */
-abstract class LearningMaterial implements LearningMaterialInterface
+class LearningMaterial implements LearningMaterialInterface
 {
     use IdentifiableEntity;
     use TitledEntity;
@@ -200,6 +190,141 @@ abstract class LearningMaterial implements LearningMaterialInterface
     * @JMS\SerializedName("courseLearningMaterials")
     */
     protected $courseLearningMaterials;
+    
+    /**
+     * renamed from citation
+     * @var string
+     *
+     * @ORM\Column(name="citation", type="string", length=512, nullable=true)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 512
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $citation;
+
+    /**
+     * @var string
+     * renamed from relative_file_system_location
+     *
+     * @ORM\Column(name="relative_file_system_location", type="string", length=128, nullable=true)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 128
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $path;
+
+    /**
+     * renamed copyrightownership
+     * @var boolean
+     *
+     * @ORM\Column(name="copyright_ownership", type="boolean", nullable=true)
+     *
+     * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("copyrightPermission")
+     */
+    protected $copyrightPermission;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="copyright_rationale", type="text", nullable=true)
+    *
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 65000
+    * )
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    * @JMS\SerializedName("copyrightRationale")
+    */
+    protected $copyrightRationale;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="filename", type="string", length=255, nullable=true)
+    *
+    * @Assert\NotBlank()
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 255
+    * )
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $filename;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="mime_type", type="string", length=96, nullable=true)
+    *
+    * @Assert\NotBlank()
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 96
+    * )
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    * @JMS\SerializedName("mimetype")
+    */
+    protected $mimetype;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="filesize", type="integer", nullable=true, options={"unsigned"=true})
+    *
+    * @Assert\NotBlank()
+    * @Assert\Type(type="integer")
+    *
+    * @JMS\Expose
+    * @JMS\Type("integer")
+    */
+    protected $filesize;
+
+    /**
+     * @var UploadedFile;
+     */
+    protected $resource;
+
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="web_link", type="string", length=256, nullable=true)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Url()
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $link;
+    
 
     /**
      * Constructor
@@ -207,18 +332,6 @@ abstract class LearningMaterial implements LearningMaterialInterface
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-    }
-
-    /**
-     * @return array
-     */
-    public static function getTypes()
-    {
-        return [
-            self::TYPE_CITATION,
-            self::TYPE_FILE,
-            self::TYPE_LINK
-        ];
     }
 
     /**
@@ -300,29 +413,168 @@ abstract class LearningMaterial implements LearningMaterialInterface
     {
         return $this->userRole;
     }
+    
 
     /**
-     * @param string $type
+     * @param string $text
      */
-    public function setType($type)
+    public function setCitation($citation)
     {
-        if (!in_array($type, static::getTypes())) {
-            throw new \InvalidArgumentException('Type ' . $type . ' is not a valid type.');
-        }
-
-        $this->type = $type;
+        $this->setType(self::TYPE_CITATION);
+        $this->citation = $citation;
     }
 
     /**
      * @return string
      */
-    public function getType()
+    public function getCitation()
     {
-        return $this->type;
+        return $this->citation;
+    }
+    
+    /**
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param bool $copyrightPermission
+     */
+    public function setCopyrightPermission($copyrightPermission)
+    {
+        $this->copyrightPermission = $copyrightPermission;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCopyrightPermission()
+    {
+        return $this->copyrightPermission;
+    }
+
+    /**
+     * @param string $copyrightRationale
+     */
+    public function setCopyrightRationale($copyrightRationale)
+    {
+        $this->copyrightRationale = $copyrightRationale;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCopyrightRationale()
+    {
+        return $this->copyrightRationale;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getAbsolutePath()
+    {
+        return ($this->getResource() === null) ? null : $this->getUploadRootDir() . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebPath()
+    {
+        return ($this->getResource() === null) ? null : $this->getUploadDir() . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * @todo: Figure out way to trigger upload through PrePersist by editing this property.
+     * Perhaps a flag property managed by doctrine that we can change based on this.
+     * @param UploadedFile $resource
+     */
+    public function setResource(UploadedFile $resource)
+    {
+        $this->setType(self::TYPE_FILE);
+        $this->resource = $resource;
+    }
+
+    /**
+     * @return UploadedFile|\SplFileInfo
+     */
+    public function getResource()
+    {
+        if ($this->resource === null && $this->path !== null) {
+            return new \SplFileInfo($this->getAbsolutePath());
+        }
+        return $this->resource;
+    }
+
+    /**
+     * @return void
+     */
+    public function upload()
+    {
+        if ($this->getResource() === null) {
+            return;
+        }
+
+        $this->getResource()->move(
+            $this->getUploadRootDir(),
+            $this->getResource()->getClientOriginalName()
+        );
+
+        $this->path = $this->getResource()->getClientOriginalName();
+
+        $this->resource = null;
+    }
+
+    /**
+     * @return string
+     */
+    private function getUploadRootDir()
+    {
+        return __DIR__ . "/../../../../web" . $this->getUploadDir();
+    }
+
+    /**
+     * @todo: Create magic file bucket sauce.
+     * @return string
+     */
+    private function getUploadDir()
+    {
+        $uploadDir = 'uploads';
+        return $uploadDir;
     }
 
     public function __toString()
     {
         return (string) $this->id;
+    }
+
+    /**
+     * @param string $webLink
+     */
+    public function setLink($link)
+    {
+        $this->setType(self::TYPE_LINK);
+        $this->link = $link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
     }
 }

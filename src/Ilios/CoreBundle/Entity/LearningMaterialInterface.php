@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 use Ilios\CoreBundle\Traits\BlameableEntityInterface;
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
@@ -20,24 +22,6 @@ interface LearningMaterialInterface extends
     TimestampableEntityInterface
 //    BlameableEntityInterface
 {
-    const TYPE_FILE = 'file';
-    const TYPE_LINK = 'link';
-    const TYPE_CITATION = 'citation';
-
-    /**
-     * @return array
-     */
-    public static function getTypes();
-
-    /**
-     * @param string $type
-     */
-    public function setType($type);
-
-    /**
-     * @return string
-     */
-    public function getType();
 
     /**
      * @param string $orignalAuthor
@@ -88,4 +72,80 @@ interface LearningMaterialInterface extends
      * @return UserInterface
      */
     public function getOwningUser();
+    
+    /**
+     * @param string $text
+     */
+    public function setCitation($citation);
+
+    /**
+     * @return string
+     */
+    public function getCitation();
+    
+    /**
+     * @param string $link
+     */
+    public function setLink($link);
+
+    /**
+     * @return string
+     */
+    public function getLink();
+    
+    /**
+     * @param string $path
+     */
+    public function setPath($path);
+
+    /**
+     * @return string
+     */
+    public function getPath();
+
+    /**
+     * @param bool $copyrightPermission
+     */
+    public function setCopyrightPermission($copyrightPermission);
+
+    /**
+     * @return bool
+     */
+    public function hasCopyrightPermission();
+
+    /**
+     * @param string $copyrightRationale
+     */
+    public function setCopyrightRationale($copyrightRationale);
+
+    /**
+     * @return string
+     */
+    public function getCopyrightRationale();
+
+
+    /**
+     * @return string
+     */
+    public function getAbsolutePath();
+
+    /**
+     * @return string
+     */
+    public function getWebPath();
+
+    /**
+     * @param UploadedFile $resource
+     */
+    public function setResource(UploadedFile $resource);
+
+    /**
+     * @return UploadedFile|\SplFileInfo
+     */
+    public function getResource();
+
+    /**
+     * @return void
+     */
+    public function upload();
 }
