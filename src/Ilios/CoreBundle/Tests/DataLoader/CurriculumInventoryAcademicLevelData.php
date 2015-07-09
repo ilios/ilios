@@ -14,6 +14,13 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
             'level' => $this->faker->numberBetween(1, 10),
             'report_id' => 1,
         );
+        $arr[] = array(
+            'id' => 10,
+            'name' => $this->faker->text(10),
+            'description' => $this->faker->text(100),
+            'level' => $this->faker->numberBetween(1, 10),
+            'report_id' => 10,
+        );
 
         return $arr;
     }
