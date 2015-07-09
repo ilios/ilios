@@ -20,6 +20,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserRepository")
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class User implements UserInterface, EncoderAwareInterface
 {
@@ -719,7 +720,9 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getDirectedCourses()
     {
-        return $this->directedCourses;
+        return $this->directedCourses->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

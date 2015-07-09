@@ -56,6 +56,9 @@ class CourseControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $course = $this->container->get('ilioscore.dataloader.session')
+            ->removeDeletedSessionsFromArray(array($course))[0];
+
         $this->assertEquals(
             $this->mockSerialize($course),
             json_decode($response->getContent(), true)['courses'][0]
@@ -64,15 +67,19 @@ class CourseControllerTest extends AbstractControllerTest
 
     public function testGetAllCourses()
     {
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+        $unDeletedCourses = array_filter($courses, function ($arr) {
+            return !$arr['deleted'];
+        });
+        $unDeletedCourses = $this->container->get('ilioscore.dataloader.session')
+            ->removeDeletedSessionsFromArray($unDeletedCourses);
         $this->createJsonRequest('GET', $this->getUrl('cget_courses'));
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize(
-                $this->container
-                    ->get('ilioscore.dataloader.course')
-                    ->getAll()
+                $unDeletedCourses
             ),
             json_decode($response->getContent(), true)['courses']
         );
@@ -127,7 +134,7 @@ class CourseControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.course')
             ->getOne();
-
+        
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
@@ -144,6 +151,8 @@ class CourseControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
+        $data = $this->container->get('ilioscore.dataloader.session')
+            ->removeDeletedSessionsFromArray(array($data))[0];
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),

@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Ilios\CoreBundle\Tests\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\Manager\SessionManager;
@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Entity AamcMethod
  */
-class SessionManagerTest  extends TestCase
+class SessionManagerTest extends TestCase
 {
     /**
      * Remove all mock objects

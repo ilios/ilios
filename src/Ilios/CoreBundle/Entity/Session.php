@@ -319,7 +319,8 @@ class Session implements SessionInterface
         $this->disciplines = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
-
+        $this->offerings = new ArrayCollection();
+        
         $this->updatedAt = new \DateTime();
     }
 

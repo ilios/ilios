@@ -174,6 +174,7 @@ class Program implements ProgramInterface
     {
         $this->deleted = false;
         $this->publishedAsTbd = false;
+        $this->programYears = new ArrayCollection();
     }
 
     /**
@@ -214,7 +215,7 @@ class Program implements ProgramInterface
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-        foreach ($this->getProgramYears() as $programyear) {
+        foreach ($this->getProgramYears() as $programYear) {
             $programYear->setDeleted($deleted);
         }
     }

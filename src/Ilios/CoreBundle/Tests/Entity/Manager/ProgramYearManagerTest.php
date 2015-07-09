@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Ilios\CoreBundle\Tests\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\Manager\ProgramYearManager;
@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Entity AamcMethod
  */
-class ProgramYearManagerTest  extends TestCase
+class ProgramYearManagerTest extends TestCase
 {
     /**
      * Remove all mock objects

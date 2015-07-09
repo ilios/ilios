@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\User;
 use Mockery as m;
-use Doctrine\Common\Collections\ArrayCollection as Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity Objective
@@ -197,15 +197,39 @@ class UserTest extends EntityBase
      */
     public function testAddDirectedCourse()
     {
-        $this->entityCollectionAddTest('directedCourse', 'Course');
+        $goodCourse = m::mock('Ilios\CoreBundle\Entity\Course')
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
+            ->mock();
+        $deletedCourse = m::mock('Ilios\CoreBundle\Entity\Course')
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
+            ->mock();
+        $this->object->addDirectedCourse($goodCourse);
+        $this->object->addDirectedCourse($deletedCourse);
+        $results = $this->object->getDirectedCourses();
+        $this->assertTrue($results instanceof ArrayCollection, 'Collection not returned.');
+
+        $this->assertTrue($results->contains($goodCourse));
+        $this->assertFalse($results->contains($deletedCourse));
     }
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getDirectedCourses
      */
-    public function testSetDirectedCourses()
+    public function testGetDirectedCourses()
     {
-        $this->entityCollectionSetTest('directedCourse', 'Course');
+        $goodCourse = m::mock('Ilios\CoreBundle\Entity\Course')
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
+            ->mock();
+        $deletedCourse = m::mock('Ilios\CoreBundle\Entity\Course')
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
+            ->mock();
+        $collection = new ArrayCollection([$goodCourse, $deletedCourse]);
+        $this->object->setDirectedCourses($collection);
+        $results = $this->object->getDirectedCourses();
+        $this->assertTrue($results instanceof ArrayCollection, 'Collection not returned.');
+
+        $this->assertTrue($results->contains($goodCourse));
+        $this->assertFalse($results->contains($deletedCourse));
     }
 
     /**
@@ -414,7 +438,7 @@ class UserTest extends EntityBase
         $this->object->addCohort($obj);
         $this->object->setPrimaryCohort($obj);
         $obj2 = m::mock('Ilios\CoreBundle\Entity\Cohort');
-        $this->object->setCohorts(new Collection([$obj2]));
+        $this->object->setCohorts(new ArrayCollection([$obj2]));
         $this->assertNull($this->object->getPrimaryCohort());
     }
 

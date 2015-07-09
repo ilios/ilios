@@ -24,6 +24,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CourseRepository")
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Course implements CourseInterface
 {
@@ -770,6 +771,8 @@ class Course implements CourseInterface
      */
     public function getSessions()
     {
-        return $this->sessions;
+        return $this->sessions->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 }

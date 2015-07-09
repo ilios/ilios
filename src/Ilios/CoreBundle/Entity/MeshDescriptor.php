@@ -23,6 +23,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class MeshDescriptor implements MeshDescriptorInterface
 {
@@ -238,7 +239,9 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function getCourses()
     {
-        return $this->courses;
+        return $this->courses->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -294,7 +297,9 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function getSessions()
     {
-        return $this->sessions;
+        return $this->sessions->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
