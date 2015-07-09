@@ -12,8 +12,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'id' => 1,
             'required' => false,
             'publicNotes' => false,
-            'session' => "1",
-            'learningMaterial' => "1",
+            'session' => '1',
             'meshDescriptors' => []
         );
 
@@ -23,7 +22,19 @@ class SessionLearningMaterialData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+
+        $arr = array();
+
+        return array(
+          'id' => 2,
+          'required' => false,
+          'publicNotes' => false,
+          'session' => '1',
+          'meshDescriptors' => []
+        );
+
+        return $arr;
+
     }
 
     public function createInvalid()
