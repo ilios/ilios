@@ -17,12 +17,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
     {
         return [
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockSessionData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockSessionData',
         ];
     }
 
@@ -31,19 +26,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
      */
     protected function getPrivateFields()
     {
-        return [
-            'title',
-            'description',
-            'required',
-            'childSequenceOrder',
-            'orderInSequence',
-            'minimum',
-            'maximum',
-            'track',
-            'startDate',
-            'endDate',
-            'duration'
-        ];
+        return [];
     }
 
     public function testGetCurriculumInventorySequenceBlock()

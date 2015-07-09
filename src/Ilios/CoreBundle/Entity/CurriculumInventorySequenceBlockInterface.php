@@ -33,9 +33,9 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function setChildSequenceOrder($childSequenceOrder);
 
     /**
-     * @return boolean
+     * @return int
      */
-    public function hasChildSequenceOrder();
+    public function getChildSequenceOrder();
 
     /**
      * @param int $orderInSequence
@@ -80,7 +80,7 @@ interface CurriculumInventorySequenceBlockInterface extends
     /**
      * @param \DateTime $startDate
      */
-    public function setStartDate($startDate);
+    public function setStartDate(\DateTime $startDate = null);
 
     /**
      * @return \DateTime
@@ -90,7 +90,7 @@ interface CurriculumInventorySequenceBlockInterface extends
     /**
      * @param \DateTime $endDate
      */
-    public function setEndDate($endDate);
+    public function setEndDate(\DateTime $endDate = null);
 
     /**
      * @return \DateTime
@@ -151,4 +151,11 @@ interface CurriculumInventorySequenceBlockInterface extends
      * @return CurriculumInventoryReportInterface
      */
     public function getReport();
+    
+    public function addSession(CurriculumInventorySequenceBlockSessionInterface $session);
+
+    /**
+     * @return ArrayCollection|CurriculumInventorySequenceBlockSessionInterface[]
+     */
+    public function getSessions();
 }

@@ -9,7 +9,7 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
         $arr = array();
         $arr = array(
             'id' => 1,
-            'name' => $this->faker->string(10)
+            'name' => $this->faker->text(10)
         );
         // $arr[] = array(
         //     'id' => 81,

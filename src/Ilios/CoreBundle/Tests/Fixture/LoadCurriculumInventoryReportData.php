@@ -30,6 +30,8 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
             $entity = new CurriculumInventoryReport();
             $entity->setId($arr['id']);
             $entity->setYear($arr['year']);
+            $entity->setStartDate(new \DateTime($arr['startDate']));
+            $entity->setEndDate(new \DateTime($arr['endDate']));
             $manager->persist($entity);
             $this->addReference('curriculumInventoryReports' . $arr['id'], $entity);
         }
