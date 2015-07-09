@@ -123,7 +123,6 @@ class PublishEvent implements PublishEventInterface
      * @ORM\OneToMany(targetEntity="Course", mappedBy="publishEvent")
      *
      * @JMS\Expose
-     * @JMS\SerializedName("startDate")
      * @JMS\Type("array<string>")
      */
     protected $courses;
