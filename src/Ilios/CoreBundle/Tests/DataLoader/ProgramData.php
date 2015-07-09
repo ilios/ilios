@@ -15,7 +15,7 @@ class ProgramData extends AbstractDataLoader
             'duration' => 4,
             'deleted' => false,
             'publishedAsTbd' => false,
-            'publishEvent' => "",
+            'publishEvent' => '1',
             'owningSchool' => "1",
             'programYears' => ["1", "2"],
             'curriculumInventoryReports' => []

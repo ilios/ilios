@@ -15,10 +15,6 @@ class PublishEventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('administrator', 'tdn_single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:User"
-            ])
             ->add('sessions', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
