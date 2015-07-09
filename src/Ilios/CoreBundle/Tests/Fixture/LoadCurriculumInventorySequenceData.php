@@ -31,9 +31,9 @@ class LoadCurriculumInventorySequenceData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequence();
             $entity->setDescription($arr['description']);
-            $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report_id']));
+            $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
             $manager->persist($entity);
-            $this->addReference('curriculumInventorySequences' . $arr['report_id'], $entity);
+            $this->addReference('curriculumInventorySequences' . $arr['report'], $entity);
         }
 
         $manager->flush();
