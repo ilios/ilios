@@ -14,7 +14,7 @@ class AlertData extends AbstractDataLoader
             'dispatched' => '1',
             'changeTypes' => ['1'],
             'instigators' => ['1', '2'],
-            'recipients' => []
+            'recipients' => ['1']
         );
         $arr[] = array(
             'id' => 2,

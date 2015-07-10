@@ -19,13 +19,8 @@ class SchoolControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
             'Ilios\CoreBundle\Tests\Fixture\LoadDisciplineData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData',
         ];
     }
 

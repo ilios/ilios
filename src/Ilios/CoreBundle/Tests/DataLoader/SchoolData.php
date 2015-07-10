@@ -21,7 +21,7 @@ class SchoolData extends AbstractDataLoader
             'departments' => [],
             'disciplines' => ['1', '2'],
             'instructorGroups' => [],
-            'curriculumInventoryInsitution' => "1",
+            // 'curriculumInventoryInsitution' => "1",
             'sessionTypes' => ['1', '2']
         );
 
@@ -31,11 +31,27 @@ class SchoolData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 2,
+            'title' => $this->faker->word,
+            'iliosAdministratorEmail' => $this->faker->email,
+            'deleted' => false,
+            'changeAlertRecipients' => $this->faker->email,
+            'alerts' => [],
+            'competencies' => [],
+            'courses' => [],
+            'programs' => [1],
+            'departments' => [],
+            'disciplines' => [],
+            'instructorGroups' => [],
+            'sessionTypes' => []
+        );
     }
 
     public function createInvalid()
     {
-        return [];
+        return [
+            'id' => 'lkjdsf'
+        ];
     }
 }

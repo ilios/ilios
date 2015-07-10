@@ -304,6 +304,22 @@ class School implements SchoolInterface
     {
         return $this->changeAlertRecipients;
     }
+    
+    /**
+     * @param string $curriculumInventoryInsitution
+     */
+    public function setCurriculumInventoryInsitution($curriculumInventoryInsitution)
+    {
+        $this->curriculumInventoryInsitution = $curriculumInventoryInsitution;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurriculumInventoryInsitution()
+    {
+        return $this->curriculumInventoryInsitution;
+    }
 
     /**
      * @param Collection $alerts
@@ -351,7 +367,7 @@ class School implements SchoolInterface
      */
     public function addCompetency(CompetencyInterface $competency)
     {
-        $this->addCompetency($competency);
+        $this->competencies->add($competency);
     }
 
     /**
@@ -445,6 +461,90 @@ class School implements SchoolInterface
     public function getDisciplines()
     {
         return $this->disciplines;
+    }
+
+    /**
+     * @param Collection $programs
+     */
+    public function setPrograms(Collection $programs)
+    {
+        $this->programs = new ArrayCollection();
+
+        foreach ($programs as $program) {
+            $this->addProgram($program);
+        }
+    }
+
+    /**
+     * @param ProgramInterface $program
+     */
+    public function addProgram(ProgramInterface $program)
+    {
+        $this->programs->add($program);
+    }
+
+    /**
+     * @return ArrayCollection|ProgramInterface[]
+     */
+    public function getPrograms()
+    {
+        return $this->programs;
+    }
+
+    /**
+     * @param Collection $instructorGroups
+     */
+    public function setInstructorGroups(Collection $instructorGroups)
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
+    }
+
+    /**
+     * @param InstructorGroupInterface $instructorGroup
+     */
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
+    {
+        $this->instructorGroups->add($instructorGroup);
+    }
+
+    /**
+     * @return ArrayCollection|InstructorGroupInterface[]
+     */
+    public function getInstructorGroups()
+    {
+        return $this->instructorGroups;
+    }
+
+    /**
+     * @param Collection $sessionTypes
+     */
+    public function setSessionTypes(Collection $sessionTypes)
+    {
+        $this->sessionTypes = new ArrayCollection();
+
+        foreach ($sessionTypes as $sessionType) {
+            $this->addSessionType($sessionType);
+        }
+    }
+
+    /**
+     * @param SessionTypeInterface $sessionType
+     */
+    public function addSessionType(SessionTypeInterface $sessionType)
+    {
+        $this->sessionTypes->add($sessionType);
+    }
+
+    /**
+     * @return ArrayCollection|SessionTypeInterface[]
+     */
+    public function getSessionTypes()
+    {
+        return $this->sessionTypes;
     }
 
     /**
