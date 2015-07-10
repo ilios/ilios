@@ -943,7 +943,6 @@ class Migrate
             'curriculum_inventory_export',
             'curriculum_inventory_institution',
             'curriculum_inventory_sequence',
-            'session_description',
             'session_type_x_aamc_method',
         );
 
@@ -4140,7 +4139,6 @@ class Migrate
             'alert_recipient' => 'alert_id, school_id',
             'session_type_x_aamc_method' => 'session_type_id, method_id',
             'session_learning_material_x_mesh' => 'session_learning_material_id, mesh_descriptor_uid',
-            'session_description' => 'session_id',
         );
 
         foreach ($arr as $table => $key) {
