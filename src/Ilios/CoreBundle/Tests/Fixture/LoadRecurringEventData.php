@@ -29,6 +29,7 @@ class LoadRecurringEventData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new RecurringEvent();
             $entity->setId($arr['id']);
+            $entity->setEndDate(new \DateTime($arr['endDate']));
             $manager->persist($entity);
             $this->addReference('recurringEvents' . $arr['id'], $entity);
         }

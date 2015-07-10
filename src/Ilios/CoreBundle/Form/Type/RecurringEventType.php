@@ -22,7 +22,9 @@ class RecurringEventType extends AbstractType
             ->add('onThursday', null, ['required' => false])
             ->add('onFriday', null, ['required' => false])
             ->add('onSaturday', null, ['required' => false])
-            ->add('endDate')
+            ->add('endDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
             ->add('repetitionCount', null, ['required' => false])
             ->add('previousRecurringEvent', 'tdn_single_related', [
                 'required' => false,

@@ -10,7 +10,15 @@ class RecurringEventData extends AbstractDataLoader
         
         $arr[] = array(
             'id' => 1,
-            'offerings' => []
+            'offerings' => [],
+            'endDate' => "2013-12-14T00:00:00+00:00",
+            'onSunday' => false,
+            'onMonday' => false,
+            'onTuesday' => false,
+            'onWednesday' => false,
+            'onThursday' => false,
+            'onFriday' => false,
+            'onSaturday' => false,
         );
         
         return $arr;
@@ -18,11 +26,24 @@ class RecurringEventData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 2,
+            'offerings' => [],
+            'endDate' => "2013-12-14T00:00:00+00:00",
+            'onSunday' => false,
+            'onMonday' => false,
+            'onTuesday' => false,
+            'onWednesday' => false,
+            'onThursday' => false,
+            'onFriday' => false,
+            'onSaturday' => false,
+        );
     }
 
     public function createInvalid()
     {
-        return [];
+        return [
+            'id' => 'foobar'
+        ];
     }
 }

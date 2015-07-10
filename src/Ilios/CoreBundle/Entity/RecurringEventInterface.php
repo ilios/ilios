@@ -84,7 +84,7 @@ interface RecurringEventInterface
     /**
      * @param \DateTime $endDate
      */
-    public function setEndDate(\DateTime $endDate);
+    public function setEndDate(\DateTime $endDate = null);
 
     /**
      * @return \DateTime

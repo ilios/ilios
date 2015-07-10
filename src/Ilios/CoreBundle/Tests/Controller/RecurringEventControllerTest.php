@@ -16,7 +16,7 @@ class RecurringEventControllerTest extends AbstractControllerTest
     protected function getFixtures()
     {
         return [
-            // 'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData'
         ];
     }
@@ -27,15 +27,6 @@ class RecurringEventControllerTest extends AbstractControllerTest
     protected function getPrivateFields()
     {
         return [
-            'onSunday',
-            'onMonday',
-            'onTuesday',
-            'onWednesday',
-            'onThursday',
-            'onFriday',
-            'onSaturday',
-            'endDate',
-            'repetitionCount'
         ];
     }
 
