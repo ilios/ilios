@@ -32,6 +32,7 @@ class LoadLearnerGroupData extends AbstractFixture implements
             $entity = new LearnerGroup();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
+            $entity->setLocation($arr['location']);
             $entity->setCohort($this->getReference('cohorts' . $arr['cohort']));
             $manager->persist($entity);
             $this->addReference('learnerGroups' . $arr['id'], $entity);
