@@ -5,6 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -29,7 +31,6 @@ class LearningMaterial implements LearningMaterialInterface
     use IdentifiableEntity;
     use TitledEntity;
     use DescribableEntity;
-    use TimestampableEntity;
 
     /**
      * @var int
@@ -92,7 +93,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("uploadDate")
      */
-    protected $createdAt;
+    protected $uploadDate;
 
     /**
      * renamed Asset Creator
@@ -174,9 +175,9 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="learningMaterial")
      *
-     * JMS\Expose
-     * JMS\Type("array<string>")
-     * JMS\SerializedName("sessionLearningMaterials")
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("sessionLearningMaterials")
      */
     protected $sessionLearningMaterials;
 
@@ -197,7 +198,6 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\Column(name="citation", type="string", length=512, nullable=true)
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -215,7 +215,6 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\Column(name="relative_file_system_location", type="string", length=128, nullable=true)
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -263,7 +262,6 @@ class LearningMaterial implements LearningMaterialInterface
     *
     * @ORM\Column(name="filename", type="string", length=255, nullable=true)
     *
-    * @Assert\NotBlank()
     * @Assert\Type(type="string")
     * @Assert\Length(
     *      min = 1,
@@ -280,7 +278,6 @@ class LearningMaterial implements LearningMaterialInterface
     *
     * @ORM\Column(name="mime_type", type="string", length=96, nullable=true)
     *
-    * @Assert\NotBlank()
     * @Assert\Type(type="string")
     * @Assert\Length(
     *      min = 1,
@@ -289,7 +286,6 @@ class LearningMaterial implements LearningMaterialInterface
     *
     * @JMS\Expose
     * @JMS\Type("string")
-    * @JMS\SerializedName("mimetype")
     */
     protected $mimetype;
 
@@ -298,7 +294,6 @@ class LearningMaterial implements LearningMaterialInterface
     *
     * @ORM\Column(name="filesize", type="integer", nullable=true, options={"unsigned"=true})
     *
-    * @Assert\NotBlank()
     * @Assert\Type(type="integer")
     *
     * @JMS\Expose
@@ -317,7 +312,6 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\Column(name="web_link", type="string", length=256, nullable=true)
      *
-     * @Assert\NotBlank()
      * @Assert\Url()
      *
      * @JMS\Expose
@@ -331,7 +325,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->uploadDate = new \DateTime();
     }
 
     /**
@@ -420,7 +414,6 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function setCitation($citation)
     {
-        $this->setType(self::TYPE_CITATION);
         $this->citation = $citation;
     }
 
@@ -504,7 +497,6 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function setResource(UploadedFile $resource)
     {
-        $this->setType(self::TYPE_FILE);
         $this->resource = $resource;
     }
 
@@ -566,7 +558,6 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function setLink($link)
     {
-        $this->setType(self::TYPE_LINK);
         $this->link = $link;
     }
 
@@ -576,5 +567,67 @@ class LearningMaterial implements LearningMaterialInterface
     public function getLink()
     {
         return $this->link;
+    }
+
+    /**
+     * @param Collection $courseLearningMaterials
+     */
+    public function setCourseLearningMaterials(Collection $courseLearningMaterials = null)
+    {
+        $this->courseLearningMaterials = new ArrayCollection();
+        if (is_null($courseLearningMaterials)) {
+            return;
+        }
+
+        foreach ($courseLearningMaterials as $courseLearningMaterial) {
+            $this->addCourseLearningMaterial($courseLearningMaterial);
+        }
+    }
+
+    /**
+     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     */
+    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    {
+        $this->courseLearningMaterials->add($courseLearningMaterial);
+    }
+
+    /**
+     * @return ArrayCollection|CourseLearningMaterialInterface[]
+     */
+    public function getCourseLearningMaterials()
+    {
+        return $this->courseLearningMaterials;
+    }
+
+    /**
+     * @param Collection $sessionLearningMaterials
+     */
+    public function setSessionLearningMaterials(Collection $sessionLearningMaterials = null)
+    {
+        $this->sessionLearningMaterials = new ArrayCollection();
+        if (is_null($sessionLearningMaterials)) {
+            return;
+        }
+
+        foreach ($sessionLearningMaterials as $sessionLearningMaterial) {
+            $this->addSessionLearningMaterial($sessionLearningMaterial);
+        }
+    }
+
+    /**
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     */
+    public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
+    {
+        $this->sessionLearningMaterials->add($sessionLearningMaterial);
+    }
+
+    /**
+     * @return ArrayCollection|SessionLearningMaterialInterface[]
+     */
+    public function getSessionLearningMaterials()
+    {
+        return $this->sessionLearningMaterials;
     }
 }

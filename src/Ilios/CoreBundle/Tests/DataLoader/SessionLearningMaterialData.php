@@ -13,6 +13,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'required' => false,
             'publicNotes' => false,
             'session' => '1',
+            'learningMaterial' => '1',
             'meshDescriptors' => []
         );
 

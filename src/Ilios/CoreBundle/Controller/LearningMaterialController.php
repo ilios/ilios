@@ -332,7 +332,6 @@ class LearningMaterialController extends FOSRestController
     protected function getPostData(Request $request)
     {
         $data = $request->request->get('learningMaterial');
-
         if (empty($data)) {
             $data = $request->request->all();
         }

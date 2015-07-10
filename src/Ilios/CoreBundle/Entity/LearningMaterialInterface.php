@@ -4,11 +4,9 @@ namespace Ilios\CoreBundle\Entity;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-use Ilios\CoreBundle\Traits\BlameableEntityInterface;
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
-use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
@@ -18,9 +16,7 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 interface LearningMaterialInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    DescribableEntityInterface,
-    TimestampableEntityInterface
-//    BlameableEntityInterface
+    DescribableEntityInterface
 {
 
     /**

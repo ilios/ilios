@@ -33,6 +33,9 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setRequired($arr['required']);
             $entity->setSession($this->getReference('sessions' . $arr['session']));
+            if ($arr['learningMaterial']) {
+                $entity->setLearningMaterial($this->getReference('learningMaterials' . $arr['learningMaterial']));
+            }
             
             $manager->persist($entity);
             $this->addReference('sessionLearningMaterials' . $arr['id'], $entity);
@@ -45,6 +48,7 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
         );
     }
 }

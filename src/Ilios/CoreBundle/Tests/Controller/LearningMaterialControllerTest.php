@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Tests\Controller;
 
 use FOS\RestBundle\Util\Codes;
+use DateTime;
 
 /**
  * LearningMaterial controller Test.
@@ -17,9 +18,6 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     {
         return [
             'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialUserRoleData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialStatusData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData'
         ];
@@ -52,10 +50,16 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['learningMaterials'][0];
+        $uploadDate = new DateTime($data['uploadDate']);
+        unset($data['uploadDate']);
         $this->assertEquals(
             $this->mockSerialize($learningMaterial),
-            json_decode($response->getContent(), true)['learningMaterials'][0]
+            $data
         );
+        $now = new DateTime();
+        $diff = $now->diff($uploadDate);
+        $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
     }
 
     public function testGetAllLearningMaterials()
@@ -64,13 +68,23 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = [];
+        $responses = json_decode($response->getContent(), true)['learningMaterials'];
+        $now = new DateTime();
+        foreach ($responses as $response) {
+            $uploadDate = new DateTime($response['uploadDate']);
+            unset($response['uploadDate']);
+            $diff = $now->diff($uploadDate);
+            $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
+            $data[] = $response;
+        }
         $this->assertEquals(
             $this->mockSerialize(
                 $this->container
                     ->get('ilioscore.dataloader.learningmaterial')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['learningMaterials']
+            $data
         );
     }
 
@@ -81,7 +95,6 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
@@ -92,11 +105,17 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
+        $uploadDate = new DateTime($responseData['uploadDate']);
+        unset($responseData['uploadDate']);
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['learningMaterials'][0],
+            $responseData,
             $response->getContent()
         );
+        $now = new DateTime();
+        $diff = $now->diff($uploadDate);
+        $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
     }
 
     public function testPostBadLearningMaterial()
@@ -134,13 +153,21 @@ class LearningMaterialControllerTest extends AbstractControllerTest
             ),
             json_encode(['learningMaterial' => $postData])
         );
+        
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $responseData = json_decode($response->getContent(), true)['learningMaterial'];
+        $uploadDate = new DateTime($responseData['uploadDate']);
+        unset($responseData['uploadDate']);
         $this->assertEquals(
-            $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['learningMaterial']
+            $data,
+            $responseData,
+            $response->getContent()
         );
+        $now = new DateTime();
+        $diff = $now->diff($uploadDate);
+        $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
     }
 
     public function testDeleteLearningMaterial()
