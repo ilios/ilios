@@ -31,6 +31,7 @@ class LoadDisciplineData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new Discipline();
             $entity->setId($arr['id']);
+            $entity->setTitle($arr['title']);
             if (!empty($arr['owningSchool'])) {
                 $entity->setOwningSchool($this->getReference('schools' . $arr['owningSchool']));
             }

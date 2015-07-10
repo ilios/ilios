@@ -9,16 +9,16 @@ class DisciplineData extends AbstractDataLoader
         $arr = array();
         $arr[] = array(
             'id' => 1,
-            //'title' => $this->faker->text(100),
-            //'owningSchool' => '1',
+            'title' => $this->faker->text(100),
+            'owningSchool' => '1',
             'courses' => [],
             'programYears' => [],
             'sessions' => ['1']
         );
         $arr[] = array(
             'id' => 2,
-            //'title' => $this->faker->text(100),
-            //'owningSchool' => '1',
+            'title' => $this->faker->text(100),
+            'owningSchool' => '1',
             'courses' => [],
             'programYears' => [],
             'sessions' => ['1']
