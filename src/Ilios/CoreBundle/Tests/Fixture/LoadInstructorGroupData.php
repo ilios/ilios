@@ -35,6 +35,9 @@ class LoadInstructorGroupData extends AbstractFixture implements
             foreach ($arr['users'] as $id) {
                 $entity->addUser($this->getReference('users' . $id));
             }
+            if (!empty($arr['school'])) {
+                $entity->setSchool($this->getReference('schools' . $arr['school']));
+            }
             $manager->persist($entity);
             $this->addReference('instructorGroups' . $arr['id'], $entity);
         }
@@ -45,7 +48,8 @@ class LoadInstructorGroupData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
         );
     }
 }
