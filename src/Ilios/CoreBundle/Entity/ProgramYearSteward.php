@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+
 /**
  * Class ProgramYearSteward
  * @package Ilios\CoreBundle\Entity
@@ -27,8 +29,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ProgramYearSteward implements ProgramYearStewardInterface
 {
+    use IdentifiableEntity;
+
     /**
-     * @deprecated To be replaced with Trait in 3.x
      * @var int
      *
      * @ORM\Column(name="program_year_steward_id", type="integer")
@@ -81,22 +84,6 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      * @JMS\Type("string")
      */
     protected $school;
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->programYearStewardId = $id;
-        $this->id = $id;
-    }
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->programYearStewardId : $this->id;
-    }
 
     /**
      * @param DepartmentInterface $department
