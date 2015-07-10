@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Tests\Controller;
 
 use FOS\RestBundle\Util\Codes;
+use \DateTime;
 
 /**
  * UserMadeReminder controller Test.
@@ -26,12 +27,7 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-            'note',
-            'createdAt',
-            'dueDate',
-            'closed'
-        ];
+        return [];
     }
 
     public function testGetUserMadeReminder()
@@ -52,10 +48,16 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['userMadeReminders'][0];
+        $createdAt = new DateTime($data['createdAt']);
+        unset($data['createdAt']);
         $this->assertEquals(
             $this->mockSerialize($userMadeReminder),
-            json_decode($response->getContent(), true)['userMadeReminders'][0]
+            $data
         );
+        $now = new DateTime();
+        $diff = $now->diff($createdAt);
+        $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
     }
 
     public function testGetAllUserMadeReminders()
@@ -64,13 +66,23 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = [];
+        $responses = json_decode($response->getContent(), true)['userMadeReminders'];
+        $now = new DateTime();
+        foreach ($responses as $response) {
+            $createdAt = new DateTime($response['createdAt']);
+            unset($response['createdAt']);
+            $diff = $now->diff($createdAt);
+            $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
+            $data[] = $response;
+        }
         $this->assertEquals(
             $this->mockSerialize(
                 $this->container
                     ->get('ilioscore.dataloader.usermadereminder')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['userMadeReminders']
+            $data
         );
     }
 
@@ -92,11 +104,17 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $responseData = json_decode($response->getContent(), true)['userMadeReminders'][0];
+        $createdAt = new DateTime($responseData['createdAt']);
+        unset($responseData['createdAt']);
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['userMadeReminders'][0],
+            $responseData,
             $response->getContent()
         );
+        $now = new DateTime();
+        $diff = $now->diff($createdAt);
+        $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
     }
 
     public function testPostBadUserMadeReminder()
@@ -137,10 +155,17 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $responseData = json_decode($response->getContent(), true)['userMadeReminder'];
+        $createdAt = new DateTime($responseData['createdAt']);
+        unset($responseData['createdAt']);
         $this->assertEquals(
-            $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['userMadeReminder']
+            $data,
+            $responseData,
+            $response->getContent()
         );
+        $now = new DateTime();
+        $diff = $now->diff($createdAt);
+        $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
     }
 
     public function testDeleteUserMadeReminder()

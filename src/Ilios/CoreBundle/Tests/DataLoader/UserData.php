@@ -31,7 +31,8 @@ class UserData extends AbstractDataLoader
             'instructionHours' => [],
             'alerts' => ['1'],
             'roles' => ['1'],
-            'cohorts' => ['1']
+            'cohorts' => ['1'],
+            'reminders' => ['1', '2']
         );
 
         $arr[] = array(
@@ -56,7 +57,8 @@ class UserData extends AbstractDataLoader
             'instructionHours' => [],
             'alerts' => ['1'],
             'roles' => ['1'],
-            'cohorts' => []
+            'cohorts' => [],
+            'reminders' => []
         );
 
         $arr[] = array(
@@ -81,7 +83,8 @@ class UserData extends AbstractDataLoader
             'instructionHours' => [],
             'alerts' => [],
             'roles' => [],
-            'cohorts' => []
+            'cohorts' => [],
+            'reminders' => []
         );
 
 
@@ -113,7 +116,8 @@ class UserData extends AbstractDataLoader
             'instructionHours' => [],
             'alerts' => [],
             'roles' => [],
-            'cohorts' => []
+            'cohorts' => [],
+            'reminders' => []
         ];
     }
 

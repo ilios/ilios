@@ -20,6 +20,7 @@ class UserControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadUserMadeReminderData',
         ];
     }
 
@@ -37,7 +38,6 @@ class UserControllerTest extends AbstractControllerTest
             'examined',
             'userSyncIgnore',
             'apiKey',
-            'reminders'
         ];
     }
 
