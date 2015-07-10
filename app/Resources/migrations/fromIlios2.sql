@@ -242,6 +242,7 @@ CALL drop_key_if_exists('user_x_cohort', 'fkey_user_x_cohort_cohort');
 ALTER TABLE `curriculum_inventory_export` DROP PRIMARY KEY;
 ALTER TABLE `curriculum_inventory_institution` DROP PRIMARY KEY;
 ALTER TABLE `curriculum_inventory_sequence` DROP PRIMARY KEY;
+ALTER TABLE `session_description` DROP PRIMARY KEY;
 ALTER TABLE `session_type_x_aamc_method` DROP PRIMARY KEY;
 DROP TABLE IF EXISTS `group_default_instructor`;
 DROP TABLE IF EXISTS `curriculum_inventory_program`;
@@ -272,6 +273,7 @@ ALTER TABLE `curriculum_inventory_institution` ADD `institution_id` INT AUTO_INC
 ALTER TABLE `curriculum_inventory_sequence` ADD `sequence_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
 ALTER TABLE `program_year_steward` ADD `program_year_steward_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
 ALTER TABLE `learning_material` ADD `type` VARCHAR(255) NOT NULL;
+ALTER TABLE `session_description` ADD `description_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
 ALTER TABLE `user` ADD `primary_cohort_id` INT DEFAULT NULL;
 UPDATE learning_material set type= CASE WHEN citation IS NOT NULL THEN 'citation' WHEN filename IS NOT NULL THEN 'file' ELSE 'link' END;
 UPDATE user u SET primary_cohort_id = (SELECT cohort_id from user_x_cohort x WHERE x.user_id = u.user_id AND x.is_primary);
