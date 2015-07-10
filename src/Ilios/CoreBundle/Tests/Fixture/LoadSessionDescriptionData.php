@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Fixture;
 
 use Ilios\CoreBundle\Entity\SessionDescription;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadSessionDescriptionData extends AbstractFixture implements
     FixtureInterface,
+    DependentFixtureInterface,
     ContainerAwareInterface
 {
 
@@ -28,11 +30,19 @@ class LoadSessionDescriptionData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new SessionDescription();
-            $entity->setId($arr['id']);
+            $entity->setSession($this->getReference('sessions' . $arr['session']));
+            $entity->setDescription($arr['description']);
             $manager->persist($entity);
-            $this->addReference('sessionDescriptions' . $arr['id'], $entity);
+            $this->addReference('sessionDescriptions' . $arr['session'], $entity);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
+        );
     }
 }
