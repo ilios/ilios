@@ -30,13 +30,7 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-            'name',
-            'description',
-            'year',
-            'startDate',
-            'endDate'
-        ];
+        return [];
     }
 
     public function testGetCurriculumInventoryReport()
