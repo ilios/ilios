@@ -133,7 +133,7 @@ class UserMadeReminder implements UserMadeReminderInterface
     /**
      * @param \DateTime $dueDate
      */
-    public function setDueDate(\DateTime $dueDate)
+    public function setDueDate(\DateTime $dueDate = null)
     {
         $this->dueDate = $dueDate;
     }
