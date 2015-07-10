@@ -43,7 +43,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      *
      * @ORM\OneToOne(targetEntity="CurriculumInventoryReport", inversedBy="sequence")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true)
+     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true, nullable=false)
      * })
      *
      * @JMS\Expose
