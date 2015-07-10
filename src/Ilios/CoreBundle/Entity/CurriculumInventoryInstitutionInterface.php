@@ -8,11 +8,11 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
-
 /**
  * Interface CurriculumInventoryInstitutionInterface
  */
-interface CurriculumInventoryInstitutionInterface extends NameableEntityInterface,
+interface CurriculumInventoryInstitutionInterface extends
+    NameableEntityInterface,
     IdentifiableEntityInterface
 {
     /**

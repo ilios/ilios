@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+
 /**
  * Class CurriculumInventoryExport
  * @package Ilios\CoreBundle\Entity
