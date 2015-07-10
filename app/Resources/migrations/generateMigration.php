@@ -1000,6 +1000,12 @@ class Migrate
         );
 
         $changes[] = array(
+            'table' => 'session_description',
+            'column' => 'description_id',
+            'definition' => 'INT AUTO_INCREMENT NOT NULL PRIMARY KEY'
+        );
+
+        $changes[] = array(
             'table' => 'user',
             'column' => 'primary_cohort_id',
             'definition' => 'INT DEFAULT NULL'
@@ -4133,7 +4139,6 @@ class Migrate
             'alert_recipient' => 'alert_id, school_id',
             'session_type_x_aamc_method' => 'session_type_id, method_id',
             'session_learning_material_x_mesh' => 'session_learning_material_id, mesh_descriptor_uid',
-            'session_description' => 'session_id',
         );
 
         foreach ($arr as $table => $key) {

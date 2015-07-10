@@ -272,6 +272,7 @@ ALTER TABLE `curriculum_inventory_institution` ADD `institution_id` INT AUTO_INC
 ALTER TABLE `curriculum_inventory_sequence` ADD `sequence_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
 ALTER TABLE `program_year_steward` ADD `program_year_steward_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
 ALTER TABLE `learning_material` ADD `type` VARCHAR(255) NOT NULL;
+ALTER TABLE `session_description` ADD `description_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
 ALTER TABLE `user` ADD `primary_cohort_id` INT DEFAULT NULL;
 UPDATE learning_material set type= CASE WHEN citation IS NOT NULL THEN 'citation' WHEN filename IS NOT NULL THEN 'file' ELSE 'link' END;
 UPDATE user u SET primary_cohort_id = (SELECT cohort_id from user_x_cohort x WHERE x.user_id = u.user_id AND x.is_primary);
@@ -531,7 +532,6 @@ ALTER TABLE `alert_change` ADD PRIMARY KEY (alert_id, alert_change_type_id);
 ALTER TABLE `alert_recipient` ADD PRIMARY KEY (alert_id, school_id);
 ALTER TABLE `session_type_x_aamc_method` ADD PRIMARY KEY (session_type_id, method_id);
 ALTER TABLE `session_learning_material_x_mesh` ADD PRIMARY KEY (session_learning_material_id, mesh_descriptor_uid);
-ALTER TABLE `session_description` ADD PRIMARY KEY (session_id);
 CREATE INDEX tmpidx_alert_id ON `alert_instigator` (alert_id);
 CREATE INDEX tmpidx_user_id ON `alert_instigator` (user_id);
 ALTER TABLE `alert_instigator` ADD COLUMN `id` BIGINT PRIMARY KEY AUTO_INCREMENT FIRST;
