@@ -74,9 +74,6 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
     {
         $data = $this->container->get('ilioscore.dataloader.curriculuminventoryinstitution')
             ->create();
-        $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['id']);
 
         $this->createJsonRequest(
             'POST',
@@ -119,14 +116,12 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
             ->getOne();
 
         $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['id']);
 
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
                 'put_curriculuminventoryinstitutions',
-                ['id' => $data['id']]
+                ['school' => $data['school']]
             ),
             json_encode(['curriculumInventoryInstitution' => $postData])
         );

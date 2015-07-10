@@ -5,6 +5,8 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -161,5 +163,35 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     public function getReport()
     {
         return $this->report;
+    }
+
+    /**
+     * @param Collection $sequenceBlocks
+     */
+    public function setSequenceBlocks(Collection $sequenceBlocks = null)
+    {
+        $this->sequenceBlocks = new ArrayCollection();
+        if (is_null($sequenceBlocks)) {
+            return;
+        }
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addSequenceBlock($sequenceBlock);
+        }
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     */
+    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    {
+        $this->sequenceBlocks->add($sequenceBlock);
+    }
+
+    /**
+     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     */
+    public function getSequenceBlocks()
+    {
+        return $this->sequenceBlocks;
     }
 }

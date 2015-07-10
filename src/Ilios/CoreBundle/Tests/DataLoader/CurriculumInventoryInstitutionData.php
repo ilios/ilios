@@ -7,17 +7,16 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
     protected function getData()
     {
         $arr = array();
-
-        // $arr[] = array(
-        //     'name' => "University of California, San Francisco, School Of Medicine",
-        //     'aamcCode' => "108",
-        //     'addressStreet' => "513 Parnassus Ave",
-        //     'address_city' => "San Francisco",
-        //     'address_state_or_province' => "CA",
-        //     'addressZipCode' => "94143",
-        //     'addressCountryCode' => "US",
-        //     'school' => "1"
-        // );
+        $arr[] = array(
+            'name' => $this->faker->text(25),
+            'aamcCode' => $this->faker->randomDigit,
+            'addressStreet' => $this->faker->streetAddress,
+            'addressCity' => $this->faker->city,
+            'addressStateOrProvince' => $this->faker->stateAbbr,
+            'addressZipCode' => $this->faker->postcode,
+            'addressCountryCode' => $this->faker->country,
+            'school' => '1'
+        );
 
         return $arr;
     }

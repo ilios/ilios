@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Fixture;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitution;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
     FixtureInterface,
+    DependentFixtureInterface,
     ContainerAwareInterface
 {
 
@@ -28,11 +30,28 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryInstitution();
-            $entity->setId($arr['id']);
+            if (!empty($arr['school'])) {
+                $entity->setSchool($this->getReference('schools' . $arr['school']));
+            }
+            $entity->setName($arr['name']);
+            $entity->setAamcCode($arr['aamcCode']);
+            $entity->setAddressStreet($arr['addressStreet']);
+            $entity->setAddressCity($arr['addressCity']);
+            $entity->setAddressStateOrProvince($arr['addressStateOrProvince']);
+            $entity->setAddressZipCode($arr['addressZipCode']);
+            $entity->setAddressCountryCode($arr['addressCountryCode']);
+            
             $manager->persist($entity);
-            $this->addReference('curriculumInventoryInstitutions' . $arr['id'], $entity);
+            $this->addReference('curriculumInventoryInstitutions' . $arr['name'], $entity);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
+        );
     }
 }
