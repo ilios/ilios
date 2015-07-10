@@ -10,8 +10,14 @@ class DepartmentData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'title' => "Department of Clinical Pharmacy",
-            // 'school' => "3"
+            'title' => $this->faker->text(50),
+            'school' => '1'
+        );
+
+        $arr[] = array(
+            'id' => 2,
+            'title' => $this->faker->text(50),
+            'school' => '1'
         );
 
 
@@ -20,7 +26,11 @@ class DepartmentData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 3,
+            'title' => $this->faker->text(50),
+            'school' => '1'
+        );
     }
 
     public function createInvalid()
