@@ -43,7 +43,6 @@ parameters:
     ilioscore.publishevent.manager.class: Ilios\CoreBundle\Entity\Manager\PublishEventManager
     ilioscore.recurringevent.manager.class: Ilios\CoreBundle\Entity\Manager\RecurringEventManager
     ilioscore.report.manager.class: Ilios\CoreBundle\Entity\Manager\ReportManager
-    ilioscore.reportpovalue.manager.class: Ilios\CoreBundle\Entity\Manager\ReportPoValueManager
     ilioscore.school.manager.class: Ilios\CoreBundle\Entity\Manager\SchoolManager
     ilioscore.sessiondescription.manager.class: Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager
     ilioscore.sessionlearningmaterial.manager.class: Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager
@@ -192,9 +191,6 @@ services:
     ilioscore.report.manager:
         class: %ilioscore.report.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Report]
-    ilioscore.reportpovalue.manager:
-        class: %ilioscore.reportpovalue.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\ReportPoValue]
     ilioscore.school.manager:
         class: %ilioscore.school.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\School]
