@@ -17,7 +17,10 @@ class CurriculumInventorySequenceBlockSessionData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 2,
+            'sequenceBlock' => 1
+        );
     }
 
     public function createInvalid()

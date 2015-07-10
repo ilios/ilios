@@ -17,7 +17,7 @@ class SchoolData extends AbstractDataLoader
             'alerts' => [1],
             'competencies' => ['1', '2', '3'],
             'courses' => [],
-            'programs' => [1],
+            'programs' => ['1', '2'],
             'departments' => ['1', '2'],
             'disciplines' => ['1', '2'],
             'instructorGroups' => [],

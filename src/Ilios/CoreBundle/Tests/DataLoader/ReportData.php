@@ -13,13 +13,23 @@ class ReportData extends AbstractDataLoader
             'title' => $this->faker->title(25),
             'subject' => $this->faker->title(25),
         );
+        
+        $arr[] = array(
+            'id' => 2,
+            'title' => $this->faker->title(25),
+            'subject' => $this->faker->title(25),
+        );
 
         return $arr;
     }
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 3,
+            'title' => $this->faker->title(25),
+            'subject' => $this->faker->title(25),
+        );
     }
 
     public function createInvalid()
