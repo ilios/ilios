@@ -239,6 +239,9 @@ CALL drop_key_if_exists('program_year_steward', 'fkey_program_year_steward_schoo
 CALL drop_key_if_exists('program_year_steward', 'fkey_program_year_steward_department');
 CALL drop_key_if_exists('program_year_steward', 'py_s_k');
 CALL drop_key_if_exists('user_x_cohort', 'fkey_user_x_cohort_cohort');
+ALTER TABLE `curriculum_inventory_export` DROP PRIMARY KEY;
+ALTER TABLE `curriculum_inventory_institution` DROP PRIMARY KEY;
+ALTER TABLE `curriculum_inventory_sequence` DROP PRIMARY KEY;
 ALTER TABLE `session_type_x_aamc_method` DROP PRIMARY KEY;
 DROP TABLE IF EXISTS `group_default_instructor`;
 DROP TABLE IF EXISTS `curriculum_inventory_program`;
@@ -264,6 +267,9 @@ ALTER TABLE `instructor_group_x_user` DEFAULT CHARACTER SET utf8 COLLATE utf8_un
 ALTER TABLE `instructor_group_x_user` CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE `authentication` ADD `password_bcrypt` VARCHAR(255) DEFAULT NULL;
 ALTER TABLE `authentication` ADD `eppn` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `curriculum_inventory_export` ADD `export_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
+ALTER TABLE `curriculum_inventory_institution` ADD `institution_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
+ALTER TABLE `curriculum_inventory_sequence` ADD `sequence_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
 ALTER TABLE `program_year_steward` ADD `program_year_steward_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY;
 ALTER TABLE `learning_material` ADD `type` VARCHAR(255) NOT NULL;
 ALTER TABLE `user` ADD `primary_cohort_id` INT DEFAULT NULL;
@@ -626,6 +632,7 @@ CREATE INDEX IDX_82E35212CDB3C93B ON `course_x_mesh` (mesh_descriptor_uid);
 CREATE INDEX IDX_F841D788C1D99609 ON `course_learning_material` (learning_material_id);
 CREATE INDEX IDX_476BB36F46C5AD2E ON `course_learning_material_x_mesh` (course_learning_material_id);
 CREATE UNIQUE INDEX UNIQ_E892E88E4BD2A4C0 ON `curriculum_inventory_export` (report_id);
+CREATE UNIQUE INDEX UNIQ_3426AC4BC32A47EE ON `curriculum_inventory_institution` (school_id);
 CREATE UNIQUE INDEX UNIQ_B8AE58F54BD2A4C0 ON `curriculum_inventory_sequence` (report_id);
 CREATE INDEX IDX_22E6B6806081C3B0 ON `curriculum_inventory_sequence_block` (academic_level_id);
 CREATE INDEX IDX_22E6B680591CC992 ON `curriculum_inventory_sequence_block` (course_id);
