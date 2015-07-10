@@ -9,7 +9,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
         $arr = array();
         $arr[] = array(
             'name' => $this->faker->text(25),
-            'aamcCode' => $this->faker->randomDigit,
+            'aamcCode' => "{$this->faker->randomDigit}",
             'addressStreet' => $this->faker->streetAddress,
             'addressCity' => $this->faker->city,
             'addressStateOrProvince' => $this->faker->stateAbbr,

@@ -89,6 +89,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("addressCity")
      */
     protected $addressCity;
 
@@ -106,6 +107,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("addressStateOrProvince")
      */
     protected $addressStateOrProvince;
 
