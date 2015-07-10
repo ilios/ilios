@@ -20,13 +20,27 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  */
 class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
-//    use IdentifiableEntity;
+    use IdentifiableEntity;
     use DescribableEntity;
+
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="sequence_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     */
+    protected $id;
 
     /**
      * @var CurriculumInventoryReportInterface
      *
-     * @ORM\Id
      * @ORM\OneToOne(targetEntity="CurriculumInventoryReport", inversedBy="sequence")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true)
