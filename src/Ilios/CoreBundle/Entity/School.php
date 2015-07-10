@@ -196,9 +196,9 @@ class School implements SchoolInterface
     *
     * @JMS\Expose
     * @JMS\Type("string")
-    * @JMS\SerializedName("curriculumInventoryInsitution")
+    * @JMS\SerializedName("curriculumInventoryInstitution")
     */
-    protected $curriculumInventoryInsitution;
+    protected $curriculumInventoryInstitution;
 
     /**
     * @var ArrayCollection|SessionTypeInterface[]

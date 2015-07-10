@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
@@ -21,6 +22,21 @@ use Ilios\CoreBundle\Entity\SchoolInterface;
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
     use NameableEntity;
+    use IdentifiableEntity;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="institution_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     */
+    protected $id;
 
     /**
      * @var string
@@ -149,9 +165,8 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     /**
      * @var SchoolInterface
      *
-     * @ORM\Id
-     * @ORM\OneToOne(targetEntity="School", inversedBy="curriculumInventoryInsitution")
-     * @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
+     * @ORM\OneToOne(targetEntity="School", inversedBy="curriculumInventoryInstitution")
+     * @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", unique=true, nullable=false)
      *
      * @JMS\Expose
      * @JMS\Type("string")

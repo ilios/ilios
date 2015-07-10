@@ -3,13 +3,17 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+
 
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
  * Interface CurriculumInventoryInstitutionInterface
  */
-interface CurriculumInventoryInstitutionInterface extends NameableEntityInterface
+interface CurriculumInventoryInstitutionInterface extends
+    NameableEntityInterface,
+    IdentifiableEntityInterface
 {
     /**
      * @param string $aamcCode

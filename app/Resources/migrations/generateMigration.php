@@ -940,7 +940,10 @@ class Migrate
     protected function getDropPrimaryKeys()
     {
         $arr = array(
-            'session_type_x_aamc_method'
+            'curriculum_inventory_export',
+            'curriculum_inventory_institution',
+            'curriculum_inventory_sequence',
+            'session_type_x_aamc_method',
         );
 
         $queries = array();
@@ -964,6 +967,24 @@ class Migrate
             'table' => 'authentication',
             'column' => 'eppn',
             'definition' => 'VARCHAR(255) DEFAULT NULL'
+        );
+
+        $changes[] = array(
+            'table' => 'curriculum_inventory_export',
+            'column' => 'export_id',
+            'definition' => 'INT AUTO_INCREMENT NOT NULL PRIMARY KEY'
+        );
+
+        $changes[] = array(
+            'table' => 'curriculum_inventory_institution',
+            'column' => 'institution_id',
+            'definition' => 'INT AUTO_INCREMENT NOT NULL PRIMARY KEY'
+        );
+
+        $changes[] = array(
+            'table' => 'curriculum_inventory_sequence',
+            'column' => 'sequence_id',
+            'definition' => 'INT AUTO_INCREMENT NOT NULL PRIMARY KEY'
         );
 
         $changes[] = array(
@@ -3555,6 +3576,12 @@ class Migrate
             'table' => 'curriculum_inventory_export',
             'index' => 'UNIQ_E892E88E4BD2A4C0',
             'column' => 'report_id',
+            'unique' => true
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_institution',
+            'index' => 'UNIQ_3426AC4BC32A47EE',
+            'column' => 'school_id',
             'unique' => true
         );
         $changes[] = array(
