@@ -13,6 +13,15 @@ class AlertData extends AbstractDataLoader
             'tableName' => 'course',
             'dispatched' => '1',
             'changeTypes' => ['1'],
+            'instigators' => ['1', '2'],
+            'recipients' => []
+        );
+        $arr[] = array(
+            'id' => 2,
+            'tableRowId' => 1,
+            'tableName' => 'course',
+            'dispatched' => '1',
+            'changeTypes' => ['1'],
             'instigators' => [],
             'recipients' => []
         );

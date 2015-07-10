@@ -14,11 +14,11 @@ class UserData extends AbstractDataLoader
             'firstName' => $this->faker->firstName,
             'middleName' => $this->faker->firstName,
             'email' => $this->faker->email,
-            'learningMaterials' => [1,2],
+            'learningMaterials' => ['1', '2'],
             'publishEvents' => [],
             'reports' => [],
-            'primarySchool' => "1",
-            'primaryCohort' => "1",
+            'primarySchool' => '1',
+            'primaryCohort' => '1',
             'directedCourses' => [],
             'learnerGroups' => [],
             'instructorUserGroups' => [],
@@ -29,7 +29,7 @@ class UserData extends AbstractDataLoader
             'instructedOfferings' => [],
             'programYears' => [],
             'instructionHours' => [],
-            'alerts' => ["1", "2"],
+            'alerts' => ['1'],
             'roles' => ['1'],
             'cohorts' => ['1']
         );
@@ -43,7 +43,7 @@ class UserData extends AbstractDataLoader
             'learningMaterials' => [],
             'publishEvents' => [],
             'reports' => [],
-            'primarySchool' => "1",
+            'primarySchool' => '1',
             'directedCourses' => [],
             'learnerGroups' => [],
             'instructorUserGroups' => [],
@@ -54,7 +54,7 @@ class UserData extends AbstractDataLoader
             'instructedOfferings' => [],
             'programYears' => [],
             'instructionHours' => [],
-            'alerts' => [],
+            'alerts' => ['1'],
             'roles' => ['1'],
             'cohorts' => []
         );

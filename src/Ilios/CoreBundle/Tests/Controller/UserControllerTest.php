@@ -17,21 +17,9 @@ class UserControllerTest extends AbstractControllerTest
     {
         return [
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserMadeReminderData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadReportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserRoleData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCohortData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
         ];
     }
 
