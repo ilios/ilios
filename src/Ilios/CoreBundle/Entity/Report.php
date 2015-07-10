@@ -220,4 +220,20 @@ class Report implements ReportInterface
     {
         return $this->user;
     }
+
+    /**
+     * @param ReportPoValueInterface $user
+     */
+    public function setPoValue(ReportPoValueInterface $poValue)
+    {
+        $this->poValue = $poValue;
+    }
+
+    /**
+     * @return ReportPoValueInterface
+     */
+    public function getPoValue()
+    {
+        return $this->poValue;
+    }
 }
