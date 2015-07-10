@@ -943,6 +943,7 @@ class Migrate
             'curriculum_inventory_export',
             'curriculum_inventory_institution',
             'curriculum_inventory_sequence',
+            'session_description',
             'session_type_x_aamc_method',
         );
 
@@ -997,6 +998,12 @@ class Migrate
             'table' => 'learning_material',
             'column' => 'type',
             'definition' => 'VARCHAR(255) NOT NULL'
+        );
+
+        $changes[] = array(
+            'table' => 'session_description',
+            'column' => 'description_id',
+            'definition' => 'INT AUTO_INCREMENT NOT NULL PRIMARY KEY'
         );
 
         $changes[] = array(
