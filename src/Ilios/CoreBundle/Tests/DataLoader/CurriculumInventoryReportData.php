@@ -37,7 +37,6 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 3,
-            'sequence' => '3',
             'year' => (int) $this->faker->date('Y'),
             'name' => $this->faker->text(100),
             'description' => $this->faker->text(200),
