@@ -27,9 +27,7 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
      */
     protected function getPrivateFields()
     {
-        return [
-            'countOfferingsOnce'
-        ];
+        return [];
     }
 
     public function testGetCurriculumInventorySequenceBlockSession()

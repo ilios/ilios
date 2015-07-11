@@ -26,8 +26,7 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-        ];
+        return [];
     }
 
     public function testGetSessionDescription()

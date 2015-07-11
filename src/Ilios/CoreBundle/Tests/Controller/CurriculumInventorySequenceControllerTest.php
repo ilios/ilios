@@ -26,9 +26,7 @@ class CurriculumInventorySequenceControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-            'description'
-        ];
+        return [];
     }
 
     public function testGetCurriculumInventorySequence()

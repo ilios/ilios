@@ -61,6 +61,8 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      *      max = 65000
      * )
      *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $description;
 
