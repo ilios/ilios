@@ -17,8 +17,7 @@ class ReportControllerTest extends AbstractControllerTest
     {
         return [
             'Ilios\CoreBundle\Tests\Fixture\LoadReportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadReportPoValueData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
         ];
     }
 
