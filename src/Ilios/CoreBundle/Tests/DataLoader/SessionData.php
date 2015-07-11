@@ -18,7 +18,7 @@ class SessionData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'sessionType' => '1',
             'course' => '1',
-            // 'description' => '1',
+            'sessionDescription' => '1',
             'ilmSessionFacet' => '1',
             'disciplines' => ['1', '2'],
             'objectives' => ['1', '2'],
@@ -29,6 +29,41 @@ class SessionData extends AbstractDataLoader
             'offerings' => ['1', '2']
         );
 
+        $arr[] = array(
+            'id' => 2,
+            'title' => $this->faker->text(10),
+            'attireRequired' => false,
+            'equipmentRequired' => false,
+            'supplemental' => false,
+            'deleted' => false,
+            'publishedAsTbd' => false,
+            'sessionType' => '1',
+            'course' => '1',
+            'sessionDescription' => '2',
+            'disciplines' => [],
+            'objectives' => [],
+            'meshDescriptors' => [],
+            'sessionLearningMaterials' => [],
+            'instructionHours' => [],
+            'offerings' => []
+        );
+
+        $arr[] = array(
+            'id' => 3,
+            'title' => $this->faker->text(10),
+            'attireRequired' => false,
+            'equipmentRequired' => false,
+            'supplemental' => false,
+            'deleted' => false,
+            'publishedAsTbd' => false,
+            'disciplines' => [],
+            'objectives' => [],
+            'meshDescriptors' => [],
+            'sessionLearningMaterials' => [],
+            'instructionHours' => [],
+            'offerings' => []
+        );
+
 
         return $arr;
     }
@@ -36,7 +71,7 @@ class SessionData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 2,
+            'id' => 4,
             'title' => $this->faker->text(10),
             'attireRequired' => false,
             'equipmentRequired' => false,

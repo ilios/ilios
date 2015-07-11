@@ -32,12 +32,18 @@ class LoadSessionData extends AbstractFixture implements
             $entity = new Session();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            $entity->setSessionType($this->getReference('sessionTypes' . $arr['sessionType']));
-            $entity->setCourse($this->getReference('courses' . $arr['course']));
+            if (!empty($arr['sessionType'])) {
+                $entity->setSessionType($this->getReference('sessionTypes' . $arr['sessionType']));
+            }
+            if (!empty($arr['course'])) {
+                $entity->setCourse($this->getReference('courses' . $arr['course']));
+            }
             if (!empty($arr['publishEvent'])) {
                 $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));
             }
-            $entity->setIlmSessionFacet($this->getReference('ilmSessions' . $arr['ilmSessionFacet']));
+            if (!empty($arr['ilmSessionFacet'])) {
+                $entity->setIlmSessionFacet($this->getReference('ilmSessions' . $arr['ilmSessionFacet']));                
+            }
             $related = array(
                 'disciplines' => 'addDiscipline',
                 'objectives' => 'addObjective'

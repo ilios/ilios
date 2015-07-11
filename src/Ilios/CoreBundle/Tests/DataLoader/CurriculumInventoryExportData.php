@@ -28,7 +28,7 @@ class CurriculumInventoryExportData extends AbstractDataLoader
     {
         return array(
             'id' => 2,
-            'report' => 1,
+            'report' => '3',
             'createdBy' => '1',
         );
     }
