@@ -17,11 +17,11 @@ class Migrate
         $queries = array_merge($queries, $this->getDropIndexes());
         $queries = array_merge($queries, $this->getDropKeys());
         $queries = array_merge($queries, $this->getDropPrimaryKeys());
-        $queries = array_merge($queries, $this->getDropTables());
         $queries = array_merge($queries, $this->getChangeEngine());
         $queries = array_merge($queries, $this->getChangeCharset());
         $queries = array_merge($queries, $this->getAddColumns());
         $queries = array_merge($queries, $this->getColumnChanges());
+        $queries = array_merge($queries, $this->getDropTables());
         $queries = array_merge($queries, $this->getDropColumns());
         $queries = array_merge($queries, $this->getAddPrimaryKeys());
         $queries = array_merge($queries, $this->getAddIndexes());
@@ -396,10 +396,6 @@ class Migrate
         $changes[] = array(
             'table' => 'program_year_x_objective',
             'index' => 'fkey_program_year_x_objective_obj_id'
-        );
-        $changes[] = array(
-            'table' => 'report_po_value',
-            'index' => 'fkey_report_po_value_report_id'
         );
         $changes[] = array(
             'table' => 'recurring_event',
@@ -986,6 +982,12 @@ class Migrate
             'column' => 'sequence_id',
             'definition' => 'INT AUTO_INCREMENT NOT NULL PRIMARY KEY'
         );
+        
+        $changes[] = array(
+            'table' => 'learning_material',
+            'column' => 'type',
+            'definition' => 'VARCHAR(255) NOT NULL'
+        );
 
         $changes[] = array(
             'table' => 'program_year_steward',
@@ -994,9 +996,9 @@ class Migrate
         );
 
         $changes[] = array(
-            'table' => 'learning_material',
-            'column' => 'type',
-            'definition' => 'VARCHAR(255) NOT NULL'
+            'table' => 'report',
+            'column' => 'prepositional_object_table_row_id',
+            'definition' => 'VARCHAR(14) DEFAULT NULL'
         );
 
         $changes[] = array(
@@ -1025,6 +1027,10 @@ class Migrate
         "(SELECT cohort_id from user_x_cohort x " .
         "WHERE x.user_id = u.user_id AND " .
         "x.is_primary)";
+        
+        $queries[] = "UPDATE report r SET prepositional_object_table_row_id = " .
+        "(SELECT prepositional_object_table_row_id from report_po_value x " .
+        "WHERE x.report_id = r.report_id)";
 
         return $queries;
     }
@@ -2046,11 +2052,6 @@ class Migrate
             'table' => 'report',
             'column' => 'report_id',
             'definition' => 'INT AUTO_INCREMENT NOT NULL'
-        );
-        $changes[] = array(
-            'table' => 'report_po_value',
-            'column' => 'report_id',
-            'definition' => 'INT NOT NULL'
         );
         $changes[] = array(
             'table' => 'school',
@@ -3164,14 +3165,6 @@ class Migrate
             'cascadeDelete' => true
         );
         $changes[] = array(
-            'table' => 'report_po_value',
-            'key' => 'fkey_report_po_value_report_id',
-            'localColumn' => 'report_id',
-            'remoteTable' => 'report',
-            'remoteColumn' => 'report_id',
-            'cascadeDelete' => true
-        );
-        $changes[] = array(
             'table' => 'session',
             'key' => 'fkey_session_publish_event_id',
             'localColumn' => 'publish_event_id',
@@ -3987,12 +3980,6 @@ class Migrate
             'unique' => false
         );
         $changes[] = array(
-            'table' => 'report_po_value',
-            'index' => 'UNIQ_9261FE834BD2A4C0',
-            'column' => 'report_id',
-            'unique' => true
-        );
-        $changes[] = array(
             'table' => 'recurring_event',
             'index' => 'IDX_51B1C7F8B494B099',
             'column' => 'previous_recurring_event_id',
@@ -4125,7 +4112,6 @@ class Migrate
     {
         $queries = array();
         $arr = array(
-            'report_po_value' => 'report_id',
             'program_year_x_objective' => 'program_year_id, objective_id',
             'program_year_x_discipline' => 'program_year_id, discipline_id',
             'program_year_x_competency' => 'program_year_id, competency_id',
@@ -4259,6 +4245,7 @@ class Migrate
             'ilm_session_facet_instructor',
             'offering_instructor',
             'offering_learner',
+            'report_po_value',
         );
 
         $queries = array();

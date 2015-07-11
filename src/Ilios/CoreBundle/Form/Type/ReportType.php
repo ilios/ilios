@@ -24,10 +24,6 @@ class ReportType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('poValue', 'tdn_single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:ReportPoValue"
-            ])
         ;
     }
 

@@ -42,7 +42,6 @@ parameters:
     ilioscore.dataloader.usermadereminder.class: Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData
     ilioscore.dataloader.userrole.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData
     ilioscore.dataloader.user.class: Ilios\CoreBundle\Tests\DataLoader\UserData
-    ilioscore.dataloader.reportpovalue.class: Ilios\CoreBundle\Tests\DataLoader\ReportPoValueData
 
 services:
     ilioscore.dataloader.aamcmethod:
@@ -131,5 +130,3 @@ services:
         class: %ilioscore.dataloader.userrole.class%
     ilioscore.dataloader.user:
         class: %ilioscore.dataloader.user.class%
-    ilioscore.dataloader.reportpovalue:
-        class: %ilioscore.dataloader.reportpovalue.class%

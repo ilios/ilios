@@ -130,8 +130,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.recurringevent.manager.class' => 'Ilios\CoreBundle\Entity\Manager\RecurringEventManager',
             'ilioscore.report.handler.class' => 'Ilios\CoreBundle\Handler\ReportHandler',
             'ilioscore.report.manager.class' => 'Ilios\CoreBundle\Entity\Manager\ReportManager',
-            'ilioscore.reportpovalue.handler.class' => 'Ilios\CoreBundle\Handler\ReportPoValueHandler',
-            'ilioscore.reportpovalue.manager.class' => 'Ilios\CoreBundle\Entity\Manager\ReportPoValueManager',
             'ilioscore.school.handler.class' => 'Ilios\CoreBundle\Handler\SchoolHandler',
             'ilioscore.school.manager.class' => 'Ilios\CoreBundle\Entity\Manager\SchoolManager',
             'ilioscore.session.handler.class' => 'Ilios\CoreBundle\Handler\SessionHandler',
@@ -210,7 +208,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.usermadereminder.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData',
             'ilioscore.dataloader.userrole.class' => 'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData',
             'ilioscore.dataloader.user.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserData',
-            'ilioscore.dataloader.reportpovalue.class' => 'Ilios\CoreBundle\Tests\DataLoader\ReportPoValueData',
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);
@@ -304,8 +301,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.recurringevent.manager',
             'ilioscore.report.handler',
             'ilioscore.report.manager',
-            'ilioscore.reportpovalue.handler',
-            'ilioscore.reportpovalue.manager',
             'ilioscore.school.handler',
             'ilioscore.school.manager',
             'ilioscore.session.handler',
@@ -365,7 +360,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.usermadereminder',
             'ilioscore.dataloader.userrole',
             'ilioscore.dataloader.user',
-            'ilioscore.dataloader.reportpovalue',
         );
         foreach ($services as $service) {
             $this->assertContainerBuilderHasService($service);
