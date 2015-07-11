@@ -9,6 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+
 /**
  * Class CurriculumInventoryExport
  * @package Ilios\CoreBundle\Entity
@@ -23,13 +25,28 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
+    use IdentifiableEntity;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="export_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     */
+    protected $id;
+
     /**
      * @var CurriculumInventoryReportInterface
      *
-     * @ORM\Id
      * @ORM\OneToOne(targetEntity="CurriculumInventoryReport", inversedBy="export")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true)
+     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true, nullable=false)
      * })
      *
      * @Assert\Type(type="integer")

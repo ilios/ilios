@@ -1,11 +1,7 @@
 class profile::common::php (
     $user = 'vagrant',
     $group = $user,
-    $logs = '/home/vagrant/logs/php',
-    $xdebug_remote_port = 9000,
-    $xdebug_idekey = 'PHPSTORM',
-    $profiler_on  = false,
-    $profiler_dir = '/home/vagrant/profiler'
+    $logs = '/home/vagrant/logs/php'
 ) {
     include ['php', 'php::params']#, 'php::apache']
     $apis = [
@@ -50,6 +46,12 @@ class profile::common::php (
     php::extension { 'php5-xsl':
         ensure => installed,
         package => 'php5-xsl',
+        provider => 'apt'
+    }
+
+    php::extension { 'php5-xdebug':
+        ensure => installed,
+        package => 'php5-xdebug',
         provider => 'apt'
     }
 
@@ -125,4 +127,51 @@ class profile::common::php (
         file => '/etc/php5/cli/php.ini'
     }
 
+    php::config { 'xdebug.remote_enable' :
+        setting => 'xdebug.remote_enable',
+        value => '1',
+        file => '/etc/php5/mods-available/xdebug.ini'
+    }
+
+    php::config { 'xdebug.remote_connect_back' :
+        setting => 'xdebug.remote_connect_back',
+        value => '1',
+        file => '/etc/php5/mods-available/xdebug.ini'
+    }
+
+    php::config { 'xdebug.remote_host' :
+        setting => 'xdebug.remote_host',
+        value => '127.0.0.1',
+        file => '/etc/php5/mods-available/xdebug.ini'
+    }
+
+    php::config { 'xdebug.remote_port' :
+        setting => 'xdebug.remote_port',
+        value => '9000',
+        file => '/etc/php5/mods-available/xdebug.ini'
+    }
+
+    php::config { 'xdebug.trace_enable_trigger' :
+        setting => 'xdebug.trace_enable_trigger',
+        value => '1',
+        file => '/etc/php5/mods-available/xdebug.ini'
+    }
+
+    php::config { 'xdebug.trace_output_dir' :
+        setting => 'xdebug.trace_output_dir',
+        value => 'home/vagrant/trace',
+        file => '/etc/php5/mods-available/xdebug.ini'
+    }
+
+    php::config { 'xdebug.profiler_enable_trigger' :
+        setting => 'xdebug.profiler_enable_trigger',
+        value => '1',
+        file => '/etc/php5/mods-available/xdebug.ini'
+    }
+
+    php::config { 'xdebug.profiler_output_dir' :
+        setting => 'xdebug.profiler_output_dir',
+        value => '/home/vagrant/profiler/',
+        file => '/etc/php5/mods-available/xdebug.ini'
+    }
 }

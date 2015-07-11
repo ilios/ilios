@@ -33,7 +33,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  */
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
-//    use IdentifiableEntity; //Implement on 3.1
+    use IdentifiableEntity;
     use NameableEntity;
     use DescribableEntity;
     use StringableIdEntity;
@@ -95,7 +95,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     /**
      * @var CurriculumInventoryReportInterface
      *
-     * @ORM\ManyToOne(targetEntity="CurriculumInventoryReport", inversedBy="curriculumInventoryAcademicLevels")
+     * @ORM\ManyToOne(targetEntity="CurriculumInventoryReport", inversedBy="academicLevels")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id")
      * })
@@ -115,23 +115,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     * @JMS\SerializedName("sequenceBlocks")
     */
     protected $sequenceBlocks;
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->academicLevelId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->academicLevelId : $this->id;
-    }
 
     /**
      * @param int $level

@@ -42,6 +42,16 @@ interface ReportInterface extends IdentifiableEntityInterface, TitledEntityInter
     public function getPrepositionalObject();
 
     /**
+     * @param string $prepositionalObjectTableRowId
+     */
+    public function setPrepositionalObjectTableRowId($prepositionalObjectTableRowId);
+
+    /**
+     * @return string
+     */
+    public function getPrepositionalObjectTableRowId();
+
+    /**
      * @param boolean $deleted
      */
     public function setDeleted($deleted);

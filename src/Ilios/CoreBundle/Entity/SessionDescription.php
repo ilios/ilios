@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * Class SessionDescription
@@ -19,15 +20,29 @@ use Ilios\CoreBundle\Traits\DescribableEntity;
  */
 class SessionDescription implements SessionDescriptionInterface
 {
+    use IdentifiableEntity;
     use DescribableEntity;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="description_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     */
+    protected $id;
 
     /**
      * @var SessionInterface
      *
-     * @ORM\Id
      * @ORM\OneToOne(targetEntity="Session", inversedBy="sessionDescription")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", unique=true)
+     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", unique=true, nullable=false)
      * })
      *
      * @JMS\Expose
