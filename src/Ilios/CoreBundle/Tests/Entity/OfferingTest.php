@@ -46,6 +46,7 @@ class OfferingTest extends EntityBase
         $this->assertEmpty($this->object->getRecurringEvents());
         $this->assertEmpty($this->object->getLearners());
         $this->assertEmpty($this->object->getInstructors());
+        $this->assertNotEmpty($this->object->getUpdatedAt());
     }
 
     /**
@@ -82,15 +83,6 @@ class OfferingTest extends EntityBase
     public function testSetDeleted()
     {
         $this->booleanSetTest('deleted');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setLastUpdatedOn
-     * @covers Ilios\CoreBundle\Entity\Offering::getLastUpdatedOn
-     */
-    public function testSetLastUpdatedOn()
-    {
-        $this->basicSetTest('lastUpdatedOn', 'datetime');
     }
 
     /**

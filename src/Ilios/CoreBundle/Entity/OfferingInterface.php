@@ -59,6 +59,11 @@ interface OfferingInterface extends
     public function isDeleted();
 
     /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt();
+
+    /**
      * @param SessionInterface $session
      */
     public function setSession(SessionInterface $session);

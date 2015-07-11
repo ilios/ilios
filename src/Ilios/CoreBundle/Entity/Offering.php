@@ -315,6 +315,14 @@ class Offering implements OfferingInterface
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
      * @param SessionInterface $session
      */
     public function setSession(SessionInterface $session)

@@ -206,7 +206,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.session.class' =>
                 'Ilios\CoreBundle\Tests\DataLoader\SessionData',
             'ilioscore.dataloader.usermadereminder.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData',
-            'ilioscore.dataloader.userrole.class' => 'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData',
+            'ilioscore.dataloader.userrole.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserRoleData',
             'ilioscore.dataloader.user.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserData',
         );
         foreach ($parameters as $name => $value) {

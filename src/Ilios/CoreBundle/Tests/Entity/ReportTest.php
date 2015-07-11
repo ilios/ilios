@@ -21,14 +21,13 @@ class ReportTest extends EntityBase
     {
         $this->object = new Report;
     }
-
+    
     /**
-     * @covers Ilios\CoreBundle\Entity\Report::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\Report::getCreatedAt
+     * @covers Ilios\CoreBundle\Entity\Session::__construct
      */
-    public function testSetCreatedAt()
+    public function testConstructor()
     {
-        $this->basicSetTest('createdAt', 'datetime');
+        $this->assertNotEmpty($this->object->getCreatedAt());
     }
 
     /**

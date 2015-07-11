@@ -26,13 +26,19 @@ class CurriculumInventoryExportTest extends EntityBase
     {
         $notBlank = array(
             'document',
-            'createdAt'
         );
         $this->validateNotBlanks($notBlank);
         
         $this->object->setDocument('text file super large test');
-        $this->object->setCreatedAt(new \DateTime());
         $this->validate(0);
+    }
+    
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertNotEmpty($this->object->getCreatedAt());
     }
 
     /**
@@ -42,15 +48,6 @@ class CurriculumInventoryExportTest extends EntityBase
     public function testSetDocument()
     {
         $this->basicSetTest('document', 'string');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::getCreatedAt
-     */
-    public function testSetCreatedat()
-    {
-        $this->basicSetTest('createdAt', 'datetime');
     }
 
     /**

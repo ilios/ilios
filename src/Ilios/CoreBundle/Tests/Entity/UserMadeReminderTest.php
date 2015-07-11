@@ -25,15 +25,22 @@ class UserMadeReminderTest extends EntityBase
     public function testNotBlankValidation()
     {
         $notBlank = array(
-            'createdAt',
             'dueDate'
         );
         $this->validateNotBlanks($notBlank);
 
-        $this->object->setCreatedAt(new \DateTime());
         $this->object->setDueDate(new \DateTime());
         $this->validate(0);
     }
+    
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertNotEmpty($this->object->getCreatedAt());
+    }
+    
     /**
      * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setNote
      * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getNote
@@ -41,15 +48,6 @@ class UserMadeReminderTest extends EntityBase
     public function testSetNote()
     {
         $this->basicSetTest('note', 'string');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getCreatedAt
-     */
-    public function testSetCreatedAt()
-    {
-        $this->basicSetTest('createdAt', 'datetime');
     }
 
     /**
