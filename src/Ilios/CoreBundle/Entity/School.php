@@ -306,19 +306,19 @@ class School implements SchoolInterface
     }
     
     /**
-     * @param string $curriculumInventoryInsitution
+     * @param string $curriculumInventoryInstitution
      */
-    public function setCurriculumInventoryInsitution($curriculumInventoryInsitution)
+    public function setCurriculumInventoryInstitution($curriculumInventoryInstitution)
     {
-        $this->curriculumInventoryInsitution = $curriculumInventoryInsitution;
+        $this->curriculumInventoryInstitution = $curriculumInventoryInstitution;
     }
 
     /**
      * @return string
      */
-    public function getCurriculumInventoryInsitution()
+    public function getCurriculumInventoryInstitution()
     {
-        return $this->curriculumInventoryInsitution;
+        return $this->curriculumInventoryInstitution;
     }
 
     /**

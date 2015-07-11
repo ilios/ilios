@@ -48,7 +48,7 @@ class SchoolType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:InstructorGroup"
             ])
-            ->add('curriculumInventoryInsitution', 'tdn_single_related', [
+            ->add('curriculumInventoryInstitution', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryInstitution"
             ])
