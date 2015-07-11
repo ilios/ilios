@@ -48,6 +48,9 @@ class Report implements ReportInterface
      *      min = 1,
      *      max = 240
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $title;
 
@@ -57,6 +60,10 @@ class Report implements ReportInterface
      * @ORM\Column(name="creation_date", type="datetime")
      *
      * @Assert\NotBlank()
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
 
@@ -71,6 +78,9 @@ class Report implements ReportInterface
      *      min = 1,
      *      max = 32
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $subject;
 
@@ -84,6 +94,10 @@ class Report implements ReportInterface
      *      min = 1,
      *      max = 32
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("prepositionalObject")
      */
     protected $prepositionalObject;
 
@@ -92,12 +106,15 @@ class Report implements ReportInterface
      *
      * @ORM\Column(name="prepositional_object_table_row_id", type="string", length=14, nullable=true)
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 14
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("prepositionalObjectTableRowId")
      */
     protected $prepositionalObjectTableRowId;
 
