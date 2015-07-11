@@ -128,16 +128,8 @@ class Report implements ReportInterface
      */
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTime());
+        $this->createdAt = new \DateTime();
         $this->deleted = false;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
     }
 
     /**

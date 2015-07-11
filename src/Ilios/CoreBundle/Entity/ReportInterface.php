@@ -11,10 +11,6 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
  */
 interface ReportInterface extends IdentifiableEntityInterface, TitledEntityInterface
 {
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt);
 
     /**
      * @return \DateTime
