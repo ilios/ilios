@@ -25,7 +25,11 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 3,
+            'title' => $this->faker->text(10),
+            'learningMaterials' => ['1', '2']
+        );
     }
 
     public function createInvalid()
