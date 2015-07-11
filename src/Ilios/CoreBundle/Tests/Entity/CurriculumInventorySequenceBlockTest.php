@@ -58,7 +58,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setChildSequenceOrder
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::hasChildSequenceOrder
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getChildSequenceOrder
      */
     public function testSetChildSequenceOrder()
     {
