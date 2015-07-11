@@ -16,6 +16,7 @@ class EntityBase extends TestCase
     public function tearDown()
     {
         m::close();
+        unset($this->object);
     }
 
     /**

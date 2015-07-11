@@ -47,6 +47,12 @@ abstract class AbstractControllerTest extends WebTestCase
         $this->container = $this->client->getContainer();
         $this->loadFixtures($this->getFixtures());
     }
+    
+    public function tearDown()
+    {
+        unset($this->client);
+        unset($this->container);
+    }
 
     /**
      * Create a JSON request
