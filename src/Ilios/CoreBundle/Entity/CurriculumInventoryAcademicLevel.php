@@ -39,7 +39,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     use StringableIdEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Id
@@ -65,6 +64,9 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *      max = 50
      * )
      *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     *
     */
     protected $name;
 
@@ -78,6 +80,9 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *      min = 1,
      *      max = 65000
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $description;
 
@@ -89,6 +94,8 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
     protected $level;
 

@@ -33,6 +33,7 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
             if (!empty($arr['school'])) {
                 $entity->setSchool($this->getReference('schools' . $arr['school']));
             }
+            $entity->setId($arr['id']);
             $entity->setName($arr['name']);
             $entity->setAamcCode($arr['aamcCode']);
             $entity->setAddressStreet($arr['addressStreet']);

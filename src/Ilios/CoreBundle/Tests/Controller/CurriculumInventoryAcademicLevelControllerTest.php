@@ -27,11 +27,7 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
      */
     protected function getPrivateFields()
     {
-        return [
-            'name',
-            'description',
-            'level'
-        ];
+        return [];
     }
 
     public function testGetCurriculumInventoryAcademicLevel()

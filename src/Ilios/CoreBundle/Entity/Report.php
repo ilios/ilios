@@ -7,6 +7,8 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class Report
@@ -19,6 +21,8 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  */
 class Report implements ReportInterface
 {
+    use IdentifiableEntity;
+    use StringableIdEntity;
     use TitledEntity;
 
     /**
@@ -126,22 +130,6 @@ class Report implements ReportInterface
     {
         $this->setCreatedAt(new \DateTime());
         $this->deleted = false;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

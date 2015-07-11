@@ -28,7 +28,6 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
     protected function getPrivateFields()
     {
         return [
-            'document',
             'createdAt'
         ];
     }
@@ -80,6 +79,7 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['document']);
 
         $this->createJsonRequest(
             'POST',
@@ -124,6 +124,7 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['document']);
 
         $this->createJsonRequest(
             'PUT',

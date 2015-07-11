@@ -8,36 +8,28 @@ class CurriculumInventoryExportData extends AbstractDataLoader
     {
         $arr = array();
 
-        $dt = $this->faker->dateTime;
-        $dt->setTime(0, 0, 0);
-
         $arr[] = array(
-            'report' => 1,
+            'id' => 1,
+            'report' => '1',
             'document' => $this->faker->text('200'),
-            'createdBy' => 1,
-            'createdAt' => $dt,
+            'createdBy' => '1',
         );
 
-        $dt = $this->faker->dateTime;
-        $dt->setTime(0, 0, 0);
         $arr[] = array(
-            'report' => 2,
+            'id' => 2,
+            'report' => '2',
             'document' => $this->faker->text('200'),
-            'createdBy' => 1,
-            'createdAt' => $dt,
+            'createdBy' => '1',
         );
         return $arr;
     }
 
     public function create()
     {
-        $dt = $this->faker->dateTime;
-        $dt->setTime(0, 0, 0);
         return array(
-            'report' => 3,
-            'document' => $this->faker->text('200'),
-            'createdBy' => 1,
-            'createdAt' => $dt,
+            'id' => 2,
+            'report' => 1,
+            'createdBy' => '1',
         );
     }
 

@@ -8,6 +8,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
     {
         $arr = array();
         $arr[] = array(
+            'id' => 1,
             'name' => $this->faker->text(25),
             'aamcCode' => "{$this->faker->randomDigit}",
             'addressStreet' => $this->faker->streetAddress,
@@ -23,7 +24,17 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 2,
+            'name' => $this->faker->text(25),
+            'aamcCode' => "{$this->faker->randomDigit}",
+            'addressStreet' => $this->faker->streetAddress,
+            'addressCity' => $this->faker->city,
+            'addressStateOrProvince' => $this->faker->stateAbbr,
+            'addressZipCode' => $this->faker->postcode,
+            'addressCountryCode' => $this->faker->country,
+            'school' => '1'
+        );
     }
 
     public function createInvalid()

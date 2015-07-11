@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class CurriculumInventoryExport
@@ -26,6 +27,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
     use IdentifiableEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -68,6 +70,8 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *      max = 16000000
      * )
      *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $document;
 
@@ -93,6 +97,14 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      * @Assert\NotBlank()
      */
     protected $createdAt;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * @param CurriculumInventoryReportInterface $report
@@ -143,26 +155,10 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     }
 
     /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->report;
     }
 }
