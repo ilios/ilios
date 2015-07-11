@@ -11,11 +11,11 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'id' => 1,
             'name' => $this->faker->text(25),
             'aamcCode' => "{$this->faker->randomDigit}",
-            'addressStreet' => $this->faker->streetAddress,
+            'addressStreet' => '221 West',
             'addressCity' => $this->faker->city,
             'addressStateOrProvince' => $this->faker->stateAbbr,
             'addressZipCode' => $this->faker->postcode,
-            'addressCountryCode' => $this->faker->country,
+            'addressCountryCode' => 'UK',
             'school' => '1'
         );
 
@@ -28,12 +28,12 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'id' => 2,
             'name' => $this->faker->text(25),
             'aamcCode' => "{$this->faker->randomDigit}",
-            'addressStreet' => $this->faker->streetAddress,
+            'addressStreet' => '12 Main',
             'addressCity' => $this->faker->city,
             'addressStateOrProvince' => $this->faker->stateAbbr,
             'addressZipCode' => $this->faker->postcode,
-            'addressCountryCode' => $this->faker->country,
-            'school' => '1'
+            'addressCountryCode' => 'US',
+            'school' => '2'
         );
     }
 

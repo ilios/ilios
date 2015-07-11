@@ -17,11 +17,11 @@ class CurriculumInventoryInstitutionType extends AbstractType
         $builder
             ->add('name')
             ->add('aamcCode')
-            ->add('streetAddress')
-            ->add('city')
-            ->add('state')
-            ->add('zipCode')
-            ->add('countryCode')
+            ->add('addressStreet')
+            ->add('addressCity')
+            ->add('addressStateOrProvince')
+            ->add('addressZipCode')
+            ->add('addressCountryCode')
             ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
