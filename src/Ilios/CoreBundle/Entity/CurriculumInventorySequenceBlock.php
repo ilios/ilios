@@ -193,7 +193,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("integer")
      */

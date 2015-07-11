@@ -70,7 +70,8 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         );
         $actual = json_decode($response->getContent(), true)['curriculumInventoryReports'];
         $this->assertEquals(
-            $expected, $actual
+            $expected,
+            $actual
         );
     }
 

@@ -51,7 +51,7 @@ class UserMadeReminder implements UserMadeReminderInterface
      *      min = 1,
      *      max = 150
      * )
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -63,7 +63,7 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @ORM\Column(name="creation_date", type="datetime")
      *
      * @Assert\NotBlank()
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("createdAt")
@@ -76,7 +76,7 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @ORM\Column(name="due_date", type="datetime")
      *
      * @Assert\NotBlank()
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("dueDate")
@@ -90,7 +90,7 @@ class UserMadeReminder implements UserMadeReminderInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      */

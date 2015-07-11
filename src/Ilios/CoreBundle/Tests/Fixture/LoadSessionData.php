@@ -42,7 +42,7 @@ class LoadSessionData extends AbstractFixture implements
                 $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));
             }
             if (!empty($arr['ilmSessionFacet'])) {
-                $entity->setIlmSessionFacet($this->getReference('ilmSessions' . $arr['ilmSessionFacet']));                
+                $entity->setIlmSessionFacet($this->getReference('ilmSessions' . $arr['ilmSessionFacet']));
             }
             $related = array(
                 'disciplines' => 'addDiscipline',
