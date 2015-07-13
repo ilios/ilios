@@ -8,7 +8,7 @@ use FOS\RestBundle\Util\Codes;
  * IlmSession controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
-class IlmSessionFacetControllerTest extends AbstractControllerTest
+class IlmSessionControllerTest extends AbstractControllerTest
 {
     /**
      * @return array|string
