@@ -119,7 +119,7 @@ class IlmSessionController extends FOSRestController
         }, $criteria);
 
         $result = $this->getIlmSessionFacetHandler()
-            ->findIlmSessionFacetsBy(
+            ->findIlmSessionsBy(
                 $criteria,
                 $orderBy,
                 $limit,
@@ -196,7 +196,7 @@ class IlmSessionController extends FOSRestController
     {
         try {
             $ilmSessionFacet = $this->getIlmSessionFacetHandler()
-                ->findIlmSessionFacetBy(['id'=> $id]);
+                ->findIlmSessionBy(['id'=> $id]);
             if ($ilmSessionFacet) {
                 $code = Codes::HTTP_OK;
             } else {
@@ -296,7 +296,7 @@ class IlmSessionController extends FOSRestController
 
         try {
             $this->getIlmSessionFacetHandler()
-                ->deleteIlmSessionFacet($ilmSessionFacet);
+                ->deleteIlmSession($ilmSessionFacet);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -313,7 +313,7 @@ class IlmSessionController extends FOSRestController
     protected function getOr404($id)
     {
         $ilmSessionFacet = $this->getIlmSessionFacetHandler()
-            ->findIlmSessionFacetBy(['id' => $id]);
+            ->findIlmSessionBy(['id' => $id]);
         if (!$ilmSessionFacet) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }

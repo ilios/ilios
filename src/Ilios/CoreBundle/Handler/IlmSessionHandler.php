@@ -100,7 +100,7 @@ class IlmSessionHandler extends IlmSessionManager
 
         if ($form->isValid()) {
             $ilmSessionFacet = $form->getData();
-            $this->updateIlmSessionFacet(
+            $this->updateIlmSession(
                 $ilmSessionFacet,
                 true,
                 ('PUT' === $method || 'PATCH' === $method)

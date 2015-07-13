@@ -47,7 +47,7 @@ class IlmSessionManager implements IlmSessionManagerInterface
      *
      * @return IlmSessionInterface
      */
-    public function findIlmSessionFacetBy(
+    public function findIlmSessionBy(
         array $criteria,
         array $orderBy = null
     ) {
@@ -62,7 +62,7 @@ class IlmSessionManager implements IlmSessionManagerInterface
      *
      * @return ArrayCollection|IlmSessionInterface[]
      */
-    public function findIlmSessionFacetsBy(
+    public function findIlmSessionsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -76,7 +76,7 @@ class IlmSessionManager implements IlmSessionManagerInterface
      * @param bool $andFlush
      * @param bool $forceId
      */
-    public function updateIlmSessionFacet(
+    public function updateIlmSession(
         IlmSessionInterface $ilmSession,
         $andFlush = true,
         $forceId = false
@@ -94,12 +94,12 @@ class IlmSessionManager implements IlmSessionManagerInterface
     }
 
     /**
-     * @param IlmSessionInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      */
-    public function deleteIlmSessionFacet(
-        IlmSessionInterface $ilmSessionFacet
+    public function deleteIlmSession(
+        IlmSessionInterface $ilmSession
     ) {
-        $this->em->remove($ilmSessionFacet);
+        $this->em->remove($ilmSession);
         $this->em->flush();
     }
 
