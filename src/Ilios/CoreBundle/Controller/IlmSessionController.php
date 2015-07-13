@@ -343,6 +343,6 @@ class IlmSessionController extends FOSRestController
      */
     protected function getIlmSessionFacetHandler()
     {
-        return $this->container->get('ilioscore.ilmsessionfacet.handler');
+        return $this->container->get('ilioscore.ilmsession.handler');
     }
 }
