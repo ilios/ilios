@@ -814,7 +814,7 @@ class User implements UserInterface, EncoderAwareInterface
         $this->instructorIlmSessions = new ArrayCollection();
 
         foreach ($sessions as $session) {
-            $this->addOffering($offering);
+            $this->addInstructorIlmSessions($session);
         }
     }
 
@@ -844,7 +844,7 @@ class User implements UserInterface, EncoderAwareInterface
         $this->learnerIlmSessions = new ArrayCollection();
 
         foreach ($sessions as $session) {
-            $this->addOffering($offering);
+            $this->addLearnerIlmSessions($session);
         }
     }
 

@@ -14,6 +14,8 @@ install:
   - cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
 
 before_script:
+#increase our PHP memory limit so test coverage will work
+  - echo "memory_limit=2048M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 #initialize symfony mysql db
   - bin/console doctrine:database:create --env=dev
   - bin/console doctrine:schema:create --env=dev
