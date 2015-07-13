@@ -19,7 +19,7 @@ class SessionData extends AbstractDataLoader
             'sessionType' => '1',
             'course' => '1',
             'sessionDescription' => '1',
-            'ilmSessionFacet' => '1',
+            'ilmSession' => '1',
             'disciplines' => ['1', '2'],
             'objectives' => ['1', '2'],
             'meshDescriptors' => [],

@@ -40,14 +40,14 @@ interface InstructorGroupInterface extends IdentifiableEntityInterface, TitledEn
     public function getLearnerGroups();
 
     /**
-     * @param Collection $ilmSessionFacets
+     * @param Collection $ilmSessions
      */
-    public function setIlmSessions(Collection $ilmSessionFacets);
+    public function setIlmSessions(Collection $ilmSessions);
 
     /**
-     * @param IlmSessionInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      */
-    public function addIlmSession(IlmSessionInterface $ilmSessionFacet);
+    public function addIlmSession(IlmSessionInterface $ilmSession);
 
     /**
      * @return ArrayCollection|IlmSessionInterface[]

@@ -286,7 +286,7 @@ class IlmSessionController extends FOSRestController
      * @Rest\View(statusCode=204)
      *
      * @param $id
-     * @internal IlmSessionInterface $ilmSessionFacet
+     * @internal IlmSessionInterface $ilmSession
      *
      * @return Response
      */
@@ -308,7 +308,7 @@ class IlmSessionController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return IlmSessionInterface $ilmSessionFacet
+     * @return IlmSessionInterface $ilmSession
      */
     protected function getOr404($id)
     {

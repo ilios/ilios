@@ -194,23 +194,23 @@ class InstructorGroup implements InstructorGroupInterface
     }
 
     /**
-     * @param Collection $ilmSessionFacets
+     * @param Collection $ilmSessions
      */
-    public function setIlmSessions(Collection $ilmSessionFacets)
+    public function setIlmSessions(Collection $ilmSessions)
     {
         $this->ilmSessionFacets = new ArrayCollection();
 
-        foreach ($ilmSessionFacets as $ilmSessionFacet) {
+        foreach ($ilmSessions as $ilmSessionFacet) {
             $this->addIlmSession($ilmSessionFacet);
         }
     }
 
     /**
-     * @param IlmSessionInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      */
-    public function addIlmSession(IlmSessionInterface $ilmSessionFacet)
+    public function addIlmSession(IlmSessionInterface $ilmSession)
     {
-        $this->ilmSessions->add($ilmSessionFacet);
+        $this->ilmSessions->add($ilmSession);
     }
 
     /**

@@ -186,9 +186,9 @@ class Session implements SessionInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("ilmSessionFacet")
+     * @JMS\SerializedName("ilmSession")
      */
-    protected $ilmSessionFacet;
+    protected $ilmSession;
 
     /**
      * @var ArrayCollection|DisciplineInterface[]
@@ -436,19 +436,19 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param IlmSessionInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      */
-    public function setIlmSessionFacet(IlmSessionInterface $ilmSessionFacet)
+    public function setIlmSession(IlmSessionInterface $ilmSession)
     {
-        $this->ilmSessionFacet = $ilmSessionFacet;
+        $this->ilmSession = $ilmSession;
     }
 
     /**
      * @return IlmSessionInterface
      */
-    public function getIlmSessionFacet()
+    public function getIlmSession()
     {
-        return $this->ilmSessionFacet;
+        return $this->ilmSession;
     }
 
     /**

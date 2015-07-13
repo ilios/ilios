@@ -148,7 +148,7 @@ class IlmSession implements IlmSessionInterface
     /**
      * @var SessionInterface
      *
-     * @ORM\OneToOne(targetEntity="Session", mappedBy="ilmSessionFacet")
+     * @ORM\OneToOne(targetEntity="Session", mappedBy="ilmSession")
      *
      * @JMS\Expose
      * @JMS\Type("string")

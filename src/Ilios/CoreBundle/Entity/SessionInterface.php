@@ -92,12 +92,12 @@ interface SessionInterface extends
     /**
      * @param IlmSessionInterface $ilmSessionFacet
      */
-    public function setIlmSessionFacet(IlmSessionInterface $ilmSessionFacet);
+    public function setIlmSession(IlmSessionInterface $ilmSessionFacet);
 
     /**
      * @return IlmSessionInterface
      */
-    public function getIlmSessionFacet();
+    public function getIlmSession();
 
     /**
      * @param Collection $disciplines
