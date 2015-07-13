@@ -118,7 +118,7 @@ class IlmSessionController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getIlmSessionFacetHandler()
+        $result = $this->getIlmSessionHandler()
             ->findIlmSessionsBy(
                 $criteria,
                 $orderBy,
@@ -158,7 +158,7 @@ class IlmSessionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getIlmSessionFacetHandler()
+            $new  =  $this->getIlmSessionHandler()
                 ->post($this->getPostData($request));
             $answer['ilmSessions'] = [$new];
 
@@ -195,19 +195,19 @@ class IlmSessionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+            $ilmSession = $this->getIlmSessionHandler()
                 ->findIlmSessionBy(['id'=> $id]);
-            if ($ilmSessionFacet) {
+            if ($ilmSession) {
                 $code = Codes::HTTP_OK;
             } else {
-                $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+                $ilmSession = $this->getIlmSessionHandler()
                     ->createIlmSession();
                 $code = Codes::HTTP_CREATED;
             }
 
             $answer['ilmSession'] =
-                $this->getIlmSessionFacetHandler()->put(
-                    $ilmSessionFacet,
+                $this->getIlmSessionHandler()->put(
+                    $ilmSession,
                     $this->getPostData($request)
                 );
         } catch (InvalidFormException $exception) {
@@ -253,7 +253,7 @@ class IlmSessionController extends FOSRestController
     public function patchAction(Request $request, $id)
     {
         $answer['ilmSessions'] =
-            $this->getIlmSessionFacetHandler()->patch(
+            $this->getIlmSessionHandler()->patch(
                 $this->getOr404($id),
                 $this->getPostData($request)
             );
@@ -292,11 +292,11 @@ class IlmSessionController extends FOSRestController
      */
     public function deleteAction($id)
     {
-        $ilmSessionFacet = $this->getOr404($id);
+        $ilmSession = $this->getOr404($id);
 
         try {
-            $this->getIlmSessionFacetHandler()
-                ->deleteIlmSession($ilmSessionFacet);
+            $this->getIlmSessionHandler()
+                ->deleteIlmSession($ilmSession);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -312,13 +312,13 @@ class IlmSessionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+        $ilmSession = $this->getIlmSessionHandler()
             ->findIlmSessionBy(['id' => $id]);
-        if (!$ilmSessionFacet) {
+        if (!$ilmSession) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $ilmSessionFacet;
+        return $ilmSession;
     }
 
     /**
@@ -341,7 +341,7 @@ class IlmSessionController extends FOSRestController
     /**
      * @return IlmSessionHandler
      */
-    protected function getIlmSessionFacetHandler()
+    protected function getIlmSessionHandler()
     {
         return $this->container->get('ilioscore.ilmsession.handler');
     }
