@@ -38,47 +38,47 @@ class IlmSessionHandler extends IlmSessionManager
      */
     public function post(array $parameters)
     {
-        $ilmSessionFacet = $this->createIlmSession();
+        $ilmSession = $this->createIlmSession();
 
-        return $this->processForm($ilmSessionFacet, $parameters, 'POST');
+        return $this->processForm($ilmSession, $parameters, 'POST');
     }
 
     /**
-     * @param IlmSessionInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      * @param array $parameters
      *
      * @return IlmSessionInterface
      */
     public function put(
-        IlmSessionInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSession,
         array $parameters
     ) {
         return $this->processForm(
-            $ilmSessionFacet,
+            $ilmSession,
             $parameters,
             'PUT'
         );
     }
 
     /**
-     * @param IlmSessionInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      * @param array $parameters
      *
      * @return IlmSessionInterface
      */
     public function patch(
-        IlmSessionInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSession,
         array $parameters
     ) {
         return $this->processForm(
-            $ilmSessionFacet,
+            $ilmSession,
             $parameters,
             'PATCH'
         );
     }
 
     /**
-     * @param IlmSessionInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      * @param array $parameters
      * @param string $method
      * @throws InvalidFormException when invalid form data is passed in.
@@ -86,27 +86,27 @@ class IlmSessionHandler extends IlmSessionManager
      * @return IlmSessionInterface
      */
     protected function processForm(
-        IlmSessionInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSession,
         array $parameters,
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
             new IlmSessionType(),
-            $ilmSessionFacet,
+            $ilmSession,
             array('method' => $method)
         );
 
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
-            $ilmSessionFacet = $form->getData();
+            $ilmSession = $form->getData();
             $this->updateIlmSession(
-                $ilmSessionFacet,
+                $ilmSession,
                 true,
                 ('PUT' === $method || 'PATCH' === $method)
             );
 
-            return $ilmSessionFacet;
+            return $ilmSession;
         }
 
         throw new InvalidFormException('Invalid submitted data', $form);
