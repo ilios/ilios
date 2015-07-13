@@ -48,7 +48,7 @@ class IlmSessionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ilios\CoreBundle\Entity\IlmSessionFacet'
+            'data_class' => 'Ilios\CoreBundle\Entity\IlmSession'
         ));
     }
 
@@ -57,6 +57,6 @@ class IlmSessionType extends AbstractType
      */
     public function getName()
     {
-        return 'ilmsessionfacet';
+        return 'ilmsession';
     }
 }
