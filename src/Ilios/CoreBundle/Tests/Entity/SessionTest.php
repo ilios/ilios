@@ -118,7 +118,7 @@ class SessionTest extends EntityBase
      */
     public function testSetIlmSessionFacet()
     {
-        $this->entitySetTest('ilmSessionFacet', "IlmSessionFacet");
+        $this->entitySetTest('ilmSessionFacet', "IlmSession");
     }
 
     /**

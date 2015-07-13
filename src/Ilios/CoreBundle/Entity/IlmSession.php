@@ -12,7 +12,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * Class IlmSessionFacet
+ * Class IlmSession
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="ilm_session_facet")
@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *
  * @JMS\ExclusionPolicy("all")
  */
-class IlmSessionFacet implements IlmSessionFacetInterface
+class IlmSession implements IlmSessionInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;

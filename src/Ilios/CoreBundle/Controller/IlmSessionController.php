@@ -15,7 +15,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Handler\IlmSessionFacetHandler;
-use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
+use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
  * Class IlmSessionController
@@ -39,7 +39,7 @@ class IlmSessionController extends FOSRestController
      *        "description"="IlmSession identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
+     *   output="Ilios\CoreBundle\Entity\IlmSession",
      *   statusCodes={
      *     200 = "IlmSession.",
      *     404 = "Not Found."
@@ -66,7 +66,7 @@ class IlmSessionController extends FOSRestController
      *   section = "IlmSession",
      *   description = "Get all IlmSession.",
      *   resource = true,
-     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
+     *   output="Ilios\CoreBundle\Entity\IlmSession",
      *   statusCodes = {
      *     200 = "List of all IlmSessions",
      *     204 = "No content. Nothing to list."
@@ -141,7 +141,7 @@ class IlmSessionController extends FOSRestController
      *   description = "Create a IlmSession.",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
-     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
+     *   output="Ilios\CoreBundle\Entity\IlmSession",
      *   statusCodes={
      *     201 = "Created IlmSession.",
      *     400 = "Bad Request.",
@@ -176,7 +176,7 @@ class IlmSessionController extends FOSRestController
      *   description = "Update a IlmSession entity.",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
-     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
+     *   output="Ilios\CoreBundle\Entity\IlmSession",
      *   statusCodes={
      *     200 = "Updated IlmSession.",
      *     201 = "Created IlmSession.",
@@ -227,7 +227,7 @@ class IlmSessionController extends FOSRestController
      *   description = "Partial Update to a IlmSession.",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
-     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
+     *   output="Ilios\CoreBundle\Entity\IlmSession",
      *   requirements={
      *     {
      *         "name"="id",
@@ -286,7 +286,7 @@ class IlmSessionController extends FOSRestController
      * @Rest\View(statusCode=204)
      *
      * @param $id
-     * @internal IlmSessionFacetInterface $ilmSessionFacet
+     * @internal IlmSessionInterface $ilmSessionFacet
      *
      * @return Response
      */
@@ -308,7 +308,7 @@ class IlmSessionController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return IlmSessionFacetInterface $ilmSessionFacet
+     * @return IlmSessionInterface $ilmSessionFacet
      */
     protected function getOr404($id)
     {

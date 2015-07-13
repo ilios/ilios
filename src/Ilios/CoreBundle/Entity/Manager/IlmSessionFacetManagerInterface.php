@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
+use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
  * Interface IlmSessionFacetManagerInterface
@@ -15,7 +15,7 @@ interface IlmSessionFacetManagerInterface
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     public function findIlmSessionFacetBy(
         array $criteria,
@@ -28,7 +28,7 @@ interface IlmSessionFacetManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|IlmSessionFacetInterface[]
+     * @return ArrayCollection|IlmSessionInterface[]
      */
     public function findIlmSessionFacetsBy(
         array $criteria,
@@ -38,25 +38,25 @@ interface IlmSessionFacetManagerInterface
     );
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSessionFacet
      * @param bool $andFlush
      * @param bool $forceId
      *
      * @return void
      */
     public function updateIlmSessionFacet(
-        IlmSessionFacetInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSessionFacet,
         $andFlush = true,
         $forceId = false
     );
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSessionFacet
      *
      * @return void
      */
     public function deleteIlmSessionFacet(
-        IlmSessionFacetInterface $ilmSessionFacet
+        IlmSessionInterface $ilmSessionFacet
     );
 
     /**
@@ -65,7 +65,7 @@ interface IlmSessionFacetManagerInterface
     public function getClass();
 
     /**
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     public function createIlmSessionFacet();
 }

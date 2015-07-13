@@ -1,25 +1,25 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity;
 
-use Ilios\CoreBundle\Entity\IlmSessionFacet;
+use Ilios\CoreBundle\Entity\IlmSession;
 use Mockery as m;
 
 /**
- * Tests for Entity IlmSessionFacet
+ * Tests for Entity IlmSession
  */
 class IlmSessionFacetTest extends EntityBase
 {
     /**
-     * @var IlmSessionFacet
+     * @var IlmSession
      */
     protected $object;
 
     /**
-     * Instantiate a IlmSessionFacet object
+     * Instantiate a IlmSession object
      */
     protected function setUp()
     {
-        $this->object = new IlmSessionFacet;
+        $this->object = new IlmSession;
     }
 
     public function testNotBlankValidation()

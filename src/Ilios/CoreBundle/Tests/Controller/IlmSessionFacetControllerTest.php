@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
- * IlmSessionFacet controller Test.
+ * IlmSession controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
 class IlmSessionFacetControllerTest extends AbstractControllerTest

@@ -111,9 +111,9 @@ class LearnerGroup implements LearnerGroupInterface
     protected $children;
 
     /**
-     * @var ArrayCollection|IlmSessionFacetInterface[]
+     * @var ArrayCollection|IlmSessionInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="IlmSessionFacet", mappedBy="learnerGroups")
+     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="learnerGroups")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -305,15 +305,15 @@ class LearnerGroup implements LearnerGroupInterface
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSession
+     * @param IlmSessionInterface $ilmSession
      */
-    public function addIlmSession(IlmSessionFacetInterface $ilmSession)
+    public function addIlmSession(IlmSessionInterface $ilmSession)
     {
         $this->ilmSessions->add($ilmSession);
     }
 
     /**
-     * @return ArrayCollection|IlmSessionFacetInterface[]
+     * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getIlmSessions()
     {

@@ -126,7 +126,7 @@ services:
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Discipline]
     ilioscore.ilmsessionfacet.manager:
         class: %ilioscore.ilmsessionfacet.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\IlmSessionFacet]
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\IlmSession]
     ilioscore.ingestionexception.manager:
         class: %ilioscore.ingestionexception.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IngestionException]

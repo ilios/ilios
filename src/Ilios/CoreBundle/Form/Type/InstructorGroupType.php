@@ -26,7 +26,7 @@ class InstructorGroupType extends AbstractType
             ])
             ->add('ilmSessions', 'tdn_many_related', [
                 'required' => false,
-                'entityName' => "IliosCoreBundle:IlmSessionFacet"
+                'entityName' => "IliosCoreBundle:IlmSession"
             ])
             ->add('users', 'tdn_many_related', [
                 'required' => false,

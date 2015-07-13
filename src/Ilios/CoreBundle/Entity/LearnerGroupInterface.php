@@ -69,12 +69,12 @@ interface LearnerGroupInterface extends
     public function setIlmSessions(Collection $ilmSessions);
 
     /**
-     * @param IlmSessionFacetInterface $ilmSession
+     * @param IlmSessionInterface $ilmSession
      */
-    public function addIlmSession(IlmSessionFacetInterface $ilmSession);
+    public function addIlmSession(IlmSessionInterface $ilmSession);
 
     /**
-     * @return ArrayCollection|IlmSessionFacetInterface[]
+     * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getIlmSessions();
 

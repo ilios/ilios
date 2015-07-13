@@ -64,7 +64,7 @@ class InstructorGroupTest extends EntityBase
      */
     public function testAddIlmSession()
     {
-        $this->entityCollectionAddTest('ilmSession', 'IlmSessionFacet');
+        $this->entityCollectionAddTest('ilmSession', 'IlmSession');
     }
 
     /**
@@ -72,7 +72,7 @@ class InstructorGroupTest extends EntityBase
      */
     public function testGetIlmSessions()
     {
-        $this->entityCollectionSetTest('ilmSession', 'IlmSessionFacet');
+        $this->entityCollectionSetTest('ilmSession', 'IlmSession');
     }
 
     /**

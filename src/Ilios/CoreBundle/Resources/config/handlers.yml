@@ -119,7 +119,7 @@ services:
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Discipline, '@form.factory']
     ilioscore.ilmsessionfacet.handler:
         class: %ilioscore.ilmsessionfacet.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\IlmSessionFacet, '@form.factory']
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\IlmSession, '@form.factory']
     ilioscore.ingestionexception.handler:
         class: %ilioscore.ingestionexception.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IngestionException, '@form.factory']

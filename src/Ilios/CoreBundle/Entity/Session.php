@@ -177,9 +177,9 @@ class Session implements SessionInterface
     protected $course;
 
     /**
-     * @var IlmSessionFacetInterface
+     * @var IlmSessionInterface
      *
-     * @ORM\OneToOne(targetEntity="IlmSessionFacet", inversedBy="session")
+     * @ORM\OneToOne(targetEntity="IlmSession", inversedBy="session")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", nullable=true)
      * })
@@ -436,15 +436,15 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSessionFacet
      */
-    public function setIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet)
+    public function setIlmSessionFacet(IlmSessionInterface $ilmSessionFacet)
     {
         $this->ilmSessionFacet = $ilmSessionFacet;
     }
 
     /**
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     public function getIlmSessionFacet()
     {

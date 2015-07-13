@@ -68,11 +68,11 @@ class UserType extends AbstractType
             ])
             ->add('instructorIlmSessions', 'tdn_many_related', [
                 'required' => false,
-                'entityName' => "IliosCoreBundle:IlmSessionFacet"
+                'entityName' => "IliosCoreBundle:IlmSession"
             ])
             ->add('learnerIlmSessions', 'tdn_many_related', [
                 'required' => false,
-                'entityName' => "IliosCoreBundle:IlmSessionFacet"
+                'entityName' => "IliosCoreBundle:IlmSession"
             ])
             ->add('offerings', 'tdn_many_related', [
                 'required' => false,

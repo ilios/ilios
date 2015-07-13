@@ -7,7 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Form\Type\IlmSessionFacetType;
 use Ilios\CoreBundle\Entity\Manager\IlmSessionFacetManager;
-use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
+use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
  * Class IlmSessionFacetHandler
@@ -34,7 +34,7 @@ class IlmSessionFacetHandler extends IlmSessionFacetManager
     /**
      * @param array $parameters
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     public function post(array $parameters)
     {
@@ -44,13 +44,13 @@ class IlmSessionFacetHandler extends IlmSessionFacetManager
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSessionFacet
      * @param array $parameters
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     public function put(
-        IlmSessionFacetInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSessionFacet,
         array $parameters
     ) {
         return $this->processForm(
@@ -61,13 +61,13 @@ class IlmSessionFacetHandler extends IlmSessionFacetManager
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSessionFacet
      * @param array $parameters
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     public function patch(
-        IlmSessionFacetInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSessionFacet,
         array $parameters
     ) {
         return $this->processForm(
@@ -78,15 +78,15 @@ class IlmSessionFacetHandler extends IlmSessionFacetManager
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSessionFacet
      * @param array $parameters
      * @param string $method
      * @throws InvalidFormException when invalid form data is passed in.
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     protected function processForm(
-        IlmSessionFacetInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSessionFacet,
         array $parameters,
         $method = "PUT"
     ) {

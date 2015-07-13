@@ -83,9 +83,9 @@ class InstructorGroup implements InstructorGroupInterface
     protected $learnerGroups;
 
     /**
-     * @var ArrayCollection|IlmSessionFacet[]
+     * @var ArrayCollection|IlmSession[]
      *
-     * @ORM\ManyToMany(targetEntity="IlmSessionFacet", mappedBy="instructorGroups")
+     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="instructorGroups")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -206,15 +206,15 @@ class InstructorGroup implements InstructorGroupInterface
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSessionFacet
      */
-    public function addIlmSession(IlmSessionFacetInterface $ilmSessionFacet)
+    public function addIlmSession(IlmSessionInterface $ilmSessionFacet)
     {
         $this->ilmSessions->add($ilmSessionFacet);
     }
 
     /**
-     * @return ArrayCollection|IlmSessionFacetInterface[]
+     * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getIlmSessions()
     {

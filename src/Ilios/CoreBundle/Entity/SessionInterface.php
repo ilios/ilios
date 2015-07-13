@@ -90,12 +90,12 @@ interface SessionInterface extends
     public function getCourse();
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSessionFacet
      */
-    public function setIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet);
+    public function setIlmSessionFacet(IlmSessionInterface $ilmSessionFacet);
 
     /**
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     public function getIlmSessionFacet();
 

@@ -45,12 +45,12 @@ interface InstructorGroupInterface extends IdentifiableEntityInterface, TitledEn
     public function setIlmSessions(Collection $ilmSessionFacets);
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSessionFacet
      */
-    public function addIlmSession(IlmSessionFacetInterface $ilmSessionFacet);
+    public function addIlmSession(IlmSessionInterface $ilmSessionFacet);
 
     /**
-     * @return ArrayCollection|IlmSessionFacetInterface[]
+     * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getIlmSessions();
 
