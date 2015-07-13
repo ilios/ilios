@@ -12,7 +12,7 @@ class ObjectiveData extends AbstractDataLoader
             'id' => 1,
             'title' => $this->faker->text,
             'competency' => "1",
-            'courses' => [],
+            'courses' => ['1', '2'],
             'programYears' => [],
             'sessions' => ['1'],
             'parents' => [],
@@ -24,7 +24,7 @@ class ObjectiveData extends AbstractDataLoader
             'id' => 2,
             'title' => $this->faker->text,
             'competency' => "1",
-            'courses' => ['1'],
+            'courses' => [],
             'programYears' => [],
             'sessions' => ['1'],
             'parents' => ['1'],
@@ -38,7 +38,17 @@ class ObjectiveData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 3,
+            'title' => $this->faker->text,
+            'competency' => "1",
+            'courses' => ['1'],
+            'programYears' => ['2'],
+            'sessions' => ['1'],
+            'parents' => ['1'],
+            'children' => [],
+            'meshDescriptors' => []
+        );
     }
 
     public function createInvalid()

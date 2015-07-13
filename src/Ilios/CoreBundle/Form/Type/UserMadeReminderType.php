@@ -16,8 +16,9 @@ class UserMadeReminderType extends AbstractType
     {
         $builder
             ->add('note')
-            ->add('createdAt')
-            ->add('dueDate')
+            ->add('dueDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
             ->add('closed', null, ['required' => false])
             ->add('user', 'tdn_single_related', [
                 'required' => false,

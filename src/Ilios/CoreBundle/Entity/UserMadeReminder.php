@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+
 /**
  * Class UserMadeReminder
  * @package Ilios\CoreBundle\Entity
@@ -21,8 +24,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UserMadeReminder implements UserMadeReminderInterface
 {
+    use IdentifiableEntity;
+    use StringableIdEntity;
+
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Column(name="user_made_reminder_id", type="integer")
@@ -46,6 +51,9 @@ class UserMadeReminder implements UserMadeReminderInterface
      *      min = 1,
      *      max = 150
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $note;
 
@@ -55,6 +63,10 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @ORM\Column(name="creation_date", type="datetime")
      *
      * @Assert\NotBlank()
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
 
@@ -64,6 +76,10 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @ORM\Column(name="due_date", type="datetime")
      *
      * @Assert\NotBlank()
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("dueDate")
      */
     protected $dueDate;
 
@@ -74,6 +90,9 @@ class UserMadeReminder implements UserMadeReminderInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
     protected $closed;
 
@@ -96,22 +115,7 @@ class UserMadeReminder implements UserMadeReminderInterface
     public function __construct()
     {
         $this->closed = false;
-    }
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->userMadeReminderId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->userMadeReminderId : $this->id;
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -133,7 +137,7 @@ class UserMadeReminder implements UserMadeReminderInterface
     /**
      * @param \DateTime $dueDate
      */
-    public function setDueDate(\DateTime $dueDate)
+    public function setDueDate(\DateTime $dueDate = null)
     {
         $this->dueDate = $dueDate;
     }
@@ -160,14 +164,6 @@ class UserMadeReminder implements UserMadeReminderInterface
     public function isClosed()
     {
         return $this->closed;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
     }
 
     /**

@@ -35,6 +35,7 @@ class LoadSessionTypeData extends AbstractFixture implements
             $entity->setAssessmentOption(
                 $this->getReference('assessmentOptions' . $arr['assessmentOption'])
             );
+            $entity->setOwningSchool($this->getReference('schools' . $arr['owningSchool']));
 
             foreach ($arr['aamcMethods'] as $id) {
                 $entity->addAamcMethod($this->getReference('aamcMethods' . $id));
@@ -50,7 +51,8 @@ class LoadSessionTypeData extends AbstractFixture implements
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadAamcMethodData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
         );
     }
 }

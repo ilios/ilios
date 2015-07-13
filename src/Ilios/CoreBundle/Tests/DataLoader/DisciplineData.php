@@ -30,7 +30,14 @@ class DisciplineData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return [
+            'id' => 3,
+            //'title' => $this->faker->text(100),
+            //'owningSchool' => '1',
+            'courses' => [],
+            'programYears' => [],
+            'sessions' => ['1']
+        ];
     }
 
     public function createInvalid()

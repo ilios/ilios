@@ -5,6 +5,8 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -31,13 +33,12 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  */
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
-//    use IdentifiableEntity; //Implement on 3.1
+    use IdentifiableEntity;
     use NameableEntity;
     use DescribableEntity;
     use StringableIdEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Id
@@ -63,6 +64,9 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *      max = 50
      * )
      *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     *
     */
     protected $name;
 
@@ -76,6 +80,9 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *      min = 1,
      *      max = 65000
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $description;
 
@@ -87,13 +94,15 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
     protected $level;
 
     /**
      * @var CurriculumInventoryReportInterface
      *
-     * @ORM\ManyToOne(targetEntity="CurriculumInventoryReport", inversedBy="curriculumInventoryAcademicLevels")
+     * @ORM\ManyToOne(targetEntity="CurriculumInventoryReport", inversedBy="academicLevels")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id")
      * })
@@ -113,23 +122,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     * @JMS\SerializedName("sequenceBlocks")
     */
     protected $sequenceBlocks;
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->academicLevelId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->academicLevelId : $this->id;
-    }
 
     /**
      * @param int $level
@@ -161,5 +153,35 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     public function getReport()
     {
         return $this->report;
+    }
+
+    /**
+     * @param Collection $sequenceBlocks
+     */
+    public function setSequenceBlocks(Collection $sequenceBlocks = null)
+    {
+        $this->sequenceBlocks = new ArrayCollection();
+        if (is_null($sequenceBlocks)) {
+            return;
+        }
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addSequenceBlock($sequenceBlock);
+        }
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     */
+    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    {
+        $this->sequenceBlocks->add($sequenceBlock);
+    }
+
+    /**
+     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     */
+    public function getSequenceBlocks()
+    {
+        return $this->sequenceBlocks;
     }
 }

@@ -7,52 +7,62 @@ class CurriculumInventoryReportData extends AbstractDataLoader
     protected function getData()
     {
         $arr = array();
-
+        
+        $dt = $this->faker->dateTime;
+        $dt->setTime(0, 0, 0);
         $arr[] = array(
-            'id' => 9,
-            'sequence' => "9",
-            'sequenceBlocks' => ['16','18','24','25','26','33','36','53','64'],
-            'program' => "1",
-            'academicLevels' => [
-                '81',
-                '82',
-                '83',
-                '84',
-                '85',
-                '86',
-                '87',
-                '88',
-                '89',
-                '90',
-            ]
+            'id' => 1,
+            'export' => '1',
+            'sequence' => '1',
+            'year' => (int) $this->faker->date('Y'),
+            'name' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
+            'startDate' => $dt->format('c'),
+            'endDate' => $dt->format('c'),
+            'sequenceBlocks' => [],
+            'academicLevels' => ['1'],
         );
-
+        
         $arr[] = array(
-            'id' => 10,
-            'sequence' => "10",
-            'sequenceBlocks' => ['68','70','76','78','82','83','86','93','95'],
-            'program' => "1",
-            'academicLevels' => [
-                '91',
-                '92',
-                '93',
-                '94',
-                '95',
-                '96',
-                '97',
-                '98',
-                '99',
-                '100',
-            ]
+            'id' => 2,
+            'export' => '2',
+            'sequence' => '2',
+            'year' => (int) $this->faker->date('Y'),
+            'name' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
+            'startDate' => $dt->format('c'),
+            'endDate' => $dt->format('c'),
+            'sequenceBlocks' => [],
+            'academicLevels' => ['2'],
         );
-
+        $arr[] = array(
+            'id' => 3,
+            'year' => (int) $this->faker->date('Y'),
+            'name' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
+            'startDate' => $dt->format('c'),
+            'endDate' => $dt->format('c'),
+            'sequenceBlocks' => [],
+            'academicLevels' => [],
+        );
 
         return $arr;
     }
 
     public function create()
     {
-        return [];
+        $dt = $this->faker->dateTime;
+        $dt->setTime(0, 0, 0);
+        return array(
+            'id' => 4,
+            'year' => (int) $this->faker->date('Y'),
+            'name' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
+            'startDate' => $dt->format('c'),
+            'endDate' => $dt->format('c'),
+            'sequenceBlocks' => [],
+            'academicLevels' => [],
+        );
     }
 
     public function createInvalid()

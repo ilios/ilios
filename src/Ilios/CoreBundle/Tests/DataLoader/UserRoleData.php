@@ -11,7 +11,7 @@ class UserRoleData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => $this->faker->text(10),
-            'users' => []
+            'users' => ['1','2'],
         );
 
 
@@ -20,7 +20,15 @@ class UserRoleData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        $arr = array();
+
+        $arr[] = array(
+            'id' => 2,
+            'title' => $this->faker->text(10),
+            'users' => ['1','2'],
+        );
+
+        return $arr[0];
     }
 
     public function createInvalid()

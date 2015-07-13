@@ -84,17 +84,6 @@ class SessionDescription implements SessionDescriptionInterface
     }
 
     /**
-     * @JMS\VirtualProperty
-     * @JMS\SerializedName("id")
-     *
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->session->getId();
-    }
-
-    /**
      * @return string
      */
     public function __toString()

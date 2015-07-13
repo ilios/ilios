@@ -37,7 +37,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test title for the block max 200');
-        $this->object->setChildSequenceOrder(true); // this fails when a False is passed I have noticed
+        $this->object->setChildSequenceOrder(1);
         $this->object->setOrderInSequence(2);
         $this->object->setMinimum(1);
         $this->object->setMaximum(521);
@@ -58,11 +58,11 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setChildSequenceOrder
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::hasChildSequenceOrder
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getChildSequenceOrder
      */
     public function testSetChildSequenceOrder()
     {
-        $this->booleanSetTest('childSequenceOrder', false);
+        $this->basicSetTest('childSequenceOrder', 'integer');
     }
 
     /**

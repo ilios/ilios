@@ -54,7 +54,6 @@ class AlertControllerTest extends AbstractControllerTest
             $this->mockSerialize($alert),
             json_decode($response->getContent(), true)['alerts'][0]
         );
-
     }
 
     public function testGetAllAlerts()

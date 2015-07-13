@@ -23,8 +23,12 @@ class CurriculumInventorySequenceBlockType extends AbstractType
             ->add('minimum')
             ->add('maximum')
             ->add('track', null, ['required' => false])
-            ->add('startDate', null, ['required' => false])
-            ->add('endDate', null, ['required' => false])
+            ->add('startDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
+            ->add('endDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
             ->add('duration')
             ->add('academicLevel', 'tdn_single_related', [
                 'required' => false,

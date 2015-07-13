@@ -16,7 +16,6 @@ class ReportType extends AbstractType
     {
         $builder
             ->add('title', null, ['required' => false])
-            ->add('createdAt')
             ->add('subject')
             ->add('prepositionalObject', null, ['required' => false])
             ->add('deleted', null, ['required' => false])

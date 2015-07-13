@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Fixture;
 
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCurriculumInventorySequenceBlockSessionData extends AbstractFixture implements
     FixtureInterface,
+    DependentFixtureInterface,
     ContainerAwareInterface
 {
 
@@ -29,10 +31,19 @@ class LoadCurriculumInventorySequenceBlockSessionData extends AbstractFixture im
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequenceBlockSession();
             $entity->setId($arr['id']);
+            $entity->setSequenceBlock($this->getReference('curriculumInventorySequenceBlocks' . $arr['sequenceBlock']));
+            $entity->setCountOfferingsOnce($arr['countOfferingsOnce']);
             $manager->persist($entity);
             $this->addReference('curriculumInventorySequenceBlockSessions' . $arr['id'], $entity);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData'
+        );
     }
 }

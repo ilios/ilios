@@ -13,6 +13,11 @@ class LearningMaterialStatusData extends AbstractDataLoader
             'title' => $this->faker->text(10),
             'learningMaterials' => ['1', '2']
         );
+        $arr[] = array(
+            'id' => 2,
+            'title' => $this->faker->text(10),
+            'learningMaterials' => []
+        );
 
 
         return $arr;
@@ -20,7 +25,11 @@ class LearningMaterialStatusData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 3,
+            'title' => $this->faker->text(10),
+            'learningMaterials' => []
+        );
     }
 
     public function createInvalid()

@@ -2,14 +2,14 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
-use Ilios\CoreBundle\Entity\IngestionException;
+use Ilios\CoreBundle\Entity\MeshDescriptor;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadIngestionExceptionData extends AbstractFixture implements
+class LoadMeshDescriptorData extends AbstractFixture implements
     FixtureInterface,
     ContainerAwareInterface
 {
@@ -24,13 +24,12 @@ class LoadIngestionExceptionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.ingestionException')
+            ->get('ilioscore.dataloader.meshDescriptor')
             ->getAll();
         foreach ($data as $arr) {
-            $entity = new IngestionException();
+            $entity = new MeshDescriptor();
             $entity->setId($arr['id']);
-            $manager->persist($entity);
-            $this->addReference('ingestionExceptions' . $arr['id'], $entity);
+            $this->addReference('meshDescriptors' . $arr['id'], $entity);
         }
 
         $manager->flush();

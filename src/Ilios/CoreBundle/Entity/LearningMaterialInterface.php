@@ -2,11 +2,11 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Ilios\CoreBundle\Traits\BlameableEntityInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
-use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
@@ -16,28 +16,8 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 interface LearningMaterialInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    DescribableEntityInterface,
-    TimestampableEntityInterface
-//    BlameableEntityInterface
+    DescribableEntityInterface
 {
-    const TYPE_FILE = 'file';
-    const TYPE_LINK = 'link';
-    const TYPE_CITATION = 'citation';
-
-    /**
-     * @return array
-     */
-    public static function getTypes();
-
-    /**
-     * @param string $type
-     */
-    public function setType($type);
-
-    /**
-     * @return string
-     */
-    public function getType();
 
     /**
      * @param string $orignalAuthor
@@ -88,4 +68,80 @@ interface LearningMaterialInterface extends
      * @return UserInterface
      */
     public function getOwningUser();
+    
+    /**
+     * @param string $text
+     */
+    public function setCitation($citation);
+
+    /**
+     * @return string
+     */
+    public function getCitation();
+    
+    /**
+     * @param string $link
+     */
+    public function setLink($link);
+
+    /**
+     * @return string
+     */
+    public function getLink();
+    
+    /**
+     * @param string $path
+     */
+    public function setPath($path);
+
+    /**
+     * @return string
+     */
+    public function getPath();
+
+    /**
+     * @param bool $copyrightPermission
+     */
+    public function setCopyrightPermission($copyrightPermission);
+
+    /**
+     * @return bool
+     */
+    public function hasCopyrightPermission();
+
+    /**
+     * @param string $copyrightRationale
+     */
+    public function setCopyrightRationale($copyrightRationale);
+
+    /**
+     * @return string
+     */
+    public function getCopyrightRationale();
+
+
+    /**
+     * @return string
+     */
+    public function getAbsolutePath();
+
+    /**
+     * @return string
+     */
+    public function getWebPath();
+
+    /**
+     * @param UploadedFile $resource
+     */
+    public function setResource(UploadedFile $resource);
+
+    /**
+     * @return UploadedFile|\SplFileInfo
+     */
+    public function getResource();
+
+    /**
+     * @return void
+     */
+    public function upload();
 }

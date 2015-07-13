@@ -12,31 +12,26 @@ class LearningMaterialData extends AbstractDataLoader
             'id' => 1,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
-            'uploadDate' => $this->faker->date,
             'originalAuthor' => $this->faker->name,
-            'token' => $this->faker->md5,
             'userRole' => "1",
             'status' => "1",
             'owningUser' => "1",
             'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => [1],
-            'citation' => $this->faker->text,
-            'type' => "citation"
+            'citation' => $this->faker->text
         );
 
         $arr[] = array(
             'id' => 2,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
-            'uploadDate' => $this->faker->date,
             'originalAuthor' => $this->faker->name,
-            'token' => $this->faker->md5,
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
+            'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [2],
-            'citation' => $this->faker->text,
-            'type' => "citation"
+            'citation' => $this->faker->text
         );
 
 
@@ -45,7 +40,18 @@ class LearningMaterialData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 3,
+            'title' => $this->faker->text(30),
+            'description' => $this->faker->text,
+            'originalAuthor' => $this->faker->name,
+            'sessionLearningMaterials' => [],
+            'courseLearningMaterials' => [],
+            'citation' => $this->faker->text,
+            'userRole' => "2",
+            'status' => "1",
+            'owningUser' => "1",
+        );
     }
 
     public function createInvalid()

@@ -18,8 +18,12 @@ class CurriculumInventoryReportType extends AbstractType
             ->add('name', null, ['required' => false])
             ->add('description', null, ['required' => false])
             ->add('year')
-            ->add('startDate')
-            ->add('endDate')
+            ->add('startDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
+            ->add('endDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
             ->add('export', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryExport"
@@ -36,7 +40,7 @@ class CurriculumInventoryReportType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Program"
             ])
-            ->add('curriculumInventoryAcademicLevels', 'tdn_many_related', [
+            ->add('academicLevels', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryAcademicLevel"
             ])

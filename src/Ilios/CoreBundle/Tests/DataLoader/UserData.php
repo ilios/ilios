@@ -14,11 +14,11 @@ class UserData extends AbstractDataLoader
             'firstName' => $this->faker->firstName,
             'middleName' => $this->faker->firstName,
             'email' => $this->faker->email,
-            'learningMaterials' => [1,2],
+            'learningMaterials' => ['1', '2'],
             'publishEvents' => [],
             'reports' => [],
-            'primarySchool' => "1",
-            'primaryCohort' => "1",
+            'primarySchool' => '1',
+            'primaryCohort' => '1',
             'directedCourses' => [],
             'learnerGroups' => [],
             'instructorUserGroups' => [],
@@ -29,9 +29,10 @@ class UserData extends AbstractDataLoader
             'instructedOfferings' => [],
             'programYears' => [],
             'instructionHours' => [],
-            'alerts' => ["1", "2"],
-            'roles' => [],
-            'cohorts' => [1]
+            'alerts' => ['1'],
+            'roles' => ['1'],
+            'cohorts' => ['1'],
+            'reminders' => ['1', '2']
         );
 
         $arr[] = array(
@@ -43,7 +44,7 @@ class UserData extends AbstractDataLoader
             'learningMaterials' => [],
             'publishEvents' => [],
             'reports' => [],
-            'primarySchool' => "1",
+            'primarySchool' => '1',
             'directedCourses' => [],
             'learnerGroups' => [],
             'instructorUserGroups' => [],
@@ -54,9 +55,10 @@ class UserData extends AbstractDataLoader
             'instructedOfferings' => [],
             'programYears' => [],
             'instructionHours' => [],
-            'alerts' => [],
-            'roles' => [],
-            'cohorts' => []
+            'alerts' => ['1'],
+            'roles' => ['1'],
+            'cohorts' => [],
+            'reminders' => []
         );
 
         $arr[] = array(
@@ -81,7 +83,8 @@ class UserData extends AbstractDataLoader
             'instructionHours' => [],
             'alerts' => [],
             'roles' => [],
-            'cohorts' => []
+            'cohorts' => [],
+            'reminders' => []
         );
 
 
@@ -113,7 +116,8 @@ class UserData extends AbstractDataLoader
             'instructionHours' => [],
             'alerts' => [],
             'roles' => [],
-            'cohorts' => []
+            'cohorts' => [],
+            'reminders' => []
         ];
     }
 

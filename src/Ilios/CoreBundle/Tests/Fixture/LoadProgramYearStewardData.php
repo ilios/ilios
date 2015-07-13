@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Fixture;
 
 use Ilios\CoreBundle\Entity\ProgramYearSteward;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadProgramYearStewardData extends AbstractFixture implements
     FixtureInterface,
+    DependentFixtureInterface,
     ContainerAwareInterface
 {
 
@@ -29,10 +31,23 @@ class LoadProgramYearStewardData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new ProgramYearSteward();
             $entity->setId($arr['id']);
+            $entity->setSchool($this->getReference('schools' . $arr['school']));
+            $entity->setDepartment($this->getReference('departments' . $arr['department']));
+            $entity->setProgramYear($this->getReference('programYears' . $arr['programYear']));
+            
             $manager->persist($entity);
             $this->addReference('programYearStewards' . $arr['id'], $entity);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
+        );
     }
 }

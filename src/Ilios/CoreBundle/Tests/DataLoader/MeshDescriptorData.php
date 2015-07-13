@@ -2,11 +2,14 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class IngestionExceptionData extends AbstractDataLoader
+class MeshDescriptorData extends AbstractDataLoader
 {
     protected function getData()
     {
         $arr = array();
+        $arr[] = array(
+            'id' => 1
+        );
 
 
         return $arr;

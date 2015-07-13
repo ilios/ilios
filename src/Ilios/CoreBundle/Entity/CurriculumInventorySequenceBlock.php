@@ -56,6 +56,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *      max = 200
      * )
      *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $title;
 
@@ -68,6 +70,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *      min = 1,
      *      max = 65000
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $description;
 
@@ -79,16 +84,27 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
     protected $required;
 
     /**
-     * @var boolean
+     * @var int
      *
      * @Assert\NotBlank()
-     * @Assert\Type(type="bool")
+     * @Assert\Type(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 3,
+     * )
      *
-     * @ORM\Column(name="child_sequence_order", type="boolean")
+     * @ORM\Column(name="child_sequence_order", type="smallint")
+     *
+     * @JMS\Expose
+     * @JMS\SerializedName("childSequenceOrder")
+     * @JMS\Type("integer")
      */
     protected $childSequenceOrder;
 
@@ -99,6 +115,10 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @Assert\Type(type="integer")
      *
      * @ORM\Column(name="order_in_sequence", type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\SerializedName("orderInSequence")
+     * @JMS\Type("integer")
      */
     protected $orderInSequence;
 
@@ -109,6 +129,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @Assert\Type(type="integer")
      *
      * @ORM\Column(name="minimum", type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
     protected $minimum;
 
@@ -119,6 +142,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @Assert\Type(type="integer")
      *
      * @ORM\Column(name="maximum", type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
     protected $maximum;
 
@@ -140,6 +166,10 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @ORM\Column(name="start_date", type="date", nullable=true)
      *
      * @Assert\NotBlank()
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("startDate")
      */
     protected $startDate;
 
@@ -149,6 +179,10 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @ORM\Column(name="end_date", type="date", nullable=true)
      *
      * @Assert\NotBlank()
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("endDate")
      */
     protected $endDate;
 
@@ -159,6 +193,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
     protected $duration;
 
@@ -287,9 +324,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @return boolean
+     * @return int $childSequenceOrder
      */
-    public function hasChildSequenceOrder()
+    public function getChildSequenceOrder()
     {
         return $this->childSequenceOrder;
     }
@@ -361,7 +398,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @param \DateTime $startDate
      */
-    public function setStartDate($startDate)
+    public function setStartDate(\DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
@@ -377,7 +414,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @param \DateTime $endDate
      */
-    public function setEndDate($endDate)
+    public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
@@ -496,5 +533,35 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function getReport()
     {
         return $this->report;
+    }
+
+    /**
+     * @param Collection $sessions
+     */
+    public function setSessions(Collection $sessions = null)
+    {
+        $this->sessions = new ArrayCollection();
+        if (is_null($sessions)) {
+            return;
+        }
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockSessionInterface $session
+     */
+    public function addSession(CurriculumInventorySequenceBlockSessionInterface $session)
+    {
+        $this->sessions->add($session);
+    }
+
+    /**
+     * @return ArrayCollection|CurriculumInventorySequenceBlockSessionInterface[]
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
     }
 }

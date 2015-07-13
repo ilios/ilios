@@ -10,9 +10,18 @@ class PublishEventData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'machineIp' => $this->faker->ipv4,
-            'sessions' => [1],
-            'courses' => []
+            'sessions' => ['1'],
+            'courses' => ['1'],
+            'programs' => ['1'],
+            'programYears' => ['1'],
+        );
+
+        $arr[] = array(
+            'id' => 2,
+            'sessions' => [],
+            'courses' => [],
+            'programs' => [],
+            'programYears' => [],
         );
 
 
@@ -21,7 +30,13 @@ class PublishEventData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return [
+            'id' => 3,
+            'courses' => ['1'],
+            'sessions' => ['1'],
+            'programs' => ['1'],
+            'programYears' => ['1'],
+        ];
     }
 
     public function createInvalid()

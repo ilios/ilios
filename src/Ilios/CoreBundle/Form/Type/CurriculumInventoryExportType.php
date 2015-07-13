@@ -15,8 +15,6 @@ class CurriculumInventoryExportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('document')
-            ->add('createdAt')
             ->add('report', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"

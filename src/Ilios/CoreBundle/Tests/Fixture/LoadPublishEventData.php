@@ -29,7 +29,7 @@ class LoadPublishEventData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new PublishEvent();
             $entity->setId($arr['id']);
-            $entity->setMachineIp($arr['machineIp']);
+            $entity->setMachineIp('0.0.0.0');
             $manager->persist($entity);
             $this->addReference('publishEvents' . $arr['id'], $entity);
         }

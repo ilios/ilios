@@ -61,24 +61,10 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      *      max = 65000
      * )
      *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $description;
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        throw new \LogicException('This is not implemented yet.');
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->report->getId();
-    }
 
     /**
      * @param CurriculumInventoryReportInterface $report

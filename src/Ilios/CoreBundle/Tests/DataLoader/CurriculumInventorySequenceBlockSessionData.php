@@ -7,14 +7,22 @@ class CurriculumInventorySequenceBlockSessionData extends AbstractDataLoader
     protected function getData()
     {
         $arr = array();
-
+        $arr[] = array(
+            'id' => 1,
+            'sequenceBlock' => '1',
+            'countOfferingsOnce' => false
+        );
 
         return $arr;
     }
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 2,
+            'sequenceBlock' => '1',
+            'countOfferingsOnce' => true
+        );
     }
 
     public function createInvalid()

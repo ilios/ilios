@@ -21,12 +21,11 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  */
 class Department implements DepartmentInterface
 {
-//    use IdentifiableEntity;
+    use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Column(name="department_id", type="integer")
@@ -84,27 +83,12 @@ class Department implements DepartmentInterface
      * @param int $id
      */
 
-
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->deleted = false;
-    }
-
-    public function setId($id)
-    {
-        $this->departmentId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->departmentId : $this->id;
     }
 
     /**

@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
-use Ilios\CoreBundle\Entity\LearningMaterials\File as FileLearningMaterial;
-use Ilios\CoreBundle\Entity\LearningMaterials\Citation as CitationLearningMaterial;
-use Ilios\CoreBundle\Entity\LearningMaterials\Link as LinkLearningMaterial;
+use Ilios\CoreBundle\Entity\LearningMaterial;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -31,25 +29,12 @@ class LoadLearningMaterialData extends AbstractFixture implements
             ->get('ilioscore.dataloader.learningMaterial')
             ->getAll();
         foreach ($data as $arr) {
-            switch ($arr['type']) {
-                case 'citation':
-                    $entity = new CitationLearningMaterial();
-                    break;
-                case 'link':
-                    $entity = new LinkLearningMaterial();
-                    break;
-                case 'file':
-                    $entity = new FileLearningMaterial();
-                    $entity->setCopyrightPermission($arr['copyrightPermission']);
-                    $entity->setCopyrightRationale($arr['copyrightRationale']);
-                    break;
-            }
-
+            $entity = new LearningMaterial();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
             $entity->setDescription($arr['description']);
             $entity->setOriginalAuthor($arr['originalAuthor']);
-            $entity->setToken($arr['token']);
+            $entity->setCitation($arr['citation']);
             $entity->setUserRole($this->getReference('learningMaterialUserRoles' . $arr['userRole']));
             $entity->setStatus($this->getReference('learningMaterialStatus' . $arr['status']));
             $entity->setOwningUser($this->getReference('users' . $arr['owningUser']));

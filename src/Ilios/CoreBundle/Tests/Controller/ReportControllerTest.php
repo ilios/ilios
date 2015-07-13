@@ -1,0 +1,207 @@
+<?php
+
+namespace Ilios\CoreBundle\Tests\Controller;
+
+use FOS\RestBundle\Util\Codes;
+use DateTime;
+
+/**
+ * Report controller Test.
+ * @package Ilios\CoreBundle\Test\Controller;
+ */
+class ReportControllerTest extends AbstractControllerTest
+{
+    /**
+     * @return array|string
+     */
+    protected function getFixtures()
+    {
+        return [
+            'Ilios\CoreBundle\Tests\Fixture\LoadReportData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
+        ];
+    }
+
+    /**
+     * @return array|string
+     */
+    protected function getPrivateFields()
+    {
+        return [
+            'deleted'
+        ];
+    }
+
+    public function testGetReport()
+    {
+        $report = $this->container
+            ->get('ilioscore.dataloader.report')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_reports',
+                ['id' => $report['id']]
+            )
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['reports'][0];
+        $createdAt = new DateTime($data['createdAt']);
+        unset($data['createdAt']);
+        $this->assertEquals(
+            $this->mockSerialize($report),
+            $data
+        );
+        $now = new DateTime();
+        $diff = $now->diff($createdAt);
+        $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
+    }
+
+    public function testGetAllReports()
+    {
+        $this->createJsonRequest('GET', $this->getUrl('cget_reports'));
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = [];
+        $responses = json_decode($response->getContent(), true)['reports'];
+        $now = new DateTime();
+        foreach ($responses as $response) {
+            $createdAt = new DateTime($response['createdAt']);
+            unset($response['createdAt']);
+            $diff = $now->diff($createdAt);
+            $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
+            $data[] = $response;
+        }
+        $this->assertEquals(
+            $this->mockSerialize(
+                $this->container
+                    ->get('ilioscore.dataloader.report')
+                    ->getAll()
+            ),
+            $data
+        );
+    }
+
+    public function testPostReport()
+    {
+        $data = $this->container->get('ilioscore.dataloader.report')
+            ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_reports'),
+            json_encode(['report' => $postData])
+        );
+
+        $response = $this->client->getResponse();
+        $headers  = [];
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $responseData = json_decode($response->getContent(), true)['reports'][0];
+        $createdAt = new DateTime($responseData['createdAt']);
+        unset($responseData['createdAt']);
+        $this->assertEquals(
+            $data,
+            $responseData,
+            $response->getContent()
+        );
+        $now = new DateTime();
+        $diff = $now->diff($createdAt);
+        $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
+    }
+
+    public function testPostBadReport()
+    {
+        $invalidReport = $this->container
+            ->get('ilioscore.dataloader.report')
+            ->createInvalid()
+        ;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_reports'),
+            json_encode(['report' => $invalidReport])
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+
+    public function testPutReport()
+    {
+        $data = $this->container
+            ->get('ilioscore.dataloader.report')
+            ->getOne();
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_reports',
+                ['id' => $data['id']]
+            ),
+            json_encode(['report' => $postData])
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['report'];
+        unset($data['createdAt']);
+        $this->assertEquals(
+            $this->mockSerialize($data),
+            $data
+        );
+    }
+
+    public function testDeleteReport()
+    {
+        $report = $this->container
+            ->get('ilioscore.dataloader.report')
+            ->getOne()
+        ;
+
+        $this->client->request(
+            'DELETE',
+            $this->getUrl(
+                'delete_reports',
+                ['id' => $report['id']]
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
+        $this->client->request(
+            'GET',
+            $this->getUrl(
+                'get_reports',
+                ['id' => $report['id']]
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    public function testReportNotFound()
+    {
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('get_reports', ['id' => '0'])
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+}

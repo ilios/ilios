@@ -211,6 +211,9 @@ class User implements UserInterface, EncoderAwareInterface
      * @var ArrayCollection|UserMadeReminderInterface[]
      *
      * @ORM\OneToMany(targetEntity="UserMadeReminder", mappedBy="user")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
     protected $reminders;
 

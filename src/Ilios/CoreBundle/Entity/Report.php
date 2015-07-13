@@ -7,6 +7,8 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class Report
@@ -19,6 +21,8 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  */
 class Report implements ReportInterface
 {
+    use IdentifiableEntity;
+    use StringableIdEntity;
     use TitledEntity;
 
     /**
@@ -44,6 +48,9 @@ class Report implements ReportInterface
      *      min = 1,
      *      max = 240
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $title;
 
@@ -53,6 +60,10 @@ class Report implements ReportInterface
      * @ORM\Column(name="creation_date", type="datetime")
      *
      * @Assert\NotBlank()
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
 
@@ -67,6 +78,9 @@ class Report implements ReportInterface
      *      min = 1,
      *      max = 32
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $subject;
 
@@ -80,6 +94,10 @@ class Report implements ReportInterface
      *      min = 1,
      *      max = 32
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("prepositionalObject")
      */
     protected $prepositionalObject;
 
@@ -88,12 +106,15 @@ class Report implements ReportInterface
      *
      * @ORM\Column(name="prepositional_object_table_row_id", type="string", length=14, nullable=true)
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 14
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("prepositionalObjectTableRowId")
      */
     protected $prepositionalObjectTableRowId;
 
@@ -124,32 +145,8 @@ class Report implements ReportInterface
      */
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTime());
+        $this->createdAt = new \DateTime();
         $this->deleted = false;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
     }
 
     /**

@@ -30,7 +30,7 @@ interface CurriculumInventoryReportInterface extends
     /**
      * @param \DateTime $startDate
      */
-    public function setStartDate($startDate);
+    public function setStartDate($startDate = null);
 
     /**
      * @return \DateTime
@@ -40,7 +40,7 @@ interface CurriculumInventoryReportInterface extends
     /**
      * @param \DateTime $endDate
      */
-    public function setEndDate($endDate);
+    public function setEndDate($endDate = null);
 
     /**
      * @return \DateTime

@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * Class RecurringEvent
@@ -21,6 +22,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  */
 class RecurringEvent implements RecurringEventInterface
 {
+    use IdentifiableEntity;
     use StringableIdEntity;
     /**
      * @var int
@@ -40,9 +42,13 @@ class RecurringEvent implements RecurringEventInterface
      * @var boolean
      *
      * @Assert\NotNull()
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="boolean")
      *
      * @ORM\Column(name="on_sunday", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("onSunday")
      */
     protected $onSunday;
 
@@ -52,7 +58,11 @@ class RecurringEvent implements RecurringEventInterface
      * @ORM\Column(name="on_monday", type="boolean")
      *
      * @Assert\NotNull()
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("onMonday")
      */
     protected $onMonday;
 
@@ -62,7 +72,11 @@ class RecurringEvent implements RecurringEventInterface
      * @ORM\Column(name="on_tuesday", type="boolean")
      *
      * @Assert\NotNull()
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("onTuesday")
      */
     protected $onTuesday;
 
@@ -72,7 +86,11 @@ class RecurringEvent implements RecurringEventInterface
      * @ORM\Column(name="on_wednesday", type="boolean")
      *
      * @Assert\NotNull()
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("onWednesday")
      */
     protected $onWednesday;
 
@@ -82,7 +100,11 @@ class RecurringEvent implements RecurringEventInterface
      * @ORM\Column(name="on_thursday", type="boolean")
      *
      * @Assert\NotNull()
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("onThursday")
      */
     protected $onThursday;
 
@@ -92,7 +114,11 @@ class RecurringEvent implements RecurringEventInterface
      * @ORM\Column(name="on_friday", type="boolean")
      *
      * @Assert\NotNull()
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("onFriday")
      */
     protected $onFriday;
 
@@ -102,7 +128,11 @@ class RecurringEvent implements RecurringEventInterface
      * @ORM\Column(name="on_saturday", type="boolean")
      *
      * @Assert\NotNull()
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("onSaturday")
      */
     protected $onSaturday;
 
@@ -112,6 +142,10 @@ class RecurringEvent implements RecurringEventInterface
      * @ORM\Column(name="end_date", type="datetime")
      *
      * @Assert\NotBlank()
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("endDate")
      */
     protected $endDate;
 
@@ -121,6 +155,10 @@ class RecurringEvent implements RecurringEventInterface
      * @ORM\Column(name="repetition_count", type="smallint", nullable=true)
      *
      * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     * @JMS\SerializedName("repetitionCount")
      */
     protected $repetitionCount;
 
@@ -167,6 +205,13 @@ class RecurringEvent implements RecurringEventInterface
     public function __construct()
     {
         $this->offerings = new ArrayCollection();
+        $this->onSunday = false;
+        $this->onMonday = false;
+        $this->onTuesday = false;
+        $this->onWednesday = false;
+        $this->onThursday = false;
+        $this->onFriday = false;
+        $this->onSaturday = false;
     }
 
     /**
@@ -284,7 +329,7 @@ class RecurringEvent implements RecurringEventInterface
     /**
      * @param \DateTime $endDate
      */
-    public function setEndDate(\DateTime $endDate)
+    public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }

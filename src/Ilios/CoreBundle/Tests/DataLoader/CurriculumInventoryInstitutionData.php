@@ -7,36 +7,34 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
     protected function getData()
     {
         $arr = array();
-
         $arr[] = array(
-            'name' => "University of California, San Francisco, School Of Medicine",
-            'aamcCode' => "108",
-            'addressStreet' => "513 Parnassus Ave",
-            'address_city' => "San Francisco",
-            'address_state_or_province' => "CA",
-            'addressZipCode' => "94143",
-            'addressCountryCode' => "US",
-            'school' => "1"
+            'id' => 1,
+            'name' => $this->faker->text(25),
+            'aamcCode' => "{$this->faker->randomDigit}",
+            'addressStreet' => '221 West',
+            'addressCity' => $this->faker->city,
+            'addressStateOrProvince' => $this->faker->stateAbbr,
+            'addressZipCode' => $this->faker->postcode,
+            'addressCountryCode' => 'UK',
+            'school' => '1'
         );
-
-        $arr[] = array(
-            'name' => "Pharmacy",
-            'aamcCode' => "00000",
-            'addressStreet' => "",
-            'address_city' => "",
-            'address_state_or_province' => "",
-            'addressZipCode' => "",
-            'addressCountryCode' => "",
-            'school' => "3"
-        );
-
 
         return $arr;
     }
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 2,
+            'name' => $this->faker->text(25),
+            'aamcCode' => "{$this->faker->randomDigit}",
+            'addressStreet' => '12 Main',
+            'addressCity' => $this->faker->city,
+            'addressStateOrProvince' => $this->faker->stateAbbr,
+            'addressZipCode' => $this->faker->postcode,
+            'addressCountryCode' => 'US',
+            'school' => '2'
+        );
     }
 
     public function createInvalid()
