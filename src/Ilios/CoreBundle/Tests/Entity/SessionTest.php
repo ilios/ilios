@@ -116,7 +116,7 @@ class SessionTest extends EntityBase
      * @covers Ilios\CoreBundle\Entity\Session::setIlmSession
      * @covers Ilios\CoreBundle\Entity\Session::getIlmSession
      */
-    public function testSetIlmSessionFacet()
+    public function testSetIlmSession()
     {
         $this->entitySetTest('ilmSession', "IlmSession");
     }
