@@ -38,7 +38,7 @@ class IlmSessionHandler extends IlmSessionManager
      */
     public function post(array $parameters)
     {
-        $ilmSessionFacet = $this->createIlmSessionFacet();
+        $ilmSessionFacet = $this->createIlmSession();
 
         return $this->processForm($ilmSessionFacet, $parameters, 'POST');
     }

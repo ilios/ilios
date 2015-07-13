@@ -67,5 +67,5 @@ interface IlmSessionManagerInterface
     /**
      * @return IlmSessionInterface
      */
-    public function createIlmSessionFacet();
+    public function createIlmSession();
 }

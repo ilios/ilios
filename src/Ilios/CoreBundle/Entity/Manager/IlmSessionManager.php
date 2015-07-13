@@ -114,7 +114,7 @@ class IlmSessionManager implements IlmSessionManagerInterface
     /**
      * @return IlmSessionInterface
      */
-    public function createIlmSessionFacet()
+    public function createIlmSession()
     {
         $class = $this->getClass();
         return new $class();

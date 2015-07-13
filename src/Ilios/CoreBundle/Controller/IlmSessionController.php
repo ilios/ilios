@@ -201,7 +201,7 @@ class IlmSessionController extends FOSRestController
                 $code = Codes::HTTP_OK;
             } else {
                 $ilmSessionFacet = $this->getIlmSessionFacetHandler()
-                    ->createIlmSessionFacet();
+                    ->createIlmSession();
                 $code = Codes::HTTP_CREATED;
             }
 
