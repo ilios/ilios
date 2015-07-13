@@ -30,14 +30,17 @@ class SessionType extends AbstractType
                 'entityName' => "IliosCoreBundle:Course"
             ])
             ->add(
-                'ilmSession', 'tdn_single_related', [
+                'ilmSession',
+                'tdn_single_related',
+                [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSession"
-            ])
-            ->add('disciplines', 'tdn_many_related', [
+                ]
+            )
+                ->add('disciplines', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Discipline"
-            ])
+                ])
             ->add('objectives', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
