@@ -198,10 +198,10 @@ class InstructorGroup implements InstructorGroupInterface
      */
     public function setIlmSessions(Collection $ilmSessions)
     {
-        $this->ilmSessionFacets = new ArrayCollection();
+        $this->ilmSessions = new ArrayCollection();
 
-        foreach ($ilmSessions as $ilmSessionFacet) {
-            $this->addIlmSession($ilmSessionFacet);
+        foreach ($ilmSessions as $ilmSession) {
+            $this->addIlmSession($ilmSession);
         }
     }
 
