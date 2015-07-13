@@ -38,14 +38,14 @@ interface IlmSessionManagerInterface
     );
 
     /**
-     * @param IlmSessionInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      * @param bool $andFlush
      * @param bool $forceId
      *
      * @return void
      */
     public function updateIlmSessionFacet(
-        IlmSessionInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSession,
         $andFlush = true,
         $forceId = false
     );

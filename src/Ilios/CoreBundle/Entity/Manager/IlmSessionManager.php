@@ -72,19 +72,19 @@ class IlmSessionManager implements IlmSessionManagerInterface
     }
 
     /**
-     * @param IlmSessionInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      * @param bool $andFlush
      * @param bool $forceId
      */
     public function updateIlmSessionFacet(
-        IlmSessionInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSession,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($ilmSessionFacet);
+        $this->em->persist($ilmSession);
 
         if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($ilmSessionFacet));
+            $metadata = $this->em->getClassMetaData(get_class($ilmSession));
             $metadata->setIdGenerator(new AssignedGenerator());
         }
 
