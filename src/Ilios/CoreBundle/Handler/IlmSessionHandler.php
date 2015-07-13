@@ -6,14 +6,14 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Form\Type\IlmSessionFacetType;
-use Ilios\CoreBundle\Entity\Manager\IlmSessionFacetManager;
+use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
- * Class IlmSessionFacetHandler
+ * Class IlmSessionHandler
  * @package Ilios\CoreBundle\Handler
  */
-class IlmSessionFacetHandler extends IlmSessionFacetManager
+class IlmSessionHandler extends IlmSessionManager
 {
     /**
      * @var FormFactoryInterface

@@ -10,10 +10,10 @@ use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
- * Class IlmSessionFacetManager
+ * Class IlmSessionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
+class IlmSessionManager implements IlmSessionManagerInterface
 {
     /**
      * @var EntityManager

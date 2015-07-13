@@ -6,10 +6,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
- * Interface IlmSessionFacetManagerInterface
+ * Interface IlmSessionManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface IlmSessionFacetManagerInterface
+interface IlmSessionManagerInterface
 {
     /**
      * @param array $criteria

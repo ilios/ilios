@@ -20,7 +20,7 @@ parameters:
     ilioscore.curriculuminventorysequence.handler.class: Ilios\CoreBundle\Handler\CurriculumInventorySequenceHandler
     ilioscore.department.handler.class: Ilios\CoreBundle\Handler\DepartmentHandler
     ilioscore.discipline.handler.class: Ilios\CoreBundle\Handler\DisciplineHandler
-    ilioscore.ilmsessionfacet.handler.class: Ilios\CoreBundle\Handler\IlmSessionFacetHandler
+    ilioscore.ilmsessionfacet.handler.class: Ilios\CoreBundle\Handler\IlmSessionHandler
     ilioscore.ingestionexception.handler.class: Ilios\CoreBundle\Handler\IngestionExceptionHandler
     ilioscore.instructionhours.handler.class: Ilios\CoreBundle\Handler\InstructionHoursHandler
     ilioscore.instructorgroup.handler.class: Ilios\CoreBundle\Handler\InstructorGroupHandler

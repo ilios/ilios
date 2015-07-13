@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\IlmSessionFacetHandler;
+use Ilios\CoreBundle\Handler\IlmSessionHandler;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
@@ -339,7 +339,7 @@ class IlmSessionController extends FOSRestController
     }
 
     /**
-     * @return IlmSessionFacetHandler
+     * @return IlmSessionHandler
      */
     protected function getIlmSessionFacetHandler()
     {
