@@ -140,7 +140,7 @@ class IlmSessionController extends FOSRestController
      *   section = "IlmSession",
      *   description = "Create a IlmSession.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionType",
      *   output="Ilios\CoreBundle\Entity\IlmSession",
      *   statusCodes={
      *     201 = "Created IlmSession.",
@@ -175,7 +175,7 @@ class IlmSessionController extends FOSRestController
      *   section = "IlmSession",
      *   description = "Update a IlmSession entity.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionType",
      *   output="Ilios\CoreBundle\Entity\IlmSession",
      *   statusCodes={
      *     200 = "Updated IlmSession.",
@@ -226,7 +226,7 @@ class IlmSessionController extends FOSRestController
      *   section = "IlmSession",
      *   description = "Partial Update to a IlmSession.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionType",
      *   output="Ilios\CoreBundle\Entity\IlmSession",
      *   requirements={
      *     {

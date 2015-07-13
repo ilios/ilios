@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Handler;
 use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\Type\IlmSessionFacetType;
+use Ilios\CoreBundle\Form\Type\IlmSessionType;
 use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
@@ -91,7 +91,7 @@ class IlmSessionHandler extends IlmSessionManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new IlmSessionFacetType(),
+            new IlmSessionType(),
             $ilmSessionFacet,
             array('method' => $method)
         );

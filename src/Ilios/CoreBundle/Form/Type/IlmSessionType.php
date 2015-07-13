@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class IlmSessionFacetType extends AbstractType
+class IlmSessionType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
