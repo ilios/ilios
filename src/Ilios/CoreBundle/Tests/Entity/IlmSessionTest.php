@@ -7,7 +7,7 @@ use Mockery as m;
 /**
  * Tests for Entity IlmSession
  */
-class IlmSessionFacetTest extends EntityBase
+class IlmSessionTest extends EntityBase
 {
     /**
      * @var IlmSession
