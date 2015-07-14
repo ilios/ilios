@@ -380,7 +380,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->checkUpdatedAtIncreased($firstUpdatedAt);
     }
     
-    public function testUpdatingLearnerMaterialUpdatesSessionStamp()
+    public function testUpdatingLearningMaterialUpdatesSessionStamp()
     {
         $firstUpdatedAt = $this->getSessionUpdatedAt();
         sleep(2); //wait for two seconds
@@ -402,6 +402,75 @@ class SessionControllerTest extends AbstractControllerTest
             json_encode(['learningMaterial' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testNewSessionLearningMaterialUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $lm = $this->container
+            ->get('ilioscore.dataloader.sessionlearningmaterial')
+            ->create();
+        
+        $postData = $lm;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['session'] = '1';
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'post_sessionlearningmaterials'
+            ),
+            json_encode(['sessionLearningMaterial' => $postData])
+        );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_CREATED);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testUpdatingSessionLearningMaterialUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $lm = $this->container
+            ->get('ilioscore.dataloader.sessionlearningmaterial')
+            ->getOne();
+        
+        $postData = $lm;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['required'] = true;
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_sessionlearningmaterials',
+                ['id' => $lm['id']]
+            ),
+            json_encode(['sessionLearningMaterial' => $postData])
+        );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testDeletingSessionLearningMaterialUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $lm = $this->container
+            ->get('ilioscore.dataloader.sessionlearningmaterial')
+            ->getOne();
+        
+        $this->client->request(
+            'DELETE',
+            $this->getUrl(
+                'delete_sessionlearningmaterials',
+                ['id' => $lm['id']]
+            )
+        );
+        $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
         $this->checkUpdatedAtIncreased($firstUpdatedAt);
     }
 }

@@ -96,7 +96,11 @@ class Migrate
         $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_learner_post_delete`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_learner_post_delete`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_learning_material_post_update`";
-        
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_session_learning_material_post_delete` ";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_session_learning_material_post_insert`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_session_learning_material_post_update`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_session_learning_material_x_mesh_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_session_learning_material_x_mesh_post_insert`";
 
         return $queries;
     }
