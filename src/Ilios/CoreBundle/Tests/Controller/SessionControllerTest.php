@@ -459,18 +459,63 @@ class SessionControllerTest extends AbstractControllerTest
         $firstUpdatedAt = $this->getSessionUpdatedAt();
         sleep(2); //wait for two seconds
         
-        $lm = $this->container
-            ->get('ilioscore.dataloader.sessionlearningmaterial')
+        $session = $this->container
+            ->get('ilioscore.dataloader.session')
             ->getOne();
         
         $this->client->request(
             'DELETE',
             $this->getUrl(
                 'delete_sessionlearningmaterials',
-                ['id' => $lm['id']]
+                ['id' => $session['sessionLearningMaterials'][0]]
             )
         );
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testDeletingSessionDescriptionUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $session = $this->container
+            ->get('ilioscore.dataloader.session')
+            ->getOne();
+        
+        $this->client->request(
+            'DELETE',
+            $this->getUrl(
+                'delete_sessionlearningmaterials',
+                ['id' => $session['sessionDescription']]
+            )
+        );
+        $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testUpdatingSessionDescriptionUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $lm = $this->container
+            ->get('ilioscore.dataloader.sessionDescription')
+            ->getOne();
+        
+        $postData = $lm;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['description'] = 'something new';
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_sessiondescriptions',
+                ['id' => $lm['id']]
+            ),
+            json_encode(['sessionDescription' => $postData])
+        );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($firstUpdatedAt);
     }
 }

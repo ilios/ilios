@@ -56,6 +56,9 @@ class UpdateSessionTimestamp
                 case 'Ilios\CoreBundle\Entity\SessionLearningMaterial':
                     $sessions[] = $entity->getSession();
                     break;
+                case 'Ilios\CoreBundle\Entity\SessionDescription':
+                    $sessions[] = $entity->getSession();
+                    break;
             }
         }
         $sessions = array_filter($sessions, function ($obj) {
