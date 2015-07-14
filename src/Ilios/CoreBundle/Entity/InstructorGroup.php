@@ -83,9 +83,9 @@ class InstructorGroup implements InstructorGroupInterface
     protected $learnerGroups;
 
     /**
-     * @var ArrayCollection|IlmSessionFacet[]
+     * @var ArrayCollection|IlmSession[]
      *
-     * @ORM\ManyToMany(targetEntity="IlmSessionFacet", mappedBy="instructorGroups")
+     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="instructorGroups")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -194,27 +194,27 @@ class InstructorGroup implements InstructorGroupInterface
     }
 
     /**
-     * @param Collection $ilmSessionFacets
+     * @param Collection $ilmSessions
      */
-    public function setIlmSessions(Collection $ilmSessionFacets)
+    public function setIlmSessions(Collection $ilmSessions)
     {
-        $this->ilmSessionFacets = new ArrayCollection();
+        $this->ilmSessions = new ArrayCollection();
 
-        foreach ($ilmSessionFacets as $ilmSessionFacet) {
-            $this->addIlmSession($ilmSessionFacet);
+        foreach ($ilmSessions as $ilmSession) {
+            $this->addIlmSession($ilmSession);
         }
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      */
-    public function addIlmSession(IlmSessionFacetInterface $ilmSessionFacet)
+    public function addIlmSession(IlmSessionInterface $ilmSession)
     {
-        $this->ilmSessions->add($ilmSessionFacet);
+        $this->ilmSessions->add($ilmSession);
     }
 
     /**
-     * @return ArrayCollection|IlmSessionFacetInterface[]
+     * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getIlmSessions()
     {

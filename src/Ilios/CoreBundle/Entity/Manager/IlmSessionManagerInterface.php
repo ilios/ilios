@@ -3,21 +3,21 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
+use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
- * Interface IlmSessionFacetManagerInterface
+ * Interface IlmSessionManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface IlmSessionFacetManagerInterface
+interface IlmSessionManagerInterface
 {
     /**
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
-    public function findIlmSessionFacetBy(
+    public function findIlmSessionBy(
         array $criteria,
         array $orderBy = null
     );
@@ -28,9 +28,9 @@ interface IlmSessionFacetManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|IlmSessionFacetInterface[]
+     * @return ArrayCollection|IlmSessionInterface[]
      */
-    public function findIlmSessionFacetsBy(
+    public function findIlmSessionsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -38,25 +38,25 @@ interface IlmSessionFacetManagerInterface
     );
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      * @param bool $andFlush
      * @param bool $forceId
      *
      * @return void
      */
-    public function updateIlmSessionFacet(
-        IlmSessionFacetInterface $ilmSessionFacet,
+    public function updateIlmSession(
+        IlmSessionInterface $ilmSession,
         $andFlush = true,
         $forceId = false
     );
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      *
      * @return void
      */
-    public function deleteIlmSessionFacet(
-        IlmSessionFacetInterface $ilmSessionFacet
+    public function deleteIlmSession(
+        IlmSessionInterface $ilmSession
     );
 
     /**
@@ -65,7 +65,7 @@ interface IlmSessionFacetManagerInterface
     public function getClass();
 
     /**
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
-    public function createIlmSessionFacet();
+    public function createIlmSession();
 }

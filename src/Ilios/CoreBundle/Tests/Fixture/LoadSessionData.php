@@ -41,8 +41,8 @@ class LoadSessionData extends AbstractFixture implements
             if (!empty($arr['publishEvent'])) {
                 $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));
             }
-            if (!empty($arr['ilmSessionFacet'])) {
-                $entity->setIlmSessionFacet($this->getReference('ilmSessions' . $arr['ilmSessionFacet']));
+            if (!empty($arr['ilmSession'])) {
+                $entity->setIlmSession($this->getReference('ilmSessions' . $arr['ilmSession']));
             }
             $related = array(
                 'disciplines' => 'addDiscipline',
@@ -54,7 +54,7 @@ class LoadSessionData extends AbstractFixture implements
                 }
             }
             $manager->persist($entity);
-            
+
             $this->addReference('sessions' . $arr['id'], $entity);
         }
 

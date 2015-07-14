@@ -5,10 +5,10 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
- * IlmSessionFacet controller Test.
+ * IlmSession controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
-class IlmSessionFacetControllerTest extends AbstractControllerTest
+class IlmSessionControllerTest extends AbstractControllerTest
 {
     /**
      * @return array|string
@@ -30,7 +30,7 @@ class IlmSessionFacetControllerTest extends AbstractControllerTest
         ];
     }
 
-    public function testGetIlmSessionFacet()
+    public function testGetIlmSession()
     {
         $ilmSession = $this->container
             ->get('ilioscore.dataloader.ilmsession')
@@ -54,7 +54,7 @@ class IlmSessionFacetControllerTest extends AbstractControllerTest
         );
     }
 
-    public function testGetAllIlmSessionFacets()
+    public function testGetAllIlmSessions()
     {
         $this->createJsonRequest('GET', $this->getUrl('cget_ilmsessions'));
         $response = $this->client->getResponse();
@@ -70,7 +70,7 @@ class IlmSessionFacetControllerTest extends AbstractControllerTest
         );
     }
 
-    public function testPostIlmSessionFacet()
+    public function testPostIlmSession()
     {
         $data = $this->container->get('ilioscore.dataloader.ilmsession')
             ->create();
@@ -95,9 +95,9 @@ class IlmSessionFacetControllerTest extends AbstractControllerTest
         );
     }
 
-    public function testPostBadIlmSessionFacet()
+    public function testPostBadIlmSession()
     {
-        $invalidIlmSessionFacet = $this->container
+        $invalidIlmSession = $this->container
             ->get('ilioscore.dataloader.ilmsession')
             ->createInvalid()
         ;
@@ -105,14 +105,14 @@ class IlmSessionFacetControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_ilmsessions'),
-            json_encode(['ilmSession' => $invalidIlmSessionFacet])
+            json_encode(['ilmSession' => $invalidIlmSession])
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
-    public function testPutIlmSessionFacet()
+    public function testPutIlmSession()
     {
         $data = $this->container
             ->get('ilioscore.dataloader.ilmsession')
@@ -139,7 +139,7 @@ class IlmSessionFacetControllerTest extends AbstractControllerTest
         );
     }
 
-    public function testDeleteIlmSessionFacet()
+    public function testDeleteIlmSession()
     {
         $ilmSession = $this->container
             ->get('ilioscore.dataloader.ilmsession')
@@ -168,7 +168,7 @@ class IlmSessionFacetControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function testIlmSessionFacetNotFound()
+    public function testIlmSessionNotFound()
     {
         $this->createJsonRequest(
             'GET',

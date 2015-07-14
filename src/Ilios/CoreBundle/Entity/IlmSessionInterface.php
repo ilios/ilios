@@ -8,10 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
- * Interface IlmSessionFacetInterface
+ * Interface IlmSessionInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface IlmSessionFacetInterface extends IdentifiableEntityInterface
+interface IlmSessionInterface extends IdentifiableEntityInterface
 {
     /**
      * @param string $hours

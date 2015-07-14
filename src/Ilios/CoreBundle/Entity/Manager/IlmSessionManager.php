@@ -7,13 +7,13 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
+use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
- * Class IlmSessionFacetManager
+ * Class IlmSessionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
+class IlmSessionManager implements IlmSessionManagerInterface
 {
     /**
      * @var EntityManager
@@ -45,9 +45,9 @@ class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
-    public function findIlmSessionFacetBy(
+    public function findIlmSessionBy(
         array $criteria,
         array $orderBy = null
     ) {
@@ -60,9 +60,9 @@ class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|IlmSessionFacetInterface[]
+     * @return ArrayCollection|IlmSessionInterface[]
      */
-    public function findIlmSessionFacetsBy(
+    public function findIlmSessionsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -72,19 +72,19 @@ class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      * @param bool $andFlush
      * @param bool $forceId
      */
-    public function updateIlmSessionFacet(
-        IlmSessionFacetInterface $ilmSessionFacet,
+    public function updateIlmSession(
+        IlmSessionInterface $ilmSession,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($ilmSessionFacet);
+        $this->em->persist($ilmSession);
 
         if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($ilmSessionFacet));
+            $metadata = $this->em->getClassMetaData(get_class($ilmSession));
             $metadata->setIdGenerator(new AssignedGenerator());
         }
 
@@ -94,12 +94,12 @@ class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      */
-    public function deleteIlmSessionFacet(
-        IlmSessionFacetInterface $ilmSessionFacet
+    public function deleteIlmSession(
+        IlmSessionInterface $ilmSession
     ) {
-        $this->em->remove($ilmSessionFacet);
+        $this->em->remove($ilmSession);
         $this->em->flush();
     }
 
@@ -112,9 +112,9 @@ class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
     }
 
     /**
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
-    public function createIlmSessionFacet()
+    public function createIlmSession()
     {
         $class = $this->getClass();
         return new $class();

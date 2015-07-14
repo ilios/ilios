@@ -177,18 +177,18 @@ class Session implements SessionInterface
     protected $course;
 
     /**
-     * @var IlmSessionFacetInterface
+     * @var IlmSessionInterface
      *
-     * @ORM\OneToOne(targetEntity="IlmSessionFacet", inversedBy="session")
+     * @ORM\OneToOne(targetEntity="IlmSession", inversedBy="session")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", nullable=true)
      * })
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("ilmSessionFacet")
+     * @JMS\SerializedName("ilmSession")
      */
-    protected $ilmSessionFacet;
+    protected $ilmSession;
 
     /**
      * @var ArrayCollection|DisciplineInterface[]
@@ -436,19 +436,19 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      */
-    public function setIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet)
+    public function setIlmSession(IlmSessionInterface $ilmSession)
     {
-        $this->ilmSessionFacet = $ilmSessionFacet;
+        $this->ilmSession = $ilmSession;
     }
 
     /**
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
-    public function getIlmSessionFacet()
+    public function getIlmSession()
     {
-        return $this->ilmSessionFacet;
+        return $this->ilmSession;
     }
 
     /**

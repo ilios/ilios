@@ -21,7 +21,7 @@ parameters:
     ilioscore.curriculuminventorysequence.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager
     ilioscore.department.manager.class: Ilios\CoreBundle\Entity\Manager\DepartmentManager
     ilioscore.discipline.manager.class: Ilios\CoreBundle\Entity\Manager\DisciplineManager
-    ilioscore.ilmsessionfacet.manager.class: Ilios\CoreBundle\Entity\Manager\IlmSessionFacetManager
+    ilioscore.ilmsession.manager.class: Ilios\CoreBundle\Entity\Manager\IlmSessionManager
     ilioscore.ingestionexception.manager.class: Ilios\CoreBundle\Entity\Manager\IngestionExceptionManager
     ilioscore.instructionhours.manager.class: Ilios\CoreBundle\Entity\Manager\InstructionHoursManager
     ilioscore.instructorgroup.manager.class: Ilios\CoreBundle\Entity\Manager\InstructorGroupManager
@@ -124,9 +124,9 @@ services:
     ilioscore.discipline.manager:
         class: %ilioscore.discipline.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Discipline]
-    ilioscore.ilmsessionfacet.manager:
-        class: %ilioscore.ilmsessionfacet.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\IlmSessionFacet]
+    ilioscore.ilmsession.manager:
+        class: %ilioscore.ilmsession.manager.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\IlmSession]
     ilioscore.ingestionexception.manager:
         class: %ilioscore.ingestionexception.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IngestionException]

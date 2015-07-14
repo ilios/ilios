@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
-use Ilios\CoreBundle\Entity\IlmSessionFacet;
+use Ilios\CoreBundle\Entity\IlmSession;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -29,7 +29,7 @@ class LoadIlmSessionData extends AbstractFixture implements
             ->get('ilioscore.dataloader.ilmSession')
             ->getAll();
         foreach ($data as $arr) {
-            $entity = new IlmSessionFacet();
+            $entity = new IlmSession();
             $entity->setId($arr['id']);
             $entity->setHours($arr['hours']);
             $entity->setDueDate(new \DateTime($arr['dueDate']));

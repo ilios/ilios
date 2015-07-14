@@ -308,9 +308,9 @@ class User implements UserInterface, EncoderAwareInterface
     protected $instructorGroups;
 
     /**
-    * @var ArrayCollection|IlmSessionFacetInterface[]
+    * @var ArrayCollection|IlmSessionInterface[]
     *
-    * @ORM\ManyToMany(targetEntity="IlmSessionFacet", mappedBy="instructors")
+    * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="instructors")
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
@@ -319,9 +319,9 @@ class User implements UserInterface, EncoderAwareInterface
     protected $instructorIlmSessions;
 
     /**
-    * @var ArrayCollection|IlmSessionFacetInterface[]
+    * @var ArrayCollection|IlmSessionInterface[]
     *
-    * @ORM\ManyToMany(targetEntity="IlmSessionFacet", mappedBy="learners")
+    * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="learners")
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
@@ -819,15 +819,15 @@ class User implements UserInterface, EncoderAwareInterface
     }
 
     /**
-     * @param IlmSessionFacetInterface $session
+     * @param IlmSessionInterface $session
      */
-    public function addInstructorIlmSessions(IlmSessionFacetInterface $session)
+    public function addInstructorIlmSessions(IlmSessionInterface $session)
     {
         $this->instructorIlmSessions->add($session);
     }
 
     /**
-     * @return ArrayCollection|IlmSessionFacetInterface[]
+     * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getInstructorIlmSessions()
     {
@@ -849,15 +849,15 @@ class User implements UserInterface, EncoderAwareInterface
     }
 
     /**
-     * @param IlmSessionFacetInterface $session
+     * @param IlmSessionInterface $session
      */
-    public function addLearnerIlmSessions(IlmSessionFacetInterface $session)
+    public function addLearnerIlmSessions(IlmSessionInterface $session)
     {
         $this->learnerIlmSessions->add($session);
     }
 
     /**
-     * @return ArrayCollection|IlmSessionFacetInterface[]
+     * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getLearnerIlmSessions()
     {

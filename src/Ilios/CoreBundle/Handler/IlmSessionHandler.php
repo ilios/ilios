@@ -5,15 +5,15 @@ namespace Ilios\CoreBundle\Handler;
 use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\Type\IlmSessionFacetType;
-use Ilios\CoreBundle\Entity\Manager\IlmSessionFacetManager;
-use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
+use Ilios\CoreBundle\Form\Type\IlmSessionType;
+use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
+use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
- * Class IlmSessionFacetHandler
+ * Class IlmSessionHandler
  * @package Ilios\CoreBundle\Handler
  */
-class IlmSessionFacetHandler extends IlmSessionFacetManager
+class IlmSessionHandler extends IlmSessionManager
 {
     /**
      * @var FormFactoryInterface
@@ -34,79 +34,79 @@ class IlmSessionFacetHandler extends IlmSessionFacetManager
     /**
      * @param array $parameters
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     public function post(array $parameters)
     {
-        $ilmSessionFacet = $this->createIlmSessionFacet();
+        $ilmSession = $this->createIlmSession();
 
-        return $this->processForm($ilmSessionFacet, $parameters, 'POST');
+        return $this->processForm($ilmSession, $parameters, 'POST');
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      * @param array $parameters
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     public function put(
-        IlmSessionFacetInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSession,
         array $parameters
     ) {
         return $this->processForm(
-            $ilmSessionFacet,
+            $ilmSession,
             $parameters,
             'PUT'
         );
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      * @param array $parameters
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     public function patch(
-        IlmSessionFacetInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSession,
         array $parameters
     ) {
         return $this->processForm(
-            $ilmSessionFacet,
+            $ilmSession,
             $parameters,
             'PATCH'
         );
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionInterface $ilmSession
      * @param array $parameters
      * @param string $method
      * @throws InvalidFormException when invalid form data is passed in.
      *
-     * @return IlmSessionFacetInterface
+     * @return IlmSessionInterface
      */
     protected function processForm(
-        IlmSessionFacetInterface $ilmSessionFacet,
+        IlmSessionInterface $ilmSession,
         array $parameters,
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new IlmSessionFacetType(),
-            $ilmSessionFacet,
+            new IlmSessionType(),
+            $ilmSession,
             array('method' => $method)
         );
 
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
-            $ilmSessionFacet = $form->getData();
-            $this->updateIlmSessionFacet(
-                $ilmSessionFacet,
+            $ilmSession = $form->getData();
+            $this->updateIlmSession(
+                $ilmSession,
                 true,
                 ('PUT' === $method || 'PATCH' === $method)
             );
 
-            return $ilmSessionFacet;
+            return $ilmSession;
         }
 
         throw new InvalidFormException('Invalid submitted data', $form);
