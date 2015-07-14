@@ -111,7 +111,8 @@ class Migrate
         $queries[] = "DROP TRIGGER IF EXISTS `trig_session_description_post_delete` ";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_session_description_post_insert`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_session_description_post_update`";
-
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_objective_post_update`";
+        
         return $queries;
     }
 
