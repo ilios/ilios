@@ -171,7 +171,7 @@ class LearningMaterial implements LearningMaterialInterface
     protected $owningUser;
 
     /**
-     * @var ArrayCollection|SessioinLearningMaterialInterface[]
+     * @var ArrayCollection|SessionLearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="learningMaterial")
      *
@@ -191,7 +191,7 @@ class LearningMaterial implements LearningMaterialInterface
     * @JMS\SerializedName("courseLearningMaterials")
     */
     protected $courseLearningMaterials;
-    
+
     /**
      * renamed from citation
      * @var string
@@ -306,7 +306,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     protected $resource;
 
-    
+
     /**
      * @var string
      *
@@ -318,7 +318,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @JMS\Type("string")
      */
     protected $link;
-    
+
 
     /**
      * Constructor
@@ -407,7 +407,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->userRole;
     }
-    
+
 
     /**
      * @param string $text
@@ -424,7 +424,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->citation;
     }
-    
+
     /**
      * @param string $path
      */
