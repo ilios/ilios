@@ -222,48 +222,6 @@ class AlertChangeTypeController extends FOSRestController
     }
 
     /**
-     * Partial Update to a AlertChangeType.
-     *
-     * @ApiDoc(
-     *   section = "AlertChangeType",
-     *   description = "Partial Update to a AlertChangeType.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\AlertChangeTypeType",
-     *   output="Ilios\CoreBundle\Entity\AlertChangeType",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="AlertChangeType identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated AlertChangeType.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['alertChangeType'] =
-            $this->getAlertChangeTypeHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a AlertChangeType.
      *
      * @ApiDoc(

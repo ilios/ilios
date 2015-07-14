@@ -222,48 +222,6 @@ class ProgramController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Program.
-     *
-     * @ApiDoc(
-     *   section = "Program",
-     *   description = "Partial Update to a Program.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\ProgramType",
-     *   output="Ilios\CoreBundle\Entity\Program",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="Program identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated Program.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['program'] =
-            $this->getProgramHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a Program.
      *
      * @ApiDoc(

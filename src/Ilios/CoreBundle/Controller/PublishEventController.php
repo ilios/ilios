@@ -222,48 +222,6 @@ class PublishEventController extends FOSRestController
     }
 
     /**
-     * Partial Update to a PublishEvent.
-     *
-     * @ApiDoc(
-     *   section = "PublishEvent",
-     *   description = "Partial Update to a PublishEvent.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\PublishEventType",
-     *   output="Ilios\CoreBundle\Entity\PublishEvent",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="PublishEvent identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated PublishEvent.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['publishEvent'] =
-            $this->getPublishEventHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a PublishEvent.
      *
      * @ApiDoc(

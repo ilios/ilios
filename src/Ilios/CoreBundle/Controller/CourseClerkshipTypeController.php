@@ -222,48 +222,6 @@ class CourseClerkshipTypeController extends FOSRestController
     }
 
     /**
-     * Partial Update to a CourseClerkshipType.
-     *
-     * @ApiDoc(
-     *   section = "CourseClerkshipType",
-     *   description = "Partial Update to a CourseClerkshipType.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\CourseClerkshipTypeType",
-     *   output="Ilios\CoreBundle\Entity\CourseClerkshipType",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="CourseClerkshipType identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated CourseClerkshipType.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['courseClerkshipType'] =
-            $this->getCourseClerkshipTypeHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a CourseClerkshipType.
      *
      * @ApiDoc(

@@ -222,48 +222,6 @@ class LearningMaterialStatusController extends FOSRestController
     }
 
     /**
-     * Partial Update to a LearningMaterialStatus.
-     *
-     * @ApiDoc(
-     *   section = "LearningMaterialStatus",
-     *   description = "Partial Update to a LearningMaterialStatus.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\LearningMaterialStatusType",
-     *   output="Ilios\CoreBundle\Entity\LearningMaterialStatus",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="LearningMaterialStatus identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated LearningMaterialStatus.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['learningMaterialStatus'] =
-            $this->getLearningMaterialStatusHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a LearningMaterialStatus.
      *
      * @ApiDoc(

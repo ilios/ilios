@@ -222,48 +222,6 @@ class LearnerGroupController extends FOSRestController
     }
 
     /**
-     * Partial Update to a LearnerGroup.
-     *
-     * @ApiDoc(
-     *   section = "LearnerGroup",
-     *   description = "Partial Update to a LearnerGroup.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\LearnerGroupType",
-     *   output="Ilios\CoreBundle\Entity\LearnerGroup",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="LearnerGroup identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated LearnerGroup.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['learnerGroup'] =
-            $this->getLearnerGroupHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a LearnerGroup.
      *
      * @ApiDoc(

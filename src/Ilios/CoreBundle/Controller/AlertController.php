@@ -222,48 +222,6 @@ class AlertController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Alert.
-     *
-     * @ApiDoc(
-     *   section = "Alert",
-     *   description = "Partial Update to a Alert.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\AlertType",
-     *   output="Ilios\CoreBundle\Entity\Alert",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="Alert identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated Alert.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['alert'] =
-            $this->getAlertHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a Alert.
      *
      * @ApiDoc(

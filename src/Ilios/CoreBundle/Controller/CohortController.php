@@ -222,48 +222,6 @@ class CohortController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Cohort.
-     *
-     * @ApiDoc(
-     *   section = "Cohort",
-     *   description = "Partial Update to a Cohort.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\CohortType",
-     *   output="Ilios\CoreBundle\Entity\Cohort",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="Cohort identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated Cohort.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['cohort'] =
-            $this->getCohortHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a Cohort.
      *
      * @ApiDoc(

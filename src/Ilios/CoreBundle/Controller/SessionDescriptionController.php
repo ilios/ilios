@@ -222,48 +222,6 @@ class SessionDescriptionController extends FOSRestController
     }
 
     /**
-     * Partial Update to a SessionDescription.
-     *
-     * @ApiDoc(
-     *   section = "SessionDescription",
-     *   description = "Partial Update to a SessionDescription.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\SessionDescriptionType",
-     *   output="Ilios\CoreBundle\Entity\SessionDescription",
-     *   requirements={
-     *     {
-     *         "name"="session",
-     *         "dataType"="",
-     *         "requirement"="",
-     *         "description"="SessionDescription identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated SessionDescription.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['sessionDescription'] =
-            $this->getSessionDescriptionHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a SessionDescription.
      *
      * @ApiDoc(

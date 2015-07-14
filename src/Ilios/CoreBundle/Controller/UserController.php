@@ -237,48 +237,6 @@ class UserController extends FOSRestController
     }
 
     /**
-     * Partial Update to a User.
-     *
-     * @ApiDoc(
-     *   section = "User",
-     *   description = "Partial Update to a User.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\UserType",
-     *   output="Ilios\CoreBundle\Entity\User",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="User identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated User.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['user'] =
-            $this->getUserHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a User.
      *
      * @ApiDoc(

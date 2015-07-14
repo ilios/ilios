@@ -222,48 +222,6 @@ class CurriculumInventorySequenceController extends FOSRestController
     }
 
     /**
-     * Partial Update to a CurriculumInventorySequence.
-     *
-     * @ApiDoc(
-     *   section = "CurriculumInventorySequence",
-     *   description = "Partial Update to a CurriculumInventorySequence.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventorySequenceType",
-     *   output="Ilios\CoreBundle\Entity\CurriculumInventorySequence",
-     *   requirements={
-     *     {
-     *         "name"="report",
-     *         "dataType"="",
-     *         "requirement"="",
-     *         "description"="CurriculumInventorySequence identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated CurriculumInventorySequence.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['curriculumInventorySequence'] =
-            $this->getCurriculumInventorySequenceHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a CurriculumInventorySequence.
      *
      * @ApiDoc(

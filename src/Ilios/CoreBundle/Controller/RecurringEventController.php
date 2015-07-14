@@ -222,48 +222,6 @@ class RecurringEventController extends FOSRestController
     }
 
     /**
-     * Partial Update to a RecurringEvent.
-     *
-     * @ApiDoc(
-     *   section = "RecurringEvent",
-     *   description = "Partial Update to a RecurringEvent.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\RecurringEventType",
-     *   output="Ilios\CoreBundle\Entity\RecurringEvent",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="RecurringEvent identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated RecurringEvent.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['recurringEvent'] =
-            $this->getRecurringEventHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a RecurringEvent.
      *
      * @ApiDoc(

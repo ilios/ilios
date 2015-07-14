@@ -222,48 +222,6 @@ class SessionLearningMaterialController extends FOSRestController
     }
 
     /**
-     * Partial Update to a SessionLearningMaterial.
-     *
-     * @ApiDoc(
-     *   section = "SessionLearningMaterial",
-     *   description = "Partial Update to a SessionLearningMaterial.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\SessionLearningMaterialType",
-     *   output="Ilios\CoreBundle\Entity\SessionLearningMaterial",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="SessionLearningMaterial identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated SessionLearningMaterial.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['sessionLearningMaterial'] =
-            $this->getSessionLearningMaterialHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a SessionLearningMaterial.
      *
      * @ApiDoc(

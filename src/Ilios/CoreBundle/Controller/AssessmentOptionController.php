@@ -222,48 +222,6 @@ class AssessmentOptionController extends FOSRestController
     }
 
     /**
-     * Partial Update to a AssessmentOption.
-     *
-     * @ApiDoc(
-     *   section = "AssessmentOption",
-     *   description = "Partial Update to a AssessmentOption.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\AssessmentOptionType",
-     *   output="Ilios\CoreBundle\Entity\AssessmentOption",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="AssessmentOption identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated AssessmentOption.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['assessmentOption'] =
-            $this->getAssessmentOptionHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a AssessmentOption.
      *
      * @ApiDoc(

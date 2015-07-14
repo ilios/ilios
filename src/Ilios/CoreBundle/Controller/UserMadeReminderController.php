@@ -222,48 +222,6 @@ class UserMadeReminderController extends FOSRestController
     }
 
     /**
-     * Partial Update to a UserMadeReminder.
-     *
-     * @ApiDoc(
-     *   section = "UserMadeReminder",
-     *   description = "Partial Update to a UserMadeReminder.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\UserMadeReminderType",
-     *   output="Ilios\CoreBundle\Entity\UserMadeReminder",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="UserMadeReminder identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated UserMadeReminder.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['userMadeReminder'] =
-            $this->getUserMadeReminderHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a UserMadeReminder.
      *
      * @ApiDoc(

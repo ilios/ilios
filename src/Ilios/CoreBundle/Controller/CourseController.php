@@ -222,48 +222,6 @@ class CourseController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Course.
-     *
-     * @ApiDoc(
-     *   section = "Course",
-     *   description = "Partial Update to a Course.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\CourseType",
-     *   output="Ilios\CoreBundle\Entity\Course",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="Course identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated Course.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['course'] =
-            $this->getCourseHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a Course.
      *
      * @ApiDoc(

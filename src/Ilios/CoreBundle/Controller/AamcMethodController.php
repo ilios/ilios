@@ -222,48 +222,6 @@ class AamcMethodController extends FOSRestController
     }
 
     /**
-     * Partial Update to a AamcMethod.
-     *
-     * @ApiDoc(
-     *   section = "AamcMethod",
-     *   description = "Partial Update to a AamcMethod.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\AamcMethodType",
-     *   output="Ilios\CoreBundle\Entity\AamcMethod",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="string",
-     *         "requirement"="\w+",
-     *         "description"="AamcMethod identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated AamcMethod.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['aamcMethod'] =
-            $this->getAamcMethodHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a AamcMethod.
      *
      * @ApiDoc(
