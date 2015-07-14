@@ -8,11 +8,14 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
+
+use Ilios\CoreBundle\Validator\Constraints as IliosAssert;
 
 /**
  * Class LearningMaterial
@@ -26,7 +29,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  *
  * @JMS\ExclusionPolicy("all")
  *
- * @Assert\LearningMaterialClass
+ * @IliosAssert\LearningMaterial
  */
 class LearningMaterial implements LearningMaterialInterface
 {
