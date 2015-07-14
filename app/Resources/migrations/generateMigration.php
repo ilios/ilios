@@ -74,6 +74,35 @@ class Migrate
         print "DROP PROCEDURE IF EXISTS drop_index_if_exists;\n";
         print "DROP PROCEDURE IF EXISTS drop_key_if_exists;\n";
         print "DROP PROCEDURE IF EXISTS drop_fk_if_exists;\n";
+        print "DROP PROCEDURE IF EXISTS courses_with_title_restricted_by_school_for_user;\n";
+        print "DROP PROCEDURE IF EXISTS courses_with_title_restricted_by_school_for_user_calendar;\n";
+        print "DROP PROCEDURE IF EXISTS decompose_mesh_tree;\n";
+        print "DROP PROCEDURE IF EXISTS mesh_search;\n";
+        print "DROP PROCEDURE IF EXISTS nuke_course;\n";
+        print "DROP PROCEDURE IF EXISTS nuke_learning_material_associations;\n";
+        print "DROP PROCEDURE IF EXISTS nuke_objective_associations;\n";
+        print "DROP PROCEDURE IF EXISTS nuke_offering;\n";
+        print "DROP PROCEDURE IF EXISTS nuke_recurring_event_chain;\n";
+        print "DROP PROCEDURE IF EXISTS nuke_session;\n";
+        print "DROP PROCEDURE IF EXISTS programs_with_title_restricted_by_school_for_user;\n";
+        print "DROP PROCEDURE IF EXISTS ucsf_som_add_user_to_learner_group;\n";
+        print "DROP PROCEDURE IF EXISTS user_ids_from_cohort_and_master_group;\n";
+        
+        print "DROP FUNCTION IF EXISTS copy_cohorts_from_course_to_course;\n";
+        print "DROP FUNCTION IF EXISTS copy_directors_from_course_to_course;\n";
+        print "DROP FUNCTION IF EXISTS copy_disciplines_from_course_to_course;\n";
+        print "DROP FUNCTION IF EXISTS copy_disciplines_from_session_to_session;\n";
+        print "DROP FUNCTION IF EXISTS copy_ilm_session_attributes_to_ilm_session;\n";
+        print "DROP FUNCTION IF EXISTS copy_learning_material_mesh_from_course_lm_to_course_lm;\n";
+        print "DROP FUNCTION IF EXISTS copy_learning_material_mesh_from_session_lm_to_session_lm;\n";
+        print "DROP FUNCTION IF EXISTS copy_mesh_from_course_to_course;\n";
+        print "DROP FUNCTION IF EXISTS copy_mesh_session_to_session;\n";
+        print "DROP FUNCTION IF EXISTS copy_objective_attributes_to_objective;\n";
+        print "DROP FUNCTION IF EXISTS copy_offering_attributes_to_offering;\n";
+        print "DROP FUNCTION IF EXISTS course_has_cohort_stewarded_or_owned_by_school;\n";
+        print "DROP FUNCTION IF EXISTS group_is_child_of_group;\n";
+        print "DROP FUNCTION IF EXISTS program_has_year_stewarded_by_school;\n";
+        print "DROP FUNCTION IF EXISTS user_can_be_assigned;\n";
 
     }
 
