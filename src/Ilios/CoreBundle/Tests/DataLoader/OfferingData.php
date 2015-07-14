@@ -15,8 +15,8 @@ class OfferingData extends AbstractDataLoader
             'endDate' => "2014-09-15T17:00:00+00:00",
             'deleted' => false,
             'session' => '1',
-            'learnerGroups' => [],
-            'instructorGroups' => [],
+            'learnerGroups' => ['1'],
+            'instructorGroups' => ['1'],
             'learners' => [],
             'instructors' => [],
             'recurringEvents' => []

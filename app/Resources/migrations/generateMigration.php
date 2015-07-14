@@ -112,6 +112,15 @@ class Migrate
         $queries[] = "DROP TRIGGER IF EXISTS `trig_session_description_post_insert`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_session_description_post_update`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_objective_post_update`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_pre_update`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_instructor_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_instructor_post_insert`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_instructor_group_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_instructor_group_post_insert`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_group_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_group_post_insert`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_learner_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_learner_post_insert`";
         
         return $queries;
     }
