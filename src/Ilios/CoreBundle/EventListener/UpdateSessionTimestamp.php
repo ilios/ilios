@@ -4,6 +4,8 @@ namespace Ilios\CoreBundle\EventListener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 
+use Ilios\CoreBundle\Entity\Session;
+
 /**
  * UpdateSessionTimestamp event listener
  * To correctly set the session last_updated timestamp we have to listen for updates to the session as well as
@@ -44,13 +46,18 @@ class UpdateSessionTimestamp
         foreach ($entities as $entity) {
             switch (get_class($entity)) {
                 case 'Ilios\CoreBundle\Entity\IlmSession':
-                    $session = $entity->getSession();
-                    if (! empty($session)) {
-                        $sessions[] = $session;
+                    $sessions[] = $entity->getSession();
+                    break;
+                case 'Ilios\CoreBundle\Entity\LearningMaterial':
+                    foreach ($entity->getSessionLearningMaterials() as $sessionLearningMaterial) {
+                        $sessions[] = $sessionLearningMaterial->getSession();
                     }
                     break;
             }
         }
+        $sessions = array_filter($sessions, function ($obj) {
+            return !!$obj && $obj instanceof Session;
+        });
         $sessions = array_unique($sessions);
         foreach ($sessions as $session) {
             if (!$uow->isScheduledForDelete($session)) {

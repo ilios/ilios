@@ -20,7 +20,10 @@ class SessionControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionDescriptionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialStatusData',
         ];
     }
 
@@ -372,6 +375,31 @@ class SessionControllerTest extends AbstractControllerTest
                 ['id' => $ilm['id']]
             ),
             json_encode(['ilmSession' => $postData])
+        );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testUpdatingLearnerMaterialUpdatesSessionStamp()
+    {
+        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $lm = $this->container
+            ->get('ilioscore.dataloader.learningmaterial')
+            ->getOne();
+        
+        $postData = $lm;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['status'] = '2';
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_learningmaterials',
+                ['id' => $lm['id']]
+            ),
+            json_encode(['learningMaterial' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($firstUpdatedAt);

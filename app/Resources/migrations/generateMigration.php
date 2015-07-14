@@ -95,6 +95,8 @@ class Migrate
         $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_instructor_post_delete`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_learner_post_delete`";
         $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_learner_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_learning_material_post_update`";
+        
 
         return $queries;
     }
