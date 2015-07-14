@@ -10,7 +10,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  * Class LearningMaterialClassConstraintValidator
  * @package Ilios\CoreBundle\Validator\Constraints
  */
-class LearningMaterialClassConstraintValidator extends ConstraintValidator
+class LearningMaterialConstraintValidator extends ConstraintValidator
 {
     /**
      * Checks if the passed learning material is valid.

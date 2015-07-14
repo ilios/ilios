@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  *
  * @Annotation
  */
-class LearningMaterialClassConstraint extends Constraint
+class LearningMaterialConstraint extends Constraint
 {
 
     /**
@@ -17,7 +17,7 @@ class LearningMaterialClassConstraint extends Constraint
      */
     public function validatedBy()
     {
-        return get_class($this).'Validator';
+        return get_class($this) . 'Validator';
     }
 
     /**
