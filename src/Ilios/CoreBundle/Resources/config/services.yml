@@ -11,3 +11,6 @@ services:
         class: Ilios\CoreBundle\EventListener\UpdateOfferingTimestamp
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+    ilioscore.filesystem:
+            class: Ilios\CoreBundle\Classes\FileSystem
+            arguments: [%kernel.root_dir%]
