@@ -29,7 +29,7 @@ use Ilios\CoreBundle\Validator\Constraints as IliosAssert;
  *
  * @JMS\ExclusionPolicy("all")
  *
- * @IliosAssert\LearningMaterial
+ * @IliosAssert\IsValidLearningMaterial
  */
 class LearningMaterial implements LearningMaterialInterface
 {

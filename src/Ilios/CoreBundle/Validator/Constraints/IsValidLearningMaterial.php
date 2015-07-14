@@ -1,15 +1,15 @@
 <?php
-namespace Ilios\CoreBundle\Validator;
+namespace Ilios\CoreBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Class LearningMaterialClassConstraint
+ * Class IsValidLearningMaterial
  * @package Ilios\CoreBundle\Validator\Constraint
  *
  * @Annotation
  */
-class LearningMaterialConstraint extends Constraint
+class IsValidLearningMaterial extends Constraint
 {
 
     /**
