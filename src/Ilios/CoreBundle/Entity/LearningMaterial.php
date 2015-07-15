@@ -28,8 +28,6 @@ use Ilios\CoreBundle\Validator\Constraints as IliosAssert;
  * )
  *
  * @JMS\ExclusionPolicy("all")
- *
- * @IliosAssert\IsValidLearningMaterial
  */
 class LearningMaterial implements LearningMaterialInterface
 {
@@ -206,7 +204,8 @@ class LearningMaterial implements LearningMaterialInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 512
+     *      max = 512,
+     *      groups={"citation"}
      * )
      *
      * @JMS\Expose
@@ -223,7 +222,8 @@ class LearningMaterial implements LearningMaterialInterface
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 128
+     *      max = 128,
+     *      groups={"file"}
      * )
      *
      * @JMS\Expose
@@ -270,7 +270,8 @@ class LearningMaterial implements LearningMaterialInterface
     * @Assert\Type(type="string")
     * @Assert\Length(
     *      min = 1,
-    *      max = 255
+    *      max = 255,
+     *     groups={"file"}
     * )
     *
     * @JMS\Expose
@@ -286,7 +287,8 @@ class LearningMaterial implements LearningMaterialInterface
     * @Assert\Type(type="string")
     * @Assert\Length(
     *      min = 1,
-    *      max = 96
+    *      max = 96,
+    *      groups={"file"}
     * )
     *
     * @JMS\Expose
@@ -317,7 +319,7 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\Column(name="web_link", type="string", length=256, nullable=true)
      *
-     * @Assert\Url()
+     * @Assert\Url(groups={"link"})
      *
      * @JMS\Expose
      * @JMS\Type("string")
