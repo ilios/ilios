@@ -2,9 +2,10 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LearningMaterialType extends AbstractType
 {
@@ -45,12 +46,27 @@ class LearningMaterialType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ilios\CoreBundle\Entity\LearningMaterial'
+            'data_class' => 'Ilios\CoreBundle\Entity\LearningMaterial',
+            // use a closure to determine which Validation Group applies
+            // see http://symfony.com/doc/current/book/forms.html#groups-based-on-the-submitted-data
+            'validation_groups' => function (FormInterface $form) {
+                /**
+                 * @var LearningMaterialInterface $data
+                 */
+                $data = $form->getData();
+
+                if ('' !== trim($data->getCitation())) {
+                    return array('Default', 'citation');
+                } elseif ('' !== trim($data->getLink())) {
+                    return array('Default', 'link');
+                }
+                return array('Default', 'file');
+            },
         ));
     }
 
