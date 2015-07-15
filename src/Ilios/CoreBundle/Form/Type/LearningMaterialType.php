@@ -34,6 +34,9 @@ class LearningMaterialType extends AbstractType
             ->add('citation', 'text', [
                     'required' => false
             ])
+            ->add('link', 'text', [
+                'required' => false
+            ])
             ->add('sessionLearningMaterials', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionLearningMaterial"
