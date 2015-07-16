@@ -118,6 +118,66 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
     }
 
+    public function testPostLearningMaterialCitation()
+    {
+        $data = $this->container->get('ilioscore.dataloader.learningmaterial')
+          ->createCitation();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $this->createJsonRequest(
+          'POST',
+          $this->getUrl('post_learningmaterials'),
+          json_encode(['learningMaterial' => $postData])
+        );
+
+        $response = $this->client->getResponse();
+        $headers  = [];
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
+        $uploadDate = new DateTime($responseData['uploadDate']);
+        unset($responseData['uploadDate']);
+        $this->assertEquals(
+          $data,
+          $responseData,
+          $response->getContent()
+        );
+        $now = new DateTime();
+        $diff = $now->diff($uploadDate);
+        $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
+    }
+
+    public function testPostLearningMaterialLink()
+    {
+        $data = $this->container->get('ilioscore.dataloader.learningmaterial')
+          ->createLink();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $this->createJsonRequest(
+          'POST',
+          $this->getUrl('post_learningmaterials'),
+          json_encode(['learningMaterial' => $postData])
+        );
+
+        $response = $this->client->getResponse();
+        $headers  = [];
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
+        $uploadDate = new DateTime($responseData['uploadDate']);
+        unset($responseData['uploadDate']);
+        $this->assertEquals(
+          $data,
+          $responseData,
+          $response->getContent()
+        );
+        $now = new DateTime();
+        $diff = $now->diff($uploadDate);
+        $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
+    }
+
     public function testPostBadLearningMaterial()
     {
         $invalidLearningMaterial = $this->container
@@ -129,6 +189,40 @@ class LearningMaterialControllerTest extends AbstractControllerTest
             'POST',
             $this->getUrl('post_learningmaterials'),
             json_encode(['learningMaterial' => $invalidLearningMaterial])
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+
+    public function testPostBadLearningMaterialCitation()
+    {
+        $invalidLearningMaterial = $this->container
+          ->get('ilioscore.dataloader.learningmaterial')
+          ->createInvalidCitation()
+        ;
+
+        $this->createJsonRequest(
+          'POST',
+          $this->getUrl('post_learningmaterials'),
+          json_encode(['learningMaterial' => $invalidLearningMaterial])
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+
+    public function testPostBadLearningMaterialLink()
+    {
+        $invalidLearningMaterial = $this->container
+          ->get('ilioscore.dataloader.learningmaterial')
+          ->createInvalidLink()
+        ;
+
+        $this->createJsonRequest(
+          'POST',
+          $this->getUrl('post_learningmaterials'),
+          json_encode(['learningMaterial' => $invalidLearningMaterial])
         );
 
         $response = $this->client->getResponse();
