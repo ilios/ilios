@@ -92,13 +92,10 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
             ->create();
-        $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['id']);
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $postData])
+            json_encode(['learningMaterial' => $data])
         );
 
         $response = $this->client->getResponse();
@@ -107,6 +104,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
         $uploadDate = new DateTime($responseData['uploadDate']);
+        unset($responseData['id']);
         unset($responseData['uploadDate']);
         $this->assertEquals(
             $data,
@@ -122,13 +120,10 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
           ->createCitation();
-        $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['id']);
         $this->createJsonRequest(
           'POST',
           $this->getUrl('post_learningmaterials'),
-          json_encode(['learningMaterial' => $postData])
+          json_encode(['learningMaterial' => $data])
         );
 
         $response = $this->client->getResponse();
@@ -137,11 +132,12 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
         $uploadDate = new DateTime($responseData['uploadDate']);
+        unset($responseData['id']);
         unset($responseData['uploadDate']);
         $this->assertEquals(
-          $data,
-          $responseData,
-          $response->getContent()
+            $data,
+            $responseData,
+            $response->getContent()
         );
         $now = new DateTime();
         $diff = $now->diff($uploadDate);
@@ -152,13 +148,10 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
           ->createLink();
-        $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['id']);
         $this->createJsonRequest(
           'POST',
           $this->getUrl('post_learningmaterials'),
-          json_encode(['learningMaterial' => $postData])
+          json_encode(['learningMaterial' => $data])
         );
 
         $response = $this->client->getResponse();
@@ -167,11 +160,12 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
         $uploadDate = new DateTime($responseData['uploadDate']);
+        unset($responseData['id']);
         unset($responseData['uploadDate']);
         $this->assertEquals(
-          $data,
-          $responseData,
-          $response->getContent()
+            $data,
+            $responseData,
+            $response->getContent()
         );
         $now = new DateTime();
         $diff = $now->diff($uploadDate);
