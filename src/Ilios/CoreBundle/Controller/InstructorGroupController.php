@@ -222,48 +222,6 @@ class InstructorGroupController extends FOSRestController
     }
 
     /**
-     * Partial Update to a InstructorGroup.
-     *
-     * @ApiDoc(
-     *   section = "InstructorGroup",
-     *   description = "Partial Update to a InstructorGroup.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\InstructorGroupType",
-     *   output="Ilios\CoreBundle\Entity\InstructorGroup",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="InstructorGroup identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated InstructorGroup.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['instructorGroup'] =
-            $this->getInstructorGroupHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a InstructorGroup.
      *
      * @ApiDoc(

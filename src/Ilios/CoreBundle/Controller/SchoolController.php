@@ -222,48 +222,6 @@ class SchoolController extends FOSRestController
     }
 
     /**
-     * Partial Update to a School.
-     *
-     * @ApiDoc(
-     *   section = "School",
-     *   description = "Partial Update to a School.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\SchoolType",
-     *   output="Ilios\CoreBundle\Entity\School",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="School identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated School.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['school'] =
-            $this->getSchoolHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a School.
      *
      * @ApiDoc(

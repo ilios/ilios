@@ -222,48 +222,6 @@ class ObjectiveController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Objective.
-     *
-     * @ApiDoc(
-     *   section = "Objective",
-     *   description = "Partial Update to a Objective.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\ObjectiveType",
-     *   output="Ilios\CoreBundle\Entity\Objective",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="Objective identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated Objective.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['objective'] =
-            $this->getObjectiveHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a Objective.
      *
      * @ApiDoc(

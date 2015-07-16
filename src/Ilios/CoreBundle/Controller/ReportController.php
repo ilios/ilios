@@ -222,48 +222,6 @@ class ReportController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Report.
-     *
-     * @ApiDoc(
-     *   section = "Report",
-     *   description = "Partial Update to a Report.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\ReportType",
-     *   output="Ilios\CoreBundle\Entity\Report",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="Report identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated Report.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['report'] =
-            $this->getReportHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a Report.
      *
      * @ApiDoc(

@@ -222,48 +222,6 @@ class LearningMaterialUserRoleController extends FOSRestController
     }
 
     /**
-     * Partial Update to a LearningMaterialUserRole.
-     *
-     * @ApiDoc(
-     *   section = "LearningMaterialUserRole",
-     *   description = "Partial Update to a LearningMaterialUserRole.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\LearningMaterialUserRoleType",
-     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="LearningMaterialUserRole identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated LearningMaterialUserRole.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['learningMaterialUserRole'] =
-            $this->getLearningMaterialUserRoleHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a LearningMaterialUserRole.
      *
      * @ApiDoc(

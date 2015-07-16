@@ -222,48 +222,6 @@ class AamcPcrsController extends FOSRestController
     }
 
     /**
-     * Partial Update to a AamcPcrs.
-     *
-     * @ApiDoc(
-     *   section = "AamcPcrs",
-     *   description = "Partial Update to a AamcPcrs.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\AamcPcrsType",
-     *   output="Ilios\CoreBundle\Entity\AamcPcrs",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="string",
-     *         "requirement"="\w+",
-     *         "description"="AamcPcrs identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated AamcPcrs.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['aamcPcrses'] =
-            $this->getAamcPcrsHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a AamcPcrs.
      *
      * @ApiDoc(

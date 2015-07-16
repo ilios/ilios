@@ -222,48 +222,6 @@ class DepartmentController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Department.
-     *
-     * @ApiDoc(
-     *   section = "Department",
-     *   description = "Partial Update to a Department.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\DepartmentType",
-     *   output="Ilios\CoreBundle\Entity\Department",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="Department identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated Department.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['department'] =
-            $this->getDepartmentHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a Department.
      *
      * @ApiDoc(

@@ -222,48 +222,6 @@ class UserRoleController extends FOSRestController
     }
 
     /**
-     * Partial Update to a UserRole.
-     *
-     * @ApiDoc(
-     *   section = "UserRole",
-     *   description = "Partial Update to a UserRole.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\UserRoleType",
-     *   output="Ilios\CoreBundle\Entity\UserRole",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="UserRole identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated UserRole.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['userRole'] =
-            $this->getUserRoleHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a UserRole.
      *
      * @ApiDoc(

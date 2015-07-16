@@ -222,48 +222,6 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
     }
 
     /**
-     * Partial Update to a CurriculumInventorySequenceBlockSession.
-     *
-     * @ApiDoc(
-     *   section = "CurriculumInventorySequenceBlockSession",
-     *   description = "Partial Update to a CurriculumInventorySequenceBlockSession.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventorySequenceBlockSessionType",
-     *   output="Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="bigint",
-     *         "requirement"="",
-     *         "description"="CurriculumInventorySequenceBlockSession identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated CurriculumInventorySequenceBlockSession.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['curriculumInventorySequenceBlockSession'] =
-            $this->getCurriculumInventorySequenceBlockSessionHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a CurriculumInventorySequenceBlockSession.
      *
      * @ApiDoc(

@@ -222,48 +222,6 @@ class OfferingController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Offering.
-     *
-     * @ApiDoc(
-     *   section = "Offering",
-     *   description = "Partial Update to a Offering.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\OfferingType",
-     *   output="Ilios\CoreBundle\Entity\Offering",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="Offering identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated Offering.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['offering'] =
-            $this->getOfferingHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a Offering.
      *
      * @ApiDoc(

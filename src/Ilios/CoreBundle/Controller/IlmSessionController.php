@@ -220,48 +220,6 @@ class IlmSessionController extends FOSRestController
     }
 
     /**
-     * Partial Update to a IlmSession.
-     *
-     * @ApiDoc(
-     *   section = "IlmSession",
-     *   description = "Partial Update to a IlmSession.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\IlmSessionType",
-     *   output="Ilios\CoreBundle\Entity\IlmSession",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="IlmSession identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated IlmSession.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['ilmSessions'] =
-            $this->getIlmSessionHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a IlmSession.
      *
      * @ApiDoc(

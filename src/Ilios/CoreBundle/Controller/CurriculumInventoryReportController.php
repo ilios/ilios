@@ -222,48 +222,6 @@ class CurriculumInventoryReportController extends FOSRestController
     }
 
     /**
-     * Partial Update to a CurriculumInventoryReport.
-     *
-     * @ApiDoc(
-     *   section = "CurriculumInventoryReport",
-     *   description = "Partial Update to a CurriculumInventoryReport.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryReportType",
-     *   output="Ilios\CoreBundle\Entity\CurriculumInventoryReport",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="CurriculumInventoryReport identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated CurriculumInventoryReport.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['curriculumInventoryReport'] =
-            $this->getCurriculumInventoryReportHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a CurriculumInventoryReport.
      *
      * @ApiDoc(

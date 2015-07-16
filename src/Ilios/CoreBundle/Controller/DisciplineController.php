@@ -222,48 +222,6 @@ class DisciplineController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Discipline.
-     *
-     * @ApiDoc(
-     *   section = "Discipline",
-     *   description = "Partial Update to a Discipline.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\DisciplineType",
-     *   output="Ilios\CoreBundle\Entity\Discipline",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="Discipline identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated Discipline.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['discipline'] =
-            $this->getDisciplineHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a Discipline.
      *
      * @ApiDoc(

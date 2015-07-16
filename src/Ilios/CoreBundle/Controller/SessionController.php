@@ -222,48 +222,6 @@ class SessionController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Session.
-     *
-     * @ApiDoc(
-     *   section = "Session",
-     *   description = "Partial Update to a Session.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\SessionType",
-     *   output="Ilios\CoreBundle\Entity\Session",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="Session identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated Session.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['session'] =
-            $this->getSessionHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a Session.
      *
      * @ApiDoc(

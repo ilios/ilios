@@ -222,48 +222,6 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     }
 
     /**
-     * Partial Update to a CurriculumInventoryInstitution.
-     *
-     * @ApiDoc(
-     *   section = "CurriculumInventoryInstitution",
-     *   description = "Partial Update to a CurriculumInventoryInstitution.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryInstitutionType",
-     *   output="Ilios\CoreBundle\Entity\CurriculumInventoryInstitution",
-     *   requirements={
-     *     {
-     *         "name"="school",
-     *         "dataType"="",
-     *         "requirement"="",
-     *         "description"="CurriculumInventoryInstitution identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated CurriculumInventoryInstitution.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['curriculumInventoryInstitution'] =
-            $this->getCurriculumInventoryInstitutionHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a CurriculumInventoryInstitution.
      *
      * @ApiDoc(

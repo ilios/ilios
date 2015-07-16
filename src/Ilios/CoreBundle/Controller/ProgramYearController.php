@@ -222,48 +222,6 @@ class ProgramYearController extends FOSRestController
     }
 
     /**
-     * Partial Update to a ProgramYear.
-     *
-     * @ApiDoc(
-     *   section = "ProgramYear",
-     *   description = "Partial Update to a ProgramYear.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\ProgramYearType",
-     *   output="Ilios\CoreBundle\Entity\ProgramYear",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="ProgramYear identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated ProgramYear.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['programYear'] =
-            $this->getProgramYearHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a ProgramYear.
      *
      * @ApiDoc(

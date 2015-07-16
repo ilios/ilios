@@ -222,48 +222,6 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
     }
 
     /**
-     * Partial Update to a CurriculumInventoryAcademicLevel.
-     *
-     * @ApiDoc(
-     *   section = "CurriculumInventoryAcademicLevel",
-     *   description = "Partial Update to a CurriculumInventoryAcademicLevel.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryAcademicLevelType",
-     *   output="Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="CurriculumInventoryAcademicLevel identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated CurriculumInventoryAcademicLevel.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['curriculumInventoryAcademicLevel'] =
-            $this->getCurriculumInventoryAcademicLevelHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a CurriculumInventoryAcademicLevel.
      *
      * @ApiDoc(

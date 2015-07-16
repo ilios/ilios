@@ -222,48 +222,6 @@ class CourseLearningMaterialController extends FOSRestController
     }
 
     /**
-     * Partial Update to a CourseLearningMaterial.
-     *
-     * @ApiDoc(
-     *   section = "CourseLearningMaterial",
-     *   description = "Partial Update to a CourseLearningMaterial.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\CourseLearningMaterialType",
-     *   output="Ilios\CoreBundle\Entity\CourseLearningMaterial",
-     *   requirements={
-     *     {
-     *         "name"="id",
-     *         "dataType"="integer",
-     *         "requirement"="\d+",
-     *         "description"="CourseLearningMaterial identifier."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "Updated CourseLearningMaterial.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function patchAction(Request $request, $id)
-    {
-        $answer['courseLearningMaterial'] =
-            $this->getCourseLearningMaterialHandler()->patch(
-                $this->getOr404($id),
-                $this->getPostData($request)
-            );
-
-        return $answer;
-    }
-
-    /**
      * Delete a CourseLearningMaterial.
      *
      * @ApiDoc(
