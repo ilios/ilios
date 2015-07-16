@@ -15,8 +15,6 @@ use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
 
-use Ilios\CoreBundle\Validator\Constraints as IliosAssert;
-
 /**
  * Class LearningMaterial
  * @package Ilios\CoreBundle\Entity
