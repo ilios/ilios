@@ -30,15 +30,21 @@ class LoadLearningMaterialData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new LearningMaterial();
-            $entity->setId($arr['id']);
+            if (array_key_exists('id', $arr)) {
+                $entity->setId($arr['id']);
+            }
             $entity->setTitle($arr['title']);
             $entity->setDescription($arr['description']);
             $entity->setOriginalAuthor($arr['originalAuthor']);
-            $entity->setCitation($arr['citation']);
-            $entity->setLink($arr['link']);
             $entity->setUserRole($this->getReference('learningMaterialUserRoles' . $arr['userRole']));
             $entity->setStatus($this->getReference('learningMaterialStatus' . $arr['status']));
             $entity->setOwningUser($this->getReference('users' . $arr['owningUser']));
+            if (array_key_exists('link', $arr)) {
+                $entity->setLink($arr['link']);
+            }
+            if (array_key_exists('citation', $arr)) {
+                $entity->setCitation($arr['citation']);
+            }
 
             $manager->persist($entity);
             $this->addReference('learningMaterials' . $arr['id'], $entity);
