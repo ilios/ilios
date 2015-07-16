@@ -22,7 +22,6 @@ class LearningMaterialData extends AbstractDataLoader
             'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => [1],
             'citation' => $this->faker->text,
-            'link' => '',
         );
 
         $arr[] = array(
@@ -35,7 +34,6 @@ class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [2],
-            'citation' => '',
             'link' => $this->faker->url,
         );
 
@@ -48,7 +46,6 @@ class LearningMaterialData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 3,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -58,7 +55,6 @@ class LearningMaterialData extends AbstractDataLoader
             'status' => "1",
             'owningUser' => "1",
             'citation' => $this->faker->text,
-            'link' => '',
         );
     }
 
@@ -67,7 +63,6 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createCitation() {
         return array(
-            'id' => 4,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -77,7 +72,6 @@ class LearningMaterialData extends AbstractDataLoader
             'status' => "1",
             'owningUser' => "1",
             'citation' => $this->faker->text,
-            'link' => '',
         );
     }
 
@@ -86,7 +80,6 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createLink() {
         return array(
-            'id' => 5,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -95,7 +88,6 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
-            'citation' => null,
             'link' => $this->faker->url,
         );
     }
@@ -121,7 +113,6 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createInvalidCitation() {
         return array(
-            'id' => 6,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -131,7 +122,6 @@ class LearningMaterialData extends AbstractDataLoader
             'status' => "1",
             'owningUser' => "1",
             'citation' => $this->faker->text(600), // too long
-            'link' => '',
         );
     }
 
@@ -140,7 +130,6 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createInvalidLink() {
         return array(
-            'id' => 7,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -149,7 +138,6 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
-            'citation' => '',
             'link' => 'this-is-not-an-url',
         );
     }
