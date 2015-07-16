@@ -121,9 +121,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
           ->createCitation();
         $this->createJsonRequest(
-          'POST',
-          $this->getUrl('post_learningmaterials'),
-          json_encode(['learningMaterial' => $data])
+            'POST',
+            $this->getUrl('post_learningmaterials'),
+            json_encode(['learningMaterial' => $data])
         );
 
         $response = $this->client->getResponse();
@@ -149,9 +149,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
           ->createLink();
         $this->createJsonRequest(
-          'POST',
-          $this->getUrl('post_learningmaterials'),
-          json_encode(['learningMaterial' => $data])
+            'POST',
+            $this->getUrl('post_learningmaterials'),
+            json_encode(['learningMaterial' => $data])
         );
 
         $response = $this->client->getResponse();
@@ -197,9 +197,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         ;
 
         $this->createJsonRequest(
-          'POST',
-          $this->getUrl('post_learningmaterials'),
-          json_encode(['learningMaterial' => $invalidLearningMaterial])
+            'POST',
+            $this->getUrl('post_learningmaterials'),
+            json_encode(['learningMaterial' => $invalidLearningMaterial])
         );
 
         $response = $this->client->getResponse();
@@ -214,9 +214,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         ;
 
         $this->createJsonRequest(
-          'POST',
-          $this->getUrl('post_learningmaterials'),
-          json_encode(['learningMaterial' => $invalidLearningMaterial])
+            'POST',
+            $this->getUrl('post_learningmaterials'),
+            json_encode(['learningMaterial' => $invalidLearningMaterial])
         );
 
         $response = $this->client->getResponse();
