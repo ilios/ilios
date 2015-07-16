@@ -125,7 +125,6 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-        unset($postData['ilmSessions']);
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
