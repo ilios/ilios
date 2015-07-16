@@ -331,6 +331,8 @@ class LearningMaterial implements LearningMaterialInterface
     public function __construct()
     {
         $this->uploadDate = new \DateTime();
+        $this->sessionLearningMaterials = new ArrayCollection();
+        $this->courseLearningMaterials = new ArrayCollection();
     }
 
     /**

@@ -17,7 +17,9 @@ class OfferingControllerTest extends AbstractControllerTest
     protected function getFixtures()
     {
         return [
-            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
         ];
     }
 
@@ -206,5 +208,97 @@ class OfferingControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+    
+    
+    /**
+     * Grab the first offering from the fixtures and get the updatedAt time
+     * from the server.
+     *
+     * @return DateTime
+     */
+    protected function getOfferingUpdatedAt()
+    {
+        $offering = $this->container
+            ->get('ilioscore.dataloader.offering')
+            ->getOne();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_offerings',
+                ['id' => $offering['id']]
+            )
+        );
+
+        $response = $this->client->getResponse();
+
+        $data = json_decode($response->getContent(), true)['offerings'][0];
+        return  new DateTime($data['updatedAt']);
+    }
+
+    /**
+     * Test to see that the updatedAt timestamp has increased by at least one second
+     * @param  DateTime $original
+     */
+    protected function checkUpdatedAtIncreased(DateTime $original)
+    {
+        $now = $this->getOfferingUpdatedAt();
+        $diff = $original->diff($now);
+        $this->assertTrue(
+            $diff->s > 1,
+            'The updatedAt timestamp has increased.  Original: ' . $original->format('c') .
+            ' Now: ' . $now->format('c')
+        );
+    }
+    
+    public function testUpdatingLearnerGroupUpdatesOfferingStamp()
+    {
+        $firstUpdatedAt = $this->getOfferingUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $lg = $this->container
+            ->get('ilioscore.dataloader.learnergroup')
+            ->getOne();
+        
+        $postData = $lg;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['title'] = $lg['title'] . 'some more text';
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_learnergroups',
+                ['id' => $lg['id']]
+            ),
+            json_encode(['learnerGroup' => $postData])
+        );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+    
+    public function testUpdatingInstructorGroupUpdatesOfferingStamp()
+    {
+        $firstUpdatedAt = $this->getOfferingUpdatedAt();
+        sleep(2); //wait for two seconds
+        
+        $ig = $this->container
+            ->get('ilioscore.dataloader.instructorgroup')
+            ->getOne();
+        
+        $postData = $ig;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        $postData['title'] = $ig['title'] . 'some more text';
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_instructorgroups',
+                ['id' => $ig['id']]
+            ),
+            json_encode(['instructorGroup' => $postData])
+        );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
     }
 }

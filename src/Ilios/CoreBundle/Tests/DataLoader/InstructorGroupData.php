@@ -15,7 +15,7 @@ class InstructorGroupData extends AbstractDataLoader
             'learnerGroups' => [],
             'ilmSessions' => ['1'],
             'users' => ['1'],
-            'offerings' => []
+            'offerings' => ['1']
         );
 
         $arr[] = array(
