@@ -1,4 +1,6 @@
 services:
+    filesystem:
+        class: Symfony\Component\Filesystem\Filesystem
     ilioscore.listener.timestamp:
         class: Ilios\CoreBundle\EventListener\TimestampListener
         tags:
@@ -11,6 +13,9 @@ services:
         class: Ilios\CoreBundle\EventListener\UpdateOfferingTimestamp
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+    ilioscore.temporary_filesystem:
+            class: Ilios\CoreBundle\Classes\TemporaryFileSystem
+            arguments: [@filesystem, %kernel.root_dir%]
     ilioscore.filesystem:
-            class: Ilios\CoreBundle\Classes\FileSystem
-            arguments: [%kernel.root_dir%]
+            class: Ilios\CoreBundle\Classes\IliosFileSystem
+            arguments: [@filesystem, %ilios_core.file_store_path%]

@@ -17,7 +17,10 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
 
     public function testParametersSet()
     {
-        $this->load();
+        $fileSystemStoragePath = '/tmp/test';
+        $this->load(array(
+            'file_system_storage_path' => $fileSystemStoragePath,
+        ));
         $parameters = array(
             'ilioscore.aamcmethod.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AamcMethodManager',
             'ilioscore.aamcpcrs.handler.class' => 'Ilios\CoreBundle\Handler\AamcPcrsHandler',
@@ -208,6 +211,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.usermadereminder.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData',
             'ilioscore.dataloader.userrole.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserRoleData',
             'ilioscore.dataloader.user.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserData',
+            'ilios_core.file_store_path' => $fileSystemStoragePath,
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);
@@ -360,6 +364,10 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.usermadereminder',
             'ilioscore.dataloader.userrole',
             'ilioscore.dataloader.user',
+            'ilioscore.listener.timestamp',
+            'ilioscore.listener.updatesession',
+            'ilioscore.temporary_filesystem',
+            'ilioscore.filesystem',
         );
         foreach ($services as $service) {
             $this->assertContainerBuilderHasService($service);

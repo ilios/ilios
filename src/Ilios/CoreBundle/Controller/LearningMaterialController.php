@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Handler\LearningMaterialHandler;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
@@ -158,10 +160,33 @@ class LearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
+            $postData = $this->getPostData($request);
+            $file = false;
+            if (array_key_exists('fileHash', $postData)) {
+                $fileHash = $postData['fileHash'];
+                $temporary_filesystem = $this->container->get('ilioscore.temporary_filesystem');
+                if (!$file = $temporary_filesystem->getFile($fileHash)) {
+                    return new JsonResponse(array(
+                        'errors' => 'This "fileHash" is not valid'
+                    ), JsonResponse::HTTP_BAD_REQUEST);
+                }
+                $fs = $this->container->get('ilioscore.filesystem');
+                unset($postData['fileHash']);
+                unset($postData['path']);
+                unset($postData['realtivePath']);
+                unset($postData['token']);
+                unset($postData['uploadDate']);
+                unset($postData['type']);
+                $postData['mimetype'] = $file->getMimeType();
+                $postData['relativePath'] = $fs->getLearningMaterialFilePath($file);
+                $postData['filesize'] = $file->getSize();
+            }
             $new  =  $this->getLearningMaterialHandler()
-                ->post($this->getPostData($request));
+                ->post($postData);
             $answer['learningMaterials'] = [$new];
-
+            if ($file) {
+                $fs->storeLearninMaterialFile($file, true);
+            }
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
             return $this->handleView($view);

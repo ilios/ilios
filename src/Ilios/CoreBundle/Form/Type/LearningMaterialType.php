@@ -20,6 +20,12 @@ class LearningMaterialType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('originalAuthor', null, ['required' => false])
+            ->add('relativePath')
+            ->add('filename')
+            ->add('copyrightPermission')
+            ->add('copyrightRationale')
+            ->add('filesize')
+            ->add('mimetype')
             ->add('userRole', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearningMaterialUserRole"

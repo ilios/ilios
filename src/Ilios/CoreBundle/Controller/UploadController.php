@@ -16,7 +16,7 @@ class UploadController extends Controller
 
     public function uploadAction(Request $request)
     {
-        $fs = $this->container->get('ilioscore.filesystem');
+        $fs = $this->container->get('ilioscore.temporary_filesystem');
         $uploadedFile = $request->files->get('file');
         if (!$uploadedFile) {
             return new JsonResponse(array(
@@ -27,7 +27,10 @@ class UploadController extends Controller
             return new JsonResponse(array('errors' => 'File failed to upload'), JsonResponse::HTTP_BAD_REQUEST);
         }
         $hash = $fs->storeFile($uploadedFile);
-        
-        return new JsonResponse(array('fileHash' => $hash), JsonResponse::HTTP_OK);
+        $response = array(
+            'filename' => $uploadedFile->getClientOriginalName(),
+            'fileHash' => $hash
+        );
+        return new JsonResponse($response, JsonResponse::HTTP_OK);
     }
 }

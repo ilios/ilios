@@ -83,7 +83,6 @@ class LearningMaterial implements LearningMaterialInterface
     protected $description;
 
     /**
-     * @deprecated Replace with TimestampableEntity in 3.1
      * @var \DateTime
      *
      * @ORM\Column(name="upload_date", type="datetime")
@@ -227,7 +226,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @JMS\Expose
      * @JMS\Type("string")
      */
-    protected $path;
+    protected $relativePath;
 
     /**
      * renamed copyrightownership
@@ -435,17 +434,17 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @param string $path
      */
-    public function setPath($path)
+    public function setRelativePath($path)
     {
-        $this->path = $path;
+        $this->relativePath = $path;
     }
 
     /**
      * @return string
      */
-    public function getPath()
+    public function getRelativePath()
     {
-        return $this->path;
+        return $this->relativePath;
     }
 
     /**
@@ -480,6 +479,53 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->copyrightRationale;
     }
 
+    /**
+     * @param string $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string $filesize
+     */
+    public function setFilesize($filesize)
+    {
+        $this->filesize = $filesize;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilesize()
+    {
+        return $this->filesize;
+    }
+
+    /**
+     * @param string $mimetype
+     */
+    public function setMimetype($mimetype)
+    {
+        $this->mimetype = $mimetype;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMimetype()
+    {
+        return $this->mimetype;
+    }
 
     /**
      * @return string
