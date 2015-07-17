@@ -231,11 +231,18 @@ class LearningMaterialController extends FOSRestController
                     ->createLearningMaterial();
                 $code = Codes::HTTP_CREATED;
             }
+            $postData = $this->getPostData($request);
+            unset($postData['fileHash']);
+            unset($postData['path']);
+            unset($postData['realtivePath']);
+            unset($postData['token']);
+            unset($postData['uploadDate']);
+            unset($postData['type']);
 
             $answer['learningMaterial'] =
                 $this->getLearningMaterialHandler()->put(
                     $learningMaterial,
-                    $this->getPostData($request)
+                    $postData
                 );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
