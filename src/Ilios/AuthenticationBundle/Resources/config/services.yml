@@ -24,3 +24,13 @@ services:
         class: Ilios\AuthenticationBundle\Shibboleth\Authentication
         scope: request
         arguments: ["@request", "@ilioscore.authentication.manager"]
+    security.access.course_voter:
+        class:      Ilios\AuthenticationBundle\Voter\CourseVoter
+        public:     false
+        tags:
+           - { name: security.voter }
+    security.access.school_voter:
+       class:      Ilios\AuthenticationBundle\Voter\SchoolVoter
+       public:     false
+       tags:
+          - { name: security.voter }
