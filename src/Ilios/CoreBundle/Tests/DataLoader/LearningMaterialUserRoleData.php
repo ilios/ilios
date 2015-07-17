@@ -10,14 +10,12 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'title' => $this->faker->text(10),
-            'learningMaterials' => ['1']
+            'title' => $this->faker->text(10)
         );
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text(10),
-            'learningMaterials' => ['2']
+            'title' => $this->faker->text(10)
         );
 
         return $arr;
@@ -27,8 +25,7 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
     {
         return array(
             'id' => 3,
-            'title' => $this->faker->text(10),
-            'learningMaterials' => ['1', '2']
+            'title' => $this->faker->text(10)
         );
     }
 

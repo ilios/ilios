@@ -62,9 +62,6 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
      *
      * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="userRole")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learningMaterials")
      */
     protected $learningMaterials;
 
