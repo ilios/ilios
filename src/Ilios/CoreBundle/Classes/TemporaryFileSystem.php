@@ -86,5 +86,4 @@ class TemporaryFileSystem
     {
         return $this->temporaryFileStorePath . '/' . $hash;
     }
-    
 }

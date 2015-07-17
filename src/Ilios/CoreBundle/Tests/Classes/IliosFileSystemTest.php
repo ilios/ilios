@@ -52,7 +52,7 @@ class IliosFileSystemTest extends TestCase
         $this->mockFileSystem->shouldReceive('copy')
             ->with($path, $newFilePath);
         $this->mockFileSystem->shouldReceive('mkdir');
-        $this->iliosFileSystem->storeLearninMaterialFile($file);
+        $this->iliosFileSystem->storeLearningMaterialFile($file);
     }
 
     public function testStoreLeaningMaterialFileReplaceFile()
@@ -66,7 +66,7 @@ class IliosFileSystemTest extends TestCase
         $this->mockFileSystem->shouldReceive('move')
             ->with($path, $newFilePath);
         $this->mockFileSystem->shouldReceive('mkdir');
-        $this->iliosFileSystem->storeLearninMaterialFile($file, false);
+        $this->iliosFileSystem->storeLearningMaterialFile($file, false);
     }
 
     public function testStoreLeaningMaterialFileDontReplaceFileIfExists()
@@ -78,7 +78,7 @@ class IliosFileSystemTest extends TestCase
         $this->mockFileSystem->shouldReceive('exists')
             ->with($newFilePath)->andReturn(true);
         $this->mockFileSystem->shouldReceive('mkdir');
-        $this->iliosFileSystem->storeLearninMaterialFile($file, false);
+        $this->iliosFileSystem->storeLearningMaterialFile($file, false);
     }
 
     public function testGetLearningMaterialFilePath()
@@ -86,7 +86,7 @@ class IliosFileSystemTest extends TestCase
         $path = __FILE__;
         $file = m::mock('Symfony\Component\HttpFoundation\File\File')
             ->shouldReceive('getPathname')->andReturn($path)->getMock();
-        $newPath = $this->iliosFileSystem->getLearninMaterialFilePath($file);
+        $newPath = $this->iliosFileSystem->getLearningMaterialFilePath($file);
         $this->assertSame($this->fakeTestFileDir . '/' . $newPath, $this->getTestFilePath($path));
     }
 
@@ -118,7 +118,7 @@ class IliosFileSystemTest extends TestCase
         $this->mockFileSystem->shouldReceive('exists')
             ->with($testFilePath)->andReturn(true);
         $this->mockFileSystem->shouldReceive('mkdir');
-        $newPath = $this->iliosFileSystem->storeLearninMaterialFile($file, false);
+        $newPath = $this->iliosFileSystem->storeLearningMaterialFile($file, false);
         
         $newFile = $this->iliosFileSystem->getFile($newPath);
         $this->assertSame($newFile->getPathname(), $testFilePath);

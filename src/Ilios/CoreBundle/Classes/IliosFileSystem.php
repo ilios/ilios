@@ -14,7 +14,7 @@ class IliosFileSystem
 {
     /**
      * New learning materials whos path is based on their
-     * file hash are stored in this subdirectory of the 
+     * file hash are stored in this subdirectory of the
      * learning_material directory
      * @var string
      */
@@ -43,7 +43,7 @@ class IliosFileSystem
     /**
      * Store a learning material file and return the relativePath
      * @param File $file
-     * @param boolean $preserveOriginalFile 
+     * @param boolean $preserveOriginalFile
      * @return string $relativePath
      */
     public function storeLearninMaterialFile(File $file, $preserveOriginalFile = true)
@@ -110,5 +110,4 @@ class IliosFileSystem
     {
         return $this->iliosFileStorePath . '/' . $relativePath;
     }
-    
 }

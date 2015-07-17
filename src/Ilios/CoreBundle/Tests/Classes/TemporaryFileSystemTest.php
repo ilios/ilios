@@ -82,7 +82,7 @@ class TemporaryFileSystemTest extends TestCase
             ->shouldReceive('getPathname')->andReturn($testFilePath)->getMock();
         $this->mockFileSystem->shouldReceive('exists')
             ->with($testFilePath)->andReturn(true);
-        $this->mockFileSystem->shouldReceive('move');    
+        $this->mockFileSystem->shouldReceive('move');
         $newHash = $this->tempFileSystem->storeFile($file, false);
         
         $newFile = $this->tempFileSystem->getFile($newHash);

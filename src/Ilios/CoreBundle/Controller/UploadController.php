@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Exception;
+
 /**
  * Class UploadController
  * @package Ilios\CoreBundle\Controller
