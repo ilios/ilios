@@ -27,9 +27,9 @@ class UserRole implements UserRoleInterface
 {
     use TitledEntity;
     use StringableIdEntity;
+    use IdentifiableEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Column(name="user_role_id", type="integer")
@@ -74,23 +74,6 @@ class UserRole implements UserRoleInterface
     public function __construct()
     {
         $this->users = new ArrayCollection();
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->userRoleId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->userRoleId : $this->id;
     }
 
     /**

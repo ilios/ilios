@@ -73,7 +73,7 @@ class Token extends AbstractToken
 
     public function getUser()
     {
-        return (string) $this->user;
+        return $this->user;
     }
 
     public function getUserId()
