@@ -26,9 +26,7 @@ class TemporaryFileSystem
     public function __construct(SymfonyFileSystem $fs, $kernelRootDirectory)
     {
         $this->fileSystem = $fs;
-        $this->temporaryFileStorePath = realpath(
-            $kernelRootDirectory . '/../var/tmp/uploads'
-        );
+        $this->temporaryFileStorePath = $kernelRootDirectory . '/../var/tmp/uploads';
         if (!$this->fileSystem->exists($this->temporaryFileStorePath)) {
             $this->fileSystem->mkdir($this->temporaryFileStorePath);
         }
