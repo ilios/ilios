@@ -59,7 +59,9 @@ class TemporaryFileSystemTest extends TestCase
         $hash = md5_file($path);
         $file = m::mock('Symfony\Component\HttpFoundation\File\File')
             ->shouldReceive('getPathname')->andReturn($path)->getMock();
-        $this->mockFileSystem->shouldReceive('move')
+        $this->mockFileSystem->shouldReceive('exists')
+            ->with($this->uploadDirectory . '/' . $hash);
+        $this->mockFileSystem->shouldReceive('rename')
             ->with($path, $this->uploadDirectory . '/' . $hash);
         $this->tempFileSystem->storeFile($file);
     }

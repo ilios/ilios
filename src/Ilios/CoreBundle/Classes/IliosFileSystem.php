@@ -46,7 +46,7 @@ class IliosFileSystem
      * @param boolean $preserveOriginalFile
      * @return string $relativePath
      */
-    public function storeLearninMaterialFile(File $file, $preserveOriginalFile = true)
+    public function storeLearningMaterialFile(File $file, $preserveOriginalFile = true)
     {
         $relativePath = $this->getLearningMaterialFilePath($file);
         $fullPath = $this->getPath($relativePath);

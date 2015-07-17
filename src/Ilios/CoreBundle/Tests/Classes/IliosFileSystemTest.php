@@ -63,7 +63,7 @@ class IliosFileSystemTest extends TestCase
             ->shouldReceive('getPathname')->andReturn($path)->getMock();
         $this->mockFileSystem->shouldReceive('exists')
             ->with($newFilePath)->andReturn(false);
-        $this->mockFileSystem->shouldReceive('move')
+        $this->mockFileSystem->shouldReceive('rename')
             ->with($path, $newFilePath);
         $this->mockFileSystem->shouldReceive('mkdir');
         $this->iliosFileSystem->storeLearningMaterialFile($file, false);

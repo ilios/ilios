@@ -185,7 +185,7 @@ class LearningMaterialController extends FOSRestController
                 ->post($postData);
             $answer['learningMaterials'] = [$new];
             if ($file) {
-                $fs->storeLearninMaterialFile($file, true);
+                $fs->storeLearningMaterialFile($file, true);
             }
             $view = $this->view($answer, Codes::HTTP_CREATED);
 

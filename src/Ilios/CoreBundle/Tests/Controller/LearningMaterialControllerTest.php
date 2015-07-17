@@ -134,6 +134,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $uploadDate = new DateTime($responseData['uploadDate']);
         unset($responseData['id']);
         unset($responseData['uploadDate']);
+        unset($responseData['copyrightPermission']);
         $this->assertEquals(
             $data,
             $responseData,
@@ -162,6 +163,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $uploadDate = new DateTime($responseData['uploadDate']);
         unset($responseData['id']);
         unset($responseData['uploadDate']);
+        unset($responseData['copyrightPermission']);
         $this->assertEquals(
             $data,
             $responseData,
