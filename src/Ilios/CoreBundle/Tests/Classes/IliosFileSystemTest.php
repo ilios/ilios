@@ -28,7 +28,11 @@ class IliosFileSystemTest extends TestCase
     
     public function setUp()
     {
-        $this->fakeTestFileDir = realpath(__DIR__ . '/FakeTestFiles');
+        $fs = new SymfonyFileSystem();
+        $this->fakeTestFileDir = __DIR__ . '/FakeTestFiles';
+        if (!$fs->exists($this->fakeTestFileDir)) {
+            $fs->mkdir($this->fakeTestFileDir);
+        }
         
         $this->mockFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
         $this->mockFileSystem->shouldReceive('exists')->with($this->fakeTestFileDir)->andReturn(true);

@@ -28,10 +28,14 @@ class TemporaryFileSystemTest extends TestCase
     
     public function setUp()
     {
-        $this->fakeTestFileDir = realpath(__DIR__ . '/FakeTestFiles');
+        $fs = new SymfonyFileSystem();
+        $this->fakeTestFileDir = __DIR__ . '/FakeTestFiles';
+        if (!$fs->exists($this->fakeTestFileDir)) {
+            $fs->mkdir($this->fakeTestFileDir);
+        }
+        
         $kernelRootDirectory = $this->fakeTestFileDir .  '/app';
         $this->uploadDirectory = $this->fakeTestFileDir .  '/var/tmp/uploads';
-        $fs = new SymfonyFileSystem();
         //create a fake app directory so relative path to ../var works
         $fs->mkdir($kernelRootDirectory);
         $fs->mkdir($this->uploadDirectory);
