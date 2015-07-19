@@ -68,7 +68,7 @@ class UserRepository extends EntityRepository
 
         $events = [];
         $qb = $this->_em->createQueryBuilder();
-        $what = 'o.id, o.startDate, o.endDate, o.room, o.lastUpdatedOn, ' .
+        $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
           's.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
         $qb->leftJoin('u.learnerGroups', 'lg');
@@ -98,7 +98,7 @@ class UserRepository extends EntityRepository
             $event->offering = $arr['id'];
             $event->location = $arr['room'];
             $event->eventClass = $arr['sessionTypeCssClass'];
-            $event->lastModified = $arr['lastUpdatedOn'];
+            $event->lastModified = $arr['updatedAt'];
             $event->isPublished = !empty($arr['publishEventId']);
             $event->isScheduled = $arr['publishedAsTbd'];
 
