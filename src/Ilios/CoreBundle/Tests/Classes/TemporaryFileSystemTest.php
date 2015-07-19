@@ -53,8 +53,7 @@ class TemporaryFileSystemTest extends TestCase
         m::close();
         
         $fs = new SymfonyFileSystem();
-        $fs->remove($this->fakeTestFileDir . '/app');
-        $fs->remove($this->fakeTestFileDir . '/var');
+        $fs->remove($this->fakeTestFileDir);
     }
 
     public function testStoreFile()

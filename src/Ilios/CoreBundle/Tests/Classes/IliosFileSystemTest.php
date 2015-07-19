@@ -44,6 +44,7 @@ class IliosFileSystemTest extends TestCase
     {
         unset($this->mockFileSystem);
         unset($this->iliosFileSystem);
+        unset($this->fakeTestFileDir);
         m::close();
     }
 
