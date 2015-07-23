@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Ilios\CoreBundle\Enity\UserInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\AuthenticationBundle\Jwt\Token as JwtToken;
 
 class AuthenticationController extends Controller
@@ -73,8 +73,8 @@ class AuthenticationController extends Controller
     {
         $token = $this->get('security.context')->getToken();
         if ($token) {
-            $user = $this->get('security.context')->getToken()->getUser();
-            if ($user instanceof User) {
+            $user = $token->getUser();
+            if ($user instanceof UserInterface) {
                 $jwtKey = $this->container->getParameter('kernel.secret');
                 $token = new JwtToken($jwtKey);
                 $token->setUser($user);
