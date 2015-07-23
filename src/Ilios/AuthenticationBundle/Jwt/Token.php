@@ -58,7 +58,7 @@ class Token extends AbstractToken
     {
         if (!$user instanceof UserInterface) {
             throw new InvalidArgumentException(
-                'Set user only accepts User Entites ' .
+                'Set user only accepts User Entities ' .
                 'argument was a ' . get_class($user)
             );
         }
@@ -73,7 +73,7 @@ class Token extends AbstractToken
 
     public function getUser()
     {
-        return (string) $this->user;
+        return $this->user;
     }
 
     public function getUserId()
