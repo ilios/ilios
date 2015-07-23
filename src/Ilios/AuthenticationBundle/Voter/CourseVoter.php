@@ -28,13 +28,13 @@ class CourseVoter extends AbstractVoter
             return false;
         }
         
-        switch($attribute) {
+        switch ($attribute) {
             case self::VIEW:
                 if ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()) {
                     return true;
                 }
             
-            break;
+                break;
             case self::EDIT:
             case self::DELETE:
                 if ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()) {
@@ -45,7 +45,7 @@ class CourseVoter extends AbstractVoter
                     return array_intersect($eligibleRoles, $roles);
                 }
 
-            break;
+                break;
             
             return false;
         }
