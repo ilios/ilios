@@ -11,11 +11,13 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         return new Configuration();
     }
     
-    public function testEmptyConfiguration()
+    public function testRequiredConfigValues()
     {
-        $this->assertProcessedConfigurationEquals(
-            array(),
-            array()
+        $this->assertConfigurationIsInvalid(
+            array(
+                array() // no values at all
+            ),
+            'file_system_storage_path'
         );
     }
 }

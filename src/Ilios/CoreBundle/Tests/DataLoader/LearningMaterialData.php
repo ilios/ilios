@@ -19,6 +19,8 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "1",
             'status' => "1",
             'owningUser' => "1",
+            'copyrightRationale' => $this->faker->text,
+            'copyrightPermission' => true,
             'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => [1],
             'citation' => $this->faker->text,
@@ -32,6 +34,8 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
+            'copyrightRationale' => $this->faker->text,
+            'copyrightPermission' => true,
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [2],
             'link' => $this->faker->url,
@@ -54,6 +58,8 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
+            'copyrightRationale' => $this->faker->text,
+            'copyrightPermission' => true,
             'citation' => $this->faker->text,
         );
     }

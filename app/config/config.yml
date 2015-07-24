@@ -126,6 +126,9 @@ security:
         ilios_legacy_encoder:
             id: ilios_authentication.form.legacy_encoder
 
+ilios_core:
+    file_system_storage_path: "%file_system_storage_path%"
+    
 ilios_web:
     environment: staging
     version: 79b450c

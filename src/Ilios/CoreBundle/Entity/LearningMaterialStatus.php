@@ -61,10 +61,6 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
      * @var ArrayCollection|LearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="status")
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learningMaterials")
      */
     protected $learningMaterials;
 

@@ -92,12 +92,12 @@ interface LearningMaterialInterface extends
     /**
      * @param string $path
      */
-    public function setPath($path);
+    public function setRelativePath($path);
 
     /**
      * @return string
      */
-    public function getPath();
+    public function getRelativePath();
 
     /**
      * @param bool $copyrightPermission

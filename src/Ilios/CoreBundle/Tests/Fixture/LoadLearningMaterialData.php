@@ -36,6 +36,8 @@ class LoadLearningMaterialData extends AbstractFixture implements
             $entity->setTitle($arr['title']);
             $entity->setDescription($arr['description']);
             $entity->setOriginalAuthor($arr['originalAuthor']);
+            $entity->setCopyrightRationale($arr['copyrightRationale']);
+            $entity->setCopyrightPermission($arr['copyrightPermission']);
             $entity->setUserRole($this->getReference('learningMaterialUserRoles' . $arr['userRole']));
             $entity->setStatus($this->getReference('learningMaterialStatus' . $arr['status']));
             $entity->setOwningUser($this->getReference('users' . $arr['owningUser']));

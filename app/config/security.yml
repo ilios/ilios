@@ -9,6 +9,11 @@ security:
             jwt: ~
             anonymous: ~
             provider: ilios_user_entity
+        upload:
+            pattern:    ^/upload
+            stateless: true
+            jwt: ~
+            provider: ilios_user_entity
         default:
             pattern:    ^/api
             stateless: true
