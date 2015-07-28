@@ -167,7 +167,9 @@ class Token extends AbstractToken
         }
 
         $now = new \DateTime();
+        $time = $now->getTimestamp();
         $expires = new \Datetime();
+        $expires->setTimestamp($time);
         $expires->add($interval);
 
         $arr = array(
