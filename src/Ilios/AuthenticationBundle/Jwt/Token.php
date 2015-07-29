@@ -140,14 +140,38 @@ class Token extends AbstractToken
         $this->setAuthenticated(false);
     }
 
+    /**
+     * Creates and returns a new JSON Web Token (JWT).
+     * @return string the encoded token.
+     * @throws \Exception
+     * @todo rename to createJwt() or the likes. [ST 2015-07-28]
+     */
     public function getJwt()
     {
         if (!$this->user) {
             throw new \Exception('Can not build a JWT, we have no user');
         }
+
+        $interval = new \DateInterval("PT8H"); // default 8 hrs TTL
+
+        // if we have a token on file
+        // then use the delta between its issuing and expiration date
+        // as the TTL value for the new token.
+        // TODO: this feels kludgy - side-effects much? revisit. [ST 2015/07/28]
+        if (is_array($this->jwt)) {
+            $iat = new \DateTime();
+            $iat->setTimestamp($this->jwt['iat']);
+            $exp = new \DateTime();
+            $exp->setTimestamp($this->jwt['exp']);
+            $interval = $iat->diff($exp);
+        }
+
         $now = new \DateTime();
+        $time = $now->getTimestamp();
         $expires = new \Datetime();
-        $expires->add(new \DateInterval("PT8H"));
+        $expires->setTimestamp($time);
+        $expires->add($interval);
+
         $arr = array(
             'iss' => 'ilios',
             'aud' => 'ilios',

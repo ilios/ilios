@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Util\Codes;
 use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
 use JWT as TokenLib;
+use Ilios\AuthenticationBundle\Jwt\Token;
 
 class AuthenticationControllerTest extends WebTestCase
 {
@@ -231,5 +232,108 @@ class AuthenticationControllerTest extends WebTestCase
             1,
             'Response has the correct user id: ' . var_export($response, true)
         );
+    }
+
+    public function testRefreshToken()
+    {
+        $client = static::createClient();
+
+        // log in, grab token
+        $client->request('POST', '/auth/login', array(
+            'username' => 'newuser',
+            'password' => 'newuserpass'
+        ));
+        $response = $client->getResponse();
+        $response = json_decode($response->getContent(), true);
+        $token = (array) TokenLib::decode($response['jwt']);
+
+        // send refresh token request
+        // grab new token
+        $client->request(
+            'GET',
+            '/auth/refresh',
+            array(),
+            array(),
+            array('HTTP_X-JWT-Authorization' => 'Token ' . $response['jwt'])
+        );
+        $response = $client->getResponse();
+        $response = json_decode($response->getContent(), true);
+        $token2 = (array) TokenLib::decode($response['jwt']);
+
+        // figure out the delta between issued and expiration datetime
+        $exp = new \DateTime();
+        $exp->setTimestamp($token['exp']);
+        $iat = new \DateTime();
+        $iat->setTimestamp($token['iat']);
+        $interval = $iat->diff($exp);
+
+        // do it again for the new token
+        $exp2 = new \DateTime();
+        $exp2->setTimestamp($token2['exp']);
+        $iat2 = new \DateTime();
+        $iat2->setTimestamp($token2['iat']);
+        $interval2 = $iat2->diff($exp2);
+
+        // test for sameness
+        $this->assertSame($token['user_id'], $token2['user_id']);
+        $this->assertSame($token['iss'], $token2['iss']);
+        $this->assertSame($token['aud'], $token2['aud']);
+        // http://php.net/manual/en/dateinterval.format.php
+        $this->assertSame($interval->format('%R%Y/%M/%D %H:%I:%S'), $interval2->format('%R%Y/%M/%D %H:%I:%S'));
+    }
+
+    public function testRefreshTokenWithNonDefaultTtl()
+    {
+        $client = static::createClient();
+
+        // log in, grab token
+        $client->request('POST', '/auth/login', array(
+            'username' => 'newuser',
+            'password' => 'newuserpass'
+        ));
+        $response = $client->getResponse();
+        $response = json_decode($response->getContent(), true);
+        $token = (array) TokenLib::decode($response['jwt']);
+
+        // we set a non-default issued and expiration date with a delta of 42 days.
+        $interval = new \DateInterval('P42D');
+        $iat = new \DateTime();
+        $exp = new \DateTime();
+        $exp->setTimestamp($iat->getTimestamp());
+        $exp->add($interval);
+        $token['iat'] = $iat->format('U');
+        $token['exp'] = $exp->format('U');
+
+        // here, it is necessary to get interval from created datetimes again
+        // b/c of date segment overflow shenanigans.
+        // see http://php.net/manual/en/dateinterval.format.php#refsect1-dateinterval.format-notes
+        $interval = $iat->diff($exp);
+
+        // re-encode the token
+        $key = Token::PREPEND_KEY . static::$kernel->getContainer()->getParameter('kernel.secret');
+        $token = TokenLib::encode($token, $key);
+
+        // send refresh token request
+        // grab new token
+        $client->request(
+            'GET',
+            '/auth/refresh',
+            array(),
+            array(),
+            array('HTTP_X-JWT-Authorization' => 'Token ' . $token)
+        );
+        $response = $client->getResponse();
+        $response = json_decode($response->getContent(), true);
+        $token2 = (array) TokenLib::decode($response['jwt']);
+
+        // get date diff on new token
+        $exp2 = new \DateTime();
+        $exp2->setTimestamp($token2['exp']);
+        $iat2 = new \DateTime();
+        $iat2->setTimestamp($token2['iat']);
+        $interval2 = $iat2->diff($exp2);
+
+        // should be the same
+        $this->assertSame($interval->format('%R%Y/%M/%D %H:%I:%S'), $interval2->format('%R%Y/%M/%D %H:%I:%S'));
     }
 }

@@ -75,10 +75,6 @@ class AuthenticationController extends Controller
         if ($token) {
             $user = $token->getUser();
             if ($user instanceof UserInterface) {
-                $jwtKey = $this->container->getParameter('kernel.secret');
-                $token = new JwtToken($jwtKey);
-                $token->setUser($user);
-
                 return new JsonResponse(array('jwt' => $token->getJwt()), JsonResponse::HTTP_OK);
             }
         }
