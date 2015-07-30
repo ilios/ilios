@@ -23,7 +23,7 @@ class AamcMethodVoter extends AbstractVoter
      * @param string $attribute
      * @param AamcMethodInterface $aamcMethod
      * @param UserInterface $user
-     * @return array|bool
+     * @return bool
      */
     protected function isGranted($attribute, $aamcMethod, $user = null)
     {
