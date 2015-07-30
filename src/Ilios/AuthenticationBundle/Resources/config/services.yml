@@ -24,13 +24,21 @@ services:
         class: Ilios\AuthenticationBundle\Shibboleth\Authentication
         scope: request
         arguments: ["@request", "@ilioscore.authentication.manager"]
-    security.access.course_voter:
-        class:      Ilios\AuthenticationBundle\Voter\CourseVoter
-        public:     false
+    security.access.abstract_voter:
+        abstract: true
+        class: Ilios\AuthenticationBundle\Voter\AbstractVoter
+        arguments: [ @doctrine.orm.entity_manager ]
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
+    security.access.course_voter:
+        class: Ilios\AuthenticationBundle\Voter\CourseVoter
+        public: false
+        parent: security.access.abstract_voter
+        tags:
+            - { name: security.voter }
     security.access.school_voter:
-       class:      Ilios\AuthenticationBundle\Voter\SchoolVoter
-       public:     false
-       tags:
-          - { name: security.voter }
+        class: Ilios\AuthenticationBundle\Voter\SchoolVoter
+        public: false
+        parent: security.access.abstract_voter
+        tags:
+            - { name: security.voter }
