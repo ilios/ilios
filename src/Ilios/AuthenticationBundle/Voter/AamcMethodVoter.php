@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\AamcMethod;
+use Ilios\CoreBundle\Entity\AamcMethodInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -21,13 +21,12 @@ class AamcMethodVoter extends AbstractVoter
 
     /**
      * @param string $attribute
-     * @param AamcMethod $aamcMethod
+     * @param AamcMethodInterface $aamcMethod
      * @param UserInterface $user
      * @return array|bool
      */
     protected function isGranted($attribute, $aamcMethod, $user = null)
     {
-        // make sure there is a user object (i.e. that the user is logged in)
         if (!$user instanceof UserInterface) {
             return false;
         }

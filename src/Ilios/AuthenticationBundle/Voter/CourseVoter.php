@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\Course;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class CourseVoter
@@ -31,23 +31,21 @@ class CourseVoter extends AbstractVoter
         if (!$user instanceof UserInterface) {
             return false;
         }
-        
+
         switch ($attribute) {
             case self::VIEW:
                 if ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()) {
                     return true;
                 }
-            
                 break;
             case self::EDIT:
             case self::DELETE:
                 if ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()) {
                     return $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty']);
                 }
-
                 break;
-            
-            return false;
         }
+
+        return false;
     }
 }
