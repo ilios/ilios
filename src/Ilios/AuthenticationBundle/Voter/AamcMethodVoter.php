@@ -16,7 +16,7 @@ class AamcMethodVoter extends AbstractVoter
      */
     protected function getSupportedClasses()
     {
-        return array('Ilios\CoreBundle\Entity\AamcMethod');
+        return array('Ilios\CoreBundle\Entity\AamcMethodInterface');
     }
 
     /**

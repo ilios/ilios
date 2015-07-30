@@ -16,7 +16,7 @@ class CourseVoter extends AbstractVoter
      */
     protected function getSupportedClasses()
     {
-        return array('Ilios\CoreBundle\Entity\Course');
+        return array('Ilios\CoreBundle\Entity\CourseInterface');
     }
 
     /**

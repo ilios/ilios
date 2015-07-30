@@ -16,7 +16,7 @@ class SchoolVoter extends AbstractVoter
      */
     protected function getSupportedClasses()
     {
-        return array('Ilios\CoreBundle\Entity\School');
+        return array('Ilios\CoreBundle\Entity\SchoolInterface');
     }
 
     /**

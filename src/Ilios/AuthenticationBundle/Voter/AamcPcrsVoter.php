@@ -16,7 +16,7 @@ class AamcPcrsVoter extends AbstractVoter
      */
     protected function getSupportedClasses()
     {
-        return array('Ilios\CoreBundle\Entity\AamcPcrs');
+        return array('Ilios\CoreBundle\Entity\AamcPcrsInterface');
     }
 
     /**

@@ -16,7 +16,7 @@ class CurriculumInventoryReportVoter extends AbstractVoter
      */
     protected function getSupportedClasses()
     {
-        return array('Ilios\CoreBundle\Entity\CurriculumInventoryReport');
+        return array('Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface');
     }
 
     /**
