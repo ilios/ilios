@@ -33,9 +33,11 @@ class AamcPcrsVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
+                return true;
+                break;
             case self::EDIT:
             case self::DELETE:
-                return $this->userHasRole($user, ['Course Director', 'Developer']);
+                return $this->userHasRole($user, ['Developer']);
                 break;
         }
 
