@@ -35,9 +35,7 @@ class CurriculumInventoryReportVoter extends AbstractVoter
             case self::VIEW:
             case self::EDIT:
             case self::DELETE:
-                if ($report->getProgram()->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()) {
-                    return $this->userHasRole($user, ['Course Director', 'Developer']);
-                };
+                return $this->userHasRole($user, ['Course Director', 'Developer']);
                 break;
         }
 
