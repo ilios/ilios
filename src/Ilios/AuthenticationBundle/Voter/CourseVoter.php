@@ -2,25 +2,29 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter;
+use Ilios\CoreBundle\Entity\Course;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * Class CourseVoter
+ * @package Ilios\AuthenticationBundle\Voter
+ */
 class CourseVoter extends AbstractVoter
 {
-    const VIEW = 'view';
-    const EDIT = 'edit';
-    const DELETE = 'delete';
-    
-    protected function getSupportedAttributes()
-    {
-        return array(self::VIEW, self::EDIT, self::DELETE);
-    }
-    
+    /**
+     * {@inheritdoc}
+     */
     protected function getSupportedClasses()
     {
         return array('Ilios\CoreBundle\Entity\Course');
     }
-    
+
+    /**
+     * @param string $attribute
+     * @param Course $course
+     * @param UserInterface|null $user
+     * @return bool
+     */
     protected function isGranted($attribute, $course, $user = null)
     {
         // make sure there is a user object (i.e. that the user is logged in)
@@ -38,11 +42,7 @@ class CourseVoter extends AbstractVoter
             case self::EDIT:
             case self::DELETE:
                 if ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()) {
-                    $roles = array_map(function ($role) {
-                        return $role->getTitle();
-                    }, $user->getRoles()->toArray());
-                    $eligibleRoles = ['Course Director', 'Developer', 'Faculty'];
-                    return array_intersect($eligibleRoles, $roles);
+                    return $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty']);
                 }
 
                 break;
