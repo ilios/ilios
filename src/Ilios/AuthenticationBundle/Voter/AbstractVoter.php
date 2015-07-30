@@ -2,8 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\CoreBundle\Entity\UserRoleInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter as Voter;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class AbstractVoter
@@ -44,7 +44,7 @@ abstract class AbstractVoter extends Voter
     public function userHasRole(UserInterface $user, $eligibleRoles = array())
     {
         $roles = array_map(
-            function ($role) {
+            function (UserRoleInterface $role) {
                 return $role->getTitle();
             },
             $user->getRoles()->toArray()
