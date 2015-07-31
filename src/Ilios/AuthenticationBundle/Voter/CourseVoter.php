@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\Course;
+use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -21,7 +21,7 @@ class CourseVoter extends AbstractVoter
 
     /**
      * @param string $attribute
-     * @param Course $course
+     * @param CourseInterface $course
      * @param UserInterface|null $user
      * @return bool
      */
