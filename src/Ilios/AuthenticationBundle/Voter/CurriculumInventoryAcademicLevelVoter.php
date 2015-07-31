@@ -33,8 +33,15 @@ class CurriculumInventoryAcademicLevelVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
+                return $this->userHasRole($user, ['Course Director', 'Developer']);
+                break;
             case self::EDIT:
             case self::DELETE:
+                // Academic levels cannot be edited or deleted
+                // once the report they belong to has been exported.
+                if ($level->getReport()->getExport()) {
+                    return false;
+                }
                 return $this->userHasRole($user, ['Course Director', 'Developer']);
                 break;
         }
