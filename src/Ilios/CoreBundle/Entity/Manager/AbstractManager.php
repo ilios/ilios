@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  * Class AbstractManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-abstract class AbstractManager
+abstract class AbstractManager implements ManagerInterface
 {
     /**
      * @var EntityManager
