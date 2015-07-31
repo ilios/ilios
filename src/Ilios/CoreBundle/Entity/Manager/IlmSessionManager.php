@@ -2,9 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
@@ -13,34 +10,8 @@ use Ilios\CoreBundle\Entity\IlmSessionInterface;
  * Class IlmSessionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class IlmSessionManager implements IlmSessionManagerInterface
+class IlmSessionManager extends AbstractManager implements IlmSessionManagerInterface
 {
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     * @var EntityRepository
-     */
-    protected $repository;
-
-    /**
-     * @var string
-     */
-    protected $class;
-
-    /**
-     * @param Registry $em
-     * @param string $class
-     */
-    public function __construct(Registry $em, $class)
-    {
-        $this->em         = $em->getManagerForClass($class);
-        $this->class      = $class;
-        $this->repository = $em->getRepository($class);
-    }
-
     /**
      * @param array $criteria
      * @param array $orderBy
@@ -101,14 +72,6 @@ class IlmSessionManager implements IlmSessionManagerInterface
     ) {
         $this->em->remove($ilmSession);
         $this->em->flush();
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
     }
 
     /**

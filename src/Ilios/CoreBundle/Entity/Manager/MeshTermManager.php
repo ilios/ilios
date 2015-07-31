@@ -2,9 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshTermInterface;
@@ -14,34 +11,8 @@ use Ilios\CoreBundle\Entity\MeshTermInterface;
  * Class MeshTermManager
  * @package Ilios\CoreBundle\Manager
  */
-class MeshTermManager implements MeshTermManagerInterface
+class MeshTermManager extends AbstractManager implements MeshTermManagerInterface
 {
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     * @var EntityRepository
-     */
-    protected $repository;
-
-    /**
-     * @var string
-     */
-    protected $class;
-
-    /**
-     * @param EntityManager $em
-     * @param string $class
-     */
-    public function __construct(EntityManager $em, $class)
-    {
-        $this->em         = $em;
-        $this->class      = $class;
-        $this->repository = $em->getRepository($class);
-    }
-
     /**
      * @param array $criteria
      * @param array $orderBy
@@ -92,14 +63,6 @@ class MeshTermManager implements MeshTermManagerInterface
     {
         $this->em->remove($meshTerm);
         $this->em->flush();
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
     }
 
     /**

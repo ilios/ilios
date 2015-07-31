@@ -2,10 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\PublishEventInterface;
@@ -14,40 +10,8 @@ use Ilios\CoreBundle\Entity\PublishEventInterface;
  * Class PublishEventManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class PublishEventManager implements PublishEventManagerInterface
+class PublishEventManager extends AbstractManager implements PublishEventManagerInterface
 {
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     * @var EntityRepository
-     */
-    protected $repository;
-
-    /**
-     * @var string
-     */
-    protected $class;
-
-    /**
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * @param Registry $em
-     * @param string $class
-     */
-    public function __construct(Registry $em, $class, Request $request)
-    {
-        $this->em         = $em->getManagerForClass($class);
-        $this->class      = $class;
-        $this->repository = $em->getRepository($class);
-        $this->request    = $request;
-    }
-
     /**
      * @param array $criteria
      * @param array $orderBy
@@ -108,14 +72,6 @@ class PublishEventManager implements PublishEventManagerInterface
     ) {
         $this->em->remove($publishEvent);
         $this->em->flush();
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
     }
 
     /**
