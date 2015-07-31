@@ -33,9 +33,12 @@ class CurriculumInventoryExportVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
+                return $this->userHasRole($user, ['Course Director', 'Developer']);
+                break;
             case self::EDIT:
             case self::DELETE:
-                return $this->userHasRole($user, ['Course Director', 'Developer']);
+                // existing exports cannot be modified or deleted in any way!
+                return false;
                 break;
         }
 
