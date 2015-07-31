@@ -45,20 +45,4 @@ abstract class AbstractManager implements ManagerInterface
     {
         return $this->class;
     }
-
-    /**
-     * @return EntityRepository
-     */
-    public function getRepository()
-    {
-        return $this->repository;
-    }
-
-    /**
-     * @return EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->em;
-    }
 }

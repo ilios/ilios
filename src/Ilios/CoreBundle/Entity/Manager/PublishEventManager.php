@@ -2,9 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\PublishEventInterface;
+
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class PublishEventManager
@@ -12,6 +15,22 @@ use Ilios\CoreBundle\Entity\PublishEventInterface;
  */
 class PublishEventManager extends AbstractManager implements PublishEventManagerInterface
 {
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * @param Registry $em
+     * @param string $class
+     * @param Request $request
+     */
+    public function __construct(Registry $em, $class, Request $request)
+    {
+        $this->request = $request;
+        parent::__construct($em, $class);
+    }
+
     /**
      * @param array $criteria
      * @param array $orderBy
