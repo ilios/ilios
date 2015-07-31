@@ -27,8 +27,10 @@ class CohortVoter extends AbstractVoter
      * @param PermissionManagerInterface $permissionManager
      * @param ProgramYearStewardManagerInterface $stewardManager
      */
-    public function __construct(PermissionManagerInterface $permissionManager, ProgramYearStewardManagerInterface $stewardManager)
-    {
+    public function __construct(
+        PermissionManagerInterface $permissionManager,
+        ProgramYearStewardManagerInterface $stewardManager
+    ) {
         $this->permissionHandler = $permissionManager;
     }
     /**
@@ -53,7 +55,6 @@ class CohortVoter extends AbstractVoter
         }
 
         switch ($attribute) {
-
             case self::VIEW:
                 return $this->hasViewPermissions($user, $cohort);
                 break;
@@ -221,5 +222,4 @@ class CohortVoter extends AbstractVoter
 
         return $permissionGranted;
     }
-
 }
