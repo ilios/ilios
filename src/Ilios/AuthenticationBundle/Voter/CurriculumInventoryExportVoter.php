@@ -37,7 +37,7 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                 break;
             case self::EDIT:
             case self::DELETE:
-                // existing exports cannot be modified or deleted in any way!
+                // Exports cannot be edited or deleted in any way.
                 return false;
                 break;
         }

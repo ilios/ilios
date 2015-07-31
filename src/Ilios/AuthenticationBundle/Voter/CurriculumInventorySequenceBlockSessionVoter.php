@@ -33,8 +33,15 @@ class CurriculumInventorySequenceBlockSessionVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
+                return $this->userHasRole($user, ['Course Director', 'Developer']);
+                break;
             case self::EDIT:
             case self::DELETE:
+                // Sequence blocks sessions cannot be edited or deleted
+                // once the report they belong to has been exported.
+                if ($session->getSequenceBlock()->getReport()->getExport()) {
+                    return false;
+                }
                 return $this->userHasRole($user, ['Course Director', 'Developer']);
                 break;
         }

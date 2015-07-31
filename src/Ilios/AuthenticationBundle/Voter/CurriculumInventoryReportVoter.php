@@ -33,8 +33,14 @@ class CurriculumInventoryReportVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
+                return $this->userHasRole($user, ['Course Director', 'Developer']);
+                break;
             case self::EDIT:
             case self::DELETE:
+                // Reports cannot be edited or deleted once they have been exported.
+                if ($report->getExport()) {
+                    return false;
+                }
                 return $this->userHasRole($user, ['Course Director', 'Developer']);
                 break;
         }
