@@ -49,6 +49,12 @@ services:
         public: false
         tags:
            - { name: security.voter }
+    security.access.cohort_voter:
+        class: Ilios\AuthenticationBundle\Voter\CohortVoter
+        arguments: [ @ilioscore.permission.manager, @ilioscore.programyearsteward.manager ]
+        public: false
+        tags:
+           - { name: security.voter }
     security.access.course_voter:
         class: Ilios\AuthenticationBundle\Voter\CourseVoter
         public: false
