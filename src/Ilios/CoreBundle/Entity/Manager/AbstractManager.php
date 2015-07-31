@@ -37,4 +37,12 @@ abstract class AbstractManager
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
+
+    /**
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
 }
