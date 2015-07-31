@@ -24,11 +24,61 @@ services:
         class: Ilios\AuthenticationBundle\Shibboleth\Authentication
         scope: request
         arguments: ["@request", "@ilioscore.authentication.manager"]
+    security.access.aamc_method_voter:
+        class: Ilios\AuthenticationBundle\Voter\AamcMethodVoter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.aamc_pcrs_voter:
+        class: Ilios\AuthenticationBundle\Voter\AamcPcrsVoter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.alert_change_type_voter:
+        class: Ilios\AuthenticationBundle\Voter\AlertChangeTypeVoter
+        public: false
+        tags:
+           - { name: security.voter }
     security.access.course_voter:
         class: Ilios\AuthenticationBundle\Voter\CourseVoter
         public: false
         tags:
             - { name: security.voter }
+    security.access.curriculum_inventory_academic_level_voter:
+        class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryAcademicLevelVoter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.curriculum_inventory_export_voter:
+        class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryExportVoter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.curriculum_inventory_institution_voter:
+        class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryInstitutionVoter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.curriculum_inventory_report_voter:
+        class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryReportVoter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.curriculum_sequence_block_session_voter:
+        class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceBlockSessionVoter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.curriculum_sequence_block_voter:
+        class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceBlockVoter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.curriculum_sequence_voter:
+        class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceVoter
+        public: false
+        tags:
+           - { name: security.voter }
     security.access.school_voter:
         class: Ilios\AuthenticationBundle\Voter\SchoolVoter
         public: false
