@@ -45,4 +45,20 @@ abstract class AbstractManager
     {
         return $this->class;
     }
+
+    /**
+     * @return EntityRepository
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->em;
+    }
 }
