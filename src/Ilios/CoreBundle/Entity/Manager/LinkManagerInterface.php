@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\LearningMaterials\LinkInterface;
  * Interface LinkManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-interface LinkManagerInterface
+interface LinkManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface LinkManagerInterface
     public function deleteLink(
         LinkInterface $link
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return LinkInterface

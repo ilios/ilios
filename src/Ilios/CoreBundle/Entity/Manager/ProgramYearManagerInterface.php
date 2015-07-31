@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\ProgramYearInterface;
  * Interface ProgramYearManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface ProgramYearManagerInterface
+interface ProgramYearManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface ProgramYearManagerInterface
     public function deleteProgramYear(
         ProgramYearInterface $programYear
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return ProgramYearInterface

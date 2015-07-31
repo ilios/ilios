@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CISessionInterface;
  * Interface CISessionManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface CISessionManagerInterface
+interface CISessionManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface CISessionManagerInterface
     public function deleteCISession(
         CISessionInterface $cISession
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return CISessionInterface

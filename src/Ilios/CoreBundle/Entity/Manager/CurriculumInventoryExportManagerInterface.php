@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
  * Interface CurriculumInventoryExportManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface CurriculumInventoryExportManagerInterface
+interface CurriculumInventoryExportManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface CurriculumInventoryExportManagerInterface
     public function deleteCurriculumInventoryExport(
         CurriculumInventoryExportInterface $curriculumInventoryExport
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return CurriculumInventoryExportInterface

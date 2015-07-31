@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\ObjectiveInterface;
  * Interface ObjectiveManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface ObjectiveManagerInterface
+interface ObjectiveManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface ObjectiveManagerInterface
     public function deleteObjective(
         ObjectiveInterface $objective
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return ObjectiveInterface

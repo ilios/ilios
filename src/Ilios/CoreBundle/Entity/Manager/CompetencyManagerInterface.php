@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
  * Interface CompetencyManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface CompetencyManagerInterface
+interface CompetencyManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface CompetencyManagerInterface
     public function deleteCompetency(
         CompetencyInterface $competency
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return CompetencyInterface

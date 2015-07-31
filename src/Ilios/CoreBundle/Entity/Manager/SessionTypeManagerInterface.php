@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\SessionTypeInterface;
  * Interface SessionTypeManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface SessionTypeManagerInterface
+interface SessionTypeManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface SessionTypeManagerInterface
     public function deleteSessionType(
         SessionTypeInterface $sessionType
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return SessionTypeInterface

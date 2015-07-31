@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
  * Interface CurriculumInventorySequenceBlockManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface CurriculumInventorySequenceBlockManagerInterface
+interface CurriculumInventorySequenceBlockManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface CurriculumInventorySequenceBlockManagerInterface
     public function deleteCurriculumInventorySequenceBlock(
         CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return CurriculumInventorySequenceBlockInterface

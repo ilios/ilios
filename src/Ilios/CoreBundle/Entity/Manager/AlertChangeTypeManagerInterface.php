@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
  * Interface AlertChangeTypeManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface AlertChangeTypeManagerInterface
+interface AlertChangeTypeManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface AlertChangeTypeManagerInterface
     public function deleteAlertChangeType(
         AlertChangeTypeInterface $alertChangeType
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return AlertChangeTypeInterface

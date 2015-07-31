@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\LearnerGroupInterface;
  * Interface LearnerGroupManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface LearnerGroupManagerInterface
+interface LearnerGroupManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface LearnerGroupManagerInterface
     public function deleteLearnerGroup(
         LearnerGroupInterface $learnerGroup
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return LearnerGroupInterface

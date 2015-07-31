@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\LearningMaterials\CitationInterface;
  * Interface CitationManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-interface CitationManagerInterface
+interface CitationManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface CitationManagerInterface
     public function deleteCitation(
         CitationInterface $citation
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return CitationInterface

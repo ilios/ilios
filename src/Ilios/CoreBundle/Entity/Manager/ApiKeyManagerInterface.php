@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\ApiKeyInterface;
  * Interface ApiKeyManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface ApiKeyManagerInterface
+interface ApiKeyManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface ApiKeyManagerInterface
     public function deleteApiKey(
         ApiKeyInterface $apiKey
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return ApiKeyInterface

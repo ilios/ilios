@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CourseInterface;
  * Interface CourseManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface CourseManagerInterface
+interface CourseManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -63,11 +63,6 @@ interface CourseManagerInterface
      * @return string[]
      */
     public function getYears();
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return CourseInterface

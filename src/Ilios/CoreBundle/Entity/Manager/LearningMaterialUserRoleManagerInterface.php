@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
  * Interface LearningMaterialUserRoleManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface LearningMaterialUserRoleManagerInterface
+interface LearningMaterialUserRoleManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface LearningMaterialUserRoleManagerInterface
     public function deleteLearningMaterialUserRole(
         LearningMaterialUserRoleInterface $learningMaterialUserRole
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return LearningMaterialUserRoleInterface

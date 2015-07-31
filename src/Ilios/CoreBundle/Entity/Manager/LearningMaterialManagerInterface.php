@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialInterface;
  * Interface LearningMaterialManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface LearningMaterialManagerInterface
+interface LearningMaterialManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface LearningMaterialManagerInterface
     public function deleteLearningMaterial(
         LearningMaterialInterface $learningMaterial
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return LearningMaterialInterface

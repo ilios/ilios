@@ -12,7 +12,7 @@ use Ilios\CoreBundle\Entity\MeshTermInterface;
  * Interface MeshTermManagerInterface
  * @package Ilios\CoreBundle\Manager
  */
-interface MeshTermManagerInterface
+interface MeshTermManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -46,11 +46,6 @@ interface MeshTermManagerInterface
      * @return void
      */
     public function deleteMeshTerm(MeshTermInterface $meshTerm);
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return MeshTermInterface

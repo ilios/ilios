@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\PublishEventInterface;
  * Interface PublishEventManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface PublishEventManagerInterface
+interface PublishEventManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface PublishEventManagerInterface
     public function deletePublishEvent(
         PublishEventInterface $publishEvent
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return PublishEventInterface

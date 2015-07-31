@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
  * Interface SessionLearningMaterialManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface SessionLearningMaterialManagerInterface
+interface SessionLearningMaterialManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface SessionLearningMaterialManagerInterface
     public function deleteSessionLearningMaterial(
         SessionLearningMaterialInterface $sessionLearningMaterial
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return SessionLearningMaterialInterface
