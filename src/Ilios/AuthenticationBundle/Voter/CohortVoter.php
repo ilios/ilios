@@ -3,9 +3,9 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CohortInterface;
-use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
+use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Handler\PermissionHandler;
+use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 
 /**
  * Class CohortVoter
@@ -14,22 +14,22 @@ use Ilios\CoreBundle\Handler\PermissionHandler;
 class CohortVoter extends AbstractVoter
 {
     /**
-     * @var PermissionHandler
+     * @var PermissionManagerInterface
      */
-    protected $permissionHandler;
+    protected $permissionManager;
 
     /**
-     * @var ProgramYearStewardManager
+     * @var ProgramYearStewardManagerInterface
      */
     protected $stewardHandler;
 
     /**
-     * @param PermissionHandler $permissionHandler
-     * @param ProgramYearStewardManager $stewardManager
+     * @param PermissionManagerInterface $permissionManager
+     * @param ProgramYearStewardManagerInterface $stewardManager
      */
-    public function __construct(PermissionHandler $permissionHandler, ProgramYearStewardManager $stewardManager)
+    public function __construct(PermissionManagerInterface $permissionManager, ProgramYearStewardManagerInterface $stewardManager)
     {
-        $this->permissionHandler = $permissionHandler;
+        $this->permissionHandler = $permissionManager;
     }
     /**
      * {@inheritdoc}
