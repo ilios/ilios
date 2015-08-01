@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\LearningMaterials\FileInterface;
  * Interface FileManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-interface FileManagerInterface
+interface FileManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface FileManagerInterface
     public function deleteFile(
         FileInterface $file
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return FileInterface

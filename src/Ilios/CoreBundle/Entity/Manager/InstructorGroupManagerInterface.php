@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\InstructorGroupInterface;
  * Interface InstructorGroupManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface InstructorGroupManagerInterface
+interface InstructorGroupManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface InstructorGroupManagerInterface
     public function deleteInstructorGroup(
         InstructorGroupInterface $instructorGroup
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return InstructorGroupInterface

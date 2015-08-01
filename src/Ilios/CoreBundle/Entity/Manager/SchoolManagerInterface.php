@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\SchoolInterface;
  * Interface SchoolManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface SchoolManagerInterface
+interface SchoolManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface SchoolManagerInterface
     public function deleteSchool(
         SchoolInterface $school
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return SchoolInterface

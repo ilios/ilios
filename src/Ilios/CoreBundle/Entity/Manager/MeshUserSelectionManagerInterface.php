@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\MeshUserSelectionInterface;
  * Interface MeshUserSelectionManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface MeshUserSelectionManagerInterface
+interface MeshUserSelectionManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface MeshUserSelectionManagerInterface
     public function deleteMeshUserSelection(
         MeshUserSelectionInterface $meshUserSelection
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return MeshUserSelectionInterface

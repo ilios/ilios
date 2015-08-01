@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\ReportInterface;
  * Interface ReportManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface ReportManagerInterface
+interface ReportManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface ReportManagerInterface
     public function deleteReport(
         ReportInterface $report
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return ReportInterface

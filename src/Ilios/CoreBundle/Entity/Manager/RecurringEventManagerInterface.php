@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\RecurringEventInterface;
  * Interface RecurringEventManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface RecurringEventManagerInterface
+interface RecurringEventManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface RecurringEventManagerInterface
     public function deleteRecurringEvent(
         RecurringEventInterface $recurringEvent
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return RecurringEventInterface

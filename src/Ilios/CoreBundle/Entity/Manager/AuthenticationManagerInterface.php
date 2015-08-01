@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Entity\AuthenticationInterface;
  * Class AuthenticationManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface AuthenticationManagerInterface
+interface AuthenticationManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -60,11 +60,6 @@ interface AuthenticationManagerInterface
     public function deleteAuthentication(
         AuthenticationInterface $authentication
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return AuthenticationInterface

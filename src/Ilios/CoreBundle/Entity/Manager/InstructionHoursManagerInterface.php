@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\InstructionHoursInterface;
  * Interface InstructionHoursManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface InstructionHoursManagerInterface
+interface InstructionHoursManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface InstructionHoursManagerInterface
     public function deleteInstructionHours(
         InstructionHoursInterface $instructionHours
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return InstructionHoursInterface

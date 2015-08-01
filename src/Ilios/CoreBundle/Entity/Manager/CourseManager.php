@@ -2,45 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\Repository\CourseRepository;
 
 /**
  * Class CourseManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CourseManager implements CourseManagerInterface
+class CourseManager extends AbstractManager implements CourseManagerInterface
 {
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     * @var CourseRepository
-     */
-    protected $repository;
-
-    /**
-     * @var string
-     */
-    protected $class;
-
-    /**
-     * @param Registry $em
-     * @param string $class
-     */
-    public function __construct(Registry $em, $class)
-    {
-        $this->em         = $em->getManagerForClass($class);
-        $this->class      = $class;
-        $this->repository = $em->getRepository($class);
-    }
-
     /**
      * @param array $criteria
      * @param array $orderBy
@@ -109,14 +80,6 @@ class CourseManager implements CourseManagerInterface
     public function getYears()
     {
         return $this->repository->getYears();
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
     }
 
     /**

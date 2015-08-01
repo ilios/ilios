@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\IngestionExceptionInterface;
  * Interface IngestionExceptionManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface IngestionExceptionManagerInterface
+interface IngestionExceptionManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface IngestionExceptionManagerInterface
     public function deleteIngestionException(
         IngestionExceptionInterface $ingestionException
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return IngestionExceptionInterface

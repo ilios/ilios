@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AamcMethodInterface;
  * Interface AamcMethodManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface AamcMethodManagerInterface
+interface AamcMethodManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface AamcMethodManagerInterface
     public function deleteAamcMethod(
         AamcMethodInterface $aamcMethod
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return AamcMethodInterface

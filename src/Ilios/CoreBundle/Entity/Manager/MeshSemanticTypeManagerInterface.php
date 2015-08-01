@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
  * Interface MeshSemanticTypeManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface MeshSemanticTypeManagerInterface
+interface MeshSemanticTypeManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface MeshSemanticTypeManagerInterface
     public function deleteMeshSemanticType(
         MeshSemanticTypeInterface $meshSemanticType
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return MeshSemanticTypeInterface

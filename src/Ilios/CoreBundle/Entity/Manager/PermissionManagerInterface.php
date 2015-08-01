@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\PermissionInterface;
  * Interface PermissionManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface PermissionManagerInterface
+interface PermissionManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface PermissionManagerInterface
     public function deletePermission(
         PermissionInterface $permission
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return PermissionInterface

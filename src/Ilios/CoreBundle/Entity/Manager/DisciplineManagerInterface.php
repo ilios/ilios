@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DisciplineInterface;
  * Interface DisciplineManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface DisciplineManagerInterface
+interface DisciplineManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface DisciplineManagerInterface
     public function deleteDiscipline(
         DisciplineInterface $discipline
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return DisciplineInterface

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\UserMadeReminderInterface;
  * Interface UserMadeReminderManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface UserMadeReminderManagerInterface
+interface UserMadeReminderManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface UserMadeReminderManagerInterface
     public function deleteUserMadeReminder(
         UserMadeReminderInterface $userMadeReminder
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return UserMadeReminderInterface

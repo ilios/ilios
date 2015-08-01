@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\MeshConceptInterface;
  * Interface MeshConceptManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface MeshConceptManagerInterface
+interface MeshConceptManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface MeshConceptManagerInterface
     public function deleteMeshConcept(
         MeshConceptInterface $meshConcept
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return MeshConceptInterface

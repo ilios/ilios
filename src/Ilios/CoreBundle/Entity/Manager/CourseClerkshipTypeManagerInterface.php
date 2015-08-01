@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
  * Interface CourseClerkshipTypeManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface CourseClerkshipTypeManagerInterface
+interface CourseClerkshipTypeManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface CourseClerkshipTypeManagerInterface
     public function deleteCourseClerkshipType(
         CourseClerkshipTypeInterface $courseClerkshipType
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return CourseClerkshipTypeInterface

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
  * Interface MeshPreviousIndexingManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface MeshPreviousIndexingManagerInterface
+interface MeshPreviousIndexingManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface MeshPreviousIndexingManagerInterface
     public function deleteMeshPreviousIndexing(
         MeshPreviousIndexingInterface $meshPreviousIndexing
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return MeshPreviousIndexingInterface

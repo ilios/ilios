@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DepartmentInterface;
  * Interface DepartmentManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface DepartmentManagerInterface
+interface DepartmentManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface DepartmentManagerInterface
     public function deleteDepartment(
         DepartmentInterface $department
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return DepartmentInterface

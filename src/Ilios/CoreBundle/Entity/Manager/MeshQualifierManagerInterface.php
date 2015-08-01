@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\MeshQualifierInterface;
  * Interface MeshQualifierManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface MeshQualifierManagerInterface
+interface MeshQualifierManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface MeshQualifierManagerInterface
     public function deleteMeshQualifier(
         MeshQualifierInterface $meshQualifier
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return MeshQualifierInterface

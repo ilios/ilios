@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\IlmSessionInterface;
  * Interface IlmSessionManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface IlmSessionManagerInterface
+interface IlmSessionManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface IlmSessionManagerInterface
     public function deleteIlmSession(
         IlmSessionInterface $ilmSession
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return IlmSessionInterface

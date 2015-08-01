@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\ProgramInterface;
  * Interface ProgramManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface ProgramManagerInterface
+interface ProgramManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface ProgramManagerInterface
     public function deleteProgram(
         ProgramInterface $program
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return ProgramInterface

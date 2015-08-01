@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
  * Interface MeshDescriptorManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface MeshDescriptorManagerInterface
+interface MeshDescriptorManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface MeshDescriptorManagerInterface
     public function deleteMeshDescriptor(
         MeshDescriptorInterface $meshDescriptor
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return MeshDescriptorInterface

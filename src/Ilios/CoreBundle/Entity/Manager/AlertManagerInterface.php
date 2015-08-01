@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AlertInterface;
  * Interface AlertManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface AlertManagerInterface
+interface AlertManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface AlertManagerInterface
     public function deleteAlert(
         AlertInterface $alert
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return AlertInterface

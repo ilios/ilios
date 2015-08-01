@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CohortInterface;
  * Interface CohortManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface CohortManagerInterface
+interface CohortManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface CohortManagerInterface
     public function deleteCohort(
         CohortInterface $cohort
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return CohortInterface

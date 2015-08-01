@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
  * Interface UserManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface UserManagerInterface
+interface UserManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -59,11 +59,6 @@ interface UserManagerInterface
     public function deleteUser(
         UserInterface $user
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return UserInterface

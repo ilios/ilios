@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AamcPcrsInterface;
  * Interface AamcPcrsManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface AamcPcrsManagerInterface
+interface AamcPcrsManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface AamcPcrsManagerInterface
     public function deleteAamcPcrs(
         AamcPcrsInterface $aamcPcrs
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return AamcPcrsInterface

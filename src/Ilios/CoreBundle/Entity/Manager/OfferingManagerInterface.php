@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
  * Interface OfferingManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface OfferingManagerInterface
+interface OfferingManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface OfferingManagerInterface
     public function deleteOffering(
         OfferingInterface $offering
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return OfferingInterface

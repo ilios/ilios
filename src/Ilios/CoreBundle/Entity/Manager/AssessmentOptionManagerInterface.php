@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
  * Interface AssessmentOptionManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface AssessmentOptionManagerInterface
+interface AssessmentOptionManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
@@ -58,11 +58,6 @@ interface AssessmentOptionManagerInterface
     public function deleteAssessmentOption(
         AssessmentOptionInterface $assessmentOption
     );
-
-    /**
-     * @return string
-     */
-    public function getClass();
 
     /**
      * @return AssessmentOptionInterface
