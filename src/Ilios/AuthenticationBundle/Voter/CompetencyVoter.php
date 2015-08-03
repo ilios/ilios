@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CompetencyInterface;
+use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -11,6 +12,19 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 class CompetencyVoter extends AbstractVoter
 {
+    /**
+     * @var PermissionManagerInterface
+     */
+    protected $permissionManager;
+
+    /**
+     * @param PermissionManagerInterface $permissionManager
+     */
+    public function __construct(PermissionManagerInterface $permissionManager)
+    {
+        $this->permissionManager = $permissionManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -32,14 +46,30 @@ class CompetencyVoter extends AbstractVoter
         }
 
         switch ($attribute) {
+            // grant VIEW privileges
+            // if the user's primary school is the the competency's owning school
+            // - or -
+            // if the user has READ rights on the competency's owning school
+            // via the permissions system.
             case self::VIEW:
-                return true;
+                return ($competency->getSchool()->getId() === $user->getPrimarySchool()
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $competency->getSchool())
+                );
                 break;
             case self::EDIT:
             case self::DELETE:
-                if ($competency->getSchool()->getId() === $user->getPrimarySchool()) {
-                    return $this->userHasRole($user, ['Developer', 'Course Director']);
-                }
+            // grant EDIT and DELETE privileges
+            // if the user has the 'Developer' role
+            // - and -
+            //   if the user's primary school is the the competency's owning school
+            //   - or -
+            //   if the user has WRITE rights on the competency's owning school
+            // via the permissions system.
+                return ($this->userHasRole('Developer')
+                    && ($competency->getSchool()->getId() === $user->getPrimarySchool()
+                        || $this->permissionManager->userHasWritePermissionToSchool($user, $competency->getSchool())
+                    )
+                );
                 break;
         }
 
