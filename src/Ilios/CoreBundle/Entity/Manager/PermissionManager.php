@@ -135,7 +135,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
      */
     public function userHasWritePermissionsToProgram(UserInterface $user, ProgramInterface $program)
     {
-        return $this->userHasPermission($user, self::CAN_READ, 'program', $program->getId());
+        return $this->userHasPermission($user, self::CAN_WRITE, 'program', $program->getId());
     }
 
     /**
