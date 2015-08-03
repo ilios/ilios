@@ -4,7 +4,6 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CohortInterface;
 use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManagerInterface;
-use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 
@@ -22,7 +21,7 @@ class CohortVoter extends AbstractVoter
     /**
      * @var ProgramYearStewardManagerInterface
      */
-    protected $stewardHandler;
+    protected $stewardManager;
 
     /**
      * @param PermissionManagerInterface $permissionManager
@@ -33,6 +32,7 @@ class CohortVoter extends AbstractVoter
         ProgramYearStewardManagerInterface $stewardManager
     ) {
         $this->permissionHandler = $permissionManager;
+        $this->stewardManager = $stewardManager;
     }
     /**
      * {@inheritdoc}
@@ -91,10 +91,9 @@ class CohortVoter extends AbstractVoter
                     ($this->userHasRole($user, ['Course Director', 'Developer'])
                         && ($cohort->getProgramYear()->getProgram()->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
                             || $this->permissionManager->userHasWritePermissionToSchool($user, $cohort->getProgramYear()->getProgram()->getOwningSchool()))
-                        || $this->stewardManager->schoolIsStewardingProgramYear($user->getPrimarySchool(), $programYear))
-                    || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
+                        || $this->stewardManager->schoolIsStewardingProgramYear($user->getPrimarySchool(), $cohort->getProgramYear()))
+                    || $this->permissionManager->userHasWritePermissionToProgram($user, $cohort->getProgramYear()->getProgram())
                 );
-                break;
                 break;
         }
 
