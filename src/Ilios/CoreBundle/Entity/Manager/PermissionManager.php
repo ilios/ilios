@@ -17,6 +17,16 @@ use Ilios\CoreBundle\Entity\UserInterface;
 class PermissionManager extends AbstractManager implements PermissionManagerInterface
 {
     /**
+     * @var string
+     */
+    const CAN_READ = 'canRead';
+
+    /**
+     * @var string
+     */
+    const CAN_WRITE = 'canWrite';
+
+    /**
      * @param array $criteria
      * @param array $orderBy
      *
