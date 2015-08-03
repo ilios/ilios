@@ -6,7 +6,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\SchoolableEntityInterface;
+
+use Ilios\CoreBundle\Entity\AamcPcrsInterface;
+use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
 
@@ -19,6 +22,16 @@ interface CompetencyInterface extends
     TitledEntityInterface,
     ProgramYearsEntityInterface
 {
+    /**
+     * @param SchoolInterface $school
+     */
+    public function setSchool(SchoolInterface $school);
+
+    /**
+     * @return SchoolInterface
+     */
+    public function getSchool();
+
     /**
      * @param CompetencyInterface $parent
      */
