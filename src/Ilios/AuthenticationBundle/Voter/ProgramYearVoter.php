@@ -8,10 +8,10 @@ use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
- * Class ProgramVoter
+ * Class ProgramYearVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class ProgramVoter extends AbstractVoter
+class ProgramYearVoter extends AbstractVoter
 {
     /**
      * @var PermissionManagerInterface
