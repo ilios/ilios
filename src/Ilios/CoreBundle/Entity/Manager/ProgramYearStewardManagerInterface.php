@@ -3,7 +3,9 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
+use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
  * Interface ProgramYearStewardManagerInterface
@@ -63,4 +65,13 @@ interface ProgramYearStewardManagerInterface extends ManagerInterface
      * @return ProgramYearStewardInterface
      */
     public function createProgramYearSteward();
+
+    /**
+     * Checks if a given school (co-)stewards a given program year.
+     *
+     * @param SchoolInterface $school
+     * @param ProgramYearInterface $programYear
+     * @return bool
+     */
+    public function schoolIsStewardingProgramYear(SchoolInterface $school, ProgramYearInterface $programYear);
 }
