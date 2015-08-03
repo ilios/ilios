@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -11,6 +12,18 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 class SchoolVoter extends AbstractVoter
 {
+    /**
+     * @var PermissionManagerInterface
+     */
+    protected $permissionManager;
+
+    /**
+     * @param PermissionManagerInterface $permissionManager
+     */
+    public function __construct(PermissionManagerInterface $permissionManager)
+    {
+        $this->permissionManager = $permissionManager;
+    }
     /**
      * {@inheritdoc}
      */
@@ -34,15 +47,26 @@ class SchoolVoter extends AbstractVoter
         
         switch ($attribute) {
             case self::VIEW:
-                if ($school->getId() === $user->getPrimarySchool()->getId()) {
-                    return true;
-                }
+                // Only grant VIEW permissions if the given school is the given user's
+                // primary school
+                // - or -
+                // if the given user has been granted READ right on the given school
+                // via the permissions system.
+                return ($school->getId() === $user->getPrimarySchool()->getId()
+                || $this->permissionManager->userHasReadPermissionToSchool($user, $school));
                 break;
             case self::EDIT:
             case self::DELETE:
-                if ($school->getId() === $user->getPrimarySchool()->getId()) {
-                    return $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty']);
-                }
+                // Only grant EDIT and DELETE permissions to users with 'Developer' role.
+                // - and -
+                // the user must be associated with the given school,
+                // either by its primary school attribute
+                //     - or - by WRITE rights for the school
+                // via the permissions system.
+                return ($this->userHasRole($user, ['Developer'])
+                    && ($user->getPrimarySchool() === $school->getId()
+                        || $this->permissionManager->userHasWritePermissionToSchool($user, $school))
+                );
                 break;
         }
 
