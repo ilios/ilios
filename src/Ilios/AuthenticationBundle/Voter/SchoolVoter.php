@@ -52,8 +52,10 @@ class SchoolVoter extends AbstractVoter
                 // - or -
                 // if the given user has been granted READ right on the given school
                 // via the permissions system.
-                return ($school->getId() === $user->getPrimarySchool()->getId()
-                || $this->permissionManager->userHasReadPermissionToSchool($user, $school));
+                return (
+                    $school->getId() === $user->getPrimarySchool()->getId()
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $school)
+                );
                 break;
             case self::EDIT:
             case self::DELETE:
@@ -63,7 +65,8 @@ class SchoolVoter extends AbstractVoter
                 // either by its primary school attribute
                 //     - or - by WRITE rights for the school
                 // via the permissions system.
-                return ($this->userHasRole($user, ['Developer'])
+                return (
+                    $this->userHasRole($user, ['Developer'])
                     && ($user->getPrimarySchool() === $school->getId()
                         || $this->permissionManager->userHasWritePermissionToSchool($user, $school))
                 );
