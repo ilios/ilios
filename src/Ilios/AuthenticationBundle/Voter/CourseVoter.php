@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
+use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -11,6 +12,15 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 class CourseVoter extends AbstractVoter
 {
+    /**
+     * @var PermissionManagerInterface
+     */
+    protected $permissionManager;
+
+    public function __construct(PermissionManagerInterface $permissionManager)
+    {
+        $this->permissionManager = $permissionManager;
+    }
     /**
      * {@inheritdoc}
      */
@@ -34,15 +44,34 @@ class CourseVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                if ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()) {
-                    return true;
-                }
+                // grant VIEW privileges if at least one of the following
+                // statements is true:
+                // 1. the user's primary school is the course's owning school
+                // 2. the user has READ rights on the course's owning school via the permissions system
+                // 3. the user has READ rights on the course via the permissions system
+                return ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $course->getOwningSchool())
+                    || $this->permissionManager->userHasReadPermissionToCourse($user, $course)
+                    );
                 break;
             case self::EDIT:
             case self::DELETE:
-                if ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()) {
-                    return $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty']);
-                }
+                // grant EDIT and DELETE privileges if at least one of the following
+                // statements is true:
+                // 1. the user's primary school is the course's owning school
+                //    and the user has at least one of the 'Faculty', 'Course Director' and 'Developer' roles.
+                // 2. the user has WRITE rights on the course's owning school via the permissions system
+                //    and the user has at least one of the 'Faculty', 'Course Director' and 'Developer' roles.
+                // 3. the user has WRITE rights on the course via the permissions system
+                //
+                // TODO
+                // Figure out if we need to check if the user has been assigned as 'director'
+                // to the given course, or is this implied by rule 2.
+                // [ST 2015/08/03]
+                return ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+                    || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getOwningSchool())
+                    || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
+                );
                 break;
         }
 
