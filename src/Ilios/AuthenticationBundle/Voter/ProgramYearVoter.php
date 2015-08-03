@@ -69,9 +69,9 @@ class ProgramYearVoter extends AbstractVoter
                 return (
                     ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
                         && ($programYear->getProgram()->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                            || $this->permissionManager->userHasReadPermissionsToSchool($user, $programYear->getProgram()->getOwningSchool()))
+                            || $this->permissionManager->userHasReadPermissionToSchool($user, $programYear->getProgram()->getOwningSchool()))
                             || $this->stewardManager->schoolIsStewardingProgramYear($user->getPrimarySchool(), $programYear))
-                    || $this->permissionManager->userHasReadPermissionsToProgram($user, $programYear->getProgram())
+                    || $this->permissionManager->userHasReadPermissionToProgram($user, $programYear->getProgram())
                 );
                 break;
             case self::EDIT:
@@ -89,9 +89,9 @@ class ProgramYearVoter extends AbstractVoter
                 return (
                     ($this->userHasRole($user, ['Course Director', 'Developer'])
                         && ($programYear->getProgram()->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                            || $this->permissionManager->userHasWritePermissionsToSchool($user, $programYear->getProgram()->getOwningSchool()))
+                            || $this->permissionManager->userHasWritePermissionToSchool($user, $programYear->getProgram()->getOwningSchool()))
                     || $this->stewardManager->schoolIsStewardingProgramYear($user->getPrimarySchool(), $programYear))
-                    || $this->permissionManager->userHasWritePermissionsToProgram($user, $programYear->getProgram())
+                    || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
                 );
                 break;
         }

@@ -58,8 +58,8 @@ class ProgramVoter extends AbstractVoter
                 return (
                     ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
                         && ($program->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                            || $this->permissionManager->userHasReadPermissionsToSchool($user, $program->getOwningSchool())))
-                    || $this->permissionManager->userHasReadPermissionsToProgram($user, $program)
+                            || $this->permissionManager->userHasReadPermissionToSchool($user, $program->getOwningSchool())))
+                    || $this->permissionManager->userHasReadPermissionToProgram($user, $program)
                 );
                 break;
             case self::EDIT:
@@ -74,8 +74,8 @@ class ProgramVoter extends AbstractVoter
                 return (
                     ($this->userHasRole($user, ['Course Director', 'Developer'])
                         && ($program->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                            || $this->permissionManager->userHasWritePermissionsToSchool($user, $program->getOwningSchool())))
-                    || $this->permissionManager->userHasWritePermissionsToProgram($user, $program)
+                            || $this->permissionManager->userHasWritePermissionToSchool($user, $program->getOwningSchool())))
+                    || $this->permissionManager->userHasWritePermissionToProgram($user, $program)
                 );
                 break;
         }
