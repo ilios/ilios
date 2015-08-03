@@ -99,29 +99,23 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * @param UserInterface $user
-     * @param CourseInterface $course
-     * @return bool
+     * {@inheritdoc}
      */
-    public function userHasReadPermissionsToCourse(UserInterface $user, CourseInterface $course)
+    public function userHasReadPermissionToCourse(UserInterface $user, CourseInterface $course)
     {
         return $this->userHasPermission($user, self::CAN_READ, 'course', $course->getId());
     }
 
     /**
-     * @param UserInterface $user
-     * @param ProgramInterface $program
-     * @return bool
+     * {@inheritdoc}
      */
-    public function userHasReadPermissionsToProgram(UserInterface $user, ProgramInterface $program)
+    public function userHasReadPermissionToProgram(UserInterface $user, ProgramInterface $program)
     {
         return $this->userHasPermission($user, self::CAN_READ, 'program', $program->getId());
     }
 
     /**
-     * @param UserInterface $user
-     * @param SchoolInterface $school
-     * @return bool
+     * {@inheritdoc}
      */
     public function userHasReadPermissionToSchool(UserInterface $user, SchoolInterface $school)
     {
@@ -129,29 +123,23 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * @param UserInterface $user
-     * @param CourseInterface $course
-     * @return bool
+     * {@inheritdoc}
      */
-    public function userHasWritePermissionsToCourse(UserInterface $user, CourseInterface $course)
+    public function userHasWritePermissionToCourse(UserInterface $user, CourseInterface $course)
     {
         return $this->userHasPermission($user, self::CAN_WRITE, 'course', $course->getId());
     }
 
     /**
-     * @param UserInterface $user
-     * @param ProgramInterface $program
-     * @return bool
+     * {@inheritdoc}
      */
-    public function userHasWritePermissionsToProgram(UserInterface $user, ProgramInterface $program)
+    public function userHasWritePermissionToProgram(UserInterface $user, ProgramInterface $program)
     {
         return $this->userHasPermission($user, self::CAN_WRITE, 'program', $program->getId());
     }
 
     /**
-     * @param UserInterface $user
-     * @param SchoolInterface $school
-     * @return bool
+     * {@inheritdoc}
      */
     public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school)
     {
