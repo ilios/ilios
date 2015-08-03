@@ -38,7 +38,7 @@ class CompetencyVoter extends AbstractVoter
             case self::EDIT:
             case self::DELETE:
                 if ($competency->getSchool()->getId() === $user->getPrimarySchool()) {
-                    return $this->userHasRole($user, ['Developer', 'Faculty',]);
+                    return $this->userHasRole($user, ['Developer', 'Course Director']);
                 }
                 break;
         }
