@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -11,6 +12,19 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 class ProgramVoter extends AbstractVoter
 {
+    /**
+     * @var PermissionManagerInterface
+     */
+    protected $permissionManager;
+
+    /**
+     * @param PermissionManagerInterface $permissionManager
+     */
+    public function __construct(PermissionManagerInterface $permissionManager)
+    {
+        $this->permissionManager = $permissionManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -34,15 +48,35 @@ class ProgramVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                if ($program->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()) {
-                    return $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty']);
-                }
+            // the given user is granted VIEW permissions on the given program
+            // when at least one of the following statements is true
+            // 1. The user's primary school is the same as the program's owning school
+            //    and the user has at least one of 'Course Director', 'Faculty' and 'Developer' role.
+            // 2. The user has READ permissions on the program's owning school
+            //    and the user has at least one of 'Course Director', 'Faculty' and 'Developer' role.
+            // 3. The user has READ permissions on the program.
+                return (
+                    ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
+                        && ($program->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+                            || $this->permissionManager->userHasReadPermissionsToSchool($user, $program->getOwningSchool())))
+                    || $this->permissionManager->userHasReadPermissionsToProgram($user, $program)
+                );
                 break;
             case self::EDIT:
             case self::DELETE:
-                if ($program->getOwningSchool->getId() === $user->getPrimarySchool()->getId()) {
-                    return $this->userHasRole($user, ['Course Director', 'Developer']);
-                }
+            // the given user is granted EDIT and DELETE permissions on the given program
+            // when at least one of the following statements is true
+            // 1. The user's primary school is the same as the program's owning school
+            //    and the user has at least one of 'Course Director' and 'Developer' role.
+            // 2. The user has WRITE permissions on the program's owning school
+            //    and the user has at least one of 'Course Director' and 'Developer' role.
+            // 3. The user has WRITE permissions on the program.
+                return (
+                    ($this->userHasRole($user, ['Course Director', 'Developer'])
+                        && ($program->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+                            || $this->permissionManager->userHasWritePermissionsToSchool($user, $program->getOwningSchool())))
+                    || $this->permissionManager->userHasWritePermissionsToProgram($user, $program)
+                );
                 break;
         }
 
