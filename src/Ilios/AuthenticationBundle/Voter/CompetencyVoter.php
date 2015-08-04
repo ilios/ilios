@@ -65,7 +65,7 @@ class CompetencyVoter extends AbstractVoter
             //   - or -
             //   if the user has WRITE rights on the competency's owning school
             // via the permissions system.
-                return ($this->userHasRole('Developer')
+                return ($this->userHasRole($user, 'Developer')
                     && ($competency->getSchool()->getId() === $user->getPrimarySchool()
                         || $this->permissionManager->userHasWritePermissionToSchool($user, $competency->getSchool())
                     )
