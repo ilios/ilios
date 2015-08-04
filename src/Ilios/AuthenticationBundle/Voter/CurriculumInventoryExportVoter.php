@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
+use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -11,6 +12,19 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 class CurriculumInventoryExportVoter extends AbstractVoter
 {
+    /**
+     * @var PermissionManagerInterface
+     */
+    protected $permissionManager;
+
+    /**
+     * @param PermissionManagerInterface $permissionManager
+     */
+    public function __construct(PermissionManagerInterface $permissionManager)
+    {
+        $this->permissionManager = $permissionManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -33,13 +47,24 @@ class CurriculumInventoryExportVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                return $this->userHasRole($user, ['Course Director', 'Developer']);
+                // Only grant VIEW permissions to users with at least one of
+                // 'Course Director' and 'Developer' roles.
+                // - and -
+                // the user must be associated with the school owning the parent report's program
+                // either by its primary school attribute
+                //     - or - by READ rights for the school
+                // via the permissions system.
+                return (
+                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    && ($user->getPrimarySchool() === $export->getReport()->getProgram()->getOwningSchool()
+                        || $this->permissionManager->userHasReadPermissionToSchool($user, $export->getReport()->getProgram()->getOwningSchool()))
+                );
                 break;
             case self::EDIT:
             case self::DELETE:
-                // Exports cannot be edited or deleted in any way.
+                // HALT!
+                // Exports cannot be edited or deleted.
                 return false;
-                break;
         }
 
         return false;
