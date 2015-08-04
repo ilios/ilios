@@ -74,12 +74,12 @@ class ProgramYearVoter extends AbstractVoter
                             === $user->getPrimarySchool()->getId()
                             || $this->permissionManager->userHasReadPermissionToSchool(
                                 $user,
-                                $programYear->getProgram()->getOwningSchool()
-                            ))
-                        || $this->stewardManager->schoolIsStewardingProgramYear(
-                            $user->getPrimarySchool(),
-                            $programYear
-                        ))
+                                $programYear->getProgram()->getOwningSchool())
+                            || $this->stewardManager->schoolIsStewardingProgramYear(
+                                $user->getPrimarySchool(),
+                                $programYear)
+                        )
+                    )
                     || $this->permissionManager->userHasReadPermissionToProgram($user, $programYear->getProgram())
                 );
                 break;
@@ -101,12 +101,12 @@ class ProgramYearVoter extends AbstractVoter
                             === $user->getPrimarySchool()->getId()
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
-                                $programYear->getProgram()->getOwningSchool()
-                            ))
-                        || $this->stewardManager->schoolIsStewardingProgramYear(
-                            $user->getPrimarySchool(),
-                            $programYear
-                        ))
+                                $programYear->getProgram()->getOwningSchool())
+                            || $this->stewardManager->schoolIsStewardingProgramYear(
+                                $user->getPrimarySchool(),
+                                $programYear)
+                        )
+                    )
                     || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
                 );
                 break;
