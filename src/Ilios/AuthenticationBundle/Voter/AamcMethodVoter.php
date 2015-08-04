@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class AamcMethodVoter
