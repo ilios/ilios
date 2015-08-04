@@ -3,7 +3,6 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
