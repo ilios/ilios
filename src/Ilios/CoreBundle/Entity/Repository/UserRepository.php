@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Ilios\CoreBundle\Classes\UserEvent;
 
 class UserRepository extends EntityRepository
@@ -54,6 +55,7 @@ class UserRepository extends EntityRepository
 
 
     /**
+     * Find all of the events for a user id between two dates
      * @param integer $userId
      * @param \DateTime $start
      * @param \DateTime $end
@@ -65,14 +67,63 @@ class UserRepository extends EntityRepository
         \DateTime $from,
         \DateTime $to
     ) {
-
+        //These joins are DQL representations to go from a user to an offerings
+        $joins = [
+            ['g' => 'u.learnerGroups', 'o' => 'g.offerings'],
+            ['g' => 'u.instructorGroups', 'o' => 'g.offerings'],
+            ['o' => 'u.offerings'],
+            ['o' => 'u.instructedOfferings'],
+            ['dc' => 'u.directedCourses', 'dcs' => 'dc.sessions', 'o' => 'dcs.offerings'],
+        ];
+        
+        $offeringEvents = [];
+        //using each of the joins above create a query to get offerings
+        foreach ($joins as $join) {
+            $qb = $this->getOfferingEventsQueryBuilder($id, $from, $to, $join);
+            $results = $qb->getQuery()->getArrayResult();
+            $groupEvents = $this->createEventObjectsForOfferings($id, $results);
+            $offeringEvents = array_merge($offeringEvents, $groupEvents);
+        }
+        
         $events = [];
+        //extract unique offeringEvents by using the offering ID
+        foreach ($offeringEvents as $userEvent) {
+            if (!array_key_exists($userEvent->offering, $events)) {
+                $events[$userEvent->offering] = $userEvent;
+            }
+        }
+        
+        //sort events by startDate for consistency
+        usort($events, function ($a, $b) {
+            return $a->startDate->getTimestamp() - $b->startDate->getTimestamp();
+        });
+        
+        return $events;
+    }
+    
+    /**
+      * Use the query builder and the $joins to get a set of offerings
+      * @param integer $userId
+      * @param \DateTime $start
+      * @param \DateTime $end
+      * @param string $group
+      *
+     * @return QueryBuilder
+     */
+    protected function getOfferingEventsQueryBuilder(
+        $id,
+        \DateTime $from,
+        \DateTime $to,
+        array $joins
+    ) {
+
         $qb = $this->_em->createQueryBuilder();
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
           's.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
-        $qb->leftJoin('u.learnerGroups', 'lg');
-        $qb->leftJoin('lg.offerings', 'o');
+        foreach ($joins as $key => $statement) {
+            $qb->leftJoin($statement, $key);
+        }
         $qb->leftJoin('o.session', 's');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.publishEvent', 'pe');
@@ -87,11 +138,22 @@ class UserRepository extends EntityRepository
         $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 
-        $results = $qb->getQuery()->getArrayResult();
+        return $qb;
+    }
 
-        $events = array_map(function ($arr) use ($id) {
+    
+    /**
+     * Convert offerings into UserEvent objects 
+     * @param integer $userId
+     * @param array $results
+     *
+     * @return UserEvent[]
+     */
+    protected function createEventObjectsForOfferings($userId, array $results)
+    {
+        return array_map(function ($arr) use ($userId) {
             $event = new UserEvent;
-            $event->user = $id;
+            $event->user = $userId;
             $event->name = $arr['title'];
             $event->startDate = $arr['startDate'];
             $event->endDate = $arr['endDate'];
@@ -104,7 +166,5 @@ class UserRepository extends EntityRepository
 
             return $event;
         }, $results);
-
-        return $events;
     }
 }

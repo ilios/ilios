@@ -17,7 +17,7 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => ['1'],
             'offerings' => ['1'],
             'instructorGroups' => [],
-            'users' => [],
+            'users' => ['1'],
             'instructorUsers' => []
         );
 
@@ -27,9 +27,9 @@ class LearnerGroupData extends AbstractDataLoader
             'cohort' => '1',
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => [],
+            'offerings' => ['2'],
             'instructorGroups' => [],
-            'users' => [],
+            'users' => ['1'],
             'instructorUsers' => []
         );
 

@@ -36,6 +36,9 @@ class LoadLearnerGroupData extends AbstractFixture implements
                 $entity->setLocation($arr['location']);
             }
             $entity->setCohort($this->getReference('cohorts' . $arr['cohort']));
+            foreach ($arr['users'] as $id) {
+                $entity->addUser($this->getReference('users' . $id));
+            }
             $manager->persist($entity);
             $this->addReference('learnerGroups' . $arr['id'], $entity);
         }
@@ -47,6 +50,7 @@ class LoadLearnerGroupData extends AbstractFixture implements
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
         );
     }
 }

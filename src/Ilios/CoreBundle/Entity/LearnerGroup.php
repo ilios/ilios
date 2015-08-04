@@ -132,7 +132,6 @@ class LearnerGroup implements LearnerGroupInterface
     protected $offerings;
 
     /**
-     * @deprecated if it can be derived from the users classified as instructors (Breaks NF currently)
      * @var string
      *
      * @ORM\Column(name="instructors", type="string", length=120, nullable=true)

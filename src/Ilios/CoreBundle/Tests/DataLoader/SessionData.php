@@ -45,7 +45,7 @@ class SessionData extends AbstractDataLoader
             'meshDescriptors' => [],
             'sessionLearningMaterials' => [],
             'instructionHours' => [],
-            'offerings' => []
+            'offerings' => ['3', '4', '5']
         );
 
         $arr[] = array(
@@ -56,12 +56,13 @@ class SessionData extends AbstractDataLoader
             'supplemental' => false,
             'deleted' => false,
             'publishedAsTbd' => false,
+            'course' => '2',
             'disciplines' => [],
             'objectives' => [],
             'meshDescriptors' => [],
             'sessionLearningMaterials' => [],
             'instructionHours' => [],
-            'offerings' => []
+            'offerings' => ['6', '7']
         );
 
 

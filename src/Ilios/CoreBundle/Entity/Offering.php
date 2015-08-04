@@ -72,7 +72,7 @@ class Offering implements OfferingInterface
      * @Assert\NotBlank()
      *
      * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
+     * @JMS\Type("DateTime")
      * @JMS\SerializedName("startDate")
      */
     protected $startDate;
@@ -85,7 +85,7 @@ class Offering implements OfferingInterface
      * @Assert\NotBlank()
      *
      * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
+     * @JMS\Type("DateTime")
      * @JMS\SerializedName("endDate")
      */
     protected $endDate;

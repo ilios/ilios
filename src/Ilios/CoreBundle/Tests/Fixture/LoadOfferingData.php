@@ -41,6 +41,12 @@ class LoadOfferingData extends AbstractFixture implements
             foreach ($arr['instructorGroups'] as $id) {
                 $entity->addInstructorGroup($this->getReference('instructorGroups' . $id));
             }
+            foreach ($arr['learners'] as $id) {
+                $entity->addLearner($this->getReference('users' . $id));
+            }
+            foreach ($arr['instructors'] as $id) {
+                $entity->addInstructor($this->getReference('users' . $id));
+            }
             $manager->persist($entity);
             $this->addReference('offerings' . $arr['id'], $entity);
         }
@@ -54,6 +60,7 @@ class LoadOfferingData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
         );
     }
 }
