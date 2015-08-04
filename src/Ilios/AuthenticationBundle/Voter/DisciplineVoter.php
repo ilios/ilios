@@ -67,7 +67,10 @@ class DisciplineVoter extends AbstractVoter
                 // via the permissions system.
                 return ($this->userHasRole($user, 'Developer')
                     && ($discipline->getOwningSchool()->getId() === $user->getPrimarySchool()
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $discipline->getOwningSchool())
+                        || $this->permissionManager->userHasWritePermissionToSchool(
+                            $user,
+                            $discipline->getOwningSchool()
+                        )
                     )
                 );
                 break;

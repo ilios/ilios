@@ -74,10 +74,12 @@ class ProgramYearVoter extends AbstractVoter
                             === $user->getPrimarySchool()->getId()
                             || $this->permissionManager->userHasReadPermissionToSchool(
                                 $user,
-                                $programYear->getProgram()->getOwningSchool())
+                                $programYear->getProgram()->getOwningSchool()
+                            )
                             || $this->stewardManager->schoolIsStewardingProgramYear(
                                 $user->getPrimarySchool(),
-                                $programYear)
+                                $programYear
+                            )
                         )
                     )
                     || $this->permissionManager->userHasReadPermissionToProgram($user, $programYear->getProgram())
@@ -101,10 +103,12 @@ class ProgramYearVoter extends AbstractVoter
                             === $user->getPrimarySchool()->getId()
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
-                                $programYear->getProgram()->getOwningSchool())
+                                $programYear->getProgram()->getOwningSchool()
+                            )
                             || $this->stewardManager->schoolIsStewardingProgramYear(
                                 $user->getPrimarySchool(),
-                                $programYear)
+                                $programYear
+                            )
                         )
                     )
                     || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())

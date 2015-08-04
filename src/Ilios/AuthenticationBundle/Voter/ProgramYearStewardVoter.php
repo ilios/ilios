@@ -63,11 +63,15 @@ class ProgramYearStewardVoter extends AbstractVoter
                             === $user->getPrimarySchool()->getId()
                             || $this->permissionManager->userHasReadPermissionToSchool(
                                 $user,
-                                $steward->getProgramYear()->getProgram()->getOwningSchool())
+                                $steward->getProgramYear()->getProgram()->getOwningSchool()
+                            )
                             || $steward->getSchool()->getId() === $user->getPrimarySchool()->getId()
                         )
                     )
-                    || $this->permissionManager->userHasReadPermissionToProgram($user, $steward->getProgramYear()->getProgram())
+                    || $this->permissionManager->userHasReadPermissionToProgram(
+                        $user,
+                        $steward->getProgramYear()->getProgram()
+                    )
                 );
                 break;
             case self::EDIT:
@@ -87,11 +91,15 @@ class ProgramYearStewardVoter extends AbstractVoter
                             === $user->getPrimarySchool()->getId()
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
-                                $steward->getProgramYear()->getProgram()->getOwningSchool())
+                                $steward->getProgramYear()->getProgram()->getOwningSchool()
+                            )
                             || $steward->getSchool()->getId() === $user->getPrimarySchool()->getId()
                         )
                     )
-                    || $this->permissionManager->userHasWritePermissionToProgram($user, $steward->getProgramYear()->getProgram())
+                    || $this->permissionManager->userHasWritePermissionToProgram(
+                        $user,
+                        $steward->getProgramYear()->getProgram()
+                    )
                 );
                 break;
         }
