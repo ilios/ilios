@@ -57,7 +57,10 @@ class CurriculumInventorySequenceVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && ($user->getPrimarySchool() === $sequence->getReport()->getProgram()->getOwningSchool()
-                        || $this->permissionManager->userHasReadPermissionToSchool($user, $sequence->getReport()->getProgram()->getOwningSchool()))
+                        || $this->permissionManager->userHasReadPermissionToSchool(
+                            $user,
+                            $sequence->getReport()->getProgram()->getOwningSchool()
+                        ))
                 );
                 break;
             case self::EDIT:
@@ -77,7 +80,10 @@ class CurriculumInventorySequenceVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && ($user->getPrimarySchool() === $sequence->getReport()->getProgram()->getOwningSchool()
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $sequence->getReport()->getProgram()->getOwningSchool()))
+                        || $this->permissionManager->userHasWritePermissionToSchool(
+                            $user,
+                            $sequence->getReport()->getProgram()->getOwningSchool()
+                        ))
                 );
                 break;
         }

@@ -56,8 +56,8 @@ class CurriculumInventorySequenceBlockSessionVoter extends AbstractVoter
                 // via the permissions system.
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
-                    && ($user->getPrimarySchool() === $session->getSequenceBlock()->getReport()->getProgram(
-                        )->getOwningSchool()
+                    && ($user->getPrimarySchool()
+                        === $session->getSequenceBlock()->getReport()->getProgram()->getOwningSchool()
                         || $this->permissionManager->userHasReadPermissionToSchool(
                             $user,
                             $session->getSequenceBlock()->getReport()->getProgram()->getOwningSchool()
@@ -80,8 +80,8 @@ class CurriculumInventorySequenceBlockSessionVoter extends AbstractVoter
                 // via the permissions system.
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
-                    && ($user->getPrimarySchool() === $session->getSequenceBlock()->getReport()->getProgram(
-                        )->getOwningSchool()
+                    && ($user->getPrimarySchool()
+                        === $session->getSequenceBlock()->getReport()->getProgram()->getOwningSchool()
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
                             $session->getSequenceBlock()->getReport()->getProgram()->getOwningSchool()

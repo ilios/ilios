@@ -27,8 +27,10 @@ class ProgramYearVoter extends AbstractVoter
      * @param PermissionManagerInterface $permissionManager
      * @param ProgramYearStewardManagerInterface $stewardManager
      */
-    public function __construct(PermissionManagerInterface $permissionManager, ProgramYearStewardManagerInterface $stewardManager)
-    {
+    public function __construct(
+        PermissionManagerInterface $permissionManager,
+        ProgramYearStewardManagerInterface $stewardManager
+    ) {
         $this->permissionManager = $permissionManager;
         $this->stewardManager = $stewardManager;
     }
@@ -68,9 +70,16 @@ class ProgramYearVoter extends AbstractVoter
                 // 4. The user has READ permissions on the program.
                 return (
                     ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
-                        && ($programYear->getProgram()->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                            || $this->permissionManager->userHasReadPermissionToSchool($user, $programYear->getProgram()->getOwningSchool()))
-                            || $this->stewardManager->schoolIsStewardingProgramYear($user->getPrimarySchool(), $programYear))
+                        && ($programYear->getProgram()->getOwningSchool()->getId()
+                            === $user->getPrimarySchool()->getId()
+                            || $this->permissionManager->userHasReadPermissionToSchool(
+                                $user,
+                                $programYear->getProgram()->getOwningSchool()
+                            ))
+                        || $this->stewardManager->schoolIsStewardingProgramYear(
+                            $user->getPrimarySchool(),
+                            $programYear
+                        ))
                     || $this->permissionManager->userHasReadPermissionToProgram($user, $programYear->getProgram())
                 );
                 break;
@@ -88,9 +97,16 @@ class ProgramYearVoter extends AbstractVoter
                 // 4. The user has WRITE permissions on the parent program.
                 return (
                     ($this->userHasRole($user, ['Course Director', 'Developer'])
-                        && ($programYear->getProgram()->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                            || $this->permissionManager->userHasWritePermissionToSchool($user, $programYear->getProgram()->getOwningSchool()))
-                    || $this->stewardManager->schoolIsStewardingProgramYear($user->getPrimarySchool(), $programYear))
+                        && ($programYear->getProgram()->getOwningSchool()->getId()
+                            === $user->getPrimarySchool()->getId()
+                            || $this->permissionManager->userHasWritePermissionToSchool(
+                                $user,
+                                $programYear->getProgram()->getOwningSchool()
+                            ))
+                        || $this->stewardManager->schoolIsStewardingProgramYear(
+                            $user->getPrimarySchool(),
+                            $programYear
+                        ))
                     || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
                 );
                 break;

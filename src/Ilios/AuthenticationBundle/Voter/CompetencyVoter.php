@@ -58,13 +58,13 @@ class CompetencyVoter extends AbstractVoter
                 break;
             case self::EDIT:
             case self::DELETE:
-            // grant EDIT and DELETE privileges
-            // if the user has the 'Developer' role
-            // - and -
-            //   if the user's primary school is the the competency's owning school
-            //   - or -
-            //   if the user has WRITE rights on the competency's owning school
-            // via the permissions system.
+                // grant EDIT and DELETE privileges
+                // if the user has the 'Developer' role
+                // - and -
+                //   if the user's primary school is the the competency's owning school
+                //   - or -
+                //   if the user has WRITE rights on the competency's owning school
+                // via the permissions system.
                 return ($this->userHasRole($user, 'Developer')
                     && ($competency->getSchool()->getId() === $user->getPrimarySchool()
                         || $this->permissionManager->userHasWritePermissionToSchool($user, $competency->getSchool())

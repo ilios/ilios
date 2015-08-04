@@ -52,6 +52,7 @@ abstract class AbstractVoter extends Voter
         );
 
         $intersection = array_intersect($eligibleRoles, $roles);
+
         return empty($intersection);
     }
 }

@@ -24,6 +24,7 @@ class SchoolVoter extends AbstractVoter
     {
         $this->permissionManager = $permissionManager;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +45,7 @@ class SchoolVoter extends AbstractVoter
         if (!$user instanceof UserInterface) {
             return false;
         }
-        
+
         switch ($attribute) {
             case self::VIEW:
                 // Only grant VIEW permissions if the given school is the given user's

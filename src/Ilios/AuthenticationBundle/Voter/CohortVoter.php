@@ -34,6 +34,7 @@ class CohortVoter extends AbstractVoter
         $this->permissionHandler = $permissionManager;
         $this->stewardManager = $stewardManager;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -69,10 +70,20 @@ class CohortVoter extends AbstractVoter
                 // 4. The user has READ permissions on the program.
                 return (
                     ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
-                        && ($cohort->getProgramYear()->getProgram()->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                            || $this->permissionManager->userHasReadPermissionToSchool($user, $cohort->getProgramYear()->getProgram()->getOwningSchool()))
-                        || $this->stewardManager->schoolIsStewardingProgramYear($user->getPrimarySchool(), $cohort->getProgramYear()))
-                    || $this->permissionManager->userHasReadPermissionToProgram($user, $cohort->getProgramYear()->getProgram())
+                        && ($cohort->getProgramYear()->getProgram()->getOwningSchool()->getId()
+                            === $user->getPrimarySchool()->getId()
+                            || $this->permissionManager->userHasReadPermissionToSchool(
+                                $user,
+                                $cohort->getProgramYear()->getProgram()->getOwningSchool()
+                            ))
+                        || $this->stewardManager->schoolIsStewardingProgramYear(
+                            $user->getPrimarySchool(),
+                            $cohort->getProgramYear()
+                        ))
+                    || $this->permissionManager->userHasReadPermissionToProgram(
+                        $user,
+                        $cohort->getProgramYear()->getProgram()
+                    )
                 );
                 break;
             case self::EDIT:
@@ -89,10 +100,20 @@ class CohortVoter extends AbstractVoter
                 // 4. The user has WRITE permissions on the parent program.
                 return (
                     ($this->userHasRole($user, ['Course Director', 'Developer'])
-                        && ($cohort->getProgramYear()->getProgram()->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                            || $this->permissionManager->userHasWritePermissionToSchool($user, $cohort->getProgramYear()->getProgram()->getOwningSchool()))
-                        || $this->stewardManager->schoolIsStewardingProgramYear($user->getPrimarySchool(), $cohort->getProgramYear()))
-                    || $this->permissionManager->userHasWritePermissionToProgram($user, $cohort->getProgramYear()->getProgram())
+                        && ($cohort->getProgramYear()->getProgram()->getOwningSchool()->getId()
+                            === $user->getPrimarySchool()->getId()
+                            || $this->permissionManager->userHasWritePermissionToSchool(
+                                $user,
+                                $cohort->getProgramYear()->getProgram()->getOwningSchool()
+                            ))
+                        || $this->stewardManager->schoolIsStewardingProgramYear(
+                            $user->getPrimarySchool(),
+                            $cohort->getProgramYear()
+                        ))
+                    || $this->permissionManager->userHasWritePermissionToProgram(
+                        $user,
+                        $cohort->getProgramYear()->getProgram()
+                    )
                 );
                 break;
         }

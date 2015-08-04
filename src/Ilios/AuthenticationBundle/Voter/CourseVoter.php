@@ -21,6 +21,7 @@ class CourseVoter extends AbstractVoter
     {
         $this->permissionManager = $permissionManager;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -52,7 +53,7 @@ class CourseVoter extends AbstractVoter
                 return ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
                     || $this->permissionManager->userHasReadPermissionToSchool($user, $course->getOwningSchool())
                     || $this->permissionManager->userHasReadPermissionToCourse($user, $course)
-                    );
+                );
                 break;
             case self::EDIT:
             case self::DELETE:

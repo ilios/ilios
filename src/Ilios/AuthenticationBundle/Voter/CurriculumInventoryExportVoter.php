@@ -57,7 +57,10 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && ($user->getPrimarySchool() === $export->getReport()->getProgram()->getOwningSchool()
-                        || $this->permissionManager->userHasReadPermissionToSchool($user, $export->getReport()->getProgram()->getOwningSchool()))
+                        || $this->permissionManager->userHasReadPermissionToSchool(
+                            $user,
+                            $export->getReport()->getProgram()->getOwningSchool()
+                        ))
                 );
                 break;
             case self::EDIT:
