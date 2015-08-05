@@ -22,6 +22,7 @@ class UserControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserMadeReminderData',
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
         ];
     }
 
@@ -205,6 +206,7 @@ class UserControllerTest extends AbstractControllerTest
         //unset any parameters which should not be POSTed
         unset($postData['id']);
         unset($postData['instructedOfferings']);
+        unset($postData['learnerGroups']);
         unset($postData['cohorts']);
 
         $this->createJsonRequest(
@@ -215,7 +217,6 @@ class UserControllerTest extends AbstractControllerTest
             ),
             json_encode(['user' => $postData])
         );
-
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(

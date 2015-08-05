@@ -26,7 +26,6 @@ class IlmSession implements IlmSessionInterface
     use StringableIdEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Column(name="ilm_session_facet_id", type="integer")

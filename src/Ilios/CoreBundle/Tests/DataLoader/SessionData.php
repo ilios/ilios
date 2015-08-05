@@ -19,7 +19,6 @@ class SessionData extends AbstractDataLoader
             'sessionType' => '1',
             'course' => '1',
             'sessionDescription' => '1',
-            'ilmSession' => '1',
             'disciplines' => ['1', '2'],
             'objectives' => ['1', '2'],
             'meshDescriptors' => [],
@@ -45,7 +44,7 @@ class SessionData extends AbstractDataLoader
             'meshDescriptors' => [],
             'sessionLearningMaterials' => [],
             'instructionHours' => [],
-            'offerings' => []
+            'offerings' => ['3', '4', '5']
         );
 
         $arr[] = array(
@@ -56,13 +55,34 @@ class SessionData extends AbstractDataLoader
             'supplemental' => false,
             'deleted' => false,
             'publishedAsTbd' => false,
+            'course' => '2',
             'disciplines' => [],
             'objectives' => [],
             'meshDescriptors' => [],
             'sessionLearningMaterials' => [],
             'instructionHours' => [],
-            'offerings' => []
+            'offerings' => ['6', '7']
         );
+        
+        for ($i = 4; $i <= 7; $i++) {
+            $arr[] = array(
+                'id' => $i,
+                'title' => $this->faker->text(10),
+                'attireRequired' => false,
+                'equipmentRequired' => false,
+                'supplemental' => false,
+                'deleted' => false,
+                'publishedAsTbd' => false,
+                'course' => '2',
+                'ilmSession' => $i - 3,
+                'disciplines' => [],
+                'objectives' => [],
+                'meshDescriptors' => [],
+                'sessionLearningMaterials' => [],
+                'instructionHours' => [],
+                'offerings' => []
+            );
+        }
 
 
         return $arr;
@@ -71,7 +91,7 @@ class SessionData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 4,
+            'id' => 8,
             'title' => $this->faker->text(10),
             'attireRequired' => false,
             'equipmentRequired' => false,

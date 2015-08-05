@@ -13,7 +13,7 @@ class InstructorGroupData extends AbstractDataLoader
             'title' => $this->faker->text(10),
             'school' => '1',
             'learnerGroups' => [],
-            'ilmSessions' => ['1'],
+            'ilmSessions' => [],
             'users' => ['1'],
             'offerings' => ['1']
         );
@@ -24,7 +24,17 @@ class InstructorGroupData extends AbstractDataLoader
             'school' => '1',
             'learnerGroups' => [],
             'ilmSessions' => [],
-            'users' => [],
+            'users' => ['1'],
+            'offerings' => ['3']
+        );
+
+        $arr[] = array(
+            'id' => 3,
+            'title' => $this->faker->text(10),
+            'school' => '1',
+            'learnerGroups' => [],
+            'ilmSessions' => ['2'],
+            'users' => ['1'],
             'offerings' => []
         );
 
@@ -35,7 +45,7 @@ class InstructorGroupData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 3,
+            'id' => 4,
             'title' => $this->faker->text(10),
             'school' => '1',
             'learnerGroups' => [],

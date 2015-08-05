@@ -23,7 +23,7 @@ class CourseData extends AbstractDataLoader
             'owningSchool' => "1",
             'clerkshipType' => "1",
             'directors' => [],
-            'cohorts' => [1],
+            'cohorts' => ['1'],
             'disciplines' => [],
             'objectives' => [1],
             'meshDescriptors' => [],
@@ -46,13 +46,13 @@ class CourseData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'owningSchool' => "1",
             'clerkshipType' => "1",
-            'directors' => [],
-            'cohorts' => [1],
+            'directors' => ['1'],
+            'cohorts' => ['1'],
             'disciplines' => [],
             'objectives' => [1],
             'meshDescriptors' => [],
             'learningMaterials' => [],
-            'sessions' => []
+            'sessions' => ['3', '4', '5', '6', '7']
         );
 
 
@@ -76,7 +76,7 @@ class CourseData extends AbstractDataLoader
             'owningSchool' => "1",
             'clerkshipType' => "1",
             'directors' => [],
-            'cohorts' => [1],
+            'cohorts' => [],
             'disciplines' => [],
             'objectives' => [1],
             'meshDescriptors' => [],

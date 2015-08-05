@@ -217,15 +217,22 @@ class SessionControllerTest extends AbstractControllerTest
     /**
      * Grab the first session from the fixtures and get the updatedAt time
      * from the server.
+     * @param integer $sessionId
      *
      * @return DateTime
      */
-    protected function getSessionUpdatedAt()
+    protected function getSessionUpdatedAt($sessionId)
     {
-        $session = $this->container
+        $sessions = $this->container
             ->get('ilioscore.dataloader.session')
-            ->getOne();
-
+            ->getAll();
+        $matchedSessions = array_filter($sessions, function ($arr) use ($sessionId) {
+            return $arr['id'] === $sessionId;
+        });
+        if (!count($matchedSessions)) {
+            throw new \Exception("Unable to find session: {$sessionId} in ", var_export($sessions, true));
+        }
+        $session = array_values($matchedSessions)[0];
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
@@ -242,11 +249,12 @@ class SessionControllerTest extends AbstractControllerTest
     
     /**
      * Test to see that the updatedAt timestamp has increased by at least one second
+     * @param integer $sessionId
      * @param  DateTime $original
      */
-    protected function checkUpdatedAtIncreased(DateTime $original)
+    protected function checkUpdatedAtIncreased($sessionId, DateTime $original)
     {
-        $now = $this->getSessionUpdatedAt();
+        $now = $this->getSessionUpdatedAt($sessionId);
         $diff = $original->diff($now);
         $this->assertTrue(
             $diff->s > 1,
@@ -257,12 +265,14 @@ class SessionControllerTest extends AbstractControllerTest
     
     public function testUpdatingIlmUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
-        sleep(2); //wait for two seconds
-        
         $ilm = $this->container
             ->get('ilioscore.dataloader.ilmsession')
             ->getOne();
+            
+        $firstUpdatedAt = $this->getSessionUpdatedAt($ilm['session']);
+        //wait for two seconds so there is some difference
+        //between the first stamp and the update
+        sleep(2);
         
         $postData = $ilm;
         //unset any parameters which should not be POSTed
@@ -277,17 +287,19 @@ class SessionControllerTest extends AbstractControllerTest
             json_encode(['ilmSession' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
     }
     
     public function testUpdatingIlmInstructorUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
-        sleep(2); //wait for two seconds
-        
         $ilm = $this->container
             ->get('ilioscore.dataloader.ilmsession')
             ->getOne();
+            
+        $firstUpdatedAt = $this->getSessionUpdatedAt($ilm['session']);
+        //wait for two seconds so there is some difference
+        //between the first stamp and the update
+        sleep(2);
         
         $postData = $ilm;
         //unset any parameters which should not be POSTed
@@ -302,17 +314,19 @@ class SessionControllerTest extends AbstractControllerTest
             json_encode(['ilmSession' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
     }
     
     public function testUpdatingIlmInstructorGroupsUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
-        sleep(2); //wait for two seconds
-        
         $ilm = $this->container
             ->get('ilioscore.dataloader.ilmsession')
             ->getOne();
+            
+        $firstUpdatedAt = $this->getSessionUpdatedAt($ilm['session']);
+        //wait for two seconds so there is some difference
+        //between the first stamp and the update
+        sleep(2);
         
         $postData = $ilm;
         //unset any parameters which should not be POSTed
@@ -327,17 +341,19 @@ class SessionControllerTest extends AbstractControllerTest
             json_encode(['ilmSession' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
     }
     
     public function testUpdatingIlmLearnerGroupsUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
-        sleep(2); //wait for two seconds
-        
         $ilm = $this->container
             ->get('ilioscore.dataloader.ilmsession')
             ->getOne();
+            
+        $firstUpdatedAt = $this->getSessionUpdatedAt($ilm['session']);
+        //wait for two seconds so there is some difference
+        //between the first stamp and the update
+        sleep(2);
         
         $postData = $ilm;
         //unset any parameters which should not be POSTed
@@ -352,17 +368,19 @@ class SessionControllerTest extends AbstractControllerTest
             json_encode(['ilmSession' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
     }
     
     public function testUpdatingIlmLearnersUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
-        sleep(2); //wait for two seconds
-        
         $ilm = $this->container
             ->get('ilioscore.dataloader.ilmsession')
             ->getOne();
+            
+        $firstUpdatedAt = $this->getSessionUpdatedAt($ilm['session']);
+        //wait for two seconds so there is some difference
+        //between the first stamp and the update
+        sleep(2);
         
         $postData = $ilm;
         //unset any parameters which should not be POSTed
@@ -377,12 +395,12 @@ class SessionControllerTest extends AbstractControllerTest
             json_encode(['ilmSession' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
     }
     
     public function testUpdatingLearningMaterialUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        $firstUpdatedAt = $this->getSessionUpdatedAt(1);
         sleep(2); //wait for two seconds
         
         $lm = $this->container
@@ -402,12 +420,12 @@ class SessionControllerTest extends AbstractControllerTest
             json_encode(['learningMaterial' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
     
     public function testNewSessionLearningMaterialUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        $firstUpdatedAt = $this->getSessionUpdatedAt(1);
         sleep(2); //wait for two seconds
         
         $lm = $this->container
@@ -426,12 +444,12 @@ class SessionControllerTest extends AbstractControllerTest
             json_encode(['sessionLearningMaterial' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_CREATED);
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
     
     public function testUpdatingSessionLearningMaterialUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        $firstUpdatedAt = $this->getSessionUpdatedAt(1);
         sleep(2); //wait for two seconds
         
         $lm = $this->container
@@ -451,12 +469,12 @@ class SessionControllerTest extends AbstractControllerTest
             json_encode(['sessionLearningMaterial' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
     
     public function testDeletingSessionLearningMaterialUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        $firstUpdatedAt = $this->getSessionUpdatedAt(1);
         sleep(2); //wait for two seconds
         
         $session = $this->container
@@ -471,12 +489,12 @@ class SessionControllerTest extends AbstractControllerTest
             )
         );
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
     
     public function testDeletingSessionDescriptionUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        $firstUpdatedAt = $this->getSessionUpdatedAt(1);
         sleep(2); //wait for two seconds
         
         $session = $this->container
@@ -491,12 +509,12 @@ class SessionControllerTest extends AbstractControllerTest
             )
         );
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
     
     public function testUpdatingSessionDescriptionUpdatesSessionStamp()
     {
-        $firstUpdatedAt = $this->getSessionUpdatedAt();
+        $firstUpdatedAt = $this->getSessionUpdatedAt(1);
         sleep(2); //wait for two seconds
         
         $lm = $this->container
@@ -516,6 +534,6 @@ class SessionControllerTest extends AbstractControllerTest
             json_encode(['sessionDescription' => $postData])
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
-        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+        $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
 }

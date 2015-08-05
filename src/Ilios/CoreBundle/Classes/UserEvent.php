@@ -30,7 +30,7 @@ class UserEvent
     /**
      * @var DateTime
      * @JMS\Expose
-     * @JMS\Type("DateTime")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("startDate")
      **/
     public $startDate;
@@ -38,7 +38,7 @@ class UserEvent
     /**
      * @var DateTime
      * @JMS\Expose
-     * @JMS\Type("DateTime")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("endDate")
      **/
     public $endDate;
@@ -49,6 +49,14 @@ class UserEvent
      * @JMS\Type("integer")
      **/
     public $offering;
+
+    /**
+     * @var Integer
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     * @JMS\SerializedName("ilmSession")
+     **/
+    public $ilmSession;
 
     /**
      * @var string
