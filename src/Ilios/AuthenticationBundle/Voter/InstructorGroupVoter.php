@@ -47,9 +47,9 @@ class InstructorGroupVoter extends AbstractVoter
             case self::VIEW:
                 // grant VIEW privileges if at least one of the following
                 // statements is true:
-                // 1. the user's primary school is the course's owning school
+                // 1. the user's primary school is the group's owning school
                 //    and has at least one of 'Course Director', 'Faculty' and 'Developer' roles.
-                // 2. the user has READ rights on the groups 's owning school via the permissions system
+                // 2. the user has READ rights on the group's owning school via the permissions system
                 //    and has at least one of 'InstructorGroup Director', 'Faculty' and 'Developer' roles.
                 return ($this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                     && (
@@ -63,9 +63,9 @@ class InstructorGroupVoter extends AbstractVoter
             case self::DELETE:
                 // grant CREATE, EDIT and DELETE privileges if at least one of the following
                 // statements is true:
-                // 1. the user's primary school is the course's owning school
+                // 1. the user's primary school is the group's owning school
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
-                // 2. the user has WRITE rights on the course's owning school via the permissions system
+                // 2. the user has WRITE rights on the group's owning school via the permissions system
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
                 return ($this->userHasRole($user, ['Course Director', 'Developer'])
                 && (
