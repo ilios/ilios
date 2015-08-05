@@ -77,11 +77,9 @@ class UserRepository extends EntityRepository
         ];
         
         $offeringEvents = [];
-        //using each of the joins above create a query to get offerings
+        //using each of the joins above create a query to get events
         foreach ($joins as $join) {
-            $qb = $this->getOfferingEventsQueryBuilder($id, $from, $to, $join);
-            $results = $qb->getQuery()->getArrayResult();
-            $groupEvents = $this->createEventObjectsForOfferings($id, $results);
+            $groupEvents = $this->getOfferingEventsFor($id, $from, $to, $join);
             $offeringEvents = array_merge($offeringEvents, $groupEvents);
         }
         
@@ -93,6 +91,30 @@ class UserRepository extends EntityRepository
             }
         }
         
+        //These joins are DQL representations to go from a user to an ILMSession
+        $joins = [
+            ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions'],
+            ['g' => 'u.instructorGroups', 'ilm' => 'g.ilmSessions'],
+            ['ilm' => 'u.learnerIlmSessions'],
+            ['ilm' => 'u.instructorIlmSessions'],
+        ];
+        
+        $ilmEvents = [];
+        //using each of the joins above create a query to get events
+        foreach ($joins as $join) {
+            $groupEvents = $this->getIlmSessionEventsFor($id, $from, $to, $join);
+            $ilmEvents = array_merge($ilmEvents, $groupEvents);
+        }
+
+        $uniqueIlmEvents = [];
+        //extract unique ilmEvents by using the ILM ID
+        foreach ($ilmEvents as $userEvent) {
+            if (!array_key_exists($userEvent->ilmSession, $uniqueIlmEvents)) {
+                $uniqueIlmEvents[$userEvent->ilmSession] = $userEvent;
+            }
+        }
+        
+        $events = array_merge($events, $uniqueIlmEvents);
         //sort events by startDate for consistency
         usort($events, function ($a, $b) {
             return $a->startDate->getTimestamp() - $b->startDate->getTimestamp();
@@ -102,15 +124,17 @@ class UserRepository extends EntityRepository
     }
     
     /**
-      * Use the query builder and the $joins to get a set of offerings
+      * Use the query builder and the $joins to get a set of
+      * offering based user events
+      *
       * @param integer $userId
       * @param \DateTime $start
       * @param \DateTime $end
       * @param string $group
       *
-     * @return QueryBuilder
+     * @return UserEvent[]
      */
-    protected function getOfferingEventsQueryBuilder(
+    protected function getOfferingEventsFor(
         $id,
         \DateTime $from,
         \DateTime $to,
@@ -138,12 +162,56 @@ class UserRepository extends EntityRepository
         $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 
-        return $qb;
+        $results = $qb->getQuery()->getArrayResult();
+        return $this->createEventObjectsForOfferings($id, $results);
+    }
+    
+    /**
+      * Use the query builder and the $joins to get a set of
+      * ILMSession based user events
+      *
+      * @param integer $userId
+      * @param \DateTime $start
+      * @param \DateTime $end
+      * @param string $group
+      *
+     * @return UserEvent[]
+     */
+    protected function getIlmSessionEventsFor(
+        $id,
+        \DateTime $from,
+        \DateTime $to,
+        array $joins
+    ) {
+
+        $qb = $this->_em->createQueryBuilder();
+        $what = 'ilm.id, ilm.dueDate, ' .
+          's.updatedAt, s.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId';
+        $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
+        foreach ($joins as $key => $statement) {
+            $qb->leftJoin($statement, $key);
+        }
+        $qb->leftJoin('ilm.session', 's');
+        $qb->leftJoin('s.sessionType', 'st');
+        $qb->leftJoin('s.publishEvent', 'pe');
+
+        $qb->where($qb->expr()->andX(
+            $qb->expr()->eq('u.id', ':user_id'),
+            $qb->expr()->between('ilm.dueDate', ':date_from', ':date_to'),
+            $qb->expr()->eq('s.deleted', 0)
+        ));
+        $qb->setParameter('user_id', $id);
+
+        $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
+        $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
+
+        $results = $qb->getQuery()->getArrayResult();
+        return $this->createEventObjectsForIlmSessions($id, $results);
     }
 
     
     /**
-     * Convert offerings into UserEvent objects 
+     * Convert offerings into UserEvent objects
      * @param integer $userId
      * @param array $results
      *
@@ -159,6 +227,31 @@ class UserRepository extends EntityRepository
             $event->endDate = $arr['endDate'];
             $event->offering = $arr['id'];
             $event->location = $arr['room'];
+            $event->eventClass = $arr['sessionTypeCssClass'];
+            $event->lastModified = $arr['updatedAt'];
+            $event->isPublished = !empty($arr['publishEventId']);
+            $event->isScheduled = $arr['publishedAsTbd'];
+
+            return $event;
+        }, $results);
+    }
+
+    
+    /**
+     * Convert IlmSessions into UserEvent objects
+     * @param integer $userId
+     * @param array $results
+     *
+     * @return UserEvent[]
+     */
+    protected function createEventObjectsForIlmSessions($userId, array $results)
+    {
+        return array_map(function ($arr) use ($userId) {
+            $event = new UserEvent;
+            $event->user = $userId;
+            $event->name = $arr['title'];
+            $event->startDate = $arr['dueDate'];
+            $event->ilmSession = $arr['id'];
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
             $event->isPublished = !empty($arr['publishEventId']);
