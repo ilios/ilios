@@ -21,11 +21,11 @@ class LearningMaterialUserRoleVoter extends AbstractVoter
 
     /**
      * @param string $attribute
-     * @param LearningMaterialUserRoleInterface $aamcPcrs
+     * @param LearningMaterialUserRoleInterface $role
      * @param UserInterface $user
      * @return bool
      */
-    protected function isGranted($attribute, $aamcPcrs, $user = null)
+    protected function isGranted($attribute, $role, $user = null)
     {
         if (!$user instanceof UserInterface) {
             return false;
