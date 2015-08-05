@@ -28,11 +28,16 @@ abstract class AbstractVoter extends Voter
     const DELETE = 'delete';
 
     /**
+     * @var string
+     */
+    const CREATE = 'create';
+
+    /**
      * {@inheritdoc}
      */
     protected function getSupportedAttributes()
     {
-        return array(self::VIEW, self::EDIT, self::DELETE);
+        return array(self::CREATE, self::VIEW, self::EDIT, self::DELETE);
     }
 
     /**
