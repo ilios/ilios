@@ -64,6 +64,22 @@ class CurriculumInventoryReportVoter extends AbstractVoter
                 );
                 break;
             case self::CREATE:
+                // Only grant CREATE, permissions to users with at least one of
+                // 'Course Director' and 'Developer' roles.
+                // - and -
+                // the user must be associated with the school owning the report's program
+                // either by its primary school attribute
+                //     - or - by WRITE rights for the school
+                // via the permissions system.
+                return (
+                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    && ($user->getPrimarySchool() === $report->getProgram()->getOwningSchool()
+                        || $this->permissionManager->userHasWritePermissionToSchool(
+                            $user,
+                            $report->getProgram()->getOwningSchool()
+                        ))
+                );
+                break;
             case self::EDIT:
             case self::DELETE:
                 // HALT!
@@ -71,7 +87,7 @@ class CurriculumInventoryReportVoter extends AbstractVoter
                 if ($report->getExport()) {
                     return false;
                 }
-                // Only grant CREATE, EDIT and DELETE permissions to users with at least one of
+                // Only grant EDIT and DELETE permissions to users with at least one of
                 // 'Course Director' and 'Developer' roles.
                 // - and -
                 // the user must be associated with the school owning the report's program
