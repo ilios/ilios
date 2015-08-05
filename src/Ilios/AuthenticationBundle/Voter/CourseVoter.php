@@ -65,18 +65,15 @@ class CourseVoter extends AbstractVoter
                 // 2. the user has WRITE rights on the course's owning school via the permissions system
                 //    and the user has at least one of the 'Faculty', 'Course Director' and 'Developer' roles.
                 // 3. the user has WRITE rights on the course via the permissions system
-                //
-                // TODO
-                // Figure out if we need to check if the user has been assigned as 'director'
-                // to the given course, or is this implied by rule 2.
-                // [ST 2015/08/03]
-                return ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                    || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getOwningSchool())
+                return (
+                    $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
+                    && ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+                        || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getOwningSchool())
+                    )
                     || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
                 );
                 break;
         }
-
         return false;
     }
 }
