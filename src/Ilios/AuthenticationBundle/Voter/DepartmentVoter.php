@@ -56,9 +56,10 @@ class DepartmentVoter extends AbstractVoter
                     || $this->permissionManager->userHasReadPermissionToSchool($user, $department->getSchool())
                 );
                 break;
+            case self::CREATE:
             case self::EDIT:
             case self::DELETE:
-                // grant EDIT and DELETE privileges
+                // grant CREATE, EDIT and DELETE privileges
                 // if the user has the 'Developer' role
                 // - and -
                 //   if the user's primary school is the the department's owning school

@@ -68,9 +68,10 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                         || $this->permissionManager->userHasReadPermissionToSchool($user, $institution->getSchool()))
                 );
                 break;
+            case self::CREATE:
             case self::EDIT:
             case self::DELETE:
-                // Only grant EDIT and DELETE permissions to users with at least one of
+                // Only grant CREATE, EDIT and DELETE permissions to users with at least one of
                 // 'Course Director' and 'Developer' roles.
                 // - and -
                 // the user must be associated with the institution's school

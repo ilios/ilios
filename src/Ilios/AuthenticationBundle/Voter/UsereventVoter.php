@@ -13,6 +13,14 @@ class UsereventVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
+    protected function getSupportedAttributes()
+    {
+        return array(self::VIEW);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getSupportedClasses()
     {
         return array('Ilios\CoreBundle\Entity\UserInterface');
@@ -35,11 +43,6 @@ class UsereventVoter extends AbstractVoter
             case self::VIEW:
                 // check if requested user is current user
                 return $requestedUser->getId() === $user->getId();
-                break;
-            case self::EDIT:
-            case self::DELETE:
-                // user events cannot be edited or deleted.
-                return false;
                 break;
         }
 

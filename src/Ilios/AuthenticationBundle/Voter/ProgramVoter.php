@@ -65,9 +65,10 @@ class ProgramVoter extends AbstractVoter
                     || $this->permissionManager->userHasReadPermissionToProgram($user, $program)
                 );
                 break;
+            case self::CREATE:
             case self::EDIT:
             case self::DELETE:
-                // the given user is granted EDIT and DELETE permissions on the given program
+                // the given user is grantedC CREATE, EDIT and DELETE permissions on the given program
                 // when at least one of the following statements is true
                 // 1. The user's primary school is the same as the program's owning school
                 //    and the user has at least one of 'Course Director' and 'Developer' role.

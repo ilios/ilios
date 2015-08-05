@@ -33,11 +33,12 @@ class AlertVoter extends AbstractVoter
         }
 
         // all authenticated users can view alerts,
-        // but only developers can modify/delete them directly.
+        // but only developers can create/modify/delete them directly.
         switch ($attribute) {
             case self::VIEW:
                 return true;
                 break;
+            case self::CREATE:
             case self::EDIT:
             case self::DELETE:
                 return $this->userHasRole($user, ['Developer']);

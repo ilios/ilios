@@ -46,7 +46,9 @@ class UserMadeReminderVoter extends AbstractVoter
         }
 
         switch ($attribute) {
-            // only the user who created the reminder in the first place can access it.
+            // Users can perform any CRUD operations on their own reminders.
+            // Check if the given reminder's owning user is the given user.
+            case self::CREATE:
             case self::VIEW:
             case self::EDIT:
             case self::DELETE:

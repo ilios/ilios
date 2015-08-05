@@ -55,9 +55,10 @@ class CourseVoter extends AbstractVoter
                     || $this->permissionManager->userHasReadPermissionToCourse($user, $course)
                 );
                 break;
+            case self::CREATE:
             case self::EDIT:
             case self::DELETE:
-                // grant EDIT and DELETE privileges if at least one of the following
+                // grant CREATE, EDIT and DELETE privileges if at least one of the following
                 // statements is true:
                 // 1. the user's primary school is the course's owning school
                 //    and the user has at least one of the 'Faculty', 'Course Director' and 'Developer' roles.

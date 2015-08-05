@@ -63,6 +63,7 @@ class CurriculumInventoryReportVoter extends AbstractVoter
                         ))
                 );
                 break;
+            case self::CREATE:
             case self::EDIT:
             case self::DELETE:
                 // HALT!
@@ -70,7 +71,7 @@ class CurriculumInventoryReportVoter extends AbstractVoter
                 if ($report->getExport()) {
                     return false;
                 }
-                // Only grant EDIT and DELETE permissions to users with at least one of
+                // Only grant CREATE, EDIT and DELETE permissions to users with at least one of
                 // 'Course Director' and 'Developer' roles.
                 // - and -
                 // the user must be associated with the school owning the report's program

@@ -58,9 +58,10 @@ class SchoolVoter extends AbstractVoter
                     || $this->permissionManager->userHasReadPermissionToSchool($user, $school)
                 );
                 break;
+            case self::CREATE:
             case self::EDIT:
             case self::DELETE:
-                // Only grant EDIT and DELETE permissions to users with 'Developer' role.
+                // Only grant CREATE, EDIT and DELETE permissions if the user has the 'Developer' role.
                 // - and -
                 // the user must be associated with the given school,
                 // either by its primary school attribute

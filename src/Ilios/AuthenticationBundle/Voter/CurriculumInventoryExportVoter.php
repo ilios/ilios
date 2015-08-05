@@ -28,6 +28,15 @@ class CurriculumInventoryExportVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
+    protected function getSupportedAttributes()
+    {
+        return array(self::CREATE, self::VIEW);
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getSupportedClasses()
     {
         return array('Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface');
@@ -46,6 +55,22 @@ class CurriculumInventoryExportVoter extends AbstractVoter
         }
 
         switch ($attribute) {
+            case self::CREATE:
+                // Only grant VIEW permissions to users with at least one of
+                // 'Course Director' and 'Developer' roles.
+                // - and -
+                // the user must be associated with the school owning the parent report's program
+                // either by its primary school attribute
+                //     - or - by WROTE rights for the school
+                // via the permissions system.
+                return (
+                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    && ($user->getPrimarySchool() === $export->getReport()->getProgram()->getOwningSchool()
+                        || $this->permissionManager->userHasWritePermissionToSchool(
+                            $user,
+                            $export->getReport()->getProgram()->getOwningSchool()
+                        ))
+                );
             case self::VIEW:
                 // Only grant VIEW permissions to users with at least one of
                 // 'Course Director' and 'Developer' roles.
@@ -63,11 +88,6 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                         ))
                 );
                 break;
-            case self::EDIT:
-            case self::DELETE:
-                // HALT!
-                // Exports cannot be edited or deleted.
-                return false;
         }
 
         return false;

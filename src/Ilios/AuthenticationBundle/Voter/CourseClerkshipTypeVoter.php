@@ -31,6 +31,8 @@ class CourseClerkshipTypeVoter extends AbstractVoter
             return false;
         }
 
+        // all authenticated users can clerkship types,
+        // but only developers can create/modify/delete them directly.
         switch ($attribute) {
             case self::VIEW:
                 return true;
