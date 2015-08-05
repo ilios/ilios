@@ -29,4 +29,12 @@ class CurriculumInventorySequenceBlockVoter extends CurriculumInventoryReportVot
     {
         return parent::isGranted($attribute, $block->getReport(), $user);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isCreateGranted($report, $user)
+    {
+        return parent::isEditGranted();
+    }
 }

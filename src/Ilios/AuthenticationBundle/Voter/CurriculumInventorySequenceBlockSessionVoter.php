@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSessionInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -28,5 +29,13 @@ class CurriculumInventorySequenceBlockSessionVoter extends CurriculumInventoryRe
     protected function isGranted($attribute, $session, $user = null)
     {
         return parent::isGranted($attribute, $session->getSequenceBlock()->getReport(), $user);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isCreateGranted($report, $user)
+    {
+        return parent::isEditGranted();
     }
 }
