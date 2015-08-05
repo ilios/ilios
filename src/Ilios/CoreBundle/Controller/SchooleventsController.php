@@ -20,23 +20,22 @@ use DateTime;
 use Exception;
 
 /**
- * User event controller
+ * School event.
  * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("Userevent")
+ * @RouteResource("Schoolevents")
  */
-class UsereventController extends FOSRestController
+class SchooleventsController extends FOSRestController
 {
 
   /**
-   * Get events for a user
+   * Get events for a school
    *
    * @ApiDoc(
    *   resource = true,
-   *   description = "Get events for a user.",
-   *   output="Ilios\CoreBundle\Classes\UserEvent",
+   *   description = "Get events for a school.",
+   *   output="Ilios\CoreBundle\Classes\Schoolevent",
    *   statusCodes = {
-   *     200 = "List of user events",
-   *     204 = "No content. Nothing to list."
+   *     200 = "List of school events",
    *   }
    * )
    *
@@ -60,12 +59,12 @@ class UsereventController extends FOSRestController
    */
     public function getAction($id, ParamFetcherInterface $paramFetcher)
     {
-        $userHandler = $this->container->get('ilioscore.user.handler');
+        $schoolHandler = $this->container->get('ilioscore.school.handler');
 
-        $user = $userHandler->findUserBy(['id' => $id]);
+        $school = $schoolHandler->findSchoolBy(['id' => $id]);
 
-        if (!$user) {
-            throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
+        if (!$school) {
+            throw new NotFoundHttpException(sprintf('The school \'%s\' was not found.', $id));
         }
         $fromTimestamp = $paramFetcher->get('from');
         $toTimestamp = $paramFetcher->get('to');
@@ -77,14 +76,14 @@ class UsereventController extends FOSRestController
         if (!$to) {
             throw new Exception("'to' is not a valid timstamp");
         }
-        $result = $userHandler->findEventsForUser(
-            $user->getId(),
+        $result = $schoolHandler->findEventsForSchool(
+            $school->getId(),
             $from,
             $to
         );
 
         //If there are no matches return an empty array
-        $answer['userEvents'] = $result ? $result : new ArrayCollection([]);
+        $answer['events'] = $result ? $result : new ArrayCollection([]);
 
         return $answer;
     }

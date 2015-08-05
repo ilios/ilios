@@ -8,7 +8,7 @@ use FOS\RestBundle\Util\Codes;
  * UserRole controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
-class UsereventControllerTest extends AbstractControllerTest
+class SchooleventsControllerTest extends AbstractControllerTest
 {
     /**
      * @return array|string
@@ -18,7 +18,7 @@ class UsereventControllerTest extends AbstractControllerTest
         return [
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
         ];
     }
 
@@ -33,20 +33,20 @@ class UsereventControllerTest extends AbstractControllerTest
 
     public function testGetEvents()
     {
-        $user = $this->container->get('ilioscore.dataloader.user')->getOne();
+        $school = $this->container->get('ilioscore.dataloader.school')->getOne();
         $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
         $ilmSessions = $this->container->get('ilioscore.dataloader.ilmSession')->getAll();
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_userevent',
-                ['id' => $user['id'], 'from' => 0, 'to' => 100000000000]
+                'get_schoolevents',
+                ['id' => $school['id'], 'from' => 0, 'to' => 100000000000]
             )
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
-        $events = json_decode($response->getContent(), true)['userEvents'];
+        $events = json_decode($response->getContent(), true)['events'];
         $this->assertEquals(11, count($events), 'Expected events returned');
         $this->assertEquals($events[0]['startDate'], $offerings[1]['startDate']);
         $this->assertEquals($events[0]['endDate'], $offerings[1]['endDate']);
@@ -62,7 +62,7 @@ class UsereventControllerTest extends AbstractControllerTest
             $this->assertEquals($events[$i]['startDate'], $ilmSessions[$i-7]['dueDate']);
         }
         foreach ($events as $event) {
-            $this->assertEquals($user['id'], $event['user']);
+            $this->assertEquals($school['id'], $event['school']);
         }
     }
 }

@@ -5,55 +5,10 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Type as DoctrineType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ilios\CoreBundle\Classes\UserEvent;
+use Ilios\CoreBundle\Classes\SchoolEvent;
 
-class UserRepository extends EntityRepository
+class SchoolRepository extends EntityRepository
 {
-    /**
-     * Find by a string query
-     * @param string $q
-     * @param integer $orderBy
-     * @param integer $limit
-     * @param offset $offset
-     */
-    public function findByQ($q, $orderBy, $limit, $offset)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'u')->from('IliosCoreBundle:User', 'u');
-        $terms = explode(' ', $q);
-        $terms = array_filter($terms, 'strlen');
-        if (empty($terms)) {
-            return new ArrayCollection([]);
-        }
-
-        foreach ($terms as $key => $term) {
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('u.firstName', "?{$key}"),
-                $qb->expr()->like('u.lastName', "?{$key}"),
-                $qb->expr()->like('u.middleName', "?{$key}"),
-                $qb->expr()->like('u.email', "?{$key}")
-            ))
-            ->setParameter($key, '%' . $term . '%');
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('u.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb->getQuery()->getResult();
-    }
-
-
     /**
      * Find all of the events for a user id between two dates
      * @param integer $id
@@ -62,18 +17,14 @@ class UserRepository extends EntityRepository
      *
      * @return UserEvent[]|Collection
      */
-    public function findEventsForUser(
+    public function findEventsForSchool(
         $id,
         \DateTime $from,
         \DateTime $to
     ) {
         //These joins are DQL representations to go from a user to an offerings
         $joins = [
-            ['g' => 'u.learnerGroups', 'o' => 'g.offerings'],
-            ['g' => 'u.instructorGroups', 'o' => 'g.offerings'],
-            ['o' => 'u.offerings'],
-            ['o' => 'u.instructedOfferings'],
-            ['dc' => 'u.directedCourses', 'dcs' => 'dc.sessions', 'o' => 'dcs.offerings'],
+            ['c' => 'school.courses', 'se' => 'c.sessions', 'o' => 'se.offerings'],
         ];
         
         $offeringEvents = [];
@@ -93,10 +44,7 @@ class UserRepository extends EntityRepository
         
         //These joins are DQL representations to go from a user to an ILMSession
         $joins = [
-            ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions'],
-            ['g' => 'u.instructorGroups', 'ilm' => 'g.ilmSessions'],
-            ['ilm' => 'u.learnerIlmSessions'],
-            ['ilm' => 'u.instructorIlmSessions'],
+            ['c' => 'school.courses', 'se' => 'c.sessions', 'ilm' => 'se.ilmSession'],
         ];
         
         $ilmEvents = [];
@@ -125,14 +73,14 @@ class UserRepository extends EntityRepository
     
     /**
       * Use the query builder and the $joins to get a set of
-      * offering based user events
+      * offering based school events
       *
       * @param integer $id
       * @param \DateTime $from
       * @param \DateTime $to
       * @param array $joins
       *
-     * @return UserEvent[]
+     * @return SchoolEvent[]
      */
     protected function getOfferingEventsFor(
         $id,
@@ -144,7 +92,7 @@ class UserRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder();
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
           's.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId';
-        $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
+        $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
@@ -153,11 +101,11 @@ class UserRepository extends EntityRepository
         $qb->leftJoin('s.publishEvent', 'pe');
 
         $qb->where($qb->expr()->andX(
-            $qb->expr()->eq('u.id', ':user_id'),
+            $qb->expr()->eq('school.id', ':school_id'),
             $qb->expr()->between('o.startDate', ':date_from', ':date_to'),
             $qb->expr()->eq('o.deleted', 0)
         ));
-        $qb->setParameter('user_id', $id);
+        $qb->setParameter('school_id', $id);
 
         $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
@@ -170,10 +118,10 @@ class UserRepository extends EntityRepository
       * Use the query builder and the $joins to get a set of
       * ILMSession based user events
       *
-      * @param integer $id
-      * @param \DateTime $from
-      * @param \DateTime $to
-      * @param array $joins
+      * @param integer $userId
+      * @param \DateTime $start
+      * @param \DateTime $end
+      * @param string $group
       *
      * @return UserEvent[]
      */
@@ -187,7 +135,7 @@ class UserRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder();
         $what = 'ilm.id, ilm.dueDate, ' .
           's.updatedAt, s.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId';
-        $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
+        $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
@@ -196,11 +144,11 @@ class UserRepository extends EntityRepository
         $qb->leftJoin('s.publishEvent', 'pe');
 
         $qb->where($qb->expr()->andX(
-            $qb->expr()->eq('u.id', ':user_id'),
+            $qb->expr()->eq('school.id', ':school_id'),
             $qb->expr()->between('ilm.dueDate', ':date_from', ':date_to'),
             $qb->expr()->eq('s.deleted', 0)
         ));
-        $qb->setParameter('user_id', $id);
+        $qb->setParameter('school_id', $id);
 
         $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
@@ -217,11 +165,11 @@ class UserRepository extends EntityRepository
      *
      * @return UserEvent[]
      */
-    protected function createEventObjectsForOfferings($userId, array $results)
+    protected function createEventObjectsForOfferings($schoolId, array $results)
     {
-        return array_map(function ($arr) use ($userId) {
-            $event = new UserEvent;
-            $event->user = $userId;
+        return array_map(function ($arr) use ($schoolId) {
+            $event = new SchoolEvent;
+            $event->school = $schoolId;
             $event->name = $arr['title'];
             $event->startDate = $arr['startDate'];
             $event->endDate = $arr['endDate'];
@@ -244,11 +192,11 @@ class UserRepository extends EntityRepository
      *
      * @return UserEvent[]
      */
-    protected function createEventObjectsForIlmSessions($userId, array $results)
+    protected function createEventObjectsForIlmSessions($schoolId, array $results)
     {
-        return array_map(function ($arr) use ($userId) {
-            $event = new UserEvent;
-            $event->user = $userId;
+        return array_map(function ($arr) use ($schoolId) {
+            $event = new SchoolEvent;
+            $event->school = $schoolId;
             $event->name = $arr['title'];
             $event->startDate = $arr['dueDate'];
             $event->ilmSession = $arr['id'];

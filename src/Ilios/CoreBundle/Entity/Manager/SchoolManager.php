@@ -82,4 +82,19 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
         $class = $this->getClass();
         return new $class();
     }
+
+    /**
+     * @param integer $schoolId
+     * @param \DateTime $from
+     * @param \DateTime $to
+     *
+     * @return UserEvent[]|Collection
+     */
+    public function findEventsForSchool(
+        $schoolId,
+        \DateTime $from,
+        \DateTime $to
+    ) {
+        return $this->repository->findEventsForSchool($schoolId, $from, $to);
+    }
 }
