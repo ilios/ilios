@@ -438,7 +438,9 @@ class School implements SchoolInterface
      */
     public function getDepartments()
     {
-        return $this->departments;
+        return $this->departments->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
