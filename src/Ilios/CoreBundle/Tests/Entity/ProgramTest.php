@@ -86,7 +86,7 @@ class ProgramTest extends EntityBase
      */
     public function testSetOwningSchool()
     {
-        $this->entitySetTest('owningSchool', 'School');
+        $this->softDeleteEntitySetTest('owningSchool', 'School');
     }
 
     /**

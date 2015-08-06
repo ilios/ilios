@@ -57,7 +57,7 @@ class CohortTest extends EntityBase
      */
     public function testSetProgramYear()
     {
-        $this->entitySetTest('programYear', 'ProgramYear');
+        $this->softDeleteEntitySetTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -65,19 +65,7 @@ class CohortTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $goodCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-        $this->object->addCourse($goodCourse);
-        $this->object->addCourse($deletedCourse);
-        $results = $this->object->getCourses();
-        $this->assertTrue($results instanceof ArrayCollection, 'Collection not returned.');
-
-        $this->assertTrue($results->contains($goodCourse));
-        $this->assertFalse($results->contains($deletedCourse));
+        $this->softDeleteEntityCollectionAddTest('course', 'Course');
     }
 
     /**
@@ -85,18 +73,6 @@ class CohortTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $goodCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-        $collection = new ArrayCollection([$goodCourse, $deletedCourse]);
-        $this->object->setCourses($collection);
-        $results = $this->object->getCourses();
-        $this->assertTrue($results instanceof ArrayCollection, 'Collection not returned.');
-
-        $this->assertTrue($results->contains($goodCourse));
-        $this->assertFalse($results->contains($deletedCourse));
+        $this->softDeleteEntityCollectionSetTest('course', 'Course');
     }
 }

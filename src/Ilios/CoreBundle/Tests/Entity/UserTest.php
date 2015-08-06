@@ -197,19 +197,7 @@ class UserTest extends EntityBase
      */
     public function testAddDirectedCourse()
     {
-        $goodCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-        $this->object->addDirectedCourse($goodCourse);
-        $this->object->addDirectedCourse($deletedCourse);
-        $results = $this->object->getDirectedCourses();
-        $this->assertTrue($results instanceof ArrayCollection, 'Collection not returned.');
-
-        $this->assertTrue($results->contains($goodCourse));
-        $this->assertFalse($results->contains($deletedCourse));
+        $this->softDeleteEntityCollectionAddTest('directedCourse', 'Course');
     }
 
     /**
@@ -217,19 +205,7 @@ class UserTest extends EntityBase
      */
     public function testGetDirectedCourses()
     {
-        $goodCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-        $collection = new ArrayCollection([$goodCourse, $deletedCourse]);
-        $this->object->setDirectedCourses($collection);
-        $results = $this->object->getDirectedCourses();
-        $this->assertTrue($results instanceof ArrayCollection, 'Collection not returned.');
-
-        $this->assertTrue($results->contains($goodCourse));
-        $this->assertFalse($results->contains($deletedCourse));
+        $this->softDeleteEntityCollectionSetTest('directedCourse', 'Course');
     }
 
     /**
@@ -285,7 +261,7 @@ class UserTest extends EntityBase
      */
     public function testAddOffering()
     {
-        $this->entityCollectionAddTest('offering', 'Offering');
+        $this->softDeleteEntityCollectionAddTest('offering', 'Offering');
     }
 
     /**
@@ -293,7 +269,7 @@ class UserTest extends EntityBase
      */
     public function testSetOfferings()
     {
-        $this->entityCollectionSetTest('offering', 'Offering');
+        $this->softDeleteEntityCollectionSetTest('offering', 'Offering');
     }
 
     /**
@@ -301,7 +277,7 @@ class UserTest extends EntityBase
      */
     public function testAddProgramYear()
     {
-        $this->entityCollectionAddTest('programYear', 'ProgramYear');
+        $this->softDeleteEntityCollectionAddTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -309,7 +285,7 @@ class UserTest extends EntityBase
      */
     public function testSetProgramYears()
     {
-        $this->entityCollectionSetTest('programYear', 'ProgramYear');
+        $this->softDeleteEntityCollectionSetTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -381,7 +357,7 @@ class UserTest extends EntityBase
      */
     public function testAddReport()
     {
-        $this->entityCollectionAddTest('report', 'Report');
+        $this->softDeleteEntityCollectionAddTest('report', 'Report');
     }
 
     /**
@@ -389,7 +365,7 @@ class UserTest extends EntityBase
      */
     public function testSetReports()
     {
-        $this->entityCollectionSetTest('report', 'Report');
+        $this->softDeleteEntityCollectionSetTest('report', 'Report');
     }
 
     /**

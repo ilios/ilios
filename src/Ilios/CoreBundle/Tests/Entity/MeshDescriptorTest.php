@@ -73,19 +73,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $goodCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-        $this->object->addCourse($goodCourse);
-        $this->object->addCourse($deletedCourse);
-        $results = $this->object->getCourses();
-        $this->assertTrue($results instanceof ArrayCollection, 'Collection not returned.');
-
-        $this->assertTrue($results->contains($goodCourse));
-        $this->assertFalse($results->contains($deletedCourse));
+        $this->softDeleteEntityCollectionAddTest('course', 'Course');
     }
 
     /**
@@ -93,19 +81,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $goodCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedCourse = m::mock('Ilios\CoreBundle\Entity\Course')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-        $collection = new ArrayCollection([$goodCourse, $deletedCourse]);
-        $this->object->setCourses($collection);
-        $results = $this->object->getCourses();
-        $this->assertTrue($results instanceof ArrayCollection, 'Collection not returned.');
-
-        $this->assertTrue($results->contains($goodCourse));
-        $this->assertFalse($results->contains($deletedCourse));
+        $this->softDeleteEntityCollectionSetTest('course', 'Course');
     }
 
     /**
@@ -129,19 +105,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddSession()
     {
-        $goodSession = m::mock('Ilios\CoreBundle\Entity\Session')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedSession = m::mock('Ilios\CoreBundle\Entity\Session')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-        $this->object->addSession($goodSession);
-        $this->object->addSession($deletedSession);
-        $results = $this->object->getSessions();
-        $this->assertTrue($results instanceof ArrayCollection, 'Collection not returned.');
-
-        $this->assertTrue($results->contains($goodSession));
-        $this->assertFalse($results->contains($deletedSession));
+        $this->softDeleteEntityCollectionAddTest('session', 'Session');
     }
 
     /**
@@ -149,19 +113,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetSessions()
     {
-        $goodSession = m::mock('Ilios\CoreBundle\Entity\Session')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedSession = m::mock('Ilios\CoreBundle\Entity\Session')
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-        $collection = new ArrayCollection([$goodSession, $deletedSession]);
-        $this->object->setSessions($collection);
-        $results = $this->object->getSessions();
-        $this->assertTrue($results instanceof ArrayCollection, 'Collection not returned.');
-
-        $this->assertTrue($results->contains($goodSession));
-        $this->assertFalse($results->contains($deletedSession));
+        $this->softDeleteEntityCollectionSetTest('session', 'Session');
     }
 
     /**

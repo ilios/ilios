@@ -134,7 +134,7 @@ class RecurringEventTest extends EntityBase
      */
     public function testAddOffering()
     {
-        $this->entityCollectionAddTest('offering', 'Offering');
+        $this->softDeleteEntityCollectionAddTest('offering', 'Offering');
     }
 
     /**
@@ -142,6 +142,6 @@ class RecurringEventTest extends EntityBase
      */
     public function testGetOfferings()
     {
-        $this->entityCollectionSetTest('offering', 'Offering');
+        $this->softDeleteEntityCollectionSetTest('offering', 'Offering');
     }
 }

@@ -115,6 +115,6 @@ class CurriculumInventoryInstitutionTest extends EntityBase
      */
     public function testSetSchool()
     {
-        $this->entitySetTest('school', 'School');
+        $this->softDeleteEntitySetTest('school', 'School');
     }
 }

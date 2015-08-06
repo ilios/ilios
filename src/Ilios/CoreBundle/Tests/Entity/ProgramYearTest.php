@@ -94,7 +94,7 @@ class ProgramYearTest extends EntityBase
      */
     public function testSetProgram()
     {
-        $this->entitySetTest('program', 'Program');
+        $this->softDeleteEntitySetTest('program', 'Program');
     }
 
     /**
