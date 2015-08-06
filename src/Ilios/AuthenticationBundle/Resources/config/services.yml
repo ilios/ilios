@@ -132,14 +132,139 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access_program_year_voter:
+    security.access.ilm_session_voter:
+        class: Ilios\AuthenticationBundle\Voter\IlmSessionVoter
+        arguments: [ @ilioscore.permission.manager, @ilioscore.session.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.instructor_group_voter:
+        class: Ilios\AuthenticationBundle\Voter\InstructorGroupVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.learner_group_voter:
+        class: Ilios\AuthenticationBundle\Voter\LearnerGroupVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.learning_material_status_voter:
+        class: Ilios\AuthenticationBundle\Voter\LearningMaterialStatusVoter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.learning_material_user_role_voter:
+        class: Ilios\AuthenticationBundle\Voter\LearningMaterialUserRoleVoter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.learning_material_voter:
+        class: Ilios\AuthenticationBundle\Voter\LearningMaterialVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.objective_voter:
+        class: Ilios\AuthenticationBundle\Voter\ObjectiveVoter
+        arguments: [ @ilioscore.permission.manager, @ilioscore.programyearsteward.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.offering_voter:
+        class: Ilios\AuthenticationBundle\Voter\OfferingVoter
+        parent: security.access.session_voter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.program_voter:
+        class: Ilios\AuthenticationBundle\Voter\ProgramVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.program_year_steward_voter:
+        class: Ilios\AuthenticationBundle\Voter\ProgramYearStewardVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.program_year_voter:
         class: Ilios\AuthenticationBundle\Voter\ProgramYearVoter
         arguments: [ @ilioscore.permission.manager, @ilioscore.programyearsteward.manager ]
         public: false
         tags:
             - { name: security.voter }
+    security.access.publish_event_voter:
+        class: Ilios\AuthenticationBundle\Voter\PublishEventVoter
+        arguments: [ @ilioscore.permission.manager,
+            @ilioscore.program.manager,
+            @ilioscore.programyear.manager,
+            @ilioscore.course.manager,
+            @ilioscore.session.manager,
+            @ilioscore.programyearsteward.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.recurring_event_voter:
+        class: Ilios\AuthenticationBundle\Voter\RecurringEventVoter
+        parent: security.access.session_voter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.report_voter:
+        class: Ilios\AuthenticationBundle\Voter\ReportVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.school_voter:
         class: Ilios\AuthenticationBundle\Voter\SchoolVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.session_voter:
+        class: Ilios\AuthenticationBundle\Voter\SessionVoter
+        parent: security.access.course_voter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.session_description_voter:
+        class: Ilios\AuthenticationBundle\Voter\SessionDescriptionVoter
+        parent: security.access.session_voter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.session_learning_material_voter:
+        class: Ilios\AuthenticationBundle\Voter\SessionLearningMaterialVoter
+        parent: security.access.session_voter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.session_type_voter:
+        class: Ilios\AuthenticationBundle\Voter\SessionTypeVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.userevent_voter:
+        class: Ilios\AuthenticationBundle\Voter\UsereventVoter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.user_made_reminder_voter:
+        class: Ilios\AuthenticationBundle\Voter\UserMadeReminderVoter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.user_role_voter:
+        class: Ilios\AuthenticationBundle\Voter\UserRoleVoter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.user_voter:
+        class: Ilios\AuthenticationBundle\Voter\UserVoter
         arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
