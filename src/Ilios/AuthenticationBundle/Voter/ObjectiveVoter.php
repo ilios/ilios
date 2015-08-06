@@ -152,6 +152,11 @@ class ObjectiveVoter extends AbstractVoter
 
         // Code below has been copy/pasted straight out of CourseVoter::isGranted().
         // TODO: consolidate. [ST 2015/08/05]
+        // HALT!
+        // deny DELETE and CREATE privileges if the owning course is locked or archived.
+        if ($course->isArchived() || $course->isLocked()) {
+            return false;
+        }
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
             && ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
