@@ -250,6 +250,7 @@ services:
             - { name: security.voter }
     security.access.user_made_reminder_voter:
         class: Ilios\AuthenticationBundle\Voter\UserMadeReminderVoter
+        arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
             - { name: security.voter }
