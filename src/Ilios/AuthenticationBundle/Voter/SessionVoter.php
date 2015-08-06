@@ -36,6 +36,6 @@ class SessionVoter extends CourseVoter
      */
     protected function isCreateGranted($course, $user)
     {
-        return parent::isEditGranted($course, $user);
+        return $this->isEditGranted($course, $user);
     }
 }

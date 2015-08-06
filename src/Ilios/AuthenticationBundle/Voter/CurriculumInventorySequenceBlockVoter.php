@@ -35,6 +35,6 @@ class CurriculumInventorySequenceBlockVoter extends CurriculumInventoryReportVot
      */
     protected function isCreateGranted($report, $user)
     {
-        return parent::isEditGranted();
+        return $this->isEditGranted();
     }
 }
