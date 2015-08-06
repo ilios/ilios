@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManagerInterface;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
+use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -94,10 +95,14 @@ class ObjectiveVoter extends AbstractVoter
     protected function isGrantedModifyForProgramYearObjective($objective, $user)
     {
 
-        $programYear = $objective->getProgramYears()->next(); // there should ever by only one
+        /* @var ProgramYearInterface $programYear */
+        $programYear = $objective->getProgramYears()->next(); // there should ever only be one
 
         // Code below has been copy/pasted straight out of ProgramYearVoter::isGranted().
         // TODO: consolidate. [ST 2015/08/05]
+        if ($programYear->isLocked() || $programYear->isArchived()) {
+            return false;
+        }
         return (
             ($this->userHasRole($user, ['Course Director', 'Developer'])
                 && ($programYear->getProgram()->getOwningSchool()->getId()
@@ -124,13 +129,18 @@ class ObjectiveVoter extends AbstractVoter
     protected function isGrantedModifyForSessionObjective($objective, $user)
     {
         /* @var SessionInterface $session */
-        $session = $objective->getSessions()->next(); // there should ever by only one
+        $session = $objective->getSessions()->next(); // there should ever only be one
 
         /* @var CourseInterface $course */
         $course = $session->getCourse();
 
         // Code below has been copy/pasted straight out of CourseVoter::isGranted().
         // TODO: consolidate. [ST 2015/08/05]
+        // HALT!
+        // deny DELETE and CREATE privileges if the owning course is locked or archived.
+        if ($course->isArchived() || $course->isLocked()) {
+            return false;
+        }
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
             && ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
@@ -148,7 +158,7 @@ class ObjectiveVoter extends AbstractVoter
     protected function isGrantedModifyForCourseObjective($objective, $user)
     {
         /* @var CourseInterface $course */
-        $course = $objective->getCourses()->next(); // there should ever by only one
+        $course = $objective->getCourses()->next(); // there should ever only be one
 
         // Code below has been copy/pasted straight out of CourseVoter::isGranted().
         // TODO: consolidate. [ST 2015/08/05]
