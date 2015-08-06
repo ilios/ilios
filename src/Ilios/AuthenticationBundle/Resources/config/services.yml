@@ -80,36 +80,43 @@ services:
             - { name: security.voter }
     security.access.curriculum_inventory_academic_level_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryAcademicLevelVoter
+        parent: security.access.curriculum_inventory_report_voter
         public: false
         tags:
            - { name: security.voter }
     security.access.curriculum_inventory_export_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryExportVoter
+        arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
            - { name: security.voter }
     security.access.curriculum_inventory_institution_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryInstitutionVoter
+        arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
            - { name: security.voter }
     security.access.curriculum_inventory_report_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryReportVoter
+        arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
            - { name: security.voter }
     security.access.curriculum_sequence_block_session_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceBlockSessionVoter
+        parent: security.access.curriculum_inventory_report_voter
         public: false
         tags:
            - { name: security.voter }
     security.access.curriculum_sequence_block_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceBlockVoter
+        parent: security.access.curriculum_inventory_report_voter
         public: false
         tags:
            - { name: security.voter }
     security.access.curriculum_sequence_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceVoter
+        parent: security.access.curriculum_inventory_report_voter
         public: false
         tags:
            - { name: security.voter }
@@ -121,6 +128,7 @@ services:
            - { name: security.voter }
     security.access.school_voter:
         class: Ilios\AuthenticationBundle\Voter\SchoolVoter
+        arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
             - { name: security.voter }
