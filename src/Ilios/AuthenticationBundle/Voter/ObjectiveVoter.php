@@ -75,11 +75,11 @@ class ObjectiveVoter extends AbstractVoter
                 // So really, this is three voters in one.
                 // TODO: Clean this mess up. [ST 2015/08/05]
                 if (!$objective->getCourses()->isEmpty()) { // got courses? if so, it's a course objective.
-                    return $this->isGrantedModifyForCourseObjective($objective, $user);
+                    return $this->isCreateEditDeleteGrantedForCourseObjective($objective, $user);
                 } elseif (!$objective->getSessions()->isEmpty()) { // and so on..
-                    return $this->isGrantedModifyForSessionObjective($objective, $user);
+                    return $this->isCreateEditDeleteGrantedForSessionObjective($objective, $user);
                 } elseif (!$objective->getProgramYears()->isEmpty()) { // and so on ..
-                    return $this->isGrantedModifyForProgramYearObjective($objective, $user);
+                    return $this->isCreateEditDeleteGrantedForProgramYearObjective($objective, $user);
                 }
                 break;
         }
@@ -92,7 +92,7 @@ class ObjectiveVoter extends AbstractVoter
      * @param UserInterface $user
      * @return bool
      */
-    protected function isGrantedModifyForProgramYearObjective($objective, $user)
+    protected function isCreateEditDeleteGrantedForProgramYearObjective($objective, $user)
     {
 
         /* @var ProgramYearInterface $programYear */
@@ -126,7 +126,7 @@ class ObjectiveVoter extends AbstractVoter
      * @param UserInterface $user
      * @return bool
      */
-    protected function isGrantedModifyForSessionObjective($objective, $user)
+    protected function isCreateEditDeleteGrantedForSessionObjective($objective, $user)
     {
         /* @var SessionInterface $session */
         $session = $objective->getSessions()->next(); // there should ever only be one
@@ -155,7 +155,7 @@ class ObjectiveVoter extends AbstractVoter
      * @param UserInterface $user
      * @return bool
      */
-    protected function isGrantedModifyForCourseObjective($objective, $user)
+    protected function isCreateEditDeleteGrantedForCourseObjective($objective, $user)
     {
         /* @var CourseInterface $course */
         $course = $objective->getCourses()->next(); // there should ever only be one
