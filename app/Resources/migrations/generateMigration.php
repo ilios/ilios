@@ -1455,7 +1455,7 @@ class Migrate
         $changes[] = array(
             'table' => 'curriculum_inventory_sequence_block',
             'column' => 'child_sequence_order',
-            'definition' => 'TINYINT(1) NOT NULL'
+            'definition' => 'SMALLINT NOT NULL'
         );
         $changes[] = array(
             'table' => 'curriculum_inventory_sequence_block_session',

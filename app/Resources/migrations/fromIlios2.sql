@@ -404,7 +404,7 @@ ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `sequence_block_id` `se
 ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `minimum` `minimum` INT NOT NULL;
 ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `required` `required` TINYINT(1) NOT NULL;
 ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `order_in_sequence` `order_in_sequence` INT NOT NULL;
-ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `child_sequence_order` `child_sequence_order` TINYINT(1) NOT NULL;
+ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `child_sequence_order` `child_sequence_order` SMALLINT NOT NULL;
 ALTER TABLE `curriculum_inventory_sequence_block_session` CHANGE `count_offerings_once` `count_offerings_once` TINYINT(1) NOT NULL;
 ALTER TABLE `curriculum_inventory_sequence_block_session` CHANGE `sequence_block_id` `sequence_block_id` INT DEFAULT NULL;
 ALTER TABLE `curriculum_inventory_sequence_block_session` CHANGE `session_id` `session_id` INT DEFAULT NULL;
