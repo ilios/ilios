@@ -91,6 +91,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @Assert\NotBlank()
      *
      * @JMS\Expose
+     * @JMS\ReadOnly
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("uploadDate")
      */
@@ -413,6 +414,14 @@ class LearningMaterial implements LearningMaterialInterface
     public function getUserRole()
     {
         return $this->userRole;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUploadDate()
+    {
+        return $this->uploadDate;
     }
 
 
