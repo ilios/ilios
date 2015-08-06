@@ -29,4 +29,12 @@ class CohortVoter extends ProgramYearVoter
     {
         return parent::isGranted($attribute, $cohort->getProgramYear(), $user);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isCreateGranted($programYear, $user)
+    {
+        return $this->isEditGranted($programYear, $user);
+    }
 }
