@@ -102,6 +102,18 @@ services:
         public: false
         tags:
            - { name: security.voter }
+    security.access.department_voter:
+        class: Ilios\AuthenticationBundle\Voter\DepartmentVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.discipline_voter:
+        class: Ilios\AuthenticationBundle\Voter\DisciplineVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+           - { name: security.voter }
     security.access.curriculum_sequence_block_session_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceBlockSessionVoter
         parent: security.access.curriculum_inventory_report_voter
