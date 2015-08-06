@@ -51,12 +51,30 @@ services:
            - { name: security.voter }
     security.access.cohort_voter:
         class: Ilios\AuthenticationBundle\Voter\CohortVoter
-        arguments: [ @ilioscore.permission.manager, @ilioscore.programyearsteward.manager ]
+        parent: security.access.program_year_voter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.competency_voter:
+        class: Ilios\AuthenticationBundle\Voter\CompetencyVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.course_clerkship_type_voter:
+        class: Ilios\AuthenticationBundle\Voter\CourseClerkshipTypeVoter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access.course_learning_material_voter:
+        class: Ilios\AuthenticationBundle\Voter\CourseLearningMaterialVoter
+        parent: security.access.course_voter
         public: false
         tags:
            - { name: security.voter }
     security.access.course_voter:
         class: Ilios\AuthenticationBundle\Voter\CourseVoter
+        arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
             - { name: security.voter }
@@ -92,6 +110,12 @@ services:
            - { name: security.voter }
     security.access.curriculum_sequence_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceVoter
+        public: false
+        tags:
+           - { name: security.voter }
+    security.access_program_year_voter:
+        class: Ilios\AuthenticationBundle\Voter\ProgramYearVoter
+        arguments: [ @ilioscore.permission.manager, @ilioscore.programyearsteward.manager ]
         public: false
         tags:
            - { name: security.voter }
