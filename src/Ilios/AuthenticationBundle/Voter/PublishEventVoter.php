@@ -49,14 +49,6 @@ class PublishEventVoter extends AbstractVoter
     protected $stewardManager;
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getSupportedAttributes()
-    {
-        return array(self::CREATE, self::VIEW, self::DELETE);
-    }
-
-    /**
      * @param PermissionManagerInterface $permissionManager
      * @param ProgramManagerInterface $programManager
      * @param ProgramYearManagerInterface $programYearManager
@@ -78,6 +70,14 @@ class PublishEventVoter extends AbstractVoter
         $this->courseManager = $courseManager;
         $this->sessionManager = $sessionManager;
         $this->stewardManager = $stewardManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getSupportedAttributes()
+    {
+        return array(self::CREATE, self::VIEW);
     }
 
     /**
@@ -108,10 +108,9 @@ class PublishEventVoter extends AbstractVoter
                 return true;
                 break;
             case self::CREATE:
-            case self::DELETE:
                 // here we go again...
                 // There are four types of entities right now that can be
-                // published (publish-event is created) or unpublished (publish event is deleted).
+                // published (publish-event is created).
                 // These are
                 // a) program
                 // b) program year
@@ -121,16 +120,16 @@ class PublishEventVoter extends AbstractVoter
                 // Identify the type of publish event and then grant access based on that.
                 switch($event->getTableName()) {
                     case 'program':
-                        return $this->isCreateDeleteGrantedForProgramPublishEvent($event, $user);
+                        return $this->isCreateGrantedForProgramPublishEvent($event, $user);
                         break;
                     case 'program_year':
-                        return $this->isCreateDeleteGrantedForProgramYearPublishEvent($event, $user);
+                        return $this->isCreateGrantedForProgramYearPublishEvent($event, $user);
                         break;
                     case 'course':
-                        return $this->isCreateDeleteGrantedForCoursePublishEvent($event, $user);
+                        return $this->isCreateGrantedForCoursePublishEvent($event, $user);
                         break;
                     case 'session':
-                        return $this->isCreateDeleteGrantedForSessionPublishEvent($event, $user);
+                        return $this->isCreateGrantedForSessionPublishEvent($event, $user);
                         break;
                 }
                 break;
@@ -145,7 +144,7 @@ class PublishEventVoter extends AbstractVoter
      * @return bool
      * @see ProgramVoter::isGranted()
      */
-    protected function isCreateDeleteGrantedForProgramPublishEvent($event, $user)
+    protected function isCreateGrantedForProgramPublishEvent($event, $user)
     {
         $program = $this->programManager->findProgramBy(['id' => $event->getTableRowId()]);
         if (empty($program)) {
@@ -174,7 +173,7 @@ class PublishEventVoter extends AbstractVoter
      *
      * @see ProgramYearVoter::isGranted()
      */
-    protected function isCreateDeleteGrantedForProgramYearPublishEvent($event, $user)
+    protected function isCreateGrantedForProgramYearPublishEvent($event, $user)
     {
         $programYear = $this->programYearManager->findProgramYearBy(['id' => $event->getTableRowId()]);
 
@@ -209,7 +208,7 @@ class PublishEventVoter extends AbstractVoter
      *
      * @see CourseVoter::isGranted()
      */
-    protected function isCreateDeleteGrantedForCoursePublishEvent($event, $user)
+    protected function isCreateGrantedForCoursePublishEvent($event, $user)
     {
         $course = $this->courseManager->findCourseBy(['id' => $event->getTableRowId()]);
 
@@ -240,7 +239,7 @@ class PublishEventVoter extends AbstractVoter
      *
      * @see CourseVoter::isGranted()
      */
-    protected function isCreateDeleteGrantedForSessionPublishEvent($event, $user)
+    protected function isCreateGrantedForSessionPublishEvent($event, $user)
     {
         $session = $this->sessionManager->findSessionBy(['id' => $event->getTableRowId()]);
 
