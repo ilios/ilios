@@ -26,6 +26,7 @@ class Migrate
         $queries = array_merge($queries, $this->getAddPrimaryKeys());
         $queries = array_merge($queries, $this->getAddIndexes());
         $queries = array_merge($queries, $this->getAddForeignKeys());
+        $queries = array_merge($queries, $this->getSetupMigration());
 
         foreach ($queries as $sql) {
             print $sql . ";\n";
@@ -4322,6 +4323,18 @@ class Migrate
             $queries[] = "ALTER TABLE `{$arr['table']}` DROP COLUMN `{$arr['column']}`";
         }
 
+        return $queries;
+    }
+    
+    protected function getSetupMigration()
+    {
+        $queries = [];
+        $queries[] = 'CREATE TABLE `migration_versions` ' .
+            '(`version` varchar(255) COLLATE utf8_unicode_ci NOT NULL, ' .
+            'PRIMARY KEY (`version`)) ENGINE=InnoDB';
+        $queries[] = 'INSERT INTO `migration_versions` VALUES (20150805000000)';
+        $queries[] = 'DROP TABLE IF EXISTS `migrations`';
+        
         return $queries;
     }
 }

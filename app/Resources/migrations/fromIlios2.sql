@@ -933,6 +933,9 @@ ALTER TABLE `user_x_cohort` ADD CONSTRAINT fkey_user_x_cohort_user FOREIGN KEY (
 ALTER TABLE `user_x_cohort` ADD CONSTRAINT fkey_user_x_cohort_cohort FOREIGN KEY (`cohort_id`) REFERENCES `cohort` (`cohort_id`);
 ALTER TABLE `user_x_user_role` ADD CONSTRAINT fkey_user_x_user_role_user_id FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE;
 ALTER TABLE `user_x_user_role` ADD CONSTRAINT fkey_user_x_user_role_user_role_id FOREIGN KEY (`user_role_id`) REFERENCES `user_role` (`user_role_id`) ON DELETE CASCADE;
+CREATE TABLE `migration_versions` (`version` varchar(255) COLLATE utf8_unicode_ci NOT NULL, PRIMARY KEY (`version`)) ENGINE=InnoDB;
+INSERT INTO `migration_versions` VALUES (20150805000000);
+DROP TABLE IF EXISTS `migrations`;
 DROP PROCEDURE IF EXISTS drop_index_if_exists;
 DROP PROCEDURE IF EXISTS drop_key_if_exists;
 DROP PROCEDURE IF EXISTS drop_fk_if_exists;
