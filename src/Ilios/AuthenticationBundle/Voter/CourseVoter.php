@@ -56,9 +56,29 @@ class CourseVoter extends AbstractVoter
                 );
                 break;
             case self::CREATE:
+                // grant CREATE privileges if at least one of the following
+                // statements is true:
+                // 1. the user's primary school is the course's owning school
+                //    and the user has at least one of the 'Faculty', 'Course Director' and 'Developer' roles.
+                // 2. the user has WRITE rights on the course's owning school via the permissions system
+                //    and the user has at least one of the 'Faculty', 'Course Director' and 'Developer' roles.
+                // 3. the user has WRITE rights on the course via the permissions system
+                return (
+                    $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
+                    && ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+                        || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getOwningSchool())
+                    )
+                    || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
+                );
+                break;
             case self::EDIT:
             case self::DELETE:
-                // grant CREATE, EDIT and DELETE privileges if at least one of the following
+                // HALT!
+                // deny EDIT and DELETE privileges to locked or archived courses.
+                if ($course->isArchived() || $course->isLocked()) {
+                    return false;
+                }
+                // grant EDIT and DELETE privileges if at least one of the following
                 // statements is true:
                 // 1. the user's primary school is the course's owning school
                 //    and the user has at least one of the 'Faculty', 'Course Director' and 'Developer' roles.
