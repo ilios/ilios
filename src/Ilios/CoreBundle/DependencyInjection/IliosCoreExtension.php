@@ -28,7 +28,7 @@ class IliosCoreExtension extends Extension
         $loader->load('services.yml');
         $loader->load('abstract_types.yml');
         $loader->load('managers.yml');
-        $loader->load('handlers.yml');
+        $loader->load('handlers.yaml');
         $loader->load('dataloaders.yml');
 
     }
