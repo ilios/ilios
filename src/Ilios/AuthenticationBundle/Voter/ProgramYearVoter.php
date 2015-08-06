@@ -86,9 +86,40 @@ class ProgramYearVoter extends AbstractVoter
                 );
                 break;
             case self::CREATE:
+                // the given user is granted CREATE permissions on the given program year
+                // when at least one of the following statements is true
+                // 1. The user's primary school is the same as the parent program's owning school
+                //    and the user has at least one of 'Course Director' and 'Developer' role.
+                // 2. The user has WRITE permissions on the parent program's owning school
+                //    and the user has at least one of 'Course Director' and 'Developer' role.
+                // 3. The user's primary school matches at least one of the schools owning the
+                //    program years' stewarding department,
+                //    and the user has at least one of 'Course Director' and 'Developer' role.
+                // 4. The user has WRITE permissions on the parent program.
+                return (
+                    ($this->userHasRole($user, ['Course Director', 'Developer'])
+                        && ($programYear->getProgram()->getOwningSchool()->getId()
+                            === $user->getPrimarySchool()->getId()
+                            || $this->permissionManager->userHasWritePermissionToSchool(
+                                $user,
+                                $programYear->getProgram()->getOwningSchool()
+                            )
+                            || $this->stewardManager->schoolIsStewardingProgramYear(
+                                $user->getPrimarySchool(),
+                                $programYear
+                            )
+                        )
+                    )
+                    || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
+                );
+                break;
             case self::EDIT:
             case self::DELETE:
-                // the given user is granted CREATE, EDIT and DELETE permissions on the given program year
+                // prevent modifications and deletions of locked or archived program years
+                if ($programYear->isLocked() || $programYear->isArchived()) {
+                    return false;
+                }
+                // the given user is granted EDIT or DELETE permissions on the given program year
                 // when at least one of the following statements is true
                 // 1. The user's primary school is the same as the parent program's owning school
                 //    and the user has at least one of 'Course Director' and 'Developer' role.
