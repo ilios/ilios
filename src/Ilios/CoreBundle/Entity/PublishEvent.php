@@ -322,7 +322,9 @@ class PublishEvent implements PublishEventInterface
      */
     public function getPrograms()
     {
-        return $this->programs;
+        return $this->programs->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

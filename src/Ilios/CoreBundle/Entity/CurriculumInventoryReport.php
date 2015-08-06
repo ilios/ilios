@@ -31,6 +31,7 @@ use Ilios\CoreBundle\Entity\ProgramInterface;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
@@ -272,7 +273,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     public function getProgram()
     {
-        return $this->program;
+        return $this->program && !$this->program->isDeleted()?$this->program:null;
     }
 
     /**
