@@ -427,6 +427,8 @@ class RecurringEvent implements RecurringEventInterface
      */
     public function getOfferings()
     {
-        return $this->offerings;
+        return $this->offerings->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 }

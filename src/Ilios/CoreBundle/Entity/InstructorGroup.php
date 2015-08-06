@@ -274,6 +274,8 @@ class InstructorGroup implements InstructorGroupInterface
      */
     public function getOfferings()
     {
-        return $this->offerings;
+        return $this->offerings->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 }

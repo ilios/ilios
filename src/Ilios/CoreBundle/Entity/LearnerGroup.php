@@ -347,7 +347,9 @@ class LearnerGroup implements LearnerGroupInterface
      */
     public function getOfferings()
     {
-        return $this->offerings;
+        return $this->offerings->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
