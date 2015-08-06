@@ -30,4 +30,12 @@ class SessionVoter extends CourseVoter
         // grant perms based on the owning course
         return parent::isGranted($attribute, $session->getCourse(), $user);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isCreateGranted($course, $user)
+    {
+        return parent::isEditGranted($course, $user);
+    }
 }

@@ -30,4 +30,12 @@ class CourseLearningMaterialVoter extends CourseVoter
         // grant perms based on the owning session
         return parent::isGranted($attribute, $material->getCourse(), $user);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isCreateGranted($course, $user)
+    {
+        return parent::isEditGranted($course, $user);
+    }
 }
