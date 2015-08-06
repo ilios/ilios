@@ -3,7 +3,6 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\UserMadeReminderInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -12,19 +11,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 class UserMadeReminderVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManagerInterface
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManagerInterface $permissionManager
-     */
-    public function __construct(PermissionManagerInterface $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
