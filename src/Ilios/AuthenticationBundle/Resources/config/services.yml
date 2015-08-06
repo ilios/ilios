@@ -5,7 +5,7 @@ services:
     ilios_authentication.fix_header_listener:
         class: Ilios\AuthenticationBundle\Listener\AuthenticationHeader
         tags:
-          - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
     ilios_authentication.jwt.listener:
         class: Ilios\AuthenticationBundle\Jwt\Listener
         arguments: ["@security.token_storage", "@security.authentication.manager", "%kernel.secret%"]
@@ -28,33 +28,33 @@ services:
         class: Ilios\AuthenticationBundle\Voter\AamcMethodVoter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.aamc_pcrs_voter:
         class: Ilios\AuthenticationBundle\Voter\AamcPcrsVoter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.alert_change_type_voter:
         class: Ilios\AuthenticationBundle\Voter\AlertChangeTypeVoter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.alert_voter:
         class: Ilios\AuthenticationBundle\Voter\AlertVoter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.assessment_option_voter:
         class: Ilios\AuthenticationBundle\Voter\AssessmentOptionVoter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.cohort_voter:
         class: Ilios\AuthenticationBundle\Voter\CohortVoter
         parent: security.access.program_year_voter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.competency_voter:
         class: Ilios\AuthenticationBundle\Voter\CompetencyVoter
         arguments: [ @ilioscore.permission.manager ]
@@ -65,79 +65,79 @@ services:
         class: Ilios\AuthenticationBundle\Voter\CourseClerkshipTypeVoter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.course_learning_material_voter:
         class: Ilios\AuthenticationBundle\Voter\CourseLearningMaterialVoter
         parent: security.access.course_voter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.course_voter:
         class: Ilios\AuthenticationBundle\Voter\CourseVoter
         arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
-            - { name: security.voter }
+             - { name: security.voter }
     security.access.curriculum_inventory_academic_level_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryAcademicLevelVoter
         parent: security.access.curriculum_inventory_report_voter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.curriculum_inventory_export_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryExportVoter
         arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.curriculum_inventory_institution_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryInstitutionVoter
         arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.curriculum_inventory_report_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryReportVoter
         arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.curriculum_sequence_block_session_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceBlockSessionVoter
         parent: security.access.curriculum_inventory_report_voter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.curriculum_sequence_block_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceBlockVoter
         parent: security.access.curriculum_inventory_report_voter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.curriculum_sequence_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceVoter
         parent: security.access.curriculum_inventory_report_voter
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.department_voter:
         class: Ilios\AuthenticationBundle\Voter\DepartmentVoter
         arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.discipline_voter:
         class: Ilios\AuthenticationBundle\Voter\DisciplineVoter
         arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access_program_year_voter:
         class: Ilios\AuthenticationBundle\Voter\ProgramYearVoter
         arguments: [ @ilioscore.permission.manager, @ilioscore.programyearsteward.manager ]
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
     security.access.school_voter:
         class: Ilios\AuthenticationBundle\Voter\SchoolVoter
         arguments: [ @ilioscore.permission.manager ]
