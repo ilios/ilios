@@ -121,16 +121,16 @@ class PublishEventVoter extends AbstractVoter
                 // Identify the type of publish event and then grant access based on that.
                 switch($event->getTableName()) {
                     case 'program':
-                        return $this->isGrantedCreateOrDeleteForProgramPublishEvent($event, $user);
+                        return $this->isCreateDeleteGrantedForProgramPublishEvent($event, $user);
                         break;
                     case 'program_year':
-                        return $this->isGrantedCreateOrDeleteForProgramYearPublishEvent($event, $user);
+                        return $this->isCreateDeleteGrantedForProgramYearPublishEvent($event, $user);
                         break;
                     case 'course':
-                        return $this->isGrantedCreateOrDeleteForCoursePublishEvent($event, $user);
+                        return $this->isCreateDeleteGrantedForCoursePublishEvent($event, $user);
                         break;
                     case 'session':
-                        return $this->isGrantedCreateOrDeleteForSessionPublishEvent($event, $user);
+                        return $this->isCreateDeleteGrantedForSessionPublishEvent($event, $user);
                         break;
                 }
                 break;
@@ -145,7 +145,7 @@ class PublishEventVoter extends AbstractVoter
      * @return bool
      * @see ProgramVoter::isGranted()
      */
-    protected function isGrantedCreateOrDeleteForProgramPublishEvent($event, $user)
+    protected function isCreateDeleteGrantedForProgramPublishEvent($event, $user)
     {
         $program = $this->programManager->findProgramBy(['id' => $event->getTableRowId()]);
         if (empty($program)) {
@@ -174,7 +174,7 @@ class PublishEventVoter extends AbstractVoter
      *
      * @see ProgramYearVoter::isGranted()
      */
-    protected function isGrantedCreateOrDeleteForProgramYearPublishEvent($event, $user)
+    protected function isCreateDeleteGrantedForProgramYearPublishEvent($event, $user)
     {
         $programYear = $this->programYearManager->findProgramYearBy(['id' => $event->getTableRowId()]);
 
@@ -209,7 +209,7 @@ class PublishEventVoter extends AbstractVoter
      *
      * @see CourseVoter::isGranted()
      */
-    protected function isGrantedCreateOrDeleteForCoursePublishEvent($event, $user)
+    protected function isCreateDeleteGrantedForCoursePublishEvent($event, $user)
     {
         $course = $this->courseManager->findCourseBy(['id' => $event->getTableRowId()]);
 
@@ -240,7 +240,7 @@ class PublishEventVoter extends AbstractVoter
      *
      * @see CourseVoter::isGranted()
      */
-    protected function isGrantedCreateOrDeleteForSessionPublishEvent($event, $user)
+    protected function isCreateDeleteGrantedForSessionPublishEvent($event, $user)
     {
         $session = $this->sessionManager->findSessionBy(['id' => $event->getTableRowId()]);
 
