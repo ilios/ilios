@@ -97,6 +97,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\Column(name="updated_at", type="datetime")
      *
      * @JMS\Expose
+     * @JMS\ReadOnly
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("updatedAt")
      */

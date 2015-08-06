@@ -21,6 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="assessment_option",uniqueConstraints={@ORM\UniqueConstraint(name="name", columns={"name"})})
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class AssessmentOption implements AssessmentOptionInterface
 {

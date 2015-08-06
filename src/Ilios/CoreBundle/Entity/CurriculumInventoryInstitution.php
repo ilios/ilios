@@ -279,7 +279,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      */
     public function setSchool(SchoolInterface $school)
     {
-        return $this->school && !$this->school->isDeleted()?$this->school:null;
+        $this->school = $school;
     }
 
     /**

@@ -26,6 +26,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * )
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class LearningMaterial implements LearningMaterialInterface
 {

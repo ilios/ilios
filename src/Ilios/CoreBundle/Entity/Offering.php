@@ -25,6 +25,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Offering implements OfferingInterface
 {
@@ -111,6 +112,7 @@ class Offering implements OfferingInterface
      * @Assert\NotBlank()
      *
      * @JMS\Expose
+     * @JMS\ReadOnly
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("updatedAt")
      */

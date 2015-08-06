@@ -15,6 +15,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Authentication implements AuthenticationInterface
 {

@@ -19,6 +19,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class RecurringEvent implements RecurringEventInterface
 {

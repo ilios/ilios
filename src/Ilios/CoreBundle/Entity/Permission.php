@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Permission implements PermissionInterface
 {

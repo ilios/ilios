@@ -18,6 +18,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class InstructionHours implements InstructionHoursInterface
 {
