@@ -66,6 +66,7 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @Assert\NotBlank()
      *
      * @JMS\Expose
+     * @JMS\ReadOnly
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("createdAt")
      */
