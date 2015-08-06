@@ -26,6 +26,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class ProgramYearSteward implements ProgramYearStewardInterface
 {
@@ -114,7 +115,7 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      */
     public function getProgramYear()
     {
-        return $this->programYear;
+        return $this->programYear && !$this->programYear->isDeleted()?$this->programYear:null;
     }
 
     /**
@@ -130,6 +131,6 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      */
     public function getSchool()
     {
-        return $this->school;
+        return $this->school && !$this->school->isDeleted()?$this->school:null;
     }
 }

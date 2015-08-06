@@ -352,6 +352,8 @@ class PublishEvent implements PublishEventInterface
      */
     public function getProgramYears()
     {
-        return $this->programYears;
+        return $this->programYears->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 }

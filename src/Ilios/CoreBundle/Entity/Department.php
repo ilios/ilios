@@ -18,6 +18,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Department implements DepartmentInterface
 {
@@ -104,7 +105,7 @@ class Department implements DepartmentInterface
      */
     public function getSchool()
     {
-        return $this->school;
+        return $this->school && !$this->school->isDeleted()?$this->school:null;
     }
 
     /**

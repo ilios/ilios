@@ -922,7 +922,9 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getProgramYears()
     {
-        return $this->programYears;
+        return $this->programYears->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -1062,7 +1064,9 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getReports()
     {
-        return $this->reports;
+        return $this->reports->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

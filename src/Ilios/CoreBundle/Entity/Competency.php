@@ -22,6 +22,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Competency implements CompetencyInterface
 {
@@ -159,7 +160,7 @@ class Competency implements CompetencyInterface
      */
     public function getSchool()
     {
-        return $this->school;
+        return $this->school && !$this->school->isDeleted()?$this->school:null;
     }
 
     /**
@@ -267,7 +268,9 @@ class Competency implements CompetencyInterface
      */
     public function getProgramYears()
     {
-        return $this->programYears;
+        return $this->programYears->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

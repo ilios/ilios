@@ -125,7 +125,7 @@ class Discipline implements DisciplineInterface
      */
     public function getOwningSchool()
     {
-        return $this->owningSchool;
+        return $this->owningSchool && !$this->owningSchool->isDeleted()?$this->owningSchool:null;
     }
 
     /**
@@ -183,7 +183,9 @@ class Discipline implements DisciplineInterface
      */
     public function getProgramYears()
     {
-        return $this->programYears;
+        return $this->programYears->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

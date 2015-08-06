@@ -539,7 +539,7 @@ class Course implements CourseInterface
      */
     public function getOwningSchool()
     {
-        return $this->owningSchool;
+        return $this->owningSchool && !$this->owningSchool->isDeleted()?$this->owningSchool:null;
     }
 
     /**

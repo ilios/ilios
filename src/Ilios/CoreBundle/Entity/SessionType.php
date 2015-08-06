@@ -215,7 +215,7 @@ class SessionType implements SessionTypeInterface
      */
     public function getOwningSchool()
     {
-        return $this->owningSchool;
+        return $this->owningSchool && !$this->owningSchool->isDeleted()?$this->owningSchool:null;
     }
 
     /**

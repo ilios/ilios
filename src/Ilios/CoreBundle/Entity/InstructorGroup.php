@@ -20,6 +20,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class InstructorGroup implements InstructorGroupInterface
 {
@@ -162,7 +163,7 @@ class InstructorGroup implements InstructorGroupInterface
      */
     public function getSchool()
     {
-        return $this->school;
+        return $this->school && !$this->school->isDeleted()?$this->school:null;
     }
 
     /**
