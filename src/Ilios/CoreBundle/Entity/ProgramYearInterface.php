@@ -4,13 +4,15 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\LockableEntityInterface;
 
 /**
  * Interface ProgramYearInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface ProgramYearInterface extends IdentifiableEntityInterface
+interface ProgramYearInterface extends IdentifiableEntityInterface, LockableEntityInterface, ArchivableEntityInterface
 {
     /**
      * @param int $startYear
@@ -31,26 +33,6 @@ interface ProgramYearInterface extends IdentifiableEntityInterface
      * @return boolean
      */
     public function isDeleted();
-
-    /**
-     * @param boolean $locked
-     */
-    public function setLocked($locked);
-
-    /**
-     * @return boolean
-     */
-    public function isLocked();
-
-    /**
-     * @param boolean $archived
-     */
-    public function setArchived($archived);
-
-    /**
-     * @return boolean
-     */
-    public function isArchived();
 
     /**
      * @param boolean $publishedAsTbd
