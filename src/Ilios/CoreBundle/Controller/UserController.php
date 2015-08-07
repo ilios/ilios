@@ -172,7 +172,7 @@ class UserController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getUserHandler()
+            $new = $this->getUserHandler()
                 ->post($this->getPostData($request));
 
             $answer['users'] = [$new];
