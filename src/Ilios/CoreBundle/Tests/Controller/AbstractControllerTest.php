@@ -101,7 +101,7 @@ abstract class AbstractControllerTest extends WebTestCase
         ];
 
         if (! empty($token)) {
-            $headers['X-JWT-Authorization'] = 'Token ' . $token;
+            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $token;
         }
 
         $this->client->request(
