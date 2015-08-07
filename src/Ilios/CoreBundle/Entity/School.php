@@ -19,7 +19,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  *     @ORM\UniqueConstraint(name="template_prefix", columns={"template_prefix"})
  *   }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\SchoolRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
