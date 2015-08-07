@@ -258,7 +258,11 @@ class Program implements ProgramInterface
      */
     public function getOwningSchool()
     {
-        return $this->owningSchool && !$this->owningSchool->isDeleted()?$this->owningSchool:null;
+        if ($this->owningSchool && !$this->owningSchool->isDeleted()) {
+            return $this->owningSchool;
+        }
+        
+        return null;
     }
 
     /**

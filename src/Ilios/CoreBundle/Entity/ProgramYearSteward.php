@@ -115,7 +115,11 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      */
     public function getProgramYear()
     {
-        return $this->programYear && !$this->programYear->isDeleted()?$this->programYear:null;
+        if ($this->programYear && !$this->programYear->isDeleted()) {
+            return $this->programYear;
+        }
+        
+        return null;
     }
 
     /**
@@ -131,6 +135,10 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      */
     public function getSchool()
     {
-        return $this->school && !$this->school->isDeleted()?$this->school:null;
+        if ($this->school && !$this->school->isDeleted()) {
+            return $this->school;
+        }
+        
+        return null;
     }
 }

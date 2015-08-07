@@ -163,7 +163,11 @@ class InstructorGroup implements InstructorGroupInterface
      */
     public function getSchool()
     {
-        return $this->school && !$this->school->isDeleted()?$this->school:null;
+        if ($this->school && !$this->school->isDeleted()) {
+            return $this->school;
+        }
+        
+        return null;
     }
 
     /**

@@ -131,7 +131,11 @@ class Cohort implements CohortInterface
      */
     public function getProgramYear()
     {
-        return $this->programYear && !$this->programYear->isDeleted()?$this->programYear:null;
+        if ($this->programYear && !$this->programYear->isDeleted()) {
+            return $this->programYear;
+        }
+        
+        return null;
     }
 
     /**
