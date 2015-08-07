@@ -11,7 +11,9 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
  * Interface CourseLearningMaterialInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface CourseLearningMaterialInterface extends IdentifiableEntityInterface
+interface CourseLearningMaterialInterface extends
+    IdentifiableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $notes

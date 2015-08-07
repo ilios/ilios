@@ -22,7 +22,8 @@ interface CompetencyInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     ProgramYearsEntityInterface,
-    SchoolEntityInterface
+    SchoolEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param CompetencyInterface $parent

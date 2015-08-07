@@ -11,7 +11,8 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
  */
 interface ProgramYearStewardInterface extends
     IdentifiableEntityInterface,
-    SchoolEntityInterface
+    SchoolEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param DepartmentInterface $department

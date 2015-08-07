@@ -26,6 +26,7 @@ interface UserInterface extends
     StringableEntityInterface,
     OfferingsEntityInterface,
     ProgramYearsEntityInterface,
+    LoggableEntityInterface,
     BaseUserInterface,
     SchoolEntityInterface,
     \Serializable

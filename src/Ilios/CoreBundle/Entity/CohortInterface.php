@@ -18,7 +18,8 @@ use Ilios\CoreBundle\Traits\CoursesEntityInterface;
 interface CohortInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    CoursesEntityInterface
+    CoursesEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param ProgramYearInterface $programYear

@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\SchoolEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class ProgramYearSteward
@@ -33,6 +34,7 @@ class ProgramYearSteward implements ProgramYearStewardInterface
 {
     use IdentifiableEntity;
     use SchoolEntity;
+    use StringableIdEntity;
 
     /**
      * @var int

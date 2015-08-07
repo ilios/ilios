@@ -13,9 +13,19 @@ services:
         class: Ilios\CoreBundle\EventListener\UpdateOfferingTimestamp
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+    ilioscore.listener.logentitychanges:
+        class: Ilios\CoreBundle\EventListener\LogEntityChanges
+        arguments: ['@ilioscore.logger']
+        tags:
+            - { name: doctrine.event_listener, event: onFlush } 
+        calls:
+        - [ setContainer, ["@service_container"] ]
     ilioscore.temporary_filesystem:
             class: Ilios\CoreBundle\Classes\TemporaryFileSystem
-            arguments: [@filesystem, %kernel.root_dir%]
+            arguments: ['@filesystem', "%kernel.root_dir%"]
     ilioscore.filesystem:
             class: Ilios\CoreBundle\Classes\IliosFileSystem
-            arguments: [@filesystem, %ilios_core.file_store_path%]
+            arguments: ['@filesystem', "%ilios_core.file_store_path%"]
+    ilioscore.logger:
+        class: Ilios\CoreBundle\Service\Logger
+        arguments: ['@security.token_storage', '@ilioscore.auditlog.manager']

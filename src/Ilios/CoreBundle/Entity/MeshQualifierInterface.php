@@ -13,7 +13,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 interface MeshQualifierInterface extends
     IdentifiableEntityInterface,
     TimestampableEntityInterface,
-    NameableEntityInterface
+    NameableEntityInterface,
+    LoggableEntityInterface
 {
     //^ Lol
 }

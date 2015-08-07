@@ -19,7 +19,8 @@ interface ObjectiveInterface extends
     TitledEntityInterface,
     CoursesEntityInterface,
     SessionsEntityInterface,
-    ProgramYearsEntityInterface
+    ProgramYearsEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param CompetencyInterface $competency

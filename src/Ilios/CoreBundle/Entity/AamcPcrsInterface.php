@@ -17,7 +17,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 interface AamcPcrsInterface extends
     IdentifiableEntityInterface,
     DescribableEntityInterface,
-    StringableEntityInterface
+    StringableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param Collection $competencies

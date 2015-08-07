@@ -12,7 +12,11 @@ use Ilios\CoreBundle\Traits\LockableEntityInterface;
  * Interface ProgramYearInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface ProgramYearInterface extends IdentifiableEntityInterface, LockableEntityInterface, ArchivableEntityInterface
+interface ProgramYearInterface extends
+    IdentifiableEntityInterface,
+    LockableEntityInterface,
+    ArchivableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param int $startYear

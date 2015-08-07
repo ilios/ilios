@@ -11,7 +11,9 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 /**
  * Interface CurriculumInventoryExportInterface
  */
-interface CurriculumInventoryExportInterface extends IdentifiableEntityInterface
+interface CurriculumInventoryExportInterface extends
+    IdentifiableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $document

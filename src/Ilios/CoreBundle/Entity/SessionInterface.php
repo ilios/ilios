@@ -19,7 +19,8 @@ interface SessionInterface extends
     TitledEntityInterface,
     StringableEntityInterface,
     TimestampableEntityInterface,
-    OfferingsEntityInterface
+    OfferingsEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param boolean $attireRequired

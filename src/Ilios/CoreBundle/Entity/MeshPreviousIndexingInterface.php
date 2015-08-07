@@ -6,7 +6,7 @@ namespace Ilios\CoreBundle\Entity;
  * Interface MeshPreviousIndexingInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface MeshPreviousIndexingInterface
+interface MeshPreviousIndexingInterface extends LoggableEntityInterface
 {
     /**
      * @param MeshDescriptorInterface $descriptor

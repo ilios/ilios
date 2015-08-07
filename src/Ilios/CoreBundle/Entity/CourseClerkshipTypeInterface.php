@@ -15,6 +15,7 @@ interface CourseClerkshipTypeInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     StringableEntityInterface,
-    CoursesEntityInterface
+    CoursesEntityInterface,
+    LoggableEntityInterface
 {
 }

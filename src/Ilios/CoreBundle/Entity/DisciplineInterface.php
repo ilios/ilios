@@ -18,6 +18,7 @@ interface DisciplineInterface extends
     CoursesEntityInterface,
     SessionsEntityInterface,
     ProgramYearsEntityInterface,
-    SchoolEntityInterface
+    SchoolEntityInterface,
+    LoggableEntityInterface
 {
 }

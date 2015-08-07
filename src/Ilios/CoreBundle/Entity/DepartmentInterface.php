@@ -9,7 +9,11 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 /**
  * Interface DepartmentInterface
  */
-interface DepartmentInterface extends IdentifiableEntityInterface, TitledEntityInterface, SchoolEntityInterface
+interface DepartmentInterface extends
+    IdentifiableEntityInterface,
+    TitledEntityInterface,
+    SchoolEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param boolean $deleted

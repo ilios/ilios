@@ -18,7 +18,8 @@ interface LearnerGroupInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     StringableEntityInterface,
-    OfferingsEntityInterface
+    OfferingsEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $location

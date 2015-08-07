@@ -15,7 +15,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
  */
 interface AamcMethodInterface extends
     IdentifiableEntityInterface,
-    DescribableEntityInterface
+    DescribableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param Collection $sessionTypes

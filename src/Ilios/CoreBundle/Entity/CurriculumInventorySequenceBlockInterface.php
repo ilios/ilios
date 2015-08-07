@@ -15,7 +15,8 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 interface CurriculumInventorySequenceBlockInterface extends
     IdentifiableEntityInterface,
     DescribableEntityInterface,
-    TitledEntityInterface
+    TitledEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param boolean $required

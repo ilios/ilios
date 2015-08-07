@@ -22,7 +22,8 @@ interface PublishEventInterface extends
     CoursesEntityInterface,
     SessionsEntityInterface,
     ProgramYearsEntityInterface,
-    ProgramsEntityInterface
+    ProgramsEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $machineIp
