@@ -33,9 +33,9 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *        "name"="school",
-     *        "dataType"="",
-     *        "requirement"="",
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="\d+",
      *        "description"="CurriculumInventoryInstitution identifier."
      *     }
      *   },
@@ -158,7 +158,7 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventoryInstitutionHandler()
+            $new = $this->getCurriculumInventoryInstitutionHandler()
                 ->post($this->getPostData($request));
             $answer['curriculumInventoryInstitutions'] = [$new];
 
@@ -198,7 +198,7 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     {
         try {
             $curriculumInventoryInstitution = $this->getCurriculumInventoryInstitutionHandler()
-                ->findCurriculumInventoryInstitutionBy(['school'=> $id]);
+                ->findCurriculumInventoryInstitutionBy(['id'=> $id]);
             if ($curriculumInventoryInstitution) {
                 $code = Codes::HTTP_OK;
             } else {
@@ -230,9 +230,9 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "school",
-     *         "dataType" = "",
-     *         "requirement" = "",
+     *         "name" = "id",
+     *         "dataType" = "integer",
+     *         "requirement" = "\d+",
      *         "description" = "CurriculumInventoryInstitution identifier"
      *     }
      *   },
@@ -273,7 +273,7 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     protected function getOr404($id)
     {
         $curriculumInventoryInstitution = $this->getCurriculumInventoryInstitutionHandler()
-            ->findCurriculumInventoryInstitutionBy(['school' => $id]);
+            ->findCurriculumInventoryInstitutionBy(['id' => $id]);
         if (!$curriculumInventoryInstitution) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }

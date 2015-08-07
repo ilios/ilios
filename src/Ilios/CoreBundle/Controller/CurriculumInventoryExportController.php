@@ -33,9 +33,9 @@ class CurriculumInventoryExportController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *        "name"="report",
-     *        "dataType"="",
-     *        "requirement"="",
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="\d+",
      *        "description"="CurriculumInventoryExport identifier."
      *     }
      *   },
@@ -133,47 +133,40 @@ class CurriculumInventoryExportController extends FOSRestController
         return $answer;
     }
 
-
     /**
-     * Delete a CurriculumInventoryExport.
+     * Create a CurriculumInventoryExport.
      *
      * @ApiDoc(
      *   section = "CurriculumInventoryExport",
-     *   description = "Delete a CurriculumInventoryExport entity.",
+     *   description = "Create a CurriculumInventoryExport.",
      *   resource = true,
-     *   requirements={
-     *     {
-     *         "name" = "report",
-     *         "dataType" = "",
-     *         "requirement" = "",
-     *         "description" = "CurriculumInventoryExport identifier"
-     *     }
-     *   },
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryExportType",
+     *   output="Ilios\CoreBundle\Entity\CurriculumInventoryExport",
      *   statusCodes={
-     *     204 = "No content. Successfully deleted CurriculumInventoryExport.",
+     *     201 = "Created CurriculumInventoryExport.",
      *     400 = "Bad Request.",
-     *     404 = "Not found."
+     *     404 = "Not Found."
      *   }
      * )
      *
-     * @Rest\View(statusCode=204)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
-     * @internal CurriculumInventoryExportInterface $curriculumInventoryExport
+     * @param Request $request
      *
      * @return Response
      */
-    public function deleteAction($id)
+    public function postAction(Request $request)
     {
-        $curriculumInventoryExport = $this->getOr404($id);
-
         try {
-            $this->getCurriculumInventoryExportHandler()
-                ->deleteCurriculumInventoryExport($curriculumInventoryExport);
+            $new = $this->getCurriculumInventoryExportHandler()
+                ->post($this->getPostData($request));
+            $answer['curriculumInventoryExports'] = [$new];
 
-            return new Response('', Codes::HTTP_NO_CONTENT);
-        } catch (\Exception $exception) {
-            throw new \RuntimeException("Deletion not allowed");
+            $view = $this->view($answer, Codes::HTTP_CREATED);
+
+            return $this->handleView($view);
+        } catch (InvalidFormException $exception) {
+            return $exception->getForm();
         }
     }
 
@@ -186,7 +179,7 @@ class CurriculumInventoryExportController extends FOSRestController
     protected function getOr404($id)
     {
         $curriculumInventoryExport = $this->getCurriculumInventoryExportHandler()
-            ->findCurriculumInventoryExportBy(['report' => $id]);
+            ->findCurriculumInventoryExportBy(['id' => $id]);
         if (!$curriculumInventoryExport) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }

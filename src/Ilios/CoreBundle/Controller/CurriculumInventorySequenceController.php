@@ -33,9 +33,9 @@ class CurriculumInventorySequenceController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *        "name"="report",
-     *        "dataType"="",
-     *        "requirement"="",
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="\d+",
      *        "description"="CurriculumInventorySequence identifier."
      *     }
      *   },
@@ -158,7 +158,7 @@ class CurriculumInventorySequenceController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventorySequenceHandler()
+            $new = $this->getCurriculumInventorySequenceHandler()
                 ->post($this->getPostData($request));
             $answer['curriculumInventorySequences'] = [$new];
 
@@ -198,7 +198,7 @@ class CurriculumInventorySequenceController extends FOSRestController
     {
         try {
             $curriculumInventorySequence = $this->getCurriculumInventorySequenceHandler()
-                ->findCurriculumInventorySequenceBy(['report'=> $id]);
+                ->findCurriculumInventorySequenceBy(['id'=> $id]);
             if ($curriculumInventorySequence) {
                 $code = Codes::HTTP_OK;
             } else {
@@ -230,9 +230,9 @@ class CurriculumInventorySequenceController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "report",
-     *         "dataType" = "",
-     *         "requirement" = "",
+     *         "name" = "id",
+     *         "dataType" = "integer",
+     *         "requirement" = "\d+",
      *         "description" = "CurriculumInventorySequence identifier"
      *     }
      *   },
@@ -273,7 +273,7 @@ class CurriculumInventorySequenceController extends FOSRestController
     protected function getOr404($id)
     {
         $curriculumInventorySequence = $this->getCurriculumInventorySequenceHandler()
-            ->findCurriculumInventorySequenceBy(['report' => $id]);
+            ->findCurriculumInventorySequenceBy(['id' => $id]);
         if (!$curriculumInventorySequence) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
