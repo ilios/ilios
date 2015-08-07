@@ -176,7 +176,8 @@ services:
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\ProgramYearSteward, '@form.factory']
     ilioscore.publishevent.handler:
         class: %ilioscore.publishevent.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\PublishEvent, '@form.factory']
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\PublishEvent, '@form.factory', '@request']
+        scope: request
     ilioscore.recurringevent.handler:
         class: %ilioscore.recurringevent.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\RecurringEvent, '@form.factory']
