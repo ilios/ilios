@@ -213,6 +213,12 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.school_event_voter:
+        class: Ilios\AuthenticationBundle\Voter\SchooleventVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.school_voter:
         class: Ilios\AuthenticationBundle\Voter\SchoolVoter
         arguments: [ @ilioscore.permission.manager ]
