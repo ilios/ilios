@@ -21,6 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Program implements ProgramInterface
 {
@@ -174,6 +175,7 @@ class Program implements ProgramInterface
     {
         $this->deleted = false;
         $this->publishedAsTbd = false;
+        $this->programYears = new ArrayCollection();
     }
 
     /**
@@ -214,6 +216,9 @@ class Program implements ProgramInterface
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
+        foreach ($this->getProgramYears() as $programYear) {
+            $programYear->setDeleted($deleted);
+        }
     }
 
     /**
@@ -253,7 +258,11 @@ class Program implements ProgramInterface
      */
     public function getOwningSchool()
     {
-        return $this->owningSchool;
+        if ($this->owningSchool && !$this->owningSchool->isDeleted()) {
+            return $this->owningSchool;
+        }
+        
+        return null;
     }
 
     /**
@@ -297,7 +306,9 @@ class Program implements ProgramInterface
     */
     public function getProgramYears()
     {
-        return $this->programYears;
+        return $this->programYears->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

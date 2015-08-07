@@ -3,6 +3,7 @@ namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\Discipline;
 use Mockery as m;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity Discipline
@@ -47,7 +48,7 @@ class DisciplineTest extends EntityBase
      */
     public function testSetOwningSchool()
     {
-        $this->entitySetTest('owningSchool', 'School');
+        $this->softDeleteEntitySetTest('owningSchool', 'School');
     }
 
     /**
@@ -55,7 +56,7 @@ class DisciplineTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->entityCollectionAddTest('course', 'Course');
+        $this->softDeleteEntityCollectionAddTest('course', 'Course');
     }
 
     /**
@@ -63,7 +64,7 @@ class DisciplineTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $this->entityCollectionSetTest('course', 'Course');
+        $this->softDeleteEntityCollectionSetTest('course', 'Course');
     }
 
     /**
@@ -71,7 +72,7 @@ class DisciplineTest extends EntityBase
      */
     public function testAddProgramYear()
     {
-        $this->entityCollectionAddTest('programYear', 'ProgramYear');
+        $this->softDeleteEntityCollectionAddTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -79,7 +80,7 @@ class DisciplineTest extends EntityBase
      */
     public function testGetProgramYears()
     {
-        $this->entityCollectionSetTest('programYear', 'ProgramYear');
+        $this->softDeleteEntityCollectionSetTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -87,7 +88,7 @@ class DisciplineTest extends EntityBase
      */
     public function testAddSession()
     {
-        $this->entityCollectionAddTest('session', 'Session');
+        $this->softDeleteEntityCollectionAddTest('session', 'Session');
     }
 
     /**
@@ -95,6 +96,6 @@ class DisciplineTest extends EntityBase
      */
     public function testGetSessions()
     {
-        $this->entityCollectionSetTest('session', 'Session');
+        $this->softDeleteEntityCollectionSetTest('session', 'Session');
     }
 }

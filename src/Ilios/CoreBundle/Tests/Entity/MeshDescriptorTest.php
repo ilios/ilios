@@ -3,6 +3,7 @@ namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\MeshDescriptor;
 use Mockery as m;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity MeshDescriptor
@@ -72,7 +73,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->entityCollectionAddTest('course', 'Course');
+        $this->softDeleteEntityCollectionAddTest('course', 'Course');
     }
 
     /**
@@ -80,7 +81,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $this->entityCollectionSetTest('course', 'Course');
+        $this->softDeleteEntityCollectionSetTest('course', 'Course');
     }
 
     /**
@@ -104,7 +105,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddSession()
     {
-        $this->entityCollectionAddTest('session', 'Session');
+        $this->softDeleteEntityCollectionAddTest('session', 'Session');
     }
 
     /**
@@ -112,7 +113,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetSessions()
     {
-        $this->entityCollectionSetTest('session', 'Session');
+        $this->softDeleteEntityCollectionSetTest('session', 'Session');
     }
 
     /**

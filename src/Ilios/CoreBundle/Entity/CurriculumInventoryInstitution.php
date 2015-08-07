@@ -19,6 +19,7 @@ use Ilios\CoreBundle\Entity\SchoolInterface;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
@@ -286,6 +287,10 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      */
     public function getSchool()
     {
-        return $this->school;
+        if ($this->school && !$this->school->isDeleted()) {
+            return $this->school;
+        }
+        
+        return null;
     }
 }

@@ -68,6 +68,10 @@ class SessionControllerTest extends AbstractControllerTest
 
     public function testGetAllSessions()
     {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+        $unDeletedSessions = array_filter($sessions, function ($arr) {
+            return !$arr['deleted'];
+        });
         $this->createJsonRequest('GET', $this->getUrl('cget_sessions'));
         $response = $this->client->getResponse();
 
@@ -83,12 +87,10 @@ class SessionControllerTest extends AbstractControllerTest
             $data[] = $response;
         }
         $this->assertEquals(
-            $this->mockSerialize(
-                $this->container
-                    ->get('ilioscore.dataloader.session')
-                    ->getAll()
-            ),
-            $data
+            array_values($this->mockSerialize(
+                $unDeletedSessions
+            )),
+            array_values($data)
         );
     }
 
@@ -255,9 +257,9 @@ class SessionControllerTest extends AbstractControllerTest
     protected function checkUpdatedAtIncreased($sessionId, DateTime $original)
     {
         $now = $this->getSessionUpdatedAt($sessionId);
-        $diff = $original->diff($now);
+        $diff = $now->getTimestamp() - $original->getTimestamp();
         $this->assertTrue(
-            $diff->s > 1,
+            $diff > 1,
             'The updatedAt timestamp has increased.  Original: ' . $original->format('c') .
             ' Now: ' . $now->format('c')
         );

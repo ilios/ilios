@@ -19,6 +19,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class PublishEvent implements PublishEventInterface
 {
@@ -261,7 +262,9 @@ class PublishEvent implements PublishEventInterface
      */
     public function getCourses()
     {
-        return $this->courses;
+        return $this->courses->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -289,7 +292,9 @@ class PublishEvent implements PublishEventInterface
      */
     public function getSessions()
     {
-        return $this->sessions;
+        return $this->sessions->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -317,7 +322,9 @@ class PublishEvent implements PublishEventInterface
      */
     public function getPrograms()
     {
-        return $this->programs;
+        return $this->programs->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -345,6 +352,8 @@ class PublishEvent implements PublishEventInterface
      */
     public function getProgramYears()
     {
-        return $this->programYears;
+        return $this->programYears->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 }

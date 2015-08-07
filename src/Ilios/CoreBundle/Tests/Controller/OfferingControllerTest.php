@@ -244,9 +244,9 @@ class OfferingControllerTest extends AbstractControllerTest
     protected function checkUpdatedAtIncreased(DateTime $original)
     {
         $now = $this->getOfferingUpdatedAt();
-        $diff = $original->diff($now);
+        $diff = $now->getTimestamp() - $original->getTimestamp();
         $this->assertTrue(
-            $diff->s > 1,
+            $diff > 1,
             'The updatedAt timestamp has increased.  Original: ' . $original->format('c') .
             ' Now: ' . $now->format('c')
         );

@@ -22,6 +22,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class School implements SchoolInterface
 {
@@ -279,6 +280,9 @@ class School implements SchoolInterface
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
+        foreach ($this->getDepartments() as $department) {
+            $department->setDeleted($deleted);
+        }
     }
 
     /**
@@ -403,7 +407,9 @@ class School implements SchoolInterface
      */
     public function getCourses()
     {
-        return $this->courses;
+        return $this->courses->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -432,7 +438,9 @@ class School implements SchoolInterface
      */
     public function getDepartments()
     {
-        return $this->departments;
+        return $this->departments->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -488,7 +496,9 @@ class School implements SchoolInterface
      */
     public function getPrograms()
     {
-        return $this->programs;
+        return $this->programs->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

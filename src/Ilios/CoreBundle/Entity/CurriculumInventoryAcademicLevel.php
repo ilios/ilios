@@ -30,6 +30,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {

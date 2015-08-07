@@ -19,6 +19,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Discipline implements DisciplineInterface
 {
@@ -124,7 +125,11 @@ class Discipline implements DisciplineInterface
      */
     public function getOwningSchool()
     {
-        return $this->owningSchool;
+        if ($this->owningSchool && !$this->owningSchool->isDeleted()) {
+            return $this->owningSchool;
+        }
+        
+        return null;
     }
 
     /**
@@ -152,7 +157,9 @@ class Discipline implements DisciplineInterface
      */
     public function getCourses()
     {
-        return $this->courses;
+        return $this->courses->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -180,7 +187,9 @@ class Discipline implements DisciplineInterface
      */
     public function getProgramYears()
     {
-        return $this->programYears;
+        return $this->programYears->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -208,7 +217,9 @@ class Discipline implements DisciplineInterface
      */
     public function getSessions()
     {
-        return $this->sessions;
+        return $this->sessions->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

@@ -17,6 +17,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="ingestion_exception")
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class IngestionException implements IngestionExceptionInterface
 {

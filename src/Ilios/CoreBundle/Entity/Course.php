@@ -26,6 +26,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CourseRepository")
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Course implements CourseInterface
 {
@@ -434,6 +435,9 @@ class Course implements CourseInterface
     public function setDeleted($deleted)
     {
         $this->deleted = (boolean) $deleted;
+        foreach ($this->getSessions() as $session) {
+            $session->setDeleted($deleted);
+        }
     }
 
     /**
@@ -507,7 +511,11 @@ class Course implements CourseInterface
      */
     public function getOwningSchool()
     {
-        return $this->owningSchool;
+        if ($this->owningSchool && !$this->owningSchool->isDeleted()) {
+            return $this->owningSchool;
+        }
+        
+        return null;
     }
 
     /**
@@ -739,6 +747,8 @@ class Course implements CourseInterface
      */
     public function getSessions()
     {
-        return $this->sessions;
+        return $this->sessions->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 }

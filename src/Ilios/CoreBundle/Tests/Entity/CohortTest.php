@@ -3,6 +3,7 @@ namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\Cohort;
 use Mockery as m;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity Cohort
@@ -56,7 +57,7 @@ class CohortTest extends EntityBase
      */
     public function testSetProgramYear()
     {
-        $this->entitySetTest('programYear', 'ProgramYear');
+        $this->softDeleteEntitySetTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -64,7 +65,7 @@ class CohortTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->entityCollectionAddTest('course', 'Course');
+        $this->softDeleteEntityCollectionAddTest('course', 'Course');
     }
 
     /**
@@ -72,6 +73,6 @@ class CohortTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $this->entityCollectionSetTest('course', 'Course');
+        $this->softDeleteEntityCollectionSetTest('course', 'Course');
     }
 }

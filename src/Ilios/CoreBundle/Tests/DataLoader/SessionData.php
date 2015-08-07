@@ -34,7 +34,7 @@ class SessionData extends AbstractDataLoader
             'attireRequired' => false,
             'equipmentRequired' => false,
             'supplemental' => false,
-            'deleted' => false,
+            'deleted' => true,
             'publishedAsTbd' => false,
             'sessionType' => '1',
             'course' => '1',
@@ -84,7 +84,6 @@ class SessionData extends AbstractDataLoader
             );
         }
 
-
         return $arr;
     }
 
@@ -113,5 +112,24 @@ class SessionData extends AbstractDataLoader
     public function createInvalid()
     {
         return [];
+    }
+    
+    public function removeDeletedSessionsFromArray(array $data)
+    {
+        $deletedSessions = array_filter($this->getAll(), function ($session) {
+            return $session['deleted'];
+        });
+        
+        $deletedSessionIds =  array_map(function ($session) {
+            return $session['id'];
+        }, $deletedSessions);
+
+        return array_map(function ($arr) use ($deletedSessionIds) {
+            $arr['sessions'] = array_filter($arr['sessions'], function ($id) use ($deletedSessionIds) {
+                return !in_array($id, $deletedSessionIds);
+            });
+            
+            return $arr;
+        }, $data);
     }
 }

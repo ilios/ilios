@@ -29,6 +29,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Session implements SessionInterface
 {
@@ -144,6 +145,7 @@ class Session implements SessionInterface
      * @Assert\NotBlank()
      *
      * @JMS\Expose
+     * @JMS\ReadOnly
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("updatedAt")
      */
@@ -319,7 +321,8 @@ class Session implements SessionInterface
         $this->disciplines = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
-
+        $this->offerings = new ArrayCollection();
+        
         $this->updatedAt = new \DateTime();
     }
 
@@ -377,6 +380,12 @@ class Session implements SessionInterface
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
+        //only cascade offering delete
+        if ($deleted) {
+            foreach ($this->getOfferings() as $offering) {
+                $offering->setDeleted(true);
+            }
+        }
     }
 
     /**
@@ -592,7 +601,9 @@ class Session implements SessionInterface
     */
     public function getOfferings()
     {
-        return $this->offerings;
+        return $this->offerings->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

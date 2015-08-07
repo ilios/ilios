@@ -21,6 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="aamc_pcrs")
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class AamcPcrs implements AamcPcrsInterface
 {

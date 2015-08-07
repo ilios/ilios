@@ -46,7 +46,7 @@ class CompetencyTest extends EntityBase
      */
     public function testSetSchool()
     {
-        $this->entitySetTest('School', 'School');
+        $this->softDeleteEntitySetTest('school', 'School');
     }
 
     /**
@@ -79,7 +79,7 @@ class CompetencyTest extends EntityBase
      */
     public function testAddProgramYear()
     {
-        $this->entityCollectionAddTest('programYear', 'ProgramYear');
+        $this->softDeleteEntityCollectionAddTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -87,6 +87,6 @@ class CompetencyTest extends EntityBase
      */
     public function testGetProgramYears()
     {
-        $this->entityCollectionSetTest('programYear', 'ProgramYear');
+        $this->softDeleteEntityCollectionSetTest('programYear', 'ProgramYear');
     }
 }

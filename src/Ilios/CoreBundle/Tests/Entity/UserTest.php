@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\User;
 use Mockery as m;
-use Doctrine\Common\Collections\ArrayCollection as Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity Objective
@@ -197,15 +197,15 @@ class UserTest extends EntityBase
      */
     public function testAddDirectedCourse()
     {
-        $this->entityCollectionAddTest('directedCourse', 'Course');
+        $this->softDeleteEntityCollectionAddTest('directedCourse', 'Course');
     }
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getDirectedCourses
      */
-    public function testSetDirectedCourses()
+    public function testGetDirectedCourses()
     {
-        $this->entityCollectionSetTest('directedCourse', 'Course');
+        $this->softDeleteEntityCollectionSetTest('directedCourse', 'Course');
     }
 
     /**
@@ -261,7 +261,7 @@ class UserTest extends EntityBase
      */
     public function testAddOffering()
     {
-        $this->entityCollectionAddTest('offering', 'Offering');
+        $this->softDeleteEntityCollectionAddTest('offering', 'Offering');
     }
 
     /**
@@ -269,7 +269,7 @@ class UserTest extends EntityBase
      */
     public function testSetOfferings()
     {
-        $this->entityCollectionSetTest('offering', 'Offering');
+        $this->softDeleteEntityCollectionSetTest('offering', 'Offering');
     }
 
     /**
@@ -277,7 +277,7 @@ class UserTest extends EntityBase
      */
     public function testAddProgramYear()
     {
-        $this->entityCollectionAddTest('programYear', 'ProgramYear');
+        $this->softDeleteEntityCollectionAddTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -285,7 +285,7 @@ class UserTest extends EntityBase
      */
     public function testSetProgramYears()
     {
-        $this->entityCollectionSetTest('programYear', 'ProgramYear');
+        $this->softDeleteEntityCollectionSetTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -357,7 +357,7 @@ class UserTest extends EntityBase
      */
     public function testAddReport()
     {
-        $this->entityCollectionAddTest('report', 'Report');
+        $this->softDeleteEntityCollectionAddTest('report', 'Report');
     }
 
     /**
@@ -365,7 +365,7 @@ class UserTest extends EntityBase
      */
     public function testSetReports()
     {
-        $this->entityCollectionSetTest('report', 'Report');
+        $this->softDeleteEntityCollectionSetTest('report', 'Report');
     }
 
     /**
@@ -414,7 +414,7 @@ class UserTest extends EntityBase
         $this->object->addCohort($obj);
         $this->object->setPrimaryCohort($obj);
         $obj2 = m::mock('Ilios\CoreBundle\Entity\Cohort');
-        $this->object->setCohorts(new Collection([$obj2]));
+        $this->object->setCohorts(new ArrayCollection([$obj2]));
         $this->assertNull($this->object->getPrimaryCohort());
     }
 

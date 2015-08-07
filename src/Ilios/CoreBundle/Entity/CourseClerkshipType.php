@@ -19,6 +19,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
@@ -95,7 +96,9 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      */
     public function getCourses()
     {
-        return $this->courses;
+        return $this->courses->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

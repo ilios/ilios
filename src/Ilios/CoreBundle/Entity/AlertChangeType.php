@@ -21,6 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class AlertChangeType implements AlertChangeTypeInterface
 {

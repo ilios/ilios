@@ -20,6 +20,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class ProgramYear implements ProgramYearInterface
 {
@@ -310,7 +311,11 @@ class ProgramYear implements ProgramYearInterface
      */
     public function getProgram()
     {
-        return $this->program;
+        if ($this->program && !$this->program->isDeleted()) {
+            return $this->program;
+        }
+        
+        return null;
     }
 
     /**

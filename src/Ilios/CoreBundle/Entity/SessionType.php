@@ -23,6 +23,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class SessionType implements SessionTypeInterface
 {
@@ -214,7 +215,11 @@ class SessionType implements SessionTypeInterface
      */
     public function getOwningSchool()
     {
-        return $this->owningSchool;
+        if ($this->owningSchool && !$this->owningSchool->isDeleted()) {
+            return $this->owningSchool;
+        }
+        
+        return null;
     }
 
     /**
@@ -270,7 +275,9 @@ class SessionType implements SessionTypeInterface
      */
     public function getSessions()
     {
-        return $this->sessions;
+        return $this->sessions->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

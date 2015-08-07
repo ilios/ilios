@@ -128,6 +128,32 @@ class EntityBase extends TestCase
     }
 
     /**
+     * A generic test for entity setters which use other entites
+     *
+     * @param string $property
+     * @param string $entityName
+     */
+    protected function softDeleteEntitySetTest($property, $entityName)
+    {
+        $setMethod = $this->getSetMethodForProperty($property);
+        $getMethod = $this->getGetMethodForProperty($property);
+        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
+        $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
+        $obj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
+            ->mock();
+        $deletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
+            ->mock();
+            
+        $this->object->$setMethod($obj);
+        $this->assertSame($obj, $this->object->$getMethod());
+        
+        $this->object->$setMethod($deletedObj);
+        $this->assertNull($this->object->$getMethod());
+    }
+
+    /**
      * A generic test for setters for collections
      * @todo should we mock Collection when passing it to the setMethod?
      *
@@ -154,6 +180,37 @@ class EntityBase extends TestCase
     }
 
     /**
+     * A generic test for setters for collections
+     * @todo should we mock Collection when passing it to the setMethod?
+     *
+     * @param string $property
+     * @param string $entityName
+     * @param string $getter use instead of a generated method
+     * @param string $setter use instead of a generated method
+     */
+    protected function softDeleteEntityCollectionSetTest($property, $entityName, $getter = false, $setter = false)
+    {
+        $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
+        $setMethod = $setter?$setter:$this->getSetMethodForCollectionProperty($property);
+        $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
+        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
+        $unDeletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
+            ->mock();
+        $deletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
+            ->mock();
+        $collection = new Collection([$unDeletedObj, $deletedObj]);
+        $this->object->$setMethod($collection);
+        $results = $this->object->$getMethod();
+        $this->assertTrue($results instanceof Collection, 'Collection not returned.');
+
+        $this->assertTrue($results->contains($unDeletedObj));
+        $this->assertFalse($results->contains($deletedObj));
+        
+    }
+
+    /**
      * A generis test for entity setters which hold collections of other entites
      *
      * @param string $property
@@ -177,6 +234,36 @@ class EntityBase extends TestCase
         foreach ($arr as $obj) {
             $this->assertTrue($results->contains($obj));
         }
+    }
+
+    /**
+     * A generis test for entity setters which hold collections of other entites
+     *
+     * @param string $property
+     * @param string $entityName
+     * @param string $getter use instead of a generated method
+     * @param string $setter use instead of a generated method
+     */
+    protected function softDeleteEntityCollectionAddTest($property, $entityName, $getter = false, $setter = false)
+    {
+        $addMethod = $setter?$setter:$this->getAddMethodForProperty($property);
+        $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
+        $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
+        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
+
+        $unDeletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
+            ->mock();
+        $deletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
+            ->mock();
+        $this->object->$addMethod($unDeletedObj);
+        $this->object->$addMethod($deletedObj);
+        $results = $this->object->$getMethod();
+        $this->assertTrue($results instanceof Collection, 'Collection not returned.');
+
+        $this->assertTrue($results->contains($unDeletedObj));
+        $this->assertFalse($results->contains($deletedObj));
     }
 
     /**

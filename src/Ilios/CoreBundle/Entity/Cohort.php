@@ -27,6 +27,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * )
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Cohort implements CohortInterface
 {
@@ -130,7 +131,11 @@ class Cohort implements CohortInterface
      */
     public function getProgramYear()
     {
-        return $this->programYear;
+        if ($this->programYear && !$this->programYear->isDeleted()) {
+            return $this->programYear;
+        }
+        
+        return null;
     }
 
     /**
@@ -158,7 +163,9 @@ class Cohort implements CohortInterface
     */
     public function getCourses()
     {
-        return $this->courses;
+        return $this->courses->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

@@ -18,6 +18,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class Report implements ReportInterface
 {
@@ -62,6 +63,7 @@ class Report implements ReportInterface
      * @Assert\NotBlank()
      *
      * @JMS\Expose
+     * @JMS\ReadOnly
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("createdAt")
      */

@@ -22,6 +22,7 @@ class ProgramYearManager extends AbstractManager implements ProgramYearManagerIn
         array $criteria,
         array $orderBy = null
     ) {
+        $criteria['deleted'] = false;
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -39,6 +40,7 @@ class ProgramYearManager extends AbstractManager implements ProgramYearManagerIn
         $limit = null,
         $offset = null
     ) {
+        $criteria['deleted'] = false;
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -70,8 +72,8 @@ class ProgramYearManager extends AbstractManager implements ProgramYearManagerIn
     public function deleteProgramYear(
         ProgramYearInterface $programYear
     ) {
-        $this->em->remove($programYear);
-        $this->em->flush();
+        $programYear->setDeleted(true);
+        $this->updateProgramYear($programYear);
     }
 
     /**

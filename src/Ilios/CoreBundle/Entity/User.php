@@ -20,6 +20,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserRepository")
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class User implements UserInterface, EncoderAwareInterface
 {
@@ -719,7 +720,9 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getDirectedCourses()
     {
-        return $this->directedCourses;
+        return $this->directedCourses->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -889,7 +892,9 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getOfferings()
     {
-        return $this->offerings;
+        return $this->offerings->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -917,7 +922,9 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getProgramYears()
     {
-        return $this->programYears;
+        return $this->programYears->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**
@@ -1057,7 +1064,9 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getReports()
     {
-        return $this->reports;
+        return $this->reports->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

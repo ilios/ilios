@@ -20,6 +20,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class LearnerGroup implements LearnerGroupInterface
 {
@@ -347,7 +348,9 @@ class LearnerGroup implements LearnerGroupInterface
      */
     public function getOfferings()
     {
-        return $this->offerings;
+        return $this->offerings->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 
     /**

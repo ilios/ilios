@@ -37,15 +37,7 @@ class ProgramYearStewardTest extends EntityBase
      */
     public function testSetProgramYear()
     {
-        $this->entitySetTest('programYear', 'ProgramYear');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getProgramYear
-     */
-    public function testGetProgramYear()
-    {
-        $this->entitySetTest('programYear', 'ProgramYear');
+        $this->softDeleteEntitySetTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -54,7 +46,7 @@ class ProgramYearStewardTest extends EntityBase
      */
     public function testSetSchool()
     {
-        $this->entitySetTest('school', 'School');
+        $this->softDeleteEntitySetTest('school', 'School');
     }
 
     /**
@@ -62,6 +54,6 @@ class ProgramYearStewardTest extends EntityBase
      */
     public function testGetSchool()
     {
-        $this->entitySetTest('school', 'School');
+        $this->softDeleteEntitySetTest('school', 'School');
     }
 }

@@ -22,6 +22,7 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
         array $criteria,
         array $orderBy = null
     ) {
+        $criteria['deleted'] = false;
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -39,6 +40,7 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
         $limit = null,
         $offset = null
     ) {
+        $criteria['deleted'] = false;
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -70,8 +72,8 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
     public function deleteOffering(
         OfferingInterface $offering
     ) {
-        $this->em->remove($offering);
-        $this->em->flush();
+        $offering->setDeleted(true);
+        $this->updateOffering($offering);
     }
 
     /**

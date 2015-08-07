@@ -19,6 +19,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class RecurringEvent implements RecurringEventInterface
 {
@@ -427,6 +428,8 @@ class RecurringEvent implements RecurringEventInterface
      */
     public function getOfferings()
     {
-        return $this->offerings;
+        return $this->offerings->filter(function ($entity) {
+            return !$entity->isDeleted();
+        });
     }
 }

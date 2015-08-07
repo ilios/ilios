@@ -19,6 +19,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class IlmSession implements IlmSessionInterface
 {
@@ -323,6 +324,10 @@ class IlmSession implements IlmSessionInterface
      */
     public function getSession()
     {
-        return $this->session;
+        if ($this->session && !$this->session->isDeleted()) {
+            return $this->session;
+        }
+
+        return null;
     }
 }

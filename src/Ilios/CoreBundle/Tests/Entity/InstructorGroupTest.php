@@ -96,7 +96,7 @@ class InstructorGroupTest extends EntityBase
      */
     public function testAddOffering()
     {
-        $this->entityCollectionAddTest('offering', 'Offering');
+        $this->softDeleteEntityCollectionAddTest('offering', 'Offering');
     }
 
     /**
@@ -104,6 +104,6 @@ class InstructorGroupTest extends EntityBase
      */
     public function testGetOfferings()
     {
-        $this->entityCollectionSetTest('offering', 'Offering');
+        $this->softDeleteEntityCollectionSetTest('offering', 'Offering');
     }
 }

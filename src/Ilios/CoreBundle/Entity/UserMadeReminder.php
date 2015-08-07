@@ -21,6 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessType("public_method")
  */
 class UserMadeReminder implements UserMadeReminderInterface
 {
@@ -65,6 +66,7 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @Assert\NotBlank()
      *
      * @JMS\Expose
+     * @JMS\ReadOnly
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("createdAt")
      */
