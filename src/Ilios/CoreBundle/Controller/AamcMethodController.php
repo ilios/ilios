@@ -16,7 +16,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Handler\AamcMethodHandler;
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Class AamcMethodController
