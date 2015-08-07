@@ -24,7 +24,8 @@
         "stof/doctrine-extensions-bundle": "~1.1",
         "firebase/php-jwt": "^2.2",
         "ircmaxell/password-compat": "^1.0.4",
-        "psr/log": "1.0.0"
+        "psr/log": "1.0.0",
+        "doctrine/doctrine-migrations-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",

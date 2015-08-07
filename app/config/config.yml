@@ -125,6 +125,11 @@ security:
             algorithm: bcrypt
         ilios_legacy_encoder:
             id: ilios_authentication.form.legacy_encoder
+            
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/Resources/DoctrineMigrations"
+    name: Ilios Migrations
+    namespace: Ilios\Migrations
 
 ilios_core:
     file_system_storage_path: "%file_system_storage_path%"
