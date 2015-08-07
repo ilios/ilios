@@ -34,8 +34,12 @@ class SessionVoter extends CourseVoter
     /**
      * {@inheritdoc}
      */
-    protected function isCreateGranted($course, $user)
+    protected function isWriteGranted($course, $user)
     {
-        return $this->isEditGranted($course, $user);
+        // prevent any sort of write operation (create/edit/delete) if the parent course is locked or archived.
+        if ($course->isLocked() || $course->isArchived()) {
+            return false;
+        }
+        return parent::isWriteGranted($course, $user);
     }
 }
