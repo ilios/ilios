@@ -33,8 +33,12 @@ class CohortVoter extends ProgramYearVoter
     /**
      * {@inheritdoc}
      */
-    protected function isCreateGranted($programYear, $user)
+    protected function isWriteGranted($programYear, $user)
     {
-        return $this->isEditGranted($programYear, $user);
+        // prevent modifications and deletions of locked or archived program years
+        if ($programYear->isLocked() || $programYear->isArchived()) {
+            return false;
+        }
+        return parent::isWriteGranted($programYear, $user);
     }
 }
