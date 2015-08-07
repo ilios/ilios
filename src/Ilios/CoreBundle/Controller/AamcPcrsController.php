@@ -158,7 +158,7 @@ class AamcPcrsController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAamcPcrsHandler()
+            $new = $this->getAamcPcrsHandler()
                 ->post($this->getPostData($request));
             $answer['aamcPcrses'] = [$new];
 
