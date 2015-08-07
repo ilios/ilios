@@ -158,7 +158,7 @@ class LearningMaterialStatusController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getLearningMaterialStatusHandler()
+            $new = $this->getLearningMaterialStatusHandler()
                 ->post($this->getPostData($request));
             $answer['learningMaterialStatuses'] = [$new];
 

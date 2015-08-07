@@ -158,7 +158,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventorySequenceBlockHandler()
+            $new = $this->getCurriculumInventorySequenceBlockHandler()
                 ->post($this->getPostData($request));
             $answer['curriculumInventorySequenceBlocks'] = [$new];
 

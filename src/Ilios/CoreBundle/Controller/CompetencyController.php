@@ -158,7 +158,7 @@ class CompetencyController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCompetencyHandler()
+            $new = $this->getCompetencyHandler()
                 ->post($this->getPostData($request));
             $answer['competencies'] = [$new];
 

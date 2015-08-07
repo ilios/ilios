@@ -158,7 +158,7 @@ class ReportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getReportHandler()
+            $new = $this->getReportHandler()
                 ->post($this->getPostData($request));
             $answer['reports'] = [$new];
 

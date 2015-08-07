@@ -158,7 +158,7 @@ class UserMadeReminderController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getUserMadeReminderHandler()
+            $new = $this->getUserMadeReminderHandler()
                 ->post($this->getPostData($request));
             $answer['userMadeReminders'] = [$new];
 

@@ -163,7 +163,7 @@ class PublishEventController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getPublishEventHandler()
+            $new = $this->getPublishEventHandler()
                 ->post($this->getPostData($request));
             $answer['publishEvents'] = [$new];
 

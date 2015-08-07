@@ -158,7 +158,7 @@ class DisciplineController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getDisciplineHandler()
+            $new = $this->getDisciplineHandler()
                 ->post($this->getPostData($request));
             $answer['disciplines'] = [$new];
 

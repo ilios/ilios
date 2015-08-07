@@ -158,7 +158,7 @@ class UserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getUserRoleHandler()
+            $new = $this->getUserRoleHandler()
                 ->post($this->getPostData($request));
             $answer['userRoles'] = [$new];
 

@@ -158,7 +158,7 @@ class CourseLearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCourseLearningMaterialHandler()
+            $new = $this->getCourseLearningMaterialHandler()
                 ->post($this->getPostData($request));
             $answer['courseLearningMaterials'] = [$new];
 

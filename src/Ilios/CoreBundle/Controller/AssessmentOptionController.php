@@ -158,7 +158,7 @@ class AssessmentOptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAssessmentOptionHandler()
+            $new = $this->getAssessmentOptionHandler()
                 ->post($this->getPostData($request));
             $answer['assessmentOptions'] = [$new];
 

@@ -158,7 +158,7 @@ class SessionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSessionHandler()
+            $new = $this->getSessionHandler()
                 ->post($this->getPostData($request));
             $answer['sessions'] = [$new];
 

@@ -158,7 +158,7 @@ class ProgramYearController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getProgramYearHandler()
+            $new = $this->getProgramYearHandler()
                 ->post($this->getPostData($request));
             $answer['programYears'] = [$new];
 

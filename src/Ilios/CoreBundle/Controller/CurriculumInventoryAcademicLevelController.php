@@ -158,7 +158,7 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventoryAcademicLevelHandler()
+            $new = $this->getCurriculumInventoryAcademicLevelHandler()
                 ->post($this->getPostData($request));
             $answer['curriculumInventoryAcademicLevels'] = [$new];
 

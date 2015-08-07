@@ -158,7 +158,7 @@ class SessionLearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSessionLearningMaterialHandler()
+            $new = $this->getSessionLearningMaterialHandler()
                 ->post($this->getPostData($request));
             $answer['sessionLearningMaterials'] = [$new];
 

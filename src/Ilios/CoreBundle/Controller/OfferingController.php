@@ -158,7 +158,7 @@ class OfferingController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getOfferingHandler()
+            $new = $this->getOfferingHandler()
                 ->post($this->getPostData($request));
             $answer['offerings'] = [$new];
 

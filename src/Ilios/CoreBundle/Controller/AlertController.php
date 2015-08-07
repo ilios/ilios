@@ -158,7 +158,7 @@ class AlertController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAlertHandler()
+            $new = $this->getAlertHandler()
                 ->post($this->getPostData($request));
             $answer['alerts'] = [$new];
 

@@ -158,7 +158,7 @@ class CurriculumInventoryReportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventoryReportHandler()
+            $new = $this->getCurriculumInventoryReportHandler()
                 ->post($this->getPostData($request));
             $answer['curriculumInventoryReports'] = [$new];
 

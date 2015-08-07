@@ -158,7 +158,7 @@ class InstructorGroupController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getInstructorGroupHandler()
+            $new = $this->getInstructorGroupHandler()
                 ->post($this->getPostData($request));
             $answer['instructorGroups'] = [$new];
 

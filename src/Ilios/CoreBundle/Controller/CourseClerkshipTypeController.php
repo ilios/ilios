@@ -158,7 +158,7 @@ class CourseClerkshipTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCourseClerkshipTypeHandler()
+            $new = $this->getCourseClerkshipTypeHandler()
                 ->post($this->getPostData($request));
             $answer['courseClerkshipTypes'] = [$new];
 

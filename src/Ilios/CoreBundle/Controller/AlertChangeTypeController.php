@@ -158,7 +158,7 @@ class AlertChangeTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAlertChangeTypeHandler()
+            $new = $this->getAlertChangeTypeHandler()
                 ->post($this->getPostData($request));
             $answer['alertChangeTypes'] = [$new];
 

@@ -158,7 +158,7 @@ class DepartmentController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getDepartmentHandler()
+            $new = $this->getDepartmentHandler()
                 ->post($this->getPostData($request));
             $answer['departments'] = [$new];
 

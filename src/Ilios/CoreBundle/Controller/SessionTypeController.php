@@ -158,7 +158,7 @@ class SessionTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSessionTypeHandler()
+            $new = $this->getSessionTypeHandler()
                 ->post($this->getPostData($request));
             $answer['sessionTypes'] = [$new];
 

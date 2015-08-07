@@ -158,7 +158,7 @@ class CohortController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCohortHandler()
+            $new = $this->getCohortHandler()
                 ->post($this->getPostData($request));
             $answer['cohorts'] = [$new];
 

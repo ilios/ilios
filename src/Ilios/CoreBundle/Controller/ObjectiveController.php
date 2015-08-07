@@ -158,7 +158,7 @@ class ObjectiveController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getObjectiveHandler()
+            $new = $this->getObjectiveHandler()
                 ->post($this->getPostData($request));
             $answer['objectives'] = [$new];
 

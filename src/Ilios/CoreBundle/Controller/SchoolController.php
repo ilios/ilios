@@ -158,7 +158,7 @@ class SchoolController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSchoolHandler()
+            $new = $this->getSchoolHandler()
                 ->post($this->getPostData($request));
             $answer['schools'] = [$new];
 

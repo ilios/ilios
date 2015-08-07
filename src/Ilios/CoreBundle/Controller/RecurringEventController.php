@@ -158,7 +158,7 @@ class RecurringEventController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getRecurringEventHandler()
+            $new = $this->getRecurringEventHandler()
                 ->post($this->getPostData($request));
             $answer['recurringEvents'] = [$new];
 

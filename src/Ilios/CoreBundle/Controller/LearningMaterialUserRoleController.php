@@ -158,7 +158,7 @@ class LearningMaterialUserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getLearningMaterialUserRoleHandler()
+            $new = $this->getLearningMaterialUserRoleHandler()
                 ->post($this->getPostData($request));
             $answer['learningMaterialUserRoles'] = [$new];
 

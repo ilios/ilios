@@ -158,7 +158,7 @@ class ProgramController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getProgramHandler()
+            $new = $this->getProgramHandler()
                 ->post($this->getPostData($request));
             $answer['programs'] = [$new];
 
