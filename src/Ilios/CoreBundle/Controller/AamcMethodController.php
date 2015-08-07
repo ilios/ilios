@@ -231,7 +231,7 @@ class AamcMethodController extends FOSRestController
             $aamcMethod = $handler->put($aamcMethod, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted('update', $aamcMethod)) {
+            if (! $authChecker->isGranted('edit', $aamcMethod)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
