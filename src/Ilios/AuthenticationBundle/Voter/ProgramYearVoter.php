@@ -61,13 +61,9 @@ class ProgramYearVoter extends AbstractVoter
                 return $this->isViewGranted($programYear, $user);
                 break;
             case self::CREATE:
-                return $this->isCreateGranted($programYear, $user);
-                break;
             case self::EDIT:
-                return $this->isEditGranted($programYear, $user);
-                break;
             case self::DELETE:
-                return $this->isDeleteGranted($programYear, $user);
+                return $this->isWriteGranted($programYear, $user);
                 break;
         }
 
@@ -114,23 +110,9 @@ class ProgramYearVoter extends AbstractVoter
      * @param UserInterface $user
      * @return bool
      */
-    protected function isEditGranted($programYear, $user)
+    protected function isWriteGranted($programYear, $user)
     {
-        // prevent modifications and deletions of locked or archived program years
-        if ($programYear->isLocked() || $programYear->isArchived()) {
-            return false;
-        }
-        return $this->isCreateGranted($programYear, $user);
-    }
-
-    /**
-     * @param ProgramYearInterface $programYear
-     * @param UserInterface $user
-     * @return bool
-     */
-    protected function isCreateGranted($programYear, $user)
-    {
-        // the given user is granted CREATE permissions on the given program year
+        // the given user is granted CREATE/EDIT/DELETE permissions on the given program year
         // when at least one of the following statements is true
         // 1. The user's primary school is the same as the parent program's owning school
         //    and the user has at least one of 'Course Director' and 'Developer' role.
@@ -156,15 +138,5 @@ class ProgramYearVoter extends AbstractVoter
             )
             || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
         );
-    }
-
-    /**
-     * @param ProgramYearInterface $programYear
-     * @param UserInterface $user
-     * @return bool
-     */
-    protected function isDeleteGranted($programYear, $user)
-    {
-        return $this->isEditGranted($programYear, $user);
     }
 }
