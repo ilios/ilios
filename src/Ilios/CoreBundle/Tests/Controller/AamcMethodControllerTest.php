@@ -149,7 +149,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_aamcmethods',
@@ -161,7 +161,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_aamcmethods',
