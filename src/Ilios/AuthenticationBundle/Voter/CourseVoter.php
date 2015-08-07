@@ -48,41 +48,12 @@ class CourseVoter extends AbstractVoter
                 return $this->isViewGranted($course, $user);
                 break;
             case self::CREATE:
-                return $this->isCreateGranted($course, $user);
-                break;
             case self::EDIT:
-                return $this->isEditGranted($course, $user);
-                break;
             case self::DELETE:
-                return $this->isDeleteGranted($course, $user);
+                return $this->isWriteGranted($course, $user);
                 break;
         }
         return false;
-    }
-
-    /**
-     * @param CourseInterface $course
-     * @param UserInterface $user
-     * @return bool
-     */
-    protected function isDeleteGranted($course, $user)
-    {
-        return $this->isEditGranted($course, $user);
-    }
-
-    /**
-     * @param CourseInterface $course
-     * @param UserInterface $user
-     * @return bool
-     */
-    protected function isEditGranted($course, $user)
-    {
-        // HALT!
-        // deny EDIT privileges to locked or archived courses.
-        if ($course->isArchived() || $course->isLocked()) {
-            return false;
-        }
-        return $this->isCreateGranted($course, $user);
     }
 
     /**
@@ -108,9 +79,9 @@ class CourseVoter extends AbstractVoter
      * @param UserInterface $user
      * @return bool
      */
-    protected function isCreateGranted($course, $user)
+    protected function isWriteGranted($course, $user)
     {
-        // grant CREATE privileges if at least one of the following
+        // grant CREATE/EDIT/DELETE privileges if at least one of the following
         // statements is true:
         // 1. the user's primary school is the course's owning school
         //    and the user has at least one of the 'Faculty', 'Course Director' and 'Developer' roles.
