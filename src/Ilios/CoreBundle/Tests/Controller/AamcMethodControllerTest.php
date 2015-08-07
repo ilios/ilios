@@ -172,7 +172,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-        $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode(), $response->getContent());
     }
 
     public function testAamcMethodNotFound()
