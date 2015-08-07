@@ -257,9 +257,9 @@ class SessionControllerTest extends AbstractControllerTest
     protected function checkUpdatedAtIncreased($sessionId, DateTime $original)
     {
         $now = $this->getSessionUpdatedAt($sessionId);
-        $diff = $original->diff($now);
+        $diff = $now->getTimestamp() - $original->getTimestamp();
         $this->assertTrue(
-            $diff->s > 1,
+            $diff > 1,
             'The updatedAt timestamp has increased.  Original: ' . $original->format('c') .
             ' Now: ' . $now->format('c')
         );
