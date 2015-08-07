@@ -98,17 +98,10 @@ class AamcMethodHandler extends AamcMethodManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $aamcMethod = $form->getData();
-            $this->updateAamcMethod(
-                $aamcMethod,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $aamcMethod;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }
