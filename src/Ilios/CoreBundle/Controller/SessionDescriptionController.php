@@ -33,9 +33,9 @@ class SessionDescriptionController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *        "name"="session",
-     *        "dataType"="",
-     *        "requirement"="",
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="\d+",
      *        "description"="SessionDescription identifier."
      *     }
      *   },
@@ -158,7 +158,7 @@ class SessionDescriptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSessionDescriptionHandler()
+            $new = $this->getSessionDescriptionHandler()
                 ->post($this->getPostData($request));
             $answer['sessionDescriptions'] = [$new];
 
@@ -198,7 +198,7 @@ class SessionDescriptionController extends FOSRestController
     {
         try {
             $sessionDescription = $this->getSessionDescriptionHandler()
-                ->findSessionDescriptionBy(['session'=> $id]);
+                ->findSessionDescriptionBy(['id'=> $id]);
             if ($sessionDescription) {
                 $code = Codes::HTTP_OK;
             } else {
@@ -230,9 +230,9 @@ class SessionDescriptionController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "session",
-     *         "dataType" = "",
-     *         "requirement" = "",
+     *         "name" = "id",
+     *         "dataType" = "integer",
+     *         "requirement" = "\d+",
      *         "description" = "SessionDescription identifier"
      *     }
      *   },
@@ -273,7 +273,7 @@ class SessionDescriptionController extends FOSRestController
     protected function getOr404($id)
     {
         $sessionDescription = $this->getSessionDescriptionHandler()
-            ->findSessionDescriptionBy(['session' => $id]);
+            ->findSessionDescriptionBy(['id' => $id]);
         if (!$sessionDescription) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
