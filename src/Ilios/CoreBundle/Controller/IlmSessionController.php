@@ -68,7 +68,7 @@ class IlmSessionController extends FOSRestController
      *   resource = true,
      *   output="Ilios\CoreBundle\Entity\IlmSession",
      *   statusCodes = {
-     *     200 = "List of all IlmSessions",
+     *     200 = "List of all IlmSession",
      *     204 = "No content. Nothing to list."
      *   }
      * )
@@ -158,11 +158,13 @@ class IlmSessionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getIlmSessionHandler()
+            $new = $this->getIlmSessionHandler()
                 ->post($this->getPostData($request));
             $answer['ilmSessions'] = [$new];
 
-            return $answer;
+            $view = $this->view($answer, Codes::HTTP_CREATED);
+
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
