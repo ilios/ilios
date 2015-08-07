@@ -218,17 +218,22 @@ class AamcMethodController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $aamcMethod = $this->getAamcMethodHandler()->findAamcMethodBy(['id'=> $id]);
+            $aamcMethod = $this->getAamcMethodHandler()
+                ->findAamcMethodBy(['id'=> $id]);
             if ($aamcMethod) {
                 $code = Codes::HTTP_OK;
             } else {
-                $aamcMethod = $this->getAamcMethodHandler()->createAamcMethod();
+                $aamcMethod = $this->getAamcMethodHandler()
+                    ->createAamcMethod();
                 $code = Codes::HTTP_CREATED;
             }
 
             $handler = $this->getAamcMethodHandler();
 
-            $aamcMethod = $handler->put($aamcMethod, $this->getPostData($request));
+            $aamcMethod = $handler->put(
+                $aamcMethod,
+                $this->getPostData($request)
+            );
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $aamcMethod)) {
@@ -287,7 +292,8 @@ class AamcMethodController extends FOSRestController
         }
 
         try {
-            $this->getAamcMethodHandler()->deleteAamcMethod($aamcMethod);
+            $this->getAamcMethodHandler()
+                ->deleteAamcMethod($aamcMethod);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
