@@ -98,17 +98,10 @@ class CourseClerkshipTypeHandler extends CourseClerkshipTypeManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $courseClerkshipType = $form->getData();
-            $this->updateCourseClerkshipType(
-                $courseClerkshipType,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $courseClerkshipType;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

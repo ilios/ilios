@@ -98,17 +98,10 @@ class AssessmentOptionHandler extends AssessmentOptionManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $assessmentOption = $form->getData();
-            $this->updateAssessmentOption(
-                $assessmentOption,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $assessmentOption;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

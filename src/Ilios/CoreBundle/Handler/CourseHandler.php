@@ -98,17 +98,10 @@ class CourseHandler extends CourseManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $course = $form->getData();
-            $this->updateCourse(
-                $course,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $course;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

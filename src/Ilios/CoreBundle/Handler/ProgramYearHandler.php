@@ -98,17 +98,10 @@ class ProgramYearHandler extends ProgramYearManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $programYear = $form->getData();
-            $this->updateProgramYear(
-                $programYear,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $programYear;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

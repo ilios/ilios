@@ -98,17 +98,10 @@ class CourseLearningMaterialHandler extends CourseLearningMaterialManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $courseLearningMaterial = $form->getData();
-            $this->updateCourseLearningMaterial(
-                $courseLearningMaterial,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $courseLearningMaterial;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

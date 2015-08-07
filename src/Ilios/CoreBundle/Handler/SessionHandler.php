@@ -98,17 +98,10 @@ class SessionHandler extends SessionManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $session = $form->getData();
-            $this->updateSession(
-                $session,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $session;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

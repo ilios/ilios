@@ -98,17 +98,10 @@ class IlmSessionHandler extends IlmSessionManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $ilmSession = $form->getData();
-            $this->updateIlmSession(
-                $ilmSession,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $ilmSession;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

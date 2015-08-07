@@ -98,17 +98,10 @@ class CurriculumInventoryReportHandler extends CurriculumInventoryReportManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $curriculumInventoryReport = $form->getData();
-            $this->updateCurriculumInventoryReport(
-                $curriculumInventoryReport,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $curriculumInventoryReport;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

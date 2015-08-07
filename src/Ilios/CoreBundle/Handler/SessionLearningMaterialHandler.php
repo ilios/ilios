@@ -98,17 +98,10 @@ class SessionLearningMaterialHandler extends SessionLearningMaterialManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $sessionLearningMaterial = $form->getData();
-            $this->updateSessionLearningMaterial(
-                $sessionLearningMaterial,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $sessionLearningMaterial;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

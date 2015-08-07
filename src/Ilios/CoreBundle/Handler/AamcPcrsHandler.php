@@ -98,17 +98,10 @@ class AamcPcrsHandler extends AamcPcrsManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $aamcPcrs = $form->getData();
-            $this->updateAamcPcrs(
-                $aamcPcrs,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $aamcPcrs;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

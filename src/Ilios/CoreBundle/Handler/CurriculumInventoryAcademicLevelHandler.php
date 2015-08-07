@@ -98,17 +98,10 @@ class CurriculumInventoryAcademicLevelHandler extends CurriculumInventoryAcademi
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $curriculumInventoryAcademicLevel = $form->getData();
-            $this->updateCurriculumInventoryAcademicLevel(
-                $curriculumInventoryAcademicLevel,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $curriculumInventoryAcademicLevel;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

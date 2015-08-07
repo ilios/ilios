@@ -98,17 +98,10 @@ class ObjectiveHandler extends ObjectiveManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $objective = $form->getData();
-            $this->updateObjective(
-                $objective,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $objective;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

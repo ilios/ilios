@@ -98,17 +98,10 @@ class MeshSemanticTypeHandler extends MeshSemanticTypeManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $meshSemanticType = $form->getData();
-            $this->updateMeshSemanticType(
-                $meshSemanticType,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $meshSemanticType;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

@@ -98,17 +98,10 @@ class RecurringEventHandler extends RecurringEventManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $recurringEvent = $form->getData();
-            $this->updateRecurringEvent(
-                $recurringEvent,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $recurringEvent;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

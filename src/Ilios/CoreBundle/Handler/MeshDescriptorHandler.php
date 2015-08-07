@@ -98,17 +98,10 @@ class MeshDescriptorHandler extends MeshDescriptorManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $meshDescriptor = $form->getData();
-            $this->updateMeshDescriptor(
-                $meshDescriptor,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $meshDescriptor;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

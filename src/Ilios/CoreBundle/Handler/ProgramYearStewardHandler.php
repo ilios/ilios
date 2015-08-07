@@ -98,17 +98,10 @@ class ProgramYearStewardHandler extends ProgramYearStewardManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $programYearSteward = $form->getData();
-            $this->updateProgramYearSteward(
-                $programYearSteward,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $programYearSteward;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

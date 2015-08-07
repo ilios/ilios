@@ -98,17 +98,10 @@ class OfferingHandler extends OfferingManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $offering = $form->getData();
-            $this->updateOffering(
-                $offering,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $offering;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

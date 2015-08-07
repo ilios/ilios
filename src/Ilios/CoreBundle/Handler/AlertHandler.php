@@ -98,17 +98,10 @@ class AlertHandler extends AlertManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $alert = $form->getData();
-            $this->updateAlert(
-                $alert,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $alert;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

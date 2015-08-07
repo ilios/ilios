@@ -98,17 +98,10 @@ class InstructionHoursHandler extends InstructionHoursManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $instructionHours = $form->getData();
-            $this->updateInstructionHours(
-                $instructionHours,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $instructionHours;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

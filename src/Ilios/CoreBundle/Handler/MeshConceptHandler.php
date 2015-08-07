@@ -98,17 +98,10 @@ class MeshConceptHandler extends MeshConceptManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $meshConcept = $form->getData();
-            $this->updateMeshConcept(
-                $meshConcept,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $meshConcept;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

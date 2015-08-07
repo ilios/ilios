@@ -3,7 +3,6 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Form\Type\PublishEventType;
@@ -28,10 +27,10 @@ class PublishEventHandler extends PublishEventManager
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory, Request $request)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
-        parent::__construct($em, $class, $request);
+        parent::__construct($em, $class);
     }
 
     /**
@@ -101,17 +100,10 @@ class PublishEventHandler extends PublishEventManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $publishEvent = $form->getData();
-            $this->updatePublishEvent(
-                $publishEvent,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $publishEvent;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

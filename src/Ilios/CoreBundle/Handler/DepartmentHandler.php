@@ -98,17 +98,10 @@ class DepartmentHandler extends DepartmentManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $department = $form->getData();
-            $this->updateDepartment(
-                $department,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $department;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }
