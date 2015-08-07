@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Ilios\CoreBundle\Traits\ArchivableEntity;
+use Ilios\CoreBundle\Traits\LockableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -30,6 +32,8 @@ class Course implements CourseInterface
     use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
+    use LockableEntity;
+    use ArchivableEntity;
 
     /**
      * @var int
@@ -456,38 +460,6 @@ class Course implements CourseInterface
     public function getExternalId()
     {
         return $this->externalId;
-    }
-
-    /**
-     * @param boolean $locked
-     */
-    public function setLocked($locked)
-    {
-        $this->locked = (boolean) $locked;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isLocked()
-    {
-        return $this->locked;
-    }
-
-    /**
-     * @param boolean $archived
-     */
-    public function setArchived($archived)
-    {
-        $this->archived = (boolean) $archived;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isArchived()
-    {
-        return $this->archived;
     }
 
     /**

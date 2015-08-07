@@ -5,7 +5,9 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\LockableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
@@ -16,7 +18,9 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 interface CourseInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityInterface
+    StringableEntityInterface,
+    LockableEntityInterface,
+    ArchivableEntityInterface
 {
     /**
      * @param int $level
@@ -79,26 +83,6 @@ interface CourseInterface extends
      * @return string
      */
     public function getExternalId();
-
-    /**
-     * @param boolean $locked
-     */
-    public function setLocked($locked);
-
-    /**
-     * @return boolean
-     */
-    public function isLocked();
-
-    /**
-     * @param boolean $archived
-     */
-    public function setArchived($archived);
-
-    /**
-     * @return boolean
-     */
-    public function isArchived();
 
     /**
      * @param boolean $publishedAsTbd
