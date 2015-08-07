@@ -45,7 +45,8 @@ class LearningMaterialVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                // any authenticated user can see all learning materials
+                // any authenticated user can see all learning materials.
+                return true;
                 break;
             case self::CREATE:
                 // users with 'Course director' or 'Developer' role can create materials.
