@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\OfferingsEntity;
 
 /**
  * Class LearnerGroup
@@ -27,6 +28,7 @@ class LearnerGroup implements LearnerGroupInterface
     use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
+    use OfferingsEntity;
 
     /**
      * @var int
@@ -318,39 +320,6 @@ class LearnerGroup implements LearnerGroupInterface
     public function getIlmSessions()
     {
         return $this->ilmSessions;
-    }
-
-    /**
-     * @param Collection $offerings
-     */
-    public function setOfferings(Collection $offerings = null)
-    {
-        $this->offerings = new ArrayCollection();
-        if (is_null($offerings)) {
-            return;
-        }
-
-        foreach ($offerings as $offering) {
-            $this->addOffering($offering);
-        }
-    }
-
-    /**
-     * @param OfferingInterface $offering
-     */
-    public function addOffering(OfferingInterface $offering)
-    {
-        $this->offerings->add($offering);
-    }
-
-    /**
-     * @return ArrayCollection|OfferingInterface[]
-     */
-    public function getOfferings()
-    {
-        return $this->offerings->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 
     /**

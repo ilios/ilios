@@ -10,6 +10,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\CoursesEntity;
+use Ilios\CoreBundle\Traits\SessionsEntity;
+use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 
 /**
  * Class Discipline
@@ -25,6 +28,9 @@ class Discipline implements DisciplineInterface
 {
     use IdentifiableEntity;
     use TitledEntity;
+    use CoursesEntity;
+    use SessionsEntity;
+    use ProgramYearsEntity;
 
     /**
      * @var int
@@ -130,96 +136,6 @@ class Discipline implements DisciplineInterface
         }
         
         return null;
-    }
-
-    /**
-     * @param Collection $courses
-     */
-    public function setCourses(Collection $courses)
-    {
-        $this->courses = new ArrayCollection();
-
-        foreach ($courses as $course) {
-            $this->addCourse($course);
-        }
-    }
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course)
-    {
-        $this->courses->add($course);
-    }
-
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getCourses()
-    {
-        return $this->courses->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
-    }
-
-    /**
-     * @param Collection $programYears
-     */
-    public function setProgramYears(Collection $programYears)
-    {
-        $this->programYears = new ArrayCollection();
-
-        foreach ($programYears as $programYear) {
-            $this->addProgramYear($programYear);
-        }
-    }
-
-    /**
-     * @param ProgramYearInterface $programYear
-     */
-    public function addProgramYear(ProgramYearInterface $programYear)
-    {
-        $this->programYears->add($programYear);
-    }
-
-    /**
-     * @return ArrayCollection|ProgramYearInterface[]
-     */
-    public function getProgramYears()
-    {
-        return $this->programYears->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
-    }
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions)
-    {
-        $this->sessions = new ArrayCollection();
-
-        foreach ($sessions as $session) {
-            $this->addSession($session);
-        }
-    }
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session)
-    {
-        $this->sessions->add($session);
-    }
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions()
-    {
-        return $this->sessions->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 
     /**

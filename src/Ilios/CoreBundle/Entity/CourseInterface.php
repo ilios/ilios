@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
+use Ilios\CoreBundle\Traits\SessionsEntityInterface;
 
 /**
  * Interface CourseInterface
@@ -20,7 +21,8 @@ interface CourseInterface extends
     TitledEntityInterface,
     StringableEntityInterface,
     LockableEntityInterface,
-    ArchivableEntityInterface
+    ArchivableEntityInterface,
+    SessionsEntityInterface
 {
     /**
      * @param int $level
@@ -193,19 +195,4 @@ interface CourseInterface extends
      * @return PublishEventInterface
      */
     public function getPublishEvent();
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions);
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session);
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions();
 }

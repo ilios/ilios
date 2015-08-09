@@ -9,7 +9,7 @@
     "require": {
         "php": "~5.4,>=5.4.4",
         "symfony/symfony": "2.7.*",
-        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/orm": "2.5.*",
         "doctrine/doctrine-bundle": "^1.2",
         "twig/extensions": "~1.0",
         "symfony/swiftmailer-bundle": "~2.3",
@@ -39,15 +39,9 @@
         "fzaninotto/faker": "^1.4",
         "liip/functional-test-bundle": "~1.2",
         "doctrine/doctrine-fixtures-bundle": "~2.2@dev",
-        "tdn/pilotbundle": "dev-feature/controller-tests",
+        "tdn/pilotbundle": "dev-develop",
         "satooshi/php-coveralls": "^0.6"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/vpassapera/TdnPilotBundle.git"
-        }
-    ],
     "minimum-stability": "dev",
     "scripts": {
         "post-root-package-install": [

@@ -14,6 +14,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
+use Ilios\CoreBundle\Traits\CoursesEntity;
+use Ilios\CoreBundle\Traits\SessionsEntity;
 
 /**
  * Class MeshDescriptor
@@ -31,6 +33,8 @@ class MeshDescriptor implements MeshDescriptorInterface
     use StringableIdEntity;
     use NameableEntity;
     use TimestampableEntity;
+    use CoursesEntity;
+    use SessionsEntity;
 
     /**
      * @var string
@@ -216,36 +220,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param Collection $courses
-     */
-    public function setCourses(Collection $courses)
-    {
-        $this->courses = new ArrayCollection();
-
-        foreach ($courses as $course) {
-            $this->addCourse($course);
-        }
-    }
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course)
-    {
-        $this->courses->add($course);
-    }
-
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getCourses()
-    {
-        return $this->courses->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
-    }
-
-    /**
      * @param Collection $objectives
      */
     public function setObjectives(Collection $objectives)
@@ -271,36 +245,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getObjectives()
     {
         return $this->objectives;
-    }
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions)
-    {
-        $this->sessions = new ArrayCollection();
-
-        foreach ($sessions as $session) {
-            $this->addSession($session);
-        }
-    }
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session)
-    {
-        $this->sessions->add($session);
-    }
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions()
-    {
-        return $this->sessions->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 
     /**

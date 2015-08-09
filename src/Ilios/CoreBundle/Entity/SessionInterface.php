@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
+use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
 
 /**
  * Interface SessionInterface
@@ -17,7 +18,8 @@ interface SessionInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     StringableEntityInterface,
-    TimestampableEntityInterface
+    TimestampableEntityInterface,
+    OfferingsEntityInterface
 {
     /**
      * @param boolean $attireRequired

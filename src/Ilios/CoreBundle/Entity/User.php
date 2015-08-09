@@ -6,11 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\OfferingsEntity;
+use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 
 /**
  * Class User
@@ -26,6 +29,8 @@ class User implements UserInterface, EncoderAwareInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+    use OfferingsEntity;
+    use ProgramYearsEntity;
 
     /**
      * @var int
@@ -720,9 +725,18 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getDirectedCourses()
     {
-        return $this->directedCourses->filter(function ($entity) {
+        //criteria not 100% reliale on many to many relationships
+        //fix in https://github.com/doctrine/doctrine2/pull/1399
+        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
+        // return new ArrayCollection($this->directedCourses->matching($criteria)->getValues());
+        
+        $arr = $this->directedCourses->filter(function ($entity) {
             return !$entity->isDeleted();
-        });
+        })->toArray();
+        
+        $reIndexed = array_values($arr);
+        
+        return new ArrayCollection($reIndexed);
     }
 
     /**
@@ -868,66 +882,6 @@ class User implements UserInterface, EncoderAwareInterface
     }
 
     /**
-     * @param Collection $offerings
-     */
-    public function setOfferings(Collection $offerings)
-    {
-        $this->offerings = new ArrayCollection();
-
-        foreach ($offerings as $offering) {
-            $this->addOffering($offering);
-        }
-    }
-
-    /**
-     * @param OfferingInterface $offering
-     */
-    public function addOffering(OfferingInterface $offering)
-    {
-        $this->offerings->add($offering);
-    }
-
-    /**
-     * @return ArrayCollection|OfferingInterface[]
-     */
-    public function getOfferings()
-    {
-        return $this->offerings->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
-    }
-
-    /**
-     * @param Collection $programYears
-     */
-    public function setProgramYears(Collection $programYears)
-    {
-        $this->programYears = new ArrayCollection();
-
-        foreach ($programYears as $programYear) {
-            $this->addProgramYear($programYear);
-        }
-    }
-
-    /**
-     * @param ProgramYearInterface $programYear
-     */
-    public function addProgramYear(ProgramYearInterface $programYear)
-    {
-        $this->programYears->add($programYear);
-    }
-
-    /**
-     * @return ArrayCollection|ProgramYearInterface[]
-     */
-    public function getProgramYears()
-    {
-        return $this->programYears->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
-    }
-
-    /**
      * @param Collection $alerts
      */
     public function setAlerts(Collection $alerts)
@@ -1064,9 +1018,18 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getReports()
     {
-        return $this->reports->filter(function ($entity) {
+        //criteria not 100% reliale on many to many relationships
+        //fix in https://github.com/doctrine/doctrine2/pull/1399
+        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
+        // return new ArrayCollection($this->reports->matching($criteria)->getValues());
+        
+        $arr = $this->reports->filter(function ($entity) {
             return !$entity->isDeleted();
-        });
+        })->toArray();
+        
+        $reIndexed = array_values($arr);
+        
+        return new ArrayCollection($reIndexed);
     }
 
     /**

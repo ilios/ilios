@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\CoursesEntity;
+use Ilios\CoreBundle\Traits\ProgramsEntity;
 
 /**
  * Class School
@@ -27,6 +29,8 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 class School implements SchoolInterface
 {
     use TitledEntity;
+    use CoursesEntity;
+    use ProgramsEntity;
 
     /**
      * @deprecated Replace with Trait in 3.xf
@@ -383,36 +387,6 @@ class School implements SchoolInterface
     }
 
     /**
-     * @param Collection $courses
-     */
-    public function setCourses(Collection $courses)
-    {
-        $this->courses = new ArrayCollection();
-
-        foreach ($courses as $course) {
-            $this->addCourse($course);
-        }
-    }
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course)
-    {
-        $this->courses->add($course);
-    }
-
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getCourses()
-    {
-        return $this->courses->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
-    }
-
-    /**
      * @param Collection $departments
      */
     public function setDepartments(Collection $departments)
@@ -438,9 +412,18 @@ class School implements SchoolInterface
      */
     public function getDepartments()
     {
-        return $this->departments->filter(function ($entity) {
+        //criteria not 100% reliale on many to many relationships
+        //fix in https://github.com/doctrine/doctrine2/pull/1399
+        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
+        // return new ArrayCollection($this->departments->matching($criteria)->getValues());
+        
+        $arr = $this->departments->filter(function ($entity) {
             return !$entity->isDeleted();
-        });
+        })->toArray();
+        
+        $reIndexed = array_values($arr);
+        
+        return new ArrayCollection($reIndexed);
     }
 
     /**
@@ -469,36 +452,6 @@ class School implements SchoolInterface
     public function getDisciplines()
     {
         return $this->disciplines;
-    }
-
-    /**
-     * @param Collection $programs
-     */
-    public function setPrograms(Collection $programs)
-    {
-        $this->programs = new ArrayCollection();
-
-        foreach ($programs as $program) {
-            $this->addProgram($program);
-        }
-    }
-
-    /**
-     * @param ProgramInterface $program
-     */
-    public function addProgram(ProgramInterface $program)
-    {
-        $this->programs->add($program);
-    }
-
-    /**
-     * @return ArrayCollection|ProgramInterface[]
-     */
-    public function getPrograms()
-    {
-        return $this->programs->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 
     /**

@@ -3,13 +3,17 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Symfony\Component\Validator\Constraints as Assert;
-
-use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\CoursesEntity;
+use Ilios\CoreBundle\Traits\SessionsEntity;
+use Ilios\CoreBundle\Traits\ProgramsEntity;
+use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 
 /**
  * Class PublishEvent
@@ -25,7 +29,13 @@ class PublishEvent implements PublishEventInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+    use CoursesEntity;
+    use SessionsEntity;
+    use ProgramYearsEntity;
+    use ProgramsEntity;
+    
     /**
+     *
      * @var int
      *
      * @ORM\Column(name="publish_event_id", type="integer")
@@ -235,125 +245,5 @@ class PublishEvent implements PublishEventInterface
     public function getAdministrator()
     {
         return $this->administrator;
-    }
-
-    /**
-     * @param Collection $courses
-     */
-    public function setCourses(Collection $courses)
-    {
-        $this->courses = new ArrayCollection();
-
-        foreach ($courses as $course) {
-            $this->addCourse($course);
-        }
-    }
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course)
-    {
-        $this->courses->add($course);
-    }
-
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getCourses()
-    {
-        return $this->courses->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
-    }
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions)
-    {
-        $this->sessions = new ArrayCollection();
-
-        foreach ($sessions as $session) {
-            $this->addSession($session);
-        }
-    }
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session)
-    {
-        $this->sessions->add($session);
-    }
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions()
-    {
-        return $this->sessions->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
-    }
-
-    /**
-     * @param Collection $programs
-     */
-    public function setPrograms(Collection $programs)
-    {
-        $this->programs = new ArrayCollection();
-
-        foreach ($programs as $program) {
-            $this->addProgram($program);
-        }
-    }
-
-    /**
-     * @param ProgramInterface $program
-     */
-    public function addProgram(ProgramInterface $program)
-    {
-        $this->programs->add($program);
-    }
-
-    /**
-     * @return ArrayCollection|ProgramInterface[]
-     */
-    public function getPrograms()
-    {
-        return $this->programs->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
-    }
-
-    /**
-     * @param Collection $programYears
-     */
-    public function setProgramYears(Collection $programYears)
-    {
-        $this->programYears = new ArrayCollection();
-
-        foreach ($programYears as $programYear) {
-            $this->addProgramYear($programYear);
-        }
-    }
-
-    /**
-     * @param ProgramYearInterface $programYear
-     */
-    public function addProgramYear(ProgramYearInterface $programYear)
-    {
-        $this->programYears->add($programYear);
-    }
-
-    /**
-     * @return ArrayCollection|ProgramYearInterface[]
-     */
-    public function getProgramYears()
-    {
-        return $this->programYears->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 }

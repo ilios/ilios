@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\SessionsEntity;
 
 /**
  * SessionType
@@ -29,6 +30,7 @@ class SessionType implements SessionTypeInterface
 {
     use IdentifiableEntity;
     use TitledEntity;
+    use SessionsEntity;
 
     /**
      * @var integer
@@ -248,36 +250,6 @@ class SessionType implements SessionTypeInterface
     public function getAamcMethods()
     {
         return $this->aamcMethods;
-    }
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions)
-    {
-        $this->sessions = new ArrayCollection();
-
-        foreach ($sessions as $session) {
-            $this->addSession($session);
-        }
-    }
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session)
-    {
-        $this->sessions->add($session);
-    }
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions()
-    {
-        return $this->sessions->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 
     /**

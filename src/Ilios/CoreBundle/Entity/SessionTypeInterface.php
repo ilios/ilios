@@ -6,12 +6,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
+use Ilios\CoreBundle\Traits\SessionsEntityInterface;
 
 /**
  * Interface SessionTypeInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface SessionTypeInterface extends IdentifiableEntityInterface, TitledEntityInterface
+interface SessionTypeInterface extends
+    IdentifiableEntityInterface,
+    TitledEntityInterface,
+    SessionsEntityInterface
 {
     /**
      * @param string $sessionTypeCssClass
@@ -71,19 +75,4 @@ interface SessionTypeInterface extends IdentifiableEntityInterface, TitledEntity
      * @return ArrayCollection|AamcMethodInterface[]
      */
     public function getAamcMethods();
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions);
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session);
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions();
 }

@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
+use Ilios\CoreBundle\Traits\OfferingsEntity;
 
 /**
  * Class Session
@@ -37,6 +38,7 @@ class Session implements SessionInterface
     use TitledEntity;
     use StringableIdEntity;
     use TimestampableEntity;
+    use OfferingsEntity;
 
     /**
      * @var int
@@ -574,36 +576,6 @@ class Session implements SessionInterface
     public function getSessionDescription()
     {
         return $this->sessionDescription;
-    }
-
-    /**
-    * @param Collection $offerings
-    */
-    public function setOfferings(Collection $offerings)
-    {
-        $this->offerings = new ArrayCollection();
-
-        foreach ($offerings as $offering) {
-            $this->addOffering($offering);
-        }
-    }
-
-    /**
-    * @param OfferingInterface $offering
-    */
-    public function addOffering(OfferingInterface $offering)
-    {
-        $this->offerings->add($offering);
-    }
-
-    /**
-    * @return ArrayCollection|OfferingInterface[]
-    */
-    public function getOfferings()
-    {
-        return $this->offerings->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 
     /**

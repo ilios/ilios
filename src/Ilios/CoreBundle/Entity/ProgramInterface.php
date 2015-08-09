@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
+use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
 
 /**
  * Interface ProgramInterface
@@ -13,7 +14,8 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 interface ProgramInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityInterface
+    StringableEntityInterface,
+    ProgramYearsEntityInterface
 {
     /**
      * @param string $shortTitle

@@ -7,11 +7,19 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
+use Ilios\CoreBundle\Traits\CoursesEntityInterface;
+use Ilios\CoreBundle\Traits\SessionsEntityInterface;
+use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
 
 /**
  * Interface DisciplineInterface
  */
-interface DisciplineInterface extends IdentifiableEntityInterface, TitledEntityInterface
+interface DisciplineInterface extends
+    IdentifiableEntityInterface,
+    TitledEntityInterface,
+    CoursesEntityInterface,
+    SessionsEntityInterface,
+    ProgramYearsEntityInterface
 {
     /**
      * @param SchoolInterface $school
@@ -22,44 +30,4 @@ interface DisciplineInterface extends IdentifiableEntityInterface, TitledEntityI
      * @return SchoolInterface
      */
     public function getOwningSchool();
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course);
-
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getCourses();
-
-    /**
-     * @param Collection $programYears
-     */
-    public function setProgramYears(Collection $programYears);
-
-    /**
-     * @param ProgramYearInterface $programYear
-     */
-    public function addProgramYear(ProgramYearInterface $programYear);
-
-    /**
-     * @return ArrayCollection|ProgramYearInterface[]
-     */
-    public function getProgramYears();
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions);
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session);
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions();
 }

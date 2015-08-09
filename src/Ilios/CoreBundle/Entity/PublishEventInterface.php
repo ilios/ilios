@@ -6,6 +6,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
+use Ilios\CoreBundle\Traits\CoursesEntityInterface;
+use Ilios\CoreBundle\Traits\SessionsEntityInterface;
+use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
+use Ilios\CoreBundle\Traits\ProgramsEntityInterface;
 
 /**
  * Interface PublishEventInterface
@@ -13,7 +17,11 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
  */
 interface PublishEventInterface extends
     IdentifiableEntityInterface,
-    StringableEntityInterface
+    StringableEntityInterface,
+    CoursesEntityInterface,
+    SessionsEntityInterface,
+    ProgramYearsEntityInterface,
+    ProgramsEntityInterface
 {
     /**
      * @param string $machineIp
@@ -64,34 +72,4 @@ interface PublishEventInterface extends
      * @return UserInterface
      */
     public function getAdministrator();
-
-    /**
-     * @param Collection $courses
-     */
-    public function setCourses(Collection $courses);
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course);
-
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getCourses();
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions);
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session);
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions();
 }

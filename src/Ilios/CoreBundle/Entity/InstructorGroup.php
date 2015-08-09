@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\OfferingsEntity;
 
 /**
  * Class InstructorGroup
@@ -24,9 +25,10 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  */
 class InstructorGroup implements InstructorGroupInterface
 {
-//    use IdentifiableEntity;
+    use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
+    use OfferingsEntity;
 
     /**
      * @var int
@@ -134,23 +136,6 @@ class InstructorGroup implements InstructorGroupInterface
     }
 
     /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->instructorGroupId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->instructorGroupId : $this->id;
-    }
-
-    /**
      * @param SchoolInterface $school
      */
     public function setSchool(SchoolInterface $school)
@@ -252,35 +237,5 @@ class InstructorGroup implements InstructorGroupInterface
     public function getUsers()
     {
         return $this->users;
-    }
-
-    /**
-     * @param Collection $offerings
-     */
-    public function setOfferings(Collection $offerings)
-    {
-        $this->offerings = new ArrayCollection();
-
-        foreach ($offerings as $offering) {
-            $this->addOffering($offering);
-        }
-    }
-
-    /**
-     * @param OfferingInterface $offering
-     */
-    public function addOffering(OfferingInterface $offering)
-    {
-        $this->offerings->add($offering);
-    }
-
-    /**
-     * @return ArrayCollection|OfferingInterface[]
-     */
-    public function getOfferings()
-    {
-        return $this->offerings->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 }

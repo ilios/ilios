@@ -7,12 +7,16 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
+use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
 
 /**
  * Interface InstructorGroupInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface InstructorGroupInterface extends IdentifiableEntityInterface, TitledEntityInterface
+interface InstructorGroupInterface extends
+    IdentifiableEntityInterface,
+    TitledEntityInterface,
+    OfferingsEntityInterface
 {
     /**
      * @param SchoolInterface $school
@@ -68,19 +72,4 @@ interface InstructorGroupInterface extends IdentifiableEntityInterface, TitledEn
      * @return ArrayCollection|UserInterface[]
      */
     public function getUsers();
-
-    /**
-     * @param Collection $offerings
-     */
-    public function setOfferings(Collection $offerings);
-
-    /**
-     * @param OfferingInterface $offering
-     */
-    public function addOffering(OfferingInterface $offering);
-
-    /**
-     * @return ArrayCollection|OfferingInterface[]
-     */
-    public function getOfferings();
 }
