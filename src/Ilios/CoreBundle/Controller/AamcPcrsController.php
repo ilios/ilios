@@ -54,7 +54,14 @@ class AamcPcrsController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['aamcPcrses'][] = $this->getOr404($id);
+        $aamcPcrs = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $aamcPcrs)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['aamcPcrses'][] = $aamcPcrs;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class AamcPcrsController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['aamcPcrses'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class AamcPcrsController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getAamcPcrsHandler()
-                ->post($this->getPostData($request));
-            $answer['aamcPcrses'] = [$new];
+            $handler = $this->getAamcPcrsHandler();
+
+            $aamcPcrs = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $aamcPcrs)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getAamcPcrsHandler()->updateAamcPcrs($aamcPcrs, true, false);
+
+            $answer['aamcPcrses'] = [$aamcPcrs];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class AamcPcrsController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['aamcPcrses'] =
-                $this->getAamcPcrsHandler()->put(
-                    $aamcPcrs,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getAamcPcrsHandler();
+
+            $aamcPcrs = $handler->put(
+                $aamcPcrs,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $aamcPcrs)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getAamcPcrsHandler()->updateAamcPcrs($aamcPcrs, true, true);
+
+            $answer['aamcPcrses'] = $aamcPcrs;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class AamcPcrsController extends FOSRestController
     public function deleteAction($id)
     {
         $aamcPcrs = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $aamcPcrs)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getAamcPcrsHandler()
