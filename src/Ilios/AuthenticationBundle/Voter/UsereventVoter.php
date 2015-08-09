@@ -58,7 +58,7 @@ class UsereventVoter extends AbstractVoter
                 // check if the event-owning user is the given user
                 $eventOwningUser = $this->userManager->findUserBy(['user' => $event->user]);
                 return (
-                    empty($eventOwningUser)
+                    ! empty($eventOwningUser)
                     && $user->getId() === $eventOwningUser->getId()
                 );
                 break;
