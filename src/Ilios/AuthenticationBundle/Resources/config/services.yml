@@ -251,6 +251,7 @@ services:
             - { name: security.voter }
     security.access.userevent_voter:
         class: Ilios\AuthenticationBundle\Voter\UsereventVoter
+        arguments: [ @ilioscore.user.manager ]
         public: false
         tags:
             - { name: security.voter }
