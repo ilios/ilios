@@ -2,8 +2,9 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -18,11 +19,18 @@ class SchooleventVoter extends AbstractVoter
     protected $permissionManager;
 
     /**
-     * @param PermissionManagerInterface $permissionManager
+     * @var SchoolManagerInterface
      */
-    public function __construct(PermissionManagerInterface $permissionManager)
+    protected $schoolManager;
+
+    /**
+     * @param PermissionManagerInterface $permissionManager
+     * @param SchoolManagerInterface $schoolManager
+     */
+    public function __construct(PermissionManagerInterface $permissionManager, SchoolManagerInterface $schoolManager)
     {
         $this->permissionManager = $permissionManager;
+        $this->schoolManager = $schoolManager;
     }
 
     /**
@@ -38,16 +46,16 @@ class SchooleventVoter extends AbstractVoter
      */
     protected function getSupportedClasses()
     {
-        return array('Ilios\CoreBundle\Entity\SchoolInterface');
+        return array('Ilios\CoreBundle\Classes\SchoolEvent');
     }
 
     /**
      * @param string $attribute
-     * @param SchoolInterface $school
+     * @param SchoolEvent $event
      * @param UserInterface|null $user
      * @return bool
      */
-    protected function isGranted($attribute, $school, $user = null)
+    protected function isGranted($attribute, $event, $user = null)
     {
         // make sure there is a user object (i.e. that the user is logged in)
         if (!$user instanceof UserInterface) {
@@ -56,10 +64,14 @@ class SchooleventVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                // grant VIEW permissions to the given user on school match.
+                // grant VIEW permissions if the event-owning school matches any of the given user's schools.
+                $eventOwningSchool = $this->schoolManager->findSchoolBy(['school' => $event->school]);
                 return (
-                    $school->getId() === $user->getPrimarySchool()->getId()
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $school)
+                    ! empty($eventOwningSchool)
+                    && (
+                        $eventOwningSchool->getId() === $user->getPrimarySchool()->getId()
+                        || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool)
+                    )
                 );
                 break;
         }
