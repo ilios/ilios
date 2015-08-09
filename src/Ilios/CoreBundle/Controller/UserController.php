@@ -57,7 +57,7 @@ class UserController extends FOSRestController
         $user = $this->getOr404($id);
 
         $authChecker = $this->get('security.authorization_checker');
-         if (! $authChecker->isGranted('view', $user)) {
+        if (! $authChecker->isGranted('view', $user)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
