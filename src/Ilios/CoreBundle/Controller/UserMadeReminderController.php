@@ -54,7 +54,14 @@ class UserMadeReminderController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['userMadeReminders'][] = $this->getOr404($id);
+        $userMadeReminder = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $userMadeReminder)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['userMadeReminders'][] = $userMadeReminder;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class UserMadeReminderController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['userMadeReminders'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class UserMadeReminderController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getUserMadeReminderHandler()
-                ->post($this->getPostData($request));
-            $answer['userMadeReminders'] = [$new];
+            $handler = $this->getUserMadeReminderHandler();
+
+            $userMadeReminder = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $userMadeReminder)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getUserMadeReminderHandler()->updateUserMadeReminder($userMadeReminder, true, false);
+
+            $answer['userMadeReminders'] = [$userMadeReminder];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class UserMadeReminderController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['userMadeReminder'] =
-                $this->getUserMadeReminderHandler()->put(
-                    $userMadeReminder,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getUserMadeReminderHandler();
+
+            $userMadeReminder = $handler->put(
+                $userMadeReminder,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $userMadeReminder)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getUserMadeReminderHandler()->updateUserMadeReminder($userMadeReminder, true, true);
+
+            $answer['userMadeReminder'] = $userMadeReminder;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class UserMadeReminderController extends FOSRestController
     public function deleteAction($id)
     {
         $userMadeReminder = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $userMadeReminder)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getUserMadeReminderHandler()

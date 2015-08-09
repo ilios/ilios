@@ -54,7 +54,14 @@ class ProgramController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['programs'][] = $this->getOr404($id);
+        $program = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $program)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['programs'][] = $program;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class ProgramController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['programs'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class ProgramController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getProgramHandler()
-                ->post($this->getPostData($request));
-            $answer['programs'] = [$new];
+            $handler = $this->getProgramHandler();
+
+            $program = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $program)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getProgramHandler()->updateProgram($program, true, false);
+
+            $answer['programs'] = [$program];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class ProgramController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['program'] =
-                $this->getProgramHandler()->put(
-                    $program,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getProgramHandler();
+
+            $program = $handler->put(
+                $program,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $program)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getProgramHandler()->updateProgram($program, true, true);
+
+            $answer['program'] = $program;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class ProgramController extends FOSRestController
     public function deleteAction($id)
     {
         $program = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $program)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getProgramHandler()

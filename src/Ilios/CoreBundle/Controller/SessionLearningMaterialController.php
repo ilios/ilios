@@ -54,7 +54,14 @@ class SessionLearningMaterialController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['sessionLearningMaterials'][] = $this->getOr404($id);
+        $sessionLearningMaterial = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $sessionLearningMaterial)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['sessionLearningMaterials'][] = $sessionLearningMaterial;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class SessionLearningMaterialController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['sessionLearningMaterials'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class SessionLearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getSessionLearningMaterialHandler()
-                ->post($this->getPostData($request));
-            $answer['sessionLearningMaterials'] = [$new];
+            $handler = $this->getSessionLearningMaterialHandler();
+
+            $sessionLearningMaterial = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $sessionLearningMaterial)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getSessionLearningMaterialHandler()->updateSessionLearningMaterial($sessionLearningMaterial, true, false);
+
+            $answer['sessionLearningMaterials'] = [$sessionLearningMaterial];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class SessionLearningMaterialController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['sessionLearningMaterial'] =
-                $this->getSessionLearningMaterialHandler()->put(
-                    $sessionLearningMaterial,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getSessionLearningMaterialHandler();
+
+            $sessionLearningMaterial = $handler->put(
+                $sessionLearningMaterial,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $sessionLearningMaterial)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getSessionLearningMaterialHandler()->updateSessionLearningMaterial($sessionLearningMaterial, true, true);
+
+            $answer['sessionLearningMaterial'] = $sessionLearningMaterial;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class SessionLearningMaterialController extends FOSRestController
     public function deleteAction($id)
     {
         $sessionLearningMaterial = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $sessionLearningMaterial)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getSessionLearningMaterialHandler()

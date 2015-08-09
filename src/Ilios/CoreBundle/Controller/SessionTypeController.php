@@ -54,7 +54,14 @@ class SessionTypeController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['sessionTypes'][] = $this->getOr404($id);
+        $sessionType = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $sessionType)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['sessionTypes'][] = $sessionType;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class SessionTypeController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['sessionTypes'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class SessionTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getSessionTypeHandler()
-                ->post($this->getPostData($request));
-            $answer['sessionTypes'] = [$new];
+            $handler = $this->getSessionTypeHandler();
+
+            $sessionType = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $sessionType)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getSessionTypeHandler()->updateSessionType($sessionType, true, false);
+
+            $answer['sessionTypes'] = [$sessionType];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class SessionTypeController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['sessionType'] =
-                $this->getSessionTypeHandler()->put(
-                    $sessionType,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getSessionTypeHandler();
+
+            $sessionType = $handler->put(
+                $sessionType,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $sessionType)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getSessionTypeHandler()->updateSessionType($sessionType, true, true);
+
+            $answer['sessionType'] = $sessionType;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class SessionTypeController extends FOSRestController
     public function deleteAction($id)
     {
         $sessionType = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $sessionType)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getSessionTypeHandler()

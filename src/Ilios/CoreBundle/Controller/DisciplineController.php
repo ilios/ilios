@@ -54,7 +54,14 @@ class DisciplineController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['disciplines'][] = $this->getOr404($id);
+        $discipline = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $discipline)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['disciplines'][] = $discipline;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class DisciplineController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['disciplines'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class DisciplineController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getDisciplineHandler()
-                ->post($this->getPostData($request));
-            $answer['disciplines'] = [$new];
+            $handler = $this->getDisciplineHandler();
+
+            $discipline = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $discipline)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getDisciplineHandler()->updateDiscipline($discipline, true, false);
+
+            $answer['disciplines'] = [$discipline];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class DisciplineController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['discipline'] =
-                $this->getDisciplineHandler()->put(
-                    $discipline,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getDisciplineHandler();
+
+            $discipline = $handler->put(
+                $discipline,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $discipline)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getDisciplineHandler()->updateDiscipline($discipline, true, true);
+
+            $answer['discipline'] = $discipline;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class DisciplineController extends FOSRestController
     public function deleteAction($id)
     {
         $discipline = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $discipline)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getDisciplineHandler()

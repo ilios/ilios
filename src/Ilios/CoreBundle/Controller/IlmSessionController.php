@@ -54,7 +54,14 @@ class IlmSessionController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['ilmSessions'][] = $this->getOr404($id);
+        $ilmSession = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $ilmSession)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['ilmSessions'][] = $ilmSession;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class IlmSessionController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['ilmSessions'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class IlmSessionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getIlmSessionHandler()
-                ->post($this->getPostData($request));
-            $answer['ilmSessions'] = [$new];
+            $handler = $this->getIlmSessionHandler();
+
+            $ilmSession = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $ilmSession)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getIlmSessionHandler()->updateIlmSession($ilmSession, true, false);
+
+            $answer['ilmSessions'] = [$ilmSession];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class IlmSessionController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['ilmSession'] =
-                $this->getIlmSessionHandler()->put(
-                    $ilmSession,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getIlmSessionHandler();
+
+            $ilmSession = $handler->put(
+                $ilmSession,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $ilmSession)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getIlmSessionHandler()->updateIlmSession($ilmSession, true, true);
+
+            $answer['ilmSession'] = $ilmSession;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class IlmSessionController extends FOSRestController
     public function deleteAction($id)
     {
         $ilmSession = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $ilmSession)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getIlmSessionHandler()

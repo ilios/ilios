@@ -54,7 +54,14 @@ class AssessmentOptionController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['assessmentOptions'][] = $this->getOr404($id);
+        $assessmentOption = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $assessmentOption)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['assessmentOptions'][] = $assessmentOption;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class AssessmentOptionController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['assessmentOptions'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class AssessmentOptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getAssessmentOptionHandler()
-                ->post($this->getPostData($request));
-            $answer['assessmentOptions'] = [$new];
+            $handler = $this->getAssessmentOptionHandler();
+
+            $assessmentOption = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $assessmentOption)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getAssessmentOptionHandler()->updateAssessmentOption($assessmentOption, true, false);
+
+            $answer['assessmentOptions'] = [$assessmentOption];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class AssessmentOptionController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['assessmentOption'] =
-                $this->getAssessmentOptionHandler()->put(
-                    $assessmentOption,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getAssessmentOptionHandler();
+
+            $assessmentOption = $handler->put(
+                $assessmentOption,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $assessmentOption)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getAssessmentOptionHandler()->updateAssessmentOption($assessmentOption, true, true);
+
+            $answer['assessmentOption'] = $assessmentOption;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class AssessmentOptionController extends FOSRestController
     public function deleteAction($id)
     {
         $assessmentOption = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $assessmentOption)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getAssessmentOptionHandler()

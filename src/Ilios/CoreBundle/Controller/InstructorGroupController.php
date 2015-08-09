@@ -54,7 +54,14 @@ class InstructorGroupController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['instructorGroups'][] = $this->getOr404($id);
+        $instructorGroup = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $instructorGroup)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['instructorGroups'][] = $instructorGroup;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class InstructorGroupController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['instructorGroups'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class InstructorGroupController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getInstructorGroupHandler()
-                ->post($this->getPostData($request));
-            $answer['instructorGroups'] = [$new];
+            $handler = $this->getInstructorGroupHandler();
+
+            $instructorGroup = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $instructorGroup)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getInstructorGroupHandler()->updateInstructorGroup($instructorGroup, true, false);
+
+            $answer['instructorGroups'] = [$instructorGroup];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class InstructorGroupController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['instructorGroup'] =
-                $this->getInstructorGroupHandler()->put(
-                    $instructorGroup,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getInstructorGroupHandler();
+
+            $instructorGroup = $handler->put(
+                $instructorGroup,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $instructorGroup)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getInstructorGroupHandler()->updateInstructorGroup($instructorGroup, true, true);
+
+            $answer['instructorGroup'] = $instructorGroup;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class InstructorGroupController extends FOSRestController
     public function deleteAction($id)
     {
         $instructorGroup = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $instructorGroup)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getInstructorGroupHandler()

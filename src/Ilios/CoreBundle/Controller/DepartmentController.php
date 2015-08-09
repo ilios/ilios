@@ -54,7 +54,14 @@ class DepartmentController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['departments'][] = $this->getOr404($id);
+        $department = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $department)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['departments'][] = $department;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class DepartmentController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['departments'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class DepartmentController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getDepartmentHandler()
-                ->post($this->getPostData($request));
-            $answer['departments'] = [$new];
+            $handler = $this->getDepartmentHandler();
+
+            $department = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $department)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getDepartmentHandler()->updateDepartment($department, true, false);
+
+            $answer['departments'] = [$department];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class DepartmentController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['department'] =
-                $this->getDepartmentHandler()->put(
-                    $department,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getDepartmentHandler();
+
+            $department = $handler->put(
+                $department,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $department)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getDepartmentHandler()->updateDepartment($department, true, true);
+
+            $answer['department'] = $department;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class DepartmentController extends FOSRestController
     public function deleteAction($id)
     {
         $department = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $department)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getDepartmentHandler()

@@ -54,7 +54,14 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['curriculumInventoryInstitutions'][] = $this->getOr404($id);
+        $curriculumInventoryInstitution = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $curriculumInventoryInstitution)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['curriculumInventoryInstitutions'][] = $curriculumInventoryInstitution;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class CurriculumInventoryInstitutionController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['curriculumInventoryInstitutions'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getCurriculumInventoryInstitutionHandler()
-                ->post($this->getPostData($request));
-            $answer['curriculumInventoryInstitutions'] = [$new];
+            $handler = $this->getCurriculumInventoryInstitutionHandler();
+
+            $curriculumInventoryInstitution = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $curriculumInventoryInstitution)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCurriculumInventoryInstitutionHandler()->updateCurriculumInventoryInstitution($curriculumInventoryInstitution, true, false);
+
+            $answer['curriculumInventoryInstitutions'] = [$curriculumInventoryInstitution];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class CurriculumInventoryInstitutionController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['curriculumInventoryInstitution'] =
-                $this->getCurriculumInventoryInstitutionHandler()->put(
-                    $curriculumInventoryInstitution,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getCurriculumInventoryInstitutionHandler();
+
+            $curriculumInventoryInstitution = $handler->put(
+                $curriculumInventoryInstitution,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $curriculumInventoryInstitution)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCurriculumInventoryInstitutionHandler()->updateCurriculumInventoryInstitution($curriculumInventoryInstitution, true, true);
+
+            $answer['curriculumInventoryInstitution'] = $curriculumInventoryInstitution;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     public function deleteAction($id)
     {
         $curriculumInventoryInstitution = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $curriculumInventoryInstitution)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getCurriculumInventoryInstitutionHandler()

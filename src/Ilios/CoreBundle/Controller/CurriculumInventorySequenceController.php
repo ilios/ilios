@@ -54,7 +54,14 @@ class CurriculumInventorySequenceController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['curriculumInventorySequences'][] = $this->getOr404($id);
+        $curriculumInventorySequence = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $curriculumInventorySequence)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['curriculumInventorySequences'][] = $curriculumInventorySequence;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class CurriculumInventorySequenceController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['curriculumInventorySequences'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class CurriculumInventorySequenceController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getCurriculumInventorySequenceHandler()
-                ->post($this->getPostData($request));
-            $answer['curriculumInventorySequences'] = [$new];
+            $handler = $this->getCurriculumInventorySequenceHandler();
+
+            $curriculumInventorySequence = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $curriculumInventorySequence)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCurriculumInventorySequenceHandler()->updateCurriculumInventorySequence($curriculumInventorySequence, true, false);
+
+            $answer['curriculumInventorySequences'] = [$curriculumInventorySequence];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class CurriculumInventorySequenceController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['curriculumInventorySequence'] =
-                $this->getCurriculumInventorySequenceHandler()->put(
-                    $curriculumInventorySequence,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getCurriculumInventorySequenceHandler();
+
+            $curriculumInventorySequence = $handler->put(
+                $curriculumInventorySequence,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $curriculumInventorySequence)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCurriculumInventorySequenceHandler()->updateCurriculumInventorySequence($curriculumInventorySequence, true, true);
+
+            $answer['curriculumInventorySequence'] = $curriculumInventorySequence;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class CurriculumInventorySequenceController extends FOSRestController
     public function deleteAction($id)
     {
         $curriculumInventorySequence = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $curriculumInventorySequence)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getCurriculumInventorySequenceHandler()

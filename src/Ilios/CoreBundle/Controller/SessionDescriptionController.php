@@ -54,7 +54,14 @@ class SessionDescriptionController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['sessionDescriptions'][] = $this->getOr404($id);
+        $sessionDescription = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $sessionDescription)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['sessionDescriptions'][] = $sessionDescription;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class SessionDescriptionController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['sessionDescriptions'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class SessionDescriptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getSessionDescriptionHandler()
-                ->post($this->getPostData($request));
-            $answer['sessionDescriptions'] = [$new];
+            $handler = $this->getSessionDescriptionHandler();
+
+            $sessionDescription = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $sessionDescription)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getSessionDescriptionHandler()->updateSessionDescription($sessionDescription, true, false);
+
+            $answer['sessionDescriptions'] = [$sessionDescription];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class SessionDescriptionController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['sessionDescription'] =
-                $this->getSessionDescriptionHandler()->put(
-                    $sessionDescription,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getSessionDescriptionHandler();
+
+            $sessionDescription = $handler->put(
+                $sessionDescription,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $sessionDescription)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getSessionDescriptionHandler()->updateSessionDescription($sessionDescription, true, true);
+
+            $answer['sessionDescription'] = $sessionDescription;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class SessionDescriptionController extends FOSRestController
     public function deleteAction($id)
     {
         $sessionDescription = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $sessionDescription)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getSessionDescriptionHandler()

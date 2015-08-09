@@ -57,7 +57,14 @@ class PublishEventController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['publishEvents'][] = $this->getOr404($id);
+        $publishEvent = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $publishEvent)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['publishEvents'][] = $publishEvent;
 
         return $answer;
     }
@@ -130,6 +137,11 @@ class PublishEventController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['publishEvents'] =
             $result ? $result : new ArrayCollection([]);
@@ -163,9 +175,18 @@ class PublishEventController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getPublishEventHandler()
-                ->post($this->getPostData($request));
-            $answer['publishEvents'] = [$new];
+            $handler = $this->getPublishEventHandler();
+
+            $publishEvent = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $publishEvent)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getPublishEventHandler()->updatePublishEvent($publishEvent, true, false);
+
+            $answer['publishEvents'] = [$publishEvent];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -213,11 +234,22 @@ class PublishEventController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['publishEvent'] =
-                $this->getPublishEventHandler()->put(
-                    $publishEvent,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getPublishEventHandler();
+
+            $publishEvent = $handler->put(
+                $publishEvent,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $publishEvent)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getPublishEventHandler()->updatePublishEvent($publishEvent, true, true);
+
+            $answer['publishEvent'] = $publishEvent;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -260,6 +292,11 @@ class PublishEventController extends FOSRestController
     public function deleteAction($id)
     {
         $publishEvent = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $publishEvent)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getPublishEventHandler()

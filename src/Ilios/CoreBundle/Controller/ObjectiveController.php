@@ -54,7 +54,14 @@ class ObjectiveController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['objectives'][] = $this->getOr404($id);
+        $objective = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $objective)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['objectives'][] = $objective;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class ObjectiveController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['objectives'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class ObjectiveController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getObjectiveHandler()
-                ->post($this->getPostData($request));
-            $answer['objectives'] = [$new];
+            $handler = $this->getObjectiveHandler();
+
+            $objective = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $objective)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getObjectiveHandler()->updateObjective($objective, true, false);
+
+            $answer['objectives'] = [$objective];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class ObjectiveController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['objective'] =
-                $this->getObjectiveHandler()->put(
-                    $objective,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getObjectiveHandler();
+
+            $objective = $handler->put(
+                $objective,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $objective)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getObjectiveHandler()->updateObjective($objective, true, true);
+
+            $answer['objective'] = $objective;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class ObjectiveController extends FOSRestController
     public function deleteAction($id)
     {
         $objective = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $objective)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getObjectiveHandler()
