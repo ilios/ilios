@@ -54,7 +54,14 @@ class CurriculumInventoryExportController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['curriculumInventoryExports'][] = $this->getOr404($id);
+        $curriculumInventoryExport = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $curriculumInventoryExport)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['curriculumInventoryExports'][] = $curriculumInventoryExport;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class CurriculumInventoryExportController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['curriculumInventoryExports'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class CurriculumInventoryExportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new = $this->getCurriculumInventoryExportHandler()
-                ->post($this->getPostData($request));
-            $answer['curriculumInventoryExports'] = [$new];
+            $handler = $this->getCurriculumInventoryExportHandler();
+
+            $curriculumInventoryExport = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $curriculumInventoryExport)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCurriculumInventoryExportHandler()->updateCurriculumInventoryExport($curriculumInventoryExport, true, false);
+
+            $answer['curriculumInventoryExports'] = [$curriculumInventoryExport];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
