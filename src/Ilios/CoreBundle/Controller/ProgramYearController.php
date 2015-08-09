@@ -292,7 +292,7 @@ class ProgramYearController extends FOSRestController
         $programYear = $this->getOr404($id);
 
         $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('delete', $programYear)) {
+        if (! $authChecker->isGranted(['modify', 'delete'], $programYear)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
