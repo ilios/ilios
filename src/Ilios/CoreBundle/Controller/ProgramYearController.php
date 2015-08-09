@@ -220,8 +220,14 @@ class ProgramYearController extends FOSRestController
         try {
             $programYear = $this->getProgramYearHandler()
                 ->findProgramYearBy(['id'=> $id]);
+            $authChecker = $this->get('security.authorization_checker');
+
             if ($programYear) {
                 $code = Codes::HTTP_OK;
+                // check if the existing program year can be modified, e.g. if it is not locked or archived etc.
+                if (! $authChecker->isGranted('modify', $programYear)) {
+                    throw $this->createAccessDeniedException('Unauthorized access!');
+                }
             } else {
                 $programYear = $this->getProgramYearHandler()
                     ->createProgramYear();
@@ -235,7 +241,6 @@ class ProgramYearController extends FOSRestController
                 $this->getPostData($request)
             );
 
-            $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $programYear)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }

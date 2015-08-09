@@ -220,8 +220,14 @@ class CourseController extends FOSRestController
         try {
             $course = $this->getCourseHandler()
                 ->findCourseBy(['id'=> $id]);
+            $authChecker = $this->get('security.authorization_checker');
+
             if ($course) {
                 $code = Codes::HTTP_OK;
+                // check if the existing course can be modified, e.g. if it is not locked or archived etc.
+                if (! $authChecker->isGranted('modify', $course)) {
+                    throw $this->createAccessDeniedException('Unauthorized access!');
+                }
             } else {
                 $course = $this->getCourseHandler()
                     ->createCourse();
@@ -235,7 +241,6 @@ class CourseController extends FOSRestController
                 $this->getPostData($request)
             );
 
-            $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $course)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
