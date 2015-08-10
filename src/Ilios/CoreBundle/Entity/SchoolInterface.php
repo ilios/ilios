@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
+use Ilios\CoreBundle\Traits\CoursesEntityInterface;
+use Ilios\CoreBundle\Traits\ProgramsEntityInterface;
 
 /**
  * Interface SchoolInterface
@@ -15,7 +17,9 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 interface SchoolInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityInterface
+    StringableEntityInterface,
+    CoursesEntityInterface,
+    ProgramsEntityInterface
 {
     /**
      * @param string $templatePrefix
@@ -86,21 +90,6 @@ interface SchoolInterface extends
      * @return ArrayCollection|CompetencyInterface[]
      */
     public function getCompetencies();
-
-    /**
-     * @param Collection $courses
-     */
-    public function setCourses(Collection $courses);
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course);
-
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getCourses();
 
     /**
      * @param Collection $departments

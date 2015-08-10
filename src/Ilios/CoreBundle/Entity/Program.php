@@ -12,6 +12,7 @@ use JMS\Serializer\Annotation as JMS;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 
 /**
  * Class Program
@@ -28,6 +29,7 @@ class Program implements ProgramInterface
     use TitledEntity;
     use IdentifiableEntity;
     use StringableIdEntity;
+    use ProgramYearsEntity;
 
     /**
      * @deprecated Replacde with trait in 3.x
@@ -279,36 +281,6 @@ class Program implements ProgramInterface
     public function getPublishEvent()
     {
         return $this->publishEvent;
-    }
-
-    /**
-    * @param Collection $programYears
-    */
-    public function setProgramYears(Collection $programYears)
-    {
-        $this->programYears = new ArrayCollection();
-
-        foreach ($programYears as $programYear) {
-            $this->addProgramYear($programYear);
-        }
-    }
-
-    /**
-    * @param ProgramYearInterface $report
-    */
-    public function addProgramYear(ProgramYearInterface $programYear)
-    {
-        $this->programYears->add($programYear);
-    }
-
-    /**
-    * @return ProgramYearInterface[]|ArrayCollection
-    */
-    public function getProgramYears()
-    {
-        return $this->programYears->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 
     /**

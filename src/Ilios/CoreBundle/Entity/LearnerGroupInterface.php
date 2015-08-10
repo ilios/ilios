@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
+use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
 
 /**
  * Interface GroupInterface
@@ -16,7 +17,8 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 interface LearnerGroupInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityInterface
+    StringableEntityInterface,
+    OfferingsEntityInterface
 {
     /**
      * @param string $location
@@ -77,21 +79,6 @@ interface LearnerGroupInterface extends
      * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getIlmSessions();
-
-    /**
-     * @param Collection $offerings
-     */
-    public function setOfferings(Collection $offerings);
-
-    /**
-     * @param OfferingInterface $offering
-     */
-    public function addOffering(OfferingInterface $offering);
-
-    /**
-     * @return ArrayCollection|OfferingInterface[]
-     */
-    public function getOfferings();
 
     /**
      * @param LearnerGroupInterface $parent

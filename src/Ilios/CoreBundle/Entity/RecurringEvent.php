@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\OfferingsEntity;
 
 /**
  * Class RecurringEvent
@@ -25,6 +26,8 @@ class RecurringEvent implements RecurringEventInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+    use OfferingsEntity;
+
     /**
      * @var int
      *
@@ -401,35 +404,5 @@ class RecurringEvent implements RecurringEventInterface
         foreach ($offerings as $offering) {
             $this->addOffering($offering);
         }
-    }
-
-    /**
-     * @param OfferingInterface $offering
-     */
-    public function addOffering(OfferingInterface $offering)
-    {
-        $this->offerings->add($offering);
-    }
-
-    /**
-     * @param Collection $offerings
-     */
-    public function setOfferings(Collection $offerings)
-    {
-        $this->offerings = new ArrayCollection();
-
-        foreach ($offerings as $offering) {
-            $this->addOffering($offering);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|OfferingInterface[]
-     */
-    public function getOfferings()
-    {
-        return $this->offerings->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 }

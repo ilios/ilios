@@ -13,6 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
+use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
+use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
 
 /**
  * Interface UserInterface
@@ -21,6 +23,8 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 interface UserInterface extends
     IdentifiableEntityInterface,
     StringableEntityInterface,
+    OfferingsEntityInterface,
+    ProgramYearsEntityInterface,
     BaseUserInterface,
     \Serializable
 {
@@ -223,36 +227,6 @@ interface UserInterface extends
      * @return ArrayCollection|InstructorGroupInterface[]
      */
     public function getInstructorGroups();
-
-    /**
-     * @param Collection $offerings
-     */
-    public function setOfferings(Collection $offerings);
-
-    /**
-     * @param OfferingInterface $offering
-     */
-    public function addOffering(OfferingInterface $offering);
-
-    /**
-     * @return ArrayCollection|OfferingInterface[]
-     */
-    public function getOfferings();
-
-    /**
-     * @param Collection $programYears
-     */
-    public function setProgramYears(Collection $programYears);
-
-    /**
-     * @param ProgramYearInterface $programYear
-     */
-    public function addProgramYear(ProgramYearInterface $programYear);
-
-    /**
-     * @return ArrayCollection|ProgramYearInterface[]
-     */
-    public function getProgramYears();
 
     /**
      * @param Collection $alerts

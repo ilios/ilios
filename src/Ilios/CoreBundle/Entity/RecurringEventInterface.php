@@ -5,11 +5,13 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
+
 /**
  * Interface RecurringEventInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface RecurringEventInterface
+interface RecurringEventInterface extends OfferingsEntityInterface
 {
     /**
      * @param boolean $onSunday
@@ -120,19 +122,4 @@ interface RecurringEventInterface
      * @return RecurringEventInterface
      */
     public function getPreviousRecurringEvent();
-
-    /**
-     * @param Collection $offerings
-     */
-    public function setOffering(Collection $offerings);
-
-    /**
-     * @param OfferingInterface $offering
-     */
-    public function addOffering(OfferingInterface $offering);
-
-    /**
-     * @return ArrayCollection|OfferingInterface[]
-     */
-    public function getOfferings();
 }

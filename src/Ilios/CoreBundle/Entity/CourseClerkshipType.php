@@ -9,7 +9,9 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\CoursesEntity;
 
 /**
  * Class CourseClerkshipType
@@ -24,7 +26,9 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
     use IdentifiableEntity;
+    use StringableIdEntity;
     use TitledEntity;
+    use CoursesEntity;
 
     /**
      * @var int
@@ -69,43 +73,5 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     public function __construct()
     {
         $this->courses = new ArrayCollection();
-    }
-
-    /**
-     * @param Collection $courses
-     */
-    public function setCourses(Collection $courses)
-    {
-        $this->courses = new ArrayCollection();
-
-        foreach ($courses as $course) {
-            $this->addCourse($course);
-        }
-    }
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course)
-    {
-        $this->courses->add($course);
-    }
-
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getCourses()
-    {
-        return $this->courses->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }

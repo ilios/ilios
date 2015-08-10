@@ -103,4 +103,36 @@ class SchoolTest extends EntityBase
     {
         $this->entityCollectionSetTest('alert', 'Alert');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addCourse
+     */
+    public function testAddCourse()
+    {
+        $this->softDeleteEntityCollectionAddTest('course', 'Course');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::getCourses
+     */
+    public function testGetCourses()
+    {
+        $this->softDeleteEntityCollectionSetTest('course', 'Course');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addDepartment
+     */
+    public function testAddDepartment()
+    {
+        $this->softDeleteEntityCollectionAddTest('department', 'Department');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::getDepartments
+     */
+    public function testGetDepartments()
+    {
+        $this->softDeleteEntityCollectionSetTest('department', 'Department');
+    }
 }

@@ -194,19 +194,25 @@ class EntityBase extends TestCase
         $setMethod = $setter?$setter:$this->getSetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
         $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
-        $unDeletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
+        $unDeletedObj1 = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
             ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
             ->mock();
         $deletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
             ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
             ->mock();
-        $collection = new Collection([$unDeletedObj, $deletedObj]);
+        $unDeletedObj2 = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
+            ->mock();
+        $collection = new Collection([$unDeletedObj1, $deletedObj, $unDeletedObj2]);
         $this->object->$setMethod($collection);
         $results = $this->object->$getMethod();
         $this->assertTrue($results instanceof Collection, 'Collection not returned.');
-
-        $this->assertTrue($results->contains($unDeletedObj));
-        $this->assertFalse($results->contains($deletedObj));
+        
+        $this->assertSame(2, count($results));
+        $this->assertTrue($results->containsKey(0));
+        $this->assertTrue($results->containsKey(1));
+        $this->assertSame($results[0], $unDeletedObj1);
+        $this->assertSame($results[1], $unDeletedObj2);
         
     }
 
@@ -251,19 +257,26 @@ class EntityBase extends TestCase
         $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
         $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
 
-        $unDeletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
+        $unDeletedObj1 = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
             ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
             ->mock();
         $deletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
             ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
             ->mock();
-        $this->object->$addMethod($unDeletedObj);
+        $unDeletedObj2 = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
+            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
+            ->mock();
+        $this->object->$addMethod($unDeletedObj1);
         $this->object->$addMethod($deletedObj);
+        $this->object->$addMethod($unDeletedObj2);
         $results = $this->object->$getMethod();
         $this->assertTrue($results instanceof Collection, 'Collection not returned.');
-
-        $this->assertTrue($results->contains($unDeletedObj));
-        $this->assertFalse($results->contains($deletedObj));
+        
+        $this->assertSame(2, count($results));
+        $this->assertTrue($results->containsKey(0));
+        $this->assertTrue($results->containsKey(1));
+        $this->assertSame($results[0], $unDeletedObj1);
+        $this->assertSame($results[1], $unDeletedObj2);
     }
 
     /**

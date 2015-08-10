@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
+use Ilios\CoreBundle\Traits\CoursesEntityInterface;
+use Ilios\CoreBundle\Traits\SessionsEntityInterface;
 
 /**
  * Interface MeshDescriptorInterface
@@ -16,7 +18,9 @@ use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 interface MeshDescriptorInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
-    TimestampableEntityInterface
+    TimestampableEntityInterface,
+    CoursesEntityInterface,
+    SessionsEntityInterface
 {
     /**
      * @param string $annotation
@@ -27,21 +31,6 @@ interface MeshDescriptorInterface extends
      * @return string
      */
     public function getAnnotation();
-
-    /**
-     * @param Collection $courses
-     */
-    public function setCourses(Collection $courses);
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course);
-
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getCourses();
 
     /**
      * @param Collection $objectives
@@ -57,21 +46,6 @@ interface MeshDescriptorInterface extends
      * @return ArrayCollection|ObjectiveInterface[]
      */
     public function getObjectives();
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions);
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session);
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions();
 
     /**
      * @param Collection $sessionLearningMaterials

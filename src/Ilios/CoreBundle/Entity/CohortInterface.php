@@ -10,11 +10,15 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
+use Ilios\CoreBundle\Traits\CoursesEntityInterface;
 
 /**
  * Interface CohortInterface
  */
-interface CohortInterface extends IdentifiableEntityInterface, TitledEntityInterface
+interface CohortInterface extends
+    IdentifiableEntityInterface,
+    TitledEntityInterface,
+    CoursesEntityInterface
 {
     /**
      * @param ProgramYearInterface $programYear
@@ -25,19 +29,4 @@ interface CohortInterface extends IdentifiableEntityInterface, TitledEntityInter
      * @return ProgramYearInterface
      */
     public function getProgramYear();
-
-    /**
-     * @param Collection $courses
-     */
-    public function setCourses(Collection $courses);
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course);
-
-    /**
-     * @return CourseInterface[]|ArrayCollection
-     */
-    public function getCourses();
 }

@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Traits\LockableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\SessionsEntity;
 
 /**
  * Class Course
@@ -35,6 +36,7 @@ class Course implements CourseInterface
     use StringableIdEntity;
     use LockableEntity;
     use ArchivableEntity;
+    use SessionsEntity;
 
     /**
      * @var int
@@ -718,37 +720,5 @@ class Course implements CourseInterface
     public function getCourseLearningMaterials()
     {
         return $this->courseLearningMaterials;
-    }
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions = null)
-    {
-        $this->sessions = new ArrayCollection();
-        if (is_null($sessions)) {
-            return;
-        }
-        foreach ($sessions as $session) {
-            $this->addSession($session);
-        }
-    }
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session)
-    {
-        $this->sessions->add($session);
-    }
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions()
-    {
-        return $this->sessions->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 }

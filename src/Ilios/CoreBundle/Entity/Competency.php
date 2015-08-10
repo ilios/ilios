@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 
 /**
  * Class Competency
@@ -28,6 +29,7 @@ class Competency implements CompetencyInterface
 {
     use IdentifiableEntity;
     use TitledEntity;
+    use ProgramYearsEntity;
 
     /**
      * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
@@ -245,36 +247,6 @@ class Competency implements CompetencyInterface
     public function getAamcPcrses()
     {
         return $this->aamcPcrses;
-    }
-
-    /**
-     * @param Collection $programYears
-     */
-    public function setProgramYears(Collection $programYears)
-    {
-        $this->programYears = new ArrayCollection();
-
-        foreach ($programYears as $programYear) {
-            $this->addProgramYear($programYear);
-        }
-    }
-
-    /**
-     * @param ProgramYearInterface $programYear
-     */
-    public function addProgramYear(ProgramYearInterface $programYear)
-    {
-        $this->programYears->add($programYear);
-    }
-
-    /**
-     * @return ArrayCollection|ProgramYearInterface[]
-     */
-    public function getProgramYears()
-    {
-        return $this->programYears->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 
     /**

@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\CoursesEntity;
 
 /**
  * Class Cohort
@@ -34,6 +35,7 @@ class Cohort implements CohortInterface
     use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
+    use CoursesEntity;
 
     /**
      * @var int
@@ -136,36 +138,6 @@ class Cohort implements CohortInterface
         }
         
         return null;
-    }
-
-    /**
-     * @param Collection $courses
-     */
-    public function setCourses(Collection $courses)
-    {
-        $this->courses = new ArrayCollection();
-
-        foreach ($courses as $course) {
-            $this->addCourse($course);
-        }
-    }
-
-    /**
-     * @param CourseInterface $course
-     */
-    public function addCourse(CourseInterface $course)
-    {
-        $this->courses->add($course);
-    }
-
-    /**
-    * @return CourseInterface[]|ArrayCollection
-    */
-    public function getCourses()
-    {
-        return $this->courses->filter(function ($entity) {
-            return !$entity->isDeleted();
-        });
     }
 
     /**
