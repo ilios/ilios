@@ -15,7 +15,8 @@ class CourseControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseClerkshipTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
@@ -26,7 +27,7 @@ class CourseControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
-        ];
+        ]);
     }
 
     /**
@@ -50,7 +51,9 @@ class CourseControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_courses',
                 ['id' => $course['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -73,7 +76,7 @@ class CourseControllerTest extends AbstractControllerTest
         });
         $unDeletedCourses = $this->container->get('ilioscore.dataloader.session')
             ->removeDeletedSessionsFromArray($unDeletedCourses);
-        $this->createJsonRequest('GET', $this->getUrl('cget_courses'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_courses'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -98,7 +101,8 @@ class CourseControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_courses'),
-            json_encode(['course' => $postData])
+            json_encode(['course' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -122,7 +126,8 @@ class CourseControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_courses'),
-            json_encode(['course' => $invalidCourse])
+            json_encode(['course' => $invalidCourse]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -147,7 +152,8 @@ class CourseControllerTest extends AbstractControllerTest
                 'put_courses',
                 ['id' => $data['id']]
             ),
-            json_encode(['course' => $postData])
+            json_encode(['course' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -167,22 +173,26 @@ class CourseControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_courses',
                 ['id' => $course['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_courses',
                 ['id' => $course['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -193,7 +203,9 @@ class CourseControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_courses', ['id' => '0'])
+            $this->getUrl('get_courses', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
