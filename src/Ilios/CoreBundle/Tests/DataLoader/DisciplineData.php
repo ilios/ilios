@@ -32,8 +32,8 @@ class DisciplineData extends AbstractDataLoader
     {
         return [
             'id' => 3,
-            //'title' => $this->faker->text(100),
-            //'owningSchool' => '1',
+            'title' => $this->faker->text(100),
+            'owningSchool' => '1',
             'courses' => [],
             'programYears' => [],
             'sessions' => ['1']
