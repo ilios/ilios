@@ -15,17 +15,15 @@ class LearnerGroupControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
-        ];
+        ]);
     }
 
     /**
@@ -49,7 +47,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_learnergroups',
                 ['id' => $learnerGroup['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -63,7 +63,7 @@ class LearnerGroupControllerTest extends AbstractControllerTest
 
     public function testGetAllLearnerGroups()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_learnergroups'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_learnergroups'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -88,11 +88,11 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learnergroups'),
-            json_encode(['learnerGroup' => $postData])
+            json_encode(['learnerGroup' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -112,7 +112,8 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learnergroups'),
-            json_encode(['learnerGroup' => $invalidLearnerGroup])
+            json_encode(['learnerGroup' => $invalidLearnerGroup]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -135,7 +136,8 @@ class LearnerGroupControllerTest extends AbstractControllerTest
                 'put_learnergroups',
                 ['id' => $data['id']]
             ),
-            json_encode(['learnerGroup' => $postData])
+            json_encode(['learnerGroup' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -153,22 +155,26 @@ class LearnerGroupControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_learnergroups',
                 ['id' => $learnerGroup['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_learnergroups',
                 ['id' => $learnerGroup['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -179,7 +185,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_learnergroups', ['id' => '0'])
+            $this->getUrl('get_learnergroups', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
