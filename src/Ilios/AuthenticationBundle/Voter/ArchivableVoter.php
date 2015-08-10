@@ -4,13 +4,13 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter;
+use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter as Voter;
 
 /**
  * Class ArchivableVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-abstract class ArchivableVoter extends AbstractVoter
+class ArchivableVoter extends Voter
 {
     /**
      * @var string

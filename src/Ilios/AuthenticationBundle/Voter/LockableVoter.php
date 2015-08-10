@@ -4,13 +4,13 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter;
+use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter as Voter;
 
 /**
  * Class LockableVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-abstract class LockableVoter extends AbstractVoter
+class LockableVoter extends Voter
 {
     /**
      * @var string
