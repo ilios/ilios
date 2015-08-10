@@ -52,7 +52,7 @@ class CompetencyVoter extends AbstractVoter
             // if the user has READ rights on the competency's owning school
             // via the permissions system.
             case self::VIEW:
-                return ($competency->getSchool()->getId() === $user->getPrimarySchool()
+                return ($competency->getSchool()->getId() === $user->getPrimarySchool()->getId()
                     || $this->permissionManager->userHasReadPermissionToSchool($user, $competency->getSchool())
                 );
                 break;
@@ -66,8 +66,8 @@ class CompetencyVoter extends AbstractVoter
                 //   - or -
                 //   if the user has WRITE rights on the competency's owning school
                 // via the permissions system.
-                return ($this->userHasRole($user, 'Developer')
-                    && ($competency->getSchool()->getId() === $user->getPrimarySchool()
+                return ($this->userHasRole($user, ['Developer'])
+                    && ($competency->getSchool()->getId() === $user->getPrimarySchool()->getId()
                         || $this->permissionManager->userHasWritePermissionToSchool($user, $competency->getSchool())
                     )
                 );
