@@ -35,6 +35,11 @@ class CurriculumInventoryAcademicLevelVoter extends CurriculumInventoryReportVot
      */
     protected function isCreateGranted($report, $user)
     {
+        // HALT!
+        // Cannot create an academic level once the parent report has been exported.
+        if ($report->getExport()) {
+            return false;
+        }
         return parent::isCreateGranted($report, $user);
     }
 }

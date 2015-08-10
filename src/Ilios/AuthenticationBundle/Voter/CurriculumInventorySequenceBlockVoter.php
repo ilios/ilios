@@ -35,6 +35,11 @@ class CurriculumInventorySequenceBlockVoter extends CurriculumInventoryReportVot
      */
     protected function isCreateGranted($report, $user)
     {
-        return $this->isEditGranted();
+        // HALT!
+        // Cannot create a sequence block once the parent report has been exported.
+        if ($report->getExport()) {
+            return false;
+        }
+        return parent::isCreateGranted($report, $user);
     }
 }
