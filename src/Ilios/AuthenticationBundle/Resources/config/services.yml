@@ -44,6 +44,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.archivable_voter:
+        class: Ilios\AuthenticationBundle\Voter\ArchivableVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.assessment_option_voter:
         class: Ilios\AuthenticationBundle\Voter\AssessmentOptionVoter
         public: false
@@ -163,6 +168,11 @@ services:
     security.access.learning_material_voter:
         class: Ilios\AuthenticationBundle\Voter\LearningMaterialVoter
         arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.lockable_voter:
+        class: Ilios\AuthenticationBundle\Voter\LockableVoter
         public: false
         tags:
             - { name: security.voter }
