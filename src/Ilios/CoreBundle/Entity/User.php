@@ -109,6 +109,8 @@ class User implements UserInterface, EncoderAwareInterface
      *      max = 30
      * )
      *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $phone;
 
@@ -150,6 +152,9 @@ class User implements UserInterface, EncoderAwareInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
     protected $enabled;
 
@@ -163,6 +168,10 @@ class User implements UserInterface, EncoderAwareInterface
      *      min = 1,
      *      max = 16
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("ucUid")
      */
     protected $ucUid;
 
@@ -176,6 +185,10 @@ class User implements UserInterface, EncoderAwareInterface
      *      min = 1,
      *      max = 16
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("otherId")
      */
     protected $otherId;
 

@@ -32,11 +32,7 @@ class UserControllerTest extends AbstractControllerTest
     protected function getPrivateFields()
     {
         return [
-            'phone',
             'addedViaIlios',
-            'enabled',
-            'ucUid',
-            'otherId',
             'examined',
             'userSyncIgnore',
             'apiKey',
