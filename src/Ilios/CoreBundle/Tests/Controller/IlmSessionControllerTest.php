@@ -15,10 +15,11 @@ class IlmSessionControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
-        ];
+        ]);
     }
 
     /**
@@ -42,7 +43,9 @@ class IlmSessionControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_ilmsessions',
                 ['id' => $ilmSession['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -56,7 +59,7 @@ class IlmSessionControllerTest extends AbstractControllerTest
 
     public function testGetAllIlmSessions()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_ilmsessions'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_ilmsessions'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -81,11 +84,11 @@ class IlmSessionControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_ilmsessions'),
-            json_encode(['ilmSession' => $postData])
+            json_encode(['ilmSession' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -105,7 +108,8 @@ class IlmSessionControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_ilmsessions'),
-            json_encode(['ilmSession' => $invalidIlmSession])
+            json_encode(['ilmSession' => $invalidIlmSession]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -128,7 +132,8 @@ class IlmSessionControllerTest extends AbstractControllerTest
                 'put_ilmsessions',
                 ['id' => $data['id']]
             ),
-            json_encode(['ilmSession' => $postData])
+            json_encode(['ilmSession' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -146,22 +151,26 @@ class IlmSessionControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_ilmsessions',
                 ['id' => $ilmSession['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_ilmsessions',
                 ['id' => $ilmSession['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -172,7 +181,9 @@ class IlmSessionControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_ilmsessions', ['id' => '0'])
+            $this->getUrl('get_ilmsessions', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
