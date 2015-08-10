@@ -75,39 +75,6 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
         );
     }
 
-    public function testDeleteCurriculumInventoryExport()
-    {
-        $curriculumInventoryExport = $this->container
-            ->get('ilioscore.dataloader.curriculuminventoryexport')
-            ->getOne()
-        ;
-
-        $this->client->request(
-            'DELETE',
-            $this->getUrl(
-                'delete_curriculuminventoryexports',
-                ['id' => $curriculumInventoryExport['report']]
-            ),
-            null,
-            $this->getAuthenticatedUserToken()
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
-            'GET',
-            $this->getUrl(
-                'get_curriculuminventoryexports',
-                ['id' => $curriculumInventoryExport['report']]
-            ),
-            null,
-            $this->getAuthenticatedUserToken()
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
-    }
-
     public function testCurriculumInventoryExportNotFound()
     {
         $this->createJsonRequest(
