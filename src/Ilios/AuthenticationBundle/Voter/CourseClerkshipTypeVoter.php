@@ -37,6 +37,7 @@ class CourseClerkshipTypeVoter extends AbstractVoter
             case self::VIEW:
                 return true;
                 break;
+            case self::CREATE:
             case self::EDIT:
             case self::DELETE:
                 return $this->userHasRole($user, ['Developer']);
