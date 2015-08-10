@@ -1,5 +1,177 @@
 # Change Log
 
+## [v3.0.0-beta4](https://github.com/ilios/ilios/tree/v3.0.0-beta4)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta3...v3.0.0-beta4)
+
+**Closed issues:**
+
+- Soft delete collections are returned with original keys [\#941](https://github.com/ilios/ilios/issues/941)
+
+- ucUid is still missing in the `users` api response. [\#939](https://github.com/ilios/ilios/issues/939)
+
+- Create school events api endpoint [\#927](https://github.com/ilios/ilios/issues/927)
+
+- remove IlmSessionController [\#924](https://github.com/ilios/ilios/issues/924)
+
+- Finish user events endpoint [\#920](https://github.com/ilios/ilios/issues/920)
+
+- refreshing token should honor TTL of given token [\#913](https://github.com/ilios/ilios/issues/913)
+
+- API: auth/refreshToken broken [\#910](https://github.com/ilios/ilios/issues/910)
+
+- Trying to Load Up Learner Groups Ember Error [\#909](https://github.com/ilios/ilios/issues/909)
+
+- Add test for user events API [\#907](https://github.com/ilios/ilios/issues/907)
+
+- Use production builds for production [\#905](https://github.com/ilios/ilios/issues/905)
+
+- create custom learning material validator class. [\#897](https://github.com/ilios/ilios/issues/897)
+
+- Add an endpoint for uploading files [\#895](https://github.com/ilios/ilios/issues/895)
+
+- The return parameter name, 'curriculumInventoryInstitution', under the 'schools' api is misspelled as 'curriculumInventoryInsitution' [\#891](https://github.com/ilios/ilios/issues/891)
+
+- Remove PATCH methods [\#888](https://github.com/ilios/ilios/issues/888)
+
+- Authorize all API requests [\#887](https://github.com/ilios/ilios/issues/887)
+
+- Merge report and report\_po tables. [\#879](https://github.com/ilios/ilios/issues/879)
+
+- Add new primary key to session\_description table [\#878](https://github.com/ilios/ilios/issues/878)
+
+- schema change: retrofit curriculum inventory tables with dedicated primary keys [\#876](https://github.com/ilios/ilios/issues/876)
+
+- Apache config error in Vagrant build [\#869](https://github.com/ilios/ilios/issues/869)
+
+- IlmSessionFacet should relate to a single session [\#868](https://github.com/ilios/ilios/issues/868)
+
+- Replace Triggers with Keys or Events [\#866](https://github.com/ilios/ilios/issues/866)
+
+- Demo Cohort Drop-Down Displaying Blanks and Is Not Ordered - Learner Groups [\#862](https://github.com/ilios/ilios/issues/862)
+
+- Remove LearningMaterial inheritance [\#859](https://github.com/ilios/ilios/issues/859)
+
+- Change ILMSessionFacet to ILMSession across the board [\#858](https://github.com/ilios/ilios/issues/858)
+
+- Session Description Edit Save Event Not Working [\#854](https://github.com/ilios/ilios/issues/854)
+
+- Add Learning Material \(Any Type\) To Course Doesn't Work [\#851](https://github.com/ilios/ilios/issues/851)
+
+- Unable to add instructors [\#849](https://github.com/ilios/ilios/issues/849)
+
+- Course page load throws error [\#847](https://github.com/ilios/ilios/issues/847)
+
+- MeSH Terms Not Displaying in the Grid But Appear to Have been Saved [\#840](https://github.com/ilios/ilios/issues/840)
+
+- Level is not working properly - Reverts to Previously Saved Value [\#839](https://github.com/ilios/ilios/issues/839)
+
+- Instructor Groups Ilios Menu Item Not Working on Demo Site [\#833](https://github.com/ilios/ilios/issues/833)
+
+- Delete Validation Needed For Learner Groups [\#829](https://github.com/ilios/ilios/issues/829)
+
+- Change SOD support email address in 2.4.x branch [\#815](https://github.com/ilios/ilios/issues/815)
+
+- DataLoaders implementation [\#814](https://github.com/ilios/ilios/issues/814)
+
+- Puppet Provisioner is broken [\#813](https://github.com/ilios/ilios/issues/813)
+
+- Identifiable Entity trait setter/getter methods wrongly assume int as only possible datatype [\#799](https://github.com/ilios/ilios/issues/799)
+
+- Consistency with Visibility and Behavior \>\> Courses and Sessions \>\> New [\#797](https://github.com/ilios/ilios/issues/797)
+
+- There is No Way to Close/Undo the Add Cohort Functionality  [\#795](https://github.com/ilios/ilios/issues/795)
+
+- Courses and Sessions \>\> View All / Edit Label - Can We Change It? [\#793](https://github.com/ilios/ilios/issues/793)
+
+- Change External ID label to Course ID \(like in current Ilios version\) [\#792](https://github.com/ilios/ilios/issues/792)
+
+- Instruction Hours not set up for Validation yet [\#783](https://github.com/ilios/ilios/issues/783)
+
+- Test entity validators [\#781](https://github.com/ilios/ilios/issues/781)
+
+- Add \_collectionSize to every endpoint [\#773](https://github.com/ilios/ilios/issues/773)
+
+- Add Validators for all Entities [\#761](https://github.com/ilios/ilios/issues/761)
+
+- API Test Coverage [\#760](https://github.com/ilios/ilios/issues/760)
+
+- Walk endpoints [\#759](https://github.com/ilios/ilios/issues/759)
+
+- Serve ember app from symfony [\#758](https://github.com/ilios/ilios/issues/758)
+
+- Add Authentication [\#757](https://github.com/ilios/ilios/issues/757)
+
+- Change ILMSessionFacet to ILMSession [\#754](https://github.com/ilios/ilios/issues/754)
+
+- Add initial doctrine migration [\#748](https://github.com/ilios/ilios/issues/748)
+
+- Handle deletions correctly [\#745](https://github.com/ilios/ilios/issues/745)
+
+**Merged pull requests:**
+
+- Add ucUid and otherId to users endpoint [\#944](https://github.com/ilios/ilios/pull/944) ([jrjohnson](https://github.com/jrjohnson))
+
+- Improve handling of soft deleted collections [\#942](https://github.com/ilios/ilios/pull/942) ([jrjohnson](https://github.com/jrjohnson))
+
+- Added lockable and archivable entity traits and interfaces [\#936](https://github.com/ilios/ilios/pull/936) ([stopfstedt](https://github.com/stopfstedt))
+
+- Enable doctrine migrations [\#931](https://github.com/ilios/ilios/pull/931) ([jrjohnson](https://github.com/jrjohnson))
+
+- Enable Soft Deletes [\#930](https://github.com/ilios/ilios/pull/930) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add schoolevents api [\#928](https://github.com/ilios/ilios/pull/928) ([jrjohnson](https://github.com/jrjohnson))
+
+- Complete Userevents API [\#926](https://github.com/ilios/ilios/pull/926) ([jrjohnson](https://github.com/jrjohnson))
+
+- DRI: refactoring of Entity Managers [\#919](https://github.com/ilios/ilios/pull/919) ([stopfstedt](https://github.com/stopfstedt))
+
+- refreshing api tokens should honor given TTL [\#916](https://github.com/ilios/ilios/pull/916) ([stopfstedt](https://github.com/stopfstedt))
+
+- reformatted code to appease codesniffler. [\#912](https://github.com/ilios/ilios/pull/912) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixes "refresh token" controller action [\#911](https://github.com/ilios/ilios/pull/911) ([stopfstedt](https://github.com/stopfstedt))
+
+- Fix user event query to match offering entity [\#906](https://github.com/ilios/ilios/pull/906) ([jrjohnson](https://github.com/jrjohnson))
+
+- validate weblink/citation/file LM differently  [\#901](https://github.com/ilios/ilios/pull/901) ([stopfstedt](https://github.com/stopfstedt))
+
+- Fix broken instructor groups controller test [\#900](https://github.com/ilios/ilios/pull/900) ([jrjohnson](https://github.com/jrjohnson))
+
+- fixed typo in code comment. [\#898](https://github.com/ilios/ilios/pull/898) ([stopfstedt](https://github.com/stopfstedt))
+
+- Upload files and save learning materials [\#896](https://github.com/ilios/ilios/pull/896) ([jrjohnson](https://github.com/jrjohnson))
+
+- removes PATCH actions from controllers. [\#894](https://github.com/ilios/ilios/pull/894) ([stopfstedt](https://github.com/stopfstedt))
+
+- Remove remaining triggers, procedures, and functions [\#893](https://github.com/ilios/ilios/pull/893) ([jrjohnson](https://github.com/jrjohnson))
+
+- renamed 'ilm session facet' to 'ilm session' [\#883](https://github.com/ilios/ilios/pull/883) ([stopfstedt](https://github.com/stopfstedt))
+
+- On the path to a complete API... tests for almost everything [\#882](https://github.com/ilios/ilios/pull/882) ([jrjohnson](https://github.com/jrjohnson))
+
+- Remove ReportPoValue entity [\#881](https://github.com/ilios/ilios/pull/881) ([jrjohnson](https://github.com/jrjohnson))
+
+- added new primary key to session\_description table [\#880](https://github.com/ilios/ilios/pull/880) ([stopfstedt](https://github.com/stopfstedt))
+
+- retrofitted curriculum inventory entities with new ids [\#877](https://github.com/ilios/ilios/pull/877) ([stopfstedt](https://github.com/stopfstedt))
+
+- XDebug in Vagrant [\#875](https://github.com/ilios/ilios/pull/875) ([stopfstedt](https://github.com/stopfstedt))
+
+- gitignore phpunit.xml [\#874](https://github.com/ilios/ilios/pull/874) ([stopfstedt](https://github.com/stopfstedt))
+
+- ilios session facet relationship mapping [\#873](https://github.com/ilios/ilios/pull/873) ([stopfstedt](https://github.com/stopfstedt))
+
+- Replace Some ILMSession triggers [\#872](https://github.com/ilios/ilios/pull/872) ([jrjohnson](https://github.com/jrjohnson))
+
+- Better puppet config for apache and shibboleth [\#871](https://github.com/ilios/ilios/pull/871) ([jrjohnson](https://github.com/jrjohnson))
+
+- Update a session when its ILM is updated [\#870](https://github.com/ilios/ilios/pull/870) ([jrjohnson](https://github.com/jrjohnson))
+
+- added INSTALL.md and updated UPGRADE.md files [\#863](https://github.com/ilios/ilios/pull/863) ([thecoolestguy](https://github.com/thecoolestguy))
+
+- Added Authorization for Course Controller [\#902](https://github.com/ilios/ilios/pull/902) ([jrjohnson](https://github.com/jrjohnson))
+
 ## [v3.0.0-beta3](https://github.com/ilios/ilios/tree/v3.0.0-beta3)
 
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta2...v3.0.0-beta3)
