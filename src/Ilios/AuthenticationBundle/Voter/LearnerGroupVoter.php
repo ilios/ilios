@@ -50,11 +50,20 @@ class LearnerGroupVoter extends AbstractVoter
                 // 1. the user's primary school is the group's owning school
                 //    and has at least one of 'Course Director', 'Faculty' and 'Developer' roles.
                 // 2. the user has READ rights on the group's owning school via the permissions system
-                //    and has at least one of 'LearnerGroup Director', 'Faculty' and 'Developer' roles.
+                //    and has at least one of 'Course Director', 'Faculty' and 'Developer' roles.
+                // 3. the user has READ rights to the group's owning program.
                 return ($this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                     && (
-                        $user->getPrimarySchool() === $group->getSchool()
-                        || $this->permissionManager->userHasReadPermissionToSchool($user, $group->getSchool())
+                        $user->getPrimarySchool()->getId()
+                        === $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()
+                        || $this->permissionManager->userHasReadPermissionToSchool(
+                            $user,
+                            $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()
+                        )
+                    )
+                    || $this->permissionManager->userHasReadPermissionToProgram(
+                        $user,
+                        $group->getCohort()->getProgramYear()->getProgram()
                     )
                 );
                 break;
@@ -67,11 +76,21 @@ class LearnerGroupVoter extends AbstractVoter
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
                 // 2. the user has WRITE rights on the group's owning school via the permissions system
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
+                // 3. the user has WRITE rights to the group's owning program.
                 return ($this->userHasRole($user, ['Course Director', 'Developer'])
                     && (
-                        $user->getPrimarySchool() === $group->getSchool()
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $group->getSchool())
+                        $user->getPrimarySchool()->getId()
+                        === $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()
+                        || $this->permissionManager->userHasWritePermissionToSchool(
+                            $user,
+                            $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()
+                        )
                     )
+                    || $this->permissionManager->userHasWritePermissionToProgram(
+                        $user,
+                        $group->getCohort()->getProgramYear()->getProgram()
+                    )
+
                 );
                 break;
         }
