@@ -66,7 +66,7 @@ class DepartmentVoter extends AbstractVoter
                 //   - or -
                 //   if the user has WRITE rights on the departments's owning school
                 // via the permissions system.
-                return ($this->userHasRole($user, 'Developer')
+                return ($this->userHasRole($user, ['Developer'])
                     && ($department->getSchool()->getId() === $user->getPrimarySchool()
                         || $this->permissionManager->userHasWritePermissionToSchool($user, $department->getSchool())
                     )
