@@ -15,11 +15,12 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
-        ];
+        ]);
     }
 
     /**
@@ -42,7 +43,9 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
             $this->getUrl(
                 'get_curriculuminventorysequenceblocksessions',
                 ['id' => $curriculumInventorySequenceBlockSession['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -56,7 +59,7 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
 
     public function testGetAllCurriculumInventorySequenceBlockSessions()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventorysequenceblocksessions'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventorysequenceblocksessions'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -81,11 +84,11 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_curriculuminventorysequenceblocksessions'),
-            json_encode(['curriculumInventorySequenceBlockSession' => $postData])
+            json_encode(['curriculumInventorySequenceBlockSession' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -105,7 +108,8 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_curriculuminventorysequenceblocksessions'),
-            json_encode(['curriculumInventorySequenceBlockSession' => $invalidCurriculumInventorySequenceBlockSession])
+            json_encode(['curriculumInventorySequenceBlockSession' => $invalidCurriculumInventorySequenceBlockSession]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -128,7 +132,8 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
                 'put_curriculuminventorysequenceblocksessions',
                 ['id' => $data['id']]
             ),
-            json_encode(['curriculumInventorySequenceBlockSession' => $postData])
+            json_encode(['curriculumInventorySequenceBlockSession' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -146,22 +151,26 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_curriculuminventorysequenceblocksessions',
                 ['id' => $curriculumInventorySequenceBlockSession['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_curriculuminventorysequenceblocksessions',
                 ['id' => $curriculumInventorySequenceBlockSession['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -172,7 +181,9 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_curriculuminventorysequenceblocksessions', ['id' => '0'])
+            $this->getUrl('get_curriculuminventorysequenceblocksessions', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
