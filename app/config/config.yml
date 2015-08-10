@@ -136,7 +136,7 @@ ilios_core:
     
 ilios_web:
     environment: staging
-    version: 79b450c
+    version: 16a9ed0 
 
 ilios_authentication:
     legacy_salt: "%legacy_password_salt%"
