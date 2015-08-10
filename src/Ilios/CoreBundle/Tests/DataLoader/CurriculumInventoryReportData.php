@@ -12,7 +12,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         $dt->setTime(0, 0, 0);
         $arr[] = array(
             'id' => 1,
-            'export' => '1',
+            'program' => '1',
             'sequence' => '1',
             'year' => (int) $this->faker->date('Y'),
             'name' => $this->faker->text(100),
@@ -25,7 +25,8 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         
         $arr[] = array(
             'id' => 2,
-            'export' => '2',
+            'export' => '1',
+            'program' => '1',
             'sequence' => '2',
             'year' => (int) $this->faker->date('Y'),
             'name' => $this->faker->text(100),
@@ -37,6 +38,8 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 3,
+            'export' => '2',
+            'program' => '1',
             'year' => (int) $this->faker->date('Y'),
             'name' => $this->faker->text(100),
             'description' => $this->faker->text(200),
@@ -55,6 +58,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         $dt->setTime(0, 0, 0);
         return array(
             'id' => 4,
+            'program' => '2',
             'year' => (int) $this->faker->date('Y'),
             'name' => $this->faker->text(100),
             'description' => $this->faker->text(200),
