@@ -35,6 +35,6 @@ class CurriculumInventoryAcademicLevelVoter extends CurriculumInventoryReportVot
      */
     protected function isCreateGranted($report, $user)
     {
-        return $this->isEditGranted();
+        return parent::isCreateGranted($report, $user);
     }
 }
