@@ -12,6 +12,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => $this->faker->text(10),
+            'report' => 1,
             'childSequenceOrder' => 1,
             'orderInSequence' => 0,
             'minimum' => 1,
@@ -26,6 +27,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'title' => $this->faker->text(10),
+            'report' => 1,
             'childSequenceOrder' => 1,
             'orderInSequence' => 0,
             'minimum' => 1,
