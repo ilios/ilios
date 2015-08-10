@@ -15,11 +15,14 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData'
-        ];
+            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryExportData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
+        ]);
     }
 
     /**
@@ -42,7 +45,9 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
             $this->getUrl(
                 'get_curriculuminventoryacademiclevels',
                 ['id' => $curriculumInventoryAcademicLevel['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -56,7 +61,7 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
 
     public function testGetAllCurriculumInventoryAcademicLevels()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventoryacademiclevels'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventoryacademiclevels'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -81,11 +86,11 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_curriculuminventoryacademiclevels'),
-            json_encode(['curriculumInventoryAcademicLevel' => $postData])
+            json_encode(['curriculumInventoryAcademicLevel' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -105,7 +110,8 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_curriculuminventoryacademiclevels'),
-            json_encode(['curriculumInventoryAcademicLevel' => $invalidCurriculumInventoryAcademicLevel])
+            json_encode(['curriculumInventoryAcademicLevel' => $invalidCurriculumInventoryAcademicLevel]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -128,7 +134,8 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
                 'put_curriculuminventoryacademiclevels',
                 ['id' => $data['id']]
             ),
-            json_encode(['curriculumInventoryAcademicLevel' => $postData])
+            json_encode(['curriculumInventoryAcademicLevel' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -146,22 +153,26 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_curriculuminventoryacademiclevels',
                 ['id' => $curriculumInventoryAcademicLevel['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_curriculuminventoryacademiclevels',
                 ['id' => $curriculumInventoryAcademicLevel['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -172,7 +183,9 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_curriculuminventoryacademiclevels', ['id' => '0'])
+            $this->getUrl('get_curriculuminventoryacademiclevels', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
