@@ -15,13 +15,14 @@ class CohortControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
-        ];
+        ]);
     }
 
     /**
@@ -45,7 +46,9 @@ class CohortControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_cohorts',
                 ['id' => $cohort['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -59,7 +62,7 @@ class CohortControllerTest extends AbstractControllerTest
 
     public function testGetAllCohorts()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_cohorts'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_cohorts'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -84,7 +87,8 @@ class CohortControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_programyears'),
-            json_encode(['programYear' => $postData])
+            json_encode(['programYear' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -100,11 +104,11 @@ class CohortControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_cohorts'),
-            json_encode(['cohort' => $postData])
+            json_encode(['cohort' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -124,7 +128,8 @@ class CohortControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_cohorts'),
-            json_encode(['cohort' => $invalidCohort])
+            json_encode(['cohort' => $invalidCohort]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -146,7 +151,8 @@ class CohortControllerTest extends AbstractControllerTest
                 'put_cohorts',
                 ['id' => $data['id']]
             ),
-            json_encode(['cohort' => $postData])
+            json_encode(['cohort' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -164,22 +170,26 @@ class CohortControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_cohorts',
                 ['id' => $cohort['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_cohorts',
                 ['id' => $cohort['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -191,6 +201,8 @@ class CohortControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'GET',
             $this->getUrl('get_cohorts', ['id' => '0'])
+            , null
+            , $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
