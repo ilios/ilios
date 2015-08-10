@@ -15,14 +15,15 @@ class InstructorGroupControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData'
-        ];
+        ]);
     }
 
     /**
@@ -46,7 +47,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_instructorgroups',
                 ['id' => $instructorGroup['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -60,7 +63,7 @@ class InstructorGroupControllerTest extends AbstractControllerTest
 
     public function testGetAllInstructorGroups()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_instructorgroups'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_instructorgroups'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -85,11 +88,11 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_instructorgroups'),
-            json_encode(['instructorGroup' => $postData])
+            json_encode(['instructorGroup' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -109,7 +112,8 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_instructorgroups'),
-            json_encode(['instructorGroup' => $invalidInstructorGroup])
+            json_encode(['instructorGroup' => $invalidInstructorGroup]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -131,7 +135,8 @@ class InstructorGroupControllerTest extends AbstractControllerTest
                 'put_instructorgroups',
                 ['id' => $data['id']]
             ),
-            json_encode(['instructorGroup' => $postData])
+            json_encode(['instructorGroup' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -149,22 +154,26 @@ class InstructorGroupControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_instructorgroups',
                 ['id' => $instructorGroup['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_instructorgroups',
                 ['id' => $instructorGroup['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -175,7 +184,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_instructorgroups', ['id' => '0'])
+            $this->getUrl('get_instructorgroups', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
