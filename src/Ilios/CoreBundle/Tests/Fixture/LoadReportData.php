@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Ilios\CoreBundle\Entity\Report;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -11,7 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadReportData extends AbstractFixture implements
     FixtureInterface,
-    ContainerAwareInterface
+    ContainerAwareInterface,
+    DependentFixtureInterface
 {
 
     private $container;
@@ -31,10 +33,19 @@ class LoadReportData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
             $entity->setSubject($arr['subject']);
+            $entity->setUser($this->getReference('users' . $arr['user']));
             $manager->persist($entity);
             $this->addReference('reports' . $arr['id'], $entity);
         }
 
         $manager->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array('Ilios\CoreBundle\Tests\Fixture\LoadUserData');
     }
 }

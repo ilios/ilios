@@ -12,12 +12,14 @@ class ReportData extends AbstractDataLoader
             'id' => 1,
             'title' => $this->faker->title(25),
             'subject' => $this->faker->title(25),
+            'user' => '2'
         );
         
         $arr[] = array(
             'id' => 2,
             'title' => $this->faker->title(25),
             'subject' => $this->faker->title(25),
+            'user' => '2'
         );
 
         return $arr;
@@ -29,7 +31,9 @@ class ReportData extends AbstractDataLoader
             'id' => 3,
             'title' => $this->faker->title(25),
             'subject' => $this->faker->title(25),
+            'user' => '2'
         );
+
     }
 
     public function createInvalid()
