@@ -45,7 +45,8 @@ class PublishEventController extends FOSRestController
      *   statusCodes={
      *     200 = "PublishEvent.",
      *     404 = "Not Found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
@@ -72,7 +73,8 @@ class PublishEventController extends FOSRestController
      *   statusCodes = {
      *     200 = "List of all PublishEvent",
      *     204 = "No content. Nothing to list."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @QueryParam(
@@ -148,7 +150,8 @@ class PublishEventController extends FOSRestController
      *     201 = "Created PublishEvent.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
@@ -186,7 +189,8 @@ class PublishEventController extends FOSRestController
      *     201 = "Created PublishEvent.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
@@ -242,7 +246,8 @@ class PublishEventController extends FOSRestController
      *     204 = "No content. Successfully deleted PublishEvent.",
      *     400 = "Bad Request.",
      *     404 = "Not found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(statusCode=204)
