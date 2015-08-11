@@ -15,14 +15,15 @@ class PublishEventControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData'
-        ];
+        ]);
     }
 
     /**
@@ -50,7 +51,9 @@ class PublishEventControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_publishevents',
                 ['id' => $publishEvent['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -64,7 +67,11 @@ class PublishEventControllerTest extends AbstractControllerTest
 
     public function testGetAllPublishEvents()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_publishevents'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_publishevents'),
+            null,
+            $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -88,11 +95,11 @@ class PublishEventControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_publishevents'),
-            json_encode(['publishEvent' => $postData])
+            json_encode(['publishEvent' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -112,7 +119,8 @@ class PublishEventControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_publishevents'),
-            json_encode(['publishEvent' => $invalidPublishEvent])
+            json_encode(['publishEvent' => $invalidPublishEvent]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -135,7 +143,8 @@ class PublishEventControllerTest extends AbstractControllerTest
                 'put_publishevents',
                 ['id' => $data['id']]
             ),
-            json_encode(['publishEvent' => $postData])
+            json_encode(['publishEvent' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -153,22 +162,26 @@ class PublishEventControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_publishevents',
                 ['id' => $publishEvent['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_publishevents',
                 ['id' => $publishEvent['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -179,7 +192,9 @@ class PublishEventControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_publishevents', ['id' => '0'])
+            $this->getUrl('get_publishevents', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
