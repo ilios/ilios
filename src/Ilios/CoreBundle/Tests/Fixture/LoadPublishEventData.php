@@ -30,6 +30,19 @@ class LoadPublishEventData extends AbstractFixture implements
             $entity = new PublishEvent();
             $entity->setId($arr['id']);
             $entity->setMachineIp('0.0.0.0');
+            if (! empty($arr['courses'])) {
+                $entity->setTableName('course');
+                $entity->setTableRowId($arr['courses'][0]);
+            } elseif (! empty($arr['sessions'])) {
+                $entity->setTableName('session');
+                $entity->setTableRowId($arr['sessions'][0]);
+            } elseif (! empty($arr['programYears'])) {
+                $entity->setTableName('program_year');
+                $entity->setTableRowId($arr['programYears'][0]);
+            } elseif (! empty($arr['programs'])) {
+                $entity->setTableName('program');
+                $entity->setTableRowId($arr['programs'][0]);
+            }
             $manager->persist($entity);
             $this->addReference('publishEvents' . $arr['id'], $entity);
         }
