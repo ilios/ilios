@@ -14,14 +14,14 @@ class UserMadeReminderData extends AbstractDataLoader
             'note' => $this->faker->text(149),
             'dueDate' => $dt->format('c'),
             'closed' => false,
-            'user' => '1'
+            'user' => '2'
         );
         $arr[] = array(
             'id' => 2,
             'note' => $this->faker->text(149),
             'dueDate' => $dt->format('c'),
             'closed' => false,
-            'user' => '1'
+            'user' => '2'
         );
         return $arr;
     }
@@ -35,7 +35,7 @@ class UserMadeReminderData extends AbstractDataLoader
             'note' => $this->faker->text(149),
             'dueDate' => $dt->format('c'),
             'closed' => false,
-            'user' => '1'
+            'user' => '2'
         );
     }
 
