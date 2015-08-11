@@ -16,7 +16,8 @@ class SessionControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionDescriptionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
@@ -24,7 +25,7 @@ class SessionControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialStatusData',
-        ];
+        ]);
     }
 
     /**
@@ -48,7 +49,9 @@ class SessionControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_sessions',
                 ['id' => $session['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -72,7 +75,12 @@ class SessionControllerTest extends AbstractControllerTest
         $unDeletedSessions = array_filter($sessions, function ($arr) {
             return !$arr['deleted'];
         });
-        $this->createJsonRequest('GET', $this->getUrl('cget_sessions'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -105,11 +113,11 @@ class SessionControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_sessions'),
-            json_encode(['session' => $postData])
+            json_encode(['session' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['sessions'][0];
@@ -135,7 +143,8 @@ class SessionControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_sessions'),
-            json_encode(['session' => $invalidSession])
+            json_encode(['session' => $invalidSession]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -158,7 +167,8 @@ class SessionControllerTest extends AbstractControllerTest
                 'put_sessions',
                 ['id' => $data['id']]
             ),
-            json_encode(['session' => $postData])
+            json_encode(['session' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -183,22 +193,26 @@ class SessionControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_sessions',
                 ['id' => $session['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_sessions',
                 ['id' => $session['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -209,7 +223,9 @@ class SessionControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_sessions', ['id' => '0'])
+            $this->getUrl('get_sessions', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -240,7 +256,9 @@ class SessionControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_sessions',
                 ['id' => $session['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -286,7 +304,8 @@ class SessionControllerTest extends AbstractControllerTest
                 'put_ilmsessions',
                 ['id' => $ilm['id']]
             ),
-            json_encode(['ilmSession' => $postData])
+            json_encode(['ilmSession' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
@@ -313,7 +332,8 @@ class SessionControllerTest extends AbstractControllerTest
                 'put_ilmsessions',
                 ['id' => $ilm['id']]
             ),
-            json_encode(['ilmSession' => $postData])
+            json_encode(['ilmSession' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
@@ -340,7 +360,8 @@ class SessionControllerTest extends AbstractControllerTest
                 'put_ilmsessions',
                 ['id' => $ilm['id']]
             ),
-            json_encode(['ilmSession' => $postData])
+            json_encode(['ilmSession' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
@@ -367,7 +388,8 @@ class SessionControllerTest extends AbstractControllerTest
                 'put_ilmsessions',
                 ['id' => $ilm['id']]
             ),
-            json_encode(['ilmSession' => $postData])
+            json_encode(['ilmSession' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
@@ -394,7 +416,8 @@ class SessionControllerTest extends AbstractControllerTest
                 'put_ilmsessions',
                 ['id' => $ilm['id']]
             ),
-            json_encode(['ilmSession' => $postData])
+            json_encode(['ilmSession' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
@@ -419,7 +442,8 @@ class SessionControllerTest extends AbstractControllerTest
                 'put_learningmaterials',
                 ['id' => $lm['id']]
             ),
-            json_encode(['learningMaterial' => $postData])
+            json_encode(['learningMaterial' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
@@ -443,7 +467,8 @@ class SessionControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'post_sessionlearningmaterials'
             ),
-            json_encode(['sessionLearningMaterial' => $postData])
+            json_encode(['sessionLearningMaterial' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_CREATED);
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
@@ -468,7 +493,8 @@ class SessionControllerTest extends AbstractControllerTest
                 'put_sessionlearningmaterials',
                 ['id' => $lm['id']]
             ),
-            json_encode(['sessionLearningMaterial' => $postData])
+            json_encode(['sessionLearningMaterial' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
@@ -483,12 +509,14 @@ class SessionControllerTest extends AbstractControllerTest
             ->get('ilioscore.dataloader.session')
             ->getOne();
         
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_sessionlearningmaterials',
                 ['id' => $session['sessionLearningMaterials'][0]]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
@@ -503,12 +531,14 @@ class SessionControllerTest extends AbstractControllerTest
             ->get('ilioscore.dataloader.session')
             ->getOne();
         
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_sessionlearningmaterials',
                 ['id' => $session['sessionDescription']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
@@ -533,7 +563,8 @@ class SessionControllerTest extends AbstractControllerTest
                 'put_sessiondescriptions',
                 ['id' => $lm['id']]
             ),
-            json_encode(['sessionDescription' => $postData])
+            json_encode(['sessionDescription' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
