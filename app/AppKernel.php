@@ -44,7 +44,6 @@ class AppKernel extends Kernel
             $bundles[] = new IC\Bundle\Base\TestBundle\ICBaseTestBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
-            $bundles[] = new Tdn\PilotBundle\TdnPilotBundle();
         }
 
         return $bundles;
