@@ -10,32 +10,47 @@ class PublishEventData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'sessions' => ['1'],
-            'courses' => ['1'],
             'programs' => ['1'],
-            'programYears' => ['1'],
+            'programYears' => [],
+            'courses' => [],
+            'sessions' => [],
         );
 
         $arr[] = array(
             'id' => 2,
-            'sessions' => [],
-            'courses' => [],
             'programs' => [],
-            'programYears' => [],
+            'programYears' => ['1'],
+            'courses' => [],
+            'sessions' => [],
         );
 
+        $arr[] = array(
+            'id' => 3,
+            'programs' => [],
+            'programYears' => [],
+            'courses' => ['1'],
+            'sessions' => [],
 
+        );
+
+        $arr[] = array(
+            'id' => 4,
+            'programs' => [],
+            'programYears' => [],
+            'courses' => [],
+            'sessions' => ['1'],
+        );
         return $arr;
     }
 
     public function create()
     {
         return [
-            'id' => 3,
+            'id' => 5,
+            'programs' => [],
+            'programYears' => [],
             'courses' => ['1'],
-            'sessions' => ['1'],
-            'programs' => ['1'],
-            'programYears' => ['1'],
+            'sessions' => [],
         ];
     }
 

@@ -21,7 +21,7 @@ class ProgramYearData extends AbstractDataLoader
             'competencies' => [],
             'disciplines' => [],
             'objectives' => [],
-            'publishEvent' => '1'
+            'publishEvent' => '2'
         );
         $arr[] = array(
             'id' => 2,

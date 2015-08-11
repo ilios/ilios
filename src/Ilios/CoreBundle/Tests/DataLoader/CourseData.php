@@ -29,7 +29,7 @@ class CourseData extends AbstractDataLoader
             'meshDescriptors' => [],
             'learningMaterials' => ['1', '2'],
             'sessions' => ['1', '2'],
-            'publishEvent' => '1'
+            'publishEvent' => '3'
         );
 
         $arr[] = array(
