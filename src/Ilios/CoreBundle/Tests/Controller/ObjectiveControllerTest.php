@@ -15,16 +15,15 @@ class ObjectiveControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData'
-        ];
+        ]);
     }
 
     /**
@@ -48,7 +47,9 @@ class ObjectiveControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_objectives',
                 ['id' => $objective['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -62,7 +63,11 @@ class ObjectiveControllerTest extends AbstractControllerTest
 
     public function testGetAllObjectives()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_objectives'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_objectives'),
+            null,
+            $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -87,11 +92,11 @@ class ObjectiveControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_objectives'),
-            json_encode(['objective' => $postData])
+            json_encode(['objective' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -111,7 +116,8 @@ class ObjectiveControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_objectives'),
-            json_encode(['objective' => $invalidObjective])
+            json_encode(['objective' => $invalidObjective]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -134,7 +140,8 @@ class ObjectiveControllerTest extends AbstractControllerTest
                 'put_objectives',
                 ['id' => $data['id']]
             ),
-            json_encode(['objective' => $postData])
+            json_encode(['objective' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -152,22 +159,26 @@ class ObjectiveControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_objectives',
                 ['id' => $objective['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_objectives',
                 ['id' => $objective['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -178,7 +189,9 @@ class ObjectiveControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_objectives', ['id' => '0'])
+            $this->getUrl('get_objectives', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
