@@ -15,7 +15,8 @@ class SchoolControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
@@ -23,7 +24,7 @@ class SchoolControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
-        ];
+        ]);
     }
 
     /**
@@ -48,7 +49,9 @@ class SchoolControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_schools',
                 ['id' => $school['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -62,7 +65,12 @@ class SchoolControllerTest extends AbstractControllerTest
 
     public function testGetAllSchools()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_schools'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_schools'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -87,11 +95,11 @@ class SchoolControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_schools'),
-            json_encode(['school' => $postData])
+            json_encode(['school' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -111,7 +119,8 @@ class SchoolControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_schools'),
-            json_encode(['school' => $invalidSchool])
+            json_encode(['school' => $invalidSchool]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -134,7 +143,8 @@ class SchoolControllerTest extends AbstractControllerTest
                 'put_schools',
                 ['id' => $data['id']]
             ),
-            json_encode(['school' => $postData])
+            json_encode(['school' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -152,22 +162,26 @@ class SchoolControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_schools',
                 ['id' => $school['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_schools',
                 ['id' => $school['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -178,7 +192,9 @@ class SchoolControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_schools', ['id' => '0'])
+            $this->getUrl('get_schools', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
