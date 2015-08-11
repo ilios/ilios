@@ -62,7 +62,12 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
 
     public function testGetAllCurriculumInventoryReports()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventoryreports'), null, $this->getAuthenticatedUserToken());
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventoryreports'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -91,7 +96,6 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
             $this->getUrl('post_curriculuminventoryreports'),
             json_encode(['curriculumInventoryReport' => $postData]),
             $this->getAuthenticatedUserToken()
-
         );
 
         $response = $this->client->getResponse();

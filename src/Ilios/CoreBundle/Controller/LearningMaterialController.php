@@ -202,7 +202,7 @@ class LearningMaterialController extends FOSRestController
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('create', $learningMaterial)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
-             }
+            }
 
             $this->getLearningMaterialHandler()->updateLearningMaterial($learningMaterial, true, false);
             if ($file) {

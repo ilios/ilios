@@ -246,7 +246,7 @@ class UserController extends FOSRestController
 
             $user = $handler->put(
                 $user,
-               $this->getPostData($request)
+                $this->getPostData($request)
             );
 
             $authChecker = $this->get('security.authorization_checker');

@@ -179,7 +179,11 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryAcademicLevelHandler()->updateCurriculumInventoryAcademicLevel($curriculumInventoryAcademicLevel, true, false);
+            $this->getCurriculumInventoryAcademicLevelHandler()->updateCurriculumInventoryAcademicLevel(
+                $curriculumInventoryAcademicLevel,
+                true,
+                false
+            );
 
             $answer['curriculumInventoryAcademicLevels'] = [$curriculumInventoryAcademicLevel];
 
@@ -240,7 +244,11 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryAcademicLevelHandler()->updateCurriculumInventoryAcademicLevel($curriculumInventoryAcademicLevel, true, true);
+            $this->getCurriculumInventoryAcademicLevelHandler()->updateCurriculumInventoryAcademicLevel(
+                $curriculumInventoryAcademicLevel,
+                true,
+                true
+            );
 
             $answer['curriculumInventoryAcademicLevel'] = $curriculumInventoryAcademicLevel;
 

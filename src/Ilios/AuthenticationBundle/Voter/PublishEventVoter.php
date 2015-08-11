@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Entity\Manager\SessionManagerInterface;
 use Ilios\CoreBundle\Entity\PublishEventInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
-
 /**
  * Class PublishEventVoter
  * @package Ilios\AuthenticationBundle\Voter
@@ -118,7 +117,7 @@ class PublishEventVoter extends AbstractVoter
                 // d) session
                 // All of which provide their own context and rules for granting perms to the given publish event.
                 // Identify the type of publish event and then grant access based on that.
-                switch($event->getTableName()) {
+                switch ($event->getTableName()) {
                     case 'program':
                         return $this->isCreateGrantedForProgramPublishEvent($event, $user);
                         break;

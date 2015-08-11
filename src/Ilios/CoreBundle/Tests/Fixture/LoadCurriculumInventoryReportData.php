@@ -47,7 +47,7 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
     /**
      * {@inheritdoc}
      */
-    function getDependencies()
+    public function getDependencies()
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',

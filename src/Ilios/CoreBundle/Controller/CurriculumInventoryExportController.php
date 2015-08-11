@@ -179,7 +179,11 @@ class CurriculumInventoryExportController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryExportHandler()->updateCurriculumInventoryExport($curriculumInventoryExport, true, false);
+            $this->getCurriculumInventoryExportHandler()->updateCurriculumInventoryExport(
+                $curriculumInventoryExport,
+                true,
+                false
+            );
 
             $answer['curriculumInventoryExports'] = [$curriculumInventoryExport];
 

@@ -72,7 +72,7 @@ class InstructorGroupVoter extends AbstractVoter
                     $user->getPrimarySchool() === $group->getSchool()
                     || $this->permissionManager->userHasWritePermissionToSchool($user, $group->getSchool())
                 )
-            );
+                );
                 break;
         }
         return false;

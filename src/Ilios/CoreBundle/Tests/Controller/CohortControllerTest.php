@@ -200,9 +200,9 @@ class CohortControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_cohorts', ['id' => '0'])
-            , null
-            , $this->getAuthenticatedUserToken()
+            $this->getUrl('get_cohorts', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

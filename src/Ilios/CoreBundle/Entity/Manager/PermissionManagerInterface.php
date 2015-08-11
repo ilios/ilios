@@ -115,5 +115,4 @@ interface PermissionManagerInterface extends ManagerInterface
      * @return bool
      */
     public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school);
-
 }

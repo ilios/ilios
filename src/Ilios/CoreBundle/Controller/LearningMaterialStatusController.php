@@ -179,7 +179,11 @@ class LearningMaterialStatusController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getLearningMaterialStatusHandler()->updateLearningMaterialStatus($learningMaterialStatus, true, false);
+            $this->getLearningMaterialStatusHandler()->updateLearningMaterialStatus(
+                $learningMaterialStatus,
+                true,
+                false
+            );
 
             $answer['learningMaterialStatuses'] = [$learningMaterialStatus];
 
@@ -240,7 +244,11 @@ class LearningMaterialStatusController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getLearningMaterialStatusHandler()->updateLearningMaterialStatus($learningMaterialStatus, true, true);
+            $this->getLearningMaterialStatusHandler()->updateLearningMaterialStatus(
+                $learningMaterialStatus,
+                true,
+                true
+            );
 
             $answer['learningMaterialStatus'] = $learningMaterialStatus;
 

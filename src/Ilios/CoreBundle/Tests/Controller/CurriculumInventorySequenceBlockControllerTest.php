@@ -58,7 +58,12 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
 
     public function testGetAllCurriculumInventorySequenceBlocks()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventorysequenceblocks'), null, $this->getAuthenticatedUserToken());
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);

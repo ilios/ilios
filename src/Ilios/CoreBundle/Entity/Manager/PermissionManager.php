@@ -148,12 +148,12 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
 
     /**
      * @param UserInterface $user
-     * @param string $permission
-     * @param $tableName
-     * @param $tableRowId
+     * @param string $permission must be either 'canRead' or 'canWrite'.
+     * @param string $tableName
+     * @param string $tableRowId
      * @return bool
      */
-    protected function userHasPermission(UserInterface $user, $permission = self::CAN_READ, $tableName, $tableRowId)
+    protected function userHasPermission(UserInterface $user, $permission, $tableName, $tableRowId)
     {
         $criteria = [
             'tableRowId' => $tableRowId,

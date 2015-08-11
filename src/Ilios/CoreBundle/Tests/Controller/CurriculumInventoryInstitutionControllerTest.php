@@ -59,7 +59,12 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
 
     public function testGetAllCurriculumInventoryInstitutions()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventoryinstitutions'), null, $this->getAuthenticatedUserToken());
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventoryinstitutions'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);

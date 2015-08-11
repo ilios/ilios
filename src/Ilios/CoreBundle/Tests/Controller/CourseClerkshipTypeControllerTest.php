@@ -59,7 +59,12 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
 
     public function testGetAllCourseClerkshipTypes()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_courseclerkshiptypes'), null, $this->getAuthenticatedUserToken());
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courseclerkshiptypes'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);

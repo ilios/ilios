@@ -59,7 +59,12 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
 
     public function testGetAllCurriculumInventorySequenceBlockSessions()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventorysequenceblocksessions'), null, $this->getAuthenticatedUserToken());
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocksessions'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);

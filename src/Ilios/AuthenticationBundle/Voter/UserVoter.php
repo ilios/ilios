@@ -59,7 +59,10 @@ class UserVoter extends AbstractVoter
                     $user->getId() === $requestedUser->getId()
                     || ($this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                         && ($user->getPrimarySchool() === $requestedUser->getPrimarySchool()
-                            || $this->permissionManager->userHasReadPermissionToSchool($user, $requestedUser->getPrimarySchool())
+                            || $this->permissionManager->userHasReadPermissionToSchool(
+                                $user,
+                                $requestedUser->getPrimarySchool()
+                            )
                         )
                     )
                 );
@@ -74,7 +77,10 @@ class UserVoter extends AbstractVoter
             case self::DELETE:
                 return ($this->userHasRole($user, ['Developer'])
                     && ($user->getPrimarySchool() === $requestedUser->getPrimarySchool()
-                        || $this->permissionManager->userHasReadPermissionToSchool($user, $requestedUser->getPrimarySchool())
+                        || $this->permissionManager->userHasReadPermissionToSchool(
+                            $user,
+                            $requestedUser->getPrimarySchool()
+                        )
                     )
                 );
                 break;

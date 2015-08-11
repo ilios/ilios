@@ -57,7 +57,12 @@ class CourseLearningMaterialControllerTest extends AbstractControllerTest
 
     public function testGetAllCourseLearningMaterials()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_courselearningmaterials'), null, $this->getAuthenticatedUserToken());
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courselearningmaterials'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);

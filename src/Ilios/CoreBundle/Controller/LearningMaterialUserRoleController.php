@@ -179,7 +179,11 @@ class LearningMaterialUserRoleController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getLearningMaterialUserRoleHandler()->updateLearningMaterialUserRole($learningMaterialUserRole, true, false);
+            $this->getLearningMaterialUserRoleHandler()->updateLearningMaterialUserRole(
+                $learningMaterialUserRole,
+                true,
+                false
+            );
 
             $answer['learningMaterialUserRoles'] = [$learningMaterialUserRole];
 
@@ -240,7 +244,11 @@ class LearningMaterialUserRoleController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getLearningMaterialUserRoleHandler()->updateLearningMaterialUserRole($learningMaterialUserRole, true, true);
+            $this->getLearningMaterialUserRoleHandler()->updateLearningMaterialUserRole(
+                $learningMaterialUserRole,
+                true,
+                true
+            );
 
             $answer['learningMaterialUserRole'] = $learningMaterialUserRole;
 

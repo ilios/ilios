@@ -179,7 +179,11 @@ class CurriculumInventoryInstitutionController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryInstitutionHandler()->updateCurriculumInventoryInstitution($curriculumInventoryInstitution, true, false);
+            $this->getCurriculumInventoryInstitutionHandler()->updateCurriculumInventoryInstitution(
+                $curriculumInventoryInstitution,
+                true,
+                false
+            );
 
             $answer['curriculumInventoryInstitutions'] = [$curriculumInventoryInstitution];
 
@@ -240,7 +244,11 @@ class CurriculumInventoryInstitutionController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryInstitutionHandler()->updateCurriculumInventoryInstitution($curriculumInventoryInstitution, true, true);
+            $this->getCurriculumInventoryInstitutionHandler()->updateCurriculumInventoryInstitution(
+                $curriculumInventoryInstitution,
+                true,
+                true
+            );
 
             $answer['curriculumInventoryInstitution'] = $curriculumInventoryInstitution;
 

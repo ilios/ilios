@@ -61,7 +61,12 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
 
     public function testGetAllCurriculumInventoryExports()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventoryexports'), null, $this->getAuthenticatedUserToken());
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventoryexports'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);

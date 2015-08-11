@@ -179,7 +179,11 @@ class SessionLearningMaterialController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getSessionLearningMaterialHandler()->updateSessionLearningMaterial($sessionLearningMaterial, true, false);
+            $this->getSessionLearningMaterialHandler()->updateSessionLearningMaterial(
+                $sessionLearningMaterial,
+                true,
+                false
+            );
 
             $answer['sessionLearningMaterials'] = [$sessionLearningMaterial];
 
@@ -240,7 +244,11 @@ class SessionLearningMaterialController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getSessionLearningMaterialHandler()->updateSessionLearningMaterial($sessionLearningMaterial, true, true);
+            $this->getSessionLearningMaterialHandler()->updateSessionLearningMaterial(
+                $sessionLearningMaterial,
+                true,
+                true
+            );
 
             $answer['sessionLearningMaterial'] = $sessionLearningMaterial;
 

@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
-
 /**
  * Class ObjectiveVoter
  * @package Ilios\AuthenticationBundle\Voter
