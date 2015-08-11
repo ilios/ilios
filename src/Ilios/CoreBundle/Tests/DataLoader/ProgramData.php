@@ -18,7 +18,7 @@ class ProgramData extends AbstractDataLoader
             'publishEvent' => '1',
             'owningSchool' => "1",
             'programYears' => ["1", "2"],
-            'curriculumInventoryReports' => []
+            'curriculumInventoryReports' => ["1", "2", "3"]
         );
 
         $arr[] = array(
