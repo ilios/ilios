@@ -107,30 +107,8 @@ class PublishEventVoter extends AbstractVoter
                 return true;
                 break;
             case self::CREATE:
-                // here we go again...
-                // There are four types of entities right now that can be
-                // published (publish-event is created).
-                // These are
-                // a) program
-                // b) program year
-                // c) course
-                // d) session
-                // All of which provide their own context and rules for granting perms to the given publish event.
-                // Identify the type of publish event and then grant access based on that.
-                switch ($event->getTableName()) {
-                    case 'program':
-                        return $this->isCreateGrantedForProgramPublishEvent($event, $user);
-                        break;
-                    case 'program_year':
-                        return $this->isCreateGrantedForProgramYearPublishEvent($event, $user);
-                        break;
-                    case 'course':
-                        return $this->isCreateGrantedForCoursePublishEvent($event, $user);
-                        break;
-                    case 'session':
-                        return $this->isCreateGrantedForSessionPublishEvent($event, $user);
-                        break;
-                }
+                // let any user with faculty/course director/developer roles create new publish events.
+                return $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer']);
                 break;
         }
 
