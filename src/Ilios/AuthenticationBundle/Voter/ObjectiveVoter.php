@@ -95,7 +95,7 @@ class ObjectiveVoter extends AbstractVoter
     {
 
         /* @var ProgramYearInterface $programYear */
-        $programYear = $objective->getProgramYears()->next(); // there should ever only be one
+        $programYear = $objective->getProgramYears()->first(); // there should ever only be one
 
         // Code below has been copy/pasted straight out of ProgramYearVoter::isGranted().
         // TODO: consolidate. [ST 2015/08/05]
@@ -128,7 +128,7 @@ class ObjectiveVoter extends AbstractVoter
     protected function isCreateEditDeleteGrantedForSessionObjective($objective, $user)
     {
         /* @var SessionInterface $session */
-        $session = $objective->getSessions()->next(); // there should ever only be one
+        $session = $objective->getSessions()->first(); // there should ever only be one
 
         /* @var CourseInterface $course */
         $course = $session->getCourse();
@@ -157,7 +157,7 @@ class ObjectiveVoter extends AbstractVoter
     protected function isCreateEditDeleteGrantedForCourseObjective($objective, $user)
     {
         /* @var CourseInterface $course */
-        $course = $objective->getCourses()->next(); // there should ever only be one
+        $course = $objective->getCourses()->first(); // there should ever only be one
 
         // Code below has been copy/pasted straight out of CourseVoter::isGranted().
         // TODO: consolidate. [ST 2015/08/05]

@@ -33,7 +33,7 @@ class RecurringEventVoter extends SessionVoter
         }
 
         // get the events parent offering, there should only be one.
-        $offering = $event->getOfferings()->next();
+        $offering = $event->getOfferings()->first();
 
         // grant perms based on the session that owns the parent offering
         return parent::isGranted($attribute, $offering->getSession(), $user);
