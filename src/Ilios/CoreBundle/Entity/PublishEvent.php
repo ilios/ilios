@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as JMS;
@@ -160,6 +161,8 @@ class PublishEvent implements PublishEventInterface
         $this->programs = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->setTimeStamp(new \DateTime());
+        $this->setTableName('new');
+        $this->setTableRowId(0);
     }
 
     /**
@@ -192,6 +195,42 @@ class PublishEvent implements PublishEventInterface
     public function getTimeStamp()
     {
         return $this->timeStamp;
+    }
+
+    /**
+     * @param string $tableName
+     */
+    public function setTableName($tableName)
+    {
+        if (!$this->tableName || $this->tableName === 'new') {
+            $this->tableName = $tableName;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getTableName()
+    {
+        return $this->tableName;
+    }
+
+    /**
+     * @param int $tableRowId
+     */
+    public function setTableRowId($tableRowId)
+    {
+        if (!$this->tableRowId) {
+            $this->tableRowId = $tableRowId;
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getTableRowId()
+    {
+        return $this->tableRowId;
     }
 
     /**
