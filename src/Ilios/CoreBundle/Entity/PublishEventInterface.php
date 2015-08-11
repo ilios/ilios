@@ -14,6 +14,7 @@ use Ilios\CoreBundle\Traits\ProgramsEntityInterface;
 /**
  * Interface PublishEventInterface
  * @package Ilios\CoreBundle\Entity
+ * @deprecated
  */
 interface PublishEventInterface extends
     IdentifiableEntityInterface,
@@ -45,21 +46,25 @@ interface PublishEventInterface extends
 
     /**
      * @param string $tableName
+     * @deprecated
      */
     public function setTableName($tableName);
 
     /**
      * @return string
+     * @deprecated
      */
     public function getTableName();
 
     /**
      * @param int $tableRowId
+     * @deprecated
      */
     public function setTableRowId($tableRowId);
 
     /**
      * @return int
+     * @deprecated
      */
     public function getTableRowId();
 

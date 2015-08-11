@@ -24,6 +24,8 @@ use Ilios\CoreBundle\Traits\ProgramYearsEntity;
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
+ *
+ * @deprecated
  */
 class PublishEvent implements PublishEventInterface
 {
@@ -196,7 +198,7 @@ class PublishEvent implements PublishEventInterface
     }
 
     /**
-     * @param string $tableName
+     * {@inheritdoc}
      */
     public function setTableName($tableName)
     {
@@ -206,7 +208,7 @@ class PublishEvent implements PublishEventInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getTableName()
     {
@@ -214,7 +216,7 @@ class PublishEvent implements PublishEventInterface
     }
 
     /**
-     * @param int $tableRowId
+     * {@inheritdoc}
      */
     public function setTableRowId($tableRowId)
     {
@@ -224,7 +226,7 @@ class PublishEvent implements PublishEventInterface
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getTableRowId()
     {

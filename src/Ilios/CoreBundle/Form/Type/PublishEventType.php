@@ -6,6 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Class PublishEventType
+ * @package Ilios\CoreBundle\Form\Type
+ *
+ * @deprecated
+ */
 class PublishEventType extends AbstractType
 {
     /**
