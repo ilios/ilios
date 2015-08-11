@@ -10,7 +10,7 @@ class RecurringEventData extends AbstractDataLoader
         
         $arr[] = array(
             'id' => 1,
-            'offerings' => [],
+            'offerings' => ['1'],
             'endDate' => "2013-12-14T00:00:00+00:00",
             'onSunday' => false,
             'onMonday' => false,
@@ -28,7 +28,7 @@ class RecurringEventData extends AbstractDataLoader
     {
         return array(
             'id' => 2,
-            'offerings' => [],
+            'offerings' => ['2'],
             'endDate' => "2013-12-14T00:00:00+00:00",
             'onSunday' => false,
             'onMonday' => false,

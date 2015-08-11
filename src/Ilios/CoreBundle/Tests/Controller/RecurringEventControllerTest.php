@@ -15,10 +15,11 @@ class RecurringEventControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadRecurringEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData'
-        ];
+        ]);
     }
 
     /**
@@ -42,7 +43,9 @@ class RecurringEventControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_recurringevents',
                 ['id' => $recurringEvent['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -56,7 +59,12 @@ class RecurringEventControllerTest extends AbstractControllerTest
 
     public function testGetAllRecurringEvents()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_recurringevents'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_recurringevents'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -81,11 +89,11 @@ class RecurringEventControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_recurringevents'),
-            json_encode(['recurringEvent' => $postData])
+            json_encode(['recurringEvent' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -105,7 +113,8 @@ class RecurringEventControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_recurringevents'),
-            json_encode(['recurringEvent' => $invalidRecurringEvent])
+            json_encode(['recurringEvent' => $invalidRecurringEvent]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -128,7 +137,8 @@ class RecurringEventControllerTest extends AbstractControllerTest
                 'put_recurringevents',
                 ['id' => $data['id']]
             ),
-            json_encode(['recurringEvent' => $postData])
+            json_encode(['recurringEvent' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -146,22 +156,26 @@ class RecurringEventControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_recurringevents',
                 ['id' => $recurringEvent['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_recurringevents',
                 ['id' => $recurringEvent['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -172,7 +186,9 @@ class RecurringEventControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_recurringevents', ['id' => '0'])
+            $this->getUrl('get_recurringevents', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
