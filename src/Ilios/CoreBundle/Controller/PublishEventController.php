@@ -21,6 +21,8 @@ use Ilios\CoreBundle\Entity\PublishEventInterface;
  * Class PublishEventController
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("PublishEvents")
+ *
+ * @deprecated
  */
 class PublishEventController extends FOSRestController
 {

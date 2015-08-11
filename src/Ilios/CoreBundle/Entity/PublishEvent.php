@@ -23,6 +23,8 @@ use Ilios\CoreBundle\Traits\ProgramYearsEntity;
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
+ *
+ * @deprecated
  */
 class PublishEvent implements PublishEventInterface
 {

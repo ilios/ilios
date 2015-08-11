@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class PublishEventManager
  * @package Ilios\CoreBundle\Entity\Manager
+ *
+ * @deprecated
  */
 class PublishEventManager extends AbstractManager implements PublishEventManagerInterface
 {

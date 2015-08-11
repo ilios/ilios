@@ -8,6 +8,8 @@ use Ilios\CoreBundle\Entity\PublishEventInterface;
 /**
  * Interface PublishEventManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
+ *
+ * @deprecated
  */
 interface PublishEventManagerInterface extends ManagerInterface
 {

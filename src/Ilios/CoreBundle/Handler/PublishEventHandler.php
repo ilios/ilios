@@ -13,6 +13,8 @@ use Ilios\CoreBundle\Entity\PublishEventInterface;
 /**
  * Class PublishEventHandler
  * @package Ilios\CoreBundle\Handler
+ *
+ * @deprecated
  */
 class PublishEventHandler extends PublishEventManager
 {

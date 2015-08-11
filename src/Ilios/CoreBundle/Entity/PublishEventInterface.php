@@ -12,6 +12,7 @@ use Ilios\CoreBundle\Traits\ProgramsEntityInterface;
 /**
  * Interface PublishEventInterface
  * @package Ilios\CoreBundle\Entity
+ * @deprecated
  */
 interface PublishEventInterface extends
     IdentifiableEntityInterface,
