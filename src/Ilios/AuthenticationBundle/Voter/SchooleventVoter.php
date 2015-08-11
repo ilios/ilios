@@ -65,7 +65,7 @@ class SchooleventVoter extends AbstractVoter
         switch ($attribute) {
             case self::VIEW:
                 // grant VIEW permissions if the event-owning school matches any of the given user's schools.
-                $eventOwningSchool = $this->schoolManager->findSchoolBy(['school' => $event->school]);
+                $eventOwningSchool = $this->schoolManager->findSchoolBy(['id' => $event->school]);
                 return (
                     ! empty($eventOwningSchool)
                     && (
