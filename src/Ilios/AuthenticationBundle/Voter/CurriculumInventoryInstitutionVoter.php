@@ -64,7 +64,7 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                 // via the permissions system.
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
-                    && ($user->getPrimarySchool() === $institution->getSchool()
+                    && ($user->getPrimarySchool()->getId() === $institution->getSchool()->getId()
                         || $this->permissionManager->userHasReadPermissionToSchool($user, $institution->getSchool()))
                 );
                 break;
@@ -80,7 +80,7 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                 // via the permissions system.
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
-                    && ($user->getPrimarySchool() === $institution->getSchool()
+                    && ($user->getPrimarySchool()->getId() === $institution->getSchool()->getId()
                         || $this->permissionManager->userHasWritePermissionToSchool($user, $institution->getSchool()))
                 );
                 break;

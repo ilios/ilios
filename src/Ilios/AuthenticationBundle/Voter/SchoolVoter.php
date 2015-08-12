@@ -72,7 +72,7 @@ class SchoolVoter extends AbstractVoter
                 // via the permissions system.
                 return (
                     $this->userHasRole($user, ['Developer'])
-                    && ($user->getPrimarySchool() === $school->getId()
+                    && ($user->getPrimarySchool()->getId() === $school->getId()
                         || $this->permissionManager->userHasWritePermissionToSchool($user, $school))
                 );
                 break;
