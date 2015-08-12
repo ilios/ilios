@@ -66,7 +66,7 @@ class SessionTypeVoter extends AbstractVoter
                 //   - or -
                 //   if the user has WRITE rights on the session type's owning school
                 // via the permissions system.
-                return ($this->userHasRole($user, 'Developer')
+                return ($this->userHasRole($user, ['Developer'])
                     && ($sessionType->getOwningSchool()->getId() === $user->getPrimarySchool()
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
