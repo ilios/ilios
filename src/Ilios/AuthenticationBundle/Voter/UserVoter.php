@@ -45,8 +45,6 @@ class UserVoter extends AbstractVoter
             return false;
         }
 
-        // all authenticated users can view user roles,
-        // but only developers can create/modify/delete them directly.
         switch ($attribute) {
             // at least one of these must be true.
             // 1. the requested user is the current user
