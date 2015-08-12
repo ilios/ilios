@@ -103,6 +103,7 @@ class PublishEventManager extends AbstractManager implements PublishEventManager
         $class = $this->getClass();
         $obj = new $class();
         $obj->setMachineIp($this->request->getClientIp());
+        $obj->setAdministrator($this->get('security.context')->getToken()->getUser());
         return $obj;
     }
 }
