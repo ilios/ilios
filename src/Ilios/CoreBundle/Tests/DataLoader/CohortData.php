@@ -14,7 +14,7 @@ class CohortData extends AbstractDataLoader
             'programYear' => '1',
             'courses' => ['1', '2'],
             'learnerGroups' => ['1', '2', '3'],
-            'users' => ['2']
+            'users' => ['1', '2']
         );
 
         $arr[] = array(

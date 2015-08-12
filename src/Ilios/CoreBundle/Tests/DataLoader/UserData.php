@@ -33,7 +33,7 @@ class UserData extends AbstractDataLoader
             'instructionHours' => [],
             'alerts' => ['1'],
             'roles' => ['1'],
-            'cohorts' => [],
+            'cohorts' => ['1'],
             'reminders' => []
         );
 
@@ -51,9 +51,9 @@ class UserData extends AbstractDataLoader
             'primarySchool' => '1',
             'directedCourses' => ['2'],
             'learnerGroups' => ['1', '2', '3'],
-            'instructorUserGroups' => ['1', '2', '3'],
-            'instructorGroups' => ['3'],
-            'instructorIlmSessions' => ['4'],
+            'instructorUserGroups' => [],
+            'instructorGroups' => ['1', '2', '3'],
+            'instructorIlmSessions' => ['3'],
             'learnerIlmSessions' => ['4'],
             'offerings' => ['4'],
             'instructedOfferings' => ['5'],
