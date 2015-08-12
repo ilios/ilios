@@ -45,8 +45,6 @@ class UserVoter extends AbstractVoter
             return false;
         }
 
-        // all authenticated users can view user roles,
-        // but only developers can create/modify/delete them directly.
         switch ($attribute) {
             // at least one of these must be true.
             // 1. the requested user is the current user
@@ -58,7 +56,7 @@ class UserVoter extends AbstractVoter
                 return (
                     $user->getId() === $requestedUser->getId()
                     || ($this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
-                        && ($user->getPrimarySchool() === $requestedUser->getPrimarySchool()
+                        && ($user->getPrimarySchool()->getId() === $requestedUser->getPrimarySchool()->getId()
                             || $this->permissionManager->userHasReadPermissionToSchool(
                                 $user,
                                 $requestedUser->getPrimarySchool()
@@ -76,7 +74,7 @@ class UserVoter extends AbstractVoter
             case self::EDIT:
             case self::DELETE:
                 return ($this->userHasRole($user, ['Developer'])
-                    && ($user->getPrimarySchool() === $requestedUser->getPrimarySchool()
+                    && ($user->getPrimarySchool()->getId() === $requestedUser->getPrimarySchool()->getId()
                         || $this->permissionManager->userHasReadPermissionToSchool(
                             $user,
                             $requestedUser->getPrimarySchool()
