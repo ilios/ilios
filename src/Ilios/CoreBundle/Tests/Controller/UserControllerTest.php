@@ -15,7 +15,8 @@ class UserControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
@@ -23,7 +24,7 @@ class UserControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadUserMadeReminderData',
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
-        ];
+        ]);
     }
 
     /**
@@ -51,7 +52,9 @@ class UserControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_users',
                 ['id' => $user['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -65,7 +68,13 @@ class UserControllerTest extends AbstractControllerTest
 
     public function testGetAllUsers()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_users'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users'),
+            null,
+            $this->getAuthenticatedUserToken()
+
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -84,7 +93,9 @@ class UserControllerTest extends AbstractControllerTest
         $users = $this->container->get('ilioscore.dataloader.user')->getAll();
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_users', array('q' => 'first'))
+            $this->getUrl('cget_users', array('q' => 'first')),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $result = json_decode($this->client->getResponse()->getContent(), true);
@@ -98,7 +109,9 @@ class UserControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_users', array('q' => 'second'))
+            $this->getUrl('cget_users', array('q' => 'second')),
+            null,
+            $this->getAuthenticatedUserToken()
         );
         $result = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertTrue(array_key_exists('users', $result));
@@ -111,7 +124,9 @@ class UserControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_users', array('q' => 'example'))
+            $this->getUrl('cget_users', array('q' => 'example')),
+            null,
+            $this->getAuthenticatedUserToken()
         );
         $result = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertTrue(array_key_exists('users', $result));
@@ -128,7 +143,9 @@ class UserControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_users', array('q' => 'example second'))
+            $this->getUrl('cget_users', array('q' => 'example second')),
+            null,
+            $this->getAuthenticatedUserToken()
         );
         $result = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertTrue(array_key_exists('users', $result));
@@ -141,7 +158,9 @@ class UserControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_users', array('q' => 'nobodyxyzmartian'))
+            $this->getUrl('cget_users', array('q' => 'nobodyxyzmartian')),
+            null,
+            $this->getAuthenticatedUserToken()
         );
         $result = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertTrue(array_key_exists('users', $result));
@@ -162,11 +181,12 @@ class UserControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_users'),
-            json_encode(['user' => $postData])
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
+
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
@@ -185,7 +205,8 @@ class UserControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_users'),
-            json_encode(['user' => $invalidUser])
+            json_encode(['user' => $invalidUser]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -211,7 +232,8 @@ class UserControllerTest extends AbstractControllerTest
                 'put_users',
                 ['id' => $data['id']]
             ),
-            json_encode(['user' => $postData])
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -228,22 +250,26 @@ class UserControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_users',
                 ['id' => $user['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_users',
                 ['id' => $user['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -254,7 +280,10 @@ class UserControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_users', ['id' => '0'])
+            $this->getUrl('get_users', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
+
         );
 
         $response = $this->client->getResponse();
