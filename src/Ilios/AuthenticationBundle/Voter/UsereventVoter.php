@@ -56,10 +56,9 @@ class UsereventVoter extends AbstractVoter
         switch ($attribute) {
             case self::VIEW:
                 // check if the event-owning user is the given user
-                $eventOwningUser = $this->userManager->findUserBy(['id' => $event->user]);
                 return (
                     ! empty($eventOwningUser)
-                    && $user->getId() === $eventOwningUser->getId()
+                    && $user->getId() === $event->user
                 );
                 break;
         }
