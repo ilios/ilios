@@ -15,10 +15,11 @@ class UserRoleControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadUserRoleData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
-        ];
+        ]);
     }
 
     /**
@@ -42,7 +43,9 @@ class UserRoleControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_userroles',
                 ['id' => $userRole['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -56,7 +59,12 @@ class UserRoleControllerTest extends AbstractControllerTest
 
     public function testGetAllUserRoles()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_userroles'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_userroles'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -81,11 +89,11 @@ class UserRoleControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_userroles'),
-            json_encode(['userRole' => $postData])
+            json_encode(['userRole' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -105,7 +113,8 @@ class UserRoleControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_userroles'),
-            json_encode(['userRole' => $invalidUserRole])
+            json_encode(['userRole' => $invalidUserRole]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -128,7 +137,8 @@ class UserRoleControllerTest extends AbstractControllerTest
                 'put_userroles',
                 ['id' => $data['id']]
             ),
-            json_encode(['userRole' => $postData])
+            json_encode(['userRole' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -146,22 +156,26 @@ class UserRoleControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_userroles',
                 ['id' => $userRole['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_userroles',
                 ['id' => $userRole['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -172,7 +186,9 @@ class UserRoleControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_userroles', ['id' => '0'])
+            $this->getUrl('get_userroles', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
