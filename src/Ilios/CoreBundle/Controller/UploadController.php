@@ -18,6 +18,12 @@ class UploadController extends Controller
     public function uploadAction(Request $request)
     {
         $fs = $this->container->get('ilioscore.temporary_filesystem');
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('create', $fs)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
         $uploadedFile = $request->files->get('file');
         if (!$uploadedFile) {
             return new JsonResponse(array(
