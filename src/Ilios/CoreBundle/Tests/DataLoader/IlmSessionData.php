@@ -39,7 +39,7 @@ class IlmSessionData extends AbstractDataLoader
             'dueDate' => $dt->format('c'),
             'learnerGroups' => [],
             'instructorGroups' => [],
-            'instructors' => ['1'],
+            'instructors' => ['2'],
             'learners' => [],
             'session' => 6
         );
@@ -52,7 +52,7 @@ class IlmSessionData extends AbstractDataLoader
             'learnerGroups' => [],
             'instructorGroups' => [],
             'instructors' => [],
-            'learners' => ['1'],
+            'learners' => ['2'],
             'session' => 7
         );
 
