@@ -49,8 +49,8 @@ class LearningMaterialVoter extends AbstractVoter
                 return true;
                 break;
             case self::CREATE:
-                // users with 'Course director' or 'Developer' role can create materials.
-                return $this->userHasRole($user, ['Course Director', 'Developer']);
+                // users with 'Faculty', 'Course director' or 'Developer' role can create materials.
+                return $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer']);
                 break;
             case self::EDIT:
             case self::DELETE:
@@ -58,12 +58,12 @@ class LearningMaterialVoter extends AbstractVoter
                 // at least one of the following statements must be true:
                 // 1. the user owns the learning material
                 // 2. the user and the owner of the learning material share the same primary school,
-                //    and the user has at least one of 'Course Director' and 'Developer' roles.
+                //    and the user has at least one of 'Faculty', 'Course Director' or 'Developer' roles.
                 // 3. the user has WRITE rights in the learning material owner's primary school,
-                //    and the user has at least one of 'Course Director' and 'Developer' roles.
+                //    and the user has at least one of 'Faculty', 'Course Director' or 'Developer' roles.
                 return (
                     $user->getId() === $material->getOwningUser()->getId()
-                    || ($this->userHasRole($user, ['Course Director', 'Developer'])
+                    || ($this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
                         && ($user->getPrimarySchool() === $material->getOwningUser()->getPrimarySchool()
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
