@@ -71,7 +71,8 @@ class PublishEventControllerTest extends AbstractControllerTest
             'GET',
             $this->getUrl('cget_publishevents'),
             null,
-            $this->getAuthenticatedUserToken());
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);

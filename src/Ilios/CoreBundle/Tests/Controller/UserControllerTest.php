@@ -73,7 +73,6 @@ class UserControllerTest extends AbstractControllerTest
             $this->getUrl('cget_users'),
             null,
             $this->getAuthenticatedUserToken()
-
         );
         $response = $this->client->getResponse();
 
@@ -283,7 +282,6 @@ class UserControllerTest extends AbstractControllerTest
             $this->getUrl('get_users', ['id' => '0']),
             null,
             $this->getAuthenticatedUserToken()
-
         );
 
         $response = $this->client->getResponse();

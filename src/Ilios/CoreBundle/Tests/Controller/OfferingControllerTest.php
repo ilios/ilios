@@ -71,7 +71,8 @@ class OfferingControllerTest extends AbstractControllerTest
             'GET',
             $this->getUrl('cget_offerings'),
             null,
-            $this->getAuthenticatedUserToken());
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);

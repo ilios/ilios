@@ -66,7 +66,8 @@ class ProgramControllerTest extends AbstractControllerTest
             'GET',
             $this->getUrl('cget_programs'),
             null,
-            $this->getAuthenticatedUserToken());
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
