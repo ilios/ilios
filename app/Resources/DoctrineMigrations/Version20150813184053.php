@@ -5,6 +5,9 @@ namespace Ilios\Migrations;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
+/**
+ * Removes the obsolete instruction-hours and recurring-event tables from the schema.
+ */ 
 class Version20150813184053 extends AbstractMigration
 {
     /**
