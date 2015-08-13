@@ -102,6 +102,11 @@ class PublishEventControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
 
+        // we're authenticating with user no. two (id = 2).
+        // set it as the admin after posting the request.
+        // TODO: this is super hinky. find a better way to deal with this. [ST 2015/08/13]
+        $data['administrator'] = 2;
+
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,

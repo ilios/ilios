@@ -177,7 +177,11 @@ class PublishEventController extends FOSRestController
         try {
             $handler = $this->getPublishEventHandler();
 
-            $publishEvent = $handler->post($this->getPostData($request));
+            $publishEvent = $handler->post(
+                $this->getPostData($request),
+                $request,
+                $this->get('security.context')->getToken()->getUser()
+            );
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('create', $publishEvent)) {
