@@ -22,7 +22,6 @@ parameters:
     ilioscore.discipline.handler.class: Ilios\CoreBundle\Handler\DisciplineHandler
     ilioscore.ilmsession.handler.class: Ilios\CoreBundle\Handler\IlmSessionHandler
     ilioscore.ingestionexception.handler.class: Ilios\CoreBundle\Handler\IngestionExceptionHandler
-    ilioscore.instructionhours.handler.class: Ilios\CoreBundle\Handler\InstructionHoursHandler
     ilioscore.instructorgroup.handler.class: Ilios\CoreBundle\Handler\InstructorGroupHandler
     ilioscore.learningmaterialstatus.handler.class: Ilios\CoreBundle\Handler\LearningMaterialStatusHandler
     ilioscore.learningmaterialuserrole.handler.class: Ilios\CoreBundle\Handler\LearningMaterialUserRoleHandler
@@ -123,9 +122,6 @@ services:
     ilioscore.ingestionexception.handler:
         class: %ilioscore.ingestionexception.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IngestionException, '@form.factory']
-    ilioscore.instructionhours.handler:
-        class: %ilioscore.instructionhours.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\InstructionHours, '@form.factory']
     ilioscore.instructorgroup.handler:
         class: %ilioscore.instructorgroup.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\InstructorGroup, '@form.factory']

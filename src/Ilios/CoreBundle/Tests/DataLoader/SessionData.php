@@ -24,7 +24,6 @@ class SessionData extends AbstractDataLoader
             'meshDescriptors' => [],
             'publishEvent' => '4',
             'sessionLearningMaterials' => ['1'],
-            'instructionHours' => [],
             'offerings' => ['1', '2']
         );
 
@@ -43,7 +42,6 @@ class SessionData extends AbstractDataLoader
             'objectives' => [],
             'meshDescriptors' => [],
             'sessionLearningMaterials' => [],
-            'instructionHours' => [],
             'offerings' => ['3', '4', '5']
         );
 
@@ -60,7 +58,6 @@ class SessionData extends AbstractDataLoader
             'objectives' => [],
             'meshDescriptors' => [],
             'sessionLearningMaterials' => [],
-            'instructionHours' => [],
             'offerings' => ['6', '7']
         );
         
@@ -79,7 +76,6 @@ class SessionData extends AbstractDataLoader
                 'objectives' => [],
                 'meshDescriptors' => [],
                 'sessionLearningMaterials' => [],
-                'instructionHours' => [],
                 'offerings' => []
             );
         }
@@ -103,7 +99,6 @@ class SessionData extends AbstractDataLoader
             'objectives' => ['1', '2'],
             'meshDescriptors' => [],
             'sessionLearningMaterials' => ["1"],
-            'instructionHours' => [],
             'offerings' => ['1']
         );
     }

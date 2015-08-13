@@ -82,10 +82,6 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('instructionHours', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:InstructionHours"
-            ])
             ->add('alerts', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Alert"

@@ -61,10 +61,6 @@ class SessionType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionLearningMaterial"
             ])
-            ->add('instructionHours', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:InstructionHours"
-            ])
             ->add('offerings', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Offering"

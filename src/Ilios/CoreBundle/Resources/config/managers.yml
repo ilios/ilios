@@ -23,7 +23,6 @@ parameters:
     ilioscore.discipline.manager.class: Ilios\CoreBundle\Entity\Manager\DisciplineManager
     ilioscore.ilmsession.manager.class: Ilios\CoreBundle\Entity\Manager\IlmSessionManager
     ilioscore.ingestionexception.manager.class: Ilios\CoreBundle\Entity\Manager\IngestionExceptionManager
-    ilioscore.instructionhours.manager.class: Ilios\CoreBundle\Entity\Manager\InstructionHoursManager
     ilioscore.instructorgroup.manager.class: Ilios\CoreBundle\Entity\Manager\InstructorGroupManager
     ilioscore.learningmaterialstatus.manager.class: Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager
     ilioscore.learningmaterialuserrole.manager.class: Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager
@@ -130,9 +129,6 @@ services:
     ilioscore.ingestionexception.manager:
         class: %ilioscore.ingestionexception.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IngestionException]
-    ilioscore.instructionhours.manager:
-        class: %ilioscore.instructionhours.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\InstructionHours]
     ilioscore.instructorgroup.manager:
         class: %ilioscore.instructorgroup.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\InstructorGroup]
