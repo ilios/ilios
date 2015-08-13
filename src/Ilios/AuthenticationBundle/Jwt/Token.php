@@ -22,11 +22,6 @@ class Token extends AbstractToken
      */
     protected $jwt;
 
-    /**
-     * @var UserInterface
-     */
-    protected $user;
-
     const PREPEND_KEY = 'ilios.jwt.key.';
 
     public function __construct($key)
@@ -52,15 +47,12 @@ class Token extends AbstractToken
         }
     }
 
-    public function getUser()
-    {
-        return $this->user;
-    }
 
     public function getUserId()
     {
-        if ($this->user instanceof UserInterface) {
-            return $this->user->getId();
+        $user = $this->getUser();
+        if ($user instanceof UserInterface) {
+            return $user->getId();
         }
 
         return null;
@@ -68,7 +60,12 @@ class Token extends AbstractToken
 
     public function getUserName()
     {
-        return $this->user->getEmail();
+        $user = $this->getUser();
+        if ($user instanceof UserInterface) {
+            return $user->getEmail();
+        }
+
+        return null;
     }
 
     /**
@@ -121,7 +118,7 @@ class Token extends AbstractToken
      */
     public function getJwt()
     {
-        if (! $this->user instanceof UserInterface) {
+        if (! $this->getUser() instanceof UserInterface) {
             throw new \Exception('Can not build a JWT, we have no user');
         }
 
@@ -150,7 +147,7 @@ class Token extends AbstractToken
             'aud' => 'ilios',
             'iat' => $now->format('U'),
             'exp' => $expires->format('U'),
-            'user_id' => $this->user->getId()
+            'user_id' => $this->getUserId()
         );
 
         return TokenLib::encode($arr, $this->key);
