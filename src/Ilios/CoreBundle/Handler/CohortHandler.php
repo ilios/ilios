@@ -98,17 +98,10 @@ class CohortHandler extends CohortManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $cohort = $form->getData();
-            $this->updateCohort(
-                $cohort,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $cohort;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

@@ -15,10 +15,11 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
-        ];
+        ]);
     }
 
     /**
@@ -42,7 +43,9 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
             $this->getUrl(
                 'get_curriculuminventoryinstitutions',
                 ['id' => $curriculumInventoryInstitution['school']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -56,7 +59,12 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
 
     public function testGetAllCurriculumInventoryInstitutions()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventoryinstitutions'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventoryinstitutions'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -81,11 +89,11 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_curriculuminventoryinstitutions'),
-            json_encode(['curriculumInventoryInstitution' => $postData])
+            json_encode(['curriculumInventoryInstitution' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -105,7 +113,8 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_curriculuminventoryinstitutions'),
-            json_encode(['curriculumInventoryInstitution' => $invalidCurriculumInventoryInstitution])
+            json_encode(['curriculumInventoryInstitution' => $invalidCurriculumInventoryInstitution]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -127,7 +136,8 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
                 'put_curriculuminventoryinstitutions',
                 ['id' => $data['id']]
             ),
-            json_encode(['curriculumInventoryInstitution' => $postData])
+            json_encode(['curriculumInventoryInstitution' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -145,22 +155,26 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_curriculuminventoryinstitutions',
                 ['id' => $curriculumInventoryInstitution['school']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_curriculuminventoryinstitutions',
                 ['id' => $curriculumInventoryInstitution['school']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -171,7 +185,9 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_curriculuminventoryinstitutions', ['id' => '0'])
+            $this->getUrl('get_curriculuminventoryinstitutions', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

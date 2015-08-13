@@ -98,17 +98,10 @@ class MeshQualifierHandler extends MeshQualifierManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $meshQualifier = $form->getData();
-            $this->updateMeshQualifier(
-                $meshQualifier,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $meshQualifier;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

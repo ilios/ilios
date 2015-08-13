@@ -74,13 +74,10 @@ class MeshTermHandler extends MeshTermManager
     {
         $form = $this->formFactory->create(new MeshTermType(), $meshTerm, array('method' => $method));
         $form->submit($parameters, 'PATCH' !== $method);
-        if ($form->isValid()) {
-            $meshTerm = $form->getData();
-            $this->updateMeshTerm($meshTerm, true);
-
-            return $meshTerm;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
+        return $form->getData();
 
-        throw new InvalidFormException('Invalid submitted data', $form);
     }
 }

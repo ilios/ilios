@@ -54,7 +54,14 @@ class AamcMethodController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['aamcMethods'][] = $this->getOr404($id);
+        $aamcMethod = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $aamcMethod)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['aamcMethods'][] = $aamcMethod;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class AamcMethodController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['aamcMethods'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class AamcMethodController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAamcMethodHandler()
-                ->post($this->getPostData($request));
-            $answer['aamcMethods'] = [$new];
+            $handler = $this->getAamcMethodHandler();
+
+            $aamcMethod = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $aamcMethod)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getAamcMethodHandler()->updateAamcMethod($aamcMethod, true, false);
+
+            $answer['aamcMethods'] = [$aamcMethod];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class AamcMethodController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['aamcMethod'] =
-                $this->getAamcMethodHandler()->put(
-                    $aamcMethod,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getAamcMethodHandler();
+
+            $aamcMethod = $handler->put(
+                $aamcMethod,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $aamcMethod)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getAamcMethodHandler()->updateAamcMethod($aamcMethod, true, true);
+
+            $answer['aamcMethod'] = $aamcMethod;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class AamcMethodController extends FOSRestController
     public function deleteAction($id)
     {
         $aamcMethod = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $aamcMethod)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getAamcMethodHandler()

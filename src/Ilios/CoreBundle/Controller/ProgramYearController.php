@@ -54,7 +54,14 @@ class ProgramYearController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['programYears'][] = $this->getOr404($id);
+        $programYear = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $programYear)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['programYears'][] = $programYear;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class ProgramYearController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['programYears'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class ProgramYearController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getProgramYearHandler()
-                ->post($this->getPostData($request));
-            $answer['programYears'] = [$new];
+            $handler = $this->getProgramYearHandler();
+
+            $programYear = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $programYear)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getProgramYearHandler()->updateProgramYear($programYear, true, false);
+
+            $answer['programYears'] = [$programYear];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -199,19 +220,35 @@ class ProgramYearController extends FOSRestController
         try {
             $programYear = $this->getProgramYearHandler()
                 ->findProgramYearBy(['id'=> $id]);
+            $authChecker = $this->get('security.authorization_checker');
+
             if ($programYear) {
                 $code = Codes::HTTP_OK;
+                // check if the existing program year can be modified, e.g. if it is not locked or archived etc.
+                if (! $authChecker->isGranted('modify', $programYear)) {
+                    throw $this->createAccessDeniedException('Unauthorized access!');
+                }
             } else {
                 $programYear = $this->getProgramYearHandler()
                     ->createProgramYear();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['programYear'] =
-                $this->getProgramYearHandler()->put(
-                    $programYear,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getProgramYearHandler();
+
+            $programYear = $handler->put(
+                $programYear,
+                $this->getPostData($request)
+            );
+
+            if (! $authChecker->isGranted('edit', $programYear)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getProgramYearHandler()->updateProgramYear($programYear, true, true);
+
+            $answer['programYear'] = $programYear;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +290,11 @@ class ProgramYearController extends FOSRestController
     public function deleteAction($id)
     {
         $programYear = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted(['modify', 'delete'], $programYear)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getProgramYearHandler()

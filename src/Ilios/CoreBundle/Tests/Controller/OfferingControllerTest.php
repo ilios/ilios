@@ -16,11 +16,12 @@ class OfferingControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
-        ];
+        ]);
     }
 
     /**
@@ -44,7 +45,9 @@ class OfferingControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_offerings',
                 ['id' => $offering['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -64,7 +67,12 @@ class OfferingControllerTest extends AbstractControllerTest
 
     public function testGetAllOfferings()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_offerings'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_offerings'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -99,11 +107,11 @@ class OfferingControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_offerings'),
-            json_encode(['offering' => $postData])
+            json_encode(['offering' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['offerings'][0];
@@ -129,7 +137,8 @@ class OfferingControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_offerings'),
-            json_encode(['offering' => $invalidOffering])
+            json_encode(['offering' => $invalidOffering]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -152,7 +161,8 @@ class OfferingControllerTest extends AbstractControllerTest
                 'put_offerings',
                 ['id' => $data['id']]
             ),
-            json_encode(['offering' => $postData])
+            json_encode(['offering' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -177,22 +187,26 @@ class OfferingControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_offerings',
                 ['id' => $offering['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_offerings',
                 ['id' => $offering['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -203,7 +217,9 @@ class OfferingControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_offerings', ['id' => '0'])
+            $this->getUrl('get_offerings', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -228,7 +244,9 @@ class OfferingControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_offerings',
                 ['id' => $offering['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -271,7 +289,8 @@ class OfferingControllerTest extends AbstractControllerTest
                 'put_learnergroups',
                 ['id' => $lg['id']]
             ),
-            json_encode(['learnerGroup' => $postData])
+            json_encode(['learnerGroup' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($firstUpdatedAt);
@@ -296,7 +315,8 @@ class OfferingControllerTest extends AbstractControllerTest
                 'put_instructorgroups',
                 ['id' => $ig['id']]
             ),
-            json_encode(['instructorGroup' => $postData])
+            json_encode(['instructorGroup' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($firstUpdatedAt);

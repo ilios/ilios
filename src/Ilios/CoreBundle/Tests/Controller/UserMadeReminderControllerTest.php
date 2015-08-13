@@ -16,10 +16,11 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadUserMadeReminderData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
-        ];
+        ]);
     }
 
     /**
@@ -42,7 +43,9 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_usermadereminders',
                 ['id' => $userMadeReminder['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -62,7 +65,12 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
 
     public function testGetAllUserMadeReminders()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_usermadereminders'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_usermadereminders'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -97,11 +105,11 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_usermadereminders'),
-            json_encode(['userMadeReminder' => $postData])
+            json_encode(['userMadeReminder' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['userMadeReminders'][0];
@@ -127,7 +135,8 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_usermadereminders'),
-            json_encode(['userMadeReminder' => $invalidUserMadeReminder])
+            json_encode(['userMadeReminder' => $invalidUserMadeReminder]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -150,7 +159,8 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
                 'put_usermadereminders',
                 ['id' => $data['id']]
             ),
-            json_encode(['userMadeReminder' => $postData])
+            json_encode(['userMadeReminder' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -175,22 +185,26 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_usermadereminders',
                 ['id' => $userMadeReminder['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_usermadereminders',
                 ['id' => $userMadeReminder['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -201,7 +215,9 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_usermadereminders', ['id' => '0'])
+            $this->getUrl('get_usermadereminders', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

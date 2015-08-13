@@ -54,7 +54,14 @@ class AlertChangeTypeController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['alertChangeTypes'][] = $this->getOr404($id);
+        $alertChangeType = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $alertChangeType)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['alertChangeTypes'][] = $alertChangeType;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class AlertChangeTypeController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['alertChangeTypes'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class AlertChangeTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAlertChangeTypeHandler()
-                ->post($this->getPostData($request));
-            $answer['alertChangeTypes'] = [$new];
+            $handler = $this->getAlertChangeTypeHandler();
+
+            $alertChangeType = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $alertChangeType)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getAlertChangeTypeHandler()->updateAlertChangeType($alertChangeType, true, false);
+
+            $answer['alertChangeTypes'] = [$alertChangeType];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class AlertChangeTypeController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['alertChangeType'] =
-                $this->getAlertChangeTypeHandler()->put(
-                    $alertChangeType,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getAlertChangeTypeHandler();
+
+            $alertChangeType = $handler->put(
+                $alertChangeType,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $alertChangeType)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getAlertChangeTypeHandler()->updateAlertChangeType($alertChangeType, true, true);
+
+            $answer['alertChangeType'] = $alertChangeType;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class AlertChangeTypeController extends FOSRestController
     public function deleteAction($id)
     {
         $alertChangeType = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $alertChangeType)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getAlertChangeTypeHandler()

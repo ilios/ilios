@@ -3,7 +3,11 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\PermissionInterface;
+use Ilios\CoreBundle\Entity\ProgramInterface;
+use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Interface PermissionManagerInterface
@@ -63,4 +67,52 @@ interface PermissionManagerInterface extends ManagerInterface
      * @return PermissionInterface
      */
     public function createPermission();
+
+    /**
+     * Checks if a given user has "read" permissions for a given course.
+     * @param UserInterface $user
+     * @param CourseInterface $course
+     * @return bool
+     */
+    public function userHasReadPermissionToCourse(UserInterface $user, CourseInterface $course);
+
+    /**
+     * Checks if a given user has "read" permissions for a given program.
+     * @param UserInterface $user
+     * @param ProgramInterface $program
+     * @return bool
+     */
+    public function userHasReadPermissionToProgram(UserInterface $user, ProgramInterface $program);
+
+    /**
+     * Checks if a given user has "read" permissions for a given school.
+     * @param UserInterface $user
+     * @param SchoolInterface $school
+     * @return bool
+     */
+    public function userHasReadPermissionToSchool(UserInterface $user, SchoolInterface $school);
+
+    /**
+     * Checks if a given user has "write" permissions for a given course.
+     * @param UserInterface $user
+     * @param CourseInterface $course
+     * @return bool
+     */
+    public function userHasWritePermissionToCourse(UserInterface $user, CourseInterface $course);
+
+    /**
+     * Checks if a given user has "write" permissions for a given program.
+     * @param UserInterface $user
+     * @param ProgramInterface $program
+     * @return bool
+     */
+    public function userHasWritePermissionToProgram(UserInterface $user, ProgramInterface $program);
+
+    /**
+     * Checks if a given user has "write" permissions for a given school.
+     * @param UserInterface $user
+     * @param SchoolInterface $school
+     * @return bool
+     */
+    public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school);
 }

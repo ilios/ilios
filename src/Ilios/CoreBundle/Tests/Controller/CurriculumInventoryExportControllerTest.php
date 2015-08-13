@@ -15,11 +15,12 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryExportData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
-        ];
+        ]);
     }
 
     /**
@@ -43,8 +44,10 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
             'GET',
             $this->getUrl(
                 'get_curriculuminventoryexports',
-                ['id' => $curriculumInventoryExport['report']]
-            )
+                ['id' => $curriculumInventoryExport['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -58,7 +61,12 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
 
     public function testGetAllCurriculumInventoryExports()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventoryexports'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventoryexports'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -72,40 +80,13 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
         );
     }
 
-    public function testDeleteCurriculumInventoryExport()
-    {
-        $curriculumInventoryExport = $this->container
-            ->get('ilioscore.dataloader.curriculuminventoryexport')
-            ->getOne()
-        ;
-
-        $this->client->request(
-            'DELETE',
-            $this->getUrl(
-                'delete_curriculuminventoryexports',
-                ['id' => $curriculumInventoryExport['report']]
-            )
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
-            'GET',
-            $this->getUrl(
-                'get_curriculuminventoryexports',
-                ['id' => $curriculumInventoryExport['report']]
-            )
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
-    }
-
     public function testCurriculumInventoryExportNotFound()
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_curriculuminventoryexports', ['id' => '0'])
+            $this->getUrl('get_curriculuminventoryexports', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

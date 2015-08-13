@@ -98,17 +98,10 @@ class LearningMaterialUserRoleHandler extends LearningMaterialUserRoleManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $learningMaterialUserRole = $form->getData();
-            $this->updateLearningMaterialUserRole(
-                $learningMaterialUserRole,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $learningMaterialUserRole;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

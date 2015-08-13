@@ -10,14 +10,14 @@ class CurriculumInventoryExportData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'report' => '1',
+            'report' => '2',
             'document' => $this->faker->text('200'),
             'createdBy' => '1',
         );
 
         $arr[] = array(
             'id' => 2,
-            'report' => '2',
+            'report' => '3',
             'document' => $this->faker->text('200'),
             'createdBy' => '1',
         );

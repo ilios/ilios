@@ -98,17 +98,10 @@ class SessionDescriptionHandler extends SessionDescriptionManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $sessionDescription = $form->getData();
-            $this->updateSessionDescription(
-                $sessionDescription,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $sessionDescription;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

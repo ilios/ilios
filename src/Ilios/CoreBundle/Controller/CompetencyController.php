@@ -54,7 +54,14 @@ class CompetencyController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['competencies'][] = $this->getOr404($id);
+        $competency = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $competency)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['competencies'][] = $competency;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class CompetencyController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['competencies'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class CompetencyController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCompetencyHandler()
-                ->post($this->getPostData($request));
-            $answer['competencies'] = [$new];
+            $handler = $this->getCompetencyHandler();
+
+            $competency = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $competency)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCompetencyHandler()->updateCompetency($competency, true, false);
+
+            $answer['competencies'] = [$competency];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class CompetencyController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['competency'] =
-                $this->getCompetencyHandler()->put(
-                    $competency,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getCompetencyHandler();
+
+            $competency = $handler->put(
+                $competency,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $competency)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCompetencyHandler()->updateCompetency($competency, true, true);
+
+            $answer['competency'] = $competency;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class CompetencyController extends FOSRestController
     public function deleteAction($id)
     {
         $competency = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $competency)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getCompetencyHandler()

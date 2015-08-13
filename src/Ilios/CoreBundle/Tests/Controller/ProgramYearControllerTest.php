@@ -15,7 +15,8 @@ class ProgramYearControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
@@ -24,7 +25,7 @@ class ProgramYearControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadDisciplineData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData'
-        ];
+        ]);
     }
 
     /**
@@ -48,7 +49,9 @@ class ProgramYearControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_programyears',
                 ['id' => $programYear['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -62,7 +65,12 @@ class ProgramYearControllerTest extends AbstractControllerTest
 
     public function testGetAllProgramYears()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_programyears'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_programyears'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -87,11 +95,11 @@ class ProgramYearControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_programyears'),
-            json_encode(['programYear' => $postData])
+            json_encode(['programYear' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -111,7 +119,8 @@ class ProgramYearControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_programyears'),
-            json_encode(['programYear' => $invalidProgramYear])
+            json_encode(['programYear' => $invalidProgramYear]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -134,7 +143,8 @@ class ProgramYearControllerTest extends AbstractControllerTest
                 'put_programyears',
                 ['id' => $data['id']]
             ),
-            json_encode(['programYear' => $postData])
+            json_encode(['programYear' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -152,22 +162,26 @@ class ProgramYearControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_programyears',
                 ['id' => $programYear['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_programyears',
                 ['id' => $programYear['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -178,7 +192,9 @@ class ProgramYearControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_programyears', ['id' => '0'])
+            $this->getUrl('get_programyears', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

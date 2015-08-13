@@ -16,11 +16,12 @@ class LearningMaterialControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData'
-        ];
+        ]);
     }
 
     /**
@@ -44,7 +45,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_learningmaterials',
                 ['id' => $learningMaterial['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -64,7 +67,12 @@ class LearningMaterialControllerTest extends AbstractControllerTest
 
     public function testGetAllLearningMaterials()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_learningmaterials'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -95,11 +103,11 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $data])
+            json_encode(['learningMaterial' => $data]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
@@ -123,11 +131,11 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $data])
+            json_encode(['learningMaterial' => $data]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
@@ -152,11 +160,11 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $data])
+            json_encode(['learningMaterial' => $data]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
@@ -184,7 +192,8 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $invalidLearningMaterial])
+            json_encode(['learningMaterial' => $invalidLearningMaterial]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -201,7 +210,8 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $invalidLearningMaterial])
+            json_encode(['learningMaterial' => $invalidLearningMaterial]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -218,7 +228,8 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $invalidLearningMaterial])
+            json_encode(['learningMaterial' => $invalidLearningMaterial]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -241,7 +252,8 @@ class LearningMaterialControllerTest extends AbstractControllerTest
                 'put_learningmaterials',
                 ['id' => $data['id']]
             ),
-            json_encode(['learningMaterial' => $postData])
+            json_encode(['learningMaterial' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
         
 
@@ -267,22 +279,26 @@ class LearningMaterialControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_learningmaterials',
                 ['id' => $learningMaterial['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_learningmaterials',
                 ['id' => $learningMaterial['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -293,7 +309,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_learningmaterials', ['id' => '0'])
+            $this->getUrl('get_learningmaterials', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

@@ -74,13 +74,9 @@ class CISessionHandler extends CISessionManager
     {
         $form = $this->formFactory->create(new CISessionType(), $cISession, array('method' => $method));
         $form->submit($parameters, 'PATCH' !== $method);
-        if ($form->isValid()) {
-            $cISession = $form->getData();
-            $this->updateCISession($cISession, true);
-
-            return $cISession;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
-
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

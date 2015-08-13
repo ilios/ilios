@@ -15,13 +15,14 @@ class DisciplineControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadDisciplineData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
-        ];
+        ]);
     }
 
     /**
@@ -45,7 +46,9 @@ class DisciplineControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_disciplines',
                 ['id' => $discipline['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -59,7 +62,7 @@ class DisciplineControllerTest extends AbstractControllerTest
 
     public function testGetAllDisciplines()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_disciplines'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_disciplines'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -84,11 +87,11 @@ class DisciplineControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_disciplines'),
-            json_encode(['discipline' => $postData])
+            json_encode(['discipline' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -108,7 +111,8 @@ class DisciplineControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_disciplines'),
-            json_encode(['discipline' => $invalidDiscipline])
+            json_encode(['discipline' => $invalidDiscipline]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -131,7 +135,8 @@ class DisciplineControllerTest extends AbstractControllerTest
                 'put_disciplines',
                 ['id' => $data['id']]
             ),
-            json_encode(['discipline' => $postData])
+            json_encode(['discipline' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -149,22 +154,26 @@ class DisciplineControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_disciplines',
                 ['id' => $discipline['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_disciplines',
                 ['id' => $discipline['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -175,7 +184,9 @@ class DisciplineControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_disciplines', ['id' => '0'])
+            $this->getUrl('get_disciplines', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

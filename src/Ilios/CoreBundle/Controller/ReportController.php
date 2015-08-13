@@ -54,7 +54,14 @@ class ReportController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['reports'][] = $this->getOr404($id);
+        $report = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $report)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['reports'][] = $report;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class ReportController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['reports'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class ReportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getReportHandler()
-                ->post($this->getPostData($request));
-            $answer['reports'] = [$new];
+            $handler = $this->getReportHandler();
+
+            $report = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $report)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getReportHandler()->updateReport($report, true, false);
+
+            $answer['reports'] = [$report];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class ReportController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['report'] =
-                $this->getReportHandler()->put(
-                    $report,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getReportHandler();
+
+            $report = $handler->put(
+                $report,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $report)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getReportHandler()->updateReport($report, true, true);
+
+            $answer['report'] = $report;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class ReportController extends FOSRestController
     public function deleteAction($id)
     {
         $report = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $report)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getReportHandler()

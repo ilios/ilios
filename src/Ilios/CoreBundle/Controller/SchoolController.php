@@ -54,7 +54,14 @@ class SchoolController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['schools'][] = $this->getOr404($id);
+        $school = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $school)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['schools'][] = $school;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class SchoolController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['schools'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class SchoolController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSchoolHandler()
-                ->post($this->getPostData($request));
-            $answer['schools'] = [$new];
+            $handler = $this->getSchoolHandler();
+
+            $school = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $school)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getSchoolHandler()->updateSchool($school, true, false);
+
+            $answer['schools'] = [$school];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class SchoolController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['school'] =
-                $this->getSchoolHandler()->put(
-                    $school,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getSchoolHandler();
+
+            $school = $handler->put(
+                $school,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $school)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getSchoolHandler()->updateSchool($school, true, true);
+
+            $answer['school'] = $school;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class SchoolController extends FOSRestController
     public function deleteAction($id)
     {
         $school = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $school)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getSchoolHandler()

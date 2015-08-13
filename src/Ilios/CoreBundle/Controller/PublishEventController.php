@@ -57,7 +57,14 @@ class PublishEventController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['publishEvents'][] = $this->getOr404($id);
+        $publishEvent = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $publishEvent)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['publishEvents'][] = $publishEvent;
 
         return $answer;
     }
@@ -130,6 +137,11 @@ class PublishEventController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['publishEvents'] =
             $result ? $result : new ArrayCollection([]);
@@ -163,111 +175,24 @@ class PublishEventController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getPublishEventHandler()
-                ->post($this->getPostData($request));
-            $answer['publishEvents'] = [$new];
+            $handler = $this->getPublishEventHandler();
+
+            $publishEvent = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $publishEvent)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getPublishEventHandler()->updatePublishEvent($publishEvent, true, false);
+
+            $answer['publishEvents'] = [$publishEvent];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
             return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
-        }
-    }
-
-    /**
-     * Update a PublishEvent.
-     *
-     * @ApiDoc(
-     *   section = "PublishEvent",
-     *   description = "Update a PublishEvent entity.",
-     *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\PublishEventType",
-     *   output="Ilios\CoreBundle\Entity\PublishEvent",
-     *   statusCodes={
-     *     200 = "Updated PublishEvent.",
-     *     201 = "Created PublishEvent.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
-     *   },
-     *   deprecated = true
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param Request $request
-     * @param $id
-     *
-     * @return Response
-     */
-    public function putAction(Request $request, $id)
-    {
-        try {
-            $publishEvent = $this->getPublishEventHandler()
-                ->findPublishEventBy(['id'=> $id]);
-            if ($publishEvent) {
-                $code = Codes::HTTP_OK;
-            } else {
-                $publishEvent = $this->getPublishEventHandler()
-                    ->createPublishEvent();
-                $code = Codes::HTTP_CREATED;
-            }
-
-            $answer['publishEvent'] =
-                $this->getPublishEventHandler()->put(
-                    $publishEvent,
-                    $this->getPostData($request)
-                );
-        } catch (InvalidFormException $exception) {
-            return $exception->getForm();
-        }
-
-        $view = $this->view($answer, $code);
-
-        return $this->handleView($view);
-    }
-
-    /**
-     * Delete a PublishEvent.
-     *
-     * @ApiDoc(
-     *   section = "PublishEvent",
-     *   description = "Delete a PublishEvent entity.",
-     *   resource = true,
-     *   requirements={
-     *     {
-     *         "name" = "id",
-     *         "dataType" = "integer",
-     *         "requirement" = "\d+",
-     *         "description" = "PublishEvent identifier"
-     *     }
-     *   },
-     *   statusCodes={
-     *     204 = "No content. Successfully deleted PublishEvent.",
-     *     400 = "Bad Request.",
-     *     404 = "Not found."
-     *   },
-     *   deprecated = true
-     * )
-     *
-     * @Rest\View(statusCode=204)
-     *
-     * @param $id
-     * @internal PublishEventInterface $publishEvent
-     *
-     * @return Response
-     */
-    public function deleteAction($id)
-    {
-        $publishEvent = $this->getOr404($id);
-
-        try {
-            $this->getPublishEventHandler()
-                ->deletePublishEvent($publishEvent);
-
-            return new Response('', Codes::HTTP_NO_CONTENT);
-        } catch (\Exception $exception) {
-            throw new \RuntimeException("Deletion not allowed");
         }
     }
 

@@ -98,17 +98,10 @@ class LearnerGroupHandler extends LearnerGroupManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $learnerGroup = $form->getData();
-            $this->updateLearnerGroup(
-                $learnerGroup,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $learnerGroup;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

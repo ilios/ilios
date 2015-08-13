@@ -15,10 +15,11 @@ class DepartmentControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
-        ];
+        ]);
     }
 
     /**
@@ -43,7 +44,9 @@ class DepartmentControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_departments',
                 ['id' => $department['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -57,7 +60,7 @@ class DepartmentControllerTest extends AbstractControllerTest
 
     public function testGetAllDepartments()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_departments'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_departments'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -82,11 +85,11 @@ class DepartmentControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_departments'),
-            json_encode(['department' => $postData])
+            json_encode(['department' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -106,7 +109,8 @@ class DepartmentControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_departments'),
-            json_encode(['department' => $invalidDepartment])
+            json_encode(['department' => $invalidDepartment]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -129,7 +133,8 @@ class DepartmentControllerTest extends AbstractControllerTest
                 'put_departments',
                 ['id' => $data['id']]
             ),
-            json_encode(['department' => $postData])
+            json_encode(['department' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -147,22 +152,26 @@ class DepartmentControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_departments',
                 ['id' => $department['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_departments',
                 ['id' => $department['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -173,7 +182,9 @@ class DepartmentControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_departments', ['id' => '0'])
+            $this->getUrl('get_departments', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

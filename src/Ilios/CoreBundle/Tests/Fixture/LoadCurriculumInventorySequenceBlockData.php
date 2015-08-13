@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -11,7 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implements
     FixtureInterface,
-    ContainerAwareInterface
+    ContainerAwareInterface,
+    DependentFixtureInterface
 {
 
     private $container;
@@ -38,6 +40,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
             $entity->setRequired($arr['required']);
             $entity->setStartDate(new \DateTime($arr['startDate']));
             $entity->setEndDate(new \DateTime($arr['endDate']));
+            $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
             if (!empty($arr['parent'])) {
                 $entity->setParent($this->getReference('curriculumInventorySequenceBlocks' . $arr['parent']));
             }
@@ -46,5 +49,15 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
         }
 
         $manager->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
+        );
     }
 }

@@ -54,7 +54,14 @@ class LearningMaterialUserRoleController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['learningMaterialUserRoles'][] = $this->getOr404($id);
+        $learningMaterialUserRole = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $learningMaterialUserRole)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['learningMaterialUserRoles'][] = $learningMaterialUserRole;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class LearningMaterialUserRoleController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['learningMaterialUserRoles'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,22 @@ class LearningMaterialUserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getLearningMaterialUserRoleHandler()
-                ->post($this->getPostData($request));
-            $answer['learningMaterialUserRoles'] = [$new];
+            $handler = $this->getLearningMaterialUserRoleHandler();
+
+            $learningMaterialUserRole = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $learningMaterialUserRole)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getLearningMaterialUserRoleHandler()->updateLearningMaterialUserRole(
+                $learningMaterialUserRole,
+                true,
+                false
+            );
+
+            $answer['learningMaterialUserRoles'] = [$learningMaterialUserRole];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +232,26 @@ class LearningMaterialUserRoleController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['learningMaterialUserRole'] =
-                $this->getLearningMaterialUserRoleHandler()->put(
-                    $learningMaterialUserRole,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getLearningMaterialUserRoleHandler();
+
+            $learningMaterialUserRole = $handler->put(
+                $learningMaterialUserRole,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $learningMaterialUserRole)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getLearningMaterialUserRoleHandler()->updateLearningMaterialUserRole(
+                $learningMaterialUserRole,
+                true,
+                true
+            );
+
+            $answer['learningMaterialUserRole'] = $learningMaterialUserRole;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +293,11 @@ class LearningMaterialUserRoleController extends FOSRestController
     public function deleteAction($id)
     {
         $learningMaterialUserRole = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $learningMaterialUserRole)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getLearningMaterialUserRoleHandler()

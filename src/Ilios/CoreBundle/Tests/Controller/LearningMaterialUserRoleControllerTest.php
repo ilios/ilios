@@ -15,10 +15,11 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialUserRoleData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData'
-        ];
+        ]);
     }
 
     /**
@@ -42,7 +43,9 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_learningmaterialuserroles',
                 ['id' => $learningMaterialUserRole['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -56,7 +59,12 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
 
     public function testGetAllLearningMaterialUserRoles()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_learningmaterialuserroles'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterialuserroles'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -81,11 +89,11 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterialuserroles'),
-            json_encode(['learningMaterialUserRole' => $postData])
+            json_encode(['learningMaterialUserRole' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -105,7 +113,8 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterialuserroles'),
-            json_encode(['learningMaterialUserRole' => $invalidLearningMaterialUserRole])
+            json_encode(['learningMaterialUserRole' => $invalidLearningMaterialUserRole]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -128,7 +137,8 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
                 'put_learningmaterialuserroles',
                 ['id' => $data['id']]
             ),
-            json_encode(['learningMaterialUserRole' => $postData])
+            json_encode(['learningMaterialUserRole' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -146,22 +156,26 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_learningmaterialuserroles',
                 ['id' => $learningMaterialUserRole['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_learningmaterialuserroles',
                 ['id' => $learningMaterialUserRole['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -172,7 +186,9 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_learningmaterialuserroles', ['id' => '0'])
+            $this->getUrl('get_learningmaterialuserroles', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

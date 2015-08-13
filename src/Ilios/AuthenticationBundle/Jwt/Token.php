@@ -141,7 +141,7 @@ class Token extends AbstractToken
     }
 
     /**
-     * Creates and returns a new JSON Web Token (JWT).
+     * Creates and returns a fresh JSON Web Token (JWT).
      * @return string the encoded token.
      * @throws \Exception
      * @todo rename to createJwt() or the likes. [ST 2015-07-28]

@@ -98,17 +98,10 @@ class CurriculumInventoryInstitutionHandler extends CurriculumInventoryInstituti
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $curriculumInventoryInstitution = $form->getData();
-            $this->updateCurriculumInventoryInstitution(
-                $curriculumInventoryInstitution,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $curriculumInventoryInstitution;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

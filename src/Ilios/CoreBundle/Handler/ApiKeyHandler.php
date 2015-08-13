@@ -74,13 +74,10 @@ class ApiKeyHandler extends ApiKeyManager
     {
         $form = $this->formFactory->create(new ApiKeyType(), $apiKey, array('method' => $method));
         $form->submit($parameters, 'PATCH' !== $method);
-        if ($form->isValid()) {
-            $apiKey = $form->getData();
-            $this->updateApiKey($apiKey, true);
-
-            return $apiKey;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

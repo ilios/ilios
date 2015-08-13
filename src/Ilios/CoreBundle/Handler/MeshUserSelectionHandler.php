@@ -98,17 +98,10 @@ class MeshUserSelectionHandler extends MeshUserSelectionManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $meshUserSelection = $form->getData();
-            $this->updateMeshUserSelection(
-                $meshUserSelection,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $meshUserSelection;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

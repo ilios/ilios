@@ -4,7 +4,9 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
+use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
+use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
  * Class ProgramYearStewardManager
@@ -81,5 +83,20 @@ class ProgramYearStewardManager extends AbstractManager implements ProgramYearSt
     {
         $class = $this->getClass();
         return new $class();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function schoolIsStewardingProgramYear(SchoolInterface $school, ProgramYearInterface $programYear)
+    {
+        $criteria = ['programYear' => $programYear->getId()];
+        $stewards = $this->findProgramYearStewardsBy($criteria);
+        foreach ($stewards as $steward) {
+            if ($school->getId() === $steward->getSchool()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

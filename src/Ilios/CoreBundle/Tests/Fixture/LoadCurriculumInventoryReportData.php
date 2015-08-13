@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReport;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -11,7 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCurriculumInventoryReportData extends AbstractFixture implements
     FixtureInterface,
-    ContainerAwareInterface
+    ContainerAwareInterface,
+    DependentFixtureInterface
 {
 
     private $container;
@@ -34,10 +36,21 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
             $entity->setYear($arr['year']);
             $entity->setStartDate(new \DateTime($arr['startDate']));
             $entity->setEndDate(new \DateTime($arr['endDate']));
+            $entity->setProgram($this->getReference('programs' . $arr['program']));
             $manager->persist($entity);
             $this->addReference('curriculumInventoryReports' . $arr['id'], $entity);
         }
 
         $manager->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
+        );
     }
 }

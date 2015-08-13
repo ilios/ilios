@@ -98,17 +98,10 @@ class CurriculumInventoryExportHandler extends CurriculumInventoryExportManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $curriculumInventoryExport = $form->getData();
-            $this->updateCurriculumInventoryExport(
-                $curriculumInventoryExport,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $curriculumInventoryExport;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

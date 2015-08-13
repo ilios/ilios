@@ -19,7 +19,7 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => ['1'],
             'learners' => [],
             'instructors' => [],
-            'recurringEvents' => []
+            'recurringEvents' => ["1"]
         );
 
         $arr[] = array(
@@ -59,7 +59,7 @@ class OfferingData extends AbstractDataLoader
             'session' => '2',
             'learnerGroups' => [],
             'instructorGroups' => [],
-            'learners' => ['1'],
+            'learners' => ['2'],
             'instructors' => [],
             'recurringEvents' => []
         );
@@ -74,7 +74,7 @@ class OfferingData extends AbstractDataLoader
             'learnerGroups' => [],
             'instructorGroups' => [],
             'learners' => [],
-            'instructors' => ['1'],
+            'instructors' => ['2'],
             'recurringEvents' => []
         );
 

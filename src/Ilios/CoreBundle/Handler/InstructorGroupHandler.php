@@ -98,17 +98,10 @@ class InstructorGroupHandler extends InstructorGroupManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $instructorGroup = $form->getData();
-            $this->updateInstructorGroup(
-                $instructorGroup,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $instructorGroup;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

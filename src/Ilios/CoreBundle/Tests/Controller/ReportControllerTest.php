@@ -16,10 +16,11 @@ class ReportControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadReportData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
-        ];
+        ]);
     }
 
     /**
@@ -44,7 +45,9 @@ class ReportControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_reports',
                 ['id' => $report['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -64,7 +67,12 @@ class ReportControllerTest extends AbstractControllerTest
 
     public function testGetAllReports()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_reports'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_reports'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -99,11 +107,11 @@ class ReportControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_reports'),
-            json_encode(['report' => $postData])
+            json_encode(['report' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['reports'][0];
@@ -129,7 +137,8 @@ class ReportControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_reports'),
-            json_encode(['report' => $invalidReport])
+            json_encode(['report' => $invalidReport]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -152,7 +161,8 @@ class ReportControllerTest extends AbstractControllerTest
                 'put_reports',
                 ['id' => $data['id']]
             ),
-            json_encode(['report' => $postData])
+            json_encode(['report' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -172,22 +182,26 @@ class ReportControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_reports',
                 ['id' => $report['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_reports',
                 ['id' => $report['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -198,7 +212,9 @@ class ReportControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_reports', ['id' => '0'])
+            $this->getUrl('get_reports', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

@@ -30,7 +30,12 @@ abstract class AbstractControllerTest extends WebTestCase
     /**
      * @return array|FixtureInterface
      */
-    abstract protected function getFixtures();
+    protected function getFixtures()
+    {
+        return [
+            'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData',
+        ];
+    }
 
     /**
      * Returns array of fields that are skipped by the serialier.
@@ -47,6 +52,32 @@ abstract class AbstractControllerTest extends WebTestCase
         $this->container = $this->client->getContainer();
         $this->loadFixtures($this->getFixtures());
     }
+
+    /**
+     * Logs the 'newuser' user in and returns the user's JSON Web Token (JWT).
+     * @return string the JWT
+     * @todo obviously, this needs expanded in order to allow other user log-ins. [ST 2015/08/06]
+     */
+    protected function getAuthenticatedUserToken()
+    {
+        static $token;
+
+        if (! $token) {
+            $this->client->request(
+                'POST',
+                '/auth/login',
+                array(
+                    'username' => 'newuser',
+                    'password' => 'newuserpass',
+                )
+            );
+            $response = $this->client->getResponse();
+            $response = json_decode($response->getContent(), true);
+            $token = $response['jwt'];
+        }
+
+        return $token;
+    }
     
     public function tearDown()
     {
@@ -60,18 +91,25 @@ abstract class AbstractControllerTest extends WebTestCase
      * @param string $method
      * @param string $url
      * @param string $content
+     * @param string $token
      */
-    public function createJsonRequest($method, $url, $content = null)
+    public function createJsonRequest($method, $url, $content = null, $token = null)
     {
+        $headers = [
+            'HTTP_ACCEPT' => 'application/json',
+            'CONTENT_TYPE' => 'application/json'
+        ];
+
+        if (! empty($token)) {
+            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $token;
+        }
+
         $this->client->request(
             $method,
             $url,
             [],
             [],
-            [
-                'HTTP_ACCEPT' => 'application/json',
-                'CONTENT_TYPE' => 'application/json'
-            ],
+            $headers,
             $content
         );
     }

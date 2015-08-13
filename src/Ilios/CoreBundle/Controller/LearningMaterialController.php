@@ -56,7 +56,15 @@ class LearningMaterialController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['learningMaterials'][] = $this->getOr404($id);
+        $learningMaterial = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $learningMaterial)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['learningMaterials'][] = $learningMaterial;
+
 
         return $answer;
     }
@@ -128,6 +136,11 @@ class LearningMaterialController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['learningMaterials'] =
             $result ? $result : new ArrayCollection([]);
@@ -181,12 +194,23 @@ class LearningMaterialController extends FOSRestController
                 $postData['relativePath'] = $fs->getLearningMaterialFilePath($file);
                 $postData['filesize'] = $file->getSize();
             }
-            $new  =  $this->getLearningMaterialHandler()
-                ->post($postData);
-            $answer['learningMaterials'] = [$new];
+
+            $handler = $this->getLearningMaterialHandler();
+
+            $learningMaterial = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $learningMaterial)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getLearningMaterialHandler()->updateLearningMaterial($learningMaterial, true, false);
             if ($file) {
                 $fs->storeLearningMaterialFile($file, true);
             }
+
+            $answer['learningMaterials'] = [$learningMaterial];
+
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
             return $this->handleView($view);
@@ -239,11 +263,23 @@ class LearningMaterialController extends FOSRestController
             unset($postData['uploadDate']);
             unset($postData['type']);
 
-            $answer['learningMaterial'] =
-                $this->getLearningMaterialHandler()->put(
-                    $learningMaterial,
-                    $postData
-                );
+
+            $handler = $this->getLearningMaterialHandler();
+
+            $learningMaterial = $handler->put(
+                $learningMaterial,
+                $postData
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $learningMaterial)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getLearningMaterialHandler()->updateLearningMaterial($learningMaterial, true, true);
+
+            $answer['learningMaterial'] = $learningMaterial;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -286,6 +322,11 @@ class LearningMaterialController extends FOSRestController
     {
         $learningMaterial = $this->getOr404($id);
 
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $learningMaterial)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
         try {
             $this->getLearningMaterialHandler()
                 ->deleteLearningMaterial($learningMaterial);
@@ -322,6 +363,7 @@ class LearningMaterialController extends FOSRestController
     protected function getPostData(Request $request)
     {
         $data = $request->request->get('learningMaterial');
+
         if (empty($data)) {
             $data = $request->request->all();
         }

@@ -98,17 +98,10 @@ class DisciplineHandler extends DisciplineManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $discipline = $form->getData();
-            $this->updateDiscipline(
-                $discipline,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $discipline;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

@@ -1,18 +1,6 @@
 imports:
     - { resource: config.yml }
-
-security:
-    firewalls:
-        test:
-            pattern:   ^/
-            jwt: ~
-            anonymous: ~
-    providers:
-        ilios_user_entity:
-            entity:
-                class: IliosCoreBundle:User
-                property: id
-
+    - { resource: security.yml }
 
 framework:
     test: ~

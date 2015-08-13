@@ -98,17 +98,10 @@ class UserMadeReminderHandler extends UserMadeReminderManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $userMadeReminder = $form->getData();
-            $this->updateUserMadeReminder(
-                $userMadeReminder,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $userMadeReminder;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

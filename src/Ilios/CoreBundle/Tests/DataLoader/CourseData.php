@@ -29,7 +29,7 @@ class CourseData extends AbstractDataLoader
             'meshDescriptors' => [],
             'learningMaterials' => ['1', '2'],
             'sessions' => ['1', '2'],
-            'publishEvent' => '1'
+            'publishEvent' => '3'
         );
 
         $arr[] = array(
@@ -46,7 +46,7 @@ class CourseData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'owningSchool' => "1",
             'clerkshipType' => "1",
-            'directors' => ['1'],
+            'directors' => ['2'],
             'cohorts' => ['1'],
             'disciplines' => [],
             'objectives' => [1],
@@ -69,7 +69,7 @@ class CourseData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'owningSchool' => "1",
             'clerkshipType' => "1",
-            'directors' => ["1"],
+            'directors' => ["2"],
             'cohorts' => ["1"],
             'disciplines' => ["1"],
             'objectives' => ["1"],

@@ -15,11 +15,12 @@ class SchooleventsControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
-        ];
+        ]);
     }
 
     /**
@@ -41,7 +42,9 @@ class SchooleventsControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_schoolevents',
                 ['id' => $school['id'], 'from' => 0, 'to' => 100000000000]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

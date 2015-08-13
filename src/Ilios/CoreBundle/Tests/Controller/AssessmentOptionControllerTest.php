@@ -15,10 +15,11 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData'
-        ];
+        ]);
     }
 
     /**
@@ -42,7 +43,9 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_assessmentoptions',
                 ['id' => $assessmentOption['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -56,7 +59,12 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
 
     public function testGetAllAssessmentOptions()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_assessmentoptions'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_assessmentoptions'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -81,11 +89,11 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_assessmentoptions'),
-            json_encode(['assessmentOption' => $postData])
+            json_encode(['assessmentOption' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -105,7 +113,8 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_assessmentoptions'),
-            json_encode(['assessmentOption' => $invalidAssessmentOption])
+            json_encode(['assessmentOption' => $invalidAssessmentOption]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -128,7 +137,8 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
                 'put_assessmentoptions',
                 ['id' => $data['id']]
             ),
-            json_encode(['assessmentOption' => $postData])
+            json_encode(['assessmentOption' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -146,22 +156,26 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_assessmentoptions',
                 ['id' => $assessmentOption['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_assessmentoptions',
                 ['id' => $assessmentOption['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -172,7 +186,9 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_assessmentoptions', ['id' => '0'])
+            $this->getUrl('get_assessmentoptions', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

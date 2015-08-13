@@ -67,6 +67,12 @@ class UsereventController extends FOSRestController
         if (!$user) {
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
         }
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $user)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
         $fromTimestamp = $paramFetcher->get('from');
         $toTimestamp = $paramFetcher->get('to');
         $from = DateTime::createFromFormat('U', $fromTimestamp);
@@ -82,6 +88,11 @@ class UsereventController extends FOSRestController
             $from,
             $to
         );
+
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
 
         //If there are no matches return an empty array
         $answer['userEvents'] = $result ? $result : new ArrayCollection([]);

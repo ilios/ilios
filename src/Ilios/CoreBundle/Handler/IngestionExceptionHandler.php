@@ -98,17 +98,10 @@ class IngestionExceptionHandler extends IngestionExceptionManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $ingestionException = $form->getData();
-            $this->updateIngestionException(
-                $ingestionException,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $ingestionException;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

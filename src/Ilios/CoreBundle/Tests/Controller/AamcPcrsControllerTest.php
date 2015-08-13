@@ -15,10 +15,11 @@ class AamcPcrsControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadAamcPcrsData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData'
-        ];
+        ]);
     }
 
     /**
@@ -42,7 +43,9 @@ class AamcPcrsControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_aamcpcrs',
                 ['id' => $aamcPcrs['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -56,7 +59,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
 
     public function testGetAllAamcPcrs()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_aamcpcrs'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_aamcpcrs'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -80,11 +83,11 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_aamcpcrs'),
-            json_encode(['aamcPcrses' => $postData])
+            json_encode(['aamcPcrses' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -104,7 +107,8 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_aamcpcrs'),
-            json_encode(['aamcPcrses' => $invalidAamcPcrs])
+            json_encode(['aamcPcrses' => $invalidAamcPcrs]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -126,7 +130,8 @@ class AamcPcrsControllerTest extends AbstractControllerTest
                 'put_aamcpcrs',
                 ['id' => $data['id']]
             ),
-            json_encode(['aamcPcrses' => $postData])
+            json_encode(['aamcPcrses' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -144,22 +149,26 @@ class AamcPcrsControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_aamcpcrs',
                 ['id' => $aamcPcrs['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_aamcpcrs',
                 ['id' => $aamcPcrs['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -170,7 +179,9 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_aamcpcrs', ['id' => '0'])
+            $this->getUrl('get_aamcpcrs', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

@@ -54,7 +54,14 @@ class CohortController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['cohorts'][] = $this->getOr404($id);
+        $cohort = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $cohort)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['cohorts'][] = $cohort;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class CohortController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['cohorts'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class CohortController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCohortHandler()
-                ->post($this->getPostData($request));
-            $answer['cohorts'] = [$new];
+            $handler = $this->getCohortHandler();
+
+            $cohort = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $cohort)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCohortHandler()->updateCohort($cohort, true, false);
+
+            $answer['cohorts'] = [$cohort];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class CohortController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['cohort'] =
-                $this->getCohortHandler()->put(
-                    $cohort,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getCohortHandler();
+
+            $cohort = $handler->put(
+                $cohort,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $cohort)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCohortHandler()->updateCohort($cohort, true, true);
+
+            $answer['cohort'] = $cohort;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class CohortController extends FOSRestController
     public function deleteAction($id)
     {
         $cohort = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $cohort)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getCohortHandler()

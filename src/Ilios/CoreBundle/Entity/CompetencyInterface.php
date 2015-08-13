@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
 

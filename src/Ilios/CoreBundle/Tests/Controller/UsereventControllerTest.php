@@ -15,11 +15,12 @@ class UsereventControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
-        ];
+        ]);
     }
 
     /**
@@ -33,15 +34,17 @@ class UsereventControllerTest extends AbstractControllerTest
 
     public function testGetEvents()
     {
-        $user = $this->container->get('ilioscore.dataloader.user')->getOne();
         $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
         $ilmSessions = $this->container->get('ilioscore.dataloader.ilmSession')->getAll();
+        $userId = 2;
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_userevent',
-                ['id' => $user['id'], 'from' => 0, 'to' => 100000000000]
-            )
+                ['id' => $userId, 'from' => 0, 'to' => 100000000000]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -62,7 +65,7 @@ class UsereventControllerTest extends AbstractControllerTest
             $this->assertEquals($events[$i]['startDate'], $ilmSessions[$i-7]['dueDate']);
         }
         foreach ($events as $event) {
-            $this->assertEquals($user['id'], $event['user']);
+            $this->assertEquals($userId, $event['user']);
         }
     }
 }

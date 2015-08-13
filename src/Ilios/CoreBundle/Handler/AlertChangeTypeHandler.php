@@ -98,17 +98,10 @@ class AlertChangeTypeHandler extends AlertChangeTypeManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $alertChangeType = $form->getData();
-            $this->updateAlertChangeType(
-                $alertChangeType,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $alertChangeType;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

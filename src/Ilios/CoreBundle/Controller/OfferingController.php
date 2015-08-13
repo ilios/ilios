@@ -54,7 +54,14 @@ class OfferingController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['offerings'][] = $this->getOr404($id);
+        $offering = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $offering)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['offerings'][] = $offering;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class OfferingController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['offerings'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class OfferingController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getOfferingHandler()
-                ->post($this->getPostData($request));
-            $answer['offerings'] = [$new];
+            $handler = $this->getOfferingHandler();
+
+            $offering = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $offering)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getOfferingHandler()->updateOffering($offering, true, false);
+
+            $answer['offerings'] = [$offering];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class OfferingController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['offering'] =
-                $this->getOfferingHandler()->put(
-                    $offering,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getOfferingHandler();
+
+            $offering = $handler->put(
+                $offering,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $offering)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getOfferingHandler()->updateOffering($offering, true, true);
+
+            $answer['offering'] = $offering;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class OfferingController extends FOSRestController
     public function deleteAction($id)
     {
         $offering = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $offering)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getOfferingHandler()

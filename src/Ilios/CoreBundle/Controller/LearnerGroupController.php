@@ -54,7 +54,14 @@ class LearnerGroupController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['learnerGroups'][] = $this->getOr404($id);
+        $learnerGroup = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $learnerGroup)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['learnerGroups'][] = $learnerGroup;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class LearnerGroupController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['learnerGroups'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class LearnerGroupController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getLearnerGroupHandler()
-                ->post($this->getPostData($request));
-            $answer['learnerGroups'] = [$new];
+            $handler = $this->getLearnerGroupHandler();
+
+            $learnerGroup = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $learnerGroup)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getLearnerGroupHandler()->updateLearnerGroup($learnerGroup, true, false);
+
+            $answer['learnerGroups'] = [$learnerGroup];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class LearnerGroupController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['learnerGroup'] =
-                $this->getLearnerGroupHandler()->put(
-                    $learnerGroup,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getLearnerGroupHandler();
+
+            $learnerGroup = $handler->put(
+                $learnerGroup,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $learnerGroup)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getLearnerGroupHandler()->updateLearnerGroup($learnerGroup, true, true);
+
+            $answer['learnerGroup'] = $learnerGroup;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class LearnerGroupController extends FOSRestController
     public function deleteAction($id)
     {
         $learnerGroup = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $learnerGroup)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getLearnerGroupHandler()

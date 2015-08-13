@@ -54,7 +54,14 @@ class ProgramYearStewardController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['programYearStewards'][] = $this->getOr404($id);
+        $programYearSteward = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $programYearSteward)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['programYearStewards'][] = $programYearSteward;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class ProgramYearStewardController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['programYearStewards'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class ProgramYearStewardController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getProgramYearStewardHandler()
-                ->post($this->getPostData($request));
-            $answer['programYearStewards'] = [$new];
+            $handler = $this->getProgramYearStewardHandler();
+
+            $programYearSteward = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $programYearSteward)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getProgramYearStewardHandler()->updateProgramYearSteward($programYearSteward, true, false);
+
+            $answer['programYearStewards'] = [$programYearSteward];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class ProgramYearStewardController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['programYearSteward'] =
-                $this->getProgramYearStewardHandler()->put(
-                    $programYearSteward,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getProgramYearStewardHandler();
+
+            $programYearSteward = $handler->put(
+                $programYearSteward,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $programYearSteward)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getProgramYearStewardHandler()->updateProgramYearSteward($programYearSteward, true, true);
+
+            $answer['programYearSteward'] = $programYearSteward;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class ProgramYearStewardController extends FOSRestController
     public function deleteAction($id)
     {
         $programYearSteward = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $programYearSteward)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getProgramYearStewardHandler()

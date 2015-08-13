@@ -15,13 +15,14 @@ class SessionTypeControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAamcMethodData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
-        ];
+        ]);
     }
 
     /**
@@ -44,7 +45,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_sessiontypes',
                 ['id' => $sessionType['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -66,7 +69,12 @@ class SessionTypeControllerTest extends AbstractControllerTest
         $sessionTypes = $this->container->get('ilioscore.dataloader.session')
             ->removeDeletedSessionsFromArray($sessionTypes);
         
-        $this->createJsonRequest('GET', $this->getUrl('cget_sessiontypes'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessiontypes'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -89,11 +97,11 @@ class SessionTypeControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_sessiontypes'),
-            json_encode(['sessionType' => $postData])
+            json_encode(['sessionType' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -113,7 +121,8 @@ class SessionTypeControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_sessiontypes'),
-            json_encode(['sessionType' => $invalidSessionType])
+            json_encode(['sessionType' => $invalidSessionType]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -136,7 +145,8 @@ class SessionTypeControllerTest extends AbstractControllerTest
                 'put_sessiontypes',
                 ['id' => $data['id']]
             ),
-            json_encode(['sessionType' => $postData])
+            json_encode(['sessionType' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -157,22 +167,26 @@ class SessionTypeControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_sessiontypes',
                 ['id' => $sessionType['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_sessiontypes',
                 ['id' => $sessionType['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -183,7 +197,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_sessiontypes', ['id' => '0'])
+            $this->getUrl('get_sessiontypes', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

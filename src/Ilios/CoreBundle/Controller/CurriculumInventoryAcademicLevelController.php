@@ -54,7 +54,14 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['curriculumInventoryAcademicLevels'][] = $this->getOr404($id);
+        $curriculumInventoryAcademicLevel = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $curriculumInventoryAcademicLevel)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['curriculumInventoryAcademicLevels'][] = $curriculumInventoryAcademicLevel;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['curriculumInventoryAcademicLevels'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,22 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventoryAcademicLevelHandler()
-                ->post($this->getPostData($request));
-            $answer['curriculumInventoryAcademicLevels'] = [$new];
+            $handler = $this->getCurriculumInventoryAcademicLevelHandler();
+
+            $curriculumInventoryAcademicLevel = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $curriculumInventoryAcademicLevel)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCurriculumInventoryAcademicLevelHandler()->updateCurriculumInventoryAcademicLevel(
+                $curriculumInventoryAcademicLevel,
+                true,
+                false
+            );
+
+            $answer['curriculumInventoryAcademicLevels'] = [$curriculumInventoryAcademicLevel];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +232,26 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['curriculumInventoryAcademicLevel'] =
-                $this->getCurriculumInventoryAcademicLevelHandler()->put(
-                    $curriculumInventoryAcademicLevel,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getCurriculumInventoryAcademicLevelHandler();
+
+            $curriculumInventoryAcademicLevel = $handler->put(
+                $curriculumInventoryAcademicLevel,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $curriculumInventoryAcademicLevel)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCurriculumInventoryAcademicLevelHandler()->updateCurriculumInventoryAcademicLevel(
+                $curriculumInventoryAcademicLevel,
+                true,
+                true
+            );
+
+            $answer['curriculumInventoryAcademicLevel'] = $curriculumInventoryAcademicLevel;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +293,11 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
     public function deleteAction($id)
     {
         $curriculumInventoryAcademicLevel = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $curriculumInventoryAcademicLevel)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getCurriculumInventoryAcademicLevelHandler()

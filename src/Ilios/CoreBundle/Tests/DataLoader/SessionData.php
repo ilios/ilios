@@ -22,7 +22,7 @@ class SessionData extends AbstractDataLoader
             'disciplines' => ['1', '2'],
             'objectives' => ['1', '2'],
             'meshDescriptors' => [],
-            'publishEvent' => '1',
+            'publishEvent' => '4',
             'sessionLearningMaterials' => ['1'],
             'instructionHours' => [],
             'offerings' => ['1', '2']
@@ -102,7 +102,6 @@ class SessionData extends AbstractDataLoader
             'disciplines' => ['1', '2'],
             'objectives' => ['1', '2'],
             'meshDescriptors' => [],
-            'publishEvent' => '1',
             'sessionLearningMaterials' => ["1"],
             'instructionHours' => [],
             'offerings' => ['1']

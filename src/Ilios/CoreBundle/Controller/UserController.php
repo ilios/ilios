@@ -54,7 +54,14 @@ class UserController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['users'][] = $this->getOr404($id);
+        $user = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $user)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['users'][] = $user;
 
         return $answer;
     }
@@ -140,6 +147,11 @@ class UserController extends FOSRestController
             );
         }
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['users'] =
             $result ? $result : new ArrayCollection([]);
@@ -172,10 +184,18 @@ class UserController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getUserHandler()
-                ->post($this->getPostData($request));
+            $handler = $this->getUserHandler();
 
-            $answer['users'] = [$new];
+            $user = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $user)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getUserHandler()->updateUser($user, true, false);
+
+            $answer['users'] = [$user];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -222,11 +242,22 @@ class UserController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['user'] =
-                $this->getUserHandler()->put(
-                    $user,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getUserHandler();
+
+            $user = $handler->put(
+                $user,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $user)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getUserHandler()->updateUser($user, true, true);
+
+            $answer['user'] = $user;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -268,6 +299,11 @@ class UserController extends FOSRestController
     public function deleteAction($id)
     {
         $user = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $user)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getUserHandler()

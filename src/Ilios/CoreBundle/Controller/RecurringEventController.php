@@ -54,7 +54,14 @@ class RecurringEventController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['recurringEvents'][] = $this->getOr404($id);
+        $recurringEvent = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $recurringEvent)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['recurringEvents'][] = $recurringEvent;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class RecurringEventController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['recurringEvents'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class RecurringEventController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getRecurringEventHandler()
-                ->post($this->getPostData($request));
-            $answer['recurringEvents'] = [$new];
+            $handler = $this->getRecurringEventHandler();
+
+            $recurringEvent = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $recurringEvent)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getRecurringEventHandler()->updateRecurringEvent($recurringEvent, true, false);
+
+            $answer['recurringEvents'] = [$recurringEvent];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class RecurringEventController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['recurringEvent'] =
-                $this->getRecurringEventHandler()->put(
-                    $recurringEvent,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getRecurringEventHandler();
+
+            $recurringEvent = $handler->put(
+                $recurringEvent,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $recurringEvent)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getRecurringEventHandler()->updateRecurringEvent($recurringEvent, true, true);
+
+            $answer['recurringEvent'] = $recurringEvent;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class RecurringEventController extends FOSRestController
     public function deleteAction($id)
     {
         $recurringEvent = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $recurringEvent)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getRecurringEventHandler()

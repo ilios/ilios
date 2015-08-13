@@ -82,6 +82,11 @@ class SchooleventsController extends FOSRestController
             $to
         );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['events'] = $result ? $result : new ArrayCollection([]);
 

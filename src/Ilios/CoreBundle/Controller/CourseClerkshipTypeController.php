@@ -54,7 +54,14 @@ class CourseClerkshipTypeController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['courseClerkshipTypes'][] = $this->getOr404($id);
+        $courseClerkshipType = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $courseClerkshipType)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['courseClerkshipTypes'][] = $courseClerkshipType;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class CourseClerkshipTypeController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['courseClerkshipTypes'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class CourseClerkshipTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCourseClerkshipTypeHandler()
-                ->post($this->getPostData($request));
-            $answer['courseClerkshipTypes'] = [$new];
+            $handler = $this->getCourseClerkshipTypeHandler();
+
+            $courseClerkshipType = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $courseClerkshipType)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCourseClerkshipTypeHandler()->updateCourseClerkshipType($courseClerkshipType, true, false);
+
+            $answer['courseClerkshipTypes'] = [$courseClerkshipType];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class CourseClerkshipTypeController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['courseClerkshipType'] =
-                $this->getCourseClerkshipTypeHandler()->put(
-                    $courseClerkshipType,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getCourseClerkshipTypeHandler();
+
+            $courseClerkshipType = $handler->put(
+                $courseClerkshipType,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $courseClerkshipType)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCourseClerkshipTypeHandler()->updateCourseClerkshipType($courseClerkshipType, true, true);
+
+            $answer['courseClerkshipType'] = $courseClerkshipType;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class CourseClerkshipTypeController extends FOSRestController
     public function deleteAction($id)
     {
         $courseClerkshipType = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $courseClerkshipType)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getCourseClerkshipTypeHandler()

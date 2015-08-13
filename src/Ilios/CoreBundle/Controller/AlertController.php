@@ -54,7 +54,14 @@ class AlertController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['alerts'][] = $this->getOr404($id);
+        $alert = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $alert)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['alerts'][] = $alert;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class AlertController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['alerts'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class AlertController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAlertHandler()
-                ->post($this->getPostData($request));
-            $answer['alerts'] = [$new];
+            $handler = $this->getAlertHandler();
+
+            $alert = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $alert)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getAlertHandler()->updateAlert($alert, true, false);
+
+            $answer['alerts'] = [$alert];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class AlertController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['alert'] =
-                $this->getAlertHandler()->put(
-                    $alert,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getAlertHandler();
+
+            $alert = $handler->put(
+                $alert,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $alert)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getAlertHandler()->updateAlert($alert, true, true);
+
+            $answer['alert'] = $alert;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class AlertController extends FOSRestController
     public function deleteAction($id)
     {
         $alert = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $alert)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getAlertHandler()

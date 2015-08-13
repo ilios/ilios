@@ -98,17 +98,10 @@ class LearningMaterialStatusHandler extends LearningMaterialStatusManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $learningMaterialStatus = $form->getData();
-            $this->updateLearningMaterialStatus(
-                $learningMaterialStatus,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $learningMaterialStatus;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

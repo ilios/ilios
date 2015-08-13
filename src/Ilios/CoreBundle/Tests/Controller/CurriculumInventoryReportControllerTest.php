@@ -15,14 +15,15 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryExportData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData'
-        ];
+        ]);
     }
 
     /**
@@ -45,7 +46,9 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_curriculuminventoryreports',
                 ['id' => $curriculumInventoryReport['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -59,7 +62,12 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
 
     public function testGetAllCurriculumInventoryReports()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_curriculuminventoryreports'));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventoryreports'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -86,11 +94,11 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_curriculuminventoryreports'),
-            json_encode(['curriculumInventoryReport' => $postData])
+            json_encode(['curriculumInventoryReport' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -110,7 +118,8 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_curriculuminventoryreports'),
-            json_encode(['curriculumInventoryReport' => $invalidCurriculumInventoryReport])
+            json_encode(['curriculumInventoryReport' => $invalidCurriculumInventoryReport]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -133,7 +142,8 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
                 'put_curriculuminventoryreports',
                 ['id' => $data['id']]
             ),
-            json_encode(['curriculumInventoryReport' => $postData])
+            json_encode(['curriculumInventoryReport' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -151,22 +161,26 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_curriculuminventoryreports',
                 ['id' => $curriculumInventoryReport['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_curriculuminventoryreports',
                 ['id' => $curriculumInventoryReport['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -177,7 +191,9 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_curriculuminventoryreports', ['id' => '0'])
+            $this->getUrl('get_curriculuminventoryreports', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

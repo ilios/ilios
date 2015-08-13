@@ -21,20 +21,20 @@ class UserData extends AbstractDataLoader
             'reports' => [],
             'primarySchool' => '1',
             'primaryCohort' => '1',
-            'directedCourses' => ['2'],
-            'learnerGroups' => ['1', '2', '3'],
+            'directedCourses' => [],
+            'learnerGroups' => [],
             'instructorUserGroups' => [],
-            'instructorGroups' => ['1', '2', '3'],
-            'instructorIlmSessions' => ['3'],
-            'learnerIlmSessions' => ['4'],
-            'offerings' => ['4'],
-            'instructedOfferings' => ['5'],
+            'instructorGroups' => [],
+            'instructorIlmSessions' => [],
+            'learnerIlmSessions' => [],
+            'offerings' => [],
+            'instructedOfferings' => [],
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => ['1'],
             'roles' => ['1'],
             'cohorts' => ['1'],
-            'reminders' => ['1', '2']
+            'reminders' => []
         );
 
         $arr[] = array(
@@ -49,20 +49,20 @@ class UserData extends AbstractDataLoader
             'publishEvents' => [],
             'reports' => [],
             'primarySchool' => '1',
-            'directedCourses' => [],
-            'learnerGroups' => [],
+            'directedCourses' => ['2'],
+            'learnerGroups' => ['1', '2', '3'],
             'instructorUserGroups' => [],
-            'instructorGroups' => [],
-            'instructorIlmSessions' => [],
-            'learnerIlmSessions' => [],
-            'offerings' => [],
-            'instructedOfferings' => [],
+            'instructorGroups' => ['1', '2', '3'],
+            'instructorIlmSessions' => ['3'],
+            'learnerIlmSessions' => ['4'],
+            'offerings' => ['4'],
+            'instructedOfferings' => ['5'],
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => ['1'],
             'roles' => ['1'],
-            'cohorts' => [],
-            'reminders' => []
+            'cohorts' => ['1'],
+            'reminders' => ['1', '2']
         );
 
         $arr[] = array(

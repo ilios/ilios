@@ -98,17 +98,10 @@ class ReportHandler extends ReportManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $report = $form->getData();
-            $this->updateReport(
-                $report,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $report;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

@@ -98,17 +98,10 @@ class UserHandler extends UserManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $user = $form->getData();
-            $this->updateUser(
-                $user,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $user;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

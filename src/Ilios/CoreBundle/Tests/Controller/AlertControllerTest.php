@@ -15,12 +15,13 @@ class AlertControllerTest extends AbstractControllerTest
      */
     protected function getFixtures()
     {
-        return [
+        $fixtures = parent::getFixtures();
+        return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAlertChangeTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
-        ];
+        ]);
     }
 
     /**
@@ -44,7 +45,9 @@ class AlertControllerTest extends AbstractControllerTest
             $this->getUrl(
                 'get_alerts',
                 ['id' => $alert['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -58,7 +61,7 @@ class AlertControllerTest extends AbstractControllerTest
 
     public function testGetAllAlerts()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_alerts'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_alerts'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -83,11 +86,11 @@ class AlertControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_alerts'),
-            json_encode(['alert' => $postData])
+            json_encode(['alert' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -107,7 +110,8 @@ class AlertControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_alerts'),
-            json_encode(['alert' => $invalidAlert])
+            json_encode(['alert' => $invalidAlert]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -130,7 +134,8 @@ class AlertControllerTest extends AbstractControllerTest
                 'put_alerts',
                 ['id' => $data['id']]
             ),
-            json_encode(['alert' => $postData])
+            json_encode(['alert' => $postData]),
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -148,22 +153,26 @@ class AlertControllerTest extends AbstractControllerTest
             ->getOne()
         ;
 
-        $this->client->request(
+        $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
                 'delete_alerts',
                 ['id' => $alert['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
-        $this->client->request(
+        $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'get_alerts',
                 ['id' => $alert['id']]
-            )
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
@@ -174,7 +183,9 @@ class AlertControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_alerts', ['id' => '0'])
+            $this->getUrl('get_alerts', ['id' => '0']),
+            null,
+            $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();

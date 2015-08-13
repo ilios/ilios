@@ -54,7 +54,14 @@ class UserRoleController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['userRoles'][] = $this->getOr404($id);
+        $userRole = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $userRole)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['userRoles'][] = $userRole;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class UserRoleController extends FOSRestController
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['userRoles'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,18 @@ class UserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getUserRoleHandler()
-                ->post($this->getPostData($request));
-            $answer['userRoles'] = [$new];
+            $handler = $this->getUserRoleHandler();
+
+            $userRole = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $userRole)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getUserRoleHandler()->updateUserRole($userRole, true, false);
+
+            $answer['userRoles'] = [$userRole];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +228,22 @@ class UserRoleController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['userRole'] =
-                $this->getUserRoleHandler()->put(
-                    $userRole,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getUserRoleHandler();
+
+            $userRole = $handler->put(
+                $userRole,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $userRole)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getUserRoleHandler()->updateUserRole($userRole, true, true);
+
+            $answer['userRole'] = $userRole;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +285,11 @@ class UserRoleController extends FOSRestController
     public function deleteAction($id)
     {
         $userRole = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $userRole)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getUserRoleHandler()

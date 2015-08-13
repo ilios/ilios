@@ -27,6 +27,7 @@ class PublishEventHandler extends PublishEventManager
      * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
+     * @param Request $request
      */
     public function __construct(Registry $em, $class, FormFactoryInterface $formFactory, Request $request)
     {
@@ -101,17 +102,10 @@ class PublishEventHandler extends PublishEventManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $publishEvent = $form->getData();
-            $this->updatePublishEvent(
-                $publishEvent,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $publishEvent;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

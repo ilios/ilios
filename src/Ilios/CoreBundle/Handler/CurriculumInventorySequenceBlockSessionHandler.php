@@ -98,17 +98,10 @@ class CurriculumInventorySequenceBlockSessionHandler extends CurriculumInventory
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $curriculumInventorySequenceBlockSession = $form->getData();
-            $this->updateCurriculumInventorySequenceBlockSession(
-                $curriculumInventorySequenceBlockSession,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $curriculumInventorySequenceBlockSession;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

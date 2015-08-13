@@ -98,17 +98,10 @@ class UserRoleHandler extends UserRoleManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $userRole = $form->getData();
-            $this->updateUserRole(
-                $userRole,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $userRole;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

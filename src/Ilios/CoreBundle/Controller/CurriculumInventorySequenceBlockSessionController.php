@@ -54,7 +54,14 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
      */
     public function getAction($id)
     {
-        $answer['curriculumInventorySequenceBlockSessions'][] = $this->getOr404($id);
+        $curriculumInventorySequenceBlockSession = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $curriculumInventorySequenceBlockSession)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['curriculumInventorySequenceBlockSessions'][] = $curriculumInventorySequenceBlockSession;
 
         return $answer;
     }
@@ -126,6 +133,11 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
                 $offset
             );
 
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
         //If there are no matches return an empty array
         $answer['curriculumInventorySequenceBlockSessions'] =
             $result ? $result : new ArrayCollection([]);
@@ -158,9 +170,22 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventorySequenceBlockSessionHandler()
-                ->post($this->getPostData($request));
-            $answer['curriculumInventorySequenceBlockSessions'] = [$new];
+            $handler = $this->getCurriculumInventorySequenceBlockSessionHandler();
+
+            $curriculumInventorySequenceBlockSession = $handler->post($this->getPostData($request));
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('create', $curriculumInventorySequenceBlockSession)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCurriculumInventorySequenceBlockSessionHandler()->updateCurriculumInventorySequenceBlockSession(
+                $curriculumInventorySequenceBlockSession,
+                true,
+                false
+            );
+
+            $answer['curriculumInventorySequenceBlockSessions'] = [$curriculumInventorySequenceBlockSession];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -207,11 +232,26 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['curriculumInventorySequenceBlockSession'] =
-                $this->getCurriculumInventorySequenceBlockSessionHandler()->put(
-                    $curriculumInventorySequenceBlockSession,
-                    $this->getPostData($request)
-                );
+            $handler = $this->getCurriculumInventorySequenceBlockSessionHandler();
+
+            $curriculumInventorySequenceBlockSession = $handler->put(
+                $curriculumInventorySequenceBlockSession,
+                $this->getPostData($request)
+            );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $curriculumInventorySequenceBlockSession)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            $this->getCurriculumInventorySequenceBlockSessionHandler()->updateCurriculumInventorySequenceBlockSession(
+                $curriculumInventorySequenceBlockSession,
+                true,
+                true
+            );
+
+            $answer['curriculumInventorySequenceBlockSession'] = $curriculumInventorySequenceBlockSession;
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -253,6 +293,11 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
     public function deleteAction($id)
     {
         $curriculumInventorySequenceBlockSession = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $curriculumInventorySequenceBlockSession)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
 
         try {
             $this->getCurriculumInventorySequenceBlockSessionHandler()

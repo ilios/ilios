@@ -5,7 +5,7 @@ services:
     ilios_authentication.fix_header_listener:
         class: Ilios\AuthenticationBundle\Listener\AuthenticationHeader
         tags:
-          - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
     ilios_authentication.jwt.listener:
         class: Ilios\AuthenticationBundle\Jwt\Listener
         arguments: ["@security.token_storage", "@security.authentication.manager", "%kernel.secret%"]

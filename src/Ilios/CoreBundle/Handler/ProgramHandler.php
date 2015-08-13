@@ -98,17 +98,10 @@ class ProgramHandler extends ProgramManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $program = $form->getData();
-            $this->updateProgram(
-                $program,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $program;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

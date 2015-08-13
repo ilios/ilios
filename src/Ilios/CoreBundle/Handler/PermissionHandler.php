@@ -74,13 +74,10 @@ class PermissionHandler extends PermissionManager
     {
         $form = $this->formFactory->create(new PermissionType(), $permission, array('method' => $method));
         $form->submit($parameters, 'PATCH' !== $method);
-        if ($form->isValid()) {
-            $permission = $form->getData();
-            $this->updatePermission($permission, true);
-
-            return $permission;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }

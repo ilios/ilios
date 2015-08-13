@@ -98,17 +98,10 @@ class SchoolHandler extends SchoolManager
 
         $form->submit($parameters, 'PATCH' !== $method);
 
-        if ($form->isValid()) {
-            $school = $form->getData();
-            $this->updateSchool(
-                $school,
-                true,
-                ('PUT' === $method || 'PATCH' === $method)
-            );
-
-            return $school;
+        if (! $form->isValid()) {
+            throw new InvalidFormException('Invalid submitted data', $form);
         }
 
-        throw new InvalidFormException('Invalid submitted data', $form);
+        return $form->getData();
     }
 }
