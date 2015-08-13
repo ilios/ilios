@@ -19,7 +19,6 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => ['1'],
             'learners' => [],
             'instructors' => [],
-            'recurringEvents' => ["1"]
         );
 
         $arr[] = array(
@@ -33,7 +32,6 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => [],
-            'recurringEvents' => []
         );
 
         $arr[] = array(
@@ -47,7 +45,6 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => ['2'],
             'learners' => [],
             'instructors' => [],
-            'recurringEvents' => []
         );
 
         $arr[] = array(
@@ -61,7 +58,6 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => ['2'],
             'instructors' => [],
-            'recurringEvents' => []
         );
 
         $arr[] = array(
@@ -75,7 +71,6 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => ['2'],
-            'recurringEvents' => []
         );
 
         $arr[] = array(
@@ -89,7 +84,6 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => [],
-            'recurringEvents' => []
         );
 
         $arr[] = array(
@@ -103,7 +97,6 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => [],
-            'recurringEvents' => []
         );
 
 
@@ -123,7 +116,6 @@ class OfferingData extends AbstractDataLoader
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => [],
-            'recurringEvents' => []
         );
     }
 

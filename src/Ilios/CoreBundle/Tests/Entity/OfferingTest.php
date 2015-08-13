@@ -43,7 +43,6 @@ class OfferingTest extends EntityBase
     {
         $this->assertEmpty($this->object->getLearnerGroups());
         $this->assertEmpty($this->object->getInstructorGroups());
-        $this->assertEmpty($this->object->getRecurringEvents());
         $this->assertEmpty($this->object->getLearners());
         $this->assertEmpty($this->object->getInstructors());
         $this->assertNotEmpty($this->object->getUpdatedAt());

@@ -47,7 +47,6 @@ class UpdateOfferingTimestamp
             switch (get_class($entity)) {
                 case 'Ilios\CoreBundle\Entity\LearnerGroup':
                 case 'Ilios\CoreBundle\Entity\InstructorGroup':
-                case 'Ilios\CoreBundle\Entity\RecurringEvent':
                 case 'Ilios\CoreBundle\Entity\LearnerGroup':
                     foreach ($entity->getOfferings() as $offering) {
                         $offerings[] = $offering;
