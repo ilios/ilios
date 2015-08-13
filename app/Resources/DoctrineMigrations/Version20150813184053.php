@@ -5,9 +5,6 @@ namespace Ilios\Migrations;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 class Version20150813184053 extends AbstractMigration
 {
     /**
