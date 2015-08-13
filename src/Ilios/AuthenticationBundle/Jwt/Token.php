@@ -57,7 +57,7 @@ class Token extends AbstractToken
     public function setUser($user)
     {
         if (!$user instanceof UserInterface) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Set user only accepts User Entities ' .
                 'argument was a ' . get_class($user)
             );
