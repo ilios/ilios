@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\PublishEventInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Interface PublishEventManagerInterface

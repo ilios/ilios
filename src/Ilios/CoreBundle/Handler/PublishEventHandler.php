@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Handler;
 
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -37,14 +38,23 @@ class PublishEventHandler extends PublishEventManager
 
     /**
      * @param array $parameters
+     * @param Request $request
+     * @param UserInterface $user
      *
      * @return PublishEventInterface
      */
-    public function post(array $parameters)
+    public function post(array $parameters, Request $request, UserInterface $user)
     {
         $publishEvent = $this->createPublishEvent();
 
-        return $this->processForm($publishEvent, $parameters, 'POST');
+        $publishEvent->setMachineIp($request->getClientIp());
+        $publishEvent->setAdministrator($user);
+
+        $event =  $this->processForm($publishEvent, $parameters, 'POST');
+
+
+
+        return $event;
     }
 
     /**
