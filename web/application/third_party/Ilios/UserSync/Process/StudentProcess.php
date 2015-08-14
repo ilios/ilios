@@ -408,7 +408,6 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
             throw new Ilios_UserSync_Exception('Failed to add external user as student to Ilios' . $externalUser);
         }
 
-        $this->_userDao->enableUser($newUserId, false); // disable user record
         $this->_userDao->setUserExaminedBit($newUserId, true); // flag user as examined
 
         return $newUserId;
