@@ -142,19 +142,4 @@ interface OfferingInterface extends
      * @return ArrayCollection|UserInterface[]
      */
     public function getInstructors();
-
-    /**
-     * @param Collection $recurringEvents
-     */
-    public function setRecurringEvents(Collection $recurringEvents);
-
-    /**
-     * @param RecurringEventInterface $recurringEvent
-     */
-    public function addRecurringEvent(RecurringEventInterface $recurringEvent);
-
-    /**
-     * @return ArrayCollection|RecurringEventInterface[]
-     */
-    public function getRecurringEvents();
 }

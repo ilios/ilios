@@ -226,13 +226,6 @@ api_publishevent_v1:
     defaults: {_format:json}
 
 
-api_recurringevent_v1:
-    resource: "@IliosCoreBundle/Controller/RecurringEventController.php"
-    type:     rest
-    prefix:   /v1
-    defaults: {_format:json}
-
-
 api_report_v1:
     resource: "@IliosCoreBundle/Controller/ReportController.php"
     type:     rest

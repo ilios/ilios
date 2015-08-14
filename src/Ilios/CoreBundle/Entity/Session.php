@@ -286,17 +286,6 @@ class Session implements SessionInterface
     protected $sessionLearningMaterials;
 
     /**
-    * @var ArrayCollection|InstructionHoursInterface[]
-    *
-    * @ORM\OneToMany(targetEntity="InstructionHours", mappedBy="session")
-    *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("instructionHours")
-    */
-    protected $instructionHours;
-
-    /**
     * @var ArrayCollection|OfferingInterface[]
     *
     * @ORM\OneToMany(targetEntity="Offering", mappedBy="session")
@@ -607,36 +596,5 @@ class Session implements SessionInterface
     public function getSessionLearningMaterials()
     {
         return $this->sessionLearningMaterials;
-    }
-
-    /**
-     * @param Collection $instructionHours
-     */
-    public function setInstructionHours(Collection $instructionHours = null)
-    {
-        $this->instructionHours = new ArrayCollection();
-        if (is_null($instructionHours)) {
-            return;
-        }
-
-        foreach ($instructionHours as $instructionHour) {
-            $this->addInstructionHour($instructionHour);
-        }
-    }
-
-    /**
-     * @param InstructionHoursInterface $instructionHour
-     */
-    public function addInstructionHour(InstructionHoursInterface $instructionHour)
-    {
-        $this->instructionHours->add($instructionHour);
-    }
-
-    /**
-     * @return ArrayCollection|InstructionHoursInterface[]
-     */
-    public function getInstructionHours()
-    {
-        return $this->instructionHours;
     }
 }

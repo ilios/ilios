@@ -22,7 +22,6 @@ parameters:
     ilioscore.discipline.handler.class: Ilios\CoreBundle\Handler\DisciplineHandler
     ilioscore.ilmsession.handler.class: Ilios\CoreBundle\Handler\IlmSessionHandler
     ilioscore.ingestionexception.handler.class: Ilios\CoreBundle\Handler\IngestionExceptionHandler
-    ilioscore.instructionhours.handler.class: Ilios\CoreBundle\Handler\InstructionHoursHandler
     ilioscore.instructorgroup.handler.class: Ilios\CoreBundle\Handler\InstructorGroupHandler
     ilioscore.learningmaterialstatus.handler.class: Ilios\CoreBundle\Handler\LearningMaterialStatusHandler
     ilioscore.learningmaterialuserrole.handler.class: Ilios\CoreBundle\Handler\LearningMaterialUserRoleHandler
@@ -40,7 +39,6 @@ parameters:
     ilioscore.programyear.handler.class: Ilios\CoreBundle\Handler\ProgramYearHandler
     ilioscore.programyearsteward.handler.class: Ilios\CoreBundle\Handler\ProgramYearStewardHandler
     ilioscore.publishevent.handler.class: Ilios\CoreBundle\Handler\PublishEventHandler
-    ilioscore.recurringevent.handler.class: Ilios\CoreBundle\Handler\RecurringEventHandler
     ilioscore.report.handler.class: Ilios\CoreBundle\Handler\ReportHandler
     ilioscore.school.handler.class: Ilios\CoreBundle\Handler\SchoolHandler
     ilioscore.sessiondescription.handler.class: Ilios\CoreBundle\Handler\SessionDescriptionHandler
@@ -123,9 +121,6 @@ services:
     ilioscore.ingestionexception.handler:
         class: %ilioscore.ingestionexception.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IngestionException, '@form.factory']
-    ilioscore.instructionhours.handler:
-        class: %ilioscore.instructionhours.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\InstructionHours, '@form.factory']
     ilioscore.instructorgroup.handler:
         class: %ilioscore.instructorgroup.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\InstructorGroup, '@form.factory']
@@ -178,9 +173,6 @@ services:
         class: %ilioscore.publishevent.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\PublishEvent, '@form.factory', '@request']
         scope: request
-    ilioscore.recurringevent.handler:
-        class: %ilioscore.recurringevent.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\RecurringEvent, '@form.factory']
     ilioscore.report.handler:
         class: %ilioscore.report.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Report, '@form.factory']

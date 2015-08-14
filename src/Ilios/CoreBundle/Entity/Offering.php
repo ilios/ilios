@@ -220,25 +220,6 @@ class Offering implements OfferingInterface
     protected $instructors;
 
     /**
-     * @var ArrayCollection|RecurringEventInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="RecurringEvent", inversedBy="offerings")
-     * @ORM\JoinTable(name="offering_x_recurring_event",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="cascade")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="recurring_event_id", referencedColumnName="recurring_event_id", onDelete="cascade")
-     *   }
-     * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("recurringEvents")
-     */
-    protected $recurringEvents;
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -249,7 +230,6 @@ class Offering implements OfferingInterface
         $this->instructorGroups = new ArrayCollection();
         $this->learners = new ArrayCollection();
         $this->instructors = new ArrayCollection();
-        $this->recurringEvents = new ArrayCollection();
     }
 
     /**
@@ -466,34 +446,6 @@ class Offering implements OfferingInterface
     public function getInstructors()
     {
         return $this->instructors;
-    }
-
-    /**
-     * @param Collection $recurringEvents
-     */
-    public function setRecurringEvents(Collection $recurringEvents)
-    {
-        $this->recurringEvents = new ArrayCollection();
-
-        foreach ($recurringEvents as $recurringEvent) {
-            $this->addRecurringEvent($recurringEvent);
-        }
-    }
-
-    /**
-     * @param RecurringEventInterface $recurringEvent
-     */
-    public function addRecurringEvent(RecurringEventInterface $recurringEvent)
-    {
-        $this->recurringEvents->add($recurringEvent);
-    }
-
-    /**
-     * @return ArrayCollection|RecurringEventInterface[]
-     */
-    public function getRecurringEvents()
-    {
-        return $this->recurringEvents;
     }
 
     /**
