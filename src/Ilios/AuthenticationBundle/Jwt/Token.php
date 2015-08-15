@@ -4,8 +4,6 @@ namespace Ilios\AuthenticationBundle\Jwt;
 
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Role\Role;
-use Symfony\Component\Security\Core\Role\RoleInterface;
 use JWT as TokenLib;
 
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -23,11 +21,6 @@ class Token extends AbstractToken
      * @var array
      */
     protected $jwt;
-
-    /**
-     * @var UserInterface
-     */
-    protected $user;
 
     const PREPEND_KEY = 'ilios.jwt.key.';
 
@@ -54,32 +47,12 @@ class Token extends AbstractToken
         }
     }
 
-    public function setUser($user)
-    {
-        if (!$user instanceof UserInterface) {
-            throw new InvalidArgumentException(
-                'Set user only accepts User Entities ' .
-                'argument was a ' . get_class($user)
-            );
-        }
-        $this->roles = array();
-        foreach ($user->getRoles() as $roleEntity) {
-            $role = new Role($roleEntity->getRole());
-            $this->roles[] = $role;
-        }
-        $this->user = $user;
-        $this->setAuthenticated(true);
-    }
-
-    public function getUser()
-    {
-        return $this->user;
-    }
 
     public function getUserId()
     {
-        if ($this->user instanceof UserInterface) {
-            return $this->user->getId();
+        $user = $this->getUser();
+        if ($user instanceof UserInterface) {
+            return $user->getId();
         }
 
         return null;
@@ -87,7 +60,12 @@ class Token extends AbstractToken
 
     public function getUserName()
     {
-        return $this->user->getEmail();
+        $user = $this->getUser();
+        if ($user instanceof UserInterface) {
+            return $user->getEmail();
+        }
+
+        return null;
     }
 
     /**
@@ -117,14 +95,6 @@ class Token extends AbstractToken
     /**
      * {@inheritdoc}
      */
-    public function getRoles()
-    {
-        return $this->roles;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function serialize()
     {
         return serialize(
@@ -148,7 +118,7 @@ class Token extends AbstractToken
      */
     public function getJwt()
     {
-        if (!$this->user) {
+        if (! $this->getUser() instanceof UserInterface) {
             throw new \Exception('Can not build a JWT, we have no user');
         }
 
@@ -177,7 +147,7 @@ class Token extends AbstractToken
             'aud' => 'ilios',
             'iat' => $now->format('U'),
             'exp' => $expires->format('U'),
-            'user_id' => $this->user->getId()
+            'user_id' => $this->getUserId()
         );
 
         return TokenLib::encode($arr, $this->key);

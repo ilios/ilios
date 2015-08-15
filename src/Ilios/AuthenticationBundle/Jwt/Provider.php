@@ -25,7 +25,7 @@ class Provider implements AuthenticationProviderInterface
 
         if ($user) {
             $token->setUser($user);
-
+            $token->setAuthenticated(true);
             return $token;
         }
 
