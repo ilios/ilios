@@ -89,11 +89,11 @@ class ProgramYearVoter extends AbstractVoter
         // 4. The user has READ permissions on the program.
         return (
             ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
-                && ($programYear->getProgram()->getOwningSchool()->getId()
+                && ($programYear->getProgram()->getSchool()->getId()
                     === $user->getPrimarySchool()->getId()
                     || $this->permissionManager->userHasReadPermissionToSchool(
                         $user,
-                        $programYear->getProgram()->getOwningSchool()
+                        $programYear->getProgram()->getSchool()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear(
                         $user->getPrimarySchool(),
@@ -124,11 +124,11 @@ class ProgramYearVoter extends AbstractVoter
         // 4. The user has WRITE permissions on the parent program.
         return (
             ($this->userHasRole($user, ['Course Director', 'Developer'])
-                && ($programYear->getProgram()->getOwningSchool()->getId()
+                && ($programYear->getProgram()->getSchool()->getId()
                     === $user->getPrimarySchool()->getId()
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
-                        $programYear->getProgram()->getOwningSchool()
+                        $programYear->getProgram()->getSchool()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear(
                         $user->getPrimarySchool(),

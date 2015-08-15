@@ -16,7 +16,7 @@ class ProgramData extends AbstractDataLoader
             'deleted' => false,
             'publishedAsTbd' => false,
             'publishEvent' => '1',
-            'owningSchool' => "1",
+            'school' => "1",
             'programYears' => ["1", "2"],
             'curriculumInventoryReports' => ["1", "2", "3"]
         );
@@ -28,7 +28,7 @@ class ProgramData extends AbstractDataLoader
             'duration' => 4,
             'deleted' => false,
             'publishedAsTbd' => true,
-            'owningSchool' => "1",
+            'school' => "1",
             'programYears' => [],
             'curriculumInventoryReports' => []
         );
@@ -47,7 +47,7 @@ class ProgramData extends AbstractDataLoader
             'deleted' => false,
             'publishedAsTbd' => true,
 
-            'owningSchool' => "1",
+            'school' => "1",
             'programYears' => ['1'],
             'curriculumInventoryReports' => []
         );

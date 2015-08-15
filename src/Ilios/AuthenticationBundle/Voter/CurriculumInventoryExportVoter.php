@@ -66,10 +66,10 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && ($user->getPrimarySchool()->getId()
-                        === $export->getReport()->getProgram()->getOwningSchool()->getId()
+                        === $export->getReport()->getProgram()->getSchool()->getId()
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
-                            $export->getReport()->getProgram()->getOwningSchool()
+                            $export->getReport()->getProgram()->getSchool()
                         ))
                 );
             case self::VIEW:
@@ -83,10 +83,10 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && ($user->getPrimarySchool()->getId()
-                        === $export->getReport()->getProgram()->getOwningSchool()->getId()
+                        === $export->getReport()->getProgram()->getSchool()->getId()
                         || $this->permissionManager->userHasReadPermissionToSchool(
                             $user,
-                            $export->getReport()->getProgram()->getOwningSchool()
+                            $export->getReport()->getProgram()->getSchool()
                         ))
                 );
                 break;

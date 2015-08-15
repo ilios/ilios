@@ -10,7 +10,7 @@ class DisciplineData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => $this->faker->text(100),
-            'owningSchool' => '1',
+            'school' => '1',
             'courses' => [],
             'programYears' => [],
             'sessions' => ['1']
@@ -18,7 +18,7 @@ class DisciplineData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'title' => $this->faker->text(100),
-            'owningSchool' => '1',
+            'school' => '1',
             'courses' => [],
             'programYears' => [],
             'sessions' => ['1']
@@ -33,7 +33,7 @@ class DisciplineData extends AbstractDataLoader
         return [
             'id' => 3,
             'title' => $this->faker->text(100),
-            'owningSchool' => '1',
+            'school' => '1',
             'courses' => [],
             'programYears' => [],
             'sessions' => ['1']

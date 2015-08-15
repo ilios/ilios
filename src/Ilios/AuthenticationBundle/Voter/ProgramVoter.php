@@ -57,10 +57,10 @@ class ProgramVoter extends AbstractVoter
                 // 3. The user has READ permissions on the program.
                 return (
                     ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
-                        && ($program->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+                        && ($program->getSchool()->getId() === $user->getPrimarySchool()->getId()
                             || $this->permissionManager->userHasReadPermissionToSchool(
                                 $user,
-                                $program->getOwningSchool()
+                                $program->getSchool()
                             )))
                     || $this->permissionManager->userHasReadPermissionToProgram($user, $program)
                 );
@@ -77,10 +77,10 @@ class ProgramVoter extends AbstractVoter
                 // 3. The user has WRITE permissions on the program.
                 return (
                     ($this->userHasRole($user, ['Course Director', 'Developer'])
-                        && ($program->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+                        && ($program->getSchool()->getId() === $user->getPrimarySchool()->getId()
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
-                                $program->getOwningSchool()
+                                $program->getSchool()
                             )))
                     || $this->permissionManager->userHasWritePermissionToProgram($user, $program)
                 );

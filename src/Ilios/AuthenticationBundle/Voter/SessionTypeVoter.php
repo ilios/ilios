@@ -52,8 +52,9 @@ class SessionTypeVoter extends AbstractVoter
             // if the user has READ rights on the session type's owning school
             // via the permissions system.
             case self::VIEW:
-                return ($sessionType->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $sessionType->getOwningSchool())
+
+                return ($sessionType->getSchool()->getId() === $user->getPrimarySchool()->getId()
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $sessionType->getSchool())
                 );
                 break;
             case self::CREATE:
@@ -67,10 +68,10 @@ class SessionTypeVoter extends AbstractVoter
                 //   if the user has WRITE rights on the session type's owning school
                 // via the permissions system.
                 return ($this->userHasRole($user, ['Developer'])
-                    && ($sessionType->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+                    && ($sessionType->getSchool()->getId() === $user->getPrimarySchool()->getId()
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
-                            $sessionType->getOwningSchool()
+                            $sessionType->getSchool()
                         )
                     )
                 );

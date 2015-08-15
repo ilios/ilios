@@ -32,8 +32,8 @@ class LoadDisciplineData extends AbstractFixture implements
             $entity = new Discipline();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            if (!empty($arr['owningSchool'])) {
-                $entity->setOwningSchool($this->getReference('schools' . $arr['owningSchool']));
+            if (!empty($arr['school'])) {
+                $entity->setSchool($this->getReference('schools' . $arr['school']));
             }
             $manager->persist($entity);
             $this->addReference('disciplines' . $arr['id'], $entity);

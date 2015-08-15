@@ -35,7 +35,7 @@ class LoadSessionTypeData extends AbstractFixture implements
             $entity->setAssessmentOption(
                 $this->getReference('assessmentOptions' . $arr['assessmentOption'])
             );
-            $entity->setOwningSchool($this->getReference('schools' . $arr['owningSchool']));
+            $entity->setSchool($this->getReference('schools' . $arr['school']));
 
             foreach ($arr['aamcMethods'] as $id) {
                 $entity->addAamcMethod($this->getReference('aamcMethods' . $id));

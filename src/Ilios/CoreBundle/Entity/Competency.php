@@ -67,7 +67,7 @@ class Competency implements CompetencyInterface
      *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="competencies")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
      *
      * @JMS\Expose

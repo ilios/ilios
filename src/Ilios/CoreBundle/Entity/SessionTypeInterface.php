@@ -52,14 +52,14 @@ interface SessionTypeInterface extends
     public function getAssessmentOption();
 
     /**
-     * @param SchoolInterface $owningSchool
+     * @param SchoolInterface $school
      */
-    public function setOwningSchool(SchoolInterface $owningSchool);
+    public function setSchool(SchoolInterface $school);
 
     /**
      * @return SchoolInterface
      */
-    public function getOwningSchool();
+    public function getSchool();
 
     /**
      * @param Collection $aamcMethods

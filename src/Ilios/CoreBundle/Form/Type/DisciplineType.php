@@ -16,7 +16,7 @@ class DisciplineType extends AbstractType
     {
         $builder
             ->add('title', null, ['required' => false])
-            ->add('owningSchool', 'tdn_single_related', [
+            ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])

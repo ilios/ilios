@@ -24,10 +24,10 @@ interface DisciplineInterface extends
     /**
      * @param SchoolInterface $school
      */
-    public function setOwningSchool(SchoolInterface $school);
+    public function setSchool(SchoolInterface $school);
 
     /**
      * @return SchoolInterface
      */
-    public function getOwningSchool();
+    public function getSchool();
 }

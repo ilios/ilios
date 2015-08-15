@@ -40,7 +40,7 @@ class LoadCourseData extends AbstractFixture implements
             $entity->setExternalId($arr['externalId']);
             $entity->setLocked($arr['locked']);
             $entity->setArchived($arr['archived']);
-            $entity->setOwningSchool($this->getReference('schools' . $arr['owningSchool']));
+            $entity->setSchool($this->getReference('schools' . $arr['school']));
             $entity->setClerkshipType($this->getReference('courseClerkshipTypes' . $arr['clerkshipType']));
             if (!empty($arr['publishEvent'])) {
                 $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));

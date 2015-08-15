@@ -139,14 +139,14 @@ class Program implements ProgramInterface
     *
     * @ORM\ManyToOne(targetEntity="School", inversedBy="programs")
     * @ORM\JoinColumns({
-    *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+    *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
     * })
     *
     * @JMS\Expose
     * @JMS\Type("string")
-    * @JMS\SerializedName("owningSchool")
+    * @JMS\SerializedName("school")
     */
-    protected $owningSchool;
+    protected $school;
 
     /**
     * @var ArrayCollection|ProgramYearInterface[]
@@ -250,18 +250,18 @@ class Program implements ProgramInterface
     /**
      * @param SchoolInterface $school
      */
-    public function setOwningSchool(SchoolInterface $school)
+    public function setSchool(SchoolInterface $school)
     {
-        $this->owningSchool = $school;
+        $this->school = $school;
     }
 
     /**
      * @return SchoolInterface
      */
-    public function getOwningSchool()
+    public function getSchool()
     {
-        if ($this->owningSchool && !$this->owningSchool->isDeleted()) {
-            return $this->owningSchool;
+        if ($this->school && !$this->school->isDeleted()) {
+            return $this->school;
         }
         
         return null;

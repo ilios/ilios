@@ -33,7 +33,7 @@ class CourseType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CourseClerkshipType"
             ])
-            ->add('owningSchool', 'tdn_single_related', [
+            ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])

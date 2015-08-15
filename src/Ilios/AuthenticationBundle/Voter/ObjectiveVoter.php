@@ -104,11 +104,11 @@ class ObjectiveVoter extends AbstractVoter
         }
         return (
             ($this->userHasRole($user, ['Course Director', 'Developer'])
-                && ($programYear->getProgram()->getOwningSchool()->getId()
+                && ($programYear->getProgram()->getSchool()->getId()
                     === $user->getPrimarySchool()->getId()
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
-                        $programYear->getProgram()->getOwningSchool()
+                        $programYear->getProgram()->getSchool()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear(
                         $user->getPrimarySchool(),
@@ -142,8 +142,8 @@ class ObjectiveVoter extends AbstractVoter
         }
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-            && ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getOwningSchool())
+            && ($course->getSchool()->getId() === $user->getPrimarySchool()->getId()
+                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
             )
             || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
         );
@@ -168,8 +168,8 @@ class ObjectiveVoter extends AbstractVoter
         }
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-            && ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getOwningSchool())
+            && ($course->getSchool()->getId() === $user->getPrimarySchool()->getId()
+                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
             )
             || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
         );

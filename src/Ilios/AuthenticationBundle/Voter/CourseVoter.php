@@ -68,8 +68,8 @@ class CourseVoter extends AbstractVoter
         // 1. the user's primary school is the course's owning school
         // 2. the user has READ rights on the course's owning school via the permissions system
         // 3. the user has READ rights on the course via the permissions system
-        return ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-            || $this->permissionManager->userHasReadPermissionToSchool($user, $course->getOwningSchool())
+        return ($course->getSchool()->getId() === $user->getPrimarySchool()->getId()
+            || $this->permissionManager->userHasReadPermissionToSchool($user, $course->getSchool())
             || $this->permissionManager->userHasReadPermissionToCourse($user, $course)
         );
     }
@@ -90,8 +90,8 @@ class CourseVoter extends AbstractVoter
         // 3. the user has WRITE rights on the course via the permissions system
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-            && ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getOwningSchool())
+            && ($course->getSchool()->getId() === $user->getPrimarySchool()->getId()
+                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
             )
             || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
         );
