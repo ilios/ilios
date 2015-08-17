@@ -64,8 +64,10 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                 // via the permissions system.
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
-                    && ($user->getSchool()->getId() === $institution->getSchool()->getId()
-                        || $this->permissionManager->userHasReadPermissionToSchool($user, $institution->getSchool()))
+                    && (
+                        $this->schoolsAreIdentical($user->getSchool(), $institution->getSchool())
+                        || $this->permissionManager->userHasReadPermissionToSchool($user, $institution->getSchool())
+                    )
                 );
                 break;
             case self::CREATE:
@@ -80,8 +82,10 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                 // via the permissions system.
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
-                    && ($user->getSchool()->getId() === $institution->getSchool()->getId()
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $institution->getSchool()))
+                    && (
+                        $this->schoolsAreIdentical($user->getSchool(), $institution->getSchool())
+                        || $this->permissionManager->userHasWritePermissionToSchool($user, $institution->getSchool())
+                    )
                 );
                 break;
         }

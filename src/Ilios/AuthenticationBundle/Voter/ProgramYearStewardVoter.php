@@ -58,14 +58,18 @@ class ProgramYearStewardVoter extends AbstractVoter
                 //    and the user has at least one of 'Course Director', 'Faculty' and 'Developer' role.
                 // 4. The user has READ permissions on the owning program.
                 return (
-                    ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
-                        && ($steward->getProgramYear()->getProgram()->getSchool()->getId()
-                            === $user->getSchool()->getId()
+                    (
+                        $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
+                        && (
+                            $this->schoolsAreIdentical(
+                                $steward->getProgramYear()->getProgram()->getSchool(),
+                                $user->getSchool()
+                            )
                             || $this->permissionManager->userHasReadPermissionToSchool(
                                 $user,
                                 $steward->getProgramYear()->getProgram()->getSchool()
                             )
-                            || $steward->getSchool()->getId() === $user->getSchool()->getId()
+                            || $this->schoolsAreIdentical($steward->getSchool(), $user->getSchool())
                         )
                     )
                     || $this->permissionManager->userHasReadPermissionToProgram(
@@ -87,14 +91,18 @@ class ProgramYearStewardVoter extends AbstractVoter
                 //    and the user has at least one of 'Course Director' and 'Developer' role.
                 // 4. The user has WRITE permissions on the parent program.
                 return (
-                    ($this->userHasRole($user, ['Course Director', 'Developer'])
-                        && ($steward->getProgramYear()->getProgram()->getSchool()->getId()
-                            === $user->getSchool()->getId()
+                    (
+                        $this->userHasRole($user, ['Course Director', 'Developer'])
+                        && (
+                            $this->schoolsAreIdentical(
+                                $steward->getProgramYear()->getProgram()->getSchool(),
+                                $user->getSchool()
+                            )
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
                                 $steward->getProgramYear()->getProgram()->getSchool()
                             )
-                            || $steward->getSchool()->getId() === $user->getSchool()->getId()
+                            || $this->schoolsAreIdentical($steward->getSchool(), $user->getSchool())
                         )
                     )
                     || $this->permissionManager->userHasWritePermissionToProgram(

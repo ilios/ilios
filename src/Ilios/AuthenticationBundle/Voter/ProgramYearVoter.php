@@ -88,9 +88,10 @@ class ProgramYearVoter extends AbstractVoter
         //    and the user has at least one of 'Course Director', 'Faculty' and 'Developer' role.
         // 4. The user has READ permissions on the program.
         return (
-            ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
-                && ($programYear->getProgram()->getSchool()->getId()
-                    === $user->getSchool()->getId()
+            (
+                $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
+                && (
+                    $this->schoolsAreIdentical($programYear->getProgram()->getSchool(), $user->getSchool())
                     || $this->permissionManager->userHasReadPermissionToSchool(
                         $user,
                         $programYear->getProgram()->getSchool()
@@ -120,9 +121,10 @@ class ProgramYearVoter extends AbstractVoter
         //    and the user has at least one of 'Course Director' and 'Developer' role.
         // 4. The user has WRITE permissions on the parent program.
         return (
-            ($this->userHasRole($user, ['Course Director', 'Developer'])
-                && ($programYear->getProgram()->getSchool()->getId()
-                    === $user->getSchool()->getId()
+            (
+                $this->userHasRole($user, ['Course Director', 'Developer'])
+                && (
+                    $this->schoolsAreIdentical($programYear->getProgram()->getSchool(), $user->getSchool())
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
                         $programYear->getProgram()->getSchool()

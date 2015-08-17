@@ -65,8 +65,8 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                 // via the permissions system.
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
-                    && ($user->getSchool()->getId()
-                        === $export->getReport()->getProgram()->getSchool()->getId()
+                    && (
+                        $this->schoolsAreIdentical($user->getSchool(), $export->getReport()->getProgram()->getSchool())
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
                             $export->getReport()->getProgram()->getSchool()
@@ -82,8 +82,8 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                 // via the permissions system.
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
-                    && ($user->getSchool()->getId()
-                        === $export->getReport()->getProgram()->getSchool()->getId()
+                    && (
+                        $this->schoolsAreIdentical($user->getSchool(), $export->getReport()->getProgram()->getSchool())
                         || $this->permissionManager->userHasReadPermissionToSchool(
                             $user,
                             $export->getReport()->getProgram()->getSchool()

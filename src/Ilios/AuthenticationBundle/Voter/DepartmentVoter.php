@@ -52,7 +52,8 @@ class DepartmentVoter extends AbstractVoter
             // if the user has READ rights on the department's owning school
             // via the permissions system.
             case self::VIEW:
-                return ($department->getSchool()->getId() === $user->getSchool()
+                return (
+                    $this->schoolsAreIdentical($department->getSchool(), $user->getSchool())
                     || $this->permissionManager->userHasReadPermissionToSchool($user, $department->getSchool())
                 );
                 break;
@@ -66,8 +67,10 @@ class DepartmentVoter extends AbstractVoter
                 //   - or -
                 //   if the user has WRITE rights on the departments's owning school
                 // via the permissions system.
-                return ($this->userHasRole($user, ['Developer'])
-                    && ($department->getSchool()->getId() === $user->getSchool()
+                return (
+                    $this->userHasRole($user, ['Developer'])
+                    && (
+                        $this->schoolsAreIdentical($department->getSchool(), $user->getSchool())
                         || $this->permissionManager->userHasWritePermissionToSchool($user, $department->getSchool())
                     )
                 );

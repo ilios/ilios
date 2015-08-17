@@ -63,9 +63,10 @@ class LearningMaterialVoter extends AbstractVoter
                 //    and the user has at least one of 'Faculty', 'Course Director' or 'Developer' roles.
                 return (
                     $user->getId() === $material->getOwningUser()->getId()
-                    || ($this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-                        && ($user->getSchool()->getId()
-                            === $material->getOwningUser()->getSchool()->getId()
+                    || (
+                        $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
+                        && (
+                            $this->schoolsAreIdentical($user->getSchool(), $material->getOwningUser()->getSchool())
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
                                 $material->getOwningUser()->getSchool()

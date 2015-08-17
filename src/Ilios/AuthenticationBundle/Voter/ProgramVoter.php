@@ -56,12 +56,16 @@ class ProgramVoter extends AbstractVoter
                 //    and the user has at least one of 'Course Director', 'Faculty' and 'Developer' role.
                 // 3. The user has READ permissions on the program.
                 return (
-                    ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
-                        && ($program->getSchool()->getId() === $user->getSchool()->getId()
+                    (
+                        $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
+                        && (
+                            $this->schoolsAreIdentical($program->getSchool(), $user->getSchool())
                             || $this->permissionManager->userHasReadPermissionToSchool(
                                 $user,
                                 $program->getSchool()
-                            )))
+                            )
+                        )
+                    )
                     || $this->permissionManager->userHasReadPermissionToProgram($user, $program)
                 );
                 break;
@@ -76,12 +80,16 @@ class ProgramVoter extends AbstractVoter
                 //    and the user has at least one of 'Course Director' and 'Developer' role.
                 // 3. The user has WRITE permissions on the program.
                 return (
-                    ($this->userHasRole($user, ['Course Director', 'Developer'])
-                        && ($program->getSchool()->getId() === $user->getSchool()->getId()
+                    (
+                        $this->userHasRole($user, ['Course Director', 'Developer'])
+                        && (
+                            $this->schoolsAreIdentical($program->getSchool(), $user->getSchool())
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
                                 $program->getSchool()
-                            )))
+                            )
+                        )
+                    )
                     || $this->permissionManager->userHasWritePermissionToProgram($user, $program)
                 );
                 break;

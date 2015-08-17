@@ -51,9 +51,10 @@ class InstructorGroupVoter extends AbstractVoter
                 //    and has at least one of 'Course Director', 'Faculty' and 'Developer' roles.
                 // 2. the user has READ rights on the group's owning school via the permissions system
                 //    and has at least one of 'InstructorGroup Director', 'Faculty' and 'Developer' roles.
-                return ($this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
+                return (
+                    $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                     && (
-                        $user->getSchool()->getId() === $group->getSchool()->getId()
+                        $this->schoolsAreIdentical($user->getSchool(), $group->getSchool())
                         || $this->permissionManager->userHasReadPermissionToSchool($user, $group->getSchool())
                     )
                 );
@@ -67,11 +68,12 @@ class InstructorGroupVoter extends AbstractVoter
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
                 // 2. the user has WRITE rights on the group's owning school via the permissions system
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
-                return ($this->userHasRole($user, ['Course Director', 'Developer'])
-                && (
-                    $user->getSchool()->getId() === $group->getSchool()->getId()
-                    || $this->permissionManager->userHasWritePermissionToSchool($user, $group->getSchool())
-                )
+                return (
+                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    && (
+                        $this->schoolsAreIdentical($user->getSchool(), $group->getSchool())
+                        || $this->permissionManager->userHasWritePermissionToSchool($user, $group->getSchool())
+                    )
                 );
                 break;
         }
