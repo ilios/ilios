@@ -19,7 +19,7 @@ use Ilios\CoreBundle\Traits\ProgramYearsEntity;
  * Class User
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_primary_school", columns={"primary_school_id"})})
+ * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_school", columns={"school_id"})})
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserRepository")
  *
  * @JMS\ExclusionPolicy("all")
@@ -273,14 +273,14 @@ class User implements UserInterface, EncoderAwareInterface
      *
      * @ORM\ManyToOne(targetEntity="School")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="primary_school_id", referencedColumnName="school_id")
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("primarySchool")
+     * @JMS\SerializedName("school")
      */
-    protected $primarySchool;
+    protected $school;
 
     /**
      * @var ArrayCollection|CourseInterface[]
@@ -686,19 +686,19 @@ class User implements UserInterface, EncoderAwareInterface
     }
 
     /**
-     * @param SchoolInterface $primarySchool
+     * @param SchoolInterface $school
      */
-    public function setPrimarySchool(SchoolInterface $primarySchool)
+    public function setSchool(SchoolInterface $school)
     {
-        $this->primarySchool = $primarySchool;
+        $this->school = $school;
     }
 
     /**
      * @return SchoolInterface
      */
-    public function getPrimarySchool()
+    public function getSchool()
     {
-        return $this->primarySchool;
+        return $this->school;
     }
 
     /**

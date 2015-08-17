@@ -90,13 +90,13 @@ class ProgramYearVoter extends AbstractVoter
         return (
             ($this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
                 && ($programYear->getProgram()->getSchool()->getId()
-                    === $user->getPrimarySchool()->getId()
+                    === $user->getSchool()->getId()
                     || $this->permissionManager->userHasReadPermissionToSchool(
                         $user,
                         $programYear->getProgram()->getSchool()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear(
-                        $user->getPrimarySchool(),
+                        $user->getSchool(),
                         $programYear
                     )
                 )
@@ -125,13 +125,13 @@ class ProgramYearVoter extends AbstractVoter
         return (
             ($this->userHasRole($user, ['Course Director', 'Developer'])
                 && ($programYear->getProgram()->getSchool()->getId()
-                    === $user->getPrimarySchool()->getId()
+                    === $user->getSchool()->getId()
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
                         $programYear->getProgram()->getSchool()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear(
-                        $user->getPrimarySchool(),
+                        $user->getSchool(),
                         $programYear
                     )
                 )

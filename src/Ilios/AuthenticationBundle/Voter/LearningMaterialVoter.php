@@ -64,11 +64,11 @@ class LearningMaterialVoter extends AbstractVoter
                 return (
                     $user->getId() === $material->getOwningUser()->getId()
                     || ($this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-                        && ($user->getPrimarySchool()->getId()
-                            === $material->getOwningUser()->getPrimarySchool()->getId()
+                        && ($user->getSchool()->getId()
+                            === $material->getOwningUser()->getSchool()->getId()
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
-                                $material->getOwningUser()->getPrimarySchool()
+                                $material->getOwningUser()->getSchool()
                             ))
                     )
                 );

@@ -67,7 +67,7 @@ class SchooleventVoter extends AbstractVoter
                 // grant VIEW permissions if the event-owning school matches any of the given user's schools.
                 $eventOwningSchool = $this->schoolManager->findSchoolBy(['id' => $event->school]);
                 return (
-                    $eventOwningSchool->getId() === $user->getPrimarySchool()->getId()
+                    $eventOwningSchool->getId() === $user->getSchool()->getId()
                     || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool)
                 );
                 break;

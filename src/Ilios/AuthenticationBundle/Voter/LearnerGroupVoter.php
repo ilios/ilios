@@ -54,7 +54,7 @@ class LearnerGroupVoter extends AbstractVoter
                 // 3. the user has READ rights to the group's owning program.
                 return ($this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                     && (
-                        $user->getPrimarySchool()->getId()
+                        $user->getSchool()->getId()
                         === $group->getCohort()->getProgramYear()->getProgram()->getSchool()->getId()
                         || $this->permissionManager->userHasReadPermissionToSchool(
                             $user,
@@ -79,7 +79,7 @@ class LearnerGroupVoter extends AbstractVoter
                 // 3. the user has WRITE rights to the group's owning program.
                 return ($this->userHasRole($user, ['Course Director', 'Developer'])
                     && (
-                        $user->getPrimarySchool()->getId()
+                        $user->getSchool()->getId()
                         === $group->getCohort()->getProgramYear()->getProgram()->getSchool()->getId()
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,

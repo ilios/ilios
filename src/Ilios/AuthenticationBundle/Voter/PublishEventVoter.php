@@ -132,7 +132,7 @@ class PublishEventVoter extends AbstractVoter
         // TODO: consolidate [ST 2015/08/05]
         return (
             ($this->userHasRole($user, ['Course Director', 'Developer'])
-                && ($program->getSchool()->getId() === $user->getPrimarySchool()->getId()
+                && ($program->getSchool()->getId() === $user->getSchool()->getId()
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
                         $program->getSchool()
@@ -163,13 +163,13 @@ class PublishEventVoter extends AbstractVoter
         return (
             ($this->userHasRole($user, ['Course Director', 'Developer'])
                 && ($programYear->getProgram()->getSchool()->getId()
-                    === $user->getPrimarySchool()->getId()
+                    === $user->getSchool()->getId()
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
                         $programYear->getProgram()->getSchool()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear(
-                        $user->getPrimarySchool(),
+                        $user->getSchool(),
                         $programYear
                     )
                 )
@@ -202,7 +202,7 @@ class PublishEventVoter extends AbstractVoter
         }
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-            && ($course->getSchool()->getId() === $user->getPrimarySchool()->getId()
+            && ($course->getSchool()->getId() === $user->getSchool()->getId()
                 || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
             )
             || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
@@ -235,7 +235,7 @@ class PublishEventVoter extends AbstractVoter
         }
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-            && ($course->getSchool()->getId() === $user->getPrimarySchool()->getId()
+            && ($course->getSchool()->getId() === $user->getSchool()->getId()
                 || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
             )
             || $this->permissionManager->userHasWritePermissionToCourse($user, $course)

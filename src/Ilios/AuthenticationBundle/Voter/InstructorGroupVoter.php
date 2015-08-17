@@ -53,7 +53,7 @@ class InstructorGroupVoter extends AbstractVoter
                 //    and has at least one of 'InstructorGroup Director', 'Faculty' and 'Developer' roles.
                 return ($this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                     && (
-                        $user->getPrimarySchool()->getId() === $group->getSchool()->getId()
+                        $user->getSchool()->getId() === $group->getSchool()->getId()
                         || $this->permissionManager->userHasReadPermissionToSchool($user, $group->getSchool())
                     )
                 );
@@ -69,7 +69,7 @@ class InstructorGroupVoter extends AbstractVoter
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
                 return ($this->userHasRole($user, ['Course Director', 'Developer'])
                 && (
-                    $user->getPrimarySchool()->getId() === $group->getSchool()->getId()
+                    $user->getSchool()->getId() === $group->getSchool()->getId()
                     || $this->permissionManager->userHasWritePermissionToSchool($user, $group->getSchool())
                 )
                 );

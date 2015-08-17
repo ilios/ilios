@@ -164,14 +164,14 @@ interface UserInterface extends
     public function getReminders();
 
     /**
-     * @param SchoolInterface $primarySchool
+     * @param SchoolInterface $school
      */
-    public function setPrimarySchool(SchoolInterface $primarySchool);
+    public function setSchool(SchoolInterface $school);
 
     /**
      * @return SchoolInterface
      */
-    public function getPrimarySchool();
+    public function getSchool();
 
     /**
      * @param Collection $courses
