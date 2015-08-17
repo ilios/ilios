@@ -6,7 +6,7 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Renames owning_school columns to school.
+ * Renames owning_school and primary_school columns to school.
  *
  * @link https://github.com/ilios/ilios/issues/922
  */
@@ -44,6 +44,11 @@ class Version20150817042932 extends AbstractMigration
         $this->addSql('ALTER TABLE discipline CHANGE owning_school_id school_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE discipline ADD CONSTRAINT FK_75BEEE3FC32A47EE FOREIGN KEY (school_id) REFERENCES school (school_id)');
         $this->addSql('CREATE INDEX IDX_75BEEE3FC32A47EE ON discipline (school_id)');
+        $this->addSql('ALTER TABLE user DROP FOREIGN KEY fkey_user_primary_school');
+        $this->addSql('DROP INDEX fkey_user_primary_school ON user');
+        $this->addSql('ALTER TABLE user CHANGE primary_school_id school_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649C32A47EE FOREIGN KEY (school_id) REFERENCES school (school_id)');
+        $this->addSql('CREATE INDEX fkey_user_school ON user (school_id)');
     }
 
     /**
@@ -78,5 +83,10 @@ class Version20150817042932 extends AbstractMigration
         $this->addSql('ALTER TABLE session_type CHANGE school_id owning_school_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE session_type ADD CONSTRAINT session_type_ibfk_1 FOREIGN KEY (owning_school_id) REFERENCES school (school_id)');
         $this->addSql('CREATE INDEX owning_school_id ON session_type (owning_school_id)');
+        $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649C32A47EE');
+        $this->addSql('DROP INDEX fkey_user_school ON user');
+        $this->addSql('ALTER TABLE user CHANGE school_id primary_school_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD CONSTRAINT fkey_user_primary_school FOREIGN KEY (primary_school_id) REFERENCES school (school_id)');
+        $this->addSql('CREATE INDEX fkey_user_primary_school ON user (primary_school_id)');
     }
 }
