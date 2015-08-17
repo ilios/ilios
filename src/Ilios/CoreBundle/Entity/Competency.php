@@ -9,11 +9,9 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Entity\CompetencyInterface;
-use Ilios\CoreBundle\Entity\AamcPcrsInterface;
-use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class Competency
