@@ -5,8 +5,6 @@ namespace Ilios\AuthenticationBundle\Voter;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Traits\SchoolEntity;
-use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter as Voter;
 
 /**
@@ -64,16 +62,13 @@ abstract class AbstractVoter extends Voter
     }
 
     /**
-     * Checks if the schools of two given entities are the same.
-     * @param SchoolEntityInterface $entityA
-     * @param SchoolEntityInterface $entityB
+     * Checks if to given schools are the same.
+     * @param SchoolInterface|null $schoolA
+     * @param SchoolInterface|null $schoolB
      * @return bool
      */
-    public function schoolsAreIdentical(SchoolEntityInterface $entityA, SchoolEntityInterface $entityB)
+    public function schoolsAreIdentical(SchoolInterface $schoolA = null, SchoolInterface $schoolB = null)
     {
-        $schoolA = $entityA->getSchool();
-        $schoolB = $entityB->getSchool();
-
         return (
             $schoolA instanceof SchoolInterface
             && $schoolB instanceof SchoolInterface
