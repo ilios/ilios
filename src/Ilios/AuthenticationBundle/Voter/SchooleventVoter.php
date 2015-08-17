@@ -5,6 +5,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
+use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -66,9 +67,13 @@ class SchooleventVoter extends AbstractVoter
             case self::VIEW:
                 // grant VIEW permissions if the event-owning school matches any of the given user's schools.
                 $eventOwningSchool = $this->schoolManager->findSchoolBy(['id' => $event->school]);
+                $userSchool = $user->getSchool();
                 return (
-                    $eventOwningSchool->getId() === $user->getSchool()->getId()
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool)
+                    $eventOwningSchool instanceof SchoolInterface
+                    && $userSchool instanceof SchoolInterface
+                    && ($eventOwningSchool->getId() === $userSchool->getId()
+                        || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool)
+                    )
                 );
                 break;
         }
