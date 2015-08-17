@@ -25,7 +25,7 @@ trait SchoolEntity
     /**
      * @param SchoolInterface $school
      */
-    public function setArchived($school)
+    public function setSchool($school)
     {
         $this->school = $school;
     }
