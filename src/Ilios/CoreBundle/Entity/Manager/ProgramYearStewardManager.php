@@ -93,7 +93,7 @@ class ProgramYearStewardManager extends AbstractManager implements ProgramYearSt
         $criteria = ['programYear' => $programYear->getId()];
         $stewards = $this->findProgramYearStewardsBy($criteria);
         foreach ($stewards as $steward) {
-            if ($school->getId() === $steward->getSchool()) {
+            if ($school->getId() === $steward->getSchool()->getId()) {
                 return true;
             }
         }
