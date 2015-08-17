@@ -110,10 +110,7 @@ class ObjectiveVoter extends AbstractVoter
                         $user,
                         $programYear->getProgram()->getSchool()
                     )
-                    || $this->stewardManager->schoolIsStewardingProgramYear(
-                        $user->getSchool(),
-                        $programYear
-                    )
+                    || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
                 )
             )
             || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
