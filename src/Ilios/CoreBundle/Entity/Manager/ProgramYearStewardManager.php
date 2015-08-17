@@ -91,8 +91,8 @@ class ProgramYearStewardManager extends AbstractManager implements ProgramYearSt
      */
     public function schoolIsStewardingProgramYear(
         SchoolEntityInterface $schoolEntity,
-        ProgramYearInterface $programYear)
-    {
+        ProgramYearInterface $programYear
+    ) {
         $school = $schoolEntity->getSchool();
         if (! $school instanceof SchoolInterface) {
             return false;
