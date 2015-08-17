@@ -55,7 +55,7 @@ class LearnerGroupVoter extends AbstractVoter
                 return ($this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                     && (
                         $user->getPrimarySchool()->getId()
-                        === $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()
+                        === $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()->getId()
                         || $this->permissionManager->userHasReadPermissionToSchool(
                             $user,
                             $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()
@@ -80,7 +80,7 @@ class LearnerGroupVoter extends AbstractVoter
                 return ($this->userHasRole($user, ['Course Director', 'Developer'])
                     && (
                         $user->getPrimarySchool()->getId()
-                        === $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()
+                        === $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()->getId()
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
                             $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()
