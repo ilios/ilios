@@ -30,6 +30,7 @@ class Competency implements CompetencyInterface
     use IdentifiableEntity;
     use TitledEntity;
     use ProgramYearsEntity;
+    use SchoolEntity;
 
     /**
      * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
@@ -147,26 +148,6 @@ class Competency implements CompetencyInterface
         $this->aamcPcrses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->children = new ArrayCollection();
-    }
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school)
-    {
-        $this->school = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool()
-    {
-        if ($this->school && !$this->school->isDeleted()) {
-            return $this->school;
-        }
-        
-        return null;
     }
 
     /**

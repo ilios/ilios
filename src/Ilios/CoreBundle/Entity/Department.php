@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class Department
@@ -25,6 +26,7 @@ class Department implements DepartmentInterface
     use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
+    use SchoolEntity;
 
     /**
      * @var int
@@ -90,26 +92,6 @@ class Department implements DepartmentInterface
     public function __construct()
     {
         $this->deleted = false;
-    }
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school)
-    {
-        $this->school = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool()
-    {
-        if ($this->school && !$this->school->isDeleted()) {
-            return $this->school;
-        }
-        
-        return null;
     }
 
     /**

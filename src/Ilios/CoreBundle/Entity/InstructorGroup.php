@@ -12,6 +12,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\OfferingsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class InstructorGroup
@@ -29,6 +30,7 @@ class InstructorGroup implements InstructorGroupInterface
     use TitledEntity;
     use StringableIdEntity;
     use OfferingsEntity;
+    use SchoolEntity;
 
     /**
      * @var int
@@ -133,26 +135,6 @@ class InstructorGroup implements InstructorGroupInterface
         $this->ilmSessions = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->offerings = new ArrayCollection();
-    }
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school)
-    {
-        $this->school = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool()
-    {
-        if ($this->school && !$this->school->isDeleted()) {
-            return $this->school;
-        }
-        
-        return null;
     }
 
     /**

@@ -3,23 +3,14 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface DepartmentInterface
  */
-interface DepartmentInterface extends IdentifiableEntityInterface, TitledEntityInterface
+interface DepartmentInterface extends IdentifiableEntityInterface, TitledEntityInterface, SchoolEntityInterface
 {
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school);
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool();
-
     /**
      * @param boolean $deleted
      */

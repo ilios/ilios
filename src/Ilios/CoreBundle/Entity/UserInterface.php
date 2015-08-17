@@ -15,6 +15,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
 use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
+use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 
 /**
  * Interface UserInterface
@@ -26,6 +27,7 @@ interface UserInterface extends
     OfferingsEntityInterface,
     ProgramYearsEntityInterface,
     BaseUserInterface,
+    SchoolEntityInterface,
     \Serializable
 {
     /**
@@ -162,16 +164,6 @@ interface UserInterface extends
      * @return ArrayCollection|UserMadeReminderInterface[]
      */
     public function getReminders();
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school);
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool();
 
     /**
      * @param Collection $courses

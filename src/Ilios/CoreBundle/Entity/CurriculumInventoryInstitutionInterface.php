@@ -7,13 +7,15 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 
 use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 
 /**
  * Interface CurriculumInventoryInstitutionInterface
  */
 interface CurriculumInventoryInstitutionInterface extends
     NameableEntityInterface,
-    IdentifiableEntityInterface
+    IdentifiableEntityInterface,
+    SchoolEntityInterface
 {
     /**
      * @param string $aamcCode
@@ -74,14 +76,4 @@ interface CurriculumInventoryInstitutionInterface extends
      * @return string
      */
     public function getAddressCountryCode();
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school);
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool();
 }

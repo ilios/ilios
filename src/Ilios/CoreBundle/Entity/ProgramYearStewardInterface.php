@@ -3,12 +3,15 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 
 /**
  * Interface ProgramYearStewardInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface ProgramYearStewardInterface extends IdentifiableEntityInterface
+interface ProgramYearStewardInterface extends
+    IdentifiableEntityInterface,
+    SchoolEntityInterface
 {
     /**
      * @param DepartmentInterface $department
@@ -29,14 +32,4 @@ interface ProgramYearStewardInterface extends IdentifiableEntityInterface
      * @return ProgramYearInterface
      */
     public function getProgramYear();
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school);
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool();
 }

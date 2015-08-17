@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class ProgramYearSteward
@@ -31,6 +32,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 class ProgramYearSteward implements ProgramYearStewardInterface
 {
     use IdentifiableEntity;
+    use SchoolEntity;
 
     /**
      * @var int
@@ -117,26 +119,6 @@ class ProgramYearSteward implements ProgramYearStewardInterface
     {
         if ($this->programYear && !$this->programYear->isDeleted()) {
             return $this->programYear;
-        }
-        
-        return null;
-    }
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school)
-    {
-        $this->school = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool()
-    {
-        if ($this->school && !$this->school->isDeleted()) {
-            return $this->school;
         }
         
         return null;

@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 
@@ -14,6 +13,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\OfferingsEntity;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class User
@@ -31,6 +31,7 @@ class User implements UserInterface, EncoderAwareInterface
     use StringableIdEntity;
     use OfferingsEntity;
     use ProgramYearsEntity;
+    use SchoolEntity;
 
     /**
      * @var int
@@ -683,22 +684,6 @@ class User implements UserInterface, EncoderAwareInterface
     public function getReminders()
     {
         return $this->reminders;
-    }
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school)
-    {
-        $this->school = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool()
-    {
-        return $this->school;
     }
 
     /**

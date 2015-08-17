@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\SessionsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * SessionType
@@ -31,6 +32,7 @@ class SessionType implements SessionTypeInterface
     use IdentifiableEntity;
     use TitledEntity;
     use SessionsEntity;
+    use SchoolEntity;
 
     /**
      * @var integer
@@ -202,26 +204,6 @@ class SessionType implements SessionTypeInterface
     public function getAssessmentOption()
     {
         return $this->assessmentOption;
-    }
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school)
-    {
-        $this->school = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool()
-    {
-        if ($this->school && !$this->school->isDeleted()) {
-            return $this->school;
-        }
-        
-        return null;
     }
 
     /**

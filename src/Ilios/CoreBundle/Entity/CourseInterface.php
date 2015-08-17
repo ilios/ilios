@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
+use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\SessionsEntityInterface;
@@ -22,7 +23,8 @@ interface CourseInterface extends
     StringableEntityInterface,
     LockableEntityInterface,
     ArchivableEntityInterface,
-    SessionsEntityInterface
+    SessionsEntityInterface,
+    SchoolEntityInterface
 {
     /**
      * @param int $level
@@ -105,16 +107,6 @@ interface CourseInterface extends
      * @return \Ilios\CoreBundle\Entity\CourseClerkshipType
      */
     public function getClerkshipType();
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school);
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool();
 
     /**
      * @param Collection|UserInterface[] $directors

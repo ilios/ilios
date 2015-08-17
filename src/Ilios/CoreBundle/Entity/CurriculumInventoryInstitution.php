@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class CurriculumInventoryInstitution
@@ -26,6 +26,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     use NameableEntity;
     use IdentifiableEntity;
     use StringableIdEntity;
+    use SchoolEntity;
 
     /**
      * @var int
@@ -272,25 +273,5 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     public function getAddressCountryCode()
     {
         return $this->addressCountryCode;
-    }
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school)
-    {
-        $this->school = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool()
-    {
-        if ($this->school && !$this->school->isDeleted()) {
-            return $this->school;
-        }
-        
-        return null;
     }
 }

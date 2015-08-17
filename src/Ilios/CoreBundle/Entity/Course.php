@@ -14,6 +14,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\SessionsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class Course
@@ -37,6 +38,7 @@ class Course implements CourseInterface
     use LockableEntity;
     use ArchivableEntity;
     use SessionsEntity;
+    use SchoolEntity;
 
     /**
      * @var int
@@ -498,26 +500,6 @@ class Course implements CourseInterface
     public function getClerkshipType()
     {
         return $this->clerkshipType;
-    }
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school)
-    {
-        $this->school = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool()
-    {
-        if ($this->school && !$this->school->isDeleted()) {
-            return $this->school;
-        }
-        
-        return null;
     }
 
     /**

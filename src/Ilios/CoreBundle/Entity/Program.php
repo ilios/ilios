@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class Program
@@ -30,6 +31,7 @@ class Program implements ProgramInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use ProgramYearsEntity;
+    use SchoolEntity;
 
     /**
      * @deprecated Replacde with trait in 3.x
@@ -248,26 +250,6 @@ class Program implements ProgramInterface
     }
 
     /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school)
-    {
-        $this->school = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool()
-    {
-        if ($this->school && !$this->school->isDeleted()) {
-            return $this->school;
-        }
-        
-        return null;
-    }
-
-    /**
      * @param PublishEventInterface $publishEvent
      */
     public function setPublishEvent(PublishEventInterface $publishEvent = null)
@@ -284,7 +266,7 @@ class Program implements ProgramInterface
     }
 
     /**
-    * @param Collection $curriculumInventoryReports
+    * @param Collection $reports
     */
     public function setCurriculumInventoryReports(Collection $reports)
     {
