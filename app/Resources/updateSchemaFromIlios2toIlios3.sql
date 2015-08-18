@@ -671,6 +671,7 @@ ALTER TABLE competency_x_aamc_pcrs ADD KEY IDX_1683F4A7FB9F58C (competency_id);
 ALTER TABLE course_director ADD KEY IDX_B724BEA6591CC992 (course_id);
 ALTER TABLE course_x_cohort ADD KEY IDX_4C4C18C591CC992 (course_id);
 ALTER TABLE course_x_discipline ADD KEY IDX_A52BE633591CC992 (course_id);
+ALTER TABLE course_x_objective ADD KEY IDX_4C880AE4591CC992 (course_id);
 ALTER TABLE curriculum_inventory_academic_level ADD KEY IDX_B4D3296D4BD2A4C0 (report_id);
 ALTER TABLE curriculum_inventory_report ADD KEY IDX_6E31899E3EB8070A (program_id);
 ALTER TABLE curriculum_inventory_sequence_block_session ADD KEY IDX_CF8E4F1261D1D223 (sequence_block_id);
