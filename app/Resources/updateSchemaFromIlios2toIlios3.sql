@@ -778,6 +778,7 @@ CREATE INDEX IDX_38AC2B7BCB2B0673 ON `program_year_steward` (program_year_id);
 CREATE INDEX IDX_38AC2B7BC32A47EE ON `program_year_steward` (school_id);
 CREATE UNIQUE INDEX program_year_id_school_id_department_id ON `program_year_steward` (program_year_id, school_id, department_id);
 CREATE INDEX IDX_1841AB9BFB9F58C ON `program_year_x_competency` (competency_id);
+CREATE INDEX IDX_1841AB9BCB2B0673 ON `program_year_x_competency` (program_year_id);
 CREATE INDEX IDX_FF29E64373484933 ON `program_year_x_objective` (objective_id);
 CREATE INDEX IDX_ED2A7194A5522701 ON `program_year_x_discipline` (discipline_id);
 CREATE INDEX IDX_ED2A7194CB2B0673 ON `program_year_x_discipline` (program_year_id);
