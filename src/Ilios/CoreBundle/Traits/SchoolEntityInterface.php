@@ -18,5 +18,5 @@ interface SchoolEntityInterface
     /**
      * @param SchoolInterface $school
      */
-    public function setSchool($school);
+    public function setSchool(SchoolInterface $school);
 }
