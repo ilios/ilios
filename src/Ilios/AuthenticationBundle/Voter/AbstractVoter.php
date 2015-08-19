@@ -62,7 +62,7 @@ abstract class AbstractVoter extends Voter
     }
 
     /**
-     * Checks if to given schools are the same.
+     * Checks if two given schools are the same.
      * @param SchoolInterface|null $schoolA
      * @param SchoolInterface|null $schoolB
      * @return bool
