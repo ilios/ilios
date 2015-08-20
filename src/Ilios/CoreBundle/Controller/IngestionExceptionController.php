@@ -43,8 +43,7 @@ class IngestionExceptionController extends FOSRestController
      *   statusCodes={
      *     200 = "IngestionException.",
      *     404 = "Not Found."
-     *   },
-     *   deprecated = true
+     *   }
      * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
@@ -78,8 +77,7 @@ class IngestionExceptionController extends FOSRestController
      *   statusCodes = {
      *     200 = "List of all IngestionException",
      *     204 = "No content. Nothing to list."
-     *   },
-     *   deprecated = true
+     *   }
      * )
      *
      * @QueryParam(
