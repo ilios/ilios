@@ -32,4 +32,13 @@ class IngestionExceptionTest extends EntityBase
     {
         $this->entitySetTest('user', 'User');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\IngestionException::setUid
+     * @covers Ilios\CoreBundle\Entity\IngestionException::getUid
+     */
+    public function testSetTitle()
+    {
+        $this->basicSetTest('uid', 'string');
+    }
 }
