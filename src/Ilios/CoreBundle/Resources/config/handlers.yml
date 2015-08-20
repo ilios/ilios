@@ -3,7 +3,6 @@ parameters:
     ilioscore.aamcpcrs.handler.class: Ilios\CoreBundle\Handler\AamcPcrsHandler
     ilioscore.alertchangetype.handler.class: Ilios\CoreBundle\Handler\AlertChangeTypeHandler
     ilioscore.alert.handler.class: Ilios\CoreBundle\Handler\AlertHandler
-    ilioscore.apikey.handler.class: Ilios\CoreBundle\Handler\ApiKeyHandler
     ilioscore.assessmentoption.handler.class: Ilios\CoreBundle\Handler\AssessmentOptionHandler
     ilioscore.cisession.handler.class: Ilios\CoreBundle\Handler\CISessionHandler
     ilioscore.cohort.handler.class: Ilios\CoreBundle\Handler\CohortHandler
@@ -63,9 +62,6 @@ services:
     ilioscore.alert.handler:
         class: %ilioscore.alert.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Alert, '@form.factory']
-    ilioscore.apikey.handler:
-        class: %ilioscore.apikey.handler.class%
-        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\ApiKey, '@form.factory']
     ilioscore.assessmentoption.handler:
         class: %ilioscore.assessmentoption.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AssessmentOption, '@form.factory']

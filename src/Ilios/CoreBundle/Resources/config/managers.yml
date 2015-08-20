@@ -3,7 +3,6 @@ parameters:
     ilioscore.aamcpcrs.manager.class: Ilios\CoreBundle\Entity\Manager\AamcPcrsManager
     ilioscore.alertchangetype.manager.class: Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager
     ilioscore.alert.manager.class: Ilios\CoreBundle\Entity\Manager\AlertManager
-    ilioscore.apikey.manager.class: Ilios\CoreBundle\Entity\Manager\ApiKeyManager
     ilioscore.assessmentoption.manager.class: Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager
     ilioscore.authentication.manager.class: Ilios\CoreBundle\Entity\Manager\AuthenticationManager
     ilioscore.cisession.manager.class: Ilios\CoreBundle\Entity\Manager\CISessionManager
@@ -67,9 +66,6 @@ services:
     ilioscore.alert.manager:
         class: %ilioscore.alert.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Alert]
-    ilioscore.apikey.manager:
-        class: %ilioscore.apikey.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\ApiKey]
     ilioscore.assessmentoption.manager:
         class: %ilioscore.assessmentoption.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AssessmentOption]
