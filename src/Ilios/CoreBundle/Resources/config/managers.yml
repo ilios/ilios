@@ -3,10 +3,8 @@ parameters:
     ilioscore.aamcpcrs.manager.class: Ilios\CoreBundle\Entity\Manager\AamcPcrsManager
     ilioscore.alertchangetype.manager.class: Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager
     ilioscore.alert.manager.class: Ilios\CoreBundle\Entity\Manager\AlertManager
-    ilioscore.apikey.manager.class: Ilios\CoreBundle\Entity\Manager\ApiKeyManager
     ilioscore.assessmentoption.manager.class: Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager
     ilioscore.authentication.manager.class: Ilios\CoreBundle\Entity\Manager\AuthenticationManager
-    ilioscore.cisession.manager.class: Ilios\CoreBundle\Entity\Manager\CISessionManager
     ilioscore.cohort.manager.class: Ilios\CoreBundle\Entity\Manager\CohortManager
     ilioscore.competency.manager.class: Ilios\CoreBundle\Entity\Manager\CompetencyManager
     ilioscore.courseclerkshiptype.manager.class: Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManager
@@ -67,18 +65,12 @@ services:
     ilioscore.alert.manager:
         class: %ilioscore.alert.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Alert]
-    ilioscore.apikey.manager:
-        class: %ilioscore.apikey.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\ApiKey]
     ilioscore.assessmentoption.manager:
         class: %ilioscore.assessmentoption.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AssessmentOption]
     ilioscore.authentication.manager:
         class: %ilioscore.authentication.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Authentication]
-    ilioscore.cisession.manager:
-        class: %ilioscore.cisession.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\CISession]
     ilioscore.cohort.manager:
         class: %ilioscore.cohort.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Cohort]

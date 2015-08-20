@@ -214,13 +214,6 @@ class User implements UserInterface, EncoderAwareInterface
     protected $userSyncIgnore;
 
     /**
-     * @var ApiKeyInterface
-     *
-     * @ORM\OneToOne(targetEntity="ApiKey", mappedBy="user")
-     */
-    protected $apiKey;
-
-    /**
      * @var AuthenticationInterface
      *
      * @ORM\OneToOne(targetEntity="Authentication", mappedBy="user")
@@ -640,22 +633,6 @@ class User implements UserInterface, EncoderAwareInterface
     public function isUserSyncIgnore()
     {
         return $this->userSyncIgnore;
-    }
-
-    /**
-     * @param ApiKeyInterface $apiKey
-     */
-    public function setApiKey(ApiKeyInterface $apiKey)
-    {
-        $this->apiKey = $apiKey;
-    }
-
-    /**
-     * @return ApiKeyInterface
-     */
-    public function getApiKey()
-    {
-        return $this->apiKey;
     }
 
     /**
