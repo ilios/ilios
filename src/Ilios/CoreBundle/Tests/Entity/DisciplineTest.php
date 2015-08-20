@@ -43,12 +43,12 @@ class DisciplineTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::setOwningSchool
-     * @covers Ilios\CoreBundle\Entity\Discipline::getOwningSchool
+     * @covers Ilios\CoreBundle\Entity\Discipline::setSchool
+     * @covers Ilios\CoreBundle\Entity\Discipline::getSchool
      */
-    public function testSetOwningSchool()
+    public function testSetSchool()
     {
-        $this->softDeleteEntitySetTest('owningSchool', 'School');
+        $this->softDeleteEntitySetTest('school', 'School');
     }
 
     /**

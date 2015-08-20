@@ -12,7 +12,7 @@ class SessionTypeData extends AbstractDataLoader
             'id' => 1,
             'title' => $this->faker->text(50),
             'assessmentOption' => '1',
-            'owningSchool' => '1',
+            'school' => '1',
             'aamcMethods' => ['AM001', 'AM002'],
             'sessions' => ['1', '2']
         );
@@ -21,7 +21,7 @@ class SessionTypeData extends AbstractDataLoader
             'id' => 2,
             'title' => $this->faker->text(50),
             'assessmentOption' => '2',
-            'owningSchool' => '1',
+            'school' => '1',
             'aamcMethods' => ['AM001'],
             'sessions' => []
         );
@@ -35,7 +35,7 @@ class SessionTypeData extends AbstractDataLoader
         return array(
             'id' => 3,
             'title' => $this->faker->text(50),
-            'owningSchool' => '1',
+            'school' => '1',
             'aamcMethods' => [],
             'sessions' => []
         );

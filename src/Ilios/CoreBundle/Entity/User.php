@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 
@@ -14,12 +13,13 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\OfferingsEntity;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class User
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_primary_school", columns={"primary_school_id"})})
+ * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_school", columns={"school_id"})})
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserRepository")
  *
  * @JMS\ExclusionPolicy("all")
@@ -31,6 +31,7 @@ class User implements UserInterface, EncoderAwareInterface
     use StringableIdEntity;
     use OfferingsEntity;
     use ProgramYearsEntity;
+    use SchoolEntity;
 
     /**
      * @var int
@@ -273,14 +274,14 @@ class User implements UserInterface, EncoderAwareInterface
      *
      * @ORM\ManyToOne(targetEntity="School")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="primary_school_id", referencedColumnName="school_id")
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("primarySchool")
+     * @JMS\SerializedName("school")
      */
-    protected $primarySchool;
+    protected $school;
 
     /**
      * @var ArrayCollection|CourseInterface[]
@@ -683,22 +684,6 @@ class User implements UserInterface, EncoderAwareInterface
     public function getReminders()
     {
         return $this->reminders;
-    }
-
-    /**
-     * @param SchoolInterface $primarySchool
-     */
-    public function setPrimarySchool(SchoolInterface $primarySchool)
-    {
-        $this->primarySchool = $primarySchool;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getPrimarySchool()
-    {
-        return $this->primarySchool;
     }
 
     /**

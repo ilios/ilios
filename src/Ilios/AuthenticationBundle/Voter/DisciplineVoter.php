@@ -52,8 +52,9 @@ class DisciplineVoter extends AbstractVoter
             // if the user has READ rights on the discipline's owning school
             // via the permissions system.
             case self::VIEW:
-                return ($discipline->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $discipline->getOwningSchool())
+                return (
+                    $this->schoolsAreIdentical($discipline->getSchool(), $user->getSchool())
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $discipline->getSchool())
                 );
                 break;
             case self::CREATE:
@@ -66,11 +67,13 @@ class DisciplineVoter extends AbstractVoter
                 //   - or -
                 //   if the user has WRITE rights on the discipline's owning school
                 // via the permissions system.
-                return ($this->userHasRole($user, ['Developer'])
-                    && ($discipline->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+                return (
+                    $this->userHasRole($user, ['Developer'])
+                    && (
+                        $this->schoolsAreIdentical($discipline->getSchool(), $user->getSchool())
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
-                            $discipline->getOwningSchool()
+                            $discipline->getSchool()
                         )
                     )
                 );

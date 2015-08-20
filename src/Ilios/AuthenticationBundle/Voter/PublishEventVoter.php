@@ -131,11 +131,13 @@ class PublishEventVoter extends AbstractVoter
         // copied and pasted straight out of ProgramVoter::isGranted().
         // TODO: consolidate [ST 2015/08/05]
         return (
-            ($this->userHasRole($user, ['Course Director', 'Developer'])
-                && ($program->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
+            (
+                $this->userHasRole($user, ['Course Director', 'Developer'])
+                && (
+                    $this->schoolsAreIdentical($program->getSchool(), $user->getSchool())
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
-                        $program->getOwningSchool()
+                        $program->getSchool()
                     )
                 )
             )
@@ -161,17 +163,15 @@ class PublishEventVoter extends AbstractVoter
         // copied and pasted straight out of ProgramYearVoter::isGranted().
         // TODO: consolidate [ST 2015/08/05]
         return (
-            ($this->userHasRole($user, ['Course Director', 'Developer'])
-                && ($programYear->getProgram()->getOwningSchool()->getId()
-                    === $user->getPrimarySchool()->getId()
+            (
+                $this->userHasRole($user, ['Course Director', 'Developer'])
+                && (
+                    $this->schoolsAreIdentical($programYear->getProgram()->getSchool(), $user->getSchool())
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
-                        $programYear->getProgram()->getOwningSchool()
+                        $programYear->getProgram()->getSchool()
                     )
-                    || $this->stewardManager->schoolIsStewardingProgramYear(
-                        $user->getPrimarySchool(),
-                        $programYear
-                    )
+                    || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
                 )
             )
             || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
@@ -202,8 +202,9 @@ class PublishEventVoter extends AbstractVoter
         }
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-            && ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getOwningSchool())
+            && (
+                $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
+                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
             )
             || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
         );
@@ -235,8 +236,9 @@ class PublishEventVoter extends AbstractVoter
         }
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-            && ($course->getOwningSchool()->getId() === $user->getPrimarySchool()->getId()
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getOwningSchool())
+            && (
+                $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
+                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
             )
             || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
         );

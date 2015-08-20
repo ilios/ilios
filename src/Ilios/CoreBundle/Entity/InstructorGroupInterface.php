@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
 
@@ -16,20 +17,11 @@ use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
 interface InstructorGroupInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    OfferingsEntityInterface
+    OfferingsEntityInterface,
+    SchoolEntityInterface
 {
     /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school);
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool();
-
-    /**
-     * @param Collection $groups
+     * @param Collection $learnerGroups
      */
     public function setLearnerGroups(Collection $learnerGroups);
 

@@ -52,13 +52,16 @@ class LearnerGroupVoter extends AbstractVoter
                 // 2. the user has READ rights on the group's owning school via the permissions system
                 //    and has at least one of 'Course Director', 'Faculty' and 'Developer' roles.
                 // 3. the user has READ rights to the group's owning program.
-                return ($this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
+                return (
+                    $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                     && (
-                        $user->getPrimarySchool()->getId()
-                        === $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()->getId()
+                        $this->schoolsAreIdentical(
+                            $user->getSchool(),
+                            $group->getCohort()->getProgramYear()->getProgram()->getSchool()
+                        )
                         || $this->permissionManager->userHasReadPermissionToSchool(
                             $user,
-                            $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()
+                            $group->getCohort()->getProgramYear()->getProgram()->getSchool()
                         )
                     )
                     || $this->permissionManager->userHasReadPermissionToProgram(
@@ -77,20 +80,22 @@ class LearnerGroupVoter extends AbstractVoter
                 // 2. the user has WRITE rights on the group's owning school via the permissions system
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
                 // 3. the user has WRITE rights to the group's owning program.
-                return ($this->userHasRole($user, ['Course Director', 'Developer'])
+                return (
+                    $this->userHasRole($user, ['Course Director', 'Developer'])
                     && (
-                        $user->getPrimarySchool()->getId()
-                        === $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()->getId()
+                        $this->schoolsAreIdentical(
+                            $user->getSchool(),
+                            $group->getCohort()->getProgramYear()->getProgram()->getSchool()
+                        )
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
-                            $group->getCohort()->getProgramYear()->getProgram()->getOwningSchool()
+                            $group->getCohort()->getProgramYear()->getProgram()->getSchool()
                         )
                     )
                     || $this->permissionManager->userHasWritePermissionToProgram(
                         $user,
                         $group->getCohort()->getProgramYear()->getProgram()
                     )
-
                 );
                 break;
         }

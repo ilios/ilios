@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\SessionsEntityInterface;
 
@@ -15,7 +16,8 @@ use Ilios\CoreBundle\Traits\SessionsEntityInterface;
 interface SessionTypeInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    SessionsEntityInterface
+    SessionsEntityInterface,
+    SchoolEntityInterface
 {
     /**
      * @param string $sessionTypeCssClass
@@ -50,16 +52,6 @@ interface SessionTypeInterface extends
      * @return AssessmentOptionInterface
      */
     public function getAssessmentOption();
-
-    /**
-     * @param SchoolInterface $owningSchool
-     */
-    public function setOwningSchool(SchoolInterface $owningSchool);
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getOwningSchool();
 
     /**
      * @param Collection $aamcMethods

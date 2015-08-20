@@ -46,7 +46,7 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Report"
             ])
-            ->add('primarySchool', 'tdn_single_related', [
+            ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])

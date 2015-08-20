@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class Program
@@ -30,6 +31,7 @@ class Program implements ProgramInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use ProgramYearsEntity;
+    use SchoolEntity;
 
     /**
      * @deprecated Replacde with trait in 3.x
@@ -139,14 +141,14 @@ class Program implements ProgramInterface
     *
     * @ORM\ManyToOne(targetEntity="School", inversedBy="programs")
     * @ORM\JoinColumns({
-    *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+    *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
     * })
     *
     * @JMS\Expose
     * @JMS\Type("string")
-    * @JMS\SerializedName("owningSchool")
+    * @JMS\SerializedName("school")
     */
-    protected $owningSchool;
+    protected $school;
 
     /**
     * @var ArrayCollection|ProgramYearInterface[]
@@ -248,26 +250,6 @@ class Program implements ProgramInterface
     }
 
     /**
-     * @param SchoolInterface $school
-     */
-    public function setOwningSchool(SchoolInterface $school)
-    {
-        $this->owningSchool = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getOwningSchool()
-    {
-        if ($this->owningSchool && !$this->owningSchool->isDeleted()) {
-            return $this->owningSchool;
-        }
-        
-        return null;
-    }
-
-    /**
      * @param PublishEventInterface $publishEvent
      */
     public function setPublishEvent(PublishEventInterface $publishEvent = null)
@@ -284,7 +266,7 @@ class Program implements ProgramInterface
     }
 
     /**
-    * @param Collection $curriculumInventoryReports
+    * @param Collection $reports
     */
     public function setCurriculumInventoryReports(Collection $reports)
     {

@@ -7,6 +7,7 @@ use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 
 /**
  * Class ProgramYearStewardManager
@@ -88,12 +89,20 @@ class ProgramYearStewardManager extends AbstractManager implements ProgramYearSt
     /**
      * {@inheritdoc}
      */
-    public function schoolIsStewardingProgramYear(SchoolInterface $school, ProgramYearInterface $programYear)
-    {
+    public function schoolIsStewardingProgramYear(
+        SchoolEntityInterface $schoolEntity,
+        ProgramYearInterface $programYear
+    ) {
+        $school = $schoolEntity->getSchool();
+        if (! $school instanceof SchoolInterface) {
+            return false;
+        }
         $criteria = ['programYear' => $programYear->getId()];
         $stewards = $this->findProgramYearStewardsBy($criteria);
         foreach ($stewards as $steward) {
-            if ($school->getId() === $steward->getSchool()->getId()) {
+            $stewardingSchool = $steward->getSchool();
+            if ($stewardingSchool instanceof SchoolInterface
+                && $school->getId() === $stewardingSchool->getId()) {
                 return true;
             }
         }

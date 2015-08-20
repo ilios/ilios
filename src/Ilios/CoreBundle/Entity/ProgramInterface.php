@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
@@ -15,7 +16,8 @@ interface ProgramInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     StringableEntityInterface,
-    ProgramYearsEntityInterface
+    ProgramYearsEntityInterface,
+    SchoolEntityInterface
 {
     /**
      * @param string $shortTitle
@@ -56,16 +58,6 @@ interface ProgramInterface extends
      * @return boolean
      */
     public function isPublishedAsTbd();
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setOwningSchool(SchoolInterface $school);
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getOwningSchool();
 
     /**
      * @param PublishEventInterface $publishEvent

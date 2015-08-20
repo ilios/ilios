@@ -143,7 +143,7 @@ class School implements SchoolInterface
     /**
      * @var ArrayCollection|CourseInterface[]
      *
-     * @ORM\OneToMany(targetEntity="Course", mappedBy="owningSchool")
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="school")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -153,7 +153,7 @@ class School implements SchoolInterface
     /**
      * @var ArrayCollection|ProgramInterface[]
      *
-     * @ORM\OneToMany(targetEntity="Program", mappedBy="owningSchool")
+     * @ORM\OneToMany(targetEntity="Program", mappedBy="school")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -173,7 +173,7 @@ class School implements SchoolInterface
     /**
      * @var ArrayCollection|DisciplineInterface[]
      *
-     * @ORM\OneToMany(targetEntity="Discipline", mappedBy="owningSchool")
+     * @ORM\OneToMany(targetEntity="Discipline", mappedBy="school")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -208,7 +208,7 @@ class School implements SchoolInterface
     /**
     * @var ArrayCollection|SessionTypeInterface[]
     *
-    * @ORM\OneToMany(targetEntity="SessionType", mappedBy="owningSchool")
+    * @ORM\OneToMany(targetEntity="SessionType", mappedBy="school")
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")

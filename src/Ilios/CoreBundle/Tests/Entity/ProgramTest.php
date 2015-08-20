@@ -81,12 +81,12 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::setOwningSchool
-     * @covers Ilios\CoreBundle\Entity\Program::getOwningSchool
+     * @covers Ilios\CoreBundle\Entity\Program::setSchool
+     * @covers Ilios\CoreBundle\Entity\Program::getSchool
      */
-    public function testSetOwningSchool()
+    public function testSetSchool()
     {
-        $this->softDeleteEntitySetTest('owningSchool', 'School');
+        $this->softDeleteEntitySetTest('school', 'School');
     }
 
     /**

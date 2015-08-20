@@ -11,13 +11,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\SessionsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * SessionType
  *
  * @ORM\Table(name="session_type",
  *   indexes={
- *     @ORM\Index(name="owning_school_id", columns={"owning_school_id"}),
+ *     @ORM\Index(name="school_id", columns={"school_id"}),
  *     @ORM\Index(name="assessment_option_fkey", columns={"assessment_option_id"})
  *   }
  * )
@@ -31,6 +32,7 @@ class SessionType implements SessionTypeInterface
     use IdentifiableEntity;
     use TitledEntity;
     use SessionsEntity;
+    use SchoolEntity;
 
     /**
      * @var integer
@@ -104,14 +106,14 @@ class SessionType implements SessionTypeInterface
      *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="sessionTypes")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("owningSchool")
+     * @JMS\SerializedName("school")
      */
-    protected $owningSchool;
+    protected $school;
 
     /**
      * @var ArrayCollection|AamcMethodInterface[]
@@ -202,26 +204,6 @@ class SessionType implements SessionTypeInterface
     public function getAssessmentOption()
     {
         return $this->assessmentOption;
-    }
-
-    /**
-     * @param SchoolInterface $owningSchool
-     */
-    public function setOwningSchool(SchoolInterface $owningSchool)
-    {
-        $this->owningSchool = $owningSchool;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getOwningSchool()
-    {
-        if ($this->owningSchool && !$this->owningSchool->isDeleted()) {
-            return $this->owningSchool;
-        }
-        
-        return null;
     }
 
     /**

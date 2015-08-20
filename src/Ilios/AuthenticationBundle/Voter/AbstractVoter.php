@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter as Voter;
@@ -45,7 +46,6 @@ abstract class AbstractVoter extends Voter
      * @param UserInterface $user the user object
      * @param array $eligibleRoles a list of role names
      * @return bool TRUE if the user has at least one of the roles, FALSE otherwise.
-     * @todo not sure if this really belongs here, move as applicable [ST 2015/07/29]
      */
     public function userHasRole(UserInterface $user, $eligibleRoles = array())
     {
@@ -59,5 +59,20 @@ abstract class AbstractVoter extends Voter
         $intersection = array_intersect($eligibleRoles, $roles);
 
         return ! empty($intersection);
+    }
+
+    /**
+     * Checks if two given schools are the same.
+     * @param SchoolInterface|null $schoolA
+     * @param SchoolInterface|null $schoolB
+     * @return bool
+     */
+    public function schoolsAreIdentical(SchoolInterface $schoolA = null, SchoolInterface $schoolB = null)
+    {
+        return (
+            $schoolA instanceof SchoolInterface
+            && $schoolB instanceof SchoolInterface
+            && $schoolA->getId() === $schoolB->getId()
+        );
     }
 }

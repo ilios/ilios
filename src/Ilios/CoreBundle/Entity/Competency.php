@@ -9,11 +9,9 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Entity\CompetencyInterface;
-use Ilios\CoreBundle\Entity\AamcPcrsInterface;
-use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class Competency
@@ -30,6 +28,7 @@ class Competency implements CompetencyInterface
     use IdentifiableEntity;
     use TitledEntity;
     use ProgramYearsEntity;
+    use SchoolEntity;
 
     /**
      * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
@@ -67,7 +66,7 @@ class Competency implements CompetencyInterface
      *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="competencies")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
      *
      * @JMS\Expose
@@ -147,26 +146,6 @@ class Competency implements CompetencyInterface
         $this->aamcPcrses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->children = new ArrayCollection();
-    }
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setSchool(SchoolInterface $school)
-    {
-        $this->school = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getSchool()
-    {
-        if ($this->school && !$this->school->isDeleted()) {
-            return $this->school;
-        }
-        
-        return null;
     }
 
     /**

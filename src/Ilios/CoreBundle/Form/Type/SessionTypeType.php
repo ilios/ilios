@@ -22,7 +22,7 @@ class SessionTypeType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AssessmentOption"
             ])
-            ->add('owningSchool', 'tdn_single_related', [
+            ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])

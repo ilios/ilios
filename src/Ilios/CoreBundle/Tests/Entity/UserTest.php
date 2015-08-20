@@ -157,12 +157,12 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setPrimarySchool
-     * @covers Ilios\CoreBundle\Entity\User::getPrimarySchool
+     * @covers Ilios\CoreBundle\Entity\User::setSchool
+     * @covers Ilios\CoreBundle\Entity\User::getSchool
      */
-    public function testSetPrimarySchool()
+    public function testSetSchool()
     {
-        $this->entitySetTest('primarySchool', 'School');
+        $this->softDeleteEntitySetTest('school', 'School');
     }
 
     /**

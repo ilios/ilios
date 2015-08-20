@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,6 +12,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\CoursesEntity;
 use Ilios\CoreBundle\Traits\SessionsEntity;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class Discipline
@@ -31,6 +31,7 @@ class Discipline implements DisciplineInterface
     use CoursesEntity;
     use SessionsEntity;
     use ProgramYearsEntity;
+    use SchoolEntity;
 
     /**
      * @var int
@@ -68,14 +69,14 @@ class Discipline implements DisciplineInterface
      *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="disciplines")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("owningSchool")
+     * @JMS\SerializedName("school")
      */
-    protected $owningSchool;
+    protected $school;
 
     /**
      * @var ArrayCollection|CourseInterface[]
@@ -116,26 +117,6 @@ class Discipline implements DisciplineInterface
         $this->courses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->sessions = new ArrayCollection();
-    }
-
-    /**
-     * @param SchoolInterface $school
-     */
-    public function setOwningSchool(SchoolInterface $school)
-    {
-        $this->owningSchool = $school;
-    }
-
-    /**
-     * @return SchoolInterface
-     */
-    public function getOwningSchool()
-    {
-        if ($this->owningSchool && !$this->owningSchool->isDeleted()) {
-            return $this->owningSchool;
-        }
-        
-        return null;
     }
 
     /**
