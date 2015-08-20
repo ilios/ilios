@@ -146,18 +146,26 @@ api_educationalyear_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+
 api_ilmsession_v1:
     resource: "@IliosCoreBundle/Controller/IlmSessionController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
 
+
+api_ingestionexception_v1:
+    resource: "@IliosCoreBundle/Controller/IngestionExceptionController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+
 api_instructorgroup_v1:
     resource: "@IliosCoreBundle/Controller/InstructorGroupController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
-
 
 
 api_learningmaterial:

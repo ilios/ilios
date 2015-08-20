@@ -25,6 +25,19 @@ class IngestionException implements IngestionExceptionInterface
     use StringableIdEntity;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="ingestion_exception_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     */
+    protected $id;
+    /**
      * @var string
      *
      * @ORM\Column(name="ingested_wide_uid", type="string", length=32)
@@ -39,17 +52,20 @@ class IngestionException implements IngestionExceptionInterface
      * @JMS\Expose
      * @JMS\Type("string")
      */
-    protected $id;
+    protected $uid;
 
     /**
-     * Used as primary key.
      * @var UserInterface
      *
-     * @ORM\Id
      * @ORM\OneToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     * })
+     *   @ORM\JoinColumn(
+     *      name="user_id",
+     *      referencedColumnName="user_id",
+     *      onDelete="CASCADE",
+     *      unique=true,
+     *      nullable=false
+     * )})
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -70,5 +86,21 @@ class IngestionException implements IngestionExceptionInterface
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUid()
+    {
+        return $this->uid;
     }
 }
