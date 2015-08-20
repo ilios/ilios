@@ -139,16 +139,6 @@ interface UserInterface extends
     public function isUserSyncIgnore();
 
     /**
-     * @param ApiKeyInterface $apiKey
-     */
-    public function setApiKey(ApiKeyInterface $apiKey);
-
-    /**
-     * @return ApiKeyInterface
-     */
-    public function getApiKey();
-
-    /**
      * @param Collection $reminders
      */
     public function setReminders(Collection $reminders);

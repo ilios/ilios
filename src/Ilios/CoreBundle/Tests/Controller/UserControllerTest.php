@@ -36,7 +36,6 @@ class UserControllerTest extends AbstractControllerTest
             'addedViaIlios',
             'examined',
             'userSyncIgnore',
-            'apiKey',
         ];
     }
 

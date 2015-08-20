@@ -166,15 +166,6 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setApiKey
-     * @covers Ilios\CoreBundle\Entity\User::getApiKey
-     */
-    public function testSetApiKey()
-    {
-        $this->entitySetTest('apiKey', 'ApiKey');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\User::addReminder
      */
     public function testAddReminder()
