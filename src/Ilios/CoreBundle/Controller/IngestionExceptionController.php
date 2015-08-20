@@ -20,7 +20,6 @@ use Ilios\CoreBundle\Entity\IngestionExceptionInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("IngestionExceptions")
  *
- * @deprecated
  */
 class IngestionExceptionController extends FOSRestController
 {
