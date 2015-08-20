@@ -59,8 +59,13 @@ class IngestionException implements IngestionExceptionInterface
      *
      * @ORM\OneToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE", unique=true, nullable=false)
-     * })
+     *   @ORM\JoinColumn(
+     *      name="user_id",
+     *      referencedColumnName="user_id",
+     *      onDelete="CASCADE",
+     *      unique=true,
+     *      nullable=false
+     * )})
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -94,7 +99,8 @@ class IngestionException implements IngestionExceptionInterface
     /**
      * {@inheritdoc}
      */
-    public function getUid() {
+    public function getUid()
+    {
         return $this->uid;
     }
 }
