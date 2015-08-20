@@ -40,7 +40,7 @@ class IngestionExceptionControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_ingestionexception',
+                'get_ingestionexceptions',
                 ['id' => $exception['id']]
             ),
             null,
@@ -60,7 +60,7 @@ class IngestionExceptionControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_ingestionexception'),
+            $this->getUrl('cget_ingestionexceptions'),
             null,
             $this->getAuthenticatedUserToken()
         );
@@ -82,7 +82,7 @@ class IngestionExceptionControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_ingestionexception', ['id' => '0']),
+            $this->getUrl('get_ingestionexceptions', ['id' => '0']),
             null,
             $this->getAuthenticatedUserToken()
         );
