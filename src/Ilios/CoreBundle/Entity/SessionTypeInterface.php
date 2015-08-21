@@ -17,7 +17,8 @@ interface SessionTypeInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     SessionsEntityInterface,
-    SchoolEntityInterface
+    SchoolEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $sessionTypeCssClass

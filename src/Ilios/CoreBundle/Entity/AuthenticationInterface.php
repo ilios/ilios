@@ -6,7 +6,7 @@ namespace Ilios\CoreBundle\Entity;
  * Interface AuthenticationInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface AuthenticationInterface
+interface AuthenticationInterface extends LoggableEntityInterface
 {
     /**
      * @param string $username

@@ -11,7 +11,9 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
  * Interface IlmSessionInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface IlmSessionInterface extends IdentifiableEntityInterface
+interface IlmSessionInterface extends
+    IdentifiableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $hours

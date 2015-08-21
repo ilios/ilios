@@ -19,7 +19,8 @@ interface SchoolInterface extends
     TitledEntityInterface,
     StringableEntityInterface,
     CoursesEntityInterface,
-    ProgramsEntityInterface
+    ProgramsEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $templatePrefix

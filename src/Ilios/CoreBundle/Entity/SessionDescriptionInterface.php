@@ -11,7 +11,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
  */
 interface SessionDescriptionInterface extends
     DescribableEntityInterface,
-    IdentifiableEntityInterface
+    IdentifiableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param SessionInterface $session

@@ -14,7 +14,8 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 interface CurriculumInventoryAcademicLevelInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
-    DescribableEntityInterface
+    DescribableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param int $level

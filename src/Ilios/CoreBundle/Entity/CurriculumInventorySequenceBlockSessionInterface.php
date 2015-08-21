@@ -7,7 +7,9 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 /**
  * Interface CurriculumInventorySequenceBlockSessionInterface
  */
-interface CurriculumInventorySequenceBlockSessionInterface extends IdentifiableEntityInterface
+interface CurriculumInventorySequenceBlockSessionInterface extends
+    IdentifiableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param boolean $countOfferingsOnce

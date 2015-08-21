@@ -15,7 +15,8 @@ interface CurriculumInventoryReportInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
     DescribableEntityInterface,
-    StringableEntityInterface
+    StringableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param int $year

@@ -231,6 +231,13 @@ class User implements UserInterface, EncoderAwareInterface
     protected $reminders;
 
     /**
+     * @var ArrayCollection|AuditLogInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="AuditLog", mappedBy="user")
+     */
+    protected $auditLogs;
+
+    /**
      * @var ArrayCollection|LearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="owningUser")
@@ -1088,6 +1095,34 @@ class User implements UserInterface, EncoderAwareInterface
     public function getAuthentication()
     {
         return $this->authentication;
+    }
+
+    /**
+     * @param Collection $auditLogs
+     */
+    public function setAuditLogs(Collection $auditLogs)
+    {
+        $this->auditLog = new ArrayCollection();
+
+        foreach ($auditLogs as $auditLog) {
+            $this->addAuditLog($auditLog);
+        }
+    }
+
+    /**
+     * @param AuditLog $auditLog
+     */
+    public function addAuditLog(AuditLog $auditLog)
+    {
+        $this->auditLogs->add($auditLog);
+    }
+
+    /**
+     * @return ArrayCollection[AuditLog]
+     */
+    public function getAuditLogs()
+    {
+        return $this->auditLogs;
     }
 
     /**

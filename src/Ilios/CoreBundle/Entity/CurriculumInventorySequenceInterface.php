@@ -10,7 +10,8 @@ use Ilios\CoreBundle\Traits\DescribableEntityInterface;
  * Interface CurriculumInventorySequenceInterface
  */
 interface CurriculumInventorySequenceInterface extends
-    DescribableEntityInterface
+    DescribableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param CurriculumInventoryReportInterface $report

@@ -20,7 +20,8 @@ interface MeshDescriptorInterface extends
     NameableEntityInterface,
     TimestampableEntityInterface,
     CoursesEntityInterface,
-    SessionsEntityInterface
+    SessionsEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $annotation

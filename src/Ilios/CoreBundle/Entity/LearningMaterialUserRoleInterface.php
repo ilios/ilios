@@ -12,7 +12,10 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
  * Interface LearningMaterialUserRoleInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface LearningMaterialUserRoleInterface extends IdentifiableEntityInterface, TitledEntityInterface
+interface LearningMaterialUserRoleInterface extends
+    IdentifiableEntityInterface,
+    TitledEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param Collection $learningMaterials

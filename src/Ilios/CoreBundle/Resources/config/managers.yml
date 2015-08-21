@@ -4,6 +4,7 @@ parameters:
     ilioscore.alertchangetype.manager.class: Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager
     ilioscore.alert.manager.class: Ilios\CoreBundle\Entity\Manager\AlertManager
     ilioscore.assessmentoption.manager.class: Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager
+    ilioscore.auditlog.manager.class: Ilios\CoreBundle\Entity\Manager\AuditLogManager
     ilioscore.authentication.manager.class: Ilios\CoreBundle\Entity\Manager\AuthenticationManager
     ilioscore.cohort.manager.class: Ilios\CoreBundle\Entity\Manager\CohortManager
     ilioscore.competency.manager.class: Ilios\CoreBundle\Entity\Manager\CompetencyManager
@@ -68,6 +69,9 @@ services:
     ilioscore.assessmentoption.manager:
         class: %ilioscore.assessmentoption.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AssessmentOption]
+    ilioscore.auditlog.manager:
+        class: %ilioscore.auditlog.manager.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\AuditLog]
     ilioscore.authentication.manager:
         class: %ilioscore.authentication.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Authentication]

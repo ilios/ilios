@@ -18,7 +18,8 @@ interface InstructorGroupInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     OfferingsEntityInterface,
-    SchoolEntityInterface
+    SchoolEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param Collection $learnerGroups

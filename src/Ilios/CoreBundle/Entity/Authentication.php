@@ -176,4 +176,13 @@ class Authentication implements AuthenticationInterface
     {
         return (bool) $this->getPasswordSha256();
     }
+    
+    /**
+    * @return string
+    */
+    public function __toString()
+    {
+        return (string) $this->user;
+
+    }
 }

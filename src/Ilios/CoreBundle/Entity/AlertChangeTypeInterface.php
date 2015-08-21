@@ -13,7 +13,11 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
  * Interface AlertChangeTypeInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface AlertChangeTypeInterface extends IdentifiableEntityInterface, TitledEntityInterface, StringableEntityInterface
+interface AlertChangeTypeInterface extends
+    IdentifiableEntityInterface,
+    TitledEntityInterface,
+    StringableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param Collection $alerts

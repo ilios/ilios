@@ -16,7 +16,8 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 interface LearningMaterialInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    DescribableEntityInterface
+    DescribableEntityInterface,
+    LoggableEntityInterface
 {
 
     /**

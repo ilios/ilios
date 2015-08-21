@@ -24,7 +24,8 @@ interface CourseInterface extends
     LockableEntityInterface,
     ArchivableEntityInterface,
     SessionsEntityInterface,
-    SchoolEntityInterface
+    SchoolEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param int $level

@@ -12,7 +12,10 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
  * Interface LearningMaterialStatusInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface LearningMaterialStatusInterface extends IdentifiableEntityInterface, TitledEntityInterface
+interface LearningMaterialStatusInterface extends
+    IdentifiableEntityInterface,
+    TitledEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param Collection $learningMaterials

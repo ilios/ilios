@@ -16,7 +16,8 @@ use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 interface OfferingInterface extends
     IdentifiableEntityInterface,
     StringableEntityInterface,
-    TimestampableEntityInterface
+    TimestampableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $room

@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+
 /**
  * Class Permission
  * @package Ilios\CoreBundle\Entity
@@ -22,8 +25,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Permission implements PermissionInterface
 {
+    use IdentifiableEntity;
+    use StringableIdEntity;
+
     /**
-     * @deprecated Replace with trait in 3.x
      * @var int
      *
      * @ORM\Column(name="permission_id", type="integer")
@@ -92,23 +97,6 @@ class Permission implements PermissionInterface
      * )
      */
     protected $tableName;
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->permissionId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->permissionId : $this->id;
-    }
 
     /**
      * @param UserInterface $user

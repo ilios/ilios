@@ -8,7 +8,9 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
  * Interface UserMadeReminderInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface UserMadeReminderInterface extends IdentifiableEntityInterface
+interface UserMadeReminderInterface extends
+    IdentifiableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $note

@@ -8,7 +8,9 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
  * Interface PermissionInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface PermissionInterface extends IdentifiableEntityInterface
+interface PermissionInterface extends
+    IdentifiableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param UserInterface $user

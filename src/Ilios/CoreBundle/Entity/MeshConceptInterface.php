@@ -13,7 +13,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 interface MeshConceptInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
-    TimestampableEntityInterface
+    TimestampableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $umlsUid

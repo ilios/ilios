@@ -33,14 +33,16 @@ class AuthenticationController extends Controller
                 $jwtKey = $this->container->getParameter('kernel.secret');
                 $passwordValid = $encoder->isPasswordValid($user, $password);
                 if ($passwordValid) {
+                    $token = new JwtToken($jwtKey);
+                    $token->setUser($user);
+                    $this->get('security.context')->setToken($token);
                     if ($authEntity->isLegacyAccount()) {
                         $authEntity->setPasswordSha256(null);
                         $encodedPassword = $encoder->encodePassword($user, $password);
                         $authEntity->setPasswordBcrypt($encodedPassword);
                         $authManager->updateAuthentication($authEntity);
                     }
-                    $token = new JwtToken($jwtKey);
-                    $token->setUser($user);
+                    
 
                     return new JsonResponse(array('jwt' => $token->getJwt()), JsonResponse::HTTP_OK);
                 }

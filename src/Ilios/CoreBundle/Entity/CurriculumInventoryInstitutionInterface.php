@@ -15,7 +15,8 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 interface CurriculumInventoryInstitutionInterface extends
     NameableEntityInterface,
     IdentifiableEntityInterface,
-    SchoolEntityInterface
+    SchoolEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $aamcCode

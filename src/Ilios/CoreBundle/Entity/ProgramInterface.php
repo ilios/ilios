@@ -17,7 +17,8 @@ interface ProgramInterface extends
     TitledEntityInterface,
     StringableEntityInterface,
     ProgramYearsEntityInterface,
-    SchoolEntityInterface
+    SchoolEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param string $shortTitle

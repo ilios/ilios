@@ -13,7 +13,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 interface MeshTermInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
-    TimestampableEntityInterface
+    TimestampableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      *
