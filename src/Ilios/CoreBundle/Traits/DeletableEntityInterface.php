@@ -1,6 +1,7 @@
 <?php
 
 namespace Ilios\CoreBundle\Traits;
+
 /**
  * Interface DeletableEntityInterface
  * @package Ilios\CoreBundle\Traits

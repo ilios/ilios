@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Traits;
 
-
 trait DeletableEntity
 {
 
