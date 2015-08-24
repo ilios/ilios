@@ -14,14 +14,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-use \Ilios\CoreBundle\Classes\EducationalYear;
+use \Ilios\CoreBundle\Classes\AcademicYear;
 
 /**
  * Educational Year controller.
  * @package Ilios\CoreBundle\Controller
- * @RouteResource("EducationalYear")
+ * @RouteResource("AcademicYears")
  */
-class EducationalYearController extends FOSRestController
+class AcademicYearController extends FOSRestController
 {
 
     /**
@@ -29,8 +29,8 @@ class EducationalYearController extends FOSRestController
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a educational year",
-     *   output = "Ilios\CoreBundle\Classes\CurrentSession",
+     *   description = "Gets an academic year",
+     *   output = "Ilios\CoreBundle\Classes\AcademicYear",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     404 = "Returned when the year is not found"
@@ -52,41 +52,36 @@ class EducationalYearController extends FOSRestController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        $answer['educationalYear'] = new EducationalYear($id);
+        $answer['academicYears'] = [new AcademicYear($id)];
 
         return $answer;
     }
 
     /**
-     * Get all EducationalYears.
+     * Get all AcademicYears.
      *
      * @ApiDoc(
+     *   section = "AcademicYear",
+     *   description = "Get all AcademicYears.",
      *   resource = true,
-     *   description = "Get all AamcMethod.",
-     *   output="Ilios\CoreBundle\Classes\EducationalYear",
+     *   output = "Ilios\CoreBundle\Classes\AcademicYear",
      *   statusCodes = {
-     *     200 = "List of all EducationalYears",
+     *     200 = "List of all AcademicYear",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
      *   requirements="\d+",
      *   nullable=true,
-     *   description="Offset from which to start listing years."
+     *   description="Offset from which to start listing notes."
      * )
      * @QueryParam(
      *   name="limit",
      *   requirements="\d+",
      *   default="20",
-     *   description="How many years to return."
+     *   description="How many notes to return."
      * )
      * @QueryParam(
      *   name="order_by",
@@ -100,6 +95,12 @@ class EducationalYearController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
@@ -111,9 +112,9 @@ class EducationalYearController extends FOSRestController
         $courseManager = $this->container->get('ilioscore.course.manager');
         $years = [];
         foreach ($courseManager->getYears() as $id) {
-            $years[] = new EducationalYear($id);
+            $years[] = new AcademicYear($id);
         }
-        $answer['educationalYears'] = $years;
+        $answer['academicYears'] = $years;
 
         return $answer;
     }
