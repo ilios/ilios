@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
+use Ilios\CoreBundle\Traits\DeletableEntity;
 
 /**
  * Class Offering
@@ -32,6 +33,7 @@ class Offering implements OfferingInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
+    use DeletableEntity;
 
     /**
      * @deprecated Replace with trait
@@ -278,22 +280,6 @@ class Offering implements OfferingInterface
     public function getEndDate()
     {
         return $this->endDate;
-    }
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
     }
 
     /**

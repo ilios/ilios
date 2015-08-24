@@ -14,6 +14,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 use Ilios\CoreBundle\Traits\SchoolEntity;
+use Ilios\CoreBundle\Traits\DeletableEntity;
 
 /**
  * Class Program
@@ -32,6 +33,7 @@ class Program implements ProgramInterface
     use StringableIdEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
+    use DeletableEntity;
 
     /**
      * @deprecated Replacde with trait in 3.x
@@ -223,14 +225,6 @@ class Program implements ProgramInterface
         foreach ($this->getProgramYears() as $programYear) {
             $programYear->setDeleted($deleted);
         }
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
     }
 
     /**

@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\DeletableEntity;
 
 /**
  * Class Report
@@ -25,6 +26,7 @@ class Report implements ReportInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use TitledEntity;
+    use DeletableEntity;
 
     /**
      * @var int
@@ -49,6 +51,7 @@ class Report implements ReportInterface
      *      min = 1,
      *      max = 240
      * )
+     *
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -205,22 +208,6 @@ class Report implements ReportInterface
     public function getPrepositionalObjectTableRowId()
     {
         return $this->prepositionalObjectTableRowId;
-    }
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
     }
 
     /**

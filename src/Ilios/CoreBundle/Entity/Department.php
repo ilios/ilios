@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\SchoolEntity;
+use Ilios\CoreBundle\Traits\DeletableEntity;
 
 /**
  * Class Department
@@ -27,6 +28,7 @@ class Department implements DepartmentInterface
     use TitledEntity;
     use StringableIdEntity;
     use SchoolEntity;
+    use DeletableEntity;
 
     /**
      * @var int
@@ -92,21 +94,5 @@ class Department implements DepartmentInterface
     public function __construct()
     {
         $this->deleted = false;
-    }
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
     }
 }

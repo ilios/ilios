@@ -4,6 +4,8 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+
+use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
@@ -20,7 +22,8 @@ interface SessionInterface extends
     StringableEntityInterface,
     TimestampableEntityInterface,
     OfferingsEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    DeletableEntityInterface
 {
     /**
      * @param boolean $attireRequired
@@ -51,16 +54,6 @@ interface SessionInterface extends
      * @return boolean
      */
     public function isSupplemental();
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted);
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted();
 
     /**
      * @param boolean $publishedAsTbd

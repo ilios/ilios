@@ -3,13 +3,14 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\ArchivableEntity;
-use Ilios\CoreBundle\Traits\LockableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Ilios\CoreBundle\Traits\ArchivableEntity;
+use Ilios\CoreBundle\Traits\DeletableEntity;
+use Ilios\CoreBundle\Traits\LockableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
@@ -27,6 +28,7 @@ class ProgramYear implements ProgramYearInterface
     use IdentifiableEntity;
     use LockableEntity;
     use ArchivableEntity;
+    use DeletableEntity;
 
     /**
     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
@@ -264,22 +266,6 @@ class ProgramYear implements ProgramYearInterface
     public function getStartYear()
     {
         return $this->startYear;
-    }
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
     }
 
     /**
