@@ -33,7 +33,7 @@ class SchooleventsController extends FOSRestController
    * @ApiDoc(
    *   resource = true,
    *   description = "Get events for a school.",
-   *   output="Ilios\CoreBundle\Classes\Schoolevent",
+   *   output="Ilios\CoreBundle\Classes\SchoolEvent",
    *   statusCodes = {
    *     200 = "List of school events",
    *   }
