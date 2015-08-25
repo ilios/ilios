@@ -42,4 +42,13 @@ class MeshPreviousIndexingTest extends EntityBase
     {
         $this->basicSetTest('previousIndexing', 'string');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshPreviousIndexing::getDescriptor
+     * @covers Ilios\CoreBundle\Entity\MeshPreviousIndexing::setDescriptor
+     */
+    public function testSetDescriptor()
+    {
+        $this->entitySetTest('descriptor', "MeshDescriptor");
+    }
 }

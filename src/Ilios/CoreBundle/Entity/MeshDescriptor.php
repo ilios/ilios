@@ -157,6 +157,16 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $qualifiers;
 
     /**
+     * @var ArrayCollection|MeshTreeInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="MeshTree", mappedBy="descriptor")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $trees;
+
+    /**
      * @var ArrayCollection|SessionLearningMaterialInterface[]
      *
      * @ORM\ManyToMany(targetEntity="SessionLearningMaterial", mappedBy="meshDescriptors")

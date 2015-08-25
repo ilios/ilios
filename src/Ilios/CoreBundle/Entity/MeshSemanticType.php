@@ -79,6 +79,16 @@ class MeshSemanticType implements MeshSemanticTypeInterface
     protected $updatedAt;
 
     /**
+     * @var ArrayCollection|MeshConceptInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="semanticTypes")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $concepts;
+
+    /**
      * Constructor
      */
     public function __construct()

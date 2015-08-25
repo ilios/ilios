@@ -122,24 +122,34 @@ class MeshConcept implements MeshConceptInterface
      */
     protected $registryNumber;
 
-    // /**
-    //  * @var ArrayCollection|MeshTermInterface[]
-    //  *
-    //  * @ORM\ManyToMany(targetEntity="MeshTerm", inversedBy="meshConcepts")
-    //  * @ORM\JoinTable(name="mesh_concept_x_term",
-    //  *   joinColumns={
-    //  *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
-    //  *   },
-    //  *   inverseJoinColumns={
-    //  *     @ORM\JoinColumn(name="mesh_term_uid", referencedColumnName="mesh_term_uid")
-    //  *   }
-    //  * )
-    //  *
-    //  * @JMS\Expose
-    //  * @JMS\Type("array<string>")
-    //  * @JMS\SerializedName("meshTerms")
-    //  */
-    // protected $meshTerms;
+    /**
+     * @var ArrayCollection|MeshSemanticTypeInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshSemanticType", inversedBy="concepts")
+     * @ORM\JoinTable(name="mesh_concept_x_semantic_type",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_semantic_type_uid", referencedColumnName="mesh_semantic_type_uid")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("semanticTypes")
+     */
+    protected $semanticTypes;
+
+    /**
+     * @var ArrayCollection|MeshTermInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshTerm", mappedBy="concepts")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $terms;
 
     /**
      * @var \DateTime

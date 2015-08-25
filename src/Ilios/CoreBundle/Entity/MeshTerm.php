@@ -17,7 +17,12 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * Class MeshTerm
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Table(name="mesh_term")
+ * @ORM\Table(
+ * 	name="mesh_term",
+ * 	uniqueConstraints={
+ * 		@ORM\UniqueConstraint(name="mesh_term_uid_name", columns={"mesh_term_uid","name"})
+ * 	}
+ * )
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
@@ -31,10 +36,23 @@ class MeshTerm implements MeshTermInterface
     use TimestampableEntity;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="mesh_term_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     */
+    protected $id;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="mesh_term_uid", type="string", length=9)
-     * @ORM\Id
      *
      * @Assert\Type(type="string")
      * @Assert\Length(
@@ -45,13 +63,12 @@ class MeshTerm implements MeshTermInterface
      * @JMS\Expose
      * @JMS\Type("string")
      */
-    protected $id;
+    protected $meshTermUid;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=192)
-     * @ORM\Id
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
@@ -132,15 +149,23 @@ class MeshTerm implements MeshTermInterface
      */
     protected $updatedAt;
 
-    // /**
-    //  * @var ArrayCollection|MeshConceptInterface[]
-    //  *
-    //  * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="meshTerms")
-    //  *
-    //  * @JMS\Expose
-    //  * @JMS\Type("array<string>")
-    //  */
-    // protected $meshConcepts;
+    /**
+     * @var ArrayCollection|MeshConceptInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshConcept", inversedBy="terms")
+     * @ORM\JoinTable(name="mesh_concept_x_term",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="mesh_term_id", referencedColumnName="mesh_term_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $concepts;
 
     /**
      * Constructor
