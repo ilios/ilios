@@ -1,6 +1,94 @@
 # Change Log
 
-## [v3.0.0-beta4](https://github.com/ilios/ilios/tree/v3.0.0-beta4)
+## [3.0.0-beta5](https://github.com/ilios/ilios/tree/v3.0.0-beata5) (2015-08-25)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta4...v3.0.0-beata5)
+
+**Closed issues:**
+
+- Incorrect class name for Schoolevents API docs [\#972](https://github.com/ilios/ilios/issues/972)
+
+- Remove API\_Key entity [\#966](https://github.com/ilios/ilios/issues/966)
+
+- Remove CI\_Session Entity [\#965](https://github.com/ilios/ilios/issues/965)
+
+- add auto-incrementing primary key to ingestion\_exception table [\#963](https://github.com/ilios/ilios/issues/963)
+
+- migration: update script and initial doctrine migration produce different schemas [\#959](https://github.com/ilios/ilios/issues/959)
+
+- implement DeletableEntity interface and trait [\#956](https://github.com/ilios/ilios/issues/956)
+
+- Set the administrator for new publish events [\#943](https://github.com/ilios/ilios/issues/943)
+
+- Getting 500 Internal Server Error with the users api [\#938](https://github.com/ilios/ilios/issues/938)
+
+- Remove MeSHUserSelection Concept [\#935](https://github.com/ilios/ilios/issues/935)
+
+- Audit Some Of The Things [\#934](https://github.com/ilios/ilios/issues/934)
+
+- Remove Instruction Hours concept [\#933](https://github.com/ilios/ilios/issues/933)
+
+- Remove Recurring Event Concept [\#932](https://github.com/ilios/ilios/issues/932)
+
+- re-define recurring event to offering relationship [\#929](https://github.com/ilios/ilios/issues/929)
+
+- Authorize API Access [\#923](https://github.com/ilios/ilios/issues/923)
+
+- consolidate owningSchool, primarySchool and school [\#922](https://github.com/ilios/ilios/issues/922)
+
+- Token implementation partially broken. [\#921](https://github.com/ilios/ilios/issues/921)
+
+- Make Recurring Event read only [\#890](https://github.com/ilios/ilios/issues/890)
+
+- Create ingestion exception controller [\#889](https://github.com/ilios/ilios/issues/889)
+
+- Remove stored procedures [\#884](https://github.com/ilios/ilios/issues/884)
+
+- Add notes to session/course learning material endpoint [\#810](https://github.com/ilios/ilios/issues/810)
+
+- Ghost Image of Suggested \(Auto-Generated\) Course ID missing in new Ilios version [\#794](https://github.com/ilios/ilios/issues/794)
+
+**Merged pull requests:**
+
+- Fix annotation for Schoolevents endpoint [\#975](https://github.com/ilios/ilios/pull/975) ([jrjohnson](https://github.com/jrjohnson))
+
+- Clean up dependencies [\#974](https://github.com/ilios/ilios/pull/974) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add notes to course and session learning materials [\#973](https://github.com/ilios/ilios/pull/973) ([jrjohnson](https://github.com/jrjohnson))
+
+- implements "deletable entity" interface and trait  [\#971](https://github.com/ilios/ilios/pull/971) ([stopfstedt](https://github.com/stopfstedt))
+
+- Log changes to entities using a doctrine event [\#968](https://github.com/ilios/ilios/pull/968) ([jrjohnson](https://github.com/jrjohnson))
+
+- removes API Key and CI Sessions from db schema and code. [\#967](https://github.com/ilios/ilios/pull/967) ([stopfstedt](https://github.com/stopfstedt))
+
+- vagrant: increase PHP memory limit for CLI [\#964](https://github.com/ilios/ilios/pull/964) ([stopfstedt](https://github.com/stopfstedt))
+
+- created read-only ingestion exception controller [\#962](https://github.com/ilios/ilios/pull/962) ([stopfstedt](https://github.com/stopfstedt))
+
+- removes MeSH user selection concept [\#961](https://github.com/ilios/ilios/pull/961) ([stopfstedt](https://github.com/stopfstedt))
+
+- aligned schema upgrade script with first doctrine migration. [\#960](https://github.com/ilios/ilios/pull/960) ([stopfstedt](https://github.com/stopfstedt))
+
+- Renamed owningSchool and primarySchool properties to school. [\#957](https://github.com/ilios/ilios/pull/957) ([stopfstedt](https://github.com/stopfstedt))
+
+- fixed school id comparison [\#955](https://github.com/ilios/ilios/pull/955) ([stopfstedt](https://github.com/stopfstedt))
+
+- removed broken code from jwt token class [\#952](https://github.com/ilios/ilios/pull/952) ([stopfstedt](https://github.com/stopfstedt))
+
+- set admin user on publish event creation. [\#951](https://github.com/ilios/ilios/pull/951) ([stopfstedt](https://github.com/stopfstedt))
+
+- purged instruction hours and recurring events from ilios [\#950](https://github.com/ilios/ilios/pull/950) ([stopfstedt](https://github.com/stopfstedt))
+
+- User Authorization [\#948](https://github.com/ilios/ilios/pull/948) ([stopfstedt](https://github.com/stopfstedt))
+
+- deprecated publish event components [\#946](https://github.com/ilios/ilios/pull/946) ([stopfstedt](https://github.com/stopfstedt))
+
+- Stop deactivating new student accounts [\#940](https://github.com/ilios/ilios/pull/940) ([jrjohnson](https://github.com/jrjohnson))
+
+- set the current user as administrator on publish event creation [\#949](https://github.com/ilios/ilios/pull/949) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.0.0-beta4](https://github.com/ilios/ilios/tree/v3.0.0-beta4) (2015-08-10)
 
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta3...v3.0.0-beta4)
 
@@ -172,11 +260,13 @@
 
 - Added Authorization for Course Controller [\#902](https://github.com/ilios/ilios/pull/902) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.0.0-beta3](https://github.com/ilios/ilios/tree/v3.0.0-beta3)
+## [v3.0.0-beta3](https://github.com/ilios/ilios/tree/v3.0.0-beta3) (2015-06-30)
 
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta2...v3.0.0-beta3)
 
 **Merged pull requests:**
+
+- Beta 3 Release Prep [\#865](https://github.com/ilios/ilios/pull/865) ([jrjohnson](https://github.com/jrjohnson))
 
 - Authentication [\#864](https://github.com/ilios/ilios/pull/864) ([jrjohnson](https://github.com/jrjohnson))
 
