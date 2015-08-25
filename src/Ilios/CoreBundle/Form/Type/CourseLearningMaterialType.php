@@ -18,6 +18,7 @@ class CourseLearningMaterialType extends AbstractType
             ->add('notes', null, ['required' => false])
             ->add('required', null, ['required' => false])
             ->add('publicNotes', null, ['required' => false])
+            ->add('notes', null, ['required' => false])
             ->add('course', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"

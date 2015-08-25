@@ -12,6 +12,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'id' => 1,
             'required' => false,
             'publicNotes' => false,
+            'notes' => $this->faker->text,
             'session' => '1',
             'learningMaterial' => '1',
             'meshDescriptors' => []
@@ -29,6 +30,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
         return array(
           'id' => 2,
           'required' => false,
+          'notes' => $this->faker->text,
           'publicNotes' => false,
           'session' => '1',
           'meshDescriptors' => []
