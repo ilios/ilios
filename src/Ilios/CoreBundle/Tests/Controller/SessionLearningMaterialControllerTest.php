@@ -29,9 +29,7 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-            'notes'
-        ];
+        return [];
     }
 
     public function testGetSessionLearningMaterial()

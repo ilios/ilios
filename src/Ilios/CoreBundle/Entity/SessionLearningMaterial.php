@@ -53,6 +53,9 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *      min = 1,
      *      max = 65000
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $notes;
 
