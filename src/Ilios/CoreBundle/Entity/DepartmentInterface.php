@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
@@ -13,15 +14,8 @@ interface DepartmentInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     SchoolEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    DeletableEntityInterface
 {
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted);
 
-    /**
-     * @return boolean
-     */
-    public function isDeleted();
 }

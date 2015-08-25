@@ -4,6 +4,8 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+
+use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
@@ -20,7 +22,8 @@ interface SchoolInterface extends
     StringableEntityInterface,
     CoursesEntityInterface,
     ProgramsEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    DeletableEntityInterface
 {
     /**
      * @param string $templatePrefix
@@ -41,16 +44,6 @@ interface SchoolInterface extends
      * @return string
      */
     public function getIliosAdministratorEmail();
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted);
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted();
 
     /**
      * @param string $changeAlertRecipients

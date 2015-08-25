@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\CoursesEntity;
 use Ilios\CoreBundle\Traits\ProgramsEntity;
+use Ilios\CoreBundle\Traits\DeletableEntity;
 
 /**
  * Class School
@@ -31,6 +33,7 @@ class School implements SchoolInterface
     use TitledEntity;
     use CoursesEntity;
     use ProgramsEntity;
+    use DeletableEntity;
 
     /**
      * @deprecated Replace with Trait in 3.xf
@@ -287,14 +290,6 @@ class School implements SchoolInterface
         foreach ($this->getDepartments() as $department) {
             $department->setDeleted($deleted);
         }
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
     }
 
     /**

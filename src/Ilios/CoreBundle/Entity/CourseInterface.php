@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
+use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
@@ -25,7 +26,8 @@ interface CourseInterface extends
     ArchivableEntityInterface,
     SessionsEntityInterface,
     SchoolEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    DeletableEntityInterface
 {
     /**
      * @param int $level
@@ -66,16 +68,6 @@ interface CourseInterface extends
      * @return \DateTime
      */
     public function getEndDate();
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted);
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted();
 
     /**
      * @todo: Possible rename.

@@ -3,7 +3,6 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,6 +12,8 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
 use Ilios\CoreBundle\Traits\OfferingsEntity;
+use Ilios\CoreBundle\Traits\DeletableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * Class Session
@@ -39,6 +40,7 @@ class Session implements SessionInterface
     use StringableIdEntity;
     use TimestampableEntity;
     use OfferingsEntity;
+    use DeletableEntity;
 
     /**
      * @var int
@@ -377,14 +379,6 @@ class Session implements SessionInterface
                 $offering->setDeleted(true);
             }
         }
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
     }
 
     /**

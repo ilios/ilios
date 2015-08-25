@@ -15,6 +15,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\SessionsEntity;
 use Ilios\CoreBundle\Traits\SchoolEntity;
+use Ilios\CoreBundle\Traits\DeletableEntity;
 
 /**
  * Class Course
@@ -39,6 +40,7 @@ class Course implements CourseInterface
     use ArchivableEntity;
     use SessionsEntity;
     use SchoolEntity;
+    use DeletableEntity;
 
     /**
      * @var int
@@ -442,14 +444,6 @@ class Course implements CourseInterface
         foreach ($this->getSessions() as $session) {
             $session->setDeleted($deleted);
         }
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
     }
 
     /**

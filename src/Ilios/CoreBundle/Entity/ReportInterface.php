@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
@@ -12,7 +13,8 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 interface ReportInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    DeletableEntityInterface
 {
 
     /**
@@ -49,16 +51,6 @@ interface ReportInterface extends
      * @return string
      */
     public function getPrepositionalObjectTableRowId();
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted);
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted();
 
     /**
      * @param UserInterface $user
