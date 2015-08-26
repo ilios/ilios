@@ -8,20 +8,58 @@ class MeshDescriptorData extends AbstractDataLoader
     {
         $arr = array();
         $arr[] = array(
-            'id' => 1
+            'id' => 'abc1',
+            'name' => $this->faker->text,
+            'annotation' => $this->faker->text,
+            'courses' => [],
+            'objectives' => [],
+            'sessionLearningMaterials' => [],
+            'courseLearningMaterials' => [],
+            'sessions' => [],
+            'concepts' => [],
+            'qualifiers' => [],
+            'trees' => [],
+            'previousIndexing' => '1'
         );
-
+        $arr[] = array(
+            'id' => 'abc2',
+            'name' => $this->faker->text,
+            'annotation' => $this->faker->text,
+            'courses' => [],
+            'objectives' => [],
+            'sessionLearningMaterials' => [],
+            'courseLearningMaterials' => [],
+            'sessions' => [],
+            'concepts' => [],
+            'qualifiers' => [],
+            'trees' => [],
+            'previousIndexing' => '2'
+        );
 
         return $arr;
     }
 
     public function create()
     {
-        return [];
+        return array(
+            'id' => 'abc3',
+            'name' => $this->faker->text,
+            'annotation' => $this->faker->text,
+            'courses' => [],
+            'objectives' => [],
+            'sessionLearningMaterials' => [],
+            'courseLearningMaterials' => [],
+            'sessions' => [],
+            'concepts' => [],
+            'qualifiers' => [],
+            'trees' => [],
+        );
     }
 
     public function createInvalid()
     {
-        return [];
+        return array(
+            'id' => 'bad'
+        );
     }
 }

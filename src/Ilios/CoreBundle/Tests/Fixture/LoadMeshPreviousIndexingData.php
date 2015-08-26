@@ -2,16 +2,18 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
-use Ilios\CoreBundle\Entity\MeshDescriptor;
+use Ilios\CoreBundle\Entity\MeshPreviousIndexing;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadMeshDescriptorData extends AbstractFixture implements
+class LoadMeshPreviousIndexingData extends AbstractFixture implements
     FixtureInterface,
-    ContainerAwareInterface
+    ContainerAwareInterface,
+    DependentFixtureInterface
 {
 
     private $container;
@@ -24,17 +26,24 @@ class LoadMeshDescriptorData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.meshDescriptor')
+            ->get('ilioscore.dataloader.meshPreviousIndexing')
             ->getAll();
         foreach ($data as $arr) {
-            $entity = new MeshDescriptor();
+            $entity = new MeshPreviousIndexing();
             $entity->setId($arr['id']);
-            $entity->setName($arr['name']);
-            $entity->setAnnotation($arr['annotation']);
-            $this->addReference('meshDescriptors' . $arr['id'], $entity);
+            $entity->setDescriptor($this->getReference('meshDescriptors' . $arr['descriptor']));
+            $entity->setPreviousIndexing($arr['previousIndexing']);
+            $this->addReference('meshPreviousIndexings' . $arr['id'], $entity);
             $manager->persist($entity);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
+        );
     }
 }

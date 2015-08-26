@@ -14,9 +14,9 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="mesh_previous_indexing",
- * 	uniqueConstraints={
- * 		@ORM\UniqueConstraint(name="descriptor_previous", columns={"mesh_descriptor_uid"})
- * 	})
+ *  uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="descriptor_previous", columns={"mesh_descriptor_uid"})
+ *  })
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")

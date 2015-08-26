@@ -2,11 +2,14 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Ilios\CoreBundle\Traits\StringableEntityInterface;
+
 /**
  * Class MeshTreeInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface MeshTreeInterface
+interface MeshTreeInterface extends
+    StringableEntityInterface
 {
 
     /**
@@ -40,5 +43,4 @@ interface MeshTreeInterface
      * @return MeshDescriptorInterface
      */
     public function getDescriptor();
-
 }

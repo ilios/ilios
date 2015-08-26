@@ -18,10 +18,10 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(
- * 	name="mesh_term",
- * 	uniqueConstraints={
- * 		@ORM\UniqueConstraint(name="mesh_term_uid_name", columns={"mesh_term_uid","name"})
- * 	}
+ *  name="mesh_term",
+ *  uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="mesh_term_uid_name", columns={"mesh_term_uid","name"})
+ *  }
  * )
  * @ORM\Entity
  *

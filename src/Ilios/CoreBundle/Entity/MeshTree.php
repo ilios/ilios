@@ -101,5 +101,9 @@ class MeshTree implements MeshTreeInterface
     {
         return $this->descriptor;
     }
-
+    
+    public function __toString()
+    {
+        return $this->treeNumber;
+    }
 }

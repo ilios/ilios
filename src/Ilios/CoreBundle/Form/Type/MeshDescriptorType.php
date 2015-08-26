@@ -18,8 +18,6 @@ class MeshDescriptorType extends AbstractType
             ->add('id')
             ->add('name')
             ->add('annotation', null, ['required' => false])
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('courses', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
@@ -39,6 +37,10 @@ class MeshDescriptorType extends AbstractType
             ->add('qualifiers', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshQualifier"
+            ])
+            ->add('trees', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:MeshTree"
             ])
             ->add('sessionLearningMaterials', 'tdn_many_related', [
                 'required' => false,

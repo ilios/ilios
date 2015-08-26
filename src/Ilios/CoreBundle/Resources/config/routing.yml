@@ -192,6 +192,12 @@ api_learnergroup_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+api_meshdescriptor_v1:
+    resource: "@IliosCoreBundle/Controller/MeshDescriptorController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
 api_objective_v1:
     resource: "@IliosCoreBundle/Controller/ObjectiveController.php"
     type:     rest

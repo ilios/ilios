@@ -91,6 +91,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\Column(name="created_at", type="datetime")
      *
      * @JMS\Expose
+     * @JMS\ReadOnly
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("createdAt")
      */
@@ -210,6 +211,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->sessionLearningMaterials = new ArrayCollection();
         $this->courseLearningMaterials = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -310,5 +312,105 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getCourseLearningMaterials()
     {
         return $this->courseLearningMaterials;
+    }
+
+    /**
+     * @param Collection $concepts
+     */
+    public function setConcepts(Collection $concepts)
+    {
+        $this->concepts = $concepts;
+
+        foreach ($concepts as $concept) {
+            $this->addConcept($concept);
+        }
+    }
+
+    /**
+     * @param MeshConceptInterface $concept
+     */
+    public function addConcept(MeshConceptInterface $concept)
+    {
+        $this->concepts->add($concept);
+    }
+
+    /**
+     * @return ArrayCollection|MeshConceptInterface[]
+     */
+    public function getConcepts()
+    {
+        return $this->concepts;
+    }
+
+    /**
+     * @param Collection $qualifiers
+     */
+    public function setQualifiers(Collection $qualifiers)
+    {
+        $this->qualifiers = $qualifiers;
+
+        foreach ($qualifiers as $qualifier) {
+            $this->addQualifier($qualifier);
+        }
+    }
+
+    /**
+     * @param MeshQualifierInterface $qualifier
+     */
+    public function addQualifier(MeshQualifierInterface $qualifier)
+    {
+        $this->qualifiers->add($qualifier);
+    }
+
+    /**
+     * @return ArrayCollection|MeshQualifierInterface[]
+     */
+    public function getQualifiers()
+    {
+        return $this->qualifiers;
+    }
+
+    /**
+     * @param Collection $trees
+     */
+    public function setTrees(Collection $trees)
+    {
+        $this->trees = $trees;
+
+        foreach ($trees as $tree) {
+            $this->addTree($tree);
+        }
+    }
+
+    /**
+     * @param MeshTreeInterface $tree
+     */
+    public function addTree(MeshTreeInterface $tree)
+    {
+        $this->trees->add($tree);
+    }
+
+    /**
+     * @return ArrayCollection|MeshTreeInterface[]
+     */
+    public function getTrees()
+    {
+        return $this->trees;
+    }
+
+    /**
+     * @param MeshPreviousIndexingInterface $previousIndexing
+     */
+    public function setPreviousIndexing(MeshPreviousIndexingInterface $previousIndexing = null)
+    {
+        $this->previousIndexing = $previousIndexing;
+    }
+
+    /**
+     * @return MeshPreviousIndexingInterface
+     */
+    public function getPreviousIndexing()
+    {
+        return $this->previousIndexing;
     }
 }
