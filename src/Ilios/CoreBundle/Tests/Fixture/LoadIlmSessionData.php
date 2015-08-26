@@ -33,6 +33,7 @@ class LoadIlmSessionData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setHours($arr['hours']);
             $entity->setDueDate(new \DateTime($arr['dueDate']));
+            $entity->setSession($this->getReference('sessions' . $arr['session']));
             foreach ($arr['instructors'] as $id) {
                 $entity->addInstructor($this->getReference('users' . $id));
             }
@@ -58,6 +59,7 @@ class LoadIlmSessionData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
         );
     }
 }

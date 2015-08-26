@@ -70,7 +70,8 @@ class IlmSessionData extends AbstractDataLoader
             'learnerGroups' => ['1', '2'],
             'instructorGroups' => ['1', '2'],
             'instructors' => ['1', '2'],
-            'learners' => ['1', '2']
+            'learners' => ['1', '2'],
+            'session' => 1
         );
     }
 

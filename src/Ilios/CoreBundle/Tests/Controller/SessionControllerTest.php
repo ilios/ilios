@@ -25,6 +25,7 @@ class SessionControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialStatusData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
         ]);
     }
 

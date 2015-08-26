@@ -41,6 +41,26 @@ class IlmSession implements IlmSessionInterface
     protected $id;
 
     /**
+     * @var Session
+     *
+     * @ORM\OneToOne(targetEntity="Session", inversedBy="ilmSession")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(
+     *      name="session_id",
+     *      referencedColumnName="session_id",
+     *      nullable=false,
+     *      unique=true,
+     *      onDelete="CASCADE"
+     *   )
+     * })
+     * @Assert\NotBlank()
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $session;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="hours", type="decimal", precision=6, scale=2)
@@ -144,16 +164,6 @@ class IlmSession implements IlmSessionInterface
      * @JMS\Type("array<string>")
      */
     protected $learners;
-
-    /**
-     * @var SessionInterface
-     *
-     * @ORM\OneToOne(targetEntity="Session", mappedBy="ilmSession")
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     */
-    protected $session;
 
     /**
      * Constructor
@@ -324,10 +334,6 @@ class IlmSession implements IlmSessionInterface
      */
     public function getSession()
     {
-        if ($this->session && !$this->session->isDeleted()) {
-            return $this->session;
-        }
-
-        return null;
+        return $this->session;
     }
 }

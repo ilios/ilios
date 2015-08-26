@@ -2,6 +2,7 @@
 namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\IlmSession;
+use Ilios\CoreBundle\Entity\Session;
 use Mockery as m;
 
 /**
@@ -25,11 +26,13 @@ class IlmSessionTest extends EntityBase
     public function testNotBlankValidation()
     {
         $notBlank = array(
+            'session',
             'hours',
             'dueDate'
         );
         $this->validateNotBlanks($notBlank);
 
+        $this->object->setSession(new Session());
         $this->object->setHours(55);
         $this->object->setDueDate(new \DateTime());
         $this->validate(0);
@@ -126,5 +129,14 @@ class IlmSessionTest extends EntityBase
     public function testGetLearners()
     {
         $this->entityCollectionSetTest('learner', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\IlmSession::setSession
+     * @covers Ilios\CoreBundle\Entity\IlmSession::getSession
+     */
+    public function testSetSession()
+    {
+        $this->entitySetTest('session', 'Session');
     }
 }

@@ -42,9 +42,6 @@ class LoadSessionData extends AbstractFixture implements
             if (!empty($arr['publishEvent'])) {
                 $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));
             }
-            if (!empty($arr['ilmSession'])) {
-                $entity->setIlmSession($this->getReference('ilmSessions' . $arr['ilmSession']));
-            }
             $related = array(
                 'disciplines' => 'addDiscipline',
                 'objectives' => 'addObjective'
@@ -69,7 +66,6 @@ class LoadSessionData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
         );
     }
 }
