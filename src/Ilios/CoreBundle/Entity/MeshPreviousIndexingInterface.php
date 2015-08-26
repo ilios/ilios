@@ -1,12 +1,17 @@
 <?php
 
 namespace Ilios\CoreBundle\Entity;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
  * Interface MeshPreviousIndexingInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface MeshPreviousIndexingInterface extends LoggableEntityInterface
+interface MeshPreviousIndexingInterface extends
+    IdentifiableEntityInterface,
+    StringableEntityInterface,
+    LoggableEntityInterface
 {
     /**
      * @param MeshDescriptorInterface $descriptor

@@ -7,12 +7,16 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class MeshPreviousIndexing
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Table(name="mesh_previous_indexing")
+ * @ORM\Table(name="mesh_previous_indexing",
+ * 	uniqueConstraints={
+ * 		@ORM\UniqueConstraint(name="descriptor_previous", columns={"mesh_descriptor_uid"})
+ * 	})
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
@@ -20,10 +24,26 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  */
 class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 {
+    use IdentifiableEntity;
+    use StringableIdEntity;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="mesh_previous_indexing_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     */
+    protected $id;
+
     /**
      * @var MeshDescriptorInterface
      *
-     * @ORM\Id
      * @ORM\OneToOne(targetEntity="MeshDescriptor", inversedBy="previousIndexing")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", unique=true)
@@ -78,13 +98,5 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     public function getPreviousIndexing()
     {
         return $this->previousIndexing;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->descriptor;
     }
 }
