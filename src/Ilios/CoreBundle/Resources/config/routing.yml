@@ -18,6 +18,11 @@ api_aamcpcrs_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+api_academicyear_v1:
+    resource: "@IliosCoreBundle/Controller/AcademicYearController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
 
 api_alertchangetype_v1:
     resource: "@IliosCoreBundle/Controller/AlertChangeTypeController.php"
@@ -139,13 +144,6 @@ api_discipline_v1:
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
-
-api_educationalyear_v1:
-    resource: "@IliosCoreBundle/Controller/EducationalYearController.php"
-    type:     rest
-    prefix:   /v1
-    defaults: {_format:json}
-
 
 api_ilmsession_v1:
     resource: "@IliosCoreBundle/Controller/IlmSessionController.php"

@@ -5,13 +5,13 @@ namespace Ilios\CoreBundle\Classes;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * Class EducationalYear
+ * Class AcademicYear
  * @package Ilios\CoreBundle\Classes
  *
  * @JMS\ExclusionPolicy("all")
  */
 
-class EducationalYear
+class AcademicYear
 {
     /**
      * @var string
