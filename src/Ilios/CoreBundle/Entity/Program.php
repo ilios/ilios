@@ -260,7 +260,7 @@ class Program implements ProgramInterface
     }
 
     /**
-    * @param Collection $reports
+    * {@inheritdoc}
     */
     public function setCurriculumInventoryReports(Collection $reports)
     {
@@ -272,7 +272,7 @@ class Program implements ProgramInterface
     }
 
     /**
-    * @param CurriculumInventoryReportInterface $report
+    * {@inheritdoc}
     */
     public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
     {
@@ -280,7 +280,7 @@ class Program implements ProgramInterface
     }
 
     /**
-    * @return CurriculumInventoryReportInterface[]|ArrayCollection
+    * {@inheritdoc}
     */
     public function getCurriculumInventoryReports()
     {

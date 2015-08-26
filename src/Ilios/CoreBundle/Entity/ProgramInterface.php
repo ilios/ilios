@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
@@ -61,4 +63,21 @@ interface ProgramInterface extends
      * @return PublishEventInterface
      */
     public function getPublishEvent();
+
+
+    /**
+     * @param Collection $reports
+     */
+    public function setCurriculumInventoryReports(Collection $reports);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     */
+    public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
+
+
+    /**
+     * @return CurriculumInventoryReportInterface[]|ArrayCollection
+     */
+    public function getCurriculumInventoryReports();
 }
