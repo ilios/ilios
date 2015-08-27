@@ -283,9 +283,9 @@ class Session implements SessionInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
-    * @JMS\SerializedName("sessionLearningMaterials")
+    * @JMS\SerializedName("learningMaterials")
     */
-    protected $sessionLearningMaterials;
+    protected $learningMaterials;
 
     /**
     * @var ArrayCollection|OfferingInterface[]
@@ -315,6 +315,7 @@ class Session implements SessionInterface
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->offerings = new ArrayCollection();
+        $this->learningMaterials = new ArrayCollection();
         
         $this->updatedAt = new \DateTime();
     }
@@ -562,33 +563,33 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param Collection $sessionLearningMaterials
+     * @param Collection $learningMaterials
      */
-    public function setSessionLearningMaterials(Collection $sessionLearningMaterials = null)
+    public function setLearningMaterials(Collection $learningMaterials = null)
     {
-        $this->sessionLearningMaterials = new ArrayCollection();
-        if (is_null($sessionLearningMaterials)) {
+        $this->learningMaterials = new ArrayCollection();
+        if (is_null($learningMaterials)) {
             return;
         }
 
-        foreach ($sessionLearningMaterials as $sessionLearningMaterial) {
-            $this->addSessionLearningMaterial($sessionLearningMaterial);
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
         }
     }
 
     /**
-     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     * @param SessionLearningMaterialInterface $learningMaterial
      */
-    public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
+    public function addLearningMaterial(SessionLearningMaterialInterface $learningMaterial)
     {
-        $this->sessionLearningMaterials->add($sessionLearningMaterial);
+        $this->learningMaterials->add($learningMaterial);
     }
 
     /**
      * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
-    public function getSessionLearningMaterials()
+    public function getLearningMaterials()
     {
-        return $this->sessionLearningMaterials;
+        return $this->learningMaterials;
     }
 }

@@ -168,4 +168,21 @@ class CourseTest extends EntityBase
     {
         $this->entitySetTest('publishEvent', 'PublishEvent');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::addLearningMaterial
+     */
+    public function testAddLearningMaterial()
+    {
+        $this->entityCollectionAddTest('learningMaterial', 'CourseLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::setLearningMaterials
+     * @covers Ilios\CoreBundle\Entity\Course::getLearningMaterials
+     */
+    public function testGetLearningMaterials()
+    {
+        $this->entityCollectionSetTest('learningMaterial', 'CourseLearningMaterial');
+    }
 }

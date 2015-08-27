@@ -159,4 +159,19 @@ interface SessionInterface extends
      * @return SessionDescription
      */
     public function getSessionDescription();
+
+    /**
+     * @param Collection $learningMaterials
+     */
+    public function setLearningMaterials(Collection $learningMaterials = null);
+
+    /**
+     * @param SessionLearningMaterialInterface $learningMaterial
+     */
+    public function addLearningMaterial(SessionLearningMaterialInterface $learningMaterial);
+
+    /**
+     * @return ArrayCollection|SessionLearningMaterialInterface[]
+     */
+    public function getLearningMaterials();
 }

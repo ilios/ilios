@@ -61,6 +61,14 @@ class CourseType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
+            ->add('learningMaterials', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CourseLearningMaterial"
+            ])
+            ->add('sessions', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
+            ])
         ;
     }
 

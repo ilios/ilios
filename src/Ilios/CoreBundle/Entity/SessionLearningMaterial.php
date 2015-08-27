@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,11 +26,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class SessionLearningMaterial implements SessionLearningMaterialInterface
 {
-    //    use IdentifiableEntity;
+    use IdentifiableEntity;
     use StringableIdEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var integer
      *
      * @ORM\Column(name="session_learning_material_id", type="integer")
@@ -89,7 +89,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     /**
      * @var SessionInterface
      *
-     * @ORM\ManyToOne(targetEntity="Session", inversedBy="sessionLearningMaterials")
+     * @ORM\ManyToOne(targetEntity="Session", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id")
      * })
@@ -143,23 +143,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     {
         $this->meshDescriptors = new ArrayCollection();
         $this->publicNotes = false;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->sessionLearningMaterialId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->sessionLearningMaterialId : $this->id;
     }
 
     /**

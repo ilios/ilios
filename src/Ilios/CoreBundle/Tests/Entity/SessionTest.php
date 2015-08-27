@@ -139,6 +139,23 @@ class SessionTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Session::addLearningMaterial
+     */
+    public function testAddLearningMaterial()
+    {
+        $this->entityCollectionAddTest('learningMaterial', 'SessionLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::setLearningMaterials
+     * @covers Ilios\CoreBundle\Entity\Session::getLearningMaterials
+     */
+    public function testGetLearningMaterials()
+    {
+        $this->entityCollectionSetTest('learningMaterial', 'SessionLearningMaterial');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Session::stampUpdate
      */
     public function testStampUpdate()

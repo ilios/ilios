@@ -86,7 +86,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * @var CourseInterface
      * @Assert\NotNull()
      *
-     * @ORM\ManyToOne(targetEntity="Course", inversedBy="courseLearningMaterials")
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id")
      * })
