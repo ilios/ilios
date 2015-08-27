@@ -23,21 +23,32 @@ abstract class AbstractFixture extends DataFixture implements
     ContainerAwareInterface
 {
     /**
-     * @var string doubles as identifier for this fixture's data file and entity references.
+     * @var string
+     * Doubles as identifier for this fixture's data file and entity references.
      */
     protected $key;
+
+    /**
+     * @var boolean
+     * Set to TRUE if the loaded fixture should be held on for reference.
+     */
+    protected $storeReference;
 
     /**
      * @var ContainerInterface
      */
     private $container;
 
+
+
     /**
      * @param string $key
+     * @param boolean $storeReference
      */
-    public function __construct($key)
+    public function __construct($key, $storeReference = true)
     {
         $this->key = $key;
+        $this->storeReference = $storeReference;
     }
 
     public function getKey()
@@ -79,8 +90,9 @@ abstract class AbstractFixture extends DataFixture implements
                 $metadata = $manager->getClassMetaData(get_class($entity));
                 $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
-                $this->addReference($this->getKey() . $entity->getId(), $entity);
-
+                if ($this->storeReference) {
+                    $this->addReference($this->getKey() . $entity->getId(), $entity);
+                }
                 $manager->flush();
             }
             fclose($handle);
