@@ -127,6 +127,9 @@ class LearningMaterialController extends FOSRestController
 
             return $item;
         }, $criteria);
+        if (array_key_exists('uploadDate', $criteria)) {
+            $criteria['uploadDate'] = new \DateTime($criteria['uploadDate']);
+        }
 
         $result = $this->getLearningMaterialHandler()
             ->findLearningMaterialsBy(

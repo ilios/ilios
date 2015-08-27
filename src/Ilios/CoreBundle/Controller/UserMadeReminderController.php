@@ -124,6 +124,12 @@ class UserMadeReminderController extends FOSRestController
 
             return $item;
         }, $criteria);
+        if (array_key_exists('createdAt', $criteria)) {
+            $criteria['createdAt'] = new \DateTime($criteria['createdAt']);
+        }
+        if (array_key_exists('dueDate', $criteria)) {
+            $criteria['dueDate'] = new \DateTime($criteria['dueDate']);
+        }
 
         $result = $this->getUserMadeReminderHandler()
             ->findUserMadeRemindersBy(

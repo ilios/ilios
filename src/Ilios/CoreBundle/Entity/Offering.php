@@ -36,7 +36,6 @@ class Offering implements OfferingInterface
     use DeletableEntity;
 
     /**
-     * @deprecated Replace with trait
      * @var int
      *
      * @ORM\Column(name="offering_id", type="integer")

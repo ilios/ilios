@@ -124,6 +124,9 @@ class SessionController extends FOSRestController
 
             return $item;
         }, $criteria);
+        if (array_key_exists('updatedAt', $criteria)) {
+            $criteria['updatedAt'] = new \DateTime($criteria['updatedAt']);
+        }
 
         $result = $this->getSessionHandler()
             ->findSessionsBy(
