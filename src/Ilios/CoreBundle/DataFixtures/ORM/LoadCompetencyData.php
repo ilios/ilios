@@ -22,6 +22,7 @@ class LoadCompetencyData extends AbstractFixture implements DependentFixtureInte
      */
     protected function createEntity(array $data)
     {
+        // `competency_id`,`title`,`parent_competency_id`,`school_id`
         $entity = new Competency();
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);

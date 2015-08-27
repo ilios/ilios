@@ -20,6 +20,7 @@ class LoadSchoolData extends AbstractFixture
      */
     protected function createEntity(array $data)
     {
+        // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`deleted`,`change_alert_recipients`
         $entity = new School();
         $entity->setId($data[0]);
         $entity->setTemplatePrefix($data[1]);

@@ -20,6 +20,7 @@ class LoadAamcMethodData extends AbstractFixture
      */
     protected function createEntity(array $data)
     {
+        // `method_id`,`description`
         $entity = new AamcMethod();
         $entity->setId($data[0]);
         $entity->setDescription($data[1]);

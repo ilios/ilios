@@ -22,8 +22,9 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements 
      */
     protected function createEntity(array $data)
     {
-        // `school_id`,`name`,`aamc_code`,`address_street`,`address_city`,`address_state_or_province`,`address_zipcode`,
-        //`address_country_code`,`institution_id`
+        // `school_id`,`name`,`aamc_code`,`address_street`,`address_city`,
+        // `address_state_or_province`,`address_zipcode`,
+        // `address_country_code`,`institution_id`
         $entity = new CurriculumInventoryInstitution();
         $entity->setSchool($this->getReference('school' . $data[0]));
         $entity->setName($data[1]);

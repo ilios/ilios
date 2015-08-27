@@ -22,7 +22,7 @@ class LoadSessionTypeData extends AbstractFixture implements DependentFixtureInt
      */
     protected function createEntity(array $data)
     {
-        //`session_type_id`,`title`,`school_id`,`session_type_css_class`,`assessment`,`assessment_option_id`
+        // `session_type_id`,`title`,`school_id`,`session_type_css_class`,`assessment`,`assessment_option_id`
         $entity = new SessionType();
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);

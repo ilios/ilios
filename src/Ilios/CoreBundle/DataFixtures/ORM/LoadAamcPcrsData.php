@@ -20,6 +20,7 @@ class LoadAamcPcrsData extends AbstractFixture
      */
     protected function createEntity(array $data)
     {
+        // `pcrs_id`,`description`
         $entity = new AamcPcrs();
         $entity->setId($data[0]);
         $entity->setDescription($data[1]);

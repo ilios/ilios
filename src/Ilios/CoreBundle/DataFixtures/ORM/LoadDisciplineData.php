@@ -22,7 +22,7 @@ class LoadDisciplineData extends AbstractFixture implements DependentFixtureInte
      */
     protected function createEntity(array $data)
     {
-        //'`discipline_id`,`title`,`school_id`'
+        // `discipline_id`,`title`,`school_id`
         $entity = new Discipline();
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);

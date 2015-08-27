@@ -22,6 +22,7 @@ class LoadSessionTypeAamcMethodData extends AbstractFixture implements Dependent
      */
     protected function createEntity(array $data)
     {
+        // `session_type_id`,`method_id`
         /**
          * @var SessionType $entity
          */

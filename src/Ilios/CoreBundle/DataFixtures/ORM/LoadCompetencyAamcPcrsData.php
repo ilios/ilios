@@ -22,6 +22,7 @@ class LoadCompetencyAamcPcrsData extends AbstractFixture implements DependentFix
      */
     protected function createEntity(array $data)
     {
+        // `competency_id`,`pcrs_id`
         /**
          * @var Competency $entity
          */
