@@ -22,6 +22,7 @@ class MeshDescriptorRepository extends EntityRepository
         $qb->leftJoin('d.previousIndexing', 'pi');
         $qb->leftJoin('d.concepts', 'c');
         $qb->leftJoin('c.semanticTypes', 'st');
+        $qb->leftJoin('c.terms', 't');
         $terms = explode(' ', $q);
         $terms = array_filter($terms, 'strlen');
         if (empty($terms)) {
@@ -33,7 +34,8 @@ class MeshDescriptorRepository extends EntityRepository
                 $qb->expr()->like('d.id', "?{$key}"),
                 $qb->expr()->like('d.annotation', "?{$key}"),
                 $qb->expr()->like('pi.previousIndexing', "?{$key}"),
-                $qb->expr()->like('st.name', "?{$key}")
+                $qb->expr()->like('st.name', "?{$key}"),
+                $qb->expr()->like('t.name', "?{$key}")
             ))
             ->setParameter($key, '%' . $term . '%');
         }
