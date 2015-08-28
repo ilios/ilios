@@ -22,11 +22,11 @@ class MeshConceptType extends AbstractType
             ->add('scopeNote', null, ['required' => false])
             ->add('casn1Name', null, ['required' => false])
             ->add('registryNumber', null, ['required' => false])
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('descriptors', 'tdn_many_related', [
-                'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
+            ])
+            ->add('semanticTypes', 'tdn_many_related', [
+                'entityName' => "IliosCoreBundle:MeshSemanticType"
             ])
         ;
     }

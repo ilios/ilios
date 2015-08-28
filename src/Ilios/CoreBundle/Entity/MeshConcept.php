@@ -56,6 +56,9 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 192
      * )
+     * 
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $name;
 
@@ -70,6 +73,10 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 9
      * )
+     * 
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("umlsUid")
      */
     protected $umlsUid;
 
@@ -80,6 +87,9 @@ class MeshConcept implements MeshConceptInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
+     * 
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
     protected $preferred;
 
@@ -93,6 +103,10 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 65000
      * )
+     * 
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("scopeNote")
      */
     protected $scopeNote;
 
@@ -106,6 +120,10 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 127
      * )
+     * 
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("casn1Name")
      */
     protected $casn1Name;
 
@@ -119,6 +137,10 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 30
      * )
+     * 
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("registryNumber")
      */
     protected $registryNumber;
 
@@ -152,21 +174,22 @@ class MeshConcept implements MeshConceptInterface
     protected $terms;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @Assert\NotBlank()
-     *
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @Assert\NotBlank()
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("updatedAt")
      */
     protected $updatedAt;
 
