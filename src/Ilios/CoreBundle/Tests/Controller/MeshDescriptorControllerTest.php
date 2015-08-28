@@ -136,6 +136,12 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->queryForDescriptorsTest($descriptor['id'], $descriptor['id']);
     }
     
+    public function testFindDescriptorsWithName()
+    {
+        $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
+        $this->queryForDescriptorsTest($descriptor['name'], $descriptor['id']);
+    }
+    
     public function testFindDescriptorsWithAnnotation()
     {
         $descriptors = $this->container->get('ilioscore.dataloader.meshDescriptor')->getAll();

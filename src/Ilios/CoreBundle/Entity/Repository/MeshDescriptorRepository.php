@@ -32,6 +32,7 @@ class MeshDescriptorRepository extends EntityRepository
         foreach ($terms as $key => $term) {
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->like('d.id', "?{$key}"),
+                $qb->expr()->like('d.name', "?{$key}"),
                 $qb->expr()->like('d.annotation', "?{$key}"),
                 $qb->expr()->like('pi.previousIndexing', "?{$key}"),
                 $qb->expr()->like('st.name', "?{$key}"),
