@@ -194,6 +194,17 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->queryForDescriptorsTest($concept['name'], $descriptor['id']);
 
     }
+    
+    public function testFindDescriptorByConceptScopeNote()
+    {
+        $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
+        $concepts = $this->container->get('ilioscore.dataloader.meshConcept')->getAll();
+        $concept = array_filter($concepts, function ($arr) use ($descriptor) {
+            return in_array($arr['id'], $descriptor['concepts']);
+        })[0];
+        $this->queryForDescriptorsTest($concept['scopeNote'], $descriptor['id']);
+
+    }
 
     public function testPostMeshDescriptor()
     {
