@@ -14,14 +14,6 @@ class LoadDepartmentDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'department.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.department.manager';
@@ -35,6 +27,14 @@ class LoadDepartmentDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadDepartmentData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadDepartmentData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('department.csv');
     }
 
     /**

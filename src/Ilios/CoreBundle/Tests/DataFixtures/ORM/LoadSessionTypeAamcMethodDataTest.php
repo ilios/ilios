@@ -15,14 +15,6 @@ class LoadSessionTypeAamcMethodDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'session_type_x_aamc_method.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.sessiontype.manager';
@@ -36,6 +28,14 @@ class LoadSessionTypeAamcMethodDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadSessionTypeAamcMethodData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadSessionTypeAamcMethodData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('session_type_x_aamc_method.csv');
     }
 
     /**

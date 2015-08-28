@@ -15,14 +15,6 @@ class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'competency_x_aamc_pcrs.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.competency.manager';
@@ -36,6 +28,13 @@ class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadCompetencyAamcPcrsData',
         ];
+    }
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadCompetencyAamcPcrsData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('competency_x_aamc_pcrs.csv');
     }
 
     /**

@@ -23,11 +23,6 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     protected $container;
 
     /**
-     * @var resource
-     */
-    protected $dataFile;
-
-    /**
      * @var ManagerInterface
      */
     protected $em;
@@ -38,21 +33,14 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     public function setUp()
     {
         $this->container = static::createClient()->getContainer();
-        $this->loadFixtures($this->getFixtures());
-        $this->loadDataFile($this->getDataFileName());
         $this->loadEntityManager($this->getEntityManagerServiceKey());
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function tearDown()
-    {
-        fclose($this->dataFile);
-    }
-
-    /**
-     * @param string $fileName
+     * Returns the handle to the given data file.
+     *
+     * @param string $fileName The file name.
+     * @return resource the file handle
      */
     protected function loadDataFile($fileName)
     {
@@ -61,7 +49,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
          */
         $fileLocator = $this->container->get('file_locator');
         $path = $fileLocator->locate('@IliosCoreBundle/Resources/dataimport/' . basename($fileName));
-        $this->dataFile = fopen($path, 'r');
+        return fopen($path, 'r');
     }
 
     /**
@@ -71,8 +59,6 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     {
         $this->em = $this->container->get($serviceKey);
     }
-
-
 
     /**
      * {@inheritdoc}
@@ -85,12 +71,21 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\AbstractFixture::load
+     * Executes the test.
+     * Call this from loadTest() implementations in child classes.
+     *
+     * @param string $fileName name of the data file to load and import.
+     *
+     * @see AbstractDataFixtureTest::loadTest()
      */
-    public function testLoad()
+    protected function runTestLoad($fileName)
     {
+        $this->loadFixtures($this->getFixtures());
+
+        $dataFile = $this->loadDataFile($fileName);
+
         $first = true;
-        while (($data = fgetcsv($this->dataFile)) !== false) {
+        while (($data = fgetcsv($dataFile)) !== false) {
             // step over the first row
             // since it contains the field names
             if ($first) {
@@ -100,14 +95,9 @@ abstract class AbstractDataFixtureTest extends WebTestCase
             $entity = $this->getEntity($data);
             $this->assertDataEquals($data, $entity);
         }
-    }
 
-    /**
-     * Returns the base name of the data file that was loaded by the data loader under test.
-     *
-     * @return string
-     */
-    abstract public function getDataFileName();
+        fclose($dataFile);
+    }
 
     /**
      * Returns the key of the entity manager service that needs to be loaded for this test.
@@ -115,6 +105,11 @@ abstract class AbstractDataFixtureTest extends WebTestCase
      * @return string
      */
     abstract public function getEntityManagerServiceKey();
+
+    /**
+     * Implement this method to provide coverage for a data loader's load() method.
+     */
+    abstract public function testLoad();
 
     /**
      * Asserts data equality of a given array and entity.

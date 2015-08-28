@@ -14,14 +14,6 @@ class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'alert_change_type.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.alertchangetype.manager';
@@ -35,6 +27,14 @@ class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadAlertChangeTypeData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadAlertChangeTypeData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('alert_change_type.csv');
     }
 
     /**

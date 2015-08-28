@@ -14,14 +14,6 @@ class LoadUserRoleDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'user_role.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.userrole.manager';
@@ -35,6 +27,14 @@ class LoadUserRoleDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadUserRoleData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadUserRoleData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('user_role.csv');
     }
 
     /**

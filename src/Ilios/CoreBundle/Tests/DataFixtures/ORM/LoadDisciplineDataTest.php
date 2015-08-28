@@ -14,14 +14,6 @@ class LoadDisciplineDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'discipline.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.discipline.manager';
@@ -35,6 +27,14 @@ class LoadDisciplineDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadDisciplineData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadDisciplineData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('discipline.csv');
     }
 
     /**

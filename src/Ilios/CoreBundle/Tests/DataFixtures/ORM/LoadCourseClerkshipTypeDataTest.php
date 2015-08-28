@@ -14,14 +14,6 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'course_clerkship_type.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.course_clerkship_type.manager';
@@ -35,6 +27,14 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadCourseClerkshipTypeData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadCourseClerkshipTypeData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('course_clerkship_type.csv');
     }
 
     /**

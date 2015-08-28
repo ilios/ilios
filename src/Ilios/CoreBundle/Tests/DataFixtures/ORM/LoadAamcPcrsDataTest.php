@@ -14,14 +14,6 @@ class LoadAamcPcrsDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'aamc_pcrs.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.aamcpcrs.manager';
@@ -35,6 +27,14 @@ class LoadAamcPcrsDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadAamcPcrsData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadAamcPcrsData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('aamc_pcrs.csv');
     }
 
     /**

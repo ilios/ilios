@@ -14,14 +14,6 @@ class LoadCompetencyDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'competency.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.competency.manager';
@@ -35,6 +27,14 @@ class LoadCompetencyDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadCompetencyData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadCompetencyData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('competency.csv');
     }
 
     /**

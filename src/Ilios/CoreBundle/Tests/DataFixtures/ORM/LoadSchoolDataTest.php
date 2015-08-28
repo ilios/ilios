@@ -14,14 +14,6 @@ class LoadSchoolDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'school.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.school.manager';
@@ -35,6 +27,14 @@ class LoadSchoolDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadSchoolData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadSchoolData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('school.csv');
     }
 
     /**

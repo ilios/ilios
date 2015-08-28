@@ -14,14 +14,6 @@ class LoadSessionTypeDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'session_type.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.sessiontype.manager';
@@ -35,6 +27,14 @@ class LoadSessionTypeDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadSessionTypeData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadSessionTypeData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('session_type.csv');
     }
 
     /**

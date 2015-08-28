@@ -14,14 +14,6 @@ class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'learning_material_status.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.learningmaterialstatus.manager';
@@ -35,6 +27,14 @@ class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadLearningMaterialStatusData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadLearningMaterialStatusData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('learning_material_status.csv');
     }
 
     /**

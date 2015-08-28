@@ -14,14 +14,6 @@ class LoadAssessmentOptionDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'assessment_option.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.assessmentoption.manager';
@@ -35,6 +27,14 @@ class LoadAssessmentOptionDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadAssessmentOptionData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadAssessmentOptionData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('assessment_option.csv');
     }
 
     /**

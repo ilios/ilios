@@ -14,14 +14,6 @@ class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'curriculum_inventory_institution.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.curriculuminventoryinstitution.manager';
@@ -35,6 +27,14 @@ class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadCurriculumInventoryInstitutionData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadCurriculumInventoryInstitutionData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('curriculum_inventory_institution.csv');
     }
 
     /**

@@ -14,14 +14,6 @@ class LoadAamcMethodDataTest extends AbstractDataFixtureTest
     /**
      * {@inheritdoc}
      */
-    public function getDataFileName()
-    {
-        return 'aamc_method.csv';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManagerServiceKey()
     {
         return 'ilioscore.aamcmethod.manager';
@@ -35,6 +27,14 @@ class LoadAamcMethodDataTest extends AbstractDataFixtureTest
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadAamcMethodData',
         ];
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadAamcMethodData::load
+     */
+    public function testLoad()
+    {
+        $this->runTestLoad('aamc_method.csv');
     }
 
     /**
