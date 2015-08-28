@@ -30,6 +30,7 @@ parameters:
     ilioscore.dataloader.meshconcept.class: Ilios\CoreBundle\Tests\DataLoader\MeshConceptData
     ilioscore.dataloader.meshqualifier.class: Ilios\CoreBundle\Tests\DataLoader\MeshQualifierData
     ilioscore.dataloader.meshsemantictype.class: Ilios\CoreBundle\Tests\DataLoader\MeshSemanticTypeData
+    ilioscore.dataloader.meshterm.class: Ilios\CoreBundle\Tests\DataLoader\MeshTermData
     ilioscore.dataloader.meshtree.class: Ilios\CoreBundle\Tests\DataLoader\MeshTreeData
     ilioscore.dataloader.learningmaterial.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialData
     ilioscore.dataloader.objective.class: Ilios\CoreBundle\Tests\DataLoader\ObjectiveData
@@ -113,6 +114,8 @@ services:
         class: %ilioscore.dataloader.meshqualifier.class%
     ilioscore.dataloader.meshsemantictype:
         class: %ilioscore.dataloader.meshsemantictype.class%
+    ilioscore.dataloader.meshterm:
+        class: %ilioscore.dataloader.meshterm.class%
     ilioscore.dataloader.meshtree:
         class: %ilioscore.dataloader.meshtree.class%
     ilioscore.dataloader.objective:

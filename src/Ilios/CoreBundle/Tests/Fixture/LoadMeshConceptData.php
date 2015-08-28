@@ -40,6 +40,9 @@ class LoadMeshConceptData extends AbstractFixture implements
             foreach ($arr['descriptors'] as $id) {
                 $entity->addDescriptor($this->getReference('meshDescriptors' . $id));
             }
+            foreach ($arr['semanticTypes'] as $id) {
+                $entity->addSemanticType($this->getReference('meshSemanticTypes' . $id));
+            }
             $this->addReference('meshConcepts' . $arr['id'], $entity);
             $manager->persist($entity);
         }
@@ -51,6 +54,7 @@ class LoadMeshConceptData extends AbstractFixture implements
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshSemanticTypeData',
         );
     }
 }

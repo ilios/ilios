@@ -107,7 +107,7 @@ class UserController extends FOSRestController
      * @QueryParam(
      *   name="q",
      *   nullable=true,
-     *   description="string search term to compase to name and email"
+     *   description="string search term to compare to name and email"
      * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)

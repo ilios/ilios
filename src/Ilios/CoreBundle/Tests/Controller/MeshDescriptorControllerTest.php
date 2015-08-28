@@ -22,12 +22,14 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            // 'Ilios\CoreBundle\Tests\Fixture\LoadMeshConceptData',
-            // 'Ilios\CoreBundle\Tests\Fixture\LoadMeshTreeData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshConceptData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshTreeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadMeshPreviousIndexingData',
-            // 'Ilios\CoreBundle\Tests\Fixture\LoadMeshQualifierData',
-            // 'Ilios\CoreBundle\Tests\Fixture\LoadMeshSessionLearningMaterialData',
-            // 'Ilios\CoreBundle\Tests\Fixture\LoadMeshCourseLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshQualifierData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshSemanticTypeData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshTermData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
         ]);
     }
 
@@ -107,6 +109,64 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             ),
             $data
         );
+    }
+    
+    protected function queryForDescriptorsTest($q, $expectedDescriptorId)
+    {
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_meshdescriptors', array('q' => $q)),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('meshDescriptors', $result), var_export($result, true));
+        $descriptors = $result['meshDescriptors'];
+        $this->assertEquals(1, count($descriptors));
+        $this->assertEquals(
+            $expectedDescriptorId,
+            $descriptors[0]['id']
+        );
+    }
+    
+    public function testFindDescriptorsWithId()
+    {
+        $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
+        $this->queryForDescriptorsTest($descriptor['id'], $descriptor['id']);
+    }
+    
+    public function testFindDescriptorsWithAnnotation()
+    {
+        $descriptors = $this->container->get('ilioscore.dataloader.meshDescriptor')->getAll();
+        $descriptor = $descriptors[1];
+        $this->queryForDescriptorsTest($descriptor['annotation'], $descriptor['id']);
+    }
+    
+    public function testFindDescriptorsByPreviousIndexing()
+    {
+        $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
+        $previousIndexing = $this->container->get('ilioscore.dataloader.meshPreviousIndexing')->getAll();
+        $previousIndexing = array_filter($previousIndexing, function ($arr) use ($descriptor) {
+            return $arr['id'] === $descriptor['previousIndexing'];
+        });
+        $this->queryForDescriptorsTest($previousIndexing[0]['previousIndexing'], $descriptor['id']);
+
+    }
+    
+    public function testFindDescriptorBySemanticTypeName()
+    {
+        $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
+        $concepts = $this->container->get('ilioscore.dataloader.meshConcept')->getAll();
+        $concept = array_filter($concepts, function ($arr) use ($descriptor) {
+            return in_array($arr['id'], $descriptor['concepts']);
+        })[0];
+        $semanticTypes = $this->container->get('ilioscore.dataloader.meshSemanticType')->getAll();
+        $semanticType = array_filter($semanticTypes, function ($arr) use ($concept) {
+            return in_array($arr['id'], $concept['semanticTypes']);
+        })[0];
+        $this->queryForDescriptorsTest($semanticType['name'], $descriptor['id']);
+
     }
 
     public function testPostMeshDescriptor()

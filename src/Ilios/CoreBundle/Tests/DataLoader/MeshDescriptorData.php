@@ -9,7 +9,7 @@ class MeshDescriptorData extends AbstractDataLoader
         $arr = array();
         $arr[] = array(
             'id' => 'abc1',
-            'name' => $this->faker->text,
+            'name' => 'desc' . $this->faker->text,
             'annotation' => $this->faker->text,
             'courses' => [],
             'objectives' => [],
@@ -23,7 +23,7 @@ class MeshDescriptorData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 'abc2',
-            'name' => $this->faker->text,
+            'name' => 'desc' . $this->faker->text,
             'annotation' => $this->faker->text,
             'courses' => [],
             'objectives' => [],

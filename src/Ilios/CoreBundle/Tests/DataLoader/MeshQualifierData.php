@@ -9,12 +9,12 @@ class MeshQualifierData extends AbstractDataLoader
         $arr = array();
         $arr[] = array(
             'id' => '1',
-            'name' => $this->faker->text,
+            'name' => 'qual' . $this->faker->text,
             'descriptors' => ['abc1']
         );
         $arr[] = array(
             'id' => '2',
-            'name' => $this->faker->text,
+            'name' => 'qual' . $this->faker->text,
             'descriptors' => ['abc1']
         );
 

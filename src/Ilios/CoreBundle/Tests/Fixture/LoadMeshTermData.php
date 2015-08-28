@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
-use Ilios\CoreBundle\Entity\MeshConcept;
+use Ilios\CoreBundle\Entity\MeshTerm;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -26,10 +26,10 @@ class LoadMeshTermData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.meshConcept')
+            ->get('ilioscore.dataloader.meshTerm')
             ->getAll();
         foreach ($data as $arr) {
-            $entity = new MeshConcept();
+            $entity = new MeshTerm();
             $entity->setId($arr['id']);
             $entity->setMeshTermUid($arr['meshTermUid']);
             $entity->setName($arr['name']);

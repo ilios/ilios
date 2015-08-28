@@ -104,6 +104,11 @@ class MeshDescriptorController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     * @QueryParam(
+     *   name="q",
+     *   nullable=true,
+     *   description="query for mesh descriptors with linked term, concept, etc"
+     * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
@@ -116,6 +121,7 @@ class MeshDescriptorController extends FOSRestController
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
+        $q = !is_null($paramFetcher->get('q')) ? $paramFetcher->get('q') : false;
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
             $item = $item == 'null' ? null : $item;
@@ -124,14 +130,23 @@ class MeshDescriptorController extends FOSRestController
 
             return $item;
         }, $criteria);
-
-        $result = $this->getMeshDescriptorHandler()
-            ->findMeshDescriptorsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        if ($q) {
+            $result = $this->getMeshDescriptorHandler()
+                ->findMeshDescriptorsByQ(
+                    $q,
+                    $orderBy,
+                    $limit,
+                    $offset
+                );
+        } else {
+            $result = $this->getMeshDescriptorHandler()
+                ->findMeshDescriptorsBy(
+                    $criteria,
+                    $orderBy,
+                    $limit,
+                    $offset
+                );
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {

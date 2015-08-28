@@ -9,13 +9,13 @@ class MeshSemanticTypeData extends AbstractDataLoader
         $arr = array();
         $arr[] = array(
             'id' => '1',
-            'name' => $this->faker->text,
-            'concepts' => ['1', '2']
+            'name' => 'type' . $this->faker->text,
+            'concepts' => ['1']
         );
         $arr[] = array(
             'id' => '2',
-            'name' => $this->faker->text,
-            'concepts' => ['abc2']
+            'name' => 'type' . $this->faker->text,
+            'concepts' => ['1']
         );
 
         return $arr;
