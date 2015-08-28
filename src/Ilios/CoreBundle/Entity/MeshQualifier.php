@@ -55,26 +55,29 @@ class MeshQualifier implements MeshQualifierInterface
      *      min = 1,
      *      max = 60
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $name;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @Assert\NotBlank()
-     *
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @Assert\NotBlank()
-     *
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("updatedAt")
      */
     protected $updatedAt;
 

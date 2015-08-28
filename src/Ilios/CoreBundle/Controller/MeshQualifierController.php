@@ -14,34 +14,34 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\MeshPreviousIndexingHandler;
-use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
+use Ilios\CoreBundle\Handler\MeshQualifierHandler;
+use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
 /**
- * Class MeshPreviousIndexingController
+ * Class MeshQualifierController
  * @package Ilios\CoreBundle\Controller
- * @RouteResource("MeshPreviousIndexings")
+ * @RouteResource("MeshQualifiers")
  */
-class MeshPreviousIndexingController extends FOSRestController
+class MeshQualifierController extends FOSRestController
 {
     /**
-     * Get a MeshPreviousIndexing
+     * Get a MeshQualifier
      *
      * @ApiDoc(
-     *   section = "MeshPreviousIndexing",
-     *   description = "Get a MeshPreviousIndexing.",
+     *   section = "MeshQualifier",
+     *   description = "Get a MeshQualifier.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
      *        "requirement"="\d+",
-     *        "description"="MeshPreviousIndexing identifier."
+     *        "description"="MeshQualifier identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\MeshPreviousIndexing",
+     *   output="Ilios\CoreBundle\Entity\MeshQualifier",
      *   statusCodes={
-     *     200 = "MeshPreviousIndexing.",
+     *     200 = "MeshQualifier.",
      *     404 = "Not Found."
      *   }
      * )
@@ -54,28 +54,28 @@ class MeshPreviousIndexingController extends FOSRestController
      */
     public function getAction($id)
     {
-        $meshPreviousIndexing = $this->getOr404($id);
+        $meshQualifier = $this->getOr404($id);
 
         $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('view', $meshPreviousIndexing)) {
+        if (! $authChecker->isGranted('view', $meshQualifier)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        $answer['meshPreviousIndexings'][] = $meshPreviousIndexing;
+        $answer['meshQualifiers'][] = $meshQualifier;
 
         return $answer;
     }
 
     /**
-     * Get all MeshPreviousIndexing.
+     * Get all MeshQualifier.
      *
      * @ApiDoc(
-     *   section = "MeshPreviousIndexing",
-     *   description = "Get all MeshPreviousIndexing.",
+     *   section = "MeshQualifier",
+     *   description = "Get all MeshQualifier.",
      *   resource = true,
-     *   output="Ilios\CoreBundle\Entity\MeshPreviousIndexing",
+     *   output="Ilios\CoreBundle\Entity\MeshQualifier",
      *   statusCodes = {
-     *     200 = "List of all MeshPreviousIndexing",
+     *     200 = "List of all MeshQualifier",
      *     204 = "No content. Nothing to list."
      *   }
      * )
@@ -124,8 +124,8 @@ class MeshPreviousIndexingController extends FOSRestController
 
             return $item;
         }, $criteria);
-        $result = $this->getMeshPreviousIndexingHandler()
-            ->findMeshPreviousIndexingsBy(
+        $result = $this->getMeshQualifierHandler()
+            ->findMeshQualifiersBy(
                 $criteria,
                 $orderBy,
                 $limit,
@@ -138,23 +138,23 @@ class MeshPreviousIndexingController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['meshPreviousIndexings'] =
+        $answer['meshQualifiers'] =
             $result ? $result : new ArrayCollection([]);
 
         return $answer;
     }
 
     /**
-     * Create a MeshPreviousIndexing.
+     * Create a MeshQualifier.
      *
      * @ApiDoc(
-     *   section = "MeshPreviousIndexing",
-     *   description = "Create a MeshPreviousIndexing.",
+     *   section = "MeshQualifier",
+     *   description = "Create a MeshQualifier.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\MeshPreviousIndexingType",
-     *   output="Ilios\CoreBundle\Entity\MeshPreviousIndexing",
+     *   input="Ilios\CoreBundle\Form\Type\MeshQualifierType",
+     *   output="Ilios\CoreBundle\Entity\MeshQualifier",
      *   statusCodes={
-     *     201 = "Created MeshPreviousIndexing.",
+     *     201 = "Created MeshQualifier.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -169,18 +169,18 @@ class MeshPreviousIndexingController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getMeshPreviousIndexingHandler();
+            $handler = $this->getMeshQualifierHandler();
 
-            $meshPreviousIndexing = $handler->post($this->getPostData($request));
+            $meshQualifier = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted('create', $meshPreviousIndexing)) {
+            if (! $authChecker->isGranted('create', $meshQualifier)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshPreviousIndexingHandler()->updateMeshPreviousIndexing($meshPreviousIndexing, true, false);
+            $this->getMeshQualifierHandler()->updateMeshQualifier($meshQualifier, true, false);
 
-            $answer['meshPreviousIndexings'] = [$meshPreviousIndexing];
+            $answer['meshQualifiers'] = [$meshQualifier];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -191,17 +191,17 @@ class MeshPreviousIndexingController extends FOSRestController
     }
 
     /**
-     * Update a MeshPreviousIndexing.
+     * Update a MeshQualifier.
      *
      * @ApiDoc(
-     *   section = "MeshPreviousIndexing",
-     *   description = "Update a MeshPreviousIndexing entity.",
+     *   section = "MeshQualifier",
+     *   description = "Update a MeshQualifier entity.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\MeshPreviousIndexingType",
-     *   output="Ilios\CoreBundle\Entity\MeshPreviousIndexing",
+     *   input="Ilios\CoreBundle\Form\Type\MeshQualifierType",
+     *   output="Ilios\CoreBundle\Entity\MeshQualifier",
      *   statusCodes={
-     *     200 = "Updated MeshPreviousIndexing.",
-     *     201 = "Created MeshPreviousIndexing.",
+     *     200 = "Updated MeshQualifier.",
+     *     201 = "Created MeshQualifier.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -217,31 +217,31 @@ class MeshPreviousIndexingController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()
-                ->findMeshPreviousIndexingBy(['id'=> $id]);
-            if ($meshPreviousIndexing) {
+            $meshQualifier = $this->getMeshQualifierHandler()
+                ->findMeshQualifierBy(['id'=> $id]);
+            if ($meshQualifier) {
                 $code = Codes::HTTP_OK;
             } else {
-                $meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()
-                    ->createMeshPreviousIndexing();
+                $meshQualifier = $this->getMeshQualifierHandler()
+                    ->createMeshQualifier();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getMeshPreviousIndexingHandler();
+            $handler = $this->getMeshQualifierHandler();
 
-            $meshPreviousIndexing = $handler->put(
-                $meshPreviousIndexing,
+            $meshQualifier = $handler->put(
+                $meshQualifier,
                 $this->getPostData($request)
             );
 
             $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted('edit', $meshPreviousIndexing)) {
+            if (! $authChecker->isGranted('edit', $meshQualifier)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshPreviousIndexingHandler()->updateMeshPreviousIndexing($meshPreviousIndexing, true, true);
+            $this->getMeshQualifierHandler()->updateMeshQualifier($meshQualifier, true, true);
 
-            $answer['meshPreviousIndexing'] = $meshPreviousIndexing;
+            $answer['meshQualifier'] = $meshQualifier;
 
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
@@ -253,22 +253,22 @@ class MeshPreviousIndexingController extends FOSRestController
     }
 
     /**
-     * Delete a MeshPreviousIndexing.
+     * Delete a MeshQualifier.
      *
      * @ApiDoc(
-     *   section = "MeshPreviousIndexing",
-     *   description = "Delete a MeshPreviousIndexing entity.",
+     *   section = "MeshQualifier",
+     *   description = "Delete a MeshQualifier entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "\d+",
-     *         "description" = "MeshPreviousIndexing identifier"
+     *         "description" = "MeshQualifier identifier"
      *     }
      *   },
      *   statusCodes={
-     *     204 = "No content. Successfully deleted MeshPreviousIndexing.",
+     *     204 = "No content. Successfully deleted MeshQualifier.",
      *     400 = "Bad Request.",
      *     404 = "Not found."
      *   }
@@ -277,22 +277,22 @@ class MeshPreviousIndexingController extends FOSRestController
      * @Rest\View(statusCode=204)
      *
      * @param $id
-     * @internal MeshPreviousIndexingInterface $meshPreviousIndexing
+     * @internal MeshQualifierInterface $meshQualifier
      *
      * @return Response
      */
     public function deleteAction($id)
     {
-        $meshPreviousIndexing = $this->getOr404($id);
+        $meshQualifier = $this->getOr404($id);
 
         $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('delete', $meshPreviousIndexing)) {
+        if (! $authChecker->isGranted('delete', $meshQualifier)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
         try {
-            $this->getMeshPreviousIndexingHandler()
-                ->deleteMeshPreviousIndexing($meshPreviousIndexing);
+            $this->getMeshQualifierHandler()
+                ->deleteMeshQualifier($meshQualifier);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -304,17 +304,17 @@ class MeshPreviousIndexingController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return MeshPreviousIndexingInterface $meshPreviousIndexing
+     * @return MeshQualifierInterface $meshQualifier
      */
     protected function getOr404($id)
     {
-        $meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()
-            ->findMeshPreviousIndexingBy(['id' => $id]);
-        if (!$meshPreviousIndexing) {
+        $meshQualifier = $this->getMeshQualifierHandler()
+            ->findMeshQualifierBy(['id' => $id]);
+        if (!$meshQualifier) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $meshPreviousIndexing;
+        return $meshQualifier;
     }
 
     /**
@@ -325,7 +325,7 @@ class MeshPreviousIndexingController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('meshPreviousIndexing');
+        $data = $request->request->get('meshQualifier');
 
         if (empty($data)) {
             $data = $request->request->all();
@@ -335,10 +335,10 @@ class MeshPreviousIndexingController extends FOSRestController
     }
 
     /**
-     * @return MeshPreviousIndexingHandler
+     * @return MeshQualifierHandler
      */
-    protected function getMeshPreviousIndexingHandler()
+    protected function getMeshQualifierHandler()
     {
-        return $this->container->get('ilioscore.meshpreviousIndexing.handler');
+        return $this->container->get('ilioscore.meshqualifier.handler');
     }
 }

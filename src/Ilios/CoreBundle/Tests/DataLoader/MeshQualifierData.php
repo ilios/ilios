@@ -9,12 +9,12 @@ class MeshQualifierData extends AbstractDataLoader
         $arr = array();
         $arr[] = array(
             'id' => '1',
-            'name' => 'qual' . $this->faker->text,
+            'name' => 'qual' . $this->faker->text(5),
             'descriptors' => ['abc1']
         );
         $arr[] = array(
             'id' => '2',
-            'name' => 'qual' . $this->faker->text,
+            'name' => 'qual' . $this->faker->text(5),
             'descriptors' => ['abc1']
         );
 
@@ -25,15 +25,13 @@ class MeshQualifierData extends AbstractDataLoader
     {
         return array(
             'id' => '3',
-            'name' => $this->faker->text,
+            'name' => $this->faker->text(5),
             'descriptors' => []
         );
     }
 
     public function createInvalid()
     {
-        return array(
-            'id' => 'bad'
-        );
+        return [];
     }
 }
