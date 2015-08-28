@@ -53,8 +53,10 @@ class MeshDescriptorRepository extends EntityRepository
         if ($offset) {
             $qb->setFirstResult($offset);
         }
+        $query = $qb->getQuery();
+        $query->useResultCache(true);
         
-        $results = $qb->getQuery()->getResult();
+        $results = $query->getResult();
         
         //unfortnatly we can't let doctinre limit the fetch here because of all the joins
         //it returns many less than the desired number
