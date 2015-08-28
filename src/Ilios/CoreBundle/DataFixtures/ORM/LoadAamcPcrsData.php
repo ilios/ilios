@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\DataFixtures\ORM;
 
 use Ilios\CoreBundle\Entity\AamcPcrs;
+use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 
 /**
  * Class LoadAamcPcrsData
@@ -16,12 +17,25 @@ class LoadAamcPcrsData extends AbstractFixture
     }
 
     /**
-     * {@inheritdoc}
+     * @return AamcPcrsInterface
+     *
+     * @see AbstractFixture::createEntity()
      */
-    protected function createEntity(array $data)
+    protected function createEntity()
+    {
+        return new AamcPcrs();
+    }
+
+    /**
+     * @param AamcPcrsInterface $entity
+     * @param array $data
+     * @return AamcPcrsInterface
+     *
+     * @see AbstractFixture::populateEntity()
+     */
+    protected function populateEntity($entity, array $data)
     {
         // `pcrs_id`,`description`
-        $entity = new AamcPcrs();
         $entity->setId($data[0]);
         $entity->setDescription($data[1]);
         return $entity;

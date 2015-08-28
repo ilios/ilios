@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\DataFixtures\ORM;
 
 use Ilios\CoreBundle\Entity\LearningMaterialStatus;
+use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
 /**
  * Class LoadLearningMaterialStatusData
@@ -16,12 +17,25 @@ class LoadLearningMaterialStatusData extends AbstractFixture
     }
 
     /**
-     * {@inheritdoc}
+     * @return LearningMaterialStatusInterface
+     *
+     * @see AbstractInterface::createEntity()
      */
-    protected function createEntity(array $data)
+    protected function createEntity()
+    {
+        return  new LearningMaterialStatus();
+    }
+
+    /**
+     * @param LearningMaterialStatusInterface $entity
+     * @param array $data
+     * @return LearningMaterialStatusInterface
+     *
+     * @see AbstractInterface::populateEntity
+     */
+    protected function populateEntity($entity, array $data)
     {
         // `learning_material_status_id`,`title`
-        $entity = new LearningMaterialStatus();
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
         return $entity;

@@ -5,6 +5,8 @@ namespace Ilios\CoreBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use Ilios\CoreBundle\Entity\Department;
+use Ilios\CoreBundle\Entity\DepartmentInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Class LoadDepartmentData
@@ -16,19 +18,6 @@ class LoadDepartmentData extends AbstractFixture implements DependentFixtureInte
     {
         parent::__construct('department');
     }
-    /**
-     * {@inheritdoc}
-     */
-    protected function createEntity(array $data)
-    {
-        // `department_id`,`title`,`school_id`,`deleted`
-        $entity = new Department();
-        $entity->setId($data[0]);
-        $entity->setTitle($data[1]);
-        $entity->setSchool($this->getReference('school' . $data[2]));
-        $entity->setDeleted((boolean) $data[3]);
-        return $entity;
-    }
 
     /**
      * {@inheritdoc}
@@ -38,5 +27,32 @@ class LoadDepartmentData extends AbstractFixture implements DependentFixtureInte
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadSchoolData',
         ];
+    }
+
+    /**
+     * @return DepartmentInterface
+     *
+     * @see AbstractFixture::createEntity()
+     */
+    protected function createEntity()
+    {
+        return new Department();
+    }
+
+    /**
+     * @param DepartmentInterface $entity
+     * @param array $data
+     * @return IdentifiableEntityInterface
+     *
+     * @see AbstractFixture::populateEntity()
+     */
+    protected function populateEntity($entity, array $data)
+    {
+        // `department_id`,`title`,`school_id`,`deleted`
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $entity->setSchool($this->getReference('school' . $data[2]));
+        $entity->setDeleted((boolean) $data[3]);
+        return $entity;
     }
 }

@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\DataFixtures\ORM;
 
 use Ilios\CoreBundle\Entity\AssessmentOption;
+use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
 
 /**
  * Class LoadAssessmentOptionData
@@ -16,12 +17,25 @@ class LoadAssessmentOptionData extends AbstractFixture
     }
 
     /**
-     * {@inheritdoc}
+     * @return AssessmentOptionInterface
+     *
+     * @see AbstractFixture::createEntity()
      */
-    protected function createEntity(array $data)
+    protected function createEntity()
+    {
+        return new AssessmentOption();
+    }
+
+    /**
+     * @param AssessmentOptionInterface $entity
+     * @param array $data
+     * @return AssessmentOptionInterface
+     *
+     * @see AbstractFixture::populateEntity()
+     */
+    protected function populateEntity($entity, array $data)
     {
         // `assessment_option_id`,`name`
-        $entity = new AssessmentOption();
         $entity->setId($data[0]);
         $entity->setName($data[1]);
         return $entity;

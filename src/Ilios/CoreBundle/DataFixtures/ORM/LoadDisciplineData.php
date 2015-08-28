@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use Ilios\CoreBundle\Entity\Discipline;
+use Ilios\CoreBundle\Entity\DisciplineInterface;
 
 /**
  * Class LoadDisciplineData
@@ -16,18 +17,6 @@ class LoadDisciplineData extends AbstractFixture implements DependentFixtureInte
     {
         parent::__construct('discipline');
     }
-    /**
-     * {@inheritdoc}
-     */
-    protected function createEntity(array $data)
-    {
-        // `discipline_id`,`title`,`school_id`
-        $entity = new Discipline();
-        $entity->setId($data[0]);
-        $entity->setTitle($data[1]);
-        $entity->setSchool($this->getReference('school' . $data[2]));
-        return $entity;
-    }
 
     /**
      * {@inheritdoc}
@@ -37,5 +26,31 @@ class LoadDisciplineData extends AbstractFixture implements DependentFixtureInte
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadSchoolData',
         ];
+    }
+
+    /**
+     * @return DisciplineInterface
+     *
+     * @see AbstractFixture::createEntity()
+     */
+    protected function createEntity()
+    {
+        return new Discipline();
+    }
+
+    /**
+     * @param DisciplineInterface $entity
+     * @param array $data
+     * @return DisciplineInterface
+     *
+     * @see AbstractFixture::populateEntity()
+     */
+    protected function populateEntity($entity, array $data)
+    {
+        // `discipline_id`,`title`,`school_id`
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $entity->setSchool($this->getReference('school' . $data[2]));
+        return $entity;
     }
 }
