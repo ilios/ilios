@@ -8,11 +8,13 @@ class MeshTreeData extends AbstractDataLoader
     {
         $arr = array();
         $arr[] = array(
-            'treeNumber' => '1',
+            'id' => '1',
+            'treeNumber' => $this->faker->word,
             'descriptor' => 'abc1'
         );
         $arr[] = array(
-            'treeNumber' => '2',
+            'id' => '2',
+            'treeNumber' => $this->faker->word,
             'descriptor' => 'abc1'
         );
 
@@ -22,7 +24,8 @@ class MeshTreeData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'treeNumber' => '3',
+            'id' => '3',
+            'treeNumber' => $this->faker->word,
             'descriptor' => 'abc2'
         );
     }

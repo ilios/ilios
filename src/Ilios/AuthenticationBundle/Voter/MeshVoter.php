@@ -22,6 +22,7 @@ class MeshVoter extends AbstractVoter
             'Ilios\CoreBundle\Entity\MeshQualifierInterface',
             'Ilios\CoreBundle\Entity\MeshSemanticTypeInterface',
             'Ilios\CoreBundle\Entity\MeshTermInterface',
+            'Ilios\CoreBundle\Entity\MeshTreeInterface',
         ];
     }
 

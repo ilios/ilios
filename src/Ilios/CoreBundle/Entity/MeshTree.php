@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+
 /**
  * Class MeshTree
  * @package Ilios\CoreBundle\Entity
@@ -21,14 +24,28 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class MeshTree implements MeshTreeInterface
 {
+    use IdentifiableEntity;
+    use StringableIdEntity;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="mesh_term_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     */
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="tree_number", type="string", length=31)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     *
+     * 
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
@@ -100,10 +117,5 @@ class MeshTree implements MeshTreeInterface
     public function getDescriptor()
     {
         return $this->descriptor;
-    }
-    
-    public function __toString()
-    {
-        return $this->treeNumber;
     }
 }

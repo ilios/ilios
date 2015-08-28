@@ -29,6 +29,7 @@ parameters:
     ilioscore.meshqualifier.handler.class: Ilios\CoreBundle\Handler\MeshQualifierHandler
     ilioscore.meshsemantictype.handler.class: Ilios\CoreBundle\Handler\MeshSemanticTypeHandler
     ilioscore.meshterm.handler.class: Ilios\CoreBundle\Handler\MeshTermHandler
+    ilioscore.meshtree.handler.class: Ilios\CoreBundle\Handler\MeshTreeHandler
     ilioscore.objective.handler.class: Ilios\CoreBundle\Handler\ObjectiveHandler
     ilioscore.offering.handler.class: Ilios\CoreBundle\Handler\OfferingHandler
     ilioscore.permission.handler.class: Ilios\CoreBundle\Handler\PermissionHandler
@@ -139,6 +140,9 @@ services:
     ilioscore.meshterm.handler:
         class: %ilioscore.meshterm.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshTerm, '@form.factory']
+    ilioscore.meshtree.handler:
+        class: %ilioscore.meshtree.handler.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshTree, '@form.factory']
     ilioscore.objective.handler:
         class: %ilioscore.objective.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Objective, '@form.factory']
