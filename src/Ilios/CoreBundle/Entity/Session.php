@@ -193,9 +193,9 @@ class Session implements SessionInterface
     protected $ilmSession;
 
     /**
-     * @var ArrayCollection|DisciplineInterface[]
+     * @var ArrayCollection|TopicInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Discipline", inversedBy="sessions")
+     * @ORM\ManyToMany(targetEntity="Topic", inversedBy="sessions")
      * @ORM\JoinTable(name="session_x_discipline",
      *   joinColumns={
      *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
@@ -208,7 +208,7 @@ class Session implements SessionInterface
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $disciplines;
+    protected $topics;
 
     /**
      * @var ArrayCollection|ObjectiveInterface[]
@@ -307,7 +307,7 @@ class Session implements SessionInterface
         $this->deleted = false;
         $this->publishedAsTbd = false;
 
-        $this->disciplines = new ArrayCollection();
+        $this->topics = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->offerings = new ArrayCollection();
@@ -459,31 +459,31 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param Collection $disciplines
+     * @param Collection $topics
      */
-    public function setDisciplines(Collection $disciplines)
+    public function setTopics(Collection $topics)
     {
-        $this->disciplines = new ArrayCollection();
+        $this->topics = new ArrayCollection();
 
-        foreach ($disciplines as $discipline) {
-            $this->addDiscipline($discipline);
+        foreach ($topics as $topic) {
+            $this->addTopic($topic);
         }
     }
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      */
-    public function addDiscipline(DisciplineInterface $discipline)
+    public function addTopic(TopicInterface $topic)
     {
-        $this->disciplines->add($discipline);
+        $this->topics->add($topic);
     }
 
     /**
-     * @return ArrayCollection|DisciplineInterface[]
+     * @return ArrayCollection|TopicInterface[]
      */
-    public function getDisciplines()
+    public function getTopics()
     {
-        return $this->disciplines;
+        return $this->topics;
     }
 
     /**

@@ -10,9 +10,9 @@ use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 
 /**
- * Interface DisciplineInterface
+ * Interface TopicInterface
  */
-interface DisciplineInterface extends
+interface TopicInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     CoursesEntityInterface,

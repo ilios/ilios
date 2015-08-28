@@ -19,7 +19,7 @@ class SchoolData extends AbstractDataLoader
             'courses' => [],
             'programs' => ['1', '2'],
             'departments' => ['1', '2'],
-            'disciplines' => ['1', '2'],
+            'topics' => ['1', '2'],
             'instructorGroups' => [],
             'curriculumInventoryInstitution' => "1",
             'sessionTypes' => ['1', '2']
@@ -36,7 +36,7 @@ class SchoolData extends AbstractDataLoader
             'courses' => [],
             'programs' => [],
             'departments' => [],
-            'disciplines' => [],
+            'topics' => [],
             'instructorGroups' => [],
             'sessionTypes' => []
         );
@@ -58,7 +58,7 @@ class SchoolData extends AbstractDataLoader
             'courses' => [],
             'programs' => [1],
             'departments' => [],
-            'disciplines' => [],
+            'topics' => [],
             'instructorGroups' => [],
             'sessionTypes' => []
         );

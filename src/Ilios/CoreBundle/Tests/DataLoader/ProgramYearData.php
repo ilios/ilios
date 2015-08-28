@@ -19,7 +19,7 @@ class ProgramYearData extends AbstractDataLoader
             'cohort' => "1",
             'directors' => [],
             'competencies' => [],
-            'disciplines' => [],
+            'topics' => [],
             'objectives' => [],
             'publishEvent' => '2'
         );
@@ -34,7 +34,7 @@ class ProgramYearData extends AbstractDataLoader
             'cohort' => "2",
             'directors' => [],
             'competencies' => [],
-            'disciplines' => [],
+            'topics' => [],
             'objectives' => [],
         );
 
@@ -50,7 +50,7 @@ class ProgramYearData extends AbstractDataLoader
             'program' => "1",
             'directors' => [],
             'competencies' => [],
-            'disciplines' => [],
+            'topics' => [],
             'objectives' => [],
             'deleted' => false,
             'locked' => false,

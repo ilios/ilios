@@ -2,21 +2,21 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\DisciplineManagerInterface;
-use Ilios\CoreBundle\Entity\DisciplineInterface;
+use Ilios\CoreBundle\Entity\Manager\TopicManagerInterface;
+use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
- * Class LoadDisciplineDataTest
+ * Class LoadTopicDataTest
  * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
  */
-class LoadDisciplineDataTest extends AbstractDataFixtureTest
+class LoadTopicDataTest extends AbstractDataFixtureTest
 {
     /**
      * {@inheritdoc}
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.discipline.manager';
+        return 'ilioscore.topic.manager';
     }
 
     /**
@@ -25,25 +25,25 @@ class LoadDisciplineDataTest extends AbstractDataFixtureTest
     public function getFixtures()
     {
         return [
-            'Ilios\CoreBundle\DataFixtures\ORM\LoadDisciplineData',
+            'Ilios\CoreBundle\DataFixtures\ORM\LoadTopicData',
         ];
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadDisciplineData::load
+     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadTopicData::load
      */
     public function testLoad()
     {
-        $this->runTestLoad('discipline.csv');
+        $this->runTestLoad('topic.csv');
     }
 
     /**
      * @param array $data
-     * @param DisciplineInterface $entity
+     * @param TopicInterface $entity
      */
     protected function assertDataEquals(array $data, $entity)
     {
-        // `discipline_id`,`title`,`school_id`
+        // `topic_id`,`title`,`school_id`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
         $this->assertEquals($data[2], $entity->getSchool()->getId());
@@ -51,15 +51,15 @@ class LoadDisciplineDataTest extends AbstractDataFixtureTest
 
     /**
      * @param array $data
-     * @return DisciplineInterface
+     * @return TopicInterface
      * @override
      */
     protected function getEntity(array $data)
     {
         /**
-         * @var DisciplineManagerInterface $em
+         * @var TopicManagerInterface $em
          */
         $em = $this->em;
-        return $em->findDisciplineBy(['id' => $data[0]]);
+        return $em->findTopicBy(['id' => $data[0]]);
     }
 }

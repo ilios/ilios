@@ -39,7 +39,7 @@ class ProgramYearTest extends EntityBase
     {
         $this->assertEmpty($this->object->getCompetencies());
         $this->assertEmpty($this->object->getDirectors());
-        $this->assertEmpty($this->object->getDisciplines());
+        $this->assertEmpty($this->object->getTopics());
         $this->assertEmpty($this->object->getObjectives());
     }
 

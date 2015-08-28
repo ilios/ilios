@@ -40,9 +40,9 @@ class SchoolType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Department"
             ])
-            ->add('disciplines', 'tdn_many_related', [
+            ->add('topics', 'tdn_many_related', [
                 'required' => false,
-                'entityName' => "IliosCoreBundle:Discipline"
+                'entityName' => "IliosCoreBundle:Topic"
             ])
             ->add('instructorGroups', 'tdn_many_related', [
                 'required' => false,

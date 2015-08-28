@@ -82,19 +82,19 @@ interface ProgramYearInterface extends
     public function getCompetencies();
 
     /**
-     * @param Collection $disciplines
+     * @param Collection $topics
      */
-    public function setDisciplines(Collection $disciplines);
+    public function setTopics(Collection $topics);
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      */
-    public function addDiscipline(DisciplineInterface $discipline);
+    public function addTopic(TopicInterface $topic);
 
     /**
-     * @return ArrayCollection|DisciplineInterface[]
+     * @return ArrayCollection|TopicInterface[]
      */
-    public function getDisciplines();
+    public function getTopics();
 
     /**
      * @param Collection $objectives

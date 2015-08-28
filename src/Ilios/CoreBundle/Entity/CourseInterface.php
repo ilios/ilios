@@ -132,14 +132,14 @@ interface CourseInterface extends
     public function getCohorts();
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      */
-    public function addDiscipline(DisciplineInterface $discipline);
+    public function addTopic(TopicInterface $topic);
 
     /**
-     * @return ArrayCollection|DisciplineInterface[]
+     * @return ArrayCollection|TopicInterface[]
      */
-    public function getDisciplines();
+    public function getTopics();
 
     /**
      * @param Collection|ObjectiveInterface[] $objectives

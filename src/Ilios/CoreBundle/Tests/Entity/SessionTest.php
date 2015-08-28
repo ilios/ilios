@@ -35,7 +35,7 @@ class SessionTest extends EntityBase
      */
     public function testConstructor()
     {
-        $this->assertEmpty($this->object->getDisciplines());
+        $this->assertEmpty($this->object->getTopics());
         $this->assertEmpty($this->object->getMeshDescriptors());
         $this->assertEmpty($this->object->getObjectives());
     }
@@ -122,11 +122,11 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::addDiscipline
+     * @covers Ilios\CoreBundle\Entity\Session::addTopic
      */
-    public function testAddDiscipline()
+    public function testAddTopic()
     {
-        $this->entityCollectionAddTest('discipline', 'Discipline');
+        $this->entityCollectionAddTest('topic', 'Topic');
     }
 
     /**

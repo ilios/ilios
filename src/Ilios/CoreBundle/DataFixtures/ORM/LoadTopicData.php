@@ -4,18 +4,18 @@ namespace Ilios\CoreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-use Ilios\CoreBundle\Entity\Discipline;
-use Ilios\CoreBundle\Entity\DisciplineInterface;
+use Ilios\CoreBundle\Entity\Topic;
+use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
- * Class LoadDisciplineData
+ * Class LoadTopicData
  * @package Ilios\CoreBundle\DataFixtures\ORM
  */
-class LoadDisciplineData extends AbstractFixture implements DependentFixtureInterface
+class LoadTopicData extends AbstractFixture implements DependentFixtureInterface
 {
     public function __construct()
     {
-        parent::__construct('discipline');
+        parent::__construct('topic');
     }
 
     /**
@@ -29,25 +29,25 @@ class LoadDisciplineData extends AbstractFixture implements DependentFixtureInte
     }
 
     /**
-     * @return DisciplineInterface
+     * @return TopicInterface
      *
      * @see AbstractFixture::createEntity()
      */
     protected function createEntity()
     {
-        return new Discipline();
+        return new Topic();
     }
 
     /**
-     * @param DisciplineInterface $entity
+     * @param TopicInterface $entity
      * @param array $data
-     * @return DisciplineInterface
+     * @return TopicInterface
      *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)
     {
-        // `discipline_id`,`title`,`school_id`
+        // `topic_id`,`title`,`school_id`
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
         $entity->setSchool($this->getReference('school' . $data[2]));

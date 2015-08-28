@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class DisciplineData extends AbstractDataLoader
+class TopicData extends AbstractDataLoader
 {
     protected function getData()
     {

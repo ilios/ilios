@@ -139,8 +139,8 @@ api_department_v1:
     defaults: {_format:json}
 
 
-api_discipline_v1:
-    resource: "@IliosCoreBundle/Controller/DisciplineController.php"
+api_topic_v1:
+    resource: "@IliosCoreBundle/Controller/TopicController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
