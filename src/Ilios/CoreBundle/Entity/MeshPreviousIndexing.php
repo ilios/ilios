@@ -65,6 +65,10 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
      *      min = 1,
      *      max = 65000
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("previousIndexing")
      */
     protected $previousIndexing;
 

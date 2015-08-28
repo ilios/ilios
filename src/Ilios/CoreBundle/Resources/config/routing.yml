@@ -204,6 +204,12 @@ api_meshdescriptor_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+api_meshdepreviousindexing_v1:
+    resource: "@IliosCoreBundle/Controller/MeshPreviousIndexingController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
 api_meshpreviousindexing_v1:
     resource: "@IliosCoreBundle/Controller/MeshPreviousIndexingController.php"
     type:     rest

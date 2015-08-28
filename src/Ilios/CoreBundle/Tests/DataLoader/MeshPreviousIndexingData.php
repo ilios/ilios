@@ -8,12 +8,12 @@ class MeshPreviousIndexingData extends AbstractDataLoader
     {
         $arr = array();
         $arr[] = array(
-            'id' => '1',
+            'id' => 1,
             'descriptor' => 'abc1',
             'previousIndexing' => $this->faker->text,
         );
         $arr[] = array(
-            'id' => '2',
+            'id' => 2,
             'descriptor' => 'abc2',
             'previousIndexing' => $this->faker->text,
         );

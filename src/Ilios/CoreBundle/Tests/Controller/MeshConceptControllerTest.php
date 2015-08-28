@@ -19,17 +19,6 @@ class MeshConceptControllerTest extends AbstractControllerTest
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadMeshConceptData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshConceptData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshTreeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshPreviousIndexingData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshQualifierData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshSemanticTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshTermData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
         ]);
     }
 

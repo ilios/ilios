@@ -35,6 +35,19 @@ class MeshDescriptorData extends AbstractDataLoader
             'trees' => [],
             'previousIndexing' => '2'
         );
+        $arr[] = array(
+            'id' => 'abc3',
+            'name' => 'desc' . $this->faker->text,
+            'annotation' => 'annotation' . $this->faker->text,
+            'courses' => [],
+            'objectives' => [],
+            'sessionLearningMaterials' => [],
+            'courseLearningMaterials' => [],
+            'sessions' => [],
+            'concepts' => [],
+            'qualifiers' => [],
+            'trees' => []
+        );
 
         return $arr;
     }
