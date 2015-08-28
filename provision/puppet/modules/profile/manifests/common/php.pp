@@ -55,6 +55,12 @@ class profile::common::php (
         provider => 'apt'
     }
 
+    php::extension { 'php-apc':
+        ensure => installed,
+        package => 'php-apc',
+        provider => 'apt'
+    }
+
     php::apache::config { 'memory_limit':
         setting => 'memory_limit',
         value => '768M',
