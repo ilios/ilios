@@ -59,7 +59,7 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      * )
      *
      * @ORM\Column(type="string", length=192)
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
     */

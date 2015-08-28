@@ -130,7 +130,7 @@ class MeshConceptController extends FOSRestController
                 $orderBy,
                 $limit,
                 $offset
-        );
+            );
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {

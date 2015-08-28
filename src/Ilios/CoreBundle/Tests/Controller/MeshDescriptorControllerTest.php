@@ -154,7 +154,7 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
         $previousIndexing = $this->container->get('ilioscore.dataloader.meshPreviousIndexing')->getAll();
         $previousIndexing = array_filter($previousIndexing, function ($arr) use ($descriptor) {
-            return $arr['id'] === $descriptor['previousIndexing'];
+            return $arr['id'] == $descriptor['previousIndexing'];
         });
         $this->queryForDescriptorsTest($previousIndexing[0]['previousIndexing'], $descriptor['id']);
 
@@ -235,8 +235,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-        
-        $data = json_decode($response->getContent(), true)['meshDescriptors'][0];
+        $result = json_decode($response->getContent(), true);
+        $this->assertTrue(array_key_exists('meshDescriptors', $result), var_export($result, true));
+        $data = $result['meshDescriptors'][0];
         $updatedAt = new DateTime($data['updatedAt']);
         $createdAt = new DateTime($data['createdAt']);
         unset($data['updatedAt']);

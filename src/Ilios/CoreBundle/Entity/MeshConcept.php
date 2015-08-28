@@ -56,7 +56,7 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 192
      * )
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
     */
@@ -73,7 +73,7 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 9
      * )
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("umlsUid")
@@ -87,7 +87,7 @@ class MeshConcept implements MeshConceptInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -103,7 +103,7 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 65000
      * )
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("scopeNote")
@@ -120,7 +120,7 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 127
      * )
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("casn1Name")
@@ -137,7 +137,7 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 30
      * )
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("registryNumber")
