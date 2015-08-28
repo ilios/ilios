@@ -57,7 +57,7 @@ class SessionType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionDescription"
             ])
-            ->add('sessionLearningMaterials', 'tdn_many_related', [
+            ->add('learningMaterials', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionLearningMaterial"
             ])

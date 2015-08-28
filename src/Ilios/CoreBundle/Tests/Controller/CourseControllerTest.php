@@ -143,8 +143,6 @@ class CourseControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-        unset($postData['learningMaterials']);
-        unset($postData['sessions']);
 
         $this->createJsonRequest(
             'PUT',

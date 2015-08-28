@@ -341,7 +341,7 @@ class Course implements CourseInterface
      * @JMS\Type("array<string>")
      * @JMS\SerializedName("learningMaterials")
      */
-    protected $courseLearningMaterials;
+    protected $learningMaterials;
 
     /**
      * @var ArrayCollection|SessionInterface[]
@@ -363,7 +363,7 @@ class Course implements CourseInterface
         $this->disciplines = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
-        $this->courseLearningMaterials = new ArrayCollection();
+        $this->learningMaterials = new ArrayCollection();
         $this->sessions = new ArrayCollection();
         $this->deleted = false;
         $this->publishedAsTbd = false;
@@ -668,33 +668,33 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param Collection $courseLearningMaterials
+     * @param Collection $learningMaterials
      */
-    public function setCourseLearningMaterials(Collection $courseLearningMaterials = null)
+    public function setLearningMaterials(Collection $learningMaterials = null)
     {
-        $this->courseLearningMaterials = new ArrayCollection();
-        if (is_null($courseLearningMaterials)) {
+        $this->learningMaterials = new ArrayCollection();
+        if (is_null($learningMaterials)) {
             return;
         }
 
-        foreach ($courseLearningMaterials as $courseLearningMaterial) {
-            $this->addCourseLearningMaterial($courseLearningMaterial);
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
         }
     }
 
     /**
-     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     * @param CourseLearningMaterialInterface $learningMaterial
      */
-    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
     {
-        $this->courseLearningMaterials->add($courseLearningMaterial);
+        $this->learningMaterials->add($learningMaterial);
     }
 
     /**
      * @return ArrayCollection|CourseLearningMaterialInterface[]
      */
-    public function getCourseLearningMaterials()
+    public function getLearningMaterials()
     {
-        return $this->courseLearningMaterials;
+        return $this->learningMaterials;
     }
 }

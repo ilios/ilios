@@ -180,4 +180,19 @@ interface CourseInterface extends
      * @return PublishEventInterface
      */
     public function getPublishEvent();
+
+    /**
+     * @param Collection $learningMaterials
+     */
+    public function setLearningMaterials(Collection $learningMaterials = null);
+
+    /**
+     * @param CourseLearningMaterialInterface $learningMaterial
+     */
+    public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial);
+
+    /**
+     * @return ArrayCollection|CourseLearningMaterialInterface[]
+     */
+    public function getLearningMaterials();
 }

@@ -513,7 +513,7 @@ class SessionControllerTest extends AbstractControllerTest
             'DELETE',
             $this->getUrl(
                 'delete_sessionlearningmaterials',
-                ['id' => $session['sessionLearningMaterials'][0]]
+                ['id' => $session['learningMaterials'][0]]
             ),
             null,
             $this->getAuthenticatedUserToken()
