@@ -46,7 +46,8 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    public function tearDown(){
+    public function tearDown()
+    {
         fclose($this->dataFile);
     }
 
@@ -89,7 +90,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     public function testLoad()
     {
         $first = true;
-        while (($data = fgetcsv($this->dataFile)) !== FALSE) {
+        while (($data = fgetcsv($this->dataFile)) !== false) {
             // step over the first row
             // since it contains the field names
             if ($first) {

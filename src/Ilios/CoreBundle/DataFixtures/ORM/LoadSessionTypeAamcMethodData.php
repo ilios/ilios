@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Entity\SessionType;
  * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadSessionTypeAamcMethodData extends AbstractFixture implements DependentFixtureInterface
-
 {
     public function __construct()
     {
@@ -34,7 +33,7 @@ class LoadSessionTypeAamcMethodData extends AbstractFixture implements Dependent
     /**
      * {@inheritdoc}
      */
-    function getDependencies()
+    public function getDependencies()
     {
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadAamcMethodData',

@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryInstitution;
  * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements DependentFixtureInterface
-
 {
     public function __construct()
     {
@@ -41,7 +40,7 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements 
     /**
      * {@inheritdoc}
      */
-    function getDependencies()
+    public function getDependencies()
     {
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadSchoolData',

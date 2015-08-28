@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Entity\Discipline;
  * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadDisciplineData extends AbstractFixture implements DependentFixtureInterface
-
 {
     public function __construct()
     {
@@ -33,7 +32,7 @@ class LoadDisciplineData extends AbstractFixture implements DependentFixtureInte
     /**
      * {@inheritdoc}
      */
-    function getDependencies()
+    public function getDependencies()
     {
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadSchoolData',

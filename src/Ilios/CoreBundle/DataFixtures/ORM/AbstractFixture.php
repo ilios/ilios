@@ -74,8 +74,8 @@ abstract class AbstractFixture extends DataFixture implements
         $path = $this->getDataFilePath($fileName);
 
         $first = true;
-        if (($handle = fopen($path, 'r')) !== FALSE) {
-            while (($data = fgetcsv($handle)) !== FALSE) {
+        if (($handle = fopen($path, 'r')) !== false) {
+            while (($data = fgetcsv($handle)) !== false) {
                 // step over the first row
                 // since it contains the field names
                 if ($first) {
@@ -123,5 +123,5 @@ abstract class AbstractFixture extends DataFixture implements
      * @param array $data
      * @return IdentifiableEntityInterface
      */
-    protected abstract function createEntity(array $data);
+    abstract protected function createEntity(array $data);
 }

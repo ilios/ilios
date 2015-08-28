@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Entity\SessionType;
  * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadSessionTypeData extends AbstractFixture implements DependentFixtureInterface
-
 {
     public function __construct()
     {
@@ -38,7 +37,7 @@ class LoadSessionTypeData extends AbstractFixture implements DependentFixtureInt
     /**
      * {@inheritdoc}
      */
-    function getDependencies()
+    public function getDependencies()
     {
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadSchoolData',

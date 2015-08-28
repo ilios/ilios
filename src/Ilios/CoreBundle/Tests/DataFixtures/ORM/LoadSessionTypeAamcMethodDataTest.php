@@ -48,7 +48,7 @@ class LoadSessionTypeAamcMethodDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getId());
         // find the AAMC method
         $methodId = $data[1];
-        $method = $entity->getAamcMethods()->filter(function(AamcMethodInterface $method) use ($methodId) {
+        $method = $entity->getAamcMethods()->filter(function (AamcMethodInterface $method) use ($methodId) {
             return $method->getId() === $methodId;
         })->first();
         $this->assertNotEmpty($method);

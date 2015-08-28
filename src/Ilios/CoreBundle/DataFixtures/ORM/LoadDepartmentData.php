@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Entity\Department;
  * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadDepartmentData extends AbstractFixture implements DependentFixtureInterface
-
 {
     public function __construct()
     {
@@ -34,7 +33,7 @@ class LoadDepartmentData extends AbstractFixture implements DependentFixtureInte
     /**
      * {@inheritdoc}
      */
-    function getDependencies()
+    public function getDependencies()
     {
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadSchoolData',

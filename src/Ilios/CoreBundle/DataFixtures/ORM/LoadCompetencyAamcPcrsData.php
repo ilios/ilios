@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Entity\Competency;
  * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadCompetencyAamcPcrsData extends AbstractFixture implements DependentFixtureInterface
-
 {
     public function __construct()
     {
@@ -34,7 +33,7 @@ class LoadCompetencyAamcPcrsData extends AbstractFixture implements DependentFix
     /**
      * {@inheritdoc}
      */
-    function getDependencies()
+    public function getDependencies()
     {
         return [
             'Ilios\CoreBundle\DataFixtures\ORM\LoadAamcPcrsData',
