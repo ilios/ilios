@@ -24,7 +24,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  *     @ORM\Index(name="session_type_id_k", columns={"session_type_id"}),
  *     @ORM\Index(name="course_id_k", columns={"course_id"}),
  *     @ORM\Index(name="session_course_type_title_k", columns={"session_id", "course_id", "session_type_id", "title"}),
- *     @ORM\Index(name="session_ibfk_3", columns={"ilm_session_facet_id"})
  *   }
  * )
  *
@@ -185,10 +184,7 @@ class Session implements SessionInterface
     /**
      * @var IlmSessionInterface
      *
-     * @ORM\OneToOne(targetEntity="IlmSession", inversedBy="session")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", nullable=true)
-     * })
+     * @ORM\OneToOne(targetEntity="IlmSession", mappedBy="session")
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -318,6 +314,22 @@ class Session implements SessionInterface
         $this->learningMaterials = new ArrayCollection();
         
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function setSession(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
+    /**
+     * @return SessionInterface
+     */
+    public function getSession()
+    {
+        return $this->session;
     }
 
     /**

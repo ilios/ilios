@@ -43,19 +43,8 @@ class IlmSessionVoter extends SessionVoter
      */
     protected function isGranted($attribute, $ilmFacet, $user = null)
     {
-        $session = $this->sessionManager->findSessionBy(['ilmSession' => $ilmFacet->getId()]);
-
-        // OH NOES!
-        // we got an orphaned facet.
-        // this should be dealt with, but not here.
-        // just reject all access to it.
-        // TODO: revisit after issue #925 has been resolved. [ST 2015/08/04]
-        if (empty($session)) {
-            return false;
-        }
-
         // grant perms based on the session
-        return parent::isGranted($attribute, $session, $user);
+        return parent::isGranted($attribute, $ilmFacet->getSession(), $user);
 
     }
 }
