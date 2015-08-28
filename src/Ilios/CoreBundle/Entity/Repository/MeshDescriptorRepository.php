@@ -37,7 +37,8 @@ class MeshDescriptorRepository extends EntityRepository
                 $qb->expr()->like('st.name', "?{$key}"),
                 $qb->expr()->like('t.name', "?{$key}"),
                 $qb->expr()->like('c.name', "?{$key}"),
-                $qb->expr()->like('c.scopeNote', "?{$key}")
+                $qb->expr()->like('c.scopeNote', "?{$key}"),
+                $qb->expr()->like('c.casn1Name', "?{$key}")
             ))
             ->setParameter($key, '%' . $term . '%');
         }
