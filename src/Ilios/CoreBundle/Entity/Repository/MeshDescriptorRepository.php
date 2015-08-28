@@ -35,7 +35,8 @@ class MeshDescriptorRepository extends EntityRepository
                 $qb->expr()->like('d.annotation', "?{$key}"),
                 $qb->expr()->like('pi.previousIndexing', "?{$key}"),
                 $qb->expr()->like('st.name', "?{$key}"),
-                $qb->expr()->like('t.name', "?{$key}")
+                $qb->expr()->like('t.name', "?{$key}"),
+                $qb->expr()->like('c.name', "?{$key}")
             ))
             ->setParameter($key, '%' . $term . '%');
         }
