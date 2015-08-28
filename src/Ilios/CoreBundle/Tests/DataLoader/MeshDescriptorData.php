@@ -16,9 +16,9 @@ class MeshDescriptorData extends AbstractDataLoader
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
             'sessions' => [],
-            'concepts' => [],
-            'qualifiers' => [],
-            'trees' => [],
+            'concepts' => ['1', '2'],
+            'qualifiers' => ['1', '2'],
+            'trees' => ['1', '2'],
             'previousIndexing' => '1'
         );
         $arr[] = array(

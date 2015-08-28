@@ -174,6 +174,23 @@ class MeshTerm implements MeshTermInterface
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->concepts = new ArrayCollection();
+    }
+
+    /**
+     * @param string $meshTermUid
+     */
+    public function setMeshTermUid($meshTermUid)
+    {
+        $this->meshTermUid = $meshTermUid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMeshTermUid()
+    {
+        return $this->meshTermUid;
     }
 
     /**
@@ -254,5 +271,33 @@ class MeshTerm implements MeshTermInterface
     public function isPrintable()
     {
         return $this->printable;
+    }
+
+    /**
+     * @param Collection $concepts
+     */
+    public function setConcepts(Collection $concepts)
+    {
+        $this->concepts = $concepts;
+
+        foreach ($concepts as $concept) {
+            $this->addConcept($concept);
+        }
+    }
+
+    /**
+     * @param MeshConceptInterface $concept
+     */
+    public function addConcept(MeshConceptInterface $concept)
+    {
+        $this->concepts->add($concept);
+    }
+
+    /**
+     * @return ArrayCollection|MeshConceptInterface[]
+     */
+    public function getConcepts()
+    {
+        return $this->concepts;
     }
 }

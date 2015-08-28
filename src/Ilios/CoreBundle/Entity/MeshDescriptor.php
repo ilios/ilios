@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Traits\SessionsEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="mesh_descriptor")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")

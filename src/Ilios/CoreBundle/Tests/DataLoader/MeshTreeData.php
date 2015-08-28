@@ -2,20 +2,18 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class MeshPreviousIndexingData extends AbstractDataLoader
+class MeshTreeData extends AbstractDataLoader
 {
     protected function getData()
     {
         $arr = array();
         $arr[] = array(
-            'id' => '1',
-            'descriptor' => 'abc1',
-            'previousIndexing' => $this->faker->text,
+            'treeNumber' => '1',
+            'descriptor' => 'abc1'
         );
         $arr[] = array(
-            'id' => '2',
-            'descriptor' => 'abc2',
-            'previousIndexing' => $this->faker->text,
+            'treeNumber' => '2',
+            'descriptor' => 'abc1'
         );
 
         return $arr;
@@ -24,9 +22,8 @@ class MeshPreviousIndexingData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 3,
-            'descriptor' => 'abc3',
-            'previousIndexing' => $this->faker->text,
+            'treeNumber' => '3',
+            'descriptor' => 'abc2'
         );
     }
 

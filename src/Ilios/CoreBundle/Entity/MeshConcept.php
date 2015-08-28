@@ -196,6 +196,9 @@ class MeshConcept implements MeshConceptInterface
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
         $this->preferred = false;
+        $this->semanticTypes = new ArrayCollection();
+        $this->terms = new ArrayCollection();
+        $this->descriptors = new ArrayCollection();
     }
 
     /**
@@ -276,5 +279,89 @@ class MeshConcept implements MeshConceptInterface
     public function getRegistryNumber()
     {
         return $this->registryNumber;
+    }
+
+    /**
+     * @param Collection $semanticTypes
+     */
+    public function setSemanticTypes(Collection $semanticTypes)
+    {
+        $this->semanticTypes = $semanticTypes;
+
+        foreach ($semanticTypes as $semanticType) {
+            $this->addSemanticType($semanticType);
+        }
+    }
+
+    /**
+     * @param MeshSemanticTypeInterface $semanticType
+     */
+    public function addSemanticType(MeshSemanticTypeInterface $semanticType)
+    {
+        $this->semanticTypes->add($semanticType);
+    }
+
+    /**
+     * @return ArrayCollection|MeshSemanticTypeInterface[]
+     */
+    public function getSemanticTypes()
+    {
+        return $this->semanticTypes;
+    }
+
+    /**
+     * @param Collection $terms
+     */
+    public function setTerms(Collection $terms)
+    {
+        $this->terms = $terms;
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    /**
+     * @param MeshTermInterface $term
+     */
+    public function addTerm(MeshTermInterface $term)
+    {
+        $this->terms->add($term);
+    }
+
+    /**
+     * @return ArrayCollection|MeshTermInterface[]
+     */
+    public function getTerms()
+    {
+        return $this->terms;
+    }
+
+    /**
+     * @param Collection $descriptors
+     */
+    public function setDescriptors(Collection $descriptors)
+    {
+        $this->descriptors = $descriptors;
+
+        foreach ($descriptors as $descriptor) {
+            $this->addDescriptor($descriptor);
+        }
+    }
+
+    /**
+     * @param MeshDescriptorInterface $descriptor
+     */
+    public function addDescriptor(MeshDescriptorInterface $descriptor)
+    {
+        $this->descriptors->add($descriptor);
+    }
+
+    /**
+     * @return ArrayCollection|MeshDescriptorInterface[]
+     */
+    public function getDescriptors()
+    {
+        return $this->descriptors;
     }
 }

@@ -2,20 +2,20 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class MeshPreviousIndexingData extends AbstractDataLoader
+class MeshQualifierData extends AbstractDataLoader
 {
     protected function getData()
     {
         $arr = array();
         $arr[] = array(
             'id' => '1',
-            'descriptor' => 'abc1',
-            'previousIndexing' => $this->faker->text,
+            'name' => $this->faker->text,
+            'descriptors' => ['abc1']
         );
         $arr[] = array(
             'id' => '2',
-            'descriptor' => 'abc2',
-            'previousIndexing' => $this->faker->text,
+            'name' => $this->faker->text,
+            'descriptors' => ['abc1']
         );
 
         return $arr;
@@ -24,9 +24,9 @@ class MeshPreviousIndexingData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 3,
-            'descriptor' => 'abc3',
-            'previousIndexing' => $this->faker->text,
+            'id' => '3',
+            'name' => $this->faker->text,
+            'descriptors' => []
         );
     }
 

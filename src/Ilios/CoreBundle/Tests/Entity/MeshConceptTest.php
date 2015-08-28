@@ -102,6 +102,57 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::addSemanticType
+     */
+    public function testAddSemanticType()
+    {
+        $this->entityCollectionAddTest('semanticType', 'MeshSemanticType');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::setSemanticTypes
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::getSemanticTypes
+     */
+    public function testGetSemanticTypes()
+    {
+        $this->entityCollectionSetTest('semanticType', 'MeshSemanticType');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::addTerm
+     */
+    public function testAddTerm()
+    {
+        $this->entityCollectionAddTest('term', 'MeshTerm');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::setTerms
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::getTerms
+     */
+    public function testGetTerms()
+    {
+        $this->entityCollectionSetTest('term', 'MeshTerm');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::addDescriptor
+     */
+    public function testAddDescriptor()
+    {
+        $this->entityCollectionAddTest('descriptor', 'MeshDescriptor');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::setDescriptors
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::getDescriptors
+     */
+    public function testGetDescriptors()
+    {
+        $this->entityCollectionSetTest('descriptor', 'MeshDescriptor');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::stampUpdate
      */
     public function testStampUpdate()

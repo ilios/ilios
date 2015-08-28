@@ -27,6 +27,10 @@ parameters:
     ilioscore.dataloader.learningmaterialuserrole.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData
     ilioscore.dataloader.meshdescriptor.class: Ilios\CoreBundle\Tests\DataLoader\MeshDescriptorData
     ilioscore.dataloader.meshpreviousindexing.class: Ilios\CoreBundle\Tests\DataLoader\MeshPreviousIndexingData
+    ilioscore.dataloader.meshconcept.class: Ilios\CoreBundle\Tests\DataLoader\MeshConceptData
+    ilioscore.dataloader.meshqualifier.class: Ilios\CoreBundle\Tests\DataLoader\MeshQualifierData
+    ilioscore.dataloader.meshsemantictype.class: Ilios\CoreBundle\Tests\DataLoader\MeshSemanticTypeData
+    ilioscore.dataloader.meshtree.class: Ilios\CoreBundle\Tests\DataLoader\MeshTreeData
     ilioscore.dataloader.learningmaterial.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialData
     ilioscore.dataloader.objective.class: Ilios\CoreBundle\Tests\DataLoader\ObjectiveData
     ilioscore.dataloader.offering.class: Ilios\CoreBundle\Tests\DataLoader\OfferingData
@@ -103,6 +107,14 @@ services:
         class: %ilioscore.dataloader.meshdescriptor.class%
     ilioscore.dataloader.meshpreviousindexing:
         class: %ilioscore.dataloader.meshpreviousindexing.class%
+    ilioscore.dataloader.meshconcept:
+        class: %ilioscore.dataloader.meshconcept.class%
+    ilioscore.dataloader.meshqualifier:
+        class: %ilioscore.dataloader.meshqualifier.class%
+    ilioscore.dataloader.meshsemantictype:
+        class: %ilioscore.dataloader.meshsemantictype.class%
+    ilioscore.dataloader.meshtree:
+        class: %ilioscore.dataloader.meshtree.class%
     ilioscore.dataloader.objective:
         class: %ilioscore.dataloader.objective.class%
     ilioscore.dataloader.offering:

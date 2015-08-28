@@ -5,6 +5,8 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -101,5 +103,34 @@ class MeshQualifier implements MeshQualifierInterface
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->descriptors = new ArrayCollection();
+    }
+
+    /**
+     * @param Collection $descriptors
+     */
+    public function setDescriptors(Collection $descriptors)
+    {
+        $this->descriptors = $descriptors;
+
+        foreach ($descriptors as $descriptor) {
+            $this->addDescriptor($descriptor);
+        }
+    }
+
+    /**
+     * @param MeshDescriptorInterface $descriptor
+     */
+    public function addDescriptor(MeshDescriptorInterface $descriptor)
+    {
+        $this->descriptors->add($descriptor);
+    }
+
+    /**
+     * @return ArrayCollection|MeshDescriptorInterface[]
+     */
+    public function getDescriptors()
+    {
+        return $this->descriptors;
     }
 }

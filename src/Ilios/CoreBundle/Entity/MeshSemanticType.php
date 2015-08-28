@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -95,5 +96,33 @@ class MeshSemanticType implements MeshSemanticTypeInterface
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @param Collection $concepts
+     */
+    public function setConcepts(Collection $concepts)
+    {
+        $this->concepts = $concepts;
+
+        foreach ($concepts as $concept) {
+            $this->addConcept($concept);
+        }
+    }
+
+    /**
+     * @param MeshConceptInterface $concept
+     */
+    public function addConcept(MeshConceptInterface $concept)
+    {
+        $this->concepts->add($concept);
+    }
+
+    /**
+     * @return ArrayCollection|MeshConceptInterface[]
+     */
+    public function getConcepts()
+    {
+        return $this->concepts;
     }
 }
