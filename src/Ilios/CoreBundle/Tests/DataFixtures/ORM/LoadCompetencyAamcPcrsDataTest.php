@@ -13,7 +13,7 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
 class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
 {
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getDataFileName()
     {
@@ -21,7 +21,7 @@ class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getEntityManagerServiceKey()
     {

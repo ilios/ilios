@@ -12,7 +12,7 @@ use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
 {
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getDataFileName()
     {
@@ -20,7 +20,7 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getEntityManagerServiceKey()
     {

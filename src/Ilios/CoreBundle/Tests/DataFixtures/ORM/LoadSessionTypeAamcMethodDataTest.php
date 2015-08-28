@@ -13,7 +13,7 @@ use Ilios\CoreBundle\Entity\SessionTypeInterface;
 class LoadSessionTypeAamcMethodDataTest extends AbstractDataFixtureTest
 {
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getDataFileName()
     {
@@ -21,7 +21,7 @@ class LoadSessionTypeAamcMethodDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getEntityManagerServiceKey()
     {

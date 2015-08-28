@@ -12,7 +12,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
 {
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getDataFileName()
     {
@@ -20,7 +20,7 @@ class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getEntityManagerServiceKey()
     {
