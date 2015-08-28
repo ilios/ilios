@@ -1,0 +1,6 @@
+`school_id`,`name`,`aamc_code`,`address_street`,`address_city`,`address_state_or_province`,`address_zipcode`,`address_country_code`,`institution_id`
+1,School of Medicine,00000,,,,,,1
+2,School of Dentistry,00000,,,,,,2
+3,School of Pharmacy,00000,,,,,,3
+4,School of Nursing,00000,,,,,,4
+5,Other,00000,,,,,,5

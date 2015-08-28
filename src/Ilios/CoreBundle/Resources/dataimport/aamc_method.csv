@@ -1,0 +1,49 @@
+`method_id`,`description`
+AM001,Clinical Documentation Review
+AM002,Clinical Performance Rating/Checklist
+AM003,"Exam - Institutionally Developed, Clinical Performance"
+AM004,"Exam - Institutionally Developed, Written/ Computer-based"
+AM005,"Exam - Institutionally Developed, Oral"
+AM006,"Exam - Licensure, Clinical Performance"
+AM007,"Exam - Licensure, Written/Computer-based"
+AM008,"Exam - Nationally Normed/Standardized, Subject"
+AM009,Multisource Assessment
+AM010,Narrative Assessment
+AM011,Oral Patient Presentation
+AM012,Participation
+AM013,Peer Assessment
+AM014,Portfolio-Based Assessment
+AM015,Practical (Lab)
+AM016,Research or Project Assessment
+AM017,Self-Assessment
+AM018,Stimulated Recall
+IM001,Case-Based Instruction/Learning
+IM002,Clinical Experience - Ambulatory
+IM003,Clinical Experience - Inpatient
+IM004,Concept Mapping
+IM005,Conference
+IM006,Demonstration
+IM007,"Discussion, Large Group (>12)"
+IM008,"Discussion, Small Group (≤12)"
+IM009,Games
+IM010,Independent Learning
+IM011,Journal Club
+IM012,Laboratory
+IM013,Lecture
+IM014,Mentorship
+IM015,Patient Presentation - Faculty
+IM016,Patient Presentation - Learner
+IM017,Peer Teaching
+IM018,Preceptorship
+IM019,Problem-Based Learning (PBL)
+IM020,Reflection
+IM021,Research
+IM022,Role Play/Dramatization
+IM023,Self-Directed Learning
+IM024,Service Learning Activity
+IM025,Simulation
+IM026,Team-Based Learning (TBL)
+IM027,Team-Building
+IM028,Tutorial
+IM029,Ward Rounds
+IM030,Workshop Assessment
