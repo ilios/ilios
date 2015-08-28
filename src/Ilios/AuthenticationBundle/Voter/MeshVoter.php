@@ -15,7 +15,14 @@ class MeshVoter extends AbstractVoter
      */
     protected function getSupportedClasses()
     {
-        return [];
+        return [
+            'Ilios\CoreBundle\Entity\MeshConceptInterface',
+            'Ilios\CoreBundle\Entity\MeshDescriptorInterface',
+            'Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface',
+            'Ilios\CoreBundle\Entity\MeshQualifierInterface',
+            'Ilios\CoreBundle\Entity\MeshSemanticTypeInterface',
+            'Ilios\CoreBundle\Entity\MeshTermInterface',
+        ];
     }
 
     /**

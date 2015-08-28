@@ -54,6 +54,7 @@ class MeshTerm implements MeshTermInterface
      *
      * @ORM\Column(name="mesh_term_uid", type="string", length=9)
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -62,6 +63,7 @@ class MeshTerm implements MeshTermInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("meshTermUid")
      */
     protected $meshTermUid;
 
@@ -92,6 +94,10 @@ class MeshTerm implements MeshTermInterface
      *      min = 1,
      *      max = 12
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("lexicalTag")
      */
     protected $lexicalTag;
 
@@ -101,6 +107,10 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(name="concept_preferred", type="boolean", nullable=true)
      *
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("conceptPreferred")
      */
     protected $conceptPreferred;
 
@@ -110,6 +120,10 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(name="record_preferred", type="boolean", nullable=true)
      *
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("recordPreferred")
      */
     protected $recordPreferred;
 
@@ -119,6 +133,9 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(name="permuted", type="boolean", nullable=true)
      *
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $permuted;
 
@@ -128,24 +145,29 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(name="print", type="boolean", nullable=true)
      *
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $printable;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @Assert\NotBlank()
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @Assert\NotBlank()
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("updatedAt")
      */
     protected $updatedAt;
 

@@ -156,28 +156,8 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.meshconcept_voter:
-        class: Ilios\AuthenticationBundle\Voter\MeshConceptVoter
-        public: false
-        tags:
-            - { name: security.voter }
-    security.access.meshdescriptor_voter:
-        class: Ilios\AuthenticationBundle\Voter\MeshDescriptorVoter
-        public: false
-        tags:
-            - { name: security.voter }
-    security.access.meshpreviousindexing_voter:
-        class: Ilios\AuthenticationBundle\Voter\MeshPreviousIndexingVoter
-        public: false
-        tags:
-            - { name: security.voter }
-    security.access.meshqualifier_voter:
-        class: Ilios\AuthenticationBundle\Voter\MeshQualifierVoter
-        public: false
-        tags:
-            - { name: security.voter }
-    security.access.meshsemantictype_voter:
-        class: Ilios\AuthenticationBundle\Voter\MeshSemanticTypeVoter
+    security.access.mesh_voter:
+        class: Ilios\AuthenticationBundle\Voter\MeshVoter
         public: false
         tags:
             - { name: security.voter }

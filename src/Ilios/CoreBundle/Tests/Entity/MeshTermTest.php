@@ -25,11 +25,13 @@ class MeshTermTest extends EntityBase
     public function testNotBlankValidation()
     {
         $notBlank = array(
-            'name'
+            'name',
+            'meshTermUid'
         );
         $this->validateNotBlanks($notBlank);
 
         $this->object->setName('test up to 192 in length search string');
+        $this->object->setMeshTermUid('boots!');
         $this->validate(0);
     }
 

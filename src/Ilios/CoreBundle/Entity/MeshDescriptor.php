@@ -50,7 +50,6 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("id")
      */
     protected $id;
 

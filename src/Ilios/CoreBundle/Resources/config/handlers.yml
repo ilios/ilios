@@ -138,7 +138,7 @@ services:
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshSemanticType, '@form.factory']
     ilioscore.meshterm.handler:
         class: %ilioscore.meshterm.handler.class%
-        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshTerm, '@form.factory']
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshTerm, '@form.factory']
     ilioscore.objective.handler:
         class: %ilioscore.objective.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Objective, '@form.factory']
