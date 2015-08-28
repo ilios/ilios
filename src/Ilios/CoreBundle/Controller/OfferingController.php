@@ -124,7 +124,16 @@ class OfferingController extends FOSRestController
 
             return $item;
         }, $criteria);
-
+        if (array_key_exists('startDate', $criteria)) {
+            $criteria['startDate'] = new \DateTime($criteria['startDate']);
+        }
+        if (array_key_exists('endDate', $criteria)) {
+            $criteria['endDate'] = new \DateTime($criteria['endDate']);
+        }
+        if (array_key_exists('updatedAt', $criteria)) {
+            $criteria['updatedAt'] = new \DateTime($criteria['updatedAt']);
+        }
+        
         $result = $this->getOfferingHandler()
             ->findOfferingsBy(
                 $criteria,
