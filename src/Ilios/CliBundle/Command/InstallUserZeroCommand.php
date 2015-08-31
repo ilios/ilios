@@ -82,8 +82,14 @@ class InstallUserZeroCommand extends ContainerAwareCommand
         /**
          * @var UserManagerInterface $userManager
          */
-
         $userManager = $this->getContainer()->get('ilioscore.user.manager');
+
+        // prevent repetitious use of this command
+        $existingUser = $userManager->findUserBy([]);
+        if (! empty($existingUser)) {
+            throw new \Exception('The user store of this instance is not empty; rejecting "zero user" creation.');
+        }
+
         $user = $userManager->createUser();
         $user->setFirstName(self::FIRST_NAME);
         $user->setMiddleName(date('Y-m-d_h.i.s'));
