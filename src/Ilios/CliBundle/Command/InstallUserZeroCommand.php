@@ -45,16 +45,9 @@ class InstallUserZeroCommand extends ContainerAwareCommand
      */
     protected function configure()
     {
-        $description =<<< EOL
-This command will create a user account with the given email address
-and linked to the given school in the `user` table.
-The generated user account will be assigned to the "Course Director" user role
-and thus grant full privileges to all Ilios features to its user.
-EOL;
-
         $this
             ->setName('ilios:setup:install_user_zero')
-            ->setDescription($description)
+            ->setDescription('Creates a first user account with "Course Director"-level access.')
             ->addArgument(
                 'email',
                 InputArgument::REQUIRED,
