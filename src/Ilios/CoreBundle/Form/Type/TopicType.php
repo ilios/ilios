@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class DisciplineType extends AbstractType
+class TopicType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -41,7 +41,7 @@ class DisciplineType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ilios\CoreBundle\Entity\Discipline'
+            'data_class' => 'Ilios\CoreBundle\Entity\Topic'
         ));
     }
 
@@ -50,6 +50,6 @@ class DisciplineType extends AbstractType
      */
     public function getName()
     {
-        return 'discipline';
+        return 'topic';
     }
 }

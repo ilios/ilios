@@ -5,10 +5,10 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
- * Discipline controller Test.
+ * Topic controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
-class DisciplineControllerTest extends AbstractControllerTest
+class TopicControllerTest extends AbstractControllerTest
 {
     /**
      * @return array|string
@@ -17,7 +17,7 @@ class DisciplineControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadDisciplineData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
@@ -34,18 +34,18 @@ class DisciplineControllerTest extends AbstractControllerTest
         ];
     }
 
-    public function testGetDiscipline()
+    public function testGetTopic()
     {
-        $discipline = $this->container
-            ->get('ilioscore.dataloader.discipline')
+        $topic = $this->container
+            ->get('ilioscore.dataloader.topic')
             ->getOne()
         ;
 
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_disciplines',
-                ['id' => $discipline['id']]
+                'get_topics',
+                ['id' => $topic['id']]
             ),
             null,
             $this->getAuthenticatedUserToken()
@@ -55,30 +55,30 @@ class DisciplineControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($discipline),
-            json_decode($response->getContent(), true)['disciplines'][0]
+            $this->mockSerialize($topic),
+            json_decode($response->getContent(), true)['topics'][0]
         );
     }
 
-    public function testGetAllDisciplines()
+    public function testGetAllTopics()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_disciplines'), null, $this->getAuthenticatedUserToken());
+        $this->createJsonRequest('GET', $this->getUrl('cget_topics'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize(
                 $this->container
-                    ->get('ilioscore.dataloader.discipline')
+                    ->get('ilioscore.dataloader.topic')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['disciplines']
+            json_decode($response->getContent(), true)['topics']
         );
     }
 
-    public function testPostDiscipline()
+    public function testPostTopic()
     {
-        $data = $this->container->get('ilioscore.dataloader.discipline')
+        $data = $this->container->get('ilioscore.dataloader.topic')
             ->create();
         $postData = $data;
         //unset any parameters which should not be POSTed
@@ -86,8 +86,8 @@ class DisciplineControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_disciplines'),
-            json_encode(['discipline' => $postData]),
+            $this->getUrl('post_topics'),
+            json_encode(['topic' => $postData]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -96,22 +96,22 @@ class DisciplineControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['disciplines'][0],
+            json_decode($response->getContent(), true)['topics'][0],
             $response->getContent()
         );
     }
 
-    public function testPostBadDiscipline()
+    public function testPostBadTopic()
     {
-        $invalidDiscipline = $this->container
-            ->get('ilioscore.dataloader.discipline')
+        $invalidTopic = $this->container
+            ->get('ilioscore.dataloader.topic')
             ->createInvalid()
         ;
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_disciplines'),
-            json_encode(['discipline' => $invalidDiscipline]),
+            $this->getUrl('post_topics'),
+            json_encode(['topic' => $invalidTopic]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -119,10 +119,10 @@ class DisciplineControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
-    public function testPutDiscipline()
+    public function testPutTopic()
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.discipline')
+            ->get('ilioscore.dataloader.topic')
             ->getOne();
 
         $postData = $data;
@@ -132,10 +132,10 @@ class DisciplineControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
-                'put_disciplines',
+                'put_topics',
                 ['id' => $data['id']]
             ),
-            json_encode(['discipline' => $postData]),
+            json_encode(['topic' => $postData]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -143,22 +143,22 @@ class DisciplineControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['discipline']
+            json_decode($response->getContent(), true)['topic']
         );
     }
 
-    public function testDeleteDiscipline()
+    public function testDeleteTopic()
     {
-        $discipline = $this->container
-            ->get('ilioscore.dataloader.discipline')
+        $topic = $this->container
+            ->get('ilioscore.dataloader.topic')
             ->getOne()
         ;
 
         $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
-                'delete_disciplines',
-                ['id' => $discipline['id']]
+                'delete_topics',
+                ['id' => $topic['id']]
             ),
             null,
             $this->getAuthenticatedUserToken()
@@ -169,8 +169,8 @@ class DisciplineControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_disciplines',
-                ['id' => $discipline['id']]
+                'get_topics',
+                ['id' => $topic['id']]
             ),
             null,
             $this->getAuthenticatedUserToken()
@@ -180,11 +180,11 @@ class DisciplineControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function testDisciplineNotFound()
+    public function testTopicNotFound()
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_disciplines', ['id' => '0']),
+            $this->getUrl('get_topics', ['id' => '0']),
             null,
             $this->getAuthenticatedUserToken()
         );

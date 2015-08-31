@@ -174,14 +174,14 @@ class School implements SchoolInterface
     protected $departments;
 
     /**
-     * @var ArrayCollection|DisciplineInterface[]
+     * @var ArrayCollection|TopicInterface[]
      *
-     * @ORM\OneToMany(targetEntity="Discipline", mappedBy="school")
+     * @ORM\OneToMany(targetEntity="Topic", mappedBy="school")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $disciplines;
+    protected $topics;
 
     /**
     * @var ArrayCollection|InstructorGroupInterface[]
@@ -228,7 +228,7 @@ class School implements SchoolInterface
         $this->competencies = new ArrayCollection();
         $this->courses = new ArrayCollection();
         $this->departments = new ArrayCollection();
-        $this->disciplines = new ArrayCollection();
+        $this->topics = new ArrayCollection();
         $this->programs = new ArrayCollection();
         $this->deleted = false;
     }
@@ -422,31 +422,31 @@ class School implements SchoolInterface
     }
 
     /**
-     * @param Collection $disciplines
+     * @param Collection $topics
      */
-    public function setDisciplines(Collection $disciplines)
+    public function setTopics(Collection $topics)
     {
-        $this->disciplines = new ArrayCollection();
+        $this->topics = new ArrayCollection();
 
-        foreach ($disciplines as $discipline) {
-            $this->addDiscipline($discipline);
+        foreach ($topics as $topic) {
+            $this->addTopic($topic);
         }
     }
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      */
-    public function addDiscipline(DisciplineInterface $discipline)
+    public function addTopic(TopicInterface $topic)
     {
-        $this->disciplines->add($discipline);
+        $this->topics->add($topic);
     }
 
     /**
-     * @return ArrayCollection|DisciplineInterface[]
+     * @return ArrayCollection|TopicInterface[]
      */
-    public function getDisciplines()
+    public function getTopics()
     {
-        return $this->disciplines;
+        return $this->topics;
     }
 
     /**

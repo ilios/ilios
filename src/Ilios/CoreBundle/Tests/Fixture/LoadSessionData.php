@@ -43,7 +43,7 @@ class LoadSessionData extends AbstractFixture implements
                 $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));
             }
             $related = array(
-                'disciplines' => 'addDiscipline',
+                'topics' => 'addTopic',
                 'objectives' => 'addObjective'
             );
             foreach ($related as $key => $method) {

@@ -15,7 +15,7 @@ use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
- * Class Discipline
+ * Class Topic
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="discipline")
@@ -24,7 +24,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
  */
-class Discipline implements DisciplineInterface
+class Topic implements TopicInterface
 {
     use IdentifiableEntity;
     use TitledEntity;
@@ -67,7 +67,7 @@ class Discipline implements DisciplineInterface
     /**
      * @var SchoolInterface
      *
-     * @ORM\ManyToOne(targetEntity="School", inversedBy="disciplines")
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="topics")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
@@ -81,7 +81,7 @@ class Discipline implements DisciplineInterface
     /**
      * @var ArrayCollection|CourseInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="disciplines")
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="topics")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -91,7 +91,7 @@ class Discipline implements DisciplineInterface
     /**
      * @var ArrayCollection|ProgramYearInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="disciplines")
+     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="topics")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -102,7 +102,7 @@ class Discipline implements DisciplineInterface
     /**
      * @var ArrayCollection|SessionInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Session", mappedBy="disciplines")
+     * @ORM\ManyToMany(targetEntity="Session", mappedBy="topics")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")

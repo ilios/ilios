@@ -51,8 +51,8 @@ class LoadCourseData extends AbstractFixture implements
             foreach ($arr['directors'] as $id) {
                 $entity->addDirector($this->getReference('users' . $id));
             }
-            foreach ($arr['disciplines'] as $id) {
-                $entity->addDiscipline($this->getReference('disciplines' . $id));
+            foreach ($arr['topics'] as $id) {
+                $entity->addTopic($this->getReference('topics' . $id));
             }
             foreach ($arr['objectives'] as $id) {
                 $entity->addObjective($this->getReference('objectives' . $id));
@@ -71,7 +71,7 @@ class LoadCourseData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadDisciplineData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseClerkshipTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',

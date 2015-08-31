@@ -1,30 +1,30 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity;
 
-use Ilios\CoreBundle\Entity\Discipline;
+use Ilios\CoreBundle\Entity\Topic;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Tests for Entity Discipline
+ * Tests for Entity Topic
  */
-class DisciplineTest extends EntityBase
+class TopicTest extends EntityBase
 {
     /**
-     * @var Discipline
+     * @var Topic
      */
     protected $object;
 
     /**
-     * Instantiate a Discipline object
+     * Instantiate a Topic object
      */
     protected function setUp()
     {
-        $this->object = new Discipline;
+        $this->object = new Topic;
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::__construct
+     * @covers Ilios\CoreBundle\Entity\Topic::__construct
      */
     public function testConstructor()
     {
@@ -34,8 +34,8 @@ class DisciplineTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::setTitle
-     * @covers Ilios\CoreBundle\Entity\Discipline::getTitle
+     * @covers Ilios\CoreBundle\Entity\Topic::setTitle
+     * @covers Ilios\CoreBundle\Entity\Topic::getTitle
      */
     public function testSetTitle()
     {
@@ -43,8 +43,8 @@ class DisciplineTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::setSchool
-     * @covers Ilios\CoreBundle\Entity\Discipline::getSchool
+     * @covers Ilios\CoreBundle\Entity\Topic::setSchool
+     * @covers Ilios\CoreBundle\Entity\Topic::getSchool
      */
     public function testSetSchool()
     {
@@ -52,7 +52,7 @@ class DisciplineTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::addCourse
+     * @covers Ilios\CoreBundle\Entity\Topic::addCourse
      */
     public function testAddCourse()
     {
@@ -60,7 +60,7 @@ class DisciplineTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::getCourses
+     * @covers Ilios\CoreBundle\Entity\Topic::getCourses
      */
     public function testGetCourses()
     {
@@ -68,7 +68,7 @@ class DisciplineTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::addProgramYear
+     * @covers Ilios\CoreBundle\Entity\Topic::addProgramYear
      */
     public function testAddProgramYear()
     {
@@ -76,7 +76,7 @@ class DisciplineTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::getProgramYears
+     * @covers Ilios\CoreBundle\Entity\Topic::getProgramYears
      */
     public function testGetProgramYears()
     {
@@ -84,7 +84,7 @@ class DisciplineTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::addSession
+     * @covers Ilios\CoreBundle\Entity\Topic::addSession
      */
     public function testAddSession()
     {
@@ -92,7 +92,7 @@ class DisciplineTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::getSessions
+     * @covers Ilios\CoreBundle\Entity\Topic::getSessions
      */
     public function testGetSessions()
     {

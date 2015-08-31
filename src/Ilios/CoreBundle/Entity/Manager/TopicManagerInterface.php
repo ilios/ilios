@@ -3,21 +3,21 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\DisciplineInterface;
+use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
- * Interface DisciplineManagerInterface
+ * Interface TopicManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface DisciplineManagerInterface extends ManagerInterface
+interface TopicManagerInterface extends ManagerInterface
 {
     /**
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return DisciplineInterface
+     * @return TopicInterface
      */
-    public function findDisciplineBy(
+    public function findTopicBy(
         array $criteria,
         array $orderBy = null
     );
@@ -28,9 +28,9 @@ interface DisciplineManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|DisciplineInterface[]
+     * @return ArrayCollection|TopicInterface[]
      */
-    public function findDisciplinesBy(
+    public function findTopicsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -38,29 +38,29 @@ interface DisciplineManagerInterface extends ManagerInterface
     );
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      * @param bool $andFlush
      * @param bool $forceId
      *
      * @return void
      */
-    public function updateDiscipline(
-        DisciplineInterface $discipline,
+    public function updateTopic(
+        TopicInterface $topic,
         $andFlush = true,
         $forceId = false
     );
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      *
      * @return void
      */
-    public function deleteDiscipline(
-        DisciplineInterface $discipline
+    public function deleteTopic(
+        TopicInterface $topic
     );
 
     /**
-     * @return DisciplineInterface
+     * @return TopicInterface
      */
-    public function createDiscipline();
+    public function createTopic();
 }

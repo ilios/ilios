@@ -278,9 +278,9 @@ class Course implements CourseInterface
     protected $cohorts;
 
     /**
-     * @var ArrayCollection|DisciplineInterface[]
+     * @var ArrayCollection|TopicInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Discipline", inversedBy="courses")
+     * @ORM\ManyToMany(targetEntity="Topic", inversedBy="courses")
      * @ORM\JoinTable(name="course_x_discipline",
      *   joinColumns={
      *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
@@ -293,7 +293,7 @@ class Course implements CourseInterface
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $disciplines;
+    protected $topics;
 
     /**
      * @var ArrayCollection|ObjectiveInterface[]
@@ -360,7 +360,7 @@ class Course implements CourseInterface
     {
         $this->directors = new ArrayCollection();
         $this->cohorts = new ArrayCollection();
-        $this->disciplines = new ArrayCollection();
+        $this->topics = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
@@ -559,34 +559,34 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param Collection|DisciplineInterface[] $disciplines
+     * @param Collection|TopicInterface[] $topics
      */
-    public function setDisciplines(Collection $disciplines = null)
+    public function setTopics(Collection $topics = null)
     {
-        $this->disciplines = new ArrayCollection();
-        if (is_null($disciplines)) {
+        $this->topics = new ArrayCollection();
+        if (is_null($topics)) {
             return;
         }
 
-        foreach ($disciplines as $discipline) {
-            $this->addDiscipline($discipline);
+        foreach ($topics as $topic) {
+            $this->addTopic($topic);
         }
     }
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      */
-    public function addDiscipline(DisciplineInterface $discipline)
+    public function addTopic(TopicInterface $topic)
     {
-        $this->disciplines->add($discipline);
+        $this->topics->add($topic);
     }
 
     /**
-     * @return ArrayCollection|DisciplineInterface[]
+     * @return ArrayCollection|TopicInterface[]
      */
-    public function getDisciplines()
+    public function getTopics()
     {
-        return $this->disciplines;
+        return $this->topics;
     }
 
     /**

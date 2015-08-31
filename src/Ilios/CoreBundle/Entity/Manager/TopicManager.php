@@ -4,21 +4,21 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\DisciplineInterface;
+use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
- * Class DisciplineManager
+ * Class TopicManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class DisciplineManager extends AbstractManager implements DisciplineManagerInterface
+class TopicManager extends AbstractManager implements TopicManagerInterface
 {
     /**
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return DisciplineInterface
+     * @return TopicInterface
      */
-    public function findDisciplineBy(
+    public function findTopicBy(
         array $criteria,
         array $orderBy = null
     ) {
@@ -31,9 +31,9 @@ class DisciplineManager extends AbstractManager implements DisciplineManagerInte
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|DisciplineInterface[]
+     * @return ArrayCollection|TopicInterface[]
      */
-    public function findDisciplinesBy(
+    public function findTopicsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -43,19 +43,19 @@ class DisciplineManager extends AbstractManager implements DisciplineManagerInte
     }
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      * @param bool $andFlush
      * @param bool $forceId
      */
-    public function updateDiscipline(
-        DisciplineInterface $discipline,
+    public function updateTopic(
+        TopicInterface $topic,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($discipline);
+        $this->em->persist($topic);
 
         if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($discipline));
+            $metadata = $this->em->getClassMetaData(get_class($topic));
             $metadata->setIdGenerator(new AssignedGenerator());
         }
 
@@ -65,19 +65,19 @@ class DisciplineManager extends AbstractManager implements DisciplineManagerInte
     }
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      */
-    public function deleteDiscipline(
-        DisciplineInterface $discipline
+    public function deleteTopic(
+        TopicInterface $topic
     ) {
-        $this->em->remove($discipline);
+        $this->em->remove($topic);
         $this->em->flush();
     }
 
     /**
-     * @return DisciplineInterface
+     * @return TopicInterface
      */
-    public function createDiscipline()
+    public function createTopic()
     {
         $class = $this->getClass();
         return new $class();

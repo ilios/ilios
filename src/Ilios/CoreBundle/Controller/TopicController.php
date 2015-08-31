@@ -14,34 +14,34 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\DisciplineHandler;
-use Ilios\CoreBundle\Entity\DisciplineInterface;
+use Ilios\CoreBundle\Handler\TopicHandler;
+use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
- * Class DisciplineController
+ * Class TopicController
  * @package Ilios\CoreBundle\Controller
- * @RouteResource("Disciplines")
+ * @RouteResource("Topics")
  */
-class DisciplineController extends FOSRestController
+class TopicController extends FOSRestController
 {
     /**
-     * Get a Discipline
+     * Get a Topic
      *
      * @ApiDoc(
-     *   section = "Discipline",
-     *   description = "Get a Discipline.",
+     *   section = "Topic",
+     *   description = "Get a Topic.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
      *        "requirement"="\d+",
-     *        "description"="Discipline identifier."
+     *        "description"="Topic identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\Discipline",
+     *   output="Ilios\CoreBundle\Entity\Topic",
      *   statusCodes={
-     *     200 = "Discipline.",
+     *     200 = "Topic.",
      *     404 = "Not Found."
      *   }
      * )
@@ -54,28 +54,28 @@ class DisciplineController extends FOSRestController
      */
     public function getAction($id)
     {
-        $discipline = $this->getOr404($id);
+        $topic = $this->getOr404($id);
 
         $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('view', $discipline)) {
+        if (! $authChecker->isGranted('view', $topic)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        $answer['disciplines'][] = $discipline;
+        $answer['topics'][] = $topic;
 
         return $answer;
     }
 
     /**
-     * Get all Discipline.
+     * Get all Topic.
      *
      * @ApiDoc(
-     *   section = "Discipline",
-     *   description = "Get all Discipline.",
+     *   section = "Topic",
+     *   description = "Get all Topic.",
      *   resource = true,
-     *   output="Ilios\CoreBundle\Entity\Discipline",
+     *   output="Ilios\CoreBundle\Entity\Topic",
      *   statusCodes = {
-     *     200 = "List of all Discipline",
+     *     200 = "List of all Topic",
      *     204 = "No content. Nothing to list."
      *   }
      * )
@@ -125,8 +125,8 @@ class DisciplineController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getDisciplineHandler()
-            ->findDisciplinesBy(
+        $result = $this->getTopicHandler()
+            ->findTopicsBy(
                 $criteria,
                 $orderBy,
                 $limit,
@@ -139,23 +139,23 @@ class DisciplineController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['disciplines'] =
+        $answer['topics'] =
             $result ? $result : new ArrayCollection([]);
 
         return $answer;
     }
 
     /**
-     * Create a Discipline.
+     * Create a Topic.
      *
      * @ApiDoc(
-     *   section = "Discipline",
-     *   description = "Create a Discipline.",
+     *   section = "Topic",
+     *   description = "Create a Topic.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\DisciplineType",
-     *   output="Ilios\CoreBundle\Entity\Discipline",
+     *   input="Ilios\CoreBundle\Form\Type\TopicType",
+     *   output="Ilios\CoreBundle\Entity\Topic",
      *   statusCodes={
-     *     201 = "Created Discipline.",
+     *     201 = "Created Topic.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -170,18 +170,18 @@ class DisciplineController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getDisciplineHandler();
+            $handler = $this->getTopicHandler();
 
-            $discipline = $handler->post($this->getPostData($request));
+            $topic = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted('create', $discipline)) {
+            if (! $authChecker->isGranted('create', $topic)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getDisciplineHandler()->updateDiscipline($discipline, true, false);
+            $this->getTopicHandler()->updateTopic($topic, true, false);
 
-            $answer['disciplines'] = [$discipline];
+            $answer['topics'] = [$topic];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -192,17 +192,17 @@ class DisciplineController extends FOSRestController
     }
 
     /**
-     * Update a Discipline.
+     * Update a Topic.
      *
      * @ApiDoc(
-     *   section = "Discipline",
-     *   description = "Update a Discipline entity.",
+     *   section = "Topic",
+     *   description = "Update a Topic entity.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\DisciplineType",
-     *   output="Ilios\CoreBundle\Entity\Discipline",
+     *   input="Ilios\CoreBundle\Form\Type\TopicType",
+     *   output="Ilios\CoreBundle\Entity\Topic",
      *   statusCodes={
-     *     200 = "Updated Discipline.",
-     *     201 = "Created Discipline.",
+     *     200 = "Updated Topic.",
+     *     201 = "Created Topic.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -218,31 +218,31 @@ class DisciplineController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $discipline = $this->getDisciplineHandler()
-                ->findDisciplineBy(['id'=> $id]);
-            if ($discipline) {
+            $topic = $this->getTopicHandler()
+                ->findTopicBy(['id'=> $id]);
+            if ($topic) {
                 $code = Codes::HTTP_OK;
             } else {
-                $discipline = $this->getDisciplineHandler()
-                    ->createDiscipline();
+                $topic = $this->getTopicHandler()
+                    ->createTopic();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getDisciplineHandler();
+            $handler = $this->getTopicHandler();
 
-            $discipline = $handler->put(
-                $discipline,
+            $topic = $handler->put(
+                $topic,
                 $this->getPostData($request)
             );
 
             $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted('edit', $discipline)) {
+            if (! $authChecker->isGranted('edit', $topic)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getDisciplineHandler()->updateDiscipline($discipline, true, true);
+            $this->getTopicHandler()->updateTopic($topic, true, true);
 
-            $answer['discipline'] = $discipline;
+            $answer['topic'] = $topic;
 
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
@@ -254,22 +254,22 @@ class DisciplineController extends FOSRestController
     }
 
     /**
-     * Delete a Discipline.
+     * Delete a Topic.
      *
      * @ApiDoc(
-     *   section = "Discipline",
-     *   description = "Delete a Discipline entity.",
+     *   section = "Topic",
+     *   description = "Delete a Topic entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "\d+",
-     *         "description" = "Discipline identifier"
+     *         "description" = "Topic identifier"
      *     }
      *   },
      *   statusCodes={
-     *     204 = "No content. Successfully deleted Discipline.",
+     *     204 = "No content. Successfully deleted Topic.",
      *     400 = "Bad Request.",
      *     404 = "Not found."
      *   }
@@ -278,22 +278,22 @@ class DisciplineController extends FOSRestController
      * @Rest\View(statusCode=204)
      *
      * @param $id
-     * @internal DisciplineInterface $discipline
+     * @internal TopicInterface $topic
      *
      * @return Response
      */
     public function deleteAction($id)
     {
-        $discipline = $this->getOr404($id);
+        $topic = $this->getOr404($id);
 
         $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('delete', $discipline)) {
+        if (! $authChecker->isGranted('delete', $topic)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
         try {
-            $this->getDisciplineHandler()
-                ->deleteDiscipline($discipline);
+            $this->getTopicHandler()
+                ->deleteTopic($topic);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -305,17 +305,17 @@ class DisciplineController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return DisciplineInterface $discipline
+     * @return TopicInterface $topic
      */
     protected function getOr404($id)
     {
-        $discipline = $this->getDisciplineHandler()
-            ->findDisciplineBy(['id' => $id]);
-        if (!$discipline) {
+        $topic = $this->getTopicHandler()
+            ->findTopicBy(['id' => $id]);
+        if (!$topic) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $discipline;
+        return $topic;
     }
 
     /**
@@ -326,7 +326,7 @@ class DisciplineController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('discipline');
+        $data = $request->request->get('topic');
 
         if (empty($data)) {
             $data = $request->request->all();
@@ -336,10 +336,10 @@ class DisciplineController extends FOSRestController
     }
 
     /**
-     * @return DisciplineHandler
+     * @return TopicHandler
      */
-    protected function getDisciplineHandler()
+    protected function getTopicHandler()
     {
-        return $this->container->get('ilioscore.discipline.handler');
+        return $this->container->get('ilioscore.topic.handler');
     }
 }

@@ -48,7 +48,7 @@ class CourseTest extends EntityBase
     {
         $this->assertEmpty($this->object->getCohorts());
         $this->assertEmpty($this->object->getDirectors());
-        $this->assertEmpty($this->object->getDisciplines());
+        $this->assertEmpty($this->object->getTopics());
         $this->assertEmpty($this->object->getMeshDescriptors());
         $this->assertEmpty($this->object->getObjectives());
     }

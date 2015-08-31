@@ -17,7 +17,7 @@ parameters:
     ilioscore.curriculuminventorysequenceblocksession.handler.class: Ilios\CoreBundle\Handler\CurriculumInventorySequenceBlockSessionHandler
     ilioscore.curriculuminventorysequence.handler.class: Ilios\CoreBundle\Handler\CurriculumInventorySequenceHandler
     ilioscore.department.handler.class: Ilios\CoreBundle\Handler\DepartmentHandler
-    ilioscore.discipline.handler.class: Ilios\CoreBundle\Handler\DisciplineHandler
+    ilioscore.topic.handler.class: Ilios\CoreBundle\Handler\TopicHandler
     ilioscore.ilmsession.handler.class: Ilios\CoreBundle\Handler\IlmSessionHandler
     ilioscore.ingestionexception.handler.class: Ilios\CoreBundle\Handler\IngestionExceptionHandler
     ilioscore.instructorgroup.handler.class: Ilios\CoreBundle\Handler\InstructorGroupHandler
@@ -103,9 +103,9 @@ services:
     ilioscore.department.handler:
         class: %ilioscore.department.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Department, '@form.factory']
-    ilioscore.discipline.handler:
-        class: %ilioscore.discipline.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Discipline, '@form.factory']
+    ilioscore.topic.handler:
+        class: %ilioscore.topic.handler.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Topic, '@form.factory']
     ilioscore.ilmsession.handler:
         class: %ilioscore.ilmsession.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IlmSession, '@form.factory']

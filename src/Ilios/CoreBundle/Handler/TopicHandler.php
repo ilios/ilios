@@ -5,15 +5,15 @@ namespace Ilios\CoreBundle\Handler;
 use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\Type\DisciplineType;
-use Ilios\CoreBundle\Entity\Manager\DisciplineManager;
-use Ilios\CoreBundle\Entity\DisciplineInterface;
+use Ilios\CoreBundle\Form\Type\TopicType;
+use Ilios\CoreBundle\Entity\Manager\TopicManager;
+use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
- * Class DisciplineHandler
+ * Class TopicHandler
  * @package Ilios\CoreBundle\Handler
  */
-class DisciplineHandler extends DisciplineManager
+class TopicHandler extends TopicManager
 {
     /**
      * @var FormFactoryInterface
@@ -34,65 +34,65 @@ class DisciplineHandler extends DisciplineManager
     /**
      * @param array $parameters
      *
-     * @return DisciplineInterface
+     * @return TopicInterface
      */
     public function post(array $parameters)
     {
-        $discipline = $this->createDiscipline();
+        $topic = $this->createTopic();
 
-        return $this->processForm($discipline, $parameters, 'POST');
+        return $this->processForm($topic, $parameters, 'POST');
     }
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      * @param array $parameters
      *
-     * @return DisciplineInterface
+     * @return TopicInterface
      */
     public function put(
-        DisciplineInterface $discipline,
+        TopicInterface $topic,
         array $parameters
     ) {
         return $this->processForm(
-            $discipline,
+            $topic,
             $parameters,
             'PUT'
         );
     }
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      * @param array $parameters
      *
-     * @return DisciplineInterface
+     * @return TopicInterface
      */
     public function patch(
-        DisciplineInterface $discipline,
+        TopicInterface $topic,
         array $parameters
     ) {
         return $this->processForm(
-            $discipline,
+            $topic,
             $parameters,
             'PATCH'
         );
     }
 
     /**
-     * @param DisciplineInterface $discipline
+     * @param TopicInterface $topic
      * @param array $parameters
      * @param string $method
      * @throws InvalidFormException when invalid form data is passed in.
      *
-     * @return DisciplineInterface
+     * @return TopicInterface
      */
     protected function processForm(
-        DisciplineInterface $discipline,
+        TopicInterface $topic,
         array $parameters,
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new DisciplineType(),
-            $discipline,
+            new TopicType(),
+            $topic,
             array('method' => $method)
         );
 
