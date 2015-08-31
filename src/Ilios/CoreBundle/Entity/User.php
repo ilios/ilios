@@ -1188,7 +1188,7 @@ class User implements UserInterface, EncoderAwareInterface
     /**
      * Use the old ilios legacy encoder for accounts
      * that haven't changed their password
-     * @return [type] [description]
+     * @return string|null
      */
     public function getEncoderName()
     {
