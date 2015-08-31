@@ -99,20 +99,23 @@ class InstallUserZeroCommand extends ContainerAwareCommand
         $user->setSchool($school);
         $userManager->updateUser($user);
 
-        $encoder = $this->getContainer()->get('security.password_encoder');
-        $encodedPassword = $encoder->encodePassword($user, self::PASSWORD);
-
         /**
          * @var AuthenticationManagerInterface $authenticationManager
          */
         $authenticationManager = $this->getContainer()->get('ilioscore.authentication.manager');
         $authentication = $authenticationManager->createAuthentication();
+
         $authentication->setUser($user);
+        $user->setAuthentication($authentication); // circular reference needed here. 123 BLEAH! [ST 2015/08/31]
+
+        $encoder = $this->getContainer()->get('security.password_encoder');
+        $encodedPassword = $encoder->encodePassword($user, self::PASSWORD);
+
         $authentication->setUsername(self::USERNAME);
         $authentication->setPasswordBcrypt($encodedPassword);
         $authenticationManager->updateAuthentication($authentication);
 
         $output->writeln('The user account has been created.');
-        $output->writeln(sprintf("You may now log in as '%s' with the password '%s'", self::USERNAME, self::PASSWORD));
+        $output->writeln(sprintf("You may now log in as '%s' with the password '%s'.", self::USERNAME, self::PASSWORD));
     }
 }
