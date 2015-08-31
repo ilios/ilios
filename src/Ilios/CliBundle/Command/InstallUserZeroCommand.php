@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Command;
+namespace Ilios\CliBundle\Command;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 
 /**
  * Creates a first user account with admin-level privileges.
@@ -81,7 +80,7 @@ EOL;
         /**
          * @var SchoolManagerInterface $schoolManager
          */
-        $schoolManager = $this->getContainer()->get('ilios.school.manager');
+        $schoolManager = $this->getContainer()->get('ilioscore.school.manager');
         $school = $schoolManager->findSchoolBy(['id' => $schoolId]);
         if (empty($school)) {
             throw new \Exception('School not found.');
@@ -90,7 +89,7 @@ EOL;
         /**
          * @var UserManagerInterface $userManager
          */
-        $userManager = $this->getContainer()->get('ilios.user.manager');
+        $userManager = $this->getContainer()->get('ilioscore.user.manager');
         $user = $userManager->createUser();
         $user->setFirstName(self::FIRST_NAME);
         $user->setMiddleName(date('Y-m-d_h.i.s'));
@@ -102,7 +101,7 @@ EOL;
         /**
          * @var UserRoleManagerInterface $userRoleManager
          */
-        $userRoleManager = $this->getContainer()->get('ilios.userrole.manager');
+        $userRoleManager = $this->getContainer()->get('ilioscore.userrole.manager');
         $user->addRole($userRoleManager->findUserRoleBy(['title' => 'Course Director']));
         $user->setSchool($school);
         $userManager->updateUser($user);
@@ -113,7 +112,7 @@ EOL;
         /**
          * @var AuthenticationManagerInterface $authenticationManager
          */
-        $authenticationManager = $this->getContainer()->get('ilios.authentication.manager');
+        $authenticationManager = $this->getContainer()->get('ilioscore.authentication.manager');
         $authentication = $authenticationManager->createAuthentication();
         $authentication->setUser($user);
         $authentication->setUsername(self::USERNAME);

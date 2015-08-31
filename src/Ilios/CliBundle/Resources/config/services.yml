@@ -1,0 +1,5 @@
+services:
+    ilioscli.command.install_user_zero:
+        class: Ilios\CliBundle\Command\InstallUserZeroCommand
+        tags:
+            - { name: console.command }
