@@ -76,12 +76,13 @@ class InstallUserZeroCommand extends ContainerAwareCommand
         $schoolManager = $this->getContainer()->get('ilioscore.school.manager');
         $school = $schoolManager->findSchoolBy(['id' => $schoolId]);
         if (empty($school)) {
-            throw new \Exception('School not found.');
+            throw new \Exception(sprintf('School with id = %d not found.', $schoolId));
         }
 
         /**
          * @var UserManagerInterface $userManager
          */
+
         $userManager = $this->getContainer()->get('ilioscore.user.manager');
         $user = $userManager->createUser();
         $user->setFirstName(self::FIRST_NAME);
