@@ -1084,7 +1084,7 @@ class User implements UserInterface, EncoderAwareInterface
     /**
      * @param AuthenticationInterface $authentication
      */
-    public function setAuthentication(CohortInterface $authentication = null)
+    public function setAuthentication(AuthenticationInterface $authentication = null)
     {
         $this->authentication = $authentication;
     }
