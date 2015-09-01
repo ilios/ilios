@@ -694,12 +694,12 @@ class User implements UserInterface
      */
     public function getDirectedCourses()
     {
-        //criteria not 100% reliale on many to many relationships
+        //criteria not 100% reliable on many to many relationships
         //fix in https://github.com/doctrine/doctrine2/pull/1399
         // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
         // return new ArrayCollection($this->directedCourses->matching($criteria)->getValues());
         
-        $arr = $this->directedCourses->filter(function ($entity) {
+        $arr = $this->directedCourses->filter(function (CourseInterface $entity) {
             return !$entity->isDeleted();
         })->toArray();
         
@@ -713,7 +713,7 @@ class User implements UserInterface
      */
     public function setLearnerGroups(Collection $learnerGroups)
     {
-        $this->userGroups = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
 
         foreach ($learnerGroups as $group) {
             $this->addLearnerGroup($group);
@@ -721,7 +721,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param LearnerGroupInterface $userGroup
+     * @param LearnerGroupInterface $learnerGroup
      */
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
@@ -987,12 +987,12 @@ class User implements UserInterface
      */
     public function getReports()
     {
-        //criteria not 100% reliale on many to many relationships
+        //criteria not 100% reliable on many to many relationships
         //fix in https://github.com/doctrine/doctrine2/pull/1399
         // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
         // return new ArrayCollection($this->reports->matching($criteria)->getValues());
         
-        $arr = $this->reports->filter(function ($entity) {
+        $arr = $this->reports->filter(function (ReportInterface $entity) {
             return !$entity->isDeleted();
         })->toArray();
         
@@ -1018,7 +1018,7 @@ class User implements UserInterface
     }
 
     /**
-    * @param CohortInterface $report
+    * @param CohortInterface $cohort
     */
     public function addCohort(CohortInterface $cohort)
     {
@@ -1053,11 +1053,11 @@ class User implements UserInterface
     }
 
     /**
-     * @param Collection $instructedOffering
+     * @param Collection $instructedOfferings
      */
     public function setInstructedOfferings(Collection $instructedOfferings)
     {
-        $this->instructedOffering = new ArrayCollection();
+        $this->instructedOfferings = new ArrayCollection();
 
         foreach ($instructedOfferings as $instructedOffering) {
             $this->addInstructedOffering($instructedOffering);
@@ -1065,7 +1065,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param Offering $report
+     * @param Offering $instructedOffering
      */
     public function addInstructedOffering(Offering $instructedOffering)
     {
@@ -1101,7 +1101,7 @@ class User implements UserInterface
      */
     public function setAuditLogs(Collection $auditLogs)
     {
-        $this->auditLog = new ArrayCollection();
+        $this->auditLogs = new ArrayCollection();
 
         foreach ($auditLogs as $auditLog) {
             $this->addAuditLog($auditLog);
@@ -1130,7 +1130,7 @@ class User implements UserInterface
     public function serialize()
     {
         return serialize(array(
-                $this->userId,
+                $this->id,
                 $this->ucUid,
                 $this->email
             ));
@@ -1143,7 +1143,7 @@ class User implements UserInterface
     public function unserialize($serialized)
     {
         list (
-            $this->userId,
+            $this->id,
             $this->ucUid,
             $this->email
             ) = unserialize($serialized);
@@ -1165,7 +1165,7 @@ class User implements UserInterface
         $newPassword = $this->getAuthentication()->getPasswordBcrypt();
         $legacyPassword = $this->getAuthentication()->getPasswordSha256();
 
-        return $newPassword?$newPassword:$legacyPassword;
+        return $newPassword ? $newPassword : $legacyPassword;
     }
 
     /**
