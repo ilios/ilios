@@ -6,8 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 
 class ShibbolethAuthentication implements AuthenticationInterface
