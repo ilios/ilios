@@ -8,8 +8,8 @@ use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Matthias\SymfonyConsoleForm\Console\Helper\FormHelper;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
