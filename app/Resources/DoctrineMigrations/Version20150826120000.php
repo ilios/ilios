@@ -20,6 +20,8 @@ class Version20150826120000 extends AbstractMigration
             $this->connection->getDatabasePlatform()->getName() != 'mysql',
             'Migration can only be executed safely on \'mysql\'.'
         );
+        $this->addSql('ALTER TABLE mesh_concept_x_semantic_type DROP FOREIGN KEY FK_CD3D7893E34D9FF5');
+        $this->addSql('ALTER TABLE mesh_concept_x_semantic_type DROP FOREIGN KEY FK_CD3D789316AE7127');
 
         $this->addSql('DROP INDEX mesh_concept_uid ON mesh_concept_x_semantic_type');
         $this->addSql('DROP INDEX mesh_semantic_type_uid ON mesh_concept_x_semantic_type');
