@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 
 use Ilios\AuthenticationBundle\Jwt\Token as JwtToken;
 
@@ -42,18 +43,16 @@ class Listener implements ListenerInterface
             if ($token->isValidJwtRequest()) {
                 $authToken = $this->authenticationManager->authenticate($token);
                 $this->tokenStorage->setToken($authToken);
+                
+                return;
             }
         } catch (\UnexpectedValueException $e) {
             throw new BadCredentialsException('Invalid JSON Web Token: ' . $e->getMessage());
 
             return null;
-        } catch (AuthenticationException $failed) {
-            //We have a token with a bad user id, move on and let
-            //another login method handle this
-            return;
         }
-
-
-        return;
+        
+        throw new AuthenticationCredentialsNotFoundException('No JSON Web Token was found in the request');
+        
     }
 }

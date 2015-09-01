@@ -248,24 +248,14 @@ class AuthenticationControllerTest extends WebTestCase
     public function testRefreshToken()
     {
         $client = static::createClient();
-    
-        // log in, grab token
-        $client->request('POST', '/auth/login', array(
-            'username' => 'newuser',
-            'password' => 'newuserpass'
-        ));
-        $response = $client->getResponse();
-        $response = json_decode($response->getContent(), true);
-        $token = (array) TokenLib::decode($response['jwt']);
-    
-        // send refresh token request
-        // grab new token
-        $client->request(
-            'GET',
-            '/auth/refresh',
-            array(),
-            array(),
-            array('HTTP_X-JWT-Authorization' => 'Token ' . $response['jwt'])
+        $jwt = $this->getAuthenticatedUserToken();
+        $token = (array) TokenLib::decode($jwt);
+        $this->makeJsonRequest(
+            $client,
+            'get',
+            $this->getUrl('ilios_authentication.refresh'),
+            null,
+            $jwt
         );
         $response = $client->getResponse();
         $response = json_decode($response->getContent(), true);
@@ -295,16 +285,17 @@ class AuthenticationControllerTest extends WebTestCase
     
     public function testRefreshTokenWithNonDefaultTtl()
     {
+        
         $client = static::createClient();
-    
-        // log in, grab token
-        $client->request('POST', '/auth/login', array(
-            'username' => 'newuser',
-            'password' => 'newuserpass'
-        ));
-        $response = $client->getResponse();
-        $response = json_decode($response->getContent(), true);
-        $token = (array) TokenLib::decode($response['jwt']);
+        $jwt = $this->getAuthenticatedUserToken();
+        $token = (array) TokenLib::decode($jwt);
+        $this->makeJsonRequest(
+            $client,
+            'get',
+            $this->getUrl('ilios_authentication.refresh'),
+            null,
+            $jwt
+        );
     
         // we set a non-default issued and expiration date with a delta of 42 days.
         $interval = new \DateInterval('P42D');
