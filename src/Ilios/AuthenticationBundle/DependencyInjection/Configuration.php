@@ -1,15 +1,11 @@
 <?php
-
 namespace Ilios\AuthenticationBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
- *
- * To learn more see
- * @link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class
+ * Configuration for the AuthenticationBundle
  */
 class Configuration implements ConfigurationInterface
 {
@@ -24,6 +20,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->enumNode('type')
+                    ->isRequired()
                     ->values(array('form', 'shibboleth'))
                 ->end()
                 ->scalarNode('legacy_salt')->defaultValue('')->end()
