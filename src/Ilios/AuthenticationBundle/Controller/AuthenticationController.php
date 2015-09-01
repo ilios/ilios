@@ -46,13 +46,6 @@ class AuthenticationController extends Controller
         return new JsonResponse(array('userId' => null), JsonResponse::HTTP_OK);
     }
     
-    public function logoutAction()
-    {
-        $this->get('security.context')->setToken(null);
-
-        return new JsonResponse(array('logout' => true));
-    }
-    
     /**
      * Refresh the current token
      * Usefull when the time limt is approaching but the user is still active
