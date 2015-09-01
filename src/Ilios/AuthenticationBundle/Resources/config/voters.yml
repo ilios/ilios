@@ -233,6 +233,12 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.temporary_filesystem_voter:
+        class: Ilios\AuthenticationBundle\Voter\TemporaryFileSystemVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.userevent_voter:
         class: Ilios\AuthenticationBundle\Voter\UsereventVoter
         arguments: [ @ilioscore.user.manager ]
