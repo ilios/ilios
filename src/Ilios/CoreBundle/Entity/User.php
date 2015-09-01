@@ -7,7 +7,6 @@ use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -25,7 +24,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
  */
-class User implements UserInterface, EncoderAwareInterface
+class User implements UserInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;

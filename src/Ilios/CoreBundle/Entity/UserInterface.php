@@ -1,14 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vpassapera
- * Date: 11/21/14
- * Time: 3:48 PM
- */
+
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
@@ -29,6 +25,7 @@ interface UserInterface extends
     LoggableEntityInterface,
     BaseUserInterface,
     SchoolEntityInterface,
+    EncoderAwareInterface,
     \Serializable
 {
     /**
