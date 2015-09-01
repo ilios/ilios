@@ -14,9 +14,9 @@ class AuthenticationController extends Controller
     
     /**
      * Authenticate someone
-     * Passes off the task of authentication to the service selected by the config 
+     * Passes off the task of authentication to the service selected by the config
      * option authentication_type.
-     * 
+     *
      * @param Request $request
      *
      * @return JsonResponse
