@@ -77,18 +77,33 @@ class InstallFirstUserCommand extends ContainerAwareCommand
         // prevent this command to run on a non-empty user store.
         $existingUser = $userManager->findUserBy([]);
         if (! empty($existingUser)) {
-            throw new \Exception('Sorry, at least one user record already exists. Cannot create a "first" user account.');
+            throw new \Exception(
+                'Sorry, at least one user record already exists. Cannot create a "first" user account.'
+            );
         }
 
         /**
          * @var SchoolManagerInterface $schoolManager
          */
         $schoolManager = $this->getContainer()->get('ilioscore.school.manager');
+        $schoolEntities = $schoolManager->findSchoolsBy([]);
+
+        // check if any school data is present before invoking the form helper
+        // to prevent the form from breaking on missing school data further downstream.
+        if (empty($schoolEntities)) {
+            throw new \Exception('No schools found. Please load schools into this Ilios instance first.');
+        }
+
+        // transform school data into a format that can be processed by the form.
+        $schools = [];
+        foreach ($schoolEntities as $entity) {
+            $schools[$entity->getId()] = $entity->getTitle();
+        }
 
         /** @var FormHelper $formHelper */
         $formHelper = $this->getHelper('form');
         $formData = $formHelper->interactUsingForm(
-            new InstallFirstUserType($schoolManager),
+            new InstallFirstUserType($schools),
             $input,
             $output
         );

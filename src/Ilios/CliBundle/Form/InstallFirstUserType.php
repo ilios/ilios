@@ -2,7 +2,6 @@
 
 namespace Ilios\CliBundle\Form;
 
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Email;
@@ -16,16 +15,16 @@ use Symfony\Component\Validator\Constraints\Email;
 class InstallFirstUserType extends AbstractType
 {
     /**
-     * @var SchoolManagerInterface
+     * @var array A map of school ids/titles.
      */
-    protected $schoolManager;
+    protected $schools;
 
     /**
-     * @param SchoolManagerInterface $schoolManager
+     * @param array $schools An map of school id/titles.
      */
-    public function __construct(SchoolManagerInterface $schoolManager)
+    public function __construct(array $schools)
     {
-        $this->schoolManager = $schoolManager;
+        $this->schools = $schools;
     }
 
     /**
@@ -39,7 +38,7 @@ class InstallFirstUserType extends AbstractType
                 'choice',
                 [
                     'label' => 'Select a school',
-                    'choices' => $this->getSchools(),
+                    'choices' => $this->schools,
                     'required' => true,
                 ]
             )
@@ -62,21 +61,5 @@ class InstallFirstUserType extends AbstractType
     public function getName()
     {
         return 'ilios_install_first_user';
-    }
-
-    /**
-     * Returns an associative array of all schools,
-     * using school ids as keys and school names as values.
-     *
-     * @return array
-     */
-    protected function getSchools()
-    {
-        $entities = $this->schoolManager->findSchoolsBy([]);
-        $schools = [];
-        foreach ($entities as $entity) {
-            $schools[$entity->getId()] = $entity->getTitle();
-        }
-        return $schools;
     }
 }
