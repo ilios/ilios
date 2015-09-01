@@ -12,6 +12,15 @@ use Ilios\AuthenticationBundle\Jwt\Token as JwtToken;
 class AuthenticationController extends Controller
 {
     
+    /**
+     * Authenticate someone
+     * Passes off the task of authentication to the service selected by the config 
+     * option authentication_type.
+     * 
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
     public function loginAction(Request $request)
     {
         $authenticatorService = $this->container->getParameter('ilios_authentication.authenticatorservice');
@@ -21,6 +30,11 @@ class AuthenticationController extends Controller
 
     }
     
+    /**
+     * Get the id fro the currently authenticated user
+     *
+     * @return JsonResponse
+     */
     public function whoamiAction()
     {
         $token = $this->get('security.context')->getToken();
@@ -39,6 +53,12 @@ class AuthenticationController extends Controller
         return new JsonResponse(array('logout' => true));
     }
     
+    /**
+     * Refresh the current token
+     * Usefull when the time limt is approaching but the user is still active
+     *
+     * @return JsonResponse
+     */
     public function refreshAction()
     {
         $token = $this->get('security.context')->getToken();
