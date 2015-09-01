@@ -2,6 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CliBundle\Form\InstallUserZeroType;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Creates a first user account with admin-level privileges.
+ * Creates a first ("user zero") account with Course Director privileges.
  *
  * Class InstallUserZeroCommand
  * @package Ilios\CoreBundle\Command
@@ -46,55 +47,44 @@ class InstallUserZeroCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('ilios:setup:install_user_zero')
-            ->setDescription('Creates a first user account with "Course Director"-level access.')
-            ->addArgument(
-                'email',
-                InputArgument::REQUIRED,
-                'A valid email address.'
-            )
-            ->addArgument(
-                'school id',
-                InputArgument::REQUIRED,
-                'A valid school id.'
-            );
+            ->setName('form:install_user_zero')
+            ->setDescription('Creates a first user account with "Course Director" privileges.');
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @todo add proper input validation [ST 2015/08/28]
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $email = $input->getArgument('email');
-        $schoolId = $input->getArgument('school id');
-
-        /**
-         * @var SchoolManagerInterface $schoolManager
-         */
-        $schoolManager = $this->getContainer()->get('ilioscore.school.manager');
-        $school = $schoolManager->findSchoolBy(['id' => $schoolId]);
-        if (empty($school)) {
-            throw new \Exception(sprintf('School with id = %d not found.', $schoolId));
-        }
-
         /**
          * @var UserManagerInterface $userManager
          */
         $userManager = $this->getContainer()->get('ilioscore.user.manager');
 
-        // prevent repetitious use of this command
+        // prevent this command to run on a non-empty user store.
         $existingUser = $userManager->findUserBy([]);
         if (! empty($existingUser)) {
-            throw new \Exception('The user store of this instance is not empty; rejecting "zero user" creation.');
+            throw new \Exception('Sorry, at least one user record already exists. Cannot create a "user zero".');
         }
+
+        /**
+         * @var SchoolManagerInterface $schoolManager
+         */
+        $schoolManager = $this->getContainer()->get('ilioscore.school.manager');
+
+        /** @var FormHelper $formHelper */
+        $formHelper = $this->getHelper('form');
+        $formData = $formHelper->interactUsingForm(
+            new InstallUserZeroType($schoolManager),
+            $input,
+            $output
+        );
 
         $user = $userManager->createUser();
         $user->setFirstName(self::FIRST_NAME);
         $user->setMiddleName(date('Y-m-d_h.i.s'));
         $user->setLastName(self::LAST_NAME);
-        $user->setEmail($email);
+        $user->setEmail($formData['email']);
         $user->setAddedViaIlios(true);
         $user->setEnabled(true);
         $user->setUserSyncIgnore(false);
@@ -103,7 +93,7 @@ class InstallUserZeroCommand extends ContainerAwareCommand
          */
         $userRoleManager = $this->getContainer()->get('ilioscore.userrole.manager');
         $user->addRole($userRoleManager->findUserRoleBy(['title' => 'Course Director']));
-        $user->setSchool($school);
+        $user->setSchool($schoolManager->findSchoolBy(['id' => $formData['school']]));
         $userManager->updateUser($user);
 
         /**
@@ -122,7 +112,9 @@ class InstallUserZeroCommand extends ContainerAwareCommand
         $authentication->setPasswordBcrypt($encodedPassword);
         $authenticationManager->updateAuthentication($authentication);
 
-        $output->writeln('The user account has been created.');
+        $output->writeln('Success!');
+        $output->writeln('A user account has been created.');
         $output->writeln(sprintf("You may now log in as '%s' with the password '%s'.", self::USERNAME, self::PASSWORD));
+        $output->writeln('Please change this password as soon as possible.');
     }
 }
