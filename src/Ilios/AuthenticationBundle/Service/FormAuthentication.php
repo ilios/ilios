@@ -33,7 +33,7 @@ class FormAuthentication implements AuthenticationInterface
      */
     protected $jwtManager;
     
-    
+    /**
     * Constructor
     * @param AuthenticationManagerInterface $authManager
     * @param UserPasswordEncoderInterface   $encoder
