@@ -74,7 +74,7 @@ class InstallUserZeroType extends AbstractType
     {
         $entities = $this->schoolManager->findSchoolsBy([]);
         $schools = [];
-        foreach($entities as $entity) {
+        foreach ($entities as $entity) {
             $schools[$entity->getId()] = $entity->getTitle();
         }
         return $schools;
