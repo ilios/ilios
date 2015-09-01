@@ -17,8 +17,6 @@ class MeshQualifierType extends AbstractType
         $builder
             ->add('id')
             ->add('name')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('descriptors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"

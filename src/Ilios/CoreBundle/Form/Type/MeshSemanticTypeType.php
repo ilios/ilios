@@ -17,8 +17,9 @@ class MeshSemanticTypeType extends AbstractType
         $builder
             ->add('id')
             ->add('name')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('concepts', 'tdn_many_related', [
+                'entityName' => "IliosCoreBundle:MeshConcept"
+            ])
         ;
     }
 

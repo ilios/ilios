@@ -29,7 +29,10 @@ class LoadMeshDescriptorData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new MeshDescriptor();
             $entity->setId($arr['id']);
+            $entity->setName($arr['name']);
+            $entity->setAnnotation($arr['annotation']);
             $this->addReference('meshDescriptors' . $arr['id'], $entity);
+            $manager->persist($entity);
         }
 
         $manager->flush();

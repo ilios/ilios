@@ -17,7 +17,12 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * Class MeshTerm
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Table(name="mesh_term")
+ * @ORM\Table(
+ *  name="mesh_term",
+ *  uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="mesh_term_uid_name", columns={"mesh_term_uid","name"})
+ *  }
+ * )
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
@@ -31,11 +36,25 @@ class MeshTerm implements MeshTermInterface
     use TimestampableEntity;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="mesh_term_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     */
+    protected $id;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="mesh_term_uid", type="string", length=9)
-     * @ORM\Id
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -44,14 +63,14 @@ class MeshTerm implements MeshTermInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("meshTermUid")
      */
-    protected $id;
+    protected $meshTermUid;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=192)
-     * @ORM\Id
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
@@ -75,6 +94,10 @@ class MeshTerm implements MeshTermInterface
      *      min = 1,
      *      max = 12
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("lexicalTag")
      */
     protected $lexicalTag;
 
@@ -84,6 +107,10 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(name="concept_preferred", type="boolean", nullable=true)
      *
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("conceptPreferred")
      */
     protected $conceptPreferred;
 
@@ -93,6 +120,10 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(name="record_preferred", type="boolean", nullable=true)
      *
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("recordPreferred")
      */
     protected $recordPreferred;
 
@@ -102,6 +133,9 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(name="permuted", type="boolean", nullable=true)
      *
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $permuted;
 
@@ -111,36 +145,49 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(name="print", type="boolean", nullable=true)
      *
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $printable;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @Assert\NotBlank()
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @Assert\NotBlank()
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("updatedAt")
      */
     protected $updatedAt;
 
-    // /**
-    //  * @var ArrayCollection|MeshConceptInterface[]
-    //  *
-    //  * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="meshTerms")
-    //  *
-    //  * @JMS\Expose
-    //  * @JMS\Type("array<string>")
-    //  */
-    // protected $meshConcepts;
+    /**
+     * @var ArrayCollection|MeshConceptInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshConcept", inversedBy="terms")
+     * @ORM\JoinTable(name="mesh_concept_x_term",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="mesh_term_id", referencedColumnName="mesh_term_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $concepts;
 
     /**
      * Constructor
@@ -149,6 +196,23 @@ class MeshTerm implements MeshTermInterface
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->concepts = new ArrayCollection();
+    }
+
+    /**
+     * @param string $meshTermUid
+     */
+    public function setMeshTermUid($meshTermUid)
+    {
+        $this->meshTermUid = $meshTermUid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMeshTermUid()
+    {
+        return $this->meshTermUid;
     }
 
     /**
@@ -229,5 +293,33 @@ class MeshTerm implements MeshTermInterface
     public function isPrintable()
     {
         return $this->printable;
+    }
+
+    /**
+     * @param Collection $concepts
+     */
+    public function setConcepts(Collection $concepts)
+    {
+        $this->concepts = $concepts;
+
+        foreach ($concepts as $concept) {
+            $this->addConcept($concept);
+        }
+    }
+
+    /**
+     * @param MeshConceptInterface $concept
+     */
+    public function addConcept(MeshConceptInterface $concept)
+    {
+        $this->concepts->add($concept);
+    }
+
+    /**
+     * @return ArrayCollection|MeshConceptInterface[]
+     */
+    public function getConcepts()
+    {
+        return $this->concepts;
     }
 }

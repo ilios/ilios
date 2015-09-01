@@ -77,4 +77,59 @@ interface MeshDescriptorInterface extends
      * @return ArrayCollection|CourseLearningMaterialInterface[]
      */
     public function getCourseLearningMaterials();
+
+    /**
+     * @param Collection $concepts
+     */
+    public function setConcepts(Collection $concepts);
+
+    /**
+     * @param MeshConceptInterface $concept
+     */
+    public function addConcept(MeshConceptInterface $concept);
+
+    /**
+     * @return ArrayCollection|MeshConceptInterface[]
+     */
+    public function getConcepts();
+
+    /**
+     * @param Collection $qualifiers
+     */
+    public function setQualifiers(Collection $qualifiers);
+
+    /**
+     * @param MeshQualifierInterface $qualifier
+     */
+    public function addQualifier(MeshQualifierInterface $qualifier);
+
+    /**
+     * @return ArrayCollection|MeshQualifierInterface[]
+     */
+    public function getQualifiers();
+
+    /**
+     * @param Collection $trees
+     */
+    public function setTrees(Collection $trees);
+
+    /**
+     * @param MeshTreeInterface $tree
+     */
+    public function addTree(MeshTreeInterface $tree);
+
+    /**
+     * @return ArrayCollection|MeshTreeInterface[]
+     */
+    public function getTrees();
+
+    /**
+     * @param MeshPreviousIndexingInterface $previousIndexing
+     */
+    public function setPreviousIndexing(MeshPreviousIndexingInterface $previousIndexing);
+
+    /**
+     * @return MeshPreviousIndexingInterface
+     */
+    public function getPreviousIndexing();
 }

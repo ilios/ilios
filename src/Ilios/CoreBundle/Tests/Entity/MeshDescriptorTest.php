@@ -93,6 +93,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setObjectives
      * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getObjectives
      */
     public function testGetObjectives()
@@ -126,6 +127,7 @@ class MeshDescriptorTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getSessionLearningMaterials
+     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setSessionLearningMaterials
      */
     public function testGetSessionLearningMaterials()
     {
@@ -142,6 +144,7 @@ class MeshDescriptorTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getCourseLearningMaterials
+     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setCourseLearningMaterials
      */
     public function testGetCourseLearningMaterials()
     {

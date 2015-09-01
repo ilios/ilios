@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -57,26 +59,41 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      * )
      *
      * @ORM\Column(type="string", length=192)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $name;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @Assert\NotBlank()
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @Assert\NotBlank()
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("updatedAt")
      */
     protected $updatedAt;
+
+    /**
+     * @var ArrayCollection|MeshConceptInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="semanticTypes")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $concepts;
 
     /**
      * Constructor
@@ -85,5 +102,34 @@ class MeshSemanticType implements MeshSemanticTypeInterface
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->concepts = new ArrayCollection();
+    }
+
+    /**
+     * @param Collection $concepts
+     */
+    public function setConcepts(Collection $concepts)
+    {
+        $this->concepts = $concepts;
+
+        foreach ($concepts as $concept) {
+            $this->addConcept($concept);
+        }
+    }
+
+    /**
+     * @param MeshConceptInterface $concept
+     */
+    public function addConcept(MeshConceptInterface $concept)
+    {
+        $this->concepts->add($concept);
+    }
+
+    /**
+     * @return ArrayCollection|MeshConceptInterface[]
+     */
+    public function getConcepts()
+    {
+        return $this->concepts;
     }
 }

@@ -56,6 +56,9 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 192
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $name;
 
@@ -70,6 +73,10 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 9
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("umlsUid")
      */
     protected $umlsUid;
 
@@ -80,6 +87,9 @@ class MeshConcept implements MeshConceptInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
     protected $preferred;
 
@@ -93,6 +103,10 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 65000
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("scopeNote")
      */
     protected $scopeNote;
 
@@ -106,6 +120,10 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 127
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("casn1Name")
      */
     protected $casn1Name;
 
@@ -119,44 +137,59 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 30
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("registryNumber")
      */
     protected $registryNumber;
 
-    // /**
-    //  * @var ArrayCollection|MeshTermInterface[]
-    //  *
-    //  * @ORM\ManyToMany(targetEntity="MeshTerm", inversedBy="meshConcepts")
-    //  * @ORM\JoinTable(name="mesh_concept_x_term",
-    //  *   joinColumns={
-    //  *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
-    //  *   },
-    //  *   inverseJoinColumns={
-    //  *     @ORM\JoinColumn(name="mesh_term_uid", referencedColumnName="mesh_term_uid")
-    //  *   }
-    //  * )
-    //  *
-    //  * @JMS\Expose
-    //  * @JMS\Type("array<string>")
-    //  * @JMS\SerializedName("meshTerms")
-    //  */
-    // protected $meshTerms;
+    /**
+     * @var ArrayCollection|MeshSemanticTypeInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshSemanticType", inversedBy="concepts")
+     * @ORM\JoinTable(name="mesh_concept_x_semantic_type",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_semantic_type_uid", referencedColumnName="mesh_semantic_type_uid")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("semanticTypes")
+     */
+    protected $semanticTypes;
 
     /**
-     * @var \DateTime
+     * @var ArrayCollection|MeshTermInterface[]
      *
+     * @ORM\ManyToMany(targetEntity="MeshTerm", mappedBy="concepts")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $terms;
+
+    /**
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @Assert\NotBlank()
-     *
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @Assert\NotBlank()
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("updatedAt")
      */
     protected $updatedAt;
 
@@ -186,6 +219,9 @@ class MeshConcept implements MeshConceptInterface
         $this->updatedAt = new \DateTime();
         $this->createdAt = new \DateTime();
         $this->preferred = false;
+        $this->semanticTypes = new ArrayCollection();
+        $this->terms = new ArrayCollection();
+        $this->descriptors = new ArrayCollection();
     }
 
     /**
@@ -266,5 +302,89 @@ class MeshConcept implements MeshConceptInterface
     public function getRegistryNumber()
     {
         return $this->registryNumber;
+    }
+
+    /**
+     * @param Collection $semanticTypes
+     */
+    public function setSemanticTypes(Collection $semanticTypes)
+    {
+        $this->semanticTypes = $semanticTypes;
+
+        foreach ($semanticTypes as $semanticType) {
+            $this->addSemanticType($semanticType);
+        }
+    }
+
+    /**
+     * @param MeshSemanticTypeInterface $semanticType
+     */
+    public function addSemanticType(MeshSemanticTypeInterface $semanticType)
+    {
+        $this->semanticTypes->add($semanticType);
+    }
+
+    /**
+     * @return ArrayCollection|MeshSemanticTypeInterface[]
+     */
+    public function getSemanticTypes()
+    {
+        return $this->semanticTypes;
+    }
+
+    /**
+     * @param Collection $terms
+     */
+    public function setTerms(Collection $terms)
+    {
+        $this->terms = $terms;
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    /**
+     * @param MeshTermInterface $term
+     */
+    public function addTerm(MeshTermInterface $term)
+    {
+        $this->terms->add($term);
+    }
+
+    /**
+     * @return ArrayCollection|MeshTermInterface[]
+     */
+    public function getTerms()
+    {
+        return $this->terms;
+    }
+
+    /**
+     * @param Collection $descriptors
+     */
+    public function setDescriptors(Collection $descriptors)
+    {
+        $this->descriptors = $descriptors;
+
+        foreach ($descriptors as $descriptor) {
+            $this->addDescriptor($descriptor);
+        }
+    }
+
+    /**
+     * @param MeshDescriptorInterface $descriptor
+     */
+    public function addDescriptor(MeshDescriptorInterface $descriptor)
+    {
+        $this->descriptors->add($descriptor);
+    }
+
+    /**
+     * @return ArrayCollection|MeshDescriptorInterface[]
+     */
+    public function getDescriptors()
+    {
+        return $this->descriptors;
     }
 }

@@ -43,6 +43,23 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
     }
 
     /**
+     * @param string $q
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return UserInterface[]|Collection
+     */
+    public function findMeshDescriptorsByQ(
+        $q,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->repository->findByQ($q, $orderBy, $limit, $offset);
+    }
+
+    /**
      * @param MeshDescriptorInterface $meshDescriptor
      * @param bool $andFlush
      * @param bool $forceId

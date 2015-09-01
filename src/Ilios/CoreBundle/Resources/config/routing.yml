@@ -192,6 +192,48 @@ api_learnergroup_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+api_meshconcept_v1:
+    resource: "@IliosCoreBundle/Controller/MeshConceptController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_meshdescriptor_v1:
+    resource: "@IliosCoreBundle/Controller/MeshDescriptorController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_meshdepreviousindexing_v1:
+    resource: "@IliosCoreBundle/Controller/MeshPreviousIndexingController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_meshqualifier_v1:
+    resource: "@IliosCoreBundle/Controller/MeshQualifierController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_meshsemantictype_v1:
+    resource: "@IliosCoreBundle/Controller/MeshSemanticTypeController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_meshterm_v1:
+    resource: "@IliosCoreBundle/Controller/MeshTermController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_meshtree_v1:
+    resource: "@IliosCoreBundle/Controller/MeshTreeController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
 api_objective_v1:
     resource: "@IliosCoreBundle/Controller/ObjectiveController.php"
     type:     rest
