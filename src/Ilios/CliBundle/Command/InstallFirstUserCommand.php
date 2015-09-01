@@ -2,7 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
-use Ilios\CliBundle\Form\InstallUserZeroType;
+use Ilios\CliBundle\Form\InstallFirstUserType;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
@@ -15,17 +15,17 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Creates a first ("user zero") account with Course Director privileges.
+ * Creates a first user account with Course Director privileges.
  *
- * Class InstallUserZeroCommand
+ * Class InstallFirstUserCommand
  * @package Ilios\CoreBundle\Command
  */
-class InstallUserZeroCommand extends ContainerAwareCommand
+class InstallFirstUserCommand extends ContainerAwareCommand
 {
     /**
      * @var string
      */
-    const USERNAME = 'zero_user';
+    const USERNAME = 'first_user';
 
     /**
      * @var string
@@ -35,12 +35,12 @@ class InstallUserZeroCommand extends ContainerAwareCommand
     /**
      * @var string
      */
-    const FIRST_NAME = 'User';
+    const FIRST_NAME = 'First';
 
     /**
      * @var string
      */
-    const LAST_NAME = 'Zero';
+    const LAST_NAME = 'User';
 
     /**
      * {@inheritdoc}
@@ -48,7 +48,7 @@ class InstallUserZeroCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('form:install_user_zero')
+            ->setName('ilios:setup:first-user')
             ->setDescription('Creates a first user account with "Course Director" privileges.')
             ->addOption(
                 'school',
@@ -77,7 +77,7 @@ class InstallUserZeroCommand extends ContainerAwareCommand
         // prevent this command to run on a non-empty user store.
         $existingUser = $userManager->findUserBy([]);
         if (! empty($existingUser)) {
-            throw new \Exception('Sorry, at least one user record already exists. Cannot create a "user zero".');
+            throw new \Exception('Sorry, at least one user record already exists. Cannot create a "first" user account.');
         }
 
         /**
@@ -88,7 +88,7 @@ class InstallUserZeroCommand extends ContainerAwareCommand
         /** @var FormHelper $formHelper */
         $formHelper = $this->getHelper('form');
         $formData = $formHelper->interactUsingForm(
-            new InstallUserZeroType($schoolManager),
+            new InstallFirstUserType($schoolManager),
             $input,
             $output
         );

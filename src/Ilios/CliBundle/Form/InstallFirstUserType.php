@@ -8,12 +8,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Email;
 
 /**
- * Input form for the "create user zero" command.
+ * Input form for the "create first user" command.
  *
- * Class InstallUserZeroType
+ * Class InstallFirstUserType
  * @package Ilios\CliBundle\Form
  */
-class InstallUserZeroType extends AbstractType
+class InstallFirstUserType extends AbstractType
 {
     /**
      * @var SchoolManagerInterface
@@ -61,7 +61,7 @@ class InstallUserZeroType extends AbstractType
      */
     public function getName()
     {
-        return 'install_user_zero';
+        return 'ilios_install_first_user';
     }
 
     /**
