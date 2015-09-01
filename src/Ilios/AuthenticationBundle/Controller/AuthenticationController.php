@@ -32,7 +32,7 @@ class AuthenticationController extends Controller
         return new JsonResponse(array('userId' => null), JsonResponse::HTTP_OK);
     }
     
-    public function logoutAction(Request $request)
+    public function logoutAction()
     {
         $this->get('security.context')->setToken(null);
 

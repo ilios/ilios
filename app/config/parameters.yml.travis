@@ -17,3 +17,7 @@ parameters:
     authentication_type: form
     legacy_password_salt: null
     file_system_storage_path: /tmp
+    
+    ldap_authentication_host: null
+    ldap_authentication_port: null
+    ldap_authentication_bind_template: null

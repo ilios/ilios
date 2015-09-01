@@ -28,6 +28,12 @@ class ShibbolethAuthentication implements AuthenticationInterface
     protected $jwtManager;
     
     
+    /**
+     * Constructor
+     * @param AuthenticationManagerInterface $authManager
+     * @param TokenStorageInterface          $tokenStorage
+     * @param JsonWebTokenManager            $jwtManager
+     */
     public function __construct(
         AuthenticationManagerInterface $authManager,
         TokenStorageInterface $tokenStorage,
@@ -42,10 +48,11 @@ class ShibbolethAuthentication implements AuthenticationInterface
      * Authenticate a user from shibboleth
      *
      * If the user is not yet logged in send a redirect Request
-     * If the uesr is logged in, but no account exists send an error
-     * If the user is autehtnciated send a JWT
+     * If the user is logged in, but no account exists send an error
+     * If the user is authenticated send a JWT
      * @param Request $request
      *
+     * @throws \Exception when the shibboleth attributes do not contain an eppn
      * @return JsonResponse
      */
     public function login(Request $request)
@@ -74,15 +81,13 @@ class ShibbolethAuthentication implements AuthenticationInterface
                 'jwt' => null,
             ), JsonResponse::HTTP_BAD_REQUEST);
         }
-        if ($authEntity) {
-            $token = $this->jwtManager->buildToken($authEntity->getUser());
-            $this->tokenStorage->setToken($token);
+        $token = $this->jwtManager->buildToken($authEntity->getUser());
+        $this->tokenStorage->setToken($token);
 
-            return new JsonResponse(array(
-                'status' => 'success',
-                'errors' => [],
-                'jwt' => $token->getJwt(),
-            ), JsonResponse::HTTP_OK);
-        }
+        return new JsonResponse(array(
+            'status' => 'success',
+            'errors' => [],
+            'jwt' => $token->getJwt(),
+        ), JsonResponse::HTTP_OK);
     }
 }

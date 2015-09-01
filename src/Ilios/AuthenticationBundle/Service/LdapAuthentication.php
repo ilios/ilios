@@ -4,25 +4,17 @@ namespace Ilios\AuthenticationBundle\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 
-class FormAuthentication implements AuthenticationInterface
+class LdapAuthentication implements AuthenticationInterface
 {
     /**
      * @var AuthenticationManagerInterface
      */
     protected $authManager;
-    
-    /**
-     * @var Encoder
-     */
-    protected $encoder;
-    
+
     /**
      * @var TokenStorageInterface
      */
@@ -33,27 +25,49 @@ class FormAuthentication implements AuthenticationInterface
      */
     protected $jwtManager;
     
+    /**
+     * @var string
+     */
+    protected $ldapHost;
     
-    * Constructor
-    * @param AuthenticationManagerInterface $authManager
-    * @param UserPasswordEncoderInterface   $encoder
-    * @param TokenStorageInterface          $tokenStorage
-    * @param JsonWebTokenManager            $jwtManager
-    */
+    /**
+     * @var string
+     */
+    protected $ldapPort;
+    
+    /**
+     * @var string
+     */
+    protected $ldapBindTemplate;
+    
+    /**
+     * Constructor
+     * @param AuthenticationManagerInterface $authManager
+     * @param TokenStorageInterface          $tokenStorage
+     * @param JsonWebTokenManager            $jwtManager
+     * @param string                         $ldapHost         injected from configuration
+     * @param string                         $ldapPort         injected from configuration
+     * @param string                         $ldapBindTemplate injected from configuration
+     */
     public function __construct(
         AuthenticationManagerInterface $authManager,
-        UserPasswordEncoderInterface $encoder,
         TokenStorageInterface $tokenStorage,
-        JsonWebTokenManager $jwtManager
+        JsonWebTokenManager $jwtManager,
+        $ldapHost,
+        $ldapPort,
+        $ldapBindTemplate
     ) {
         $this->authManager = $authManager;
-        $this->encoder = $encoder;
         $this->tokenStorage = $tokenStorage;
         $this->jwtManager = $jwtManager;
+        $this->ldapHost = $ldapHost;
+        $this->ldapPort = $ldapPort;
+        $this->ldapBindTemplate = $ldapBindTemplate;
     }
     
     /**
      * Login a user using a username and password
+     * to bind against an LDAP server
      * @param Request $request
      *
      * @return JsonResponse
@@ -74,11 +88,10 @@ class FormAuthentication implements AuthenticationInterface
             $authEntity = $this->authManager->findAuthenticationByUsername($username);
             if ($authEntity) {
                 $user = $authEntity->getUser();
-                $passwordValid = $this->encoder->isPasswordValid($user, $password);
+                $passwordValid = $this->checkLdapPassword($username, $password);
                 if ($passwordValid) {
                     $token = $this->jwtManager->buildToken($user);
                     $this->tokenStorage->setToken($token);
-                    $this->updateLegacyPassword($authEntity, $password);
                     
                     return new JsonResponse(array(
                         'status' => 'success',
@@ -89,8 +102,6 @@ class FormAuthentication implements AuthenticationInterface
             }
             $errors[] = 'badCredentials';
         }
-        
-        
 
         return new JsonResponse(array(
             'status' => 'error',
@@ -100,17 +111,23 @@ class FormAuthentication implements AuthenticationInterface
     }
     
     /**
-     * Update users to the new password encoding when they login
-     * @param  AuthenticationEntityInterface $authEntity
-     * @param  string         $password
+     * Check against ldap to see if the user is valid
+     * @param  string $username
+     * @param  string $password
+     * 
+     * @return boolean
      */
-    protected function updateLegacyPassword(AuthenticationEntityInterface $authEntity, $password)
+    public function checkLdapPassword($username, $password)
     {
-        if ($authEntity->isLegacyAccount()) {
-            $authEntity->setPasswordSha256(null);
-            $encodedPassword = $this->encoder->encodePassword($authEntity->getUser(), $password);
-            $authEntity->setPasswordBcrypt($encodedPassword);
-            $this->authManager->updateAuthentication($authEntity);
+        $ldapConn = @ldap_connect($this->ldapHost, $this->ldapPort);
+        if ($ldapConn) {
+            $ldapRdn = sprintf($this->ldapBindTemplate, $username);
+            $ldapBind = @ldap_bind($ldapConn, $ldapRdn, $password);
+            if ($ldapBind) {
+                return true;
+            }
         }
+        
+        return false;
     }
 }

@@ -5,41 +5,43 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 
-use Ilios\AuthenticationBundle\Service\FormAuthentication;
+use Ilios\AuthenticationBundle\Service\LdapAuthentication;
 
-class FormAuthenticationTest extends TestCase
+class LdapAuthenticationTest extends TestCase
 {
     public function tearDown()
     {
         m::close();
     }
-
+    
     public function testConstructor()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
+        $obj = new LdapAuthentication(
             $authManager,
-            $encoder,
             $tokenStorage,
-            $jwtManager
+            $jwtManager,
+            'host',
+            'port',
+            'bindTemplate'
         );
-        $this->assertTrue($obj instanceof FormAuthentication);
+        $this->assertTrue($obj instanceof LdapAuthentication);
     }
     
     public function testMissingValues()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
+        $obj = new LdapAuthentication(
             $authManager,
-            $encoder,
             $tokenStorage,
-            $jwtManager
+            $jwtManager,
+            'host',
+            'port',
+            'bindTemplate'
         );
         
         $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
@@ -62,14 +64,15 @@ class FormAuthenticationTest extends TestCase
     public function testBadUserName()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
+        $obj = new LdapAuthentication(
             $authManager,
-            $encoder,
             $tokenStorage,
-            $jwtManager
+            $jwtManager,
+            'host',
+            'port',
+            'bindTemplate'
         );
         
         $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
@@ -93,15 +96,22 @@ class FormAuthenticationTest extends TestCase
     public function testBadPassword()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
-            $authManager,
-            $encoder,
-            $tokenStorage,
-            $jwtManager
+        //partially mock so we can override checkLdapPassword
+        //and not deal with php global ldap functions
+        $obj = m::mock(
+            'Ilios\AuthenticationBundle\Service\LdapAuthentication[checkLdapPassword]',
+            array(
+                $authManager,
+                $tokenStorage,
+                $jwtManager,
+                'host',
+                'port',
+                'bindTemplate'
+            )
         );
+        $obj->shouldReceive('checkLdapPassword')->once()->andReturn(false);
         
         $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
             ->shouldReceive('get')->with('username')->andReturn('abc')
@@ -115,9 +125,9 @@ class FormAuthenticationTest extends TestCase
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
-        $encoder->shouldReceive('isPasswordValid')->with($user, '123')->andReturn(false);
-        $result = $obj->login($request);
         
+        $result = $obj->login($request);
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
@@ -128,15 +138,22 @@ class FormAuthenticationTest extends TestCase
     public function testSuccess()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
-        $obj = new FormAuthentication(
-            $authManager,
-            $encoder,
-            $tokenStorage,
-            $jwtManager
+        //partially mock so we can override checkLdapPassword
+        //and not deal with php global ldap functions
+        $obj = m::mock(
+            'Ilios\AuthenticationBundle\Service\LdapAuthentication[checkLdapPassword]',
+            array(
+                $authManager,
+                $tokenStorage,
+                $jwtManager,
+                'host',
+                'port',
+                'bindTemplate'
+            )
         );
+        $obj->shouldReceive('checkLdapPassword')->once()->andReturn(true);
         
         $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
             ->shouldReceive('get')->with('username')->andReturn('abc')
@@ -147,17 +164,14 @@ class FormAuthenticationTest extends TestCase
         
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface');
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('getUser')->andReturn($user)
-            ->shouldReceive('isLegacyAccount')->andReturn(false)->mock();
+            ->shouldReceive('getUser')->andReturn($user)->mock();
         $authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
-        $encoder->shouldReceive('isPasswordValid')->with($user, '123')->andReturn(true);
         $newToken = m::mock('Ilios\AuthenticationBundle\Jwt\Token')
             ->shouldReceive('getJwt')->andReturn('jwt123Test')->mock();
         $tokenStorage->shouldReceive('setToken')->with($newToken);
         $jwtManager->shouldReceive('buildToken')->with($user)->andReturn($newToken);
-        
-        
+
         $result = $obj->login($request);
         
         $this->assertTrue($result instanceof JsonResponse);

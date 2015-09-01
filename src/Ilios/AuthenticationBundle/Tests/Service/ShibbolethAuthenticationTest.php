@@ -9,6 +9,11 @@ use Ilios\AuthenticationBundle\Service\ShibbolethAuthentication;
 
 class ShibbolethAuthenticationTest extends TestCase
 {
+    public function tearDown()
+    {
+        m::close();
+    }
+
     public function testConstructor()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');

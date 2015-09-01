@@ -20,3 +20,7 @@ parameters:
     authentication_type: "form"
     legacy_password_salt: "Ilios2 ilios_authentication_internal_auth_salt value"
     file_system_storage_path: "A path on your server's file system where Ilios can store files like learning_materials"
+    
+    ldap_authentication_host: null
+    ldap_authentication_port: null
+    ldap_authentication_bind_template: null

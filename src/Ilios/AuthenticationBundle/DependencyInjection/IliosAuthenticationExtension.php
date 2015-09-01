@@ -24,7 +24,13 @@ class IliosAuthenticationExtension extends Extension
 
         $container->setParameter('ilios_authentication.legacy_salt', $config['legacy_salt']);
         $container->setParameter('ilios_authentication.type', $config['type']);
-
+        $container->setParameter('ilios_authentication.ldap.host', $config['ldap_authentication_host']);
+        $container->setParameter('ilios_authentication.ldap.port', $config['ldap_authentication_port']);
+        $container->setParameter(
+            'ilios_authentication.ldap.bind_template',
+            $config['ldap_authentication_bind_template']
+        );
+        
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('voters.yml');
@@ -40,6 +46,12 @@ class IliosAuthenticationExtension extends Extension
                 $container->setParameter(
                     'ilios_authentication.authenticatorservice',
                     'ilios_authentication.shibboleth.authentication'
+                );
+                break;
+            case 'ldap':
+                $container->setParameter(
+                    'ilios_authentication.authenticatorservice',
+                    'ilios_authentication.ldap.authentication'
                 );
                 break;
         }

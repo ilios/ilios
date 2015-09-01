@@ -117,7 +117,7 @@ sensio_framework_extra:
 jms_di_extra:
     locations:
         all_bundles: false
-        bundles: [@IliosCoreBundle]
+        bundles: ["@IliosCoreBundle"]
 
 security:
     encoders:
@@ -141,3 +141,6 @@ ilios_web:
 ilios_authentication:
     legacy_salt: "%legacy_password_salt%"
     type: "%authentication_type%"
+    ldap_authentication_host: "%ldap_authentication_host%"
+    ldap_authentication_port: "%ldap_authentication_port%"
+    ldap_authentication_bind_template: "%ldap_authentication_bind_template%"
