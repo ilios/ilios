@@ -10,8 +10,8 @@ use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Matthias\SymfonyConsoleForm\Console\Helper\FormHelper;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -49,7 +49,19 @@ class InstallUserZeroCommand extends ContainerAwareCommand
     {
         $this
             ->setName('form:install_user_zero')
-            ->setDescription('Creates a first user account with "Course Director" privileges.');
+            ->setDescription('Creates a first user account with "Course Director" privileges.')
+            ->addOption(
+                'school',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'A valid school id.'
+            )
+            ->addOption(
+                'email',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'A valid email address.'
+            );
     }
 
     /**
