@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new Matthias\SymfonyConsoleForm\Bundle\SymfonyConsoleFormBundle(),
             new Ilios\CoreBundle\IliosCoreBundle(),
             new Ilios\WebBundle\IliosWebBundle(),
             new Ilios\AuthenticationBundle\IliosAuthenticationBundle(),
