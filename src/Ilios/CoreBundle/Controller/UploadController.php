@@ -25,9 +25,9 @@ class UploadController extends Controller
         }
 
         $uploadedFile = $request->files->get('file');
-        if (!$uploadedFile) {
+        if (is_null($uploadedFile)) {
             return new JsonResponse(array(
-                'errors' => 'No parameter "file" was found in the request'
+                'errors' => 'No file parameter was found in the request'
             ), JsonResponse::HTTP_BAD_REQUEST);
         }
         if (!$uploadedFile->isValid()) {
