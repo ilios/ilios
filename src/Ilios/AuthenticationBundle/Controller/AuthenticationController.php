@@ -48,7 +48,7 @@ class AuthenticationController extends Controller
     
     /**
      * Refresh the current token
-     * Usefull when the time limt is approaching but the user is still active
+     * Useful when the time limit is approaching but the user is still active
      *
      * @return JsonResponse
      */

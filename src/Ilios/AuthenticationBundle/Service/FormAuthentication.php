@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 
 class FormAuthentication implements AuthenticationInterface
@@ -19,7 +18,7 @@ class FormAuthentication implements AuthenticationInterface
     protected $authManager;
     
     /**
-     * @var Encoder
+     * @var UserPasswordEncoderInterface
      */
     protected $encoder;
     
