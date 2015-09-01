@@ -1081,7 +1081,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param AuthenticationInterface $authentication
+     * {@inheritdoc}
      */
     public function setAuthentication(AuthenticationInterface $authentication = null)
     {
@@ -1089,7 +1089,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return AuthenticationInterface
+     * {@inheritdoc}
      */
     public function getAuthentication()
     {

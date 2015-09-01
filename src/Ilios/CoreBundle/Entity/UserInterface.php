@@ -29,6 +29,17 @@ interface UserInterface extends
     \Serializable
 {
     /**
+     * @param AuthenticationInterface|null $authentication
+     */
+    public function setAuthentication(AuthenticationInterface $authentication = null);
+
+
+    /**
+     * @return AuthenticationInterface
+     */
+    public function getAuthentication();
+
+    /**
      * @param string $lastName
      */
     public function setLastName($lastName);
