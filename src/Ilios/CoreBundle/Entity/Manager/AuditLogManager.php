@@ -137,4 +137,17 @@ class AuditLogManager implements AuditLogManagerInterface
     {
         $this->repository->deleteBefore($dt);
     }
+
+
+    /**
+     * Returns a list of field names of the corresponding entity.
+     *
+     * @return array
+     *
+     * @todo Refactor this out into a trait or stick it somewhere else. [ST 2015/09/02]
+     */
+    public function getFieldNames()
+    {
+        return $this->em->getClassMetadata($this->getClass())->getFieldNames();
+    }
 }
