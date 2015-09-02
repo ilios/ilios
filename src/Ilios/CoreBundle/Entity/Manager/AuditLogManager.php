@@ -15,6 +15,7 @@ use Ilios\CoreBundle\Entity\AuditLogInterface;
  */
 class AuditLogManager implements AuditLogManagerInterface
 {
+
     /**
      * @var EntityManager
      */
@@ -118,5 +119,22 @@ class AuditLogManager implements AuditLogManagerInterface
     {
         $class = $this->getClass();
         return new $class();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findInRange(\DateTime $from, \DateTime $to)
+    {
+
+        return $this->repository->findInRange($from, $to);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteBefore(\Datetime $dt)
+    {
+        $this->repository->deleteBefore($dt);
     }
 }
