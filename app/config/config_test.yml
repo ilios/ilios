@@ -40,3 +40,6 @@ liip_functional_test:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+ilios_authentication:
+    type: "form"

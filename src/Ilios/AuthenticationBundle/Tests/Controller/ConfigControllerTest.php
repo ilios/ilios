@@ -1,5 +1,4 @@
 <?php
-
 namespace Ilios\AuthenticationBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
