@@ -10,26 +10,47 @@ use Doctrine\ORM\EntityRepository;
 class AuditLogRepository extends EntityRepository
 {
     /**
+     * Returns all audit log entries in a given date/time range.
+     *
      * @param \DateTime $from
      * @param \DateTime $to
-     * @param int $limit
-     * @param int $offset
      * @return array
      */
-    public function getAuditEventsInRange(\DateTime $from, \DateTime $to, $limit = 0, $offset = 0)
+    public function findInRange(\DateTime $from, \DateTime $to)
     {
-        // TODO implement. [ST 2015/09/01]
-        return [];
+        $qb = $this->_em->createQueryBuilder();
+        $qb->add('select', 'a')
+            ->from('IliosCoreBundle:AuditLog', 'a')
+            ->add(
+                'where',
+                $qb->expr()->between(
+                    'a.createdAt',
+                    ':from',
+                    ':to'
+                )
+            )
+            ->setParameters(
+                [
+                    'from' => $from->format('c'),
+                    'to' => $to->format('c'),
+                ]
+            );
+
+        return $qb->getQuery()->getArrayResult();
     }
 
     /**
-     * @param \DateTime $from
-     * @param \DateTime $to
-     * @return int
+     * Deletes all audit log entries older than (inclusive) a given date/time.
+     *
+     * @param \DateTime $dt
      */
-    public function getNumberOfAuditEventsInRange(\DateTime $from, \DateTime $to)
+    public function deleteBefore(\DateTime $dt)
     {
-        // TODO implement. [ST 2015/09/01]
-        return 0;
+        $qb = $this->_em->createQueryBuilder();
+        $qb
+            ->delete('IliosCoreBundle:AuditLog', 'a')
+            ->where('a.createdAt <= :dt')
+            ->setParameter(':dt', $dt->format('c'));
+        $qb->getQuery()->execute();
     }
 }

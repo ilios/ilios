@@ -34,13 +34,13 @@ class AuditLogExportCommand extends ContainerAwareCommand
             ->addArgument(
                 'from',
                 InputArgument::REQUIRED,
-                'Expression for start date/time of export range.',
+                'Expression for start-date/time of export range.',
                 'midnight yesterday'
             )
             ->addArgument(
                 'to',
                 InputArgument::OPTIONAL,
-                'Expression for end date/time of export range.',
+                'Expression for end-date/time of export range.',
                 'midnight today'
             );
     }
@@ -50,6 +50,10 @@ class AuditLogExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // TODO implement. [ST 2015/09/02]
+        $from = $input->getArgument('from');
+        $to = $input->getArgument('to');
+        $delete = $input->getOption('delete');
+
+        var_dump($delete);
     }
 }
