@@ -535,7 +535,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'DELETE',
             $this->getUrl(
-                'delete_sessionlearningmaterials',
+                'delete_sessiondescriptions',
                 ['id' => $session['sessionDescription']]
             ),
             null,
@@ -550,11 +550,15 @@ class SessionControllerTest extends AbstractControllerTest
         $firstUpdatedAt = $this->getSessionUpdatedAt(1);
         sleep(2); //wait for two seconds
         
-        $lm = $this->container
+        $descriptions = $this->container
             ->get('ilioscore.dataloader.sessionDescription')
-            ->getOne();
+            ->getAll();
+        $descriptions = array_filter($descriptions, function ($arr) {
+            return $arr['session'] === '1';
+        });
         
-        $postData = $lm;
+        $description = array_values($descriptions)[0];
+        $postData = $description;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
         $postData['description'] = 'something new';
@@ -562,7 +566,7 @@ class SessionControllerTest extends AbstractControllerTest
             'PUT',
             $this->getUrl(
                 'put_sessiondescriptions',
-                ['id' => $lm['id']]
+                ['id' => $description['id']]
             ),
             json_encode(['sessionDescription' => $postData]),
             $this->getAuthenticatedUserToken()
