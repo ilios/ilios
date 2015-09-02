@@ -14,7 +14,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="audit_log")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AuditLogRepository")
  *
  */
 class AuditLog implements AuditLogInterface
