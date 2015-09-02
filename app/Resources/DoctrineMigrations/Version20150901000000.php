@@ -43,7 +43,25 @@ class Version20150901000000 extends AbstractMigration
         $this->addSql('ALTER TABLE user MODIFY `primary_cohort_id` int(11) DEFAULT NULL AFTER school_id');
         $this->addSql('ALTER TABLE user_made_reminder MODIFY `user_id` int(11) DEFAULT NULL AFTER user_made_reminder_id');
         
+        //drop and add these keys to put them in the correct order
+        //this is a superficial change to bring the DB schemas into line
+        $this->addSql('ALTER TABLE `course_learning_material` DROP FOREIGN KEY `FK_F841D788591CC992`');
+        $this->addSql('ALTER TABLE `course_learning_material` DROP FOREIGN KEY `FK_F841D788C1D99609`');
+        $this->addSql('ALTER TABLE `course_learning_material` ADD CONSTRAINT `FK_F841D788591CC992` FOREIGN KEY (course_id) REFERENCES course (course_id)');
+        $this->addSql('ALTER TABLE `course_learning_material` ADD CONSTRAINT `FK_F841D788C1D99609` FOREIGN KEY (learning_material_id) REFERENCES learning_material (learning_material_id)');
+
+        $this->addSql('ALTER TABLE `program_year` DROP FOREIGN KEY `FK_B66426303EB8070A`');
+        $this->addSql('ALTER TABLE `program_year` DROP FOREIGN KEY `FK_B664263056C92BE0`');
+        $this->addSql('ALTER TABLE `program_year` ADD CONSTRAINT `FK_B664263056C92BE0` FOREIGN KEY (`publish_event_id`) REFERENCES `publish_event` (`publish_event_id`)');
+        $this->addSql('ALTER TABLE `program_year` ADD CONSTRAINT `FK_B66426303EB8070A` FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`)');
+        
+        $this->addSql('ALTER TABLE `session_learning_material` DROP FOREIGN KEY `FK_9BE2AF8D613FECDF`');
+        $this->addSql('ALTER TABLE `session_learning_material` DROP FOREIGN KEY `FK_9BE2AF8DC1D99609`');
+        $this->addSql('ALTER TABLE `session_learning_material` ADD CONSTRAINT `FK_9BE2AF8D613FECDF` FOREIGN KEY (`session_id`) REFERENCES `session` (`session_id`)');
+        $this->addSql('ALTER TABLE `session_learning_material` ADD CONSTRAINT `FK_9BE2AF8DC1D99609` FOREIGN KEY (`learning_material_id`) REFERENCES `learning_material` (`learning_material_id`)');
+
     }
+
     /**
      * @param Schema $schema
      */
