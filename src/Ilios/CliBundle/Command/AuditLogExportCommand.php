@@ -3,6 +3,7 @@
 namespace Ilios\CliBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,13 +28,12 @@ class AuditLogExportCommand extends ContainerAwareCommand
             ->addOption(
                 'delete',
                 'null',
-                InputOption::VALUE_OPTIONAL,
-                'Set to TRUE to delete exported entries from the database.',
-                false
+                InputOption::VALUE_NONE,
+                'Specify this option to delete exported entries from the database.'
             )
             ->addArgument(
                 'from',
-                InputArgument::REQUIRED,
+                InputArgument::OPTIONAL,
                 'Expression for start-date/time of export range.',
                 'midnight yesterday'
             )
@@ -52,8 +52,29 @@ class AuditLogExportCommand extends ContainerAwareCommand
     {
         $from = $input->getArgument('from');
         $to = $input->getArgument('to');
+
+        $from = new \DateTime($from, new \DateTimeZone('UTC'));
+        $to = new \DateTime($to, new \DateTimeZone('UTC'));
         $delete = $input->getOption('delete');
 
-        var_dump($delete);
+        $em = $this->getContainer()->get('ilioscore.auditlog.manager');
+
+        $headers = $em->getFieldNames();
+        $rows = $em->findInRange($from, $to);
+
+        array_walk($rows, function(&$row) {
+            /** @var \DateTime $dt */
+            $dt = $row['createdAt'];
+            $row['createdAt'] = $dt->format('c');
+        });
+
+        $table = new Table($output);
+        $table->setHeaders($headers);
+        $table->setRows($rows);
+        $table->render();
+
+        if ($delete) {
+            $em->deleteBefore($to);
+        }
     }
 }
