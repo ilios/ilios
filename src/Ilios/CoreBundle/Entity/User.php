@@ -7,7 +7,6 @@ use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -25,7 +24,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
  */
-class User implements UserInterface, EncoderAwareInterface
+class User implements UserInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
@@ -695,12 +694,12 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getDirectedCourses()
     {
-        //criteria not 100% reliale on many to many relationships
+        //criteria not 100% reliable on many to many relationships
         //fix in https://github.com/doctrine/doctrine2/pull/1399
         // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
         // return new ArrayCollection($this->directedCourses->matching($criteria)->getValues());
         
-        $arr = $this->directedCourses->filter(function ($entity) {
+        $arr = $this->directedCourses->filter(function (CourseInterface $entity) {
             return !$entity->isDeleted();
         })->toArray();
         
@@ -714,7 +713,7 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function setLearnerGroups(Collection $learnerGroups)
     {
-        $this->userGroups = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
 
         foreach ($learnerGroups as $group) {
             $this->addLearnerGroup($group);
@@ -722,7 +721,7 @@ class User implements UserInterface, EncoderAwareInterface
     }
 
     /**
-     * @param LearnerGroupInterface $userGroup
+     * @param LearnerGroupInterface $learnerGroup
      */
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
@@ -988,12 +987,12 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function getReports()
     {
-        //criteria not 100% reliale on many to many relationships
+        //criteria not 100% reliable on many to many relationships
         //fix in https://github.com/doctrine/doctrine2/pull/1399
         // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
         // return new ArrayCollection($this->reports->matching($criteria)->getValues());
         
-        $arr = $this->reports->filter(function ($entity) {
+        $arr = $this->reports->filter(function (ReportInterface $entity) {
             return !$entity->isDeleted();
         })->toArray();
         
@@ -1019,7 +1018,7 @@ class User implements UserInterface, EncoderAwareInterface
     }
 
     /**
-    * @param CohortInterface $report
+    * @param CohortInterface $cohort
     */
     public function addCohort(CohortInterface $cohort)
     {
@@ -1054,11 +1053,11 @@ class User implements UserInterface, EncoderAwareInterface
     }
 
     /**
-     * @param Collection $instructedOffering
+     * @param Collection $instructedOfferings
      */
     public function setInstructedOfferings(Collection $instructedOfferings)
     {
-        $this->instructedOffering = new ArrayCollection();
+        $this->instructedOfferings = new ArrayCollection();
 
         foreach ($instructedOfferings as $instructedOffering) {
             $this->addInstructedOffering($instructedOffering);
@@ -1066,7 +1065,7 @@ class User implements UserInterface, EncoderAwareInterface
     }
 
     /**
-     * @param Offering $report
+     * @param Offering $instructedOffering
      */
     public function addInstructedOffering(Offering $instructedOffering)
     {
@@ -1082,15 +1081,15 @@ class User implements UserInterface, EncoderAwareInterface
     }
 
     /**
-     * @param AuthenticationInterface $authentication
+     * {@inheritdoc}
      */
-    public function setAuthentication(CohortInterface $authentication = null)
+    public function setAuthentication(AuthenticationInterface $authentication = null)
     {
         $this->authentication = $authentication;
     }
 
     /**
-     * @return AuthenticationInterface
+     * {@inheritdoc}
      */
     public function getAuthentication()
     {
@@ -1102,7 +1101,7 @@ class User implements UserInterface, EncoderAwareInterface
      */
     public function setAuditLogs(Collection $auditLogs)
     {
-        $this->auditLog = new ArrayCollection();
+        $this->auditLogs = new ArrayCollection();
 
         foreach ($auditLogs as $auditLog) {
             $this->addAuditLog($auditLog);
@@ -1131,7 +1130,7 @@ class User implements UserInterface, EncoderAwareInterface
     public function serialize()
     {
         return serialize(array(
-                $this->userId,
+                $this->id,
                 $this->ucUid,
                 $this->email
             ));
@@ -1144,7 +1143,7 @@ class User implements UserInterface, EncoderAwareInterface
     public function unserialize($serialized)
     {
         list (
-            $this->userId,
+            $this->id,
             $this->ucUid,
             $this->email
             ) = unserialize($serialized);
@@ -1166,7 +1165,7 @@ class User implements UserInterface, EncoderAwareInterface
         $newPassword = $this->getAuthentication()->getPasswordBcrypt();
         $legacyPassword = $this->getAuthentication()->getPasswordSha256();
 
-        return $newPassword?$newPassword:$legacyPassword;
+        return $newPassword ? $newPassword : $legacyPassword;
     }
 
     /**
@@ -1188,7 +1187,7 @@ class User implements UserInterface, EncoderAwareInterface
     /**
      * Use the old ilios legacy encoder for accounts
      * that haven't changed their password
-     * @return [type] [description]
+     * @return string|null
      */
     public function getEncoderName()
     {

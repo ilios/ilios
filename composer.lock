@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6c6c39f854f1dc50c4a94fffb379f138",
+    "hash": "872110d35083b27ed4e04941ea922a07",
     "packages": [
         {
             "name": "danielstjules/stringy",
@@ -1602,6 +1602,61 @@
                 "xml"
             ],
             "time": "2013-12-05 14:36:11"
+        },
+        {
+            "name": "matthiasnoback/symfony-console-form",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matthiasnoback/symfony-console-form.git",
+                "reference": "22e6073771c16f09821e31175c3039c3666ca928"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matthiasnoback/symfony-console-form/zipball/22e6073771c16f09821e31175c3039c3666ca928",
+                "reference": "22e6073771c16f09821e31175c3039c3666ca928",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "symfony/console": "~2.5",
+                "symfony/form": "~2.5"
+            },
+            "require-dev": {
+                "beberlei/assert": "~2.1",
+                "behat/behat": "~3.0",
+                "symfony/console": "~2.5",
+                "symfony/finder": "~2.5",
+                "symfony/form": "~2.5",
+                "symfony/framework-bundle": "~2.5",
+                "symfony/validator": "~2.5",
+                "symfony/yaml": "~2.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Matthias\\SymfonyConsoleForm\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Noback",
+                    "email": "matthiasnoback@gmail.com",
+                    "homepage": "http://php-and-symfony.matthiasnoback.nl"
+                }
+            ],
+            "description": "Use Symfony forms for Console command input",
+            "homepage": "http://github.com/matthiasnoback/symfony-console-form",
+            "keywords": [
+                "console",
+                "form",
+                "symfony"
+            ],
+            "time": "2015-07-04 08:36:06"
         },
         {
             "name": "michelf/php-markdown",

@@ -169,8 +169,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * Check if this is a legacy account
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isLegacyAccount()
     {
