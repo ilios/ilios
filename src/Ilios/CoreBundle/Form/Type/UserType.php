@@ -74,6 +74,10 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Offering"
             ])
+            ->add('instructedOfferings', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Offering"
+            ])
             ->add('programYears', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
@@ -87,6 +91,10 @@ class UserType extends AbstractType
                 'entityName' => "IliosCoreBundle:UserRole"
             ])
             ->add('primaryCohort', 'tdn_single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Cohort"
+            ])
+            ->add('cohorts', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
             ])
