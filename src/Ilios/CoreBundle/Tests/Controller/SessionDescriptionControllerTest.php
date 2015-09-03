@@ -41,7 +41,7 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
             'GET',
             $this->getUrl(
                 'get_sessiondescriptions',
-                ['id' => $sessionDescription['session']]
+                ['id' => $sessionDescription['id']]
             ),
             null,
             $this->getAuthenticatedUserToken()

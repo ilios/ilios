@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class SessionDescription
@@ -23,6 +24,7 @@ class SessionDescription implements SessionDescriptionInterface
 {
     use IdentifiableEntity;
     use DescribableEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -82,13 +84,5 @@ class SessionDescription implements SessionDescriptionInterface
     public function getSession()
     {
         return $this->session;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->session;
     }
 }
