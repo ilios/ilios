@@ -173,8 +173,6 @@ class UserControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-        unset($postData['instructedOfferings']);
-        unset($postData['cohorts']);
 
         $this->createJsonRequest(
             'POST',
@@ -220,9 +218,6 @@ class UserControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-        unset($postData['instructedOfferings']);
-        unset($postData['learnerGroups']);
-        unset($postData['cohorts']);
 
         $this->createJsonRequest(
             'PUT',
