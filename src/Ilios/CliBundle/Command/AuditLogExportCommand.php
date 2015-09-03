@@ -14,6 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Class AuditLogExportCommand
  * @package Ilios\CoreBundle\Command
+ *
+ * @link http://symfony.com/doc/current/cookbook/console/logging.html
+ * @link http://symfony.com/doc/current/components/console/helpers/table.html
  */
 class AuditLogExportCommand extends ContainerAwareCommand
 {
@@ -51,17 +54,33 @@ class AuditLogExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        /** @var $logger LoggerInterface */
+        $logger = $this->getContainer()->get('logger');
+
         $from = $input->getArgument('from');
         $to = $input->getArgument('to');
 
         $from = new \DateTime($from, new \DateTimeZone('UTC'));
         $to = new \DateTime($to, new \DateTimeZone('UTC'));
+
         $delete = $input->getOption('delete');
 
         $em = $this->getContainer()->get('ilioscore.auditlog.manager');
 
         $headers = $em->getFieldNames();
+
+        $logger->info('Starting Audit Log Export.');
+
         $rows = $em->findInRange($from, $to);
+
+        $logger->info(
+            sprintf(
+                'Exporting %d audit log entries which were created between %s and %s.',
+                count($rows),
+                $from->format('c'),
+                $to->format('c')
+            )
+        );
 
         array_walk($rows, function (&$row) {
             /** @var \DateTime $dt */
@@ -75,7 +94,16 @@ class AuditLogExportCommand extends ContainerAwareCommand
         $table->render();
 
         if ($delete) {
+            $logger->info(
+                sprintf(
+                    'Deleting all audit log entries that were created between %s and %s.',
+                    $from->format('c'),
+                    $to->format('c')
+                )
+            );
             $em->deleteInRange($from, $to);
         }
+
+        $logger->info('Finished Audit Log Export.');
     }
 }
