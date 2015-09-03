@@ -7,18 +7,16 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
 class LdapAuthentication implements AuthenticationInterface
 {
+    use AuthenticationService;
+
     /**
      * @var AuthenticationManagerInterface
      */
     protected $authManager;
-
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
     
     /**
      * @var JsonWebTokenManager
@@ -43,7 +41,6 @@ class LdapAuthentication implements AuthenticationInterface
     /**
      * Constructor
      * @param AuthenticationManagerInterface $authManager
-     * @param TokenStorageInterface          $tokenStorage
      * @param JsonWebTokenManager            $jwtManager
      * @param string                         $ldapHost         injected from configuration
      * @param string                         $ldapPort         injected from configuration
@@ -51,14 +48,12 @@ class LdapAuthentication implements AuthenticationInterface
      */
     public function __construct(
         AuthenticationManagerInterface $authManager,
-        TokenStorageInterface $tokenStorage,
         JsonWebTokenManager $jwtManager,
         $ldapHost,
         $ldapPort,
         $ldapBindTemplate
     ) {
         $this->authManager = $authManager;
-        $this->tokenStorage = $tokenStorage;
         $this->jwtManager = $jwtManager;
         $this->ldapHost = $ldapHost;
         $this->ldapPort = $ldapPort;
@@ -90,14 +85,9 @@ class LdapAuthentication implements AuthenticationInterface
                 $user = $authEntity->getUser();
                 $passwordValid = $this->checkLdapPassword($username, $password);
                 if ($passwordValid) {
-                    $token = $this->jwtManager->buildToken($user);
-                    $this->tokenStorage->setToken($token);
+                    $jwt = $this->jwtManager->createJwtFromUser($user);
                     
-                    return new JsonResponse(array(
-                        'status' => 'success',
-                        'errors' => [],
-                        'jwt' => $token->getJwt(),
-                    ), JsonResponse::HTTP_OK);
+                    return $this->createSuccessResponseFromJWT($jwt);
                 }
             }
             $errors[] = 'badCredentials';

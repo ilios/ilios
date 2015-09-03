@@ -16,10 +16,10 @@ services:
         arguments: ["%ilios_authentication.legacy_salt%"]
     ilios_authentication.form.authentication:
         class: Ilios\AuthenticationBundle\Service\FormAuthentication
-        arguments: ["@ilioscore.authentication.manager", "@security.password_encoder", "@security.token_storage","@ilios_authentication.jwt.manager"]
+        arguments: ["@ilioscore.authentication.manager", "@security.password_encoder", "@security.token_storage", "@ilios_authentication.jwt.manager"]
     ilios_authentication.shibboleth.authentication:
         class: Ilios\AuthenticationBundle\Service\ShibbolethAuthentication
-        arguments: ["@ilioscore.authentication.manager", "@security.token_storage","@ilios_authentication.jwt.manager"]
+        arguments: ["@ilioscore.authentication.manager","@ilios_authentication.jwt.manager"]
     ilios_authentication.ldap.authentication:
         class: Ilios\AuthenticationBundle\Service\LdapAuthentication
-        arguments: ["@ilioscore.authentication.manager", "@security.token_storage","@ilios_authentication.jwt.manager", '%ilios_authentication.ldap.host%', '%ilios_authentication.ldap.port%', '%ilios_authentication.ldap.bind_template%']
+        arguments: ["@ilioscore.authentication.manager", "@ilios_authentication.jwt.manager", '%ilios_authentication.ldap.host%', '%ilios_authentication.ldap.port%', '%ilios_authentication.ldap.bind_template%']

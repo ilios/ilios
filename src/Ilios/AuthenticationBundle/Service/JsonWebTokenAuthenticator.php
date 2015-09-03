@@ -2,16 +2,17 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bridge\Doctrine\Security\User\EntityUserProvider;
-use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 
 class JsonWebTokenAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {

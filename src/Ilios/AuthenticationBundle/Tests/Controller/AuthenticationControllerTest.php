@@ -5,9 +5,12 @@ namespace Ilios\AuthenticationBundle\Tests\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Util\Codes;
+use JWT;
+use DateTime;
+
 use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
-use JWT as TokenLib;
-use Ilios\AuthenticationBundle\Jwt\Token;
+use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+
 
 class AuthenticationControllerTest extends WebTestCase
 {
@@ -53,7 +56,7 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
         
-        $token = (array) TokenLib::decode($data->jwt);
+        $token = (array) JWT::decode($data->jwt);
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(1, $token['user_id']);
     }
@@ -76,7 +79,7 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
         
-        $token = (array) TokenLib::decode($data->jwt);
+        $token = (array) JWT::decode($data->jwt);
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(2, $token['user_id']);
     }
@@ -98,7 +101,7 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
         
-        $token = (array) TokenLib::decode($data->jwt);
+        $token = (array) JWT::decode($data->jwt);
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(1, $token['user_id']);
     }
@@ -120,7 +123,7 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
         
-        $token = (array) TokenLib::decode($data->jwt);
+        $token = (array) JWT::decode($data->jwt);
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(2, $token['user_id']);
     }
@@ -198,7 +201,7 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
         
-        $token = (array) TokenLib::decode($data->jwt);
+        $token = (array) JWT::decode($data->jwt);
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(1, $token['user_id']);
     
@@ -212,23 +215,14 @@ class AuthenticationControllerTest extends WebTestCase
     public function testWhoAmI()
     {
         $client = static::createClient();
-    
-        $client->request('POST', '/auth/login', array(
-            'username' => 'legacyuser',
-            'password' => 'legacyuserpass'
-        ));
-    
-        $response = $client->getResponse();
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
-        $response = json_decode($response->getContent(), true);
-        $token = $response['jwt'];
-    
-        $client->request(
-            'GET',
-            '/auth/whoami',
-            array(),
-            array(),
-            array('HTTP_X-JWT-Authorization' => 'Token ' . $token)
+        $jwt = $this->getAuthenticatedUserToken();
+        $token = (array) JWT::decode($jwt);
+        $this->makeJsonRequest(
+            $client,
+            'get',
+            $this->getUrl('ilios_authentication.whoami'),
+            null,
+            $jwt
         );
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -240,7 +234,7 @@ class AuthenticationControllerTest extends WebTestCase
         );
         $this->assertSame(
             $response['userId'],
-            1,
+            2,
             'Response has the correct user id: ' . var_export($response, true)
         );
     }
@@ -249,7 +243,7 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $jwt = $this->getAuthenticatedUserToken();
-        $token = (array) TokenLib::decode($jwt);
+        $token = (array) JWT::decode($jwt);
         $this->makeJsonRequest(
             $client,
             'get',
@@ -259,7 +253,7 @@ class AuthenticationControllerTest extends WebTestCase
         );
         $response = $client->getResponse();
         $response = json_decode($response->getContent(), true);
-        $token2 = (array) TokenLib::decode($response['jwt']);
+        $token2 = (array) JWT::decode($response['jwt']);
     
         // figure out the delta between issued and expiration datetime
         $exp = new \DateTime();
@@ -285,57 +279,25 @@ class AuthenticationControllerTest extends WebTestCase
     
     public function testRefreshTokenWithNonDefaultTtl()
     {
-        
         $client = static::createClient();
         $jwt = $this->getAuthenticatedUserToken();
-        $token = (array) TokenLib::decode($jwt);
         $this->makeJsonRequest(
             $client,
             'get',
-            $this->getUrl('ilios_authentication.refresh'),
-            null,
+            $this->getUrl('ilios_authentication.refresh') . '?ttl=P2W',
+            [],
             $jwt
         );
-    
-        // we set a non-default issued and expiration date with a delta of 42 days.
-        $interval = new \DateInterval('P42D');
-        $iat = new \DateTime();
-        $exp = new \DateTime();
-        $exp->setTimestamp($iat->getTimestamp());
-        $exp->add($interval);
-        $token['iat'] = $iat->format('U');
-        $token['exp'] = $exp->format('U');
-    
-        // here, it is necessary to get interval from created datetimes again
-        // b/c of date segment overflow shenanigans.
-        // see http://php.net/manual/en/dateinterval.format.php#refsect1-dateinterval.format-notes
-        $interval = $iat->diff($exp);
-    
-        // re-encode the token
-        $key = Token::PREPEND_KEY . static::$kernel->getContainer()->getParameter('kernel.secret');
-        $token = TokenLib::encode($token, $key);
-    
-        // send refresh token request
-        // grab new token
-        $client->request(
-            'GET',
-            '/auth/refresh',
-            array(),
-            array(),
-            array('HTTP_X-JWT-Authorization' => 'Token ' . $token)
-        );
+        
         $response = $client->getResponse();
         $response = json_decode($response->getContent(), true);
-        $token2 = (array) TokenLib::decode($response['jwt']);
-    
-        // get date diff on new token
-        $exp2 = new \DateTime();
-        $exp2->setTimestamp($token2['exp']);
-        $iat2 = new \DateTime();
-        $iat2->setTimestamp($token2['iat']);
-        $interval2 = $iat2->diff($exp2);
-    
-        // should be the same
-        $this->assertSame($interval->format('%R%Y/%M/%D %H:%I:%S'), $interval2->format('%R%Y/%M/%D %H:%I:%S'));
+        $token = (array) JWT::decode($response['jwt']);
+        
+        
+        $now = new DateTime();
+        $expiresAt = new DateTime();
+        $expiresAt->setTimeStamp($token['exp']);
+        
+        $this->assertTrue($now->diff($expiresAt)->d > 5);
     }
 }

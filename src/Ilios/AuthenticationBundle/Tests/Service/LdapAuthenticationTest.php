@@ -17,11 +17,9 @@ class LdapAuthenticationTest extends TestCase
     public function testConstructor()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new LdapAuthentication(
             $authManager,
-            $tokenStorage,
             $jwtManager,
             'host',
             'port',
@@ -33,11 +31,9 @@ class LdapAuthenticationTest extends TestCase
     public function testMissingValues()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new LdapAuthentication(
             $authManager,
-            $tokenStorage,
             $jwtManager,
             'host',
             'port',
@@ -64,11 +60,9 @@ class LdapAuthenticationTest extends TestCase
     public function testBadUserName()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new LdapAuthentication(
             $authManager,
-            $tokenStorage,
             $jwtManager,
             'host',
             'port',
@@ -96,7 +90,6 @@ class LdapAuthenticationTest extends TestCase
     public function testBadPassword()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         //partially mock so we can override checkLdapPassword
         //and not deal with php global ldap functions
@@ -104,7 +97,6 @@ class LdapAuthenticationTest extends TestCase
             'Ilios\AuthenticationBundle\Service\LdapAuthentication[checkLdapPassword]',
             array(
                 $authManager,
-                $tokenStorage,
                 $jwtManager,
                 'host',
                 'port',
@@ -138,7 +130,6 @@ class LdapAuthenticationTest extends TestCase
     public function testSuccess()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         //partially mock so we can override checkLdapPassword
         //and not deal with php global ldap functions
@@ -146,7 +137,6 @@ class LdapAuthenticationTest extends TestCase
             'Ilios\AuthenticationBundle\Service\LdapAuthentication[checkLdapPassword]',
             array(
                 $authManager,
-                $tokenStorage,
                 $jwtManager,
                 'host',
                 'port',
@@ -169,8 +159,7 @@ class LdapAuthenticationTest extends TestCase
             ->with('abc')->andReturn($authenticationEntity);
         $newToken = m::mock('Ilios\AuthenticationBundle\Jwt\Token')
             ->shouldReceive('getJwt')->andReturn('jwt123Test')->mock();
-        $tokenStorage->shouldReceive('setToken')->with($newToken);
-        $jwtManager->shouldReceive('buildToken')->with($user)->andReturn($newToken);
+        $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
 
         $result = $obj->login($request);
         

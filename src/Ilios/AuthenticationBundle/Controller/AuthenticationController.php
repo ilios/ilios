@@ -37,7 +37,7 @@ class AuthenticationController extends Controller
      */
     public function whoamiAction()
     {
-        $token = $this->get('security.context')->getToken();
+        $token = $this->get('security.token_storage')->getToken();
         if ($token->isAuthenticated()) {
             $user = $token->getUser();
             if ($user instanceof UserInterface) {
@@ -52,15 +52,20 @@ class AuthenticationController extends Controller
      * Refresh the current token
      * Useful when the time limit is approaching but the user is still active
      *
+     * @param Request $request
+     * 
      * @return JsonResponse
      */
-    public function refreshAction()
+    public function refreshAction(Request $request)
     {
-        $token = $this->get('security.context')->getToken();
+        $token = $this->get('security.token_storage')->getToken();
         if ($token->isAuthenticated()) {
             $user = $token->getUser();
             if ($user instanceof UserInterface) {
-                return new JsonResponse(array('jwt' => $token->getJwt()), JsonResponse::HTTP_OK);
+                $jwtManager = $this->container->get('ilios_authentication.jwt.manager');
+                $ttl = $request->get('ttl')?$request->get('ttl'):'PT8H';
+                $jwt = $jwtManager->createJwtFromUser($user, $ttl);
+                return new JsonResponse(array('jwt' => $jwt), JsonResponse::HTTP_OK);
             }
         }
 
