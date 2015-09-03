@@ -1,1 +1,6 @@
 services:
+    ilioscli.command.invalidate_user_tokens:
+        class: Ilios\CliBundle\Command\InvalidateUserTokenCommand
+        arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager"]
+        tags:
+            -  { name: console.command }

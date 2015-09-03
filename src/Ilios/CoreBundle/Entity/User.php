@@ -512,6 +512,11 @@ class User implements UserInterface
     {
         return $this->middleName;
     }
+    
+    public function getFirstAndLastName()
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
 
     /**
      * @param string $phone
