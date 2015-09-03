@@ -40,17 +40,30 @@ class AuditLogRepository extends EntityRepository
     }
 
     /**
-     * Deletes all audit log entries older than (inclusive) a given date/time.
+     * Deletes all audit log entires in a given date/time range.
      *
-     * @param \DateTime $dt
+     * @param \DateTime $from
+     * @param \DateTime $to
      */
-    public function deleteBefore(\DateTime $dt)
+    public function deleteInRange(\DateTime $from, \DateTime $to)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb
             ->delete('IliosCoreBundle:AuditLog', 'a')
-            ->where('a.createdAt <= :dt')
-            ->setParameter(':dt', $dt->format('c'));
+            ->add(
+                'where',
+                $qb->expr()->between(
+                    'a.createdAt',
+                    ':from',
+                    ':to'
+                )
+            )
+            ->setParameters(
+                [
+                    'from' => $from->format('c'),
+                    'to' => $to->format('c'),
+                ]
+            );
         $qb->getQuery()->execute();
     }
 }

@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AuditLogInterface;
+use Ilios\CoreBundle\Entity\Repository\AuditLogRepository;
 
 /**
  * Class AuditLogManager
@@ -22,7 +22,7 @@ class AuditLogManager implements AuditLogManagerInterface
     protected $em;
 
     /**
-     * @var EntityRepository
+     * @var AuditLogRepository
      */
     protected $repository;
 
@@ -133,9 +133,9 @@ class AuditLogManager implements AuditLogManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteBefore(\Datetime $dt)
+    public function deleteInRange(\Datetime $from, \DateTime $to)
     {
-        $this->repository->deleteBefore($dt);
+        $this->repository->deleteInRange($from, $to);
     }
 
 

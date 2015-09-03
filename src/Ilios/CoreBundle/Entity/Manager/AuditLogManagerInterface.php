@@ -79,8 +79,9 @@ interface AuditLogManagerInterface
     public function findInRange(\DateTime $from, \DateTime $to);
 
     /**
-     * Deletes all audit log entries older than (inclusive) a given date/time.
-     * @param \DateTime $dt
+     * Deletes all audit log entries in a given date/time range.
+     * @param \DateTime $from
+     * @param \DateTime $to
      */
-    public function deleteBefore(\Datetime $dt);
+    public function deleteInRange(\Datetime $from, \DateTime $to);
 }

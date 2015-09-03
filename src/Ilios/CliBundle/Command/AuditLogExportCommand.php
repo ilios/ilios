@@ -27,7 +27,7 @@ class AuditLogExportCommand extends ContainerAwareCommand
             ->setDescription('Exports audit log entries in a given time range and, optionally, deletes them.')
             ->addOption(
                 'delete',
-                'null',
+                null,
                 InputOption::VALUE_NONE,
                 'Specify this option to delete exported entries from the database.'
             )
@@ -42,7 +42,8 @@ class AuditLogExportCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 'Expression for end-date/time of export range.',
                 'midnight today'
-            );
+            )
+        ;
     }
 
     /**
@@ -74,7 +75,7 @@ class AuditLogExportCommand extends ContainerAwareCommand
         $table->render();
 
         if ($delete) {
-            $em->deleteBefore($to);
+            $em->deleteInRange($from, $to);
         }
     }
 }
