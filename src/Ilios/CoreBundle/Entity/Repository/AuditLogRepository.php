@@ -31,8 +31,8 @@ class AuditLogRepository extends EntityRepository
             )
             ->setParameters(
                 [
-                    'from' => $from->format('c'),
-                    'to' => $to->format('c'),
+                    'from' => $from->format('Y-m-d H:i:s'),
+                    'to' => $to->format('Y-m-d H:i:s:'),
                 ]
             );
 
@@ -60,8 +60,8 @@ class AuditLogRepository extends EntityRepository
             )
             ->setParameters(
                 [
-                    'from' => $from->format('c'),
-                    'to' => $to->format('c'),
+                    'from' => $from->format('Y-m-d H:i:s'),
+                    'to' => $to->format('Y-m-d H:i:s:'),
                 ]
             );
         $qb->getQuery()->execute();

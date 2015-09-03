@@ -2,7 +2,6 @@
 
 namespace Ilios\CliBundle\Tests\Command;
 
-
 use Ilios\CliBundle\Command\AuditLogExportCommand;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -100,7 +99,7 @@ class AuditLogExportCommandTest extends WebTestCase
         ]);
 
         $output = $this->commandTester->getDisplay();
-        $this->assertNotContains('YesterdaysEvent',$output);
+        $this->assertNotContains('YesterdaysEvent', $output);
         $this->assertNotContains('TodaysEvent', $output);
 
         // last year's event should still be there tho.
