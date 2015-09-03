@@ -63,7 +63,7 @@ class AuditLogExportCommand extends ContainerAwareCommand
         $headers = $em->getFieldNames();
         $rows = $em->findInRange($from, $to);
 
-        array_walk($rows, function(&$row) {
+        array_walk($rows, function (&$row) {
             /** @var \DateTime $dt */
             $dt = $row['createdAt'];
             $row['createdAt'] = $dt->format('c');
