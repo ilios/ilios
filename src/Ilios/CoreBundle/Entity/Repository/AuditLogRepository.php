@@ -40,7 +40,7 @@ class AuditLogRepository extends EntityRepository
     }
 
     /**
-     * Deletes all audit log entires in a given date/time range.
+     * Deletes all audit log entries in a given date/time range.
      *
      * @param \DateTime $from
      * @param \DateTime $to

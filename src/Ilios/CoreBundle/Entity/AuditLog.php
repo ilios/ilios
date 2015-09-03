@@ -148,6 +148,14 @@ class AuditLog implements AuditLogInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
      * Set objectId
      *
      * @param integer $objectId
