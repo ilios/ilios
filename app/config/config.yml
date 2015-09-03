@@ -76,7 +76,8 @@ fos_rest:
         codes:
             'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': 404
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
-            'Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException': 403
+            'Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException': 401
+            'Symfony\Component\Security\Core\Exception\BadCredentialsException': 401
             'Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException': 500
 
 nelmio_cors:
