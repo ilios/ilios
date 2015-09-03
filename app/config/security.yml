@@ -6,7 +6,8 @@ security:
         authenticated_auth:
             pattern:    ^/auth/(whoami|refresh)
             stateless: true
-            jwt: ~
+            simple_preauth:
+                authenticator: ilios_authentication.jwt.authenticator
             provider: ilios_user_entity
         anonymous_auth:
             pattern:    ^/auth/(login|config)
@@ -14,12 +15,14 @@ security:
         upload:
             pattern:    ^/upload
             stateless: true
-            jwt: ~
+            simple_preauth:
+                authenticator: ilios_authentication.jwt.authenticator
             provider: ilios_user_entity
         default:
             pattern:    ^/api
             stateless: true
-            jwt: ~
+            simple_preauth:
+                authenticator: ilios_authentication.jwt.authenticator
             provider: ilios_user_entity
 
     providers:

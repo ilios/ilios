@@ -1,17 +1,8 @@
 services:
-    ilios_authentication.jwt_authenticator:
-        class:  Ilios\AuthenticationBundle\Authenticator\Jwt
+    ilios_authentication.jwt.authenticator:
+        class:  Ilios\AuthenticationBundle\Service\JsonWebTokenAuthenticator
         public: false
-    ilios_authentication.fix_header_listener:
-        class: Ilios\AuthenticationBundle\Listener\AuthenticationHeader
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
-    ilios_authentication.jwt.listener:
-        class: Ilios\AuthenticationBundle\Jwt\Listener
-        arguments: ["@security.token_storage", "@security.authentication.manager", "%kernel.secret%"]
-    ilios_authentication.jwt.provider:
-        class: Ilios\AuthenticationBundle\Jwt\Provider
-        arguments: [""]
+        arguments: ["@ilios_authentication.jwt.manager"]
     ilios_authentication.jwt.add_header:
         class: Ilios\AuthenticationBundle\Listener\AddJwtHeader
         arguments: ["@security.token_storage"]

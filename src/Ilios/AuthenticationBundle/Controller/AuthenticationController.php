@@ -38,9 +38,11 @@ class AuthenticationController extends Controller
     public function whoamiAction()
     {
         $token = $this->get('security.context')->getToken();
-        if ($token instanceof JwtToken) {
-            $userId = $this->get('security.context')->getToken()->getUserId();
-            return new JsonResponse(array('userId' => $userId), JsonResponse::HTTP_OK);
+        if ($token->isAuthenticated()) {
+            $user = $token->getUser();
+            if ($user instanceof UserInterface) {
+                return new JsonResponse(array('userId' => $user->getId()), JsonResponse::HTTP_OK);
+            }
         }
 
         return new JsonResponse(array('userId' => null), JsonResponse::HTTP_OK);
@@ -55,7 +57,7 @@ class AuthenticationController extends Controller
     public function refreshAction()
     {
         $token = $this->get('security.context')->getToken();
-        if ($token) {
+        if ($token->isAuthenticated()) {
             $user = $token->getUser();
             if ($user instanceof UserInterface) {
                 return new JsonResponse(array('jwt' => $token->getJwt()), JsonResponse::HTTP_OK);
