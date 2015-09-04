@@ -11,7 +11,6 @@ use DateTime;
 use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
-
 class AuthenticationControllerTest extends WebTestCase
 {
     use JsonControllerTest;

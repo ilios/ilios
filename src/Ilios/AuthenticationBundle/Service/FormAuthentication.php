@@ -12,7 +12,6 @@ use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInter
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
-
 class FormAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;

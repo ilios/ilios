@@ -53,7 +53,7 @@ class AuthenticationController extends Controller
      * Useful when the time limit is approaching but the user is still active
      *
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function refreshAction(Request $request)

@@ -1,5 +1,7 @@
 <?php
 
+namespace Ilios\CliBundle\Tests\Command;
+
 use Ilios\CliBundle\Command\InvalidateUserTokenCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;

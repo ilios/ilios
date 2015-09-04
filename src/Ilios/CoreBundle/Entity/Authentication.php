@@ -87,9 +87,9 @@ class Authentication implements AuthenticationInterface
 
     /**
      * @ORM\Column(name="invalidate_token_issued_before", type="datetime", nullable=true)
-     * 
+     *
      * @Assert\DateTime()
-     * 
+     *
      * @JMS\Expose
      * @JMS\ReadOnly
      * @JMS\Type("DateTime<'c'>")
