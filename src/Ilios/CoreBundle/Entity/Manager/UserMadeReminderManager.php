@@ -22,7 +22,7 @@ class UserMadeReminderManager extends AbstractManager implements UserMadeReminde
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->repository->findOneBy($criteria, $orderBy);
+        return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -39,7 +39,7 @@ class UserMadeReminderManager extends AbstractManager implements UserMadeReminde
         $limit = null,
         $offset = null
     ) {
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

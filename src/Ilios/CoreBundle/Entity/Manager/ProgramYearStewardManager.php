@@ -25,7 +25,7 @@ class ProgramYearStewardManager extends AbstractManager implements ProgramYearSt
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->repository->findOneBy($criteria, $orderBy);
+        return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -42,7 +42,7 @@ class ProgramYearStewardManager extends AbstractManager implements ProgramYearSt
         $limit = null,
         $offset = null
     ) {
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

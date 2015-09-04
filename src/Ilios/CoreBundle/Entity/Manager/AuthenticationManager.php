@@ -22,7 +22,7 @@ class AuthenticationManager extends AbstractManager implements AuthenticationMan
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->repository->findOneBy($criteria, $orderBy);
+        return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -39,7 +39,7 @@ class AuthenticationManager extends AbstractManager implements AuthenticationMan
         $limit = null,
         $offset = null
     ) {
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -50,7 +50,7 @@ class AuthenticationManager extends AbstractManager implements AuthenticationMan
     public function findAuthenticationByUsername($username)
     {
         $username = strtolower($username);
-        return $this->repository->findOneByUsername($username);
+        return $this->getRepository()->findOneByUsername($username);
     }
 
     /**

@@ -23,7 +23,7 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
         array $orderBy = null
     ) {
         $criteria['deleted'] = false;
-        return $this->repository->findOneBy($criteria, $orderBy);
+        return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -41,7 +41,7 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
         $offset = null
     ) {
         $criteria['deleted'] = false;
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -97,6 +97,6 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
         \DateTime $from,
         \DateTime $to
     ) {
-        return $this->repository->findEventsForSchool($schoolId, $from, $to);
+        return $this->getRepository()->findEventsForSchool($schoolId, $from, $to);
     }
 }

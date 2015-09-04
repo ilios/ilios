@@ -13,34 +13,8 @@ use Ilios\CoreBundle\Entity\Repository\AuditLogRepository;
  * Class AuditLogManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AuditLogManager implements AuditLogManagerInterface
+class AuditLogManager extends AbstractManager implements AuditLogManagerInterface
 {
-
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     * @var AuditLogRepository
-     */
-    protected $repository;
-
-    /**
-     * @var string
-     */
-    protected $class;
-
-    /**
-     * @param Registry $em
-     * @param string $class
-     */
-    public function __construct(Registry $em, $class)
-    {
-        $this->em         = $em->getManagerForClass($class);
-        $this->class      = $class;
-        $this->repository = $em->getRepository($class);
-    }
 
     /**
      * @param array $criteria
@@ -52,7 +26,7 @@ class AuditLogManager implements AuditLogManagerInterface
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->repository->findOneBy($criteria, $orderBy);
+        return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -69,7 +43,7 @@ class AuditLogManager implements AuditLogManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -127,7 +101,7 @@ class AuditLogManager implements AuditLogManagerInterface
     public function findInRange(\DateTime $from, \DateTime $to)
     {
 
-        return $this->repository->findInRange($from, $to);
+        return $this->getRepository()->findInRange($from, $to);
     }
 
     /**
@@ -135,7 +109,7 @@ class AuditLogManager implements AuditLogManagerInterface
      */
     public function deleteInRange(\Datetime $from, \DateTime $to)
     {
-        $this->repository->deleteInRange($from, $to);
+        $this->getRepository()->deleteInRange($from, $to);
     }
 
 

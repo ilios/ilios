@@ -22,7 +22,7 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->repository->findOneBy($criteria, $orderBy);
+        return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -39,7 +39,7 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
         $limit = null,
         $offset = null
     ) {
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -56,7 +56,7 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
         $limit = null,
         $offset = null
     ) {
-        return $this->repository->findByQ($q, $orderBy, $limit, $offset);
+        return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset);
     }
 
     /**
