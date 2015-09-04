@@ -1197,4 +1197,25 @@ class User implements UserInterface
 
         return null; // use the default encoder
     }
+    
+    /**
+     * Get all the schools an user is affiliated with
+     * This is used in granting view permissions for faculty
+     * in schools that are a users secondary cohort
+     *
+     * @return ArrayCollection[School]
+     */
+    public function getAllSchools()
+    {
+        $undeletedCohorts = $this->getCohorts()->filter(function (CohortInterface $cohort) {
+            return !$cohort->isDeleted();
+        });
+        $schools = $undeletedCohorts->map(function (CohortInterface $cohort) {
+            return $cohort->getProgramYear()->getProgram()->getSchool();
+        });
+        $schools->add($this->getSchool());
+        
+        
+        return $schools;
+    }
 }

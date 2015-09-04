@@ -125,6 +125,58 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     /**
      * {@inheritdoc}
      */
+    public function userHasReadPermissionToSchools(UserInterface $user, ArrayCollection $schools)
+    {
+        $criteria = [
+            'tableName'     => 'schools',
+            self::CAN_READ  => true,
+            'user'          => $user,
+        ];
+
+        $schoolsWithReadPermission = $this->findPermissionBy($criteria);
+        
+        if ($schoolsWithReadPermission->count() === 0) {
+            return false;
+        }
+        
+        foreach ($schools as $school) {
+            if ($schoolsWithReadPermission->contains($school)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function userHasWritePermissionToSchools(UserInterface $user, ArrayCollection $schools)
+    {
+        $criteria = [
+            'tableName'     => 'schools',
+            self::CAN_WRITE => true,
+            'user'          => $user,
+        ];
+
+        $schoolsWithWritePermission = $this->findPermissionBy($criteria);
+        
+        if ($schoolsWithWritePermission->count() === 0) {
+            return false;
+        }
+        
+        foreach ($schools as $school) {
+            if ($schoolsWithWritePermission->contains($school)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function userHasWritePermissionToCourse(UserInterface $user, CourseInterface $course)
     {
         return $this->userHasPermission($user, self::CAN_WRITE, 'course', $course->getId());
