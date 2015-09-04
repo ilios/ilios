@@ -238,7 +238,7 @@ class AuthenticationControllerTest extends WebTestCase
         );
     }
     
-    public function testRefreshToken()
+    public function testGetToken()
     {
         $client = static::createClient();
         $jwt = $this->getAuthenticatedUserToken();
@@ -246,7 +246,7 @@ class AuthenticationControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $client,
             'get',
-            $this->getUrl('ilios_authentication.refresh'),
+            $this->getUrl('ilios_authentication.token'),
             null,
             $jwt
         );
@@ -276,14 +276,14 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertSame($interval->format('%R%Y/%M/%D %H:%I:%S'), $interval2->format('%R%Y/%M/%D %H:%I:%S'));
     }
     
-    public function testRefreshTokenWithNonDefaultTtl()
+    public function testGetTokenWithNonDefaultTtl()
     {
         $client = static::createClient();
         $jwt = $this->getAuthenticatedUserToken();
         $this->makeJsonRequest(
             $client,
             'get',
-            $this->getUrl('ilios_authentication.refresh') . '?ttl=P2W',
+            $this->getUrl('ilios_authentication.token') . '?ttl=P2W',
             [],
             $jwt
         );

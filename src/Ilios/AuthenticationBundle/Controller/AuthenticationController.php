@@ -49,14 +49,14 @@ class AuthenticationController extends Controller
     }
     
     /**
-     * Refresh the current token
+     * Get a new token
      * Useful when the time limit is approaching but the user is still active
      *
      * @param Request $request
      *
      * @return JsonResponse
      */
-    public function refreshAction(Request $request)
+    public function tokenAction(Request $request)
     {
         $token = $this->get('security.token_storage')->getToken();
         if ($token->isAuthenticated()) {
