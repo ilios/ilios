@@ -54,6 +54,6 @@ class AuthenticationTest extends EntityBase
      */
     public function testSetInvalidateTokenIssuedBefore()
     {
-        $this->basicSetTest('lastName', 'datetime');
+        $this->basicSetTest('invalidateTokenIssuedBefore', 'datetime');
     }
 }
