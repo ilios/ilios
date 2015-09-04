@@ -37,6 +37,12 @@ interface AuditLogInterface extends
      */
     public function getCreatedAt();
 
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt);
+
     /**
      * Set objectId
      *

@@ -68,4 +68,20 @@ interface AuditLogManagerInterface
      * @return AuditLogInterface
      */
     public function createAuditLog();
+
+    /**
+     * Returns all audit log entries in a given date/time range.
+     *
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @return array
+     */
+    public function findInRange(\DateTime $from, \DateTime $to);
+
+    /**
+     * Deletes all audit log entries in a given date/time range.
+     * @param \DateTime $from
+     * @param \DateTime $to
+     */
+    public function deleteInRange(\Datetime $from, \DateTime $to);
 }

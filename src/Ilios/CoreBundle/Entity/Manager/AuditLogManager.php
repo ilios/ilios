@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AuditLogInterface;
+use Ilios\CoreBundle\Entity\Repository\AuditLogRepository;
 
 /**
  * Class AuditLogManager
@@ -15,13 +15,14 @@ use Ilios\CoreBundle\Entity\AuditLogInterface;
  */
 class AuditLogManager implements AuditLogManagerInterface
 {
+
     /**
      * @var EntityManager
      */
     protected $em;
 
     /**
-     * @var EntityRepository
+     * @var AuditLogRepository
      */
     protected $repository;
 
@@ -118,5 +119,35 @@ class AuditLogManager implements AuditLogManagerInterface
     {
         $class = $this->getClass();
         return new $class();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findInRange(\DateTime $from, \DateTime $to)
+    {
+
+        return $this->repository->findInRange($from, $to);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteInRange(\Datetime $from, \DateTime $to)
+    {
+        $this->repository->deleteInRange($from, $to);
+    }
+
+
+    /**
+     * Returns a list of field names of the corresponding entity.
+     *
+     * @return array
+     *
+     * @todo Refactor this out into a trait or stick it somewhere else. [ST 2015/09/02]
+     */
+    public function getFieldNames()
+    {
+        return $this->em->getClassMetadata($this->getClass())->getFieldNames();
     }
 }
