@@ -104,7 +104,6 @@ abstract class AbstractFixture extends DataFixture implements
         $i = 0;
 
         if (($handle = fopen($path, 'r')) !== false) {
-
             while (($data = fgetcsv($handle)) !== false) {
                 $i++;
                 // step over the first row
@@ -124,8 +123,8 @@ abstract class AbstractFixture extends DataFixture implements
 
                 if ($this->storeReference) {
                     $this->addReference(
-                      $this->getKey() . $entity->getId(),
-                      $entity
+                        $this->getKey() . $entity->getId(),
+                        $entity
                     );
                 }
             }
