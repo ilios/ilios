@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Traits;
 
 /**
- * TimestampableEntity
+ * Trait TimestampableEntity
  * @package Ilios\CoreBundle\Traits
  */
 trait TimestampableEntity
@@ -16,9 +16,7 @@ trait TimestampableEntity
         return $this->createdAt;
     }
 
-    /**
-     * @param  \DateTime $updatedAt
-     */
+
     public function stampUpdate()
     {
         $this->updatedAt = new \DateTime();
@@ -30,5 +28,21 @@ trait TimestampableEntity
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
     }
 }
