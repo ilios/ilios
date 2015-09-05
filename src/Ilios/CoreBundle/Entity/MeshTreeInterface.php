@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
@@ -9,7 +10,8 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
  * @package Ilios\CoreBundle\Entity
  */
 interface MeshTreeInterface extends
-    StringableEntityInterface
+    StringableEntityInterface,
+    IdentifiableEntityInterface
 {
 
     /**
