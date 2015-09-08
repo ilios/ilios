@@ -14,8 +14,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 interface MeshConceptInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
-    TimestampableEntityInterface,
-    LoggableEntityInterface
+    TimestampableEntityInterface
 {
     /**
      * @param string $umlsUid

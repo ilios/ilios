@@ -14,8 +14,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 interface MeshTermInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
-    TimestampableEntityInterface,
-    LoggableEntityInterface
+    TimestampableEntityInterface
 {
 
     /**

@@ -11,8 +11,7 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
  */
 interface MeshPreviousIndexingInterface extends
     IdentifiableEntityInterface,
-    StringableEntityInterface,
-    LoggableEntityInterface
+    StringableEntityInterface
 {
     /**
      * @param MeshDescriptorInterface $descriptor
