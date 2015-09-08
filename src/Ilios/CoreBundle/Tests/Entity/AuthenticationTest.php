@@ -47,4 +47,13 @@ class AuthenticationTest extends EntityBase
     {
         $this->entitySetTest('user', 'User');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Authentication::setInvalidateTokenIssuedBefore
+     * @covers Ilios\CoreBundle\Entity\Authentication::getInvalidateTokenIssuedBefore
+     */
+    public function testSetInvalidateTokenIssuedBefore()
+    {
+        $this->basicSetTest('invalidateTokenIssuedBefore', 'datetime');
+    }
 }

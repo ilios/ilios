@@ -23,7 +23,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->repository->findOneBy($criteria, $orderBy);
+        return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -40,7 +40,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -98,7 +98,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->repository->findByQ($q, $orderBy, $limit, $offset);
+        return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset);
     }
 
     /**
@@ -113,6 +113,6 @@ class UserManager extends AbstractManager implements UserManagerInterface
         \DateTime $from,
         \DateTime $to
     ) {
-        return $this->repository->findEventsForUser($userId, $from, $to);
+        return $this->getRepository()->findEventsForUser($userId, $from, $to);
     }
 }

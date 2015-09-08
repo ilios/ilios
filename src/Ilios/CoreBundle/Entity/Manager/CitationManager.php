@@ -22,7 +22,7 @@ class CitationManager extends AbstractManager implements CitationManagerInterfac
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->repository->findOneBy($criteria, $orderBy);
+        return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -39,7 +39,7 @@ class CitationManager extends AbstractManager implements CitationManagerInterfac
         $limit = null,
         $offset = null
     ) {
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

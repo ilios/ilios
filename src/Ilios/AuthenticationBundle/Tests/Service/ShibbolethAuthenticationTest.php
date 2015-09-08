@@ -17,11 +17,9 @@ class ShibbolethAuthenticationTest extends TestCase
     public function testConstructor()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new ShibbolethAuthentication(
             $authManager,
-            $tokenStorage,
             $jwtManager
         );
         $this->assertTrue($obj instanceof ShibbolethAuthentication);
@@ -30,11 +28,9 @@ class ShibbolethAuthenticationTest extends TestCase
     public function testNotAuthenticated()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new ShibbolethAuthentication(
             $authManager,
-            $tokenStorage,
             $jwtManager
         );
         
@@ -55,11 +51,9 @@ class ShibbolethAuthenticationTest extends TestCase
     public function testNoEppn()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new ShibbolethAuthentication(
             $authManager,
-            $tokenStorage,
             $jwtManager
         );
         
@@ -76,11 +70,9 @@ class ShibbolethAuthenticationTest extends TestCase
     public function testNoUserWithEppn()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new ShibbolethAuthentication(
             $authManager,
-            $tokenStorage,
             $jwtManager
         );
         
@@ -105,11 +97,9 @@ class ShibbolethAuthenticationTest extends TestCase
     public function testSuccess()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new ShibbolethAuthentication(
             $authManager,
-            $tokenStorage,
             $jwtManager
         );
         
@@ -125,10 +115,7 @@ class ShibbolethAuthenticationTest extends TestCase
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $authManager->shouldReceive('findAuthenticationBy')
             ->with(array('eppn' => 'userid1'))->andReturn($authenticationEntity);
-        $newToken = m::mock('Ilios\AuthenticationBundle\Jwt\Token')
-            ->shouldReceive('getJwt')->andReturn('jwt123Test')->mock();
-        $tokenStorage->shouldReceive('setToken')->with($newToken);
-        $jwtManager->shouldReceive('buildToken')->with($user)->andReturn($newToken);
+        $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
         
         
         $result = $obj->login($request);

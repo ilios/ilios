@@ -6,13 +6,20 @@ use Symfony\Component\Security\Core\Encoder;
 
 use Ilios\AuthenticationBundle\Jwt\Token as JwtToken;
 use Ilios\CoreBundle\Entity\UserInterface;
+use JWT;
+use DateTime;
+use DateInterval;
 
 class JsonWebTokenManager
 {
+    const PREPEND_KEY = 'ilios.jwt.key.';
+    const TOKEN_ISS = 'ilios';
+    const TOKEN_AUD = 'ilios';
+    
     /**
      * @var string
      */
-    protected $secretKey;
+    protected $jwtKey;
     
     /**
      * Constructor
@@ -21,19 +28,63 @@ class JsonWebTokenManager
     public function __construct(
         $secretKey
     ) {
-        $this->secretKey = $secretKey;
+        $this->jwtKey = self::PREPEND_KEY . $secretKey;
+        JWT::$leeway = 5;
+    }
+    
+    public function getUserIdFromToken($jwt)
+    {
+        $arr = $this->decode($jwt);
+        return $arr['user_id'];
+    }
+    
+    public function getIssuedAtFromToken($jwt)
+    {
+        $arr = $this->decode($jwt);
+        $datetime = new DateTime();
+        $datetime->setTimeStamp($arr['iat']);
+        
+        return $datetime;
+    }
+    
+    public function getExpiresAtFromToken($jwt)
+    {
+        $arr = $this->decode($jwt);
+        $datetime = new DateTime();
+        $datetime->setTimeStamp($arr['exp']);
+        
+        return $datetime;
+    }
+    
+    protected function decode($jwt)
+    {
+        $decoded = JWT::decode($jwt, $this->jwtKey, array('HS256'));
+        return (array) $decoded;
     }
     
     /**
      * Build a token from a user
      * @param  UserInterface $user
-     * @return JwtToken
+     * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
+     * @return string
      */
-    public function buildToken(UserInterface $user)
+    public function createJwtFromUser(UserInterface $user, $timeToLive = 'PT8H')
     {
-        $token = new JwtToken($this->secretKey);
-        $token->setUser($user);
-        
-        return $token;
+        $requestedInterval = new \DateInterval($timeToLive);
+        $maximumInterval = new \DateInterval('P364D');
+        $interval = $requestedInterval > $maximumInterval?$maximumInterval:$requestedInterval;
+        $now = new DateTime();
+        $expires = clone $now;
+        $expires->add($interval);
+
+        $arr = array(
+            'iss' => self::TOKEN_ISS,
+            'aud' => self::TOKEN_AUD,
+            'iat' => $now->format('U'),
+            'exp' => $expires->format('U'),
+            'user_id' => $user->getId()
+        );
+
+        return JWT::encode($arr, $this->jwtKey);
     }
 }

@@ -21,7 +21,7 @@ class MeshTermManager extends AbstractManager implements MeshTermManagerInterfac
      */
     public function findMeshTermBy(array $criteria, array $orderBy = null)
     {
-        return $this->repository->findOneBy($criteria, $orderBy);
+        return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -34,7 +34,7 @@ class MeshTermManager extends AbstractManager implements MeshTermManagerInterfac
      */
     public function findMeshTermsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

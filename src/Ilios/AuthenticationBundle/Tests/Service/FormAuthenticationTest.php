@@ -154,8 +154,7 @@ class FormAuthenticationTest extends TestCase
         $encoder->shouldReceive('isPasswordValid')->with($user, '123')->andReturn(true);
         $newToken = m::mock('Ilios\AuthenticationBundle\Jwt\Token')
             ->shouldReceive('getJwt')->andReturn('jwt123Test')->mock();
-        $tokenStorage->shouldReceive('setToken')->with($newToken);
-        $jwtManager->shouldReceive('buildToken')->with($user)->andReturn($newToken);
+        $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
         
         
         $result = $obj->login($request);

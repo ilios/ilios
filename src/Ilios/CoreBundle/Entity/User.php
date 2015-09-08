@@ -512,6 +512,11 @@ class User implements UserInterface
     {
         return $this->middleName;
     }
+    
+    public function getFirstAndLastName()
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
 
     /**
      * @param string $phone
@@ -1162,8 +1167,12 @@ class User implements UserInterface
      */
     public function getPassword()
     {
-        $newPassword = $this->getAuthentication()->getPasswordBcrypt();
-        $legacyPassword = $this->getAuthentication()->getPasswordSha256();
+        $authentication = $this->getAuthentication();
+        if (!$authentication) {
+            return null;
+        }
+        $newPassword = $authentication->getPasswordBcrypt();
+        $legacyPassword = $authentication->getPasswordSha256();
 
         return $newPassword ? $newPassword : $legacyPassword;
     }

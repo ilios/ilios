@@ -37,28 +37,35 @@ class AuthenticationController extends Controller
      */
     public function whoamiAction()
     {
-        $token = $this->get('security.context')->getToken();
-        if ($token instanceof JwtToken) {
-            $userId = $this->get('security.context')->getToken()->getUserId();
-            return new JsonResponse(array('userId' => $userId), JsonResponse::HTTP_OK);
+        $token = $this->get('security.token_storage')->getToken();
+        if ($token->isAuthenticated()) {
+            $user = $token->getUser();
+            if ($user instanceof UserInterface) {
+                return new JsonResponse(array('userId' => $user->getId()), JsonResponse::HTTP_OK);
+            }
         }
 
         return new JsonResponse(array('userId' => null), JsonResponse::HTTP_OK);
     }
     
     /**
-     * Refresh the current token
+     * Get a new token
      * Useful when the time limit is approaching but the user is still active
+     *
+     * @param Request $request
      *
      * @return JsonResponse
      */
-    public function refreshAction()
+    public function tokenAction(Request $request)
     {
-        $token = $this->get('security.context')->getToken();
-        if ($token) {
+        $token = $this->get('security.token_storage')->getToken();
+        if ($token->isAuthenticated()) {
             $user = $token->getUser();
             if ($user instanceof UserInterface) {
-                return new JsonResponse(array('jwt' => $token->getJwt()), JsonResponse::HTTP_OK);
+                $jwtManager = $this->container->get('ilios_authentication.jwt.manager');
+                $ttl = $request->get('ttl')?$request->get('ttl'):'PT8H';
+                $jwt = $jwtManager->createJwtFromUser($user, $ttl);
+                return new JsonResponse(array('jwt' => $jwt), JsonResponse::HTTP_OK);
             }
         }
 

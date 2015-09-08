@@ -1,1 +1,11 @@
 services:
+    ilioscli.command.invalidate_user_tokens:
+        class: Ilios\CliBundle\Command\InvalidateUserTokenCommand
+        arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager"]
+        tags:
+            -  { name: console.command }
+    ilioscli.command.create_user_token:
+        class: Ilios\CliBundle\Command\CreateUserTokenCommand
+        arguments: ["@ilioscore.user.manager", "@ilios_authentication.jwt.manager"]
+        tags:
+            -  { name: console.command }

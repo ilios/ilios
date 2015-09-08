@@ -23,6 +23,11 @@ abstract class AbstractManager implements ManagerInterface
     protected $repository;
 
     /**
+     * @var Registry
+     */
+    protected $registry;
+
+    /**
      * @var string
      */
     protected $class;
@@ -31,11 +36,27 @@ abstract class AbstractManager implements ManagerInterface
      * @param Registry $em
      * @param string $class
      */
-    public function __construct(Registry $em, $class)
+    public function __construct(Registry $registry, $class)
     {
-        $this->em         = $em->getManagerForClass($class);
+        $this->registry   = $registry;
+        $this->em         = $registry->getManagerForClass($class);
         $this->class      = $class;
-        $this->repository = $em->getRepository($class);
+    }
+    
+    /**
+     * Get the repository from the registry
+     * We have to do this here becuase the call to registry::getRepository
+     * requires the database to be setup which is a problem for using managers in console commands
+     *
+     * @return EntityRepository
+     */
+    protected function getRepository()
+    {
+        if (!$this->repository) {
+            $this->repository = $this->registry->getRepository($this->class);
+        }
+        
+        return $this->repository;
     }
 
     /**

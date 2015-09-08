@@ -86,6 +86,18 @@ class Authentication implements AuthenticationInterface
     private $eppn;
 
     /**
+     * @ORM\Column(name="invalidate_token_issued_before", type="datetime", nullable=true)
+     *
+     * @Assert\DateTime()
+     *
+     * @JMS\Expose
+     * @JMS\ReadOnly
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("invalidateTokenIssuedBefore")
+     */
+    protected $invalidateTokenIssuedBefore;
+
+    /**
      * @param string $username
      */
     public function setUsername($username)
@@ -174,6 +186,22 @@ class Authentication implements AuthenticationInterface
     public function isLegacyAccount()
     {
         return (bool) $this->getPasswordSha256();
+    }
+
+    /**
+     * @param \DateTime $invalidateTokenIssuedBefore
+     */
+    public function setInvalidateTokenIssuedBefore(\DateTime $invalidateTokenIssuedBefore = null)
+    {
+        $this->invalidateTokenIssuedBefore = $invalidateTokenIssuedBefore;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getInvalidateTokenIssuedBefore()
+    {
+        return $this->invalidateTokenIssuedBefore;
     }
     
     /**

@@ -7,18 +7,16 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
 class ShibbolethAuthentication implements AuthenticationInterface
 {
+    use AuthenticationService;
+
     /**
      * @var AuthenticationManagerInterface
      */
     protected $authManager;
-    
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
     
     /**
      * @var JsonWebTokenManager
@@ -29,16 +27,13 @@ class ShibbolethAuthentication implements AuthenticationInterface
     /**
      * Constructor
      * @param AuthenticationManagerInterface $authManager
-     * @param TokenStorageInterface          $tokenStorage
      * @param JsonWebTokenManager            $jwtManager
      */
     public function __construct(
         AuthenticationManagerInterface $authManager,
-        TokenStorageInterface $tokenStorage,
         JsonWebTokenManager $jwtManager
     ) {
         $this->authManager = $authManager;
-        $this->tokenStorage = $tokenStorage;
         $this->jwtManager = $jwtManager;
     }
     
@@ -79,13 +74,8 @@ class ShibbolethAuthentication implements AuthenticationInterface
                 'jwt' => null,
             ), JsonResponse::HTTP_BAD_REQUEST);
         }
-        $token = $this->jwtManager->buildToken($authEntity->getUser());
-        $this->tokenStorage->setToken($token);
-
-        return new JsonResponse(array(
-            'status' => 'success',
-            'errors' => [],
-            'jwt' => $token->getJwt(),
-        ), JsonResponse::HTTP_OK);
+        $jwt = $this->jwtManager->createJwtFromUser($authEntity->getUser());
+        
+        return $this->createSuccessResponseFromJWT($jwt);
     }
 }

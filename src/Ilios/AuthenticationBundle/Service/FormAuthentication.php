@@ -6,12 +6,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 
 use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
 class FormAuthentication implements AuthenticationInterface
 {
+    use AuthenticationService;
+
     /**
      * @var AuthenticationManagerInterface
      */
@@ -21,7 +25,6 @@ class FormAuthentication implements AuthenticationInterface
      * @var UserPasswordEncoderInterface
      */
     protected $encoder;
-    
     /**
      * @var TokenStorageInterface
      */
@@ -75,15 +78,10 @@ class FormAuthentication implements AuthenticationInterface
                 $user = $authEntity->getUser();
                 $passwordValid = $this->encoder->isPasswordValid($user, $password);
                 if ($passwordValid) {
-                    $token = $this->jwtManager->buildToken($user);
-                    $this->tokenStorage->setToken($token);
                     $this->updateLegacyPassword($authEntity, $password);
+                    $jwt = $this->jwtManager->createJwtFromUser($user);
                     
-                    return new JsonResponse(array(
-                        'status' => 'success',
-                        'errors' => [],
-                        'jwt' => $token->getJwt(),
-                    ), JsonResponse::HTTP_OK);
+                    return $this->createSuccessResponseFromJWT($jwt);
                 }
             }
             $errors[] = 'badCredentials';
@@ -106,6 +104,15 @@ class FormAuthentication implements AuthenticationInterface
     protected function updateLegacyPassword(AuthenticationEntityInterface $authEntity, $password)
     {
         if ($authEntity->isLegacyAccount()) {
+            //we have to have a valid token to update the user because the audit log requires it
+            $authenticatedToken = new PreAuthenticatedToken(
+                $authEntity->getUser(),
+                'fakekey',
+                'fakeProvider'
+            );
+            $authenticatedToken->setAuthenticated(true);
+            $this->tokenStorage->setToken($authenticatedToken);
+            
             $authEntity->setPasswordSha256(null);
             $encodedPassword = $this->encoder->encodePassword($authEntity->getUser(), $password);
             $authEntity->setPasswordBcrypt($encodedPassword);
