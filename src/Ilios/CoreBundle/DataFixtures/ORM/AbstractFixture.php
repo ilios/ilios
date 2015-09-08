@@ -134,6 +134,11 @@ abstract class AbstractFixture extends DataFixture implements
 
             fclose($handle);
         }
+
+        // Force PHP's GC
+        if (function_exists('gc_collect_cycles')) {
+            gc_collect_cycles();
+        }
     }
 
     /**
