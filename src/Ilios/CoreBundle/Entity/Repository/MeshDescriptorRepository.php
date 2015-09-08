@@ -58,8 +58,8 @@ class MeshDescriptorRepository extends EntityRepository
         
         $results = $query->getResult();
         
-        //unfortnatly we can't let doctinre limit the fetch here because of all the joins
-        //it returns many less than the desired number
+        // Unfortunately, we can't let Doctrine limit the fetch here because of all the joins
+        // it returns many less than the desired number.
         if ($limit) {
             $results = array_slice($results, 0, $limit);
         }
