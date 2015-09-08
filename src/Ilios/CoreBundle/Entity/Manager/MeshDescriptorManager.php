@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
+use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
 
 /**
  * Class MeshDescriptorManager
@@ -98,5 +99,55 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
     {
         $class = $this->getClass();
         return new $class();
+    }
+
+    /**
+     * @param array $data
+     * @param $type
+     * @throws \Exception
+     */
+    public function import(array $data, $type)
+    {
+        /**
+         * @var MeshDescriptorRepository $repository
+         */
+        $repository = $this->repository;
+        switch ($type) {
+            case 'MeshDescriptor':
+                $repository->importMeshDescriptor($data);
+                break;
+            case 'MeshTree':
+                $repository->importMeshTree($data);
+                break;
+            case 'MeshConcept':
+                $repository->importMeshConcept($data);
+                break;
+            case 'MeshSemanticType':
+                $repository->importMeshSemanticType($data);
+                break;
+            case 'MeshTerm':
+                $repository->importMeshTerm($data);
+                break;
+            case 'MeshQualifier':
+                $repository->importMeshQualifier($data);
+                break;
+            case 'MeshPreviousIndexing':
+                $repository->importMeshPreviousIndexing($data);
+                break;
+            case 'MeshConceptSemanticType':
+                $repository->importMeshConceptSemanticType($data);
+                break;
+            case 'MeshConceptTerm':
+                $repository->importMeshConceptTerm($data);
+                break;
+            case 'MeshDescriptorQualifier':
+                $repository->importMeshDescriptorQualifier($data);
+                break;
+            case 'MeshDescriptorConcept':
+                $repository->importMeshDescriptorConcept($data);
+                break;
+            default:
+                throw new \Exception("Unsupported type ${type}.");
+        }
     }
 }
