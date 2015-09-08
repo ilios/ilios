@@ -46,7 +46,7 @@ class LoadMeshTreeData extends AbstractFixture implements DependentFixtureInterf
      */
     protected function populateEntity($entity, array $data)
     {
-        // `tree_number`,`mesh_descriptor_uid`,`mesh_term_id`
+        // `tree_number`,`mesh_descriptor_uid`,`mesh_tree_id`
         $entity->setTreeNumber($data[0]);
         $entity->setDescriptor($this->getReference('mesh_descriptor' .$data[1]));
         $entity->setId($data[2]);

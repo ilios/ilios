@@ -1,4 +1,4 @@
-`tree_number`,`mesh_descriptor_uid`,`mesh_term_id`
+`tree_number`,`mesh_descriptor_uid`,`mesh_tree_id`
 A01,D001829,1
 A01.047,D000005,2
 A01.047.025,D034841,3

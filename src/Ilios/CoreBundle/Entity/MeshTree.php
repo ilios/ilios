@@ -30,7 +30,7 @@ class MeshTree implements MeshTreeInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="mesh_term_id", type="integer")
+     * @ORM\Column(name="mesh_tree_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
