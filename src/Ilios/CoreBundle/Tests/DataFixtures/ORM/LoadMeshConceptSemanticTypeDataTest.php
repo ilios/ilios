@@ -48,9 +48,11 @@ class LoadMeshConceptSemanticTypeDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getId());
         // find the semantic type
         $semanticTypeId = $data[0];
-        $semanticType = $entity->getSemanticTypes()->filter(function (MeshSemanticTypeInterface $semanticType) use ($semanticTypeId) {
-            return $semanticType->getId() === $semanticTypeId;
-        })->first();
+        $semanticType = $entity->getSemanticTypes()->filter(
+            function (MeshSemanticTypeInterface $semanticType) use ($semanticTypeId) {
+                return $semanticType->getId() === $semanticTypeId;
+            }
+        )->first();
         $this->assertNotEmpty($semanticType);
     }
 

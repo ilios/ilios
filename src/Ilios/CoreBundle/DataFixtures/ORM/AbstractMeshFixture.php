@@ -15,8 +15,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 abstract class AbstractMeshFixture extends DataFixture implements
-  FixtureInterface,
-  ContainerAwareInterface
+    FixtureInterface,
+    ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
