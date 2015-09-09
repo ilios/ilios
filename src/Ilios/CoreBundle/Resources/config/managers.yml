@@ -18,7 +18,6 @@ parameters:
     ilioscore.curriculuminventorysequenceblock.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManager
     ilioscore.curriculuminventorysequenceblocksession.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockSessionManager
     ilioscore.curriculuminventorysequence.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager
-    ilioscore.curriculuminventorysequence.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager
     ilioscore.department.manager.class: Ilios\CoreBundle\Entity\Manager\DepartmentManager
     ilioscore.topic.manager.class: Ilios\CoreBundle\Entity\Manager\TopicManager
     ilioscore.ilmsession.manager.class: Ilios\CoreBundle\Entity\Manager\IlmSessionManager
@@ -151,10 +150,10 @@ services:
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshSemanticType]
     ilioscore.meshterm.manager:
         class: %ilioscore.meshterm.manager.class%
-        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshTerm]
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshTerm]
     ilioscore.meshtree.manager:
         class: %ilioscore.meshtree.manager.class%
-        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshTree]
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshTree]
     ilioscore.objective.manager:
         class: %ilioscore.objective.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Objective]
