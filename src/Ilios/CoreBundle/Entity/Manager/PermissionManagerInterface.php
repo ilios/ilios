@@ -91,6 +91,14 @@ interface PermissionManagerInterface extends ManagerInterface
      * @return bool
      */
     public function userHasReadPermissionToSchool(UserInterface $user, SchoolInterface $school);
+    
+    /**
+     * Checks if a given user has "read" permissions for and in an array of schools.
+     * @param UserInterface $user
+     * @param ArrayCollection[SchoolInterface] $schools
+     * @return bool
+     */
+    public function userHasReadPermissionToSchools(UserInterface $user, ArrayCollection $schools);
      
     /**
     * Checks if a given user has "write" permissions for a list of schools
