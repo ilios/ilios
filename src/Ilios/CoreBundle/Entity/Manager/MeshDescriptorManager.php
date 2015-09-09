@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class MeshDescriptorManager
@@ -115,7 +116,7 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
         /**
          * @var MeshDescriptorRepository $repository
          */
-        $repository = $this->repository;
+        $repository = $this->getRepository();
         switch ($type) {
             case 'MeshDescriptor':
                 $repository->importMeshDescriptor($data);
