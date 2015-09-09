@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -34,22 +33,6 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     {
         $this->container = static::createClient()->getContainer();
         $this->loadEntityManager($this->getEntityManagerServiceKey());
-    }
-
-    /**
-     * Returns the handle to the given data file.
-     *
-     * @param string $fileName The file name.
-     * @return resource the file handle
-     */
-    protected function loadDataFile($fileName)
-    {
-        /**
-         * @var FileLocator $fileLocator
-         */
-        $fileLocator = $this->container->get('file_locator');
-        $path = $fileLocator->locate('@IliosCoreBundle/Resources/dataimport/' . basename($fileName));
-        return fopen($path, 'r');
     }
 
     /**
@@ -82,7 +65,7 @@ abstract class AbstractDataFixtureTest extends WebTestCase
     {
         $this->loadFixtures($this->getFixtures());
 
-        $dataFile = $this->loadDataFile($fileName);
+        $dataFile = fopen($this->container->get('ilioscore.dataimport_filelocator')->getDataFilePath($fileName), 'r');
 
         $first = true;
         while (($data = fgetcsv($dataFile)) !== false) {
