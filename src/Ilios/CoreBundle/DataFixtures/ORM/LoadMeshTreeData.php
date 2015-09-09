@@ -1,0 +1,27 @@
+<?php
+
+namespace Ilios\CoreBundle\DataFixtures\ORM;
+
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+
+/**
+ * Class LoadMeshTreeData
+ * @package Ilios\CoreBundle\DataFixtures\ORM
+ */
+class LoadMeshTreeData extends AbstractMeshFixture implements DependentFixtureInterface
+{
+    public function __construct()
+    {
+        parent::__construct('mesh_tree_x_descriptor.csv', 'MeshTree');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return [
+          'Ilios\CoreBundle\DataFixtures\ORM\LoadMeshDescriptorData',
+        ];
+    }
+}
