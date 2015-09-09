@@ -19,6 +19,34 @@ interface CurriculumInventorySequenceBlockInterface extends
     LoggableEntityInterface
 {
     /**
+     * @var int
+     */
+    const REQUIRED = 1;
+    /**
+     * @var int
+     */
+    const OPTIONAL = 2;
+    /**
+     * @var int
+     */
+    const REQUIRED_IN_TRACK = 3;
+
+    /**
+     * @var int
+     */
+    const ORDERED = 1;
+
+    /**
+     * @var int
+     */
+    const UNORDERED = 2;
+
+    /**
+     * @var int
+     */
+    const PARALLEL = 3;
+
+    /**
      * @param boolean $required
      */
     public function setRequired($required);
