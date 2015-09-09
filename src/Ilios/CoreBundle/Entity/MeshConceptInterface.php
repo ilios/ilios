@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
