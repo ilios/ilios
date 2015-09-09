@@ -24,7 +24,7 @@ before_script:
 
 script:
   - bin/phpcs --standard=app/phpcs.xml src
-  - travis_wait bin/phpunit --coverage-clover build/logs/clover.xml
+  - bin/phpunit --coverage-clover build/logs/clover.xml
   - bin/console doctrine:schema:validate --env=dev
 
 after_script:
