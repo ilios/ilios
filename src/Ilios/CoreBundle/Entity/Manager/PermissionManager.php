@@ -134,18 +134,10 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
         ];
 
         $schoolsWithReadPermission = $this->findPermissionBy($criteria);
-        
-        if ($schoolsWithReadPermission->count() === 0) {
-            return false;
-        }
-        
-        foreach ($schools as $school) {
-            if ($schoolsWithReadPermission->contains($school)) {
-                return true;
-            }
-        }
-        
-        return false;
+        $overlap = array_intersect($schools->toArray(), $schoolsWithReadPermission->toArray());
+
+        return ! empty($overlap);
+
     }
 
     /**
@@ -160,18 +152,9 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
         ];
 
         $schoolsWithWritePermission = $this->findPermissionBy($criteria);
-        
-        if ($schoolsWithWritePermission->count() === 0) {
-            return false;
-        }
-        
-        foreach ($schools as $school) {
-            if ($schoolsWithWritePermission->contains($school)) {
-                return true;
-            }
-        }
-        
-        return false;
+        $overlap = array_intersect($schools->toArray(), $schoolsWithWritePermission->toArray());
+
+        return ! empty($overlap);
     }
 
     /**
