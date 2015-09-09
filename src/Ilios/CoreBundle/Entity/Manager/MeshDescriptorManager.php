@@ -102,12 +102,16 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
     }
 
     /**
-     * @param array $data
-     * @param $type
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function import(array $data, $type)
     {
+        // KLUDGE!
+        // For performance reasons, we're completely side-stepping
+        // Doctrine's entity layer.
+        // Instead, this method invokes low-level/native-SQL import-methods
+        // on this manager's repository.
+        // [ST 2015/09/08]
         /**
          * @var MeshDescriptorRepository $repository
          */

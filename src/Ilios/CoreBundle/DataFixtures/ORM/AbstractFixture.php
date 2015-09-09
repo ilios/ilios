@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * A Doctrine fixture based data loader base class that populates the DB from data files.
+ * A generic data-loader base-class for importing entities from data files.
  *
  * Class AbstractFixture
  * @package Ilios\CoreBundle\DataFixtures\ORM
