@@ -21,7 +21,7 @@ class LoadMeshConceptSemanticTypeData extends AbstractMeshFixture implements Dep
     public function getDependencies()
     {
         return [
-          'Ilios\CoreBundle\DataFixtures\ORM\LoadMeshDescriptorData',
+          'Ilios\CoreBundle\DataFixtures\ORM\LoadMeshConceptData',
           'Ilios\CoreBundle\DataFixtures\ORM\LoadMeshSemanticTypeData',
         ];
     }
