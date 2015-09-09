@@ -63,7 +63,7 @@ class profile::common::php (
 
     php::apache::config { 'memory_limit':
         setting => 'memory_limit',
-        value => '768M',
+        value => '1024M',
         file => '/etc/php5/apache2/php.ini'
     }
 
@@ -99,7 +99,7 @@ class profile::common::php (
 
     php::config { 'cli_memory_limit':
         setting => 'memory_limit',
-        value => '1280M',
+        value => '2048M',
         file => '/etc/php5/cli/php.ini'
     }
 

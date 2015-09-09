@@ -15,15 +15,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     else
         config.vm.synced_folder ".", "/vagrant", :nfs => { :mount_options => ["dmode=777","fmode=777"], :nfs_version => "3" }, id: "ilios-root"
     end
-    
+
     config.vm.provider "virtualbox" do |vb|
-        vb.customize ["modifyvm", :id, "--memory", "2048"]
+        vb.customize ["modifyvm", :id, "--memory", "3072"]
         vb.name = "ilios3.dev"
     end
 
     config.vm.provider "vmware_workstation" do |vw, override|
         override.vm.box_url = "https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-puppet/versions/1.0.0/providers/vmware_desktop.box"
-        vw.vmx["memsize"] = "2048"
+        vw.vmx["memsize"] = "3072"
         vw.vmx["displayname"] = "ilios3.dev"
     end
 
