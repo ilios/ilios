@@ -587,7 +587,7 @@ class User implements UserInterface
      */
     public function setCampusId($campusId)
     {
-        $this->campusId = $ucUid;
+        $this->campusId = $campusId;
     }
 
     /**
@@ -1136,7 +1136,7 @@ class User implements UserInterface
     {
         return serialize(array(
                 $this->id,
-                $this->ucUid,
+                $this->campusId,
                 $this->email
             ));
 
@@ -1149,7 +1149,7 @@ class User implements UserInterface
     {
         list (
             $this->id,
-            $this->ucUid,
+            $this->campusId,
             $this->email
             ) = unserialize($serialized);
     }

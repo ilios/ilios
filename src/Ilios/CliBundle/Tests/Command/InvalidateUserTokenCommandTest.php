@@ -14,7 +14,7 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     
     protected $userManager;
     protected $authenticationManager;
-    protected $CommandTester;
+    protected $commandTester;
     
     public function setUp()
     {

@@ -18,8 +18,18 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
     public function testParametersSet()
     {
         $fileSystemStoragePath = '/tmp/test';
+        $ldapUrl = 'ldap.url';
+        $ldapUser = 'ldap.user';
+        $ldapPassword = 'ldap.pass';
+        $ldapSearchBase = 'ldap.base';
+        $ldapCampusIdProperty = 'ldap.camp';
         $this->load(array(
             'file_system_storage_path' => $fileSystemStoragePath,
+            'ldap_directory_url' => $ldapUrl,
+            'ldap_directory_user' => $ldapUser,
+            'ldap_directory_password' => $ldapPassword,
+            'ldap_directory_search_base' => $ldapSearchBase,
+            'ldap_directory_campus_id_property' => $ldapCampusIdProperty,
         ));
         $parameters = array(
             'ilioscore.aamcmethod.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AamcMethodManager',
@@ -200,7 +210,11 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.usermadereminder.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData',
             'ilioscore.dataloader.userrole.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserRoleData',
             'ilioscore.dataloader.user.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserData',
-            'ilios_core.file_store_path' => $fileSystemStoragePath,
+            'ilios_core.ldap.url' => $ldapUrl,
+            'ilios_core.ldap.user' => $ldapUser,
+            'ilios_core.ldap.password' => $ldapPassword,
+            'ilios_core.ldap.search_base' => $ldapSearchBase,
+            'ilios_core.ldap.campus_id_property' => $ldapCampusIdProperty,
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);
@@ -346,6 +360,9 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.listener.updatesession',
             'ilioscore.temporary_filesystem',
             'ilioscore.filesystem',
+            'ilioscore.logger',
+            'ilioscore.ldapmanager',
+            'ilioscore.directory',
         );
         foreach ($services as $service) {
             $this->assertContainerBuilderHasService($service);
