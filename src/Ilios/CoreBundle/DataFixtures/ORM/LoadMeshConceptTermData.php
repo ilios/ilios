@@ -21,7 +21,7 @@ class LoadMeshConceptTermData extends AbstractMeshFixture implements DependentFi
     public function getDependencies()
     {
         return [
-          'Ilios\CoreBundle\DataFixtures\ORM\LoadMeshDescriptorData',
+          'Ilios\CoreBundle\DataFixtures\ORM\LoadMeshConceptData',
           'Ilios\CoreBundle\DataFixtures\ORM\LoadMeshTermData',
         ];
     }
