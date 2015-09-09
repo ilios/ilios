@@ -63,4 +63,49 @@ interface CurriculumInventoryReportManagerInterface extends ManagerInterface
      * @return CurriculumInventoryReportInterface
      */
     public function createCurriculumInventoryReport();
+
+    /**
+     * @todo
+     */
+    public function getEvents($reportId);
+
+    /**
+     * @todo
+     */
+    public function getEventKeywords($reportId);
+
+    /**
+     * @todo
+     */
+    public function getEventReferencesForSequenceBlocks($reportId);
+
+    /**
+     * @todo
+     */
+    public function getProgramObjectives($reportId);
+
+    /**
+     * @todo
+     */
+    public function getSessionObjectives($reportId);
+
+    /**
+     * @todo
+     */
+    public function getCourseObjectives($reportId);
+
+    /**
+     * @todo
+     */
+    public function getPcrs($reportId);
+
+    /**
+     * @todo
+     */
+    public function getCompetencyObjectReferencesForSequenceBlocks($reportId);
+
+    /**
+     * @todo
+     */
+    public function getCompetencyObjectReferencesForEvents($reportId);
 }
