@@ -103,11 +103,12 @@ class LdapManager
     /**
      * Performs an LDAP search
      * @param string $filter
+     * @param string $sortBy
      *
      * @return array
      * @throws Exception
      */
-    public function search($filter)
+    public function search($filter, $sortBy = null)
     {
         $rhett = [];
         $attributes = [
@@ -122,6 +123,9 @@ class LdapManager
             $results = $ldap->search($this->ldapSearchBase, $filter, $attributes);
             
             if ($results->countEntries()) {
+                if ($sortBy) {
+                    $results = $results->sort($sortBy);
+                }
                 $arr = $results->getEntries();
                 unset($arr['count']);
                 $campusIdKey = strtolower($this->ldapCampusIdProperty);

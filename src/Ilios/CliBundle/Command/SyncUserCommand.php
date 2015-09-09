@@ -14,9 +14,9 @@ use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
- * Create a new token for a user
+ * Sync a user with their directory information
  *
- * Class CreateUserTokenCommand
+ * Class SyncUserCommand
  * @package Ilios\CliBUndle\Command
  */
 class SyncUserCommand extends Command
@@ -47,7 +47,7 @@ class SyncUserCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:setup:sync-user')
+            ->setName('ilios:directory:sync-user')
             ->setDescription('Sync a user from the directory.')
             ->addArgument(
                 'userId',
@@ -69,7 +69,7 @@ class SyncUserCommand extends Command
             );
         }
         
-        $userRecord = $this->directory->findUserByCampusId($user->getCampusId());
+        $userRecord = $this->directory->findByCampusId($user->getCampusId());
         
         if (!$userRecord) {
             $output->writeln('<error>Unable to find ' . $user->getCampusId() . ' in the directory');

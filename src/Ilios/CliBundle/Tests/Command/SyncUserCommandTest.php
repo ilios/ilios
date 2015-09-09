@@ -8,11 +8,12 @@ use Mockery as m;
 
 class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
 {
-    const COMMAND_NAME = 'ilios:setup:sync-user';
+    const COMMAND_NAME = 'ilios:directory:sync-user';
     
     protected $userManager;
     protected $commandTester;
     protected $questionHelper;
+    protected $directory;
     
     public function setUp()
     {
@@ -61,7 +62,7 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
         ];
-        $this->directory->shouldReceive('findUserByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
+        $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->sayYesWhenAsked();
         
         $this->commandTester->execute(array(

@@ -14,3 +14,8 @@ services:
         arguments: ["@ilioscore.user.manager", "@ilioscore.directory"]
         tags:
             -  { name: console.command }
+    ilioscli.command.find_directory_user:
+        class: Ilios\CliBundle\Command\FindUserCommand
+        arguments: ["@ilioscore.directory"]
+        tags:
+            -  { name: console.command }
