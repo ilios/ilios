@@ -22,7 +22,7 @@ class MeshDescriptorRepository extends EntityRepository
     public function findByQ($q, $orderBy, $limit, $offset)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'd')->from('MeshDescriptor', 'd');
+        $qb->add('select', 'd')->from('IliosCoreBundle:MeshDescriptor', 'd');
         $qb->leftJoin('d.previousIndexing', 'pi');
         $qb->leftJoin('d.concepts', 'c');
         $qb->leftJoin('c.semanticTypes', 'st');
