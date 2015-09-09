@@ -58,21 +58,22 @@ abstract class AbstractDataFixtureTest extends WebTestCase
      * Call this from loadTest() implementations in child classes.
      *
      * @param string $fileName name of the data file to load and import.
+     * @param int $lineLimit number of lines to process. Set to -1 to process all lines in data file.
      *
      * @see AbstractDataFixtureTest::loadTest()
      */
-    protected function runTestLoad($fileName)
+    protected function runTestLoad($fileName, $lineLimit = -1)
     {
         $this->loadFixtures($this->getFixtures());
 
         $dataFile = fopen($this->container->get('ilioscore.dataimport_filelocator')->getDataFilePath($fileName), 'r');
 
-        $first = true;
-        while (($data = fgetcsv($dataFile)) !== false) {
+        $i = 0;
+        while (($data = fgetcsv($dataFile)) !== false && ($lineLimit < 0 || $lineLimit >= $i)) {
+            $i++;
             // step over the first row
             // since it contains the field names
-            if ($first) {
-                $first = false;
+            if (1 === $i) {
                 continue;
             }
             $entity = $this->getEntity($data);
