@@ -1,0 +1,101 @@
+`mesh_concept_uid`,`name`,`umls_uid`,`preferred`,`scope_note`,`casn_1_name`,`registry_number`,`created_at`,`updated_at`
+M0000020,Abomasum,C0000780,1,"The fourth stomach of ruminating animals. It is also called the ""true"" stomach. It is an elongated pear-shaped sac lying on the floor of the abdomen, on the right-hand side, and roughly between the seventh and twelfth ribs. It leads to the beginning of the small intestine. (From Black's Veterinary Dictionary, 17th ed)",,,2010-01-01 00:00:00,2014-08-18 20:08:16
+M0000262,Acromioclavicular Joint,C0001208,1,The gliding joint formed by the outer extremity of the CLAVICLE and the inner margin of the acromion process of the SCAPULA.,,,2010-01-01 00:00:00,2014-08-18 20:17:36
+M0000476,Adrenal Cortex,C0001613,1,"The outer layer of the adrenal gland. It is derived from MESODERM and comprised of three zones (outer ZONA GLOMERULOSA, middle ZONA FASCICULATA, and inner ZONA RETICULARIS) with each producing various steroids preferentially, such as ALDOSTERONE; HYDROCORTISONE; DEHYDROEPIANDROSTERONE; and ANDROSTENEDIONE. Adrenal cortex function is regulated by pituitary ADRENOCORTICOTROPIN.",,,2010-01-01 00:00:00,2014-08-18 20:25:20
+M0000529,Afferent Pathways,C0001728,1,Nerve structures through which impulses are conducted from a peripheral part toward a nerve center.,,,2010-01-01 00:00:00,2014-08-18 20:27:21
+M0000606,Air Sacs,C0001878,1,"Thin-walled sacs or spaces which function as a part of the respiratory system in birds, fishes, insects, and mammals.",,,2010-01-01 00:00:00,2014-08-18 20:29:14
+M0000872,Ambystoma,C0002429,1,"A genus of the Ambystomatidae family. The best known species are the axolotl AMBYSTOMA MEXICANUM and the closely related tiger salamander Ambystoma tigrinum. They may retain gills and remain aquatic without developing all of the adult characteristics. However, under proper changes in the environment they metamorphose.",,,2010-01-01 00:00:00,2014-08-18 20:37:26
+M0001062,Anal Sacs,C0002759,1,"A pair of anal glands or sacs, located on either side of the ANUS, that produce and store a dark, foul-smelling fluid in carnivorous animals such as  MEPHITIDAE and DOGS. The expelled fluid is used as a defensive repellent (in skunks) or a material to mark territory (in dogs).",,,2010-01-01 00:00:00,2014-08-18 20:44:19
+M0001212,Anguilla,C0003025,1,,,,2010-01-01 00:00:00,2014-08-18 20:49:21
+M0001220,Animal Organs,C0003055,0,,,,2010-01-01 00:00:00,2014-08-18 20:49:50
+M0001228,Animal Structures,C0003058,1,Organs and other anatomical structures of non-human vertebrate and invertebrate animals.,,,2010-01-01 00:00:00,2014-08-18 20:49:49
+M0001240,"Animals, Poisonous",C0003067,1,,,,2010-01-01 00:00:00,2014-08-18 20:50:04
+M0001244,"Animals, Nondomestic",C0003066,0,,,,2010-01-01 00:00:00,2014-08-18 20:50:09
+M0001245,"Animals, Wild",C0003070,1,"Animals considered to be wild or feral or not adapted for domestic use. It does not include wild animals in zoos for which ANIMALS, ZOO is available.",,,2010-01-01 00:00:00,2014-08-18 20:50:09
+M0001246,"Animals, Zoo",C0003071,1,,,,2010-01-01 00:00:00,2014-08-18 20:50:11
+M0001299,Anterior Eye Segment,C0003153,1,The front third of the eyeball that includes the structures between the front surface of the cornea and the front of the VITREOUS BODY.,,,2010-01-01 00:00:00,2014-08-18 20:51:36
+M0001521,Anura,C0003459,1,"An order of the class Amphibia, which includes several families of frogs and toads. They are characterized by well developed hind limbs adapted for jumping, fused head and trunk and webbed toes. The term ""toad"" is ambiguous and is properly applied only to the family Bufonidae.",,,2010-01-01 00:00:00,2014-08-18 20:57:20
+M0001522,"Toad, Fire-Bellied",C0040324,0,,,,2010-01-01 00:00:00,2014-08-18 20:57:21
+M0001523,Salientia,C1527389,0,,,,2010-01-01 00:00:00,2014-08-18 20:57:21
+M0001670,Arcuate Nucleus,C0003741,1,A nucleus located in the middle hypothalamus in the most ventral part of the third ventricle near the entrance of the infundibular recess. Its small cells are in close contact with the ependyma.,,,2010-01-01 00:00:00,2014-08-18 21:03:13
+M0001698,Bones of Upper Extremity,C0003793,1,The bones of the upper and lower ARM. They include the CLAVICLE and SCAPULA.,,,2010-01-01 00:00:00,2014-08-18 21:04:22
+M0001733,Arterioles,C0003847,1,The smallest divisions of the arteries located between the muscular arteries and the capillaries.,,,2010-01-01 00:00:00,2014-08-18 21:05:32
+M0001782,Arytenoid Cartilage,C0003943,1,One of a pair of small pyramidal cartilages that articulate with the lamina of the CRICOID CARTILAGE. The corresponding VOCAL LIGAMENT and several muscles are attached to it.,,,2010-01-01 00:00:00,2014-08-18 21:07:18
+M0001911,Atlanto-Axial Joint,C0004168,1,The joint involving the CERVICAL ATLAS and axis bones.,,,2010-01-01 00:00:00,2014-08-18 21:10:51
+M0001963,Auditory Cortex,C0004302,1,Area of the temporal lobe concerned with hearing.,,,2010-01-01 00:00:00,2014-08-18 21:12:12
+M0001967,Auditory Pathways,C0004308,1,,,,2010-01-01 00:00:00,2014-08-18 21:12:19
+M0002008,"Autonomic Fibers, Postganglionic",C0004384,1,Nerve fibers which project from cell bodies of autonomic ganglia to synapses on target organs.,,,2010-01-01 00:00:00,2014-08-18 21:13:18
+M0002223,Bass,C0004830,1,Common name for FISHES belonging to the order Perciformes and occurring in three different families.,,,2010-01-01 00:00:00,2014-08-18 21:19:12
+M0002224,Dicentrarchus,C0012064,0,,,,2010-01-01 00:00:00,2014-08-18 21:19:14
+M0002225,Micropterus,C0026013,0,,,,2010-01-01 00:00:00,2014-08-18 21:19:12
+M0002226,Morone,C0026545,0,,,,2010-01-01 00:00:00,2014-08-18 21:19:14
+M0002243,Beak,C0004895,1,"In some animals, the jaws together with their horny covering. The beak usually refers to the bill of birds in which the whole varies greatly in form according of the food and habits of the bird. While the beak refers most commonly to birds, the anatomical counterpart is found also in the turtle, squid, and octopus. (From Webster, 3d ed & Storer, et al., General Zoology, 6th ed, p491, 755)",,,2010-01-01 00:00:00,2014-08-18 21:19:33
+M0002244,"Bill, Avian",C0282069,0,,,,2010-01-01 00:00:00,2014-08-18 21:19:33
+M0002477,Bile Canaliculi,C0005393,1,Minute intercellular channels that occur between liver cells and carry bile towards interlobar bile ducts. Also called bile capillaries.,,,2010-01-01 00:00:00,2014-08-18 21:25:52
+M0002643,Blastoderm,C0005709,1,"A layer of cells lining the fluid-filled cavity (blastocele) of a BLASTULA, usually developed from a fertilized insect, reptilian, or avian egg.",,,2010-01-01 00:00:00,2014-08-18 21:30:21
+M0002731,Blood-Retinal Barrier,C0005855,1,"A specialized transport barrier, in the EYE, formed by the retinal pigment EPITHELIUM, and the ENDOTHELIUM of the BLOOD VESSELS of the RETINA. TIGHT JUNCTIONS joining adjacent cells keep the barrier between cells continuous.",,,2010-01-01 00:00:00,2014-08-18 21:32:34
+M0002732,Blood-Testis Barrier,C0005856,1,"A specialized barrier, in the TESTIS, between the interstitial BLOOD compartment and the adluminal compartment of the SEMINIFEROUS TUBULES. The barrier is formed by layers of cells from the VASCULAR ENDOTHELIUM of the capillary BLOOD VESSELS, to the SEMINIFEROUS EPITHELIUM of the seminiferous tubules. TIGHT JUNCTIONS form between adjacent SERTOLI CELLS, as well as between the ENDOTHELIAL CELLS.",,,2010-01-01 00:00:00,2014-08-18 21:32:36
+M0002749,Body Regions,C0005898,1,Anatomical areas of the body.,,,2010-01-01 00:00:00,2014-08-18 21:32:57
+M0002790,Bone Matrix,C0005962,1,,,,2010-01-01 00:00:00,2014-08-18 21:33:57
+M0002984,"Adipose Tissue, Brown",C0006298,1,"A thermogenic form of adipose tissue composed of BROWN ADIPOCYTES. It is found in newborns of many species including humans, and in hibernating mammals. Brown fat is richly vascularized, innervated, and densely packed with MITOCHONDRIA which can generate heat directly from the stored lipids.",,,2010-01-01 00:00:00,2014-08-18 21:40:21
+M0003004,Buffaloes,C0006352,1,"Ruminants of the family Bovidae consisting of Bubalus arnee and Syncerus caffer. This concept is differentiated from BISON, which refers to Bison bison and Bison bonasus.",,,2010-01-01 00:00:00,2014-08-18 21:41:02
+M0003005,Water Buffaloes,C0080332,0,,,,2010-01-01 00:00:00,2014-08-18 21:41:02
+M0003006,Bubalus,C0524505,0,,,,2010-01-01 00:00:00,2014-08-18 21:41:02
+M0003007,Syncerus,C0524506,0,,,,2010-01-01 00:00:00,2014-08-18 21:41:02
+M0003010,Bufo arenarum,C0006355,1,"A species of the true toads, Bufonidae, found in South America.",,,2010-01-01 00:00:00,2014-08-18 21:41:04
+M0003011,Bufo bufo,C0006356,1,"A species of the true toads, Bufonidae, widely distributed in the United States and Europe.",,,2010-01-01 00:00:00,2014-08-18 21:41:06
+M0003012,Bufo marinus,C0006357,1,"A species of the true toads, Bufonidae, becoming fairly common in the southern United States and almost pantropical. The secretions from the skin glands of this species are very toxic to animals.",,,2010-01-01 00:00:00,2014-08-18 21:41:08
+M0003013,Bufo,C0006354,0,,,,2010-01-01 00:00:00,2014-08-18 21:41:11
+M0003014,Bufonidae,C0006358,1,"The family of true toads belonging to the order Anura. The genera include Bufo, Ansonia, Nectophrynoides, and Atelopus.",,,2010-01-01 00:00:00,2014-08-18 21:41:11
+M0003211,Bony Callus,C0006767,1,The bony deposit formed between and around the broken ends of BONE FRACTURES during normal healing.,,,2010-01-01 00:00:00,2014-08-18 21:46:57
+M0003237,Camels,C0006801,1,,,,2010-01-01 00:00:00,2014-08-18 21:47:31
+M0003238,Dromedary,C0013127,0,,,,2010-01-01 00:00:00,2014-08-18 21:47:32
+M0003248,Canaries,C0006824,1,Any of several Old World finches of the genus Serinus.,,,2010-01-01 00:00:00,2014-08-18 21:47:45
+M0003544,"Carotid Artery, External",C0007275,1,"Branch of the common carotid artery which supplies the exterior of the head, the face, and the greater part of the neck.",,,2010-01-01 00:00:00,2014-08-18 21:56:06
+M0003545,"Carotid Artery, Internal",C0007276,1,"Branch of the common carotid artery which supplies the anterior part of the brain, the eye and its appendages, the forehead and nose.",,,2010-01-01 00:00:00,2014-08-18 21:56:08
+M0003552,Carpal Bones,C0007285,1,The eight bones of the wrist: SCAPHOID BONE; LUNATE BONE; TRIQUETRUM BONE; PISIFORM BONE; TRAPEZIUM BONE; TRAPEZOID BONE; CAPITATE BONE; and HAMATE BONE.,,,2010-01-01 00:00:00,2014-08-18 21:56:23
+M0003649,Catfishes,C0007418,1,"Common name of the order Siluriformes. This order contains many families and over 2,000 species, including venomous species. Heteropneustes and Plotosus genera have dangerous stings and are aggressive. Most species are passive stingers.",,,2010-01-01 00:00:00,2014-08-18 21:58:33
+M0003651,Heteropneustes,C0019420,0,,,,2010-01-01 00:00:00,2014-08-18 21:58:33
+M0003652,Plotosus,C0032247,0,,,,2010-01-01 00:00:00,2014-08-18 21:58:33
+M0003861,Cerebellar Nuclei,C0007763,1,"Four accumulations of gray substance embedded in the white substance of the cerebellum, comprising the nucleus dentatus, nucleus emboliformis, nucleus globosus, and nucleus fastigii. (Dorland, 28th ed)",,,2010-01-01 00:00:00,2014-08-18 22:04:28
+M0003862,Nucleus Dentatus,C0086120,0,,,,2010-01-01 00:00:00,2014-08-18 22:04:29
+M0003863,Nucleus Emboliformis,C0175488,0,,,,2010-01-01 00:00:00,2014-08-18 22:04:29
+M0003864,Nucleus Globosus,C0175489,0,,,,2010-01-01 00:00:00,2014-08-18 22:04:29
+M0003865,Nucleus Fastigii,C0175490,0,,,,2010-01-01 00:00:00,2014-08-18 22:04:28
+M0003873,Cerebral Aqueduct,C0007769,1,Narrow channel in the mesencephalon that connects the third and fourth ventricles.,,,2010-01-01 00:00:00,2014-08-18 22:04:53
+M0004042,Chickens,C0008051,1,"Common name for the species Gallus gallus, the domestic fowl, in the family Phasianidae, order GALLIFORMES. It is descended from the red jungle fowl of SOUTHEAST ASIA.",,,2010-01-01 00:00:00,2014-08-18 22:10:07
+M0004086,Chimera,C0008109,1,An individual that contains cell populations derived from different zygotes.,,,2010-01-01 00:00:00,2014-08-18 22:11:32
+M0004087,Hybrids,C0020205,0,,,,2010-01-01 00:00:00,2014-08-18 22:11:33
+M0004094,Chinchilla,C0008119,1,"A genus of the family Chinchillidae which consists of three species: C. brevicaudata, C. lanigera, and C. villidera. They are used extensively in biomedical research.",,,2010-01-01 00:00:00,2014-08-18 22:11:42
+M0004340,Chorion,C0008503,1,"The outermost extra-embryonic membrane surrounding the developing embryo. In REPTILES and BIRDS, it adheres to the shell and allows exchange of gases between the egg and its environment. In MAMMALS, the chorion evolves into the fetal contribution of the PLACENTA.",,,2010-01-01 00:00:00,2014-08-18 22:22:33
+M0004341,Chorionic Villi,C0008508,1,"The threadlike, vascular projections of the chorion. Chorionic villi may be free or embedded within the DECIDUA forming the site for exchange of substances between fetal and maternal blood (PLACENTA).",,,2010-01-01 00:00:00,2014-08-18 22:22:36
+M0004574,Cloaca,C0008987,1,"A dilated cavity extended caudally from the hindgut. In adult birds, reptiles, amphibians, and many fishes but few mammals, cloaca is a common chamber into which the digestive, urinary and reproductive tracts discharge their contents. In most mammals, cloaca gives rise to LARGE INTESTINE; URINARY BLADDER; and GENITALIA.",,,2010-01-01 00:00:00,2014-08-18 22:32:07
+M0004683,Cochlear Aqueduct,C0009196,1,A fine channel that passes through the TEMPORAL BONE near the SCALA TYMPANI (the basilar turn of the cochlea). The cochlear aqueduct connects the PERILYMPH-filled bony labyrinth to the SUBARACHNOID SPACE.,,,2010-01-01 00:00:00,2014-08-18 22:36:42
+M0004684,Cochlear Duct,C1323110,1,"A spiral tube that is firmly suspended in the bony shell-shaped part of the cochlea. This ENDOLYMPH-filled cochlear duct begins at the vestibule and makes 2.5 turns around a core of spongy bone (the modiolus) thus dividing the PERILYMPH-filled spiral canal into two channels, the SCALA VESTIBULI and the SCALA TYMPANI.",,,2010-01-01 00:00:00,2014-08-18 22:36:46
+M0004842,Comb and Wattles,C0009424,1,,,,2010-01-01 00:00:00,2014-08-18 22:42:08
+M0004843,Wattles,C0043074,0,,,,2010-01-01 00:00:00,2014-08-18 22:42:09
+M0004844,Comb,C0376161,0,,,,2010-01-01 00:00:00,2014-08-18 22:42:08
+M0005184,Corneal Stroma,C0010040,1,The lamellated connective tissue constituting the thickest layer of the cornea between the Bowman and Descemet membranes.,,,2010-01-01 00:00:00,2014-08-18 22:49:33
+M0005203,Corpora Allata,C0010085,1,Paired or fused ganglion-like bodies in the head of insects. The bodies secrete hormones important in the regulation of metamorphosis and the development of some adult tissues.,,,2010-01-01 00:00:00,2014-08-18 22:50:17
+M0005283,Cranial Sutures,C0010272,1,A type of fibrous joint between bones of the head.,,,2010-01-01 00:00:00,2014-08-18 22:52:17
+M0005310,Clethrionomys,C0008936,0,,,,2010-01-01 00:00:00,2014-08-18 22:53:11
+M0005311,Arvicolinae,C0010318,1,"A subfamily of MURIDAE found nearly world-wide and consisting of about 20 genera. Voles, lemmings, and muskrats are members.",,,2010-01-01 00:00:00,2014-08-18 22:53:10
+M0005312,Dicrostonyx,C0012107,0,,,,2010-01-01 00:00:00,2014-08-18 22:53:11
+M0005313,Lemmus,C0023295,0,,,,2010-01-01 00:00:00,2014-08-18 22:53:11
+M0005314,"Mice, Red-Backed",C0025935,0,,,,2010-01-01 00:00:00,2014-08-18 22:53:12
+M0005315,Ondatra,C0026869,0,,,,2010-01-01 00:00:00,2014-08-18 22:53:12
+M0005316,Voles,C0042947,0,,,,2010-01-01 00:00:00,2014-08-18 22:53:10
+M0005317,Cricetidae,C0080350,0,,,,2010-01-01 00:00:00,2014-08-18 22:53:12
+M0005318,Cricetulus,C0010320,1,"A genus of the family Muridae consisting of eleven species. C. migratorius, the grey or Armenian hamster, and C. griseus, the Chinese hamster, are the two species used in biomedical research.",,,2010-01-01 00:00:00,2014-08-18 22:53:14
+M0005319,"Hamsters, Chinese",C0018555,0,,,,2010-01-01 00:00:00,2014-08-18 22:53:15
+M0005320,"Hamsters, Armenian",C0018558,0,,,,2010-01-01 00:00:00,2014-08-18 22:53:14
+M0005321,Cricoid Cartilage,C0010323,1,The small thick cartilage that forms the lower and posterior parts of the laryngeal wall.,,,2010-01-01 00:00:00,2014-08-18 22:53:17
+M0005340,"Crop, Avian",C0010352,1,,,,2010-01-01 00:00:00,2014-08-18 22:53:47
+M0367470,Arius,C0949251,0,Genus of the family Ariidae (sea catfishes).,,,2010-01-01 00:00:00,2014-08-18 21:58:33
+M0438709,Eremophilus mutisii,C1257734,0,"A fish species of the order SILURIFORMES, family Trichomycteridae.",,,2010-01-01 00:00:00,2014-08-18 21:58:34
+M0457482,Muskrats,C1095815,0,A species in the genus Ondatra.,,,2010-01-01 00:00:00,2014-08-18 22:53:11
+M0477808,Morone americana,C0328721,0,"A species of FISHES with the common name white perch, but actually a kind of BASS.",,,2010-01-01 00:00:00,2014-08-18 21:19:13
+M0479409,Moronidae,C1009970,0,,,,2010-01-01 00:00:00,2014-08-18 21:19:13
+M0479410,Serranidae,C1003387,0,,,,2010-01-01 00:00:00,2014-08-18 21:19:12
+M0486892,Hibernating Gland,C1720753,0,,,,2010-01-01 00:00:00,2014-08-18 21:40:21
+M0527917,Ambystoma tigrinum,,0,,,,2010-01-01 00:00:00,2014-08-18 20:37:27

@@ -1,0 +1,101 @@
+`mesh_descriptor_uid`,`name`,`annotation`,`created_at`,`updated_at`
+D000018,Abomasum,a ruminant's 4th stomach; dis: coord IM with STOMACH DISEASES /vet (IM); neopl: coord IM with STOMACH NEOPLASMS /vet (IM) + histol type /vet (IM); ulcer: coord IM with STOMACH ULCER /vet (IM),2010-01-01 00:00:00,2014-08-18 20:08:14
+D000173,Acromioclavicular Joint,dislocation: coord (IM) with DISLOCATIONS (IM),2010-01-01 00:00:00,2014-08-18 20:17:34
+D000302,Adrenal Cortex,PITUITARY-ADRENAL SYSTEM is available,2010-01-01 00:00:00,2014-08-18 20:25:18
+D000344,Afferent Pathways,coord NIM with origin (IM) + termination (IM),2010-01-01 00:00:00,2014-08-18 20:27:18
+D000400,Air Sacs,"in birds, fish, insects & mammals; sacculitis in veterinary animals: coord IM with RESPIRATORY TRACT DISEASES/vet (IM) or RESPIRATORY TRACT INFECTIONS/vet (IM)",2010-01-01 00:00:00,2014-08-18 20:29:12
+D000557,Ambystoma,NIM with no qualifiers when an experimental animal,2010-01-01 00:00:00,2014-08-18 20:37:25
+D000695,Anal Sacs,"for neopl, coord with ANAL GLAND NEOPLASMS",2010-01-01 00:00:00,2014-08-18 20:44:17
+D000811,Anguilla,"eel; NIM when exper animal: no qualif; when IM, qualif permitted",2010-01-01 00:00:00,2014-08-18 20:49:20
+D000825,Animal Structures,avoid: too general; prefer specifics,2010-01-01 00:00:00,2014-08-18 20:49:47
+D000832,"Animals, Poisonous",IM; qualif permitted; coord IM with specific poisonous animal (IM); do not forget also to check tag ANIMALS,2010-01-01 00:00:00,2014-08-18 20:50:03
+D000835,"Animals, Wild","GEN or unspecified; do not index as coord with animals ordinarily considered wild, as LIONS; BEARS; etc.; coord IM with animal not usually wild (IM) as wild dogs; IM; qualif permitted; do not forget also to check tag ANIMALS",2010-01-01 00:00:00,2014-08-18 20:50:07
+D000836,"Animals, Zoo",IM; qualif permitted; coord IM with specific zoo animal (IM); do not forget also to check tag ANIMALS,2010-01-01 00:00:00,2014-08-18 20:50:10
+D000869,Anterior Eye Segment,do not confuse with ANTERIOR CHAMBER,2010-01-01 00:00:00,2014-08-18 20:51:34
+D001001,Anura,"GEN or unspecified; prefer specific available families & genera; frogs & toads; NIM when exper animal: no qualif; when IM, qualif permitted",2010-01-01 00:00:00,2014-08-18 20:57:19
+D001111,Arcuate Nucleus,"in the HYPOTHALAMUS, MIDDLE",2010-01-01 00:00:00,2014-08-18 21:03:11
+D001133,Bones of Upper Extremity,avoid: too general; prefer specifics; permitted with all vertebrates; Manual 21.58,2010-01-01 00:00:00,2014-08-18 21:04:20
+D001160,Arterioles,IM GEN only; NIM as coord with specific organ /blood supply (IM),2010-01-01 00:00:00,2014-08-18 21:05:31
+D001193,Arytenoid Cartilage,,2010-01-01 00:00:00,2014-08-18 21:07:16
+D001268,Atlanto-Axial Joint,,2010-01-01 00:00:00,2014-08-18 21:10:48
+D001303,Auditory Cortex,"dis: coord NIM with AUDITORY DISEASES, CENTRAL (IM)",2010-01-01 00:00:00,2014-08-18 21:12:10
+D001306,Auditory Pathways,"dis: coord NIM with AUDITORY DISEASES, CENTRAL (IM)",2010-01-01 00:00:00,2014-08-18 21:12:17
+D001338,"Autonomic Fibers, Postganglionic","do not confuse with AUTONOMIC FIBERS, PREGANGLIONIC",2010-01-01 00:00:00,2014-08-18 21:13:15
+D001492,Bass,,2010-01-01 00:00:00,2014-08-18 21:19:11
+D001502,Beak,not restricted to birds,2010-01-01 00:00:00,2014-08-18 21:19:31
+D001648,Bile Canaliculi,"also called ""bile capillaries""",2010-01-01 00:00:00,2014-08-18 21:25:50
+D001756,Blastoderm,,2010-01-01 00:00:00,2014-08-18 21:30:19
+D001813,Blood-Retinal Barrier,coord IM with endogenous substance /metab (IM) or exogenous substance /pharmacokin (IM),2010-01-01 00:00:00,2014-08-18 21:32:32
+D001814,Blood-Testis Barrier,coord IM with endogenous substance /metab (IM) or exogenous substance /pharmacokin (IM),2010-01-01 00:00:00,2014-08-18 21:32:35
+D001829,Body Regions,used for searching: indexers apply specifics; may be used by catalogers,2010-01-01 00:00:00,2014-08-18 21:32:56
+D001857,Bone Matrix,,2010-01-01 00:00:00,2014-08-18 21:33:56
+D002001,"Adipose Tissue, Brown",,2010-01-01 00:00:00,2014-08-18 21:40:19
+D002020,Buffaloes,"do not confuse with BUFFALO, AMERICAN see BISON; IM; qualif permitted",2010-01-01 00:00:00,2014-08-18 21:41:00
+D002022,Bufo arenarum,"So. Amer. toad; NIM when exper animal: no qualif; when IM, qualif permitted",2010-01-01 00:00:00,2014-08-18 21:41:03
+D002023,Bufo bufo,"common U.S. & European toad; NIM when exper animal: no qualif; when IM, qualif permitted",2010-01-01 00:00:00,2014-08-18 21:41:05
+D002024,Bufo marinus,"common southern U.S. toad; NIM when exper animal: no qualif; when IM, qualif permitted",2010-01-01 00:00:00,2014-08-18 21:41:07
+D002025,Bufonidae,"toads including genera Bufo, Ansonia, Nectophrynoides & Atelopus; NIM when exper animal: no qualif; when IM, qualif permitted",2010-01-01 00:00:00,2014-08-18 21:41:09
+D002146,Bony Callus,"post-fract bone formation; do not confuse with ""callous"" ( = CALLOSITIES)",2010-01-01 00:00:00,2014-08-18 21:46:55
+D002162,Camels,IM; qualif permitted,2010-01-01 00:00:00,2014-08-18 21:47:30
+D002171,Canaries,,2010-01-01 00:00:00,2014-08-18 21:47:44
+D002342,"Carotid Artery, External",dis: coord IM with CAROTID ARTERY DISEASES (IM); inj: coord IM with CAROTID ARTERY INJURIES (IM) or specifics (IM),2010-01-01 00:00:00,2014-08-18 21:56:04
+D002343,"Carotid Artery, Internal",dis: coord IM with CAROTID ARTERY DISEASES (IM); inj: coord IM with CAROTID ARTERY INJURIES (IM) or specifics (IM),2010-01-01 00:00:00,2014-08-18 21:56:06
+D002348,Carpal Bones,"do not confuse with WRIST (the area) or WRIST JOINT; see note on CARPUS, ANIMAL; /inj permitted: not necessarily WRIST INJURIES",2010-01-01 00:00:00,2014-08-18 21:56:20
+D002397,Catfishes,BULLHEAD CATFISHES and CHANNEL CATFISH see ICTALURIDAE are also available; X ref EREMOPHILUS MUTISII: EREMOPHILA PLANT and EREMOPHILA ALPESTRIS see SONGBIRDS are also available,2010-01-01 00:00:00,2014-08-18 21:58:31
+D002529,Cerebellar Nuclei,diseases: coord IM with CEREBELLAR DISEASES (IM),2010-01-01 00:00:00,2014-08-18 22:04:26
+D002535,Cerebral Aqueduct,/radiogr: coord with CEREBRAL VENTRICULOGRAPHY,2010-01-01 00:00:00,2014-08-18 22:04:50
+D002645,Chickens,diseases: coord IM with POULTRY DISEASES (IM); canned chicken: coord IM with FOOD PRESERVATION,2010-01-01 00:00:00,2014-08-18 22:10:05
+D002678,Chimera,,2010-01-01 00:00:00,2014-08-18 22:11:30
+D002682,Chinchilla,,2010-01-01 00:00:00,2014-08-18 22:11:41
+D002823,Chorion,,2010-01-01 00:00:00,2014-08-18 22:22:29
+D002824,Chorionic Villi,,2010-01-01 00:00:00,2014-08-18 22:22:34
+D002988,Cloaca,,2010-01-01 00:00:00,2014-08-18 22:32:04
+D003052,Cochlear Aqueduct,do not confuse with COCHLEAR DUCT,2010-01-01 00:00:00,2014-08-18 22:36:38
+D003053,Cochlear Duct,do not confuse with COCHLEAR AQUEDUCT,2010-01-01 00:00:00,2014-08-18 22:36:43
+D003129,Comb and Wattles,DF: COMB,2010-01-01 00:00:00,2014-08-18 22:42:05
+D003319,Corneal Stroma,,2010-01-01 00:00:00,2014-08-18 22:49:31
+D003335,Corpora Allata,hormone-secreting bodies in head of insects,2010-01-01 00:00:00,2014-08-18 22:50:14
+D003393,Cranial Sutures,note category: a fibrous joint in bones of head; do not confuse with SUTURES (E7) or SUTURE TECHNIQUES (E4),2010-01-01 00:00:00,2014-08-18 22:52:15
+D003411,Arvicolinae,"for entry term MICE, RED-BACKED & other species commonly called ""mouse"" but taxonomically ARVICOLINAE, do not check tag MICE",2010-01-01 00:00:00,2014-08-18 22:53:09
+D003412,Cricetulus,"do not confuse with CRICETUS see CRICETINAE  or CRICETIDAE see ARVICOLINAE; NIM when exper animal: no qualif; when IM, qualif permitted; do not forget  to check tag",2010-01-01 00:00:00,2014-08-18 22:53:12
+D003413,Cricoid Cartilage,,2010-01-01 00:00:00,2014-08-18 22:53:15
+D003426,"Crop, Avian",,2010-01-01 00:00:00,2014-08-18 22:53:44
+D003530,Cyprinidae,GEN or unspecified; prefer specifics; note X ref; MUDMINNOWS see UMBRIDAE is also available,2010-01-01 00:00:00,2014-08-18 22:57:34
+D003532,Cyprinodontiformes,GEN; prefer specifics; do not confuse with CYPRINIDAE or CYPRINIFORMES or CYPRINODON see KILLIFISHES,2010-01-01 00:00:00,2014-08-18 22:57:40
+D003670,Deer,"includes elk, wapiti, moose, caribou, REINDEER & MUNTJACS; IM; qualif permitted",2010-01-01 00:00:00,2014-08-18 23:05:22
+D004289,Dolphins,"do not confuse with DOLPHIN FISH see PERCIFORMES; note ""whales"" X refs: these are common misnomers and are taxonomically DOLPHINS not WHALES",2010-01-01 00:00:00,2014-08-18 23:49:01
+D004302,Dorsomedial Hypothalamic Nucleus,,2010-01-01 00:00:00,2014-08-18 23:49:48
+D004372,Ducks,"domestic or wild; IM; qualif permitted; diseases: coord IM with POULTRY DISEASES (IM); diseases of wild ducks: coord IM with BIRD DISEASES (IM), not POULTRY DISEASES",2010-01-01 00:00:00,2014-08-18 23:52:54
+D004425,Ear Cartilage,"/abnorm permitted for congenital deformities but acquired deformities = EAR DEFORMITIES, ACQUIRED + EAR CARTILAGE",2010-01-01 00:00:00,2014-08-18 23:56:09
+D004525,Efferent Pathways,coord NIM with origin (IM) + termination (IM),2010-01-01 00:00:00,2014-08-19 00:00:04
+D004625,"Embryo, Nonmammalian","use for non-mammalian embryo as an entity or as tissue; use the qualifier / embryol with an organ for embryologic aspects of that organ; embryonic tissue or cells in tissue & cell cultures: coordinate EMBRYO, NONMAMMALIAN + tissues or cell without qualifiers (not with / embryol) + culture term, all probably NIM; transfer of non-mammalian embryo = EMBRYO, NONMAMMALIAN/transpl not EMBRYO TRANSFER; EMBRYO, MAMMALIAN and CHICK EMBRYO are also available",2010-01-01 00:00:00,2014-08-19 00:03:47
+D004628,Embryonic Structures,used for searching; indexers apply specifics; may be used by catalogers,2010-01-01 00:00:00,2014-08-19 00:03:56
+D004703,Endocrine System,avoid: too general; prefer ENDOCRINE GLANDS; CHROMAFFIN SYSTEM; or NEUROSECRETORY SYSTEMS & their specifics,2010-01-01 00:00:00,2014-08-19 00:07:41
+D004711,Endolymphatic Duct,,2010-01-01 00:00:00,2014-08-19 00:07:57
+D004712,Endolymphatic Sac,,2010-01-01 00:00:00,2014-08-19 00:07:59
+D004727,Endothelium,GEN or unspecified; prefer specifics; usually NIM with specific organ IM,2010-01-01 00:00:00,2014-08-19 00:08:39
+D004728,"Endothelium, Corneal","do not confuse with EPITHELIUM, CORNEAL; do not confuse X ref ANTERIOR CHAMBER EPITHELIUM with ANTERIOR CORNEAL EPITHELIUM see EPITHELIUM, CORNEAL",2010-01-01 00:00:00,2014-08-19 00:08:43
+D004729,"Endothelium, Lymphatic",,2010-01-01 00:00:00,2014-08-19 00:08:47
+D004730,"Endothelium, Vascular",,2010-01-01 00:00:00,2014-08-19 00:08:49
+D004817,Epidermis,,2010-01-01 00:00:00,2014-08-19 00:12:01
+D004824,Epidural Space,NIM: usually locational so few qualif apply,2010-01-01 00:00:00,2014-08-19 00:12:19
+D005088,Exocrine Glands,GEN: prefer specifics,2010-01-01 00:00:00,2014-08-19 00:35:34
+D005206,Fascia Lata,,2010-01-01 00:00:00,2014-08-19 00:50:08
+D005216,Fat Body,in AMPHIBIANS & insects,2010-01-01 00:00:00,2014-08-19 00:51:28
+D005400,"Fishes, Poisonous",IM; qualif permitted,2010-01-01 00:00:00,2014-08-19 01:11:08
+D005412,Flatfishes,sole may be SOLEA see FLATFISHES or FLOUNDER (Pleuronectidae); check text,2010-01-01 00:00:00,2014-08-19 01:12:02
+D005432,Flounder,sole may be FLOUNDER (Pleuronectidae) or SOLEA see FLATFISHES,2010-01-01 00:00:00,2014-08-19 01:13:28
+D005529,Foot Bones,general or unspecified; prefer specifics; permitted with all vertebrates; Manual 21.58,2010-01-01 00:00:00,2014-08-19 01:23:13
+D005546,Forehead,"NIM as locational, no qualif",2010-01-01 00:00:00,2014-08-19 01:24:50
+D005552,Forelimb,non-primate vertebrates only: for human use ARM; for invertebrates use EXTREMITIES; TN 75: animal extremities; TN 117: table of animal extremities,2010-01-01 00:00:00,2014-08-19 01:25:25
+D005589,Foxes,,2010-01-01 00:00:00,2014-08-19 01:28:18
+D005701,Galago,prosimian; IM; qualif permitted,2010-01-01 00:00:00,2014-08-19 01:42:50
+D005726,"Ganglia, Parasympathetic","includes ciliary, pterygopalatine, submandibular, otic ganglia",2010-01-01 00:00:00,2014-08-19 01:45:40
+D005728,"Ganglia, Sympathetic","/surg = probably GANGLIONECTOMY; includes cervical, mesenteric & celiac ganglia but SUPERIOR CERVICAL GANGLION is available; STELLATE GANGLION is also available",2010-01-01 00:00:00,2014-08-19 01:45:55
+D005748,Gastric Fundus,NIM when merely locational; neopl of gastric fundus: coord NIM with STOMACH NEOPLASMS (IM) + histol type of neopl (IM),2010-01-01 00:00:00,2014-08-19 01:48:19
+D005775,Gastrula,,2010-01-01 00:00:00,2014-08-19 01:52:11
+D005777,Geese,domestic or wild; IM; qualif permitted; diseases: coord IM with POULTRY DISEASES (IM); diseases of wild geese: coord IM with BIRD DISEASES (IM),2010-01-01 00:00:00,2014-08-19 01:53:02
+D005849,Gerbillinae,"rodents; NIM when exper animal: no qualif; when IM, qualif permitted",2010-01-01 00:00:00,2014-08-19 02:06:52
+D005880,Gills,,2010-01-01 00:00:00,2014-08-19 02:16:06
+D005895,Gizzard,dis: coord IM with STOMACH DISEASES /vet (IM); neopl: coord IM with STOMACH NEOPLASMS /vet (IM) + histol type (IM),2010-01-01 00:00:00,2014-08-19 02:21:42
+D005920,Glomerular Mesangium,,2010-01-01 00:00:00,2014-08-19 02:30:25
