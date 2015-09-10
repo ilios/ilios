@@ -43,6 +43,8 @@ class IliosAuthenticationExtensionTest extends AbstractExtensionTestCase
             'ilios_authentication.form.authentication',
             'ilios_authentication.shibboleth.authentication',
             'ilios_authentication.ldap.authentication',
+            'ilios_authentication.authenticator_factory',
+            'ilios_authentication.authenticator'
         );
         foreach ($services as $service) {
             $this->assertContainerBuilderHasService($service);
