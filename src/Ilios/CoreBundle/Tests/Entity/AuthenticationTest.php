@@ -40,6 +40,15 @@ class AuthenticationTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Authentication::setEppn
+     * @covers Ilios\CoreBundle\Entity\Authentication:gsetEppn
+     */
+    public function testSetEppn()
+    {
+        $this->basicSetTest('eppn', 'string');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Authentication::setUser
      * @covers Ilios\CoreBundle\Entity\Authentication::getUser
      */

@@ -33,10 +33,9 @@ class Authentication implements AuthenticationInterface
     protected $user;
 
     /**
-    * @ORM\Column(name="username", type="string", unique=true, length=100)
+    * @ORM\Column(name="username", type="string", unique=true, length=100, nullable=true)
     * @var string
     *
-    * @Assert\NotBlank()
     * @Assert\Type(type="string")
     * @Assert\Length(
     *      min = 1,
