@@ -95,6 +95,7 @@ class LdapManager
         }
         
         $this->ldap = new Ldap($this->ldapUrl);
+        $this->ldap->setOption(Ldap::OPT_NETWORK_TIMEOUT, 10);
         $this->ldap->bind($this->ldapBindUser, $this->ldapBindPassword);
 
         return $this->ldap;
@@ -116,6 +117,7 @@ class LdapManager
             'sn',
             'givenName',
             'telephoneNumber',
+            'eduPersonPrincipalName',
             $this->ldapCampusIdProperty
         ];
         try {
@@ -130,17 +132,26 @@ class LdapManager
                 unset($arr['count']);
                 $campusIdKey = strtolower($this->ldapCampusIdProperty);
                 $rhett = array_map(function ($userData) use ($campusIdKey) {
-                    $firstName = array_key_exists('givenname', $userData)?$userData['givenname'][0]:null;
-                    $lastName = array_key_exists('sn', $userData)?$userData['sn'][0]:null;
-                    $email = array_key_exists('mail', $userData)?$userData['mail'][0]:null;
-                    $phone = array_key_exists('telephoneNumber', $userData)?$userData['telephoneNumber'][0]:null;
-                    $campusId = array_key_exists($campusIdKey, $userData)?$userData[$campusIdKey][0]:null;
+                    $keys = [
+                        'givenname',
+                        'sn',
+                        'mail',
+                        'telephonenumber',
+                        'edupersonprincipalname',
+                        $campusIdKey
+                    ];
+                    $values = [];
+                    foreach ($keys as $key) {
+                        $value = array_key_exists($key, $userData)?$userData[$key][0]:null;
+                        $values[$key] = $value;
+                    }
                     return [
-                        'firstName' => $firstName,
-                        'lastName' => $lastName,
-                        'email' => $email,
-                        'telephoneNumber' => $phone,
-                        'campusId' => $campusId,
+                        'firstName' => $values['givenname'],
+                        'lastName' => $values['sn'],
+                        'email' => $values['mail'],
+                        'telephoneNumber' => $values['telephonenumber'],
+                        'eppn' => $values['edupersonprincipalname'],
+                        'campusId' => $values[$campusIdKey],
                     ];
                 }, $arr);
             }

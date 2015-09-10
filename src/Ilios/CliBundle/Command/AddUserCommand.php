@@ -1,0 +1,162 @@
+<?php
+
+namespace Ilios\CliBundle\Command;
+
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
+use Ilios\CoreBundle\Service\Directory;
+use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
+
+/**
+ * Add a user by looking them up in the directory
+ *
+ * Class AddUserCommand
+ * @package Ilios\CliBUndle\Command
+ */
+class AddUserCommand extends Command
+{
+    /**
+     * @var UserManagerInterface
+     */
+    protected $userManager;
+    
+    /**
+     * @var AuthenticationManagerInterface
+     */
+    protected $authenticationManager;
+    
+    /**
+     * @var SchoolManagerInterface
+     */
+    protected $schoolManager;
+    
+    /**
+     * @var Directory
+     */
+    protected $directory;
+    
+    /**
+     * @var AuthenticationInterface
+     */
+    protected $authenticationService;
+    
+    public function __construct(
+        UserManagerInterface $userManager,
+        AuthenticationManagerInterface $authenticationManager,
+        SchoolManagerInterface $schoolManager,
+        Directory $directory,
+        AuthenticationInterface $authenticationService
+    ) {
+        $this->userManager = $userManager;
+        $this->authenticationManager = $authenticationManager;
+        $this->schoolManager = $schoolManager;
+        $this->directory = $directory;
+        $this->authenticationService = $authenticationService;
+        
+        parent::__construct();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this
+            ->setName('ilios:directory:add-user')
+            ->setDescription('Add a user to ilios.')
+            ->addArgument(
+                'campusId',
+                InputArgument::REQUIRED,
+                'The campus ID to lookup for adding the new user.'
+            )
+            ->addArgument(
+                'schoolId',
+                InputArgument::REQUIRED,
+                'The primary school of the new user.'
+            );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $campusId = $input->getArgument('campusId');
+        $user = $this->userManager->findUserBy(['campusId' => $campusId]);
+        if ($user) {
+            throw new \Exception(
+                'User #' . $user->getId() . " with campus id {$campusId} already exists."
+            );
+        }
+        $schoolId = $input->getArgument('schoolId');
+        $school = $this->schoolManager->findSchoolBy(['id' => $schoolId]);
+        if (!$school) {
+            throw new \Exception(
+                "School with id {$schoolId} could not be found."
+            );
+        }
+        
+        $userRecord = $this->directory->findByCampusId($campusId);
+        
+        if (!$userRecord) {
+            $output->writeln("<error>Unable to find campus id {$campusId} in the directory</error>");
+            return;
+        }
+        
+        $table = new Table($output);
+        $table
+            ->setHeaders(array('Campus ID', 'First', 'Last', 'Email', 'Phone Number'))
+            ->setRows(array(
+                [
+                    $userRecord['campusId'],
+                    $userRecord['firstName'],
+                    $userRecord['lastName'],
+                    $userRecord['email'],
+                    $userRecord['telephoneNumber']
+                ]
+            ))
+        ;
+        $table->render();
+        
+        $helper = $this->getHelper('question');
+        $output->writeln('');
+        $question = new ConfirmationQuestion(
+            "<question>Do you wish to add this user to Ilios?</question>\n",
+            false
+        );
+        
+        if ($helper->ask($input, $output, $question)) {
+            $user = $this->userManager->createUser();
+            $user->setFirstName($userRecord['firstName']);
+            $user->setLastName($userRecord['lastName']);
+            $user->setEmail($userRecord['email']);
+            $user->setCampusId($userRecord['campusId']);
+            $user->setAddedViaIlios(true);
+            $user->setEnabled(true);
+            $user->setSchool($school);
+            $user->setUserSyncIgnore(false);
+            //persist the user so it can be used in setupUser method
+            $this->userManager->updateUser($user);
+            
+            $this->authenticationService->setupNewUser($userRecord, $user);
+            //save again in case setupUser made any changes
+            $this->userManager->updateUser($user);
+
+            $output->writeln(
+                '<info>Success! New user #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' created.</info>'
+            );
+        } else {
+            $output->writeln('<comment>Canceled</comment>');
+        }
+        
+        
+    }
+}

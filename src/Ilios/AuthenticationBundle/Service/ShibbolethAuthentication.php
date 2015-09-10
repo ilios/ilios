@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 class ShibbolethAuthentication implements AuthenticationInterface
 {
@@ -77,5 +78,26 @@ class ShibbolethAuthentication implements AuthenticationInterface
         $jwt = $this->jwtManager->createJwtFromUser($authEntity->getUser());
         
         return $this->createSuccessResponseFromJWT($jwt);
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setupNewUser(array $directoryInformation, UserInterface $user)
+    {
+        if (!array_key_exists('eppn', $directoryInformation) ||
+            empty($directoryInformation['eppn'])
+        ) {
+            throw new \Exception(
+                "No 'eepn' was found for the user.  Values: " .
+                var_export($directoryInformation, true)
+            );
+        }
+
+        $authentication = $this->authManager->createAuthentication();
+        $authentication->setUser($user);
+        $user->setAuthentication($authentication);
+        $authentication->setEppn($directoryInformation['eppn']);
+        $this->authManager->updateAuthentication($authentication, false);
     }
 }

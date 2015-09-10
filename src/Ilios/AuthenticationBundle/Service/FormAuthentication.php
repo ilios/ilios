@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 
 use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
 class FormAuthentication implements AuthenticationInterface
@@ -94,6 +95,14 @@ class FormAuthentication implements AuthenticationInterface
             'errors' => $errors,
             'jwt' => null,
         ), JsonResponse::HTTP_BAD_REQUEST);
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setupNewUser(array $directoryInformation, UserInterface $user)
+    {
+        throw new \Exception("Unable to add new users to 'form' authentication setups");
     }
     
     /**
