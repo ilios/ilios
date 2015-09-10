@@ -79,4 +79,11 @@ interface UserManagerInterface extends ManagerInterface
         $limit = null,
         $offset = null
     );
+    
+    /**
+     * @param array $campusIdFilter an array of the campusIDs to include in our search if empty then all users
+     *
+     * @return Collection[UserInterface]
+     */
+    public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = array());
 }

@@ -115,4 +115,12 @@ class UserManager extends AbstractManager implements UserManagerInterface
     ) {
         return $this->getRepository()->findEventsForUser($userId, $from, $to);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = array())
+    {
+        return $this->getRepository()->findUsersWhoAreNotFormerStudents($campusIdFilter);
+    }
 }

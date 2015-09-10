@@ -24,3 +24,8 @@ services:
         arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.school.manager", "@ilioscore.directory", "@ilios_authentication.authenticator"]
         tags:
             -  { name: console.command }
+    ilioscli.command.sync_former_students:
+        class: Ilios\CliBundle\Command\SyncFormerStudentsCommand
+        arguments: ["@ilioscore.user.manager", "@ilioscore.userrole.manager", "@ilioscore.directory"]
+        tags:
+            -  { name: console.command }

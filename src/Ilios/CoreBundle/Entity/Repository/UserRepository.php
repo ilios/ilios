@@ -124,6 +124,40 @@ class UserRepository extends EntityRepository
     }
     
     /**
+     * Get a list of users who do not have the former student role filtered by campus id
+     * @param  array  $campusIds
+     * @return Collection[UserInterface]
+     */
+    public function findUsersWhoAreNotFormerStudents(array $campusIds)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $formerStudents = $qb->select('u.id')
+            ->from('IliosCoreBundle:UserRole', 'r')
+            ->leftJoin('r.users', 'u')
+            ->where($qb->expr()->eq('r.title', ':fs_role_title'))
+            ->setParameter('fs_role_title', 'Former Student')
+            ->getQuery()
+            ->getScalarResult();
+        $formerStudentUserIds = array_map(function (array $arr) {
+            return $arr['id'];
+        }, $formerStudents);
+        
+        $qb2 = $this->_em->createQueryBuilder();
+        $qb2->add('select', 'u')
+            ->from('IliosCoreBundle:User', 'u')
+            ->where('u.enabled=1')
+            ->andWhere($qb->expr()->notIn('u.id', $formerStudentUserIds))
+            ->addOrderBy('u.lastName', 'ASC')
+            ->addOrderBy('u.firstName', 'ASC')
+        ;
+        if (!empty($campusIds)) {
+            $qb2->andWhere($qb->expr()->in('u.campusId', $campusIds));
+        }
+        
+        return new ArrayCollection($qb2->getQuery()->getResult());
+    }
+    
+    /**
       * Use the query builder and the $joins to get a set of
       * offering based user events
       *
