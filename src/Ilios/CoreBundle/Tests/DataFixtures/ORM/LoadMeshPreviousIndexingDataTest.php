@@ -31,6 +31,7 @@ class LoadMeshPreviousIndexingDataTest extends AbstractDataFixtureTest
 
     /**
      * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadMeshPreviousIndexingData::load
+     * @group mesh_data_import
      */
     public function testLoad()
     {

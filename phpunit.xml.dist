@@ -23,6 +23,12 @@
         <server name="KERNEL_DIR" value="app/" />
     </php>
 
+    <groups>
+        <exclude>
+            <group>mesh_data_import</group>
+        </exclude>
+    </groups>
+
     <filter>
         <whitelist>
             <directory>src</directory>
