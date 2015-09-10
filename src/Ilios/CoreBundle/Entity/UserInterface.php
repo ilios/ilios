@@ -323,4 +323,9 @@ interface UserInterface extends
      * @return string
      */
     public function getUsername();
+    
+    /**
+     * @return ArrayCollection[School]
+     */
+    public function getAllSchools();
 }

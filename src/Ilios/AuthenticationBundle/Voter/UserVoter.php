@@ -44,24 +44,24 @@ class UserVoter extends AbstractVoter
         if (!$user instanceof UserInterface) {
             return false;
         }
-
+        
         switch ($attribute) {
             // at least one of these must be true.
             // 1. the requested user is the current user
             // 2. the current user has faculty/course director/developer role
             //    and has the same primary school affiliation as the given user
             // 3. the current user has faculty/course director/developer role
-            //    and has READ rights to the given user's primary school via the permissions system.
+            //    and has READ rights to one of the users affiliated schools.
             case self::VIEW:
                 return (
                     $user->getId() === $requestedUser->getId()
                     || (
                         $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                         && (
-                            $this->schoolsAreIdentical($user->getSchool(), $requestedUser->getSchool())
-                            || $this->permissionManager->userHasReadPermissionToSchool(
+                            $requestedUser->getAllSchools()->contains($user->getSchool())
+                            || $this->permissionManager->userHasReadPermissionToSchools(
                                 $user,
-                                $requestedUser->getSchool()
+                                $requestedUser->getSchool->getAllSchools()
                             )
                         )
                     )
@@ -71,17 +71,17 @@ class UserVoter extends AbstractVoter
             // 1. the current user has developer role
             //    and has the same primary school affiliation as the given user
             // 2. the current user has developer role
-            //    and has WRITE rights to the given user's primary school via the permissions system.
+            //    and has WRITE rights to one of the users affiliated schools.
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
                 return (
                     $this->userHasRole($user, ['Developer'])
                     && (
-                        $this->schoolsAreIdentical($user->getSchool(), $requestedUser->getSchool())
-                        || $this->permissionManager->userHasReadPermissionToSchool(
+                        $requestedUser->getAllSchools()->contains($user->getSchool())
+                        || $this->permissionManager->userHasReadPermissionToSchools(
                             $user,
-                            $requestedUser->getSchool()
+                            $requestedUser->getSchool->getAllSchools()
                         )
                     )
                 );

@@ -198,4 +198,13 @@ class Cohort implements CohortInterface
     {
         return $this->users;
     }
+    
+    /**
+     * Check if a cohorts program year is deleted
+     * @return boolean
+     */
+    public function isDeleted()
+    {
+        return is_null($this->getProgramYear());
+    }
 }
