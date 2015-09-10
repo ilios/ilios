@@ -65,4 +65,20 @@ class Directory
         
         return false;
     }
+    
+    /**
+     * Find all users matching LDAP filter
+     * @param  string $filter
+     *
+     * @return array | false
+     */
+    public function findByLdapFilter($filter)
+    {
+        $users = $this->ldapManager->search($filter);
+        if (count($users)) {
+            return $users;
+        }
+        
+        return false;
+    }
 }

@@ -40,4 +40,15 @@ class DirectoryTest extends TestCase
         $result = $obj->find(array('a', 'b'));
         $this->assertSame($result, array(1,2));
     }
+
+    public function testFindByLdapFilter()
+    {
+        $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
+        $obj = new Directory($ldapManager, 'campusId');
+        $filter= '(one)(two)';
+        $ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
+        
+        $result = $obj->findByLdapFilter($filter);
+        $this->assertSame($result, array(1,2));
+    }
 }
