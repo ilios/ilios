@@ -57,7 +57,7 @@ class Directory
         }, $searchTerms);
         $filterTermsString = implode($filterTerms, '');
         $filter = "(&{$filterTermsString})";
-        $users = $this->ldapManager->search($filter, 'sn');
+        $users = $this->ldapManager->search($filter);
 
         if (count($users)) {
             return $users;

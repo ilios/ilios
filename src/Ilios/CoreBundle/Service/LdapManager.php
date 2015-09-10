@@ -104,12 +104,11 @@ class LdapManager
     /**
      * Performs an LDAP search
      * @param string $filter
-     * @param string $sortBy
      *
      * @return array
      * @throws Exception
      */
-    public function search($filter, $sortBy = null)
+    public function search($filter)
     {
         $rhett = [];
         $attributes = [
@@ -122,14 +121,19 @@ class LdapManager
         ];
         try {
             $ldap = $this->getLdap();
-            $results = $ldap->search($this->ldapSearchBase, $filter, $attributes);
-            
-            if ($results->countEntries()) {
-                if ($sortBy) {
-                    $results = $results->sort($sortBy);
-                }
-                $arr = $results->getEntries();
+            $results = [];
+            $cookie = '';
+            do {
+                $ldap->pagedResult(1000, false, $cookie);
+                $response = $ldap->search($this->ldapSearchBase, $filter, $attributes);
+                $arr = $response->getEntries();
                 unset($arr['count']);
+                $results = array_merge($results, $arr);
+                $pagedArray = $response->pagedResultResponse();
+                $cookie = !empty($pagedArray['cookie'])?$pagedArray['cookie']:false;
+            } while ($cookie);
+
+            if (count($results)) {
                 $campusIdKey = strtolower($this->ldapCampusIdProperty);
                 $rhett = array_map(function ($userData) use ($campusIdKey) {
                     $keys = [
@@ -153,7 +157,18 @@ class LdapManager
                         'eppn' => $values['edupersonprincipalname'],
                         'campusId' => $values[$campusIdKey],
                     ];
-                }, $arr);
+                }, $results);
+                
+                usort($rhett, function (array $arr1, array $arr2) {
+                    if ($arr1['lastName'] == $arr2['lastName']) {
+                        if ($arr1['firstName'] == $arr2['firstName']) {
+                            return 0;
+                        }
+                        return strcmp($arr1['firstName'], $arr2['firstName']);
+                    }
+                    
+                    return strcmp($arr1['lastName'], $arr2['lastName']);
+                });
             }
             
         } catch (\UserException $e) {
