@@ -1,8 +1,108 @@
 # Change Log
 
-## [3.0.0-beta5](https://github.com/ilios/ilios/tree/v3.0.0-beata5) (2015-08-25)
+## [v3.0.0-beta6](https://github.com/ilios/ilios/tree/v3.0.0-beta6)
 
-[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta4...v3.0.0-beata5)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta5...v3.0.0-beta6)
+
+**Closed issues:**
+
+- Problem with access to users in a learner group [\#1004](https://github.com/ilios/ilios/issues/1004)
+
+- Session-\>sessionDescription is in correct [\#1002](https://github.com/ilios/ilios/issues/1002)
+
+- sync ilios2 and ilios3 - third iteration. [\#997](https://github.com/ilios/ilios/issues/997)
+
+- Add auditlog export console command to write audit logs to disk [\#994](https://github.com/ilios/ilios/issues/994)
+
+- add 'create user one' command [\#986](https://github.com/ilios/ilios/issues/986)
+
+- Unable to publish course \(and maybe anything else\) [\#984](https://github.com/ilios/ilios/issues/984)
+
+- Unable to upload learning material file [\#983](https://github.com/ilios/ilios/issues/983)
+
+- Allow authentication via LDAP [\#979](https://github.com/ilios/ilios/issues/979)
+
+- Enable doctrine cache in production? [\#976](https://github.com/ilios/ilios/issues/976)
+
+- on demand jwt invalidation [\#954](https://github.com/ilios/ilios/issues/954)
+
+- add foreign key referencing `session:session\_id` to `ilm\_session\_facet` table [\#925](https://github.com/ilios/ilios/issues/925)
+
+- Unable to Move Learner Between Groups - Timeout - 500 error  [\#918](https://github.com/ilios/ilios/issues/918)
+
+- respond to requests passing expired auth token with 401 error code [\#904](https://github.com/ilios/ilios/issues/904)
+
+- Create data loading fixtures [\#892](https://github.com/ilios/ilios/issues/892)
+
+- Allow users to expire issued tokens [\#886](https://github.com/ilios/ilios/issues/886)
+
+- Create /auth/newtoken endpoint [\#885](https://github.com/ilios/ilios/issues/885)
+
+- Unable to add groups to ILM [\#850](https://github.com/ilios/ilios/issues/850)
+
+- Add query term to mesh descriptor endpoint [\#811](https://github.com/ilios/ilios/issues/811)
+
+- Need special handling for DateTime filtering [\#806](https://github.com/ilios/ilios/issues/806)
+
+- Fix year endpoints [\#776](https://github.com/ilios/ilios/issues/776)
+
+- MeSH Endpoints [\#775](https://github.com/ilios/ilios/issues/775)
+
+- Change session -\> sessionLearningMaterial to learningMaterial [\#766](https://github.com/ilios/ilios/issues/766)
+
+- Change all timestamp fields [\#753](https://github.com/ilios/ilios/issues/753)
+
+- Change discipline to topic [\#739](https://github.com/ilios/ilios/issues/739)
+
+**Merged pull requests:**
+
+- upped VM and PHP memory limits [\#1012](https://github.com/ilios/ilios/pull/1012) ([stopfstedt](https://github.com/stopfstedt))
+
+- import MeSH default data population [\#1009](https://github.com/ilios/ilios/pull/1009) ([stopfstedt](https://github.com/stopfstedt))
+
+- Ensure read access to learners with a secondary school [\#1008](https://github.com/ilios/ilios/pull/1008) ([jrjohnson](https://github.com/jrjohnson))
+
+- JWT Expiration and Management [\#1007](https://github.com/ilios/ilios/pull/1007) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add missing properties to userType [\#1006](https://github.com/ilios/ilios/pull/1006) ([jrjohnson](https://github.com/jrjohnson))
+
+- 994 auditlog export [\#1005](https://github.com/ilios/ilios/pull/1005) ([stopfstedt](https://github.com/stopfstedt))
+
+- Fix session and sessionDescription API relationship [\#1003](https://github.com/ilios/ilios/pull/1003) ([jrjohnson](https://github.com/jrjohnson))
+
+- More database sync changes [\#1001](https://github.com/ilios/ilios/pull/1001) ([jrjohnson](https://github.com/jrjohnson))
+
+- Better authentication error handling [\#1000](https://github.com/ilios/ilios/pull/1000) ([jrjohnson](https://github.com/jrjohnson))
+
+- Fix file upload [\#999](https://github.com/ilios/ilios/pull/999) ([jrjohnson](https://github.com/jrjohnson))
+
+- Add LDAP authentication option [\#998](https://github.com/ilios/ilios/pull/998) ([jrjohnson](https://github.com/jrjohnson))
+
+- Initial Migration and Update SQL alignment [\#990](https://github.com/ilios/ilios/pull/990) ([jrjohnson](https://github.com/jrjohnson))
+
+- port 'install user zero' shell script to SF2 command [\#989](https://github.com/ilios/ilios/pull/989) ([stopfstedt](https://github.com/stopfstedt))
+
+- Enable APC cache in production [\#988](https://github.com/ilios/ilios/pull/988) ([jrjohnson](https://github.com/jrjohnson))
+
+- The MeSH Universe Revealed [\#987](https://github.com/ilios/ilios/pull/987) ([jrjohnson](https://github.com/jrjohnson))
+
+- renamed discipline to topic [\#985](https://github.com/ilios/ilios/pull/985) ([stopfstedt](https://github.com/stopfstedt))
+
+- import default data population [\#982](https://github.com/ilios/ilios/pull/982) ([stopfstedt](https://github.com/stopfstedt))
+
+- Handle dates correctly in the filters [\#981](https://github.com/ilios/ilios/pull/981) ([jrjohnson](https://github.com/jrjohnson))
+
+- Standardize sessionLearningMaterial and courseLearningMaterial [\#980](https://github.com/ilios/ilios/pull/980) ([jrjohnson](https://github.com/jrjohnson))
+
+- Improved schema for ILMSession [\#978](https://github.com/ilios/ilios/pull/978) ([jrjohnson](https://github.com/jrjohnson))
+
+- defined setter/getter methods for curr inv report in program interface. [\#977](https://github.com/ilios/ilios/pull/977) ([stopfstedt](https://github.com/stopfstedt))
+
+- Change educational year to academic year [\#970](https://github.com/ilios/ilios/pull/970) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.0.0-beta5](https://github.com/ilios/ilios/tree/v3.0.0-beta5) (2015-08-25)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta4...v3.0.0-beta5)
 
 **Closed issues:**
 
