@@ -8,20 +8,25 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * A Doctrine fixture based data loader base class that populates the DB from data files.
+ * A generic data-loader base-class for importing entities from data files.
  *
  * Class AbstractFixture
  * @package Ilios\CoreBundle\DataFixtures\ORM
+ *
+ * @link http://docs.doctrine-project.org/en/latest/reference/batch-processing.html#bulk-inserts
  */
 abstract class AbstractFixture extends DataFixture implements
     FixtureInterface,
     ContainerAwareInterface
 {
+    /**
+     * @var int number of insert statements per batch.
+     */
+    const BATCH_SIZE = 200;
     /**
      * @var string
      * Doubles as identifier for this fixture's data file and entity references.
@@ -51,25 +56,6 @@ abstract class AbstractFixture extends DataFixture implements
     }
 
     /**
-     * Finds and return the absolute path to a given data file.
-     *
-     * @param string $fileName name of the data file.
-     * @return string the absolute path.
-     */
-    protected function getDataFilePath($fileName)
-    {
-        /**
-         * @var FileLocator $fileLocator
-         */
-        $fileLocator = $this->container->get('file_locator');
-
-        // TODO: pull this hardwired path to the data files out into configuration. [ST 2015/08/26]
-        $path = $fileLocator->locate('@IliosCoreBundle/Resources/dataimport/' . basename($fileName));
-
-        return $path;
-    }
-
-    /**
      * @return string
      */
     public function getKey()
@@ -82,35 +68,56 @@ abstract class AbstractFixture extends DataFixture implements
      */
     public function load(ObjectManager $manager)
     {
+        // disable the SQL logger
+        // @link http://stackoverflow.com/a/30924545
+        $manager->getConnection()->getConfiguration()->setSQLLogger(null);
 
-        $fileName = $this->getKey().'.csv';
-        $path = $this->getDataFilePath($fileName);
+        $fileName = $this->getKey() . '.csv';
+        $path = $this->container->get('ilioscore.dataimport_filelocator')->getDataFilePath($fileName);
 
         // honor the given entity identifiers.
         // @link http://www.ens.ro/2012/07/03/symfony2-doctrine-force-entity-id-on-persist/
         $manager
-            ->getClassMetaData(get_class($this->createEntity()))
-            ->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+          ->getClassMetaData(get_class($this->createEntity()))
+          ->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
-        $first = true;
+        $i = 0;
+
         if (($handle = fopen($path, 'r')) !== false) {
             while (($data = fgetcsv($handle)) !== false) {
+                $i++;
                 // step over the first row
                 // since it contains the field names
-                if ($first) {
-                    $first = false;
+                if (1 === $i) {
                     continue;
                 }
 
                 $entity = $this->populateEntity($this->createEntity(), $data);
                 $manager->persist($entity);
 
-                if ($this->storeReference) {
-                    $this->addReference($this->getKey().$entity->getId(), $entity);
+                if (($i % self::BATCH_SIZE) === 0) {
+                    $manager->flush();
+                    $manager->clear();
+
                 }
-                $manager->flush();
+
+                if ($this->storeReference) {
+                    $this->addReference(
+                        $this->getKey() . $entity->getId(),
+                        $entity
+                    );
+                }
             }
+
+            $manager->flush();
+            $manager->clear();
+
             fclose($handle);
+        }
+
+        // Force PHP's GC
+        if (function_exists('gc_collect_cycles')) {
+            gc_collect_cycles();
         }
     }
 

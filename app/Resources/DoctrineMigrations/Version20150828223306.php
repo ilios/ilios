@@ -18,7 +18,7 @@ class Version20150828223306 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE mesh_tree_x_descriptor DROP PRIMARY KEY');
-        $this->addSql('ALTER TABLE mesh_tree_x_descriptor ADD mesh_term_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL');
+        $this->addSql('ALTER TABLE mesh_tree_x_descriptor ADD mesh_tree_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL');
     }
 
     /**
@@ -28,9 +28,9 @@ class Version20150828223306 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE mesh_tree_x_descriptor MODIFY mesh_term_id INT NOT NULL');
+        $this->addSql('ALTER TABLE mesh_tree_x_descriptor MODIFY mesh_tree_id INT NOT NULL');
         $this->addSql('ALTER TABLE mesh_tree_x_descriptor DROP PRIMARY KEY');
-        $this->addSql('ALTER TABLE mesh_tree_x_descriptor DROP mesh_term_id');
+        $this->addSql('ALTER TABLE mesh_tree_x_descriptor DROP mesh_tree_id');
         $this->addSql('ALTER TABLE mesh_tree_x_descriptor ADD PRIMARY KEY (tree_number)');
     }
 }

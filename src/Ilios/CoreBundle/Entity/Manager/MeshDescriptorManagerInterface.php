@@ -63,4 +63,12 @@ interface MeshDescriptorManagerInterface extends ManagerInterface
      * @return MeshDescriptorInterface
      */
     public function createMeshDescriptor();
+
+    /**
+     * Single entry point for importing a given MeSH record into its corresponding database table.
+     *
+     * @param array $data An associative array containing a MeSH record.
+     * @param string $type The type of MeSH data that's being imported.
+     */
+    public function import(array $data, $type);
 }

@@ -150,10 +150,10 @@ services:
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshSemanticType]
     ilioscore.meshterm.manager:
         class: %ilioscore.meshterm.manager.class%
-        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshTerm]
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshTerm]
     ilioscore.meshtree.manager:
         class: %ilioscore.meshtree.manager.class%
-        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshTree]
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshTree]
     ilioscore.objective.manager:
         class: %ilioscore.objective.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Objective]

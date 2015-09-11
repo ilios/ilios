@@ -23,7 +23,8 @@ doctrine:
             default:
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
-
+                logging: false
+                profiling: false
 monolog:
     handlers:
         main:
