@@ -41,7 +41,7 @@ class AuthenticationTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Authentication::setEppn
-     * @covers Ilios\CoreBundle\Entity\Authentication:gsetEppn
+     * @covers Ilios\CoreBundle\Entity\Authentication::getEppn
      */
     public function testSetEppn()
     {
