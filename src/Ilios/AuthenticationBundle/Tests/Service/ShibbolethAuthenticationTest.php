@@ -126,4 +126,61 @@ class ShibbolethAuthenticationTest extends TestCase
         $this->assertSame($data->status, 'success');
         $this->assertSame($data->jwt, 'jwt123Test');
     }
+    
+    public function testAddNewUser()
+    {
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
+        $obj = new ShibbolethAuthentication(
+            $authManager,
+            $jwtManager
+        );
+        
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface');
+        $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+            ->shouldReceive('setUser')->with($user)->once()
+            ->shouldReceive('setEppn')->with('abc123')->once()
+            ->mock();
+        $user->shouldReceive('setAuthentication')->with($authenticationEntity)->once();
+        $authManager
+            ->shouldReceive('createAuthentication')->andReturn($authenticationEntity)->once()
+            ->shouldReceive('updateAuthentication')->with($authenticationEntity, false)->once();
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'eppn' => 'abc123'
+        ];
+        
+        $obj->setupNewUser($fakeDirectoryUser, $user);
+    }
+    
+    public function testSyncUser()
+    {
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
+        $obj = new ShibbolethAuthentication(
+            $authManager,
+            $jwtManager
+        );
+        
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface');
+        $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+            ->shouldReceive('setEppn')->with('abc123')->once()
+            ->mock();
+        $user->shouldReceive('getAuthentication')->andReturn($authenticationEntity)->once();
+        $authManager->shouldReceive('updateAuthentication')->with($authenticationEntity, false)->once();
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'eppn' => 'abc123'
+        ];
+        
+        $obj->syncUser($fakeDirectoryUser, $user);
+    }
 }

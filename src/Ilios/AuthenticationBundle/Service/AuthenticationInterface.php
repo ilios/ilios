@@ -21,4 +21,11 @@ interface AuthenticationInterface
      * @param  UserInterface $user
      */
     public function setupNewUser(array $directoryInformation, UserInterface $user);
+    
+    /**
+     * Sync an existing user
+     * @param  array         $directoryInformation the stuff we get from LDAP
+     * @param  UserInterface $user
+     */
+    public function syncUser(array $directoryInformation, UserInterface $user);
 }

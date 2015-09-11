@@ -14,13 +14,15 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
+    protected $authenticationService;
     
     public function setUp()
     {
         $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
+        $this->authenticationService = m::mock('Ilios\AuthenticationBundle\Service\AuthenticationInterface');
         
-        $command = new SyncUserCommand($this->userManager, $this->directory);
+        $command = new SyncUserCommand($this->userManager, $this->directory, $this->authenticationService);
         $application = new Application();
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
@@ -36,6 +38,7 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->userManager);
         unset($this->directory);
+        unset($this->authenticationService);
         unset($this->commandTester);
         m::close();
     }
@@ -62,6 +65,7 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
         ];
+        $this->authenticationService->shouldReceive('syncUser')->with($fakeDirectoryUser, $user)->once();
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->sayYesWhenAsked();
         
@@ -73,11 +77,11 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Ilios User     \| old-first \| old-last \| old-email \| old-phone/',
+            '/Ilios User     | abc       | old-first | old-last | old-email | old-phone/',
             $output
         );
         $this->assertRegExp(
-            '/Directory User \| first     \| last     \| email     \| phone/',
+            '/Directory User | abc       | first     | last     | email     | phone/',
             $output
         );
     }

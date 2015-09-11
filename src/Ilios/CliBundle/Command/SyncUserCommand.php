@@ -12,6 +12,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Service\Directory;
+use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
 
 /**
  * Sync a user with their directory information
@@ -31,12 +32,19 @@ class SyncUserCommand extends Command
      */
     protected $directory;
     
+    /**
+     * @var AuthenticationInterface
+     */
+    protected $authenticationService;
+    
     public function __construct(
         UserManagerInterface $userManager,
-        Directory $directory
+        Directory $directory,
+        AuthenticationInterface $authenticationService
     ) {
         $this->userManager = $userManager;
         $this->directory = $directory;
+        $this->authenticationService = $authenticationService;
         
         parent::__construct();
     }
@@ -78,10 +86,11 @@ class SyncUserCommand extends Command
         
         $table = new Table($output);
         $table
-            ->setHeaders(array('Record', 'First', 'Last', 'Email', 'Phone Number'))
+            ->setHeaders(array('Record', 'Campus ID', 'First', 'Last', 'Email', 'Phone Number'))
             ->setRows(array(
                 [
                     'Ilios User',
+                    $user->getCampusId(),
                     $user->getFirstName(),
                     $user->getLastName(),
                     $user->getEmail(),
@@ -89,6 +98,7 @@ class SyncUserCommand extends Command
                 ],
                 [
                     'Directory User',
+                    $userRecord['campusId'],
                     $userRecord['firstName'],
                     $userRecord['lastName'],
                     $userRecord['email'],
@@ -111,6 +121,7 @@ class SyncUserCommand extends Command
             $user->setLastName($userRecord['lastName']);
             $user->setEmail($userRecord['email']);
             $user->setPhone($userRecord['telephoneNumber']);
+            $this->authenticationService->syncUser($userRecord, $user);
             $this->userManager->updateUser($user);
             
             $output->writeln('<info>User Updated Successfully</info>');

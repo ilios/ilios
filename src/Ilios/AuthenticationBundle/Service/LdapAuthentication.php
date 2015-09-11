@@ -110,6 +110,14 @@ class LdapAuthentication implements AuthenticationInterface
     }
     
     /**
+     * @inheritdoc
+     */
+    public function syncUser(array $directoryInformation, UserInterface $user)
+    {
+        throw new \Exception("Unable to sync users with 'ldap' authentication setups");
+    }
+    
+    /**
      * Check against ldap to see if the user is valid
      * @param  string $username
      * @param  string $password

@@ -100,4 +100,23 @@ class ShibbolethAuthentication implements AuthenticationInterface
         $authentication->setEppn($directoryInformation['eppn']);
         $this->authManager->updateAuthentication($authentication, false);
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function syncUser(array $directoryInformation, UserInterface $user)
+    {
+        if (!array_key_exists('eppn', $directoryInformation) ||
+            empty($directoryInformation['eppn'])
+        ) {
+            throw new \Exception(
+                "No 'eepn' was found for the user.  Values: " .
+                var_export($directoryInformation, true)
+            );
+        }
+
+        $authentication = $user->getAuthentication();
+        $authentication->setEppn($directoryInformation['eppn']);
+        $this->authManager->updateAuthentication($authentication, false);
+    }
 }
