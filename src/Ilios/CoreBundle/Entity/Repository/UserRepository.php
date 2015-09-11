@@ -158,6 +158,23 @@ class UserRepository extends EntityRepository
     }
     
     /**
+     * Get all the campus IDs for all users
+     *
+     * @return Collection
+     */
+    public function getAllCampusIds()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->add('select', 'u.campusId')->from('IliosCoreBundle:User', 'u');
+        
+        $campusIds = array_map(function (array $arr) {
+            return $arr['campusId'];
+        }, $qb->getQuery()->getScalarResult());
+        
+        return new ArrayCollection($campusIds);
+    }
+    
+    /**
       * Use the query builder and the $joins to get a set of
       * offering based user events
       *

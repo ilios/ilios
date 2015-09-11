@@ -86,4 +86,11 @@ interface UserManagerInterface extends ManagerInterface
      * @return Collection[UserInterface]
      */
     public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = array());
+    
+    /**
+     * Get all the campus IDs for every user
+     *
+     * @return Collection[]
+     */
+    public function getAllCampusIds();
 }
