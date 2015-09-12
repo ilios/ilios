@@ -9,6 +9,10 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+before_install:
+#install apc extension so composer production install will run
+  - echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
 install:
     #Install production first this will fail if production dependencies are messed up
   - SYMFONY_ENV=prod composer install --no-interaction --no-dev --prefer-dist
