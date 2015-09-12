@@ -52,9 +52,9 @@ class Exporter
     protected $courseClerkshipTypeManager;
 
     /**
-     * @var SequenceBlockHierarchyBuilder
+     * @var SequenceBlockHierarchySorter
      */
-    protected $hierarchyBuilder;
+    protected $sequenceBlockHierarchySorter;
 
     /** @var string */
     protected $supportingLink;
@@ -68,7 +68,6 @@ class Exporter
      * @param CurriculumInventoryInstitutionManagerInterface $institutionManager
      * @param CurriculumInventorySequenceBlockManagerInterface $sequenceBlockManager
      * @param CourseClerkshipTypeManagerInterface $courseClerkshipTypeManager
-     * @param SequenceBlockHierarchyBuilder $hierarchyBuilder
      * @param string $institutionDomain
      * @param string $supportingLink
      */
@@ -78,7 +77,6 @@ class Exporter
         CurriculumInventoryInstitutionManagerInterface $institutionManager,
         CurriculumInventorySequenceBlockManagerInterface $sequenceBlockManager,
         CourseClerkshipTypeManagerInterface $courseClerkshipTypeManager,
-        SequenceBlockHierarchyBuilder $hierarchyBuilder,
         $institutionDomain,
         $supportingLink = ''
 
@@ -89,9 +87,10 @@ class Exporter
         $this->sequenceBlockManager = $sequenceBlockManager;
         $this->academicLevelManager = $academicLevelManager;
         $this->courseClerkshipTypeManager = $courseClerkshipTypeManager;
-        $this->hierarchyBuilder = $hierarchyBuilder;
         $this->institutionDomain = $institutionDomain;
         $this->supportingLink = $supportingLink;
+
+        $this->sequenceBlockHierarchySorter = new SequenceBlockHierarchySorter();
     }
 
 
@@ -248,8 +247,8 @@ class Exporter
         $sequenceBlocks = $this->_addEventAndCompetencyObjectReferencesToSequenceBlocks($sequenceBlocks,
             $eventReferences, $compRefsForSeqBlocks);
 
-        // transform sequence blocks from a flat list into a nested structure
-        $sequenceBlocks = $this->hierarchyBuilder->buildSequenceBlockHierarchy($sequenceBlocks);
+        // sort sequence blocks
+        $sequenceBlocks = $this->sequenceBlockHierarchySorter->sort($sequenceBlocks);
 
         //
         // aggregate inventory into single return-array
