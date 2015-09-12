@@ -10,7 +10,10 @@ cache:
     - $HOME/.composer/cache
 
 install:
-  - composer install  --no-interaction -d ${TRAVIS_BUILD_DIR}
+    #Install production first this will fail if production dependencies are messed up
+  - SYMFONY_ENV=prod composer install --no-interaction --no-dev --prefer-dist
+    #Next do a real composer install to fill out our testing dependencies
+  - composer install --no-interaction --prefer-dist -d ${TRAVIS_BUILD_DIR}
   - cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
 
 before_script:
