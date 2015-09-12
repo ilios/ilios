@@ -317,7 +317,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param boolean $childSequenceOrder
+     * @param int $childSequenceOrder
      */
     public function setChildSequenceOrder($childSequenceOrder)
     {

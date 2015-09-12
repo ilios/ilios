@@ -57,7 +57,7 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function isRequired();
 
     /**
-     * @param boolean $childSequenceOrder
+     * @param int $childSequenceOrder
      */
     public function setChildSequenceOrder($childSequenceOrder);
 
