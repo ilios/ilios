@@ -10,6 +10,7 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
+  - mysql -e "create database IF NOT EXISTS ilios;" -uroot
 #install apc extension so composer production install will run
   - echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
@@ -24,6 +25,7 @@ before_script:
 #increase our PHP memory limit so test coverage will work
   - echo "memory_limit=2048M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 #initialize symfony mysql db
+  - bin/console doctrine:database:drop --force --env=dev
   - bin/console doctrine:database:create --env=dev
   - bin/console doctrine:migrations:migrate  --env=dev --no-interaction
 #initialize symfony sqlite test db
