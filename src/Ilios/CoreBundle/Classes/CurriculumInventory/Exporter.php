@@ -241,10 +241,10 @@ class Exporter
         //
 
         // add keywords to event
-        $events = $this->_addKeywordsToEvents($events, $keywords);
-        $events = $this->_addCompetencyObjectReferencesToEvents($events, $compRefsForEvents);
+        $events = $this->addKeywordsToEvents($events, $keywords);
+        $events = $this->addCompetencyObjectReferencesToEvents($events, $compRefsForEvents);
 
-        $sequenceBlocks = $this->_addEventAndCompetencyObjectReferencesToSequenceBlocks($sequenceBlocks,
+        $sequenceBlocks = $this->addEventAndCompetencyObjectReferencesToSequenceBlocks($sequenceBlocks,
             $eventReferences, $compRefsForSeqBlocks);
 
         // sort sequence blocks
@@ -396,16 +396,16 @@ class Exporter
             // competency object references
             if (array_key_exists('competency_object_references', $event)) {
                 foreach ($event['competency_object_references']['program_objectives'] as $id) {
-                    $uri = $this->_createCompetencyObjectUri($domain, $id, 'program_objective');
-                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
+                    $uri = $this->createCompetencyObjectUri($domain, $id, 'program_objective');
+                    $this->createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
                 }
                 foreach ($event['competency_object_references']['course_objectives'] as $id) {
-                    $uri = $this->_createCompetencyObjectUri($domain, $id, 'course_objective');
-                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
+                    $uri = $this->createCompetencyObjectUri($domain, $id, 'course_objective');
+                    $this->createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
                 }
                 foreach ($event['competency_object_references']['session_objectives'] as $id) {
-                    $uri = $this->_createCompetencyObjectUri($domain, $id, 'session_objective');
-                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
+                    $uri = $this->createCompetencyObjectUri($domain, $id, 'session_objective');
+                    $this->createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
                 }
             }
 
@@ -459,24 +459,24 @@ class Exporter
         $rootNode->appendChild($expectationsNode);
         // program objectives
         foreach ($inventory['expectations']['program_objectives'] as $programObjective) {
-            $uri = $this->_createCompetencyObjectUri($domain, $programObjective['objective_id'], 'program_objective');
-            $this->_createCompetencyObjectNode($dom, $expectationsNode, $programObjective['title'], $uri,
+            $uri = $this->createCompetencyObjectUri($domain, $programObjective['objective_id'], 'program_objective');
+            $this->createCompetencyObjectNode($dom, $expectationsNode, $programObjective['title'], $uri,
                 'program-level-competency');
         }
         // course objectives
         foreach ($inventory['expectations']['course_objectives'] as $courseObjective) {
-            $uri = $this->_createCompetencyObjectUri($domain, $courseObjective['objective_id'], 'course_objective');
-            $this->_createCompetencyObjectNode($dom, $expectationsNode, $courseObjective['title'], $uri,
+            $uri = $this->createCompetencyObjectUri($domain, $courseObjective['objective_id'], 'course_objective');
+            $this->createCompetencyObjectNode($dom, $expectationsNode, $courseObjective['title'], $uri,
                 'sequence-block-level-competency');
         }
         // session objectives
         foreach ($inventory['expectations']['session_objectives'] as $sessionObjective) {
-            $uri = $this->_createCompetencyObjectUri($domain, $sessionObjective['objective_id'], 'session_objective');
-            $this->_createCompetencyObjectNode($dom, $expectationsNode, $sessionObjective['title'], $uri,
+            $uri = $this->createCompetencyObjectUri($domain, $sessionObjective['objective_id'], 'session_objective');
+            $this->createCompetencyObjectNode($dom, $expectationsNode, $sessionObjective['title'], $uri,
                 'event-level-competency');
         }
         // add competency framework
-        $this->_createCompetencyFrameworkNode($dom, $expectationsNode, $inventory);
+        $this->createCompetencyFrameworkNode($dom, $expectationsNode, $inventory);
         //
         // Academic Levels
         //
@@ -508,7 +508,7 @@ class Exporter
             $sequenceDescriptionNode->appendChild($dom->createTextNode($inventory['sequence']->description));
         }
         foreach ($inventory['sequence_blocks'] as $block) {
-            $this->_createSequenceBlockNode($dom, $sequenceNode, $block, $inventory);
+            $this->createSequenceBlockNode($dom, $sequenceNode, $block, $inventory);
         }
 
         //
@@ -538,7 +538,7 @@ class Exporter
      * @param array $keywords A list of keywords.
      * @return array The events with the keywords added.
      */
-    protected function _addKeywordsToEvents (array $events, array $keywords)
+    protected function addKeywordsToEvents (array $events, array $keywords)
     {
         foreach ($keywords as $keyword) {
             $eventId = $keyword['event_id'];
@@ -559,7 +559,7 @@ class Exporter
      * @param array $references A list of competency object references.
      * @return array The events with references added.
      */
-    protected function _addCompetencyObjectReferencesToEvents (array $events, array $references)
+    protected function addCompetencyObjectReferencesToEvents (array $events, array $references)
     {
         $sessionIds = array_keys($events);
         for ($i = 0, $n = count($sessionIds); $i < $n; $i++) {
@@ -578,7 +578,7 @@ class Exporter
      * @param array $competencyObjectReferences A list of competency object references.
      * @return array The sequence blocks with references added.
      */
-    protected function _addEventAndCompetencyObjectReferencesToSequenceBlocks (array $sequenceBlocks,
+    protected function addEventAndCompetencyObjectReferencesToSequenceBlocks (array $sequenceBlocks,
                                                                                array $eventReferences,
                                                                                array $competencyObjectReferences)
     {
@@ -604,7 +604,7 @@ class Exporter
      * @param \DomElement $parentNode
      * @param array $inventory
      */
-    protected function _createCompetencyFrameworkNode (\DomDocument $dom, \DomElement $parentNode, array $inventory)
+    protected function createCompetencyFrameworkNode (\DomDocument $dom, \DomElement $parentNode, array $inventory)
     {
         // competency framework
         $competencyFrameworkNode = $dom->createElement('CompetencyFramework');
@@ -634,53 +634,53 @@ class Exporter
         $competencyIds = $inventory['expectations']['framework']['includes']['pcrs_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
-            $uri = $this->_createPcrsUri($id);
-            $this->_createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+            $uri = $this->createPcrsUri($id);
+            $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
         }
         $competencyIds = $inventory['expectations']['framework']['includes']['program_objective_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
-            $uri = $this->_createCompetencyObjectUri($domain, $id, 'program_objective');
-            $this->_createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+            $uri = $this->createCompetencyObjectUri($domain, $id, 'program_objective');
+            $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
         }
         $competencyIds = $inventory['expectations']['framework']['includes']['course_objective_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
-            $uri = $this->_createCompetencyObjectUri($domain, $id, 'course_objective');
-            $this->_createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+            $uri = $this->createCompetencyObjectUri($domain, $id, 'course_objective');
+            $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
         }
         $competencyIds = $inventory['expectations']['framework']['includes']['session_objective_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
-            $uri = $this->_createCompetencyObjectUri($domain, $id, 'session_objective');
-            $this->_createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+            $uri = $this->createCompetencyObjectUri($domain, $id, 'session_objective');
+            $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
         }
         // relations
         $relations = $inventory['expectations']['framework']['relations']['program_objectives_to_pcrs'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
             $relation = $relations[$i];
-            $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
-            $relUri2 = $this->_createPcrsUri($relation['rel2']);
-            $relationshipUri = $this->_createRelationshipUri('related');
-            $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri2, $relUri1,
+            $relUri1 = $this->createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
+            $relUri2 = $this->createPcrsUri($relation['rel2']);
+            $relationshipUri = $this->createRelationshipUri('related');
+            $this->createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri2, $relUri1,
                 $relationshipUri);
         }
         $relations = $inventory['expectations']['framework']['relations']['course_objectives_to_program_objectives'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
             $relation = $relations[$i];
-            $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
-            $relUri2 = $this->_createCompetencyObjectUri($domain, $relation['rel2'], 'course_objective');
-            $relationshipUri = $this->_createRelationshipUri('narrower');
-            $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
+            $relUri1 = $this->createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
+            $relUri2 = $this->createCompetencyObjectUri($domain, $relation['rel2'], 'course_objective');
+            $relationshipUri = $this->createRelationshipUri('narrower');
+            $this->createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
                 $relationshipUri);
         }
         $relations = $inventory['expectations']['framework']['relations']['session_objectives_to_course_objectives'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
             $relation = $relations[$i];
-            $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'course_objective');
-            $relUri2 = $this->_createCompetencyObjectUri($domain, $relation['rel2'], 'session_objective');
-            $relationshipUri = $this->_createRelationshipUri('narrower');
-            $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
+            $relUri1 = $this->createCompetencyObjectUri($domain, $relation['rel1'], 'course_objective');
+            $relUri2 = $this->createCompetencyObjectUri($domain, $relation['rel2'], 'session_objective');
+            $relationshipUri = $this->createRelationshipUri('narrower');
+            $this->createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
                 $relationshipUri);
         }
     }
@@ -694,7 +694,7 @@ class Exporter
      * @param \DomElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block (NULL if n/a)
      * @param int $order of this sequence block in relation to other nested sequence blocks. '0' if n/a.
      */
-    protected function _createSequenceBlockNode (\DomDocument $dom, \DomElement $sequenceNode,
+    protected function createSequenceBlockNode (\DomDocument $dom, \DomElement $sequenceNode,
                                                 array $block, array $inventory,
                                                 \DomElement $parentSequenceBlockNode = null, $order = 0)
     {
@@ -802,12 +802,12 @@ class Exporter
         if (array_key_exists('competency_object_references', $block)) {
             $domain = $inventory['report']['domain'];
             foreach ($block['competency_object_references']['program_objectives'] as $id) {
-                $uri = $this->_createCompetencyObjectUri($domain, $id, 'program_objective');
-                $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $uri);
+                $uri = $this->createCompetencyObjectUri($domain, $id, 'program_objective');
+                $this->createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $uri);
             }
             foreach ($block['competency_object_references']['course_objectives'] as $id) {
-                $uri = $this->_createCompetencyObjectUri($domain, $id, 'course_objective');
-                $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $uri);
+                $uri = $this->createCompetencyObjectUri($domain, $id, 'course_objective');
+                $this->createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $uri);
             }
         }
         // pre-conditions and post-conditions are n/a
@@ -852,7 +852,7 @@ class Exporter
                 if (CurriculumInventorySequenceBlockInterface::ORDERED == $block['child_sequence_order']) {
                     $order++;
                 }
-                $this->_createSequenceBlockNode($dom, $sequenceNode, $child, $inventory, $sequenceBlockNode, $order);
+                $this->createSequenceBlockNode($dom, $sequenceNode, $child, $inventory, $sequenceBlockNode, $order);
             }
         }
     }
@@ -865,7 +865,7 @@ class Exporter
      * @param string $uri An URI that uniquely identifies the competency object.
      * @param string $category One of 'program-level-competency', 'sequence-block-level-competency' or 'event-level-competency'.
      */
-    protected function _createCompetencyObjectNode(\DomDocument $dom, \DomElement $parentNode, $title, $uri, $category)
+    protected function createCompetencyObjectNode(\DomDocument $dom, \DomElement $parentNode, $title, $uri, $category)
     {
         $competencyObjectNode = $dom->createElement('CompetencyObject');
         $parentNode->appendChild($competencyObjectNode);
@@ -897,9 +897,9 @@ class Exporter
      * @param string $uri An URI that uniquely identifies the competency object.
      * @see Ilios_CurriculumInventory_Exporter::_createCompetencyObjectUri
      */
-    protected function _createCompetencyObjectReferenceNode (\DomDocument $dom, \DomElement $parentNode, $uri)
+    protected function createCompetencyObjectReferenceNode (\DomDocument $dom, \DomElement $parentNode, $uri)
     {
-        //$uri = $this->_createCompetencyObjectUri($domain, $type, $id);
+        //$uri = $this->createCompetencyObjectUri($domain, $type, $id);
         $ref = "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry='{$uri}']";
         $competencyObjectReferenceNode = $dom->createElement('CompetencyObjectReference', $ref);
         $parentNode->appendChild($competencyObjectReferenceNode);
@@ -910,7 +910,7 @@ class Exporter
      * @param \DomElement $parentNode
      * @param string $uri
      */
-    protected function _createCompetencyFrameworkIncludesNode (\DomDocument $dom, \DomElement $parentNode, $uri)
+    protected function createCompetencyFrameworkIncludesNode (\DomDocument $dom, \DomElement $parentNode, $uri)
     {
         $includesNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Includes');
         $parentNode->appendChild($includesNode);
@@ -927,7 +927,7 @@ class Exporter
      * @param string $relUri2
      * @param string $relationshipUri
      */
-    protected function _createCompetencyFrameworkRelationNode (\DomDocument $dom, \DomElement $parentNode, $relUri1,
+    protected function createCompetencyFrameworkRelationNode (\DomDocument $dom, \DomElement $parentNode, $relUri1,
                                                                $relUri2, $relationshipUri)
     {
         $relationNode = $dom->createElement('cf:Relation');
@@ -952,7 +952,7 @@ class Exporter
      * @param string $type
      * @return string
      */
-    protected function _createRelationshipUri($type)
+    protected function createRelationshipUri($type)
     {
         return "http://www.w3.org/2004/02/skos/core#{$type}";
     }
@@ -968,7 +968,7 @@ class Exporter
      *     "session_objective"
      * @return string The unique URI for the given competency object.
      */
-    protected function _createCompetencyObjectUri ($domain, $id, $type)
+    protected function createCompetencyObjectUri ($domain, $id, $type)
     {
         return "http://{$domain}/{$type}/{$id}";
     }
@@ -978,7 +978,7 @@ class Exporter
      * @param string $pcrsPartialUri A part of the URI that uniquely identifies te PCRS competency.
      * @return string The generated URI.
      */
-    protected function _createPcrsUri ($pcrsPartialUri)
+    protected function createPcrsUri ($pcrsPartialUri)
     {
         return "https://services.aamc.org/30/ci-school-web/pcrs/PCRS.html#{$pcrsPartialUri}";
     }
