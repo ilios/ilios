@@ -156,7 +156,7 @@ class Alert implements AlertInterface
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-     protected $recipients;
+    protected $recipients;
 
     /**
      * Constructor
