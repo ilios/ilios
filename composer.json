@@ -25,6 +25,7 @@
         "ircmaxell/password-compat": "^1.0.4",
         "psr/log": "1.0.0",
         "doctrine/doctrine-migrations-bundle": "^1.0",
+        "doctrine/doctrine-fixtures-bundle": "~2.2@dev",
         "friendsofsymfony/rest-bundle": "~1.5",
         "jms/serializer-bundle": "~0.13.0",
         "tdn/php-types": "1.*",
@@ -41,7 +42,6 @@
         "mockery/mockery": "^0.9.3",
         "fzaninotto/faker": "^1.4",
         "liip/functional-test-bundle": "~1.2",
-        "doctrine/doctrine-fixtures-bundle": "~2.2@dev",
         "satooshi/php-coveralls": "^0.6"
     },
     "scripts": {

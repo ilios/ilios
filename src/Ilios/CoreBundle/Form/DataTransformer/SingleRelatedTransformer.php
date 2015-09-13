@@ -30,7 +30,7 @@ class SingleRelatedTransformer implements DataTransformerInterface
      * The name of the entity we are working with
      * @var string
      */
-     protected $entityName;
+    protected $entityName;
 
     /**
      * @param Registry $registry

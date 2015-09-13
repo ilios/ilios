@@ -388,7 +388,7 @@ class User implements UserInterface
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-     protected $alerts;
+    protected $alerts;
 
     /**
      * @var Collection

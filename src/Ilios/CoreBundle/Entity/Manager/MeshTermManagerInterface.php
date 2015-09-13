@@ -38,7 +38,7 @@ interface MeshTermManagerInterface extends ManagerInterface
      *
      * @return void
      */
-     public function updateMeshTerm(MeshTermInterface $meshTerm, $andFlush = true);
+    public function updateMeshTerm(MeshTermInterface $meshTerm, $andFlush = true);
 
     /**
      * @param MeshTermInterface $meshTerm

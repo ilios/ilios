@@ -38,7 +38,7 @@ interface MeshTreeManagerInterface extends ManagerInterface
      *
      * @return void
      */
-     public function updateMeshTree(MeshTreeInterface $meshTree, $andFlush = true);
+    public function updateMeshTree(MeshTreeInterface $meshTree, $andFlush = true);
 
     /**
      * @param MeshTreeInterface $meshTree

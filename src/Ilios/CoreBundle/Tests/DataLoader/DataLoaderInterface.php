@@ -14,17 +14,17 @@ interface DataLoaderInterface
      * Get all items from this loader
      * @return array
      */
-     public function getAll();
+    public function getAll();
 
      /**
       * Create a sample of this item
       * @return array
       */
-      public function create();
+    public function create();
 
       /**
        * Create an invalid sample of this item
        * @return array
        */
-       public function createInvalid();
+    public function createInvalid();
 }

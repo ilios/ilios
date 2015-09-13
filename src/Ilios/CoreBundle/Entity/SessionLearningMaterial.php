@@ -41,7 +41,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * @JMS\Expose
      * @JMS\Type("integer")
      */
-     protected $id;
+    protected $id;
 
     /**
      * @var string
