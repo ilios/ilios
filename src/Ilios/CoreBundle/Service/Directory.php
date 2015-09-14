@@ -45,6 +45,28 @@ class Directory
     }
     
     /**
+     * Get directory information for a list of users
+     * @param  array $campusIds
+     *
+     * @return array | false
+     */
+    public function findByCampusIds(array $campusIds)
+    {
+        $filterTerms = array_map(function ($campusId) {
+            return "({$this->ldapCampusIdProperty}={$campusId})";
+        }, $campusIds);
+        $filterTermsString = implode($filterTerms, '');
+        $filter = "(|{$filterTermsString})";
+        
+        $users = $this->ldapManager->search($filter);
+        if (count($users)) {
+            return $users;
+        }
+        
+        return false;
+    }
+    
+    /**
      * Find everyone in the directory matching these terms
      * @param  array $searchTerms
      *

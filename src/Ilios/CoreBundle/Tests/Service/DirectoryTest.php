@@ -30,6 +30,16 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, 1);
     }
 
+    public function testFindByCampusIds()
+    {
+        $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
+        $obj = new Directory($ldapManager, 'campusId');
+        $ldapManager->shouldReceive('search')->with('(|(campusId=1234)(campusId=1235))')->andReturn(array(1));
+        
+        $result = $obj->findByCampusIds([1234, 1235]);
+        $this->assertSame($result, [1]);
+    }
+
     public function testFind()
     {
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
