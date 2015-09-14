@@ -38,3 +38,6 @@ services:
     ilioscore.directory:
         class: Ilios\CoreBundle\Service\Directory
         arguments: ['@ilioscore.ldapmanager', '%ilios_core.ldap.campus_id_property%']
+    ilioscore.curriculum_inventory.exporter:
+        class: Ilios\CoreBundle\Classes\CurriculumInventory\Exporter
+        arguments: [ "@ilioscore.curriculuminventoryreport.manager", "@ilioscore.curriculuminventoryacademiclevel.manager", "@ilioscore.curriculuminventoryinstitution.manager", "@ilioscore.curriculuminventorysequenceblock.manager", "@ilioscore.courseclerkshiptype.manager", "%ilios_core.curriculum_inventory.institution_domain%", "%ilios_core.curriculum_inventory.supporting_link%" ]
