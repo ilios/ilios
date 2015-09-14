@@ -29,12 +29,29 @@ class Configuration implements ConfigurationInterface
                         'should store permanent data like learning materials'
                     )
                 ->end()
+<<<<<<< HEAD
                 ->scalarNode('ldap_directory_url')->end()
                 ->scalarNode('ldap_directory_user')->end()
                 ->scalarNode('ldap_directory_password')->end()
                 ->scalarNode('ldap_directory_search_base')->end()
                 ->scalarNode('ldap_directory_campus_id_property')->end()
                 ->scalarNode('ldap_directory_username_property')->end()
+=======
+                ->scalarNode('institution_domain')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                    ->info(
+                        'Internet domain name of this institution, ' .
+                        'used for curriculum inventory reporting to the AAMC.'
+                    )
+                ->end()
+                ->scalarNode('supporting_link')
+                    ->defaultValue('')
+                    ->info(
+                        "Optional 'supporting link' for the curriculum inventory exports."
+                    )
+                ->end()
+>>>>>>> fixed DI for new curr inv related params.
             ->end();
 
         return $treeBuilder;

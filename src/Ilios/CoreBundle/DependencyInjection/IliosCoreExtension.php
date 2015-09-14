@@ -23,12 +23,17 @@ class IliosCoreExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('ilios_core.file_store_path', $config['file_system_storage_path']);
+<<<<<<< HEAD
         $container->setParameter('ilios_core.ldap.url', $config['ldap_directory_url']);
         $container->setParameter('ilios_core.ldap.user', $config['ldap_directory_user']);
         $container->setParameter('ilios_core.ldap.password', $config['ldap_directory_password']);
         $container->setParameter('ilios_core.ldap.search_base', $config['ldap_directory_search_base']);
         $container->setParameter('ilios_core.ldap.campus_id_property', $config['ldap_directory_campus_id_property']);
         $container->setParameter('ilios_core.ldap.username_property', $config['ldap_directory_username_property']);
+=======
+        $container->setParameter('ilios_core.institution_domain', $config['institution_domain']);
+        $container->setParameter('ilios_core.supporting_link', $config['supporting_link']);
+>>>>>>> fixed DI for new curr inv related params.
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
