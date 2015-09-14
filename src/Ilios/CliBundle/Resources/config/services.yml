@@ -36,6 +36,6 @@ services:
             -  { name: console.command }
     ilioscli.command.sync_all_users:
         class: Ilios\CliBundle\Command\SyncAllUsersCommand
-        arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.directory"]
+        arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.directory", "@doctrine.orm.entity_manager"]
         tags:
             -  { name: console.command }

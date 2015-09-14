@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
@@ -37,14 +38,21 @@ class SyncAllUsersCommand extends Command
      */
     protected $directory;
     
+    /**
+     * @var EntityManager
+     */
+    protected $em;
+    
     public function __construct(
         UserManagerInterface $userManager,
         AuthenticationManagerInterface $authenticationManager,
-        Directory $directory
+        Directory $directory,
+        EntityManager $em
     ) {
         $this->userManager = $userManager;
         $this->authenticationManager = $authenticationManager;
         $this->directory = $directory;
+        $this->em = $em;
         
         parent::__construct();
     }
@@ -120,11 +128,30 @@ class SyncAllUsersCommand extends Command
                     '" to "' . $recordArray['telephoneNumber'] . '"</info>'
                 );
             }
+            
+            $authentication = $user->getAuthentication();
+            if (!$authentication) {
+                $authentication = $this->authenticationManager->createAuthentication();
+                $authentication->setUser($user);
+            }
+            if ($authentication->getUsername() != $recordArray['username']) {
+                $update = true;
+                $authentication->setUsername($recordArray['username']);
+                $output->writeln(
+                    '<info>Updating username from "' . $authentication->getUsername() .
+                    '" to "' . $recordArray['username'] . '"</info>'
+                );
+                $this->authenticationManager->updateAuthentication($authentication, false);
+            }
+            
             if ($update) {
                 $updated++;
             }
             $user->setExamined(true);
             $this->userManager->updateUser($user, false);
+            
+            $this->em->flush();
+            $this->em->clear();
         }
         
         $output->writeln(
