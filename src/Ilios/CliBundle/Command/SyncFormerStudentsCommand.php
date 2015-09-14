@@ -70,6 +70,7 @@ class SyncFormerStudentsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln('<info>Starting former student synchronization process.</info>');
         $filter = $input->getArgument('filter');
         
         $formerStudents = $this->directory->findByLdapFilter($filter);
