@@ -66,7 +66,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
                 var_export($_SERVER, true)
             );
         }
-        $authEntity = $this->authManager->findAuthenticationBy(array('eppn' => $eppn));
+        $authEntity = $this->authManager->findAuthenticationBy(array('username' => $eppn));
         if (!$authEntity) {
             return new JsonResponse(array(
                 'status' => 'noAccountExists',
@@ -78,45 +78,5 @@ class ShibbolethAuthentication implements AuthenticationInterface
         $jwt = $this->jwtManager->createJwtFromUser($authEntity->getUser());
         
         return $this->createSuccessResponseFromJWT($jwt);
-    }
-    
-    /**
-     * @inheritdoc
-     */
-    public function setupNewUser(array $directoryInformation, UserInterface $user)
-    {
-        if (!array_key_exists('eppn', $directoryInformation) ||
-            empty($directoryInformation['eppn'])
-        ) {
-            throw new \Exception(
-                "No 'eepn' was found for the user.  Values: " .
-                var_export($directoryInformation, true)
-            );
-        }
-
-        $authentication = $this->authManager->createAuthentication();
-        $authentication->setUser($user);
-        $user->setAuthentication($authentication);
-        $authentication->setEppn($directoryInformation['eppn']);
-        $this->authManager->updateAuthentication($authentication, false);
-    }
-    
-    /**
-     * @inheritdoc
-     */
-    public function syncUser(array $directoryInformation, UserInterface $user)
-    {
-        if (!array_key_exists('eppn', $directoryInformation) ||
-            empty($directoryInformation['eppn'])
-        ) {
-            throw new \Exception(
-                "No 'eepn' was found for the user.  Values: " .
-                var_export($directoryInformation, true)
-            );
-        }
-
-        $authentication = $user->getAuthentication();
-        $authentication->setEppn($directoryInformation['eppn']);
-        $this->authManager->updateAuthentication($authentication, false);
     }
 }

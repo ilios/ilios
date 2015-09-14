@@ -12,10 +12,10 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Service\Directory;
-use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
 
 /**
  * Adds all the users in the directory to a school with the student role
@@ -34,6 +34,11 @@ class AddNewStudentsToSchoolCommand extends Command
      * @var SchoolManagerInterface
      */
     protected $schoolManager;
+
+    /**
+     * @var AuthenticationManagerInterface
+     */
+    protected $authenticationManager;
     
     /**
      * @var UserRoleManagerInterface
@@ -45,23 +50,18 @@ class AddNewStudentsToSchoolCommand extends Command
      */
     protected $directory;
     
-    /**
-     * @var AuthenticationInterface
-     */
-    protected $authenticationService;
-    
     public function __construct(
         UserManagerInterface $userManager,
         SchoolManagerInterface $schoolManager,
+        AuthenticationManagerInterface $authenticationManager,
         UserRoleManagerInterface $userRoleManager,
-        Directory $directory,
-        AuthenticationInterface $authenticationService
+        Directory $directory
     ) {
         $this->userManager = $userManager;
         $this->schoolManager = $schoolManager;
+        $this->authenticationManager = $authenticationManager;
         $this->userRoleManager = $userRoleManager;
         $this->directory = $directory;
-        $this->authenticationService = $authenticationService;
         
         parent::__construct();
     }
@@ -163,6 +163,14 @@ class AddNewStudentsToSchoolCommand extends Command
                     );
                     continue;
                 }
+                if (empty($userRecord['username'])) {
+                    $output->writeln(
+                        '<error>Unable to add student ' .
+                        var_export($userRecord, true) .
+                        ' they have no username</error>'
+                    );
+                    continue;
+                }
                 $user = $this->userManager->createUser();
                 $user->setFirstName($userRecord['firstName']);
                 $user->setLastName($userRecord['lastName']);
@@ -172,15 +180,17 @@ class AddNewStudentsToSchoolCommand extends Command
                 $user->setEnabled(true);
                 $user->setSchool($school);
                 $user->setUserSyncIgnore(false);
-                //persist the user so it can be used in setupUser method
-                $this->userManager->updateUser($user);
 
-                $this->authenticationService->setupNewUser($userRecord, $user);
+                $authentication = $this->authenticationManager->createAuthentication();
+                $authentication->setUser($user);
+                $authentication->setUsername($userRecord['username']);
+                $this->authenticationManager->updateAuthentication($authentication, false);
+                
                 $studentRole->addUser($user);
                 $user->addRole($studentRole);
-                //save again in case setupUser made any changes
                 $this->userManager->updateUser($user, false);
-
+                $this->userRoleManager->updateUserRole($studentRole);
+                
                 $output->writeln(
                     '<info>Success! New student #' .
                     $user->getId() . ' ' .
@@ -188,7 +198,6 @@ class AddNewStudentsToSchoolCommand extends Command
                     ' created.</info>'
                 );
             }
-            $this->userRoleManager->updateUserRole($studentRole);
         } else {
             $output->writeln('<comment>Update Canceled</comment>');
         }

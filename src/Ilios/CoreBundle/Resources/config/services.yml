@@ -34,7 +34,7 @@ services:
         arguments: ['@security.token_storage', '@ilioscore.auditlog.manager']
     ilioscore.ldapmanager:
         class: Ilios\CoreBundle\Service\LdapManager
-        arguments: ['%ilios_core.ldap.url%', '%ilios_core.ldap.user%', '%ilios_core.ldap.password%', '%ilios_core.ldap.search_base%', '%ilios_core.ldap.campus_id_property%']
+        arguments: ['%ilios_core.ldap.url%', '%ilios_core.ldap.user%', '%ilios_core.ldap.password%', '%ilios_core.ldap.search_base%', '%ilios_core.ldap.campus_id_property%', '%ilios_core.ldap.username_property%']
     ilioscore.directory:
         class: Ilios\CoreBundle\Service\Directory
         arguments: ['@ilioscore.ldapmanager', '%ilios_core.ldap.campus_id_property%']

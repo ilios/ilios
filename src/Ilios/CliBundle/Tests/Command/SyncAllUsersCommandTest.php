@@ -11,18 +11,18 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
     const COMMAND_NAME = 'ilios:directory:sync-users';
     
     protected $userManager;
+    protected $authenticationManager;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
-    protected $authenticationService;
     
     public function setUp()
     {
         $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
+        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
-        $this->authenticationService = m::mock('Ilios\AuthenticationBundle\Service\AuthenticationInterface');
         
-        $command = new SyncAllUsersCommand($this->userManager, $this->directory, $this->authenticationService);
+        $command = new SyncAllUsersCommand($this->userManager, $this->authenticationManager, $this->directory);
         $application = new Application();
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);

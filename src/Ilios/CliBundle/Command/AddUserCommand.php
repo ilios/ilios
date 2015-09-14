@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Ilios\CoreBundle\Service\Directory;
-use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
 
 /**
  * Add a user by looking them up in the directory
@@ -43,23 +42,16 @@ class AddUserCommand extends Command
      */
     protected $directory;
     
-    /**
-     * @var AuthenticationInterface
-     */
-    protected $authenticationService;
-    
     public function __construct(
         UserManagerInterface $userManager,
         AuthenticationManagerInterface $authenticationManager,
         SchoolManagerInterface $schoolManager,
-        Directory $directory,
-        AuthenticationInterface $authenticationService
+        Directory $directory
     ) {
         $this->userManager = $userManager;
         $this->authenticationManager = $authenticationManager;
         $this->schoolManager = $schoolManager;
         $this->directory = $directory;
-        $this->authenticationService = $authenticationService;
         
         parent::__construct();
     }
@@ -113,13 +105,14 @@ class AddUserCommand extends Command
         
         $table = new Table($output);
         $table
-            ->setHeaders(array('Campus ID', 'First', 'Last', 'Email', 'Phone Number'))
+            ->setHeaders(array('Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number'))
             ->setRows(array(
                 [
                     $userRecord['campusId'],
                     $userRecord['firstName'],
                     $userRecord['lastName'],
                     $userRecord['email'],
+                    $userRecord['username'],
                     $userRecord['telephoneNumber']
                 ]
             ))
@@ -143,11 +136,11 @@ class AddUserCommand extends Command
             $user->setEnabled(true);
             $user->setSchool($school);
             $user->setUserSyncIgnore(false);
-            //persist the user so it can be used in setupUser method
-            $this->userManager->updateUser($user);
             
-            $this->authenticationService->setupNewUser($userRecord, $user);
-            //save again in case setupUser made any changes
+            $authentication = $this->authenticationManager->createAuthentication();
+            $authentication->setUser($user);
+            $authentication->setUsername($userRecord['username']);
+            $this->authenticationManager->updateAuthentication($authentication, false);
             $this->userManager->updateUser($user);
 
             $output->writeln(

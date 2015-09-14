@@ -23,6 +23,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
         $ldapPassword = 'ldap.pass';
         $ldapSearchBase = 'ldap.base';
         $ldapCampusIdProperty = 'ldap.camp';
+        $ldapUsernameProperty = 'ldap.username';
         $this->load(array(
             'file_system_storage_path' => $fileSystemStoragePath,
             'ldap_directory_url' => $ldapUrl,
@@ -30,6 +31,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ldap_directory_password' => $ldapPassword,
             'ldap_directory_search_base' => $ldapSearchBase,
             'ldap_directory_campus_id_property' => $ldapCampusIdProperty,
+            'ldap_directory_username_property' => $ldapUsernameProperty,
         ));
         $parameters = array(
             'ilioscore.aamcmethod.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AamcMethodManager',
@@ -215,6 +217,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilios_core.ldap.password' => $ldapPassword,
             'ilios_core.ldap.search_base' => $ldapSearchBase,
             'ilios_core.ldap.campus_id_property' => $ldapCampusIdProperty,
+            'ilios_core.ldap.username_property' => $ldapUsernameProperty,
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);

@@ -16,7 +16,6 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
-    protected $authenticationService;
     
     public function setUp()
     {
@@ -24,14 +23,12 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
         $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
-        $this->authenticationService = m::mock('Ilios\AuthenticationBundle\Service\AuthenticationInterface');
         
         $command = new AddUserCommand(
             $this->userManager,
             $this->authenticationManager,
             $this->schoolManager,
-            $this->directory,
-            $this->authenticationService
+            $this->directory
         );
         $application = new Application();
         $application->add($command);
@@ -50,7 +47,6 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
         unset($this->authenticationManager);
         unset($this->schoolManager);
         unset($this->directory);
-        unset($this->authenticationService);
         unset($this->commandTester);
         unset($this->questionHelper);
         m::close();
@@ -59,6 +55,9 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $school = m::mock('Ilios\CoreBundle\Entity\SchoolInterface');
+        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+            ->shouldReceive('setUsername')->with('abc123')
+            ->mock();
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('setFirstName')->with('first')
             ->shouldReceive('setLastName')->with('last')
@@ -70,22 +69,26 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('setUserSyncIgnore')->with(false)
             ->shouldReceive('setSchool')->with($school)
             ->shouldReceive('getId')->andReturn(1)
+            ->shouldReceive('getAuthentication')->andReturn($authentication)
             ->shouldReceive('getFirstAndLastName')->andReturn('Test Person')
             ->mock();
+        $authentication->shouldReceive('setUser')->with($user);
+        
         $this->userManager->shouldReceive('findUserBy')->with(array('campusId' => 'abc'))->andReturn(false);
         $this->schoolManager->shouldReceive('findSchoolBy')->with(array('id' => 1))->andReturn($school);
         $this->userManager->shouldReceive('createUser')->andReturn($user);
         $this->userManager->shouldReceive('updateUser')->with($user);
+        $this->authenticationManager->shouldReceive('createAuthentication')->andReturn($authentication);
+        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication, false);
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
-            'eppn' => 'abc123'
+            'username' => 'abc123'
         ];
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
-        $this->authenticationService->shouldReceive('setupNewUser')->with($fakeDirectoryUser, $user);
         $this->sayYesWhenAsked();
         
         $this->commandTester->execute(array(
@@ -97,7 +100,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/abc       \| first \| last \| email \| phone/',
+            '/abc       \| first \| last \| email \| username \| phone/',
             $output
         );
         $this->assertRegExp(
@@ -105,6 +108,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
             $output
         );
     }
+
     
     public function testBadCampusId()
     {

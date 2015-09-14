@@ -98,22 +98,6 @@ class FormAuthentication implements AuthenticationInterface
     }
     
     /**
-     * @inheritdoc
-     */
-    public function setupNewUser(array $directoryInformation, UserInterface $user)
-    {
-        throw new \Exception("Unable to add new users to 'form' authentication setups");
-    }
-    
-    /**
-     * @inheritdoc
-     */
-    public function syncUser(array $directoryInformation, UserInterface $user)
-    {
-        throw new \Exception("Unable to sync users with 'form' authentication setups");
-    }
-    
-    /**
      * Update users to the new password encoding when they login
      * @param  AuthenticationEntityInterface $authEntity
      * @param  string         $password

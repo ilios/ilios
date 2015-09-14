@@ -11,8 +11,8 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\CoreBundle\Service\Directory;
-use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
 
 /**
  * Sync a user with their directory information
@@ -26,25 +26,25 @@ class SyncUserCommand extends Command
      * @var UserManagerInterface
      */
     protected $userManager;
+
+    /**
+     * @var AuthenticationManagerInterface
+     */
+    protected $authenticationManager;
     
     /**
      * @var Directory
      */
     protected $directory;
     
-    /**
-     * @var AuthenticationInterface
-     */
-    protected $authenticationService;
-    
     public function __construct(
         UserManagerInterface $userManager,
-        Directory $directory,
-        AuthenticationInterface $authenticationService
+        AuthenticationManagerInterface $authenticationManager,
+        Directory $directory
     ) {
         $this->userManager = $userManager;
+        $this->authenticationManager = $authenticationManager;
         $this->directory = $directory;
-        $this->authenticationService = $authenticationService;
         
         parent::__construct();
     }
@@ -121,7 +121,15 @@ class SyncUserCommand extends Command
             $user->setLastName($userRecord['lastName']);
             $user->setEmail($userRecord['email']);
             $user->setPhone($userRecord['telephoneNumber']);
-            $this->authenticationService->syncUser($userRecord, $user);
+            $authentication = $user->getAuthentication();
+            if (!$authentication) {
+                $authentication = $this->authenticationManager->createAuthentication();
+                $authentication->setUser($user);
+            }
+
+            $authentication->setUsername($userRecord['username']);
+            $this->authenticationManager->updateAuthentication($authentication, false);
+            
             $this->userManager->updateUser($user);
             
             $output->writeln('<info>User Updated Successfully</info>');

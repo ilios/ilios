@@ -28,6 +28,7 @@ class IliosCoreExtension extends Extension
         $container->setParameter('ilios_core.ldap.password', $config['ldap_directory_password']);
         $container->setParameter('ilios_core.ldap.search_base', $config['ldap_directory_search_base']);
         $container->setParameter('ilios_core.ldap.campus_id_property', $config['ldap_directory_campus_id_property']);
+        $container->setParameter('ilios_core.ldap.username_property', $config['ldap_directory_username_property']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

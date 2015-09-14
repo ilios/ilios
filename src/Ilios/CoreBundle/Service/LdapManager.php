@@ -29,6 +29,16 @@ class LdapManager
     protected $ldapBindPassword;
     
     /**
+     * @var string
+     */
+    protected $ldapCampusIdProperty;
+    
+    /**
+     * @var string
+     */
+    protected $ldapUsernameProperty;
+    
+    /**
      * @var LDAP
      */
     protected $ldap;
@@ -46,19 +56,22 @@ class LdapManager
      * @param string $ldapBindPassword      injected from configuration
      * @param string $ldapSearchBase        injected from configuration
      * @param string $ldapCampusIdProperty  injected from configuration
+     * @param string $ldapUsernameProperty  injected from configuration
      */
     public function __construct(
         $ldapUrl,
         $ldapBindUser,
         $ldapBindPassword,
         $ldapSearchBase,
-        $ldapCampusIdProperty
+        $ldapCampusIdProperty,
+        $ldapUsernameProperty
     ) {
         $this->ldapUrl = $ldapUrl;
         $this->ldapBindUser = $ldapBindUser;
         $this->ldapBindPassword = $ldapBindPassword;
         $this->ldapSearchBase = $ldapSearchBase;
         $this->ldapCampusIdProperty = $ldapCampusIdProperty;
+        $this->ldapUsernameProperty = $ldapUsernameProperty;
 
         $this->ldap = null;
         $this->connectionCreatedAt = null;
@@ -116,8 +129,8 @@ class LdapManager
             'sn',
             'givenName',
             'telephoneNumber',
-            'eduPersonPrincipalName',
-            $this->ldapCampusIdProperty
+            $this->ldapCampusIdProperty,
+            $this->ldapUsernameProperty
         ];
         try {
             $ldap = $this->getLdap();
@@ -135,14 +148,15 @@ class LdapManager
 
             if (count($results)) {
                 $campusIdKey = strtolower($this->ldapCampusIdProperty);
-                $rhett = array_map(function ($userData) use ($campusIdKey) {
+                $usernameKey = strtolower($this->ldapUsernameProperty);
+                $rhett = array_map(function ($userData) use ($campusIdKey, $usernameKey) {
                     $keys = [
                         'givenname',
                         'sn',
                         'mail',
                         'telephonenumber',
-                        'edupersonprincipalname',
-                        $campusIdKey
+                        $campusIdKey,
+                        $usernameKey
                     ];
                     $values = [];
                     foreach ($keys as $key) {
@@ -154,8 +168,8 @@ class LdapManager
                         'lastName' => $values['sn'],
                         'email' => $values['mail'],
                         'telephoneNumber' => $values['telephonenumber'],
-                        'eppn' => $values['edupersonprincipalname'],
                         'campusId' => $values[$campusIdKey],
+                        'username' => $values[$usernameKey],
                     ];
                 }, $results);
                 

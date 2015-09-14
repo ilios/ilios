@@ -11,8 +11,8 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\CoreBundle\Service\Directory;
-use Ilios\AuthenticationBundle\Service\AuthenticationInterface;
 
 /**
  * Sync a user with their directory information
@@ -26,25 +26,25 @@ class SyncAllUsersCommand extends Command
      * @var UserManagerInterface
      */
     protected $userManager;
+
+    /**
+     * @var AuthenticationManagerInterface
+     */
+    protected $authenticationManager;
     
     /**
      * @var Directory
      */
     protected $directory;
     
-    /**
-     * @var AuthenticationInterface
-     */
-    protected $authenticationService;
-    
     public function __construct(
         UserManagerInterface $userManager,
-        Directory $directory,
-        AuthenticationInterface $authenticationService
+        AuthenticationManagerInterface $authenticationManager,
+        Directory $directory
     ) {
         $this->userManager = $userManager;
+        $this->authenticationManager = $authenticationManager;
         $this->directory = $directory;
-        $this->authenticationService = $authenticationService;
         
         parent::__construct();
     }

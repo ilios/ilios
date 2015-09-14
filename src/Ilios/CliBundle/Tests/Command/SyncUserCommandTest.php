@@ -11,18 +11,18 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
     const COMMAND_NAME = 'ilios:directory:sync-user';
     
     protected $userManager;
+    protected $authenticationManager;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
-    protected $authenticationService;
     
     public function setUp()
     {
         $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
+        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
-        $this->authenticationService = m::mock('Ilios\AuthenticationBundle\Service\AuthenticationInterface');
         
-        $command = new SyncUserCommand($this->userManager, $this->directory, $this->authenticationService);
+        $command = new SyncUserCommand($this->userManager, $this->authenticationManager, $this->directory);
         $application = new Application();
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
@@ -37,20 +37,24 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         unset($this->userManager);
+        unset($this->authenticationManager);
         unset($this->directory);
-        unset($this->authenticationService);
         unset($this->commandTester);
         m::close();
     }
     
     public function testExecute()
     {
+        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+            ->shouldReceive('setUsername')->with('username')
+            ->mock();
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('getFirstName')->andReturn('old-first')
             ->shouldReceive('getLastName')->andReturn('old-last')
             ->shouldReceive('getEmail')->andReturn('old-email')
             ->shouldReceive('getPhone')->andReturn('old-phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('getAuthentication')->andReturn($authentication)
             ->shouldReceive('setFirstName')->with('first')
             ->shouldReceive('setLastName')->with('last')
             ->shouldReceive('setEmail')->with('email')
@@ -58,14 +62,15 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
             ->mock();
         $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn($user);
         $this->userManager->shouldReceive('updateUser')->with($user);
+        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication, false);
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',
             'email' => 'email',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
+            'username' => 'username'
         ];
-        $this->authenticationService->shouldReceive('syncUser')->with($fakeDirectoryUser, $user)->once();
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->sayYesWhenAsked();
         

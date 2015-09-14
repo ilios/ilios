@@ -11,7 +11,7 @@ services:
             -  { name: console.command }
     ilioscli.command.sync_user:
         class: Ilios\CliBundle\Command\SyncUserCommand
-        arguments: ["@ilioscore.user.manager", "@ilioscore.directory", "@ilios_authentication.authenticator"]
+        arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.directory"]
         tags:
             -  { name: console.command }
     ilioscli.command.find_directory_user:
@@ -21,7 +21,7 @@ services:
             -  { name: console.command }
     ilioscli.command.add_directory_user:
         class: Ilios\CliBundle\Command\AddUserCommand
-        arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.school.manager", "@ilioscore.directory", "@ilios_authentication.authenticator"]
+        arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.school.manager", "@ilioscore.directory"]
         tags:
             -  { name: console.command }
     ilioscli.command.sync_former_students:
@@ -31,11 +31,11 @@ services:
             -  { name: console.command }
     ilioscli.command.add_new_students_to_school:
         class: Ilios\CliBundle\Command\AddNewStudentsToSchoolCommand
-        arguments: ["@ilioscore.user.manager", "@ilioscore.school.manager",, "@ilioscore.userrole.manager", "@ilioscore.directory", "@ilios_authentication.authenticator"]
+        arguments: ["@ilioscore.user.manager", "@ilioscore.school.manager", , "@ilioscore.authentication.manager", "@ilioscore.userrole.manager", "@ilioscore.directory"]
         tags:
             -  { name: console.command }
     ilioscli.command.sync_all_users:
         class: Ilios\CliBundle\Command\SyncAllUsersCommand
-        arguments: ["@ilioscore.user.manager", "@ilioscore.directory", "@ilios_authentication.authenticator"]
+        arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.directory"]
         tags:
             -  { name: console.command }

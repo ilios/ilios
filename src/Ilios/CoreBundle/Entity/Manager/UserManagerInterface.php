@@ -91,7 +91,7 @@ interface UserManagerInterface extends ManagerInterface
      * Get all the campus IDs for every user
      * @param $includeDisabled
      * @param $includeSyncIgnore
-     * 
+     *
      * @return Collection[]
      */
     public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true);

@@ -9,7 +9,7 @@ class LdapManagerTest extends TestCase
 
     public function testConstructor()
     {
-        $obj = new LdapManager('url', 'user', 'password', 'searchBase', 'campusId');
+        $obj = new LdapManager('url', 'user', 'password', 'searchBase', 'campusId', 'username');
         $this->assertTrue($obj instanceof LdapManager);
     }
 }

@@ -15,6 +15,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
     protected $userManager;
     protected $userRoleManager;
     protected $schoolManager;
+    protected $authenticationManager;
     protected $commandTester;
     protected $questionHelper;
     protected $directory;
@@ -24,15 +25,15 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
         $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
         $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface');
         $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface');
+        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
-        $this->authenticationService = m::mock('Ilios\AuthenticationBundle\Service\AuthenticationInterface');
         
         $command = new AddNewStudentsToSchoolCommand(
             $this->userManager,
             $this->schoolManager,
+            $this->authenticationManager,
             $this->userRoleManager,
-            $this->directory,
-            $this->authenticationService
+            $this->directory
         );
         $application = new Application();
         $application->add($command);
@@ -50,8 +51,8 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
         unset($this->userManager);
         unset($this->userRoleManager);
         unset($this->schoolManager);
+        unset($this->authenticationManager);
         unset($this->directory);
-        unset($this->authenticationService);
         unset($this->commandTester);
         m::close();
     }
@@ -64,6 +65,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
             'email' => 'email',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
+            'username' => 'username',
         ];
         $fakeDirectoryUser2 = [
             'firstName' => 'first2',
@@ -71,6 +73,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
             'email' => 'email2',
             'telephoneNumber' => 'phone2',
             'campusId' => 'abc2',
+            'username' => 'username2',
         ];
         $school = m::mock('Ilios\CoreBundle\Entity\SchoolInterface')
             ->shouldReceive('getTitle')->andReturn('school 1')
@@ -93,6 +96,10 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('setSchool')->with($school)
             ->shouldReceive('addRole')->with($school)
             ->mock();
+        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+            ->shouldReceive('setUser')->with($user)
+            ->shouldReceive('setUsername')->with('username')
+            ->mock();
         $this->directory->shouldReceive('findByLdapFilter')
             ->with('FILTER')
             ->andReturn([$fakeDirectoryUser1, $fakeDirectoryUser2]);
@@ -102,10 +109,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
         $this->userManager->shouldReceive('createUser')->andReturn($user);
         $this->userManager
             ->shouldReceive('updateUser')
-            ->with($user, false);
-        $this->userManager
-            ->shouldReceive('updateUser')
-            ->with($user);
+            ->with($user, false)->once();
         $this->schoolManager->shouldReceive('findSchoolBy')->with(array('id' => 1))->andReturn($school);
         $role = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)
@@ -119,7 +123,8 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('updateUserRole')
             ->with($role);
 
-        $this->authenticationService->shouldReceive('setupNewUser')->with($fakeDirectoryUser1, $user);
+        $this->authenticationManager->shouldReceive('createAuthentication')->andReturn($authentication);
+        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication, false);
         
         $this->sayYesWhenAsked();
         $this->commandTester->execute(array(
