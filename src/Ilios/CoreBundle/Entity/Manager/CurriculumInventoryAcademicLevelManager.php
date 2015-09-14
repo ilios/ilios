@@ -83,4 +83,12 @@ class CurriculumInventoryAcademicLevelManager extends AbstractManager implements
         $class = $this->getClass();
         return new $class();
     }
+
+    /**
+     * @todo
+     */
+    public function getAppliedLevels($reportId)
+    {
+        // TODO: Implement getAppliedLevels() method.
+    }
 }

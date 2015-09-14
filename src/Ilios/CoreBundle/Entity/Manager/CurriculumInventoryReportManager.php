@@ -82,4 +82,76 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
         $class = $this->getClass();
         return new $class();
     }
+
+    /**
+     * @todo
+     */
+    public function getEvents($reportId)
+    {
+        // TODO: Implement getEvents() method.
+    }
+
+    /**
+     * @todo
+     */
+    public function getEventKeywords($reportId)
+    {
+        // TODO: Implement getEventKeywords() method.
+    }
+
+    /**
+     * @todo
+     */
+    public function getEventReferencesForSequenceBlocks($reportId)
+    {
+        // TODO: Implement getEventReferencesForSequenceBlocks() method.
+    }
+
+    /**
+     * @todo
+     */
+    public function getProgramObjectives($reportId)
+    {
+        // TODO: Implement getProgramObjectives() method.
+    }
+
+    /**
+     * @todo
+     */
+    public function getSessionObjectives($reportId)
+    {
+        // TODO: Implement getSessionObjectives() method.
+    }
+
+    /**
+     * @todo
+     */
+    public function getCourseObjectives($reportId)
+    {
+        // TODO: Implement getCourseObjectives() method.
+    }
+
+    /**
+     * @todo
+     */
+    public function getPcrs($reportId)
+    {
+        // TODO: Implement getPcrs() method.
+    }
+
+    /**
+     * @todo
+     */
+    public function getCompetencyObjectReferencesForSequenceBlocks($reportId)
+    {
+        // TODO: Implement getCompetencyObjectReferencesForSequenceBlocks() method.
+    }
+
+    /**
+     * @todo
+     */
+    public function getCompetencyObjectReferencesForEvents($reportId)
+    {
+        // TODO: Implement getCompetencyObjectReferencesForEvents() method.
+    }
 }

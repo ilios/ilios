@@ -83,4 +83,12 @@ class CurriculumInventorySequenceBlockManager extends AbstractManager implements
         $class = $this->getClass();
         return new $class();
     }
+
+    /**
+     * @todo
+     */
+    public function getBlocks($reportId)
+    {
+        // TODO: Implement getBlocks() method.
+    }
 }
