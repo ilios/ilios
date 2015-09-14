@@ -85,9 +85,9 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('setExamined')->with(true)
             ->mock();
         $this->userManager
-            ->shouldReceive('findUserBy')
+            ->shouldReceive('findUsersBy')
             ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
-            ->andReturn($user)
+            ->andReturn(new ArrayCollection([$user]))
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
         $this->em->shouldReceive('flush')->once();
@@ -99,7 +99,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Comparing User #42 first last \(email\) to directory user by campus id abc/',
+            '/Comparing User #42 first last \(email\) to directory user by Campus ID abc/',
             $output
         );
         $this->assertRegExp(
@@ -141,9 +141,9 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('setFirstName')->with('new-first')
             ->mock();
         $this->userManager
-            ->shouldReceive('findUserBy')
+            ->shouldReceive('findUsersBy')
             ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
-            ->andReturn($user)
+            ->andReturn(new ArrayCollection([$user]))
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
                 
@@ -198,9 +198,9 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('setLastName')->with('new-last')
             ->mock();
         $this->userManager
-            ->shouldReceive('findUserBy')
+            ->shouldReceive('findUsersBy')
             ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
-            ->andReturn($user)
+            ->andReturn(new ArrayCollection([$user]))
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
                 
@@ -255,9 +255,9 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('setPhone')->with('new-phone')
             ->mock();
         $this->userManager
-            ->shouldReceive('findUserBy')
+            ->shouldReceive('findUsersBy')
             ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
-            ->andReturn($user)
+            ->andReturn(new ArrayCollection([$user]))
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
                 
@@ -312,9 +312,9 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('setExamined')->with(true)
             ->mock();
         $this->userManager
-            ->shouldReceive('findUserBy')
+            ->shouldReceive('findUsersBy')
             ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
-            ->andReturn($user)
+            ->andReturn(new ArrayCollection([$user]))
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
                 
@@ -372,9 +372,9 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getUsername')->andReturn('')
             ->mock();
         $this->userManager
-            ->shouldReceive('findUserBy')
+            ->shouldReceive('findUsersBy')
             ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
-            ->andReturn($user)
+            ->andReturn(new ArrayCollection([$user]))
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
                 
@@ -398,6 +398,71 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertRegExp(
             '/Completed Sync Process 1 users found in the directory; 1 users updated./',
+            $output
+        );
+    }
+    
+    public function testExecuteWithMultipleUserMatches()
+    {
+        $this->userManager->shouldReceive('resetExaminedFlagForAllUsers')->once();
+        $this->userManager->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(new ArrayCollection(['abc']));
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $user1 = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('getId')->andReturn(42)
+            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
+            ->shouldReceive('getFirstName')->andReturn('first')
+            ->shouldReceive('getLastName')->andReturn('last')
+            ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getPhone')->andReturn('phone')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('getAuthentication')->andReturn(null)
+            ->shouldReceive('setExamined')->with(true)
+            ->mock();
+        $user2 = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('getId')->andReturn(11)
+            ->shouldReceive('getFirstAndLastName')->andReturn('other guy')
+            ->shouldReceive('getFirstName')->andReturn('other')
+            ->shouldReceive('getLastName')->andReturn('guy')
+            ->shouldReceive('getEmail')->andReturn('other-guy')
+            ->shouldReceive('getPhone')->andReturn('')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('getAuthentication')->andReturn(null)
+            ->shouldReceive('setExamined')->with(true)
+            ->mock();
+        $this->userManager
+            ->shouldReceive('findUsersBy')
+            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->andReturn(new ArrayCollection([$user1, $user2]))
+            ->once();
+        $this->userManager->shouldReceive('updateUser')->with($user1, false)->once();
+        $this->userManager->shouldReceive('updateUser')->with($user2, false)->once();
+
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME
+        ));
+        
+        
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/Multiple accounts exist for the same Campus ID \(abc\)\.  None of them will be updated\./',
+            $output
+        );
+        $this->assertRegExp(
+            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
             $output
         );
     }

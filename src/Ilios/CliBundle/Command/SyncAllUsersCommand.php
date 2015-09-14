@@ -85,26 +85,40 @@ class SyncAllUsersCommand extends Command
         $chunks = array_chunk($allUserRecoreds, 500);
         foreach ($chunks as $userRecords) {
             foreach ($userRecords as $recordArray) {
-                $user = $this->userManager->findUserBy([
+                $users = $this->userManager->findUsersBy([
                     'campusId' => $recordArray['campusId'],
                     'enabled' => true,
                     'userSyncIgnore' => false
                 ]);
-                if (!$user) {
+                if ($users->count() == 0) {
                     //this shouldn't happen unless the user gets updated between
                     //listing all the IDs and getting results back from
                     //the directory
                     $output->writeln(
                         '<error>Unable to find an active sync user with ' .
-                        'campus id ' . $recordArray['campusId'] . '</error>'
+                        'Campus ID ' . $recordArray['campusId'] . '</error>'
                     );
                     continue;
                 }
+                if ($users->count() > 1) {
+                    $output->writeln(
+                        '<error>UMultiple accounts exist for the same ' .
+                        'Campus ID (' . $recordArray['campusId'] . ').  ' .
+                        'None of them will be updated.</error>'
+                    );
+                    foreach ($users as $user) {
+                        $user->setExamined(true);
+                        $this->userManager->updateUser($user, false);
+                    }
+                    continue;
+                }
+                $user = $users->first();
+    
                 $update = false;
                 $output->writeln(
                     '<info>Comparing User #' . $user->getId() . ' ' .
                     $user->getFirstAndLastName() . ' (' . $user->getEmail() . ') ' .
-                    'to directory user by campus id ' . $user->getCampusId() . '</info>'
+                    'to directory user by Campus ID ' . $user->getCampusId() . '</info>'
                 );
                 if ($user->getFirstName() != $recordArray['firstName']) {
                     $update = true;
