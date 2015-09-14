@@ -136,12 +136,12 @@ class AddUserCommand extends Command
             $user->setEnabled(true);
             $user->setSchool($school);
             $user->setUserSyncIgnore(false);
+            $this->userManager->updateUser($user);
             
             $authentication = $this->authenticationManager->createAuthentication();
             $authentication->setUser($user);
             $authentication->setUsername($userRecord['username']);
-            $this->authenticationManager->updateAuthentication($authentication, false);
-            $this->userManager->updateUser($user);
+            $this->authenticationManager->updateAuthentication($authentication);
 
             $output->writeln(
                 '<info>Success! New user #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' created.</info>'

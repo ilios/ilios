@@ -109,7 +109,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
         $this->userManager->shouldReceive('createUser')->andReturn($user);
         $this->userManager
             ->shouldReceive('updateUser')
-            ->with($user, false)->once();
+            ->with($user)->once();
         $this->schoolManager->shouldReceive('findSchoolBy')->with(array('id' => 1))->andReturn($school);
         $role = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)

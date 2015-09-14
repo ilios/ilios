@@ -180,15 +180,15 @@ class AddNewStudentsToSchoolCommand extends Command
                 $user->setEnabled(true);
                 $user->setSchool($school);
                 $user->setUserSyncIgnore(false);
-
+                $user->addRole($studentRole);
+                $this->userManager->updateUser($user);
+                
                 $authentication = $this->authenticationManager->createAuthentication();
                 $authentication->setUser($user);
                 $authentication->setUsername($userRecord['username']);
                 $this->authenticationManager->updateAuthentication($authentication, false);
                 
                 $studentRole->addUser($user);
-                $user->addRole($studentRole);
-                $this->userManager->updateUser($user, false);
                 $this->userRoleManager->updateUserRole($studentRole);
                 
                 $output->writeln(

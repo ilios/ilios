@@ -73,7 +73,7 @@ class SyncAllUsersCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->userManager->resetExaminedFlagForAllUsers();
-        $campusIds = $this->userManager->getAllCampusIds(false, false);
+        $campusIds = $this->userManager->getAllCampusIds(false, false)->toArray();
         $allUserRecoreds = $this->directory->findByCampusIds($campusIds);
         
         if (!$allUserRecoreds) {
@@ -92,7 +92,7 @@ class SyncAllUsersCommand extends Command
                 ]);
                 if (!$user) {
                     //this shouldn't happen unless the user gets updated between
-                    //listing all the IDs on line 68 and getting them back from
+                    //listing all the IDs and getting results back from
                     //the directory
                     $output->writeln(
                         '<error>Unable to find an active sync user with ' .
@@ -103,46 +103,49 @@ class SyncAllUsersCommand extends Command
                 $update = false;
                 $output->writeln(
                     '<info>Comparing User #' . $user->getId() . ' ' .
-                    $user->getFirstAndLastName() . ' to directory user by campus id ' .
-                    $user->getCampusId() . '</info>'
+                    $user->getFirstAndLastName() . ' (' . $user->getEmail() . ') ' .
+                    'to directory user by campus id ' . $user->getCampusId() . '</info>'
                 );
                 if ($user->getFirstName() != $recordArray['firstName']) {
                     $update = true;
-                    $user->setFirstName($recordArray['firstName']);
                     $output->writeln(
-                        '<info>Updating first name from "' . $user->getFirstName() .
-                        '" to "' . $recordArray['firstName'] . '"</info>'
+                        '<comment>Updating first name from "' . $user->getFirstName() .
+                        '" to "' . $recordArray['firstName'] . '"</comment>'
                     );
+                    $user->setFirstName($recordArray['firstName']);
                 }
                 if ($user->getLastName() != $recordArray['lastName']) {
                     $update = true;
-                    $user->setLastName($recordArray['lastName']);
                     $output->writeln(
-                        '<info>Updating last name from "' . $user->getLastName() .
-                        '" to "' . $recordArray['lastName'] . '"</info>'
+                        '<comment>Updating last name from "' . $user->getLastName() .
+                        '" to "' . $recordArray['lastName'] . '"</comment>'
                     );
+                    $user->setLastName($recordArray['lastName']);
                 }
                 if ($user->getPhone() != $recordArray['telephoneNumber']) {
                     $update = true;
-                    $user->setPhone($recordArray['telephoneNumber']);
                     $output->writeln(
-                        '<info>Updating phone number from "' . $user->getPhone() .
-                        '" to "' . $recordArray['telephoneNumber'] . '"</info>'
+                        '<comment>Updating phone number from "' . $user->getPhone() .
+                        '" to "' . $recordArray['telephoneNumber'] . '"</comment>'
                     );
+                    $user->setPhone($recordArray['telephoneNumber']);
                 }
                 
                 $authentication = $user->getAuthentication();
                 if (!$authentication) {
+                    $output->writeln(
+                        '<comment>User had no Authentication data, creating it now.</comment>'
+                    );
                     $authentication = $this->authenticationManager->createAuthentication();
                     $authentication->setUser($user);
                 }
                 if ($authentication->getUsername() != $recordArray['username']) {
                     $update = true;
-                    $authentication->setUsername($recordArray['username']);
                     $output->writeln(
-                        '<info>Updating username from "' . $authentication->getUsername() .
-                        '" to "' . $recordArray['username'] . '"</info>'
+                        '<comment>Updating username from "' . $authentication->getUsername() .
+                        '" to "' . $recordArray['username'] . '"</comment>'
                     );
+                    $authentication->setUsername($recordArray['username']);
                     $this->authenticationManager->updateAuthentication($authentication, false);
                 }
                 

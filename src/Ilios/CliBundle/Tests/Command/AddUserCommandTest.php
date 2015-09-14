@@ -79,7 +79,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
         $this->userManager->shouldReceive('createUser')->andReturn($user);
         $this->userManager->shouldReceive('updateUser')->with($user);
         $this->authenticationManager->shouldReceive('createAuthentication')->andReturn($authentication);
-        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication, false);
+        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication);
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',
@@ -100,7 +100,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/abc       \| first \| last \| email \| username \| phone/',
+            '/abc       \| first \| last \| email \| abc123   \| phone/',
             $output
         );
         $this->assertRegExp(

@@ -188,10 +188,12 @@ class UserRepository extends EntityRepository
      */
     public function resetExaminedFlagForAllUsers()
     {
-        $dql = 'UPDATE IliosCoreBundle:User SET examined=0';
-        $query = $this->_em->createQuery($dql);
-
-        $query->execute();
+        $qb = $this->_em->createQueryBuilder();
+        
+        $qb->update('IliosCoreBundle:User', 'u')
+            ->set('u.examined', $qb->expr()->literal(false));
+            
+        $qb->getQuery()->execute();
     }
     
     /**
