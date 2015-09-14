@@ -32,7 +32,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|UserInterface[]
+     * @return UserInterface[]
      */
     public function findUsersBy(
         array $criteria,

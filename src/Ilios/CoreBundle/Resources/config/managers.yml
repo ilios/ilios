@@ -35,6 +35,7 @@ parameters:
     ilioscore.objective.manager.class: Ilios\CoreBundle\Entity\Manager\ObjectiveManager
     ilioscore.offering.manager.class: Ilios\CoreBundle\Entity\Manager\OfferingManager
     ilioscore.permission.manager.class: Ilios\CoreBundle\Entity\Manager\PermissionManager
+    ilioscore.pendinguserupdate.manager.class: Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager
     ilioscore.program.manager.class: Ilios\CoreBundle\Entity\Manager\ProgramManager
     ilioscore.programyear.manager.class: Ilios\CoreBundle\Entity\Manager\ProgramYearManager
     ilioscore.programyearsteward.manager.class: Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager
@@ -163,6 +164,9 @@ services:
     ilioscore.permission.manager:
         class: %ilioscore.permission.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Permission]
+    ilioscore.pendinguserupdate.manager:
+        class: %ilioscore.pendinguserupdate.manager.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\PendingUserUpdate]
     ilioscore.program.manager:
         class: %ilioscore.program.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Program]

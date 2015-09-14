@@ -163,7 +163,7 @@ class UserRepository extends EntityRepository
      * @param $includeDisabled
      * @param $includeSyncIgnore
      *
-     * @return Collection
+     * @return []
      */
     public function getAllCampusIds($includeDisabled, $includeSyncIgnore)
     {
@@ -180,7 +180,7 @@ class UserRepository extends EntityRepository
             return $arr['campusId'];
         }, $qb->getQuery()->getScalarResult());
         
-        return new ArrayCollection($campusIds);
+        return $campusIds;
     }
     
     /**

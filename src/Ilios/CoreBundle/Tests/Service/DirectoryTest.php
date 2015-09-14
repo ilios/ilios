@@ -44,7 +44,8 @@ class DirectoryTest extends TestCase
     {
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
         $obj = new Directory($ldapManager, 'campusId');
-        $ldapManager->shouldReceive('search')->with(m::mustBe('(|(campusId=1234)(campusId=1235))'))->andReturn(array(1));
+        $ldapManager->shouldReceive('search')
+            ->with(m::mustBe('(|(campusId=1234)(campusId=1235))'))->andReturn(array(1));
         
         $result = $obj->findByCampusIds([1234, 1235, 1234, 1235]);
         $this->assertSame($result, [1]);

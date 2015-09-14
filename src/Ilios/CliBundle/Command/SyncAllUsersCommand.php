@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManagerInterface;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
@@ -32,6 +33,11 @@ class SyncAllUsersCommand extends Command
      * @var AuthenticationManagerInterface
      */
     protected $authenticationManager;
+
+    /**
+     * @var PendingUserUpdateManagerInterface
+     */
+    protected $pendingUserUpdateManager;
     
     /**
      * @var Directory
@@ -46,11 +52,13 @@ class SyncAllUsersCommand extends Command
     public function __construct(
         UserManagerInterface $userManager,
         AuthenticationManagerInterface $authenticationManager,
+        PendingUserUpdateManagerInterface $pendingUserUpdateManager,
         Directory $directory,
         EntityManager $em
     ) {
         $this->userManager = $userManager;
         $this->authenticationManager = $authenticationManager;
+        $this->pendingUserUpdateManager = $pendingUserUpdateManager;
         $this->directory = $directory;
         $this->em = $em;
         
@@ -73,16 +81,16 @@ class SyncAllUsersCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->userManager->resetExaminedFlagForAllUsers();
-        $campusIds = $this->userManager->getAllCampusIds(false, false)->toArray();
-        $allUserRecoreds = $this->directory->findByCampusIds($campusIds);
+        $this->pendingUserUpdateManager->removeAllPendingUserUpdates();
+        $campusIds = $this->userManager->getAllCampusIds(false, false);
+        $allUserRecords = $this->directory->findByCampusIds($campusIds);
         
-        if (!$allUserRecoreds) {
-            $output->writeln('<error>Unable to find any users in the directory');
-            return;
+        if (!$allUserRecords) {
+            $output->writeln('<error>Unable to find any users in the directory</error>');
         }
-        $totalRecords = count($allUserRecoreds);
+        $totalRecords = count($allUserRecords);
         $updated = 0;
-        $chunks = array_chunk($allUserRecoreds, 500);
+        $chunks = array_chunk($allUserRecords, 500);
         foreach ($chunks as $userRecords) {
             foreach ($userRecords as $recordArray) {
                 $users = $this->userManager->findUsersBy([
@@ -90,7 +98,7 @@ class SyncAllUsersCommand extends Command
                     'enabled' => true,
                     'userSyncIgnore' => false
                 ]);
-                if ($users->count() == 0) {
+                if (count($users) == 0) {
                     //this shouldn't happen unless the user gets updated between
                     //listing all the IDs and getting results back from
                     //the directory
@@ -100,7 +108,7 @@ class SyncAllUsersCommand extends Command
                     );
                     continue;
                 }
-                if ($users->count() > 1) {
+                if (count($users) > 1) {
                     $output->writeln(
                         '<error>Multiple accounts exist for the same ' .
                         'Campus ID (' . $recordArray['campusId'] . ').  ' .
@@ -112,7 +120,7 @@ class SyncAllUsersCommand extends Command
                     }
                     continue;
                 }
-                $user = $users->first();
+                $user = $users[0];
 
                 $update = false;
                 $output->writeln(
@@ -150,6 +158,27 @@ class SyncAllUsersCommand extends Command
                     );
                     $user->setPhone($recordArray['telephoneNumber']);
                 }
+                if ($user->getEmail() != $recordArray['email']) {
+                    if (strtolower($user->getEmail() == strtolower($recordArray['email']))) {
+                        $update = true;
+                        $output->writeln(
+                            '<comment>Updating email from "' . $user->getEmail() .
+                            '" to "' . $recordArray['email'] . '" since the only difference was the case.</comment>'
+                        );
+                        $user->setEmail($recordArray['email']);
+                    } else {
+                        $output->writeln(
+                            '<comment>Email address "' . $user->getEmail() .
+                            '" differs from "' . $recordArray['email'] . '" logging for further action.</comment>'
+                        );
+                        $update = $this->pendingUserUpdateManager->createPendingUserUpdate();
+                        $update->setUser($user);
+                        $update->setProperty('email');
+                        $update->setValue($recordArray['email']);
+                        $update->setType('emailMismatch');
+                        $this->pendingUserUpdateManager->updatePendingUserUpdate($update, false);
+                    }
+                }
                 
                 $authentication = $user->getAuthentication();
                 if (!$authentication) {
@@ -178,6 +207,21 @@ class SyncAllUsersCommand extends Command
             $this->em->flush();
             $this->em->clear();
         }
+        
+        $unsyncedUsers = $this->userManager->findUsersBy(
+            ['examined' => false, 'enabled' => true, 'userSyncIgnore' => false]
+        );
+        foreach ($unsyncedUsers as $user) {
+            $output->writeln(
+                '<comment>User not found in the directory.  Logged for further study.</comment>'
+            );
+            $update = $this->pendingUserUpdateManager->createPendingUserUpdate();
+            $update->setUser($user);
+            $update->setType('missingFromDirectory');
+            $this->pendingUserUpdateManager->updatePendingUserUpdate($update, false);
+        }
+        $this->em->flush();
+
         $output->writeln(
             "<info>Completed Sync Process {$totalRecords} users found in the directory; " .
             "{$updated} users updated.</info>"
