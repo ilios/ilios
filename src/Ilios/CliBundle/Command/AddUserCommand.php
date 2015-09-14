@@ -123,7 +123,7 @@ class AddUserCommand extends Command
         $output->writeln('');
         $question = new ConfirmationQuestion(
             "<question>Do you wish to add this user to Ilios?</question>\n",
-            false
+            true
         );
         
         if ($helper->ask($input, $output, $question)) {

@@ -141,7 +141,7 @@ class AddNewStudentsToSchoolCommand extends Command
         $output->writeln('');
         $question = new ConfirmationQuestion(
             '<question>Do you wish to add these students to ' . $school->getTitle() . '? </question>' . "\n",
-            false
+            true
         );
         
         if ($helper->ask($input, $output, $question)) {

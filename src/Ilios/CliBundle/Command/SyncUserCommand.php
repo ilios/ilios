@@ -113,7 +113,7 @@ class SyncUserCommand extends Command
         $question = new ConfirmationQuestion(
             '<question>Do you wish to update this Ilios User with the data ' .
             'from the Directory User? </question>',
-            false
+            true
         );
         
         if ($helper->ask($input, $output, $question)) {

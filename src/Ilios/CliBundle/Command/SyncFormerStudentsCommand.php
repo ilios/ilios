@@ -113,7 +113,7 @@ class SyncFormerStudentsCommand extends Command
         $output->writeln('');
         $question = new ConfirmationQuestion(
             '<question>Do you wish to mark these users as Former Students? </question>' . "\n",
-            false
+            true
         );
         
         if ($helper->ask($input, $output, $question)) {
