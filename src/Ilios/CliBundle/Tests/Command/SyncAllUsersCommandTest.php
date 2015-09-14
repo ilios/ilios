@@ -466,4 +466,196 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             $output
         );
     }
+    
+    public function testExecuteWithEmptyFirstName()
+    {
+        $this->userManager->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(new ArrayCollection(['abc']));
+        $fakeDirectoryUser = [
+            'firstName' => '',
+            'lastName' => 'last',
+            'email' => 'email',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('getId')->andReturn(42)
+            ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
+            ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('setExamined')->with(true)
+            ->mock();
+        $this->userManager
+            ->shouldReceive('findUsersBy')
+            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->andReturn(new ArrayCollection([$user]))
+            ->once();
+        $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
+
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME
+        ));
+        
+        
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/firstName is required and it is missing from record with Campus ID \(abc\)\.  User will not be updated./',
+            $output
+        );
+        $this->assertRegExp(
+            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
+            $output
+        );
+    }
+    
+    public function testExecuteWithEmptyLastName()
+    {
+        $this->userManager->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(new ArrayCollection(['abc']));
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => '',
+            'email' => 'email',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('getId')->andReturn(42)
+            ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
+            ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('setExamined')->with(true)
+            ->mock();
+        $this->userManager
+            ->shouldReceive('findUsersBy')
+            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->andReturn(new ArrayCollection([$user]))
+            ->once();
+        $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
+
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME
+        ));
+        
+        
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/lastName is required and it is missing from record with Campus ID \(abc\)\.  User will not be updated./',
+            $output
+        );
+        $this->assertRegExp(
+            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
+            $output
+        );
+    }
+    
+    public function testExecuteWithEmptyEmailName()
+    {
+        $this->userManager->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(new ArrayCollection(['abc']));
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => '',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('getId')->andReturn(42)
+            ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
+            ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('setExamined')->with(true)
+            ->mock();
+        $this->userManager
+            ->shouldReceive('findUsersBy')
+            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->andReturn(new ArrayCollection([$user]))
+            ->once();
+        $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
+
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME
+        ));
+        
+        
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/email is required and it is missing from record with Campus ID \(abc\)\.  User will not be updated./',
+            $output
+        );
+        $this->assertRegExp(
+            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
+            $output
+        );
+    }
+    
+    public function testExecuteWithEmptyUsernamelName()
+    {
+        $this->userManager->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(new ArrayCollection(['abc']));
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => '',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('getId')->andReturn(42)
+            ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
+            ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('setExamined')->with(true)
+            ->mock();
+        $this->userManager
+            ->shouldReceive('findUsersBy')
+            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->andReturn(new ArrayCollection([$user]))
+            ->once();
+        $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
+
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME
+        ));
+        
+        
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/username is required and it is missing from record with Campus ID \(abc\)\.  User will not be updated./',
+            $output
+        );
+        $this->assertRegExp(
+            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
+            $output
+        );
+    }
 }

@@ -102,7 +102,7 @@ class SyncAllUsersCommand extends Command
                 }
                 if ($users->count() > 1) {
                     $output->writeln(
-                        '<error>UMultiple accounts exist for the same ' .
+                        '<error>Multiple accounts exist for the same ' .
                         'Campus ID (' . $recordArray['campusId'] . ').  ' .
                         'None of them will be updated.</error>'
                     );
@@ -113,13 +113,19 @@ class SyncAllUsersCommand extends Command
                     continue;
                 }
                 $user = $users->first();
-    
+
                 $update = false;
                 $output->writeln(
                     '<info>Comparing User #' . $user->getId() . ' ' .
                     $user->getFirstAndLastName() . ' (' . $user->getEmail() . ') ' .
                     'to directory user by Campus ID ' . $user->getCampusId() . '</info>'
                 );
+                if (!$this->validateDirectoryRecord($recordArray, $output)) {
+                    $user->setExamined(true);
+                    $this->userManager->updateUser($user, false);
+                    //don't do anything else with invalid directory data
+                    continue;
+                }
                 if ($user->getFirstName() != $recordArray['firstName']) {
                     $update = true;
                     $output->writeln(
@@ -177,5 +183,23 @@ class SyncAllUsersCommand extends Command
             "{$updated} users updated.</info>"
         );
         
+    }
+    
+    protected function validateDirectoryRecord(array $record, OutputInterface $output)
+    {
+        $valid = true;
+        $requiredFields = ['firstName', 'lastName', 'email', 'username'];
+        foreach ($requiredFields as $key) {
+            if (empty($record[$key])) {
+                $valid = false;
+                $output->writeln(
+                    "<error> {$key} is required and it is missing from record with " .
+                    'Campus ID (' . $record['campusId'] . ').  ' .
+                    'User will not be updated.</error>'
+                );
+            }
+        }
+        
+        return $valid;
     }
 }
