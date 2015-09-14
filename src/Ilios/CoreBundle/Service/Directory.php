@@ -52,6 +52,7 @@ class Directory
      */
     public function findByCampusIds(array $campusIds)
     {
+        $campusIds = array_unique($campusIds);
         $filterTerms = array_map(function ($campusId) {
             return "({$this->ldapCampusIdProperty}={$campusId})";
         }, $campusIds);
