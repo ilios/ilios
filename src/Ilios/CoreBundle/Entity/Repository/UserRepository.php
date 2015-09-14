@@ -159,19 +159,39 @@ class UserRepository extends EntityRepository
     
     /**
      * Get all the campus IDs for all users
-     *
+     * 
+     * @param $includeDisabled
+     * @param $includeSyncIgnore
+     * 
      * @return Collection
      */
-    public function getAllCampusIds()
+    public function getAllCampusIds($includeDisabled, $includeSyncIgnore)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->add('select', 'u.campusId')->from('IliosCoreBundle:User', 'u');
+        if (!$includeDisabled) {
+            $qb->andWhere('u.enabled=1');
+        }
+        if (!$includeSyncIgnore) {
+            $qb->andWhere('u.userSyncIgnore=0');
+        }
         
         $campusIds = array_map(function (array $arr) {
             return $arr['campusId'];
         }, $qb->getQuery()->getScalarResult());
         
         return new ArrayCollection($campusIds);
+    }
+    
+    /**
+     * Reset examined flag for all users
+     */
+    public function resetExaminedFlagForAllUsers()
+    {
+        $dql = 'UPDATE IliosCoreBundle:User SET examined=0';
+        $query = $this->_em->createQuery($dql);
+
+        $query->execute();
     }
     
     /**

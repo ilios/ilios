@@ -127,9 +127,17 @@ class UserManager extends AbstractManager implements UserManagerInterface
     /**
      * @inheritdoc
      */
-    public function getAllCampusIds()
+    public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true)
     {
-        return $this->getRepository()->getAllCampusIds();
+        return $this->getRepository()->getAllCampusIds($includeDisabled, $includeSyncIgnore);
         
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function resetExaminedFlagForAllUsers()
+    {
+        return $this->getRepository()->resetExaminedFlagForAllUsers();
     }
 }
