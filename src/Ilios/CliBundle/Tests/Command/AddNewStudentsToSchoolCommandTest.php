@@ -4,7 +4,6 @@ namespace Ilios\CliBundle\Tests\Command;
 use Ilios\CliBundle\Command\AddNewStudentsToSchoolCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Doctrine\Common\Collections\ArrayCollection;
 
 use Mockery as m;
 
@@ -104,7 +103,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
             ->with('FILTER')
             ->andReturn([$fakeDirectoryUser1, $fakeDirectoryUser2]);
         $this->userManager->shouldReceive('getAllCampusIds')
-            ->andReturn(new ArrayCollection(['abc2']));
+            ->andReturn(['abc2']);
             
         $this->userManager->shouldReceive('createUser')->andReturn($user);
         $this->userManager

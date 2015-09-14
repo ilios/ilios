@@ -99,6 +99,7 @@ class AddNewStudentsToSchoolCommand extends Command
                 "School with id {$schoolId} could not be found."
             );
         }
+        $output->writeln("<info>Serchign for new students to add to " . $school->getTitle() . ".</info>");
         
         $students = $this->directory->findByLdapFilter($filter);
         
@@ -111,7 +112,7 @@ class AddNewStudentsToSchoolCommand extends Command
         $campusIds = $this->userManager->getAllCampusIds();
         
         $newStudents = array_filter($students, function (array $arr) use ($campusIds) {
-            return !$campusIds->contains($arr['campusId']);
+            return !in_array($arr['campusId'], $campusIds);
         });
         
         if (!count($newStudents) > 0) {
