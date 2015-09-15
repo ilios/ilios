@@ -63,9 +63,4 @@ interface CurriculumInventorySequenceBlockManagerInterface extends ManagerInterf
      * @return CurriculumInventorySequenceBlockInterface
      */
     public function createCurriculumInventorySequenceBlock();
-
-    /**
-     * @todo
-     */
-    public function getBlocks($reportId);
 }
