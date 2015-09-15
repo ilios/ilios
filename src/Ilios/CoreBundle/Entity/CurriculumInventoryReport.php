@@ -12,9 +12,6 @@ use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventorySequenceInterface;
-use Ilios\CoreBundle\Entity\ProgramInterface;
 
 /**
  * Class CurriculumInventoryReport
@@ -28,7 +25,7 @@ use Ilios\CoreBundle\Entity\ProgramInterface;
  *     @ORM\Index(name="IDX_6E31899E3EB8070A", columns={"program_id"})
  *   }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CurriculumInventoryReportRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
