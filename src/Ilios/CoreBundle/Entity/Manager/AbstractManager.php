@@ -33,7 +33,7 @@ abstract class AbstractManager implements ManagerInterface
     protected $class;
 
     /**
-     * @param Registry $em
+     * @param Registry $registry
      * @param string $class
      */
     public function __construct(Registry $registry, $class)
