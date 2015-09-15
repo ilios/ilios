@@ -11,6 +11,9 @@ use FOS\RestBundle\Util\Codes;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Ilios\CoreBundle\Entity\Manager\CourseManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -123,7 +126,7 @@ class CurriculumInventoryDownloadController extends FOSRestController
      */
     protected function generateReportDocument(CurriculumInventoryReportInterface $report)
     {
-        $xml = $this->container->get('ilioscore.curriculum_inventory.exporter')->getXmlReport($report->getId());
+        $xml = $this->container->get('ilioscore.curriculum_inventory.exporter')->getXmlReport($report);
         return $xml->saveXML();
     }
 }

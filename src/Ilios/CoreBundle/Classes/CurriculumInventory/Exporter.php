@@ -98,7 +98,7 @@ class Exporter
      * Retrieves a curriculum inventory in a data structure that lends itself for an easy transformation into
      * XML-formatted report.
      *
-     * @param int $reportId The report id.
+     * @param CurriculumInventoryReportInterface $invReport The report object.
      * @return array An associated array, containing the inventory.
      *     Data is keyed off by:
      *         'report' ... An associative array holding various report-related properties, such as id, domain etc
@@ -128,19 +128,11 @@ class Exporter
      *         'sequence_blocks' An array of sequence block. Each sequence block is represented as associative array.
      * @throws \Exception
      */
-    public function getCurriculumInventory ($reportId)
+    public function getCurriculumInventory (CurriculumInventoryReportInterface $invReport)
     {
         //
         // load inventory from various sources
         //
-
-        /** @var CurriculumInventoryReportInterface $invReport */
-        $invReport = $this->reportManager->findCurriculumInventoryReportBy(['id' => $reportId]);
-
-        if (! $invReport) {
-            throw new \Exception('No report found for id = ' . $reportId . '.');
-        }
-
         $program = $invReport->getProgram();
         if (! $program) {
             throw new \Exception('No program found for report with id  ' . $invReport->getId() . '.');
@@ -161,18 +153,18 @@ class Exporter
 
         $invSequence = $invReport->getSequence();
 
-        $events = $this->reportManager->getEvents($reportId);
-        $keywords = $this->reportManager->getEventKeywords($reportId);
-        $levels = $this->academicLevelManager->getAppliedLevels($reportId);
-        $sequenceBlocks = $this->sequenceBlockManager->getBlocks($reportId);
-        $eventReferences = $this->reportManager->getEventReferencesForSequenceBlocks($reportId);
+        $events = $this->reportManager->getEvents($invReport);
+        $keywords = $this->reportManager->getEventKeywords($invReport->getId());
+        $levels = $this->academicLevelManager->getAppliedLevels($invReport->getId());
+        $sequenceBlocks = $this->sequenceBlockManager->getBlocks($invReport->getId());
+        $eventReferences = $this->reportManager->getEventReferencesForSequenceBlocks($invReport->getId());
 
-        $programObjectives = $this->reportManager->getProgramObjectives($reportId);
-        $sessionObjectives = $this->reportManager->getSessionObjectives($reportId);
-        $courseObjectives = $this->reportManager->getCourseObjectives($reportId);
+        $programObjectives = $this->reportManager->getProgramObjectives($invReport->getId());
+        $sessionObjectives = $this->reportManager->getSessionObjectives($invReport->getId());
+        $courseObjectives = $this->reportManager->getCourseObjectives($invReport->getId());
 
-        $compRefsForSeqBlocks = $this->reportManager->getCompetencyObjectReferencesForSequenceBlocks($reportId);
-        $compRefsForEvents = $this->reportManager->getCompetencyObjectReferencesForEvents($reportId);
+        $compRefsForSeqBlocks = $this->reportManager->getCompetencyObjectReferencesForSequenceBlocks($invReport->getId());
+        $compRefsForEvents = $this->reportManager->getCompetencyObjectReferencesForEvents($invReport->getId());
 
         // The various objective type are all "Competency Objects" in the context of reporting the curriculum inventory.
         // The are grouped in the "Expectations" section of the report, lump 'em together here.
@@ -183,7 +175,7 @@ class Exporter
 
 
         // Build out the competency framework information and added to $expectations.
-        $pcrs = $this->reportManager->getPcrs($reportId);
+        $pcrs = $this->reportManager->getPcrs($invReport->getId());
 
         $pcrsIds = array_keys($pcrs);
         $programObjectiveIds = array_keys($programObjectives);
@@ -519,16 +511,16 @@ class Exporter
 
     /**
      * Loads the curriculum inventory for a given report and exports it as XML document.
-     * @param int $reportId The report id.
+     * @param CurriculumInventoryReportInterface $report The report.
      * @return \DomDocument The fully populated report.
      * @throws \DomException
      * @throws \Exception
      * @see Ilios_CurriculumInventory_Exporter::getCurriculumInventory()
      * @see Ilios_CurriculumInventory_Exporter::createXmlReport()
      */
-    public function getXmlReport ($reportId)
+    public function getXmlReport (CurriculumInventoryReportInterface $report)
     {
-        $inventory = $this->getCurriculumInventory($reportId);
+        $inventory = $this->getCurriculumInventory($report);
         return $this->createXmlReport($inventory);
     }
 

@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Entity\CurriculumInventoryReportEventInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
@@ -65,9 +66,13 @@ interface CurriculumInventoryReportManagerInterface extends ManagerInterface
     public function createCurriculumInventoryReport();
 
     /**
-     * @todo
+     * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
+     * in a given curriculum inventory report.
+     *
+     * @param CurriculumInventoryReportInterface $report
+     * @return CurriculumInventoryReportEventInterface[]
      */
-    public function getEvents($reportId);
+    public function getEvents(CurriculumInventoryReportInterface $report);
 
     /**
      * @todo

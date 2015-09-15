@@ -84,11 +84,13 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
     }
 
     /**
-     * @todo
+     * {@inheritdoc}
      */
-    public function getEvents($reportId)
+    public function getEvents(CurriculumInventoryReportInterface $report)
     {
-        // TODO: Implement getEvents() method.
+        $repo = $this->getRepository();
+
+        return $repo->getEvents($report);
     }
 
     /**
