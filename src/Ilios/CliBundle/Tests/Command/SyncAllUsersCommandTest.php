@@ -95,7 +95,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -155,7 +155,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -216,7 +216,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -277,7 +277,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -337,7 +337,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -406,7 +406,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -467,7 +467,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -531,7 +531,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -605,7 +605,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user1, false)->once();
@@ -659,7 +659,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -712,7 +712,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -765,7 +765,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -818,7 +818,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->once();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([])
             ->once();
         $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
@@ -865,7 +865,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             ->mock();
         $this->userManager
             ->shouldReceive('findUsersBy')
-            ->with(array('examined' => false, 'enabled' => true, 'userSyncIgnore' => false))
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([$user])
             ->once();
         
@@ -884,7 +884,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/User not found in the directory.  Logged for further study/',
+            '/User #42 missing person email not found in the directory.  Logged for further study/',
             $output
         );
         $this->assertRegExp(

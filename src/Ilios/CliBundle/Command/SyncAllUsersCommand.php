@@ -78,15 +78,23 @@ class SyncAllUsersCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln('<info>Starting User Sync Process</info>');
         $this->userManager->resetExaminedFlagForAllUsers();
         $this->pendingUserUpdateManager->removeAllPendingUserUpdates();
         $campusIds = $this->userManager->getAllCampusIds(false, false);
+        $output->writeln(
+            '<info>Attempting to update the ' .
+            count($campusIds) .
+            ' enabled and non sync ignored users in the system.</info>'
+        );
+        $output->writeln('<info>Searching the directory for users.</info>');
         $allUserRecords = $this->directory->findByCampusIds($campusIds);
         
         if (!$allUserRecords) {
-            $output->writeln('<error>Unable to find any users in the directory</error>');
+            $output->writeln('<error>[E] Unable to find any users in the directory</error>');
         }
         $totalRecords = count($allUserRecords);
+        $output->writeln("<info>Found {$totalRecords} records in the directory.</info>");
         $updated = 0;
         $chunks = array_chunk($allUserRecords, 500);
         foreach ($chunks as $userRecords) {
@@ -101,14 +109,14 @@ class SyncAllUsersCommand extends Command
                     //listing all the IDs and getting results back from
                     //the directory
                     $output->writeln(
-                        '<error>Unable to find an active sync user with ' .
+                        '<error>[E] Unable to find an enabled sync active user with ' .
                         'Campus ID ' . $recordArray['campusId'] . '</error>'
                     );
                     continue;
                 }
                 if (count($users) > 1) {
                     $output->writeln(
-                        '<error>Multiple accounts exist for the same ' .
+                        '<error>[E] Multiple accounts exist for the same ' .
                         'Campus ID (' . $recordArray['campusId'] . ').  ' .
                         'None of them will be updated.</error>'
                     );
@@ -122,7 +130,7 @@ class SyncAllUsersCommand extends Command
 
                 $update = false;
                 $output->writeln(
-                    '<info>Comparing User #' . $user->getId() . ' ' .
+                    '<info>[I] Comparing User #' . $user->getId() . ' ' .
                     $user->getFirstAndLastName() . ' (' . $user->getEmail() . ') ' .
                     'to directory user by Campus ID ' . $user->getCampusId() . '</info>'
                 );
@@ -135,7 +143,7 @@ class SyncAllUsersCommand extends Command
                 if ($user->getFirstName() != $recordArray['firstName']) {
                     $update = true;
                     $output->writeln(
-                        '<comment>Updating first name from "' . $user->getFirstName() .
+                        '  <comment>[I] Updating first name from "' . $user->getFirstName() .
                         '" to "' . $recordArray['firstName'] . '"</comment>'
                     );
                     $user->setFirstName($recordArray['firstName']);
@@ -143,7 +151,7 @@ class SyncAllUsersCommand extends Command
                 if ($user->getLastName() != $recordArray['lastName']) {
                     $update = true;
                     $output->writeln(
-                        '<comment>Updating last name from "' . $user->getLastName() .
+                        '  <comment>[I] Updating last name from "' . $user->getLastName() .
                         '" to "' . $recordArray['lastName'] . '"</comment>'
                     );
                     $user->setLastName($recordArray['lastName']);
@@ -151,22 +159,22 @@ class SyncAllUsersCommand extends Command
                 if ($user->getPhone() != $recordArray['telephoneNumber']) {
                     $update = true;
                     $output->writeln(
-                        '<comment>Updating phone number from "' . $user->getPhone() .
+                        '  <comment>[I] Updating phone number from "' . $user->getPhone() .
                         '" to "' . $recordArray['telephoneNumber'] . '"</comment>'
                     );
                     $user->setPhone($recordArray['telephoneNumber']);
                 }
                 if ($user->getEmail() != $recordArray['email']) {
-                    if (strtolower($user->getEmail() == strtolower($recordArray['email']))) {
+                    if (strtolower($user->getEmail()) == strtolower($recordArray['email'])) {
                         $update = true;
                         $output->writeln(
-                            '<comment>Updating email from "' . $user->getEmail() .
+                            '  <comment>[I] Updating email from "' . $user->getEmail() .
                             '" to "' . $recordArray['email'] . '" since the only difference was the case.</comment>'
                         );
                         $user->setEmail($recordArray['email']);
                     } else {
                         $output->writeln(
-                            '<comment>Email address "' . $user->getEmail() .
+                            '  <comment>[I] Email address "' . $user->getEmail() .
                             '" differs from "' . $recordArray['email'] . '" logging for further action.</comment>'
                         );
                         $update = $this->pendingUserUpdateManager->createPendingUserUpdate();
@@ -181,7 +189,7 @@ class SyncAllUsersCommand extends Command
                 $authentication = $user->getAuthentication();
                 if (!$authentication) {
                     $output->writeln(
-                        '<comment>User had no Authentication data, creating it now.</comment>'
+                        '  <comment>[I] User had no Authentication data, creating it now.</comment>'
                     );
                     $authentication = $this->authenticationManager->createAuthentication();
                     $authentication->setUser($user);
@@ -189,7 +197,7 @@ class SyncAllUsersCommand extends Command
                 if ($authentication->getUsername() != $recordArray['username']) {
                     $update = true;
                     $output->writeln(
-                        '<comment>Updating username from "' . $authentication->getUsername() .
+                        '  <comment>[I] Updating username from "' . $authentication->getUsername() .
                         '" to "' . $recordArray['username'] . '"</comment>'
                     );
                     $authentication->setUsername($recordArray['username']);
@@ -205,13 +213,18 @@ class SyncAllUsersCommand extends Command
             $this->em->flush();
             $this->em->clear();
         }
+        $output->writeln('<info>Searching for users who were not examined during the sync process.</info>');
         
         $unsyncedUsers = $this->userManager->findUsersBy(
-            ['examined' => false, 'enabled' => true, 'userSyncIgnore' => false]
+            ['examined' => false, 'enabled' => true, 'userSyncIgnore' => false],
+            ['lastName' => ' ASC', 'firstName' => 'ASC']
         );
+        $output->writeln('<info>Found ' . count($unsyncedUsers) . ' unexamined users.</info>');
+        
         foreach ($unsyncedUsers as $user) {
             $output->writeln(
-                '<comment>User not found in the directory.  Logged for further study.</comment>'
+                '<comment>[I] User #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' ' .
+                $user->getEmail() . ' not found in the directory.  Logged for further study.</comment>'
             );
             $update = $this->pendingUserUpdateManager->createPendingUserUpdate();
             $update->setUser($user);
@@ -235,7 +248,7 @@ class SyncAllUsersCommand extends Command
             if (empty($record[$key])) {
                 $valid = false;
                 $output->writeln(
-                    "<error> {$key} is required and it is missing from record with " .
+                    "  <error>[E]  {$key} is required and it is missing from record with " .
                     'Campus ID (' . $record['campusId'] . ').  ' .
                     'User will not be updated.</error>'
                 );
