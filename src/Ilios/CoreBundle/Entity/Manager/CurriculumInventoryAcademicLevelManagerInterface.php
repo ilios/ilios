@@ -63,9 +63,4 @@ interface CurriculumInventoryAcademicLevelManagerInterface extends ManagerInterf
      * @return CurriculumInventoryAcademicLevelInterface
      */
     public function createCurriculumInventoryAcademicLevel();
-
-    /**
-     * @todo
-     */
-    public function getAppliedLevels($reportId);
 }
