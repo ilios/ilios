@@ -187,4 +187,14 @@ interface CurriculumInventorySequenceBlockInterface extends
      * @return ArrayCollection|CurriculumInventorySequenceBlockSessionInterface[]
      */
     public function getSessions();
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $parent
+     */
+    public function setParent(CurriculumInventorySequenceBlockInterface $parent);
+
+    /**
+     * @return CurriculumInventorySequenceBlockInterface
+     */
+    public function getParent();
 }
