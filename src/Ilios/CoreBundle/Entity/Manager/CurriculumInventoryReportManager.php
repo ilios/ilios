@@ -88,72 +88,78 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
      */
     public function getEvents(CurriculumInventoryReportInterface $report)
     {
-        $repo = $this->getRepository();
-
-        return $repo->getEvents($report);
+        $this->getRepository()->getEvents($report);
     }
 
     /**
-     * @todo
+     * {@inheritdoc}
      */
-    public function getEventKeywords($reportId)
+    public function getEventKeywords(CurriculumInventoryReportInterface $report)
     {
-        // TODO: Implement getEventKeywords() method.
+        $this->getRepository()->getEventKeywords($report);
     }
 
     /**
-     * @todo
+     * {@inheritdoc}
      */
-    public function getEventReferencesForSequenceBlocks($reportId)
+    public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
-        // TODO: Implement getEventReferencesForSequenceBlocks() method.
+        $this->getRepository()->getEventReferencesForSequenceBlocks($report);
     }
 
     /**
-     * @todo
+     * {@inheritdoc}
      */
-    public function getProgramObjectives($reportId)
+    public function getProgramObjectives(CurriculumInventoryReportInterface $report)
     {
-        // TODO: Implement getProgramObjectives() method.
+        $this->getRepository()->getProgramObjectives($report);
     }
 
     /**
-     * @todo
+     * {@inheritdoc}
      */
-    public function getSessionObjectives($reportId)
+    public function getSessionObjectives(CurriculumInventoryReportInterface $report)
     {
-        // TODO: Implement getSessionObjectives() method.
+        $this->getRepository()->getSessionObjectives($report);
     }
 
     /**
-     * @todo
+     * {@inheritdoc}
      */
-    public function getCourseObjectives($reportId)
+    public function getCourseObjectives(CurriculumInventoryReportInterface $report)
     {
-        // TODO: Implement getCourseObjectives() method.
+        $this->getRepository()->getCourseObjectives($report);
     }
 
     /**
-     * @todo
+     * {@inheritdoc}
      */
-    public function getPcrs($reportId)
+    public function getPcrs(CurriculumInventoryReportInterface $report)
     {
-        // TODO: Implement getPcrs() method.
+        $this->getRepository()->getPcrs($report);
     }
 
     /**
-     * @todo
+     * {@inheritdoc}
      */
-    public function getCompetencyObjectReferencesForSequenceBlocks($reportId)
+    public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
-        // TODO: Implement getCompetencyObjectReferencesForSequenceBlocks() method.
+        $this->getRepository()->getCompetencyObjectReferencesForSequenceBlocks($report);
     }
 
     /**
-     * @todo
+     * {@inheritdoc}
      */
-    public function getCompetencyObjectReferencesForEvents($reportId)
+    public function getCompetencyObjectReferencesForEvents(CurriculumInventoryReportInterface $report)
     {
-        // TODO: Implement getCompetencyObjectReferencesForEvents() method.
+        $this->getRepository()->getCompetencyObjectReferencesForEvents($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAppliedLevels(CurriculumInventoryReportInterface $report)
+    {
+        $this->getRepository()->getAppliedLevels($report);
     }
 }

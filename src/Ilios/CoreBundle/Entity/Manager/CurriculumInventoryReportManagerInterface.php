@@ -3,7 +3,6 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportEventInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
@@ -66,51 +65,62 @@ interface CurriculumInventoryReportManagerInterface extends ManagerInterface
     public function createCurriculumInventoryReport();
 
     /**
-     * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
-     * in a given curriculum inventory report.
-     *
      * @param CurriculumInventoryReportInterface $report
-     * @return CurriculumInventoryReportEventInterface[]
+     * @return array
      */
     public function getEvents(CurriculumInventoryReportInterface $report);
 
     /**
-     * @todo
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
-    public function getEventKeywords($reportId);
+    public function getEventKeywords(CurriculumInventoryReportInterface $report);
 
     /**
-     * @todo
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
-    public function getEventReferencesForSequenceBlocks($reportId);
+    public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report);
 
     /**
-     * @todo
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
-    public function getProgramObjectives($reportId);
+    public function getProgramObjectives(CurriculumInventoryReportInterface $report);
 
     /**
-     * @todo
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
-    public function getSessionObjectives($reportId);
+    public function getSessionObjectives(CurriculumInventoryReportInterface $report);
 
     /**
-     * @todo
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
-    public function getCourseObjectives($reportId);
+    public function getCourseObjectives(CurriculumInventoryReportInterface $report);
 
     /**
-     * @todo
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
-    public function getPcrs($reportId);
+    public function getPcrs(CurriculumInventoryReportInterface $report);
 
     /**
-     * @todo
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
-    public function getCompetencyObjectReferencesForSequenceBlocks($reportId);
+    public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report);
 
     /**
-     * @todo
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
-    public function getCompetencyObjectReferencesForEvents($reportId);
+    public function getCompetencyObjectReferencesForEvents(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface $report
+     * @return array
+     */
+    public function getAppliedLevels(CurriculumInventoryReportInterface $report);
 }
