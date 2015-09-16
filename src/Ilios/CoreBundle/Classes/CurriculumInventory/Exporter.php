@@ -3,11 +3,11 @@
 namespace Ilios\CoreBundle\Classes\CurriculumInventory;
 
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
+use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManagerInterface;
@@ -42,11 +42,6 @@ class Exporter
     protected $sequenceBlockManager;
 
     /**
-     * @var CurriculumInventoryAcademicLevelManagerInterface
-     */
-    protected $academicLevelManager;
-
-    /**
      * @var CourseClerkshipTypeManagerInterface
      */
     protected $courseClerkshipTypeManager;
@@ -64,7 +59,6 @@ class Exporter
 
     /**
      * @param CurriculumInventoryReportManagerInterface $reportManager
-     * @param CurriculumInventoryAcademicLevelManagerInterface $academicLevelManager
      * @param CurriculumInventoryInstitutionManagerInterface $institutionManager
      * @param CurriculumInventorySequenceBlockManagerInterface $sequenceBlockManager
      * @param CourseClerkshipTypeManagerInterface $courseClerkshipTypeManager
@@ -73,7 +67,6 @@ class Exporter
      */
     public function __construct (
         CurriculumInventoryReportManagerInterface $reportManager,
-        CurriculumInventoryAcademicLevelManagerInterface $academicLevelManager,
         CurriculumInventoryInstitutionManagerInterface $institutionManager,
         CurriculumInventorySequenceBlockManagerInterface $sequenceBlockManager,
         CourseClerkshipTypeManagerInterface $courseClerkshipTypeManager,
@@ -85,7 +78,6 @@ class Exporter
         $this->reportManager = $reportManager;
         $this->institutionManager = $institutionManager;
         $this->sequenceBlockManager = $sequenceBlockManager;
-        $this->academicLevelManager = $academicLevelManager;
         $this->courseClerkshipTypeManager = $courseClerkshipTypeManager;
         $this->institutionDomain = $institutionDomain;
         $this->supportingLink = $supportingLink;
@@ -101,8 +93,7 @@ class Exporter
      * @param CurriculumInventoryReportInterface $invReport The report object.
      * @return array An associated array, containing the inventory.
      *     Data is keyed off by:
-     *         'report' ... An associative array holding various report-related properties, such as id, domain etc
-     *         'program' ... An object representing the program associated with the report
+     *         'report' ... The inventory report entity.
      *         'institution' ... An object representing the curriculum inventory's owning institution
      *         'events' ... An array of events, keyed off by event id. Each event is represented as assoc. array.
      *         'expectations' ... An associative array of arrays, each sub-array containing a
@@ -112,27 +103,21 @@ class Exporter
      *             'program_objectives'
      *             'course_objectives'
      *             'session_objectives'
-     *         'framework' ... The competency framework data set.
-     *             'includes' ... Identifiers of the various competency objects that get referenced in the framework.
-     *                 'pcrs_ids'
-     *                 'program_objective_ids'
-     *                 'course_objective_ids'
-     *                 'session_objective_ids'
-     *             'relations' ... Relations between the various competencies within the framework
-     *                 'program_objectives_to_pcrs'
-     *                 'course_objectives_to_program_objectives'
-     *                 'session_objectives_to_course_objectives'
-     *         'academic_levels' ... An array of academic levels used in the curriculum.
-     *                               Each academic level is represented by an associative array.
-     *         'sequence'  ... the inventory sequence object
-     *         'sequence_blocks' An array of sequence block. Each sequence block is represented as associative array.
+     *             'framework' ... The competency framework data set.
+     *                 'includes' ... Identifiers of the various competency objects referenced in the framework.
+     *                     'pcrs_ids'
+     *                     'program_objective_ids'
+     *                     'course_objective_ids'
+     *                     'session_objective_ids'
+     *                 'relations' ... Relations between the various competencies within the framework
+     *                     'program_objectives_to_pcrs'
+     *                     'course_objectives_to_program_objectives'
+     *                     'session_objectives_to_course_objectives'
      * @throws \Exception
      */
     public function getCurriculumInventory (CurriculumInventoryReportInterface $invReport)
     {
-        //
-        // load inventory from various sources
-        //
+        // report validation
         $program = $invReport->getProgram();
         if (! $program) {
             throw new \Exception('No program found for report with id  ' . $invReport->getId() . '.');
@@ -151,20 +136,17 @@ class Exporter
             );
         }
 
-        $invSequence = $invReport->getSequence();
-
         $events = $this->reportManager->getEvents($invReport);
-        $keywords = $this->reportManager->getEventKeywords($invReport->getId());
-        $levels = $this->academicLevelManager->getAppliedLevels($invReport->getId());
-        $sequenceBlocks = $this->sequenceBlockManager->getBlocks($invReport->getId());
-        $eventReferences = $this->reportManager->getEventReferencesForSequenceBlocks($invReport->getId());
+        $keywords = $this->reportManager->getEventKeywords($invReport);
 
-        $programObjectives = $this->reportManager->getProgramObjectives($invReport->getId());
-        $sessionObjectives = $this->reportManager->getSessionObjectives($invReport->getId());
-        $courseObjectives = $this->reportManager->getCourseObjectives($invReport->getId());
+        $eventReferences = $this->reportManager->getEventReferencesForSequenceBlocks($invReport);
 
-        $compRefsForSeqBlocks = $this->reportManager->getCompetencyObjectReferencesForSequenceBlocks($invReport->getId());
-        $compRefsForEvents = $this->reportManager->getCompetencyObjectReferencesForEvents($invReport->getId());
+        $programObjectives = $this->reportManager->getProgramObjectives($invReport);
+        $sessionObjectives = $this->reportManager->getSessionObjectives($invReport);
+        $courseObjectives = $this->reportManager->getCourseObjectives($invReport);
+
+        $compRefsForSeqBlocks = $this->reportManager->getCompetencyObjectReferencesForSequenceBlocks($invReport);
+        $compRefsForEvents = $this->reportManager->getCompetencyObjectReferencesForEvents($invReport);
 
         // The various objective type are all "Competency Objects" in the context of reporting the curriculum inventory.
         // The are grouped in the "Expectations" section of the report, lump 'em together here.
@@ -175,7 +157,7 @@ class Exporter
 
 
         // Build out the competency framework information and added to $expectations.
-        $pcrs = $this->reportManager->getPcrs($invReport->getId());
+        $pcrs = $this->reportManager->getPcrs($invReport);
 
         $pcrsIds = array_keys($pcrs);
         $programObjectiveIds = array_keys($programObjectives);
@@ -213,22 +195,7 @@ class Exporter
             'relations' => $relations,
         );
 
-        // report (and some program) properties
-        $report = array();
-        // report id format: "<academic year>x<program id>x<current timestamp>"
-        $report['id'] = $invReport->getYear() . 'x' . $program->getId() . 'x' . time();
-        $report['domain'] = $this->institutionDomain;
-        $report['date'] = date('Y-m-d');
-        $report['name'] = $invReport->getName();
-        $report['description'] = $invReport->getDescription();
-        $report['start_date'] = $invReport->getStartDate();
-        $report['end_date'] = $invReport->getEndDate();
-
-        if ($this->supportingLink) {
-            $report['supporting_link'] =  $this->supportingLink;
-        }
-
-        //
+         //
         // transmogrify inventory data for reporting and fill in the blanks
         //
 
@@ -236,25 +203,20 @@ class Exporter
         $events = $this->addKeywordsToEvents($events, $keywords);
         $events = $this->addCompetencyObjectReferencesToEvents($events, $compRefsForEvents);
 
-        $sequenceBlocks = $this->addEventAndCompetencyObjectReferencesToSequenceBlocks($sequenceBlocks,
+/*
+         @todo deal this stuff [ST 2015/09/15]
+         $sequenceBlocks = $this->addEventAndCompetencyObjectReferencesToSequenceBlocks($sequenceBlocks,
             $eventReferences, $compRefsForSeqBlocks);
-
-        // sort sequence blocks
-        $sequenceBlocks = $this->sequenceBlockHierarchySorter->sort($sequenceBlocks);
+*/
 
         //
         // aggregate inventory into single return-array
         //
         $rhett = array();
-        $rhett['report'] = $report;
-        $rhett['program'] = $program;
+        $rhett['report'] = $invReport;
         $rhett['expectations'] = $expectations;
         $rhett['institution'] = $institution;
-        $rhett['sequence'] = $invSequence;
-        $rhett['sequence_blocks'] = $sequenceBlocks;
         $rhett['events'] = $events;
-        $rhett['academic_levels'] = $levels;
-
         return $rhett;
     }
 
@@ -281,14 +243,21 @@ class Exporter
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:hx', 'http://ns.medbiq.org/lom/extend/v1/');
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:m', 'http://ns.medbiq.org/member/v1/');
         $dom->appendChild($rootNode);
+
+        /** @var CurriculumInventoryReportInterface $report */
+        $report = $inventory['report'];
+
         //
         // ReportID
         //
-        $reportIdNode = $dom->createElement('ReportID', $inventory['report']['id']);
-        $reportIdNode->setAttribute('domain', "idd:{$inventory['report']['domain']}:cireport");
+        $reportId = $report->getYear() . 'x' . $report->getProgram()->getId() . 'x' . time();
+        $reportIdNode = $dom->createElement('ReportID', $reportId);
+        $reportIdNode->setAttribute('domain', "idd:{$this->institutionDomain}:cireport");
         $rootNode->appendChild($reportIdNode);
 
+        //
         // Institution
+        //
         /** @var CurriculumInventoryInstitutionInterface $institution */
         $institution = $inventory['institution'];
         $institutionNode = $dom->createElement('Institution');
@@ -318,7 +287,7 @@ class Exporter
         // Program
         //
         /** @var ProgramInterface $program */
-        $program = $inventory['program'];
+        $program = $report->getProgram();
 
         $programNode = $dom->createElement('Program');
         $rootNode->appendChild($programNode);
@@ -326,35 +295,35 @@ class Exporter
         $programNameNode->appendChild($dom->createTextNode($program->getTitle()));
         $programNode->appendChild($programNameNode);
         $programIdNode = $dom->createElement('ProgramID', $program->getId());
-        $programIdNode->setAttribute('domain', "idd:{$inventory['report']['domain']}:program");
+        $programIdNode->setAttribute('domain', "idd:{$this->institutionDomain}:program");
         $programNode->appendChild($programIdNode);
 
         //
         // various other report attributes
         //
         $titleNode = $dom->createElement('Title');
-        $titleNode->appendChild($dom->createTextNode($inventory['report']['name']));
+        $titleNode->appendChild($dom->createTextNode($report->getName()));
         $rootNode->appendChild($titleNode);
         $reportDateNode = $dom->createElement('ReportDate', date('Y-m-d'));
         $rootNode->appendChild($reportDateNode);
-        $reportingStartDateNode = $dom->createElement('ReportingStartDate', $inventory['report']['start_date']);
+        $reportingStartDateNode = $dom->createElement('ReportingStartDate', $report->getStartDate()->format('Y-m-d'));
         $rootNode->appendChild($reportingStartDateNode);
-        $reportingEndDateNode = $dom->createElement('ReportingEndDate', $inventory['report']['end_date']);
+        $reportingEndDateNode = $dom->createElement('ReportingEndDate', $report->getEndDate()->format('Y-m-d'));
         $rootNode->appendChild($reportingEndDateNode);
         $languageNode = $dom->createElement('Language', 'en-US');
         $rootNode->appendChild($languageNode);
         $descriptionNode = $dom->createElement('Description');
-        $descriptionNode->appendChild($dom->createTextNode($inventory['report']['description']));
+        $descriptionNode->appendChild($dom->createTextNode($report->getDescription()));
         $rootNode->appendChild($descriptionNode);
-        // default supporting link url to the site url of this Ilios instance.
-        if (array_key_exists('supporting_link', $inventory['report'])) {
-            $supportingLinkNode = $dom->createElement('SupportingLink', $inventory['report']['supporting_link']);
+
+        if ($this->supportingLink) {
+            $supportingLinkNode = $dom->createElement('SupportingLink', $this->supportingLink);
             $rootNode->appendChild($supportingLinkNode);
         }
         //
         // Events
         //
-        $domain = $inventory['report']['domain'];
+        $domain = $this->institutionDomain;
         $eventsNode = $dom->createElement('Events');
         $rootNode->appendChild($eventsNode);
         foreach ($inventory['events'] as $event) {
@@ -447,59 +416,77 @@ class Exporter
         //
         // Expectations
         //
+        $expectations = $inventory['expectations'];
         $expectationsNode = $dom->createElement('Expectations');
         $rootNode->appendChild($expectationsNode);
         // program objectives
-        foreach ($inventory['expectations']['program_objectives'] as $programObjective) {
+        foreach ($expectations['program_objectives'] as $programObjective) {
             $uri = $this->createCompetencyObjectUri($domain, $programObjective['objective_id'], 'program_objective');
             $this->createCompetencyObjectNode($dom, $expectationsNode, $programObjective['title'], $uri,
                 'program-level-competency');
         }
         // course objectives
-        foreach ($inventory['expectations']['course_objectives'] as $courseObjective) {
+        foreach ($expectations['course_objectives'] as $courseObjective) {
             $uri = $this->createCompetencyObjectUri($domain, $courseObjective['objective_id'], 'course_objective');
             $this->createCompetencyObjectNode($dom, $expectationsNode, $courseObjective['title'], $uri,
                 'sequence-block-level-competency');
         }
         // session objectives
-        foreach ($inventory['expectations']['session_objectives'] as $sessionObjective) {
+        foreach ($expectations['session_objectives'] as $sessionObjective) {
             $uri = $this->createCompetencyObjectUri($domain, $sessionObjective['objective_id'], 'session_objective');
             $this->createCompetencyObjectNode($dom, $expectationsNode, $sessionObjective['title'], $uri,
                 'event-level-competency');
         }
         // add competency framework
-        $this->createCompetencyFrameworkNode($dom, $expectationsNode, $inventory);
+        $this->createCompetencyFrameworkNode($dom, $expectationsNode, $report, $reportId, $expectations);
+
         //
         // Academic Levels
         //
+        $levels = $report->getAcademicLevels();
         $academicLevelsNode = $dom->createElement('AcademicLevels');
         $rootNode->appendChild($academicLevelsNode);
-        $levelsInProgramNode = $dom->createElement('LevelsInProgram', count($inventory['academic_levels']));
+        $levelsInProgramNode = $dom->createElement('LevelsInProgram', $levels->count());
         $academicLevelsNode->appendChild($levelsInProgramNode);
-        foreach ($inventory['academic_levels'] as $level) {
+        $iterator = $levels->getIterator();
+        /** @var CurriculumInventoryAcademicLevelInterface $level */
+        foreach ($iterator as $level) {
             $levelNode = $dom->createElement('Level');
             $academicLevelsNode->appendChild($levelNode);
-            $levelNode->setAttribute('number', $level['level']);
+            $levelNode->setAttribute('number', $level->getLevel());
             $labelNode = $dom->createElement('Label');
             $levelNode->appendChild($labelNode);
-            $labelNode->appendChild($dom->createTextNode($level['name']));
-            if ('' !== trim($level['description'])) {
+            $labelNode->appendChild($dom->createTextNode($level->getName()));
+            if ('' !== trim($level->getDescription())) {
                 $descriptionNode = $dom->createElement('Description');
                 $levelNode->appendChild($descriptionNode);
-                $descriptionNode->appendChild($dom->createTextNode($level['description']));
+                $descriptionNode->appendChild($dom->createTextNode($level->getDescription()));
             }
         }
+
         //
         // Sequence
         //
+        $sequence = $report->getSequence();
         $sequenceNode = $dom->createElement('Sequence');
+
         $rootNode->appendChild($sequenceNode);
-        if ('' !== trim($inventory['sequence']->description)) {
+        if ('' !== trim($sequence->getDescription())) {
             $sequenceDescriptionNode = $dom->createElement('Description');
             $sequenceNode->appendChild($sequenceDescriptionNode);
-            $sequenceDescriptionNode->appendChild($dom->createTextNode($inventory['sequence']->description));
+            $sequenceDescriptionNode->appendChild($dom->createTextNode($sequence->getDescription()));
         }
-        foreach ($inventory['sequence_blocks'] as $block) {
+
+        //
+        // Sequence Blocks
+        //
+        $sequenceBlocks = $report->getSequenceBlocks();
+        $topLevelSequenceBlocks = $sequenceBlocks->filter(function(CurriculumInventorySequenceBlockInterface $block) {
+            $parent = $block->getParent();
+            return empty($parent);
+        });
+        $iterator = $topLevelSequenceBlocks->getIterator();
+        foreach ($iterator as $block) {
             $this->createSequenceBlockNode($dom, $sequenceNode, $block, $inventory);
         }
 
@@ -594,9 +581,17 @@ class Exporter
      * Creates the competency framework node and child-nodes, and adds them to a given parent node (<Expectations>).
      * @param \DomDocument $dom
      * @param \DomElement $parentNode
-     * @param array $inventory
+     * @param CurriculumInventoryReportInterface $report
+     * @param string $reportId
+     * @param array $expectations
      */
-    protected function createCompetencyFrameworkNode (\DomDocument $dom, \DomElement $parentNode, array $inventory)
+    protected function createCompetencyFrameworkNode (
+        \DomDocument $dom,
+        \DomElement $parentNode,
+        CurriculumInventoryReportInterface $report,
+        $reportId,
+        array $expectations
+    )
     {
         // competency framework
         $competencyFrameworkNode = $dom->createElement('CompetencyFramework');
@@ -611,44 +606,44 @@ class Exporter
         $lomGeneralNode->appendChild($lomIdentifierNode);
         $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'catalog', 'URI');
         $lomIdentifierNode->appendChild($lomCatalogNode);
-        $frameworkUri = "http://{$inventory['report']['domain']}/competency_framework/{$inventory['report']['id']}";
+        $frameworkUri = "http://{$this->institutionDomain}/competency_framework/{$reportId}";
         $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','entry', $frameworkUri);
         $lomIdentifierNode->appendChild($lomEntryNode);
         $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','title');
         $lomGeneralNode->appendChild($lomTitleNode);
         $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
         $lomTitleNode->appendChild($lomStringNode);
-        $title = 'Competency Framework for ' . $inventory['report']['name'];
+        $title = 'Competency Framework for ' . $report->getName();
         $lomStringNode->appendChild($dom->createTextNode($title));
 
         // includes
-        $domain = $inventory['report']['domain'];
-        $competencyIds = $inventory['expectations']['framework']['includes']['pcrs_ids'];
+        $domain = $this->institutionDomain;
+        $competencyIds = $expectations['framework']['includes']['pcrs_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
             $uri = $this->createPcrsUri($id);
             $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
         }
-        $competencyIds = $inventory['expectations']['framework']['includes']['program_objective_ids'];
+        $competencyIds = $expectations['framework']['includes']['program_objective_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
             $uri = $this->createCompetencyObjectUri($domain, $id, 'program_objective');
             $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
         }
-        $competencyIds = $inventory['expectations']['framework']['includes']['course_objective_ids'];
+        $competencyIds = $expectations['framework']['includes']['course_objective_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
             $uri = $this->createCompetencyObjectUri($domain, $id, 'course_objective');
             $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
         }
-        $competencyIds = $inventory['expectations']['framework']['includes']['session_objective_ids'];
+        $competencyIds = $expectations['framework']['includes']['session_objective_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
             $uri = $this->createCompetencyObjectUri($domain, $id, 'session_objective');
             $this->createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
         }
         // relations
-        $relations = $inventory['expectations']['framework']['relations']['program_objectives_to_pcrs'];
+        $relations = $expectations['framework']['relations']['program_objectives_to_pcrs'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
             $relation = $relations[$i];
             $relUri1 = $this->createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
@@ -657,7 +652,7 @@ class Exporter
             $this->createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri2, $relUri1,
                 $relationshipUri);
         }
-        $relations = $inventory['expectations']['framework']['relations']['course_objectives_to_program_objectives'];
+        $relations = $expectations['framework']['relations']['course_objectives_to_program_objectives'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
             $relation = $relations[$i];
             $relUri1 = $this->createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
@@ -666,7 +661,7 @@ class Exporter
             $this->createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
                 $relationshipUri);
         }
-        $relations = $inventory['expectations']['framework']['relations']['session_objectives_to_course_objectives'];
+        $relations = $expectations['framework']['relations']['session_objectives_to_course_objectives'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
             $relation = $relations[$i];
             $relUri1 = $this->createCompetencyObjectUri($domain, $relation['rel1'], 'course_objective');
@@ -681,28 +676,31 @@ class Exporter
      * Recursively creates and appends sequence block nodes to the XML document
      * @param \DomDocument $dom the document object
      * @param \DomElement $sequenceNode the sequence DOM node to append to
-     * @param array $block the current sequence block
+     * @param CurriculumInventorySequenceBlockInterface $block the current sequence block
      * @param array $inventory the inventory array
      * @param \DomElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block (NULL if n/a)
      * @param int $order of this sequence block in relation to other nested sequence blocks. '0' if n/a.
      */
-    protected function createSequenceBlockNode (\DomDocument $dom, \DomElement $sequenceNode,
-                                                array $block, array $inventory,
-                                                \DomElement $parentSequenceBlockNode = null, $order = 0)
+    protected function createSequenceBlockNode (
+        \DomDocument $dom,
+        \DomElement $sequenceNode,
+        CurriculumInventorySequenceBlockInterface $block,
+        array $inventory,
+        \DomElement $parentSequenceBlockNode = null, $order = 0)
     {
         $sequenceBlockNode = $dom->createElement('SequenceBlock');
         $sequenceNode->appendChild($sequenceBlockNode);
         // append a reference to _this_ sequence block to the parent sequence block
         if (isset($parentSequenceBlockNode)) {
-            $ref = "/CurriculumInventory/Sequence/SequenceBlock[@id='{$block['sequence_block_id']}']";
+            $ref = "/CurriculumInventory/Sequence/SequenceBlock[@id='{$block->getId()}']";
             $sequenceBlockReferenceNode = $dom->createElement('SequenceBlockReference', $ref);
             $parentSequenceBlockNode->appendChild($sequenceBlockReferenceNode);
             if ($order) {
                 $sequenceBlockReferenceNode->setAttribute('order', $order);
             }
         }
-        $sequenceBlockNode->setAttribute('id', $block['sequence_block_id']);
-        switch ($block['required']) {
+        $sequenceBlockNode->setAttribute('id', $block->getId());
+        switch ($block->isRequired()) {
             case CurriculumInventorySequenceBlockInterface::OPTIONAL :
                 $sequenceBlockNode->setAttribute('required', 'Optional');
                 break;
@@ -713,7 +711,7 @@ class Exporter
                 $sequenceBlockNode->setAttribute('required', 'Required In Track');
                 break;
         }
-        switch ($block['child_sequence_order']) {
+        switch ($block->getChildSequenceOrder()) {
             case CurriculumInventorySequenceBlockInterface::ORDERED :
                 $sequenceBlockNode->setAttribute('order', 'Ordered');
                 break;
@@ -728,10 +726,10 @@ class Exporter
         //
         // min/max are currently not supported.
         //
-        //$sequenceBlockNode->setAttribute('minimum', $block['minimum']);
-        //$sequenceBlockNode->setAttribute('maximum', $block['maximum']);
+        //$sequenceBlockNode->setAttribute('minimum', $block->getMinimum());
+        //$sequenceBlockNode->setAttribute('maximum', $block->getMaximum());
 
-        if ($block['track']) {
+        if ($block->hasTrack()) {
             $sequenceBlockNode->setAttribute('track', 'true');
         } else {
             $sequenceBlockNode->setAttribute('track', 'false');
@@ -739,57 +737,62 @@ class Exporter
 
         $titleNode = $dom->createElement('Title');
         $sequenceBlockNode->appendChild($titleNode);
-        $titleNode->appendChild($dom->createTextNode($block['title']));
+        $titleNode->appendChild($dom->createTextNode($block->getTitle()));
 
-        if ('' !== trim($block['description'])) {
+        if ('' !== trim($block->getDescription())) {
             $descriptionNode = $dom->createElement('Description');
             $sequenceBlockNode->appendChild($descriptionNode);
-            $descriptionNode->appendChild($dom->createTextNode($block['description']));
+            $descriptionNode->appendChild($dom->createTextNode($block->getDescription()));
         }
 
         // add duration and/or start+end date
         $timingNode = $dom->createElement('Timing');
         $sequenceBlockNode->appendChild($timingNode);
-        if ($block['duration']) {
+        if ($block->getDuration()) {
             $durationNode = $dom->createElement('Duration');
             $timingNode->appendChild($durationNode);
-            $durationNode->appendChild($dom->createTextNode('P' . $block['duration'] . 'D')); // duration in days.
+            $durationNode->appendChild($dom->createTextNode('P' . $block->getDuration() . 'D')); // duration in days.
         }
 
-        if ($block['start_date']) {
+        if ($block->getStartDate()) {
             $datesNode = $dom->createElement('Dates');
             $timingNode->appendChild($datesNode);
-            $startDateNode = $dom->createElement('StartDate', $block['start_date']);
+            $startDateNode = $dom->createElement('StartDate', $block->getStartDate());
             $datesNode->appendChild($startDateNode);
-            $endDateNode = $dom->createElement('EndDate', $block['end_date']);
+            $endDateNode = $dom->createElement('EndDate', $block->getEndDate());
             $datesNode->appendChild($endDateNode);
         }
 
 
 
         // academic level
-        $levelNode = $dom->createElement('Level', "/CurriculumInventory/AcademicLevels/Level[@number='{$block['academic_level_number']}']");
+        $levelNode = $dom->createElement('Level', "/CurriculumInventory/AcademicLevels/Level[@number='{$block->getAcademicLevel()->getLevel()}']");
         $sequenceBlockNode->appendChild($levelNode);
 
         // clerkship type
         // map course clerkship type to "Clerkship Model"
+        // @todo Refactor this out into utility method. [ST 2015/09/14]
+        $course = $block->getCourse();
         $clerkshipModel = false;
-        switch ($block['course_clerkship_type_id']) {
-            case CourseClerkshipTypeInterface::INTEGRATED :
-                $clerkshipModel = 'integrated';
-                break;
-            case CourseClerkshipTypeInterface::BLOCK :
-            case CourseClerkshipTypeInterface::LONGITUDINAL :
-                $clerkshipModel = 'rotation';
-                break;
+        if ($course) {
+            $clerkshipType = $course->getClerkshipType() ? $course->getClerkshipType()->getId() : null;
+            switch ($clerkshipType) {
+                case CourseClerkshipTypeInterface::INTEGRATED :
+                    $clerkshipModel = 'integrated';
+                    break;
+                case CourseClerkshipTypeInterface::BLOCK :
+                case CourseClerkshipTypeInterface::LONGITUDINAL :
+                    $clerkshipModel = 'rotation';
+                    break;
+            }
         }
-
         if ($clerkshipModel) {
             $clerkshipModelNode = $dom->createElement('ClerkshipModel', $clerkshipModel);
             $sequenceBlockNode->appendChild($clerkshipModelNode);
         }
 
-
+        /*
+         * // @todo port over [ST 2015/09/15]
         // competency object references
         if (array_key_exists('competency_object_references', $block)) {
             $domain = $inventory['report']['domain'];
@@ -834,14 +837,16 @@ class Exporter
                 // [ST 2013/08/08]
             }
         }
-
+        */
         // recursively generate XML for nested sequence blocks
-        if (array_key_exists('children', $block)) {
+        $children = $block->getChildrenAsSortedList();
+        if (! empty($children)) {
             $order = 0;
-            foreach ($block['children'] as $child) {
+            $isOrdered = CurriculumInventorySequenceBlockInterface::ORDERED
+                === $block->getChildSequenceOrder();
+            foreach ($children as $child) {
                 // apply an incremental sort order for "ordered" sequence blocks
-                // it is assumed that blocks already come pre-sorted
-                if (CurriculumInventorySequenceBlockInterface::ORDERED == $block['child_sequence_order']) {
+                if ($isOrdered) {
                     $order++;
                 }
                 $this->createSequenceBlockNode($dom, $sequenceNode, $child, $inventory, $sequenceBlockNode, $order);
@@ -919,8 +924,13 @@ class Exporter
      * @param string $relUri2
      * @param string $relationshipUri
      */
-    protected function createCompetencyFrameworkRelationNode (\DomDocument $dom, \DomElement $parentNode, $relUri1,
-                                                               $relUri2, $relationshipUri)
+    protected function createCompetencyFrameworkRelationNode (
+        \DomDocument $dom,
+        \DomElement $parentNode,
+        $relUri1,
+        $relUri2,
+        $relationshipUri
+    )
     {
         $relationNode = $dom->createElement('cf:Relation');
         $parentNode->appendChild($relationNode);
