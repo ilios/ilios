@@ -197,4 +197,10 @@ interface CurriculumInventorySequenceBlockInterface extends
      * @return CurriculumInventorySequenceBlockInterface
      */
     public function getParent();
+
+    /**
+     * Sorts child sequence blocks according to this entity's child sequence order.
+     * @return CurriculumInventorySequenceBlockInterface[] The sorted list of child sequence blocks.
+     */
+    public function getChildrenAsSortedList();
 }
