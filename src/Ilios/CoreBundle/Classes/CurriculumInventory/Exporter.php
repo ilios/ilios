@@ -36,21 +36,6 @@ class Exporter
      */
     protected $institutionManager;
 
-    /**
-     * @var CurriculumInventorySequenceBlockManagerInterface
-     */
-    protected $sequenceBlockManager;
-
-    /**
-     * @var CourseClerkshipTypeManagerInterface
-     */
-    protected $courseClerkshipTypeManager;
-
-    /**
-     * @var SequenceBlockHierarchySorter
-     */
-    protected $sequenceBlockHierarchySorter;
-
     /** @var string */
     protected $supportingLink;
 
@@ -60,29 +45,20 @@ class Exporter
     /**
      * @param CurriculumInventoryReportManagerInterface $reportManager
      * @param CurriculumInventoryInstitutionManagerInterface $institutionManager
-     * @param CurriculumInventorySequenceBlockManagerInterface $sequenceBlockManager
-     * @param CourseClerkshipTypeManagerInterface $courseClerkshipTypeManager
      * @param string $institutionDomain
      * @param string $supportingLink
      */
     public function __construct (
         CurriculumInventoryReportManagerInterface $reportManager,
         CurriculumInventoryInstitutionManagerInterface $institutionManager,
-        CurriculumInventorySequenceBlockManagerInterface $sequenceBlockManager,
-        CourseClerkshipTypeManagerInterface $courseClerkshipTypeManager,
         $institutionDomain,
         $supportingLink = ''
-
     )
     {
         $this->reportManager = $reportManager;
         $this->institutionManager = $institutionManager;
-        $this->sequenceBlockManager = $sequenceBlockManager;
-        $this->courseClerkshipTypeManager = $courseClerkshipTypeManager;
         $this->institutionDomain = $institutionDomain;
         $this->supportingLink = $supportingLink;
-
-        $this->sequenceBlockHierarchySorter = new SequenceBlockHierarchySorter();
     }
 
 
@@ -198,7 +174,6 @@ class Exporter
          //
         // transmogrify inventory data for reporting and fill in the blanks
         //
-
         // add keywords to event
         $events = $this->addKeywordsToEvents($events, $keywords);
         $events = $this->addCompetencyObjectReferencesToEvents($events, $compRefsForEvents);
@@ -557,9 +532,11 @@ class Exporter
      * @param array $competencyObjectReferences A list of competency object references.
      * @return array The sequence blocks with references added.
      */
-    protected function addEventAndCompetencyObjectReferencesToSequenceBlocks (array $sequenceBlocks,
-                                                                               array $eventReferences,
-                                                                               array $competencyObjectReferences)
+    protected function addEventAndCompetencyObjectReferencesToSequenceBlocks(
+        array $sequenceBlocks,
+        array $eventReferences,
+        array $competencyObjectReferences
+    )
     {
         for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
             // link to events
