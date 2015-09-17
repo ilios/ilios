@@ -177,12 +177,12 @@ class SyncAllUsersCommand extends Command
                             '  <comment>[I] Email address "' . $user->getEmail() .
                             '" differs from "' . $recordArray['email'] . '" logging for further action.</comment>'
                         );
-                        $update = $this->pendingUserUpdateManager->createPendingUserUpdate();
-                        $update->setUser($user);
-                        $update->setProperty('email');
-                        $update->setValue($recordArray['email']);
-                        $update->setType('emailMismatch');
-                        $this->pendingUserUpdateManager->updatePendingUserUpdate($update, false);
+                        $pendingUpdate = $this->pendingUserUpdateManager->createPendingUserUpdate();
+                        $pendingUpdate->setUser($user);
+                        $pendingUpdate->setProperty('email');
+                        $pendingUpdate->setValue($recordArray['email']);
+                        $pendingUpdate->setType('emailMismatch');
+                        $this->pendingUserUpdateManager->updatePendingUserUpdate($pendingUpdate, false);
                     }
                 }
                 
