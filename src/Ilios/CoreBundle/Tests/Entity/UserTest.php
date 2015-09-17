@@ -157,6 +157,15 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::setIcsFeedKey
+     * @covers Ilios\CoreBundle\Entity\User::generateIcsFeedKey
+     */
+    public function testSetIcsFeedKey()
+    {
+        $this->basicSetTest('icsFeedKey', 'string');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::setSchool
      * @covers Ilios\CoreBundle\Entity\User::getSchool
      */

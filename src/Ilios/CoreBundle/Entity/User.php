@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Util\SecureRandom;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -211,6 +212,23 @@ class User implements UserInterface
      * @Assert\Type(type="boolean")
      */
     protected $userSyncIgnore;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ics_feed_key", type="string", length=64, unique=true)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 64,
+     *      max = 64
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("icsFeedKey")
+     */
+    protected $icsFeedKey;
 
     /**
      * @var AuthenticationInterface
@@ -463,6 +481,8 @@ class User implements UserInterface
         $this->enabled = true;
         $this->examined = false;
         $this->userSyncIgnore = false;
+        
+        $this->generateIcsFeedKey();
     }
 
     /**
@@ -644,6 +664,38 @@ class User implements UserInterface
     public function isUserSyncIgnore()
     {
         return $this->userSyncIgnore;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function generateIcsFeedKey()
+    {
+        $generator = new SecureRandom();
+        $random = $generator->nextBytes(128);
+        
+        // prepend user id to avoid a conflict
+        // and current time to give some more uniqueness
+        $key = $this->getId() . microtime() . '_' . $random;
+        
+        // hash the string to give consistent length and URL safe characters
+        $this->icsFeedKey = hash('sha256', $key);
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setIcsFeedKey($icsFeedKey)
+    {
+        $this->icsFeedKey = $icsFeedKey;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIcsFeedKey()
+    {
+        return $this->icsFeedKey;
     }
 
     /**

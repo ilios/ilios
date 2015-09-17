@@ -148,6 +148,22 @@ interface UserInterface extends
      * @return boolean
      */
     public function isUserSyncIgnore();
+    
+    /**
+     * Generate a random string to use as the calendar feed url
+     */
+    public function generateIcsFeedKey();
+
+    /**
+     * Sets the ICS Feed Key
+     * @param string $icsFeedKey
+     */
+    public function setIcsFeedKey($icsFeedKey);
+
+    /**
+     * @return string
+     */
+    public function getIcsFeedKey();
 
     /**
      * @param Collection $reminders
