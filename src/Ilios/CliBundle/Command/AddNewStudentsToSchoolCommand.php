@@ -14,7 +14,6 @@ use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
@@ -82,7 +81,7 @@ class AddNewStudentsToSchoolCommand extends Command
             ->addArgument(
                 'filter',
                 InputArgument::REQUIRED,
-                'An LDAP filter to use in finding students who belong to the school in the direcotry.'
+                'An LDAP filter to use in finding students who belong to the school in the directory.'
             );
     }
 
@@ -152,7 +151,7 @@ class AddNewStudentsToSchoolCommand extends Command
                     $output->writeln(
                         '<error>Unable to add student ' .
                         var_export($userRecord, true) .
-                        ' they have no email address</error>'
+                        ' they have no email address.</error>'
                     );
                     continue;
                 }
@@ -160,7 +159,7 @@ class AddNewStudentsToSchoolCommand extends Command
                     $output->writeln(
                         '<error>Unable to add student ' .
                         var_export($userRecord, true) .
-                        ' they have no campus ID</error>'
+                        ' they have no campus ID.</error>'
                     );
                     continue;
                 }
@@ -168,7 +167,7 @@ class AddNewStudentsToSchoolCommand extends Command
                     $output->writeln(
                         '<error>Unable to add student ' .
                         var_export($userRecord, true) .
-                        ' they have no username</error>'
+                        ' they have no username.</error>'
                     );
                     continue;
                 }
@@ -200,7 +199,7 @@ class AddNewStudentsToSchoolCommand extends Command
                 );
             }
         } else {
-            $output->writeln('<comment>Update Canceled</comment>');
+            $output->writeln('<comment>Update Canceled.</comment>');
         }
         
     }

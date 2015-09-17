@@ -61,7 +61,7 @@ class SyncFormerStudentsCommand extends Command
             ->addArgument(
                 'filter',
                 InputArgument::REQUIRED,
-                'An LDAP filter to use in finding former students in the direcotry.'
+                'An LDAP filter to use in finding former students in the directory.'
             );
     }
 
@@ -128,7 +128,7 @@ class SyncFormerStudentsCommand extends Command
             
             $output->writeln('<info>Former Students Updated Successfully!</info>');
         } else {
-            $output->writeln('<comment>Update Canceled</comment>');
+            $output->writeln('<comment>Update Canceled,</comment>');
         }
         
     }

@@ -70,7 +70,7 @@ class SyncAllUsersCommand extends Command
     {
         $this
             ->setName('ilios:directory:sync-users')
-            ->setDescription('Sync all users against the directory by their campus id.');
+            ->setDescription('Sync all users against the directory by their Campus ID.');
     }
 
     /**
@@ -78,7 +78,7 @@ class SyncAllUsersCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('<info>Starting User Sync Process</info>');
+        $output->writeln('<info>Starting User Sync Process.</info>');
         $this->userManager->resetExaminedFlagForAllUsers();
         $this->pendingUserUpdateManager->removeAllPendingUserUpdates();
         $campusIds = $this->userManager->getAllCampusIds(false, false);
@@ -91,7 +91,7 @@ class SyncAllUsersCommand extends Command
         $allUserRecords = $this->directory->findByCampusIds($campusIds);
         
         if (!$allUserRecords) {
-            $output->writeln('<error>[E] Unable to find any users in the directory</error>');
+            $output->writeln('<error>[E] Unable to find any users in the directory.</error>');
         }
         $totalRecords = count($allUserRecords);
         $output->writeln("<info>Found {$totalRecords} records in the directory.</info>");
@@ -110,7 +110,7 @@ class SyncAllUsersCommand extends Command
                     //the directory
                     $output->writeln(
                         '<error>[E] Unable to find an enabled sync active user with ' .
-                        'Campus ID ' . $recordArray['campusId'] . '</error>'
+                        'Campus ID ' . $recordArray['campusId'] . '.</error>'
                     );
                     continue;
                 }
@@ -132,7 +132,7 @@ class SyncAllUsersCommand extends Command
                 $output->writeln(
                     '<info>[I] Comparing User #' . $user->getId() . ' ' .
                     $user->getFirstAndLastName() . ' (' . $user->getEmail() . ') ' .
-                    'to directory user by Campus ID ' . $user->getCampusId() . '</info>'
+                    'to directory user by Campus ID ' . $user->getCampusId() . '.</info>'
                 );
                 if (!$this->validateDirectoryRecord($recordArray, $output)) {
                     $user->setExamined(true);
@@ -144,7 +144,7 @@ class SyncAllUsersCommand extends Command
                     $update = true;
                     $output->writeln(
                         '  <comment>[I] Updating first name from "' . $user->getFirstName() .
-                        '" to "' . $recordArray['firstName'] . '"</comment>'
+                        '" to "' . $recordArray['firstName'] . '".</comment>'
                     );
                     $user->setFirstName($recordArray['firstName']);
                 }
@@ -152,7 +152,7 @@ class SyncAllUsersCommand extends Command
                     $update = true;
                     $output->writeln(
                         '  <comment>[I] Updating last name from "' . $user->getLastName() .
-                        '" to "' . $recordArray['lastName'] . '"</comment>'
+                        '" to "' . $recordArray['lastName'] . '".</comment>'
                     );
                     $user->setLastName($recordArray['lastName']);
                 }
@@ -160,7 +160,7 @@ class SyncAllUsersCommand extends Command
                     $update = true;
                     $output->writeln(
                         '  <comment>[I] Updating phone number from "' . $user->getPhone() .
-                        '" to "' . $recordArray['telephoneNumber'] . '"</comment>'
+                        '" to "' . $recordArray['telephoneNumber'] . '".</comment>'
                     );
                     $user->setPhone($recordArray['telephoneNumber']);
                 }
@@ -198,7 +198,7 @@ class SyncAllUsersCommand extends Command
                     $update = true;
                     $output->writeln(
                         '  <comment>[I] Updating username from "' . $authentication->getUsername() .
-                        '" to "' . $recordArray['username'] . '"</comment>'
+                        '" to "' . $recordArray['username'] . '".</comment>'
                     );
                     $authentication->setUsername($recordArray['username']);
                     $this->authenticationManager->updateAuthentication($authentication, false);

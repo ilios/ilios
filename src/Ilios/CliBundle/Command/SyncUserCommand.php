@@ -80,7 +80,7 @@ class SyncUserCommand extends Command
         $userRecord = $this->directory->findByCampusId($user->getCampusId());
         
         if (!$userRecord) {
-            $output->writeln('<error>Unable to find ' . $user->getCampusId() . ' in the directory');
+            $output->writeln('<error>Unable to find ' . $user->getCampusId() . ' in the directory.');
             return;
         }
         
@@ -112,7 +112,7 @@ class SyncUserCommand extends Command
         $output->writeln('');
         $question = new ConfirmationQuestion(
             '<question>Do you wish to update this Ilios User with the data ' .
-            'from the Directory User? </question>',
+            'from the Directory User? </question>' . "\n",
             true
         );
         
@@ -133,8 +133,8 @@ class SyncUserCommand extends Command
             $this->userManager->updateUser($user);
             
             $output->writeln('<info>User Updated Successfully</info>');
-        } else {
-            $output->writeln('<comment>Update Canceled</comment>');
+        } else {.
+            $output->writeln('<comment>Update Canceled.</comment>');
         }
         
     }

@@ -99,7 +99,7 @@ class AddUserCommand extends Command
         $userRecord = $this->directory->findByCampusId($campusId);
         
         if (!$userRecord) {
-            $output->writeln("<error>Unable to find campus id {$campusId} in the directory</error>");
+            $output->writeln("<error>Unable to find campus id {$campusId} in the directory.</error>");
             return;
         }
         
@@ -147,7 +147,7 @@ class AddUserCommand extends Command
                 '<info>Success! New user #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' created.</info>'
             );
         } else {
-            $output->writeln('<comment>Canceled</comment>');
+            $output->writeln('<comment>Canceled.</comment>');
         }
         
         
