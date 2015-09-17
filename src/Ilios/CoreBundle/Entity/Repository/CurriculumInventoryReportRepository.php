@@ -1,6 +1,7 @@
 <?php
 namespace Ilios\CoreBundle\Entity\Repository;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityRepository;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
@@ -96,7 +97,7 @@ EOL;
         $stmt->bindValue("report_id", $report->getId());
         $stmt->execute();
         $rows =  $stmt->fetchAll();
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             $rhett[$row['event_id']] = $row;
         }
         $stmt->closeCursor();
@@ -167,7 +168,7 @@ EOL;
         $stmt->bindValue("report_id", $report->getId());
         $stmt->execute();
         $rows =  $stmt->fetchAll();
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             if (! array_key_exists($row['sequence_block_id'], $rhett)) {
                 $rhett[$row['sequence_block_id']] = [];
             }
@@ -213,7 +214,7 @@ EOL;
         $stmt->bindValue("report_id", $report->getId());
         $stmt->execute();
         $rows =  $stmt->fetchAll();
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             $rhett[$row['objective_id']] = $row;
         }
         $stmt->closeCursor();
@@ -251,7 +252,7 @@ EOL;
         $stmt->bindValue("report_id", $report->getId());
         $stmt->execute();
         $rows =  $stmt->fetchAll();
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             $rhett[$row['objective_id']] = $row;
         }
         $stmt->closeCursor();
@@ -292,7 +293,7 @@ EOL;
         $stmt->bindValue("report_id", $report->getId());
         $stmt->execute();
         $rows =  $stmt->fetchAll();
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             $rhett[$row['objective_id']] = $row;
         }
         $stmt->closeCursor();
@@ -301,8 +302,23 @@ EOL;
 
 
     /**
+     * Retrieves all the competency object references per event in a given report.
+     *
      * @param CurriculumInventoryReportInterface $report
-     * @return array
+     * @return array An associative array of arrays, keyed off by event id.
+     *     Each sub-array is in turn a two item map, containing a list of course objectives ids
+     *     under 'course_objectives', a list of program objective ids under 'program_objective'
+     *     and a list of session objective ids under under 'session_objective_ids'.
+     *
+     *   <pre>
+     *   [ <sequence block id> => [
+     *       "course_objectives" => [ <list of course objectives ids> ]
+     *       "program_objectives" => [ <list of program objective ids> ]
+     *       "session_objectives" => [ <list of session objective ids> ]
+     *     ],
+     *     ...
+     *   ],
+     *   </pre>
      */
     public function getCompetencyObjectReferencesForEvents(CurriculumInventoryReportInterface $report)
     {
@@ -337,7 +353,7 @@ EOL;
         $stmt->bindValue("report_id", $report->getId());
         $stmt->execute();
         $rows =  $stmt->fetchAll();
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             $eventId = $row['event_id'];
             if (! array_key_exists($eventId, $rhett)) {
                 $rhett[$eventId] = [
@@ -364,8 +380,21 @@ EOL;
     }
 
     /**
+     * Retrieves all the competency object references per sequence block in a given report.
+     *
      * @param CurriculumInventoryReportInterface $report
-     * @return array
+     * @return array An associative array of arrays, keyed off by sequence block id.
+     *     Each sub-array is in turn a two item map, containing a list of course objectives ids
+     *     under 'course_objectives' and a list of program objective ids under 'program_objective'.
+     *
+     *   <pre>
+     *   [ <sequence block id> => [
+     *       "course_objectives" => [ <list of course objectives ids> ]
+     *       "program_objectives" => [ <list of program objective ids> ]
+     *     ],
+     *     ...
+     *   ],
+     *   </pre>
      */
     public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
@@ -393,7 +422,7 @@ EOL;
         $stmt->bindValue("report_id", $report->getId());
         $stmt->execute();
         $rows =  $stmt->fetchAll();
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             $sequenceBlockId = $row['sequence_block_id'];
             if (! array_key_exists($sequenceBlockId, $rhett)) {
                 $rhett[$sequenceBlockId] = [
@@ -410,6 +439,243 @@ EOL;
                 $rhett[$sequenceBlockId]['program_objectives'][] = $row['program_objective_id'];
             }
 
+        }
+        $stmt->closeCursor();
+        return $rhett;
+    }
+
+    /**
+     * Retrieves the relations between given program-objectives and PCRS (via competencies).
+     * @param array $programObjectivesId
+     * @param array $pcrsIds
+     * @return array
+     */
+    public function getProgramObjectivesToPcrsRelations (array $programObjectivesId, array $pcrsIds)
+    {
+        $rhett = [
+            'relations' => [],
+            'program_objective_ids' => [],
+            'pcrs_ids' => [],
+        ];
+
+        if (! count($programObjectivesId) || ! count($pcrsIds)) {
+            return $rhett;
+        }
+
+        $sql =<<<EOL
+SELECT DISTINCT
+  o.objective_id,
+  cxam.pcrs_id
+FROM
+  objective o
+  JOIN competency c ON o.competency_id = c.competency_id
+  JOIN competency_x_aamc_pcrs cxam ON c.competency_id = cxam.competency_id
+  JOIN aamc_pcrs am ON am.pcrs_id = cxam.pcrs_id
+WHERE
+  am.pcrs_id IN (:pcrs_ids)
+  AND o.objective_id IN (:program_objective_ids)
+EOL;
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue("pcrs_ids", $pcrsIds, Connection::PARAM_STR_ARRAY);
+        $stmt->bindValue("program_objective_ids", $programObjectivesId, Connection::PARAM_INT_ARRAY);
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+
+        foreach ($rows as $row) {
+            $rhett['relations'][] = [
+                'rel1' => $row['objective_id'],
+                'rel2' => $row['pcrs_id'],
+            ];
+            $rhett['program_objective_ids'][] = $row['objective_id'];
+            $rhett['pcrs_ids'][] = $row['pcrs_id'];
+        }
+
+        // dedupe
+        $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
+        $rhett['pcrs_ids'] = array_values(array_unique($rhett['pcrs_ids']));
+
+        $stmt->closeCursor();
+        return $rhett;
+    }
+
+    /**
+     * Retrieves the relations between given course- and program-objectives.
+     * @param array $courseObjectiveIds
+     * @param array $programObjectiveIds
+     * @return array
+     */
+    public function getCourseObjectivesToProgramObjectivesRelations (
+        array $courseObjectiveIds,
+        array $programObjectiveIds
+    )
+    {
+        $rhett = [
+            'relations' => [],
+            'course_objective_ids' => [],
+            'program_objective_ids' => [],
+        ];
+
+        if (! count($courseObjectiveIds) || ! count($programObjectiveIds)) {
+            return $rhett;
+        }
+
+        $sql =<<<EOL
+SELECT DISTINCT
+   oxo.objective_id,
+   oxo.parent_objective_id
+FROM
+   objective_x_objective oxo
+   JOIN course_x_objective cxo ON cxo.objective_id = oxo.objective_id
+   JOIN program_year_x_objective pyxo ON pyxo.objective_id = oxo.parent_objective_id
+WHERE
+   oxo.objective_id IN (:course_objective_ids)
+   AND oxo.parent_objective_id IN (:program_objective_ids)
+EOL;
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue("course_objective_ids", $courseObjectiveIds, Connection::PARAM_INT_ARRAY);
+        $stmt->bindValue("program_objective_ids", $programObjectiveIds, Connection::PARAM_INT_ARRAY);
+        $stmt->execute();
+        $rows =  $stmt->fetchAll();
+        foreach ($rows as $row) {
+            $rhett['relations'][] = [
+                'rel1' => $row['parent_objective_id'],
+                'rel2' => $row['objective_id'],
+            ];
+            $rhett['course_objective_ids'][] = $row['objective_id'];
+            $rhett['program_objective_ids'][] = $row['parent_objective_id'];
+        }
+
+        // dedupe
+        $rhett['course_objective_ids'] = array_values(array_unique($rhett['course_objective_ids']));
+        $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
+
+        $stmt->closeCursor();
+        return $rhett;
+    }
+
+    /**
+     * Retrieves the relations between given session- and course-objectives.
+     *
+     * @param array $sessionObjectiveIds
+     * @param array $courseObjectiveIds
+     * @return array
+     */
+    public function getSessionObjectivesToCourseObjectivesRelations (
+        array $sessionObjectiveIds,
+        array $courseObjectiveIds
+    )
+    {
+        $rhett = [
+            'relations' => [],
+            'session_objective_ids' => [],
+            'course_objective_ids' => [],
+        ];
+
+        if (! count($sessionObjectiveIds) || ! count($courseObjectiveIds)) {
+            return $rhett;
+        }
+
+        $sql =<<<EOL
+SELECT DISTINCT
+  oxo.objective_id,
+  oxo.parent_objective_id
+FROM
+  objective_x_objective oxo
+  JOIN session_x_objective sxo ON sxo.objective_id = oxo.objective_id
+  JOIN course_x_objective cxo ON cxo.objective_id = oxo.parent_objective_id
+WHERE
+  oxo.objective_id IN (:session_objective_ids)
+  AND oxo.parent_objective_id IN (:course_objective_ids)
+EOL;
+
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue("session_objective_ids", $sessionObjectiveIds, Connection::PARAM_INT_ARRAY);
+        $stmt->bindValue("course_objective_ids", $courseObjectiveIds, Connection::PARAM_INT_ARRAY);
+        $stmt->execute();
+        $rows =  $stmt->fetchAll();
+        foreach ($rows as $row) {
+            $rhett['relations'][] = [
+                'rel1' => $row['parent_objective_id'],
+                'rel2' => $row['objective_id'],
+            ];
+            $rhett['session_objective_ids'][] = $row['objective_id'];
+            $rhett['course_objective_ids'][] = $row['parent_objective_id'];
+        }
+        
+        // dedupe
+        $rhett['session_objective_ids'] = array_values(array_unique($rhett['session_objective_ids']));
+        $rhett['course_objective_ids'] = array_values(array_unique($rhett['course_objective_ids']));
+
+        $stmt->closeCursor();
+        return $rhett;
+    }
+
+    /**
+     * Retrieves all PCRS linked to sequence blocks (via objectives and competencies) in a given inventory report.
+     *
+     * @param CurriculumInventoryReportInterface $report
+     * @return array A nested array of associative arrays, keyed off by 'pcrs_id'. Each sub-array represents a PCRS
+     *    and is itself an associative array with values being keyed off by 'pcrs_id' and 'description'.
+     */
+    public function getPcrs(CurriculumInventoryReportInterface $report)
+    {
+        $rhett = [];
+        $sql =<<<EOL
+SELECT
+  am.pcrs_id,
+  am.description
+FROM
+  curriculum_inventory_report r
+  JOIN program p ON p.program_id = r.program_id
+  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
+  JOIN course c ON c.course_id = sb.course_id
+  JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
+  JOIN cohort co ON co.cohort_id = cxc.cohort_id
+  JOIN program_year py ON py.program_year_id = co.program_year_id
+  JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
+  JOIN objective o ON o.objective_id = pyxo.objective_id
+  JOIN competency cm ON cm.competency_id = o.competency_id AND cm.owning_school_id = p.owning_school_id
+  JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
+  JOIN competency_x_aamc_pcrs cxm ON cxm.competency_id = cm2.competency_id
+  JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
+WHERE
+  c.deleted = 0
+  AND py.deleted = 0
+  AND r.report_id = :report_id
+
+UNION
+
+SELECT
+  am.pcrs_id,
+  am.description
+FROM
+  curriculum_inventory_report r
+  JOIN program p ON p.program_id = r.program_id
+  JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
+  JOIN course c ON c.course_id = sb.course_id
+  JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
+  JOIN cohort co ON co.cohort_id = cxc.cohort_id
+  JOIN program_year py ON py.program_year_id = co.program_year_id
+  JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
+  JOIN objective o ON o.objective_id = pyxo.objective_id
+  JOIN competency cm ON cm.competency_id = o.competency_id AND cm.owning_school_id = p.owning_school_id
+  JOIN competency_x_aamc_pcrs cxm ON cxm.competency_id = cm.competency_id
+  JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
+WHERE
+  c.deleted = 0
+  AND py.deleted = 0
+  AND r.report_id = :report_id
+EOL;
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue("report_id", $report->getId());
+        $stmt->execute();
+        $rows =  $stmt->fetchAll();
+        foreach ($rows as $row) {
+            $rhett[$row['pcrs_id']] = $row;
         }
         $stmt->closeCursor();
         return $rhett;
