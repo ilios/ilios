@@ -119,7 +119,7 @@ class LdapManager
      * @param string $filter
      *
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     public function search($filter)
     {
@@ -186,7 +186,7 @@ class LdapManager
             }
             
         } catch (\UserException $e) {
-            throw new Exception("Failed to search external user source: {$e->getMessage()}");
+            throw new \Exception("Failed to search external user source: {$e->getMessage()}");
         }
     
         return $rhett;

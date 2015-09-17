@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Service\LdapManager;
-
 class Directory
 {
     /**

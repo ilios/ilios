@@ -160,10 +160,10 @@ class UserRepository extends EntityRepository
     /**
      * Get all the campus IDs for all users
      *
-     * @param $includeDisabled
-     * @param $includeSyncIgnore
+     * @param boolean $includeDisabled
+     * @param boolean $includeSyncIgnore
      *
-     * @return []
+     * @return array
      */
     public function getAllCampusIds($includeDisabled, $includeSyncIgnore)
     {
