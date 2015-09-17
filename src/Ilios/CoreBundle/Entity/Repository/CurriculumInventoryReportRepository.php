@@ -146,7 +146,7 @@ EOL;
      * @param CurriculumInventoryReportInterface $report
      * @return array
      */
-    public function getEventReferencesForSequenceBlocks (CurriculumInventoryReportInterface $report)
+    public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
         $rhett = [];
         $sql =<<< EOL
@@ -450,7 +450,7 @@ EOL;
      * @param array $pcrsIds
      * @return array
      */
-    public function getProgramObjectivesToPcrsRelations (array $programObjectivesId, array $pcrsIds)
+    public function getProgramObjectivesToPcrsRelations(array $programObjectivesId, array $pcrsIds)
     {
         $rhett = [
             'relations' => [],
@@ -505,11 +505,10 @@ EOL;
      * @param array $programObjectiveIds
      * @return array
      */
-    public function getCourseObjectivesToProgramObjectivesRelations (
+    public function getCourseObjectivesToProgramObjectivesRelations(
         array $courseObjectiveIds,
         array $programObjectiveIds
-    )
-    {
+    ) {
         $rhett = [
             'relations' => [],
             'course_objective_ids' => [],
@@ -562,11 +561,10 @@ EOL;
      * @param array $courseObjectiveIds
      * @return array
      */
-    public function getSessionObjectivesToCourseObjectivesRelations (
+    public function getSessionObjectivesToCourseObjectivesRelations(
         array $sessionObjectiveIds,
         array $courseObjectiveIds
-    )
-    {
+    ) {
         $rhett = [
             'relations' => [],
             'session_objective_ids' => [],

@@ -46,13 +46,12 @@ class Exporter
      * @param string $institutionDomain
      * @param string $supportingLink
      */
-    public function __construct (
+    public function __construct(
         CurriculumInventoryReportManagerInterface $reportManager,
         CurriculumInventoryInstitutionManagerInterface $institutionManager,
         $institutionDomain,
         $supportingLink = ''
-    )
-    {
+    ) {
         $this->reportManager = $reportManager;
         $this->institutionManager = $institutionManager;
         $this->institutionDomain = $institutionDomain;
@@ -93,7 +92,7 @@ class Exporter
      *
      * @throws \Exception
      */
-    public function getCurriculumInventory (CurriculumInventoryReportInterface $invReport)
+    public function getCurriculumInventory(CurriculumInventoryReportInterface $invReport)
     {
         // report validation
         $program = $invReport->getProgram();
@@ -165,13 +164,28 @@ class Exporter
             $programObjectiveIds
         );
         $relations['course_objectives_to_program_objectives'] = $rel['relations'];
-        $includes['program_objective_ids'] = array_values(array_unique(array_merge($includes['program_objective_ids'], $rel['program_objective_ids'])));
+        $includes['program_objective_ids'] = array_values(
+            array_unique(
+                array_merge(
+                    $includes['program_objective_ids'],
+                    $rel['program_objective_ids']
+                )
+            )
+        );
         $includes['course_objective_ids'] = $rel['course_objective_ids'];
         $rel = $this->reportManager->getSessionObjectivesToCourseObjectivesRelations(
             $sessionObjectiveIds,
-            $courseObjectiveIds);
+            $courseObjectiveIds
+        );
         $relations['session_objectives_to_course_objectives'] = $rel['relations'];
-        $includes['course_objective_ids'] = array_values(array_unique(array_merge($includes['course_objective_ids'], $rel['course_objective_ids'])));
+        $includes['course_objective_ids'] = array_values(
+            array_unique(
+                array_merge(
+                    $includes['course_objective_ids'],
+                    $rel['course_objective_ids']
+                )
+            )
+        );
         $includes['session_objective_ids'] = $rel['session_objective_ids'];
 
         $expectations['framework'] = [
@@ -208,19 +222,34 @@ class Exporter
      * @return \DOMDocument The generated XML document.
      * @throws \DomException
      */
-    public function createXmlReport (array $inventory)
+    public function createXmlReport(array $inventory)
     {
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $rootNode = $dom->createElementNS('http://ns.medbiq.org/curriculuminventory/v1/', 'CurriculumInventory');
-        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/' ,'xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $rootNode->setAttributeNS('http://www.w3.org/2001/XMLSchema-instance', 'schemaLocation',
-            'http://ns.medbiq.org/curriculuminventory/v1/ curriculuminventory.xsd');
+        $rootNode->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/',
+            'xmlns:xsi',
+            'http://www.w3.org/2001/XMLSchema-instance'
+        );
+        $rootNode->setAttributeNS(
+            'http://www.w3.org/2001/XMLSchema-instance',
+            'schemaLocation',
+            'http://ns.medbiq.org/curriculuminventory/v1/ curriculuminventory.xsd'
+        );
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:lom', 'http://ltsc.ieee.org/xsd/LOM');
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:a', 'http://ns.medbiq.org/address/v1/');
-        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:cf', 'http://ns.medbiq.org/competencyframework/v1/');
-        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:co', 'http://ns.medbiq.org/competencyobject/v1/');
+        $rootNode->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/',
+            'xmlns:cf',
+            'http://ns.medbiq.org/competencyframework/v1/'
+        );
+        $rootNode->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/',
+            'xmlns:co',
+            'http://ns.medbiq.org/competencyobject/v1/'
+        );
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:hx', 'http://ns.medbiq.org/lom/extend/v1/');
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:m', 'http://ns.medbiq.org/member/v1/');
         $dom->appendChild($rootNode);
@@ -246,7 +275,11 @@ class Exporter
         $institutionNameNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:InstitutionName');
         $institutionNameNode->appendChild($dom->createTextNode($institution->getName()));
         $institutionNode->appendChild($institutionNameNode);
-        $institutionIdNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:InstitutionID', $institution->getAamcCode());
+        $institutionIdNode = $dom->createElementNS(
+            'http://ns.medbiq.org/member/v1/',
+            'm:InstitutionID',
+            $institution->getAamcCode()
+        );
         $institutionIdNode->setAttribute('domain', 'idd:aamc.org:institution');
         $institutionNode->appendChild($institutionIdNode);
         $addressNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:Address');
@@ -256,13 +289,25 @@ class Exporter
         $addressNode->appendChild($streetAddressNode);
         $cityNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:City', $institution->getAddressCity());
         $addressNode->appendChild($cityNode);
-        $stateNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:StateOrProvince', $institution->getAddressStateOrProvince());
+        $stateNode = $dom->createElementNS(
+            'http://ns.medbiq.org/address/v1/',
+            'a:StateOrProvince',
+            $institution->getAddressStateOrProvince()
+        );
         $addressNode->appendChild($stateNode);
-        $zipcodeNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:PostalCode', $institution->getAddressZipCode());
+        $zipcodeNode = $dom->createElementNS(
+            'http://ns.medbiq.org/address/v1/',
+            'a:PostalCode',
+            $institution->getAddressZipCode()
+        );
         $addressNode->appendChild($zipcodeNode);
         $countryNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:Country');
         $addressNode->appendChild($countryNode);
-        $countryCodeNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:CountryCode', $institution->getAddressCountryCode());
+        $countryCodeNode = $dom->createElementNS(
+            'http://ns.medbiq.org/address/v1/',
+            'a:CountryCode',
+            $institution->getAddressCountryCode()
+        );
         $countryNode->appendChild($countryCodeNode);
         //
         // Program
@@ -360,8 +405,10 @@ class Exporter
             // The alternatives would have been to:
             // (a) exclude events with unknown AAMC methods.
             // (b) raise an exception on report generation.
-            // Neither of which are IMO preferable to the current approach to "kick the bucket down the road" at this point.
-            // Option (b) may be something could be implemented at a later point, once the AAMC's CI tool and business rules
+            // Neither of which are IMO preferable to the current approach
+            // to "kick the bucket down the road" at this point.
+            // Option (b) may be something could be implemented at a later point,
+            // once the AAMC's CI tool and business rules
             // are less of a moving target than what they are now.
             // [ST 2013/09/07]
             if ($event['is_assessment_method']) {
@@ -377,10 +424,10 @@ class Exporter
                 // Valid values are Formative and Summative.
                 //
                 switch ($event['assessment_option_name']) {
-                    case 'formative' :
+                    case 'formative':
                         $assessmentMethodNode->setAttribute('purpose', 'Formative');
                         break;
-                    case 'summative' :
+                    case 'summative':
                     default:
                         $assessmentMethodNode->setAttribute('purpose', 'Summative');
                 }
@@ -402,20 +449,35 @@ class Exporter
         // program objectives
         foreach ($expectations['program_objectives'] as $programObjective) {
             $uri = $this->createCompetencyObjectUri($programObjective['objective_id'], 'program_objective');
-            $this->createCompetencyObjectNode($dom, $expectationsNode, $programObjective['title'], $uri,
-                'program-level-competency');
+            $this->createCompetencyObjectNode(
+                $dom,
+                $expectationsNode,
+                $programObjective['title'],
+                $uri,
+                'program-level-competency'
+            );
         }
         // course objectives
         foreach ($expectations['course_objectives'] as $courseObjective) {
             $uri = $this->createCompetencyObjectUri($courseObjective['objective_id'], 'course_objective');
-            $this->createCompetencyObjectNode($dom, $expectationsNode, $courseObjective['title'], $uri,
-                'sequence-block-level-competency');
+            $this->createCompetencyObjectNode(
+                $dom,
+                $expectationsNode,
+                $courseObjective['title'],
+                $uri,
+                'sequence-block-level-competency'
+            );
         }
         // session objectives
         foreach ($expectations['session_objectives'] as $sessionObjective) {
             $uri = $this->createCompetencyObjectUri($sessionObjective['objective_id'], 'session_objective');
-            $this->createCompetencyObjectNode($dom, $expectationsNode, $sessionObjective['title'], $uri,
-                'event-level-competency');
+            $this->createCompetencyObjectNode(
+                $dom,
+                $expectationsNode,
+                $sessionObjective['title'],
+                $uri,
+                'event-level-competency'
+            );
         }
         // add competency framework
         $this->createCompetencyFrameworkNode($dom, $expectationsNode, $report, $reportId, $expectations);
@@ -461,7 +523,7 @@ class Exporter
         // Sequence Blocks
         //
         $sequenceBlocks = $report->getSequenceBlocks();
-        $topLevelSequenceBlocks = $sequenceBlocks->filter(function(CurriculumInventorySequenceBlockInterface $block) {
+        $topLevelSequenceBlocks = $sequenceBlocks->filter(function (CurriculumInventorySequenceBlockInterface $block) {
             $parent = $block->getParent();
             return empty($parent);
         })->toArray();
@@ -497,7 +559,7 @@ class Exporter
      * @see Ilios_CurriculumInventory_Exporter::getCurriculumInventory()
      * @see Ilios_CurriculumInventory_Exporter::createXmlReport()
      */
-    public function getXmlReport (CurriculumInventoryReportInterface $report)
+    public function getXmlReport(CurriculumInventoryReportInterface $report)
     {
         $inventory = $this->getCurriculumInventory($report);
         return $this->createXmlReport($inventory);
@@ -551,14 +613,13 @@ class Exporter
      * @param string $reportId
      * @param array $expectations
      */
-    protected function createCompetencyFrameworkNode (
+    protected function createCompetencyFrameworkNode(
         \DomDocument $dom,
         \DomElement $parentNode,
         CurriculumInventoryReportInterface $report,
         $reportId,
         array $expectations
-    )
-    {
+    ) {
         // competency framework
         $competencyFrameworkNode = $dom->createElement('CompetencyFramework');
         $parentNode->appendChild($competencyFrameworkNode);
@@ -568,14 +629,14 @@ class Exporter
         $competencyFrameworkNode->appendChild($lomNode);
         $lomGeneralNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'general');
         $lomNode->appendChild($lomGeneralNode);
-        $lomIdentifierNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','identifier');
+        $lomIdentifierNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'identifier');
         $lomGeneralNode->appendChild($lomIdentifierNode);
         $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'catalog', 'URI');
         $lomIdentifierNode->appendChild($lomCatalogNode);
         $frameworkUri = "http://{$this->institutionDomain}/competency_framework/{$reportId}";
-        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','entry', $frameworkUri);
+        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'entry', $frameworkUri);
         $lomIdentifierNode->appendChild($lomEntryNode);
-        $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','title');
+        $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'title');
         $lomGeneralNode->appendChild($lomTitleNode);
         $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
         $lomTitleNode->appendChild($lomStringNode);
@@ -614,8 +675,13 @@ class Exporter
             $relUri1 = $this->createCompetencyObjectUri($relation['rel1'], 'program_objective');
             $relUri2 = $this->createPcrsUri($relation['rel2']);
             $relationshipUri = $this->createRelationshipUri('related');
-            $this->createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri2, $relUri1,
-                $relationshipUri);
+            $this->createCompetencyFrameworkRelationNode(
+                $dom,
+                $competencyFrameworkNode,
+                $relUri2,
+                $relUri1,
+                $relationshipUri
+            );
         }
         $relations = $expectations['framework']['relations']['course_objectives_to_program_objectives'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
@@ -623,8 +689,13 @@ class Exporter
             $relUri1 = $this->createCompetencyObjectUri($relation['rel1'], 'program_objective');
             $relUri2 = $this->createCompetencyObjectUri($relation['rel2'], 'course_objective');
             $relationshipUri = $this->createRelationshipUri('narrower');
-            $this->createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
-                $relationshipUri);
+            $this->createCompetencyFrameworkRelationNode(
+                $dom,
+                $competencyFrameworkNode,
+                $relUri1,
+                $relUri2,
+                $relationshipUri
+            );
         }
         $relations = $expectations['framework']['relations']['session_objectives_to_course_objectives'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
@@ -632,8 +703,13 @@ class Exporter
             $relUri1 = $this->createCompetencyObjectUri($relation['rel1'], 'course_objective');
             $relUri2 = $this->createCompetencyObjectUri($relation['rel2'], 'session_objective');
             $relationshipUri = $this->createRelationshipUri('narrower');
-            $this->createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
-                $relationshipUri);
+            $this->createCompetencyFrameworkRelationNode(
+                $dom,
+                $competencyFrameworkNode,
+                $relUri1,
+                $relUri2,
+                $relationshipUri
+            );
         }
     }
 
@@ -655,8 +731,8 @@ class Exporter
         array $eventReferences,
         array $competencyObjectReferences,
         \DomElement $parentSequenceBlockNode = null,
-        $order = 0)
-    {
+        $order = 0
+    ) {
         $sequenceBlockNode = $dom->createElement('SequenceBlock');
         $sequenceNode->appendChild($sequenceBlockNode);
         // append a reference to _this_ sequence block to the parent sequence block
@@ -670,24 +746,24 @@ class Exporter
         }
         $sequenceBlockNode->setAttribute('id', $block->getId());
         switch ($block->isRequired()) {
-            case CurriculumInventorySequenceBlockInterface::OPTIONAL :
+            case CurriculumInventorySequenceBlockInterface::OPTIONAL:
                 $sequenceBlockNode->setAttribute('required', 'Optional');
                 break;
-            case CurriculumInventorySequenceBlockInterface::REQUIRED :
+            case CurriculumInventorySequenceBlockInterface::REQUIRED:
                 $sequenceBlockNode->setAttribute('required', 'Required');
                 break;
-            case CurriculumInventorySequenceBlockInterface::REQUIRED_IN_TRACK :
+            case CurriculumInventorySequenceBlockInterface::REQUIRED_IN_TRACK:
                 $sequenceBlockNode->setAttribute('required', 'Required In Track');
                 break;
         }
         switch ($block->getChildSequenceOrder()) {
-            case CurriculumInventorySequenceBlockInterface::ORDERED :
+            case CurriculumInventorySequenceBlockInterface::ORDERED:
                 $sequenceBlockNode->setAttribute('order', 'Ordered');
                 break;
-            case CurriculumInventorySequenceBlockInterface::UNORDERED :
+            case CurriculumInventorySequenceBlockInterface::UNORDERED:
                 $sequenceBlockNode->setAttribute('order', 'Unordered');
                 break;
-            case CurriculumInventorySequenceBlockInterface::PARALLEL :
+            case CurriculumInventorySequenceBlockInterface::PARALLEL:
                 $sequenceBlockNode->setAttribute('order', 'Parallel');
                 break;
         }
@@ -735,7 +811,10 @@ class Exporter
 
 
         // academic level
-        $levelNode = $dom->createElement('Level', "/CurriculumInventory/AcademicLevels/Level[@number='{$block->getAcademicLevel()->getLevel()}']");
+        $levelNode = $dom->createElement(
+            'Level',
+            "/CurriculumInventory/AcademicLevels/Level[@number='{$block->getAcademicLevel()->getLevel()}']"
+        );
         $sequenceBlockNode->appendChild($levelNode);
 
         // clerkship type
@@ -746,11 +825,11 @@ class Exporter
         if ($course) {
             $clerkshipType = $course->getClerkshipType() ? $course->getClerkshipType()->getId() : null;
             switch ($clerkshipType) {
-                case CourseClerkshipTypeInterface::INTEGRATED :
+                case CourseClerkshipTypeInterface::INTEGRATED:
                     $clerkshipModel = 'integrated';
                     break;
-                case CourseClerkshipTypeInterface::BLOCK :
-                case CourseClerkshipTypeInterface::LONGITUDINAL :
+                case CourseClerkshipTypeInterface::BLOCK:
+                case CourseClerkshipTypeInterface::LONGITUDINAL:
                     $clerkshipModel = 'rotation';
                     break;
             }
@@ -831,12 +910,14 @@ class Exporter
     }
 
     /**
-     * Creates a "CompetencyObject" DOM node and populates it with given values, then appends it to the given parent node.
+     * Creates a "CompetencyObject" DOM node and populates it with given values,
+     * then appends it to the given parent node.
+     *
      * @param \DomDocument $dom The document object.
      * @param \DomElement $parentNode The parent node.
      * @param string $title The competency object's title.
      * @param string $uri An URI that uniquely identifies the competency object.
-     * @param string $category One of 'program-level-competency', 'sequence-block-level-competency' or 'event-level-competency'.
+     * @param string $category 'program-level-competency', 'sequence-block-level-competency or 'event-level-competency'.
      */
     protected function createCompetencyObjectNode(\DomDocument $dom, \DomElement $parentNode, $title, $uri, $category)
     {
@@ -846,11 +927,11 @@ class Exporter
         $competencyObjectNode->appendChild($lomNode);
         $lomGeneralNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'general');
         $lomNode->appendChild($lomGeneralNode);
-        $lomIdentifierNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','identifier');
+        $lomIdentifierNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'identifier');
         $lomGeneralNode->appendChild($lomIdentifierNode);
         $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'catalog', 'URI');
         $lomIdentifierNode->appendChild($lomCatalogNode);
-        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','entry', $uri);
+        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'entry', $uri);
         $lomIdentifierNode->appendChild($lomEntryNode);
         $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'title');
         $lomGeneralNode->appendChild($lomTitleNode);
@@ -864,16 +945,18 @@ class Exporter
 
     /**
      *
-     * Creates a "CompetencyObjectReference" DOM node and populates it with given values, then appends it to the given parent node.
+     * Creates a "CompetencyObjectReference" DOM node and populates it with given values,
+     * then appends it to the given parent node.
+     *
      * @param \DomDocument $dom The document object.
      * @param \DomElement $parentNode The parent node.
      * @param string $uri An URI that uniquely identifies the competency object.
      * @see Ilios_CurriculumInventory_Exporter::_createCompetencyObjectUri
      */
-    protected function createCompetencyObjectReferenceNode (\DomDocument $dom, \DomElement $parentNode, $uri)
+    protected function createCompetencyObjectReferenceNode(\DomDocument $dom, \DomElement $parentNode, $uri)
     {
-        //$uri = $this->createCompetencyObjectUri($domain, $type, $id);
-        $ref = "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry='{$uri}']";
+        $ref =
+            "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry='{$uri}']";
         $competencyObjectReferenceNode = $dom->createElement('CompetencyObjectReference', $ref);
         $parentNode->appendChild($competencyObjectReferenceNode);
     }
@@ -883,7 +966,7 @@ class Exporter
      * @param \DomElement $parentNode
      * @param string $uri
      */
-    protected function createCompetencyFrameworkIncludesNode (\DomDocument $dom, \DomElement $parentNode, $uri)
+    protected function createCompetencyFrameworkIncludesNode(\DomDocument $dom, \DomElement $parentNode, $uri)
     {
         $includesNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Includes');
         $parentNode->appendChild($includesNode);
@@ -900,14 +983,13 @@ class Exporter
      * @param string $relUri2
      * @param string $relationshipUri
      */
-    protected function createCompetencyFrameworkRelationNode (
+    protected function createCompetencyFrameworkRelationNode(
         \DomDocument $dom,
         \DomElement $parentNode,
         $relUri1,
         $relUri2,
         $relationshipUri
-    )
-    {
+    ) {
         $relationNode = $dom->createElement('cf:Relation');
         $parentNode->appendChild($relationNode);
         $referenceNode = $dom->createElement('cf:Reference1');
@@ -945,7 +1027,7 @@ class Exporter
      *     "session_objective"
      * @return string The unique URI for the given competency object.
      */
-    protected function createCompetencyObjectUri ($id, $type)
+    protected function createCompetencyObjectUri($id, $type)
     {
         return "http://{$this->institutionDomain}/{$type}/{$id}";
     }
@@ -955,7 +1037,7 @@ class Exporter
      * @param string $pcrsPartialUri A part of the URI that uniquely identifies te PCRS competency.
      * @return string The generated URI.
      */
-    protected function createPcrsUri ($pcrsPartialUri)
+    protected function createPcrsUri($pcrsPartialUri)
     {
         return "https://services.aamc.org/30/ci-school-web/pcrs/PCRS.html#{$pcrsPartialUri}";
     }

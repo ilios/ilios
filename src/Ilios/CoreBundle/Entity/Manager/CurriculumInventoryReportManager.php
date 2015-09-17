@@ -178,7 +178,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
         return $this->getRepository()->getCourseObjectivesToProgramObjectivesRelations(
             $courseObjectiveIds,
             $programObjectiveIds
-         );
+        );
     }
 
     /**
