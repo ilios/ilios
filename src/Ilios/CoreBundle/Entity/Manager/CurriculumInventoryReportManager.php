@@ -158,8 +158,37 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
     /**
      * {@inheritdoc}
      */
-    public function getAppliedLevels(CurriculumInventoryReportInterface $report)
+    public function getSessionObjectivesToCourseObjectivesRelations(
+        array $sessionObjectiveIds,
+        array $courseObjectiveIds
+    ) {
+        return $this->getRepository()->getSessionObjectivesToCourseObjectivesRelations(
+            $sessionObjectiveIds,
+            $courseObjectiveIds
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCourseObjectivesToProgramObjectivesRelations(
+        array $courseObjectiveIds,
+        array $programObjectiveIds
+    ) {
+        return $this->getRepository()->getCourseObjectivesToProgramObjectivesRelations(
+            $courseObjectiveIds,
+            $programObjectiveIds
+         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProgramObjectivesToPcrsRelations(array $programObjectiveIds, array $pcrsIds)
     {
-        $this->getRepository()->getAppliedLevels($report);
+        return $this->getRepository()->getProgramObjectivesToPcrsRelations(
+            $programObjectiveIds,
+            $pcrsIds
+        );
     }
 }

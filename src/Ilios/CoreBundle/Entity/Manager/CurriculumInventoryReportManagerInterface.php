@@ -119,8 +119,29 @@ interface CurriculumInventoryReportManagerInterface extends ManagerInterface
     public function getCompetencyObjectReferencesForEvents(CurriculumInventoryReportInterface $report);
 
     /**
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface $report
+     * @param array $sessionObjectiveIds
+     * @param array $courseObjectiveIds
      * @return array
      */
-    public function getAppliedLevels(CurriculumInventoryReportInterface $report);
+    public function getSessionObjectivesToCourseObjectivesRelations(
+        array $sessionObjectiveIds,
+        array $courseObjectiveIds
+    );
+
+    /**
+     * @param array $courseObjectiveIds
+     * @param array $programObjectiveIds
+     * @return array
+     */
+    public function getCourseObjectivesToProgramObjectivesRelations(
+        array $courseObjectiveIds,
+        array $programObjectiveIds
+    );
+
+    /**
+     * @param array $programObjectiveIds
+     * @param array $pcrsIds
+     * @return array
+     */
+    public function getProgramObjectivesToPcrsRelations(array $programObjectiveIds, array $pcrsIds);
 }
