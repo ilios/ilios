@@ -9,11 +9,6 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
-use Ilios\CoreBundle\Entity\Manager\CourseManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
