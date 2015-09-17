@@ -87,6 +87,10 @@ class Exporter
      *                     'program_objectives_to_pcrs'
      *                     'course_objectives_to_program_objectives'
      *                     'session_objectives_to_course_objectives'
+     *         'sequence_block_references' ...relationships maps between sequence blocks and other curricular entities.
+     *             'events' ... maps sequence blocks to events
+     *             'competency_objects' .. maps sequence blocks to competency objects
+     *
      * @throws \Exception
      */
     public function getCurriculumInventory (CurriculumInventoryReportInterface $invReport)
@@ -124,7 +128,7 @@ class Exporter
 
         // The various objective type are all "Competency Objects" in the context of reporting the curriculum inventory.
         // The are grouped in the "Expectations" section of the report, lump 'em together here.
-        $expectations = array();
+        $expectations =[];
         $expectations['program_objectives'] = $programObjectives;
         $expectations['session_objectives'] = $sessionObjectives;
         $expectations['course_objectives'] = $courseObjectives;
@@ -137,37 +141,43 @@ class Exporter
         $programObjectiveIds = array_keys($programObjectives);
         $courseObjectiveIds = array_keys($courseObjectives);
         $sessionObjectiveIds = array_keys($sessionObjectives);
-        $includes = array(
-            'pcrs_ids' => array(),
-            'program_objective_ids' => array(),
-            'course_objective_ids' => array(),
-            'session_objective_ids' => array(),
-        );
-        $relations = array(
-            'program_objectives_to_pcrs' => array(),
-            'course_objectives_to_program_objectives' => array(),
-            'session_objectives_to_course_objectives' => array(),
-        );
+        $includes = [
+            'pcrs_ids' =>[],
+            'program_objective_ids' => [],
+            'course_objective_ids' => [],
+            'session_objective_ids' => [],
+        ];
+        $relations = [
+            'program_objectives_to_pcrs' => [],
+            'course_objectives_to_program_objectives' => [],
+            'session_objectives_to_course_objectives' => [],
+        ];
 
-        $rel = $this->getProgramObjectivesToPcrsRelations($programObjectiveIds, $pcrsIds);
+        $rel = $this->reportManager->getProgramObjectivesToPcrsRelations(
+            $programObjectiveIds,
+            $pcrsIds
+        );
         $relations['program_objectives_to_pcrs'] = $rel['relations'];
         $includes['pcrs_ids'] = $rel['pcrs_ids'];
         $includes['program_objective_ids'] = $rel['program_objective_ids'];
-        $rel = $this->getCourseObjectivesToProgramObjectivesRelations($courseObjectiveIds,
-            $programObjectiveIds);
+        $rel = $this->reportManager->getCourseObjectivesToProgramObjectivesRelations(
+            $courseObjectiveIds,
+            $programObjectiveIds
+        );
         $relations['course_objectives_to_program_objectives'] = $rel['relations'];
         $includes['program_objective_ids'] = array_values(array_unique(array_merge($includes['program_objective_ids'], $rel['program_objective_ids'])));
         $includes['course_objective_ids'] = $rel['course_objective_ids'];
-        $rel = $this->getSessionObjectivesToCourseObjectivesRelations($sessionObjectiveIds,
+        $rel = $this->reportManager->getSessionObjectivesToCourseObjectivesRelations(
+            $sessionObjectiveIds,
             $courseObjectiveIds);
         $relations['session_objectives_to_course_objectives'] = $rel['relations'];
         $includes['course_objective_ids'] = array_values(array_unique(array_merge($includes['course_objective_ids'], $rel['course_objective_ids'])));
         $includes['session_objective_ids'] = $rel['session_objective_ids'];
 
-        $expectations['framework'] = array(
+        $expectations['framework'] = [
             'includes' => $includes,
             'relations' => $relations,
-        );
+        ];
 
          //
         // transmogrify inventory data for reporting and fill in the blanks
@@ -176,16 +186,10 @@ class Exporter
         $events = $this->addKeywordsToEvents($events, $keywords);
         $events = $this->addCompetencyObjectReferencesToEvents($events, $compRefsForEvents);
 
-/*
-         @todo deal this stuff [ST 2015/09/15]
-         $sequenceBlocks = $this->addEventAndCompetencyObjectReferencesToSequenceBlocks($sequenceBlocks,
-            $eventReferences, $compRefsForSeqBlocks);
-*/
-
         //
         // aggregate inventory into single return-array
         //
-        $rhett = array();
+        $rhett =[];
         $rhett['report'] = $invReport;
         $rhett['expectations'] = $expectations;
         $rhett['institution'] = $institution;
@@ -468,7 +472,7 @@ class Exporter
                 'compareSequenceBlocksWithDefaultStrategy'
             ]
         );
-        foreach ($iterator as $block) {
+        foreach ($topLevelSequenceBlocks as $block) {
             $this->createSequenceBlockNode(
                 $dom,
                 $sequenceNode,
@@ -505,7 +509,7 @@ class Exporter
      * @param array $keywords A list of keywords.
      * @return array The events with the keywords added.
      */
-    protected function addKeywordsToEvents (array $events, array $keywords)
+    protected function addKeywordsToEvents(array $events, array $keywords)
     {
         foreach ($keywords as $keyword) {
             $eventId = $keyword['event_id'];
@@ -513,7 +517,7 @@ class Exporter
                 continue;
             }
             if (! array_key_exists('keywords', $events[$eventId])) {
-                $events[$eventId]['keywords'] = array();
+                $events[$eventId]['keywords'] =[];
             }
             $events[$eventId]['keywords'][] = $keyword;
         }
@@ -526,7 +530,7 @@ class Exporter
      * @param array $references A list of competency object references.
      * @return array The events with references added.
      */
-    protected function addCompetencyObjectReferencesToEvents (array $events, array $references)
+    protected function addCompetencyObjectReferencesToEvents(array $events, array $references)
     {
         $sessionIds = array_keys($events);
         for ($i = 0, $n = count($sessionIds); $i < $n; $i++) {
@@ -557,7 +561,7 @@ class Exporter
             if (array_key_exists($sequenceBlockId, $eventReferences)) {
                 $sequenceBlocks[$i]['event_references'] = $eventReferences[$sequenceBlockId];
             } else {
-                $sequenceBlocks[$i]['event_references'] = array();
+                $sequenceBlocks[$i]['event_references'] =[];
             }
             // link to competency objects
             if (array_key_exists($sequenceBlockId, $competencyObjectReferences)) {
@@ -571,6 +575,7 @@ class Exporter
 
     /**
      * Creates the competency framework node and child-nodes, and adds them to a given parent node (<Expectations>).
+     *
      * @param \DomDocument $dom
      * @param \DomElement $parentNode
      * @param CurriculumInventoryReportInterface $report
@@ -664,13 +669,14 @@ class Exporter
     }
 
     /**
-     * Recursively creates and appends sequence block nodes to the XML document
+     * Recursively creates and appends sequence block nodes to the XML document.
+     *
      * @param \DomDocument $dom the document object
      * @param \DomElement $sequenceNode the sequence DOM node to append to
      * @param CurriculumInventorySequenceBlockInterface $block the current sequence block
-     * @param array $eventReferences
-     * @param array $competencyObjectReferences
-     * @param \DomElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block (NULL if n/a)
+     * @param array $eventReferences A reference map of sequence blocks to events.
+     * @param array $competencyObjectReferences A reference map of sequence blocks to competency objects.
+     * @param \DomElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block.
      * @param int $order of this sequence block in relation to other nested sequence blocks. '0' if n/a.
      */
     protected function createSequenceBlockNode(
@@ -983,23 +989,5 @@ class Exporter
     protected function createPcrsUri ($pcrsPartialUri)
     {
         return "https://services.aamc.org/30/ci-school-web/pcrs/PCRS.html#{$pcrsPartialUri}";
-    }
-
-    protected function getProgramObjectivesToPcrsRelations($programObjectiveIds, $pcrsIds)
-    {
-        // @todo
-        return [];
-    }
-
-    protected function getCourseObjectivesToProgramObjectivesRelations($courseObjectiveIds, $programObjectiveIds)
-    {
-        // @todo
-        return [];
-    }
-
-    protected function getSessionObjectivesToCourseObjectivesRelations($sessionObjectiveIds, $courseObjectiveIds)
-    {
-        // @todo
-        return [];
     }
 }
