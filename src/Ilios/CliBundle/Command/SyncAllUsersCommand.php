@@ -70,7 +70,7 @@ class SyncAllUsersCommand extends Command
     {
         $this
             ->setName('ilios:directory:sync-users')
-            ->setDescription('Sync all users against the directory by their Campus ID.');
+            ->setDescription('Sync all users against the directory by their campus ID.');
     }
 
     /**
@@ -110,14 +110,14 @@ class SyncAllUsersCommand extends Command
                     //the directory
                     $output->writeln(
                         '<error>[E] Unable to find an enabled sync active user with ' .
-                        'Campus ID ' . $recordArray['campusId'] . '.</error>'
+                        'campus ID ' . $recordArray['campusId'] . '.</error>'
                     );
                     continue;
                 }
                 if (count($users) > 1) {
                     $output->writeln(
                         '<error>[E] Multiple accounts exist for the same ' .
-                        'Campus ID (' . $recordArray['campusId'] . ').  ' .
+                        'campus ID (' . $recordArray['campusId'] . ').  ' .
                         'None of them will be updated.</error>'
                     );
                     foreach ($users as $user) {
@@ -132,7 +132,7 @@ class SyncAllUsersCommand extends Command
                 $output->writeln(
                     '<info>[I] Comparing User #' . $user->getId() . ' ' .
                     $user->getFirstAndLastName() . ' (' . $user->getEmail() . ') ' .
-                    'to directory user by Campus ID ' . $user->getCampusId() . '.</info>'
+                    'to directory user by campus ID ' . $user->getCampusId() . '.</info>'
                 );
                 if (!$this->validateDirectoryRecord($recordArray, $output)) {
                     $user->setExamined(true);
@@ -189,7 +189,7 @@ class SyncAllUsersCommand extends Command
                 $authentication = $user->getAuthentication();
                 if (!$authentication) {
                     $output->writeln(
-                        '  <comment>[I] User had no Authentication data, creating it now.</comment>'
+                        '  <comment>[I] User had no authentication data, creating it now.</comment>'
                     );
                     $authentication = $this->authenticationManager->createAuthentication();
                     $authentication->setUser($user);
@@ -234,7 +234,7 @@ class SyncAllUsersCommand extends Command
         $this->em->flush();
 
         $output->writeln(
-            "<info>Completed Sync Process {$totalRecords} users found in the directory; " .
+            "<info>Completed sync process {$totalRecords} users found in the directory; " .
             "{$updated} users updated.</info>"
         );
         
@@ -249,7 +249,7 @@ class SyncAllUsersCommand extends Command
                 $valid = false;
                 $output->writeln(
                     "  <error>[E]  {$key} is required and it is missing from record with " .
-                    'Campus ID (' . $record['campusId'] . ').  ' .
+                    'campus ID (' . $record['campusId'] . ').  ' .
                     'User will not be updated.</error>'
                 );
             }

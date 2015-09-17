@@ -99,7 +99,7 @@ class AddUserCommand extends Command
         $userRecord = $this->directory->findByCampusId($campusId);
         
         if (!$userRecord) {
-            $output->writeln("<error>Unable to find campus id {$campusId} in the directory.</error>");
+            $output->writeln("<error>Unable to find campus ID {$campusId} in the directory.</error>");
             return;
         }
         

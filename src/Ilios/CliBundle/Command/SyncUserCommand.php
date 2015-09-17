@@ -132,9 +132,9 @@ class SyncUserCommand extends Command
             
             $this->userManager->updateUser($user);
             
-            $output->writeln('<info>User Updated Successfully</info>');
+            $output->writeln('<info>User updated successfully!</info>');
         } else {.
-            $output->writeln('<comment>Update Canceled.</comment>');
+            $output->writeln('<comment>Update canceled.</comment>');
         }
         
     }
