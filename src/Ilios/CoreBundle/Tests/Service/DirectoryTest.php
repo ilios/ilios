@@ -13,6 +13,9 @@ class DirectoryTest extends TestCase
         m::close();
     }
 
+    /**
+     * @covers Ilios\CoreBundle\Service\Directory::__construct
+     */
     public function testConstructor()
     {
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
@@ -20,6 +23,9 @@ class DirectoryTest extends TestCase
         $this->assertTrue($obj instanceof Directory);
     }
 
+    /**
+     * @covers Ilios\CoreBundle\Service\Directory::findByCampusId
+     */
     public function testFindByCampusId()
     {
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
@@ -30,6 +36,9 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, 1);
     }
 
+    /**
+     * @covers Ilios\CoreBundle\Service\Directory::findByCampusId
+     */
     public function testFindByCampusIds()
     {
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
@@ -40,6 +49,9 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, [1]);
     }
 
+    /**
+     * @covers Ilios\CoreBundle\Service\Directory::findByCampusId
+     */
     public function testFindByCampusIdsOnlyUseUnique()
     {
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
@@ -51,6 +63,9 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, [1]);
     }
 
+    /**
+     * @covers Ilios\CoreBundle\Service\Directory::find
+     */
     public function testFind()
     {
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
@@ -62,6 +77,9 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, array(1,2));
     }
 
+    /**
+     * @covers Ilios\CoreBundle\Service\Directory::findByLdapFilter
+     */
     public function testFindByLdapFilter()
     {
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
