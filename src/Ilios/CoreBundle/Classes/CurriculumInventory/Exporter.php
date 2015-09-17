@@ -543,37 +543,6 @@ class Exporter
     }
 
     /**
-     * Adds event references and competency object references to sequence blocks
-     * @param array $sequenceBlocks A list of sequence blocks.
-     * @param array $eventReferences A list of event references.
-     * @param array $competencyObjectReferences A list of competency object references.
-     * @return array The sequence blocks with references added.
-     */
-    protected function addEventAndCompetencyObjectReferencesToSequenceBlocks(
-        array $sequenceBlocks,
-        array $eventReferences,
-        array $competencyObjectReferences
-    )
-    {
-        for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
-            // link to events
-            $sequenceBlockId = $sequenceBlocks[$i]['sequence_block_id'];
-            if (array_key_exists($sequenceBlockId, $eventReferences)) {
-                $sequenceBlocks[$i]['event_references'] = $eventReferences[$sequenceBlockId];
-            } else {
-                $sequenceBlocks[$i]['event_references'] =[];
-            }
-            // link to competency objects
-            if (array_key_exists($sequenceBlockId, $competencyObjectReferences)) {
-                $sequenceBlocks[$i]['competency_object_references'] = $competencyObjectReferences[$sequenceBlockId];
-            }
-        }
-        return $sequenceBlocks;
-    }
-
-
-
-    /**
      * Creates the competency framework node and child-nodes, and adds them to a given parent node (<Expectations>).
      *
      * @param \DomDocument $dom
