@@ -99,7 +99,7 @@ class AddNewStudentsToSchoolCommand extends Command
                 "School with id {$schoolId} could not be found."
             );
         }
-        $output->writeln("<info>Serchign for new students to add to " . $school->getTitle() . ".</info>");
+        $output->writeln("<info>Searching for new students to add to " . $school->getTitle() . ".</info>");
         
         $students = $this->directory->findByLdapFilter($filter);
         
