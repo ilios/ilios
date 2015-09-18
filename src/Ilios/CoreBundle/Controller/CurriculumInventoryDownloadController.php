@@ -40,10 +40,9 @@ class CurriculumInventoryDownloadController extends FOSRestController
      *        "description"="The curriculum inventory report identifier."
      *     }
      *   },
-     *   output="string",
      *   statusCodes={
      *     200 = "OK",
-     *     403 = "Access Denied.",
+     *     401 = "Unauthorized.",
      *     404 = "Not Found."
      *   }
      * )
@@ -114,10 +113,10 @@ class CurriculumInventoryDownloadController extends FOSRestController
     }
 
     /**
-     * Generates a report document on the fly for a given report
+     * Generates a report document on the fly for a given report.
      *
      * @param CurriculumInventoryReportInterface $report
-     * @return string the report document
+     * @return string The report document.
      */
     protected function generateReportDocument(CurriculumInventoryReportInterface $report)
     {
