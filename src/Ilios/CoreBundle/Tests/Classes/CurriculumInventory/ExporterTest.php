@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Classes\CurriculumInventory\Exporter;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
 
-
 /**
  * Class ExporterTest
  * @package Ilios\CoreBundle\Tests\Classes\CurriculumInventory
