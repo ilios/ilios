@@ -23,8 +23,7 @@ class AuthenticationController extends Controller
      */
     public function loginAction(Request $request)
     {
-        $authenticatorService = $this->container->getParameter('ilios_authentication.authenticatorservice');
-        $authenticator = $this->container->get($authenticatorService);
+        $authenticator = $this->container->get('ilios_authentication.authenticator');
         
         return $authenticator->login($request);
 

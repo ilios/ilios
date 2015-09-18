@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 
 use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
 class FormAuthentication implements AuthenticationInterface

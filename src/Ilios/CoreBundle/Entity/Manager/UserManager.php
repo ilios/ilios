@@ -32,7 +32,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|UserInterface[]
+     * @return UserInterface[]
      */
     public function findUsersBy(
         array $criteria,
@@ -114,5 +114,30 @@ class UserManager extends AbstractManager implements UserManagerInterface
         \DateTime $to
     ) {
         return $this->getRepository()->findEventsForUser($userId, $from, $to);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = array())
+    {
+        return $this->getRepository()->findUsersWhoAreNotFormerStudents($campusIdFilter);
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true)
+    {
+        return $this->getRepository()->getAllCampusIds($includeDisabled, $includeSyncIgnore);
+        
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function resetExaminedFlagForAllUsers()
+    {
+        return $this->getRepository()->resetExaminedFlagForAllUsers();
     }
 }

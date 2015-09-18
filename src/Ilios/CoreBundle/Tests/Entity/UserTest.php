@@ -121,12 +121,12 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setUcUid
-     * @covers Ilios\CoreBundle\Entity\User::getUcUid
+     * @covers Ilios\CoreBundle\Entity\User::setCampusId
+     * @covers Ilios\CoreBundle\Entity\User::getCampusId
      */
-    public function testSetUcUid()
+    public function testSetCampusId()
     {
-        $this->basicSetTest('ucUid', 'string');
+        $this->basicSetTest('campusId', 'string');
     }
 
     /**

@@ -23,3 +23,9 @@ services:
     ilios_authentication.ldap.authentication:
         class: Ilios\AuthenticationBundle\Service\LdapAuthentication
         arguments: ["@ilioscore.authentication.manager", "@ilios_authentication.jwt.manager", '%ilios_authentication.ldap.host%', '%ilios_authentication.ldap.port%', '%ilios_authentication.ldap.bind_template%']
+    ilios_authentication.authenticator_factory:
+        class: Ilios\AuthenticationBundle\Service\AuthenticationFactory
+        arguments: ['@service_container', '%ilios_authentication.authenticatorservice%']
+    ilios_authentication.authenticator:
+        class:   Ilios\AuthenticationBundle\Service\AuthenticationInterface
+        factory: ["@ilios_authentication.authenticator_factory", createAuthenticationService]

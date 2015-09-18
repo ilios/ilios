@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 class LdapAuthentication implements AuthenticationInterface
 {

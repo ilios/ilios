@@ -33,10 +33,9 @@ class Authentication implements AuthenticationInterface
     protected $user;
 
     /**
-    * @ORM\Column(name="username", type="string", unique=true, length=100)
+    * @ORM\Column(name="username", type="string", unique=true, length=100, nullable=true)
     * @var string
     *
-    * @Assert\NotBlank()
     * @Assert\Type(type="string")
     * @Assert\Length(
     *      min = 1,
@@ -71,19 +70,6 @@ class Authentication implements AuthenticationInterface
     *
     */
     private $passwordBcrypt;
-
-    /**
-    * @ORM\Column(name="eppn", type="string", nullable=true, unique=true)
-    * @var string
-    *
-    * @Assert\Type(type="string")
-    * @Assert\Length(
-    *      min = 1,
-    *      max = 250
-    * )
-    *
-    */
-    private $eppn;
 
     /**
      * @ORM\Column(name="invalidate_token_issued_before", type="datetime", nullable=true)
@@ -162,22 +148,6 @@ class Authentication implements AuthenticationInterface
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * @param string $eppn
-     */
-    public function setEppn($eppn)
-    {
-        $this->eppn = $eppn;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEppn()
-    {
-        return $this->eppn;
     }
 
     /**

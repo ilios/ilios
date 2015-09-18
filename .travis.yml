@@ -13,6 +13,10 @@ before_install:
   - mysql -e "create database IF NOT EXISTS ilios;" -uroot
 #install apc extension so composer production install will run
   - echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+#increase our PHP memory limit so test coverage will work
+  - echo "memory_limit=2048M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+#install ldap extension so composer install will run
+  - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
 
 install:

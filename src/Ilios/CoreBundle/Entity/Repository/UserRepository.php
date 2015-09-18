@@ -124,6 +124,79 @@ class UserRepository extends EntityRepository
     }
     
     /**
+     * Get a list of users who do not have the former student role filtered by campus id
+     * @param  array  $campusIds
+     * @return Collection[UserInterface]
+     */
+    public function findUsersWhoAreNotFormerStudents(array $campusIds)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $formerStudents = $qb->select('u.id')
+            ->from('IliosCoreBundle:UserRole', 'r')
+            ->leftJoin('r.users', 'u')
+            ->where($qb->expr()->eq('r.title', ':fs_role_title'))
+            ->setParameter('fs_role_title', 'Former Student')
+            ->getQuery()
+            ->getScalarResult();
+        $formerStudentUserIds = array_map(function (array $arr) {
+            return $arr['id'];
+        }, $formerStudents);
+        
+        $qb2 = $this->_em->createQueryBuilder();
+        $qb2->add('select', 'u')
+            ->from('IliosCoreBundle:User', 'u')
+            ->where('u.enabled=1')
+            ->andWhere($qb->expr()->notIn('u.id', $formerStudentUserIds))
+            ->addOrderBy('u.lastName', 'ASC')
+            ->addOrderBy('u.firstName', 'ASC')
+        ;
+        if (!empty($campusIds)) {
+            $qb2->andWhere($qb->expr()->in('u.campusId', $campusIds));
+        }
+        
+        return new ArrayCollection($qb2->getQuery()->getResult());
+    }
+    
+    /**
+     * Get all the campus IDs for all users
+     *
+     * @param boolean $includeDisabled
+     * @param boolean $includeSyncIgnore
+     *
+     * @return array
+     */
+    public function getAllCampusIds($includeDisabled, $includeSyncIgnore)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->add('select', 'u.campusId')->from('IliosCoreBundle:User', 'u');
+        if (!$includeDisabled) {
+            $qb->andWhere('u.enabled=1');
+        }
+        if (!$includeSyncIgnore) {
+            $qb->andWhere('u.userSyncIgnore=0');
+        }
+        
+        $campusIds = array_map(function (array $arr) {
+            return $arr['campusId'];
+        }, $qb->getQuery()->getScalarResult());
+        
+        return $campusIds;
+    }
+    
+    /**
+     * Reset examined flag for all users
+     */
+    public function resetExaminedFlagForAllUsers()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        
+        $qb->update('IliosCoreBundle:User', 'u')
+            ->set('u.examined', $qb->expr()->literal(false));
+            
+        $qb->getQuery()->execute();
+    }
+    
+    /**
       * Use the query builder and the $joins to get a set of
       * offering based user events
       *

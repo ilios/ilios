@@ -29,6 +29,12 @@ class Configuration implements ConfigurationInterface
                         'should store permanent data like learning materials'
                     )
                 ->end()
+                ->scalarNode('ldap_directory_url')->end()
+                ->scalarNode('ldap_directory_user')->end()
+                ->scalarNode('ldap_directory_password')->end()
+                ->scalarNode('ldap_directory_search_base')->end()
+                ->scalarNode('ldap_directory_campus_id_property')->end()
+                ->scalarNode('ldap_directory_username_property')->end()
             ->end();
 
         return $treeBuilder;

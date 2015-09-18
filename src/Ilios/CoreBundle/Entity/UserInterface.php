@@ -110,14 +110,14 @@ interface UserInterface extends
     public function isEnabled();
 
     /**
-     * @param string $ucUid
+     * @param string $campusId
      */
-    public function setUcUid($ucUid);
+    public function setCampusId($campusId);
 
     /**
      * @return string
      */
-    public function getUcUid();
+    public function getCampusId();
 
     /**
      * @param string $otherId

@@ -171,9 +171,9 @@ class User implements UserInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("ucUid")
+     * @JMS\SerializedName("campusId")
      */
-    protected $ucUid;
+    protected $campusId;
 
     /**
      * @var string
@@ -583,19 +583,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $ucUid
+     * @param string $campusId
      */
-    public function setUcUid($ucUid)
+    public function setCampusId($campusId)
     {
-        $this->ucUid = $ucUid;
+        $this->campusId = $campusId;
     }
 
     /**
      * @return string
      */
-    public function getUcUid()
+    public function getCampusId()
     {
-        return $this->ucUid;
+        return $this->campusId;
     }
 
     /**
@@ -1136,7 +1136,7 @@ class User implements UserInterface
     {
         return serialize(array(
                 $this->id,
-                $this->ucUid,
+                $this->campusId,
                 $this->email
             ));
 
@@ -1149,7 +1149,7 @@ class User implements UserInterface
     {
         list (
             $this->id,
-            $this->ucUid,
+            $this->campusId,
             $this->email
             ) = unserialize($serialized);
     }

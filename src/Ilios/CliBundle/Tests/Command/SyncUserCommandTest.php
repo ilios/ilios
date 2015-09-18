@@ -1,31 +1,34 @@
 <?php
-
 namespace Ilios\CliBundle\Tests\Command;
 
-use Ilios\CliBundle\Command\InvalidateUserTokenCommand;
+use Ilios\CliBundle\Command\SyncUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use \DateTime;
 
-class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
+class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
 {
-    const COMMAND_NAME = 'ilios:setup:invalidate-user-tokens';
+    const COMMAND_NAME = 'ilios:directory:sync-user';
     
     protected $userManager;
     protected $authenticationManager;
     protected $commandTester;
+    protected $questionHelper;
+    protected $directory;
     
     public function setUp()
     {
         $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
         $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
         
-        $command = new InvalidateUserTokenCommand($this->userManager, $this->authenticationManager);
+        $command = new SyncUserCommand($this->userManager, $this->authenticationManager, $this->directory);
         $application = new Application();
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
+        $this->questionHelper = $command->getHelper('question');
+        
     }
 
     /**
@@ -35,64 +38,55 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->userManager);
         unset($this->authenticationManager);
+        unset($this->directory);
         unset($this->commandTester);
         m::close();
     }
     
-    public function testHappyPathExecute()
+    public function testExecute()
     {
-        $now = new DateTime();
-        sleep(2);
         $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('setInvalidateTokenIssuedBefore')->mock();
+            ->shouldReceive('setUsername')->with('username')
+            ->mock();
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('getFirstName')->andReturn('old-first')
+            ->shouldReceive('getLastName')->andReturn('old-last')
+            ->shouldReceive('getEmail')->andReturn('old-email')
+            ->shouldReceive('getPhone')->andReturn('old-phone')
+            ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('getFirstAndLastName')->andReturn('somebody great')
+            ->shouldReceive('setFirstName')->with('first')
+            ->shouldReceive('setLastName')->with('last')
+            ->shouldReceive('setEmail')->with('email')
+            ->shouldReceive('setPhone')->with('phone')
             ->mock();
         $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn($user);
-        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication);
+        $this->userManager->shouldReceive('updateUser')->with($user);
+        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication, false);
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'username'
+        ];
+        $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
+        $this->sayYesWhenAsked();
+        
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
         ));
         
+        
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/All the tokens for somebody great issued before Today at [0-9:APM\s]+ UTC have been invalidated./',
+            '/Ilios User     | abc       | old-first | old-last | old-email | old-phone/',
             $output
         );
-        
-        preg_match('/[0-9:APM\s]+ UTC/', $output, $matches);
-        $time = trim($matches[0]);
-        $since = new DateTime($time);
-        $diff = $since->getTimestamp() - $now->getTimestamp();
-        $this->assertTrue(
-            $diff > 1
-        );
-    }
-    
-    public function testNoAuthenticationForUser()
-    {
-        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('setUser')
-            ->shouldReceive('setInvalidateTokenIssuedBefore')
-            ->mock();
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
-            ->shouldReceive('getAuthentication')->andReturn(null)
-            ->shouldReceive('getFirstAndLastName')->andReturn('somebody great')
-            ->mock();
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn($user);
-        $this->authenticationManager
-            ->shouldReceive('createAuthentication')->andReturn($authentication)
-            ->shouldReceive('updateAuthentication')->with($authentication);
-        $this->commandTester->execute(array(
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
-        ));
-        
-        $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/All the tokens for somebody great issued before Today at [0-9:APM\s]+ UTC have been invalidated./',
+            '/Directory User | abc       | first     | last     | email     | phone/',
             $output
         );
     }
@@ -112,5 +106,15 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('RuntimeException');
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
+    }
+
+    protected function sayYesWhenAsked()
+    {
+        $stream = fopen('php://memory', 'r+', false);
+        
+        fputs($stream, 'Yes\\n');
+        rewind($stream);
+        
+        $this->questionHelper->setInputStream($stream);
     }
 }

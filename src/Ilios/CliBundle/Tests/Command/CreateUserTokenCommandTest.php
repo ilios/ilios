@@ -11,7 +11,7 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     const COMMAND_NAME = 'ilios:setup:create-user-token';
     
     protected $userManager;
-    protected $CommandTester;
+    protected $commandTester;
     
     public function setUp()
     {
