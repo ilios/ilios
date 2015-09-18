@@ -745,7 +745,7 @@ class Exporter
             }
         }
         $sequenceBlockNode->setAttribute('id', $block->getId());
-        switch ($block->isRequired()) {
+        switch ($block->getRequired()) {
             case CurriculumInventorySequenceBlockInterface::OPTIONAL:
                 $sequenceBlockNode->setAttribute('required', 'Optional');
                 break;

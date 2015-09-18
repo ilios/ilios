@@ -52,9 +52,9 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function setRequired($required);
 
     /**
-     * @return boolean
+     * @return int
      */
-    public function isRequired();
+    public function getRequired();
 
     /**
      * @param int $childSequenceOrder

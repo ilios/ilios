@@ -51,11 +51,11 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setRequired
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::isRequired
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getRequired
      */
     public function testSetRequired()
     {
-        $this->booleanSetTest('required');
+        $this->basicSetTest('required', 'integer');
     }
 
     /**

@@ -78,16 +78,16 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     protected $description;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="required", type="boolean")
+     * @ORM\Column(name="required", type="integer")
      *
      * @Assert\NotNull()
-     * @Assert\Type(type="bool")
+     * @Assert\Type(type="integer")
      *
      *
      * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @JMS\Type("integer")
      */
     protected $required;
 
@@ -301,7 +301,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param boolean $required
+     * @param int $required
      */
     public function setRequired($required)
     {
@@ -309,9 +309,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @return boolean
+     * @return int
      */
-    public function isRequired()
+    public function getRequired()
     {
         return $this->required;
     }
