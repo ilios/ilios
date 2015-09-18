@@ -114,7 +114,7 @@ class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
             $output
         );
         $this->assertRegExp(
-            '/Former Students Updated Successfully!/',
+            '/Former students updated successfully!/',
             $output
         );
     }
