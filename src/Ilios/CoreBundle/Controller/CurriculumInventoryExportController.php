@@ -7,6 +7,7 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
+use Ilios\CoreBundle\Classes\CurriculumInventory\Exporter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -55,12 +56,21 @@ class CurriculumInventoryExportController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
+            /** @var Exporter $exporter */
+            $exporter = $this->container->get('ilioscore.curriculum_inventory.exporter');
+
+            $document = $exporter->getXmlReport($curriculumInventoryExport->getReport());
+            $curriculumInventoryExport->setDocument($document);
+
             $this->getCurriculumInventoryExportHandler()->updateCurriculumInventoryExport(
                 $curriculumInventoryExport,
                 true,
                 false
             );
 
+            // Remove the document before returning the export to keep the payload at a reasonable size.
+            // The exported report document can be retrieved via the curriculum inventory download controller.
+            $curriculumInventoryExport->setDocument('');
             $answer['curriculumInventoryExports'] = [$curriculumInventoryExport];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
