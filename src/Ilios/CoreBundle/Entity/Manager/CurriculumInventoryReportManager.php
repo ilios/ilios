@@ -88,7 +88,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
      */
     public function getEvents(CurriculumInventoryReportInterface $report)
     {
-        $this->getRepository()->getEvents($report);
+        return $this->getRepository()->getEvents($report);
     }
 
     /**
@@ -96,7 +96,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
      */
     public function getEventKeywords(CurriculumInventoryReportInterface $report)
     {
-        $this->getRepository()->getEventKeywords($report);
+        return $this->getRepository()->getEventKeywords($report);
     }
 
     /**
@@ -104,7 +104,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
      */
     public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
-        $this->getRepository()->getEventReferencesForSequenceBlocks($report);
+        return $this->getRepository()->getEventReferencesForSequenceBlocks($report);
     }
 
     /**
@@ -112,7 +112,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
      */
     public function getProgramObjectives(CurriculumInventoryReportInterface $report)
     {
-        $this->getRepository()->getProgramObjectives($report);
+        return $this->getRepository()->getProgramObjectives($report);
     }
 
     /**
@@ -120,7 +120,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
      */
     public function getSessionObjectives(CurriculumInventoryReportInterface $report)
     {
-        $this->getRepository()->getSessionObjectives($report);
+        return $this->getRepository()->getSessionObjectives($report);
     }
 
     /**
@@ -128,7 +128,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
      */
     public function getCourseObjectives(CurriculumInventoryReportInterface $report)
     {
-        $this->getRepository()->getCourseObjectives($report);
+        return $this->getRepository()->getCourseObjectives($report);
     }
 
     /**
@@ -136,7 +136,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
      */
     public function getPcrs(CurriculumInventoryReportInterface $report)
     {
-        $this->getRepository()->getPcrs($report);
+        return $this->getRepository()->getPcrs($report);
     }
 
     /**
@@ -144,7 +144,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
      */
     public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
-        $this->getRepository()->getCompetencyObjectReferencesForSequenceBlocks($report);
+        return $this->getRepository()->getCompetencyObjectReferencesForSequenceBlocks($report);
     }
 
     /**
@@ -152,7 +152,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
      */
     public function getCompetencyObjectReferencesForEvents(CurriculumInventoryReportInterface $report)
     {
-        $this->getRepository()->getCompetencyObjectReferencesForEvents($report);
+        return $this->getRepository()->getCompetencyObjectReferencesForEvents($report);
     }
 
     /**
