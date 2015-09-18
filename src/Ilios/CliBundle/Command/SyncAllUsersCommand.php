@@ -129,6 +129,7 @@ class SyncAllUsersCommand extends Command
                 $user = $users[0];
 
                 $update = false;
+                $fixSmallThings = true;
                 $output->writeln(
                     '<info>[I] Comparing User #' . $user->getId() . ' ' .
                     $user->getFirstAndLastName() . ' (' . $user->getEmail() . ') ' .
@@ -140,30 +141,6 @@ class SyncAllUsersCommand extends Command
                     //don't do anything else with invalid directory data
                     continue;
                 }
-                if ($user->getFirstName() != $recordArray['firstName']) {
-                    $update = true;
-                    $output->writeln(
-                        '  <comment>[I] Updating first name from "' . $user->getFirstName() .
-                        '" to "' . $recordArray['firstName'] . '".</comment>'
-                    );
-                    $user->setFirstName($recordArray['firstName']);
-                }
-                if ($user->getLastName() != $recordArray['lastName']) {
-                    $update = true;
-                    $output->writeln(
-                        '  <comment>[I] Updating last name from "' . $user->getLastName() .
-                        '" to "' . $recordArray['lastName'] . '".</comment>'
-                    );
-                    $user->setLastName($recordArray['lastName']);
-                }
-                if ($user->getPhone() != $recordArray['telephoneNumber']) {
-                    $update = true;
-                    $output->writeln(
-                        '  <comment>[I] Updating phone number from "' . $user->getPhone() .
-                        '" to "' . $recordArray['telephoneNumber'] . '".</comment>'
-                    );
-                    $user->setPhone($recordArray['telephoneNumber']);
-                }
                 if ($user->getEmail() != $recordArray['email']) {
                     if (strtolower($user->getEmail()) == strtolower($recordArray['email'])) {
                         $update = true;
@@ -173,6 +150,7 @@ class SyncAllUsersCommand extends Command
                         );
                         $user->setEmail($recordArray['email']);
                     } else {
+                        $fixSmallThings = false;
                         $output->writeln(
                             '  <comment>[I] Email address "' . $user->getEmail() .
                             '" differs from "' . $recordArray['email'] . '" logging for further action.</comment>'
@@ -186,6 +164,30 @@ class SyncAllUsersCommand extends Command
                     }
                 }
                 
+                if ($fixSmallThings && $user->getFirstName() != $recordArray['firstName']) {
+                    $update = true;
+                    $output->writeln(
+                        '  <comment>[I] Updating first name from "' . $user->getFirstName() .
+                        '" to "' . $recordArray['firstName'] . '".</comment>'
+                    );
+                    $user->setFirstName($recordArray['firstName']);
+                }
+                if ($fixSmallThings && $user->getLastName() != $recordArray['lastName']) {
+                    $update = true;
+                    $output->writeln(
+                        '  <comment>[I] Updating last name from "' . $user->getLastName() .
+                        '" to "' . $recordArray['lastName'] . '".</comment>'
+                    );
+                    $user->setLastName($recordArray['lastName']);
+                }
+                if ($fixSmallThings && $user->getPhone() != $recordArray['telephoneNumber']) {
+                    $update = true;
+                    $output->writeln(
+                        '  <comment>[I] Updating phone number from "' . $user->getPhone() .
+                        '" to "' . $recordArray['telephoneNumber'] . '".</comment>'
+                    );
+                    $user->setPhone($recordArray['telephoneNumber']);
+                }
                 $authentication = $user->getAuthentication();
                 if (!$authentication) {
                     $output->writeln(
@@ -194,7 +196,7 @@ class SyncAllUsersCommand extends Command
                     $authentication = $this->authenticationManager->createAuthentication();
                     $authentication->setUser($user);
                 }
-                if ($authentication->getUsername() != $recordArray['username']) {
+                if ($fixSmallThings && $authentication->getUsername() != $recordArray['username']) {
                     $update = true;
                     $output->writeln(
                         '  <comment>[I] Updating username from "' . $authentication->getUsername() .

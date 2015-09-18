@@ -892,4 +892,67 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             $output
         );
     }
+    
+    public function testExecuteEmailChangeDoesNotChangeOthers()
+    {
+        $this->userManager->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(['abc']);
+        $fakeDirectoryUser = [
+            'firstName' => 'new-first',
+            'lastName' => 'new-last',
+            'email' => 'new-email',
+            'telephoneNumber' => 'new-phone',
+            'campusId' => 'abc',
+            'username' => 'new-abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+            ->shouldReceive('getUsername')->andReturn('abc123')
+            ->mock();
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('getId')->andReturn(42)
+            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
+            ->shouldReceive('getFirstName')->andReturn('first')
+            ->shouldReceive('getLastName')->andReturn('last')
+            ->shouldReceive('getEmail')->andReturn('email')
+            ->shouldReceive('getPhone')->andReturn('phone')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('getAuthentication')->andReturn($authentication)
+            ->shouldReceive('setExamined')->with(true)
+            ->mock();
+        $this->userManager
+            ->shouldReceive('findUsersBy')
+            ->with(array('campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false))
+            ->andReturn([$user])
+            ->once();
+        $this->userManager
+            ->shouldReceive('findUsersBy')
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
+            ->andReturn([])
+            ->once();
+        $this->userManager->shouldReceive('updateUser')->with($user, false)->once();
+        $update = m::mock('Ilios\CoreBundle\Entity\PendingUserUpdate')
+            ->shouldReceive('setType')->with('emailMismatch')->once()
+            ->shouldReceive('setProperty')->with('email')->once()
+            ->shouldReceive('setValue')->with('new-email')->once()
+            ->shouldReceive('setUser')->with($user)->once()
+            ->mock();
+        $this->pendingUserUpdateManager->shouldReceive('createPendingUserUpdate')->andReturn($update)->once();
+        $this->pendingUserUpdateManager->shouldReceive('updatePendingUserUpdate')->with($update, false)->once();
+                
+        $this->em->shouldReceive('flush')->twice();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute(array(
+            'command'      => self::COMMAND_NAME
+        ));
+        
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/Completed sync process 1 users found in the directory; 0 users updated./',
+            $output
+        );
+    }
 }
