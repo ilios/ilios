@@ -802,9 +802,9 @@ class Exporter
         if ($block->getStartDate()) {
             $datesNode = $dom->createElement('Dates');
             $timingNode->appendChild($datesNode);
-            $startDateNode = $dom->createElement('StartDate', $block->getStartDate());
+            $startDateNode = $dom->createElement('StartDate', $block->getStartDate()->format('Y-m-d'));
             $datesNode->appendChild($startDateNode);
-            $endDateNode = $dom->createElement('EndDate', $block->getEndDate());
+            $endDateNode = $dom->createElement('EndDate', $block->getEndDate()->format('Y-m-d'));
             $datesNode->appendChild($endDateNode);
         }
 
