@@ -108,11 +108,11 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Comparing User #42 first last \(email\) to directory user by Campus ID abc/',
+            '/Comparing User #42 first last \(email\) to directory user by campus ID abc./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
+            '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
     }
@@ -169,11 +169,11 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Updating first name from "first" to "new-first"/',
+            '/Updating first name from "first" to "new-first"./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 1 users updated./',
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
     }
@@ -230,11 +230,11 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Updating last name from "last" to "new-last"/',
+            '/Updating last name from "last" to "new-last"./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 1 users updated./',
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
     }
@@ -291,11 +291,11 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Updating phone number from "phone" to "new-phone"/',
+            '/Updating phone number from "phone" to "new-phone"./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 1 users updated./',
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
     }
@@ -363,7 +363,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 1 users updated./',
+            '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
     }
@@ -424,7 +424,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 1 users updated./',
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
     }
@@ -482,11 +482,11 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Updating username from "abc123" to "new-abc123"/',
+            '/Updating username from "abc123" to "new-abc123"./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 1 users updated./',
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
     }
@@ -547,15 +547,15 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Updating username from "" to "abc123"/',
+            '/Updating username from "" to "abc123"./',
             $output
         );
         $this->assertRegExp(
-            '/User had no Authentication data, creating it now\./',
+            '/User had no authentication data, creating it now./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 1 users updated./',
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
             $output
         );
     }
@@ -620,11 +620,11 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Multiple accounts exist for the same Campus ID \(abc\)\.  None of them will be updated\./',
+            '/Multiple accounts exist for the same campus ID \(abc\)\.  None of them will be updated./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
+            '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
     }
@@ -673,11 +673,11 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/firstName is required and it is missing from record with Campus ID \(abc\)\.  User will not be updated./',
+            '/firstName is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
+            '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
     }
@@ -726,11 +726,11 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/lastName is required and it is missing from record with Campus ID \(abc\)\.  User will not be updated./',
+            '/lastName is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
+            '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
     }
@@ -779,11 +779,11 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/email is required and it is missing from record with Campus ID \(abc\)\.  User will not be updated./',
+            '/email is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
+            '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
     }
@@ -832,11 +832,11 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/username is required and it is missing from record with Campus ID \(abc\)\.  User will not be updated./',
+            '/username is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 1 users found in the directory; 0 users updated./',
+            '/Completed sync process 1 users found in the directory; 0 users updated./',
             $output
         );
     }
@@ -888,7 +888,7 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
             $output
         );
         $this->assertRegExp(
-            '/Completed Sync Process 0 users found in the directory; 0 users updated./',
+            '/Completed sync process 0 users found in the directory; 0 users updated./',
             $output
         );
     }
