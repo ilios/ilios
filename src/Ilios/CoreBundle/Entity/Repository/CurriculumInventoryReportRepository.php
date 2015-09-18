@@ -201,7 +201,7 @@ FROM
   JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
   JOIN cohort co ON co.cohort_id = cxc.cohort_id
   JOIN program_year py ON py.program_year_id = co.program_year_id
-  JOIN program p2 ON p2.program_id = py.program_id AND p2.owning_school_id = p.owning_school_id
+  JOIN program p2 ON p2.program_id = py.program_id AND p2.school_id = p.school_id
   JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
   JOIN objective o ON o.objective_id = pyxo.objective_id
 WHERE
@@ -472,14 +472,15 @@ FROM
   JOIN competency_x_aamc_pcrs cxam ON c.competency_id = cxam.competency_id
   JOIN aamc_pcrs am ON am.pcrs_id = cxam.pcrs_id
 WHERE
-  am.pcrs_id IN (:pcrs_ids)
-  AND o.objective_id IN (:program_objective_ids)
+  am.pcrs_id IN (?)
+  AND o.objective_id IN (?)
 EOL;
         $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("pcrs_ids", $pcrsIds, Connection::PARAM_STR_ARRAY);
-        $stmt->bindValue("program_objective_ids", $programObjectivesId, Connection::PARAM_INT_ARRAY);
-        $stmt->execute();
+        $stmt = $conn->executeQuery(
+            $sql,
+            [ $pcrsIds, $programObjectivesId ],
+            [ Connection::PARAM_STR_ARRAY, Connection::PARAM_INT_ARRAY ]
+        );
         $rows = $stmt->fetchAll();
 
         foreach ($rows as $row) {
@@ -528,14 +529,15 @@ FROM
    JOIN course_x_objective cxo ON cxo.objective_id = oxo.objective_id
    JOIN program_year_x_objective pyxo ON pyxo.objective_id = oxo.parent_objective_id
 WHERE
-   oxo.objective_id IN (:course_objective_ids)
-   AND oxo.parent_objective_id IN (:program_objective_ids)
+   oxo.objective_id IN (?)
+   AND oxo.parent_objective_id IN (?)
 EOL;
         $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("course_objective_ids", $courseObjectiveIds, Connection::PARAM_INT_ARRAY);
-        $stmt->bindValue("program_objective_ids", $programObjectiveIds, Connection::PARAM_INT_ARRAY);
-        $stmt->execute();
+        $stmt = $conn->executeQuery(
+            $sql,
+            [ $courseObjectiveIds, $programObjectiveIds ],
+            [ Connection::PARAM_INT_ARRAY, Connection::PARAM_INT_ARRAY ]
+        );
         $rows =  $stmt->fetchAll();
         foreach ($rows as $row) {
             $rhett['relations'][] = [
@@ -584,15 +586,16 @@ FROM
   JOIN session_x_objective sxo ON sxo.objective_id = oxo.objective_id
   JOIN course_x_objective cxo ON cxo.objective_id = oxo.parent_objective_id
 WHERE
-  oxo.objective_id IN (:session_objective_ids)
-  AND oxo.parent_objective_id IN (:course_objective_ids)
+  oxo.objective_id IN (?)
+  AND oxo.parent_objective_id IN (?)
 EOL;
 
         $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("session_objective_ids", $sessionObjectiveIds, Connection::PARAM_INT_ARRAY);
-        $stmt->bindValue("course_objective_ids", $courseObjectiveIds, Connection::PARAM_INT_ARRAY);
-        $stmt->execute();
+        $stmt = $conn->executeQuery(
+            $sql,
+            [ $sessionObjectiveIds, $courseObjectiveIds ],
+            [ Connection::PARAM_INT_ARRAY, Connection::PARAM_INT_ARRAY ]
+        );
         $rows =  $stmt->fetchAll();
         foreach ($rows as $row) {
             $rhett['relations'][] = [
@@ -635,7 +638,7 @@ FROM
   JOIN program_year py ON py.program_year_id = co.program_year_id
   JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
   JOIN objective o ON o.objective_id = pyxo.objective_id
-  JOIN competency cm ON cm.competency_id = o.competency_id AND cm.owning_school_id = p.owning_school_id
+  JOIN competency cm ON cm.competency_id = o.competency_id AND cm.school_id = p.school_id
   JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
   JOIN competency_x_aamc_pcrs cxm ON cxm.competency_id = cm2.competency_id
   JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
@@ -659,7 +662,7 @@ FROM
   JOIN program_year py ON py.program_year_id = co.program_year_id
   JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
   JOIN objective o ON o.objective_id = pyxo.objective_id
-  JOIN competency cm ON cm.competency_id = o.competency_id AND cm.owning_school_id = p.owning_school_id
+  JOIN competency cm ON cm.competency_id = o.competency_id AND cm.school_id = p.school_id
   JOIN competency_x_aamc_pcrs cxm ON cxm.competency_id = cm.competency_id
   JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
 WHERE
