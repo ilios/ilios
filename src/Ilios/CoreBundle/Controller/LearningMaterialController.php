@@ -200,7 +200,7 @@ class LearningMaterialController extends FOSRestController
 
             $handler = $this->getLearningMaterialHandler();
 
-            $learningMaterial = $handler->post($this->getPostData($request));
+            $learningMaterial = $handler->post($postData);
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('create', $learningMaterial)) {
