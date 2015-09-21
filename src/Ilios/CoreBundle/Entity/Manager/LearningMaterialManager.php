@@ -82,4 +82,12 @@ class LearningMaterialManager extends AbstractManager implements LearningMateria
         $class = $this->getClass();
         return new $class();
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function findFileLearningMaterials()
+    {
+        return $this->getRepository()->findFileLearningMaterials();
+    }
 }

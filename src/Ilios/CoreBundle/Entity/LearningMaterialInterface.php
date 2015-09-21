@@ -39,6 +39,11 @@ interface LearningMaterialInterface extends
      * @return string
      */
     public function getToken();
+    
+    /**
+     * Generate a random token for use in downloading
+     */
+    public function generateToken();
 
     /**
      * @param LearningMaterialStatusInterface $status

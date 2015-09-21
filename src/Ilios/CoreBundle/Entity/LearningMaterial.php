@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\Util\SecureRandom;
 
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -19,7 +20,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * Class LearningMaterial
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\LearningMaterialRepository")
  * @ORM\Table(
  *  name="learning_material",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="idx_learning_material_token_unique", columns={"token"})}
@@ -227,6 +228,7 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("relativePath")
      */
     protected $relativePath;
 
@@ -307,11 +309,6 @@ class LearningMaterial implements LearningMaterialInterface
     */
     protected $filesize;
 
-    /**
-     * @var UploadedFile;
-     */
-    protected $resource;
-
 
     /**
      * @var string
@@ -334,6 +331,8 @@ class LearningMaterial implements LearningMaterialInterface
         $this->uploadDate = new \DateTime();
         $this->sessionLearningMaterials = new ArrayCollection();
         $this->courseLearningMaterials = new ArrayCollection();
+        
+        $this->generateToken();
     }
 
     /**
@@ -366,6 +365,22 @@ class LearningMaterial implements LearningMaterialInterface
     public function getToken()
     {
         return $this->token;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function generateToken()
+    {
+        $generator = new SecureRandom();
+        $random = $generator->nextBytes(128);
+        
+        // prepend id to avoid a conflict
+        // and current time to prevent a conflict with regeneration
+        $key = $this->getId() . microtime() . $random;
+        
+        // hash the string to give consistent length and URL safe characters
+        $this->token = hash('sha256', $key);
     }
 
     /**

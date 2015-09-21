@@ -114,6 +114,8 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $uploadDate = new DateTime($responseData['uploadDate']);
         unset($responseData['id']);
         unset($responseData['uploadDate']);
+        $this->assertEquals(64, strlen($responseData['token']));
+        unset($responseData['token']);
         $this->assertEquals(
             $data,
             $responseData,
@@ -143,6 +145,8 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         unset($responseData['id']);
         unset($responseData['uploadDate']);
         unset($responseData['copyrightPermission']);
+        $this->assertEquals(64, strlen($responseData['token']));
+        unset($responseData['token']);
         $this->assertEquals(
             $data,
             $responseData,
@@ -172,6 +176,38 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         unset($responseData['id']);
         unset($responseData['uploadDate']);
         unset($responseData['copyrightPermission']);
+        $this->assertEquals(64, strlen($responseData['token']));
+        unset($responseData['token']);
+        $this->assertEquals(
+            $data,
+            $responseData,
+            $response->getContent()
+        );
+        $now = new DateTime();
+        $diff = $now->diff($uploadDate);
+        $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
+    }
+
+    public function testPostLearningMaterialFile()
+    {
+        $data = $this->container->get('ilioscore.dataloader.learningmaterial')
+          ->createFile();
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_learningmaterials'),
+            json_encode(['learningMaterial' => $data]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
+        $uploadDate = new DateTime($responseData['uploadDate']);
+        unset($responseData['id']);
+        unset($responseData['uploadDate']);
+        $this->assertEquals(64, strlen($responseData['token']));
+        unset($responseData['token']);
         $this->assertEquals(
             $data,
             $responseData,

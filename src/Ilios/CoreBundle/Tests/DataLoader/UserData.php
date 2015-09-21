@@ -16,7 +16,7 @@ class UserData extends AbstractDataLoader
             'email' => $this->faker->email,
             'phone' => $this->faker->phoneNumber,
             'enabled' => true,
-            'learningMaterials' => ['1', '2'],
+            'learningMaterials' => ['1', '2', '3'],
             'publishEvents' => [],
             'reports' => [],
             'school' => '1',

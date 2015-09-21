@@ -102,6 +102,16 @@ class IliosFileSystem
     }
     
     /**
+     * Get a symfony FIle for a path
+     * @param  string $path
+     * @return File
+     */
+    public function getSymfonyFileForPath($path)
+    {
+        return new File($path);
+    }
+    
+    /**
      * Turn a relative path into an ilios file store path
      * @param  [string] $relativePath
      * @return [string]               [the full path]

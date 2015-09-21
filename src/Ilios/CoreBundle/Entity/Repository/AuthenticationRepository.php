@@ -18,8 +18,6 @@ class AuthenticationRepository extends EntityRepository
         $qb->add('select', 'a')->from('IliosCoreBundle:Authentication', 'a');
         $qb->where($qb->expr()->like('u.username', "?1"));
         $qb->setParameter(1, '%' . $username . '%');
-        $result = $this->getEntityManager()
-            ->createQuery($dql)->getSingleResult();
 
         return $qb->getQuery()->getSingleResult();
     }

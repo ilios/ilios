@@ -14,6 +14,13 @@ ilios_core_uploadfile:
     path: /upload
     defaults:  { _controller: IliosCoreBundle:Upload:upload }
 
+ilios_core_downloadlearningmaterial:
+    pattern:     /lm/{token}
+    defaults:
+        _controller: IliosCoreBundle:Download:learningMaterial
+    requirements:
+        token: "^[a-zA-Z0-9]{64}$"
+
 ilios_web:
     resource: "@IliosWebBundle/Resources/config/routing.yml"
     prefix:   /

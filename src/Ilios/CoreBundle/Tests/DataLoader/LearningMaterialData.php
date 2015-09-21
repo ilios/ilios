@@ -23,6 +23,7 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightPermission' => true,
             'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => [1],
+            'token' => 'token1',
             'citation' => $this->faker->text,
         );
 
@@ -38,7 +39,27 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightPermission' => true,
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [2],
+            'token' => 'token2',
             'link' => $this->faker->url,
+        );
+
+        $arr[] = array(
+            'id' => 3,
+            'title' => $this->faker->text(30),
+            'description' => $this->faker->text,
+            'originalAuthor' => $this->faker->name,
+            'userRole' => "2",
+            'status' => "1",
+            'owningUser' => "1",
+            'copyrightRationale' => $this->faker->text,
+            'copyrightPermission' => true,
+            'sessionLearningMaterials' => [],
+            'courseLearningMaterials' => [],
+            'token' => $this->faker->sha256,
+            'relativePath' => 'testfile',
+            'filename' => 'testfile.txt',
+            'mimetype' => 'text/plain',
+            'filesize' => 1000,
         );
 
         return $arr;
@@ -105,7 +126,22 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createFile()
     {
-        throw new \Exception('Not implemented yet');
+        return array(
+            'title' => $this->faker->text(30),
+            'description' => $this->faker->text,
+            'originalAuthor' => $this->faker->name,
+            'userRole' => "2",
+            'status' => "1",
+            'owningUser' => "1",
+            'sessionLearningMaterials' => [],
+            'courseLearningMaterials' => [],
+            'copyrightRationale' => $this->faker->text,
+            'copyrightPermission' => true,
+            'relativePath' => 'testfile',
+            'filename' => 'testfile.txt',
+            'mimetype' => 'text/plain',
+            'filesize' => 1000,
+        );
     }
 
     /**
