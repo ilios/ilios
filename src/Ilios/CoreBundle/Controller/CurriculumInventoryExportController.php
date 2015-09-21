@@ -48,7 +48,6 @@ class CurriculumInventoryExportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-
             $data = $this->getPostData($request);
             $data['document'] = 'lorem ipsum'; // fake the data document, we'll generate/set the real one further down.
 
@@ -75,8 +74,6 @@ class CurriculumInventoryExportController extends FOSRestController
                 true,
                 false
             );
-
-
 
             // OF NOTE:
             // We remove the document before returning the export to keep the payload at a reasonable size.
