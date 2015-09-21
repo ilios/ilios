@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Tests\DependencyInjection;
+namespace Ilios\AuthenticationBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Ilios\AuthenticationBundle\DependencyInjection\IliosAuthenticationExtension;
