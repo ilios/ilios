@@ -47,7 +47,7 @@ interface CurriculumInventorySequenceBlockInterface extends
     const PARALLEL = 3;
 
     /**
-     * @param boolean $required
+     * @param int $required
      */
     public function setRequired($required);
 
