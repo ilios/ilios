@@ -5,8 +5,8 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
- * CurriculumInventoryExport controller Test.
- * @package Ilios\CoreBundle\Test\Controller;
+ * Class CurriculumInventoryExportControllerTest
+ * @package Ilios\CoreBundle\Tests\Controller
  */
 class CurriculumInventoryExportControllerTest extends AbstractControllerTest
 {
