@@ -48,8 +48,15 @@ class CurriculumInventoryExportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getCurriculumInventoryExportHandler();
 
+            $data = $this->getPostData($request);
+
+            // fill in the blanks
+            $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+            $data['document'] = 'lorem ipsum'; // fake the data document, we'll generate/set the real one further down.
+            $document['createdBy'] = $currentUser->getId();
+
+            $handler = $this->getCurriculumInventoryExportHandler();
             /** @var CurriculumInventoryExportInterface $curriculumInventoryExport */
             $curriculumInventoryExport = $handler->post($data);
 
@@ -58,15 +65,11 @@ class CurriculumInventoryExportController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
+            // generate and set the report document
             /** @var Exporter $exporter */
             $exporter = $this->container->get('ilioscore.curriculum_inventory.exporter');
-
             $document = $exporter->getXmlReport($curriculumInventoryExport->getReport());
-
             $curriculumInventoryExport->setDocument($document);
-
-            $currentUser = $this->get('security.token_storage')->getToken()->getUser();
-            $curriculumInventoryExport->setCreatedBy($currentUser);
 
             $handler->updateCurriculumInventoryExport(
                 $curriculumInventoryExport,
@@ -74,8 +77,10 @@ class CurriculumInventoryExportController extends FOSRestController
                 false
             );
 
-            // Remove the document before returning the export to keep the payload at a reasonable size.
+            // OF NOTE:
+            // We remove the document before returning the export to keep the payload at a reasonable size.
             // The exported report document can be retrieved via the curriculum inventory download controller.
+            // [ST 2015/09/21]
             $curriculumInventoryExport->setDocument('');
             $answer['curriculumInventoryExports'] = [$curriculumInventoryExport];
 
