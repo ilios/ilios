@@ -39,3 +39,8 @@ services:
         arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.pendinguserupdate.manager", "@ilioscore.directory", "@doctrine.orm.entity_manager"]
         tags:
             -  { name: console.command }
+    ilioscli.command.migrate_learningmaterials:
+        class: Ilios\CliBundle\Command\MigrateIlios2LearningMaterialsCommand
+        arguments: ["@filesystem", "@ilioscore.filesystem", "@ilioscore.learningmaterial.manager"]
+        tags:
+            -  { name: console.command }

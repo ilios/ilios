@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * Class LearningMaterial
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\LearningMaterialRepository")
  * @ORM\Table(
  *  name="learning_material",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="idx_learning_material_token_unique", columns={"token"})}

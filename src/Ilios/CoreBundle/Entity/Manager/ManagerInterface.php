@@ -12,4 +12,9 @@ interface ManagerInterface
      * @return string
      */
     public function getClass();
+
+    /**
+     * Flush and clear the entity manager when doing bulk updates
+     */
+    public function flushAndClear();
 }

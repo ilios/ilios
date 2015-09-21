@@ -60,10 +60,20 @@ abstract class AbstractManager implements ManagerInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getClass()
     {
         return $this->class;
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function flushAndClear()
+    {
+        $this->em->flush();
+        $this->em->clear();
+    }
+    
 }

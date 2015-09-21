@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Classes;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
+use \Symfony\Component\HttpFoundation\File\File;
 
 use Ilios\CoreBundle\Classes\IliosFileSystem;
 
@@ -144,5 +145,30 @@ class IliosFileSystemTest extends TestCase
             $hash
         ];
         return implode($parts, '/');
+    }
+
+    public function testGetSymfonyFileForPath()
+    {
+        $fs = new SymfonyFileSystem();
+        $someJunk = 'whatever dude';
+        $hash = md5($someJunk);
+        $hashDirectory = substr($hash, 0, 2);
+        $parts = [
+            $this->fakeTestFileDir,
+            'learning_materials',
+            'lm',
+            $hashDirectory
+        ];
+        $dir = implode($parts, '/');
+        $fs->mkdir($dir);
+        $testFilePath = $dir . '/' . $hash;
+        file_put_contents($testFilePath, $someJunk);
+        $file = $this->iliosFileSystem->getSymfonyFileForPath($testFilePath);
+        
+        $this->assertTrue($file instanceof File);
+        $this->assertSame($testFilePath, $file->getPathname());
+        $this->assertSame(file_get_contents($file->getPathname()), $someJunk);
+
+        $fs->remove($this->fakeTestFileDir . '/learning_materials');
     }
 }

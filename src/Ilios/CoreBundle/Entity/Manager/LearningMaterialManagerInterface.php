@@ -63,4 +63,9 @@ interface LearningMaterialManagerInterface extends ManagerInterface
      * @return LearningMaterialInterface
      */
     public function createLearningMaterial();
+    
+    /**
+     * Find all the File type learning materials
+     */
+    public function findFileLearningMaterials();
 }
