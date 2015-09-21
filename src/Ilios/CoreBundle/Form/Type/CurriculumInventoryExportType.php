@@ -19,10 +19,6 @@ class CurriculumInventoryExportType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])
-            ->add('createdBy', 'tdn_single_related', [
-                'required' => false,
-                'entityName' => 'IliosCoreBundle:User'
-            ])
             ->add('document', null, [ 'required' => false ]);
     }
 
