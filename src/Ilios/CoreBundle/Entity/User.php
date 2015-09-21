@@ -441,6 +441,17 @@ class User implements UserInterface
     protected $primaryCohort;
 
     /**
+     * @var ArrayCollection|PendingUserUpdateInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="PendingUserUpdate", mappedBy="user")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("pendingUserUpdates")
+     */
+    protected $pendingUserUpdates;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -459,6 +470,7 @@ class User implements UserInterface
         $this->publishEvents        = new ArrayCollection();
         $this->reports              = new ArrayCollection();
         $this->cohorts              = new ArrayCollection();
+        $this->pendingUserUpdates   = new ArrayCollection();
         $this->addedViaIlios = false;
         $this->enabled = true;
         $this->examined = false;
@@ -1127,6 +1139,35 @@ class User implements UserInterface
     public function getAuditLogs()
     {
         return $this->auditLogs;
+    }
+
+    /**
+     * @param Collection $pendingUserUpdates
+     */
+    public function setPendingUserUpdates(Collection $pendingUserUpdates)
+    {
+        $this->pendingUserUpdates = new ArrayCollection();
+
+        foreach ($pendingUserUpdates as $pendingUserUpdate) {
+            $this->addPendingUserUpdate($pendingUserUpdate);
+        }
+    }
+
+    /**
+     * @param PendingUserUpdateInterface $pendingUserUpdate
+     */
+    public function addPendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate)
+    {
+        $this->pendingUserUpdates->add($pendingUserUpdate);
+
+    }
+
+    /**
+     * @return ArrayCollection|PendingUserUpdateInterface[]
+     */
+    public function getPendingUserUpdates()
+    {
+        return $this->pendingUserUpdates;
     }
 
     /**

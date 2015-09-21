@@ -24,6 +24,7 @@ class UserControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadUserMadeReminderData',
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadPendingUserUpdateData',
         ]);
     }
 
