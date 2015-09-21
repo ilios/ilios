@@ -214,18 +214,15 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.usermadereminder.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData',
             'ilioscore.dataloader.userrole.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserRoleData',
             'ilioscore.dataloader.user.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserData',
-<<<<<<< HEAD
             'ilios_core.ldap.url' => $ldapUrl,
             'ilios_core.ldap.user' => $ldapUser,
             'ilios_core.ldap.password' => $ldapPassword,
             'ilios_core.ldap.search_base' => $ldapSearchBase,
             'ilios_core.ldap.campus_id_property' => $ldapCampusIdProperty,
             'ilios_core.ldap.username_property' => $ldapUsernameProperty,
-=======
             'ilios_core.file_store_path' => $fileSystemStoragePath,
             'ilios_core.institution_domain' => 'ucsf.edu',
             'ilios_core.supporting_link' => 'https://inventory.ucsf.edu'
->>>>>>> updated di tests.
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);
