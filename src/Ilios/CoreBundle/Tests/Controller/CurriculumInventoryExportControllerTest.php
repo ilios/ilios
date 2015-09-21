@@ -20,6 +20,8 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryExportData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceData',
         ]);
     }
 
@@ -38,8 +40,7 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
      */
     public function testPostCurriculumInventoryExport()
     {
-        $data = $this->container->get('ilioscore.dataloader.curriculuminventoryexport')->create();
-        $postData = $data;
+        $postData = $this->container->get('ilioscore.dataloader.curriculuminventoryexport')->create();
 
         $this->createJsonRequest(
             'POST',
@@ -49,7 +50,11 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
+        $responseData = json_decode($response->getContent(), true)['curriculumInventoryExports'][0];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $this->assertEquals($responseData['report'], $postData['report']);
+        $this->assertNotEmpty($responseData['createdBy']);
+        $this->assertEmpty($responseData['document'], ''); // yes, we expect an empty string here.
     }
 }
