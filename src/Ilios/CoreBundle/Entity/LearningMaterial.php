@@ -228,6 +228,7 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("relativePath")
      */
     protected $relativePath;
 
@@ -307,11 +308,6 @@ class LearningMaterial implements LearningMaterialInterface
     * @JMS\Type("integer")
     */
     protected $filesize;
-
-    /**
-     * @var UploadedFile;
-     */
-    protected $resource;
 
 
     /**

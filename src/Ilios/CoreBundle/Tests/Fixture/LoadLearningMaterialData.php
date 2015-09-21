@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class LoadLearningMaterialData extends AbstractFixture implements
     FixtureInterface,
@@ -28,6 +29,8 @@ class LoadLearningMaterialData extends AbstractFixture implements
         $data = $this->container
             ->get('ilioscore.dataloader.learningMaterial')
             ->getAll();
+        $fs = new Filesystem();
+        $storePath = $this->container->getParameter('ilios_core.file_store_path');
         foreach ($data as $arr) {
             $entity = new LearningMaterial();
             if (array_key_exists('id', $arr)) {
@@ -41,11 +44,23 @@ class LoadLearningMaterialData extends AbstractFixture implements
             $entity->setUserRole($this->getReference('learningMaterialUserRoles' . $arr['userRole']));
             $entity->setStatus($this->getReference('learningMaterialStatus' . $arr['status']));
             $entity->setOwningUser($this->getReference('users' . $arr['owningUser']));
-            if (array_key_exists('link', $arr)) {
-                $entity->setLink($arr['link']);
+            $optional = [
+                'link',
+                'citation',
+                'filename',
+                'mimetype',
+                'filesize',
+                'token',
+            ];
+            foreach ($optional as $key) {
+                if (array_key_exists($key, $arr)) {
+                    $method = 'set' . ucfirst($key);
+                    $entity->$method($arr[$key]);
+                }
             }
-            if (array_key_exists('citation', $arr)) {
-                $entity->setCitation($arr['citation']);
+            if (array_key_exists('relativePath', $arr)) {
+                $entity->setRelativePath($arr['relativePath']);
+                $fs->copy(__FILE__, $storePath . '/' . $arr['relativePath']);
             }
 
             $manager->persist($entity);

@@ -75,5 +75,4 @@ abstract class AbstractManager implements ManagerInterface
         $this->em->flush();
         $this->em->clear();
     }
-    
 }

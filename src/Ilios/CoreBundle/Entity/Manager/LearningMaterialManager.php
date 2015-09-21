@@ -90,5 +90,4 @@ class LearningMaterialManager extends AbstractManager implements LearningMateria
     {
         return $this->getRepository()->findFileLearningMaterials();
     }
-    
 }
