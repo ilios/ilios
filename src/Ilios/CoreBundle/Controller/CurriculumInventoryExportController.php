@@ -51,7 +51,7 @@ class CurriculumInventoryExportController extends FOSRestController
             $handler = $this->getCurriculumInventoryExportHandler();
 
             /** @var CurriculumInventoryExportInterface $curriculumInventoryExport */
-            $curriculumInventoryExport = $handler->post($this->getPostData($request));
+            $curriculumInventoryExport = $handler->post($data);
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('create', $curriculumInventoryExport)) {
@@ -62,8 +62,10 @@ class CurriculumInventoryExportController extends FOSRestController
             $exporter = $this->container->get('ilioscore.curriculum_inventory.exporter');
 
             $document = $exporter->getXmlReport($curriculumInventoryExport->getReport());
-            $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+
             $curriculumInventoryExport->setDocument($document);
+
+            $currentUser = $this->get('security.token_storage')->getToken()->getUser();
             $curriculumInventoryExport->setCreatedBy($currentUser);
 
             $handler->updateCurriculumInventoryExport(
