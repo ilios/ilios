@@ -36,7 +36,7 @@ class CurriculumInventoryDownloadControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @covers CurriculumInventoryDownloadController::getAction
+     * @covers Ilios\CoreBundle\Controller\CurriculumInventoryDownloadController::getAction
      */
     public function testGetCurriculumInventoryDownload()
     {
