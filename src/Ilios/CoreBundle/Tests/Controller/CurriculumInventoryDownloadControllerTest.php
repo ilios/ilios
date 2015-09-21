@@ -38,10 +38,10 @@ class CurriculumInventoryDownloadControllerTest extends AbstractControllerTest
     /**
      * @covers CurriculumInventoryDownloadController::getAction
      */
-    public function testGetCurriculumInventoryAcademicLevel()
+    public function testGetCurriculumInventoryDownload()
     {
         $curriculumInventoryExport = $this->container
-            ->get('ilioscore.dataloader.curriculuminventoryexports')
+            ->get('ilioscore.dataloader.curriculuminventoryexport')
             ->getOne()
         ;
 
@@ -49,14 +49,14 @@ class CurriculumInventoryDownloadControllerTest extends AbstractControllerTest
             'GET',
             $this->getUrl(
                 'get_curriculuminventorydownloads',
-                ['report' => $curriculumInventoryExport['report']]
+                ['id' => $curriculumInventoryExport['report']]
             ),
             null,
             $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertEquals($curriculumInventoryExport['document'], $response->getContent());
+        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode(), $response->getContent());
     }
 }
