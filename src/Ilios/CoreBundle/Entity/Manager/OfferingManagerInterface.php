@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 
 /**
@@ -62,4 +63,13 @@ interface OfferingManagerInterface extends ManagerInterface
      * @return OfferingInterface
      */
     public function createOffering();
+
+
+    /**
+     * Retrieves offerings starting X days from now.
+     *
+     * @param int $daysInAdvance Days in advance from now.
+     * @return Collection|OfferingInterface[]
+     */
+    public function getOfferingsForTeachingReminders($daysInAdvance);
 }
