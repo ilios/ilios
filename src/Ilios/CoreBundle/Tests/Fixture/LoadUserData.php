@@ -36,6 +36,7 @@ class LoadUserData extends AbstractFixture implements
             $entity->setMiddleName($arr['middleName']);
             $entity->setEmail($arr['email']);
             $entity->setEnabled($arr['enabled']);
+            $entity->setIcsFeedKey($arr['icsFeedKey']);
             $entity->setPhone($arr['phone']);
             foreach ($arr['roles'] as $id) {
                 $entity->addRole($this->getReference('userRoles' . $id));

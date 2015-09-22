@@ -30,7 +30,8 @@
         "jms/serializer-bundle": "~0.13.0",
         "tdn/php-types": "1.*",
         "matthiasnoback/symfony-console-form": "^1.1",
-        "dreamscapes/ldap-core": "^3.1"
+        "dreamscapes/ldap-core": "^3.1",
+        "eluceo/ical": "^0.8.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",

@@ -1,3 +1,9 @@
+ilios_web_ics:
+    pattern:     /ics/{key}
+    defaults:
+        _controller: IliosWebBundle:Ics:index
+    requirements:
+        key: "^[a-zA-Z0-9]{64}$"
 ilios_web_homepage:
     pattern:     /{url}
     defaults:
