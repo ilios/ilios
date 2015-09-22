@@ -295,6 +295,21 @@ interface UserInterface extends
     public function getReports();
 
     /**
+     * @param Collection $pendingUserUpdates
+     */
+    public function setPendingUserUpdates(Collection $pendingUserUpdates);
+
+    /**
+     * @param PendingUserUpdateInterface $pendingUserUpdate
+     */
+    public function addPendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate);
+
+    /**
+     * @return ArrayCollection|PendingUserUpdateInterface[]
+     */
+    public function getPendingUserUpdates();
+
+    /**
      * @inheritDoc
      */
     public function serialize();

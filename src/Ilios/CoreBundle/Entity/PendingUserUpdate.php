@@ -92,7 +92,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     /**
      * @var UserInterface
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="reminders")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="pendingUserUpdates")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      * })

@@ -98,6 +98,10 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
             ])
+            ->add('pendingUserUpdates', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:PendingUserUpdate"
+            ])
         ;
     }
 

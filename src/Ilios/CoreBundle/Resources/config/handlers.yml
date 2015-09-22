@@ -33,6 +33,7 @@ parameters:
     ilioscore.objective.handler.class: Ilios\CoreBundle\Handler\ObjectiveHandler
     ilioscore.offering.handler.class: Ilios\CoreBundle\Handler\OfferingHandler
     ilioscore.permission.handler.class: Ilios\CoreBundle\Handler\PermissionHandler
+    ilioscore.pendinguserupdate.handler.class: Ilios\CoreBundle\Handler\PendingUserUpdateHandler
     ilioscore.program.handler.class: Ilios\CoreBundle\Handler\ProgramHandler
     ilioscore.programyear.handler.class: Ilios\CoreBundle\Handler\ProgramYearHandler
     ilioscore.programyearsteward.handler.class: Ilios\CoreBundle\Handler\ProgramYearStewardHandler
@@ -152,6 +153,9 @@ services:
     ilioscore.permission.handler:
         class: %ilioscore.permission.handler.class%
         arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Permission, '@form.factory']
+    ilioscore.pendinguserupdate.handler:
+        class: %ilioscore.pendinguserupdate.handler.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\PendingUserUpdate, '@form.factory']
     ilioscore.program.handler:
         class: %ilioscore.program.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Program, '@form.factory']

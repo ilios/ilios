@@ -246,6 +246,12 @@ api_offering_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+api_pendinguserupdate_v1:
+    resource: "@IliosCoreBundle/Controller/PendingUserUpdateController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
 api_program_v1:
     resource: "@IliosCoreBundle/Controller/ProgramController.php"
     type:     rest
