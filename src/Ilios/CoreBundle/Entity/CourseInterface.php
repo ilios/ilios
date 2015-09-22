@@ -142,6 +142,11 @@ interface CourseInterface extends
     public function getTopics();
 
     /**
+     * @param Collection|TopicInterface[] $topics
+     */
+    public function setTopics(Collection $topics = null);
+
+    /**
      * @param Collection|ObjectiveInterface[] $objectives
      */
     public function setObjectives(Collection $objectives);
