@@ -61,10 +61,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
         }
         $eppn = $request->server->get('eppn');
         if (!$eppn) {
-            throw new \Exception(
-                "No 'eepn' found for authenticated user.  Dump of SERVER global: " .
-                var_export($_SERVER, true)
-            );
+            throw new \Exception("No 'eppn' found for authenticated user.");
         }
         $authEntity = $this->authManager->findAuthenticationBy(array('username' => $eppn));
         if (!$authEntity) {
