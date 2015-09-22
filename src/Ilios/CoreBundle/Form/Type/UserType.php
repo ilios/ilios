@@ -24,7 +24,6 @@ class UserType extends AbstractType
             ->add('enabled', null, ['required' => false])
             ->add('campusId', null, ['required' => false])
             ->add('icsFeedKey')
-            ->add('ucUid', null, ['required' => false])
             ->add('otherId', null, ['required' => false])
             ->add('examined', null, ['required' => false])
             ->add('userSyncIgnore', null, ['required' => false])
