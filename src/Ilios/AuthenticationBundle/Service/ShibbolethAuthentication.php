@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,19 +24,26 @@ class ShibbolethAuthentication implements AuthenticationInterface
      * @var JsonWebTokenManager
      */
     protected $jwtManager;
-    
-    
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
     /**
      * Constructor
      * @param AuthenticationManagerInterface $authManager
      * @param JsonWebTokenManager            $jwtManager
+     * @param LoggerInterface                $logger
      */
     public function __construct(
         AuthenticationManagerInterface $authManager,
-        JsonWebTokenManager $jwtManager
+        JsonWebTokenManager $jwtManager,
+        LoggerInterface $logger
     ) {
         $this->authManager = $authManager;
         $this->jwtManager = $jwtManager;
+        $this->logger = $logger;
     }
     
     /**
@@ -61,7 +69,9 @@ class ShibbolethAuthentication implements AuthenticationInterface
         }
         $eppn = $request->server->get('eppn');
         if (!$eppn) {
-            throw new \Exception("No 'eppn' found for authenticated user.");
+            $msg =  "No 'eppn' found for authenticated user.";
+            $this->logger->error($msg, ['server vars' => var_export($_SERVER, true)]);
+            throw new \Exception($msg);
         }
         $authEntity = $this->authManager->findAuthenticationBy(array('username' => $eppn));
         if (!$authEntity) {
