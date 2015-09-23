@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Classes\CurriculumInventory;
+namespace Ilios\CoreBundle\Service\CurriculumInventory;
 
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\ProgramInterface;
  * @link http://www.medbiq.org/sites/default/files/files/CurriculumInventorySpecification.pdf
  * @link http://ns.medbiq.org/curriculuminventory/v1/curriculuminventory.xsd
  *
- * @package Ilios\CoreBundle\Classes\CurriculumInventory
+ * @package Ilios\CoreBundle\Service\CurriculumInventory
  */
 class Exporter
 {

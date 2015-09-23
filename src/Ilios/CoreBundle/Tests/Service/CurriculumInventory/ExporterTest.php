@@ -1,21 +1,21 @@
 <?php
-namespace Ilios\CoreBundle\Tests\Classes\CurriculumInventory;
+namespace Ilios\CoreBundle\Tests\Service\CurriculumInventory;
 
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
-use Ilios\CoreBundle\Classes\CurriculumInventory\Exporter;
+use Ilios\CoreBundle\Service\CurriculumInventory\Exporter;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
 
 /**
  * Class ExporterTest
- * @package Ilios\CoreBundle\Tests\Classes\CurriculumInventory
+ * @package Ilios\CoreBundle\Tests\Service\CurriculumInventory
  */
 class ExporterTest extends TestCase
 {
 
     /**
-     * @covers Ilios\CoreBundle\Classes\CurriculumInventory\Exporter::__construct
+     * @covers Ilios\CoreBundle\Service\CurriculumInventory\Exporter::__construct
      */
     public function testConstructor()
     {
