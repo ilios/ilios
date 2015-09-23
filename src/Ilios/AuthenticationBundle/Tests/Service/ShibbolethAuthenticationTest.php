@@ -18,9 +18,11 @@ class ShibbolethAuthenticationTest extends TestCase
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
+        $logger = m::mock('Psr\Log\LoggerInterface');
         $obj = new ShibbolethAuthentication(
             $authManager,
-            $jwtManager
+            $jwtManager,
+            $logger
         );
         $this->assertTrue($obj instanceof ShibbolethAuthentication);
     }
@@ -29,9 +31,12 @@ class ShibbolethAuthenticationTest extends TestCase
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
+        $logger = m::mock('Psr\Log\LoggerInterface');
+
         $obj = new ShibbolethAuthentication(
             $authManager,
-            $jwtManager
+            $jwtManager,
+            $logger
         );
         
         $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')
@@ -52,11 +57,14 @@ class ShibbolethAuthenticationTest extends TestCase
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
+        $logger = m::mock('Psr\Log\LoggerInterface');
+
         $obj = new ShibbolethAuthentication(
             $authManager,
-            $jwtManager
+            $jwtManager,
+            $logger
         );
-        
+
         $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')
             ->shouldReceive('get')->with('Shib-Application-ID')->andReturn(true)
             ->shouldReceive('get')->with('eppn')->andReturn(false)
@@ -71,11 +79,14 @@ class ShibbolethAuthenticationTest extends TestCase
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
+        $logger = m::mock('Psr\Log\LoggerInterface');
+
         $obj = new ShibbolethAuthentication(
             $authManager,
-            $jwtManager
+            $jwtManager,
+            $logger
         );
-        
+
         $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')
             ->shouldReceive('get')->with('Shib-Application-ID')->andReturn(true)
             ->shouldReceive('get')->with('eppn')->andReturn('userid1')
@@ -98,9 +109,11 @@ class ShibbolethAuthenticationTest extends TestCase
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
+        $logger = m::mock('Psr\Log\LoggerInterface');
         $obj = new ShibbolethAuthentication(
             $authManager,
-            $jwtManager
+            $jwtManager,
+            $logger
         );
         
         $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')
