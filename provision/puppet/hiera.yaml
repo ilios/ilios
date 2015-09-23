@@ -5,7 +5,7 @@
     - yaml
 
 :yaml:
-    :datadir: '/vagrant/provision/puppet/environments'
+    :datadir: '/etc/puppetlabs/code/environments'
 
 :hierarchy:
     - '%{environment}/hiera/%{fqdn}'

@@ -23,6 +23,6 @@ class profile::common::apache (
         target => '/var/log/apache2',
         owner => $user,
         group => $group,
-        mode => 0777
+        mode => '0777'
     }
 }

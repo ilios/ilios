@@ -5,7 +5,6 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.ssh.shell = "bash -c 'BASH_ENV=/home/vagrant/.bashrc exec bash'"
     config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
-    config.vm.box_download_insecure = true
     config.vm.hostname = "ilios.dev"
     config.vm.network :private_network, ip: "10.10.10.10"
     config.vm.network "forwarded_port", guest: 443, host: 8443, host_ip: "127.0.0.1"
