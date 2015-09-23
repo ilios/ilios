@@ -63,4 +63,85 @@ interface CurriculumInventoryReportManagerInterface extends ManagerInterface
      * @return CurriculumInventoryReportInterface
      */
     public function createCurriculumInventoryReport();
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
+     */
+    public function getEvents(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
+     */
+    public function getEventKeywords(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
+     */
+    public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
+     */
+    public function getProgramObjectives(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
+     */
+    public function getSessionObjectives(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
+     */
+    public function getCourseObjectives(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
+     */
+    public function getPcrs(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
+     */
+    public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
+     */
+    public function getCompetencyObjectReferencesForEvents(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param array $sessionObjectiveIds
+     * @param array $courseObjectiveIds
+     * @return array
+     */
+    public function getSessionObjectivesToCourseObjectivesRelations(
+        array $sessionObjectiveIds,
+        array $courseObjectiveIds
+    );
+
+    /**
+     * @param array $courseObjectiveIds
+     * @param array $programObjectiveIds
+     * @return array
+     */
+    public function getCourseObjectivesToProgramObjectivesRelations(
+        array $courseObjectiveIds,
+        array $programObjectiveIds
+    );
+
+    /**
+     * @param array $programObjectiveIds
+     * @param array $pcrsIds
+     * @return array
+     */
+    public function getProgramObjectivesToPcrsRelations(array $programObjectiveIds, array $pcrsIds);
 }

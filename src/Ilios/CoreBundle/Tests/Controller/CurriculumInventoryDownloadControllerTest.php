@@ -5,10 +5,10 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
- * Class CurriculumInventoryExportControllerTest
+ * Class CurriculumInventoryDownloadControllerTest
  * @package Ilios\CoreBundle\Tests\Controller
  */
-class CurriculumInventoryExportControllerTest extends AbstractControllerTest
+class CurriculumInventoryDownloadControllerTest extends AbstractControllerTest
 {
     /**
      * @return array|string
@@ -36,25 +36,27 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\Controller\CurriculumInventoryExportController::postAction
+     * @covers Ilios\CoreBundle\Controller\CurriculumInventoryDownloadController::getAction
      */
-    public function testPostCurriculumInventoryExport()
+    public function testGetCurriculumInventoryDownload()
     {
-        $postData = $this->container->get('ilioscore.dataloader.curriculuminventoryexport')->create();
+        $curriculumInventoryExport = $this->container
+            ->get('ilioscore.dataloader.curriculuminventoryexport')
+            ->getOne()
+        ;
 
         $this->createJsonRequest(
-            'POST',
-            $this->getUrl('post_curriculuminventoryexports'),
-            json_encode(['curriculumInventoryExport' => $postData]),
+            'GET',
+            $this->getUrl(
+                'get_curriculuminventorydownloads',
+                ['id' => $curriculumInventoryExport['report']]
+            ),
+            null,
             $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $responseData = json_decode($response->getContent(), true)['curriculumInventoryExports'][0];
-
-        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
-        $this->assertEquals($responseData['report'], $postData['report']);
-        $this->assertNotEmpty($responseData['createdBy']);
-        $this->assertEmpty($responseData['document'], ''); // yes, we expect an empty string here.
+        $this->assertEquals($curriculumInventoryExport['document'], $response->getContent());
+        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode(), $response->getContent());
     }
 }

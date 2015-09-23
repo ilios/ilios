@@ -32,6 +32,8 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ldap_directory_search_base' => $ldapSearchBase,
             'ldap_directory_campus_id_property' => $ldapCampusIdProperty,
             'ldap_directory_username_property' => $ldapUsernameProperty,
+            'institution_domain' => 'ucsf.edu',
+            'supporting_link' => 'https://inventory.ucsf.edu',
         ));
         $parameters = array(
             'ilioscore.aamcmethod.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AamcMethodManager',
@@ -218,6 +220,9 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilios_core.ldap.search_base' => $ldapSearchBase,
             'ilios_core.ldap.campus_id_property' => $ldapCampusIdProperty,
             'ilios_core.ldap.username_property' => $ldapUsernameProperty,
+            'ilios_core.file_store_path' => $fileSystemStoragePath,
+            'ilios_core.institution_domain' => 'ucsf.edu',
+            'ilios_core.supporting_link' => 'https://inventory.ucsf.edu'
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);

@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
+use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
+
 class CurriculumInventorySequenceBlockData extends AbstractDataLoader
 {
     protected function getData()
@@ -18,7 +20,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'minimum' => 1,
             'maximum' => 1,
             'duration' => 1,
-            'required' => true,
+            'required' => CurriculumInventorySequenceBlockInterface::REQUIRED,
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
             'children' => ['2'],
@@ -33,7 +35,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'minimum' => 1,
             'maximum' => 1,
             'duration' => 1,
-            'required' => true,
+            'required' => CurriculumInventorySequenceBlockInterface::OPTIONAL,
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
             'children' => [],
@@ -58,7 +60,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'minimum' => 1,
             'maximum' => 1,
             'duration' => 1,
-            'required' => true,
+            'required' => CurriculumInventorySequenceBlockInterface::REQUIRED_IN_TRACK,
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
             'children' => [],

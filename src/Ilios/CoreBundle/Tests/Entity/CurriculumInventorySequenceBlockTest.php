@@ -1,7 +1,9 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity;
 
+use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock;
+use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Mockery as m;
 
 /**
@@ -49,11 +51,11 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setRequired
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::isRequired
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getRequired
      */
     public function testSetRequired()
     {
-        $this->booleanSetTest('required');
+        $this->basicSetTest('required', 'integer');
     }
 
     /**
@@ -180,5 +182,135 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     public function testSetReport()
     {
         $this->entitySetTest('report', 'CurriculumInventoryReport');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithOrderedStrategy
+     * @dataProvider testCompareSequenceBlocksWithOrderedStrategyProvider
+     *
+     * @param CurriculumInventorySequenceBlockInterface $blockA
+     * @param CurriculumInventorySequenceBlockInterface $blockB
+     * @param int $expected
+     */
+    public function testCompareSequenceBlocksWithOrderedStrategy(
+        CurriculumInventorySequenceBlockInterface $blockA,
+        CurriculumInventorySequenceBlockInterface $blockB,
+        $expected
+    ) {
+        $this->assertEquals(
+            $expected,
+            CurriculumInventorySequenceBlock::compareSequenceBlocksWithOrderedStrategy($blockA, $blockB)
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function testCompareSequenceBlocksWithOrderedStrategyProvider()
+    {
+        $rhett = [];
+
+        $blockA = new CurriculumInventorySequenceBlock();
+        $blockA->setId(1);
+        $blockA->setOrderInSequence(1);
+
+        // same as A but different order
+        $blockB = new CurriculumInventorySequenceBlock();
+        $blockB->setId(1);
+        $blockB->setOrderInSequence(2);
+
+        // same as B but different id
+        $blockC = new CurriculumInventorySequenceBlock();
+        $blockC->setId(2);
+        $blockC->setOrderInSequence(2);
+
+        $rhett[] = [ $blockA, $blockA, 0 ];
+        $rhett[] = [ $blockA, $blockB, -1 ];
+        $rhett[] = [ $blockB, $blockA, 1 ];
+        $rhett[] = [ $blockB, $blockC, 0 ];
+        $rhett[] = [ $blockC, $blockB, 0 ];
+        $rhett[] = [ $blockA, $blockC, -1 ];
+        $rhett[] = [ $blockC, $blockA, 1 ];
+
+        return $rhett;
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy
+     * @dataProvider testCompareSequenceBlocksWithDefaultStrategyProvider
+     *
+     * @param CurriculumInventorySequenceBlockInterface $blockA
+     * @param CurriculumInventorySequenceBlockInterface $blockB
+     * @param int $expected
+     */
+    public function testCompareSequenceBlocksWithDefaultStrategy(
+        CurriculumInventorySequenceBlockInterface $blockA,
+        CurriculumInventorySequenceBlockInterface $blockB,
+        $expected
+    ) {
+        $this->assertEquals(
+            $expected,
+            CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy($blockA, $blockB)
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function testCompareSequenceBlocksWithDefaultStrategyProvider()
+    {
+        $rhett = [];
+
+        $level1 = new CurriculumInventoryAcademicLevel();
+        $level1->setLevel(1);
+
+        $level10 = new CurriculumInventoryAcademicLevel();
+        $level10->setLevel(10);
+
+        $blockA = new CurriculumInventorySequenceBlock();
+        $blockA->setId(1);
+        $blockA->setTitle("Alpha");
+        $blockA->setStartDate(new \DateTime('2015-09-17'));
+        $blockA->setAcademicLevel($level1);
+
+        // same as A but with different level
+        $blockB = new CurriculumInventorySequenceBlock();
+        $blockB->setId(1);
+        $blockB->setTitle("Alpha");
+        $blockB->setStartDate(new \DateTime('2015-09-17'));
+        $blockB->setAcademicLevel($level10);
+
+        // same as A but with different start date
+        $blockC = new CurriculumInventorySequenceBlock();
+        $blockC->setId(1);
+        $blockC->setTitle("Alpha");
+        $blockC->setStartDate(new \DateTime('2019-09-17'));
+        $blockC->setAcademicLevel($level1);
+
+        // same as A but with different title
+        $blockD = new CurriculumInventorySequenceBlock();
+        $blockD->setId(1);
+        $blockD->setTitle("Beta");
+        $blockD->setStartDate(new \DateTime('2015-09-17'));
+        $blockD->setAcademicLevel($level1);
+
+        // same as A but with different id
+        $blockE = new CurriculumInventorySequenceBlock();
+        $blockE->setId(2);
+        $blockE->setTitle("Alpha");
+        $blockE->setStartDate(new \DateTime('2015-09-17'));
+        $blockE->setAcademicLevel($level1);
+
+        $rhett[] = [ $blockA, $blockA, 0 ];
+        $rhett[] = [ $blockB, $blockA, 1 ];
+        $rhett[] = [ $blockA, $blockB, -1 ];
+        $rhett[] = [ $blockC, $blockA, 1 ];
+        $rhett[] = [ $blockA, $blockC, -1 ];
+        $rhett[] = [ $blockD, $blockA, 1 ];
+        $rhett[] = [ $blockA, $blockD, -1 ];
+        $rhett[] = [ $blockE, $blockA, 1 ];
+        $rhett[] = [ $blockA, $blockE, -1 ];
+
+        return $rhett;
     }
 }

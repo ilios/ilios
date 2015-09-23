@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
@@ -77,4 +79,34 @@ interface CurriculumInventoryReportInterface extends
      * @return ProgramInterface
      */
     public function getProgram();
+
+    /**
+     * @param Collection $sequenceBlocks
+     */
+    public function setSequenceBlocks(Collection $sequenceBlocks = null);
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     */
+    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
+
+    /**
+     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     */
+    public function getSequenceBlocks();
+
+    /**
+     * @param Collection $academicLevels
+     */
+    public function setAcademicLevels(Collection $academicLevels = null);
+
+    /**
+     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
+     */
+    public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
+
+    /**
+     * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
+     */
+    public function getAcademicLevels();
 }

@@ -82,4 +82,113 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
         $class = $this->getClass();
         return new $class();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEvents(CurriculumInventoryReportInterface $report)
+    {
+        return $this->getRepository()->getEvents($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEventKeywords(CurriculumInventoryReportInterface $report)
+    {
+        return $this->getRepository()->getEventKeywords($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
+    {
+        return $this->getRepository()->getEventReferencesForSequenceBlocks($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProgramObjectives(CurriculumInventoryReportInterface $report)
+    {
+        return $this->getRepository()->getProgramObjectives($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSessionObjectives(CurriculumInventoryReportInterface $report)
+    {
+        return $this->getRepository()->getSessionObjectives($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCourseObjectives(CurriculumInventoryReportInterface $report)
+    {
+        return $this->getRepository()->getCourseObjectives($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPcrs(CurriculumInventoryReportInterface $report)
+    {
+        return $this->getRepository()->getPcrs($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
+    {
+        return $this->getRepository()->getCompetencyObjectReferencesForSequenceBlocks($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCompetencyObjectReferencesForEvents(CurriculumInventoryReportInterface $report)
+    {
+        return $this->getRepository()->getCompetencyObjectReferencesForEvents($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSessionObjectivesToCourseObjectivesRelations(
+        array $sessionObjectiveIds,
+        array $courseObjectiveIds
+    ) {
+        return $this->getRepository()->getSessionObjectivesToCourseObjectivesRelations(
+            $sessionObjectiveIds,
+            $courseObjectiveIds
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCourseObjectivesToProgramObjectivesRelations(
+        array $courseObjectiveIds,
+        array $programObjectiveIds
+    ) {
+        return $this->getRepository()->getCourseObjectivesToProgramObjectivesRelations(
+            $courseObjectiveIds,
+            $programObjectiveIds
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProgramObjectivesToPcrsRelations(array $programObjectiveIds, array $pcrsIds)
+    {
+        return $this->getRepository()->getProgramObjectivesToPcrsRelations(
+            $programObjectiveIds,
+            $pcrsIds
+        );
+    }
 }

@@ -467,7 +467,7 @@ ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `report_id` `report_id`
 ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `parent_sequence_block_id` `parent_sequence_block_id` INT DEFAULT NULL;
 ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `sequence_block_id` `sequence_block_id` INT AUTO_INCREMENT NOT NULL;
 ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `minimum` `minimum` INT NOT NULL;
-ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `required` `required` TINYINT(1) NOT NULL;
+ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `required` `required` INT NOT NULL;
 ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `order_in_sequence` `order_in_sequence` INT NOT NULL;
 ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `child_sequence_order` `child_sequence_order` SMALLINT NOT NULL;
 ALTER TABLE `curriculum_inventory_sequence_block` CHANGE `description` `description` LONGTEXT;

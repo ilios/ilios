@@ -51,10 +51,9 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true, nullable=false)
      * })
      *
-     * @Assert\Type(type="integer")
-     *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("report")
      */
     protected $report;
 

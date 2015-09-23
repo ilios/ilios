@@ -115,6 +115,12 @@ class profile::common::php (
         file => '/etc/php5/apache2/php.ini'
     }
 
+    php::config { "apache_max_execution_time":
+        setting => "max_execution_time",
+        value => "300",
+        file => '/etc/php5/apache2/php.ini'
+    }
+
     php::config { "cli_log_errors":
         setting => "log_errors",
         value => "On",

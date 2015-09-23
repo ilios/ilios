@@ -35,6 +35,20 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('ldap_directory_search_base')->end()
                 ->scalarNode('ldap_directory_campus_id_property')->end()
                 ->scalarNode('ldap_directory_username_property')->end()
+                ->scalarNode('institution_domain')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                    ->info(
+                        'Internet domain name of this institution, ' .
+                        'used for curriculum inventory reporting to the AAMC.'
+                    )
+                ->end()
+                ->scalarNode('supporting_link')
+                    ->defaultValue('')
+                    ->info(
+                        "Optional 'supporting link' for the curriculum inventory exports."
+                    )
+                ->end()
             ->end();
 
         return $treeBuilder;

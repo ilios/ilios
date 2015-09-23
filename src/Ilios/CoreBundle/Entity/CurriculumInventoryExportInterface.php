@@ -34,4 +34,19 @@ interface CurriculumInventoryExportInterface extends
      * @return CurriculumInventoryReportInterface
      */
     public function getReport();
+
+    /**
+     * @param UserInterface $createdBy
+     */
+    public function setCreatedBy(UserInterface $createdBy);
+
+    /**
+     * @return UserInterface
+     */
+    public function getCreatedBy();
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
 }

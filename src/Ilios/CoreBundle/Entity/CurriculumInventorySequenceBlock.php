@@ -78,16 +78,16 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     protected $description;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="required", type="boolean")
+     * @ORM\Column(name="required", type="integer")
      *
      * @Assert\NotNull()
-     * @Assert\Type(type="bool")
+     * @Assert\Type(type="integer")
      *
      *
      * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @JMS\Type("integer")
      */
     protected $required;
 
@@ -279,7 +279,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function __construct()
     {
         $this->children = new ArrayCollection();
-        $this->required = false;
+        $this->required = self::OPTIONAL;
         $this->track = false;
     }
 
@@ -301,7 +301,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param boolean $required
+     * @param int $required
      */
     public function setRequired($required)
     {
@@ -309,15 +309,15 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @return boolean
+     * @return int
      */
-    public function isRequired()
+    public function getRequired()
     {
         return $this->required;
     }
 
     /**
-     * @param boolean $childSequenceOrder
+     * @param int $childSequenceOrder
      */
     public function setChildSequenceOrder($childSequenceOrder)
     {
@@ -564,5 +564,95 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function getSessions()
     {
         return $this->sessions;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildrenAsSortedList()
+    {
+        $children = $this->getChildren()->toArray();
+        $sortStrategy = $this->getChildSequenceOrder();
+        switch ($sortStrategy) {
+            case self::ORDERED:
+                usort($children, array(__CLASS__, 'compareSequenceBlocksWithOrderedStrategy'));
+                break;
+            case self::UNORDERED:
+            case self::PARALLEL:
+            default:
+                usort($children, array(__CLASS__, 'compareSequenceBlocksWithDefaultStrategy'));
+                break;
+        }
+        return $children;
+    }
+
+    /**
+     * Callback function for comparing sequence blocks.
+     * The applied criterion for comparison is the </pre>"orderInSequence</pre> property.
+     *
+     * @param CurriculumInventorySequenceBlockInterface $a
+     * @param CurriculumInventorySequenceBlockInterface $b
+     * @return int One of -1, 0, 1.
+     */
+    public static function compareSequenceBlocksWithOrderedStrategy(
+        CurriculumInventorySequenceBlockInterface $a,
+        CurriculumInventorySequenceBlockInterface $b
+    ) {
+        if ($a->getOrderInSequence() === $b->getOrderInSequence()) {
+            return 0;
+        }
+        return ($a->getOrderInSequence() > $b->getOrderInSequence()) ? 1 : -1;
+    }
+
+    /**
+     * Callback function for comparing sequence blocks.
+     * The applied, ranked criteria for comparison are:
+     * 1. "academic level"
+     *      Numeric sort, ascending.
+     * 2. "start date"
+     *      Numeric sort on timestamps, ascending. NULL values will be treated as unix timestamp 0.
+     * 3. "title"
+     *    Alphabetical sort.
+     * 4. "sequence block id"
+     *    A last resort. Numeric sort, ascending.
+     *
+     * @param CurriculumInventorySequenceBlockInterface $a
+     * @param CurriculumInventorySequenceBlockInterface $b
+     * @return int One of -1, 0, 1.
+     */
+    public static function compareSequenceBlocksWithDefaultStrategy(
+        CurriculumInventorySequenceBlockInterface $a,
+        CurriculumInventorySequenceBlockInterface $b
+    ) {
+        // 1. academic level id
+        if ($a->getAcademicLevel()->getLevel() > $b->getAcademicLevel()->getLevel()) {
+            return 1;
+        } elseif ($a->getAcademicLevel()->getLevel() < $b->getAcademicLevel()->getLevel()) {
+            return -1;
+        }
+
+        // 2. start date
+        $startDateA = $a->getStartDate() ? $a->getStartDate()->getTimestamp() : 0;
+        $startDateB = $b->getStartDate() ? $b->getStartDate()->getTimestamp() : 0;
+
+        if ($startDateA > $startDateB) {
+            return 1;
+        } elseif ($startDateA < $startDateB) {
+            return -1;
+        }
+
+        // 3. title comparison
+        $n = strcasecmp($a->getTitle(), $b->getTitle());
+        if ($n) {
+            return $n > 0 ? 1 : -1;
+        }
+
+        // 4. sequence block id comparison
+        if ($a->getId() > $b->getId()) {
+            return 1;
+        } elseif ($a->getId() < $b->getId()) {
+            return -1;
+        }
+        return 0;
     }
 }

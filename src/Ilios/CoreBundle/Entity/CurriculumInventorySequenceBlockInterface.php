@@ -19,17 +19,45 @@ interface CurriculumInventorySequenceBlockInterface extends
     LoggableEntityInterface
 {
     /**
-     * @param boolean $required
+     * @var int
+     */
+    const REQUIRED = 1;
+    /**
+     * @var int
+     */
+    const OPTIONAL = 2;
+    /**
+     * @var int
+     */
+    const REQUIRED_IN_TRACK = 3;
+
+    /**
+     * @var int
+     */
+    const ORDERED = 1;
+
+    /**
+     * @var int
+     */
+    const UNORDERED = 2;
+
+    /**
+     * @var int
+     */
+    const PARALLEL = 3;
+
+    /**
+     * @param int $required
      */
     public function setRequired($required);
 
     /**
-     * @return boolean
+     * @return int
      */
-    public function isRequired();
+    public function getRequired();
 
     /**
-     * @param boolean $childSequenceOrder
+     * @param int $childSequenceOrder
      */
     public function setChildSequenceOrder($childSequenceOrder);
 
@@ -159,4 +187,20 @@ interface CurriculumInventorySequenceBlockInterface extends
      * @return ArrayCollection|CurriculumInventorySequenceBlockSessionInterface[]
      */
     public function getSessions();
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $parent
+     */
+    public function setParent(CurriculumInventorySequenceBlockInterface $parent);
+
+    /**
+     * @return CurriculumInventorySequenceBlockInterface
+     */
+    public function getParent();
+
+    /**
+     * Sorts child sequence blocks according to this entity's child sequence order.
+     * @return CurriculumInventorySequenceBlockInterface[] The sorted list of child sequence blocks.
+     */
+    public function getChildrenAsSortedList();
 }
