@@ -95,7 +95,7 @@ class UsereventController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['userEvents'] = $result ? $result : new ArrayCollection([]);
+        $answer['userEvents'] = $result ? array_values($result) : [];
 
         return $answer;
     }

@@ -17,7 +17,7 @@ class Version20150914052024 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         
-        $this->addSql('UPDATE authentication SET username=eppn');
+        $this->addSql('UPDATE authentication SET username=eppn WHERE eppn IS NOT NULL');
         $this->addSql('DROP INDEX UNIQ_FEB4C9FDFC7885D4 ON authentication');
         $this->addSql('ALTER TABLE authentication DROP eppn');
     }

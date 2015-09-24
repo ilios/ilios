@@ -88,7 +88,7 @@ class SchooleventsController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['events'] = $result ? $result : new ArrayCollection([]);
+        $answer['events'] = $result ? array_values($result) : [];
 
         return $answer;
     }

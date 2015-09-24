@@ -133,8 +133,8 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
             'user'          => $user,
         ];
 
-        $schoolsWithReadPermission = $this->findPermissionBy($criteria);
-        $overlap = array_intersect($schools->toArray(), $schoolsWithReadPermission->toArray());
+        $schoolsWithReadPermission = $this->findPermissionsBy($criteria);
+        $overlap = array_intersect($schools->toArray(), $schoolsWithReadPermission);
 
         return ! empty($overlap);
 

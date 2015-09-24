@@ -140,7 +140,7 @@ class TopicController extends FOSRestController
 
         //If there are no matches return an empty array
         $answer['topics'] =
-            $result ? $result : new ArrayCollection([]);
+            $result ? array_values($result) : [];
 
         return $answer;
     }

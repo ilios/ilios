@@ -139,7 +139,7 @@ class MeshQualifierController extends FOSRestController
 
         //If there are no matches return an empty array
         $answer['meshQualifiers'] =
-            $result ? $result : new ArrayCollection([]);
+            $result ? array_values($result) : [];
 
         return $answer;
     }

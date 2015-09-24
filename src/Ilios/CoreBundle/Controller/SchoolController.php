@@ -140,7 +140,7 @@ class SchoolController extends FOSRestController
 
         //If there are no matches return an empty array
         $answer['schools'] =
-            $result ? $result : new ArrayCollection([]);
+            $result ? array_values($result) : [];
 
         return $answer;
     }

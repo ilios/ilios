@@ -140,7 +140,7 @@ class SessionLearningMaterialController extends FOSRestController
 
         //If there are no matches return an empty array
         $answer['sessionLearningMaterials'] =
-            $result ? $result : new ArrayCollection([]);
+            $result ? array_values($result) : [];
 
         return $answer;
     }
