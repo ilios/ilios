@@ -4,8 +4,8 @@ namespace Ilios\CoreBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Type as DoctrineType;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Ilios\CoreBundle\Classes\UserEvent;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 class UserRepository extends EntityRepository
 {
@@ -14,7 +14,8 @@ class UserRepository extends EntityRepository
      * @param string $q
      * @param integer $orderBy
      * @param integer $limit
-     * @param offset $offset
+     * @param integer $offset
+     * @return UserInterface[]
      */
     public function findByQ($q, $orderBy, $limit, $offset)
     {
@@ -23,7 +24,7 @@ class UserRepository extends EntityRepository
         $terms = explode(' ', $q);
         $terms = array_filter($terms, 'strlen');
         if (empty($terms)) {
-            return new ArrayCollection([]);
+            return [];
         }
 
         foreach ($terms as $key => $term) {
@@ -60,7 +61,7 @@ class UserRepository extends EntityRepository
      * @param \DateTime $from
      * @param \DateTime $to
      *
-     * @return UserEvent[]|Collection
+     * @return UserEvent[]
      */
     public function findEventsForUser(
         $id,
@@ -125,8 +126,8 @@ class UserRepository extends EntityRepository
     
     /**
      * Get a list of users who do not have the former student role filtered by campus id
-     * @param  array  $campusIds
-     * @return Collection[UserInterface]
+     * @param  array $campusIds
+     * @return ArrayCollection
      */
     public function findUsersWhoAreNotFormerStudents(array $campusIds)
     {
