@@ -474,25 +474,26 @@ class User implements UserInterface
      */
     public function __construct()
     {
-        $this->reminders            = new ArrayCollection();
-        $this->directedCourses      = new ArrayCollection();
-        $this->learnerGroups        = new ArrayCollection();
-        $this->instructorUserGroups = new ArrayCollection();
-        $this->instructorGroups     = new ArrayCollection();
-        $this->offerings            = new ArrayCollection();
-        $this->instructedOfferings  = new ArrayCollection();
-        $this->programYears         = new ArrayCollection();
-        $this->alerts               = new ArrayCollection();
-        $this->roles                = new ArrayCollection();
-        $this->learningMaterials    = new ArrayCollection();
-        $this->publishEvents        = new ArrayCollection();
-        $this->reports              = new ArrayCollection();
-        $this->cohorts              = new ArrayCollection();
-        $this->pendingUserUpdates   = new ArrayCollection();
-        $this->addedViaIlios = false;
-        $this->enabled = true;
-        $this->examined = false;
-        $this->userSyncIgnore = false;
+        $this->reminders                = new ArrayCollection();
+        $this->directedCourses          = new ArrayCollection();
+        $this->learnerGroups            = new ArrayCollection();
+        $this->instructorUserGroups     = new ArrayCollection();
+        $this->instructorGroups         = new ArrayCollection();
+        $this->offerings                = new ArrayCollection();
+        $this->instructedOfferings      = new ArrayCollection();
+        $this->instructorIlmSessions    = new ArrayCollection();
+        $this->programYears             = new ArrayCollection();
+        $this->alerts                   = new ArrayCollection();
+        $this->roles                    = new ArrayCollection();
+        $this->learningMaterials        = new ArrayCollection();
+        $this->publishEvents            = new ArrayCollection();
+        $this->reports                  = new ArrayCollection();
+        $this->cohorts                  = new ArrayCollection();
+        $this->pendingUserUpdates       = new ArrayCollection();
+        $this->addedViaIlios            = false;
+        $this->enabled                  = true;
+        $this->examined                 = false;
+        $this->userSyncIgnore           = false;
         
         $this->generateIcsFeedKey();
     }
@@ -869,14 +870,14 @@ class User implements UserInterface
         $this->instructorIlmSessions = new ArrayCollection();
 
         foreach ($sessions as $session) {
-            $this->addInstructorIlmSessions($session);
+            $this->addInstructorIlmSession($session);
         }
     }
 
     /**
      * @param IlmSessionInterface $session
      */
-    public function addInstructorIlmSessions(IlmSessionInterface $session)
+    public function addInstructorIlmSession(IlmSessionInterface $session)
     {
         $this->instructorIlmSessions->add($session);
     }
@@ -886,7 +887,19 @@ class User implements UserInterface
      */
     public function getInstructorIlmSessions()
     {
-        return $this->instructorIlmSessions;
+
+        //criteria not 100% reliable on many to many relationships
+        //fix in https://github.com/doctrine/doctrine2/pull/1399
+        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
+        // return new ArrayCollection($this->directedCourses->matching($criteria)->getValues());
+
+        $arr = $this->instructorIlmSessions->filter(function (IlmSessionInterface $entity) {
+            return !$entity->isDeleted();
+        })->toArray();
+
+        $reIndexed = array_values($arr);
+
+        return new ArrayCollection($reIndexed);
     }
 
 
@@ -1146,7 +1159,18 @@ class User implements UserInterface
      */
     public function getInstructedOfferings()
     {
-        return $this->instructedOfferings;
+        //criteria not 100% reliable on many to many relationships
+        //fix in https://github.com/doctrine/doctrine2/pull/1399
+        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
+        // return new ArrayCollection($this->instructedOfferings->matching($criteria)->getValues());
+
+        $arr = $this->instructedOfferings->filter(function ($entity) {
+            return !$entity->isDeleted();
+        })->toArray();
+
+        $reIndexed = array_values($arr);
+
+        return new ArrayCollection($reIndexed);
     }
 
     /**

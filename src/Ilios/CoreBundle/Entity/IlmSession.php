@@ -336,4 +336,12 @@ class IlmSession implements IlmSessionInterface
     {
         return $this->session;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function isDeleted()
+    {
+        return $this->getSession()->isDeleted();
+    }
 }
