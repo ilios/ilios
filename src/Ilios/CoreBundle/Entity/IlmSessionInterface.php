@@ -81,6 +81,12 @@ interface IlmSessionInterface extends
     public function getInstructorGroups();
 
     /**
+     * Get all the instructors including those in groups
+     * @return ArrayCollection
+     */
+    public function getAllInstructors();
+
+    /**
      * @param Collection $learners
      */
     public function setLearners(Collection $learners);

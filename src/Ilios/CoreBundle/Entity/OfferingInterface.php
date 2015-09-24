@@ -135,4 +135,10 @@ interface OfferingInterface extends
      * @return ArrayCollection|UserInterface[]
      */
     public function getInstructors();
+
+    /**
+     * Get all the instructors including those in groups
+     * @return ArrayCollection
+     */
+    public function getAllInstructors();
 }
