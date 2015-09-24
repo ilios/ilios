@@ -11,7 +11,7 @@ node 'ilios.dev' {
         ensure => directory,
         owner => $user,
         group => $group,
-        mode => 0777
+        mode => '0777'
     } ->
 
     class { ['profile::ilios', 'profile::build::symfony', 'profile::shibbolethsp']: }
