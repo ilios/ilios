@@ -61,7 +61,7 @@ class UserVoter extends AbstractVoter
                             $requestedUser->getAllSchools()->contains($user->getSchool())
                             || $this->permissionManager->userHasReadPermissionToSchools(
                                 $user,
-                                $requestedUser->getSchool->getAllSchools()
+                                $requestedUser->getAllSchools()
                             )
                         )
                     )
@@ -81,7 +81,7 @@ class UserVoter extends AbstractVoter
                         $requestedUser->getAllSchools()->contains($user->getSchool())
                         || $this->permissionManager->userHasReadPermissionToSchools(
                             $user,
-                            $requestedUser->getSchool->getAllSchools()
+                            $requestedUser->getAllSchools()
                         )
                     )
                 );
