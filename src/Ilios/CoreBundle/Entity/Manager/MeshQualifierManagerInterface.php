@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
 /**
@@ -28,7 +27,7 @@ interface MeshQualifierManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|MeshQualifierInterface[]
+     * @return MeshQualifierInterface[]
      */
     public function findMeshQualifiersBy(
         array $criteria,

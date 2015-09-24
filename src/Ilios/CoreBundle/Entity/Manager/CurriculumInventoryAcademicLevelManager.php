@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManagerInterface as BaseInterface;
@@ -14,10 +13,7 @@ use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManagerInter
 class CurriculumInventoryAcademicLevelManager extends AbstractManager implements BaseInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CurriculumInventoryAcademicLevelInterface
+     * {@inheritdoc}
      */
     public function findCurriculumInventoryAcademicLevelBy(
         array $criteria,
@@ -27,12 +23,7 @@ class CurriculumInventoryAcademicLevelManager extends AbstractManager implements
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
+     * {@inheritdoc}
      */
     public function findCurriculumInventoryAcademicLevelsBy(
         array $criteria,
@@ -44,9 +35,7 @@ class CurriculumInventoryAcademicLevelManager extends AbstractManager implements
     }
 
     /**
-     * @param CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateCurriculumInventoryAcademicLevel(
         CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel,
@@ -66,7 +55,7 @@ class CurriculumInventoryAcademicLevelManager extends AbstractManager implements
     }
 
     /**
-     * @param CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
+     * {@inheritdoc}
      */
     public function deleteCurriculumInventoryAcademicLevel(
         CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
@@ -76,7 +65,7 @@ class CurriculumInventoryAcademicLevelManager extends AbstractManager implements
     }
 
     /**
-     * @return CurriculumInventoryAcademicLevelInterface
+     * {@inheritdoc}
      */
     public function createCurriculumInventoryAcademicLevel()
     {

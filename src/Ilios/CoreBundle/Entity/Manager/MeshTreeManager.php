@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshTreeInterface;
 
@@ -14,10 +13,7 @@ use Ilios\CoreBundle\Entity\MeshTreeInterface;
 class MeshTreeManager extends AbstractManager implements MeshTreeManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return MeshTreeInterface
+     * {@inheritdoc}
      */
     public function findMeshTreeBy(array $criteria, array $orderBy = null)
     {
@@ -25,12 +21,7 @@ class MeshTreeManager extends AbstractManager implements MeshTreeManagerInterfac
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return MeshTreeInterface[]|Collection
+     * {@inheritdoc}
      */
     public function findMeshTreesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
@@ -38,9 +29,7 @@ class MeshTreeManager extends AbstractManager implements MeshTreeManagerInterfac
     }
 
     /**
-     * @param MeshTreeInterface $meshTree
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateMeshTree(MeshTreeInterface $meshTree, $andFlush = true, $forceId = false)
     {
@@ -57,7 +46,7 @@ class MeshTreeManager extends AbstractManager implements MeshTreeManagerInterfac
     }
 
     /**
-     * @param MeshTreeInterface $meshTree
+     * {@inheritdoc}
      */
     public function deleteMeshTree(MeshTreeInterface $meshTree)
     {
@@ -66,7 +55,7 @@ class MeshTreeManager extends AbstractManager implements MeshTreeManagerInterfac
     }
 
     /**
-     * @return MeshTreeInterface
+     * {@inheritdoc}
      */
     public function createMeshTree()
     {

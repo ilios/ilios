@@ -2,12 +2,8 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AuditLogInterface;
-use Ilios\CoreBundle\Entity\Repository\AuditLogRepository;
 
 /**
  * Class AuditLogManager
@@ -17,10 +13,7 @@ class AuditLogManager extends AbstractManager implements AuditLogManagerInterfac
 {
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return AuditLogInterface
+     * {@inheritdoc}
      */
     public function findAuditLogBy(
         array $criteria,
@@ -30,12 +23,7 @@ class AuditLogManager extends AbstractManager implements AuditLogManagerInterfac
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|AuditLogInterface[]
+     * {@inheritdoc}
      */
     public function findAuditLogsBy(
         array $criteria,
@@ -47,9 +35,7 @@ class AuditLogManager extends AbstractManager implements AuditLogManagerInterfac
     }
 
     /**
-     * @param AuditLogInterface $auditLog
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateAuditLog(
         AuditLogInterface $auditLog,
@@ -69,7 +55,7 @@ class AuditLogManager extends AbstractManager implements AuditLogManagerInterfac
     }
 
     /**
-     * @param AuditLogInterface $auditLog
+     * {@inheritdoc}
      */
     public function deleteAuditLog(
         AuditLogInterface $auditLog
@@ -79,7 +65,7 @@ class AuditLogManager extends AbstractManager implements AuditLogManagerInterfac
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getClass()
     {
@@ -87,7 +73,7 @@ class AuditLogManager extends AbstractManager implements AuditLogManagerInterfac
     }
 
     /**
-     * @return AuditLogInterface
+     * {@inheritdoc}
      */
     public function createAuditLog()
     {
@@ -100,7 +86,6 @@ class AuditLogManager extends AbstractManager implements AuditLogManagerInterfac
      */
     public function findInRange(\DateTime $from, \DateTime $to)
     {
-
         return $this->getRepository()->findInRange($from, $to);
     }
 
@@ -114,11 +99,7 @@ class AuditLogManager extends AbstractManager implements AuditLogManagerInterfac
 
 
     /**
-     * Returns a list of field names of the corresponding entity.
-     *
-     * @return array
-     *
-     * @todo Refactor this out into a trait or stick it somewhere else. [ST 2015/09/02]
+     * {@inheritdoc}
      */
     public function getFieldNames()
     {

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 class SessionLearningMaterialManager extends AbstractManager implements SessionLearningMaterialManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return SessionLearningMaterialInterface
+     * {@inheritdoc}
      */
     public function findSessionLearningMaterialBy(
         array $criteria,
@@ -26,12 +22,7 @@ class SessionLearningMaterialManager extends AbstractManager implements SessionL
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|SessionLearningMaterialInterface[]
+     * {@inheritdoc}
      */
     public function findSessionLearningMaterialsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class SessionLearningMaterialManager extends AbstractManager implements SessionL
     }
 
     /**
-     * @param SessionLearningMaterialInterface $sessionLearningMaterial
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateSessionLearningMaterial(
         SessionLearningMaterialInterface $sessionLearningMaterial,
@@ -65,7 +54,7 @@ class SessionLearningMaterialManager extends AbstractManager implements SessionL
     }
 
     /**
-     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     * {@inheritdoc}
      */
     public function deleteSessionLearningMaterial(
         SessionLearningMaterialInterface $sessionLearningMaterial
@@ -75,7 +64,7 @@ class SessionLearningMaterialManager extends AbstractManager implements SessionL
     }
 
     /**
-     * @return SessionLearningMaterialInterface
+     * {@inheritdoc}
      */
     public function createSessionLearningMaterial()
     {

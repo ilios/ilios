@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\AuditLogInterface;
 
 /**
@@ -28,7 +27,7 @@ interface AuditLogManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|AuditLogInterface[]
+     * @return AuditLogInterface[]
      */
     public function findAuditLogsBy(
         array $criteria,
@@ -84,4 +83,13 @@ interface AuditLogManagerInterface
      * @param \DateTime $to
      */
     public function deleteInRange(\Datetime $from, \DateTime $to);
+
+    /**
+     * Returns a list of field names of the corresponding entity.
+     *
+     * @return array
+     *
+     * @todo Refactor this out into a trait or stick it somewhere else. [ST 2015/09/02]
+     */
+    public function getFieldNames();
 }

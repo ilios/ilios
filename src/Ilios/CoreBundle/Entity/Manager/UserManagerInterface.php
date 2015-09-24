@@ -3,8 +3,8 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\UserInterface;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * Interface UserManagerInterface
@@ -71,7 +71,7 @@ interface UserManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return UserInterface[]
      */
     public function findUsersByQ(
         $q,
@@ -83,7 +83,7 @@ interface UserManagerInterface extends ManagerInterface
     /**
      * @param array $campusIdFilter an array of the campusIDs to include in our search if empty then all users
      *
-     * @return Collection[UserInterface]
+     * @return ArrayCollection
      */
     public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = array());
     
@@ -92,7 +92,7 @@ interface UserManagerInterface extends ManagerInterface
      * @param $includeDisabled
      * @param $includeSyncIgnore
      *
-     * @return []
+     * @return array
      */
     public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true);
     
@@ -100,4 +100,15 @@ interface UserManagerInterface extends ManagerInterface
      * Reset the examined flags on every user
      */
     public function resetExaminedFlagForAllUsers();
+
+    /**
+     * Find all of the events for a user id between two dates.
+     *
+     * @param integer $userId
+     * @param \DateTime $from
+     * @param \DateTime $to
+     *
+     * @return UserEvent[]
+     */
+    public function findEventsForUser($userId, \DateTime $from, \DateTime $to);
 }

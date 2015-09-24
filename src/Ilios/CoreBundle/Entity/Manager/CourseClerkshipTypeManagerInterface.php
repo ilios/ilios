@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 
 /**
@@ -28,7 +27,7 @@ interface CourseClerkshipTypeManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|CourseClerkshipTypeInterface[]
+     * @return CourseClerkshipTypeInterface[]
      */
     public function findCourseClerkshipTypesBy(
         array $criteria,

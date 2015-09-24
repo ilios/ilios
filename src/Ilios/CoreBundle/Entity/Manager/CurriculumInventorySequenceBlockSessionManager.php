@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSessionInterface;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockSessionManagerInterface as BaseInterface;
@@ -32,7 +31,7 @@ class CurriculumInventorySequenceBlockSessionManager extends AbstractManager imp
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|CurriculumInventorySequenceBlockSessionInterface[]
+     * @return CurriculumInventorySequenceBlockSessionInterface[]
      */
     public function findCurriculumInventorySequenceBlockSessionsBy(
         array $criteria,

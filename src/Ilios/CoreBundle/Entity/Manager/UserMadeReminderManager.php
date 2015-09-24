@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\UserMadeReminderInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\UserMadeReminderInterface;
 class UserMadeReminderManager extends AbstractManager implements UserMadeReminderManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return UserMadeReminderInterface
+     * {@inheritdoc}
      */
     public function findUserMadeReminderBy(
         array $criteria,
@@ -26,12 +22,7 @@ class UserMadeReminderManager extends AbstractManager implements UserMadeReminde
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|UserMadeReminderInterface[]
+     * {@inheritdoc}
      */
     public function findUserMadeRemindersBy(
         array $criteria,
@@ -43,9 +34,7 @@ class UserMadeReminderManager extends AbstractManager implements UserMadeReminde
     }
 
     /**
-     * @param UserMadeReminderInterface $userMadeReminder
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateUserMadeReminder(
         UserMadeReminderInterface $userMadeReminder,
@@ -65,7 +54,7 @@ class UserMadeReminderManager extends AbstractManager implements UserMadeReminde
     }
 
     /**
-     * @param UserMadeReminderInterface $userMadeReminder
+     * {@inheritdoc}
      */
     public function deleteUserMadeReminder(
         UserMadeReminderInterface $userMadeReminder
@@ -75,7 +64,7 @@ class UserMadeReminderManager extends AbstractManager implements UserMadeReminde
     }
 
     /**
-     * @return UserMadeReminderInterface
+     * {@inheritdoc}
      */
     public function createUserMadeReminder()
     {

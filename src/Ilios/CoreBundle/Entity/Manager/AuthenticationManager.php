@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\AuthenticationInterface;
 class AuthenticationManager extends AbstractManager implements AuthenticationManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return AuthenticationInterface
+     * {@inheritdoc}
      */
     public function findAuthenticationBy(
         array $criteria,
@@ -26,12 +22,7 @@ class AuthenticationManager extends AbstractManager implements AuthenticationMan
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|AuthenticationInterface[]
+     * {@inheritdoc}
      */
     public function findAuthenticationsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class AuthenticationManager extends AbstractManager implements AuthenticationMan
     }
 
     /**
-     * @param string $username
-     *
-     * @return AuthenticationInterface
+     * {@inheritdoc}
      */
     public function findAuthenticationByUsername($username)
     {
@@ -54,9 +43,7 @@ class AuthenticationManager extends AbstractManager implements AuthenticationMan
     }
 
     /**
-     * @param AuthenticationInterface $authentication
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateAuthentication(
         AuthenticationInterface $authentication,
@@ -76,7 +63,7 @@ class AuthenticationManager extends AbstractManager implements AuthenticationMan
     }
 
     /**
-     * @param AuthenticationInterface $authentication
+     * {@inheritdoc}
      */
     public function deleteAuthentication(
         AuthenticationInterface $authentication
@@ -86,7 +73,7 @@ class AuthenticationManager extends AbstractManager implements AuthenticationMan
     }
 
     /**
-     * @return AuthenticationInterface
+     * {@inheritdoc}
      */
     public function createAuthentication()
     {

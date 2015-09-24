@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 
 /**
@@ -28,7 +27,7 @@ interface MeshDescriptorManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|MeshDescriptorInterface[]
+     * @return MeshDescriptorInterface[]
      */
     public function findMeshDescriptorsBy(
         array $criteria,
@@ -71,4 +70,14 @@ interface MeshDescriptorManagerInterface extends ManagerInterface
      * @param string $type The type of MeSH data that's being imported.
      */
     public function import(array $data, $type);
+
+    /**
+     * @param string $q
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return MeshDescriptorInterface[]
+     */
+    public function findMeshDescriptorsByQ($q, array $orderBy = null, $limit = null, $offset = null);
 }

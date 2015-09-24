@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 
 /**
@@ -28,7 +27,7 @@ interface LearningMaterialUserRoleManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|LearningMaterialUserRoleInterface[]
+     * @return LearningMaterialUserRoleInterface[]
      */
     public function findLearningMaterialUserRolesBy(
         array $criteria,

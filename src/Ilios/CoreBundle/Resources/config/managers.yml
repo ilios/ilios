@@ -51,9 +51,6 @@ parameters:
     ilioscore.userrole.manager.class: Ilios\CoreBundle\Entity\Manager\UserRoleManager
     ilioscore.learningmaterial.manager.class: Ilios\CoreBundle\Entity\Manager\LearningMaterialManager
     ilioscore.learnergroup.manager.class: Ilios\CoreBundle\Entity\Manager\LearnerGroupManager
-    ilioscore.link.manager.class: Ilios\CoreBundle\Entity\Manager\LinkManager
-    ilioscore.citation.manager.class: Ilios\CoreBundle\Entity\Manager\CitationManager
-    ilioscore.file.manager.class: Ilios\CoreBundle\Entity\Manager\FileManager
 
 services:
     ilioscore.aamcmethod.manager:
@@ -213,12 +210,3 @@ services:
     ilioscore.learningmaterial.manager:
         class: %ilioscore.learningmaterial.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterial]
-    ilioscore.link.manager:
-        class: %ilioscore.link.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterialsLink]
-    ilioscore.citation.manager:
-        class: %ilioscore.citation.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterialsCitation]
-    ilioscore.file.manager:
-        class: %ilioscore.file.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterialsFile]

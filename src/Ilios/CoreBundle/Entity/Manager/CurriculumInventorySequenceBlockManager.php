@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManagerInterface as BaseInterface;
@@ -14,10 +13,7 @@ use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManagerInter
 class CurriculumInventorySequenceBlockManager extends AbstractManager implements BaseInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CurriculumInventorySequenceBlockInterface
+     * {@inheritdoc}
      */
     public function findCurriculumInventorySequenceBlockBy(
         array $criteria,
@@ -27,12 +23,7 @@ class CurriculumInventorySequenceBlockManager extends AbstractManager implements
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     * {@inheritdoc}
      */
     public function findCurriculumInventorySequenceBlocksBy(
         array $criteria,
@@ -44,9 +35,7 @@ class CurriculumInventorySequenceBlockManager extends AbstractManager implements
     }
 
     /**
-     * @param CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateCurriculumInventorySequenceBlock(
         CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock,
@@ -66,7 +55,7 @@ class CurriculumInventorySequenceBlockManager extends AbstractManager implements
     }
 
     /**
-     * @param CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
+     * {@inheritdoc}
      */
     public function deleteCurriculumInventorySequenceBlock(
         CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
@@ -76,7 +65,7 @@ class CurriculumInventorySequenceBlockManager extends AbstractManager implements
     }
 
     /**
-     * @return CurriculumInventorySequenceBlockInterface
+     * {@inheritdoc}
      */
     public function createCurriculumInventorySequenceBlock()
     {

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 class CurriculumInventoryExportManager extends AbstractManager implements CurriculumInventoryExportManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CurriculumInventoryExportInterface
+     * {@inheritdoc}
      */
     public function findCurriculumInventoryExportBy(
         array $criteria,
@@ -26,12 +22,7 @@ class CurriculumInventoryExportManager extends AbstractManager implements Curric
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CurriculumInventoryExportInterface[]
+     * {@inheritdoc}
      */
     public function findCurriculumInventoryExportsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class CurriculumInventoryExportManager extends AbstractManager implements Curric
     }
 
     /**
-     * @param CurriculumInventoryExportInterface $curriculumInventoryExport
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateCurriculumInventoryExport(
         CurriculumInventoryExportInterface $curriculumInventoryExport,
@@ -65,7 +54,7 @@ class CurriculumInventoryExportManager extends AbstractManager implements Curric
     }
 
     /**
-     * @param CurriculumInventoryExportInterface $curriculumInventoryExport
+     * {@inheritdoc}
      */
     public function deleteCurriculumInventoryExport(
         CurriculumInventoryExportInterface $curriculumInventoryExport
@@ -75,7 +64,7 @@ class CurriculumInventoryExportManager extends AbstractManager implements Curric
     }
 
     /**
-     * @return CurriculumInventoryExportInterface
+     * {@inheritdoc}
      */
     public function createCurriculumInventoryExport()
     {

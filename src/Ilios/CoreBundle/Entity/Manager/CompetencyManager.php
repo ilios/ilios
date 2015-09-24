@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
 class CompetencyManager extends AbstractManager implements CompetencyManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CompetencyInterface
+     * {@inheritdoc}
      */
     public function findCompetencyBy(
         array $criteria,
@@ -26,12 +22,7 @@ class CompetencyManager extends AbstractManager implements CompetencyManagerInte
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CompetencyInterface[]
+     * {@inheritdoc}
      */
     public function findCompetenciesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class CompetencyManager extends AbstractManager implements CompetencyManagerInte
     }
 
     /**
-     * @param CompetencyInterface $competency
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateCompetency(
         CompetencyInterface $competency,
@@ -65,7 +54,7 @@ class CompetencyManager extends AbstractManager implements CompetencyManagerInte
     }
 
     /**
-     * @param CompetencyInterface $competency
+     * {@inheritdoc}
      */
     public function deleteCompetency(
         CompetencyInterface $competency
@@ -75,7 +64,7 @@ class CompetencyManager extends AbstractManager implements CompetencyManagerInte
     }
 
     /**
-     * @return CompetencyInterface
+     * {@inheritdoc}
      */
     public function createCompetency()
     {

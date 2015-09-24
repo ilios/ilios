@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
@@ -15,10 +14,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
 class MeshDescriptorManager extends AbstractManager implements MeshDescriptorManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return MeshDescriptorInterface
+     * {@inheritdoc}
      */
     public function findMeshDescriptorBy(
         array $criteria,
@@ -28,12 +24,7 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|MeshDescriptorInterface[]
+     * {@inheritdoc}
      */
     public function findMeshDescriptorsBy(
         array $criteria,
@@ -45,12 +36,7 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
     }
 
     /**
-     * @param string $q
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return UserInterface[]|Collection
+     * {@inheritdoc}
      */
     public function findMeshDescriptorsByQ(
         $q,
@@ -62,9 +48,7 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
     }
 
     /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateMeshDescriptor(
         MeshDescriptorInterface $meshDescriptor,
@@ -84,7 +68,7 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
     }
 
     /**
-     * @param MeshDescriptorInterface $meshDescriptor
+     * {@inheritdoc}
      */
     public function deleteMeshDescriptor(
         MeshDescriptorInterface $meshDescriptor
@@ -94,7 +78,7 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
     }
 
     /**
-     * @return MeshDescriptorInterface
+     * {@inheritdoc}
      */
     public function createMeshDescriptor()
     {

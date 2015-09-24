@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
@@ -28,7 +27,7 @@ interface SchoolManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|SchoolInterface[]
+     * @return SchoolInterface[]
      */
     public function findSchoolsBy(
         array $criteria,

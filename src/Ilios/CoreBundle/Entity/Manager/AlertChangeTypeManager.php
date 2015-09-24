@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 class AlertChangeTypeManager extends AbstractManager implements AlertChangeTypeManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return AlertChangeTypeInterface
+     * {@inheritdoc}
      */
     public function findAlertChangeTypeBy(
         array $criteria,
@@ -26,12 +22,7 @@ class AlertChangeTypeManager extends AbstractManager implements AlertChangeTypeM
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|AlertChangeTypeInterface[]
+     * {@inheritdoc}
      */
     public function findAlertChangeTypesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class AlertChangeTypeManager extends AbstractManager implements AlertChangeTypeM
     }
 
     /**
-     * @param AlertChangeTypeInterface $alertChangeType
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateAlertChangeType(
         AlertChangeTypeInterface $alertChangeType,
@@ -65,7 +54,7 @@ class AlertChangeTypeManager extends AbstractManager implements AlertChangeTypeM
     }
 
     /**
-     * @param AlertChangeTypeInterface $alertChangeType
+     * {@inheritdoc}
      */
     public function deleteAlertChangeType(
         AlertChangeTypeInterface $alertChangeType
@@ -75,7 +64,7 @@ class AlertChangeTypeManager extends AbstractManager implements AlertChangeTypeM
     }
 
     /**
-     * @return AlertChangeTypeInterface
+     * {@inheritdoc}
      */
     public function createAlertChangeType()
     {

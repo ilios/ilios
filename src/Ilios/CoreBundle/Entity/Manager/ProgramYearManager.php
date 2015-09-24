@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\ProgramYearInterface;
 class ProgramYearManager extends AbstractManager implements ProgramYearManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return ProgramYearInterface
+     * {@inheritdoc}
      */
     public function findProgramYearBy(
         array $criteria,
@@ -27,12 +23,7 @@ class ProgramYearManager extends AbstractManager implements ProgramYearManagerIn
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|ProgramYearInterface[]
+     * {@inheritdoc}
      */
     public function findProgramYearsBy(
         array $criteria,
@@ -45,9 +36,7 @@ class ProgramYearManager extends AbstractManager implements ProgramYearManagerIn
     }
 
     /**
-     * @param ProgramYearInterface $programYear
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateProgramYear(
         ProgramYearInterface $programYear,
@@ -67,7 +56,7 @@ class ProgramYearManager extends AbstractManager implements ProgramYearManagerIn
     }
 
     /**
-     * @param ProgramYearInterface $programYear
+     * {@inheritdoc}
      */
     public function deleteProgramYear(
         ProgramYearInterface $programYear
@@ -77,7 +66,7 @@ class ProgramYearManager extends AbstractManager implements ProgramYearManagerIn
     }
 
     /**
-     * @return ProgramYearInterface
+     * {@inheritdoc}
      */
     public function createProgramYear()
     {

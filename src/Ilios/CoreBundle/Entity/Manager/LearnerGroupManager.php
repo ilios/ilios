@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 class LearnerGroupManager extends AbstractManager implements LearnerGroupManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return LearnerGroupInterface
+     * {@inheritdoc}
      */
     public function findLearnerGroupBy(
         array $criteria,
@@ -26,12 +22,7 @@ class LearnerGroupManager extends AbstractManager implements LearnerGroupManager
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|LearnerGroupInterface[]
+     * {@inheritdoc}
      */
     public function findLearnerGroupsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class LearnerGroupManager extends AbstractManager implements LearnerGroupManager
     }
 
     /**
-     * @param LearnerGroupInterface $learnerGroup
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateLearnerGroup(
         LearnerGroupInterface $learnerGroup,
@@ -65,7 +54,7 @@ class LearnerGroupManager extends AbstractManager implements LearnerGroupManager
     }
 
     /**
-     * @param LearnerGroupInterface $learnerGroup
+     * {@inheritdoc}
      */
     public function deleteLearnerGroup(
         LearnerGroupInterface $learnerGroup
@@ -75,7 +64,7 @@ class LearnerGroupManager extends AbstractManager implements LearnerGroupManager
     }
 
     /**
-     * @return LearnerGroupInterface
+     * {@inheritdoc}
      */
     public function createLearnerGroup()
     {

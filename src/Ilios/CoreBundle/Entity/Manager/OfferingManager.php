@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
 class OfferingManager extends AbstractManager implements OfferingManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return OfferingInterface
+     * {@inheritdoc}
      */
     public function findOfferingBy(
         array $criteria,
@@ -27,12 +23,7 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|OfferingInterface[]
+     * {@inheritdoc}
      */
     public function findOfferingsBy(
         array $criteria,
@@ -45,9 +36,7 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
     }
 
     /**
-     * @param OfferingInterface $offering
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateOffering(
         OfferingInterface $offering,
@@ -67,7 +56,7 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
     }
 
     /**
-     * @param OfferingInterface $offering
+     * {@inheritdoc}
      */
     public function deleteOffering(
         OfferingInterface $offering
@@ -77,7 +66,7 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
     }
 
     /**
-     * @return OfferingInterface
+     * {@inheritdoc}
      */
     public function createOffering()
     {

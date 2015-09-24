@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
 
 /**
@@ -28,7 +27,7 @@ interface AssessmentOptionManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|AssessmentOptionInterface[]
+     * @return AssessmentOptionInterface[]
      */
     public function findAssessmentOptionsBy(
         array $criteria,

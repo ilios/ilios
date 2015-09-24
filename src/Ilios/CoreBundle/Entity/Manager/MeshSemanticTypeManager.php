@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 class MeshSemanticTypeManager extends AbstractManager implements MeshSemanticTypeManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return MeshSemanticTypeInterface
+     * {@inheritdoc}
      */
     public function findMeshSemanticTypeBy(
         array $criteria,
@@ -26,12 +22,7 @@ class MeshSemanticTypeManager extends AbstractManager implements MeshSemanticTyp
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|MeshSemanticTypeInterface[]
+     * {@inheritdoc}
      */
     public function findMeshSemanticTypesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class MeshSemanticTypeManager extends AbstractManager implements MeshSemanticTyp
     }
 
     /**
-     * @param MeshSemanticTypeInterface $meshSemanticType
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateMeshSemanticType(
         MeshSemanticTypeInterface $meshSemanticType,

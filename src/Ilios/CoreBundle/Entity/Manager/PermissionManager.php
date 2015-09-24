@@ -27,10 +27,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     const CAN_WRITE = 'canWrite';
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return PermissionInterface
+     * {@inheritdoc}
      */
     public function findPermissionBy(
         array $criteria,
@@ -40,12 +37,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|PermissionInterface[]
+     * {@inheritdoc}
      */
     public function findPermissionsBy(
         array $criteria,
@@ -57,9 +49,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * @param PermissionInterface $permission
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updatePermission(
         PermissionInterface $permission,
@@ -79,7 +69,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * @param PermissionInterface $permission
+     * {@inheritdoc}
      */
     public function deletePermission(
         PermissionInterface $permission
@@ -89,7 +79,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * @return PermissionInterface
+     * {@inheritdoc}
      */
     public function createPermission()
     {

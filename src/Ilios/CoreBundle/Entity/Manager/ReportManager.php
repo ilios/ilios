@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ReportInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\ReportInterface;
 class ReportManager extends AbstractManager implements ReportManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return ReportInterface
+     * {@inheritdoc}
      */
     public function findReportBy(
         array $criteria,
@@ -27,12 +23,7 @@ class ReportManager extends AbstractManager implements ReportManagerInterface
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|ReportInterface[]
+     * {@inheritdoc}
      */
     public function findReportsBy(
         array $criteria,
@@ -45,9 +36,7 @@ class ReportManager extends AbstractManager implements ReportManagerInterface
     }
 
     /**
-     * @param ReportInterface $report
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateReport(
         ReportInterface $report,
@@ -67,7 +56,7 @@ class ReportManager extends AbstractManager implements ReportManagerInterface
     }
 
     /**
-     * @param ReportInterface $report
+     * {@inheritdoc}
      */
     public function deleteReport(
         ReportInterface $report
@@ -77,7 +66,7 @@ class ReportManager extends AbstractManager implements ReportManagerInterface
     }
 
     /**
-     * @return ReportInterface
+     * {@inheritdoc}
      */
     public function createReport()
     {

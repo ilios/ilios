@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\SessionTypeInterface;
 class SessionTypeManager extends AbstractManager implements SessionTypeManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return SessionTypeInterface
+     * {@inheritdoc}
      */
     public function findSessionTypeBy(
         array $criteria,
@@ -26,12 +22,7 @@ class SessionTypeManager extends AbstractManager implements SessionTypeManagerIn
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|SessionTypeInterface[]
+     * {@inheritdoc}
      */
     public function findSessionTypesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class SessionTypeManager extends AbstractManager implements SessionTypeManagerIn
     }
 
     /**
-     * @param SessionTypeInterface $sessionType
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateSessionType(
         SessionTypeInterface $sessionType,
@@ -65,7 +54,7 @@ class SessionTypeManager extends AbstractManager implements SessionTypeManagerIn
     }
 
     /**
-     * @param SessionTypeInterface $sessionType
+     * {@inheritdoc}
      */
     public function deleteSessionType(
         SessionTypeInterface $sessionType
@@ -75,7 +64,7 @@ class SessionTypeManager extends AbstractManager implements SessionTypeManagerIn
     }
 
     /**
-     * @return SessionTypeInterface
+     * {@inheritdoc}
      */
     public function createSessionType()
     {

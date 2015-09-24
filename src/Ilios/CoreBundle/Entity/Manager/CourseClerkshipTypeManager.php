@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 class CourseClerkshipTypeManager extends AbstractManager implements CourseClerkshipTypeManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CourseClerkshipTypeInterface
+     * {@inheritdoc}
      */
     public function findCourseClerkshipTypeBy(
         array $criteria,
@@ -26,12 +22,7 @@ class CourseClerkshipTypeManager extends AbstractManager implements CourseClerks
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CourseClerkshipTypeInterface[]
+     * {@inheritdoc}
      */
     public function findCourseClerkshipTypesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class CourseClerkshipTypeManager extends AbstractManager implements CourseClerks
     }
 
     /**
-     * @param CourseClerkshipTypeInterface $courseClerkshipType
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateCourseClerkshipType(
         CourseClerkshipTypeInterface $courseClerkshipType,
@@ -65,7 +54,7 @@ class CourseClerkshipTypeManager extends AbstractManager implements CourseClerks
     }
 
     /**
-     * @param CourseClerkshipTypeInterface $courseClerkshipType
+     * {@inheritdoc}
      */
     public function deleteCourseClerkshipType(
         CourseClerkshipTypeInterface $courseClerkshipType
@@ -75,7 +64,7 @@ class CourseClerkshipTypeManager extends AbstractManager implements CourseClerks
     }
 
     /**
-     * @return CourseClerkshipTypeInterface
+     * {@inheritdoc}
      */
     public function createCourseClerkshipType()
     {

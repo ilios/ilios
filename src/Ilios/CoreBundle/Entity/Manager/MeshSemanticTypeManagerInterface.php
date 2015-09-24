@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 
 /**
@@ -28,7 +27,7 @@ interface MeshSemanticTypeManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|MeshSemanticTypeInterface[]
+     * @return MeshSemanticTypeInterface[]
      */
     public function findMeshSemanticTypesBy(
         array $criteria,

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
 
 /**
@@ -28,7 +27,7 @@ interface AamcMethodManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|AamcMethodInterface[]
+     * @return AamcMethodInterface[]
      */
     public function findAamcMethodsBy(
         array $criteria,

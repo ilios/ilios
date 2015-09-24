@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\CohortInterface;
 
 /**
@@ -28,7 +27,7 @@ interface CohortManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|CohortInterface[]
+     * @return CohortInterface[]
      */
     public function findCohortsBy(
         array $criteria,

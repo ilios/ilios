@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -14,10 +12,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
 class UserManager extends AbstractManager implements UserManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return UserInterface
+     * {@inheritdoc}
      */
     public function findUserBy(
         array $criteria,
@@ -27,12 +22,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return UserInterface[]
+     * {@inheritdoc}
      */
     public function findUsersBy(
         array $criteria,
@@ -44,9 +34,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
     }
 
     /**
-     * @param UserInterface $user
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateUser(
         UserInterface $user,
@@ -66,7 +54,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
     }
 
     /**
-     * @param UserInterface $user
+     * {@inheritdoc}
      */
     public function deleteUser(
         UserInterface $user
@@ -76,7 +64,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
     }
 
     /**
-     * @return UserInterface
+     * {@inheritdoc}
      */
     public function createUser()
     {
@@ -85,12 +73,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
     }
 
     /**
-     * @param string $q
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return UserInterface[]|Collection
+     * {@inheritdoc}
      */
     public function findUsersByQ(
         $q,
@@ -102,11 +85,7 @@ class UserManager extends AbstractManager implements UserManagerInterface
     }
 
     /**
-     * @param integer $userId
-     * @param \DateTime $from
-     * @param \DateTime $to
-     *
-     * @return UserEvent[]|Collection
+     * {@inheritdoc}
      */
     public function findEventsForUser(
         $userId,
@@ -117,24 +96,24 @@ class UserManager extends AbstractManager implements UserManagerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = array())
     {
         return $this->getRepository()->findUsersWhoAreNotFormerStudents($campusIdFilter);
     }
-    
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true)
     {
         return $this->getRepository()->getAllCampusIds($includeDisabled, $includeSyncIgnore);
         
     }
-    
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resetExaminedFlagForAllUsers()
     {

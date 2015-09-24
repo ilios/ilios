@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\SchoolInterface;
 class SchoolManager extends AbstractManager implements SchoolManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return SchoolInterface
+     * {@inheritdoc}
      */
     public function findSchoolBy(
         array $criteria,
@@ -27,12 +23,7 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|SchoolInterface[]
+     * {@inheritdoc}
      */
     public function findSchoolsBy(
         array $criteria,
@@ -45,9 +36,7 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
     }
 
     /**
-     * @param SchoolInterface $school
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateSchool(
         SchoolInterface $school,
@@ -67,7 +56,7 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
     }
 
     /**
-     * @param SchoolInterface $school
+     * {@inheritdoc}
      */
     public function deleteSchool(
         SchoolInterface $school
@@ -77,7 +66,7 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
     }
 
     /**
-     * @return SchoolInterface
+     * {@inheritdoc}
      */
     public function createSchool()
     {
@@ -86,11 +75,7 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
     }
 
     /**
-     * @param integer $schoolId
-     * @param \DateTime $from
-     * @param \DateTime $to
-     *
-     * @return UserEvent[]|Collection
+     * {@inheritdoc}
      */
     public function findEventsForSchool(
         $schoolId,

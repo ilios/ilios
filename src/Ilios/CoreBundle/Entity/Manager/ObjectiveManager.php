@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\ObjectiveInterface;
 class ObjectiveManager extends AbstractManager implements ObjectiveManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return ObjectiveInterface
+     * {@inheritdoc}
      */
     public function findObjectiveBy(
         array $criteria,
@@ -26,12 +22,7 @@ class ObjectiveManager extends AbstractManager implements ObjectiveManagerInterf
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|ObjectiveInterface[]
+     * {@inheritdoc}
      */
     public function findObjectivesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class ObjectiveManager extends AbstractManager implements ObjectiveManagerInterf
     }
 
     /**
-     * @param ObjectiveInterface $objective
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateObjective(
         ObjectiveInterface $objective,
@@ -65,7 +54,7 @@ class ObjectiveManager extends AbstractManager implements ObjectiveManagerInterf
     }
 
     /**
-     * @param ObjectiveInterface $objective
+     * {@inheritdoc}
      */
     public function deleteObjective(
         ObjectiveInterface $objective
@@ -75,7 +64,7 @@ class ObjectiveManager extends AbstractManager implements ObjectiveManagerInterf
     }
 
     /**
-     * @return ObjectiveInterface
+     * {@inheritdoc}
      */
     public function createObjective()
     {

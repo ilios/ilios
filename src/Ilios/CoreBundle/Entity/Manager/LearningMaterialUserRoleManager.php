@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 class LearningMaterialUserRoleManager extends AbstractManager implements LearningMaterialUserRoleManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return LearningMaterialUserRoleInterface
+     * {@inheritdoc}
      */
     public function findLearningMaterialUserRoleBy(
         array $criteria,
@@ -26,12 +22,7 @@ class LearningMaterialUserRoleManager extends AbstractManager implements Learnin
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|LearningMaterialUserRoleInterface[]
+     * {@inheritdoc}
      */
     public function findLearningMaterialUserRolesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class LearningMaterialUserRoleManager extends AbstractManager implements Learnin
     }
 
     /**
-     * @param LearningMaterialUserRoleInterface $learningMaterialUserRole
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateLearningMaterialUserRole(
         LearningMaterialUserRoleInterface $learningMaterialUserRole,
@@ -65,7 +54,7 @@ class LearningMaterialUserRoleManager extends AbstractManager implements Learnin
     }
 
     /**
-     * @param LearningMaterialUserRoleInterface $learningMaterialUserRole
+     * {@inheritdoc}
      */
     public function deleteLearningMaterialUserRole(
         LearningMaterialUserRoleInterface $learningMaterialUserRole
@@ -75,7 +64,7 @@ class LearningMaterialUserRoleManager extends AbstractManager implements Learnin
     }
 
     /**
-     * @return LearningMaterialUserRoleInterface
+     * {@inheritdoc}
      */
     public function createLearningMaterialUserRole()
     {

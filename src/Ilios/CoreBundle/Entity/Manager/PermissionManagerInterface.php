@@ -32,7 +32,7 @@ interface PermissionManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|PermissionInterface[]
+     * @return PermissionInterface[]
      */
     public function findPermissionsBy(
         array $criteria,
@@ -95,7 +95,7 @@ interface PermissionManagerInterface extends ManagerInterface
     /**
      * Checks if a given user has "read" permissions for and in an array of schools.
      * @param UserInterface $user
-     * @param ArrayCollection[SchoolInterface] $schools
+     * @param ArrayCollection $schools
      * @return bool
      */
     public function userHasReadPermissionToSchools(UserInterface $user, ArrayCollection $schools);
@@ -103,7 +103,7 @@ interface PermissionManagerInterface extends ManagerInterface
     /**
     * Checks if a given user has "write" permissions for a list of schools
     * @param UserInterface $user
-    * @param ArrayCollection[SchoolInterface] $schools
+    * @param ArrayCollection $schools
     * @return bool
     */
     public function userHasWritePermissionToSchools(UserInterface $user, ArrayCollection $schools);

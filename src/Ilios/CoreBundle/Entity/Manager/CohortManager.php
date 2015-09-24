@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CohortInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\CohortInterface;
 class CohortManager extends AbstractManager implements CohortManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CohortInterface
+     * {@inheritdoc}
      */
     public function findCohortBy(
         array $criteria,
@@ -26,12 +22,7 @@ class CohortManager extends AbstractManager implements CohortManagerInterface
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CohortInterface[]
+     * {@inheritdoc}
      */
     public function findCohortsBy(
         array $criteria,

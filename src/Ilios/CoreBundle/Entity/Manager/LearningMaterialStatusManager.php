@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 class LearningMaterialStatusManager extends AbstractManager implements LearningMaterialStatusManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return LearningMaterialStatusInterface
+     * {@inheritdoc}
      */
     public function findLearningMaterialStatusBy(
         array $criteria,
@@ -26,12 +22,7 @@ class LearningMaterialStatusManager extends AbstractManager implements LearningM
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|LearningMaterialStatusInterface[]
+     * {@inheritdoc}
      */
     public function findLearningMaterialStatusesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class LearningMaterialStatusManager extends AbstractManager implements LearningM
     }
 
     /**
-     * @param LearningMaterialStatusInterface $learningMaterialStatus
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateLearningMaterialStatus(
         LearningMaterialStatusInterface $learningMaterialStatus,
@@ -65,7 +54,7 @@ class LearningMaterialStatusManager extends AbstractManager implements LearningM
     }
 
     /**
-     * @param LearningMaterialStatusInterface $learningMaterialStatus
+     * {@inheritdoc}
      */
     public function deleteLearningMaterialStatus(
         LearningMaterialStatusInterface $learningMaterialStatus
@@ -75,7 +64,7 @@ class LearningMaterialStatusManager extends AbstractManager implements LearningM
     }
 
     /**
-     * @return LearningMaterialStatusInterface
+     * {@inheritdoc}
      */
     public function createLearningMaterialStatus()
     {

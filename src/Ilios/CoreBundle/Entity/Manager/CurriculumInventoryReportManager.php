@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 class CurriculumInventoryReportManager extends AbstractManager implements CurriculumInventoryReportManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CurriculumInventoryReportInterface
+     * {@inheritdoc}
      */
     public function findCurriculumInventoryReportBy(
         array $criteria,
@@ -26,12 +22,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CurriculumInventoryReportInterface[]
+     * {@inheritdoc}
      */
     public function findCurriculumInventoryReportsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $curriculumInventoryReport
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateCurriculumInventoryReport(
         CurriculumInventoryReportInterface $curriculumInventoryReport,
@@ -65,7 +54,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $curriculumInventoryReport
+     * {@inheritdoc}
      */
     public function deleteCurriculumInventoryReport(
         CurriculumInventoryReportInterface $curriculumInventoryReport
@@ -75,7 +64,7 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
     }
 
     /**
-     * @return CurriculumInventoryReportInterface
+     * {@inheritdoc}
      */
     public function createCurriculumInventoryReport()
     {

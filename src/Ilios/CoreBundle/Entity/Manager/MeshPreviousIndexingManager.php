@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
 class MeshPreviousIndexingManager extends AbstractManager implements MeshPreviousIndexingManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return MeshPreviousIndexingInterface
+     * {@inheritdoc}
      */
     public function findMeshPreviousIndexingBy(
         array $criteria,
@@ -26,12 +22,7 @@ class MeshPreviousIndexingManager extends AbstractManager implements MeshPreviou
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|MeshPreviousIndexingInterface[]
+     * {@inheritdoc}
      */
     public function findMeshPreviousIndexingsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class MeshPreviousIndexingManager extends AbstractManager implements MeshPreviou
     }
 
     /**
-     * @param MeshPreviousIndexingInterface $meshPreviousIndexing
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateMeshPreviousIndexing(
         MeshPreviousIndexingInterface $meshPreviousIndexing,
@@ -65,7 +54,7 @@ class MeshPreviousIndexingManager extends AbstractManager implements MeshPreviou
     }
 
     /**
-     * @param MeshPreviousIndexingInterface $meshPreviousIndexing
+     * {@inheritdoc}
      */
     public function deleteMeshPreviousIndexing(
         MeshPreviousIndexingInterface $meshPreviousIndexing
@@ -75,7 +64,7 @@ class MeshPreviousIndexingManager extends AbstractManager implements MeshPreviou
     }
 
     /**
-     * @return MeshPreviousIndexingInterface
+     * {@inheritdoc}
      */
     public function createMeshPreviousIndexing()
     {
