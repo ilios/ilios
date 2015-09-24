@@ -3,14 +3,15 @@
 namespace Ilios\CliBundle\Command;
 
 use Ilios\CoreBundle\Entity\InstructorGroupInterface;
-use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
 use Ilios\CoreBundle\Entity\OfferingInterface;
+use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Sends teaching reminders to educators for their upcoming session offerings.
@@ -20,15 +21,29 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SendTeachingRemindersCommand extends Command
 {
+    /**
+     * @var string
+     */
+    const DEFAULT_TEMPLATE_NAME = 'teachingreminder.twig';
 
     /**
      * @var OfferingManagerInterface
      */
     protected $offeringManager;
 
-    public function __construct(OfferingManagerInterface $offeringManager)
+    /**
+     * @var EngineInterface
+     */
+    protected $templatingEngine;
+
+    /**
+     * @param \Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface $offeringManager
+     * @param \Symfony\Component\Templating\EngineInterface $templatingEngine
+     */
+    public function __construct(OfferingManagerInterface $offeringManager, EngineInterface $templatingEngine)
     {
         $this->offeringManager = $offeringManager;
+        $this->templatingEngine = $templatingEngine;
         parent::__construct();
     }
 
@@ -40,6 +55,12 @@ class SendTeachingRemindersCommand extends Command
         $this
             ->setName('ilios:messaging:send-teaching-reminders')
             ->setDescription('Sends teaching reminders to educators.')
+            ->addOption(
+                'ilios_url',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'The base URL of your Ilios instance.'
+            )
             ->addOption(
                 'sender',
                 null,
@@ -79,6 +100,7 @@ class SendTeachingRemindersCommand extends Command
 
         $daysInAdvance = $input->getOption('days');
         $sender = $input->getOption('sender');
+        $baseUrl = rtrim($input->getOption('base_url'), '/');
 
         // get all applicable offerings.
         $offerings = $this->offeringManager->getOfferingsForTeachingReminders($daysInAdvance);
@@ -88,13 +110,50 @@ class SendTeachingRemindersCommand extends Command
             return;
         }
 
+        // mail out a reminder per instructor per offering.
+        $templateCache = [];
         $iterator = $offerings->getIterator();
         /** @var OfferingInterface $offering */
         foreach ($iterator as $offering) {
-            $instructors = $this->getAllInstructorsForOffering($offering);
 
-            // @todo Implement the rest of it. Render mail body, send out notifications etc [ST 2015/09/22]
+            $school = $offering->getSession()->getCourse()->getSchool();
+            if (! array_key_exists($school->getId(), $templateCache)) {
+                $template = $this->getTemplateName($school);
+                $templateCache[$school->getId()] = $template;
+            }
+            $template = $templateCache[$school->getId()];
+
+            $instructors = $this->getAllInstructorsForOffering($offering);
+            $sessionObjectives = []; // @todo [ST 2015/09/24]
+            $courseObjectives = []; // @todo [ST 2015/09/24]
+
+            foreach ($instructors as $instructor) {
+
+                $messageBody = $this->templatingEngine->render($template, [
+                    'base_url' => $baseUrl,
+                    'course_objectives' => $courseObjectives,
+                    'instructor' => $instructor,
+                    'offering' => $offering,
+                    'session_objectives' => $sessionObjectives,
+                ]);
+
+                $output->writeln($messageBody);
+            }
         }
+    }
+
+    /**
+     * Locates the applicable message template for a given school and returns its name.
+     * @param SchoolInterface $school
+     * @return string The template name.
+     */
+    protected function getTemplateName(SchoolInterface $school)
+    {
+        $schoolTemplateName = basename($school->getTemplatePrefix() . '_' . self::DEFAULT_TEMPLATE_NAME);
+        if ($this->templatingEngine->exists($schoolTemplateName)) {
+            return $schoolTemplateName;
+        }
+        return self::DEFAULT_TEMPLATE_NAME;
     }
 
 
