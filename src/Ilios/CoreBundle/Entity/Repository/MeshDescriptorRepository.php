@@ -2,7 +2,7 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 
 /**
  * Class MeshDescriptorRepository
@@ -17,7 +17,7 @@ class MeshDescriptorRepository extends EntityRepository
      * @param integer $orderBy
      * @param integer $limit
      * @param integer $offset
-     * @return array
+     * @return MeshDescriptorInterface[]
      */
     public function findByQ($q, $orderBy, $limit, $offset)
     {
@@ -30,7 +30,7 @@ class MeshDescriptorRepository extends EntityRepository
         $terms = explode(' ', $q);
         $terms = array_filter($terms, 'strlen');
         if (empty($terms)) {
-            return new ArrayCollection([]);
+            return [];
         }
 
         foreach ($terms as $key => $term) {
