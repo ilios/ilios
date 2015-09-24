@@ -6,18 +6,12 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
-use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use DateTime;
-use Exception;
 
 /**
  * School event.
@@ -71,10 +65,10 @@ class SchooleventsController extends FOSRestController
         $from = DateTime::createFromFormat('U', $fromTimestamp);
         $to = DateTime::createFromFormat('U', $toTimestamp);
         if (!$from) {
-            throw new Exception("'from' is not a valid timstamp");
+            throw new InvalidInputWithSafeUserMessageException("?from is missing or is not a valid timestamp");
         }
         if (!$to) {
-            throw new Exception("'to' is not a valid timstamp");
+            throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
         }
         $result = $schoolHandler->findEventsForSchool(
             $school->getId(),
