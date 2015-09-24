@@ -140,7 +140,7 @@ class ProgramYearStewardController extends FOSRestController
 
         //If there are no matches return an empty array
         $answer['programYearStewards'] =
-            $result ? $result : new ArrayCollection([]);
+            $result ? array_values($result) : [];
 
         return $answer;
     }

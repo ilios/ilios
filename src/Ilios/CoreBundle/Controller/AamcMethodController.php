@@ -140,7 +140,7 @@ class AamcMethodController extends FOSRestController
 
         //If there are no matches return an empty array
         $answer['aamcMethods'] =
-            $result ? $result : new ArrayCollection([]);
+            $result ? array_values($result) : [];
 
         return $answer;
     }
