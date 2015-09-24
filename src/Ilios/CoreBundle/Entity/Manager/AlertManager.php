@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AlertInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\AlertInterface;
 class AlertManager extends AbstractManager implements AlertManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return AlertInterface
+     * {@inheritdoc}
      */
     public function findAlertBy(
         array $criteria,
@@ -26,12 +22,7 @@ class AlertManager extends AbstractManager implements AlertManagerInterface
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|AlertInterface[]
+     * {@inheritdoc}
      */
     public function findAlertsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class AlertManager extends AbstractManager implements AlertManagerInterface
     }
 
     /**
-     * @param AlertInterface $alert
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateAlert(
         AlertInterface $alert,
@@ -65,7 +54,7 @@ class AlertManager extends AbstractManager implements AlertManagerInterface
     }
 
     /**
-     * @param AlertInterface $alert
+     * {@inheritdoc}
      */
     public function deleteAlert(
         AlertInterface $alert
@@ -75,7 +64,7 @@ class AlertManager extends AbstractManager implements AlertManagerInterface
     }
 
     /**
-     * @return AlertInterface
+     * {@inheritdoc}
      */
     public function createAlert()
     {

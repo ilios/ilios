@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshConceptInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\MeshConceptInterface;
 class MeshConceptManager extends AbstractManager implements MeshConceptManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return MeshConceptInterface
+     * {@inheritdoc}
      */
     public function findMeshConceptBy(
         array $criteria,
@@ -26,12 +22,7 @@ class MeshConceptManager extends AbstractManager implements MeshConceptManagerIn
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|MeshConceptInterface[]
+     * {@inheritdoc}
      */
     public function findMeshConceptsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class MeshConceptManager extends AbstractManager implements MeshConceptManagerIn
     }
 
     /**
-     * @param MeshConceptInterface $meshConcept
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateMeshConcept(
         MeshConceptInterface $meshConcept,
@@ -65,7 +54,7 @@ class MeshConceptManager extends AbstractManager implements MeshConceptManagerIn
     }
 
     /**
-     * @param MeshConceptInterface $meshConcept
+     * {@inheritdoc}
      */
     public function deleteMeshConcept(
         MeshConceptInterface $meshConcept
@@ -75,7 +64,7 @@ class MeshConceptManager extends AbstractManager implements MeshConceptManagerIn
     }
 
     /**
-     * @return MeshConceptInterface
+     * {@inheritdoc}
      */
     public function createMeshConcept()
     {

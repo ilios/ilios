@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshTermInterface;
 
@@ -14,10 +13,7 @@ use Ilios\CoreBundle\Entity\MeshTermInterface;
 class MeshTermManager extends AbstractManager implements MeshTermManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return MeshTermInterface
+     * {@inheritdoc}
      */
     public function findMeshTermBy(array $criteria, array $orderBy = null)
     {
@@ -25,12 +21,7 @@ class MeshTermManager extends AbstractManager implements MeshTermManagerInterfac
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return MeshTermInterface[]|Collection
+     * {@inheritdoc}
      */
     public function findMeshTermsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
@@ -38,9 +29,7 @@ class MeshTermManager extends AbstractManager implements MeshTermManagerInterfac
     }
 
     /**
-     * @param MeshTermInterface $meshTerm
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateMeshTerm(MeshTermInterface $meshTerm, $andFlush = true, $forceId = false)
     {
@@ -57,7 +46,7 @@ class MeshTermManager extends AbstractManager implements MeshTermManagerInterfac
     }
 
     /**
-     * @param MeshTermInterface $meshTerm
+     * {@inheritdoc}
      */
     public function deleteMeshTerm(MeshTermInterface $meshTerm)
     {
@@ -66,7 +55,7 @@ class MeshTermManager extends AbstractManager implements MeshTermManagerInterfac
     }
 
     /**
-     * @return MeshTermInterface
+     * {@inheritdoc}
      */
     public function createMeshTerm()
     {

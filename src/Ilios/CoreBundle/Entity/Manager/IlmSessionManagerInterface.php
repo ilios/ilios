@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
@@ -28,7 +27,7 @@ interface IlmSessionManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|IlmSessionInterface[]
+     * @return IlmSessionInterface[]
      */
     public function findIlmSessionsBy(
         array $criteria,

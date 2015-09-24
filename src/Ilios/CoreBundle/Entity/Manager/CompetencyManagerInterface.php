@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**
@@ -28,7 +27,7 @@ interface CompetencyManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|CompetencyInterface[]
+     * @return CompetencyInterface[]
      */
     public function findCompetenciesBy(
         array $criteria,

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 
 /**
@@ -28,7 +27,7 @@ interface LearningMaterialManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|LearningMaterialInterface[]
+     * @return LearningMaterialInterface[]
      */
     public function findLearningMaterialsBy(
         array $criteria,

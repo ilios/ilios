@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\ProgramInterface;
 class ProgramManager extends AbstractManager implements ProgramManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return ProgramInterface
+     * {@inheritdoc}
      */
     public function findProgramBy(
         array $criteria,
@@ -27,12 +23,7 @@ class ProgramManager extends AbstractManager implements ProgramManagerInterface
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|ProgramInterface[]
+     * {@inheritdoc}
      */
     public function findProgramsBy(
         array $criteria,
@@ -45,9 +36,7 @@ class ProgramManager extends AbstractManager implements ProgramManagerInterface
     }
 
     /**
-     * @param ProgramInterface $program
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateProgram(
         ProgramInterface $program,
@@ -67,7 +56,7 @@ class ProgramManager extends AbstractManager implements ProgramManagerInterface
     }
 
     /**
-     * @param ProgramInterface $program
+     * {@inheritdoc}
      */
     public function deleteProgram(
         ProgramInterface $program
@@ -77,7 +66,7 @@ class ProgramManager extends AbstractManager implements ProgramManagerInterface
     }
 
     /**
-     * @return ProgramInterface
+     * {@inheritdoc}
      */
     public function createProgram()
     {

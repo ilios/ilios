@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\InstructorGroupInterface;
 
 /**
@@ -28,7 +27,7 @@ interface InstructorGroupManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|InstructorGroupInterface[]
+     * @return InstructorGroupInterface[]
      */
     public function findInstructorGroupsBy(
         array $criteria,

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\TopicInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\TopicInterface;
 class TopicManager extends AbstractManager implements TopicManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return TopicInterface
+     * {@inheritdoc}
      */
     public function findTopicBy(
         array $criteria,
@@ -26,12 +22,7 @@ class TopicManager extends AbstractManager implements TopicManagerInterface
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|TopicInterface[]
+     * {@inheritdoc}
      */
     public function findTopicsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class TopicManager extends AbstractManager implements TopicManagerInterface
     }
 
     /**
-     * @param TopicInterface $topic
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateTopic(
         TopicInterface $topic,
@@ -65,7 +54,7 @@ class TopicManager extends AbstractManager implements TopicManagerInterface
     }
 
     /**
-     * @param TopicInterface $topic
+     * {@inheritdoc}
      */
     public function deleteTopic(
         TopicInterface $topic
@@ -75,7 +64,7 @@ class TopicManager extends AbstractManager implements TopicManagerInterface
     }
 
     /**
-     * @return TopicInterface
+     * {@inheritdoc}
      */
     public function createTopic()
     {

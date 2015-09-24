@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\DepartmentInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\DepartmentInterface;
 class DepartmentManager extends AbstractManager implements DepartmentManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return DepartmentInterface
+     * {@inheritdoc}
      */
     public function findDepartmentBy(
         array $criteria,
@@ -27,12 +23,7 @@ class DepartmentManager extends AbstractManager implements DepartmentManagerInte
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|DepartmentInterface[]
+     * {@inheritdoc}
      */
     public function findDepartmentsBy(
         array $criteria,
@@ -45,9 +36,7 @@ class DepartmentManager extends AbstractManager implements DepartmentManagerInte
     }
 
     /**
-     * @param DepartmentInterface $department
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateDepartment(
         DepartmentInterface $department,
@@ -67,7 +56,7 @@ class DepartmentManager extends AbstractManager implements DepartmentManagerInte
     }
 
     /**
-     * @param DepartmentInterface $department
+     * {@inheritdoc}
      */
     public function deleteDepartment(
         DepartmentInterface $department
@@ -77,7 +66,7 @@ class DepartmentManager extends AbstractManager implements DepartmentManagerInte
     }
 
     /**
-     * @return DepartmentInterface
+     * {@inheritdoc}
      */
     public function createDepartment()
     {

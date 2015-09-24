@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 class AamcPcrsManager extends AbstractManager implements AamcPcrsManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return AamcPcrsInterface
+     * {@inheritdoc}
      */
     public function findAamcPcrsBy(
         array $criteria,
@@ -26,12 +22,7 @@ class AamcPcrsManager extends AbstractManager implements AamcPcrsManagerInterfac
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|AamcPcrsInterface[]
+     * {@inheritdoc}
      */
     public function findAamcPcrsesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class AamcPcrsManager extends AbstractManager implements AamcPcrsManagerInterfac
     }
 
     /**
-     * @param AamcPcrsInterface $aamcPcrs
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateAamcPcrs(
         AamcPcrsInterface $aamcPcrs,
@@ -65,7 +54,7 @@ class AamcPcrsManager extends AbstractManager implements AamcPcrsManagerInterfac
     }
 
     /**
-     * @param AamcPcrsInterface $aamcPcrs
+     * {@inheritdoc}
      */
     public function deleteAamcPcrs(
         AamcPcrsInterface $aamcPcrs
@@ -75,7 +64,7 @@ class AamcPcrsManager extends AbstractManager implements AamcPcrsManagerInterfac
     }
 
     /**
-     * @return AamcPcrsInterface
+     * {@inheritdoc}
      */
     public function createAamcPcrs()
     {

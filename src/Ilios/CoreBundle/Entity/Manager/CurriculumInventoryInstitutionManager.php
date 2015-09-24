@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManagerInterface as BaseInterface;
@@ -14,10 +13,7 @@ use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManagerInterfa
 class CurriculumInventoryInstitutionManager extends AbstractManager implements BaseInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CurriculumInventoryInstitutionInterface
+     * {@inheritdoc}
      */
     public function findCurriculumInventoryInstitutionBy(
         array $criteria,
@@ -27,12 +23,7 @@ class CurriculumInventoryInstitutionManager extends AbstractManager implements B
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CurriculumInventoryInstitutionInterface[]
+     * {@inheritdoc}
      */
     public function findCurriculumInventoryInstitutionsBy(
         array $criteria,
@@ -44,9 +35,7 @@ class CurriculumInventoryInstitutionManager extends AbstractManager implements B
     }
 
     /**
-     * @param CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateCurriculumInventoryInstitution(
         CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution,
@@ -66,7 +55,7 @@ class CurriculumInventoryInstitutionManager extends AbstractManager implements B
     }
 
     /**
-     * @param CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
+     * {@inheritdoc}
      */
     public function deleteCurriculumInventoryInstitution(
         CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
@@ -76,7 +65,7 @@ class CurriculumInventoryInstitutionManager extends AbstractManager implements B
     }
 
     /**
-     * @return CurriculumInventoryInstitutionInterface
+     * {@inheritdoc}
      */
     public function createCurriculumInventoryInstitution()
     {

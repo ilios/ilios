@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
@@ -28,7 +27,7 @@ interface CurriculumInventoryReportManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|CurriculumInventoryReportInterface[]
+     * @return CurriculumInventoryReportInterface[]
      */
     public function findCurriculumInventoryReportsBy(
         array $criteria,

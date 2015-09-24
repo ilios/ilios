@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
@@ -16,10 +15,7 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 class ProgramYearStewardManager extends AbstractManager implements ProgramYearStewardManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return ProgramYearStewardInterface
+     * {@inheritdoc}
      */
     public function findProgramYearStewardBy(
         array $criteria,
@@ -29,12 +25,7 @@ class ProgramYearStewardManager extends AbstractManager implements ProgramYearSt
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|ProgramYearStewardInterface[]
+     * {@inheritdoc}
      */
     public function findProgramYearStewardsBy(
         array $criteria,
@@ -46,9 +37,7 @@ class ProgramYearStewardManager extends AbstractManager implements ProgramYearSt
     }
 
     /**
-     * @param ProgramYearStewardInterface $programYearSteward
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateProgramYearSteward(
         ProgramYearStewardInterface $programYearSteward,
@@ -68,7 +57,7 @@ class ProgramYearStewardManager extends AbstractManager implements ProgramYearSt
     }
 
     /**
-     * @param ProgramYearStewardInterface $programYearSteward
+     * {@inheritdoc}
      */
     public function deleteProgramYearSteward(
         ProgramYearStewardInterface $programYearSteward
@@ -78,7 +67,7 @@ class ProgramYearStewardManager extends AbstractManager implements ProgramYearSt
     }
 
     /**
-     * @return ProgramYearStewardInterface
+     * {@inheritdoc}
      */
     public function createProgramYearSteward()
     {

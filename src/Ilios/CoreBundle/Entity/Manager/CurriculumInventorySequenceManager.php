@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventorySequenceInterface;
 class CurriculumInventorySequenceManager extends AbstractManager implements CurriculumInventorySequenceManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CurriculumInventorySequenceInterface
+     * {@inheritdoc}
      */
     public function findCurriculumInventorySequenceBy(
         array $criteria,
@@ -26,12 +22,7 @@ class CurriculumInventorySequenceManager extends AbstractManager implements Curr
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CurriculumInventorySequenceInterface[]
+     * {@inheritdoc}
      */
     public function findCurriculumInventorySequencesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class CurriculumInventorySequenceManager extends AbstractManager implements Curr
     }
 
     /**
-     * @param CurriculumInventorySequenceInterface $curriculumInventorySequence
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateCurriculumInventorySequence(
         CurriculumInventorySequenceInterface $curriculumInventorySequence,
@@ -65,7 +54,7 @@ class CurriculumInventorySequenceManager extends AbstractManager implements Curr
     }
 
     /**
-     * @param CurriculumInventorySequenceInterface $curriculumInventorySequence
+     * {@inheritdoc}
      */
     public function deleteCurriculumInventorySequence(
         CurriculumInventorySequenceInterface $curriculumInventorySequence
@@ -75,7 +64,7 @@ class CurriculumInventorySequenceManager extends AbstractManager implements Curr
     }
 
     /**
-     * @return CurriculumInventorySequenceInterface
+     * {@inheritdoc}
      */
     public function createCurriculumInventorySequence()
     {

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 
 /**
@@ -28,7 +27,7 @@ interface ProgramManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|ProgramInterface[]
+     * @return ProgramInterface[]
      */
     public function findProgramsBy(
         array $criteria,

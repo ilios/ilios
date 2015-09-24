@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\UserMadeReminderInterface;
 
 /**
@@ -28,7 +27,7 @@ interface UserMadeReminderManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|UserMadeReminderInterface[]
+     * @return UserMadeReminderInterface[]
      */
     public function findUserMadeRemindersBy(
         array $criteria,

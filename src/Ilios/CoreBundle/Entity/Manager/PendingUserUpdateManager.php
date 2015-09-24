@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\PendingUserUpdateInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\PendingUserUpdateInterface;
 class PendingUserUpdateManager extends AbstractManager implements PendingUserUpdateManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return PendingUserUpdateInterface
+     * {@inheritdoc}
      */
     public function findPendingUserUpdateBy(
         array $criteria,
@@ -26,12 +22,7 @@ class PendingUserUpdateManager extends AbstractManager implements PendingUserUpd
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|PendingUserUpdateInterface[]
+     * {@inheritdoc}
      */
     public function findPendingUserUpdatesBy(
         array $criteria,
@@ -43,9 +34,7 @@ class PendingUserUpdateManager extends AbstractManager implements PendingUserUpd
     }
 
     /**
-     * @param PendingUserUpdateInterface $pendingUserUpdate
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updatePendingUserUpdate(
         PendingUserUpdateInterface $pendingUserUpdate,
@@ -65,7 +54,7 @@ class PendingUserUpdateManager extends AbstractManager implements PendingUserUpd
     }
 
     /**
-     * @param PendingUserUpdateInterface $pendingUserUpdate
+     * {@inheritdoc}
      */
     public function deletePendingUserUpdate(
         PendingUserUpdateInterface $pendingUserUpdate
@@ -75,16 +64,16 @@ class PendingUserUpdateManager extends AbstractManager implements PendingUserUpd
     }
 
     /**
-     * @return PendingUserUpdateInterface
+     * {@inheritdoc}
      */
     public function createPendingUserUpdate()
     {
         $class = $this->getClass();
         return new $class();
     }
-    
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function removeAllPendingUserUpdates()
     {

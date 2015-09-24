@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSessionInterface;
 
 /**
@@ -12,10 +11,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSessionInterface;
 interface CurriculumInventorySequenceBlockSessionManagerInterface extends ManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CurriculumInventorySequenceBlockSessionInterface
+     * {@inheritdoc}
      */
     public function findCurriculumInventorySequenceBlockSessionBy(
         array $criteria,
@@ -23,12 +19,7 @@ interface CurriculumInventorySequenceBlockSessionManagerInterface extends Manage
     );
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CurriculumInventorySequenceBlockSessionInterface[]
+     * {@inheritdoc}
      */
     public function findCurriculumInventorySequenceBlockSessionsBy(
         array $criteria,
@@ -38,11 +29,7 @@ interface CurriculumInventorySequenceBlockSessionManagerInterface extends Manage
     );
 
     /**
-     * @param CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession
-     * @param bool $andFlush
-     * @param bool $forceId
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function updateCurriculumInventorySequenceBlockSession(
         CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession,
@@ -51,16 +38,14 @@ interface CurriculumInventorySequenceBlockSessionManagerInterface extends Manage
     );
 
     /**
-     * @param CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function deleteCurriculumInventorySequenceBlockSession(
         CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession
     );
 
     /**
-     * @return CurriculumInventorySequenceBlockSessionInterface
+     * {@inheritdoc}
      */
     public function createCurriculumInventorySequenceBlockSession();
 }

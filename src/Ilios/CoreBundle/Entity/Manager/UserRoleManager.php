@@ -13,10 +13,7 @@ use Ilios\CoreBundle\Entity\UserRoleInterface;
 class UserRoleManager extends AbstractManager implements UserRoleManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return UserRoleInterface
+     * {@inheritdoc}
      */
     public function findUserRoleBy(
         array $criteria,
@@ -26,12 +23,7 @@ class UserRoleManager extends AbstractManager implements UserRoleManagerInterfac
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|UserRoleInterface[]
+     * {@inheritdoc}
      */
     public function findUserRolesBy(
         array $criteria,
@@ -43,9 +35,7 @@ class UserRoleManager extends AbstractManager implements UserRoleManagerInterfac
     }
 
     /**
-     * @param UserRoleInterface $userRole
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateUserRole(
         UserRoleInterface $userRole,
@@ -65,7 +55,7 @@ class UserRoleManager extends AbstractManager implements UserRoleManagerInterfac
     }
 
     /**
-     * @param UserRoleInterface $userRole
+     * {@inheritdoc}
      */
     public function deleteUserRole(
         UserRoleInterface $userRole
@@ -75,7 +65,7 @@ class UserRoleManager extends AbstractManager implements UserRoleManagerInterfac
     }
 
     /**
-     * @return UserRoleInterface
+     * {@inheritdoc}
      */
     public function createUserRole()
     {

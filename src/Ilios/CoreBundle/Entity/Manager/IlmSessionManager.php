@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\IlmSessionInterface;
 class IlmSessionManager extends AbstractManager implements IlmSessionManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return IlmSessionInterface
+     * {@inheritdoc}
      */
     public function findIlmSessionBy(
         array $criteria,
@@ -26,12 +22,7 @@ class IlmSessionManager extends AbstractManager implements IlmSessionManagerInte
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|IlmSessionInterface[]
+     * {@inheritdoc}
      */
     public function findIlmSessionsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class IlmSessionManager extends AbstractManager implements IlmSessionManagerInte
     }
 
     /**
-     * @param IlmSessionInterface $ilmSession
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateIlmSession(
         IlmSessionInterface $ilmSession,
@@ -65,7 +54,7 @@ class IlmSessionManager extends AbstractManager implements IlmSessionManagerInte
     }
 
     /**
-     * @param IlmSessionInterface $ilmSession
+     * {@inheritdoc}
      */
     public function deleteIlmSession(
         IlmSessionInterface $ilmSession
@@ -75,7 +64,7 @@ class IlmSessionManager extends AbstractManager implements IlmSessionManagerInte
     }
 
     /**
-     * @return IlmSessionInterface
+     * {@inheritdoc}
      */
     public function createIlmSession()
     {

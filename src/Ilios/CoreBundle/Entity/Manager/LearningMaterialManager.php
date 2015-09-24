@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 class LearningMaterialManager extends AbstractManager implements LearningMaterialManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return LearningMaterialInterface
+     * {@inheritdoc}
      */
     public function findLearningMaterialBy(
         array $criteria,
@@ -26,12 +22,7 @@ class LearningMaterialManager extends AbstractManager implements LearningMateria
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|LearningMaterialInterface[]
+     * {@inheritdoc}
      */
     public function findLearningMaterialsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class LearningMaterialManager extends AbstractManager implements LearningMateria
     }
 
     /**
-     * @param LearningMaterialInterface $learningMaterial
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateLearningMaterial(
         LearningMaterialInterface $learningMaterial,
@@ -65,7 +54,7 @@ class LearningMaterialManager extends AbstractManager implements LearningMateria
     }
 
     /**
-     * @param LearningMaterialInterface $learningMaterial
+     * {@inheritdoc}
      */
     public function deleteLearningMaterial(
         LearningMaterialInterface $learningMaterial
@@ -75,16 +64,16 @@ class LearningMaterialManager extends AbstractManager implements LearningMateria
     }
 
     /**
-     * @return LearningMaterialInterface
+     * {@inheritdoc}
      */
     public function createLearningMaterial()
     {
         $class = $this->getClass();
         return new $class();
     }
-    
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findFileLearningMaterials()
     {

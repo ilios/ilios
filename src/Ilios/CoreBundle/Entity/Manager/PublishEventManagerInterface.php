@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\PublishEventInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Interface PublishEventManagerInterface
@@ -31,7 +29,7 @@ interface PublishEventManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|PublishEventInterface[]
+     * @return PublishEventInterface[]
      */
     public function findPublishEventsBy(
         array $criteria,

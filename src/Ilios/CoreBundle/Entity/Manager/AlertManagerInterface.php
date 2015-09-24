@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\AlertInterface;
 
 /**
@@ -28,7 +27,7 @@ interface AlertManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|AlertInterface[]
+     * @return AlertInterface[]
      */
     public function findAlertsBy(
         array $criteria,

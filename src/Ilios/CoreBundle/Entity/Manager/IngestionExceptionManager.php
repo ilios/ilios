@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\IngestionExceptionInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\IngestionExceptionInterface;
 class IngestionExceptionManager extends AbstractManager implements IngestionExceptionManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return IngestionExceptionInterface
+     * {@inheritdoc}
      */
     public function findIngestionExceptionBy(
         array $criteria,
@@ -26,12 +22,7 @@ class IngestionExceptionManager extends AbstractManager implements IngestionExce
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|IngestionExceptionInterface[]
+     * {@inheritdoc}
      */
     public function findIngestionExceptionsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class IngestionExceptionManager extends AbstractManager implements IngestionExce
     }
 
     /**
-     * @param IngestionExceptionInterface $ingestionException
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateIngestionException(
         IngestionExceptionInterface $ingestionException,
@@ -65,7 +54,7 @@ class IngestionExceptionManager extends AbstractManager implements IngestionExce
     }
 
     /**
-     * @param IngestionExceptionInterface $ingestionException
+     * {@inheritdoc}
      */
     public function deleteIngestionException(
         IngestionExceptionInterface $ingestionException
@@ -75,7 +64,7 @@ class IngestionExceptionManager extends AbstractManager implements IngestionExce
     }
 
     /**
-     * @return IngestionExceptionInterface
+     * {@inheritdoc}
      */
     public function createIngestionException()
     {

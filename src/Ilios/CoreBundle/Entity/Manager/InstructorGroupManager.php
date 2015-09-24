@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\InstructorGroupInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\InstructorGroupInterface;
 class InstructorGroupManager extends AbstractManager implements InstructorGroupManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return InstructorGroupInterface
+     * {@inheritdoc}
      */
     public function findInstructorGroupBy(
         array $criteria,
@@ -26,12 +22,7 @@ class InstructorGroupManager extends AbstractManager implements InstructorGroupM
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|InstructorGroupInterface[]
+     * {@inheritdoc}
      */
     public function findInstructorGroupsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class InstructorGroupManager extends AbstractManager implements InstructorGroupM
     }
 
     /**
-     * @param InstructorGroupInterface $instructorGroup
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateInstructorGroup(
         InstructorGroupInterface $instructorGroup,
@@ -65,7 +54,7 @@ class InstructorGroupManager extends AbstractManager implements InstructorGroupM
     }
 
     /**
-     * @param InstructorGroupInterface $instructorGroup
+     * {@inheritdoc}
      */
     public function deleteInstructorGroup(
         InstructorGroupInterface $instructorGroup
@@ -75,7 +64,7 @@ class InstructorGroupManager extends AbstractManager implements InstructorGroupM
     }
 
     /**
-     * @return InstructorGroupInterface
+     * {@inheritdoc}
      */
     public function createInstructorGroup()
     {

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
@@ -30,7 +29,7 @@ interface ProgramYearStewardManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|ProgramYearStewardInterface[]
+     * @return ProgramYearStewardInterface[]
      */
     public function findProgramYearStewardsBy(
         array $criteria,

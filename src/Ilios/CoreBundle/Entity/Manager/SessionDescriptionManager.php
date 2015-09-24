@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
 class SessionDescriptionManager extends AbstractManager implements SessionDescriptionManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return SessionDescriptionInterface
+     * {@inheritdoc}
      */
     public function findSessionDescriptionBy(
         array $criteria,
@@ -26,12 +22,7 @@ class SessionDescriptionManager extends AbstractManager implements SessionDescri
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|SessionDescriptionInterface[]
+     * {@inheritdoc}
      */
     public function findSessionDescriptionsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class SessionDescriptionManager extends AbstractManager implements SessionDescri
     }
 
     /**
-     * @param SessionDescriptionInterface $sessionDescription
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateSessionDescription(
         SessionDescriptionInterface $sessionDescription,
@@ -65,7 +54,7 @@ class SessionDescriptionManager extends AbstractManager implements SessionDescri
     }
 
     /**
-     * @param SessionDescriptionInterface $sessionDescription
+     * {@inheritdoc}
      */
     public function deleteSessionDescription(
         SessionDescriptionInterface $sessionDescription
@@ -75,7 +64,7 @@ class SessionDescriptionManager extends AbstractManager implements SessionDescri
     }
 
     /**
-     * @return SessionDescriptionInterface
+     * {@inheritdoc}
      */
     public function createSessionDescription()
     {

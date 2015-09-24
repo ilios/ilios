@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\AamcMethodInterface;
 class AamcMethodManager extends AbstractManager implements AamcMethodManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return AamcMethodInterface
+     * {@inheritdoc}
      */
     public function findAamcMethodBy(
         array $criteria,
@@ -26,12 +22,7 @@ class AamcMethodManager extends AbstractManager implements AamcMethodManagerInte
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|AamcMethodInterface[]
+     * {@inheritdoc}
      */
     public function findAamcMethodsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class AamcMethodManager extends AbstractManager implements AamcMethodManagerInte
     }
 
     /**
-     * @param AamcMethodInterface $aamcMethod
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateAamcMethod(
         AamcMethodInterface $aamcMethod,
@@ -65,7 +54,7 @@ class AamcMethodManager extends AbstractManager implements AamcMethodManagerInte
     }
 
     /**
-     * @param AamcMethodInterface $aamcMethod
+     * {@inheritdoc}
      */
     public function deleteAamcMethod(
         AamcMethodInterface $aamcMethod
@@ -75,7 +64,7 @@ class AamcMethodManager extends AbstractManager implements AamcMethodManagerInte
     }
 
     /**
-     * @return AamcMethodInterface
+     * {@inheritdoc}
      */
     public function createAamcMethod()
     {

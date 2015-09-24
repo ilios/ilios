@@ -34,7 +34,7 @@ interface AuthenticationManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|AuthenticationInterface[]
+     * @return AuthenticationInterface[]
      */
     public function findAuthenticationsBy(
         array $criteria,

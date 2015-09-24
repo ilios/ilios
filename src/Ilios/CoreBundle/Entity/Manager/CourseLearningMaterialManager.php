@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 class CourseLearningMaterialManager extends AbstractManager implements CourseLearningMaterialManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CourseLearningMaterialInterface
+     * {@inheritdoc}
      */
     public function findCourseLearningMaterialBy(
         array $criteria,
@@ -26,12 +22,7 @@ class CourseLearningMaterialManager extends AbstractManager implements CourseLea
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CourseLearningMaterialInterface[]
+     * {@inheritdoc}
      */
     public function findCourseLearningMaterialsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class CourseLearningMaterialManager extends AbstractManager implements CourseLea
     }
 
     /**
-     * @param CourseLearningMaterialInterface $courseLearningMaterial
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateCourseLearningMaterial(
         CourseLearningMaterialInterface $courseLearningMaterial,
@@ -65,7 +54,7 @@ class CourseLearningMaterialManager extends AbstractManager implements CourseLea
     }
 
     /**
-     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     * {@inheritdoc}
      */
     public function deleteCourseLearningMaterial(
         CourseLearningMaterialInterface $courseLearningMaterial
@@ -75,7 +64,7 @@ class CourseLearningMaterialManager extends AbstractManager implements CourseLea
     }
 
     /**
-     * @return CourseLearningMaterialInterface
+     * {@inheritdoc}
      */
     public function createCourseLearningMaterial()
     {

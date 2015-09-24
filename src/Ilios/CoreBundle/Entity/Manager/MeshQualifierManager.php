@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 class MeshQualifierManager extends AbstractManager implements MeshQualifierManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return MeshQualifierInterface
+     * {@inheritdoc}
      */
     public function findMeshQualifierBy(
         array $criteria,
@@ -26,12 +22,7 @@ class MeshQualifierManager extends AbstractManager implements MeshQualifierManag
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|MeshQualifierInterface[]
+     * {@inheritdoc}
      */
     public function findMeshQualifiersBy(
         array $criteria,
@@ -43,9 +34,7 @@ class MeshQualifierManager extends AbstractManager implements MeshQualifierManag
     }
 
     /**
-     * @param MeshQualifierInterface $meshQualifier
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateMeshQualifier(
         MeshQualifierInterface $meshQualifier,
@@ -65,7 +54,7 @@ class MeshQualifierManager extends AbstractManager implements MeshQualifierManag
     }
 
     /**
-     * @param MeshQualifierInterface $meshQualifier
+     * {@inheritdoc}
      */
     public function deleteMeshQualifier(
         MeshQualifierInterface $meshQualifier
@@ -75,7 +64,7 @@ class MeshQualifierManager extends AbstractManager implements MeshQualifierManag
     }
 
     /**
-     * @return MeshQualifierInterface
+     * {@inheritdoc}
      */
     public function createMeshQualifier()
     {

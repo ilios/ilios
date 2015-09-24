@@ -2,10 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\MeshTreeInterface;
 
 /**
@@ -28,7 +24,7 @@ interface MeshTreeManagerInterface extends ManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return MeshTreeInterface[]|Collection
+     * @return MeshTreeInterface[]
      */
     public function findMeshTreesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
 class AssessmentOptionManager extends AbstractManager implements AssessmentOptionManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return AssessmentOptionInterface
+     * {@inheritdoc}
      */
     public function findAssessmentOptionBy(
         array $criteria,
@@ -26,12 +22,7 @@ class AssessmentOptionManager extends AbstractManager implements AssessmentOptio
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|AssessmentOptionInterface[]
+     * {@inheritdoc}
      */
     public function findAssessmentOptionsBy(
         array $criteria,
@@ -43,9 +34,7 @@ class AssessmentOptionManager extends AbstractManager implements AssessmentOptio
     }
 
     /**
-     * @param AssessmentOptionInterface $assessmentOption
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateAssessmentOption(
         AssessmentOptionInterface $assessmentOption,
@@ -65,7 +54,7 @@ class AssessmentOptionManager extends AbstractManager implements AssessmentOptio
     }
 
     /**
-     * @param AssessmentOptionInterface $assessmentOption
+     * {@inheritdoc}
      */
     public function deleteAssessmentOption(
         AssessmentOptionInterface $assessmentOption
@@ -75,7 +64,7 @@ class AssessmentOptionManager extends AbstractManager implements AssessmentOptio
     }
 
     /**
-     * @return AssessmentOptionInterface
+     * {@inheritdoc}
      */
     public function createAssessmentOption()
     {

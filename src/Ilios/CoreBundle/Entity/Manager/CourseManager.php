@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CourseInterface;
 
@@ -13,10 +12,7 @@ use Ilios\CoreBundle\Entity\CourseInterface;
 class CourseManager extends AbstractManager implements CourseManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CourseInterface
+     * {@inheritdoc}
      */
     public function findCourseBy(
         array $criteria,
@@ -27,12 +23,7 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|CourseInterface[]
+     * {@inheritdoc}
      */
     public function findCoursesBy(
         array $criteria,
@@ -45,9 +36,7 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     }
 
     /**
-     * @param CourseInterface $course
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updateCourse(
         CourseInterface $course,
@@ -67,7 +56,7 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     }
 
     /**
-     * @param CourseInterface $course
+     * {@inheritdoc}
      */
     public function deleteCourse(
         CourseInterface $course
@@ -77,7 +66,7 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     }
 
     /**
-     * @return string[]
+     * {@inheritdoc}
      */
     public function getYears()
     {
@@ -85,7 +74,7 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     }
 
     /**
-     * @return CourseInterface
+     * {@inheritdoc}
      */
     public function createCourse()
     {

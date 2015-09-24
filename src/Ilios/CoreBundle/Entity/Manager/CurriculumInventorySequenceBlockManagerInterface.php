@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 
 /**
@@ -28,7 +27,7 @@ interface CurriculumInventorySequenceBlockManagerInterface extends ManagerInterf
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     * @return CurriculumInventorySequenceBlockInterface[]
      */
     public function findCurriculumInventorySequenceBlocksBy(
         array $criteria,

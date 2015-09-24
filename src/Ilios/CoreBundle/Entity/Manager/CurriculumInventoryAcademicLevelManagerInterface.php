@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 
 /**
@@ -28,7 +27,7 @@ interface CurriculumInventoryAcademicLevelManagerInterface extends ManagerInterf
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
+     * @return CurriculumInventoryAcademicLevelInterface[]
      */
     public function findCurriculumInventoryAcademicLevelsBy(
         array $criteria,

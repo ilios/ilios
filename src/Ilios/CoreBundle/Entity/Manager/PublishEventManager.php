@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\PublishEventInterface;
 
@@ -15,10 +14,7 @@ use Ilios\CoreBundle\Entity\PublishEventInterface;
 class PublishEventManager extends AbstractManager implements PublishEventManagerInterface
 {
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return PublishEventInterface
+     * {@inheritdoc}
      */
     public function findPublishEventBy(
         array $criteria,
@@ -28,12 +24,7 @@ class PublishEventManager extends AbstractManager implements PublishEventManager
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return ArrayCollection|PublishEventInterface[]
+     * {@inheritdoc}
      */
     public function findPublishEventsBy(
         array $criteria,
@@ -45,9 +36,7 @@ class PublishEventManager extends AbstractManager implements PublishEventManager
     }
 
     /**
-     * @param PublishEventInterface $publishEvent
-     * @param bool $andFlush
-     * @param bool $forceId
+     * {@inheritdoc}
      */
     public function updatePublishEvent(
         PublishEventInterface $publishEvent,
@@ -67,7 +56,7 @@ class PublishEventManager extends AbstractManager implements PublishEventManager
     }
 
     /**
-     * @param PublishEventInterface $publishEvent
+     * {@inheritdoc}
      */
     public function deletePublishEvent(
         PublishEventInterface $publishEvent
@@ -77,7 +66,7 @@ class PublishEventManager extends AbstractManager implements PublishEventManager
     }
 
     /**
-     * @return PublishEventInterface
+     * {@inheritdoc}
      */
     public function createPublishEvent()
     {
