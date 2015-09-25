@@ -37,14 +37,25 @@ class SendTeachingRemindersCommand extends Command
     protected $templatingEngine;
 
     /**
-     * @param \Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface $offeringManager
-     * @param \Symfony\Component\Templating\EngineInterface $templatingEngine
+     * @var \Swift_Mailer
      */
-    public function __construct(OfferingManagerInterface $offeringManager, EngineInterface $templatingEngine)
+    protected $mailer;
+
+    /**
+     * @param \Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface $offeringManager
+     * @param \Symfony\Component\Templating\EngineInterface
+     * @param \Swift_Mailer $mailer
+     */
+    public function __construct(
+        OfferingManagerInterface $offeringManager,
+        EngineInterface $templatingEngine,
+        $mailer
+    )
     {
+        parent::__construct();
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
-        parent::__construct();
+        $this->mailer = $mailer;
     }
 
     /**
@@ -80,6 +91,12 @@ class SendTeachingRemindersCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'The subject line of reminder emails.',
                 'Upcoming Teaching Session'
+            )
+            ->addOption(
+                'dry-run',
+                null,
+                InputOption::VALUE_NONE,
+                'Prints out notification instead of emailing it. Useful for testing/debugging purposes.'
             );
     }
 
@@ -101,6 +118,8 @@ class SendTeachingRemindersCommand extends Command
         $daysInAdvance = $input->getOption('days');
         $sender = $input->getOption('sender');
         $baseUrl = rtrim($input->getOption('base_url'), '/');
+        $subject = $input->getOption('subject');
+        $isDryRun = $input->getOption('dry-run');
 
         // get all applicable offerings.
         $offerings = $this->offeringManager->getOfferingsForTeachingReminders($daysInAdvance);
@@ -113,6 +132,8 @@ class SendTeachingRemindersCommand extends Command
         // mail out a reminder per instructor per offering.
         $templateCache = [];
         $iterator = $offerings->getIterator();
+        $i = 0;
+
         /** @var OfferingInterface $offering */
         foreach ($iterator as $offering) {
 
@@ -125,16 +146,36 @@ class SendTeachingRemindersCommand extends Command
 
             $instructors = $this->getAllInstructorsForOffering($offering);
 
+            /** @var UserInterface $instructor */
             foreach ($instructors as $instructor) {
+                $i++;
                 $messageBody = $this->templatingEngine->render($template, [
                     'base_url' => $baseUrl,
                     'instructor' => $instructor,
                     'offering' => $offering,
                 ]);
-
-                $output->writeln($messageBody);
+                $message = \Swift_Message::newInstance()
+                    ->setSubject($subject)
+                    ->setFrom($sender)
+                    ->setTo($instructor->getEmail())
+                    ->setCharset('UTF-8')
+                    ->setContentType('text/plain')
+                    ->setBody($messageBody)
+                    ->setMaxLineLength(998);
+                if ($isDryRun) {
+                    $mailHeaders = $message->getHeaders()->toString();
+                    $mailBody = $message->getBody();
+                    $output->writeln("__MESSAGE_START__");
+                    $output->writeln("__HEADERS_START__\n{$mailHeaders}\n__HEADERS_END__");
+                    $output->writeln("__BODY_START__\n{$mailBody}\n__BODY_END__");
+                    $output->writeln("__MESSAGE_END__");
+                } else {
+                    $this->mailer->send($message);
+                }
             }
         }
+
+        $output->writeln("<info>Sent {$i} teaching reminders.</info>");
     }
 
     /**
@@ -198,7 +239,7 @@ class SendTeachingRemindersCommand extends Command
     {
         $errors = [];
 
-        $daysInAdvance = intval($input->getOption('days', 10));
+        $daysInAdvance = intval($input->getOption('days'), 10);
         if (0 > $daysInAdvance) {
             $errors[] = "Invalid value '{$daysInAdvance}' for '--days' option. Must be greater or equal to 0.";
         }
