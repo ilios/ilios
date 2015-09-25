@@ -293,6 +293,19 @@ class IlmSession implements IlmSessionInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getAllInstructors()
+    {
+        $instructors = $this->getInstructors()->toArray();
+        foreach ($this->getInstructorGroups() as $group) {
+            $instructors = array_merge($instructors, $group->getUsers()->toArray());
+        }
+
+        return new ArrayCollection($instructors);
+    }
+
+    /**
      * @param Collection $learners
      */
     public function setLearners(Collection $learners)
