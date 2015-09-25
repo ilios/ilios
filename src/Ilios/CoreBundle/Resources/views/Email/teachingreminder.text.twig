@@ -16,15 +16,15 @@ Dear {{ instructor.firstName }} {{ instructor.lastName }}:
 This message is a reminder for your upcoming {{ offering.session.sessionType.title }}
 in this School of {{ offering.session.course.school.title }} course.
 
-Course:   {{ offering.session.course.title }}
-Session:  {{ offering.session.title }}
+Course:   {{ offering.session.course.title|raw }}
+Session:  {{ offering.session.title|raw }}
 Date:     {{ offering.startDate|date('D M d, Y') }}
 Time:     {{ offering.startDate|date('h:i a') }} - {{ offering.endDate|date('h:i a') }}
 Location: {{ offering.room }}
 
 The learner groups participating in this session are:
 {% for learnerGroup in offering.learnerGroups %}
-- {{ learnerGroup.title }}
+- {{ learnerGroup.title|raw }}
 {% endfor %}
 
 The learners participating in this session are:
@@ -47,7 +47,7 @@ visit the session details on your Ilios Calendar at {{ base_url }}/courses/{{ of
 
 If you would like to edit the details of this session and do not have editing rights in Ilios for this course
 please contact the School of {{ offering.session.course.school.title }}'s Curriculum Coordinator
-at {{ offering.session.course.school.ilios_administrator_email }}.
+at {{ offering.session.course.school.iliosAdministratorEmail }}.
 
 A description of most classrooms, including maps, can be found at:
 http://edtech.ucsf.edu/classroom-services/scheduling/classroom-features
