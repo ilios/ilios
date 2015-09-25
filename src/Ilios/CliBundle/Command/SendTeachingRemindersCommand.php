@@ -24,7 +24,7 @@ class SendTeachingRemindersCommand extends Command
     /**
      * @var string
      */
-    const DEFAULT_TEMPLATE_NAME = 'teachingreminder.twig';
+    const DEFAULT_TEMPLATE_NAME = 'teachingreminder.text.twig';
 
     /**
      * @var OfferingManagerInterface
@@ -56,7 +56,7 @@ class SendTeachingRemindersCommand extends Command
             ->setName('ilios:messaging:send-teaching-reminders')
             ->setDescription('Sends teaching reminders to educators.')
             ->addOption(
-                'ilios_url',
+                'base_url',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'The base URL of your Ilios instance.'
@@ -118,7 +118,7 @@ class SendTeachingRemindersCommand extends Command
 
             $school = $offering->getSession()->getCourse()->getSchool();
             if (! array_key_exists($school->getId(), $templateCache)) {
-                $template = $this->getTemplateName($school);
+                $template = $this->getTemplatePath($school);
                 $templateCache[$school->getId()] = $template;
             }
             $template = $templateCache[$school->getId()];
@@ -128,7 +128,6 @@ class SendTeachingRemindersCommand extends Command
             $courseObjectives = []; // @todo [ST 2015/09/24]
 
             foreach ($instructors as $instructor) {
-
                 $messageBody = $this->templatingEngine->render($template, [
                     'base_url' => $baseUrl,
                     'course_objectives' => $courseObjectives,
@@ -143,17 +142,22 @@ class SendTeachingRemindersCommand extends Command
     }
 
     /**
-     * Locates the applicable message template for a given school and returns its name.
+     * Locates the applicable message template for a given school and returns its path.
      * @param SchoolInterface $school
-     * @return string The template name.
+     * @return string The template path.
      */
-    protected function getTemplateName(SchoolInterface $school)
+    protected function getTemplatePath(SchoolInterface $school)
     {
-        $schoolTemplateName = basename($school->getTemplatePrefix() . '_' . self::DEFAULT_TEMPLATE_NAME);
-        if ($this->templatingEngine->exists($schoolTemplateName)) {
-            return $schoolTemplateName;
+        $paths = [
+            '@custom_template/' . basename($school->getTemplatePrefix() . '_' . self::DEFAULT_TEMPLATE_NAME),
+            '@custom_template/' . self::DEFAULT_TEMPLATE_NAME,
+        ];
+        foreach ($paths as $path) {
+            if ($this->templatingEngine->exists($path)){
+                return $path;
+            }
         }
-        return self::DEFAULT_TEMPLATE_NAME;
+        return 'IliosCoreBundle:Email:' .self::DEFAULT_TEMPLATE_NAME;
     }
 
 
