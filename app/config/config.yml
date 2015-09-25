@@ -30,7 +30,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     paths:
-        "%file_system_storage_path%/custom_templates": custom_templates
+        "%kernel.root_dir%/../custom/email_templates": custom_email_templates
 
 # Doctrine Configuration
 doctrine:
