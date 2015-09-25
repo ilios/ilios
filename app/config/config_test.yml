@@ -39,8 +39,8 @@ liip_functional_test:
     cache_sqlite_db: true
     query_count.max_query_count: 50
 
-#swiftmailer:
-#    delivery_address: me@example.com
+swiftmailer:
+    disable_delivery: true
 
 ilios_authentication:
     type: "form"

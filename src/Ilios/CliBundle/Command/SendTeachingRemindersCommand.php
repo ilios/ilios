@@ -149,8 +149,8 @@ class SendTeachingRemindersCommand extends Command
     protected function getTemplatePath(SchoolInterface $school)
     {
         $paths = [
-            '@custom_template/' . basename($school->getTemplatePrefix() . '_' . self::DEFAULT_TEMPLATE_NAME),
-            '@custom_template/' . self::DEFAULT_TEMPLATE_NAME,
+            '@custom_email_templates/' . basename($school->getTemplatePrefix() . '_' . self::DEFAULT_TEMPLATE_NAME),
+            '@custom_email_templates/' . self::DEFAULT_TEMPLATE_NAME,
         ];
         foreach ($paths as $path) {
             if ($this->templatingEngine->exists($path)){
