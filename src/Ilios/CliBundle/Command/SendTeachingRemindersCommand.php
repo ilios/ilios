@@ -27,6 +27,11 @@ class SendTeachingRemindersCommand extends Command
     const DEFAULT_TEMPLATE_NAME = 'teachingreminder.text.twig';
 
     /**
+     * @var string
+     */
+    const DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
+
+    /**
      * @var OfferingManagerInterface
      */
     protected $offeringManager;
@@ -89,7 +94,7 @@ class SendTeachingRemindersCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The subject line of reminder emails.',
-                'Upcoming Teaching Session'
+                self::DEFAULT_MESSAGE_SUBJECT
             )
             ->addOption(
                 'dry-run',
