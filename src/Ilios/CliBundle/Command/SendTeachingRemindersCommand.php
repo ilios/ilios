@@ -50,8 +50,7 @@ class SendTeachingRemindersCommand extends Command
         OfferingManagerInterface $offeringManager,
         EngineInterface $templatingEngine,
         $mailer
-    )
-    {
+    ) {
         parent::__construct();
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
@@ -136,7 +135,6 @@ class SendTeachingRemindersCommand extends Command
 
         /** @var OfferingInterface $offering */
         foreach ($iterator as $offering) {
-
             $school = $offering->getSession()->getCourse()->getSchool();
             if (! array_key_exists($school->getId(), $templateCache)) {
                 $template = $this->getTemplatePath($school);
@@ -190,7 +188,7 @@ class SendTeachingRemindersCommand extends Command
             '@custom_email_templates/' . self::DEFAULT_TEMPLATE_NAME,
         ];
         foreach ($paths as $path) {
-            if ($this->templatingEngine->exists($path)){
+            if ($this->templatingEngine->exists($path)) {
                 return $path;
             }
         }
