@@ -11,8 +11,7 @@
 #}
 Dear {{ instructor.firstName }} {{ instructor.lastName }}:
 
-This message is a reminder for your upcoming {{ offering.session.sessionType.title }}
-in this School of {{ offering.session.course.school.title }} course.
+This message is a reminder for your upcoming {{ offering.session.sessionType.title }} in this School of {{ offering.session.course.school.title }} course.
 
 Course:   {{ offering.session.course.title|raw }}
 Session:  {{ offering.session.title|raw }}
@@ -42,13 +41,9 @@ The learning objectives listed for this course are:
 - {{ objective.title|striptags|trim }}
 {% endfor %}
 
-For a complete review of the session details and its associated learning materials,
-visit the session details on your Ilios Calendar at {{ base_url }}/courses/{{ offering.session.course.id }}.
+For a complete review of the session details and its associated learning materials, visit the session details on your Ilios Calendar at {{ base_url }}/courses/{{ offering.session.course.id }}.
 
-If you would like to edit the details of this session and do not have editing rights in Ilios for this course
-please contact the School of {{ offering.session.course.school.title }}'s Curriculum Coordinator
-at {{ offering.session.course.school.iliosAdministratorEmail }}.
+If you would like to edit the details of this session and do not have editing rights in Ilios for this course please contact the School of {{ offering.session.course.school.title }}'s Curriculum Coordinator at {{ offering.session.course.school.iliosAdministratorEmail }}.
 
-A description of most classrooms, including maps, can be found at:
-http://edtech.ucsf.edu/classroom-services/scheduling/classroom-features
+A description of most classrooms, including maps, can be found at: http://edtech.ucsf.edu/classroom-services/scheduling/classroom-features
 
