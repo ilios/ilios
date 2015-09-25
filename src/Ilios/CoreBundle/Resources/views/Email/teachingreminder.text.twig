@@ -5,10 +5,8 @@
  *
  * Available variables:
  * - $base_url:           The Ilios base URL.
- * - $course_objectives:  An array of course objectives.
  * - $instructor:         The instructor to be notified in this mail.
  * - $offering:           The offering that this notification is about.
- * - $session_objectives: An array of session objectives.
  */
 #}
 Dear {{ instructor.firstName }} {{ instructor.lastName }}:
@@ -33,13 +31,15 @@ The learners participating in this session are:
 {% endfor %}
 
 The learning objectives listed for this session are:
-{% for session_objective in session_objectives %}
-- {{ session_objective.title|striptags }}
+{%  if offering.session.objectives.count %}
+{% for objective in offering.session.objectives %}
+- {{ objective.title|striptags|trim }}
 {% endfor %}
+{% endif %}
 
 The learning objectives listed for this course are:
-{% for course_objective in course_objectives %}
-- {{ course_objective.title|striptags }}
+{% for objective in offering.session.course.objectives %}
+- {{ objective.title|striptags|trim }}
 {% endfor %}
 
 For a complete review of the session details and its associated learning materials,

@@ -124,16 +124,12 @@ class SendTeachingRemindersCommand extends Command
             $template = $templateCache[$school->getId()];
 
             $instructors = $this->getAllInstructorsForOffering($offering);
-            $sessionObjectives = []; // @todo [ST 2015/09/24]
-            $courseObjectives = []; // @todo [ST 2015/09/24]
 
             foreach ($instructors as $instructor) {
                 $messageBody = $this->templatingEngine->render($template, [
                     'base_url' => $baseUrl,
-                    'course_objectives' => $courseObjectives,
                     'instructor' => $instructor,
                     'offering' => $offering,
-                    'session_objectives' => $sessionObjectives,
                 ]);
 
                 $output->writeln($messageBody);
