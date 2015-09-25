@@ -1,1 +1,1 @@
-Put your customized and school-specific emails template in here. 
+Put your customized and school-specific email templates in here. 
