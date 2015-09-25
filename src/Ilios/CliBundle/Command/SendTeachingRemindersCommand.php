@@ -161,12 +161,8 @@ class SendTeachingRemindersCommand extends Command
                     ->setBody($messageBody)
                     ->setMaxLineLength(998);
                 if ($isDryRun) {
-                    $mailHeaders = $message->getHeaders()->toString();
-                    $mailBody = $message->getBody();
-                    $output->writeln("__MESSAGE_START__");
-                    $output->writeln("__HEADERS_START__\n{$mailHeaders}\n__HEADERS_END__");
-                    $output->writeln("__BODY_START__\n{$mailBody}\n__BODY_END__");
-                    $output->writeln("__MESSAGE_END__");
+                    $output->writeln($message->getHeaders()->toString());
+                    $output->writeln($message->getBody());
                 } else {
                     $this->mailer->send($message);
                 }
