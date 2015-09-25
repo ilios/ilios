@@ -76,7 +76,11 @@ fos_rest:
         codes:
             'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': 404
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException': 400
             'Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException': 500
+        messages:
+            'Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException': true
+
 
 nelmio_cors:
     defaults:

@@ -398,7 +398,7 @@ class UserTest extends EntityBase
      */
     public function testAddInstructedOffering()
     {
-        $this->entityCollectionAddTest('instructedOffering', 'Offering');
+        $this->softDeleteEntityCollectionAddTest('instructedOffering', 'Offering');
     }
 
     /**
@@ -406,7 +406,23 @@ class UserTest extends EntityBase
      */
     public function testSetInstructedOffering()
     {
-        $this->entityCollectionSetTest('instructedOffering', 'Offering');
+        $this->softDeleteEntityCollectionSetTest('instructedOffering', 'Offering');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::addInstructorIlmSession
+     */
+    public function testAddInstructorIlmSessions()
+    {
+        $this->softDeleteEntityCollectionAddTest('instructorIlmSession', 'IlmSession');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::getInstructorIlmSessions
+     */
+    public function testGetInstructorIlmSessions()
+    {
+        $this->softDeleteEntityCollectionSetTest('instructorIlmSession', 'IlmSession');
     }
 
     /**

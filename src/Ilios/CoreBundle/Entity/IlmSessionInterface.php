@@ -105,4 +105,10 @@ interface IlmSessionInterface extends
      * @return SessionInterface
      */
     public function getSession();
+
+    /**
+     * Checks if the session we belong to is deleted
+     * @return boolean
+     */
+    public function isDeleted();
 }
