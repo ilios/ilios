@@ -103,20 +103,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $output = $this->commandTester->getDisplay();
 
         /** @var UserInterface $instructor */
-        foreach ($offering->getInstructors()->toArray() as $instructor) {
+        foreach ($offering->getAllInstructors()->toArray() as $instructor) {
             $this->assertContains("To: {$instructor->getEmail()}", $output);
             $this->assertContains("Dear {$instructor->getFirstName()} {$instructor->getLastName()}", $output);
         }
-
-        /** @var InstructorGroupInterface $instructorGroup */
-        foreach ($offering->getInstructorGroups()->toArray() as $instructorGroup) {
-            /** @var UserInterface $instructor */
-            foreach ($instructorGroup->getUsers()->toArray() as $instructor) {
-                $this->assertContains("To: {$instructor->getEmail()}", $output);
-                $this->assertContains("Dear {$instructor->getFirstName()} {$instructor->getLastName()}", $output);
-            }
-        }
-
 
         $this->assertContains("From: {$sender}", $output);
         $subject = SendTeachingRemindersCommand::DEFAULT_MESSAGE_SUBJECT;
@@ -160,7 +150,8 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $this->assertContains("{$baseUrl}/courses/{$offering->getSession()->getCourse()->getId()}", $output);
 
-        $this->assertContains('Sent 2 teaching reminders.', $output);
+        $totalMailsSent = count($offering->getAllInstructors()->toArray());
+        $this->assertContains("Sent {$totalMailsSent} teaching reminders.", $output);
     }
 
     /**
@@ -219,7 +210,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertEquals('Sent 2 teaching reminders.', trim($output));
+        $this->assertRegExp('/^Sent (\d+) teaching reminders\.$/', trim($output));
     }
 
     /**

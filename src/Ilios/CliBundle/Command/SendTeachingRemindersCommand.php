@@ -145,7 +145,7 @@ class SendTeachingRemindersCommand extends Command
             }
             $template = $templateCache[$school->getId()];
 
-            $instructors = $this->getAllInstructorsForOffering($offering);
+            $instructors = $offering->getAllInstructors()->toArray();
 
             /** @var UserInterface $instructor */
             foreach ($instructors as $instructor) {
@@ -192,38 +192,6 @@ class SendTeachingRemindersCommand extends Command
             }
         }
         return 'IliosCoreBundle:Email:' .self::DEFAULT_TEMPLATE_NAME;
-    }
-
-
-    /**
-     * @param \Ilios\CoreBundle\Entity\OfferingInterface $offering
-     * @return UserInterface[]
-     */
-    protected function getAllInstructorsForOffering(OfferingInterface $offering)
-    {
-        $rhett = [];
-        $instructors = $offering->getInstructors();
-        $iterator = $instructors->getIterator();
-        /** @var UserInterface $instructor */
-        foreach ($iterator as $instructor) {
-            $rhett[$instructor->getId()] = $instructor;
-        }
-
-        $instructorGroups = $offering->getInstructorGroups();
-        $iterator = $instructorGroups->getIterator();
-
-        /** @var InstructorGroupInterface $instructorGroup */
-        foreach ($iterator as $instructorGroup) {
-            $instructors = $instructorGroup->getUsers();
-            $iterator2 = $instructors->getIterator();
-            /** @var UserInterface $instructor */
-            foreach ($iterator2 as $instructor) {
-                if (! array_key_exists($instructor->getId(), $rhett)) {
-                    $rhett[$instructor->getId()] = $instructor;
-                }
-            }
-        }
-        return array_values($rhett);
     }
 
     /**
