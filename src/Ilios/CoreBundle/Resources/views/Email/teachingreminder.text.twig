@@ -30,11 +30,9 @@ The learners participating in this session are:
 {% endfor %}
 
 The learning objectives listed for this session are:
-{%  if offering.session.objectives.count %}
 {% for objective in offering.session.objectives %}
 - {{ objective.title|striptags|trim }}
 {% endfor %}
-{% endif %}
 
 The learning objectives listed for this course are:
 {% for objective in offering.session.course.objectives %}
