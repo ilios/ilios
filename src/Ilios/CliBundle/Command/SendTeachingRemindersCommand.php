@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -70,17 +71,15 @@ class SendTeachingRemindersCommand extends Command
         $this
             ->setName('ilios:messaging:send-teaching-reminders')
             ->setDescription('Sends teaching reminders to educators.')
-            ->addOption(
-                'base_url',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'The base URL of your Ilios instance.'
-            )
-            ->addOption(
+            ->addArgument(
                 'sender',
-                null,
-                InputOption::VALUE_REQUIRED,
+                InputArgument::REQUIRED,
                 'Email address to send reminders from.'
+            )
+            ->addArgument(
+                'base_url',
+                InputArgument::REQUIRED,
+                'The base URL of your Ilios instance.'
             )
             ->addOption(
                 'days',
@@ -104,7 +103,6 @@ class SendTeachingRemindersCommand extends Command
             );
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -120,8 +118,8 @@ class SendTeachingRemindersCommand extends Command
         }
 
         $daysInAdvance = $input->getOption('days');
-        $sender = $input->getOption('sender');
-        $baseUrl = rtrim($input->getOption('base_url'), '/');
+        $sender = $input->getArgument('sender');
+        $baseUrl = rtrim($input->getArgument('base_url'), '/');
         $subject = $input->getOption('subject');
         $isDryRun = $input->getOption('dry-run');
 
@@ -242,7 +240,7 @@ class SendTeachingRemindersCommand extends Command
         if (0 > $daysInAdvance) {
             $errors[] = "Invalid value '{$daysInAdvance}' for '--days' option. Must be greater or equal to 0.";
         }
-        $sender = $input->getOption('sender');
+        $sender = $input->getArgument('sender');
         if (! filter_var($sender, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "Invalid value '{$sender}' for '--sender' option. Must be a valid email address.";
         }

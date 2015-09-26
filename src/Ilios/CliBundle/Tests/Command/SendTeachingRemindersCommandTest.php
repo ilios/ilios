@@ -92,9 +92,9 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $baseUrl = 'https://ilios.bar.edu';
 
         $this->commandTester->execute([
+            'sender' => $sender,
+            'base_url' => $baseUrl,
             '--dry-run' => true,
-            '--sender' => $sender,
-            '--base_url' => $baseUrl,
         ]);
 
         /** @var OfferingInterface $offering */
@@ -172,9 +172,9 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $baseUrl = 'https://ilios.bar.edu';
 
         $this->commandTester->execute([
+            'sender' => $sender,
+            'base_url' => $baseUrl,
             '--dry-run' => true,
-            '--sender' => $sender,
-            '--base_url' => $baseUrl,
             '--days' => 10,
         ]);
 
@@ -193,9 +193,9 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $baseUrl = 'https://ilios.bar.edu';
 
         $this->commandTester->execute([
+            'sender' => $sender,
+            'base_url' => $baseUrl,
             '--dry-run' => true,
-            '--sender' => $sender,
-            '--base_url' => $baseUrl,
             '--subject' => $subject,
         ]);
 
@@ -213,8 +213,8 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $baseUrl = 'https://ilios.bar.edu';
 
         $this->commandTester->execute([
-            '--sender' => $sender,
-            '--base_url' => $baseUrl,
+            'sender' => $sender,
+            'base_url' => $baseUrl,
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -225,14 +225,39 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     /**
      * @covers Ilios/CliBundle/Command/SendTeachingReminderCommand::execute
      */
-    public function testExecuteWithBadInput()
+    public function testExecuteWithMissingInput()
+    {
+        $this->setExpectedException('RuntimeException', 'Not enough arguments.');
+        $this->commandTester->execute([]);
+
+        $this->setExpectedException('RuntimeException', 'Not enough arguments.');
+        $this->commandTester->execute([
+            'sender' => 'foo@bar.com',
+            'base_url' => null,
+        ]);
+    }
+
+    /**
+     * @covers Ilios/CliBundle/Command/SendTeachingReminderCommand::execute
+     */
+    public function testExecuteWithInvalidInput()
     {
         $this->commandTester->execute([
+            'sender' => 'not an email',
+            'base_url' => 'http://foobar.com',
+            '--days' => -1
         ]);
 
         $output = $this->commandTester->getDisplay();
 
-        $this->assertEquals("Invalid value '' for '--sender' option. Must be a valid email address.", trim($output));
+        $this->assertContains(
+            "Invalid value '-1' for '--days' option. Must be greater or equal to 0.",
+            $output
+        );
+        $this->assertContains(
+            "Invalid value 'not an email' for '--sender' option. Must be a valid email address.",
+            $output
+        );
     }
 
     /**
