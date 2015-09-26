@@ -41,6 +41,7 @@ liip_functional_test:
 
 swiftmailer:
     disable_delivery: true
+#    delivery_address: me@example.com
 
 ilios_authentication:
     type: "form"

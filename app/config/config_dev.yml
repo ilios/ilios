@@ -31,3 +31,4 @@ monolog:
             level:  info
 swiftmailer:
     disable_delivery: true
+#    delivery_address: me@example.com
