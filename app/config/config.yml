@@ -29,6 +29,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    paths:
+        "%kernel.root_dir%/../custom/email_templates": custom_email_templates
 
 # Doctrine Configuration
 doctrine:

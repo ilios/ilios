@@ -29,5 +29,6 @@ monolog:
         chromephp:
             type:   chromephp
             level:  info
-#swiftmailer:
-#    delivery_address: me@example.comdoctrine:
+swiftmailer:
+    disable_delivery: true
+#    delivery_address: me@example.com
