@@ -8,9 +8,9 @@
  * - $offering: The offering that this change alert pertains to.
  */
 #}
-Course:    {{ offering.session.course.title|raw }}
-Session:   {{ offering.session.title|raw }}
-Type:      {{ offering.session.sessionType|raw }}
+Course:   {{ offering.session.course.title|raw }}
+Session:  {{ offering.session.title|raw }}
+Type:     {{ offering.session.sessionType|raw }}
 Date:     {{ offering.startDate|date('D M d, Y') }}
 Time:     {{ offering.startDate|date('h:i a') }} - {{ offering.endDate|date('h:i a') }}
 Location: {{ offering.room }}
@@ -30,7 +30,15 @@ Learners:
 - {{ learner.firstName }} {{ learner.lastName }}
 {% endfor %}
 
-List of modifications:
+Modifications:
+{% for changeType in alert.changeTypes %}
+- {{ changeType.title }}
+{% endfor %}
 
-Change History:
+Modifications made by:
+{% for instigator in alert.instigators %}
+- {% instigator.firstName %} {% instigator.lastName %}
+{% endfor %}
 
+Additional change information:
+{{ alert.additionalText|raw }}
