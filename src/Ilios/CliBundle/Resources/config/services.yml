@@ -49,3 +49,8 @@ services:
         arguments: ["@ilioscore.offering.manager", "@templating", "@mailer"]
         tags:
             -  { name: console.command }
+    ilioscli.command.send_change_alerts:
+        class: Ilios\CliBundle\Command\SendChangeAlertsCommand
+        arguments: ["@ilioscore.alert.manager", "@ilioscore.offering.manager", "@templating", "@mailer"]
+        tags:
+            -  { name: console.command }
