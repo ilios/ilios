@@ -38,6 +38,6 @@ List of modifications:
 
 Change History:
 {% for item in history %}
-- Updates made {% item.createdAt|date('m/d/Y') %} at {% item.createdAt|date('h:i a') %} by {% item.user.firstName %} {% item.user.lastName %}
+- Updates made {{ item.createdAt|date('m/d/Y') }} at {{ item.createdAt|date('h:i a') }} by {{ item.user.firstName }} {{ item.user.lastName }}
 {% endfor %}
 
