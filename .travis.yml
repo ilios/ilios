@@ -26,8 +26,6 @@ install:
   - composer install --no-interaction --prefer-dist -d ${TRAVIS_BUILD_DIR}
 
 before_script:
-#increase our PHP memory limit so test coverage will work
-  - echo "memory_limit=2048M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 #initialize symfony mysql db
   - bin/console doctrine:database:drop --force --env=dev
   - bin/console doctrine:database:create --env=dev

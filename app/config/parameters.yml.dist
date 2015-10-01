@@ -1,10 +1,11 @@
 parameters:
-    database_driver:   pdo_mysql
-    database_host:     127.0.0.1
-    database_port:     ~
-    database_name:     ilios
-    database_user:     ilios_user
-    database_password: ilios_pass
+    database_driver:        pdo_mysql
+    database_host:          127.0.0.1
+    database_port:          ~
+    database_name:          ilios
+    database_user:          ilios_user
+    database_password:      ilios_pass
+    database_mysql_version: 5.5
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
