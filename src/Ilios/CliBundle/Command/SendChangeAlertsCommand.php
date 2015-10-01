@@ -119,6 +119,7 @@ class SendChangeAlertsCommand extends Command
                 );
                 continue;
             }
+            // do not send alerts for deleted stuff.
             $deleted = $offering->getSession()->isDeleted()
                 || $offering->getSession()->getCourse()->isDeleted()
                 || ! $offering->getSession()->getCourse()->getSchool();
@@ -127,19 +128,21 @@ class SendChangeAlertsCommand extends Command
                 continue;
             }
 
+            // get change alert history from audit logs
             $history = $this->auditLogManager->findAuditLogsBy([
                 'objectId' => $alert->getId(),
                 'objectClass' => 'alert',
             ], [ 'createdAt' ]);
-            $history = array_filter($history, function(AuditLogInterface $auditLog) {
+            $history = array_filter($history, function (AuditLogInterface $auditLog) {
                 $user =  $auditLog->getUser();
                 return isset($user);
             });
 
+            // convoluted way of identifying alert recipients
             $schools = $alert->getRecipients();
             /** @var SchoolInterface $school */
             $recipients = [];
-            foreach($schools->toArray() as $school) {
+            foreach ($schools->toArray() as $school) {
                 $schoolRecipients = trim($school->getChangeAlertRecipients());
                 if ('' === $schoolRecipients) {
                     continue;
@@ -183,7 +186,10 @@ class SendChangeAlertsCommand extends Command
             }
             $sent++;
         }
-        // mark all alerts as dispatched
+        // Mark all alerts as dispatched, regardless as to whether an actual email
+        // was sent or not.
+        // This is consistent with the Ilios v2 implementation of this process.
+        // @todo Reassess the validity of this step. [ST 2015/10/01]
         if ($isDryRun) {
             foreach ($alerts as $alert) {
                 $alert->setDispatched(true);
