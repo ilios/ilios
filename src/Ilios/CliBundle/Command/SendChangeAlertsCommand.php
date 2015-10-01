@@ -99,7 +99,7 @@ class SendChangeAlertsCommand extends Command
         $isDryRun = $input->getOption('dry-run');
 
         $alerts = $this->alertManager->findAlertsBy(['dispatched' => false, 'tableName' => 'offering']);
-        if (count($alerts)) {
+        if (! count($alerts)) {
             $output->writeln("<info>No undispatched offering alerts found.</info>");
             return;
         }
@@ -132,7 +132,7 @@ class SendChangeAlertsCommand extends Command
             $history = $this->auditLogManager->findAuditLogsBy([
                 'objectId' => $alert->getId(),
                 'objectClass' => 'alert',
-            ], [ 'createdAt' ]);
+            ], [ 'createdAt' => 'asc']);
             $history = array_filter($history, function (AuditLogInterface $auditLog) {
                 $user =  $auditLog->getUser();
                 return isset($user);
@@ -199,7 +199,7 @@ class SendChangeAlertsCommand extends Command
         $dispatched = count($alerts);
 
         $output->writeln("<info>Sent {$sent} offering change alert notifications.</info>");
-        $output->writeln("<info>Marked {$dispatched}) offering change alerts as dispatched.</info>");
+        $output->writeln("<info>Marked {$dispatched} offering change alerts as dispatched.</info>");
     }
 
     /**
