@@ -2,7 +2,9 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\AuditLogInterface;
 use Ilios\CoreBundle\Entity\Manager\AlertManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuditLogManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
@@ -31,6 +33,11 @@ class SendChangeAlertsCommand extends Command
     protected $alertManager;
 
     /**
+     * @var AuditLogManagerInterface
+     */
+    protected $auditLogManager;
+
+    /**
      * @var OfferingManagerInterface
      */
     protected $offeringManager;
@@ -47,18 +54,22 @@ class SendChangeAlertsCommand extends Command
 
     /**
      * @param AlertManagerInterface $alertManager
+     * @param AuditLogManagerInterface $auditLogManager
      * @param OfferingManagerInterface $offeringManager
-     * @param \Symfony\Component\Templating\EngineInterface
+     * @param EngineInterface $templatingEngine
+     *
      * @param \Swift_Mailer $mailer
      */
     public function __construct(
         AlertManagerInterface $alertManager,
+        AuditLogManagerInterface $auditLogManager,
         OfferingManagerInterface $offeringManager,
         EngineInterface $templatingEngine,
         $mailer
     ) {
         parent::__construct();
         $this->alertManager = $alertManager;
+        $this->auditLogManager = $auditLogManager;
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
         $this->mailer = $mailer;
@@ -99,6 +110,7 @@ class SendChangeAlertsCommand extends Command
         // email out change alerts
         foreach ($alerts as $alert) {
             $output->writeln("<info>Processing offering change alert {$alert->getId()}.</info>");
+
             $offering = $this->offeringManager->findOfferingBy(['id' => $alert->getTableRowId()]);
             if (! $offering) {
                 $output->writeln(
@@ -107,15 +119,22 @@ class SendChangeAlertsCommand extends Command
                 );
                 continue;
             }
-
             $deleted = $offering->getSession()->isDeleted()
                 || $offering->getSession()->getCourse()->isDeleted()
                 || ! $offering->getSession()->getCourse()->getSchool();
-
             if ($deleted) {
                 // @todo print another warning here? [ST 2015/09/30]
                 continue;
             }
+
+            $history = $this->auditLogManager->findAuditLogsBy([
+                'objectId' => $alert->getId(),
+                'objectClass' => 'alert',
+            ], [ 'createdAt' ]);
+            $history = array_filter($history, function(AuditLogInterface $auditLog) {
+                $user =  $auditLog->getUser();
+                return isset($user);
+            });
 
             $schools = $alert->getRecipients();
             /** @var SchoolInterface $school */
@@ -144,6 +163,7 @@ class SendChangeAlertsCommand extends Command
             $template = $templateCache[$school->getId()];
             $messageBody = $this->templatingEngine->render($template, [
                 'alert' => $alert,
+                'history' => $history,
                 'offering' => $offering,
             ]);
 
