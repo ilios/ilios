@@ -1,0 +1,36 @@
+{#
+/**
+ * @file
+ * Default template for offering change alert emails.
+ *
+ * Available variables:
+ * - $alert:    The change alert.
+ * - $offering: The offering that this change alert pertains to.
+ */
+#}
+Course:    {{ offering.session.course.title|raw }}
+Session:   {{ offering.session.title|raw }}
+Type:      {{ offering.session.sessionType|raw }}
+Date:     {{ offering.startDate|date('D M d, Y') }}
+Time:     {{ offering.startDate|date('h:i a') }} - {{ offering.endDate|date('h:i a') }}
+Location: {{ offering.room }}
+
+Instructors:
+{% for instructor in offering.allInstructors %}
+- {{ instructor.firstName }} {{ instructor.lastName }}
+{% endfor %}
+
+Learner groups:
+{% for learnerGroup in offering.learnerGroups %}
+- {{ learnerGroup.title|raw }}
+{% endfor %}
+
+Learners:
+{% for learner in offering.learners %}
+- {{ learner.firstName }} {{ learner.lastName }}
+{% endfor %}
+
+List of modifications:
+
+Change History:
+

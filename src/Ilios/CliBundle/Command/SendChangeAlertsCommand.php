@@ -4,8 +4,6 @@ namespace Ilios\CliBundle\Command;
 
 use Ilios\CoreBundle\Entity\Manager\AlertManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
-use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,16 +23,12 @@ class SendChangeAlertsCommand extends Command
     /**
      * @var string
      */
-    const DEFAULT_TEMPLATE_NAME = 'changealert.text.twig';
+    const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
 
     /**
      * @var AlertManagerInterface
      */
     protected $alertManager;
-    /**
-     * @var SchoolManagerInterface
-     */
-    protected $schoolManager;
 
     /**
      * @var OfferingManagerInterface
@@ -53,21 +47,18 @@ class SendChangeAlertsCommand extends Command
 
     /**
      * @param AlertManagerInterface $alertManager
-     * @param SchoolManagerInterface $schoolManager
      * @param OfferingManagerInterface $offeringManager
      * @param \Symfony\Component\Templating\EngineInterface
      * @param \Swift_Mailer $mailer
      */
     public function __construct(
         AlertManagerInterface $alertManager,
-        SchoolManagerInterface $schoolManager,
         OfferingManagerInterface $offeringManager,
         EngineInterface $templatingEngine,
         $mailer
     ) {
         parent::__construct();
         $this->alertManager = $alertManager;
-        $this->schoolManager = $schoolManager;
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
         $this->mailer = $mailer;
@@ -145,12 +136,12 @@ class SendChangeAlertsCommand extends Command
             $subject = $offering->getSession()->getCourse()->getExternalId() . ' - '
                 . $offering->getStartDate()->format('m/d/Y');
 
-
             $school = $offering->getSession()->getCourse()->getSchool();
             if (! array_key_exists($school->getId(), $templateCache)) {
                 $template = $this->getTemplatePath($school);
                 $templateCache[$school->getId()] = $template;
             }
+            $template = $templateCache[$school->getId()];
             $messageBody = $this->templatingEngine->render($template, [
                 'alert' => $alert,
                 'offering' => $offering,
