@@ -180,10 +180,11 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      */
     public function testExecute(AlertInterface $alert, OfferingInterface $offering, array $auditLogs)
     {
-        $this->alertManager
-            ->shouldReceive('findAlertsBy')->andReturn([ $alert ])
-            ->shouldReceive('updateAlert');
-        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => $offering->getId() ])->andReturn($offering);
+        $this->alertManager->shouldReceive('findAlertsBy')->andReturn([ $alert ])->shouldReceive('updateAlert');
+        $this->offeringManager
+            ->shouldReceive('findOfferingBy')
+            ->with([ "id" => $offering->getId() ])
+            ->andReturn($offering);
         $this->auditLogManager
             ->shouldReceive('findAuditLogsBy')
             ->with([ 'objectId' => $alert->getId(), 'objectClass' => 'alert' ], [ 'createdAt' => 'asc' ])
@@ -215,10 +216,11 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      */
     public function testExecuteNoRecipientsConfigured(AlertInterface $alert, OfferingInterface $offering)
     {
-        $this->alertManager
-            ->shouldReceive('findAlertsBy')->andReturn([ $alert ])
-            ->shouldReceive('updateAlert');
-        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => $offering->getId() ])->andReturn($offering);
+        $this->alertManager->shouldReceive('findAlertsBy')->andReturn([ $alert ])->shouldReceive('updateAlert');
+        $this->offeringManager
+            ->shouldReceive('findOfferingBy')
+            ->with([ "id" => $offering->getId() ])
+            ->andReturn($offering);
 
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
@@ -238,9 +240,11 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     public function testExecuteDeletedOffering(AlertInterface $alert, OfferingInterface $offering)
     {
         $this->alertManager
-            ->shouldReceive('findAlertsBy')->andReturn([ $alert ])
-            ->shouldReceive('updateAlert');
-        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => $offering->getId() ])->andReturn($offering);
+            ->shouldReceive('findAlertsBy')->andReturn([ $alert ])->shouldReceive('updateAlert');
+        $this->offeringManager
+            ->shouldReceive('findOfferingBy')
+            ->with([ "id" => $offering->getId() ])
+            ->andReturn($offering);
 
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
