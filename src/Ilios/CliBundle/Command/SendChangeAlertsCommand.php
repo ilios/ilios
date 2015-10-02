@@ -132,7 +132,7 @@ class SendChangeAlertsCommand extends Command
             $history = $this->auditLogManager->findAuditLogsBy([
                 'objectId' => $alert->getId(),
                 'objectClass' => 'alert',
-            ], [ 'createdAt' => 'asc']);
+            ], [ 'createdAt' => 'asc' ]);
             $history = array_filter($history, function (AuditLogInterface $auditLog) {
                 $user =  $auditLog->getUser();
                 return isset($user);
