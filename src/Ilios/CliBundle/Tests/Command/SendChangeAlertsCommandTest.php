@@ -92,23 +92,20 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     /**
      * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @dataProvider testExecuteDryRunProvider
+     *
+     * @param AlertInterface $alert
+     * @param OfferingInterface $offering
+     * @param AuditLogInterface[] $auditLogs
      */
-    public function testExecuteDryRun()
+    public function testExecuteDryRun(AlertInterface $alert, OfferingInterface $offering, array $auditLogs)
     {
-        $offerings = $this->getOfferings();
-        $alerts = $this->getAlerts();
-        $auditLogs = $this->getAuditLogs();
-
-        $this->alertManager->shouldReceive('findAlertsBy')->andReturn($alerts);
-        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => 1 ])->andReturn($offerings[1]);
+        $this->alertManager->shouldReceive('findAlertsBy')->andReturn([ $alert ]);
+        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => 1 ])->andReturn($offering);
         $this->auditLogManager
             ->shouldReceive('findAuditLogsBy')
             ->with([ 'objectId' => 1, 'objectClass' => 'alert' ], [ 'createdAt' => 'asc' ])
-            ->andReturn($auditLogs[1]);
-
-        $alert = $alerts[1];
-        $offering = $offerings[1];
-        $auditLogs = $auditLogs[1];
+            ->andReturn($auditLogs);
 
         $this->commandTester->execute([
             '--dry-run' => true,
@@ -170,23 +167,29 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         }
     }
 
-    /**
-     * @return OfferingInterface[]
-     */
-    protected function getOfferings()
-    {
-        $rhett = [];
 
-        $school = new School();
-        $school->setId(1);
-        $school->setTitle('Medicine');
-        $school->setIliosAdministratorEmail('iliosadmin@som.edu');
+    /**
+     * @return array
+     */
+    public function testExecuteDryRunProvider()
+    {
+        $schoolA = new School();
+        $schoolA->setId(1);
+        $schoolA->setTitle('Medicine');
+        $schoolA->setIliosAdministratorEmail('iliosadmin@som.edu');
+        $schoolA->setChangeAlertRecipients('recipientA@som.edu,recipientB@som.edu');
+
+        $schoolB = new School();
+        $schoolB->setTitle('Dentistry');
+        $schoolB->setId(2);
+        $schoolA->setIliosAdministratorEmail('iliosadmin@sod.edu');
+        $schoolB->setChangeAlertRecipients('recipientA@sod.edu');
 
         $course = new Course();
         $course->setId(1);
         $course->setTitle('Course A');
         $course->setExternalId('ILIOS123');
-        $course->setSchool($school);
+        $course->setSchool($schoolA);
 
         $sessionType = new SessionType();
         $sessionType->setId(1);
@@ -234,31 +237,12 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $offering->addLearnerGroup($learnerGroup);
         $offering->addLearner($learner);
 
-        $rhett[$offering->getId()] = $offering;
-        return $rhett;
-    }
-
-    /**
-     * @return AlertInterface[]
-     */
-    protected function getAlerts()
-    {
-        $rhett = [];
-
         $alert = new Alert();
         $alert->setId(1);
         $alert->setDispatched(false);
         $alert->setTableName('offering');
         $alert->setTableRowId(1);
-
-        $schoolA = new School();
-        $schoolA->setId(1);
-        $schoolA->setChangeAlertRecipients('recipientA@schoolA.edu,recipientB@schoolA.edu');
         $alert->addRecipient($schoolA);
-
-        $schoolB = new School();
-        $schoolB->setId(2);
-        $schoolB->setChangeAlertRecipients('recipientA@schoolB.edu');
         $alert->addRecipient($schoolB);
 
         $i = 0;
@@ -268,17 +252,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
             $alertChangeType->setTitle("Alert Change Type {$letter}");
             $alert->addChangeType($alertChangeType);
         }
-
-        $rhett[$alert->getId()] = $alert;
-        return $rhett;
-    }
-
-    /**
-     * @return AuditLogInterface[][]
-     */
-    protected function getAuditLogs()
-    {
-        $rhett = [];
 
         $userA = new User();
         $userA->setId(1);
@@ -302,8 +275,8 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $logB->setUser($userB);
         $logB->setCreatedAt(new \DateTime('2015-09-20 15:20:15', new \DateTimeZone('UTC')));
 
-        $rhett[$logA->getObjectId()][] = $logA;
-        $rhett[$logB->getObjectId()][] = $logB;
-        return $rhett;
+        return [
+            [ $alert , $offering, [ $logA, $logB ]]
+        ];
     }
 }
