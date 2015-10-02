@@ -128,16 +128,6 @@ class SendChangeAlertsCommand extends Command
                 continue;
             }
 
-            // get change alert history from audit logs
-            $history = $this->auditLogManager->findAuditLogsBy([
-                'objectId' => $alert->getId(),
-                'objectClass' => 'alert',
-            ], [ 'createdAt' => 'asc' ]);
-            $history = array_filter($history, function (AuditLogInterface $auditLog) {
-                $user =  $auditLog->getUser();
-                return isset($user);
-            });
-
             // convoluted way of identifying alert recipients
             $schools = $alert->getRecipients();
             /** @var SchoolInterface $school */
@@ -154,6 +144,16 @@ class SendChangeAlertsCommand extends Command
                 $output->writeln("<error>No alert recipients for offering change alert {$alert->getId()}.</error>");
                 continue;
             }
+
+            // get change alert history from audit logs
+            $history = $this->auditLogManager->findAuditLogsBy([
+                'objectId' => $alert->getId(),
+                'objectClass' => 'alert',
+            ], [ 'createdAt' => 'asc' ]);
+            $history = array_filter($history, function (AuditLogInterface $auditLog) {
+                $user =  $auditLog->getUser();
+                return isset($user);
+            });
 
             $subject = $offering->getSession()->getCourse()->getExternalId() . ' - '
                 . $offering->getStartDate()->format('m/d/Y');
