@@ -139,13 +139,10 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $offering = $this->getOfferings()[1];
         $auditLogs = $this->getAuditLogs()[1];
 
-
         $this->commandTester->execute([
             '--dry-run' => true,
         ]);
         $output = $this->commandTester->getDisplay();
-
-        echo $output;
 
         // check mail headers
         $this->assertContains(
