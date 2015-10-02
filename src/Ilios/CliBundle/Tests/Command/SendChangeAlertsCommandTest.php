@@ -167,7 +167,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         }
     }
 
-
     /**
      * @return array
      */
@@ -278,5 +277,30 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         return [
             [ $alert , $offering, [ $logA, $logB ]]
         ];
+    }
+
+    /**
+     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @dataProvider testExecuteDryRunProvider
+     *
+     * @param AlertInterface $alert
+     * @param OfferingInterface $offering
+     * @param AuditLogInterface[] $auditLogs
+     */
+    public function testExecute(AlertInterface $alert, OfferingInterface $offering, array $auditLogs)
+    {
+        $this->alertManager
+            ->shouldReceive('findAlertsBy')->andReturn([ $alert ])
+            ->shouldReceive('updateAlert');
+        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => $offering->getId() ])->andReturn($offering);
+        $this->auditLogManager
+            ->shouldReceive('findAuditLogsBy')
+            ->with([ 'objectId' => $alert->getId(), 'objectClass' => 'alert' ], [ 'createdAt' => 'asc' ])
+            ->andReturn($auditLogs);
+
+        $this->commandTester->execute([]);
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains("Sent 1 offering change alert notifications.", $output);
+        $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
     }
 }
