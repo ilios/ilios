@@ -12,9 +12,6 @@ use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\InstructorGroup;
 use Ilios\CoreBundle\Entity\LearnerGroup;
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
-use Ilios\CoreBundle\Entity\Manager\AlertManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\AuditLogManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
 use Ilios\CoreBundle\Entity\Offering;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\School;
@@ -39,19 +36,19 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     const COMMAND_NAME = 'ilios:messaging:send-change-alerts';
 
     /**
-     * @var OfferingManagerInterface
+     * @var m\MockInterface
      */
-    protected $fakeOfferingManager;
+    protected $offeringManager;
 
     /**
-     * @var AlertManagerInterface
+     * @var m\MockInterface
      */
-    protected $fakeAlertManager;
+    protected $alertManager;
 
     /**
-     * @var AuditLogManagerInterface
+     * @var m\MockInterface
      */
-    protected $fakeAuditLogManager;
+    protected $auditLogManager;
 
     /**
      * @var CommandTester
@@ -60,57 +57,20 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     public function setUp()
     {
-        $offerings = $this->getOfferings();
-        $alerts = $this->getAlerts();
-        $auditLogs = $this->getAuditLogs();
 
-        $this->fakeOfferingManager = $this
-            ->getMockBuilder('Ilios\CoreBundle\Entity\Manager\OfferingManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->fakeOfferingManager
-            ->method('findOfferingBy')
-            ->will($this->returnValueMap(
-                [
-                    [[ "id" => 1 ], null, $offerings[1]],
-                ]
-            ));
-        $this->fakeAlertManager = $this
-            ->getMockBuilder('Ilios\CoreBundle\Entity\Manager\AlertManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->fakeAlertManager
-            ->method('findAlertsBy')
-            ->will($this->returnValue(
-                $alerts
-            ));
 
-        $this->fakeAuditLogManager = $this
-            ->getMockBuilder('Ilios\CoreBundle\Entity\Manager\AuditLogManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->fakeAuditLogManager
-            ->method('findAuditLogsBy')
-            ->will($this->returnValueMap(
-                [
-                    [
-                        [ 'objectId' => 1, 'objectClass' => 'alert' ],
-                        [ 'createdAt' => 'asc' ],
-                        null,
-                        null,
-                        $auditLogs[1]
-                    ],
-                ]
-            ));
+        $this->offeringManager = m::mock('Ilios\CoreBundle\Entity\Manager\OfferingManager');
+        $this->alertManager = m::mock('Ilios\CoreBundle\Entity\Manager\AlertManager');
+        $this->auditLogManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuditLogManager');
 
         $kernel = $this->createKernel();
         $kernel->boot();
         $application = new Application($kernel);
 
         $command = new SendChangeAlertsCommand(
-            $this->fakeAlertManager,
-            $this->fakeAuditLogManager,
-            $this->fakeOfferingManager,
+            $this->alertManager,
+            $this->auditLogManager,
+            $this->offeringManager,
             $kernel->getContainer()->get('templating'),
             $kernel->getContainer()->get('mailer')
         );
@@ -124,9 +84,9 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      */
     public function tearDown()
     {
-        unset($this->fakeOfferingManager);
-        unset($this->fakeAlertManager);
-        unset($this->fakeAuditLogManager);
+        unset($this->offeringManager);
+        unset($this->alertManager);
+        unset($this->auditLogManager);
         m::close();
     }
 
@@ -135,9 +95,20 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      */
     public function testExecuteDryRun()
     {
-        $alert = $this->getAlerts()[1];
-        $offering = $this->getOfferings()[1];
-        $auditLogs = $this->getAuditLogs()[1];
+        $offerings = $this->getOfferings();
+        $alerts = $this->getAlerts();
+        $auditLogs = $this->getAuditLogs();
+
+        $this->alertManager->shouldReceive('findAlertsBy')->andReturn($alerts);
+        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => 1 ])->andReturn($offerings[1]);
+        $this->auditLogManager
+            ->shouldReceive('findAuditLogsBy')
+            ->with([ 'objectId' => 1, 'objectClass' => 'alert' ], [ 'createdAt' => 'asc' ])
+            ->andReturn($auditLogs[1]);
+
+        $alert = $alerts[1];
+        $offering = $offerings[1];
+        $auditLogs = $auditLogs[1];
 
         $this->commandTester->execute([
             '--dry-run' => true,
