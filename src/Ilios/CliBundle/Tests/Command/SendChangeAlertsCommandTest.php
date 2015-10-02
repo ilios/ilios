@@ -93,7 +93,13 @@ class SendChangeAlertsCommandTest extends KernelTestCase
             ->method('findAuditLogsBy')
             ->will($this->returnValueMap(
                 [
-                    [[ 'objectId' => 1, 'objectClass' => 'alert' ], [ 'createdAt' => 'asc' ], null, null, $auditLogs[1]],
+                    [
+                        [ 'objectId' => 1, 'objectClass' => 'alert' ],
+                        [ 'createdAt' => 'asc' ],
+                        null,
+                        null,
+                        $auditLogs[1]
+                    ],
                 ]
             ));
 
@@ -143,7 +149,9 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
         // check mail headers
         $this->assertContains(
-            'From: ' . $offering->getSession()->getCourse()->getSchool()->getIliosAdministratorEmail(), $output);
+            'From: ' . $offering->getSession()->getCourse()->getSchool()->getIliosAdministratorEmail(),
+            $output
+        );
         $schools = $alert->getRecipients()->toArray();
         /** @var SchoolInterface $school */
         foreach ($schools as $school) {
@@ -188,7 +196,9 @@ class SendChangeAlertsCommandTest extends KernelTestCase
             $createdAt = $log->getCreatedAt();
             $this->assertContains(
                 "- Updates made {$createdAt->format('m/d/Y')} at {$createdAt->format('h:i a')}"
-                . " by {$user->getFirstName()} {$user->getLastName()}", $output);
+                . " by {$user->getFirstName()} {$user->getLastName()}",
+                $output
+            );
         }
     }
 
