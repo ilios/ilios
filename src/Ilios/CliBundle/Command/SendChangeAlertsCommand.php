@@ -186,20 +186,20 @@ class SendChangeAlertsCommand extends Command
             }
             $sent++;
         }
-        // Mark all alerts as dispatched, regardless as to whether an actual email
-        // was sent or not.
-        // This is consistent with the Ilios v2 implementation of this process.
-        // @todo Reassess the validity of this step. [ST 2015/10/01]
-        if ($isDryRun) {
+        if (! $isDryRun) {
+            // Mark all alerts as dispatched, regardless as to whether an actual email
+            // was sent or not.
+            // This is consistent with the Ilios v2 implementation of this process.
+            // @todo Reassess the validity of this step. [ST 2015/10/01]
             foreach ($alerts as $alert) {
                 $alert->setDispatched(true);
                 $this->alertManager->updateAlert($alert);
             }
-        }
-        $dispatched = count($alerts);
 
-        $output->writeln("<info>Sent {$sent} offering change alert notifications.</info>");
-        $output->writeln("<info>Marked {$dispatched} offering change alerts as dispatched.</info>");
+            $dispatched = count($alerts);
+            $output->writeln("<info>Sent {$sent} offering change alert notifications.</info>");
+            $output->writeln("<info>Marked {$dispatched} offering change alerts as dispatched.</info>");
+        }
     }
 
     /**
