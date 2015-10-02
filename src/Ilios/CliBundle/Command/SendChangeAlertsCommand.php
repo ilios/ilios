@@ -82,7 +82,7 @@ class SendChangeAlertsCommand extends Command
     {
         $this
             ->setName('ilios:messaging:send-change-alerts')
-            ->setDescription('Sends change alerts on a per-school basis to configured recipients.')
+            ->setDescription('Sends out change alert message to configured email recipients.')
             ->addOption(
                 'dry-run',
                 null,
