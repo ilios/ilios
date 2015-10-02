@@ -92,7 +92,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     /**
      * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
-     * @dataProvider testExecuteDryRunProvider
+     * @dataProvider testExecuteProvider
      *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
@@ -101,10 +101,13 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     public function testExecuteDryRun(AlertInterface $alert, OfferingInterface $offering, array $auditLogs)
     {
         $this->alertManager->shouldReceive('findAlertsBy')->andReturn([ $alert ]);
-        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => 1 ])->andReturn($offering);
+        $this->offeringManager
+            ->shouldReceive('findOfferingBy')
+            ->with([ "id" => $offering->getId() ])
+            ->andReturn($offering);
         $this->auditLogManager
             ->shouldReceive('findAuditLogsBy')
-            ->with([ 'objectId' => 1, 'objectClass' => 'alert' ], [ 'createdAt' => 'asc' ])
+            ->with([ 'objectId' => $alert->getId(), 'objectClass' => 'alert' ], [ 'createdAt' => 'asc' ])
             ->andReturn($auditLogs);
 
         $this->commandTester->execute([
@@ -168,9 +171,89 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
     /**
+     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @dataProvider testExecuteProvider
+     *
+     * @param AlertInterface $alert
+     * @param OfferingInterface $offering
+     * @param AuditLogInterface[] $auditLogs
+     */
+    public function testExecute(AlertInterface $alert, OfferingInterface $offering, array $auditLogs)
+    {
+        $this->alertManager
+            ->shouldReceive('findAlertsBy')->andReturn([ $alert ])
+            ->shouldReceive('updateAlert');
+        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => $offering->getId() ])->andReturn($offering);
+        $this->auditLogManager
+            ->shouldReceive('findAuditLogsBy')
+            ->with([ 'objectId' => $alert->getId(), 'objectClass' => 'alert' ], [ 'createdAt' => 'asc' ])
+            ->andReturn($auditLogs);
+
+        $this->commandTester->execute([]);
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains("Sent 1 offering change alert notifications.", $output);
+        $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
+    }
+
+    /**
+     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     */
+    public function testExecuteNoPendingAlerts()
+    {
+        $this->alertManager->shouldReceive('findAlertsBy')->andReturn([]);
+        $this->commandTester->execute([]);
+        $output = $this->commandTester->getDisplay();
+
+        $this->assertEquals('No undispatched offering alerts found.', trim($output));
+    }
+    /**
+     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @dataProvider testExecuteNoRecipientsConfiguredProvider
+     *
+     * @param AlertInterface $alert
+     * @param OfferingInterface $offering
+     */
+    public function testExecuteNoRecipientsConfigured(AlertInterface $alert, OfferingInterface $offering)
+    {
+        $this->alertManager
+            ->shouldReceive('findAlertsBy')->andReturn([ $alert ])
+            ->shouldReceive('updateAlert');
+        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => $offering->getId() ])->andReturn($offering);
+
+        $this->commandTester->execute([]);
+        $output = $this->commandTester->getDisplay();
+
+        $this->assertContains("No alert recipients for offering change alert {$alert->getId()}.", $output);
+        $this->assertContains("Sent 0 offering change alert notifications.", $output);
+        $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
+    }
+
+    /**
+     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @dataProvider testExecuteDeletedOfferingProvider
+     *
+     * @param AlertInterface $alert
+     * @param OfferingInterface $offering
+     */
+    public function testExecuteDeletedOffering(AlertInterface $alert, OfferingInterface $offering)
+    {
+        $this->alertManager
+            ->shouldReceive('findAlertsBy')->andReturn([ $alert ])
+            ->shouldReceive('updateAlert');
+        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => $offering->getId() ])->andReturn($offering);
+
+        $this->commandTester->execute([]);
+        $output = $this->commandTester->getDisplay();
+
+        $this->assertContains("Sent 0 offering change alert notifications.", $output);
+        $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
+    }
+
+
+    /**
      * @return array
      */
-    public function testExecuteDryRunProvider()
+    public function testExecuteProvider()
     {
         $schoolA = new School();
         $schoolA->setId(1);
@@ -280,27 +363,69 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
-     * @dataProvider testExecuteDryRunProvider
-     *
-     * @param AlertInterface $alert
-     * @param OfferingInterface $offering
-     * @param AuditLogInterface[] $auditLogs
+     * @return array
      */
-    public function testExecute(AlertInterface $alert, OfferingInterface $offering, array $auditLogs)
+    public function testExecuteNoRecipientsConfiguredProvider()
     {
-        $this->alertManager
-            ->shouldReceive('findAlertsBy')->andReturn([ $alert ])
-            ->shouldReceive('updateAlert');
-        $this->offeringManager->shouldReceive('findOfferingBy')->with([ "id" => $offering->getId() ])->andReturn($offering);
-        $this->auditLogManager
-            ->shouldReceive('findAuditLogsBy')
-            ->with([ 'objectId' => $alert->getId(), 'objectClass' => 'alert' ], [ 'createdAt' => 'asc' ])
-            ->andReturn($auditLogs);
+        $school = new School();
+        $course = new Course();
+        $course->setSchool($school);
+        $session = new Session();
+        $session->setCourse($course);
+        $offering = new Offering();
+        $offering->setId(1);
+        $offering->setSession($session);
 
-        $this->commandTester->execute([]);
-        $output = $this->commandTester->getDisplay();
-        $this->assertContains("Sent 1 offering change alert notifications.", $output);
-        $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
+        $alert = new Alert();
+        $alert->setId(1);
+        $alert->setTableName('offering');
+        $alert->setTableRowId($offering->getId());
+
+        return [[ $alert, $offering ]];
+    }
+
+    /**
+     * @return array
+     */
+    public function testExecuteDeletedOfferingProvider()
+    {
+        $deletedSchool = new School();
+        $deletedSchool->setDeleted(true);
+        $course = new Course();
+        $course->setSchool($deletedSchool);
+        $session = new Session();
+        $session->setCourse($course);
+        $offeringInDeletedSchool = new Offering();
+        $offeringInDeletedSchool->setId(1);
+        $offeringInDeletedSchool->setSession($session);
+        $alertForOfferingInDeletedSchool = new Alert();
+        $alertForOfferingInDeletedSchool->setTableName('offering');
+        $alertForOfferingInDeletedSchool->setTableRowId($offeringInDeletedSchool->getId());
+
+        $deletedCourse = new Course();
+        $deletedCourse->setDeleted(true);
+        $session = new Session();
+        $session->setCourse($course);
+        $offeringInDeletedCourse = new Offering();
+        $offeringInDeletedCourse->setId(1);
+        $offeringInDeletedCourse->setSession($session);
+        $alertForOfferingInDeletedCourse = new Alert();
+        $alertForOfferingInDeletedCourse->setTableName('offering');
+        $alertForOfferingInDeletedCourse->setTableRowId($offeringInDeletedCourse->getId());
+
+        $deletedSession = new Session();
+        $deletedSession->setDeleted(true);
+        $offeringInDeletedSession = new Offering();
+        $offeringInDeletedSession->setId(1);
+        $offeringInDeletedSession->setSession($deletedSession);
+        $alertForOfferingInDeletedSession = new Alert();
+        $alertForOfferingInDeletedSession->setTableName('offering');
+        $alertForOfferingInDeletedSession->setTableRowId($offeringInDeletedSession->getId());
+
+        return [
+            [ $alertForOfferingInDeletedSchool, $offeringInDeletedSchool ],
+            [ $alertForOfferingInDeletedCourse, $offeringInDeletedCourse ],
+            [ $alertForOfferingInDeletedSession, $offeringInDeletedSession ],
+        ];
     }
 }
