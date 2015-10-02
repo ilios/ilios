@@ -11,7 +11,7 @@
 #}
 Course:   {{ offering.session.course.title|raw }}
 Session:  {{ offering.session.title|raw }}
-Type:     {{ offering.session.sessionType|raw }}
+Type:     {{ offering.session.sessionType.title|raw }}
 Date:     {{ offering.startDate|date('D M d, Y') }}
 Time:     {{ offering.startDate|date('h:i a') }} - {{ offering.endDate|date('h:i a') }}
 Location: {{ offering.room }}
