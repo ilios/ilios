@@ -47,7 +47,7 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getAlerts());
         $this->assertEmpty($this->object->getDirectedCourses());
         $this->assertEmpty($this->object->getInstructorGroups());
-        $this->assertEmpty($this->object->getInstructorUserGroups());
+        $this->assertEmpty($this->object->getInstructedLearnerGroups());
         $this->assertEmpty($this->object->getOfferings());
         $this->assertEmpty($this->object->getProgramYears());
         $this->assertEmpty($this->object->getReminders());
@@ -225,19 +225,19 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addInstructorUserGroup
+     * @covers Ilios\CoreBundle\Entity\User::addInstructedLearnerGroups
      */
-    public function testAddInstructorUserGroup()
+    public function testAddInstructedLearnerGroup()
     {
-        $this->entityCollectionAddTest('instructorUserGroup', 'LearnerGroup');
+        $this->entityCollectionAddTest('instructedLearnerGroup', 'LearnerGroup');
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getInstructorUserGroups
+     * @covers Ilios\CoreBundle\Entity\User::getInstructedLearnerGroups
      */
-    public function testSetInstructorUserGroups()
+    public function testGetInstructedLearnerGroups()
     {
-        $this->entityCollectionSetTest('instructorUserGroup', 'LearnerGroup');
+        $this->entityCollectionSetTest('instructedLearnerGroup', 'LearnerGroup');
     }
 
     /**

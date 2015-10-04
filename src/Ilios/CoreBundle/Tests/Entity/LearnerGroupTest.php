@@ -40,7 +40,7 @@ class LearnerGroupTest extends EntityBase
     {
         $this->assertEmpty($this->object->getIlmSessions());
         $this->assertEmpty($this->object->getInstructorGroups());
-        $this->assertEmpty($this->object->getInstructorUsers());
+        $this->assertEmpty($this->object->getInstructors());
         $this->assertEmpty($this->object->getOfferings());
         $this->assertEmpty($this->object->getUsers());
     }
@@ -52,15 +52,6 @@ class LearnerGroupTest extends EntityBase
     public function testSetTitle()
     {
         $this->basicSetTest('title', 'string');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\LearnerGroup::setInstructors
-     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getInstructors
-     */
-    public function testSetInstructors()
-    {
-        $this->basicSetTest('instructors', 'string');
     }
 
     /**
@@ -82,10 +73,18 @@ class LearnerGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearnerGroup::addUser
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::addInstructor
      */
-    public function testAddUser()
+    public function testAddInstructor()
     {
-        $this->entityCollectionAddTest('user', 'User');
+        $this->entityCollectionAddTest('instructor', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getInstructors
+     */
+    public function getGetInstructors()
+    {
+        $this->entityCollectionSetTest('instructor', 'User');
     }
 }

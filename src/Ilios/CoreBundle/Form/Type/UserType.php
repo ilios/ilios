@@ -55,7 +55,7 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('instructorUserGroups', 'tdn_many_related', [
+            ->add('instructedLearnerGroups', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])

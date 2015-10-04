@@ -42,16 +42,6 @@ interface LearnerGroupInterface extends
     public function getCohort();
 
     /**
-     * @param string $instructors
-     */
-    public function setInstructors($instructors);
-
-    /**
-     * @return string
-     */
-    public function getInstructors();
-
-    /**
      * @param Collection $users
      */
     public function setUsers(Collection $users);
@@ -122,17 +112,17 @@ interface LearnerGroupInterface extends
     public function getInstructorGroups();
 
     /**
-     * @param Collection $instructorUsers
+     * @param Collection $instructors
      */
-    public function setInstructorUsers(Collection $instructorUsers);
+    public function setInstructors(Collection $instructors = null);
 
     /**
-     * @param UserInterface $instructorUser
+     * @param UserInterface $instructors
      */
-    public function addInstructorUser(UserInterface $instructorUser);
+    public function addInstructor(UserInterface $instructor);
 
     /**
      * @return ArrayCollection|UserInterface[]
      */
-    public function getInstructorUsers();
+    public function getInstructors();
 }

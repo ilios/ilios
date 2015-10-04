@@ -135,16 +135,6 @@ class LearnerGroup implements LearnerGroupInterface
     protected $offerings;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="instructors", type="string", length=120, nullable=true)
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     */
-    protected $instructors;
-
-    /**
      * @var ArrayCollection|InstructorGroupInterface[]
      *
      * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="learnerGroups")
@@ -184,7 +174,7 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @var UserInterface
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="instructorUserGroups", fetch="EXTRA_LAZY")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="instructedLearnerGroups", fetch="EXTRA_LAZY")
      * @ORM\JoinTable(name="group_x_instructor",
      *   joinColumns={
      *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id", onDelete="CASCADE")
@@ -196,21 +186,20 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructorUsers")
      */
-    protected $instructorUsers;
+    protected $instructors;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->users = new ArrayCollection();
-        $this->ilmSessions = new ArrayCollection();
-        $this->offerings = new ArrayCollection();
-        $this->children = new ArrayCollection();
+        $this->users            = new ArrayCollection();
+        $this->ilmSessions      = new ArrayCollection();
+        $this->offerings        = new ArrayCollection();
+        $this->children         = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
-        $this->instructorUsers = new ArrayCollection();
+        $this->instructors      = new ArrayCollection();
     }
 
     /**
@@ -243,22 +232,6 @@ class LearnerGroup implements LearnerGroupInterface
     public function getCohort()
     {
         return $this->cohort;
-    }
-
-    /**
-     * @param string $instructors
-     */
-    public function setInstructors($instructors)
-    {
-        $this->instructors = $instructors;
-    }
-
-    /**
-     * @return string
-     */
-    public function getInstructors()
-    {
-        return $this->instructors;
     }
 
     /**
@@ -402,33 +375,33 @@ class LearnerGroup implements LearnerGroupInterface
     }
 
     /**
-     * @param Collection $instructorUsers
+     * @param Collection $instructors
      */
-    public function setInstructorUsers(Collection $instructorUsers = null)
+    public function setInstructors(Collection $instructors = null)
     {
-        $this->instructorUsers = new ArrayCollection();
-        if (is_null($instructorUsers)) {
+        $this->instructors = new ArrayCollection();
+        if (is_null($instructors)) {
             return;
         }
 
-        foreach ($instructorUsers as $instructorUser) {
-            $this->addInstructorGroup($instructorUser);
+        foreach ($instructors as $user) {
+            $this->addInstructor($user);
         }
     }
 
     /**
-     * @param UserInterface $instructorUser
+     * @param UserInterface $user
      */
-    public function addInstructorUser(UserInterface $instructorUser)
+    public function addInstructor(UserInterface $user)
     {
-        $this->instructorUsers->add($instructorUser);
+        $this->instructors->add($user);
     }
 
     /**
      * @return ArrayCollection|UserInterface[]
      */
-    public function getInstructorUsers()
+    public function getInstructors()
     {
-        return $this->instructorUsers;
+        return $this->instructors;
     }
 }
