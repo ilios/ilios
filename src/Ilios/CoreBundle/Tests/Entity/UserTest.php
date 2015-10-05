@@ -225,7 +225,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addInstructedLearnerGroups
+     * @covers Ilios\CoreBundle\Entity\User::addInstructedLearnerGroup
      */
     public function testAddInstructedLearnerGroup()
     {
