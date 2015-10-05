@@ -123,7 +123,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $schools = $alert->getRecipients()->toArray();
         /** @var SchoolInterface $school */
         foreach ($schools as $school) {
-            $recipients = explode(',', strtolower($school->getChangeAlertRecipients()));
+            $recipients = explode(',', $school->getChangeAlertRecipients());
             foreach ($recipients as $recipient) {
                 $this->assertRegExp("/To:(.*){$recipient}/", $output);
             }
@@ -225,7 +225,30 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
 
-        $this->assertContains("No alert recipients for offering change alert {$alert->getId()}.", $output);
+        $this->assertContains("No alert recipient for offering change alert {$alert->getId()}.", $output);
+        $this->assertContains("Sent 0 offering change alert notifications.", $output);
+        $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
+    }
+
+    /**
+     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @dataProvider testExecuteRecipientWithoutEmailProvider
+     *
+     * @param AlertInterface $alert
+     * @param OfferingInterface $offering
+     */
+    public function testExecuteRecipientWithoutEmail(AlertInterface $alert, OfferingInterface $offering)
+    {
+        $this->alertManager->shouldReceive('findAlertsBy')->andReturn([ $alert ])->shouldReceive('updateAlert');
+        $this->offeringManager
+            ->shouldReceive('findOfferingBy')
+            ->with([ "id" => $offering->getId() ])
+            ->andReturn($offering);
+
+        $this->commandTester->execute([]);
+        $output = $this->commandTester->getDisplay();
+
+        $this->assertContains("Recipient without email for offering change alert {$alert->getId()}.", $output);
         $this->assertContains("Sent 0 offering change alert notifications.", $output);
         $this->assertContains("Marked 1 offering change alerts as dispatched.", $output);
     }
@@ -329,7 +352,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $alert->setTableName('offering');
         $alert->setTableRowId(1);
         $alert->addRecipient($schoolA);
-        $alert->addRecipient($schoolB);
 
         $i = 0;
         foreach (['A', 'B', 'C'] as $letter) {
@@ -364,6 +386,29 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         return [
             [ $alert , $offering, [ $logA, $logB ]]
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function testExecuteRecipientWithoutEmailProvider()
+    {
+        $school = new School();
+        $course = new Course();
+        $course->setSchool($school);
+        $session = new Session();
+        $session->setCourse($course);
+        $offering = new Offering();
+        $offering->setId(1);
+        $offering->setSession($session);
+
+        $alert = new Alert();
+        $alert->setId(1);
+        $alert->setTableName('offering');
+        $alert->setTableRowId($offering->getId());
+        $alert->addRecipient($school);
+
+        return [[ $alert, $offering ]];
     }
 
     /**
