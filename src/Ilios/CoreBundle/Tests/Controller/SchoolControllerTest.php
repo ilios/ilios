@@ -24,6 +24,7 @@ class SchoolControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearStewardData'
         ]);
     }
 

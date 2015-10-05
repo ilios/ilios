@@ -21,7 +21,8 @@ class ProgramYearData extends AbstractDataLoader
             'competencies' => [],
             'topics' => [],
             'objectives' => [],
-            'publishEvent' => '2'
+            'publishEvent' => '2',
+            'stewards' => ['1', '2']
         );
         $arr[] = array(
             'id' => 2,
@@ -36,6 +37,7 @@ class ProgramYearData extends AbstractDataLoader
             'competencies' => [],
             'topics' => [],
             'objectives' => [],
+            'stewards' => []
         );
 
 
@@ -55,7 +57,8 @@ class ProgramYearData extends AbstractDataLoader
             'deleted' => false,
             'locked' => false,
             'archived' => false,
-            'publishedAsTbd' => false
+            'publishedAsTbd' => false,
+            'stewards' => []
         ];
     }
 

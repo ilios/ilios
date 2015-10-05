@@ -34,6 +34,14 @@ class DepartmentTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Department::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertEmpty($this->object->getStewards());
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Department::setTitle
      * @covers Ilios\CoreBundle\Entity\Department::getTitle
      */
@@ -49,5 +57,21 @@ class DepartmentTest extends EntityBase
     public function testSetSchool()
     {
         $this->softDeleteEntitySetTest('school', 'School');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addSteward
+     */
+    public function testAddSteward()
+    {
+        $this->entityCollectionAddTest('steward', 'ProgramYearSteward');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::getStewards
+     */
+    public function testGetSteward()
+    {
+        $this->entityCollectionSetTest('steward', 'ProgramYearSteward');
     }
 }

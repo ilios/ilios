@@ -48,6 +48,10 @@ class ProgramYearType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:PublishEvent"
             ])
+            ->add('stewards', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ProgramYearSteward"
+            ])
         ;
     }
 

@@ -11,6 +11,7 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\CoursesEntityInterface;
 use Ilios\CoreBundle\Traits\ProgramsEntityInterface;
+use Ilios\CoreBundle\Traits\StewardedEntityInterface;
 
 /**
  * Interface SchoolInterface
@@ -23,7 +24,8 @@ interface SchoolInterface extends
     CoursesEntityInterface,
     ProgramsEntityInterface,
     LoggableEntityInterface,
-    DeletableEntityInterface
+    DeletableEntityInterface,
+    StewardedEntityInterface
 {
     /**
      * @param string $templatePrefix

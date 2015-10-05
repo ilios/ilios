@@ -12,6 +12,7 @@ use Ilios\CoreBundle\Traits\ArchivableEntity;
 use Ilios\CoreBundle\Traits\DeletableEntity;
 use Ilios\CoreBundle\Traits\LockableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StewardedEntity;
 
 /**
  * Class ProgramYear
@@ -29,6 +30,7 @@ class ProgramYear implements ProgramYearInterface
     use LockableEntity;
     use ArchivableEntity;
     use DeletableEntity;
+    use StewardedEntity;
 
     /**
     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
@@ -221,6 +223,16 @@ class ProgramYear implements ProgramYearInterface
     protected $publishEvent;
 
     /**
+     * @var ArrayCollection|ProgramYearStewardInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="programYear")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $stewards;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -233,6 +245,8 @@ class ProgramYear implements ProgramYearInterface
         $this->competencies = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->objectives = new ArrayCollection();
+        $this->stewards = new ArrayCollection();
+
     }
 
     /**
