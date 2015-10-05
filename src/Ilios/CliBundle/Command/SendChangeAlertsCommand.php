@@ -129,7 +129,7 @@ class SendChangeAlertsCommand extends Command
             }
 
             $schools = $alert->getRecipients();
-            if($schools->isEmpty()) {
+            if ($schools->isEmpty()) {
                 $output->writeln("<error>No alert recipient for offering change alert {$alert->getId()}.</error>");
                 continue;
             }
