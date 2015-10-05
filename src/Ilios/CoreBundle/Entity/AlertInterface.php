@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as JMS;
  * Interface AlertInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface AlertInterface extends IdentifiableEntityInterface
+interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInterface
 {
     /**
      * @param integer $tableRowId
