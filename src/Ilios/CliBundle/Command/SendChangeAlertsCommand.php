@@ -128,22 +128,27 @@ class SendChangeAlertsCommand extends Command
                 continue;
             }
 
-            // convoluted way of identifying alert recipients
             $schools = $alert->getRecipients();
-            /** @var SchoolInterface $school */
-            $recipients = [];
-            foreach ($schools->toArray() as $school) {
-                $schoolRecipients = trim($school->getChangeAlertRecipients());
-                if ('' === $schoolRecipients) {
-                    continue;
-                }
-                $recipients = array_merge($recipients, array_map('trim', explode(',', strtolower($schoolRecipients))));
-            }
-            array_unique($recipients);
-            if (empty($recipients)) {
-                $output->writeln("<error>No alert recipients for offering change alert {$alert->getId()}.</error>");
+            if($schools->isEmpty()) {
+                $output->writeln("<error>No alert recipient for offering change alert {$alert->getId()}.</error>");
                 continue;
             }
+            // Technically, there could be multiple school as recipients to a given alert.
+            // The db schema allows for it.
+            // In practice, there is really only ever one school recipient.
+            // So take the first one and run with it for determining recipients/rendering the email template.
+            // [ST 2015/10/05]
+            /** @var SchoolInterface $school */
+            $school = $schools->first();
+
+            $recipients = trim($school->getChangeAlertRecipients());
+            if ('' === $recipients) {
+                $output->writeln(
+                    "<error>Recipient without email for offering change alert {$alert->getId()}.</error>"
+                );
+                continue;
+            }
+            $recipients = array_map('trim', explode(',', $recipients));
 
             // get change alert history from audit logs
             $history = $this->auditLogManager->findAuditLogsBy([
@@ -158,7 +163,6 @@ class SendChangeAlertsCommand extends Command
             $subject = $offering->getSession()->getCourse()->getExternalId() . ' - '
                 . $offering->getStartDate()->format('m/d/Y');
 
-            $school = $offering->getSession()->getCourse()->getSchool();
             if (! array_key_exists($school->getId(), $templateCache)) {
                 $template = $this->getTemplatePath($school);
                 $templateCache[$school->getId()] = $template;
@@ -173,7 +177,7 @@ class SendChangeAlertsCommand extends Command
             $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setTo($recipients)
-                ->setFrom($offering->getSession()->getCourse()->getSchool()->getIliosAdministratorEmail())
+                ->setFrom($school->getIliosAdministratorEmail())
                 ->setContentType('text/plain')
                 ->setBody($messageBody)
                 ->setMaxLineLength(998);
