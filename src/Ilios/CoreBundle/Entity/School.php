@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\CoursesEntity;
 use Ilios\CoreBundle\Traits\ProgramsEntity;
 use Ilios\CoreBundle\Traits\DeletableEntity;
+use Ilios\CoreBundle\Traits\StewardedEntity;
 
 /**
  * Class School
@@ -34,6 +35,7 @@ class School implements SchoolInterface
     use CoursesEntity;
     use ProgramsEntity;
     use DeletableEntity;
+    use StewardedEntity;
 
     /**
      * @deprecated Replace with Trait in 3.xf
@@ -220,6 +222,16 @@ class School implements SchoolInterface
     protected $sessionTypes;
 
     /**
+     * @var ArrayCollection|ProgramYearStewardInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="school")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $stewards;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -230,6 +242,7 @@ class School implements SchoolInterface
         $this->departments = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->programs = new ArrayCollection();
+        $this->stewards = new ArrayCollection();
         $this->deleted = false;
     }
 

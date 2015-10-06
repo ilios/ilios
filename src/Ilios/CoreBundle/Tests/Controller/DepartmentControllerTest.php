@@ -18,7 +18,8 @@ class DepartmentControllerTest extends AbstractControllerTest
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearStewardData'
         ]);
     }
 
@@ -28,7 +29,6 @@ class DepartmentControllerTest extends AbstractControllerTest
     protected function getPrivateFields()
     {
         return [
-            'deleted'
         ];
     }
 

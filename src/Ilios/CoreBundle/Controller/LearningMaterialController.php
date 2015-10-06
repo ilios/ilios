@@ -41,7 +41,7 @@ class LearningMaterialController extends FOSRestController
      *        "description"="LearningMaterial identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\LearningMaterial",
+     *   output="Ilios\CoreBundle\Classes\LearningMaterialDecorator",
      *   statusCodes={
      *     200 = "LearningMaterial.",
      *     404 = "Not Found."
@@ -63,8 +63,9 @@ class LearningMaterialController extends FOSRestController
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        $answer['learningMaterials'][] = $learningMaterial;
+        $factory = $this->get('ilioscore.learningmaterial_decorator.factory');
 
+        $answer['learningMaterials'][] = $factory->create($learningMaterial);
 
         return $answer;
     }
@@ -144,9 +145,14 @@ class LearningMaterialController extends FOSRestController
             return $authChecker->isGranted('view', $entity);
         });
 
+        $factory = $this->get('ilioscore.learningmaterial_decorator.factory');
+        $result = array_map(function (LearningMaterialInterface $learningMaterial) use ($factory) {
+            return $factory->create($learningMaterial);
+        }, array_values($result));
+
+
         //If there are no matches return an empty array
-        $answer['learningMaterials'] =
-            $result ? array_values($result) : [];
+        $answer['learningMaterials'] = $result ? $result : [];
 
         return $answer;
     }
@@ -180,19 +186,17 @@ class LearningMaterialController extends FOSRestController
             $file = false;
             if (array_key_exists('fileHash', $postData)) {
                 $fileHash = $postData['fileHash'];
-                $temporary_filesystem = $this->container->get('ilioscore.temporary_filesystem');
-                if (!$file = $temporary_filesystem->getFile($fileHash)) {
+                $temporaryFileSystem = $this->container->get('ilioscore.temporary_filesystem');
+                $file = $temporaryFileSystem->getFile($fileHash);
+
+                if (!$file->isReadable()) {
                     return new JsonResponse(array(
                         'errors' => 'This "fileHash" is not valid'
                     ), JsonResponse::HTTP_BAD_REQUEST);
                 }
                 $fs = $this->container->get('ilioscore.filesystem');
                 unset($postData['fileHash']);
-                unset($postData['path']);
-                unset($postData['realtivePath']);
-                unset($postData['token']);
                 unset($postData['uploadDate']);
-                unset($postData['type']);
                 $postData['mimetype'] = $file->getMimeType();
                 $postData['relativePath'] = $fs->getLearningMaterialFilePath($file);
                 $postData['filesize'] = $file->getSize();
@@ -212,7 +216,9 @@ class LearningMaterialController extends FOSRestController
                 $fs->storeLearningMaterialFile($file, true);
             }
 
-            $answer['learningMaterials'] = [$learningMaterial];
+            $factory = $this->get('ilioscore.learningmaterial_decorator.factory');
+
+            $answer['learningMaterials'] = [$factory->create($learningMaterial)];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -260,11 +266,7 @@ class LearningMaterialController extends FOSRestController
             }
             $postData = $this->getPostData($request);
             unset($postData['fileHash']);
-            unset($postData['path']);
-            unset($postData['realtivePath']);
-            unset($postData['token']);
             unset($postData['uploadDate']);
-            unset($postData['type']);
 
 
             $handler = $this->getLearningMaterialHandler();
@@ -281,7 +283,8 @@ class LearningMaterialController extends FOSRestController
 
             $this->getLearningMaterialHandler()->updateLearningMaterial($learningMaterial, true, true);
 
-            $answer['learningMaterial'] = $learningMaterial;
+            $factory = $this->get('ilioscore.learningmaterial_decorator.factory');
+            $answer['learningMaterial'] = $factory->create($learningMaterial);
 
         } catch (InvalidFormException $exception) {
             return $exception->getForm();

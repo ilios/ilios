@@ -46,7 +46,7 @@ class LoadProgramYearStewardData extends AbstractFixture implements
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
         );
     }

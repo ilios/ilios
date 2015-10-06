@@ -2,7 +2,6 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,12 +11,14 @@ use Symfony\Component\Security\Core\Util\SecureRandom;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
-use Ilios\CoreBundle\Traits\TimestampableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class LearningMaterial
+ * Learning materials are not serialized like other entities.  They are decorated by the controller and
+ * then sent as plain php objects in order to insert the absolute path to the file
+ *
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\LearningMaterialRepository")
@@ -25,13 +26,11 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  *  name="learning_material",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="idx_learning_material_token_unique", columns={"token"})}
  * )
- *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
  */
 class LearningMaterial implements LearningMaterialInterface
 {
     use IdentifiableEntity;
+    use StringableIdEntity;
     use TitledEntity;
     use DescribableEntity;
 
@@ -43,10 +42,6 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @Assert\Type(type="integer")
-     *
-     * @JMS\Expose
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("id")
      */
     protected $id;
 
@@ -61,9 +56,6 @@ class LearningMaterial implements LearningMaterialInterface
      *      min = 1,
      *      max = 60
      * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
      */
     protected $title;
 
@@ -78,9 +70,6 @@ class LearningMaterial implements LearningMaterialInterface
      *      min = 1,
      *      max = 65000
      * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
      */
     protected $description;
 
@@ -90,11 +79,6 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="upload_date", type="datetime")
      *
      * @Assert\NotBlank()
-     *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("uploadDate")
      */
     protected $uploadDate;
 
@@ -109,10 +93,6 @@ class LearningMaterial implements LearningMaterialInterface
      *      min = 1,
      *      max = 80
      * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("originalAuthor")
      */
     protected $originalAuthor;
 
@@ -126,9 +106,6 @@ class LearningMaterial implements LearningMaterialInterface
      *      min = 1,
      *      max = 64
      * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
      */
     protected $token;
 
@@ -139,10 +116,6 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="learning_material_user_role_id", referencedColumnName="learning_material_user_role_id")
      * })
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("userRole")
      */
     protected $userRole;
 
@@ -153,9 +126,6 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="learning_material_status_id", referencedColumnName="learning_material_status_id")
      * })
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
      */
     protected $status;
 
@@ -166,10 +136,6 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="owning_user_id", referencedColumnName="user_id")
      * })
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("owningUser")
      */
     protected $owningUser;
 
@@ -177,10 +143,6 @@ class LearningMaterial implements LearningMaterialInterface
      * @var ArrayCollection|SessionLearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="learningMaterial")
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionLearningMaterials")
      */
     protected $sessionLearningMaterials;
 
@@ -188,10 +150,6 @@ class LearningMaterial implements LearningMaterialInterface
     * @var ArrayCollection|CourseLearningMaterialInterface[]
     *
     * @ORM\OneToMany(targetEntity="CourseLearningMaterial",mappedBy="learningMaterial")
-    *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("courseLearningMaterials")
     */
     protected $courseLearningMaterials;
 
@@ -207,9 +165,6 @@ class LearningMaterial implements LearningMaterialInterface
      *      max = 512,
      *      groups={"citation"}
      * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
      */
     protected $citation;
 
@@ -225,10 +180,6 @@ class LearningMaterial implements LearningMaterialInterface
      *      max = 128,
      *      groups={"file"}
      * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("relativePath")
      */
     protected $relativePath;
 
@@ -239,10 +190,6 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="copyright_ownership", type="boolean", nullable=true)
      *
      * @Assert\Type(type="bool")
-     *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("copyrightPermission")
      */
     protected $copyrightPermission;
 
@@ -256,10 +203,6 @@ class LearningMaterial implements LearningMaterialInterface
     *      min = 1,
     *      max = 65000
     * )
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
-    * @JMS\SerializedName("copyrightRationale")
     */
     protected $copyrightRationale;
 
@@ -274,9 +217,6 @@ class LearningMaterial implements LearningMaterialInterface
     *      max = 255,
      *     groups={"file"}
     * )
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
     */
     protected $filename;
 
@@ -291,9 +231,6 @@ class LearningMaterial implements LearningMaterialInterface
     *      max = 96,
     *      groups={"file"}
     * )
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
     */
     protected $mimetype;
 
@@ -303,9 +240,6 @@ class LearningMaterial implements LearningMaterialInterface
     * @ORM\Column(name="filesize", type="integer", nullable=true, options={"unsigned"=true})
     *
     * @Assert\Type(type="integer")
-    *
-    * @JMS\Expose
-    * @JMS\Type("integer")
     */
     protected $filesize;
 
@@ -316,9 +250,6 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="web_link", type="string", length=256, nullable=true)
      *
      * @Assert\Url(groups={"link"})
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
      */
     protected $link;
 
@@ -349,14 +280,6 @@ class LearningMaterial implements LearningMaterialInterface
     public function getOriginalAuthor()
     {
         return $this->originalAuthor;
-    }
-
-    /**
-     * @param string $token
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
     }
 
     /**
@@ -569,70 +492,7 @@ class LearningMaterial implements LearningMaterialInterface
     }
 
     /**
-     * @todo: Figure out way to trigger upload through PrePersist by editing this property.
-     * Perhaps a flag property managed by doctrine that we can change based on this.
-     * @param UploadedFile $resource
-     */
-    public function setResource(UploadedFile $resource)
-    {
-        $this->resource = $resource;
-    }
-
-    /**
-     * @return UploadedFile|\SplFileInfo
-     */
-    public function getResource()
-    {
-        if ($this->resource === null && $this->path !== null) {
-            return new \SplFileInfo($this->getAbsolutePath());
-        }
-        return $this->resource;
-    }
-
-    /**
-     * @return void
-     */
-    public function upload()
-    {
-        if ($this->getResource() === null) {
-            return;
-        }
-
-        $this->getResource()->move(
-            $this->getUploadRootDir(),
-            $this->getResource()->getClientOriginalName()
-        );
-
-        $this->path = $this->getResource()->getClientOriginalName();
-
-        $this->resource = null;
-    }
-
-    /**
-     * @return string
-     */
-    private function getUploadRootDir()
-    {
-        return __DIR__ . "/../../../../web" . $this->getUploadDir();
-    }
-
-    /**
-     * @todo: Create magic file bucket sauce.
-     * @return string
-     */
-    private function getUploadDir()
-    {
-        $uploadDir = 'uploads';
-        return $uploadDir;
-    }
-
-    public function __toString()
-    {
-        return (string) $this->id;
-    }
-
-    /**
-     * @param string $webLink
+     * @param string $link
      */
     public function setLink($link)
     {

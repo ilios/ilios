@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
+use Ilios\CoreBundle\Traits\StewardedEntityInterface;
 
 /**
  * Interface ProgramYearInterface
@@ -19,7 +20,8 @@ interface ProgramYearInterface extends
     LockableEntityInterface,
     ArchivableEntityInterface,
     LoggableEntityInterface,
-    DeletableEntityInterface
+    DeletableEntityInterface,
+    StewardedEntityInterface
 {
     /**
      * @param int $startYear

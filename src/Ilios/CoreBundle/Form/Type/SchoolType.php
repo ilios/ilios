@@ -56,6 +56,10 @@ class SchoolType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionType"
             ])
+            ->add('stewards', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ProgramYearSteward"
+            ])
         ;
     }
 

@@ -325,13 +325,13 @@ class User implements UserInterface
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructorUsers")
+     * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructors")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructorUserGroups")
+     * @JMS\SerializedName("instructedLearnerGroups")
      */
-    protected $instructorUserGroups;
+    protected $instructedLearnerGroups;
 
     /**
     * @var ArrayCollection|InstructorGroupInterface[]
@@ -477,7 +477,7 @@ class User implements UserInterface
         $this->reminders                = new ArrayCollection();
         $this->directedCourses          = new ArrayCollection();
         $this->learnerGroups            = new ArrayCollection();
-        $this->instructorUserGroups     = new ArrayCollection();
+        $this->instructedLearnerGroups  = new ArrayCollection();
         $this->instructorGroups         = new ArrayCollection();
         $this->offerings                = new ArrayCollection();
         $this->instructedOfferings      = new ArrayCollection();
@@ -807,31 +807,31 @@ class User implements UserInterface
     }
 
     /**
-     * @param Collection $instructorUserGroups
+     * @param Collection $instructedLearnerGroups
      */
-    public function setInstructorUserGroups(Collection $instructorUserGroups)
+    public function setInstructedLearnerGroups(Collection $instructedLearnerGroups)
     {
-        $this->instructorUserGroups = new ArrayCollection();
+        $this->instructedLearnerGroups = new ArrayCollection();
 
-        foreach ($instructorUserGroups as $instructorUserGroup) {
-            $this->addInstructorUserGroup($instructorUserGroup);
+        foreach ($instructedLearnerGroups as $instructedLearnerGroup) {
+            $this->addInstructedLearnerGroup($instructedLearnerGroup);
         }
     }
 
     /**
-     * @param LearnerGroupInterface $instructorUserGroup
+     * @param LearnerGroupInterface $instructedLearnerGroup
      */
-    public function addInstructorUserGroup(LearnerGroupInterface $instructorUserGroup)
+    public function addInstructedLearnerGroup(LearnerGroupInterface $instructedLearnerGroup)
     {
-        $this->instructorUserGroups->add($instructorUserGroup);
+        $this->instructedLearnerGroups->add($instructedLearnerGroup);
     }
 
     /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getInstructorUserGroups()
+    public function getInstructedLearnerGroups()
     {
-        return $this->instructorUserGroups;
+        return $this->instructedLearnerGroups;
     }
 
     /**

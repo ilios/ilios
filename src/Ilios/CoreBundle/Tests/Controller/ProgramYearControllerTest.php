@@ -24,7 +24,8 @@ class ProgramYearControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
             'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearStewardData'
         ]);
     }
 

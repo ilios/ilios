@@ -4,6 +4,8 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -11,6 +13,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\SchoolEntity;
 use Ilios\CoreBundle\Traits\DeletableEntity;
+use Ilios\CoreBundle\Traits\StewardedEntity;
 
 /**
  * Class Department
@@ -29,6 +32,7 @@ class Department implements DepartmentInterface
     use StringableIdEntity;
     use SchoolEntity;
     use DeletableEntity;
+    use StewardedEntity;
 
     /**
      * @var int
@@ -85,6 +89,16 @@ class Department implements DepartmentInterface
     protected $deleted;
 
     /**
+     * @var ArrayCollection|ProgramYearStewardInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="department")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $stewards;
+
+    /**
      * @param int $id
      */
 
@@ -94,5 +108,6 @@ class Department implements DepartmentInterface
     public function __construct()
     {
         $this->deleted = false;
+        $this->stewards = new ArrayCollection();
     }
 }

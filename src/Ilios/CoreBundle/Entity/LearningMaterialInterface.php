@@ -2,11 +2,10 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
-use Ilios\CoreBundle\Traits\NameableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
@@ -29,11 +28,6 @@ interface LearningMaterialInterface extends
      * @return string
      */
     public function getOriginalAuthor();
-
-    /**
-     * @param string $token
-     */
-    public function setToken($token);
 
     /**
      * @return string
@@ -125,29 +119,69 @@ interface LearningMaterialInterface extends
      */
     public function getCopyrightRationale();
 
+    /**
+     * @return string
+     */
+    public function getUploadDate();
+
+    /**
+     * @param string $mimetype
+     */
+    public function setMimetype($mimetype);
 
     /**
      * @return string
      */
-    public function getAbsolutePath();
+    public function getMimetype();
+
+    /**
+     * @param string $filesize
+     */
+    public function setFilesize($filesize);
 
     /**
      * @return string
      */
-    public function getWebPath();
+    public function getFilesize();
+
 
     /**
-     * @param UploadedFile $resource
+     * @param string $filename
      */
-    public function setResource(UploadedFile $resource);
+    public function setFilename($filename);
 
     /**
-     * @return UploadedFile|\SplFileInfo
+     * @return string
      */
-    public function getResource();
+    public function getFilename();
 
     /**
-     * @return void
+     * @param Collection $courseLearningMaterials
      */
-    public function upload();
+    public function setCourseLearningMaterials(Collection $courseLearningMaterials = null);
+
+    /**
+     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     */
+    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
+
+    /**
+     * @return ArrayCollection|CourseLearningMaterialInterface[]
+     */
+    public function getCourseLearningMaterials();
+
+    /**
+     * @param Collection $sessionLearningMaterials
+     */
+    public function setSessionLearningMaterials(Collection $sessionLearningMaterials = null);
+
+    /**
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     */
+    public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
+
+    /**
+     * @return ArrayCollection|SessionLearningMaterialInterface[]
+     */
+    public function getSessionLearningMaterials();
 }

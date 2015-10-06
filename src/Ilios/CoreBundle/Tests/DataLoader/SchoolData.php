@@ -22,7 +22,8 @@ class SchoolData extends AbstractDataLoader
             'topics' => ['1', '2'],
             'instructorGroups' => [],
             'curriculumInventoryInstitution' => "1",
-            'sessionTypes' => ['1', '2']
+            'sessionTypes' => ['1', '2'],
+            'stewards' => ['1', '2']
         );
 
         $arr[] = array(
@@ -38,7 +39,8 @@ class SchoolData extends AbstractDataLoader
             'departments' => [],
             'topics' => [],
             'instructorGroups' => [],
-            'sessionTypes' => []
+            'sessionTypes' => [],
+            'stewards' => []
         );
 
 
@@ -60,7 +62,8 @@ class SchoolData extends AbstractDataLoader
             'departments' => [],
             'topics' => [],
             'instructorGroups' => [],
-            'sessionTypes' => []
+            'sessionTypes' => [],
+            'stewards' => []
         );
     }
 

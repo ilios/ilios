@@ -32,6 +32,7 @@ class ProgramYearTest extends EntityBase
         $this->object->setStartYear(3);
         $this->validate(0);
     }
+
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::__construct
      */
@@ -41,6 +42,7 @@ class ProgramYearTest extends EntityBase
         $this->assertEmpty($this->object->getDirectors());
         $this->assertEmpty($this->object->getTopics());
         $this->assertEmpty($this->object->getObjectives());
+        $this->assertEmpty($this->object->getStewards());
     }
 
     /**
@@ -112,5 +114,21 @@ class ProgramYearTest extends EntityBase
     public function testSetPublishEvent()
     {
         $this->entitySetTest('publishEvent', 'PublishEvent');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addSteward
+     */
+    public function testAddSteward()
+    {
+        $this->entityCollectionAddTest('steward', 'ProgramYearSteward');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::getStewards
+     */
+    public function testGetSteward()
+    {
+        $this->entityCollectionSetTest('steward', 'ProgramYearSteward');
     }
 }

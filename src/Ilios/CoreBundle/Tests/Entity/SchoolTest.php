@@ -41,6 +41,7 @@ class SchoolTest extends EntityBase
     public function testConstructor()
     {
         $this->assertEmpty($this->object->getAlerts());
+        $this->assertEmpty($this->object->getStewards());
     }
 
     /**
@@ -134,5 +135,21 @@ class SchoolTest extends EntityBase
     public function testGetDepartments()
     {
         $this->softDeleteEntityCollectionSetTest('department', 'Department');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addSteward
+     */
+    public function testAddSteward()
+    {
+        $this->entityCollectionAddTest('steward', 'ProgramYearSteward');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::getStewards
+     */
+    public function testGetSteward()
+    {
+        $this->entityCollectionSetTest('steward', 'ProgramYearSteward');
     }
 }

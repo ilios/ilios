@@ -17,7 +17,6 @@ class LearnerGroupType extends AbstractType
         $builder
             ->add('title')
             ->add('location', null, ['required' => false])
-            ->add('instructors', null, ['required' => false])
             ->add('cohort', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
@@ -46,7 +45,7 @@ class LearnerGroupType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('instructorUsers', 'tdn_many_related', [
+            ->add('instructors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])

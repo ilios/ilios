@@ -211,19 +211,19 @@ interface UserInterface extends
     public function getLearnerGroups();
 
     /**
-     * @param Collection $instructorUserGroups
+     * @param Collection $instructedLearnerGroups
      */
-    public function setInstructorUserGroups(Collection $instructorUserGroups);
+    public function setInstructedLearnerGroups(Collection $instructedLearnerGroups);
 
     /**
-     * @param LearnerGroupInterface $instructorUserGroup
+     * @param LearnerGroupInterface $instructedLearnerGroup
      */
-    public function addInstructorUserGroup(LearnerGroupInterface $instructorUserGroup);
+    public function addInstructedLearnerGroup(LearnerGroupInterface $instructedLearnerGroup);
 
     /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getInstructorUserGroups();
+    public function getInstructedLearnerGroups();
 
     /**
      * @param InstructorGroupInterface $instructorGroup

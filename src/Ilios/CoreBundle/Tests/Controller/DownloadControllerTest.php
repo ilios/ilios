@@ -17,7 +17,8 @@ class DownloadControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData'
         ]);
     }
 
@@ -32,13 +33,27 @@ class DownloadControllerTest extends WebTestCase
             ->get('ilioscore.dataloader.learningmaterial')
             ->getAll();
         $fileLearningMaterials = array_filter($learningMaterials, function ($arr) {
-            return !empty($arr['relativePath']);
+            return !empty($arr['filesize']);
         });
         $learningMaterial = array_values($fileLearningMaterials)[0];
+        $this->makeJsonRequest(
+            $client,
+            'GET',
+            $this->getUrl(
+                'get_learningmaterials',
+                ['id' => $learningMaterial['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['learningMaterials'][0];
 
         $client->request(
             'GET',
-            '/lm/' . $learningMaterial['token']
+            $data['absoluteFileUri']
         );
         
         $response = $client->getResponse();
