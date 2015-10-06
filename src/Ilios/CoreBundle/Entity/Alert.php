@@ -246,9 +246,9 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param AlertChangeType $changeType
+     * @param AlertChangeTypeInterface $changeType
      */
-    public function addChangeType(AlertChangeType $changeType)
+    public function addChangeType(AlertChangeTypeInterface $changeType)
     {
         $this->changeTypes->add($changeType);
     }

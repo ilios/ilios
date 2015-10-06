@@ -60,9 +60,9 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     public function setChangeTypes(Collection $changeTypes);
 
     /**
-     * @param AlertChangeType $changeType
+     * @param AlertChangeTypeInterface $changeType
      */
-    public function addChangeType(AlertChangeType $changeType);
+    public function addChangeType(AlertChangeTypeInterface $changeType);
 
     /**
      * @return ArrayCollection|AlertChangeTypeInterface[]
