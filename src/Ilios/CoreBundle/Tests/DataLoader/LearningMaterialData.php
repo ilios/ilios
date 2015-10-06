@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class LearningMaterialData extends AbstractDataLoader
 {
+
     /**
      * {@inheritdoc}
      */
@@ -23,7 +24,6 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightPermission' => true,
             'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => [1],
-            'token' => 'token1',
             'citation' => $this->faker->text,
         );
 
@@ -39,7 +39,6 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightPermission' => true,
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [2],
-            'token' => 'token2',
             'link' => $this->faker->url,
         );
 
@@ -55,11 +54,9 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightPermission' => true,
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
-            'token' => $this->faker->sha256,
-            'relativePath' => 'testfile',
             'filename' => 'testfile.txt',
             'mimetype' => 'text/plain',
-            'filesize' => 1000,
+            'filesize' => 1000
         );
 
         return $arr;
@@ -137,10 +134,6 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => [],
             'copyrightRationale' => $this->faker->text,
             'copyrightPermission' => true,
-            'relativePath' => 'testfile',
-            'filename' => 'testfile.txt',
-            'mimetype' => 'text/plain',
-            'filesize' => 1000,
         );
     }
 

@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class CourseLearningMaterial
@@ -23,6 +24,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
     use IdentifiableEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -246,13 +248,5 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     public function getMeshDescriptors()
     {
         return $this->meshDescriptors;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }

@@ -29,8 +29,15 @@ class LoadLearningMaterialData extends AbstractFixture implements
         $data = $this->container
             ->get('ilioscore.dataloader.learningMaterial')
             ->getAll();
+
         $fs = new Filesystem();
+        $fakeTestFileDir = __DIR__ . '/FakeTestFiles';
+        if (!$fs->exists($fakeTestFileDir)) {
+            $fs->mkdir($fakeTestFileDir);
+        }
+        $fs->copy(__FILE__, $fakeTestFileDir . '/TESTFILE.txt');
         $storePath = $this->container->getParameter('ilios_core.file_store_path');
+
         foreach ($data as $arr) {
             $entity = new LearningMaterial();
             if (array_key_exists('id', $arr)) {
@@ -58,9 +65,11 @@ class LoadLearningMaterialData extends AbstractFixture implements
                     $entity->$method($arr[$key]);
                 }
             }
-            if (array_key_exists('relativePath', $arr)) {
-                $entity->setRelativePath($arr['relativePath']);
-                $fs->copy(__FILE__, $storePath . '/' . $arr['relativePath']);
+            //copy a test file into the filestore for this file type LM
+            if (array_key_exists('filesize', $arr)) {
+                $path = $storePath . '/' . 'fakefile' . $arr['id'];
+                $entity->setRelativePath('fakefile' . $arr['id']);
+                $fs->copy(__FILE__, $path);
             }
 
             $manager->persist($entity);

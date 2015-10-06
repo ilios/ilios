@@ -4,6 +4,8 @@ namespace Ilios\CoreBundle\Tests\Controller;
 
 use FOS\RestBundle\Util\Codes;
 use DateTime;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * LearningMaterial controller Test.
@@ -82,9 +84,21 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         foreach ($responses as $response) {
             $uploadDate = new DateTime($response['uploadDate']);
             unset($response['uploadDate']);
+            $uri = array_key_exists('absoluteFileUri', $response)?$response['absoluteFileUri']:null;
+            unset($response['absoluteFileUri']);
             $diff = $now->diff($uploadDate);
             $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
             $data[] = $response;
+            if ($uri) {
+                $this->client->request(
+                    'GET',
+                    $uri
+                );
+
+                $response = $this->client->getResponse();
+
+                $this->assertEquals(CODES::HTTP_OK, $response->getStatusCode(), $response->getContent());
+            }
         }
         $this->assertEquals(
             $this->mockSerialize(
@@ -114,8 +128,6 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $uploadDate = new DateTime($responseData['uploadDate']);
         unset($responseData['id']);
         unset($responseData['uploadDate']);
-        $this->assertEquals(64, strlen($responseData['token']));
-        unset($responseData['token']);
         $this->assertEquals(
             $data,
             $responseData,
@@ -145,8 +157,6 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         unset($responseData['id']);
         unset($responseData['uploadDate']);
         unset($responseData['copyrightPermission']);
-        $this->assertEquals(64, strlen($responseData['token']));
-        unset($responseData['token']);
         $this->assertEquals(
             $data,
             $responseData,
@@ -176,8 +186,6 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         unset($responseData['id']);
         unset($responseData['uploadDate']);
         unset($responseData['copyrightPermission']);
-        $this->assertEquals(64, strlen($responseData['token']));
-        unset($responseData['token']);
         $this->assertEquals(
             $data,
             $responseData,
@@ -190,8 +198,35 @@ class LearningMaterialControllerTest extends AbstractControllerTest
 
     public function testPostLearningMaterialFile()
     {
+        $fs = new Filesystem();
+        $fakeTestFileDir = __DIR__ . '/FakeTestFiles';
+        if (!$fs->exists($fakeTestFileDir)) {
+            $fs->mkdir($fakeTestFileDir);
+        }
+        $fs->copy(__FILE__, $fakeTestFileDir . '/TESTFILE.txt');
+        $fakeTestFile = new UploadedFile(
+            $fakeTestFileDir . '/TESTFILE.txt',
+            'TESTFILE.txt',
+            'text/plain',
+            filesize($fakeTestFileDir . '/TESTFILE.txt')
+        );
+        $this->makeJsonRequest(
+            $this->client,
+            'POST',
+            '/upload',
+            null,
+            $this->getAuthenticatedUserToken(),
+            array('file' => $fakeTestFile)
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $responseData = json_decode($response->getContent(), true);
+
+
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
           ->createFile();
+        $data['fileHash'] = $responseData['fileHash'];
+        $data['filename'] = $responseData['filename'];
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
@@ -200,14 +235,20 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $responseData = json_decode($response->getContent(), true)['learningMaterials'][0];
+
         $uploadDate = new DateTime($responseData['uploadDate']);
         unset($responseData['id']);
         unset($responseData['uploadDate']);
-        $this->assertEquals(64, strlen($responseData['token']));
-        unset($responseData['token']);
+        $uri = $responseData['absoluteFileUri'];
+        unset($responseData['absoluteFileUri']);
+        $this->assertRegExp('/php/', $responseData['mimetype']);
+        $this->assertSame(strlen(file_get_contents(__FILE__)), $responseData['filesize']);
+        unset($responseData['filesize']);
+        unset($responseData['mimetype']);
+        unset($data['fileHash']);
+
         $this->assertEquals(
             $data,
             $responseData,
@@ -216,6 +257,15 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $now = new DateTime();
         $diff = $now->diff($uploadDate);
         $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
+        $this->client->request(
+            'GET',
+            $uri
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(CODES::HTTP_OK, $response->getStatusCode(), $response->getContent());
+        $this->assertEquals(file_get_contents(__FILE__), $response->getContent());
     }
 
     public function testPostBadLearningMaterial()

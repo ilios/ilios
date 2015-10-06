@@ -24,3 +24,4 @@ var/tmp/*
 !var/tmp/.gitkeep
 sauce_connect.log
 phpunit.xml
+FakeTestFiles
