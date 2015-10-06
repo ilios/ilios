@@ -13,12 +13,6 @@ services:
         class: Ilios\CoreBundle\EventListener\UpdateOfferingTimestamp
         tags:
             - { name: doctrine.event_listener, event: onFlush }
-    ilioscore.listener.offeringalertlistener:
-        class: Ilios\CoreBundle\EventListener\OfferingAlertListener
-        arguments: ['@ilioscore.alertlogger']
-        tags:
-            - { name: doctrine.event_listener, event: preUpdate }
-            - { name: doctrine.event_listener, event: onFlush }
     ilioscore.listener.logentitychanges:
         class: Ilios\CoreBundle\EventListener\LogEntityChanges
         arguments: ['@ilioscore.logger']
