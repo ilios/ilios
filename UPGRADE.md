@@ -22,12 +22,12 @@ mysqldump -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_HOSTNAME -R -p YOUR_ILIO
 1. Backup your current database completely! (Yes, this was just mentioned, but it's extremely important that you do not run this update on your production database without a backup!) 
 2. Check your current Ilios installation's 'version.php' file to verify that you are currently running version 2.4.8 of the Ilios software.  If you are not running version *2.4.8* specifically , you will need to upgrade to 2.4.8 before continuing.
 3. Checkout the most current release of the Ilios 3 codebase from https://github.com/ilios/ilios/releases (using '~/ilios' for this example)
-4. In the newly-checked out directory, navigate to the 'app/Resources/migrations' folder where you will find the [fromIlios2.sql](https://github.com/ilios/ilios/blob/master/app/Resources/migrations/fromIlios2.sql) file.
+4. In the newly-checked out directory, navigate to the 'app/Resources/migrations' folder where you will find the [updateSchemaFromIlios2toIlios3.sql](https://github.com/ilios/ilios/blob/master/app/Resources/updateSchemaFromIlios2toIlios3.sql) file.
 5. Backup your current database completely! (<= That's the 3rd time we've said it! It's probably pretty important!)
 6. Apply the sql changes from fromIlios2.sql to your database by using the mysql command line client as follows:
 
 ```bash
-mysql -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_DATABASE_HOSTNAME -p YOUR_ILIOS_DATABASE_NAME < fromIlios2.sql
+mysql -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_DATABASE_HOSTNAME -p YOUR_ILIOS_DATABASE_NAME < updateSchemaFromIlios2toIlios3.sql
 ```
 
 *NOTE:* This process could take a while, depending on your the size of your database and the speed of your database server! On a decent database server with an moderate-sized database, this can take up to 20 mins... If everything goes as it should, you will not see ANY status messages on your screen when it completes: it will just return you to another command prompt. If you are doing this on a remote database server, you will want to make sure that your terminal session does not disconnect before the process completes.
