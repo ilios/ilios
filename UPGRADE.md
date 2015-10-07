@@ -24,7 +24,7 @@ mysqldump -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_HOSTNAME -R -p YOUR_ILIO
 3. Checkout the most current release of the Ilios 3 codebase from https://github.com/ilios/ilios/releases (using '~/ilios' for this example)
 4. In the newly-checked out directory, navigate to the 'app/Resources' folder where you will find the [updateSchemaFromIlios2toIlios3.sql](https://github.com/ilios/ilios/blob/master/app/Resources/updateSchemaFromIlios2toIlios3.sql) file.
 5. Backup your current database completely! (<= That's the 3rd time we've said it! It's probably pretty important!)
-6. Apply the sql changes from fromIlios2.sql to your database by using the mysql command line client as follows:
+6. Apply the sql changes from updateSchemaFromIlios2toIlios3.sql to your database by using the mysql command line client as follows:
 
 ```bash
 mysql -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_DATABASE_HOSTNAME -p YOUR_ILIOS_DATABASE_NAME < updateSchemaFromIlios2toIlios3.sql
