@@ -32,6 +32,11 @@ mysql -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_DATABASE_HOSTNAME -p YOUR_IL
 
 *NOTE:* This process could take a while, depending on your the size of your database and the speed of your database server! On a decent database server with an moderate-sized database, this can take up to 20 mins... If everything goes as it should, you will not see ANY status messages on your screen when it completes: it will just return you to another command prompt. If you are doing this on a remote database server, you will want to make sure that your terminal session does not disconnect before the process completes.
 
-When these steps are completed, your database will be ready to use with the Ilios 3 backend. It will NO LONGER WORK with any version of Ilios 2.x.
+When the above steps are completed, there is one final step to the database migration that must be run from the Symfony console *AFTER* you have completed the setting up the Ilios 3 backend.  When you have completed installing the Ilios 3 backend, run the following command from the 'bin/' directory of the new install:
+
+```bash
+./console doctrine:migrations:migrate --env=prod
+```
+This will apply the final migrations to your database.  All future database updates to Ilios 3 will be take place via this method. 
 
 For information on setting up the Ilios 3 backend, please see the instructions in the [INSTALL.md](https://github.com/ilios/ilios/blob/master/INSTALL.md) file.
