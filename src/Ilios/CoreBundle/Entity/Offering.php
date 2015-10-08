@@ -447,19 +447,6 @@ class Offering implements OfferingInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function getAllLearners()
-    {
-        $learners = $this->getLearners()->toArray();
-        foreach ($this->getLearnerGroups() as $group) {
-            $learners = array_merge($learners, $group->getAllLearners()->toArray());
-        }
-
-        return new ArrayCollection($learners);
-    }
-
-    /**
      * @return string
      */
     public function __toString()
