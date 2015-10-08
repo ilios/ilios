@@ -141,4 +141,11 @@ interface OfferingInterface extends
      * @return ArrayCollection
      */
     public function getAllInstructors();
+
+    /**
+     * Get all learners including those in groups
+     * @return ArrayCollection
+     */
+    public function getAllLearners();
+
 }
