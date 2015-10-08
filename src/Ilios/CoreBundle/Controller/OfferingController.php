@@ -253,19 +253,19 @@ class OfferingController extends FOSRestController
             }
 
             // capture the values of offering properties pre-update
-            $instructorIds = $offering->getInstructors()->map(function(UserInterface $entity) {
+            $instructorIds = $offering->getInstructors()->map(function (UserInterface $entity) {
                 return $entity->getId();
             })->toArray();
             sort($instructorIds);
-            $instructorGroupIds = $offering->getInstructorGroups()->map(function(InstructorGroupInterface $entity) {
+            $instructorGroupIds = $offering->getInstructorGroups()->map(function (InstructorGroupInterface $entity) {
                 return $entity->getId();
             })->toArray();
             sort($instructorGroupIds);
-            $learnerIds = $offering->getLearners()->map(function(UserInterface $entity) {
+            $learnerIds = $offering->getLearners()->map(function (UserInterface $entity) {
                 return $entity->getId();
             })->toArray();
             sort($learnerIds);
-            $learnerGroupIds = $offering->getLearnerGroups()->map(function(LearnerGroupInterface $entity) {
+            $learnerGroupIds = $offering->getLearnerGroups()->map(function (LearnerGroupInterface $entity) {
                 return $entity->getId();
             })->toArray();
             sort($learnerGroupIds);
@@ -294,7 +294,6 @@ class OfferingController extends FOSRestController
                     $startDate,
                     $endDate,
                     $room
-
                 );
             }
 
@@ -410,8 +409,7 @@ class OfferingController extends FOSRestController
         $alertChangeTypeManager = $this->container->get('ilioscore.alertchangetype.manager');
         $alert = $alertManager->createAlert();
         $alert->addChangeType($alertChangeTypeManager->findAlertChangeTypeBy([
-            'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING])
-        );
+            'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING]));
         $alert->addInstigator($this->getUser());
         $alert->addRecipient($offering->getSession()->getCourse()->getSchool());
         $alert->setTableName('offering');
@@ -439,19 +437,19 @@ class OfferingController extends FOSRestController
         \DateTime $endDate,
         $room
     ) {
-        $updatedInstructorIds = $offering->getInstructors()->map(function(UserInterface $entity) {
+        $updatedInstructorIds = $offering->getInstructors()->map(function (UserInterface $entity) {
             return $entity->getId();
         })->toArray();
         sort($updatedInstructorIds);
-        $updatedInstructorGroupIds = $offering->getInstructorGroups()->map(function(InstructorGroupInterface $entity) {
+        $updatedInstructorGroupIds = $offering->getInstructorGroups()->map(function (InstructorGroupInterface $entity) {
             return $entity->getId();
         })->toArray();
         sort($updatedInstructorGroupIds);
-        $updatedLearnerIds = $offering->getLearners()->map(function(UserInterface $entity) {
+        $updatedLearnerIds = $offering->getLearners()->map(function (UserInterface $entity) {
             return $entity->getId();
         })->toArray();
         sort($updatedLearnerIds);
-        $updatedLearnerGroupIds = $offering->getLearnerGroups()->map(function(LearnerGroupInterface $entity) {
+        $updatedLearnerGroupIds = $offering->getLearnerGroups()->map(function (LearnerGroupInterface $entity) {
             return $entity->getId();
         })->toArray();
         sort($updatedLearnerGroupIds);

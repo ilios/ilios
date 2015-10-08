@@ -147,5 +147,4 @@ interface OfferingInterface extends
      * @return ArrayCollection
      */
     public function getAllLearners();
-
 }
