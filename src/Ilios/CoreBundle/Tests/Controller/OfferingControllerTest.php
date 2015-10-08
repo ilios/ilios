@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Controller;
 
 use FOS\RestBundle\Util\Codes;
 use DateTime;
+use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 
 /**
  * Offering controller Test.
@@ -126,6 +127,36 @@ class OfferingControllerTest extends AbstractControllerTest
         $now = new DateTime();
         $diff = $now->diff($updatedAt);
         $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
+
+        // check if that offering creation resulted in an alert creation
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_alerts',
+                [
+                    'filters[tableRowId]' => $responseData['id'],
+                    'filters[tableName]' => 'offering',
+                    'filters[dispatched]' => '0'
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode(), $response->getContent());
+        $responseData = json_decode($response->getContent(), true)['alerts'][0];
+        $this->assertEquals(count($responseData['changeTypes']), 1);
+        $this->assertEquals($responseData['changeTypes'][0], AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING);
+        // Here, we could dive further in
+        // and verify that the user who made this request gets returned
+        // as instigator, and that the returned recipient is indeed
+        // the school that owns the parent course of this offering.
+        // For now, let's just verify that a single instigator and recipient is returned.
+        // [ST 2015/10/08]
+        $this->assertEquals(count($responseData['instigators'][0]), 1);
+        $this->assertEquals(count($responseData['recipients'][0]), 1);
+
     }
 
     public function testPostBadOffering()
@@ -153,6 +184,7 @@ class OfferingControllerTest extends AbstractControllerTest
             ->getOne();
 
         $postData = $data;
+        $postData['room'] = 'something else';
         //unset any parameters which should not be POSTed
         unset($postData['id']);
 
