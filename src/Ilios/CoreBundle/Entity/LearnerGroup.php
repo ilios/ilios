@@ -404,16 +404,4 @@ class LearnerGroup implements LearnerGroupInterface
     {
         return $this->instructors;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAllLearners()
-    {
-        $learners = $this->getUsers()->toArray();
-        foreach ($this->getChildren() as $group) {
-            $learners = array_merge($learners, $group->getAllLearners()->toArray());
-        }
-        return new ArrayCollection($learners);
-    }
 }
