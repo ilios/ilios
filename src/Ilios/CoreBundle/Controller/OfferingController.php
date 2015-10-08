@@ -8,6 +8,11 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Entity\Alert;
+use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
+use Ilios\CoreBundle\Entity\InstructorGroupInterface;
+use Ilios\CoreBundle\Entity\LearnerGroupInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -190,6 +195,19 @@ class OfferingController extends FOSRestController
 
             $this->getOfferingHandler()->updateOffering($offering, true, false);
 
+            // create new alert for this offering
+            $alertManager = $this->container->get('ilioscore.alert.manager');
+            $alertChangeTypeManager = $this->container->get('ilioscore.alertchangetype.manager');
+            $alert = $alertManager->createAlert();
+            $alert->addChangeType($alertChangeTypeManager->findAlertChangeTypeBy([
+                'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING])
+            );
+            $alert->addInstigator($this->getUser());
+            $alert->addRecipient($offering->getSession()->getCourse()->getSchool());
+            $alert->setTableName('offering');
+            $alert->setTableRowId($offering->getId());
+            $alertManager->updateAlert($alert, true, false);
+
             $answer['offerings'] = [$offering];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
@@ -237,6 +255,18 @@ class OfferingController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
+            $instructorIds = $offering->getAllInstructors()->map(function(UserInterface $entity) {
+                return $entity->getId();
+            })->toArray();
+            sort($instructorIds);
+            $learnerIds = $offering->getAllLearners()->map(function(UserInterface $entity) {
+                return $entity->getId();
+            })->toArray();
+            sort($learnerIds);
+            $room = $offering->getRoom();
+            $startDate = $offering->getStartDate();
+            $endDate = $offering->getEndDate();
+
             $handler = $this->getOfferingHandler();
 
             $offering = $handler->put(
@@ -250,6 +280,66 @@ class OfferingController extends FOSRestController
             }
 
             $this->getOfferingHandler()->updateOffering($offering, true, true);
+
+            $updatedInstructorIds = $offering->getAllInstructors()->map(function(UserInterface $entity) {
+                return $entity->getId();
+            })->toArray();
+            sort($updatedInstructorIds);
+            $updatedLearnerIds = $offering->getAllLearners()->map(function(UserInterface $entity) {
+                return $entity->getId();
+            })->toArray();
+            sort($updatedLearnerIds);
+
+            $alertTypes = [];
+            if ($startDate->getTimestamp() !== $offering->getStartDate()->getTimestamp()) {
+                $alertTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_TIME;
+            }
+            if ($endDate->getTimestamp() !== $offering->getEndDate()->getTimestamp()) {
+                $alertTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_TIME;
+            }
+            if ($room !== $offering->getRoom()) {
+                $alertTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LOCATION;
+            }
+            $instructorIdsDiff = array_merge(
+                array_diff($instructorIds, $updatedInstructorIds),
+                array_diff($updatedInstructorIds, $instructorIds)
+            );
+            if (! empty($instructorIdsDiff)) {
+                $alertTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR;
+            }
+            $learnerIdsDiff = array_merge(
+                array_diff($learnerIds, $updatedLearnerIds),
+                array_diff($updatedLearnerIds, $learnerIds)
+            );
+            if (! empty($learnerIdsDiff)) {
+                $alertTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP;
+            }
+
+            if (! empty($alertTypes)) {
+                $alertManager = $this->container->get('ilioscore.alert.manager');
+                $alertChangeTypeManager = $this->container->get('ilioscore.alertchangetype.manager');
+
+                $alert = $alertManager->findAlertBy([
+                    'dispatched' => false,
+                    'tableName' => 'offering',
+                    'tableRowId' => $offering->getId()
+                ]);
+                if (! $alert) {
+                    $alert = $alertManager->createAlert();
+                    $alert->addRecipient($offering->getSession()->getCourse()->getSchool());
+                    $alert->setTableName('offering');
+                    $alert->setTableRowId($offering->getId());
+                    $alert->addInstigator($this->getUser());
+                }
+
+                foreach ($alertTypes as $type) {
+                    $changeType = $alertChangeTypeManager->findAlertChangeTypeBy(['id' => $type]);
+                    if ($changeType && ! $alert->getChangeTypes()->contains($changeType)) {
+                        $alert->addChangeType($changeType);
+                    }
+                }
+                $alertManager->updateAlert($alert, true, ! (boolean)$alert->getId());
+            }
 
             $answer['offering'] = $offering;
 
