@@ -485,6 +485,6 @@ class OfferingController extends FOSRestController
             }
         }
 
-        $alertManager->updateAlert($alert, true, ! (boolean)$alert->getId());
+        $alertManager->updateAlert($alert, true, (boolean) $alert->getId());
     }
 }
