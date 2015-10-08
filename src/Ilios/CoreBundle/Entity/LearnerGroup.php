@@ -296,7 +296,7 @@ class LearnerGroup implements LearnerGroupInterface
     }
 
     /**
-     * @param GroupInterface $parent
+     * @param LearnerGroupInterface $parent
      */
     public function setParent(LearnerGroupInterface $parent)
     {
