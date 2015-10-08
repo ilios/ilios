@@ -144,7 +144,7 @@ class OfferingControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode(), $response->getContent());
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
         $responseData = json_decode($response->getContent(), true)['alerts'][0];
         $this->assertEquals(count($responseData['changeTypes']), 1);
         $this->assertEquals($responseData['changeTypes'][0], AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING);
@@ -184,7 +184,6 @@ class OfferingControllerTest extends AbstractControllerTest
             ->getOne();
 
         $postData = $data;
-        $postData['room'] = 'something else';
         //unset any parameters which should not be POSTed
         unset($postData['id']);
 
@@ -211,6 +210,109 @@ class OfferingControllerTest extends AbstractControllerTest
         $now = new DateTime();
         $diff = $now->diff($updatedAt);
         $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
+
+        // check if that offering creation resulted in an alert creation
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_alerts',
+                [
+                    'filters[tableRowId]' => $data['id'],
+                    'filters[tableName]' => 'offering',
+                    'filters[dispatched]' => '0'
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+
+        $responseData = json_decode($response->getContent(), true)['alerts'];
+        $this->assertEmpty($responseData);
+
+        $postData['room'] .= strrev($postData['room']);
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_offerings',
+                ['id' => $data['id']]
+            ),
+            json_encode(['offering' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        // check if that offering creation resulted in an alert creation
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_alerts',
+                [
+                    'filters[tableRowId]' => $data['id'],
+                    'filters[tableName]' => 'offering',
+                    'filters[dispatched]' => '0'
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $responseData = json_decode($response->getContent(), true)['alerts'];
+        $this->assertNotEmpty($responseData);
+        $this->assertEquals(count($responseData), 1);
+        $alert = $responseData[0];
+        $this->assertEquals(count($alert['changeTypes']), 1);
+        $this->assertEquals($alert['changeTypes'][0], AlertChangeTypeInterface::CHANGE_TYPE_LOCATION);
+
+        // send another update
+        // this time, change the start/end time and learner/instructor(group) associations
+        $startDate = new \DateTime($data['startDate'], new \DateTimeZone('UTC'));
+        $endDate = new \DateTime($data['endDate'], new \DateTimeZone('UTC'));
+        $postData['startDate'] = $startDate->add(new \DateInterval('P10D'))->format('c');
+        $postData['endDate'] = $endDate->add(new \DateInterval('P10D'))->format('c');
+        $postData['instructors'] = [];
+        $postData['instructorGroups'] = [];
+        $postData['learners'] = [];
+        $postData['learnerGroups'] = [];
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_offerings',
+                ['id' => $data['id']]
+            ),
+            json_encode(['offering' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_alerts',
+                [
+                    'filters[tableRowId]' => $data['id'],
+                    'filters[tableName]' => 'offering',
+                    'filters[dispatched]' => '0'
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $responseData = json_decode($response->getContent(), true)['alerts'];
+        $this->assertNotEmpty($responseData);
+        $this->assertEquals(count($responseData), 1);
+        $alert = $responseData[0];
+        $this->assertNotEmpty($alert['changeTypes']);
+        $this->assertTrue(in_array(AlertChangeTypeInterface::CHANGE_TYPE_LOCATION, $alert['changeTypes']));
+        $this->assertTrue(in_array(AlertChangeTypeInterface::CHANGE_TYPE_TIME, $alert['changeTypes']));
+        $this->assertTrue(in_array(AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR, $alert['changeTypes']));
+        $this->assertTrue(in_array(AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP, $alert['changeTypes']));
+
     }
 
     public function testDeleteOffering()
