@@ -92,7 +92,6 @@ nelmio_cors:
         allow_headers: ['*']
         allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
         expose_headers: ['*']
-        hosts: ['*']
         max_age: 3600
     paths:
         '^/':
