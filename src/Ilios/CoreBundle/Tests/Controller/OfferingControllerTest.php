@@ -21,6 +21,7 @@ class OfferingControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadAlertChangeTypeData'
         ]);
     }
 
