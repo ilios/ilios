@@ -247,14 +247,28 @@ class OfferingController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $instructorIds = $offering->getAllInstructors()->map(function(UserInterface $entity) {
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $offering)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            // capture the values of offering properties pre-update
+            $instructorIds = $offering->getInstructors()->map(function(UserInterface $entity) {
                 return $entity->getId();
             })->toArray();
             sort($instructorIds);
-            $learnerIds = $offering->getAllLearners()->map(function(UserInterface $entity) {
+            $instructorGroupIds = $offering->getInstructorGroups()->map(function(InstructorGroupInterface $entity) {
+                return $entity->getId();
+            })->toArray();
+            sort($instructorGroupIds);
+            $learnerIds = $offering->getLearners()->map(function(UserInterface $entity) {
                 return $entity->getId();
             })->toArray();
             sort($learnerIds);
+            $learnerGroupIds = $offering->getLearnerGroups()->map(function(LearnerGroupInterface $entity) {
+                return $entity->getId();
+            })->toArray();
+            sort($learnerGroupIds);
             $room = $offering->getRoom();
             $startDate = $offering->getStartDate();
             $endDate = $offering->getEndDate();
@@ -266,11 +280,6 @@ class OfferingController extends FOSRestController
                 $this->getPostData($request)
             );
 
-            $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted('edit', $offering)) {
-                throw $this->createAccessDeniedException('Unauthorized access!');
-            }
-
             $this->getOfferingHandler()->updateOffering($offering, true, true);
 
             if (Codes::HTTP_CREATED === $code) {
@@ -279,10 +288,13 @@ class OfferingController extends FOSRestController
                 $this->createOrUpdateAlertForUpdatedOffering(
                     $offering,
                     $instructorIds,
+                    $instructorGroupIds,
                     $learnerIds,
+                    $learnerGroupIds,
                     $startDate,
                     $endDate,
                     $room
+
                 );
             }
 
@@ -410,7 +422,9 @@ class OfferingController extends FOSRestController
     /**
      * @param \Ilios\CoreBundle\Entity\OfferingInterface $offering
      * @param array $instructorIds
+     * @param array $instructorGroupIds
      * @param array $learnerIds
+     * @param array $learnerGroupIds
      * @param \DateTime $startDate
      * @param \DateTime $endDate
      * @param string $room
@@ -418,48 +432,73 @@ class OfferingController extends FOSRestController
     protected function createOrUpdateAlertForUpdatedOffering(
         OfferingInterface $offering,
         array $instructorIds,
+        array $instructorGroupIds,
         array $learnerIds,
+        array $learnerGroupIds,
         \DateTime $startDate,
         \DateTime $endDate,
         $room
     ) {
-        $updatedInstructorIds = $offering->getAllInstructors()->map(function(UserInterface $entity) {
+        $updatedInstructorIds = $offering->getInstructors()->map(function(UserInterface $entity) {
             return $entity->getId();
         })->toArray();
         sort($updatedInstructorIds);
-        $updatedLearnerIds = $offering->getAllLearners()->map(function(UserInterface $entity) {
+        $updatedInstructorGroupIds = $offering->getInstructorGroups()->map(function(InstructorGroupInterface $entity) {
+            return $entity->getId();
+        })->toArray();
+        sort($updatedInstructorGroupIds);
+        $updatedLearnerIds = $offering->getLearners()->map(function(UserInterface $entity) {
             return $entity->getId();
         })->toArray();
         sort($updatedLearnerIds);
+        $updatedLearnerGroupIds = $offering->getLearnerGroups()->map(function(LearnerGroupInterface $entity) {
+            return $entity->getId();
+        })->toArray();
+        sort($updatedLearnerGroupIds);
 
-        $alertTypes = [];
+        $changeTypes = [];
         if ($startDate->getTimestamp() !== $offering->getStartDate()->getTimestamp()) {
-            $alertTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_TIME;
+            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_TIME;
         }
         if ($endDate->getTimestamp() !== $offering->getEndDate()->getTimestamp()) {
-            $alertTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_TIME;
+            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_TIME;
         }
         if ($room !== $offering->getRoom()) {
-            $alertTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LOCATION;
+            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LOCATION;
         }
         $instructorIdsDiff = array_merge(
             array_diff($instructorIds, $updatedInstructorIds),
             array_diff($updatedInstructorIds, $instructorIds)
         );
         if (! empty($instructorIdsDiff)) {
-            $alertTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR;
+            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR;
+        }
+        $instructorGroupIdsDiff = array_merge(
+            array_diff($instructorGroupIds, $updatedInstructorGroupIds),
+            array_diff($updatedInstructorGroupIds, $instructorGroupIds)
+        );
+        if (! empty($instructorGroupIdsDiff)) {
+            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR;
         }
         $learnerIdsDiff = array_merge(
             array_diff($learnerIds, $updatedLearnerIds),
             array_diff($updatedLearnerIds, $learnerIds)
         );
         if (! empty($learnerIdsDiff)) {
-            $alertTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP;
+            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP;
+        }
+        $learnerGroupIdsDiff = array_merge(
+            array_diff($learnerGroupIds, $updatedLearnerGroupIds),
+            array_diff($updatedLearnerGroupIds, $learnerGroupIds)
+        );
+        if (! empty($learnerGroupIdsDiff)) {
+            $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP;
         }
 
-        if (empty($alertTypes)) {
+        if (empty($changeTypes)) {
             return;
         }
+        array_unique($changeTypes);
 
         $alertManager = $this->container->get('ilioscore.alert.manager');
         $alertChangeTypeManager = $this->container->get('ilioscore.alertchangetype.manager');
@@ -478,7 +517,7 @@ class OfferingController extends FOSRestController
             $alert->addInstigator($this->getUser());
         }
 
-        foreach ($alertTypes as $type) {
+        foreach ($changeTypes as $type) {
             $changeType = $alertChangeTypeManager->findAlertChangeTypeBy(['id' => $type]);
             if ($changeType && ! $alert->getChangeTypes()->contains($changeType)) {
                 $alert->addChangeType($changeType);
