@@ -141,4 +141,11 @@ interface OfferingInterface extends
      * @return ArrayCollection
      */
     public function getAllInstructors();
+
+    /**
+     * Returns "alertable" properties in an easy to compare format.
+     * @return array.
+     */
+    public function getAlertProperties();
+
 }

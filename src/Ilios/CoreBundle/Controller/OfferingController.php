@@ -248,25 +248,7 @@ class OfferingController extends FOSRestController
             }
 
             // capture the values of offering properties pre-update
-            $instructorIds = $offering->getInstructors()->map(function (UserInterface $entity) {
-                return $entity->getId();
-            })->toArray();
-            sort($instructorIds);
-            $instructorGroupIds = $offering->getInstructorGroups()->map(function (InstructorGroupInterface $entity) {
-                return $entity->getId();
-            })->toArray();
-            sort($instructorGroupIds);
-            $learnerIds = $offering->getLearners()->map(function (UserInterface $entity) {
-                return $entity->getId();
-            })->toArray();
-            sort($learnerIds);
-            $learnerGroupIds = $offering->getLearnerGroups()->map(function (LearnerGroupInterface $entity) {
-                return $entity->getId();
-            })->toArray();
-            sort($learnerGroupIds);
-            $room = $offering->getRoom();
-            $startDate = $offering->getStartDate();
-            $endDate = $offering->getEndDate();
+            $alertProperties = $offering->getAlertProperties();
 
             $handler = $this->getOfferingHandler();
 
@@ -288,13 +270,7 @@ class OfferingController extends FOSRestController
                 } else {
                     $this->createOrUpdateAlertForUpdatedOffering(
                         $offering,
-                        $instructorIds,
-                        $instructorGroupIds,
-                        $learnerIds,
-                        $learnerGroupIds,
-                        $startDate,
-                        $endDate,
-                        $room
+                        $alertProperties
                     );
                 }
             }
@@ -419,76 +395,49 @@ class OfferingController extends FOSRestController
     }
 
     /**
-     * @param \Ilios\CoreBundle\Entity\OfferingInterface $offering
-     * @param array $instructorIds
-     * @param array $instructorGroupIds
-     * @param array $learnerIds
-     * @param array $learnerGroupIds
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
-     * @param string $room
+     * @param OfferingInterface $offering
+     * @param array $originalProperties
      */
     protected function createOrUpdateAlertForUpdatedOffering(
         OfferingInterface $offering,
-        array $instructorIds,
-        array $instructorGroupIds,
-        array $learnerIds,
-        array $learnerGroupIds,
-        \DateTime $startDate,
-        \DateTime $endDate,
-        $room
+        array $originalProperties
     ) {
-        $updatedInstructorIds = $offering->getInstructors()->map(function (UserInterface $entity) {
-            return $entity->getId();
-        })->toArray();
-        sort($updatedInstructorIds);
-        $updatedInstructorGroupIds = $offering->getInstructorGroups()->map(function (InstructorGroupInterface $entity) {
-            return $entity->getId();
-        })->toArray();
-        sort($updatedInstructorGroupIds);
-        $updatedLearnerIds = $offering->getLearners()->map(function (UserInterface $entity) {
-            return $entity->getId();
-        })->toArray();
-        sort($updatedLearnerIds);
-        $updatedLearnerGroupIds = $offering->getLearnerGroups()->map(function (LearnerGroupInterface $entity) {
-            return $entity->getId();
-        })->toArray();
-        sort($updatedLearnerGroupIds);
+        $updatedProperties = $offering->getAlertProperties();
 
         $changeTypes = [];
-        if ($startDate->getTimestamp() !== $offering->getStartDate()->getTimestamp()) {
+        if ($updatedProperties['startDate'] !== $originalProperties['startDate']) {
             $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_TIME;
         }
-        if ($endDate->getTimestamp() !== $offering->getEndDate()->getTimestamp()) {
+        if ($updatedProperties['endDate'] !== $originalProperties['endDate']) {
             $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_TIME;
         }
-        if ($room !== $offering->getRoom()) {
+        if ($updatedProperties['room'] !== $originalProperties['room']) {
             $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LOCATION;
         }
         $instructorIdsDiff = array_merge(
-            array_diff($instructorIds, $updatedInstructorIds),
-            array_diff($updatedInstructorIds, $instructorIds)
+            array_diff($updatedProperties['instructors'], $originalProperties['instructors']),
+            array_diff($originalProperties['instructors'], $updatedProperties['instructors'])
         );
         if (! empty($instructorIdsDiff)) {
             $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR;
         }
         $instructorGroupIdsDiff = array_merge(
-            array_diff($instructorGroupIds, $updatedInstructorGroupIds),
-            array_diff($updatedInstructorGroupIds, $instructorGroupIds)
+            array_diff($updatedProperties['instructorGroups'], $originalProperties['instructorGroups']),
+            array_diff($originalProperties['instructorGroups'], $updatedProperties['instructorGroups'])
         );
         if (! empty($instructorGroupIdsDiff)) {
             $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR;
         }
         $learnerIdsDiff = array_merge(
-            array_diff($learnerIds, $updatedLearnerIds),
-            array_diff($updatedLearnerIds, $learnerIds)
+            array_diff($updatedProperties['learners'], $originalProperties['learners']),
+            array_diff($originalProperties['learners'], $updatedProperties['learners'])
         );
         if (! empty($learnerIdsDiff)) {
             $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP;
         }
         $learnerGroupIdsDiff = array_merge(
-            array_diff($learnerGroupIds, $updatedLearnerGroupIds),
-            array_diff($updatedLearnerGroupIds, $learnerGroupIds)
+            array_diff($updatedProperties['learnerGroups'], $originalProperties['learnerGroups']),
+            array_diff($originalProperties['learnerGroups'], $updatedProperties['learnerGroups'])
         );
         if (! empty($learnerGroupIdsDiff)) {
             $changeTypes[] = AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP;

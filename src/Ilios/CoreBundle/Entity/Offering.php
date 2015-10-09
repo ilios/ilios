@@ -447,6 +447,43 @@ class Offering implements OfferingInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getAlertProperties()
+    {
+        $instructorIds = $this->getInstructors()->map(function (UserInterface $entity) {
+            return $entity->getId();
+        })->toArray();
+        sort($instructorIds);
+        $instructorGroupIds = $this->getInstructorGroups()->map(function (InstructorGroupInterface $entity) {
+            return $entity->getId();
+        })->toArray();
+        sort($instructorGroupIds);
+        $learnerIds = $this->getLearners()->map(function (UserInterface $entity) {
+            return $entity->getId();
+        })->toArray();
+        sort($learnerIds);
+        $learnerGroupIds = $this->getLearnerGroups()->map(function (LearnerGroupInterface $entity) {
+            return $entity->getId();
+        })->toArray();
+        sort($learnerGroupIds);
+        $room = $this->getRoom();
+        $startDate = $this->getStartDate()->getTimestamp();
+        $endDate = $this->getEndDate()->getTimestamp();
+
+        return [
+            'instructors' => $instructorIds,
+            'instructorGroups' => $instructorGroupIds,
+            'learners' => $learnerIds,
+            'learnerGroups' => $learnerGroupIds,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'room' => $room,
+        ];
+
+    }
+
+    /**
      * @return string
      */
     public function __toString()
