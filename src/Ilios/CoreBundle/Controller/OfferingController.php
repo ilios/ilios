@@ -247,11 +247,6 @@ class OfferingController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted('edit', $offering)) {
-                throw $this->createAccessDeniedException('Unauthorized access!');
-            }
-
             // capture the values of offering properties pre-update
             $instructorIds = $offering->getInstructors()->map(function (UserInterface $entity) {
                 return $entity->getId();
@@ -279,6 +274,11 @@ class OfferingController extends FOSRestController
                 $offering,
                 $this->getPostData($request)
             );
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted('edit', $offering)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
 
             $this->getOfferingHandler()->updateOffering($offering, true, true);
 
