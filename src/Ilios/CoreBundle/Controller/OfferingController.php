@@ -282,21 +282,22 @@ class OfferingController extends FOSRestController
 
             $this->getOfferingHandler()->updateOffering($offering, true, true);
 
-            if (Codes::HTTP_CREATED === $code) {
-                $this->createAlertForNewOffering($offering);
-            } elseif ($offering->getSession()->getPublishEvent()) {
-                $this->createOrUpdateAlertForUpdatedOffering(
-                    $offering,
-                    $instructorIds,
-                    $instructorGroupIds,
-                    $learnerIds,
-                    $learnerGroupIds,
-                    $startDate,
-                    $endDate,
-                    $room
-                );
+            if ($offering->getSession()->getPublishEvent()) {
+                if (Codes::HTTP_CREATED === $code) {
+                    $this->createAlertForNewOffering($offering);
+                } else {
+                    $this->createOrUpdateAlertForUpdatedOffering(
+                        $offering,
+                        $instructorIds,
+                        $instructorGroupIds,
+                        $learnerIds,
+                        $learnerGroupIds,
+                        $startDate,
+                        $endDate,
+                        $room
+                    );
+                }
             }
-
 
             $answer['offering'] = $offering;
 
