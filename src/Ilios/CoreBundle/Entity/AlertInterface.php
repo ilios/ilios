@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as JMS;
  * Interface AlertInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface AlertInterface extends IdentifiableEntityInterface
+interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInterface
 {
     /**
      * @param integer $tableRowId
@@ -60,9 +60,9 @@ interface AlertInterface extends IdentifiableEntityInterface
     public function setChangeTypes(Collection $changeTypes);
 
     /**
-     * @param AlertChangeType $changeType
+     * @param AlertChangeTypeInterface $changeType
      */
-    public function addChangeType(AlertChangeType $changeType);
+    public function addChangeType(AlertChangeTypeInterface $changeType);
 
     /**
      * @return ArrayCollection|AlertChangeTypeInterface[]

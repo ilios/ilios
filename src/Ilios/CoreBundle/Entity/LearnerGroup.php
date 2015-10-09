@@ -91,7 +91,7 @@ class LearnerGroup implements LearnerGroupInterface
     protected $cohort;
 
     /**
-     * @var GroupInterface
+     * @var LearnerGroupInterface
      *
      * @ORM\ManyToOne(targetEntity="LearnerGroup", inversedBy="children")
      * @ORM\JoinColumns({
@@ -296,7 +296,7 @@ class LearnerGroup implements LearnerGroupInterface
     }
 
     /**
-     * @param GroupInterface $parent
+     * @param LearnerGroupInterface $parent
      */
     public function setParent(LearnerGroupInterface $parent)
     {
@@ -304,7 +304,7 @@ class LearnerGroup implements LearnerGroupInterface
     }
 
     /**
-     * @return GroupInterface
+     * @return LearnerGroupInterface
      */
     public function getParent()
     {

@@ -117,7 +117,7 @@ interface LearnerGroupInterface extends
     public function setInstructors(Collection $instructors = null);
 
     /**
-     * @param UserInterface $instructors
+     * @param UserInterface $instructor
      */
     public function addInstructor(UserInterface $instructor);
 

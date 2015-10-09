@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
+use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
+
 class AlertChangeTypeData extends AbstractDataLoader
 {
     protected function getData()
@@ -9,13 +11,49 @@ class AlertChangeTypeData extends AbstractDataLoader
         $arr = array();
 
         $arr[] = array(
-            'id' => 1,
+            'id' => AlertChangeTypeInterface::CHANGE_TYPE_TIME,
             'title' => $this->faker->text(25),
             'alerts' => ['1', '2']
         );
 
         $arr[] = array(
-            'id' => 2,
+            'id' => AlertChangeTypeInterface::CHANGE_TYPE_LOCATION,
+            'title' => $this->faker->text(25),
+            'alerts' => []
+        );
+
+        $arr[] = array(
+            'id' => AlertChangeTypeInterface::CHANGE_TYPE_LEARNING_MATERIAL,
+            'title' => $this->faker->text(25),
+            'alerts' => []
+        );
+
+        $arr[] = array(
+            'id' => AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR,
+            'title' => $this->faker->text(25),
+            'alerts' => []
+        );
+
+        $arr[] = array(
+            'id' => AlertChangeTypeInterface::CHANGE_TYPE_COURSE_DIRECTOR,
+            'title' => $this->faker->text(25),
+            'alerts' => []
+        );
+
+        $arr[] = array(
+            'id' => AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP,
+            'title' => $this->faker->text(25),
+            'alerts' => []
+        );
+
+        $arr[] = array(
+            'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
+            'title' => $this->faker->text(25),
+            'alerts' => []
+        );
+
+        $arr[] = array(
+            'id' => AlertChangeTypeInterface::CHANGE_TYPE_SESSION_PUBLISH,
             'title' => $this->faker->text(25),
             'alerts' => []
         );
@@ -26,7 +64,7 @@ class AlertChangeTypeData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 3,
+            'id' => 9,
             'title' => $this->faker->text(10),
             'alerts' => []
         ];
