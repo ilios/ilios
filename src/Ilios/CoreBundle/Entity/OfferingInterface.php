@@ -147,5 +147,4 @@ interface OfferingInterface extends
      * @return array.
      */
     public function getAlertProperties();
-
 }
