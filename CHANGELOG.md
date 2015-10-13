@@ -1,8 +1,29 @@
 # Change Log
 
-## [v3.0.0-beta7](https://github.com/ilios/ilios/tree/HEAD)
+## [v3.0.0-beta8](https://github.com/ilios/ilios/tree/HEAD)
 
-[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta6...HEAD)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta7...HEAD)
+
+**Closed issues:**
+
+- Typo in ember.debug.js [\#1045](https://github.com/ilios/ilios/issues/1045)
+- Better LearningMaterial API endpoint [\#1040](https://github.com/ilios/ilios/issues/1040)
+- re-implement change alert creation [\#1037](https://github.com/ilios/ilios/issues/1037)
+- Add teaching reminders email console command [\#993](https://github.com/ilios/ilios/issues/993)
+- Add change alerts email console command [\#992](https://github.com/ilios/ilios/issues/992)
+- Deprecate publish\_event table\_name and table\_row\_id columns  [\#857](https://github.com/ilios/ilios/issues/857)
+
+**Merged pull requests:**
+
+- added generation/update of offering change alerts [\#1044](https://github.com/ilios/ilios/pull/1044) ([stopfstedt](https://github.com/stopfstedt))
+- Remove the hosts matcher from CORS options [\#1043](https://github.com/ilios/ilios/pull/1043) ([jrjohnson](https://github.com/jrjohnson))
+- Fixes for program, user and learningmaterial endpoints [\#1042](https://github.com/ilios/ilios/pull/1042) ([jrjohnson](https://github.com/jrjohnson))
+- change alerts command. [\#1038](https://github.com/ilios/ilios/pull/1038) ([stopfstedt](https://github.com/stopfstedt))
+- Fix commands and broken build [\#1036](https://github.com/ilios/ilios/pull/1036) ([jrjohnson](https://github.com/jrjohnson))
+- added teaching reminder command [\#1035](https://github.com/ilios/ilios/pull/1035) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.0.0-beta7](https://github.com/ilios/ilios/tree/v3.0.0-beta7) (2015-09-25)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta6...v3.0.0-beta7)
 
 **Closed issues:**
 
@@ -19,6 +40,7 @@
 
 **Merged pull requests:**
 
+- updated changelog for release v3.0.0-beta7 [\#1034](https://github.com/ilios/ilios/pull/1034) ([thecoolestguy](https://github.com/thecoolestguy))
 - Handle deleted offerings in the user API [\#1033](https://github.com/ilios/ilios/pull/1033) ([jrjohnson](https://github.com/jrjohnson))
 - Add details to ics feed [\#1032](https://github.com/ilios/ilios/pull/1032) ([jrjohnson](https://github.com/jrjohnson))
 - Entity managers cleanup [\#1031](https://github.com/ilios/ilios/pull/1031) ([stopfstedt](https://github.com/stopfstedt))
