@@ -14,19 +14,21 @@ class MeshDescriptorRepository extends EntityRepository
      * Find by a string query.
      *
      * @param string $q
-     * @param integer $orderBy
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      * @return MeshDescriptorInterface[]
      */
-    public function findByQ($q, $orderBy, $limit, $offset)
+    public function findByQ($q, array $orderBy, $limit, $offset)
     {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'd')->from('IliosCoreBundle:MeshDescriptor', 'd');
-        $qb->leftJoin('d.previousIndexing', 'pi');
-        $qb->leftJoin('d.concepts', 'c');
-        $qb->leftJoin('c.semanticTypes', 'st');
-        $qb->leftJoin('c.terms', 't');
+        $qb = $this->_em->createQueryBuilder()
+            ->select('DISTINCT d')
+            ->from('IliosCoreBundle:MeshDescriptor', 'd')
+            ->leftJoin('d.previousIndexing', 'pi')
+            ->leftJoin('d.concepts', 'c')
+            ->leftJoin('c.semanticTypes', 'st')
+            ->leftJoin('c.terms', 't');
+
         $terms = explode(' ', $q);
         $terms = array_filter($terms, 'strlen');
         if (empty($terms)) {
@@ -47,11 +49,12 @@ class MeshDescriptorRepository extends EntityRepository
             ))
             ->setParameter($key, '%' . $term . '%');
         }
+        if (empty($orderBy)) {
+            $orderBy = ['name' => 'ASC', 'id' => 'ASC'];
+        }
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('d.' . $sort, $order);
-            }
+        foreach ($orderBy as $sort => $order) {
+            $qb->addOrderBy('d.' . $sort, $order);
         }
 
         if ($offset) {
