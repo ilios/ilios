@@ -225,13 +225,11 @@ class PublishEventController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('publishEvent');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if($request->request->has('publishEvent')){
+            return $request->request->get('publishEvent');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**
