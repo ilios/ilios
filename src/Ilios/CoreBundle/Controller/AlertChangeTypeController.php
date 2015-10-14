@@ -326,13 +326,11 @@ class AlertChangeTypeController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('alertChangeType');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('alertChangeType')) {
+            return $request->request->get('alertChangeType');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

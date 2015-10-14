@@ -329,13 +329,11 @@ class SessionController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('session');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('session')) {
+            return $request->request->get('session');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

@@ -332,13 +332,11 @@ class CourseController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('course');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('course')) {
+            return $request->request->get('course');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

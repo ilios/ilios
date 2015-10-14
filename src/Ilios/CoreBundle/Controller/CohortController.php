@@ -326,13 +326,11 @@ class CohortController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('cohort');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('cohort')) {
+            return $request->request->get('cohort');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

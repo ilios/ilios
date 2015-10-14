@@ -326,13 +326,11 @@ class SchoolController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('school');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('school')) {
+            return $request->request->get('school');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

@@ -326,13 +326,11 @@ class SessionDescriptionController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('sessionDescription');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('sessionDescription')) {
+            return $request->request->get('sessionDescription');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

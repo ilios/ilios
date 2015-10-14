@@ -326,13 +326,11 @@ class AamcMethodController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('aamcMethod');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('aamcMethod')) {
+            return $request->request->get('aamcMethod');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

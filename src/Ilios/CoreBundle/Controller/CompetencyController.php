@@ -326,13 +326,11 @@ class CompetencyController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('competency');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('competency')) {
+            return $request->request->get('competency');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

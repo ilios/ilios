@@ -332,13 +332,11 @@ class UserMadeReminderController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('userMadeReminder');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('userMadeReminder')) {
+            return $request->request->get('userMadeReminder');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

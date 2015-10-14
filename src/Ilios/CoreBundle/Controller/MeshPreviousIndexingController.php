@@ -325,13 +325,11 @@ class MeshPreviousIndexingController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('meshPreviousIndexing');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('meshPreviousIndexing')) {
+            return $request->request->get('meshPreviousIndexing');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

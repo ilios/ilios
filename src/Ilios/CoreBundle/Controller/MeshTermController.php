@@ -325,13 +325,11 @@ class MeshTermController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('meshTerm');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('meshTerm')) {
+            return $request->request->get('meshTerm');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

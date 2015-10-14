@@ -326,13 +326,11 @@ class IlmSessionController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('ilmSession');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('ilmSession')) {
+            return $request->request->get('ilmSession');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

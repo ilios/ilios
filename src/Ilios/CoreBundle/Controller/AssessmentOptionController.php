@@ -326,13 +326,11 @@ class AssessmentOptionController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('assessmentOption');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('assessmentOption')) {
+            return $request->request->get('assessmentOption');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**
