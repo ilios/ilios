@@ -44,3 +44,6 @@ services:
     ilioscore.learningmaterial_decorator.factory:
         class: Ilios\CoreBundle\Service\LearningMaterialDecoratorFactory
         arguments: [ "@router", Ilios\CoreBundle\Classes\LearningMaterialDecorator ]
+    ilioscore.form.transformer.html_purifier:
+        class: Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer
+        arguments: ["@exercise_html_purifier.default"]
