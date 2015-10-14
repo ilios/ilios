@@ -15,7 +15,7 @@ class CourseLearningMaterialType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('notes', null, ['required' => false])
+            ->add('notes', 'purified_textarea', ['required' => false])
             ->add('required', null, ['required' => false])
             ->add('publicNotes', null, ['required' => false])
             ->add('notes', null, ['required' => false])

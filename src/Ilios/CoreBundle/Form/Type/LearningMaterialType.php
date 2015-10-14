@@ -18,7 +18,7 @@ class LearningMaterialType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description')
+            ->add('description', 'purified_textarea')
             ->add('originalAuthor', null, ['required' => false])
             ->add('relativePath')
             ->add('filename')

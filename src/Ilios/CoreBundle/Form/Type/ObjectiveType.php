@@ -15,7 +15,7 @@ class ObjectiveType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', 'purified_textarea')
             ->add('competency', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
