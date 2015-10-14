@@ -34,6 +34,8 @@ class ProgramYearStewardData extends AbstractDataLoader
 
     public function createInvalid()
     {
-        return [];
+        return [
+            'programYear' => 11
+        ];
     }
 }

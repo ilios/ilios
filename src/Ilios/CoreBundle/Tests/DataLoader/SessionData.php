@@ -105,7 +105,9 @@ class SessionData extends AbstractDataLoader
 
     public function createInvalid()
     {
-        return [];
+        return [
+            'course' => 11
+        ];
     }
     
     public function removeDeletedSessionsFromArray(array $data)

@@ -32,6 +32,8 @@ class SessionDescriptionData extends AbstractDataLoader
 
     public function createInvalid()
     {
-        return [];
+        return [
+            'session' => 11
+        ];
     }
 }

@@ -42,6 +42,8 @@ class TopicData extends AbstractDataLoader
 
     public function createInvalid()
     {
-        return [];
+        return [
+            'school' => 11
+        ];
     }
 }
