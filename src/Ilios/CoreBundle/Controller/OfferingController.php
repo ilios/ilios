@@ -353,13 +353,11 @@ class OfferingController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('offering');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('offering')) {
+            return $request->request->get('offering');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

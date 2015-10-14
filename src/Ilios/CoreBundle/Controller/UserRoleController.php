@@ -326,13 +326,11 @@ class UserRoleController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('userRole');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('userRole')) {
+            return $request->request->get('userRole');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

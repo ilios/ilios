@@ -47,6 +47,7 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
      * @ORM\Column(type="string", length=60)
      * @var string
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,

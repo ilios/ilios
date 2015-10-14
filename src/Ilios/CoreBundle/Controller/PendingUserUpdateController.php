@@ -326,13 +326,11 @@ class PendingUserUpdateController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('pendingUserUpdate');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('pendingUserUpdate')) {
+            return $request->request->get('pendingUserUpdate');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

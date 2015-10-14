@@ -326,13 +326,11 @@ class InstructorGroupController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('instructorGroup');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('instructorGroup')) {
+            return $request->request->get('instructorGroup');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

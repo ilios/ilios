@@ -326,13 +326,11 @@ class ProgramController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('program');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('program')) {
+            return $request->request->get('program');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

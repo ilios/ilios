@@ -326,13 +326,11 @@ class ObjectiveController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('objective');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('objective')) {
+            return $request->request->get('objective');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

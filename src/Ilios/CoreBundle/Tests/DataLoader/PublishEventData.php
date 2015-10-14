@@ -56,6 +56,8 @@ class PublishEventData extends AbstractDataLoader
 
     public function createInvalid()
     {
-        return [];
+        return [
+            'programs' => [11],
+        ];
     }
 }

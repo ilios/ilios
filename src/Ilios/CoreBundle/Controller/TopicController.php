@@ -326,13 +326,11 @@ class TopicController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('topic');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('topic')) {
+            return $request->request->get('topic');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

@@ -22,6 +22,17 @@ class LearningMaterialStatusTest extends EntityBase
         $this->object = new LearningMaterialStatus;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTitle('test');
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::__construct
      */

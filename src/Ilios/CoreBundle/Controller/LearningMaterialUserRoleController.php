@@ -334,13 +334,11 @@ class LearningMaterialUserRoleController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('learningMaterialUserRole');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('learningMaterialUserRole')) {
+            return $request->request->get('learningMaterialUserRole');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

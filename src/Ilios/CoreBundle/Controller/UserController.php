@@ -340,13 +340,11 @@ class UserController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('user');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('user')) {
+            return $request->request->get('user');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

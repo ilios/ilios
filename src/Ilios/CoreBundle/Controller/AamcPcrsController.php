@@ -326,13 +326,11 @@ class AamcPcrsController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('aamcPcrses');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('aamcPcrses')) {
+            return $request->request->get('aamcPcrses');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

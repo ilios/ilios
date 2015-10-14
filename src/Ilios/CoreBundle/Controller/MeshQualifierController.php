@@ -325,13 +325,11 @@ class MeshQualifierController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('meshQualifier');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('meshQualifier')) {
+            return $request->request->get('meshQualifier');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

@@ -326,13 +326,11 @@ class CourseClerkshipTypeController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('courseClerkshipType');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('courseClerkshipType')) {
+            return $request->request->get('courseClerkshipType');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

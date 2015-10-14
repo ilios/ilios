@@ -96,13 +96,11 @@ class CurriculumInventoryExportController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('curriculumInventoryExport');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('curriculumInventoryExport')) {
+            return $request->request->get('curriculumInventoryExport');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

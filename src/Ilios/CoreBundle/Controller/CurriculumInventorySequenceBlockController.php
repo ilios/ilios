@@ -334,13 +334,11 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('curriculumInventorySequenceBlock');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('curriculumInventorySequenceBlock')) {
+            return $request->request->get('curriculumInventorySequenceBlock');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

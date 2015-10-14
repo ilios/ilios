@@ -329,13 +329,11 @@ class ReportController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('report');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('report')) {
+            return $request->request->get('report');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

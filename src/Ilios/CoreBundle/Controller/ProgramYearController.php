@@ -331,13 +331,11 @@ class ProgramYearController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('programYear');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('programYear')) {
+            return $request->request->get('programYear');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

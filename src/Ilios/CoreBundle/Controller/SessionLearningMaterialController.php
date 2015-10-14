@@ -334,13 +334,11 @@ class SessionLearningMaterialController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('sessionLearningMaterial');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('sessionLearningMaterial')) {
+            return $request->request->get('sessionLearningMaterial');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

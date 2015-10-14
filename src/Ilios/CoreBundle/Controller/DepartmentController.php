@@ -326,13 +326,11 @@ class DepartmentController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('department');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('department')) {
+            return $request->request->get('department');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

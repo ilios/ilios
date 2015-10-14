@@ -325,13 +325,11 @@ class MeshConceptController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('meshConcept');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('meshConcept')) {
+            return $request->request->get('meshConcept');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

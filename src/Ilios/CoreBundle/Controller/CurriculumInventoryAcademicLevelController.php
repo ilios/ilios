@@ -334,13 +334,11 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('curriculumInventoryAcademicLevel');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('curriculumInventoryAcademicLevel')) {
+            return $request->request->get('curriculumInventoryAcademicLevel');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

@@ -341,13 +341,11 @@ class MeshDescriptorController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('meshDescriptor');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('meshDescriptor')) {
+            return $request->request->get('meshDescriptor');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

@@ -341,13 +341,11 @@ class MeshSemanticTypeController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('meshSemanticType');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('meshSemanticType')) {
+            return $request->request->get('meshSemanticType');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**

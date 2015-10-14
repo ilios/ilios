@@ -326,13 +326,11 @@ class LearnerGroupController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('learnerGroup');
-
-        if (empty($data)) {
-            $data = $request->request->all();
+        if ($request->request->has('learnerGroup')) {
+            return $request->request->get('learnerGroup');
         }
 
-        return $data;
+        return $request->request->all();
     }
 
     /**
