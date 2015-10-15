@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -26,6 +27,10 @@ class MeshTermType extends AbstractType
                 'entityName' => "IliosCoreBundle:MeshConcept"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['name', 'meshTermUid', 'lexicalTag'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

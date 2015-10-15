@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -35,6 +36,11 @@ class SessionTypeType extends AbstractType
                 'entityName' => "IliosCoreBundle:Session"
             ])
         ;
+
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['title', 'sessionTypeCssClass'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

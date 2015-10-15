@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -61,6 +62,10 @@ class SchoolType extends AbstractType
                 'entityName' => "IliosCoreBundle:ProgramYearSteward"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['title', 'templatePrefix', 'iliosAdministratorEmail', 'changeAlertRecipients'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

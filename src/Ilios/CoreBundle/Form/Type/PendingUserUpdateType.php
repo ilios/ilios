@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -23,6 +24,10 @@ class PendingUserUpdateType extends AbstractType
                 'entityName' => "IliosCoreBundle:User"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['type', 'property', 'value'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -24,6 +25,10 @@ class ReportType extends AbstractType
                 'entityName' => "IliosCoreBundle:User"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['title', 'subject', 'prepositionalObject'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

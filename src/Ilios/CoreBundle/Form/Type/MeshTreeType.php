@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -20,6 +21,7 @@ class MeshTreeType extends AbstractType
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
         ;
+        $builder->get('treeNumber')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**
