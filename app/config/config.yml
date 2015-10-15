@@ -136,7 +136,6 @@ doctrine_migrations:
 exercise_html_purifier:
     default:
         Cache.SerializerPath: "%kernel.cache_dir%/htmlpurifier"
-    custom:
         HTML.AllowedElements: "br,div,dd,dl,dt,em,li,ol,p,strong,sub,sup,ul"
 
 ilios_core:
