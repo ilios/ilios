@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -22,6 +23,7 @@ class AamcPcrsType extends AbstractType
                 'entityName' => "IliosCoreBundle:Competency"
             ])
         ;
+        $builder->get('description')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**

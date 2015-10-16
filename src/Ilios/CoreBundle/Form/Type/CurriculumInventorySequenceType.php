@@ -21,6 +21,7 @@ class CurriculumInventorySequenceType extends AbstractType
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])
         ;
+
     }
 
     /**

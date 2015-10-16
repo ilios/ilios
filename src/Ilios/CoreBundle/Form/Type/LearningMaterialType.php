@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -53,6 +54,20 @@ class LearningMaterialType extends AbstractType
                 'entityName' => "IliosCoreBundle:CourseLearningMaterial"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        $elements = [
+            'title',
+            'originalAuthor',
+            'relativePath',
+            'filename',
+            'copyrightRationale',
+            'mimetype',
+            'citation',
+            'link',
+        ];
+        foreach ($elements as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

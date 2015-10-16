@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -32,6 +33,10 @@ class AlertType extends AbstractType
                 'entityName' => "IliosCoreBundle:School"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['tableName', 'additionalText'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**
