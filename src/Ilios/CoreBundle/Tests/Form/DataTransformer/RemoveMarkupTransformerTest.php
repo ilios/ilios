@@ -26,9 +26,9 @@ class RemoveMarkupTransformerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::transform
+     * @covers Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::reverseTransform
      */
-    public function testTransformNotString()
+    public function testReverseTransformNotString()
     {
         $input = [
             1,
@@ -43,19 +43,19 @@ class RemoveMarkupTransformerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::transform
-     */
-    public function testTransform()
-    {
-        $this->assertSame('foo bar baz', $this->transformer->transform('foo bar baz'));
-        $this->assertSame('foobar', $this->transformer->transform('<h1>foo</h1>bar<br><br>'));
-        $this->assertSame('alert();', $this->transformer->transform('<script>alert();</script>'));
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::reverseTransform
      */
     public function testReverseTransform()
+    {
+        $this->assertSame('foo bar baz', $this->transformer->reverseTransform('foo bar baz'));
+        $this->assertSame('foobar', $this->transformer->reverseTransform('<h1>foo</h1>bar<br><br>'));
+        $this->assertSame('alert();', $this->transformer->reverseTransform('<script>alert();</script>'));
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::Transform
+     */
+    public function testTransform()
     {
         $input = [
             'foo',
@@ -67,7 +67,7 @@ class RemoveMarkupTransformerTest extends \PHPUnit_Framework_TestCase
         ];
 
         foreach ($input as $in) {
-            $this->assertEquals($in, $this->transformer->reverseTransform($in));
+            $this->assertEquals($in, $this->transformer->transform($in));
         }
     }
 }
