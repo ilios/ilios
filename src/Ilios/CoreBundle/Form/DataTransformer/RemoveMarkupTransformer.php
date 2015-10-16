@@ -13,7 +13,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 class RemoveMarkupTransformer implements DataTransformerInterface
 {
     /**
-     * Strips all tags from a given string and returns it.
+     * Strips all tags from a given string and returns it. Any non-string input will be returned as-is.
      * @param mixed $value
      * @return mixed
      */
