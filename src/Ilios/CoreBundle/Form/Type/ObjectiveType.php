@@ -46,7 +46,7 @@ class ObjectiveType extends AbstractType
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
         ;
-        $builder->get('room')->addViewTransformer(new RemoveMarkupTransformer());
+        $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**
