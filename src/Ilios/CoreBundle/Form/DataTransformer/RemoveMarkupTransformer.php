@@ -17,7 +17,7 @@ class RemoveMarkupTransformer implements DataTransformerInterface
      * @param mixed $value
      * @return mixed
      */
-    public function transform($value)
+    public function reverseTransform($value)
     {
         if (! is_string($value)) {
             return $value;
@@ -31,7 +31,7 @@ class RemoveMarkupTransformer implements DataTransformerInterface
      * @param string $value
      * @return string
      */
-    public function reverseTransform($value)
+    public function transform($value)
     {
         return $value;
     }
