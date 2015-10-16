@@ -16,8 +16,8 @@ class CurriculumInventoryReportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, ['required' => false])
-            ->add('description', null, ['required' => false])
+            ->add('name', null, ['required' => false, 'empty_data' => null])
+            ->add('description', null, ['required' => false, 'empty_data' => null])
             ->add('year')
             ->add('startDate', 'datetime', array(
                 'widget' => 'single_text',

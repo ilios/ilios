@@ -16,13 +16,13 @@ class MeshConceptType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
-            ->add('name')
-            ->add('umlsUid')
+            ->add('id', null, ['empty_data' => null])
+            ->add('name', null, ['empty_data' => null])
+            ->add('umlsUid', null, ['empty_data' => null])
             ->add('preferred', null, ['required' => false])
-            ->add('scopeNote', null, ['required' => false])
-            ->add('casn1Name', null, ['required' => false])
-            ->add('registryNumber', null, ['required' => false])
+            ->add('scopeNote', null, ['required' => false, 'empty_data' => null])
+            ->add('casn1Name', null, ['required' => false, 'empty_data' => null])
+            ->add('registryNumber', null, ['required' => false, 'empty_data' => null])
             ->add('descriptors', 'tdn_many_related', [
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])

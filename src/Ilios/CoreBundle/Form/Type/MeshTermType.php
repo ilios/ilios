@@ -16,9 +16,9 @@ class MeshTermType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('meshTermUid')
-            ->add('lexicalTag')
+            ->add('name', null, ['empty_data' => null])
+            ->add('meshTermUid', null, ['empty_data' => null])
+            ->add('lexicalTag', null, ['empty_data' => null])
             ->add('conceptPreferred')
             ->add('recordPreferred')
             ->add('permuted')

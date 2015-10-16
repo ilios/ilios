@@ -16,7 +16,7 @@ class OfferingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('room')
+            ->add('room', null, ['empty_data' => null])
             ->add('startDate', 'datetime', array(
                 'widget' => 'single_text',
             ))

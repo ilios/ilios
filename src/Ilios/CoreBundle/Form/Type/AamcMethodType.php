@@ -17,7 +17,7 @@ class AamcMethodType extends AbstractType
     {
         $builder
             ->add('id')
-            ->add('description')
+            ->add('description', null, ['empty_data' => null])
             ->add('sessionTypes', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionType"

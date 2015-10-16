@@ -16,8 +16,8 @@ class SessionTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('sessionTypeCssClass', null, ['required' => false])
+            ->add('title', null, ['empty_data' => null])
+            ->add('sessionTypeCssClass', null, ['required' => false, 'empty_data' => null])
             ->add('assessment', null, ['required' => false])
             ->add('assessmentOption', 'tdn_single_related', [
                 'required' => false,

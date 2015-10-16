@@ -16,9 +16,9 @@ class PendingUserUpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('type')
-            ->add('property')
-            ->add('value')
+            ->add('type', null, ['empty_data' => null])
+            ->add('property', null, ['empty_data' => null])
+            ->add('value', null, ['empty_data' => null])
             ->add('user', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"

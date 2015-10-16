@@ -15,9 +15,7 @@ class LearningMaterialUserRoleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('title')
-        ;
+        $builder->add('title', null, ['empty_data' => null]);
         $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
     }
 

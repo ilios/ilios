@@ -16,7 +16,7 @@ class CohortType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null, ['empty_data' => null])
             ->add('programYear', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"

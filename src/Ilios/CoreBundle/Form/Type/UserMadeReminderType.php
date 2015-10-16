@@ -16,7 +16,7 @@ class UserMadeReminderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('note')
+            ->add('note', null, ['empty_data' => null])
             ->add('dueDate', 'datetime', array(
                 'widget' => 'single_text',
             ))

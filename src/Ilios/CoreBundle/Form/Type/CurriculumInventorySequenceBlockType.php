@@ -16,8 +16,8 @@ class CurriculumInventorySequenceBlockType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description', null, ['required' => false])
+            ->add('title', null, ['empty_data' => null])
+            ->add('description', null, ['required' => false, 'empty_data' => null])
             ->add('required', null, ['required' => false])
             ->add('childSequenceOrder', null, ['required' => false])
             ->add('orderInSequence')

@@ -16,7 +16,7 @@ class CompetencyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, ['required' => false])
+            ->add('title', null, ['required' => false, 'empty_data' => null])
             ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"

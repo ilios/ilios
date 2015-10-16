@@ -16,9 +16,9 @@ class AlertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tableRowId')
-            ->add('tableName')
-            ->add('additionalText', null, ['required' => false])
+            ->add('tableRowId', null, ['empty_data' => null])
+            ->add('tableName', null, ['empty_data' => null])
+            ->add('additionalText', null, ['required' => false, 'empty_data' => null])
             ->add('dispatched', null, ['required' => false])
             ->add('changeTypes', 'tdn_many_related', [
                 'required' => false,
@@ -45,7 +45,7 @@ class AlertType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ilios\CoreBundle\Entity\Alert'
+            'data_class' => 'Ilios\CoreBundle\Entity\Alert',
         ));
     }
 

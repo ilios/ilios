@@ -16,7 +16,7 @@ class SessionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, ['required' => false])
+            ->add('title', null, ['required' => false, 'empty_data' => null])
             ->add('attireRequired', null, ['required' => false])
             ->add('equipmentRequired', null, ['required' => false])
             ->add('supplemental', null, ['required' => false])

@@ -16,7 +16,7 @@ class LearningMaterialStatusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null, ['empty_data' => null])
             ->get('title')->addViewTransformer(new RemoveMarkupTransformer());
         ;
     }

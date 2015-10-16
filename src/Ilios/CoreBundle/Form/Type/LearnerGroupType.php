@@ -16,8 +16,8 @@ class LearnerGroupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('location', null, ['required' => false])
+            ->add('title', null, ['empty_data' => null])
+            ->add('location', null, ['required' => false, 'empty_data' => null])
             ->add('cohort', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"

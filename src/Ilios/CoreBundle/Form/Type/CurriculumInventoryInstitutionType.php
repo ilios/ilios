@@ -26,7 +26,7 @@ class CurriculumInventoryInstitutionType extends AbstractType
             'addressCountryCode',
         ];
         foreach ($elements as $element) {
-            $builder->add($element);
+            $builder->add($element, null, ['empty_data' => null]);
             $builder->get($element)->addViewTransformer($transformer);
         }
         $builder

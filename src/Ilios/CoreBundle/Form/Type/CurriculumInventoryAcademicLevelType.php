@@ -16,8 +16,8 @@ class CurriculumInventoryAcademicLevelType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description', null, ['required' => false])
+            ->add('name', null, ['empty_data' => null])
+            ->add('description', null, ['required' => false, 'empty_data' => null])
             ->add('level')
             ->add('report', 'tdn_single_related', [
                 'required' => false,

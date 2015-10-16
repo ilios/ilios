@@ -16,7 +16,7 @@ class MeshTreeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('treeNumber')
+            ->add('treeNumber', null, ['empty_data' => null])
             ->add('descriptor', 'tdn_single_related', [
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])

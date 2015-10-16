@@ -16,7 +16,7 @@ class AssessmentOptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', null, ['empty_data' => null])
             ->add('sessionTypes', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionType"

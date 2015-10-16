@@ -16,7 +16,7 @@ class MeshPreviousIndexingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('previousIndexing')
+            ->add('previousIndexing', null, ['empty_data' => null])
             ->add('descriptor', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"

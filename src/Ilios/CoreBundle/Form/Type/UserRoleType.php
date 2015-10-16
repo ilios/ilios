@@ -16,7 +16,7 @@ class UserRoleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null, ['empty_data' => null])
             ->add('users', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"

@@ -16,8 +16,8 @@ class MeshSemanticTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
-            ->add('name')
+            ->add('id', null, ['empty_data' => null])
+            ->add('name', null, ['empty_data' => null])
             ->add('concepts', 'tdn_many_related', [
                 'entityName' => "IliosCoreBundle:MeshConcept"
             ])

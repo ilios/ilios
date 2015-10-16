@@ -16,9 +16,9 @@ class ReportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, ['required' => false])
-            ->add('subject')
-            ->add('prepositionalObject', null, ['required' => false])
+            ->add('title', null, ['required' => false, 'empty_data' => null])
+            ->add('subject', null, ['empty_data' => null])
+            ->add('prepositionalObject', null, ['required' => false, 'empty_data' => null])
             ->add('deleted', null, ['required' => false])
             ->add('user', 'tdn_single_related', [
                 'required' => false,
