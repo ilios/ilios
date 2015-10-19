@@ -16,7 +16,7 @@ class AlertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tableRowId', null, ['empty_data' => null])
+            ->add('tableRowId')
             ->add('tableName', null, ['empty_data' => null])
             ->add('additionalText', null, ['required' => false, 'empty_data' => null])
             ->add('dispatched', null, ['required' => false])
