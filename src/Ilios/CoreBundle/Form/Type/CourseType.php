@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,7 +16,7 @@ class CourseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, ['required' => false])
+            ->add('title', null, ['required' => false, 'empty_data' => null])
             ->add('level')
             ->add('year')
             ->add('startDate', 'datetime', array(
@@ -25,7 +26,7 @@ class CourseType extends AbstractType
                 'widget' => 'single_text',
             ))
             ->add('deleted', null, ['required' => false])
-            ->add('externalId', null, ['required' => false])
+            ->add('externalId', null, ['required' => false, 'empty_data' => null])
             ->add('locked', null, ['required' => false])
             ->add('archived', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])
@@ -70,6 +71,10 @@ class CourseType extends AbstractType
                 'entityName' => "IliosCoreBundle:Session"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['title', 'externalId'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

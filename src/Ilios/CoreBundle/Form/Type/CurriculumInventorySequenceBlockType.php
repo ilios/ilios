@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,8 +16,8 @@ class CurriculumInventorySequenceBlockType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description', null, ['required' => false])
+            ->add('title', null, ['empty_data' => null])
+            ->add('description', null, ['required' => false, 'empty_data' => null])
             ->add('required', null, ['required' => false])
             ->add('childSequenceOrder', null, ['required' => false])
             ->add('orderInSequence')
@@ -55,6 +56,10 @@ class CurriculumInventorySequenceBlockType extends AbstractType
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlockSession"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['title', 'description'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

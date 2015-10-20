@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,8 +16,8 @@ class LearnerGroupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('location', null, ['required' => false])
+            ->add('title', null, ['empty_data' => null])
+            ->add('location', null, ['required' => false, 'empty_data' => null])
             ->add('cohort', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
@@ -50,6 +51,10 @@ class LearnerGroupType extends AbstractType
                 'entityName' => "IliosCoreBundle:User"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['title', 'location'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

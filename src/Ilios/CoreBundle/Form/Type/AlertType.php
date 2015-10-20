@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -16,8 +17,8 @@ class AlertType extends AbstractType
     {
         $builder
             ->add('tableRowId')
-            ->add('tableName')
-            ->add('additionalText', null, ['required' => false])
+            ->add('tableName', null, ['empty_data' => null])
+            ->add('additionalText', null, ['required' => false, 'empty_data' => null])
             ->add('dispatched', null, ['required' => false])
             ->add('changeTypes', 'tdn_many_related', [
                 'required' => false,
@@ -32,6 +33,10 @@ class AlertType extends AbstractType
                 'entityName' => "IliosCoreBundle:School"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['tableName', 'additionalText'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**
@@ -40,7 +45,7 @@ class AlertType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ilios\CoreBundle\Entity\Alert'
+            'data_class' => 'Ilios\CoreBundle\Entity\Alert',
         ));
     }
 

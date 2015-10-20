@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,7 +16,7 @@ class OfferingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('room')
+            ->add('room', null, ['empty_data' => null])
             ->add('startDate', 'datetime', array(
                 'widget' => 'single_text',
             ))
@@ -44,6 +45,7 @@ class OfferingType extends AbstractType
                 'entityName' => "IliosCoreBundle:User"
             ])
         ;
+        $builder->get('room')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**

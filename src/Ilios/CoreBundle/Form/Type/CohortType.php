@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,7 +16,7 @@ class CohortType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null, ['empty_data' => null])
             ->add('programYear', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
@@ -33,6 +34,7 @@ class CohortType extends AbstractType
                 'entityName' => "IliosCoreBundle:User"
             ])
         ;
+        $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**

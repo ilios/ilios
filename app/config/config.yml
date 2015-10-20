@@ -133,6 +133,11 @@ doctrine_migrations:
     name: Ilios Migrations
     namespace: Ilios\Migrations
 
+exercise_html_purifier:
+    default:
+        Cache.SerializerPath: "%kernel.cache_dir%/htmlpurifier"
+        HTML.Allowed: "a[href],br,div,dd,dl,dt,em,li,ol,p,strong,sub,sup,ul"
+
 ilios_core:
     file_system_storage_path: "%file_system_storage_path%"
     ldap_directory_url: "%ldap_directory_url%"

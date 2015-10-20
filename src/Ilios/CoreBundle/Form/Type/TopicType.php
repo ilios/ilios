@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,7 +16,7 @@ class TopicType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, ['required' => false])
+            ->add('title', null, ['required' => false, 'empty_data' => null])
             ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
@@ -33,6 +34,8 @@ class TopicType extends AbstractType
                 'entityName' => "IliosCoreBundle:Session"
             ])
         ;
+
+        $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**

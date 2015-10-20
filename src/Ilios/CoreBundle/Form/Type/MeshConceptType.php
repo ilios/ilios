@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,13 +16,13 @@ class MeshConceptType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id')
-            ->add('name')
-            ->add('umlsUid')
+            ->add('id', null, ['empty_data' => null])
+            ->add('name', null, ['empty_data' => null])
+            ->add('umlsUid', null, ['empty_data' => null])
             ->add('preferred', null, ['required' => false])
-            ->add('scopeNote', null, ['required' => false])
-            ->add('casn1Name', null, ['required' => false])
-            ->add('registryNumber', null, ['required' => false])
+            ->add('scopeNote', null, ['required' => false, 'empty_data' => null])
+            ->add('casn1Name', null, ['required' => false, 'empty_data' => null])
+            ->add('registryNumber', null, ['required' => false, 'empty_data' => null])
             ->add('descriptors', 'tdn_many_related', [
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
@@ -29,6 +30,10 @@ class MeshConceptType extends AbstractType
                 'entityName' => "IliosCoreBundle:MeshSemanticType"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['id', 'name', 'umlsUid', 'scopeNote', 'casn1Name', 'registryNumber'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

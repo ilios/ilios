@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,7 +16,7 @@ class SessionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, ['required' => false])
+            ->add('title', null, ['required' => false, 'empty_data' => null])
             ->add('attireRequired', null, ['required' => false])
             ->add('equipmentRequired', null, ['required' => false])
             ->add('supplemental', null, ['required' => false])
@@ -66,6 +67,8 @@ class SessionType extends AbstractType
                 'entityName' => "IliosCoreBundle:Offering"
             ])
         ;
+
+        $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**

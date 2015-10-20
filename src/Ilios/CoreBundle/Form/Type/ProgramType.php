@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,8 +16,8 @@ class ProgramType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, ['required' => false])
-            ->add('shortTitle')
+            ->add('title', null, ['required' => false, 'empty_data' => null])
+            ->add('shortTitle', null, ['empty_data' => null])
             ->add('duration')
             ->add('deleted', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])
@@ -37,6 +38,10 @@ class ProgramType extends AbstractType
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['title', 'shortTitle'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -16,12 +17,13 @@ class AamcMethodType extends AbstractType
     {
         $builder
             ->add('id')
-            ->add('description')
+            ->add('description', null, ['empty_data' => null])
             ->add('sessionTypes', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionType"
             ])
         ;
+        $builder->get('description')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,15 +18,15 @@ class LearningMaterialType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description')
-            ->add('originalAuthor', null, ['required' => false])
-            ->add('relativePath')
-            ->add('filename')
+            ->add('title', null, ['empty_data' => null])
+            ->add('description', 'purified_textarea')
+            ->add('originalAuthor', null, ['required' => false, 'empty_data' => null])
+            ->add('relativePath', null, ['empty_data' => null])
+            ->add('filename', null, ['empty_data' => null])
             ->add('copyrightPermission')
-            ->add('copyrightRationale')
+            ->add('copyrightRationale', null, ['empty_data' => null])
             ->add('filesize')
-            ->add('mimetype')
+            ->add('mimetype', null, ['empty_data' => null])
             ->add('userRole', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearningMaterialUserRole"
@@ -38,12 +39,8 @@ class LearningMaterialType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('citation', 'text', [
-                    'required' => false
-            ])
-            ->add('link', 'text', [
-                'required' => false
-            ])
+            ->add('citation', 'text', ['required' => false, 'empty_data' => null])
+            ->add('link', 'text', ['required' => false, 'empty_data' => null])
             ->add('sessionLearningMaterials', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionLearningMaterial"
@@ -53,6 +50,20 @@ class LearningMaterialType extends AbstractType
                 'entityName' => "IliosCoreBundle:CourseLearningMaterial"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        $elements = [
+            'title',
+            'originalAuthor',
+            'relativePath',
+            'filename',
+            'copyrightRationale',
+            'mimetype',
+            'citation',
+            'link',
+        ];
+        foreach ($elements as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

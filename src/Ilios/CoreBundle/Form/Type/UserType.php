@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,16 +16,16 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('lastName')
-            ->add('firstName')
-            ->add('middleName', null, ['required' => false])
-            ->add('phone', null, ['required' => false])
-            ->add('email')
+            ->add('lastName', null, ['empty_data' => null])
+            ->add('firstName', null, ['empty_data' => null])
+            ->add('middleName', null, ['required' => false, 'empty_data' => null])
+            ->add('phone', null, ['required' => false, 'empty_data' => null])
+            ->add('email', null, ['empty_data' => null])
             ->add('addedViaIlios', null, ['required' => false])
             ->add('enabled', null, ['required' => false])
-            ->add('campusId', null, ['required' => false])
-            ->add('icsFeedKey')
-            ->add('otherId', null, ['required' => false])
+            ->add('campusId', null, ['required' => false, 'empty_data' => null])
+            ->add('icsFeedKey', null, ['empty_data' => null])
+            ->add('otherId', null, ['required' => false, 'empty_data' => null])
             ->add('examined', null, ['required' => false])
             ->add('userSyncIgnore', null, ['required' => false])
             ->add('reminders', 'tdn_many_related', [
@@ -104,6 +105,11 @@ class UserType extends AbstractType
                 'entityName' => "IliosCoreBundle:PendingUserUpdate"
             ])
         ;
+        $transformer = new RemoveMarkupTransformer();
+        $textElements = ['firstName', 'lastName', 'middleName', 'phone', 'email', 'campusId', 'icsFeedKey', 'otherId'];
+        foreach ($textElements as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

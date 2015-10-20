@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,7 +16,7 @@ class UserMadeReminderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('note')
+            ->add('note', null, ['empty_data' => null])
             ->add('dueDate', 'datetime', array(
                 'widget' => 'single_text',
             ))
@@ -25,6 +26,7 @@ class UserMadeReminderType extends AbstractType
                 'entityName' => "IliosCoreBundle:User"
             ])
         ;
+        $builder->get('note')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**

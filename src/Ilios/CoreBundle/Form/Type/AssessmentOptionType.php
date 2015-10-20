@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,12 +16,13 @@ class AssessmentOptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', null, ['empty_data' => null])
             ->add('sessionTypes', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionType"
             ])
         ;
+        $builder->get('name')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**

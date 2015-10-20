@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,12 +16,13 @@ class MeshPreviousIndexingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('previousIndexing')
+            ->add('previousIndexing', null, ['empty_data' => null])
             ->add('descriptor', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
         ;
+        $builder->get('previousIndexing')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**

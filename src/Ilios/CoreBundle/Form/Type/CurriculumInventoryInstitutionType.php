@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -14,14 +15,21 @@ class CurriculumInventoryInstitutionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $transformer = new RemoveMarkupTransformer();
+        $elements = [
+            'name',
+            'aamcCode',
+            'addressStreet',
+            'addressCity',
+            'addressStateOrProvince',
+            'addressZipCode',
+            'addressCountryCode',
+        ];
+        foreach ($elements as $element) {
+            $builder->add($element, null, ['empty_data' => null]);
+            $builder->get($element)->addViewTransformer($transformer);
+        }
         $builder
-            ->add('name')
-            ->add('aamcCode')
-            ->add('addressStreet')
-            ->add('addressCity')
-            ->add('addressStateOrProvince')
-            ->add('addressZipCode')
-            ->add('addressCountryCode')
             ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"

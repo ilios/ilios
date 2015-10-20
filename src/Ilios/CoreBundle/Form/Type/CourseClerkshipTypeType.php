@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,12 +16,13 @@ class CourseClerkshipTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null, ['empty_data' => null])
             ->add('courses', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
         ;
+        $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
     }
 
     /**
