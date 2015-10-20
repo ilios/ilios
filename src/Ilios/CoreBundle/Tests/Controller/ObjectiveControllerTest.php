@@ -156,6 +156,10 @@ class ObjectiveControllerTest extends AbstractControllerTest
             ['<p>foo</p>', '<p>foo</p>'],
             ['<ul><li>foo</li></ul>', '<ul><li>foo</li></ul>'],
             ['<script>alert("hello");</script><p>foo</p>', '<p>foo</p>'],
+            [
+                '<a href="https://iliosproject.org" target="_blank">Ilios</a>',
+                '<a href="https://iliosproject.org">Ilios</a>'
+            ],
         ];
     }
 
