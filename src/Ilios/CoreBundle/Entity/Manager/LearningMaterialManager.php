@@ -36,6 +36,18 @@ class LearningMaterialManager extends AbstractManager implements LearningMateria
     /**
      * {@inheritdoc}
      */
+    public function findLearningMaterialsByQ(
+        $q,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function updateLearningMaterial(
         LearningMaterialInterface $learningMaterial,
         $andFlush = true,

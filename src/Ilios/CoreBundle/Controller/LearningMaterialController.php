@@ -108,6 +108,11 @@ class LearningMaterialController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     * @QueryParam(
+     *   name="q",
+     *   nullable=true,
+     *   description="string search term to compare to name and email"
+     * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
@@ -120,6 +125,7 @@ class LearningMaterialController extends FOSRestController
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
+        $q = !is_null($paramFetcher->get('q')) ? $paramFetcher->get('q') : false;
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
             $item = $item == 'null' ? null : $item;
@@ -132,13 +138,23 @@ class LearningMaterialController extends FOSRestController
             $criteria['uploadDate'] = new \DateTime($criteria['uploadDate']);
         }
 
-        $result = $this->getLearningMaterialHandler()
-            ->findLearningMaterialsBy(
+        if ($q) {
+            $result = $this->getLearningMaterialHandler()->findLearningMaterialsByQ(
+                $q,
+                $orderBy,
+                $limit,
+                $offset
+            );
+        } else {
+            $result = $this->getLearningMaterialHandler()->findLearningMaterialsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        }
+
+
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {

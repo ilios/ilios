@@ -110,6 +110,66 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    public function testFindLearningMaterials()
+    {
+        $materials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', array('q' => 'first')),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('learningMaterials', $result));
+        $gotMaterials = $result['learningMaterials'];
+        $this->assertEquals(1, count($gotMaterials));
+        $this->assertEquals(
+            $materials[0]['id'],
+            $gotMaterials[0]['id']
+        );
+//
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', array('q' => 'second')),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('learningMaterials', $result));
+        $gotMaterials = $result['learningMaterials'];
+        $this->assertEquals(1, count($gotMaterials));
+        $this->assertEquals(
+            $materials[1]['id'],
+            $gotMaterials[0]['id']
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', array('q' => 'lm')),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('learningMaterials', $result));
+        $gotMaterials = $result['learningMaterials'];
+        $this->assertEquals(3, count($gotMaterials));
+        $this->assertEquals(
+            $materials[0]['id'],
+            $gotMaterials[0]['id']
+        );
+        $this->assertEquals(
+            $materials[1]['id'],
+            $gotMaterials[1]['id']
+        );
+        $this->assertEquals(
+            $materials[2]['id'],
+            $gotMaterials[2]['id']
+        );
+    }
+
     public function testPostLearningMaterial()
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
