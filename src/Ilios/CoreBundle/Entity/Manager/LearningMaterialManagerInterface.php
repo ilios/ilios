@@ -37,6 +37,23 @@ interface LearningMaterialManagerInterface extends ManagerInterface
     );
 
     /**
+     * Use a query term to find learning materials
+     *
+     * @param string $q
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return LearningMaterialInterface[]
+     */
+    public function findLearningMaterialsByQ(
+        $q,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
      * @param LearningMaterialInterface $learningMaterial
      * @param bool $andFlush
      * @param bool $forceId

@@ -14,7 +14,7 @@ class LearningMaterialData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'title' => $this->faker->text(30),
+            'title' => 'firstlm' . $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
             'userRole' => "1",
@@ -29,7 +29,7 @@ class LearningMaterialData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text(30),
+            'title' => 'secondlm' . $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
             'userRole' => "2",
@@ -44,7 +44,7 @@ class LearningMaterialData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 3,
-            'title' => $this->faker->text(30),
+            'title' => 'thirdlm' . $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
             'userRole' => "2",
