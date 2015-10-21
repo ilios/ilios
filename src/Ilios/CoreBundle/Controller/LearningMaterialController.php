@@ -111,7 +111,7 @@ class LearningMaterialController extends FOSRestController
      * @QueryParam(
      *   name="q",
      *   nullable=true,
-     *   description="string search term to compare to name and email"
+     *   description="string search term to compare to title"
      * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
