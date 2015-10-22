@@ -4,12 +4,16 @@ namespace Ilios\CoreBundle\Form\Type\AbstractType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
 use Ilios\CoreBundle\Form\DataTransformer\SingleRelatedTransformer;
 
+/**
+ * Class SingleRelatedType
+ * @package Ilios\CoreBundle\Form\Type\AbstractType
+ */
 class SingleRelatedType extends AbstractType
 {
     /**
@@ -30,8 +34,10 @@ class SingleRelatedType extends AbstractType
         $transformer = new SingleRelatedTransformer($this->doctrineRegistry, $options['entityName']);
         $builder->addModelTransformer($transformer);
     }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefined('entityName');
         $resolver->setRequired('entityName');

@@ -4,8 +4,12 @@ namespace Ilios\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class CourseLearningMaterialType
+ * @package Ilios\CoreBundle\Form\Type
+ */
 class CourseLearningMaterialType extends AbstractType
 {
     /**
@@ -34,9 +38,9 @@ class CourseLearningMaterialType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\CourseLearningMaterial'

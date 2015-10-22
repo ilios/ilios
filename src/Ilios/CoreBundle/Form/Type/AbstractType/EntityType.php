@@ -5,9 +5,13 @@ namespace Ilios\CoreBundle\Form\Type\AbstractType;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType as BaseEntityType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Ilios\CoreBundle\Form\DataTransformer\ArrayToIdTransformer;
 
+/**
+ * Class EntityType
+ * @package Ilios\CoreBundle\Form\Type\AbstractType
+ */
 class EntityType extends BaseEntityType
 {
 
@@ -31,7 +35,10 @@ class EntityType extends BaseEntityType
         $builder->addViewTransformer($view_transformer);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             array(
