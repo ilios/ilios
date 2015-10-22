@@ -21,10 +21,6 @@ class CourseClerkshipTypeType extends AbstractType
     {
         $builder
             ->add('title', null, ['empty_data' => null])
-            ->add('courses', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Course"
-            ])
         ;
         $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
     }

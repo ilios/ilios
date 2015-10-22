@@ -32,22 +32,6 @@ class UserType extends AbstractType
             ->add('otherId', null, ['required' => false, 'empty_data' => null])
             ->add('examined', null, ['required' => false])
             ->add('userSyncIgnore', null, ['required' => false])
-            ->add('reminders', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:UserMadeReminder"
-            ])
-            ->add('learningMaterials', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:LearningMaterial"
-            ])
-            ->add('publishEvents', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:PublishEvent"
-            ])
-            ->add('reports', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Report"
-            ])
             ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"

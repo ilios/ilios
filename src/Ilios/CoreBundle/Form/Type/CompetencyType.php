@@ -25,10 +25,6 @@ class CompetencyType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('objectives', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Objective"
-            ])
             ->add('parent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"

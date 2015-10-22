@@ -30,10 +30,6 @@ class LearnerGroupType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('children', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:LearnerGroup"
-            ])
             ->add('ilmSessions', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSession"

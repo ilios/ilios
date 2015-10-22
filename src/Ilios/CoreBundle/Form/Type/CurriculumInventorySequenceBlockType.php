@@ -47,17 +47,9 @@ class CurriculumInventorySequenceBlockType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
             ])
-            ->add('children', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
-            ])
             ->add('report', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
-            ])
-            ->add('sessions', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlockSession"
             ])
         ;
         $transformer = new RemoveMarkupTransformer();

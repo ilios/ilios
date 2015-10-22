@@ -45,14 +45,6 @@ class LearningMaterialType extends AbstractType
             ])
             ->add('citation', 'text', ['required' => false, 'empty_data' => null])
             ->add('link', 'text', ['required' => false, 'empty_data' => null])
-            ->add('sessionLearningMaterials', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:SessionLearningMaterial"
-            ])
-            ->add('courseLearningMaterials', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:CourseLearningMaterial"
-            ])
         ;
         $transformer = new RemoveMarkupTransformer();
         $elements = [
