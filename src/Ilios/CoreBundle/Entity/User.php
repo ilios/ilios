@@ -1367,9 +1367,10 @@ class User implements UserInterface
             $insIlmSchools->toArray()
         );
         $allSchools[] = $this->getSchool();
+        $allSchools = array_unique($allSchools);
+        $allSchools = array_filter($allSchools);
 
-
-        $schools = new ArrayCollection(array_unique($allSchools));
+        $schools = new ArrayCollection($allSchools);
 
         return $schools;
     }
