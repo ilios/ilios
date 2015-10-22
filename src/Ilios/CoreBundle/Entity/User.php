@@ -1335,7 +1335,7 @@ class User implements UserInterface
         $cohortSchools = $this->getCohorts()->filter(function (CohortInterface $cohort) {
             return !$cohort->isDeleted();
         })->map(function (CohortInterface $cohort) {
-            return $cohort->getProgramYear()->getProgram()->getSchool();
+            return $cohort->getSchool();
         });
 
         $directedCourseSchools = $this->getDirectedCourses()->map(function (CourseInterface $course) {
@@ -1343,11 +1343,11 @@ class User implements UserInterface
         });
 
         $learnerGroupSchools = $this->getLearnerGroups()->map(function (LearnerGroupInterface $lg) {
-            return $lg->getCohort()->getProgramYear()->getProgram()->getSchool();
+            return $lg->getSchool();
         });
 
         $instructedLgSchools = $this->getInstructedLearnerGroups()->map(function (LearnerGroupInterface $lg) {
-            return $lg->getCohort()->getProgramYear()->getProgram()->getSchool();
+            return $lg->getSchool();
         });
 
         $instGroupSchools = $this->getInstructorGroups()->map(function (InstructorGroupInterface $ig) {
@@ -1355,7 +1355,7 @@ class User implements UserInterface
         });
 
         $insIlmSchools = $this->getInstructorIlmSessions()->map(function (IlmSessionInterface $ilm) {
-            return $ilm->getSession()->getCourse()->getSchool();
+            return $ilm->getSchool();
         });
 
         $allSchools = array_merge(

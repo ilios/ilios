@@ -357,4 +357,18 @@ class IlmSession implements IlmSessionInterface
     {
         return $this->getSession()->isDeleted();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSchool()
+    {
+        if ($session = $this->getSession()) {
+            if ($course = $session->getCourse()) {
+                return $course->getSchool();
+            }
+        }
+
+        return null;
+    }
 }

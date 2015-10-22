@@ -404,4 +404,22 @@ class LearnerGroup implements LearnerGroupInterface
     {
         return $this->instructors;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSchool()
+    {
+        if ($cohort = $this->getCohort()) {
+            if ($programYear = $cohort->getProgramYear()) {
+                if ($program = $programYear->getProgram()) {
+                    if ($school = $program->getSchool()) {
+                        return $school;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
 }

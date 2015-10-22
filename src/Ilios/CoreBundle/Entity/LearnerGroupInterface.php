@@ -125,4 +125,11 @@ interface LearnerGroupInterface extends
      * @return ArrayCollection|UserInterface[]
      */
     public function getInstructors();
+
+
+    /**
+     * Get the school we belong to
+     * @return SchoolInterface|null
+     */
+    public function getSchool();
 }
