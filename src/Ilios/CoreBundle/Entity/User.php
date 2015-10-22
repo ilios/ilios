@@ -1365,7 +1365,6 @@ class User implements UserInterface
             $instructedLgSchools->toArray(),
             $instGroupSchools->toArray(),
             $insIlmSchools->toArray()
-
         );
         $allSchools[] = $this->getSchool();
 
