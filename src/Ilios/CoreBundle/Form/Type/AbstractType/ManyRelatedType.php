@@ -5,12 +5,15 @@ namespace Ilios\CoreBundle\Form\Type\AbstractType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Form\DataTransformer\ManyRelatedTransformer;
 use Ilios\CoreBundle\Form\DataTransformer\ArrayToStringTransformer;
 
+/**
+ * Class ManyRelatedType
+ * @package Ilios\CoreBundle\Form\Type\AbstractType
+ */
 class ManyRelatedType extends AbstractType
 {
     /**
@@ -34,7 +37,10 @@ class ManyRelatedType extends AbstractType
         $builder->addViewTransformer($viewTransformer);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
     {
         if ($resolver instanceof OptionsResolver) {
             $resolver->setDefined('entityName');

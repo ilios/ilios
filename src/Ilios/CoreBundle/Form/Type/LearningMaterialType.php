@@ -9,6 +9,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormInterface;
 
+/**
+ * Class LearningMaterialType
+ * @package Ilios\CoreBundle\Form\Type
+ */
 class LearningMaterialType extends AbstractType
 {
     /**
