@@ -14,6 +14,7 @@ class PublishEventData extends AbstractDataLoader
             'programYears' => [],
             'courses' => [],
             'sessions' => [],
+            'offerings' => [],
         );
 
         $arr[] = array(
@@ -22,6 +23,7 @@ class PublishEventData extends AbstractDataLoader
             'programYears' => ['1'],
             'courses' => [],
             'sessions' => [],
+            'offerings' => [],
         );
 
         $arr[] = array(
@@ -30,6 +32,7 @@ class PublishEventData extends AbstractDataLoader
             'programYears' => [],
             'courses' => ['1'],
             'sessions' => [],
+            'offerings' => [],
 
         );
 
@@ -39,6 +42,16 @@ class PublishEventData extends AbstractDataLoader
             'programYears' => [],
             'courses' => [],
             'sessions' => ['1'],
+            'offerings' => [],
+        );
+
+        $arr[] = array(
+            'id' => 5,
+            'programs' => [],
+            'programYears' => [],
+            'courses' => [],
+            'sessions' => [],
+            'offerings' => ['1'],
         );
         return $arr;
     }
@@ -46,11 +59,12 @@ class PublishEventData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 5,
+            'id' => 6,
             'programs' => [],
             'programYears' => [],
             'courses' => [],
             'sessions' => [],
+            'offerings' => []
         ];
     }
 

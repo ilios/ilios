@@ -154,7 +154,7 @@ class Offering implements OfferingInterface
     /**
      * @var PublishEventInterface
      *
-     * @ORM\ManyToOne(targetEntity="PublishEvent")
+     * @ORM\ManyToOne(targetEntity="PublishEvent", inversedBy="offerings")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
      * })

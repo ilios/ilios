@@ -22,7 +22,8 @@ class PublishEventControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData'
         ]);
     }
 
@@ -97,6 +98,7 @@ class PublishEventControllerTest extends AbstractControllerTest
         unset($postData['programYears']);
         unset($postData['courses']);
         unset($postData['sessions']);
+        unset($postData['offerings']);
 
         $this->createJsonRequest(
             'POST',

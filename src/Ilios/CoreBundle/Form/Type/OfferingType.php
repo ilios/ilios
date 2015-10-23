@@ -48,6 +48,10 @@ class OfferingType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
+            ->add('publishEvent', 'tdn_single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:PublishEvent"
+            ])
         ;
         $builder->get('room')->addViewTransformer(new RemoveMarkupTransformer());
     }
