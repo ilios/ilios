@@ -279,6 +279,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function __construct()
     {
         $this->children = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
         $this->required = self::OPTIONAL;
         $this->track = false;
     }

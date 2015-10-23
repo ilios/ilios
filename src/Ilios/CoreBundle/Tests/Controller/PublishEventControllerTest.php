@@ -93,6 +93,11 @@ class PublishEventControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['programs']);
+        unset($postData['programYears']);
+        unset($postData['courses']);
+        unset($postData['sessions']);
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_publishevents'),

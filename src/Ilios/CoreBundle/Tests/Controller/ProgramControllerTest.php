@@ -88,6 +88,8 @@ class ProgramControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['programYears']);
+        unset($postData['curriculumInventoryReports']);
 
         $this->createJsonRequest(
             'POST',
@@ -133,6 +135,8 @@ class ProgramControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['programYears']);
+        unset($postData['curriculumInventoryReports']);
 
         $this->createJsonRequest(
             'PUT',

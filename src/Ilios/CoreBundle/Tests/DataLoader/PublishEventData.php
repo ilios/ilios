@@ -49,7 +49,7 @@ class PublishEventData extends AbstractDataLoader
             'id' => 5,
             'programs' => [],
             'programYears' => [],
-            'courses' => ['1'],
+            'courses' => [],
             'sessions' => [],
         ];
     }

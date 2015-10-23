@@ -83,6 +83,7 @@ class CohortControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['stewards']);
 
         $this->createJsonRequest(
             'POST',
@@ -100,6 +101,7 @@ class CohortControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['learnerGroups']);
 
         $this->createJsonRequest(
             'POST',
@@ -144,6 +146,7 @@ class CohortControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['learnerGroups']);
 
         $this->createJsonRequest(
             'PUT',

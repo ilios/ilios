@@ -43,6 +43,17 @@ class PublishEventTest extends EntityBase
     // }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\PublishEvent::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertEmpty($this->object->getPrograms());
+        $this->assertEmpty($this->object->getProgramYears());
+        $this->assertEmpty($this->object->getCourses());
+        $this->assertEmpty($this->object->getSessions());
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\PublishEvent::setAdministrator
      * @covers Ilios\CoreBundle\Entity\PublishEvent::getAdministrator
      */

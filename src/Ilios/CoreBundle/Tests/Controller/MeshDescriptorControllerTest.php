@@ -225,8 +225,13 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
 
     public function testPostMeshDescriptor()
     {
-        $postData = $this->container->get('ilioscore.dataloader.meshdescriptor')
+        $data = $this->container->get('ilioscore.dataloader.meshdescriptor')
             ->create();
+
+
+        $postData = $data;
+        unset($postData['trees']);
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_meshdescriptors'),
@@ -237,14 +242,15 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $result = json_decode($response->getContent(), true);
         $this->assertTrue(array_key_exists('meshDescriptors', $result), var_export($result, true));
-        $data = $result['meshDescriptors'][0];
-        $updatedAt = new DateTime($data['updatedAt']);
-        $createdAt = new DateTime($data['createdAt']);
-        unset($data['updatedAt']);
-        unset($data['createdAt']);
+
+        $responseData = $result['meshDescriptors'][0];
+        $updatedAt = new DateTime($responseData['updatedAt']);
+        $createdAt = new DateTime($responseData['createdAt']);
+        unset($responseData['updatedAt']);
+        unset($responseData['createdAt']);
         $this->assertEquals(
-            $this->mockSerialize($postData),
-            $data
+            $this->mockSerialize($data),
+            $responseData
         );
         $now = new DateTime();
         $diffU = $now->diff($updatedAt);
@@ -274,16 +280,21 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
 
     public function testPutMeshDescriptor()
     {
-        $postData = $this->container
+        $data = $this->container
             ->get('ilioscore.dataloader.meshdescriptor')
             ->getOne();
-        $postData['annotation'] = 'somethign new';
+        //mutate something
+        $data['annotation'] = 'somethign new';
+
+        $postData = $data;
+        unset($postData['trees']);
+
 
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
                 'put_meshdescriptors',
-                ['id' => $postData['id']]
+                ['id' => $data['id']]
             ),
             json_encode(['meshDescriptor' => $postData]),
             $this->getAuthenticatedUserToken()
@@ -292,13 +303,13 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         
-        $data = json_decode($response->getContent(), true)['meshDescriptor'];
-        $updatedAt = new DateTime($data['updatedAt']);
-        unset($data['updatedAt']);
-        unset($data['createdAt']);
+        $responseData = json_decode($response->getContent(), true)['meshDescriptor'];
+        $updatedAt = new DateTime($responseData['updatedAt']);
+        unset($responseData['updatedAt']);
+        unset($responseData['createdAt']);
         $this->assertEquals(
             $this->mockSerialize($data),
-            $data
+            $responseData
         );
         $now = new DateTime();
         $diffU = $now->diff($updatedAt);

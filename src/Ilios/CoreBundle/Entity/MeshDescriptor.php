@@ -209,6 +209,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->sessions = new ArrayCollection();
         $this->sessionLearningMaterials = new ArrayCollection();
         $this->courseLearningMaterials = new ArrayCollection();
+        $this->trees = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
     }

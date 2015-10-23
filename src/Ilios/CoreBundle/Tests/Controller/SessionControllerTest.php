@@ -110,6 +110,8 @@ class SessionControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['offerings']);
+        unset($postData['learningMaterials']);
 
         $this->createJsonRequest(
             'POST',
@@ -161,6 +163,8 @@ class SessionControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['offerings']);
+        unset($postData['learningMaterials']);
 
         $this->createJsonRequest(
             'PUT',
@@ -436,6 +440,9 @@ class SessionControllerTest extends AbstractControllerTest
         $postData = $lm;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['courseLearningMaterials']);
+        unset($postData['sessionLearningMaterials']);
+
         $postData['status'] = '2';
         $this->createJsonRequest(
             'PUT',

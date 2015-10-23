@@ -490,6 +490,7 @@ class User implements UserInterface
         $this->reports                  = new ArrayCollection();
         $this->cohorts                  = new ArrayCollection();
         $this->pendingUserUpdates       = new ArrayCollection();
+        $this->auditLogs                = new ArrayCollection();
         $this->addedViaIlios            = false;
         $this->enabled                  = true;
         $this->examined                 = false;

@@ -85,6 +85,7 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['sessionTypes']);
 
         $this->createJsonRequest(
             'POST',
@@ -130,6 +131,7 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['sessionTypes']);
 
         $this->createJsonRequest(
             'PUT',

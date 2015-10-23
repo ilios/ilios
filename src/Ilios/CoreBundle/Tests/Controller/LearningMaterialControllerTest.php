@@ -128,7 +128,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
             $materials[0]['id'],
             $gotMaterials[0]['id']
         );
-//
+
         $this->createJsonRequest(
             'GET',
             $this->getUrl('cget_learningmaterials', array('q' => 'second')),
@@ -174,10 +174,17 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
             ->create();
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['courseLearningMaterials']);
+        unset($postData['sessionLearningMaterials']);
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $data]),
+            json_encode(['learningMaterial' => $postData]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -202,10 +209,16 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
           ->createCitation();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['courseLearningMaterials']);
+        unset($postData['sessionLearningMaterials']);
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $data]),
+            json_encode(['learningMaterial' => $postData]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -231,10 +244,16 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
           ->createLink();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['courseLearningMaterials']);
+        unset($postData['sessionLearningMaterials']);
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $data]),
+            json_encode(['learningMaterial' => $postData]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -287,10 +306,17 @@ class LearningMaterialControllerTest extends AbstractControllerTest
           ->createFile();
         $data['fileHash'] = $responseData['fileHash'];
         $data['filename'] = $responseData['filename'];
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['courseLearningMaterials']);
+        unset($postData['sessionLearningMaterials']);
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_learningmaterials'),
-            json_encode(['learningMaterial' => $data]),
+            json_encode(['learningMaterial' => $postData]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -391,6 +417,8 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['courseLearningMaterials']);
+        unset($postData['sessionLearningMaterials']);
 
         $this->createJsonRequest(
             'PUT',

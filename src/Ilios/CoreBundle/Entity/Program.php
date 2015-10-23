@@ -182,6 +182,7 @@ class Program implements ProgramInterface
         $this->deleted = false;
         $this->publishedAsTbd = false;
         $this->programYears = new ArrayCollection();
+        $this->curriculumInventoryReports = new ArrayCollection();
     }
 
     /**

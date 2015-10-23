@@ -73,6 +73,14 @@ class AssessmentOption implements AssessmentOptionInterface
     protected $sessionTypes;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sessionTypes = new ArrayCollection();
+    }
+
+    /**
      * @param Collection $sessionTypes
      */
     public function setSessionTypes(Collection $sessionTypes)

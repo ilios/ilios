@@ -125,6 +125,14 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     protected $sequenceBlocks;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sequenceBlocks = new ArrayCollection();
+    }
+
+    /**
      * @param int $level
      */
     public function setLevel($level)

@@ -243,6 +243,8 @@ class School implements SchoolInterface
         $this->topics = new ArrayCollection();
         $this->programs = new ArrayCollection();
         $this->stewards = new ArrayCollection();
+        $this->instructorGroups = new ArrayCollection();
+        $this->sessionTypes = new ArrayCollection();
         $this->deleted = false;
     }
 

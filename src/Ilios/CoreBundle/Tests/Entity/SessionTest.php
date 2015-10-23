@@ -38,6 +38,7 @@ class SessionTest extends EntityBase
         $this->assertEmpty($this->object->getTopics());
         $this->assertEmpty($this->object->getMeshDescriptors());
         $this->assertEmpty($this->object->getObjectives());
+        $this->assertEmpty($this->object->getOfferings());
     }
 
     /**

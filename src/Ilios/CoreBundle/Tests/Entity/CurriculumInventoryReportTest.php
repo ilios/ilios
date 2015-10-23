@@ -38,6 +38,15 @@ class CurriculumInventoryReportTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertEmpty($this->object->getAcademicLevels());
+        $this->assertEmpty($this->object->getSequenceBlocks());
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setYear
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getYear
      */

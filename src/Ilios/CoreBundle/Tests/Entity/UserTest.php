@@ -55,6 +55,10 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getLearnerGroups());
         $this->assertEmpty($this->object->getLearningMaterials());
         $this->assertEmpty($this->object->getCohorts());
+        $this->assertEmpty($this->object->getAuditLogs());
+        $this->assertEmpty($this->object->getPublishEvents());
+        $this->assertEmpty($this->object->getReports());
+        $this->assertEmpty($this->object->getPendingUserUpdates());
     }
 
     /**

@@ -50,6 +50,15 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertEmpty($this->object->getChildren());
+        $this->assertEmpty($this->object->getSessions());
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setRequired
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getRequired
      */

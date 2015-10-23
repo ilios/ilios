@@ -36,6 +36,14 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertEmpty($this->object->getSequenceBlocks());
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setLevel
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getLevel
      */

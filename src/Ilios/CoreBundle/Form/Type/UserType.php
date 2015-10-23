@@ -88,10 +88,6 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
             ])
-            ->add('pendingUserUpdates', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:PendingUserUpdate"
-            ])
         ;
         $transformer = new RemoveMarkupTransformer();
         $textElements = ['firstName', 'lastName', 'middleName', 'phone', 'email', 'campusId', 'icsFeedKey', 'otherId'];

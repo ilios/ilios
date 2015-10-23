@@ -417,6 +417,8 @@ class OfferingControllerTest extends AbstractControllerTest
         $postData = $lg;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['children']);
+
         $postData['title'] = $lg['title'] . 'some more text';
         $this->createJsonRequest(
             'PUT',
