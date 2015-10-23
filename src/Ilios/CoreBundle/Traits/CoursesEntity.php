@@ -39,7 +39,7 @@ trait CoursesEntity
     */
     public function getCourses()
     {
-        //criteria not 100% reliale on many to many relationships
+        //criteria not 100% reliable on many to many relationships
         //fix in https://github.com/doctrine/doctrine2/pull/1399
         // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
         // return new ArrayCollection($this->courses->matching($criteria)->getValues());

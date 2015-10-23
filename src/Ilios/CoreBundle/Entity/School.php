@@ -420,7 +420,7 @@ class School implements SchoolInterface
      */
     public function getDepartments()
     {
-        //criteria not 100% reliale on many to many relationships
+        //criteria not 100% reliable on many to many relationships
         //fix in https://github.com/doctrine/doctrine2/pull/1399
         // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
         // return new ArrayCollection($this->departments->matching($criteria)->getValues());
