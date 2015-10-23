@@ -117,4 +117,11 @@ interface IlmSessionInterface extends
      * @return boolean
      */
     public function isDeleted();
+
+
+    /**
+     * Get the school we belong to
+     * @return SchoolInterface|null
+     */
+    public function getSchool();
 }

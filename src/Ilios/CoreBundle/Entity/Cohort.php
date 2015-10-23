@@ -207,4 +207,20 @@ class Cohort implements CohortInterface
     {
         return is_null($this->getProgramYear());
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSchool()
+    {
+        if ($programYear = $this->getProgramYear()) {
+            if ($program = $programYear->getProgram()) {
+                if ($school = $program->getSchool()) {
+                    return $school;
+                }
+            }
+        }
+
+        return null;
+    }
 }

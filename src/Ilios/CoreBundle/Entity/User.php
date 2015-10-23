@@ -1325,23 +1325,53 @@ class User implements UserInterface
     }
     
     /**
-     * Get all the schools an user is affiliated with
-     * This is used in granting view permissions for faculty
-     * in schools that are a users secondary cohort
+     * Get all the schools an user is affiliated with so we can match
+     * permissions.
      *
      * @return ArrayCollection[School]
      */
     public function getAllSchools()
     {
-        $undeletedCohorts = $this->getCohorts()->filter(function (CohortInterface $cohort) {
+        $cohortSchools = $this->getCohorts()->filter(function (CohortInterface $cohort) {
             return !$cohort->isDeleted();
+        })->map(function (CohortInterface $cohort) {
+            return $cohort->getSchool();
         });
-        $schools = $undeletedCohorts->map(function (CohortInterface $cohort) {
-            return $cohort->getProgramYear()->getProgram()->getSchool();
+
+        $directedCourseSchools = $this->getDirectedCourses()->map(function (CourseInterface $course) {
+            return $course->getSchool();
         });
-        $schools->add($this->getSchool());
-        
-        
+
+        $learnerGroupSchools = $this->getLearnerGroups()->map(function (LearnerGroupInterface $lg) {
+            return $lg->getSchool();
+        });
+
+        $instructedLgSchools = $this->getInstructedLearnerGroups()->map(function (LearnerGroupInterface $lg) {
+            return $lg->getSchool();
+        });
+
+        $instGroupSchools = $this->getInstructorGroups()->map(function (InstructorGroupInterface $ig) {
+            return $ig->getSchool();
+        });
+
+        $insIlmSchools = $this->getInstructorIlmSessions()->map(function (IlmSessionInterface $ilm) {
+            return $ilm->getSchool();
+        });
+
+        $allSchools = array_merge(
+            $cohortSchools->toArray(),
+            $directedCourseSchools->toArray(),
+            $learnerGroupSchools->toArray(),
+            $instructedLgSchools->toArray(),
+            $instGroupSchools->toArray(),
+            $insIlmSchools->toArray()
+        );
+        $allSchools[] = $this->getSchool();
+        $allSchools = array_unique($allSchools);
+        $allSchools = array_filter($allSchools);
+
+        $schools = new ArrayCollection($allSchools);
+
         return $schools;
     }
 }

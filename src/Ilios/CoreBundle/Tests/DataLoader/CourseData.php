@@ -62,13 +62,35 @@ class CourseData extends AbstractDataLoader
             'year' => 2013,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",
+            'deleted' => false,
+            'externalId' => $this->faker->text(10),
+            'locked' => false,
+            'archived' => false,
+            'publishedAsTbd' => false,
+            'school' => "1",
+            'directors' => ["4"],
+            'cohorts' => [],
+            'topics' => [],
+            'objectives' => [],
+            'meshDescriptors' => [],
+            'learningMaterials' => [],
+            'sessions' => []
+        );
+
+        //deleted course shoudl to last
+        $arr[] = array(
+            'id' => 4,
+            'title' => $this->faker->text(25),
+            'level' => 1,
+            'year' => 2013,
+            'startDate' => "2013-09-01T00:00:00+00:00",
+            'endDate' => "2013-12-14T00:00:00+00:00",
             'deleted' => true,
             'externalId' => $this->faker->text(10),
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
             'school' => "1",
-            'clerkshipType' => "1",
             'directors' => ["2"],
             'cohorts' => ["1"],
             'topics' => ["1"],
@@ -85,7 +107,7 @@ class CourseData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 4,
+            'id' => 5,
             'title' => $this->faker->text(25),
             'level' => 1,
             'year' => 2013,

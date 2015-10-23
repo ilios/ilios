@@ -96,6 +96,35 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => []
         );
 
+        $arr[] = array(
+            'id' => 4,
+            'lastName' => $this->faker->lastName,
+            'middleName' => $this->faker->firstName,
+            'firstName' => $this->faker->firstName,
+            'email' => $this->faker->email,
+            'phone' => $this->faker->phoneNumber,
+            'enabled' => true,
+            'icsFeedKey' => hash('sha256', '4'),
+            'learningMaterials' => [],
+            'publishEvents' => [],
+            'reports' => [],
+            'school' => "2",
+            'directedCourses' => ["3"],
+            'learnerGroups' => [],
+            'instructedLearnerGroups' => [],
+            'instructorGroups' => [],
+            'instructorIlmSessions' => [],
+            'learnerIlmSessions' => [],
+            'offerings' => [],
+            'instructedOfferings' => [],
+            'programYears' => [],
+            'alerts' => [],
+            'roles' => [],
+            'cohorts' => [],
+            'reminders' => [],
+            'pendingUserUpdates' => []
+        );
+
 
 
         return $arr;
@@ -104,14 +133,14 @@ class UserData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 4,
+            'id' => 5,
             'lastName' => $this->faker->lastName,
             'firstName' => $this->faker->firstName,
             'middleName' => $this->faker->firstName,
             'email' => $this->faker->email,
             'phone' => $this->faker->phoneNumber,
             'enabled' => true,
-            'icsFeedKey' => hash('sha256', '4'),
+            'icsFeedKey' => hash('sha256', '5'),
             'learningMaterials' => [],
             'publishEvents' => [],
             'reports' => [],
