@@ -35,14 +35,6 @@ class MeshDescriptorType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
-            ->add('concepts', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:MeshConcept"
-            ])
-            ->add('qualifiers', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:MeshQualifier"
-            ])
             ->add('sessionLearningMaterials', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionLearningMaterial"

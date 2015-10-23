@@ -231,6 +231,8 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
 
         $postData = $data;
         unset($postData['trees']);
+        unset($postData['qualifiers']);
+        unset($postData['concepts']);
 
         $this->createJsonRequest(
             'POST',
@@ -288,6 +290,8 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
 
         $postData = $data;
         unset($postData['trees']);
+        unset($postData['qualifiers']);
+        unset($postData['concepts']);
 
 
         $this->createJsonRequest(
@@ -302,14 +306,15 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
-        
+
         $responseData = json_decode($response->getContent(), true)['meshDescriptor'];
         $updatedAt = new DateTime($responseData['updatedAt']);
         unset($responseData['updatedAt']);
         unset($responseData['createdAt']);
         $this->assertEquals(
             $this->mockSerialize($data),
-            $responseData
+            $responseData,
+            var_export($responseData, true)
         );
         $now = new DateTime();
         $diffU = $now->diff($updatedAt);
