@@ -35,10 +35,6 @@ class SessionTypeType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AamcMethod"
             ])
-            ->add('sessions', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Session"
-            ])
         ;
 
         $transformer = new RemoveMarkupTransformer();

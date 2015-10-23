@@ -32,6 +32,15 @@ class CourseClerkshipTypeTest extends EntityBase
         $this->object->setTitle('20 max title');
         $this->validate(0);
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertEmpty($this->object->getCourses());
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::setTitle
      * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::getTitle

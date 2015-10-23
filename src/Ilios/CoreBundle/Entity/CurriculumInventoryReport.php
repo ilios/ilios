@@ -178,6 +178,15 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     protected $academicLevels;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->academicLevels = new ArrayCollection();
+        $this->sequenceBlocks = new ArrayCollection();
+    }
+
+    /**
      * @param int $year
      */
     public function setYear($year)

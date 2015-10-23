@@ -26,10 +26,6 @@ class DepartmentType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('stewards', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:ProgramYearSteward"
-            ])
         ;
         $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
     }

@@ -37,17 +37,9 @@ class CurriculumInventoryReportType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequence"
             ])
-            ->add('sequenceBlocks', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
-            ])
             ->add('program', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Program"
-            ])
-            ->add('academicLevels', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:CurriculumInventoryAcademicLevel"
             ])
         ;
         $transformer = new RemoveMarkupTransformer();

@@ -35,7 +35,7 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
             'description' => $this->faker->text(100),
             'level' => 2,
             'report' => '1',
-            'sequenceBlocks' => [],
+            'sequenceBlocks' => []
         );
         return $arr;
     }

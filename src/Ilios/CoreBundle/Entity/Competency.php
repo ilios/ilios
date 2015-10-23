@@ -127,7 +127,6 @@ class Competency implements CompetencyInterface
     protected $aamcPcrses;
 
     /**
-     * @todo: Ask about owning/inverse sides in these relationships...
      * @var ArrayCollection|ProgramYearInterface[]
      *
      * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="competencies")
@@ -146,6 +145,7 @@ class Competency implements CompetencyInterface
         $this->aamcPcrses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->children = new ArrayCollection();
+        $this->objectives = new ArrayCollection();
     }
 
     /**

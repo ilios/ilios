@@ -36,6 +36,15 @@ class ProgramTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Program::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertEmpty($this->object->getProgramYears());
+        $this->assertEmpty($this->object->getCurriculumInventoryReports());
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Program::setTitle
      * @covers Ilios\CoreBundle\Entity\Program::getTitle
      */

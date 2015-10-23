@@ -35,6 +35,14 @@ class AssessmentOptionTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\AssessmentOption::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertEmpty($this->object->getSessionTypes());
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\AssessmentOption::setName
      * @covers Ilios\CoreBundle\Entity\AssessmentOption::getName
      */

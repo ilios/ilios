@@ -93,6 +93,7 @@ class SessionTypeControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['sessions']);
 
         $this->createJsonRequest(
             'POST',
@@ -138,6 +139,7 @@ class SessionTypeControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['sessions']);
 
         $this->createJsonRequest(
             'PUT',

@@ -29,41 +29,9 @@ class SchoolType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Alert"
             ])
-            ->add('competencies', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Competency"
-            ])
-            ->add('courses', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Course"
-            ])
-            ->add('programs', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Program"
-            ])
-            ->add('departments', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Department"
-            ])
-            ->add('topics', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Topic"
-            ])
-            ->add('instructorGroups', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:InstructorGroup"
-            ])
             ->add('curriculumInventoryInstitution', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryInstitution"
-            ])
-            ->add('sessionTypes', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:SessionType"
-            ])
-            ->add('stewards', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:ProgramYearSteward"
             ])
         ;
         $transformer = new RemoveMarkupTransformer();

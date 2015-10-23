@@ -33,14 +33,6 @@ class ProgramType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('programYears', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:ProgramYear"
-            ])
-            ->add('curriculumInventoryReports', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
-            ])
         ;
         $transformer = new RemoveMarkupTransformer();
         foreach (['title', 'shortTitle'] as $element) {

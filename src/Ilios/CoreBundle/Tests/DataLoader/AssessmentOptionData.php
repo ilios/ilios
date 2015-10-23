@@ -27,7 +27,7 @@ class AssessmentOptionData extends AbstractDataLoader
         return [
             'id' => 3,
             'name' => $this->faker->text(10),
-            'sessionTypes' => [2]
+            'sessionTypes' => []
         ];
     }
 
@@ -35,8 +35,7 @@ class AssessmentOptionData extends AbstractDataLoader
     {
         return [
             'id' => 'something',
-            'name' => $this->faker->text,
-            'sessionTypes' => [10000]
+            'name' => $this->faker->text
         ];
     }
 }

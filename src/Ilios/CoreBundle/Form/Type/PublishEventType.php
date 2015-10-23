@@ -20,24 +20,7 @@ class PublishEventType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('sessions', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Session"
-            ])
-            ->add('courses', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Course"
-            ])
-            ->add('programs', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Program"
-            ])
-            ->add('programYears', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:ProgramYear"
-            ])
-        ;
+
     }
 
     /**

@@ -90,6 +90,8 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['sequenceBlocks']);
+        unset($postData['academicLevels']);
 
         $this->createJsonRequest(
             'POST',
@@ -135,6 +137,8 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['sequenceBlocks']);
+        unset($postData['academicLevels']);
 
         $this->createJsonRequest(
             'PUT',

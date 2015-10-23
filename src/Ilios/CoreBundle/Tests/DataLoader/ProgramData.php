@@ -46,9 +46,8 @@ class ProgramData extends AbstractDataLoader
             'duration' => 4,
             'deleted' => false,
             'publishedAsTbd' => true,
-
             'school' => "1",
-            'programYears' => ['1'],
+            'programYears' => [],
             'curriculumInventoryReports' => []
         );
     }

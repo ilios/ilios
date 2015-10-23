@@ -21,10 +21,6 @@ class AssessmentOptionType extends AbstractType
     {
         $builder
             ->add('name', null, ['empty_data' => null])
-            ->add('sessionTypes', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:SessionType"
-            ])
         ;
         $builder->get('name')->addViewTransformer(new RemoveMarkupTransformer());
     }

@@ -118,6 +118,8 @@ class Cohort implements CohortInterface
     public function __construct()
     {
         $this->courses = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**

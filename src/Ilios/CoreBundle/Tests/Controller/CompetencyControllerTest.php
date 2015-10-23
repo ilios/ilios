@@ -86,6 +86,7 @@ class CompetencyControllerTest extends AbstractControllerTest
         //unset any parameters which should not be POSTed
         unset($postData['id']);
         unset($postData['children']);
+        unset($postData['objectives']);
 
         $this->createJsonRequest(
             'POST',
@@ -132,6 +133,7 @@ class CompetencyControllerTest extends AbstractControllerTest
         //unset any parameters which should not be POSTed
         unset($postData['id']);
         unset($postData['children']);
+        unset($postData['objectives']);
 
         $this->createJsonRequest(
             'PUT',

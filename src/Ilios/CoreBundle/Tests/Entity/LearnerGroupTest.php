@@ -43,6 +43,7 @@ class LearnerGroupTest extends EntityBase
         $this->assertEmpty($this->object->getInstructors());
         $this->assertEmpty($this->object->getOfferings());
         $this->assertEmpty($this->object->getUsers());
+        $this->assertEmpty($this->object->getChildren());
     }
 
     /**

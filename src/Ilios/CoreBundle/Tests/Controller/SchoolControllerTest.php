@@ -92,6 +92,14 @@ class SchoolControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['courses']);
+        unset($postData['topics']);
+        unset($postData['departments']);
+        unset($postData['programs']);
+        unset($postData['competencies']);
+        unset($postData['instructorGroups']);
+        unset($postData['stewards']);
+        unset($postData['sessionTypes']);
 
         $this->createJsonRequest(
             'POST',
@@ -137,6 +145,14 @@ class SchoolControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['courses']);
+        unset($postData['programs']);
+        unset($postData['topics']);
+        unset($postData['departments']);
+        unset($postData['competencies']);
+        unset($postData['instructorGroups']);
+        unset($postData['stewards']);
+        unset($postData['sessionTypes']);
 
         $this->createJsonRequest(
             'PUT',
