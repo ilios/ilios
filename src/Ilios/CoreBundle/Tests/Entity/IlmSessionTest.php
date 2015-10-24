@@ -33,8 +33,20 @@ class IlmSessionTest extends EntityBase
         $this->validateNotBlanks($notBlank);
 
         $this->object->setSession(new Session());
+        $this->object->setHours(55.1);
+        $this->object->setDueDate(new \DateTime());
+        $this->validate(0);
+    }
+
+    /**
+     * Ensure we can set a float for hours
+     */
+    public function testHourValidation()
+    {
+        $this->object->setSession(new Session());
         $this->object->setHours(55);
         $this->object->setDueDate(new \DateTime());
+        $this->object->setHours(1.33);
         $this->validate(0);
     }
 
@@ -55,7 +67,7 @@ class IlmSessionTest extends EntityBase
      */
     public function testSetHours()
     {
-        $this->basicSetTest('hours', 'string');
+        $this->basicSetTest('hours', 'float');
     }
 
     /**

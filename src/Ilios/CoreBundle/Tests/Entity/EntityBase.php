@@ -369,6 +369,8 @@ class EntityBase extends TestCase
         switch ($type) {
             case 'integer':
                 return $faker->randomNumber();
+            case 'float':
+                return $faker->randomFloat();
             case 'string':
                 return $faker->text;
             case 'email':

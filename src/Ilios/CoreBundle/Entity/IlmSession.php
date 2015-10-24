@@ -66,14 +66,14 @@ class IlmSession implements IlmSessionInterface
      * @ORM\Column(name="hours", type="decimal", precision=6, scale=2)
      *
      * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="float")
      * @Assert\Length(
      *      min = 0,
      *      max = 10000
      * )
      *
      * @JMS\Expose
-     * @JMS\Type("integer")
+     * @JMS\Type("float")
      */
     protected $hours;
 
@@ -177,7 +177,7 @@ class IlmSession implements IlmSessionInterface
     }
 
     /**
-     * @param string $hours
+     * @param float $hours
      */
     public function setHours($hours)
     {
@@ -185,7 +185,7 @@ class IlmSession implements IlmSessionInterface
     }
 
     /**
-     * @return string
+     * @return float
      */
     public function getHours()
     {
