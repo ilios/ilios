@@ -16,7 +16,7 @@ interface IlmSessionInterface extends
     LoggableEntityInterface
 {
     /**
-     * @param string $hours
+     * @param float $hours
      */
     public function setHours($hours);
 
