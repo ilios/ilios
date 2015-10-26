@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -40,6 +41,7 @@ class Session implements SessionInterface
     use TimestampableEntity;
     use OfferingsEntity;
     use DeletableEntity;
+    use ObjectivesEntity;
 
     /**
      * @var int
@@ -484,34 +486,6 @@ class Session implements SessionInterface
     public function getTopics()
     {
         return $this->topics;
-    }
-
-    /**
-     * @param Collection $objectives
-     */
-    public function setObjectives(Collection $objectives)
-    {
-        $this->objectives = new ArrayCollection();
-
-        foreach ($objectives as $objective) {
-            $this->addObjective($objective);
-        }
-    }
-
-    /**
-     * @param ObjectiveInterface $objective
-     */
-    public function addObjective(ObjectiveInterface $objective)
-    {
-        $this->objectives->add($objective);
-    }
-
-    /**
-     * @return ArrayCollection|ObjectiveInterface[]
-     */
-    public function getObjectives()
-    {
-        return $this->objectives;
     }
 
     /**

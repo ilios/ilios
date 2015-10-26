@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,6 +42,7 @@ class Course implements CourseInterface
     use SessionsEntity;
     use SchoolEntity;
     use DeletableEntity;
+    use ObjectivesEntity;
 
     /**
      * @var int
@@ -587,37 +589,6 @@ class Course implements CourseInterface
     public function getTopics()
     {
         return $this->topics;
-    }
-
-    /**
-     * @param Collection|ObjectiveInterface[] $objectives
-     */
-    public function setObjectives(Collection $objectives = null)
-    {
-        $this->objectives = new ArrayCollection();
-        if (is_null($objectives)) {
-            return;
-        }
-
-        foreach ($objectives as $objective) {
-            $this->addObjective($objective);
-        }
-    }
-
-    /**
-     * @param ObjectiveInterface $objective
-     */
-    public function addObjective(ObjectiveInterface $objective)
-    {
-        $this->objectives->add($objective);
-    }
-
-    /**
-     * @return ArrayCollection|ObjectiveInterface[]
-     */
-    public function getObjectives()
-    {
-        return $this->objectives;
     }
 
     /**

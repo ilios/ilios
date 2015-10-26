@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
@@ -23,7 +24,8 @@ interface SessionInterface extends
     TimestampableEntityInterface,
     OfferingsEntityInterface,
     LoggableEntityInterface,
-    DeletableEntityInterface
+    DeletableEntityInterface,
+    ObjectivesEntityInterface
 {
     /**
      * @param boolean $attireRequired
@@ -109,21 +111,6 @@ interface SessionInterface extends
      * @return ArrayCollection|TopicInterface[]
      */
     public function getTopics();
-
-    /**
-     * @param Collection $objectives
-     */
-    public function setObjectives(Collection $objectives);
-
-    /**
-     * @param ObjectiveInterface $objective
-     */
-    public function addObjective(ObjectiveInterface $objective);
-
-    /**
-     * @return ArrayCollection|ObjectiveInterface[]
-     */
-    public function getObjectives();
 
     /**
      * @param Collection $meshDescriptors

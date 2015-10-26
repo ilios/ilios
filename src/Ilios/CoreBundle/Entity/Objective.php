@@ -264,6 +264,39 @@ class Objective implements ObjectiveInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function addCourse(CourseInterface $course)
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+            $course->addObjective($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addSession(SessionInterface $session)
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->addObjective($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addProgramYear(ProgramYearInterface $programYear)
+    {
+        if (!$this->programYears->contains($programYear)) {
+            $this->programYears->add($programYear);
+            $programYear->addObjective($this);
+        }
+    }
+
+    /**
      * @return string
      */
     public function __toString()
