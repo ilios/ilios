@@ -51,6 +51,7 @@ class PublishEventTest extends EntityBase
         $this->assertEmpty($this->object->getProgramYears());
         $this->assertEmpty($this->object->getCourses());
         $this->assertEmpty($this->object->getSessions());
+        $this->assertEmpty($this->object->getOfferings());
     }
 
     /**
