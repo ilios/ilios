@@ -67,7 +67,7 @@ class CohortTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->softDeleteEntityCollectionAddTest('course', 'Course');
+        $this->softDeleteEntityCollectionAddTest('course', 'Course', false, false, 'addCohort');
     }
 
     /**
@@ -75,6 +75,6 @@ class CohortTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $this->softDeleteEntityCollectionSetTest('course', 'Course');
+        $this->softDeleteEntityCollectionSetTest('course', 'Course', false, false, 'addCohort');
     }
 }

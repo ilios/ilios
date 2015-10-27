@@ -57,7 +57,7 @@ class AamcMethodTest extends EntityBase
      */
     public function testAddSessionType()
     {
-        $this->entityCollectionAddTest('sessionType', 'SessionType');
+        $this->entityCollectionAddTest('sessionType', 'SessionType', false, false, 'addAamcMethod');
     }
 
     /**
@@ -65,6 +65,6 @@ class AamcMethodTest extends EntityBase
      */
     public function testGetSessionTypes()
     {
-        $this->entityCollectionSetTest('sessionType', 'SessionType');
+        $this->entityCollectionSetTest('sessionType', 'SessionType', false, false, 'addAamcMethod');
     }
 }

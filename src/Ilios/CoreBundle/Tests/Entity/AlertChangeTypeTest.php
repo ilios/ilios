@@ -54,7 +54,7 @@ class AlertChangeTypeTest extends EntityBase
      */
     public function testAddAlert()
     {
-        $this->entityCollectionAddTest('alert', 'Alert');
+        $this->entityCollectionAddTest('alert', 'Alert', false, false, 'addChangeType');
     }
 
     /**
@@ -62,6 +62,6 @@ class AlertChangeTypeTest extends EntityBase
      */
     public function testGetAlerts()
     {
-        $this->entityCollectionSetTest('alert', 'Alert');
+        $this->entityCollectionSetTest('alert', 'Alert', false, false, 'addChangeType');
     }
 }

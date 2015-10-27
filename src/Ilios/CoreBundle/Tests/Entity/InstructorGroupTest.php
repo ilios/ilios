@@ -48,7 +48,7 @@ class InstructorGroupTest extends EntityBase
      */
     public function testAddLearnerGroup()
     {
-        $this->entityCollectionAddTest('learnerGroup', 'LearnerGroup');
+        $this->entityCollectionAddTest('learnerGroup', 'LearnerGroup', false, false, 'addInstructorGroup');
     }
 
     /**
@@ -56,7 +56,7 @@ class InstructorGroupTest extends EntityBase
      */
     public function testGetLearnerGroups()
     {
-        $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
+        $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup', false, false, 'addInstructorGroup');
     }
 
     /**
@@ -64,7 +64,7 @@ class InstructorGroupTest extends EntityBase
      */
     public function testAddIlmSession()
     {
-        $this->entityCollectionAddTest('ilmSession', 'IlmSession');
+        $this->entityCollectionAddTest('ilmSession', 'IlmSession', false, false, 'addInstructorGroup');
     }
 
     /**
@@ -72,7 +72,7 @@ class InstructorGroupTest extends EntityBase
      */
     public function testGetIlmSessions()
     {
-        $this->entityCollectionSetTest('ilmSession', 'IlmSession');
+        $this->entityCollectionSetTest('ilmSession', 'IlmSession', false, false, 'addInstructorGroup');
     }
 
     /**
@@ -96,7 +96,7 @@ class InstructorGroupTest extends EntityBase
      */
     public function testAddOffering()
     {
-        $this->softDeleteEntityCollectionAddTest('offering', 'Offering');
+        $this->softDeleteEntityCollectionAddTest('offering', 'Offering', false, false, 'addInstructorGroup');
     }
 
     /**
@@ -104,6 +104,6 @@ class InstructorGroupTest extends EntityBase
      */
     public function testGetOfferings()
     {
-        $this->softDeleteEntityCollectionSetTest('offering', 'Offering');
+        $this->softDeleteEntityCollectionSetTest('offering', 'Offering', false, false, 'addInstructorGroup');
     }
 }

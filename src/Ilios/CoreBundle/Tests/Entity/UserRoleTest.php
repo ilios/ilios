@@ -55,7 +55,7 @@ class UserRoleTest extends EntityBase
      */
     public function testAddUser()
     {
-        $this->entityCollectionAddTest('user', 'User');
+        $this->entityCollectionAddTest('user', 'User', false, false, 'addRole');
     }
 
     /**
@@ -63,6 +63,6 @@ class UserRoleTest extends EntityBase
      */
     public function testGetUsers()
     {
-        $this->entityCollectionSetTest('user', 'User');
+        $this->entityCollectionSetTest('user', 'User', false, false, 'addRole');
     }
 }
