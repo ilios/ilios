@@ -38,6 +38,10 @@ class UserRepository extends EntityRepository
             ->setParameter($key, '%' . $term . '%');
         }
 
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
                 $qb->addOrderBy('u.' . $sort, $order);
