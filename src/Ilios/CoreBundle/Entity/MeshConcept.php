@@ -337,7 +337,7 @@ class MeshConcept implements MeshConceptInterface
      */
     public function setTerms(Collection $terms)
     {
-        $this->terms = $terms;
+        $this->terms = new ArrayCollection();
 
         foreach ($terms as $term) {
             $this->addTerm($term);
@@ -349,7 +349,10 @@ class MeshConcept implements MeshConceptInterface
      */
     public function addTerm(MeshTermInterface $term)
     {
-        $this->terms->add($term);
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+            $term->addConcept($this);
+        }
     }
 
     /**
@@ -365,7 +368,7 @@ class MeshConcept implements MeshConceptInterface
      */
     public function setDescriptors(Collection $descriptors)
     {
-        $this->descriptors = $descriptors;
+        $this->descriptors = new ArrayCollection();
 
         foreach ($descriptors as $descriptor) {
             $this->addDescriptor($descriptor);

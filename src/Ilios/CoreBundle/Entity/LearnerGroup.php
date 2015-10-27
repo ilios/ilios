@@ -284,7 +284,10 @@ class LearnerGroup implements LearnerGroupInterface
      */
     public function addIlmSession(IlmSessionInterface $ilmSession)
     {
-        $this->ilmSessions->add($ilmSession);
+        if (!$this->ilmSessions->contains($ilmSession)) {
+            $this->ilmSessions->add($ilmSession);
+            $ilmSession->addLearnerGroup($this);
+        }
     }
 
     /**
@@ -403,6 +406,17 @@ class LearnerGroup implements LearnerGroupInterface
     public function getInstructors()
     {
         return $this->instructors;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addOffering(OfferingInterface $offering)
+    {
+        if (!$this->offerings->contains($offering)) {
+            $this->offerings->add($offering);
+            $offering->addLearnerGroup($this);
+        }
     }
 
     /**

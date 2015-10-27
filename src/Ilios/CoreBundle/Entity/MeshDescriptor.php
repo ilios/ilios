@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use JMS\Serializer\Annotation as JMS;
 
 use Doctrine\Common\Collections\Collection;
@@ -34,6 +35,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     use TimestampableEntity;
     use CoursesEntity;
     use SessionsEntity;
+    use ObjectivesEntity;
 
     /**
      * @var string
@@ -233,31 +235,14 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
-     * @param Collection $objectives
-     */
-    public function setObjectives(Collection $objectives)
-    {
-        $this->objectives = new ArrayCollection();
-
-        foreach ($objectives as $objective) {
-            $this->addObjective($objective);
-        }
-    }
-
-    /**
-     * @param ObjectiveInterface $objective
+     * @inheritdoc
      */
     public function addObjective(ObjectiveInterface $objective)
     {
-        $this->objectives->add($objective);
-    }
-
-    /**
-     * @return ArrayCollection|ObjectiveInterface[]
-     */
-    public function getObjectives()
-    {
-        return $this->objectives;
+        if (!$this->objectives->contains($objective)) {
+            $this->objectives->add($objective);
+            $objective->addMeshDescriptor($this);
+        }
     }
 
     /**
@@ -277,7 +262,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
     {
-        $this->sessionLearningMaterials->add($sessionLearningMaterial);
+        if (!$this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
+            $this->sessionLearningMaterials->add($sessionLearningMaterial);
+            $sessionLearningMaterial->addMeshDescriptor($this);
+        }
     }
 
     /**
@@ -293,7 +281,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function setCourseLearningMaterials(Collection $courseLearningMaterials)
     {
-        $this->courseLearningMaterials = $courseLearningMaterials;
+        $this->courseLearningMaterials = new ArrayCollection();
 
         foreach ($courseLearningMaterials as $courseLearningMaterial) {
             $this->addCourseLearningMaterial($courseLearningMaterial);
@@ -305,7 +293,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
     {
-        $this->courseLearningMaterials->add($courseLearningMaterial);
+        if (!$this->courseLearningMaterials->contains($courseLearningMaterial)) {
+            $this->courseLearningMaterials->add($courseLearningMaterial);
+            $courseLearningMaterial->addMeshDescriptor($this);
+        }
     }
 
     /**
@@ -321,7 +312,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function setConcepts(Collection $concepts)
     {
-        $this->concepts = $concepts;
+        $this->concepts = new ArrayCollection();
 
         foreach ($concepts as $concept) {
             $this->addConcept($concept);
@@ -333,7 +324,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function addConcept(MeshConceptInterface $concept)
     {
-        $this->concepts->add($concept);
+        if (!$this->concepts->contains($concept)) {
+            $this->concepts->add($concept);
+            $concept->addDescriptor($this);
+        }
     }
 
     /**
@@ -349,7 +343,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function setQualifiers(Collection $qualifiers)
     {
-        $this->qualifiers = $qualifiers;
+        $this->qualifiers = new ArrayCollection();
 
         foreach ($qualifiers as $qualifier) {
             $this->addQualifier($qualifier);
@@ -361,7 +355,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function addQualifier(MeshQualifierInterface $qualifier)
     {
-        $this->qualifiers->add($qualifier);
+        if (!$this->qualifiers->contains($qualifier)) {
+            $this->qualifiers->add($qualifier);
+            $qualifier->addDescriptor($this);
+        }
     }
 
     /**
@@ -377,7 +374,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function setTrees(Collection $trees)
     {
-        $this->trees = $trees;
+        $this->trees = new ArrayCollection();
 
         foreach ($trees as $tree) {
             $this->addTree($tree);
@@ -414,5 +411,27 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getPreviousIndexing()
     {
         return $this->previousIndexing;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addCourse(CourseInterface $course)
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+            $course->addMeshDescriptor($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addSession(SessionInterface $session)
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->addMeshDescriptor($this);
+        }
     }
 }

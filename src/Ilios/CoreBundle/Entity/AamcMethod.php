@@ -102,7 +102,10 @@ class AamcMethod implements AamcMethodInterface
      */
     public function addSessionType(SessionTypeInterface $sessionType)
     {
-        $this->sessionTypes->add($sessionType);
+        if (!$this->sessionTypes->contains($sessionType)) {
+            $this->sessionTypes->add($sessionType);
+            $sessionType->addAamcMethod($this);
+        }
     }
 
     /**

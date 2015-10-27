@@ -757,7 +757,10 @@ class User implements UserInterface
      */
     public function addDirectedCourse(CourseInterface $course)
     {
-        $this->directedCourses->add($course);
+        if (!$this->directedCourses->contains($course)) {
+            $this->directedCourses->add($course);
+            $course->addDirector($this);
+        }
     }
 
     /**
@@ -796,7 +799,10 @@ class User implements UserInterface
      */
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
-        $this->learnerGroups->add($learnerGroup);
+        if (!$this->learnerGroups->contains($learnerGroup)) {
+            $this->learnerGroups->add($learnerGroup);
+            $learnerGroup->addUser($this);
+        }
     }
 
     /**
@@ -824,7 +830,10 @@ class User implements UserInterface
      */
     public function addInstructedLearnerGroup(LearnerGroupInterface $instructedLearnerGroup)
     {
-        $this->instructedLearnerGroups->add($instructedLearnerGroup);
+        if (!$this->instructedLearnerGroups->contains($instructedLearnerGroup)) {
+            $this->instructedLearnerGroups->add($instructedLearnerGroup);
+            $instructedLearnerGroup->addInstructor($this);
+        }
     }
 
     /**
@@ -852,7 +861,10 @@ class User implements UserInterface
      */
     public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
     {
-        $this->instructorGroups->add($instructorGroup);
+        if (!$this->instructorGroups->contains($instructorGroup)) {
+            $this->instructorGroups->add($instructorGroup);
+            $instructorGroup->addUser($this);
+        }
     }
 
     /**
@@ -880,7 +892,10 @@ class User implements UserInterface
      */
     public function addInstructorIlmSession(IlmSessionInterface $session)
     {
-        $this->instructorIlmSessions->add($session);
+        if (!$this->instructorIlmSessions->contains($session)) {
+            $this->instructorIlmSessions->add($session);
+            $session->addInstructor($this);
+        }
     }
 
     /**
@@ -918,11 +933,14 @@ class User implements UserInterface
     }
 
     /**
-     * @param IlmSessionInterface $session
+     * @inheritdoc
      */
     public function addLearnerIlmSessions(IlmSessionInterface $session)
     {
-        $this->learnerIlmSessions->add($session);
+        if (!$this->learnerIlmSessions->contains($session)) {
+            $this->learnerIlmSessions->add($session);
+            $session->addLearner($this);
+        }
     }
 
     /**
@@ -950,7 +968,10 @@ class User implements UserInterface
      */
     public function addAlert(AlertInterface $alert)
     {
-        $this->alerts->add($alert);
+        if (!$this->alerts->contains($alert)) {
+            $this->alerts->add($alert);
+            $alert->addInstigator($this);
+        }
     }
 
     /**
@@ -1152,7 +1173,10 @@ class User implements UserInterface
      */
     public function addInstructedOffering(Offering $instructedOffering)
     {
-        $this->instructedOfferings->add($instructedOffering);
+        if (!$this->instructedOfferings->contains($instructedOffering)) {
+            $this->instructedOfferings->add($instructedOffering);
+            $instructedOffering->addInstructor($this);
+        }
     }
 
     /**
@@ -1245,6 +1269,28 @@ class User implements UserInterface
     public function getPendingUserUpdates()
     {
         return $this->pendingUserUpdates;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addProgramYear(ProgramYearInterface $programYear)
+    {
+        if (!$this->programYears->contains($programYear)) {
+            $this->programYears->add($programYear);
+            $programYear->addDirector($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addOffering(OfferingInterface $offering)
+    {
+        if (!$this->offerings->contains($offering)) {
+            $this->offerings->add($offering);
+            $offering->addLearner($this);
+        }
     }
 
     /**

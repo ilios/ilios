@@ -260,6 +260,17 @@ class Competency implements CompetencyInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function addProgramYear(ProgramYearInterface $programYear)
+    {
+        if (!$this->programYears->contains($programYear)) {
+            $this->programYears->add($programYear);
+            $programYear->addCompetency($this);
+        }
+    }
+
+    /**
     * @return string
     */
     public function __toString()

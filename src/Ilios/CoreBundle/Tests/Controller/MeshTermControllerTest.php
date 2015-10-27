@@ -19,6 +19,7 @@ class MeshTermControllerTest extends AbstractControllerTest
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadMeshTermData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshConceptData',
         ]);
     }
 
@@ -102,11 +103,10 @@ class MeshTermControllerTest extends AbstractControllerTest
 
     public function testPostMeshTerm()
     {
-        $data = $this->container->get('ilioscore.dataloader.meshTerm')
-            ->create();
+        $data = $this->container->get('ilioscore.dataloader.meshTerm')->create();
         $postData = $data;
         unset($postData['id']);
-        
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_meshterms'),
@@ -115,7 +115,7 @@ class MeshTermControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-        
+
         $response = json_decode($response->getContent(), true);
         $this->assertTrue(array_key_exists('meshTerms', $response), var_export($response, true));
         $data = $response['meshTerms'][0];
@@ -133,6 +133,36 @@ class MeshTermControllerTest extends AbstractControllerTest
         $this->assertTrue($diffU->y < 1, 'The updatedAt timestamp is within the last year');
         $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
 
+    }
+
+    public function testPostMeshTermConcept()
+    {
+        $data = $this->container->get('ilioscore.dataloader.meshterm')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_meshterms'),
+            json_encode(['meshTerm' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['meshTerms'][0]['id'];
+        foreach ($postData['concepts'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_meshconcepts',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['meshConcepts'][0];
+            $this->assertTrue(in_array($newId, $data['terms']));
+        }
     }
 
     public function testPostBadMeshTerm()

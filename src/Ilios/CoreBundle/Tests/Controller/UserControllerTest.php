@@ -199,7 +199,7 @@ class UserControllerTest extends AbstractControllerTest
         );
     }
 
-    public function testPostTopicCourse()
+    public function testPostUserCourse()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -234,7 +234,7 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostTopicLearnerGroup()
+    public function testPostUserLearnerGroup()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -269,7 +269,7 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostTopicInstructorLearnerGroup()
+    public function testPostUserInstructorLearnerGroup()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -304,7 +304,7 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostTopicInstructoGroup()
+    public function testPostUserInstructoGroup()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -339,7 +339,7 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostTopicIlmSession()
+    public function testPostUserIlmSession()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -374,7 +374,7 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostTopicInstructedIlmSession()
+    public function testPostUserInstructedIlmSession()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -409,7 +409,7 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostTopicOffering()
+    public function testPostUserOffering()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -444,7 +444,7 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostTopicInstructedOffering()
+    public function testPostUserInstructedOffering()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -479,7 +479,7 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostTopicProgramYear()
+    public function testPostUserProgramYear()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -514,7 +514,7 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostTopicAlert()
+    public function testPostUserAlert()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -549,7 +549,7 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostTopicCohort()
+    public function testPostUserCohort()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;

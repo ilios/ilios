@@ -356,7 +356,10 @@ class School implements SchoolInterface
      */
     public function addAlert(AlertInterface $alert)
     {
-        $this->alerts->add($alert);
+        if (!$this->alerts->contains($alert)) {
+            $this->alerts->add($alert);
+            $alert->addRecipient($this);
+        }
     }
 
     /**

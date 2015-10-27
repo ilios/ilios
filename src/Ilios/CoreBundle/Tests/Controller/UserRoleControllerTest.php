@@ -103,7 +103,7 @@ class UserRoleControllerTest extends AbstractControllerTest
         );
     }
 
-    public function testPostTopicAlert()
+    public function testPostUserRoleUser()
     {
         $data = $this->container->get('ilioscore.dataloader.userrole')
             ->create();

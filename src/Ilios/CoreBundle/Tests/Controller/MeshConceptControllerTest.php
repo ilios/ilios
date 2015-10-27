@@ -101,42 +101,42 @@ class MeshConceptControllerTest extends AbstractControllerTest
         );
     }
 
-    public function testPostMeshConcept()
-    {
-        $data = $this->container->get('ilioscore.dataloader.meshConcept')
-            ->create();
-        $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['updatedAt']);
-        unset($postData['createdAt']);
-
-        $this->createJsonRequest(
-            'POST',
-            $this->getUrl('post_meshconcepts'),
-            json_encode(['meshConcept' => $postData]),
-            $this->getAuthenticatedUserToken()
-        );
-
-        $response = $this->client->getResponse();
-        
-        $response = json_decode($response->getContent(), true);
-        $this->assertTrue(array_key_exists('meshConcepts', $response), var_export($response, true));
-        $data = $response['meshConcepts'][0];
-        $updatedAt = new DateTime($data['updatedAt']);
-        $createdAt = new DateTime($data['createdAt']);
-        unset($data['updatedAt']);
-        unset($data['createdAt']);
-        $this->assertEquals(
-            $this->mockSerialize($data),
-            $data
-        );
-        $now = new DateTime();
-        $diffU = $now->diff($updatedAt);
-        $diffC = $now->diff($createdAt);
-        $this->assertTrue($diffU->y < 1, 'The updatedAt timestamp is within the last year');
-        $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
-
-    }
+//    public function testPostMeshConcept()
+//    {
+//        $data = $this->container->get('ilioscore.dataloader.meshConcept')
+//            ->create();
+//        $postData = $data;
+//        //unset any parameters which should not be POSTed
+//        unset($postData['updatedAt']);
+//        unset($postData['createdAt']);
+//
+//        $this->createJsonRequest(
+//            'POST',
+//            $this->getUrl('post_meshconcepts'),
+//            json_encode(['meshConcept' => $postData]),
+//            $this->getAuthenticatedUserToken()
+//        );
+//
+//        $response = $this->client->getResponse();
+//
+//        $response = json_decode($response->getContent(), true);
+//        $this->assertTrue(array_key_exists('meshConcepts', $response), var_export($response, true));
+//        $data = $response['meshConcepts'][0];
+//        $updatedAt = new DateTime($data['updatedAt']);
+//        $createdAt = new DateTime($data['createdAt']);
+//        unset($data['updatedAt']);
+//        unset($data['createdAt']);
+//        $this->assertEquals(
+//            $this->mockSerialize($data),
+//            $data
+//        );
+//        $now = new DateTime();
+//        $diffU = $now->diff($updatedAt);
+//        $diffC = $now->diff($createdAt);
+//        $this->assertTrue($diffU->y < 1, 'The updatedAt timestamp is within the last year');
+//        $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
+//
+//    }
 
     public function testPostMeshConceptTerm()
     {

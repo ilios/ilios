@@ -300,7 +300,7 @@ class MeshTerm implements MeshTermInterface
      */
     public function setConcepts(Collection $concepts)
     {
-        $this->concepts = $concepts;
+        $this->concepts = new ArrayCollection();
 
         foreach ($concepts as $concept) {
             $this->addConcept($concept);
