@@ -50,7 +50,8 @@ class UserRepository extends EntityRepository
         if (array_key_exists('roles', $criteria)) {
             $roleIds = is_array($criteria['roles']) ? $criteria['roles'] : [$criteria['roles']];
             $qb->join('u.roles', 'r');
-            $qb->andWhere($qb->expr()->in('r.id', implode(',', $roleIds)));
+            $qb->andWhere($qb->expr()->in('r.id', ':roles'));
+            $qb->setParameter(':roles', $roleIds);
         }
 
         if ($offset) {
