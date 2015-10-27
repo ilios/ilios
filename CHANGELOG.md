@@ -1,8 +1,38 @@
 # Change Log
 
-## [v3.0.0-beta8](https://github.com/ilios/ilios/tree/HEAD)
+## [v3.0.0-beta9](https://github.com/ilios/ilios/tree/HEAD)
 
-[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta7...HEAD)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta8...HEAD)
+
+**Closed issues:**
+
+- Can't save course objective [\#1068](https://github.com/ilios/ilios/issues/1068)
+- ILM Instructional Hours does not allow for fractional time [\#1066](https://github.com/ilios/ilios/issues/1066)
+- Don't allow many to one relationships to be saved [\#1059](https://github.com/ilios/ilios/issues/1059)
+- Run Symfony deprecation detector on Ilios codebase [\#1056](https://github.com/ilios/ilios/issues/1056)
+- Learner Group Mgt edit fails with 403 [\#1049](https://github.com/ilios/ilios/issues/1049)
+- Learner Group Mgt Bulk edit fails with 403 [\#1048](https://github.com/ilios/ilios/issues/1048)
+- decide which fields on the API to escape in order to allow the display of input HTML [\#1047](https://github.com/ilios/ilios/issues/1047)
+- Session Offerings Get Removed After Changing Session Data [\#1039](https://github.com/ilios/ilios/issues/1039)
+- Navigation to Courses and Sessions From All Events Calendar Very Slow \(if Eventual\) [\#996](https://github.com/ilios/ilios/issues/996)
+- ability to pass expiration date to refresh token API endpoint [\#917](https://github.com/ilios/ilios/issues/917)
+- Can we declare support for only a JSON API? [\#812](https://github.com/ilios/ilios/issues/812)
+- Add PHP pre-commit hooks [\#769](https://github.com/ilios/ilios/issues/769)
+
+**Merged pull requests:**
+
+- Allow fractional ILM hours [\#1067](https://github.com/ilios/ilios/pull/1067) ([jrjohnson](https://github.com/jrjohnson))
+- Allows offerings to save publishEvents [\#1064](https://github.com/ilios/ilios/pull/1064) ([jrjohnson](https://github.com/jrjohnson))
+- Don't allow saving of the many side on a one to many relationship [\#1061](https://github.com/ilios/ilios/pull/1061) ([jrjohnson](https://github.com/jrjohnson))
+- replaced deprecated methods [\#1060](https://github.com/ilios/ilios/pull/1060) ([stopfstedt](https://github.com/stopfstedt))
+- More schools for a user [\#1058](https://github.com/ilios/ilios/pull/1058) ([jrjohnson](https://github.com/jrjohnson))
+- Add a q \(query\) to get learningmaterials [\#1055](https://github.com/ilios/ilios/pull/1055) ([jrjohnson](https://github.com/jrjohnson))
+- sanitize form input. [\#1053](https://github.com/ilios/ilios/pull/1053) ([stopfstedt](https://github.com/stopfstedt))
+- API improvements [\#1052](https://github.com/ilios/ilios/pull/1052) ([jrjohnson](https://github.com/jrjohnson))
+- fix mesh descriptor search [\#1050](https://github.com/ilios/ilios/pull/1050) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.0.0-beta8](https://github.com/ilios/ilios/tree/v3.0.0-beta8) (2015-10-13)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta7...v3.0.0-beta8)
 
 **Closed issues:**
 
@@ -15,6 +45,7 @@
 
 **Merged pull requests:**
 
+- V3.0.0-beta8 Release [\#1046](https://github.com/ilios/ilios/pull/1046) ([thecoolestguy](https://github.com/thecoolestguy))
 - added generation/update of offering change alerts [\#1044](https://github.com/ilios/ilios/pull/1044) ([stopfstedt](https://github.com/stopfstedt))
 - Remove the hosts matcher from CORS options [\#1043](https://github.com/ilios/ilios/pull/1043) ([jrjohnson](https://github.com/jrjohnson))
 - Fixes for program, user and learningmaterial endpoints [\#1042](https://github.com/ilios/ilios/pull/1042) ([jrjohnson](https://github.com/jrjohnson))
