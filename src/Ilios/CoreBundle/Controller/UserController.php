@@ -136,7 +136,8 @@ class UserController extends FOSRestController
                 $q,
                 $orderBy,
                 $limit,
-                $offset
+                $offset,
+                $criteria
             );
         } else {
             $result = $this->getUserHandler()->findUsersBy(

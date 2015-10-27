@@ -70,6 +70,7 @@ interface UserManagerInterface extends ManagerInterface
      * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
+     * @param array $criteria
      *
      * @return UserInterface[]
      */
@@ -77,7 +78,8 @@ interface UserManagerInterface extends ManagerInterface
         $q,
         array $orderBy = null,
         $limit = null,
-        $offset = null
+        $offset = null,
+        array $criteria = array()
     );
     
     /**

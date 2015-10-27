@@ -15,9 +15,10 @@ class UserRepository extends EntityRepository
      * @param integer $orderBy
      * @param integer $limit
      * @param integer $offset
+     * @param array $criteria
      * @return UserInterface[]
      */
-    public function findByQ($q, $orderBy, $limit, $offset)
+    public function findByQ($q, $orderBy, $limit, $offset, array $criteria = array())
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->add('select', 'u')->from('IliosCoreBundle:User', 'u');
@@ -42,6 +43,11 @@ class UserRepository extends EntityRepository
                 $qb->addOrderBy('u.' . $sort, $order);
             }
         }
+        if (array_key_exists('roles', $criteria)) {
+            $roleIds = is_array($criteria['roles']) ? $criteria['roles'] : [$criteria['roles']];
+            $qb->join('u.roles', 'r');
+            $qb->andWhere($qb->expr()->in('r.id', implode(',', $roleIds)));
+        }
 
         if ($offset) {
             $qb->setFirstResult($offset);
@@ -53,7 +59,6 @@ class UserRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
-
 
     /**
      * Find all of the events for a user id between two dates

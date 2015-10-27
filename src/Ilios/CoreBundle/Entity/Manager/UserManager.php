@@ -79,9 +79,10 @@ class UserManager extends AbstractManager implements UserManagerInterface
         $q,
         array $orderBy = null,
         $limit = null,
-        $offset = null
+        $offset = null,
+        array $criteria = array()
     ) {
-        return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset);
+        return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset, $criteria);
     }
 
     /**
