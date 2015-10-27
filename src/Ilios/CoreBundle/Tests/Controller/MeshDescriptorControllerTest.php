@@ -231,8 +231,6 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
 
         $postData = $data;
         unset($postData['trees']);
-        unset($postData['qualifiers']);
-        unset($postData['concepts']);
 
         $this->createJsonRequest(
             'POST',
@@ -260,6 +258,216 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->assertTrue($diffU->y < 1, 'The updatedAt timestamp is within the last year');
         $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
 
+    }
+
+    public function testPostMeshDescriptorCourse()
+    {
+        $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['trees']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_meshdescriptors'),
+            json_encode(['meshDescriptor' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['meshDescriptors'][0]['id'];
+        foreach ($postData['courses'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_courses',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['courses'][0];
+            $this->assertTrue(in_array($newId, $data['meshDescriptors']));
+        }
+    }
+
+    public function testPostMeshDescriptorSession()
+    {
+        $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['trees']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_meshdescriptors'),
+            json_encode(['meshDescriptor' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['meshDescriptors'][0]['id'];
+        foreach ($postData['sessions'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_sessions',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['sessions'][0];
+            $this->assertTrue(in_array($newId, $data['meshDescriptors']));
+        }
+    }
+
+    public function testPostMeshDescriptorObjective()
+    {
+        $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['trees']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_meshdescriptors'),
+            json_encode(['meshDescriptor' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['meshDescriptors'][0]['id'];
+        foreach ($postData['objectives'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_objectives',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['objectives'][0];
+            $this->assertTrue(in_array($newId, $data['meshDescriptors']));
+        }
+    }
+
+    public function testPostMeshDescriptorConcepts()
+    {
+        $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['trees']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_meshdescriptors'),
+            json_encode(['meshDescriptor' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['meshDescriptors'][0]['id'];
+        foreach ($postData['concepts'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_meshconcepts',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['meshConcepts'][0];
+            $this->assertTrue(in_array($newId, $data['descriptors']));
+        }
+    }
+
+    public function testPostMeshDescriptorQualifier()
+    {
+        $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['trees']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_meshdescriptors'),
+            json_encode(['meshDescriptor' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['meshDescriptors'][0]['id'];
+        foreach ($postData['qualifiers'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_meshqualifiers',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['meshQualifiers'][0];
+            $this->assertTrue(in_array($newId, $data['descriptors']));
+        }
+    }
+
+    public function testPostMeshDescriptorSessionLearningMaterial()
+    {
+        $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['trees']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_meshdescriptors'),
+            json_encode(['meshDescriptor' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['meshDescriptors'][0]['id'];
+        foreach ($postData['sessionLearningMaterials'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_sessionlearningmaterials',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['sessionLearningMaterials'][0];
+            $this->assertTrue(in_array($newId, $data['meshDescriptors']));
+        }
+    }
+
+    public function testPostMeshDescriptorCourseLearningMaterial()
+    {
+        $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['trees']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_meshdescriptors'),
+            json_encode(['meshDescriptor' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['meshDescriptors'][0]['id'];
+        foreach ($postData['courseLearningMaterials'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_courselearningmaterials',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['courseLearningMaterials'][0];
+            $this->assertTrue(in_array($newId, $data['meshDescriptors']));
+        }
     }
 
     public function testPostBadMeshDescriptor()

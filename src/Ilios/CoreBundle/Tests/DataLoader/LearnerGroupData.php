@@ -56,8 +56,8 @@ class LearnerGroupData extends AbstractDataLoader
             'title' => $this->faker->text(25),
             'cohort' => "1",
             'children' => [],
-            'ilmSessions' => [],
-            'offerings' => [],
+            'ilmSessions' => ['1'],
+            'offerings' => ['1'],
             'instructorGroups' => [],
             'users' => [],
             'instructors' => []

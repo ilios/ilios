@@ -105,6 +105,38 @@ class CompetencyControllerTest extends AbstractControllerTest
         );
     }
 
+    public function testPostCompetencyProgramYear()
+    {
+        $data = $this->container->get('ilioscore.dataloader.competency')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['children']);
+        unset($postData['objectives']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_competencies'),
+            json_encode(['competency' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['competencies'][0]['id'];
+        foreach ($postData['programYears'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_programyears',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['programYears'][0];
+            $this->assertTrue(in_array($newId, $data['competencies']));
+        }
+    }
+
     public function testPostBadCompetency()
     {
         $invalidCompetency = $this->container

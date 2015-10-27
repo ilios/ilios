@@ -135,6 +135,34 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
 
     }
 
+    public function testPostMeshSemanticTypeConcept()
+    {
+        $data = $this->container->get('ilioscore.dataloader.meshsemantictype')->create();
+        $postData = $data;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_meshsemantictypes'),
+            json_encode(['meshSemanticType' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['meshSemanticTypes'][0]['id'];
+        foreach ($postData['concepts'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_meshconcepts',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['meshConcepts'][0];
+            $this->assertTrue(in_array($newId, $data['semanticTypes']));
+        }
+    }
+
     public function testPostBadMeshSemanticType()
     {
         $invalidMeshSemanticType = $this->container

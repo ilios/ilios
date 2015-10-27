@@ -54,7 +54,7 @@ class CompetencyData extends AbstractDataLoader
             'parent' => "1",
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0102'],
-            'programYears' => []
+            'programYears' => ['1']
         ];
     }
 

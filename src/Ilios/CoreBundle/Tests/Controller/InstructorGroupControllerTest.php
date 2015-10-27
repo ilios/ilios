@@ -107,6 +107,66 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         );
     }
 
+    public function testPostInstructorGroupLearnerGroup()
+    {
+        $data = $this->container->get('ilioscore.dataloader.instructorgroup')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_instructorgroups'),
+            json_encode(['instructorGroup' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['instructorGroups'][0]['id'];
+        foreach ($postData['learnerGroups'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_learnergroups',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['learnerGroups'][0];
+            $this->assertTrue(in_array($newId, $data['instructorGroups']));
+        }
+    }
+
+    public function testPostInstructorGroupIlmSession()
+    {
+        $data = $this->container->get('ilioscore.dataloader.instructorgroup')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_instructorgroups'),
+            json_encode(['instructorGroup' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['instructorGroups'][0]['id'];
+        foreach ($postData['ilmSessions'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_ilmsessions',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['ilmSessions'][0];
+            $this->assertTrue(in_array($newId, $data['instructorGroups']));
+        }
+    }
+
     public function testPostBadInstructorGroup()
     {
         $invalidInstructorGroup = $this->container

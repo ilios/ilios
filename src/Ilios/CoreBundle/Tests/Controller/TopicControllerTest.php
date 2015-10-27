@@ -101,6 +101,96 @@ class TopicControllerTest extends AbstractControllerTest
         );
     }
 
+    public function testPostTopicCourse()
+    {
+        $data = $this->container->get('ilioscore.dataloader.topic')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_topics'),
+            json_encode(['topic' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['topics'][0]['id'];
+        foreach ($postData['courses'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_courses',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['courses'][0];
+            $this->assertTrue(in_array($newId, $data['topics']));
+        }
+    }
+
+    public function testPostTopicProgramYear()
+    {
+        $data = $this->container->get('ilioscore.dataloader.topic')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_topics'),
+            json_encode(['topic' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['topics'][0]['id'];
+        foreach ($postData['programYears'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_programyears',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['programYears'][0];
+            $this->assertTrue(in_array($newId, $data['topics']));
+        }
+    }
+
+    public function testPostTopicSession()
+    {
+        $data = $this->container->get('ilioscore.dataloader.topic')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_topics'),
+            json_encode(['topic' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['topics'][0]['id'];
+        foreach ($postData['sessions'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_sessions',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['sessions'][0];
+            $this->assertTrue(in_array($newId, $data['topics']));
+        }
+    }
+
     public function testPostBadTopic()
     {
         $invalidTopic = $this->container

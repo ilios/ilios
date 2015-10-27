@@ -47,6 +47,14 @@ class MeshDescriptorType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshPreviousIndexing"
             ])
+            ->add('qualifiers', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:MeshQualifier"
+            ])
+            ->add('concepts', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:MeshConcept"
+            ])
         ;
         $transformer = new RemoveMarkupTransformer();
         foreach (['id', 'name', 'annotation'] as $element) {

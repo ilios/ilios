@@ -120,6 +120,106 @@ class CohortControllerTest extends AbstractControllerTest
         );
     }
 
+    public function testPostCohortCourse()
+    {
+        //create a program year we can attach this cohort to
+        $data = $this->container->get('ilioscore.dataloader.programYear')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['stewards']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_programyears'),
+            json_encode(['programYear' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $newProgramYearId = json_decode($response->getContent(), true)['programYears'][0]['id'];
+
+        $data = $this->container->get('ilioscore.dataloader.cohort')
+            ->create();
+        $data['programYear'] = $newProgramYearId;
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['learnerGroups']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_cohorts'),
+            json_encode(['cohort' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['cohorts'][0]['id'];
+        foreach ($postData['courses'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_courses',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['courses'][0];
+            $this->assertTrue(in_array($newId, $data['cohorts']));
+        }
+    }
+
+    public function testPostCohortUser()
+    {
+        //create a program year we can attach this cohort to
+        $data = $this->container->get('ilioscore.dataloader.programYear')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['stewards']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_programyears'),
+            json_encode(['programYear' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $newProgramYearId = json_decode($response->getContent(), true)['programYears'][0]['id'];
+
+        $data = $this->container->get('ilioscore.dataloader.cohort')
+            ->create();
+        $data['programYear'] = $newProgramYearId;
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['learnerGroups']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_cohorts'),
+            json_encode(['cohort' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['cohorts'][0]['id'];
+        foreach ($postData['users'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_users',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['users'][0];
+            $this->assertTrue(in_array($newId, $data['cohorts']));
+        }
+    }
+
     public function testPostBadCohort()
     {
         $invalidCohort = $this->container

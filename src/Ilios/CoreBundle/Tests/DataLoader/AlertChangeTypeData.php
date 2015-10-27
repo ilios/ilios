@@ -66,7 +66,7 @@ class AlertChangeTypeData extends AbstractDataLoader
         return [
             'id' => 9,
             'title' => $this->faker->text(10),
-            'alerts' => []
+            'alerts' => ['1']
         ];
     }
 

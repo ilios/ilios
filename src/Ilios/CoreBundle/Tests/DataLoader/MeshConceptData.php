@@ -46,7 +46,7 @@ class MeshConceptData extends AbstractDataLoader
             'casn1Name' => 'casn' . $this->faker->text(120),
             'registryNumber' => $this->faker->text(20),
             'semanticTypes' => [],
-            'terms' => [],
+            'terms' => ['1'],
             'descriptors' => []
         );
     }
