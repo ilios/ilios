@@ -549,7 +549,9 @@ class Course implements CourseInterface
      */
     public function addCohort(CohortInterface $cohort)
     {
-        $this->cohorts->add($cohort);
+        if (!$this->cohorts->contains($cohort)) {
+            $this->cohorts->add($cohort);
+        }
     }
 
     /**

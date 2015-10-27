@@ -498,8 +498,6 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
 
         $postData = $data;
         unset($postData['trees']);
-        unset($postData['qualifiers']);
-        unset($postData['concepts']);
 
 
         $this->createJsonRequest(

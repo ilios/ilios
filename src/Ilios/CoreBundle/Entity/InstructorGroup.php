@@ -216,7 +216,9 @@ class InstructorGroup implements InstructorGroupInterface
      */
     public function addUser(UserInterface $user)
     {
-        $this->users->add($user);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
     }
 
     /**

@@ -397,7 +397,9 @@ class LearnerGroup implements LearnerGroupInterface
      */
     public function addInstructor(UserInterface $user)
     {
-        $this->instructors->add($user);
+        if (!$this->instructors->contains($user)) {
+            $this->instructors->add($user);
+        }
     }
 
     /**

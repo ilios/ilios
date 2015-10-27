@@ -338,7 +338,9 @@ class Offering implements OfferingInterface
      */
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
-        $this->learnerGroups->add($learnerGroup);
+        if (!$this->learnerGroups->contains($learnerGroup)) {
+            $this->learnerGroups->add($learnerGroup);
+        }
     }
 
     /**

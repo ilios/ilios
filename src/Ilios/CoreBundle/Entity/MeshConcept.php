@@ -321,7 +321,9 @@ class MeshConcept implements MeshConceptInterface
      */
     public function addSemanticType(MeshSemanticTypeInterface $semanticType)
     {
-        $this->semanticTypes->add($semanticType);
+        if (!$this->semanticTypes->contains($semanticType)) {
+            $this->semanticTypes->add($semanticType);
+        }
     }
 
     /**
@@ -380,7 +382,9 @@ class MeshConcept implements MeshConceptInterface
      */
     public function addDescriptor(MeshDescriptorInterface $descriptor)
     {
-        $this->descriptors->add($descriptor);
+        if (!$this->descriptors->contains($descriptor)) {
+            $this->descriptors->add($descriptor);
+        }
     }
 
     /**

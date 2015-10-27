@@ -999,7 +999,9 @@ class User implements UserInterface
      */
     public function addRole(UserRoleInterface $role)
     {
-        $this->roles->add($role);
+        if (!$this->roles->contains($role)) {
+            $this->roles->add($role);
+        }
     }
 
     /**
@@ -1126,7 +1128,9 @@ class User implements UserInterface
     */
     public function addCohort(CohortInterface $cohort)
     {
-        $this->cohorts->add($cohort);
+        if (!$this->cohorts->contains($cohort)) {
+            $this->cohorts->add($cohort);
+        }
     }
 
     /**

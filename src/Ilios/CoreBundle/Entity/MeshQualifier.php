@@ -126,7 +126,9 @@ class MeshQualifier implements MeshQualifierInterface
      */
     public function addDescriptor(MeshDescriptorInterface $descriptor)
     {
-        $this->descriptors->add($descriptor);
+        if (!$this->descriptors->contains($descriptor)) {
+            $this->descriptors->add($descriptor);
+        }
     }
 
     /**

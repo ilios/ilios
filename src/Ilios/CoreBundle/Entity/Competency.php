@@ -217,7 +217,9 @@ class Competency implements CompetencyInterface
      */
     public function addAamcPcrs(AamcPcrsInterface $aamcPcrs)
     {
-        $this->aamcPcrses->add($aamcPcrs);
+        if (!$this->aamcPcrses->contains($aamcPcrs)) {
+            $this->aamcPcrses->add($aamcPcrs);
+        }
     }
 
     /**

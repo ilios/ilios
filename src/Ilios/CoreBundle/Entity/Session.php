@@ -477,7 +477,9 @@ class Session implements SessionInterface
      */
     public function addTopic(TopicInterface $topic)
     {
-        $this->topics->add($topic);
+        if (!$this->topics->contains($topic)) {
+            $this->topics->add($topic);
+        }
     }
 
     /**
