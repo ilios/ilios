@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,6 +32,7 @@ class ProgramYear implements ProgramYearInterface
     use ArchivableEntity;
     use DeletableEntity;
     use StewardedEntity;
+    use ObjectivesEntity;
 
     /**
     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
@@ -399,34 +401,6 @@ class ProgramYear implements ProgramYearInterface
     public function getTopics()
     {
         return $this->topics;
-    }
-
-    /**
-     * @param Collection $objectives
-     */
-    public function setObjectives(Collection $objectives)
-    {
-        $this->objectives = new ArrayCollection();
-
-        foreach ($objectives as $objective) {
-            $this->addObjective($objective);
-        }
-    }
-
-    /**
-     * @param ObjectiveInterface $objective
-     */
-    public function addObjective(ObjectiveInterface $objective)
-    {
-        $this->objectives->add($objective);
-    }
-
-    /**
-     * @return ArrayCollection|ObjectiveInterface[]
-     */
-    public function getObjectives()
-    {
-        return $this->objectives;
     }
 
     /**

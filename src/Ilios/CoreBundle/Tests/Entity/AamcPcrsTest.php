@@ -58,7 +58,7 @@ class AamcPcrsTest extends EntityBase
      */
     public function testAddCompetency()
     {
-        $this->entityCollectionAddTest('competencies', 'Competency', 'getCompetencies', 'AddCompetency');
+        $this->entityCollectionAddTest('competencies', 'Competency', 'getCompetencies', 'AddCompetency', 'addAamcPcrs');
     }
 
     /**
@@ -70,7 +70,8 @@ class AamcPcrsTest extends EntityBase
             'competencies',
             'Competency',
             'getCompetencies',
-            'setCompetencies'
+            'setCompetencies',
+            'addAamcPcrs'
         );
     }
 }

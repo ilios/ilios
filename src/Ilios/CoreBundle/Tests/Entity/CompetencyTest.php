@@ -81,7 +81,7 @@ class CompetencyTest extends EntityBase
      */
     public function testAddProgramYear()
     {
-        $this->softDeleteEntityCollectionAddTest('programYear', 'ProgramYear');
+        $this->softDeleteEntityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addCompetency');
     }
 
     /**
@@ -89,6 +89,6 @@ class CompetencyTest extends EntityBase
      */
     public function testGetProgramYears()
     {
-        $this->softDeleteEntityCollectionSetTest('programYear', 'ProgramYear');
+        $this->softDeleteEntityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addCompetency');
     }
 }

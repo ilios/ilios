@@ -94,7 +94,10 @@ class UserRole implements UserRoleInterface
      */
     public function addUser(UserInterface $user)
     {
-        $this->users->add($user);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addRole($this);
+        }
     }
 
     /**

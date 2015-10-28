@@ -33,6 +33,9 @@ class MeshConceptType extends AbstractType
             ->add('semanticTypes', 'tdn_many_related', [
                 'entityName' => "IliosCoreBundle:MeshSemanticType"
             ])
+            ->add('terms', 'tdn_many_related', [
+                'entityName' => "IliosCoreBundle:MeshTerm"
+            ])
         ;
         $transformer = new RemoveMarkupTransformer();
         foreach (['id', 'name', 'umlsUid', 'scopeNote', 'casn1Name', 'registryNumber'] as $element) {

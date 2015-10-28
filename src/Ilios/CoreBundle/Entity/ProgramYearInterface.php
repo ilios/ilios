@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
+use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
 use Ilios\CoreBundle\Traits\StewardedEntityInterface;
 
 /**
@@ -21,7 +22,8 @@ interface ProgramYearInterface extends
     ArchivableEntityInterface,
     LoggableEntityInterface,
     DeletableEntityInterface,
-    StewardedEntityInterface
+    StewardedEntityInterface,
+    ObjectivesEntityInterface
 {
     /**
      * @param int $startYear
@@ -97,21 +99,6 @@ interface ProgramYearInterface extends
      * @return ArrayCollection|TopicInterface[]
      */
     public function getTopics();
-
-    /**
-     * @param Collection $objectives
-     */
-    public function setObjectives(Collection $objectives);
-
-    /**
-     * @param ObjectiveInterface $objective
-     */
-    public function addObjective(ObjectiveInterface $objective);
-
-    /**
-     * @return ArrayCollection|ObjectiveInterface[]
-     */
-    public function getObjectives();
 
     /**
      * @param PublishEventInterface $publishEvent

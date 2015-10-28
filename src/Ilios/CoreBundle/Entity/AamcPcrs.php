@@ -99,7 +99,10 @@ class AamcPcrs implements AamcPcrsInterface
      */
     public function addCompetency(CompetencyInterface $competency)
     {
-        $this->competencies->add($competency);
+        if (!$this->competencies->contains($competency)) {
+            $this->competencies->add($competency);
+            $competency->addAamcPcrs($this);
+        }
     }
 
     /**

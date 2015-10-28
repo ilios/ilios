@@ -190,7 +190,21 @@ class Cohort implements CohortInterface
      */
     public function addUser(UserInterface $user)
     {
-        $this->users->add($user);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addCohort($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addCourse(CourseInterface $course)
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+            $course->addCohort($this);
+        }
     }
 
     /**

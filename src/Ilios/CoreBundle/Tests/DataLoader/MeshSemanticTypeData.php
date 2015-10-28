@@ -26,7 +26,7 @@ class MeshSemanticTypeData extends AbstractDataLoader
         return array(
             'id' => '3',
             'name' => $this->faker->text,
-            'concepts' => []
+            'concepts' => ['1']
         );
     }
 

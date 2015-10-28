@@ -161,14 +161,25 @@ class EntityBase extends TestCase
      * @param string $entityName
      * @param string $getter use instead of a generated method
      * @param string $setter use instead of a generated method
+     * @param string $crossSaveMethod call on the inverse side of the relationship
      */
-    protected function entityCollectionSetTest($property, $entityName, $getter = false, $setter = false)
-    {
+    protected function entityCollectionSetTest(
+        $property,
+        $entityName,
+        $getter = false,
+        $setter = false,
+        $crossSaveMethod = false
+    ) {
         $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
         $setMethod = $setter?$setter:$this->getSetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
         $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
         $arr = $this->getArrayOfMockObjects('Ilios\CoreBundle\Entity\\' . $entityName, 10);
+        if ($crossSaveMethod) {
+            foreach ($arr as $obj) {
+                $obj->shouldReceive($crossSaveMethod)->with($this->object)->once();
+            }
+        }
         $collection = new Collection($arr);
         $this->object->$setMethod($collection);
         $results = $this->object->$getMethod();
@@ -188,8 +199,13 @@ class EntityBase extends TestCase
      * @param string $getter use instead of a generated method
      * @param string $setter use instead of a generated method
      */
-    protected function softDeleteEntityCollectionSetTest($property, $entityName, $getter = false, $setter = false)
-    {
+    protected function softDeleteEntityCollectionSetTest(
+        $property,
+        $entityName,
+        $getter = false,
+        $setter = false,
+        $crossSaveMethod = false
+    ) {
         $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
         $setMethod = $setter?$setter:$this->getSetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
@@ -203,6 +219,11 @@ class EntityBase extends TestCase
         $unDeletedObj2 = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
             ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
             ->mock();
+        if ($crossSaveMethod) {
+            $unDeletedObj1->shouldReceive($crossSaveMethod)->with($this->object);
+            $deletedObj->shouldReceive($crossSaveMethod)->with($this->object);
+            $unDeletedObj2->shouldReceive($crossSaveMethod)->with($this->object);
+        }
         $collection = new Collection([$unDeletedObj1, $deletedObj, $unDeletedObj2]);
         $this->object->$setMethod($collection);
         $results = $this->object->$getMethod();
@@ -224,14 +245,22 @@ class EntityBase extends TestCase
      * @param string $getter use instead of a generated method
      * @param string $setter use instead of a generated method
      */
-    protected function entityCollectionAddTest($property, $entityName, $getter = false, $setter = false)
-    {
+    protected function entityCollectionAddTest(
+        $property,
+        $entityName,
+        $getter = false,
+        $setter = false,
+        $crossSaveMethod = false
+    ) {
         $arr = $this->getArrayOfMockObjects('Ilios\CoreBundle\Entity\\' . $entityName, 10);
         $addMethod = $setter?$setter:$this->getAddMethodForProperty($property);
         $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
         $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
         foreach ($arr as $obj) {
+            if ($crossSaveMethod) {
+                $obj->shouldReceive($crossSaveMethod)->with($this->object)->once();
+            }
             $this->object->$addMethod($obj);
         }
         $results = $this->object->$getMethod();
@@ -250,8 +279,13 @@ class EntityBase extends TestCase
      * @param string $getter use instead of a generated method
      * @param string $setter use instead of a generated method
      */
-    protected function softDeleteEntityCollectionAddTest($property, $entityName, $getter = false, $setter = false)
-    {
+    protected function softDeleteEntityCollectionAddTest(
+        $property,
+        $entityName,
+        $getter = false,
+        $setter = false,
+        $crossSaveMethod = false
+    ) {
         $addMethod = $setter?$setter:$this->getAddMethodForProperty($property);
         $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
@@ -266,6 +300,11 @@ class EntityBase extends TestCase
         $unDeletedObj2 = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
             ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
             ->mock();
+        if ($crossSaveMethod) {
+            $unDeletedObj1->shouldReceive($crossSaveMethod)->with($this->object);
+            $deletedObj->shouldReceive($crossSaveMethod)->with($this->object);
+            $unDeletedObj2->shouldReceive($crossSaveMethod)->with($this->object);
+        }
         $this->object->$addMethod($unDeletedObj1);
         $this->object->$addMethod($deletedObj);
         $this->object->$addMethod($unDeletedObj2);

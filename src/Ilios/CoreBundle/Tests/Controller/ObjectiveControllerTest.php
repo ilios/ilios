@@ -107,6 +107,96 @@ class ObjectiveControllerTest extends AbstractControllerTest
         );
     }
 
+    public function testPostCourseObjective()
+    {
+        $data = $this->container->get('ilioscore.dataloader.objective')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_objectives'),
+            json_encode(['objective' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['objectives'][0]['id'];
+        foreach ($postData['courses'] as $courseId) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_courses',
+                    ['id' => $courseId]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['courses'][0];
+            $this->assertTrue(in_array($newId, $data['objectives']));
+        }
+    }
+
+    public function testPostProgramYeareObjective()
+    {
+        $data = $this->container->get('ilioscore.dataloader.objective')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_objectives'),
+            json_encode(['objective' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['objectives'][0]['id'];
+        foreach ($postData['programYears'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_programyears',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['programYears'][0];
+            $this->assertTrue(in_array($newId, $data['objectives']));
+        }
+    }
+
+    public function testPostSessioneObjective()
+    {
+        $data = $this->container->get('ilioscore.dataloader.objective')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_objectives'),
+            json_encode(['objective' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['objectives'][0]['id'];
+        foreach ($postData['sessions'] as $sessionId) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_sessions',
+                    ['id' => $sessionId]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['sessions'][0];
+            $this->assertTrue(in_array($newId, $data['objectives']));
+        }
+    }
+
 
     /**
      * Ideally, we'd be testing the "purified textarea" form type by itself.

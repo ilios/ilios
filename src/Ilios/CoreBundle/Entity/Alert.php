@@ -250,7 +250,9 @@ class Alert implements AlertInterface
      */
     public function addChangeType(AlertChangeTypeInterface $changeType)
     {
-        $this->changeTypes->add($changeType);
+        if (!$this->changeTypes->contains($changeType)) {
+            $this->changeTypes->add($changeType);
+        }
     }
 
     /**
@@ -278,7 +280,9 @@ class Alert implements AlertInterface
      */
     public function addInstigator(UserInterface $instigator)
     {
-        $this->instigators->add($instigator);
+        if (!$this->instigators->contains($instigator)) {
+            $this->instigators->add($instigator);
+        }
     }
 
     /**
@@ -306,7 +310,9 @@ class Alert implements AlertInterface
      */
     public function addRecipient(SchoolInterface $recipient)
     {
-        $this->recipients->add($recipient);
+        if (!$this->recipients->contains($recipient)) {
+            $this->recipients->add($recipient);
+        }
     }
 
     /**

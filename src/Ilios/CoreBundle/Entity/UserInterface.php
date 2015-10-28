@@ -326,6 +326,21 @@ interface UserInterface extends
     public function getPendingUserUpdates();
 
     /**
+     * @param Collection $cohorts
+     */
+    public function setCohorts(Collection $cohorts);
+
+    /**
+     * @param CohortInterface $cohort
+     */
+    public function addCohort(CohortInterface $cohort);
+
+    /**
+     * @return CohortInterface[]|ArrayCollection
+     */
+    public function getCohorts();
+
+    /**
      * @inheritDoc
      */
     public function serialize();

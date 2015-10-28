@@ -110,7 +110,7 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      */
     public function setConcepts(Collection $concepts)
     {
-        $this->concepts = $concepts;
+        $this->concepts = new ArrayCollection();
 
         foreach ($concepts as $concept) {
             $this->addConcept($concept);
@@ -122,7 +122,10 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      */
     public function addConcept(MeshConceptInterface $concept)
     {
-        $this->concepts->add($concept);
+        if (!$this->concepts->contains($concept)) {
+            $this->concepts->add($concept);
+            $concept->addSemanticType($this);
+        }
     }
 
     /**

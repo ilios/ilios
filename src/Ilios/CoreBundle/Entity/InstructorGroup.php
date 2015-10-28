@@ -154,7 +154,10 @@ class InstructorGroup implements InstructorGroupInterface
      */
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
-        $this->learnerGroups->add($learnerGroup);
+        if (!$this->learnerGroups->contains($learnerGroup)) {
+            $this->learnerGroups->add($learnerGroup);
+            $learnerGroup->addInstructorGroup($this);
+        }
     }
 
     /**
@@ -182,7 +185,10 @@ class InstructorGroup implements InstructorGroupInterface
      */
     public function addIlmSession(IlmSessionInterface $ilmSession)
     {
-        $this->ilmSessions->add($ilmSession);
+        if (!$this->ilmSessions->contains($ilmSession)) {
+            $this->ilmSessions->add($ilmSession);
+            $ilmSession->addInstructorGroup($this);
+        }
     }
 
     /**
@@ -210,7 +216,9 @@ class InstructorGroup implements InstructorGroupInterface
      */
     public function addUser(UserInterface $user)
     {
-        $this->users->add($user);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
     }
 
     /**

@@ -103,6 +103,36 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    public function testPostAlertAlertChangeType()
+    {
+        $data = $this->container->get('ilioscore.dataloader.alertchangetype')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_alertchangetypes'),
+            json_encode(['alertChangeType' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['alertChangeTypes'][0]['id'];
+        foreach ($postData['alerts'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_alerts',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['alerts'][0];
+            $this->assertTrue(in_array($newId, $data['changeTypes']));
+        }
+    }
+
     public function testPostBadAlertChangeType()
     {
         $invalidAlertChangeType = $this->container

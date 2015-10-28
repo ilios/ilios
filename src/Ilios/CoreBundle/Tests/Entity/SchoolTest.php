@@ -101,7 +101,7 @@ class SchoolTest extends EntityBase
      */
     public function testAddAlert()
     {
-        $this->entityCollectionAddTest('alert', 'Alert');
+        $this->entityCollectionAddTest('alert', 'Alert', false, false, 'addRecipient');
     }
 
     /**
@@ -109,7 +109,7 @@ class SchoolTest extends EntityBase
      */
     public function testGetAlerts()
     {
-        $this->entityCollectionSetTest('alert', 'Alert');
+        $this->entityCollectionSetTest('alert', 'Alert', false, false, 'addRecipient');
     }
 
     /**

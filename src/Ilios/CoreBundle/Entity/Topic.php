@@ -120,6 +120,39 @@ class Topic implements TopicInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function addCourse(CourseInterface $course)
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+            $course->addTopic($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addSession(SessionInterface $session)
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->addTopic($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addProgramYear(ProgramYearInterface $programYear)
+    {
+        if (!$this->programYears->contains($programYear)) {
+            $this->programYears->add($programYear);
+            $programYear->addTopic($this);
+        }
+    }
+
+    /**
      * @return string
      */
     public function __toString()

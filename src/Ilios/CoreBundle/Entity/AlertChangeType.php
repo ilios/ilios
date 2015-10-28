@@ -96,7 +96,10 @@ class AlertChangeType implements AlertChangeTypeInterface
      */
     public function addAlert(AlertInterface $alert)
     {
-        $this->alerts->add($alert);
+        if (!$this->alerts->contains($alert)) {
+            $this->alerts->add($alert);
+            $alert->addChangeType($this);
+        }
     }
 
     /**

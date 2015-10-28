@@ -74,7 +74,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->softDeleteEntityCollectionAddTest('course', 'Course');
+        $this->softDeleteEntityCollectionAddTest('course', 'Course', false, false, 'addMeshDescriptor');
     }
 
     /**
@@ -82,7 +82,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $this->softDeleteEntityCollectionSetTest('course', 'Course');
+        $this->softDeleteEntityCollectionSetTest('course', 'Course', false, false, 'addMeshDescriptor');
     }
 
     /**
@@ -90,7 +90,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddObjective()
     {
-        $this->entityCollectionAddTest('objective', 'Objective');
+        $this->entityCollectionAddTest('objective', 'Objective', false, false, 'addMeshDescriptor');
     }
 
     /**
@@ -99,7 +99,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetObjectives()
     {
-        $this->entityCollectionSetTest('objective', 'Objective');
+        $this->entityCollectionSetTest('objective', 'Objective', false, false, 'addMeshDescriptor');
     }
 
     /**
@@ -107,7 +107,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddSession()
     {
-        $this->softDeleteEntityCollectionAddTest('session', 'Session');
+        $this->softDeleteEntityCollectionAddTest('session', 'Session', false, false, 'addMeshDescriptor');
     }
 
     /**
@@ -115,7 +115,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetSessions()
     {
-        $this->softDeleteEntityCollectionSetTest('session', 'Session');
+        $this->softDeleteEntityCollectionSetTest('session', 'Session', false, false, 'addMeshDescriptor');
     }
 
     /**
@@ -123,7 +123,13 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddSessionLearningMaterial()
     {
-        $this->entityCollectionAddTest('sessionLearningMaterial', 'SessionLearningMaterial');
+        $this->entityCollectionAddTest(
+            'sessionLearningMaterial',
+            'SessionLearningMaterial',
+            false,
+            false,
+            'addMeshDescriptor'
+        );
     }
 
     /**
@@ -132,7 +138,13 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetSessionLearningMaterials()
     {
-        $this->entityCollectionSetTest('sessionLearningMaterial', 'SessionLearningMaterial');
+        $this->entityCollectionSetTest(
+            'sessionLearningMaterial',
+            'SessionLearningMaterial',
+            false,
+            false,
+            'addMeshDescriptor'
+        );
     }
 
     /**
@@ -140,7 +152,13 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddCourseLearningMaterial()
     {
-        $this->entityCollectionAddTest('courseLearningMaterial', 'CourseLearningMaterial');
+        $this->entityCollectionAddTest(
+            'courseLearningMaterial',
+            'CourseLearningMaterial',
+            false,
+            false,
+            'addMeshDescriptor'
+        );
     }
 
     /**
@@ -149,7 +167,13 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetCourseLearningMaterials()
     {
-        $this->entityCollectionSetTest('courseLearningMaterial', 'CourseLearningMaterial');
+        $this->entityCollectionSetTest(
+            'courseLearningMaterial',
+            'CourseLearningMaterial',
+            false,
+            false,
+            'addMeshDescriptor'
+        );
     }
 
     /**

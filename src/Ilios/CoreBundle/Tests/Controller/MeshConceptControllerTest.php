@@ -109,8 +109,7 @@ class MeshConceptControllerTest extends AbstractControllerTest
         //unset any parameters which should not be POSTed
         unset($postData['updatedAt']);
         unset($postData['createdAt']);
-        unset($postData['terms']);
-        
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_meshconcepts'),
@@ -119,7 +118,7 @@ class MeshConceptControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-        
+
         $response = json_decode($response->getContent(), true);
         $this->assertTrue(array_key_exists('meshConcepts', $response), var_export($response, true));
         $data = $response['meshConcepts'][0];
@@ -137,6 +136,37 @@ class MeshConceptControllerTest extends AbstractControllerTest
         $this->assertTrue($diffU->y < 1, 'The updatedAt timestamp is within the last year');
         $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
 
+    }
+
+    public function testPostMeshConceptTerm()
+    {
+        $data = $this->container->get('ilioscore.dataloader.meshConcept')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['updatedAt']);
+        unset($postData['createdAt']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_meshconcepts'),
+            json_encode(['meshConcept' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['meshConcepts'][0]['id'];
+        foreach ($postData['terms'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_meshterms',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['meshTerms'][0];
+            $this->assertTrue(in_array($newId, $data['concepts']));
+        }
     }
 
     public function testPostBadMeshConcept()

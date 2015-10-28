@@ -234,6 +234,391 @@ class UserControllerTest extends AbstractControllerTest
         );
     }
 
+    public function testPostUserCourse()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['directedCourses'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_courses',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['courses'][0];
+            $this->assertTrue(in_array($newId, $data['directors']));
+        }
+    }
+
+    public function testPostUserLearnerGroup()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['learnerGroups'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_learnergroups',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['learnerGroups'][0];
+            $this->assertTrue(in_array($newId, $data['users']));
+        }
+    }
+
+    public function testPostUserInstructorLearnerGroup()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['instructedLearnerGroups'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_learnergroups',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['learnerGroups'][0];
+            $this->assertTrue(in_array($newId, $data['instructors']));
+        }
+    }
+
+    public function testPostUserInstructoGroup()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['instructorGroups'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_instructorgroups',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['instructorGroups'][0];
+            $this->assertTrue(in_array($newId, $data['users']));
+        }
+    }
+
+    public function testPostUserIlmSession()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['learnerIlmSessions'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_ilmsessions',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['ilmSessions'][0];
+            $this->assertTrue(in_array($newId, $data['learners']));
+        }
+    }
+
+    public function testPostUserInstructedIlmSession()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['instructorIlmSessions'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_ilmsessions',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['ilmSessions'][0];
+            $this->assertTrue(in_array($newId, $data['instructors']));
+        }
+    }
+
+    public function testPostUserOffering()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['offerings'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_offerings',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['offerings'][0];
+            $this->assertTrue(in_array($newId, $data['learners']));
+        }
+    }
+
+    public function testPostUserInstructedOffering()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['instructedOfferings'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_offerings',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['offerings'][0];
+            $this->assertTrue(in_array($newId, $data['instructors']));
+        }
+    }
+
+    public function testPostUserProgramYear()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['programYears'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_programyears',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['programYears'][0];
+            $this->assertTrue(in_array($newId, $data['directors']));
+        }
+    }
+
+    public function testPostUserAlert()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['alerts'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_alerts',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['alerts'][0];
+            $this->assertTrue(in_array($newId, $data['instigators']));
+        }
+    }
+
+    public function testPostUserCohort()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['publishEvents']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
+        foreach ($postData['cohorts'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_cohorts',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['cohorts'][0];
+            $this->assertTrue(in_array($newId, $data['users']));
+        }
+    }
+
     public function testPostBadUser()
     {
         $invalidUser = $this->container

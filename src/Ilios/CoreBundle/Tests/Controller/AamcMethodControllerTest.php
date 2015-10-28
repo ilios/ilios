@@ -97,6 +97,34 @@ class AamcMethodControllerTest extends AbstractControllerTest
         );
     }
 
+    public function testPostSessionTypeAamcMethod()
+    {
+        $data = $this->container->get('ilioscore.dataloader.aamcmethod')->create();
+        $postData = $data;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_aamcmethods'),
+            json_encode(['aamcMethod' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $newId = json_decode($this->client->getResponse()->getContent(), true)['aamcMethods'][0]['id'];
+        foreach ($postData['sessionTypes'] as $id) {
+            $this->createJsonRequest(
+                'GET',
+                $this->getUrl(
+                    'get_sessiontypes',
+                    ['id' => $id]
+                ),
+                null,
+                $this->getAuthenticatedUserToken()
+            );
+            $data = json_decode($this->client->getResponse()->getContent(), true)['sessionTypes'][0];
+            $this->assertTrue(in_array($newId, $data['aamcMethods']));
+        }
+    }
+
     public function testPostBadAamcMethod()
     {
         $invalidAamcMethod = $this->container

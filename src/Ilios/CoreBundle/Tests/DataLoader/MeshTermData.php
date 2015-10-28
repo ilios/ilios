@@ -45,7 +45,7 @@ class MeshTermData extends AbstractDataLoader
             'recordPreferred' => true,
             'permuted' => true,
             'printable' => true,
-            'concepts' => []
+            'concepts' => ['1']
         );
     }
 

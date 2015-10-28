@@ -123,7 +123,7 @@ class MeshConceptTest extends EntityBase
      */
     public function testAddTerm()
     {
-        $this->entityCollectionAddTest('term', 'MeshTerm');
+        $this->entityCollectionAddTest('term', 'MeshTerm', false, false, 'addConcept');
     }
 
     /**
@@ -132,7 +132,7 @@ class MeshConceptTest extends EntityBase
      */
     public function testGetTerms()
     {
-        $this->entityCollectionSetTest('term', 'MeshTerm');
+        $this->entityCollectionSetTest('term', 'MeshTerm', false, false, 'addConcept');
     }
 
     /**

@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
+use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
@@ -27,7 +28,8 @@ interface CourseInterface extends
     SessionsEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,
-    DeletableEntityInterface
+    DeletableEntityInterface,
+    ObjectivesEntityInterface
 {
     /**
      * @param int $level
@@ -145,21 +147,6 @@ interface CourseInterface extends
      * @param Collection|TopicInterface[] $topics
      */
     public function setTopics(Collection $topics = null);
-
-    /**
-     * @param Collection|ObjectiveInterface[] $objectives
-     */
-    public function setObjectives(Collection $objectives);
-
-    /**
-     * @param ObjectiveInterface $objective
-     */
-    public function addObjective(ObjectiveInterface $objective);
-
-    /**
-     * @return ArrayCollection|ObjectiveInterface[]
-     */
-    public function getObjectives();
 
     /**
      * @param Collection|MeshDescriptorInterface[] $meshDescriptors

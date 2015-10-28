@@ -217,7 +217,9 @@ class Competency implements CompetencyInterface
      */
     public function addAamcPcrs(AamcPcrsInterface $aamcPcrs)
     {
-        $this->aamcPcrses->add($aamcPcrs);
+        if (!$this->aamcPcrses->contains($aamcPcrs)) {
+            $this->aamcPcrses->add($aamcPcrs);
+        }
     }
 
     /**
@@ -257,6 +259,17 @@ class Competency implements CompetencyInterface
     public function getObjectives()
     {
         return $this->objectives;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addProgramYear(ProgramYearInterface $programYear)
+    {
+        if (!$this->programYears->contains($programYear)) {
+            $this->programYears->add($programYear);
+            $programYear->addCompetency($this);
+        }
     }
 
     /**
