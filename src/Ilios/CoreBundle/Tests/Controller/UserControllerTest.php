@@ -169,6 +169,41 @@ class UserControllerTest extends AbstractControllerTest
         $this->assertEquals(0, count($gotUsers));
     }
 
+    public function testFindUsersWithRoles()
+    {
+        $userRole = '1';
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', array(
+                'q' => 'example',
+                'filters[roles][]' => $userRole)),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('users', $result));
+        $gotUsers = $result['users'];
+        foreach ($gotUsers as $gotUser) {
+            $this->assertTrue(in_array($userRole, $gotUser['roles']));
+        }
+
+        $userRoles = ['1', '4'];
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', array(
+                'q' => 'example',
+                'filters[roles][]' => $userRole)),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('users', $result));
+        $gotUsers = $result['users'];
+        foreach ($gotUsers as $gotUser) {
+            $this->assertNotEmpty(array_intersect($userRoles, $gotUser['roles']));
+        }
+    }
+
     public function testPostUser()
     {
         $data = $this->container->get('ilioscore.dataloader.user')
