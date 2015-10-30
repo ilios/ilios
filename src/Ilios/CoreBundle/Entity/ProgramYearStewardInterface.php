@@ -33,4 +33,16 @@ interface ProgramYearStewardInterface extends
      * @return ProgramYearInterface
      */
     public function getProgramYear();
+
+    /**
+     * Gets the program owning the stewarded program year.
+     * @return ProgramInterface|null
+     */
+    public function getProgram();
+
+    /**
+     * Gets the school that program owning the stewarded program year belongs to.
+     * @return SchoolInterface|null
+     */
+    public function getProgramOwningSchool();
 }
