@@ -66,10 +66,10 @@ class LearningMaterialVoter extends AbstractVoter
                     || (
                         $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
                         && (
-                            $this->schoolsAreIdentical($user->getSchool(), $material->getOwningUser()->getSchool())
+                            $this->schoolsAreIdentical($user->getSchool(), $material->getOwningSchool())
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
-                                $material->getOwningUser()->getSchool()
+                                $material->getOwningSchool()
                             ))
                     )
                 );
