@@ -75,4 +75,19 @@ abstract class AbstractVoter extends Voter
             && $schoolA->getId() === $schoolB->getId()
         );
     }
+
+    /**
+     * Checks if two given users are the same.
+     * @param UserInterface|null $userA
+     * @param UserInterface|null $userB
+     * @return bool
+     */
+    public function usersAreIdentical(UserInterface $userA = null, UserInterface $userB = null)
+    {
+        return (
+            $userA instanceof UserInterface
+            && $userB instanceof UserInterface
+            && $userA->getId() === $userB->getId()
+        );
+    }
 }
