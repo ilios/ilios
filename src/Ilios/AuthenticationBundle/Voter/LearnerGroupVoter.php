@@ -57,16 +57,17 @@ class LearnerGroupVoter extends AbstractVoter
                     && (
                         $this->schoolsAreIdentical(
                             $user->getSchool(),
-                            $group->getCohort()->getProgramYear()->getProgram()->getSchool()
+                            $group->getSchool()
+
                         )
                         || $this->permissionManager->userHasReadPermissionToSchool(
                             $user,
-                            $group->getCohort()->getProgramYear()->getProgram()->getSchool()
+                            $group->getSchool()
                         )
                     )
                     || $this->permissionManager->userHasReadPermissionToProgram(
                         $user,
-                        $group->getCohort()->getProgramYear()->getProgram()
+                        $group->getProgram()
                     )
                 );
                 break;
@@ -85,16 +86,16 @@ class LearnerGroupVoter extends AbstractVoter
                     && (
                         $this->schoolsAreIdentical(
                             $user->getSchool(),
-                            $group->getCohort()->getProgramYear()->getProgram()->getSchool()
+                            $group->getSchool()
                         )
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
-                            $group->getCohort()->getProgramYear()->getProgram()->getSchool()
+                            $group->getSchool()
                         )
                     )
                     || $this->permissionManager->userHasWritePermissionToProgram(
                         $user,
-                        $group->getCohort()->getProgramYear()->getProgram()
+                        $group->getProgram()
                     )
                 );
                 break;
