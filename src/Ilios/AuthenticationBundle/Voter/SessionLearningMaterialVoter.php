@@ -27,7 +27,11 @@ class SessionLearningMaterialVoter extends SessionVoter
      */
     protected function isGranted($attribute, $material, $user = null)
     {
+        $session = $material->getSession();
+        if (! $session) {
+            return false;
+        }
         // grant perms based on the owning session
-        return parent::isGranted($attribute, $material->getSession(), $user);
+        return parent::isGranted($attribute, $session, $user);
     }
 }
