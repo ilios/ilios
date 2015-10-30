@@ -44,7 +44,11 @@ class IlmSessionVoter extends SessionVoter
     protected function isGranted($attribute, $ilmFacet, $user = null)
     {
         // grant perms based on the session
-        return parent::isGranted($attribute, $ilmFacet->getSession(), $user);
+        $session = $ilmFacet->getSession();
+        if (! $session) {
+            return false;
+        }
+        return parent::isGranted($attribute, $session, $user);
 
     }
 }
