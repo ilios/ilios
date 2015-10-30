@@ -27,7 +27,11 @@ class CohortVoter extends ProgramYearVoter
      */
     protected function isGranted($attribute, $cohort, $user = null)
     {
-        return parent::isGranted($attribute, $cohort->getProgramYear(), $user);
+        $programYear = $cohort->getProgramYear();
+        if (! $programYear) {
+            return false;
+        }
+        return parent::isGranted($attribute, $programYear, $user);
     }
 
     /**
