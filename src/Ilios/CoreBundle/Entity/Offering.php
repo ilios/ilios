@@ -298,11 +298,14 @@ class Offering implements OfferingInterface
     }
 
     /**
-     * @return SessionInterface
+     * @inheritdoc
      */
     public function getSession()
     {
-        return $this->session;
+        if ($this->session && !$this->session->isDeleted()) {
+            return $this->session;
+        }
+        return null;
     }
 
     /**
