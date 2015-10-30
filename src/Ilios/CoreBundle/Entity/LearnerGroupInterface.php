@@ -126,10 +126,21 @@ interface LearnerGroupInterface extends
      */
     public function getInstructors();
 
-
     /**
      * Get the school we belong to
      * @return SchoolInterface|null
      */
     public function getSchool();
+
+    /**
+     * Gets the program that this learner group belongs to.
+     * @return ProgramInterface|null
+     */
+    public function getProgram();
+
+    /**
+     * Gets the program year that this learner group belongs to.
+     * @return ProgramYearInterface|null
+     */
+    public function getProgramYear();
 }

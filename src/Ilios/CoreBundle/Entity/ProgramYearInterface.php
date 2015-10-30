@@ -109,4 +109,10 @@ interface ProgramYearInterface extends
      * @return PublishEventInterface
      */
     public function getPublishEvent();
+
+    /**
+     * Gets the school that this program year belongs to.
+     * @return SchoolInterface|null
+     */
+    public function getSchool();
 }
