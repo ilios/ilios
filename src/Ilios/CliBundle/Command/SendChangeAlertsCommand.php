@@ -120,8 +120,8 @@ class SendChangeAlertsCommand extends Command
                 continue;
             }
             // do not send alerts for deleted stuff.
-            $deleted = $offering->getSession()->isDeleted()
-                || $offering->getSession()->getCourse()->isDeleted()
+            $deleted = ! $offering->getSession()
+                || ! $offering->getSession()->getCourse()
                 || ! $offering->getSession()->getCourse()->getSchool();
             if ($deleted) {
                 // @todo print another warning here? [ST 2015/09/30]
