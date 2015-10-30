@@ -91,25 +91,25 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     /**
      * {@inheritdoc}
      */
-    public function userHasReadPermissionToCourse(UserInterface $user, CourseInterface $course)
+    public function userHasReadPermissionToCourse(UserInterface $user, CourseInterface $course = null)
     {
-        return $this->userHasPermission($user, self::CAN_READ, 'course', $course->getId());
+        return $course && $this->userHasPermission($user, self::CAN_READ, 'course', $course->getId());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function userHasReadPermissionToProgram(UserInterface $user, ProgramInterface $program)
+    public function userHasReadPermissionToProgram(UserInterface $user, ProgramInterface $program = null)
     {
-        return $this->userHasPermission($user, self::CAN_READ, 'program', $program->getId());
+        return $program && $this->userHasPermission($user, self::CAN_READ, 'program', $program->getId());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function userHasReadPermissionToSchool(UserInterface $user, SchoolInterface $school)
+    public function userHasReadPermissionToSchool(UserInterface $user, SchoolInterface $school = null)
     {
-        return $this->userHasPermission($user, self::CAN_READ, 'school', $school->getId());
+        return $school && $this->userHasPermission($user, self::CAN_READ, 'school', $school->getId());
     }
 
     /**
@@ -150,25 +150,25 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     /**
      * {@inheritdoc}
      */
-    public function userHasWritePermissionToCourse(UserInterface $user, CourseInterface $course)
+    public function userHasWritePermissionToCourse(UserInterface $user, CourseInterface $course = null)
     {
-        return $this->userHasPermission($user, self::CAN_WRITE, 'course', $course->getId());
+        return $course && $this->userHasPermission($user, self::CAN_WRITE, 'course', $course->getId());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function userHasWritePermissionToProgram(UserInterface $user, ProgramInterface $program)
+    public function userHasWritePermissionToProgram(UserInterface $user, ProgramInterface $program = null)
     {
-        return $this->userHasPermission($user, self::CAN_WRITE, 'program', $program->getId());
+        return $program && $this->userHasPermission($user, self::CAN_WRITE, 'program', $program->getId());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school)
+    public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school = null)
     {
-        return $this->userHasPermission($user, self::CAN_WRITE, 'school', $school->getId());
+        return $school && $this->userHasPermission($user, self::CAN_WRITE, 'school', $school->getId());
     }
 
     /**
