@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
@@ -65,7 +66,7 @@ interface LearningMaterialInterface extends
     public function setOwningUser(UserInterface $user);
 
     /**
-     * @return UserInterface
+     * @return UserInterface|null
      */
     public function getOwningUser();
     
@@ -184,4 +185,10 @@ interface LearningMaterialInterface extends
      * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
     public function getSessionLearningMaterials();
+
+    /**
+     * Gets the primary school of the LM's owning user.
+     * @return SchoolInterface|null
+     */
+    public function getOwningSchool();
 }

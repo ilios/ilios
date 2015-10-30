@@ -331,7 +331,7 @@ class LearningMaterial implements LearningMaterialInterface
     }
 
     /**
-     * @return UserInterface
+     * @inheritdoc
      */
     public function getOwningUser()
     {
@@ -567,5 +567,16 @@ class LearningMaterial implements LearningMaterialInterface
     public function getSessionLearningMaterials()
     {
         return $this->sessionLearningMaterials;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getOwningSchool()
+    {
+        if ($user = $this->getOwningUser()) {
+            return $user->getSchool();
+        }
+        return null;
     }
 }
