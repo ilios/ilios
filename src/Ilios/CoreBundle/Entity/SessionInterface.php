@@ -83,7 +83,7 @@ interface SessionInterface extends
     public function setCourse(CourseInterface $course);
 
     /**
-     * @return CourseInterface
+     * @return CourseInterface|null
      */
     public function getCourse();
 
