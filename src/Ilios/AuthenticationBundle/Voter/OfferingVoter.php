@@ -27,7 +27,11 @@ class OfferingVoter extends SessionVoter
      */
     protected function isGranted($attribute, $offering, $user = null)
     {
+        $session = $offering->getSession();
+        if (! $session) {
+            return false;
+        }
         // grant perms based on the owning session
-        return parent::isGranted($attribute, $offering->getSession(), $user);
+        return parent::isGranted($attribute, $session, $user);
     }
 }
