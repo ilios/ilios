@@ -427,7 +427,7 @@ class LearnerGroup implements LearnerGroupInterface
     public function getSchool()
     {
         if ($cohort = $this->getCohort()) {
-            return $cohort = $cohort->getSchool();
+            return $cohort->getSchool();
         }
         return null;
     }
