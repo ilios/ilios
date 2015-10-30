@@ -58,7 +58,6 @@ class LearnerGroupVoter extends AbstractVoter
                         $this->schoolsAreIdentical(
                             $user->getSchool(),
                             $group->getSchool()
-
                         )
                         || $this->permissionManager->userHasReadPermissionToSchool(
                             $user,

@@ -440,7 +440,7 @@ class ProgramYear implements ProgramYearInterface
      */
     public function getSchool()
     {
-        if ($program = $this->getProgram()){
+        if ($program = $this->getProgram()) {
             return $program->getSchool();
         }
         return null;
