@@ -50,7 +50,7 @@ interface SessionLearningMaterialInterface extends
     public function setSession(SessionInterface $session);
 
     /**
-     * @return SessionInterface
+     * @return SessionInterface|null
      */
     public function getSession();
 
