@@ -109,4 +109,10 @@ interface CurriculumInventoryReportInterface extends
      * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
      */
     public function getAcademicLevels();
+
+    /**
+     * Gets the school that the program being reported on belongs to.
+     * @return SchoolInterface|null
+     */
+    public function getSchool();
 }
