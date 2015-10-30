@@ -319,22 +319,6 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param SessionInterface $session
-     */
-    public function setSession(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
-    /**
-     * @return SessionInterface
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
-
-    /**
      * @param boolean $attireRequired
      */
     public function setAttireRequired($attireRequired)
