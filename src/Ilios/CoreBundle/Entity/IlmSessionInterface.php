@@ -108,7 +108,7 @@ interface IlmSessionInterface extends
 
 
     /**
-     * @return SessionInterface
+     * @return SessionInterface|null
      */
     public function getSession();
 
