@@ -2,6 +2,9 @@
 namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\Cohort;
+use Ilios\CoreBundle\Entity\Program;
+use Ilios\CoreBundle\Entity\ProgramYear;
+use Ilios\CoreBundle\Entity\School;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -76,5 +79,49 @@ class CohortTest extends EntityBase
     public function testGetCourses()
     {
         $this->softDeleteEntityCollectionSetTest('course', 'Course', false, false, 'addCohort');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Cohort::getProgram
+     */
+    public function testGetProgram()
+    {
+        $program = new Program();
+        $programYear = new ProgramYear();
+        $programYear->setProgram($program);
+        $this->object->setProgramYear($programYear);
+        $this->assertEquals($program, $this->object->getProgram());
+
+        $program->setDeleted(true);
+        $this->assertNull($this->object->getProgram());
+
+        $program->setDeleted(false);
+        $programYear->setDeleted(true);
+        $this->assertNull($this->object->getProgram());
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Cohort::getSchool
+     */
+    public function testGetSchool()
+    {
+        $school = new School();
+        $program = new Program();
+        $program->setSchool($school);
+        $programYear = new ProgramYear();
+        $programYear->setProgram($program);
+        $this->object->setProgramYear($programYear);
+        $this->assertEquals($school, $this->object->getSchool());
+
+        $school->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
+
+        $school->setDeleted(false);
+        $program->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
+
+        $program->setDeleted(false);
+        $programYear->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
     }
 }

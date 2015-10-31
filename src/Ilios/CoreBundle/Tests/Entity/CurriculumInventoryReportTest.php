@@ -2,6 +2,8 @@
 namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryReport;
+use Ilios\CoreBundle\Entity\Program;
+use Ilios\CoreBundle\Entity\School;
 use Mockery as m;
 
 /**
@@ -116,5 +118,25 @@ class CurriculumInventoryReportTest extends EntityBase
     public function testSetProgram()
     {
         $this->softDeleteEntitySetTest('program', 'Program');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getSchool
+     */
+    public function testGetSchool()
+    {
+        $school = new School();
+        $program = new Program();
+        $program->setSchool($school);
+        $this->object->setProgram($program);
+
+        $this->assertEquals($school, $this->object->getSchool());
+
+        $program->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
+
+        $program->setDeleted(false);
+        $school->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
     }
 }
