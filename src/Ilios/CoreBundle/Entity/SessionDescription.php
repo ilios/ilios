@@ -83,7 +83,7 @@ class SessionDescription implements SessionDescriptionInterface
      */
     public function getSession()
     {
-        if (! $this->session->isDeleted()) {
+        if ($this->session && ! $this->session->isDeleted()) {
             return $this->session;
         }
         return null;
