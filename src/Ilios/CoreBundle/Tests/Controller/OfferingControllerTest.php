@@ -98,9 +98,9 @@ class OfferingControllerTest extends AbstractControllerTest
         // (think 'soft deletes' on owning sessions/courses/schools),
         // we need to filter out any offerings from the original data set
         // that did not get returned before we can do a comparison.
-        $filteredOfferings = array_filter($allOfferings, function(array $offering) use ($data) {
+        $filteredOfferings = array_filter($allOfferings, function (array $offering) use ($data) {
             $offeringId = $offering['id'];
-            $found = array_reduce($data, function($found, array $offering) use ($offeringId) {
+            $found = array_reduce($data, function ($found, array $offering) use ($offeringId) {
                 return $found || $offering['id'] === $offeringId;
             }, false);
             return $found;
