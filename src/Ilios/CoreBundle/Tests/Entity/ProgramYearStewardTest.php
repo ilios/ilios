@@ -1,7 +1,10 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity;
 
+use Ilios\CoreBundle\Entity\Program;
+use Ilios\CoreBundle\Entity\ProgramYear;
 use Ilios\CoreBundle\Entity\ProgramYearSteward;
+use Ilios\CoreBundle\Entity\School;
 use Mockery as m;
 
 /**
@@ -55,5 +58,51 @@ class ProgramYearStewardTest extends EntityBase
     public function testGetSchool()
     {
         $this->softDeleteEntitySetTest('school', 'School');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getProgram
+     */
+    public function testGetProgram()
+    {
+        $program = new Program();
+        $programYear = new ProgramYear();
+        $programYear->setProgram($program);
+        $this->object->setProgramYear($programYear);
+
+        $this->assertEquals($program, $this->object->getProgram());
+
+        $program->setDeleted(true);
+        $this->assertNull($this->object->getProgram());
+
+        $program->setDeleted(false);
+        $programYear->setDeleted(true);
+        $this->assertNull($this->object->getProgram());
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getProgramOwningSchool
+     */
+    public function testGetProgramOwningSchool()
+    {
+        $school = new School();
+        $program = new Program();
+        $program->setSchool($school);
+        $programYear = new ProgramYear();
+        $programYear->setProgram($program);
+        $this->object->setProgramYear($programYear);
+
+        $this->assertEquals($program, $this->object->getProgram());
+
+        $school->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
+
+        $school->setDeleted(false);
+        $program->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
+
+        $program->setDeleted(false);
+        $programYear->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
     }
 }
