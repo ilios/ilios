@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 use DateTime;
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
+use Ilios\CoreBundle\Entity\OfferingInterface;
 
 /**
  * Offering controller Test.
@@ -89,14 +90,23 @@ class OfferingControllerTest extends AbstractControllerTest
             $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
             $data[] = $response;
         }
-        $this->assertEquals(
-            $this->mockSerialize(
-                $this->container
-                    ->get('ilioscore.dataloader.offering')
-                    ->getAll()
-            ),
-            $data
-        );
+        $allOfferings = $this->container
+            ->get('ilioscore.dataloader.offering')
+            ->getAll();
+
+        // since there is no guarantee that all fixture offerings are returned from the server
+        // (think 'soft deletes' on owning sessions/courses/schools),
+        // we need to filter out any offerings from the original data set
+        // that did not get returned before we can do a comparison.
+        $filteredOfferings = array_filter($allOfferings, function(array $offering) use ($data) {
+            $offeringId = $offering['id'];
+            $found = array_reduce($data, function($found, array $offering) use ($offeringId) {
+                return $found || $offering['id'] === $offeringId;
+            }, false);
+            return $found;
+        });
+
+        $this->assertEquals($this->mockSerialize(array_values($filteredOfferings)), $data);
     }
 
     public function testPostOffering()
