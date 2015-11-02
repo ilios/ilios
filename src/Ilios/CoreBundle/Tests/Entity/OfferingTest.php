@@ -90,7 +90,7 @@ class OfferingTest extends EntityBase
      */
     public function testSetSession()
     {
-        $this->entitySetTest('session', 'Session');
+        $this->softDeleteEntitySetTest('session', 'Session');
     }
 
     /**
