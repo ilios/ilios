@@ -118,7 +118,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     public function userHasReadPermissionToSchools(UserInterface $user, ArrayCollection $schools)
     {
         $criteria = [
-            'tableName'     => 'schools',
+            'tableName'     => 'school',
             self::CAN_READ  => true,
             'user'          => $user,
         ];
@@ -136,12 +136,12 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     public function userHasWritePermissionToSchools(UserInterface $user, ArrayCollection $schools)
     {
         $criteria = [
-            'tableName'     => 'schools',
+            'tableName'     => 'school',
             self::CAN_WRITE => true,
             'user'          => $user,
         ];
 
-        $schoolsWithWritePermission = $this->findPermissionBy($criteria);
+        $schoolsWithWritePermission = $this->findPermissionsBy($criteria);
         $overlap = array_intersect($schools->toArray(), $schoolsWithWritePermission->toArray());
 
         return ! empty($overlap);
