@@ -66,15 +66,23 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
         );
         $response = $this->client->getResponse();
 
+        $data = json_decode($response->getContent(), true)['sessionDescriptions'];
+
+        $allSessionDescriptions = $this->container
+            ->get('ilioscore.dataloader.sessiondescription')
+            ->getAll();
+
+        // @todo replace this with a better filtering mechanism based on deletion of parent entities. [ST 2015/11/02]
+        $filteredDescriptions = array_filter($allSessionDescriptions, function (array $description) use ($data) {
+            $descriptionId = $description['id'];
+            $found = array_reduce($data, function ($found, array $description) use ($descriptionId) {
+                return $found || $description['id'] === $descriptionId;
+            }, false);
+            return $found;
+        });
+
         $this->assertJsonResponse($response, Codes::HTTP_OK);
-        $this->assertEquals(
-            $this->mockSerialize(
-                $this->container
-                    ->get('ilioscore.dataloader.sessiondescription')
-                    ->getAll()
-            ),
-            json_decode($response->getContent(), true)['sessionDescriptions']
-        );
+        $this->assertEquals($this->mockSerialize($filteredDescriptions), $data);
     }
 
     public function testPostSessionDescription()
