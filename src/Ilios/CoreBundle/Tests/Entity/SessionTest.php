@@ -191,5 +191,4 @@ class SessionTest extends EntityBase
         $course->setDeleted(true);
         $this->assertNull($this->object->getSchool());
     }
-
 }
