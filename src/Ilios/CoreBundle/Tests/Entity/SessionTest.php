@@ -110,7 +110,7 @@ class SessionTest extends EntityBase
      */
     public function testSetCourse()
     {
-        $this->entitySetTest('course', "Course");
+        $this->softDeleteEntitySetTest('course', "Course");
     }
 
     /**
