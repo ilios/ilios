@@ -489,6 +489,17 @@ class Offering implements OfferingInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getSchool()
+    {
+        if ($session = $this->getSession()) {
+            return $session->getSchool();
+        }
+        return null;
+    }
+
+    /**
      * @return string
      */
     public function __toString()

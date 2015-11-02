@@ -567,4 +567,15 @@ class Session implements SessionInterface
     {
         return $this->learningMaterials;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSchool()
+    {
+        if ($course = $this->getCourse()) {
+            return $course->getSchool();
+        }
+        return null;
+    }
 }

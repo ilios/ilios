@@ -161,4 +161,9 @@ interface SessionInterface extends
      * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
     public function getLearningMaterials();
+
+    /**
+     * @return SchoolInterface|null
+     */
+    public function getSchool();
 }

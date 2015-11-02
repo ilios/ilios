@@ -147,4 +147,9 @@ interface OfferingInterface extends
      * @return array.
      */
     public function getAlertProperties();
+
+    /**
+     * @return SchoolInterface|null
+     */
+    public function getSchool();
 }
