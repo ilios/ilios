@@ -1,6 +1,7 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity\Manager;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use IC\Bundle\Base\TestBundle\Test\TestCase;
@@ -285,5 +286,94 @@ class PermissionManagerTest extends TestCase
 
         $this->assertTrue($manager->userHasReadPermissionToSchool($user, $school));
         $this->assertFalse($manager->userHasReadPermissionToSchool($user, null));
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionsToSchools
+     */
+    public function testUserHasWritePermissionsToSchools()
+    {
+        $schoolA = new School();
+        $schoolA->setId(100);
+        $schoolB = new School();
+        $schoolB->setId(200);
+        $schoolC = new School();
+        $schoolC->setId(300);
+
+        $schoolPermissionA = new Permission();
+        $schoolPermissionA->setTableRowId(100);
+        $schoolPermissionB = new Permission();
+        $schoolPermissionB->setTableRowId(200);
+        $schoolPermissionC = new Permission();
+        $schoolPermissionC->setTableRowId(300);
+
+        $user = new User();
+
+        $class = 'Ilios\CoreBundle\Entity\Permission';
+        $em = m::mock('Doctrine\ORM\EntityManager');
+        $repository = m::mock('Doctrine\ORM\Repository')
+            ->shouldReceive('findBy')
+            ->with([
+                'tableName' => 'school',
+                'canWrite' => true,
+                'user' => $user,
+            ], null, null, null)
+            ->andReturn([$schoolPermissionA, $schoolPermissionB])
+            ->mock();
+        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->shouldReceive('getManagerForClass')
+            ->andReturn($em)
+            ->shouldReceive('getRepository')
+            ->andReturn($repository)
+            ->mock();
+        $manager = new PermissionManager($registry, $class);
+        $this->assertTrue($manager->userHasWritePermissionToSchools($user, new ArrayCollection([$schoolA])));
+        $this->assertTrue($manager->userHasWritePermissionToSchools($user, new ArrayCollection([$schoolA, $schoolC])));
+        $this->assertFalse($manager->userHasWritePermissionToSchools($user, new ArrayCollection([$schoolC])));
+        $this->assertFalse($manager->userHasWritePermissionToSchools($user, new ArrayCollection()));
+    }
+    /**
+     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionsToSchools
+     */
+    public function testUserHasReadPermissionsToSchools()
+    {
+        $schoolA = new School();
+        $schoolA->setId(100);
+        $schoolB = new School();
+        $schoolB->setId(200);
+        $schoolC = new School();
+        $schoolC->setId(300);
+
+        $schoolPermissionA = new Permission();
+        $schoolPermissionA->setTableRowId(100);
+        $schoolPermissionB = new Permission();
+        $schoolPermissionB->setTableRowId(200);
+        $schoolPermissionC = new Permission();
+        $schoolPermissionC->setTableRowId(300);
+
+        $user = new User();
+
+        $class = 'Ilios\CoreBundle\Entity\Permission';
+        $em = m::mock('Doctrine\ORM\EntityManager');
+        $repository = m::mock('Doctrine\ORM\Repository')
+            ->shouldReceive('findBy')
+            ->with([
+                'tableName' => 'school',
+                'canRead' => true,
+                'user' => $user,
+            ], null, null, null)
+            ->andReturn([$schoolPermissionA, $schoolPermissionB])
+            ->mock();
+        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->shouldReceive('getManagerForClass')
+            ->andReturn($em)
+            ->shouldReceive('getRepository')
+            ->andReturn($repository)
+            ->mock();
+        $manager = new PermissionManager($registry, $class);
+        $this->assertTrue($manager->userHasReadPermissionToSchools($user, new ArrayCollection([$schoolA])));
+        $this->assertTrue($manager->userHasReadPermissionToSchools($user, new ArrayCollection([$schoolA, $schoolC])));
+        $this->assertFalse($manager->userHasReadPermissionToSchools($user, new ArrayCollection([$schoolC])));
+        $this->assertFalse($manager->userHasReadPermissionToSchools($user, new ArrayCollection()));
     }
 }
