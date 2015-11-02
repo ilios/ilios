@@ -192,7 +192,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
             return $permission->getTableRowId();
         }, $permissions);
 
-        $schoolIds = array_map(function(SchoolInterface $school) {
+        $schoolIds = array_map(function (SchoolInterface $school) {
             return $school->getId();
         }, $schools->toArray());
 

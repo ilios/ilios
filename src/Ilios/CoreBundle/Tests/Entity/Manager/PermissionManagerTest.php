@@ -28,7 +28,7 @@ class PermissionManagerTest extends TestCase
     /**
      * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasPermission
      */
-    public function  testUserHasPermission()
+    public function testUserHasPermission()
     {
         $user = new User();
         $class = 'Ilios\CoreBundle\Entity\Permission';
