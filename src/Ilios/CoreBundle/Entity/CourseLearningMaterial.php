@@ -199,11 +199,14 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     }
 
     /**
-     * @return CourseInterface
+     * @inheritdoc
      */
     public function getCourse()
     {
-        return $this->course;
+        if ($this->course && ! $this->course->isDeleted()) {
+            return $this->course;
+        }
+        return null;
     }
 
     /**
