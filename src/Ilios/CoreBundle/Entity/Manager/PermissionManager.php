@@ -188,6 +188,6 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
         ];
 
         $permission = $this->findPermissionBy($criteria);
-        return empty($permission);
+        return ! empty($permission);
     }
 }
