@@ -425,7 +425,7 @@ class Session implements SessionInterface
      */
     public function getCourse()
     {
-        if (! $this->course->isDeleted()) {
+        if ($this->course && ! $this->course->isDeleted()) {
             return $this->course;
         }
         return null;
