@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Entity\Manager;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use IC\Bundle\Base\TestBundle\Test\TestCase;
+use Ilios\CoreBundle\Entity\Permission;
 use Ilios\CoreBundle\Entity\Program;
 use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Entity\User;
@@ -21,6 +22,58 @@ class PermissionManagerTest extends TestCase
     public function tearDown()
     {
         m::close();
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasPermission
+     */
+    public function  testUserHasPermission()
+    {
+        $user = new User();
+        $class = 'Ilios\CoreBundle\Entity\Permission';
+        $em = m::mock('Doctrine\ORM\EntityManager');
+
+        $repository = m::mock('Doctrine\ORM\Repository')
+            ->shouldReceive('findOneBy')
+            ->with([
+                'tableRowId' => 10,
+                'tableName' => 'foo',
+                'canWrite' => true,
+                'user' => $user,
+            ], null)
+            ->andReturn(new Permission())
+            ->mock();
+        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->shouldReceive('getManagerForClass')
+            ->andReturn($em)
+            ->shouldReceive('getRepository')
+            ->andReturn($repository)
+            ->mock();
+        $manager = \Mockery::mock('Ilios\CoreBundle\Entity\Manager\PermissionManager', [$registry, $class])
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods();
+        $this->assertTrue($manager->userHasPermission($user, PermissionManager::CAN_WRITE, 'foo', 10));
+
+        $repository = m::mock('Doctrine\ORM\Repository')
+            ->shouldReceive('findOneBy')
+            ->with([
+                'tableRowId' => 10,
+                'tableName' => 'foo',
+                'canWrite' => true,
+                'user' => $user,
+            ], null)
+            ->andReturn(null)
+            ->mock();
+        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->shouldReceive('getManagerForClass')
+            ->andReturn($em)
+            ->shouldReceive('getRepository')
+            ->andReturn($repository)
+            ->mock();
+        $manager = \Mockery::mock('Ilios\CoreBundle\Entity\Manager\PermissionManager', [$registry, $class])
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods();
+        $this->assertFalse($manager->userHasPermission($user, PermissionManager::CAN_WRITE, 'foo', 10));
     }
 
     /**
@@ -44,6 +97,7 @@ class PermissionManagerTest extends TestCase
                 'canWrite' => true,
                 'user' => $user,
             ], null)
+            ->andReturn(new Permission())
             ->mock();
         $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
             ->shouldReceive('getManagerForClass')
@@ -52,9 +106,8 @@ class PermissionManagerTest extends TestCase
             ->andReturn($repository)
             ->mock();
         $manager = new PermissionManager($registry, $class);
-        $manager->userHasWritePermissionToCourse($user, $course);
 
-        $manager = new PermissionManager($registry, $class);
+        $this->assertTrue($manager->userHasWritePermissionToCourse($user, $course));
         $this->assertFalse($manager->userHasWritePermissionToCourse($user, null));
     }
 
@@ -79,6 +132,7 @@ class PermissionManagerTest extends TestCase
                 'canRead' => true,
                 'user' => $user,
             ], null)
+            ->andReturn(new Permission())
             ->mock();
         $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
             ->shouldReceive('getManagerForClass')
@@ -87,9 +141,8 @@ class PermissionManagerTest extends TestCase
             ->andReturn($repository)
             ->mock();
         $manager = new PermissionManager($registry, $class);
-        $manager->userHasReadPermissionToCourse($user, $course);
 
-        $manager = new PermissionManager($registry, $class);
+        $this->assertTrue($manager->userHasReadPermissionToCourse($user, $course));
         $this->assertFalse($manager->userHasReadPermissionToCourse($user, null));
     }
 
@@ -114,6 +167,7 @@ class PermissionManagerTest extends TestCase
                 'canWrite' => true,
                 'user' => $user,
             ], null)
+            ->andReturn(new Permission())
             ->mock();
         $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
             ->shouldReceive('getManagerForClass')
@@ -122,9 +176,8 @@ class PermissionManagerTest extends TestCase
             ->andReturn($repository)
             ->mock();
         $manager = new PermissionManager($registry, $class);
-        $manager->userHasWritePermissionToProgram($user, $program);
 
-        $manager = new PermissionManager($registry, $class);
+        $this->assertTrue($manager->userHasWritePermissionToProgram($user, $program));
         $this->assertFalse($manager->userHasWritePermissionToProgram($user, null));
     }
 
@@ -149,6 +202,7 @@ class PermissionManagerTest extends TestCase
                 'canRead' => true,
                 'user' => $user,
             ], null)
+            ->andReturn(new Permission())
             ->mock();
         $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
             ->shouldReceive('getManagerForClass')
@@ -157,9 +211,8 @@ class PermissionManagerTest extends TestCase
             ->andReturn($repository)
             ->mock();
         $manager = new PermissionManager($registry, $class);
-        $manager->userHasReadPermissionToProgram($user, $program);
 
-        $manager = new PermissionManager($registry, $class);
+        $this->assertTrue($manager->userHasReadPermissionToProgram($user, $program));
         $this->assertFalse($manager->userHasReadPermissionToProgram($user, null));
     }
 
@@ -185,6 +238,7 @@ class PermissionManagerTest extends TestCase
                 'canWrite' => true,
                 'user' => $user,
             ], null)
+            ->andReturn(new Permission())
             ->mock();
         $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
             ->shouldReceive('getManagerForClass')
@@ -193,9 +247,8 @@ class PermissionManagerTest extends TestCase
             ->andReturn($repository)
             ->mock();
         $manager = new PermissionManager($registry, $class);
-        $manager->userHasWritePermissionToSchool($user, $school);
 
-        $manager = new PermissionManager($registry, $class);
+        $this->assertTrue($manager->userHasWritePermissionToSchool($user, $school));
         $this->assertFalse($manager->userHasWritePermissionToSchool($user, null));
     }
 
@@ -220,6 +273,7 @@ class PermissionManagerTest extends TestCase
                 'canRead' => true,
                 'user' => $user,
             ], null)
+            ->andReturn(new Permission())
             ->mock();
         $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
             ->shouldReceive('getManagerForClass')
@@ -228,9 +282,8 @@ class PermissionManagerTest extends TestCase
             ->andReturn($repository)
             ->mock();
         $manager = new PermissionManager($registry, $class);
-        $manager->userHasReadPermissionToSchool($user, $school);
 
-        $manager = new PermissionManager($registry, $class);
+        $this->assertTrue($manager->userHasReadPermissionToSchool($user, $school));
         $this->assertFalse($manager->userHasReadPermissionToSchool($user, null));
     }
 }
