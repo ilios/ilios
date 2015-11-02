@@ -27,7 +27,11 @@ class SessionDescriptionVoter extends SessionVoter
      */
     protected function isGranted($attribute, $description, $user = null)
     {
+        $session = $description->getSession();
+        if (! $session) {
+            return false;
+        }
         // grant perms based on the owning session
-        return parent::isGranted($attribute, $description->getSession(), $user);
+        return parent::isGranted($attribute, $session, $user);
     }
 }
