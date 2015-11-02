@@ -117,17 +117,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
      */
     public function userHasReadPermissionToSchools(UserInterface $user, ArrayCollection $schools)
     {
-        $criteria = [
-            'tableName'     => 'school',
-            self::CAN_READ  => true,
-            'user'          => $user,
-        ];
-
-        $schoolsWithReadPermission = $this->findPermissionsBy($criteria);
-        $overlap = array_intersect($schools->toArray(), $schoolsWithReadPermission);
-
-        return ! empty($overlap);
-
+        return $this->userHasPermissionToSchools($user, self::CAN_READ, $schools);
     }
 
     /**
@@ -135,16 +125,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
      */
     public function userHasWritePermissionToSchools(UserInterface $user, ArrayCollection $schools)
     {
-        $criteria = [
-            'tableName'     => 'school',
-            self::CAN_WRITE => true,
-            'user'          => $user,
-        ];
-
-        $schoolsWithWritePermission = $this->findPermissionsBy($criteria);
-        $overlap = array_intersect($schools->toArray(), $schoolsWithWritePermission->toArray());
-
-        return ! empty($overlap);
+        return $this->userHasPermissionToSchools($user, self::CAN_WRITE, $schools);
     }
 
     /**
@@ -189,5 +170,34 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
 
         $permission = $this->findPermissionBy($criteria);
         return ! empty($permission);
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param string $permission must be either 'canRead' or 'canWrite'.
+     * @param ArrayCollection $schools
+     * @return bool
+     */
+    protected function userHasPermissionToSchools(UserInterface $user, $permission, ArrayCollection $schools)
+    {
+        $criteria = [
+            'tableName'     => 'school',
+            $permission => true,
+            'user'          => $user,
+        ];
+
+        $permissions = $this->findPermissionsBy($criteria);
+
+        $permittedSchoolIds = array_map(function (PermissionInterface $permission) {
+            return $permission->getTableRowId();
+        }, $permissions);
+
+        $schoolIds = array_map(function(SchoolInterface $school) {
+            return $school->getId();
+        }, $schools->toArray());
+
+        $overlap = array_intersect($schoolIds, $permittedSchoolIds);
+
+        return ! empty($overlap);
     }
 }
