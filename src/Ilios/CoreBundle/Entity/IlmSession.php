@@ -347,7 +347,7 @@ class IlmSession implements IlmSessionInterface
      */
     public function getSession()
     {
-        if (! $this->session->isDeleted()) {
+        if ($this->session && ! $this->session->isDeleted()) {
             return $this->session;
         }
         return null;
