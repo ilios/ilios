@@ -39,17 +39,6 @@ trait ProgramsEntity
     */
     public function getPrograms()
     {
-        //criteria not 100% reliable on many to many relationships
-        //fix in https://github.com/doctrine/doctrine2/pull/1399
-        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
-        // return new ArrayCollection($this->programs->matching($criteria)->getValues());
-        
-        $arr = $this->programs->filter(function ($entity) {
-            return !$entity->isDeleted();
-        })->toArray();
-        
-        $reIndexed = array_values($arr);
-        
-        return new ArrayCollection($reIndexed);
+        return $this->programs;
     }
 }
