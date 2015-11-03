@@ -36,7 +36,6 @@ class LoadCourseData extends AbstractFixture implements
             $entity->setYear($arr['year']);
             $entity->setStartDate(new \DateTime($arr['startDate']));
             $entity->setEndDate(new \DateTime($arr['endDate']));
-            $entity->setDeleted($arr['deleted']);
             $entity->setExternalId($arr['externalId']);
             $entity->setLocked($arr['locked']);
             $entity->setArchived($arr['archived']);

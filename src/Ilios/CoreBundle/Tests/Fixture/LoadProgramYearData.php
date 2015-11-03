@@ -32,7 +32,6 @@ class LoadProgramYearData extends AbstractFixture implements
             $entity = new ProgramYear();
             $entity->setId($arr['id']);
             $entity->setStartYear($arr['startYear']);
-            $entity->setDeleted($arr['deleted']);
             $entity->setLocked($arr['locked']);
             $entity->setArchived($arr['archived']);
             $entity->setPublishedAsTbd($arr['publishedAsTbd']);
