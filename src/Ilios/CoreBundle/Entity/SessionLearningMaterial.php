@@ -206,10 +206,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      */
     public function getSession()
     {
-        if ($this->session && ! $this->session->isDeleted()) {
-            return $this->session;
-        }
-        return null;
+        return $this->session;
     }
 
     /**

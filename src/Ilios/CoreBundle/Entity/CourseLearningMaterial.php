@@ -203,10 +203,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      */
     public function getCourse()
     {
-        if ($this->course && ! $this->course->isDeleted()) {
-            return $this->course;
-        }
-        return null;
+        return $this->course;
     }
 
     /**
