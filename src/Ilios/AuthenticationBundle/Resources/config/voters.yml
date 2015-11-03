@@ -147,7 +147,6 @@ services:
             - { name: security.voter }
     security.access.learning_material_voter:
         class: Ilios\AuthenticationBundle\Voter\LearningMaterialVoter
-        arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
             - { name: security.voter }

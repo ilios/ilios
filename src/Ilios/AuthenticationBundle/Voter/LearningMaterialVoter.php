@@ -13,16 +13,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
 class LearningMaterialVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManagerInterface
-     */
-    protected $permissionManager;
-
-    public function __construct(PermissionManagerInterface $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function getSupportedClasses()
