@@ -18,7 +18,6 @@ class ProgramManager extends AbstractManager implements ProgramManagerInterface
         array $criteria,
         array $orderBy = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
@@ -31,7 +30,6 @@ class ProgramManager extends AbstractManager implements ProgramManagerInterface
         $limit = null,
         $offset = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -61,8 +59,8 @@ class ProgramManager extends AbstractManager implements ProgramManagerInterface
     public function deleteProgram(
         ProgramInterface $program
     ) {
-        $program->setDeleted(true);
-        $this->updateProgram($program);
+        $this->em->remove($program);
+        $this->em->flush();
     }
 
     /**

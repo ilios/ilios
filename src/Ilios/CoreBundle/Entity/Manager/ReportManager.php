@@ -18,7 +18,6 @@ class ReportManager extends AbstractManager implements ReportManagerInterface
         array $criteria,
         array $orderBy = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
@@ -31,7 +30,6 @@ class ReportManager extends AbstractManager implements ReportManagerInterface
         $limit = null,
         $offset = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -61,8 +59,8 @@ class ReportManager extends AbstractManager implements ReportManagerInterface
     public function deleteReport(
         ReportInterface $report
     ) {
-        $report->setDeleted(true);
-        $this->updateReport($report);
+        $this->em->remove($report);
+        $this->em->flush();
     }
 
     /**
