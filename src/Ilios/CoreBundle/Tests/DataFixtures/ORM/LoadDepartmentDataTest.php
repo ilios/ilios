@@ -43,11 +43,10 @@ class LoadDepartmentDataTest extends AbstractDataFixtureTest
      */
     protected function assertDataEquals(array $data, $entity)
     {
-        // `department_id`,`title`,`school_id`,`deleted`
+        // `department_id`,`title`,`school_id`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
         $this->assertEquals($data[2], $entity->getSchool()->getId());
-        $this->assertEquals((boolean) $data[3], $entity->isDeleted());
     }
 
     /**
