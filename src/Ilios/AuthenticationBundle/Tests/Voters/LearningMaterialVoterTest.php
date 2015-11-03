@@ -4,6 +4,9 @@ namespace Ilios\AuthenticationBundle\Tests\Voter;
 
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\LearningMaterial;
+use Ilios\CoreBundle\Entity\User;
+use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\CoreBundle\Entity\UserRole;
 use Mockery as m;
 
 /**
@@ -37,30 +40,30 @@ class LearningMaterialVoterTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsGrantedWithNoUser()
     {
-        // @todo implement [ST 2015/11/02]
         $this->assertFalse($this->voter->isGranted(AbstractVoter::VIEW, new LearningMaterial(), null));
     }
 
     /**
      * @covers Ilios\AuthenticationBundle\Voter\LearningMaterialVoter::isGranted
+     * @dataProvider testIsViewGrantedAllowedProvider
      */
-    public function testIsViewGrantedAllowed()
+    public function testIsViewGrantedAllowed(UserInterface $user)
     {
-        // @todo implement [ST 2015/11/02]
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertTrue($this->voter->isGranted(AbstractVoter::VIEW, new LearningMaterial(), $user));
     }
 
     /**
-     * @covers Ilios\AuthenticationBundle\Voter\LearningMaterialVoter::isGranted
+     * @return array
      */
-    public function testIsViewGrantedDenied()
+    public function testIsViewGrantedAllowedProvider()
     {
-        // @todo implement [ST 2015/11/02]
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        return [
+            [$this->createUser()],
+            [$this->createUser(['Student'])],
+            [$this->createUser(['Course Director'])],
+            [$this->createUser(['Faculty', 'Developer'])],
+            [$this->createUser(['Any arbitrary role'])],
+        ];
     }
 
     /**
@@ -87,24 +90,45 @@ class LearningMaterialVoterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Ilios\AuthenticationBundle\Voter\LearningMaterialVoter::isGranted
+     * @dataProvider testIsCreateGrantedAllowedProvider
      */
-    public function testIsCreateGrantedAllowed()
+    public function testIsCreateGrantedAllowed(UserInterface $user)
     {
-        // @todo implement [ST 2015/11/02]
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertTrue($this->voter->isGranted(AbstractVoter::CREATE, new LearningMaterial(), $user));
+    }
+
+    /**
+     * @return array
+     */
+    public function testIsCreateGrantedAllowedProvider()
+    {
+        return [
+            [$this->createUser(['Course Director'])],
+            [$this->createUser(['Developer'])],
+            [$this->createUser(['Faculty'])],
+        ];
     }
 
     /**
      * @covers Ilios\AuthenticationBundle\Voter\LearningMaterialVoter::isGranted
+     * @dataProvider testIsCreateGrantedDeniedProvider
      */
-    public function testIsCreateGrantedDenied()
+    public function testIsCreateGrantedDenied(UserInterface $user)
     {
-        // @todo implement [ST 2015/11/02]
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertFalse($this->voter->isGranted(AbstractVoter::CREATE, new LearningMaterial(), $user));
+    }
+
+    /**
+     * @return array
+     */
+    public function testIsCreateGrantedDeniedProvider()
+    {
+        return [
+            [$this->createUser()],
+            [$this->createUser(['Student'])],
+            [$this->createUser(['Public'])],
+            [$this->createUser(['Former Student'])],
+        ];
     }
 
     /**
@@ -118,14 +142,33 @@ class LearningMaterialVoterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testIsUpdateGrantedAllowedProvider()
+    {
+    }
+
     /**
      * @covers Ilios\AuthenticationBundle\Voter\LearningMaterialVoter::isGranted
      */
-    public function testIsupdateGrantedDenied()
+    public function testIsUpdateGrantedDenied()
     {
         // @todo implement [ST 2015/11/02]
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
         );
+    }
+
+    /**
+     * @param array $rolesTitles
+     * @return UserInterface
+     */
+    protected function createUser(array $rolesTitles = array())
+    {
+        $user = new User();
+        foreach ($rolesTitles as $title) {
+            $role = new UserRole();
+            $role->setTitle($title);
+            $user->addRole($role);
+        }
+        return $user;
     }
 }
