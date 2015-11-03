@@ -9,12 +9,12 @@ class SessionDescriptionData extends AbstractDataLoader
         $arr = array();
         $arr[] = array(
             'id' => 1,
-            'session' => '2',
+            'session' => '1',
             'description' => $this->faker->text
         );
         $arr[] = array(
             'id' => 2,
-            'session' => '1',
+            'session' => '2',
             'description' => $this->faker->text
         );
 

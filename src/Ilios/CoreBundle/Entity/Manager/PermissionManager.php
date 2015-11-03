@@ -91,25 +91,25 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     /**
      * {@inheritdoc}
      */
-    public function userHasReadPermissionToCourse(UserInterface $user, CourseInterface $course)
+    public function userHasReadPermissionToCourse(UserInterface $user, CourseInterface $course = null)
     {
-        return $this->userHasPermission($user, self::CAN_READ, 'course', $course->getId());
+        return $course && $this->userHasPermission($user, self::CAN_READ, 'course', $course->getId());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function userHasReadPermissionToProgram(UserInterface $user, ProgramInterface $program)
+    public function userHasReadPermissionToProgram(UserInterface $user, ProgramInterface $program = null)
     {
-        return $this->userHasPermission($user, self::CAN_READ, 'program', $program->getId());
+        return $program && $this->userHasPermission($user, self::CAN_READ, 'program', $program->getId());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function userHasReadPermissionToSchool(UserInterface $user, SchoolInterface $school)
+    public function userHasReadPermissionToSchool(UserInterface $user, SchoolInterface $school = null)
     {
-        return $this->userHasPermission($user, self::CAN_READ, 'school', $school->getId());
+        return $school && $this->userHasPermission($user, self::CAN_READ, 'school', $school->getId());
     }
 
     /**
@@ -117,17 +117,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
      */
     public function userHasReadPermissionToSchools(UserInterface $user, ArrayCollection $schools)
     {
-        $criteria = [
-            'tableName'     => 'schools',
-            self::CAN_READ  => true,
-            'user'          => $user,
-        ];
-
-        $schoolsWithReadPermission = $this->findPermissionsBy($criteria);
-        $overlap = array_intersect($schools->toArray(), $schoolsWithReadPermission);
-
-        return ! empty($overlap);
-
+        return $this->userHasPermissionToSchools($user, self::CAN_READ, $schools);
     }
 
     /**
@@ -135,40 +125,31 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
      */
     public function userHasWritePermissionToSchools(UserInterface $user, ArrayCollection $schools)
     {
-        $criteria = [
-            'tableName'     => 'schools',
-            self::CAN_WRITE => true,
-            'user'          => $user,
-        ];
-
-        $schoolsWithWritePermission = $this->findPermissionBy($criteria);
-        $overlap = array_intersect($schools->toArray(), $schoolsWithWritePermission->toArray());
-
-        return ! empty($overlap);
+        return $this->userHasPermissionToSchools($user, self::CAN_WRITE, $schools);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function userHasWritePermissionToCourse(UserInterface $user, CourseInterface $course)
+    public function userHasWritePermissionToCourse(UserInterface $user, CourseInterface $course = null)
     {
-        return $this->userHasPermission($user, self::CAN_WRITE, 'course', $course->getId());
+        return $course && $this->userHasPermission($user, self::CAN_WRITE, 'course', $course->getId());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function userHasWritePermissionToProgram(UserInterface $user, ProgramInterface $program)
+    public function userHasWritePermissionToProgram(UserInterface $user, ProgramInterface $program = null)
     {
-        return $this->userHasPermission($user, self::CAN_WRITE, 'program', $program->getId());
+        return $program && $this->userHasPermission($user, self::CAN_WRITE, 'program', $program->getId());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school)
+    public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school = null)
     {
-        return $this->userHasPermission($user, self::CAN_WRITE, 'school', $school->getId());
+        return $school && $this->userHasPermission($user, self::CAN_WRITE, 'school', $school->getId());
     }
 
     /**
@@ -188,6 +169,35 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
         ];
 
         $permission = $this->findPermissionBy($criteria);
-        return empty($permission);
+        return ! empty($permission);
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param string $permission must be either 'canRead' or 'canWrite'.
+     * @param ArrayCollection $schools
+     * @return bool
+     */
+    protected function userHasPermissionToSchools(UserInterface $user, $permission, ArrayCollection $schools)
+    {
+        $criteria = [
+            'tableName'     => 'school',
+            $permission => true,
+            'user'          => $user,
+        ];
+
+        $permissions = $this->findPermissionsBy($criteria);
+
+        $permittedSchoolIds = array_map(function (PermissionInterface $permission) {
+            return $permission->getTableRowId();
+        }, $permissions);
+
+        $schoolIds = array_map(function (SchoolInterface $school) {
+            return $school->getId();
+        }, $schools->toArray());
+
+        $overlap = array_intersect($schoolIds, $permittedSchoolIds);
+
+        return ! empty($overlap);
     }
 }

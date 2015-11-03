@@ -8,8 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -230,13 +228,19 @@ class Cohort implements CohortInterface
     public function getSchool()
     {
         if ($programYear = $this->getProgramYear()) {
-            if ($program = $programYear->getProgram()) {
-                if ($school = $program->getSchool()) {
-                    return $school;
-                }
-            }
+            return $programYear->getSchool();
         }
+        return null;
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function getProgram()
+    {
+        if ($programYear = $this->getProgramYear()) {
+            return $programYear->getProgram();
+        }
         return null;
     }
 }

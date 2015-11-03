@@ -345,4 +345,15 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->academicLevels;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSchool()
+    {
+        if ($program = $this->getProgram()) {
+            return $program->getSchool();
+        }
+        return null;
+    }
 }

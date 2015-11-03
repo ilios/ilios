@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\ProgramManagerInterface;
@@ -166,10 +167,10 @@ class PublishEventVoter extends AbstractVoter
             (
                 $this->userHasRole($user, ['Course Director', 'Developer'])
                 && (
-                    $this->schoolsAreIdentical($programYear->getProgram()->getSchool(), $user->getSchool())
+                    $this->schoolsAreIdentical($programYear->getSchool(), $user->getSchool())
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
-                        $programYear->getProgram()->getSchool()
+                        $programYear->getSchool()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
                 )
@@ -193,21 +194,7 @@ class PublishEventVoter extends AbstractVoter
             return false;
         }
 
-        // copied and pasted from CourseManager::isGranted()
-        // TODO: consolidate [ST 2015/08/05]
-        // HALT!
-        // deny DELETE and CREATE privileges if the owning course is locked or archived.
-        if ($course->isArchived() || $course->isLocked()) {
-            return false;
-        }
-        return (
-            $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-            && (
-                $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
-            )
-            || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
-        );
+        return $this->isCreateGrantedForCourse($course, $user);
     }
 
     /**
@@ -221,16 +208,24 @@ class PublishEventVoter extends AbstractVoter
     {
         $session = $this->sessionManager->findSessionBy(['id' => $event->getTableRowId()]);
 
-        if (empty($session)) {
+        if (empty($session) || ! $session->getCourse()) {
             return false;
         }
 
-        $course = $session->getCourse();
+        return $this->isCreateGrantedForCourse($session->getCourse(), $user);
+    }
 
+    /**
+     * @param \Ilios\CoreBundle\Entity\CourseInterface $course
+     * @param \Ilios\CoreBundle\Entity\UserInterface $user
+     * @return bool
+     */
+    private function isCreateGrantedForCourse(CourseInterface $course, UserInterface $user)
+    {
         // copied and pasted from CourseManager::isGranted()
         // TODO: consolidate [ST 2015/08/05]
         // HALT!
-        // deny DELETE and CREATE privileges if the owning course is locked or archived.
+        // deny CREATE privileges if the course is locked or archived.
         if ($course->isArchived() || $course->isLocked()) {
             return false;
         }

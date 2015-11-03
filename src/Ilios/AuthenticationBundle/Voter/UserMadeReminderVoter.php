@@ -38,7 +38,7 @@ class UserMadeReminderVoter extends AbstractVoter
             case self::VIEW:
             case self::EDIT:
             case self::DELETE:
-                return ($user->getId() === $reminder->getUser()->getId());
+                return $this->usersAreIdentical($user, $reminder->getUser());
                 break;
         }
 

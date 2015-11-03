@@ -427,15 +427,30 @@ class LearnerGroup implements LearnerGroupInterface
     public function getSchool()
     {
         if ($cohort = $this->getCohort()) {
-            if ($programYear = $cohort->getProgramYear()) {
-                if ($program = $programYear->getProgram()) {
-                    if ($school = $program->getSchool()) {
-                        return $school;
-                    }
-                }
-            }
+            return $cohort->getSchool();
         }
+        return null;
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function getProgram()
+    {
+        if ($cohort = $this->getCohort()) {
+            return $cohort = $cohort->getProgram();
+        }
+        return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getProgramYear()
+    {
+        if ($cohort = $this->getCohort()) {
+            return $cohort->getProgramYear();
+        }
         return null;
     }
 }

@@ -125,4 +125,26 @@ class ProgramYearSteward implements ProgramYearStewardInterface
         
         return null;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getProgram()
+    {
+        if ($programYear = $this->getProgramYear()) {
+            return $programYear->getProgram();
+        }
+        return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getProgramOwningSchool()
+    {
+        if ($program = $this->getProgram()) {
+            return $program->getSchool();
+        }
+        return null;
+    }
 }

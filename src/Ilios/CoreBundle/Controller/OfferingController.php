@@ -190,7 +190,8 @@ class OfferingController extends FOSRestController
 
             $this->getOfferingHandler()->updateOffering($offering, true, false);
 
-            if ($offering->getSession()->getPublishEvent()) {
+            $session = $offering->getSession();
+            if ($session && $session->getPublishEvent()) {
                 $this->createAlertForNewOffering($offering);
             }
 
@@ -258,7 +259,8 @@ class OfferingController extends FOSRestController
 
             $this->getOfferingHandler()->updateOffering($offering, true, true);
 
-            if ($offering->getSession()->getPublishEvent()) {
+            $session = $offering->getSession();
+            if ($session && $session->getPublishEvent()) {
                 if (Codes::HTTP_CREATED === $code) {
                     $this->createAlertForNewOffering($offering);
                 } else {
@@ -450,8 +452,12 @@ class OfferingController extends FOSRestController
         ]);
 
         if (! $alert) {
+            $recipient = $offering->getSchool();
+            if (! $recipient) {
+                return; // SOL.
+            }
             $alert = $alertManager->createAlert();
-            $alert->addRecipient($offering->getSession()->getCourse()->getSchool());
+            $alert->addRecipient($recipient);
             $alert->setTableName('offering');
             $alert->setTableRowId($offering->getId());
             $alert->addInstigator($this->getUser());

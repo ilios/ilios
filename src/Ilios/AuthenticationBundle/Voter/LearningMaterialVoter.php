@@ -62,14 +62,14 @@ class LearningMaterialVoter extends AbstractVoter
                 // 3. the user has WRITE rights in the learning material owner's primary school,
                 //    and the user has at least one of 'Faculty', 'Course Director' or 'Developer' roles.
                 return (
-                    $user->getId() === $material->getOwningUser()->getId()
+                    $this->usersAreIdentical($user, $material->getOwningUser())
                     || (
                         $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
                         && (
-                            $this->schoolsAreIdentical($user->getSchool(), $material->getOwningUser()->getSchool())
+                            $this->schoolsAreIdentical($user->getSchool(), $material->getOwningSchool())
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
-                                $material->getOwningUser()->getSchool()
+                                $material->getOwningSchool()
                             ))
                     )
                 );

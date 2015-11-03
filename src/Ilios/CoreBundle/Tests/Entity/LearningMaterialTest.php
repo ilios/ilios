@@ -2,6 +2,8 @@
 namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\LearningMaterial;
+use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Entity\User;
 use Mockery as m;
 
 /**
@@ -69,5 +71,23 @@ class LearningMaterialTest extends EntityBase
     public function testSetOriginalAuthor()
     {
         $this->basicSetTest('originalAuthor', 'string');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearningMaterial::getOwningSchool
+     */
+    public function testGetOwningSchool()
+    {
+        $this->assertNull($this->object->getOwningSchool());
+
+        $school = new School();
+        $user = new User();
+        $user->setSchool($school);
+        $this->object->setOwningUser($user);
+
+        $this->assertSame($school, $this->object->getOwningSchool());
+
+        $school->setDeleted(true);
+        $this->assertNull($this->object->getOwningSchool());
     }
 }

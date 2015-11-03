@@ -138,7 +138,14 @@ class SendTeachingRemindersCommand extends Command
 
         /** @var OfferingInterface $offering */
         foreach ($iterator as $offering) {
-            $school = $offering->getSession()->getCourse()->getSchool();
+            $deleted = ! $offering->getSession()
+                || ! $offering->getSession()->getCourse()
+                || ! $offering->getSchool();
+
+            if ($deleted) {
+                continue;
+            }
+            $school = $offering->getSchool();
             if (! array_key_exists($school->getId(), $templateCache)) {
                 $template = $this->getTemplatePath($school);
                 $templateCache[$school->getId()] = $template;

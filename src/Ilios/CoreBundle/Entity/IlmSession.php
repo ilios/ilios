@@ -343,11 +343,14 @@ class IlmSession implements IlmSessionInterface
 
 
     /**
-     * @return SessionInterface
+     * @inheritdoc
      */
     public function getSession()
     {
-        return $this->session;
+        if ($this->session && ! $this->session->isDeleted()) {
+            return $this->session;
+        }
+        return null;
     }
 
     /**
@@ -355,7 +358,7 @@ class IlmSession implements IlmSessionInterface
      */
     public function isDeleted()
     {
-        return $this->getSession()->isDeleted();
+        return is_null($this->getSession());
     }
 
     /**

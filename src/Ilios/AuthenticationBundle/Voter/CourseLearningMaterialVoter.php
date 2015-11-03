@@ -27,8 +27,12 @@ class CourseLearningMaterialVoter extends CourseVoter
      */
     protected function isGranted($attribute, $material, $user = null)
     {
+        $course = $material->getCourse();
+        if (! $course) {
+            return false;
+        }
         // grant perms based on the owning session
-        return parent::isGranted($attribute, $material->getCourse(), $user);
+        return parent::isGranted($attribute, $course, $user);
     }
 
     /**

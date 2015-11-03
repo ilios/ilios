@@ -298,11 +298,14 @@ class Offering implements OfferingInterface
     }
 
     /**
-     * @return SessionInterface
+     * @inheritdoc
      */
     public function getSession()
     {
-        return $this->session;
+        if ($this->session && !$this->session->isDeleted()) {
+            return $this->session;
+        }
+        return null;
     }
 
     /**
@@ -483,6 +486,17 @@ class Offering implements OfferingInterface
             'room' => $room,
         ];
 
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSchool()
+    {
+        if ($session = $this->getSession()) {
+            return $session->getSchool();
+        }
+        return null;
     }
 
     /**

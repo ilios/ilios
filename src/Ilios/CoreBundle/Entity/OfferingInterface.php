@@ -62,7 +62,7 @@ interface OfferingInterface extends
     public function setSession(SessionInterface $session);
 
     /**
-     * @return SessionInterface
+     * @return SessionInterface|null
      */
     public function getSession();
 
@@ -147,4 +147,9 @@ interface OfferingInterface extends
      * @return array.
      */
     public function getAlertProperties();
+
+    /**
+     * @return SchoolInterface|null
+     */
+    public function getSchool();
 }

@@ -91,10 +91,10 @@ class ProgramYearVoter extends AbstractVoter
             (
                 $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
                 && (
-                    $this->schoolsAreIdentical($programYear->getProgram()->getSchool(), $user->getSchool())
+                    $this->schoolsAreIdentical($programYear->getSchool(), $user->getSchool())
                     || $this->permissionManager->userHasReadPermissionToSchool(
                         $user,
-                        $programYear->getProgram()->getSchool()
+                        $programYear->getSchool()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
                 )
@@ -124,10 +124,10 @@ class ProgramYearVoter extends AbstractVoter
             (
                 $this->userHasRole($user, ['Course Director', 'Developer'])
                 && (
-                    $this->schoolsAreIdentical($programYear->getProgram()->getSchool(), $user->getSchool())
+                    $this->schoolsAreIdentical($programYear->getSchool(), $user->getSchool())
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
-                        $programYear->getProgram()->getSchool()
+                        $programYear->getSchool()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
                 )

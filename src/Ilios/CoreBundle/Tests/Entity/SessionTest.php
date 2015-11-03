@@ -1,6 +1,8 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity;
 
+use Ilios\CoreBundle\Entity\Course;
+use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Entity\Session;
 use Mockery as m;
 
@@ -110,7 +112,7 @@ class SessionTest extends EntityBase
      */
     public function testSetCourse()
     {
-        $this->entitySetTest('course', "Course");
+        $this->softDeleteEntitySetTest('course', "Course");
     }
 
     /**
@@ -168,5 +170,25 @@ class SessionTest extends EntityBase
         $diff = $now->diff($updatedAt);
         $this->assertTrue($diff->s < 2);
 
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::getSchool
+     */
+    public function testGetSchool()
+    {
+        $school = new School();
+        $course = new Course();
+        $course->setSchool($school);
+        $this->object->setCourse($course);
+
+        $this->assertSame($school, $this->object->getSchool());
+
+        $school->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
+
+        $school->setDeleted(false);
+        $course->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
     }
 }

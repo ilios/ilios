@@ -1,7 +1,9 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity;
 
+use Ilios\CoreBundle\Entity\Program;
 use Ilios\CoreBundle\Entity\ProgramYear;
+use Ilios\CoreBundle\Entity\School;
 use Mockery as m;
 
 /**
@@ -117,7 +119,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addSteward
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::addSteward
      */
     public function testAddSteward()
     {
@@ -125,10 +127,30 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getStewards
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::getStewards
      */
     public function testGetSteward()
     {
         $this->entityCollectionSetTest('steward', 'ProgramYearSteward');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::getSchool
+     */
+    public function testGetSchool()
+    {
+        $school = new School();
+        $program = new Program();
+        $program->setSchool($school);
+        $this->object->setProgram($program);
+
+        $this->assertEquals($school, $this->object->getSchool());
+
+        $school->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
+
+        $school->setDeleted(false);
+        $program->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
     }
 }

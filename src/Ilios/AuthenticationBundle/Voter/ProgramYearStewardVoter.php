@@ -62,19 +62,19 @@ class ProgramYearStewardVoter extends AbstractVoter
                         $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
                         && (
                             $this->schoolsAreIdentical(
-                                $steward->getProgramYear()->getProgram()->getSchool(),
+                                $steward->getProgramOwningSchool(),
                                 $user->getSchool()
                             )
                             || $this->permissionManager->userHasReadPermissionToSchool(
                                 $user,
-                                $steward->getProgramYear()->getProgram()->getSchool()
+                                $steward->getProgramOwningSchool()
                             )
                             || $this->schoolsAreIdentical($steward->getSchool(), $user->getSchool())
                         )
                     )
                     || $this->permissionManager->userHasReadPermissionToProgram(
                         $user,
-                        $steward->getProgramYear()->getProgram()
+                        $steward->getProgram()
                     )
                 );
                 break;
@@ -95,19 +95,19 @@ class ProgramYearStewardVoter extends AbstractVoter
                         $this->userHasRole($user, ['Course Director', 'Developer'])
                         && (
                             $this->schoolsAreIdentical(
-                                $steward->getProgramYear()->getProgram()->getSchool(),
+                                $steward->getProgramOwningSchool(),
                                 $user->getSchool()
                             )
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
-                                $steward->getProgramYear()->getProgram()->getSchool()
+                                $steward->getProgramOwningSchool()
                             )
                             || $this->schoolsAreIdentical($steward->getSchool(), $user->getSchool())
                         )
                     )
                     || $this->permissionManager->userHasWritePermissionToProgram(
                         $user,
-                        $steward->getProgramYear()->getProgram()
+                        $steward->getProgram()
                     )
                 );
                 break;

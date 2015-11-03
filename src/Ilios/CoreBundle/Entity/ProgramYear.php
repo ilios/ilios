@@ -436,6 +436,17 @@ class ProgramYear implements ProgramYearInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getSchool()
+    {
+        if ($program = $this->getProgram()) {
+            return $program->getSchool();
+        }
+        return null;
+    }
+
+    /**
      * @return string
      */
     public function __toString()

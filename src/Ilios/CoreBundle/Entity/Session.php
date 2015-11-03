@@ -319,22 +319,6 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param SessionInterface $session
-     */
-    public function setSession(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
-    /**
-     * @return SessionInterface
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
-
-    /**
      * @param boolean $attireRequired
      */
     public function setAttireRequired($attireRequired)
@@ -437,11 +421,14 @@ class Session implements SessionInterface
     }
 
     /**
-     * @return CourseInterface
+     * @inheritdoc
      */
     public function getCourse()
     {
-        return $this->course;
+        if ($this->course && ! $this->course->isDeleted()) {
+            return $this->course;
+        }
+        return null;
     }
 
     /**
@@ -579,5 +566,16 @@ class Session implements SessionInterface
     public function getLearningMaterials()
     {
         return $this->learningMaterials;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSchool()
+    {
+        if ($course = $this->getCourse()) {
+            return $course->getSchool();
+        }
+        return null;
     }
 }

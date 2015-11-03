@@ -39,7 +39,7 @@ class ReportVoter extends AbstractVoter
             case self::VIEW:
             case self::EDIT:
             case self::DELETE:
-                return ($user->getId() === $report->getUser()->getId());
+                return $this->usersAreIdentical($user, $report->getUser());
                 break;
         }
 

@@ -7,8 +7,6 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
-use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\CoursesEntityInterface;
 
@@ -73,4 +71,10 @@ interface CohortInterface extends
      * @return SchoolInterface|null
      */
     public function getSchool();
+
+    /**
+     * Gets the program that this cohort belongs to.
+     * @return ProgramInterface|null
+     */
+    public function getProgram();
 }

@@ -36,6 +36,7 @@ parameters:
     ilioscore.dataloader.objective.class: Ilios\CoreBundle\Tests\DataLoader\ObjectiveData
     ilioscore.dataloader.offering.class: Ilios\CoreBundle\Tests\DataLoader\OfferingData
     ilioscore.dataloader.pendinguserupdate.class: Ilios\CoreBundle\Tests\DataLoader\PendingUserUpdateData
+    ilioscore.dataloader.permission.class: Ilios\CoreBundle\Tests\DataLoader\PermissionData
     ilioscore.dataloader.programyear.class: Ilios\CoreBundle\Tests\DataLoader\ProgramYearData
     ilioscore.dataloader.programyearsteward.class: Ilios\CoreBundle\Tests\DataLoader\ProgramYearStewardData
     ilioscore.dataloader.program.class: Ilios\CoreBundle\Tests\DataLoader\ProgramData
@@ -125,6 +126,8 @@ services:
         class: %ilioscore.dataloader.offering.class%
     ilioscore.dataloader.pendinguserupdate:
         class: %ilioscore.dataloader.pendinguserupdate.class%
+    ilioscore.dataloader.permission:
+        class: %ilioscore.dataloader.permission.class%
     ilioscore.dataloader.programyear:
         class: %ilioscore.dataloader.programyear.class%
     ilioscore.dataloader.programyearsteward:

@@ -1,7 +1,10 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity;
 
+use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\Offering;
+use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Entity\Session;
 use Mockery as m;
 
 /**
@@ -90,7 +93,7 @@ class OfferingTest extends EntityBase
      */
     public function testSetSession()
     {
-        $this->entitySetTest('session', 'Session');
+        $this->softDeleteEntitySetTest('session', 'Session');
     }
 
     /**
@@ -108,5 +111,31 @@ class OfferingTest extends EntityBase
     public function testSetPublishEvent()
     {
         $this->entitySetTest('publishEvent', 'PublishEvent');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::getSchool
+     */
+    public function testGetSchool()
+    {
+        $school = new School();
+        $course = new Course();
+        $course->setSchool($school);
+        $session = new Session();
+        $session->setCourse($course);
+        $this->object->setSession($session);
+
+        $this->assertSame($school, $this->object->getSchool());
+
+        $school->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
+
+        $school->setDeleted(false);
+        $course->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
+
+        $course->setDeleted(false);
+        $session->setDeleted(true);
+        $this->assertNull($this->object->getSchool());
     }
 }
