@@ -289,9 +289,9 @@ class PermissionManagerTest extends TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionsToSchools
+     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionToSchools
      */
-    public function testUserHasWritePermissionsToSchools()
+    public function testUserHasWritePermissionToSchools()
     {
         $schoolA = new School();
         $schoolA->setId(100);
@@ -333,9 +333,9 @@ class PermissionManagerTest extends TestCase
         $this->assertFalse($manager->userHasWritePermissionToSchools($user, new ArrayCollection()));
     }
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionsToSchools
+     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToSchools
      */
-    public function testUserHasReadPermissionsToSchools()
+    public function testUserHasReadPermissionToSchools()
     {
         $schoolA = new School();
         $schoolA->setId(100);
