@@ -41,7 +41,7 @@ class LoadSchoolData extends AbstractFixture
         $entity->setTemplatePrefix($data[1]);
         $entity->setTitle($data[2]);
         $entity->setIliosAdministratorEmail($data[3]);
-        $entity->setChangeAlertRecipients($data[5]);
+        $entity->setChangeAlertRecipients($data[4]);
         return $entity;
     }
 }
