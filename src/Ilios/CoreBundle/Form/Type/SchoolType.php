@@ -23,7 +23,6 @@ class SchoolType extends AbstractType
             ->add('title', null, ['empty_data' => null])
             ->add('templatePrefix', null, ['required' => false, 'empty_data' => null])
             ->add('iliosAdministratorEmail', null, ['empty_data' => null])
-            ->add('deleted', null, ['required' => false])
             ->add('changeAlertRecipients', null, ['required' => false, 'empty_data' => null])
             ->add('alerts', 'tdn_many_related', [
                 'required' => false,

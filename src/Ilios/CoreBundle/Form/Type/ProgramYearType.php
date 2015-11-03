@@ -20,7 +20,6 @@ class ProgramYearType extends AbstractType
     {
         $builder
             ->add('startYear')
-            ->add('deleted', null, ['required' => false])
             ->add('locked', null, ['required' => false])
             ->add('archived', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])

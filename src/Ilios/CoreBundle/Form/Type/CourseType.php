@@ -29,7 +29,6 @@ class CourseType extends AbstractType
             ->add('endDate', 'datetime', array(
                 'widget' => 'single_text',
             ))
-            ->add('deleted', null, ['required' => false])
             ->add('externalId', null, ['required' => false, 'empty_data' => null])
             ->add('locked', null, ['required' => false])
             ->add('archived', null, ['required' => false])

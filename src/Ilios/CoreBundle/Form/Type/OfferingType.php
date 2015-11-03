@@ -27,7 +27,6 @@ class OfferingType extends AbstractType
             ->add('endDate', 'datetime', array(
                 'widget' => 'single_text',
             ))
-            ->add('deleted', null, ['required' => false])
             ->add('session', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
