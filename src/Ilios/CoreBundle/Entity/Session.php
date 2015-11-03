@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
 use Ilios\CoreBundle\Traits\OfferingsEntity;
-use Ilios\CoreBundle\Traits\DeletableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
@@ -40,7 +39,6 @@ class Session implements SessionInterface
     use StringableIdEntity;
     use TimestampableEntity;
     use OfferingsEntity;
-    use DeletableEntity;
     use ObjectivesEntity;
 
     /**
@@ -113,19 +111,6 @@ class Session implements SessionInterface
      * @JMS\Type("boolean")
      */
     protected $supplemental;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="deleted", type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     */
-    protected $deleted;
 
     /**
      * @var boolean
@@ -306,7 +291,6 @@ class Session implements SessionInterface
         $this->attireRequired = false;
         $this->equipmentRequired = false;
         $this->supplemental = false;
-        $this->deleted = false;
         $this->publishedAsTbd = false;
 
         $this->topics = new ArrayCollection();
@@ -367,20 +351,6 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
-        //only cascade offering delete
-        if ($deleted) {
-            foreach ($this->getOfferings() as $offering) {
-                $offering->setDeleted(true);
-            }
-        }
-    }
-
-    /**
      * @param boolean $publishedAsTbd
      */
     public function setPublishedAsTbd($publishedAsTbd)
@@ -425,10 +395,7 @@ class Session implements SessionInterface
      */
     public function getCourse()
     {
-        if ($this->course && ! $this->course->isDeleted()) {
-            return $this->course;
-        }
-        return null;
+        return $this->course;
     }
 
     /**

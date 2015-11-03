@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
-use Ilios\CoreBundle\Traits\DeletableEntity;
 
 /**
  * Class Offering
@@ -33,7 +32,6 @@ class Offering implements OfferingInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
-    use DeletableEntity;
 
     /**
      * @var int
@@ -91,19 +89,6 @@ class Offering implements OfferingInterface
      * @JMS\SerializedName("endDate")
      */
     protected $endDate;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="deleted", type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     */
-    protected $deleted;
 
     /**
      * @var \DateTime
@@ -225,7 +210,6 @@ class Offering implements OfferingInterface
      */
     public function __construct()
     {
-        $this->deleted = false;
         $this->updatedAt = new \DateTime();
         $this->learnerGroups = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
@@ -302,10 +286,7 @@ class Offering implements OfferingInterface
      */
     public function getSession()
     {
-        if ($this->session && !$this->session->isDeleted()) {
-            return $this->session;
-        }
-        return null;
+        return $this->session;
     }
 
     /**

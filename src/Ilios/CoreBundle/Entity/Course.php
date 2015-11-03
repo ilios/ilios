@@ -16,7 +16,6 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\SessionsEntity;
 use Ilios\CoreBundle\Traits\SchoolEntity;
-use Ilios\CoreBundle\Traits\DeletableEntity;
 
 /**
  * Class Course
@@ -41,7 +40,6 @@ class Course implements CourseInterface
     use ArchivableEntity;
     use SessionsEntity;
     use SchoolEntity;
-    use DeletableEntity;
     use ObjectivesEntity;
 
     /**
@@ -130,19 +128,6 @@ class Course implements CourseInterface
      * @JMS\SerializedName("endDate")
      */
     protected $endDate;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", name="deleted")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     */
-    protected $deleted;
 
     /**
      * @var string
@@ -367,7 +352,6 @@ class Course implements CourseInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
         $this->sessions = new ArrayCollection();
-        $this->deleted = false;
         $this->publishedAsTbd = false;
         $this->archived = false;
         $this->locked = false;
@@ -435,17 +419,6 @@ class Course implements CourseInterface
     public function getEndDate()
     {
         return $this->endDate;
-    }
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = (boolean) $deleted;
-        foreach ($this->getSessions() as $session) {
-            $session->setDeleted($deleted);
-        }
     }
 
     /**

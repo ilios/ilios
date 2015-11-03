@@ -5,7 +5,6 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
@@ -18,8 +17,7 @@ interface OfferingInterface extends
     IdentifiableEntityInterface,
     StringableEntityInterface,
     TimestampableEntityInterface,
-    LoggableEntityInterface,
-    DeletableEntityInterface
+    LoggableEntityInterface
 {
     /**
      * @param string $room

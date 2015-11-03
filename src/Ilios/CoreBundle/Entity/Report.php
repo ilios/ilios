@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
-use Ilios\CoreBundle\Traits\DeletableEntity;
 
 /**
  * Class Report
@@ -26,7 +25,6 @@ class Report implements ReportInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use TitledEntity;
-    use DeletableEntity;
 
     /**
      * @var int
@@ -124,15 +122,6 @@ class Report implements ReportInterface
     protected $prepositionalObjectTableRowId;
 
     /**
-     * @var boolean
-     *
-     *@ORM\Column(name="deleted", type="boolean")
-     *
-     *@Assert\Type(type="bool")
-     */
-    protected $deleted;
-
-    /**
      * @var UserInterface $user
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
@@ -151,7 +140,6 @@ class Report implements ReportInterface
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->deleted = false;
     }
 
     /**

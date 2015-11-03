@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
@@ -16,7 +15,6 @@ interface DepartmentInterface extends
     TitledEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,
-    DeletableEntityInterface,
     StewardedEntityInterface
 {
 

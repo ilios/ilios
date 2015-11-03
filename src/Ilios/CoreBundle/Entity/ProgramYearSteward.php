@@ -119,11 +119,7 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      */
     public function getProgramYear()
     {
-        if ($this->programYear && !$this->programYear->isDeleted()) {
-            return $this->programYear;
-        }
-        
-        return null;
+        return $this->programYear;
     }
 
     /**

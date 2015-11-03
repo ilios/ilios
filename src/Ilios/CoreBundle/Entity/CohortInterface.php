@@ -30,14 +30,8 @@ interface CohortInterface extends
     public function getProgramYear();
 
     /**
-     * Check if a cohorts program year is deleted
-     * @return boolean
+     * @return LearnerGroupInterface[]|ArrayCollection
      */
-    public function isDeleted();
-
-    /**
-    * @return LearnerGroupInterface[]|ArrayCollection
-    */
     public function getLearnerGroups();
 
     /**
