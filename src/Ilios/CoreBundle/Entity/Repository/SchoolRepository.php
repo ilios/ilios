@@ -2,11 +2,14 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Type as DoctrineType;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Ilios\CoreBundle\Classes\SchoolEvent;
+use Ilios\CoreBundle\Classes\UserEvent;
 
+/**
+ * Class SchoolRepository
+ * @package Ilios\CoreBundle\Entity\Repository
+ */
 class SchoolRepository extends EntityRepository
 {
     /**
@@ -15,7 +18,7 @@ class SchoolRepository extends EntityRepository
      * @param \DateTime $from
      * @param \DateTime $to
      *
-     * @return UserEvent[]|Collection
+     * @return UserEvent[]
      */
     public function findEventsForSchool(
         $id,
@@ -102,8 +105,7 @@ class SchoolRepository extends EntityRepository
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('school.id', ':school_id'),
-            $qb->expr()->between('o.startDate', ':date_from', ':date_to'),
-            $qb->expr()->eq('o.deleted', 0)
+            $qb->expr()->between('o.startDate', ':date_from', ':date_to')
         ));
         $qb->setParameter('school_id', $id);
 
@@ -118,10 +120,10 @@ class SchoolRepository extends EntityRepository
       * Use the query builder and the $joins to get a set of
       * ILMSession based user events
       *
-      * @param integer $userId
-      * @param \DateTime $start
-      * @param \DateTime $end
-      * @param string $group
+      * @param integer $id
+      * @param \DateTime $from
+      * @param \DateTime $to
+      * @param array $joins
       *
      * @return UserEvent[]
      */
@@ -145,8 +147,7 @@ class SchoolRepository extends EntityRepository
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('school.id', ':school_id'),
-            $qb->expr()->between('ilm.dueDate', ':date_from', ':date_to'),
-            $qb->expr()->eq('s.deleted', 0)
+            $qb->expr()->between('ilm.dueDate', ':date_from', ':date_to')
         ));
         $qb->setParameter('school_id', $id);
 
@@ -160,7 +161,7 @@ class SchoolRepository extends EntityRepository
     
     /**
      * Convert offerings into UserEvent objects
-     * @param integer $userId
+     * @param integer $schoolId
      * @param array $results
      *
      * @return UserEvent[]
@@ -187,7 +188,7 @@ class SchoolRepository extends EntityRepository
     
     /**
      * Convert IlmSessions into UserEvent objects
-     * @param integer $userId
+     * @param integer $schoolId
      * @param array $results
      *
      * @return UserEvent[]

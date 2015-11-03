@@ -7,6 +7,10 @@ use Doctrine\DBAL\Types\Type as DoctrineType;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\UserInterface;
 
+/**
+ * Class UserRepository
+ * @package Ilios\CoreBundle\Entity\Repository
+ */
 class UserRepository extends EntityRepository
 {
     /**
@@ -238,8 +242,7 @@ class UserRepository extends EntityRepository
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('u.id', ':user_id'),
-            $qb->expr()->between('o.startDate', ':date_from', ':date_to'),
-            $qb->expr()->eq('o.deleted', 0)
+            $qb->expr()->between('o.startDate', ':date_from', ':date_to')
         ));
         $qb->setParameter('user_id', $id);
 
@@ -281,8 +284,7 @@ class UserRepository extends EntityRepository
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('u.id', ':user_id'),
-            $qb->expr()->between('ilm.dueDate', ':date_from', ':date_to'),
-            $qb->expr()->eq('s.deleted', 0)
+            $qb->expr()->between('ilm.dueDate', ':date_from', ':date_to')
         ));
         $qb->setParameter('user_id', $id);
 
