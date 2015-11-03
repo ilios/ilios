@@ -119,7 +119,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addSteward
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::addSteward
      */
     public function testAddSteward()
     {
@@ -127,7 +127,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getStewards
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::getStewards
      */
     public function testGetSteward()
     {
@@ -135,7 +135,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getSchool
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::getSchool
      */
     public function testGetSchool()
     {
