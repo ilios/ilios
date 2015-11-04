@@ -15,7 +15,6 @@ class CourseData extends AbstractDataLoader
             'year' => 2013,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",
-            'deleted' => false,
             'externalId' => $this->faker->text(10),
             'locked' => false,
             'archived' => false,
@@ -39,7 +38,6 @@ class CourseData extends AbstractDataLoader
             'year' => 2013,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",
-            'deleted' => false,
             'externalId' => $this->faker->text(10),
             'locked' => false,
             'archived' => false,
@@ -62,7 +60,6 @@ class CourseData extends AbstractDataLoader
             'year' => 2013,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",
-            'deleted' => false,
             'externalId' => $this->faker->text(10),
             'locked' => false,
             'archived' => false,
@@ -77,7 +74,6 @@ class CourseData extends AbstractDataLoader
             'sessions' => []
         );
 
-        //deleted course shoudl to last
         $arr[] = array(
             'id' => 4,
             'title' => $this->faker->text(25),
@@ -85,7 +81,6 @@ class CourseData extends AbstractDataLoader
             'year' => 2013,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",
-            'deleted' => true,
             'externalId' => $this->faker->text(10),
             'locked' => false,
             'archived' => false,
@@ -100,7 +95,6 @@ class CourseData extends AbstractDataLoader
             'sessions' => ["1"]
         );
 
-
         return $arr;
     }
 
@@ -113,7 +107,6 @@ class CourseData extends AbstractDataLoader
             'year' => 2013,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",
-            'deleted' => false,
             'externalId' => $this->faker->text(10),
             'locked' => false,
             'archived' => false,
