@@ -62,12 +62,9 @@ class AcademicYearControllerTest extends AbstractControllerTest
     public function testGetAllAcademicYears()
     {
         $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
-        $unDeletedCourses = array_filter($courses, function ($arr) {
-            return !$arr['deleted'];
-        });
         $academicYears = array_map(function ($arr) {
             return $arr['year'];
-        }, $unDeletedCourses);
+        }, $courses);
         $academicYears = array_unique($academicYears);
         sort($academicYears);
         $academicYears = array_map(function ($year) {
