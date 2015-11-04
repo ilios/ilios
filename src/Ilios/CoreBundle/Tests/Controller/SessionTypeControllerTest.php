@@ -53,8 +53,6 @@ class SessionTypeControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
-        $sessionType = $this->container->get('ilioscore.dataloader.session')
-            ->removeDeletedSessionsFromArray(array($sessionType))[0];
         $this->assertEquals(
             $this->mockSerialize($sessionType),
             json_decode($response->getContent(), true)['sessionTypes'][0]
@@ -66,9 +64,7 @@ class SessionTypeControllerTest extends AbstractControllerTest
         $sessionTypes = $this->container
             ->get('ilioscore.dataloader.sessiontype')
             ->getAll();
-        $sessionTypes = $this->container->get('ilioscore.dataloader.session')
-            ->removeDeletedSessionsFromArray($sessionTypes);
-        
+
         $this->createJsonRequest(
             'GET',
             $this->getUrl('cget_sessiontypes'),
@@ -153,8 +149,6 @@ class SessionTypeControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         
-        $data = $this->container->get('ilioscore.dataloader.session')
-            ->removeDeletedSessionsFromArray(array($data))[0];
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),

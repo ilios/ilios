@@ -59,8 +59,6 @@ class CourseControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
-        $course = $this->container->get('ilioscore.dataloader.session')
-            ->removeDeletedSessionsFromArray(array($course))[0];
 
         $this->assertEquals(
             $this->mockSerialize($course),
@@ -71,18 +69,14 @@ class CourseControllerTest extends AbstractControllerTest
     public function testGetAllCourses()
     {
         $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
-        $unDeletedCourses = array_filter($courses, function ($arr) {
-            return !$arr['deleted'];
-        });
-        $unDeletedCourses = $this->container->get('ilioscore.dataloader.session')
-            ->removeDeletedSessionsFromArray($unDeletedCourses);
+
         $this->createJsonRequest('GET', $this->getUrl('cget_courses'), null, $this->getAuthenticatedUserToken());
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize(
-                $unDeletedCourses
+                $courses
             ),
             json_decode($response->getContent(), true)['courses']
         );
@@ -106,7 +100,6 @@ class CourseControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-        $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
@@ -157,8 +150,6 @@ class CourseControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-        $data = $this->container->get('ilioscore.dataloader.session')
-            ->removeDeletedSessionsFromArray(array($data))[0];
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),
