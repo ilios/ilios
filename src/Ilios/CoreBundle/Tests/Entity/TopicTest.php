@@ -48,7 +48,7 @@ class TopicTest extends EntityBase
      */
     public function testSetSchool()
     {
-        $this->softDeleteEntitySetTest('school', 'School');
+        $this->entitySetTest('school', 'School');
     }
 
     /**
@@ -56,7 +56,7 @@ class TopicTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->softDeleteEntityCollectionAddTest('course', 'Course', false, false, 'addTopic');
+        $this->entityCollectionAddTest('course', 'Course', false, false, 'addTopic');
     }
 
     /**
@@ -64,7 +64,7 @@ class TopicTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $this->softDeleteEntityCollectionSetTest('course', 'Course', false, false, 'addTopic');
+        $this->entityCollectionSetTest('course', 'Course', false, false, 'addTopic');
     }
 
     /**
@@ -72,7 +72,7 @@ class TopicTest extends EntityBase
      */
     public function testAddProgramYear()
     {
-        $this->softDeleteEntityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addTopic');
+        $this->entityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addTopic');
     }
 
     /**
@@ -80,7 +80,7 @@ class TopicTest extends EntityBase
      */
     public function testGetProgramYears()
     {
-        $this->softDeleteEntityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addTopic');
+        $this->entityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addTopic');
     }
 
     /**
@@ -88,7 +88,7 @@ class TopicTest extends EntityBase
      */
     public function testAddSession()
     {
-        $this->softDeleteEntityCollectionAddTest('session', 'Session', false, false, 'addTopic');
+        $this->entityCollectionAddTest('session', 'Session', false, false, 'addTopic');
     }
 
     /**
@@ -96,6 +96,6 @@ class TopicTest extends EntityBase
      */
     public function testGetSessions()
     {
-        $this->softDeleteEntityCollectionSetTest('session', 'Session', false, false, 'addTopic');
+        $this->entityCollectionSetTest('session', 'Session', false, false, 'addTopic');
     }
 }

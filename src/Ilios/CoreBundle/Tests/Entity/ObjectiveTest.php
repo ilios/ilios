@@ -56,7 +56,7 @@ class ObjectiveTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->softDeleteEntityCollectionAddTest('course', 'Course', false, false, 'addObjective');
+        $this->entityCollectionAddTest('course', 'Course', false, false, 'addObjective');
     }
 
     /**
@@ -64,7 +64,7 @@ class ObjectiveTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $this->softDeleteEntityCollectionSetTest('course', 'Course', false, false, 'addObjective');
+        $this->entityCollectionSetTest('course', 'Course', false, false, 'addObjective');
     }
 
     /**
@@ -72,7 +72,7 @@ class ObjectiveTest extends EntityBase
      */
     public function testAddProgramYear()
     {
-        $this->softDeleteEntityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addObjective');
+        $this->entityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addObjective');
     }
 
     /**
@@ -80,7 +80,7 @@ class ObjectiveTest extends EntityBase
      */
     public function testGetProgramYears()
     {
-        $this->softDeleteEntityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addObjective');
+        $this->entityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addObjective');
     }
 
     /**
@@ -88,7 +88,7 @@ class ObjectiveTest extends EntityBase
      */
     public function testAddSession()
     {
-        $this->softDeleteEntityCollectionAddTest('session', 'Session', false, false, 'addObjective');
+        $this->entityCollectionAddTest('session', 'Session', false, false, 'addObjective');
     }
 
     /**
@@ -96,7 +96,7 @@ class ObjectiveTest extends EntityBase
      */
     public function testGetSessions()
     {
-        $this->softDeleteEntityCollectionSetTest('session', 'Session', false, false, 'addObjective');
+        $this->entityCollectionSetTest('session', 'Session', false, false, 'addObjective');
     }
 
     /**

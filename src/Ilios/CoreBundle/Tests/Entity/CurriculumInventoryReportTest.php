@@ -117,7 +117,7 @@ class CurriculumInventoryReportTest extends EntityBase
      */
     public function testSetProgram()
     {
-        $this->softDeleteEntitySetTest('program', 'Program');
+        $this->entitySetTest('program', 'Program');
     }
 
     /**
@@ -128,15 +128,16 @@ class CurriculumInventoryReportTest extends EntityBase
         $school = new School();
         $program = new Program();
         $program->setSchool($school);
-        $this->object->setProgram($program);
+        $report = new CurriculumInventoryReport();
+        $report->setProgram($program);
+        $this->assertEquals($school, $report->getSchool());
 
-        $this->assertEquals($school, $this->object->getSchool());
+        $program = new Program();
+        $report = new CurriculumInventoryReport();
+        $report->setProgram($program);
+        $this->assertNull($report->getSchool());
 
-        $program->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
-
-        $program->setDeleted(false);
-        $school->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $report = new CurriculumInventoryReport();
+        $this->assertNull($report->getSchool());
     }
 }

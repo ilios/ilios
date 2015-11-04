@@ -1,6 +1,7 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity;
 
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Ilios\CoreBundle\Entity\LearningMaterial;
 use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Entity\User;
@@ -83,11 +84,16 @@ class LearningMaterialTest extends EntityBase
         $school = new School();
         $user = new User();
         $user->setSchool($school);
-        $this->object->setOwningUser($user);
+        $lm = new LearningMaterial();
+        $lm->setOwningUser($user);
+        $this->assertSame($school, $lm->getOwningSchool());
 
-        $this->assertSame($school, $this->object->getOwningSchool());
+        $user = new User();
+        $lm = new LearningMaterial();
+        $lm->setOwningUser($user);
+        $this->assertNull($lm->getOwningSchool());
 
-        $school->setDeleted(true);
-        $this->assertNull($this->object->getOwningSchool());
+        $lm = new LearningMaterial();
+        $this->assertNull($lm->getOwningSchool());
     }
 }

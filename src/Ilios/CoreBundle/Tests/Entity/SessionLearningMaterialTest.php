@@ -63,7 +63,7 @@ class SessionLearningMaterialTest extends EntityBase
      */
     public function testSetSession()
     {
-        $this->softDeleteEntitySetTest('session', 'Session');
+        $this->entitySetTest('session', 'Session');
     }
 
     /**

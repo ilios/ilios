@@ -64,7 +64,7 @@ class CourseLearningMaterialTest extends EntityBase
      */
     public function testSetCourse()
     {
-        $this->softDeleteEntitySetTest('course', 'Course');
+        $this->entitySetTest('course', 'Course');
     }
 
     /**

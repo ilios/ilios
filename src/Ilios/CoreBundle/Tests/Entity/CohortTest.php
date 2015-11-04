@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\Program;
 use Ilios\CoreBundle\Entity\ProgramYear;
 use Ilios\CoreBundle\Entity\School;
 use Mockery as m;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity Cohort
@@ -62,7 +61,7 @@ class CohortTest extends EntityBase
      */
     public function testSetProgramYear()
     {
-        $this->softDeleteEntitySetTest('programYear', 'ProgramYear');
+        $this->entitySetTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -70,7 +69,7 @@ class CohortTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->softDeleteEntityCollectionAddTest('course', 'Course', false, false, 'addCohort');
+        $this->entityCollectionSetTest('course', 'Course', false, false, 'addCohort');
     }
 
     /**
@@ -78,7 +77,7 @@ class CohortTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $this->softDeleteEntityCollectionSetTest('course', 'Course', false, false, 'addCohort');
+        $this->entityCollectionSetTest('course', 'Course', false, false, 'addCohort');
     }
 
     /**
@@ -89,15 +88,17 @@ class CohortTest extends EntityBase
         $program = new Program();
         $programYear = new ProgramYear();
         $programYear->setProgram($program);
-        $this->object->setProgramYear($programYear);
-        $this->assertEquals($program, $this->object->getProgram());
+        $cohort = new Cohort();
+        $cohort->setProgramYear($programYear);
+        $this->assertEquals($program, $cohort->getProgram());
 
-        $program->setDeleted(true);
-        $this->assertNull($this->object->getProgram());
+        $programYear = new ProgramYear();
+        $cohort = new Cohort();
+        $cohort->setProgramYear($programYear);
+        $this->assertNull($cohort->getProgram());
 
-        $program->setDeleted(false);
-        $programYear->setDeleted(true);
-        $this->assertNull($this->object->getProgram());
+        $cohort = new Cohort();
+        $this->assertNull($cohort->getProgram());
     }
 
     /**
@@ -110,18 +111,23 @@ class CohortTest extends EntityBase
         $program->setSchool($school);
         $programYear = new ProgramYear();
         $programYear->setProgram($program);
-        $this->object->setProgramYear($programYear);
-        $this->assertEquals($school, $this->object->getSchool());
+        $cohort = new Cohort();
+        $cohort->setProgramYear($programYear);
+        $this->assertEquals($school, $cohort->getSchool());
 
-        $school->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $program = new Program();
+        $programYear = new ProgramYear();
+        $programYear->setProgram($program);
+        $cohort = new Cohort();
+        $cohort->setProgramYear($programYear);
+        $this->assertNull($cohort->getSchool());
 
-        $school->setDeleted(false);
-        $program->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $programYear = new ProgramYear();
+        $cohort = new Cohort();
+        $cohort->setProgramYear($programYear);
+        $this->assertNull($cohort->getSchool());
 
-        $program->setDeleted(false);
-        $programYear->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $cohort = new Cohort();
+        $this->assertNull($cohort->getSchool());
     }
 }
