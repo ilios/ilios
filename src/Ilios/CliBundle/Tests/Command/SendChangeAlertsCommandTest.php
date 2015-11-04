@@ -438,43 +438,34 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      */
     public function testExecuteDeletedOfferingProvider()
     {
-        $deletedSchool = new School();
-        $deletedSchool->setDeleted(true);
         $course = new Course();
-        $course->setSchool($deletedSchool);
         $session = new Session();
         $session->setCourse($course);
-        $offeringInDeletedSchool = new Offering();
-        $offeringInDeletedSchool->setId(1);
-        $offeringInDeletedSchool->setSession($session);
-        $alertForOfferingInDeletedSchool = new Alert();
-        $alertForOfferingInDeletedSchool->setTableName('offering');
-        $alertForOfferingInDeletedSchool->setTableRowId($offeringInDeletedSchool->getId());
+        $offeringA = new Offering();
+        $offeringA->setId(1);
+        $offeringA->setSession($session);
+        $alertA = new Alert();
+        $alertA->setTableName('offering');
+        $alertA->setTableRowId($offeringA->getId());
 
-        $deletedCourse = new Course();
-        $deletedCourse->setDeleted(true);
         $session = new Session();
-        $session->setCourse($course);
-        $offeringInDeletedCourse = new Offering();
-        $offeringInDeletedCourse->setId(1);
-        $offeringInDeletedCourse->setSession($session);
-        $alertForOfferingInDeletedCourse = new Alert();
-        $alertForOfferingInDeletedCourse->setTableName('offering');
-        $alertForOfferingInDeletedCourse->setTableRowId($offeringInDeletedCourse->getId());
+        $offeringB = new Offering();
+        $offeringB->setId(1);
+        $offeringB->setSession($session);
+        $alertB = new Alert();
+        $alertB->setTableName('offering');
+        $alertB->setTableRowId($offeringB->getId());
 
-        $deletedSession = new Session();
-        $deletedSession->setDeleted(true);
-        $offeringInDeletedSession = new Offering();
-        $offeringInDeletedSession->setId(1);
-        $offeringInDeletedSession->setSession($deletedSession);
-        $alertForOfferingInDeletedSession = new Alert();
-        $alertForOfferingInDeletedSession->setTableName('offering');
-        $alertForOfferingInDeletedSession->setTableRowId($offeringInDeletedSession->getId());
+        $offeringC = new Offering();
+        $offeringC->setId(1);
+        $alertC = new Alert();
+        $alertC->setTableName('offering');
+        $alertC->setTableRowId($offeringC->getId());
 
         return [
-            [ $alertForOfferingInDeletedSchool, $offeringInDeletedSchool ],
-            [ $alertForOfferingInDeletedCourse, $offeringInDeletedCourse ],
-            [ $alertForOfferingInDeletedSession, $offeringInDeletedSession ],
+            [ $alertA, $offeringA ],
+            [ $alertB, $offeringB ],
+            [ $alertC, $offeringC ],
         ];
     }
 }
