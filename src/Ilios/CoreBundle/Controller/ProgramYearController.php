@@ -125,6 +125,11 @@ class ProgramYearController extends FOSRestController
             return $item;
         }, $criteria);
 
+        // @todo delete once https://github.com/ilios/moodle-enrol-ilios/pull/10 lands. [ST 2015/11/04]
+        if (array_key_exists('deleted', $criteria)) {
+            unset($criteria['deleted']);
+        }
+
         $result = $this->getProgramYearHandler()
             ->findProgramYearsBy(
                 $criteria,
