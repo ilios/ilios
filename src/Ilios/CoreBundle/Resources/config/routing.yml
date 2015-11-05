@@ -256,6 +256,12 @@ api_pendinguserupdate_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+api_permission_v1:
+    resource: "@IliosCoreBundle/Controller/PermissionController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
 api_program_v1:
     resource: "@IliosCoreBundle/Controller/ProgramController.php"
     type:     rest
