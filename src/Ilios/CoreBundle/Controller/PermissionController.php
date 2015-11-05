@@ -326,8 +326,8 @@ class PermissionController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        if ($request->request->has('permissions')) {
-            return $request->request->get('permissions');
+        if ($request->request->has('permission')) {
+            return $request->request->get('permission');
         }
 
         return $request->request->all();
