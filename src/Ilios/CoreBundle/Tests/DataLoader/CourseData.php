@@ -86,13 +86,13 @@ class CourseData extends AbstractDataLoader
             'archived' => false,
             'publishedAsTbd' => false,
             'school' => "1",
-            'directors' => ["2"],
+            'directors' => ['2'],
             'cohorts' => ["1"],
-            'topics' => ["1"],
+            'topics' => [],
             'objectives' => ["1"],
             'meshDescriptors' => [],
-            'learningMaterials' => ["1"],
-            'sessions' => ["1"]
+            'learningMaterials' => [],
+            'sessions' => []
         );
 
         return $arr;

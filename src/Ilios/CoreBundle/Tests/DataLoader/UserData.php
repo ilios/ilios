@@ -51,7 +51,7 @@ class UserData extends AbstractDataLoader
             'publishEvents' => [],
             'reports' => [],
             'school' => '1',
-            'directedCourses' => ['2'],
+            'directedCourses' => ['2', '4'],
             'learnerGroups' => ['1', '2', '3'],
             'instructedLearnerGroups' => [],
             'instructorGroups' => ['1', '2', '3'],
