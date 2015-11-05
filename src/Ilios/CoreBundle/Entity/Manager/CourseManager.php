@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CourseInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class CourseManager
@@ -78,5 +79,13 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     {
         $class = $this->getClass();
         return new $class();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isUserInstructingInCourse(UserInterface $user, CourseInterface $course)
+    {
+        return $this->getRepository()->isUserInstructingInCourse($user, $course);
     }
 }

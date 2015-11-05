@@ -54,7 +54,7 @@ services:
             - { name: security.voter }
     security.access.course_voter:
         class: Ilios\AuthenticationBundle\Voter\CourseVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ @ilioscore.course.manager, @ilioscore.permission.manager ]
         public: false
         tags:
              - { name: security.voter }
@@ -114,7 +114,7 @@ services:
             - { name: security.voter }
     security.access.ilm_session_voter:
         class: Ilios\AuthenticationBundle\Voter\IlmSessionVoter
-        arguments: [ @ilioscore.permission.manager, @ilioscore.session.manager ]
+        parent: security.access.session_voter
         public: false
         tags:
             - { name: security.voter }

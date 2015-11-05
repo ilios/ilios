@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
+use Ilios\CoreBundle\Entity\Manager\CourseManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -17,8 +18,14 @@ class CourseVoter extends AbstractVoter
      */
     protected $permissionManager;
 
-    public function __construct(PermissionManagerInterface $permissionManager)
+    /**
+     * @var CourseManagerInterface
+     */
+    protected $courseManager;
+
+    public function __construct(CourseManagerInterface $courseManager, PermissionManagerInterface $permissionManager)
     {
+        $this->courseManager = $courseManager;
         $this->permissionManager = $permissionManager;
     }
 
@@ -66,10 +73,14 @@ class CourseVoter extends AbstractVoter
         // grant VIEW privileges if at least one of the following
         // statements is true:
         // 1. the user's primary school is the course's owning school
-        // 2. the user has READ rights on the course's owning school via the permissions system
-        // 3. the user has READ rights on the course via the permissions system
+        // 2. the user is instructing ILMs or offerings in this course
+        // 3. the user is directing this course
+        // 4. the user has READ rights on the course's owning school via the permissions system
+        // 5. the user has READ rights on the course via the permissions system
         return (
             $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
+            || $this->courseManager->isUserInstructingInCourse($user, $course)
+            || $user->getDirectedCourses()->contains($course)
             || $this->permissionManager->userHasReadPermissionToSchool($user, $course->getSchool())
             || $this->permissionManager->userHasReadPermissionToCourse($user, $course)
         );
