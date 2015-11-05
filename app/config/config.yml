@@ -136,7 +136,7 @@ doctrine_migrations:
 exercise_html_purifier:
     default:
         Cache.SerializerPath: "%kernel.cache_dir%/htmlpurifier"
-        HTML.Allowed: "a[href],br,div,dd,dl,dt,em,li,ol,p,strong,sub,sup,ul"
+        HTML.Allowed: "a[href],br,div,dd,dl,dt,em,li,ol,p,strong,sub,sup,ul,u"
 
 ilios_core:
     file_system_storage_path: "%file_system_storage_path%"

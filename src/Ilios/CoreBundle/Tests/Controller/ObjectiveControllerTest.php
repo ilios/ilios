@@ -250,6 +250,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
                 '<a href="https://iliosproject.org" target="_blank">Ilios</a>',
                 '<a href="https://iliosproject.org">Ilios</a>'
             ],
+            ['<u>NOW I CRY</u>', '<u>NOW I CRY</u>'],
         ];
     }
 
