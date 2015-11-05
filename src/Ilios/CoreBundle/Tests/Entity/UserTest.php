@@ -59,6 +59,7 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getPublishEvents());
         $this->assertEmpty($this->object->getReports());
         $this->assertEmpty($this->object->getPendingUserUpdates());
+        $this->assertEmpty($this->object->getPermissions());
     }
 
     /**
@@ -189,12 +190,29 @@ class UserTest extends EntityBase
     /**
      * @covers Ilios\CoreBundle\Entity\User::setReminders
      * @covers Ilios\CoreBundle\Entity\User::getReminders
-     * @covers Ilios\CoreBundle\Entity\User::getReminders
      */
     public function testSetReminders()
     {
         $this->entityCollectionSetTest('reminder', 'UserMadeReminder');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::addPermission
+     */
+    public function testAddPermission()
+    {
+        $this->entityCollectionAddTest('permission', 'Permission');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::setPermissions
+     * @covers Ilios\CoreBundle\Entity\User::getPermissions
+     */
+    public function testSetPermissions()
+    {
+        $this->entityCollectionSetTest('permission', 'Permission');
+    }
+
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::addDirectedCourse

@@ -470,6 +470,16 @@ class User implements UserInterface
     protected $pendingUserUpdates;
 
     /**
+     * @var ArrayCollection|PermissionInterface[]
+     * @ORM\OneToMany(targetEntity="Permission", mappedBy="user")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("permissions")
+     **/
+    protected $permissions;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -491,6 +501,7 @@ class User implements UserInterface
         $this->cohorts                  = new ArrayCollection();
         $this->pendingUserUpdates       = new ArrayCollection();
         $this->auditLogs                = new ArrayCollection();
+        $this->permissions              = new ArrayCollection();
         $this->addedViaIlios            = false;
         $this->enabled                  = true;
         $this->examined                 = false;
@@ -738,6 +749,34 @@ class User implements UserInterface
     public function getReminders()
     {
         return $this->reminders;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPermissions(Collection $permissions)
+    {
+        $this->permissions = new ArrayCollection();
+
+        foreach ($permissions as $permission) {
+            $this->addReminder($permission);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addPermission(PermissionInterface $permission)
+    {
+        $this->permissions->add($permission);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
     }
 
     /**

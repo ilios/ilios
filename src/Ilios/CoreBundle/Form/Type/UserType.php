@@ -88,6 +88,10 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
             ])
+            ->add('permissions', 'tdn_many_related', [
+               'required' => false,
+                'entityName' => "IliosCoreBundle:Permission"
+            ]);
         ;
         $transformer = new RemoveMarkupTransformer();
         $textElements = ['firstName', 'lastName', 'middleName', 'phone', 'email', 'campusId', 'icsFeedKey', 'otherId'];

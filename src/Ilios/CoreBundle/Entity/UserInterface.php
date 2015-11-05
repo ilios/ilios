@@ -374,4 +374,19 @@ interface UserInterface extends
      * @return ArrayCollection[School]
      */
     public function getAllSchools();
+
+    /**
+     * @param Collection $permissions
+     */
+    public function setPermissions(Collection $permissions);
+
+    /**
+     * @param PermissionInterface $permission
+     */
+    public function addPermission(PermissionInterface $permission);
+
+    /**
+     * @return ArrayCollection|PermissionInterface[]
+     */
+    public function getPermissions();
 }
