@@ -178,6 +178,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.permission_voter:
+        class: Ilios\AuthenticationBundle\Voter\PermissionVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.program_voter:
         class: Ilios\AuthenticationBundle\Voter\ProgramVoter
         arguments: [ @ilioscore.permission.manager ]
