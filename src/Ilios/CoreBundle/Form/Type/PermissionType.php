@@ -20,6 +20,15 @@ class PermissionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder
+            ->add('canRead', null)
+            ->add('canWrite', null)
+            ->add('tableRowId', null)
+            ->add('tableName', null)
+            ->add('user', 'tdn_single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ]);
     }
 
     /**
