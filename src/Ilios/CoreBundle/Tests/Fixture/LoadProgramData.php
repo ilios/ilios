@@ -34,7 +34,6 @@ class LoadProgramData extends AbstractFixture implements
             $entity->setTitle($arr['title']);
             $entity->setShortTitle($arr['shortTitle']);
             $entity->setDuration($arr['duration']);
-            $entity->setDeleted($arr['deleted']);
             $entity->setPublishedAsTbd($arr['publishedAsTbd']);
             $entity->setSchool($this->getReference('schools' . $arr['school']));
             if (!empty($arr['publishEvent'])) {

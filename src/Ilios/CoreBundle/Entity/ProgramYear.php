@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\ArchivableEntity;
-use Ilios\CoreBundle\Traits\DeletableEntity;
 use Ilios\CoreBundle\Traits\LockableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StewardedEntity;
@@ -30,7 +29,6 @@ class ProgramYear implements ProgramYearInterface
     use IdentifiableEntity;
     use LockableEntity;
     use ArchivableEntity;
-    use DeletableEntity;
     use StewardedEntity;
     use ObjectivesEntity;
 
@@ -62,19 +60,6 @@ class ProgramYear implements ProgramYearInterface
      * @ORM\Column(name="start_year", type="smallint")
      */
     protected $startYear;
-
-    /**
-     * @var boolean
-     *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @ORM\Column(name="deleted", type="boolean")
-     */
-    protected $deleted;
 
     /**
      * @var boolean
@@ -239,7 +224,6 @@ class ProgramYear implements ProgramYearInterface
      */
     public function __construct()
     {
-        $this->deleted = false;
         $this->archived = false;
         $this->locked = false;
         $this->publishedAsTbd = false;
@@ -313,11 +297,7 @@ class ProgramYear implements ProgramYearInterface
      */
     public function getProgram()
     {
-        if ($this->program && !$this->program->isDeleted()) {
-            return $this->program;
-        }
-        
-        return null;
+        return $this->program;
     }
 
     /**

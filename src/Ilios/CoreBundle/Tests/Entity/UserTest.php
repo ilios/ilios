@@ -175,7 +175,7 @@ class UserTest extends EntityBase
      */
     public function testSetSchool()
     {
-        $this->softDeleteEntitySetTest('school', 'School');
+        $this->entitySetTest('school', 'School');
     }
 
     /**
@@ -201,7 +201,7 @@ class UserTest extends EntityBase
      */
     public function testAddDirectedCourse()
     {
-        $this->softDeleteEntityCollectionAddTest('directedCourse', 'Course', false, false, 'addDirector');
+        $this->entityCollectionAddTest('directedCourse', 'Course', false, false, 'addDirector');
     }
 
     /**
@@ -209,7 +209,7 @@ class UserTest extends EntityBase
      */
     public function testGetDirectedCourses()
     {
-        $this->softDeleteEntityCollectionSetTest('directedCourse', 'Course', false, false, 'addDirector');
+        $this->entityCollectionSetTest('directedCourse', 'Course', false, false, 'addDirector');
     }
 
     /**
@@ -265,7 +265,7 @@ class UserTest extends EntityBase
      */
     public function testAddOffering()
     {
-        $this->softDeleteEntityCollectionAddTest('offering', 'Offering', false, false, 'addLearner');
+        $this->entityCollectionAddTest('offering', 'Offering', false, false, 'addLearner');
     }
 
     /**
@@ -273,7 +273,7 @@ class UserTest extends EntityBase
      */
     public function testSetOfferings()
     {
-        $this->softDeleteEntityCollectionSetTest('offering', 'Offering', false, false, 'addLearner');
+        $this->entityCollectionSetTest('offering', 'Offering', false, false, 'addLearner');
     }
 
     /**
@@ -281,7 +281,7 @@ class UserTest extends EntityBase
      */
     public function testAddProgramYear()
     {
-        $this->softDeleteEntityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addDirector');
+        $this->entityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addDirector');
     }
 
     /**
@@ -289,7 +289,7 @@ class UserTest extends EntityBase
      */
     public function testSetProgramYears()
     {
-        $this->softDeleteEntityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addDirector');
+        $this->entityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addDirector');
     }
 
     /**
@@ -361,7 +361,7 @@ class UserTest extends EntityBase
      */
     public function testAddReport()
     {
-        $this->softDeleteEntityCollectionAddTest('report', 'Report');
+        $this->entityCollectionAddTest('report', 'Report');
     }
 
     /**
@@ -369,7 +369,7 @@ class UserTest extends EntityBase
      */
     public function testSetReports()
     {
-        $this->softDeleteEntityCollectionSetTest('report', 'Report');
+        $this->entityCollectionSetTest('report', 'Report');
     }
 
 
@@ -402,7 +402,7 @@ class UserTest extends EntityBase
      */
     public function testAddInstructedOffering()
     {
-        $this->softDeleteEntityCollectionAddTest('instructedOffering', 'Offering', false, false, 'addInstructor');
+        $this->entityCollectionAddTest('instructedOffering', 'Offering', false, false, 'addInstructor');
     }
 
     /**
@@ -410,7 +410,7 @@ class UserTest extends EntityBase
      */
     public function testSetInstructedOffering()
     {
-        $this->softDeleteEntityCollectionSetTest('instructedOffering', 'Offering', false, false, 'addInstructor');
+        $this->entityCollectionSetTest('instructedOffering', 'Offering', false, false, 'addInstructor');
     }
 
     /**
@@ -418,7 +418,7 @@ class UserTest extends EntityBase
      */
     public function testAddInstructorIlmSessions()
     {
-        $this->softDeleteEntityCollectionAddTest('instructorIlmSession', 'IlmSession', false, false, 'addInstructor');
+        $this->entityCollectionAddTest('instructorIlmSession', 'IlmSession', false, false, 'addInstructor');
     }
 
     /**
@@ -426,7 +426,7 @@ class UserTest extends EntityBase
      */
     public function testGetInstructorIlmSessions()
     {
-        $this->softDeleteEntityCollectionSetTest('instructorIlmSession', 'IlmSession', false, false, 'addInstructor');
+        $this->entityCollectionSetTest('instructorIlmSession', 'IlmSession', false, false, 'addInstructor');
     }
 
     /**
@@ -443,6 +443,5 @@ class UserTest extends EntityBase
         $this->object->setPrimaryCohort($obj);
         $this->assertSame($obj, $this->object->getPrimaryCohort());
         $this->assertTrue($this->object->getCohorts()->contains($obj));
-
     }
 }

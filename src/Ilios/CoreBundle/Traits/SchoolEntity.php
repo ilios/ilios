@@ -15,11 +15,7 @@ trait SchoolEntity
      */
     public function getSchool()
     {
-        if ($this->school && !$this->school->isDeleted()) {
-            return $this->school;
-        }
-
-        return null;
+        return $this->school;
     }
 
     /**

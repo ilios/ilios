@@ -18,7 +18,6 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
         array $criteria,
         array $orderBy = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
@@ -31,7 +30,6 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
         $limit = null,
         $offset = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -61,8 +59,8 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
     public function deleteSchool(
         SchoolInterface $school
     ) {
-        $school->setDeleted(true);
-        $this->updateSchool($school);
+        $this->em->remove($school);
+        $this->em->flush();
     }
 
     /**

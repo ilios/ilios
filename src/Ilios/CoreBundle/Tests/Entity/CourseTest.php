@@ -101,15 +101,6 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setDeleted
-     * @covers Ilios\CoreBundle\Entity\Course::isDeleted
-     */
-    public function testSetDeleted()
-    {
-        $this->booleanSetTest('deleted');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\Course::setId
      * @covers Ilios\CoreBundle\Entity\Course::getId
      */
@@ -142,7 +133,7 @@ class CourseTest extends EntityBase
      */
     public function testSetSchool()
     {
-        $this->softDeleteEntitySetTest('school', 'School');
+        $this->entitySetTest('school', 'School');
     }
 
     /**

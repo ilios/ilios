@@ -764,22 +764,11 @@ class User implements UserInterface
     }
 
     /**
-     * @return ArrayCollection|CourseInterface[]
+     * @inheritdoc
      */
     public function getDirectedCourses()
     {
-        //criteria not 100% reliable on many to many relationships
-        //fix in https://github.com/doctrine/doctrine2/pull/1399
-        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
-        // return new ArrayCollection($this->directedCourses->matching($criteria)->getValues());
-        
-        $arr = $this->directedCourses->filter(function (CourseInterface $entity) {
-            return !$entity->isDeleted();
-        })->toArray();
-        
-        $reIndexed = array_values($arr);
-        
-        return new ArrayCollection($reIndexed);
+        return $this->directedCourses;
     }
 
     /**
@@ -899,26 +888,12 @@ class User implements UserInterface
     }
 
     /**
-     * @return ArrayCollection|IlmSessionInterface[]
+     * @inheritdoc
      */
     public function getInstructorIlmSessions()
     {
-
-        //criteria not 100% reliable on many to many relationships
-        //fix in https://github.com/doctrine/doctrine2/pull/1399
-        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
-        // return new ArrayCollection($this->directedCourses->matching($criteria)->getValues());
-
-        $arr = $this->instructorIlmSessions->filter(function (IlmSessionInterface $entity) {
-            return !$entity->isDeleted();
-        })->toArray();
-
-        $reIndexed = array_values($arr);
-
-        return new ArrayCollection($reIndexed);
+        return $this->instructorIlmSessions;
     }
-
-
 
     /**
      * @param Collection $sessions
@@ -1089,22 +1064,11 @@ class User implements UserInterface
     }
 
     /**
-     * @return ArrayCollection|ReportInterface[]
+     * @inheritdoc
      */
     public function getReports()
     {
-        //criteria not 100% reliable on many to many relationships
-        //fix in https://github.com/doctrine/doctrine2/pull/1399
-        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
-        // return new ArrayCollection($this->reports->matching($criteria)->getValues());
-        
-        $arr = $this->reports->filter(function (ReportInterface $entity) {
-            return !$entity->isDeleted();
-        })->toArray();
-        
-        $reIndexed = array_values($arr);
-        
-        return new ArrayCollection($reIndexed);
+        return $this->reports;
     }
 
     /**
@@ -1184,22 +1148,11 @@ class User implements UserInterface
     }
 
     /**
-     * @return ArrayCollection|Offering[]
+     * @inheritdoc
      */
     public function getInstructedOfferings()
     {
-        //criteria not 100% reliable on many to many relationships
-        //fix in https://github.com/doctrine/doctrine2/pull/1399
-        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
-        // return new ArrayCollection($this->instructedOfferings->matching($criteria)->getValues());
-
-        $arr = $this->instructedOfferings->filter(function ($entity) {
-            return !$entity->isDeleted();
-        })->toArray();
-
-        $reIndexed = array_values($arr);
-
-        return new ArrayCollection($reIndexed);
+        return $this->instructedOfferings;
     }
 
     /**
@@ -1383,9 +1336,7 @@ class User implements UserInterface
      */
     public function getAllSchools()
     {
-        $cohortSchools = $this->getCohorts()->filter(function (CohortInterface $cohort) {
-            return !$cohort->isDeleted();
-        })->map(function (CohortInterface $cohort) {
+        $cohortSchools = $this->getCohorts()->map(function (CohortInterface $cohort) {
             return $cohort->getSchool();
         });
 

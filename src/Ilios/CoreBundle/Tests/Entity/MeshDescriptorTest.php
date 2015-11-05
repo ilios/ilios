@@ -74,7 +74,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->softDeleteEntityCollectionAddTest('course', 'Course', false, false, 'addMeshDescriptor');
+        $this->entityCollectionAddTest('course', 'Course', false, false, 'addMeshDescriptor');
     }
 
     /**
@@ -82,7 +82,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $this->softDeleteEntityCollectionSetTest('course', 'Course', false, false, 'addMeshDescriptor');
+        $this->entityCollectionSetTest('course', 'Course', false, false, 'addMeshDescriptor');
     }
 
     /**
@@ -107,7 +107,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testAddSession()
     {
-        $this->softDeleteEntityCollectionAddTest('session', 'Session', false, false, 'addMeshDescriptor');
+        $this->entityCollectionAddTest('session', 'Session', false, false, 'addMeshDescriptor');
     }
 
     /**
@@ -115,7 +115,7 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetSessions()
     {
-        $this->softDeleteEntityCollectionSetTest('session', 'Session', false, false, 'addMeshDescriptor');
+        $this->entityCollectionSetTest('session', 'Session', false, false, 'addMeshDescriptor');
     }
 
     /**

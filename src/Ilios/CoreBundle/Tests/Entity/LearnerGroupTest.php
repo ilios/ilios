@@ -101,12 +101,17 @@ class LearnerGroupTest extends EntityBase
         $programYear = new ProgramYear();
         $cohort = new Cohort();
         $cohort->setProgramYear($programYear);
-        $this->object->setCohort($cohort);
+        $learnerGroup = new LearnerGroup();
+        $learnerGroup->setCohort($cohort);
+        $this->assertEquals($programYear, $learnerGroup->getProgramYear());
 
-        $this->assertEquals($programYear, $this->object->getProgramYear());
+        $cohort = new Cohort();
+        $learnerGroup = new LearnerGroup();
+        $learnerGroup->setCohort($cohort);
+        $this->assertNull($learnerGroup->getProgramYear());
 
-        $programYear->setDeleted(true);
-        $this->assertNull($this->object->getProgramYear());
+        $learnerGroup = new LearnerGroup();
+        $this->assertNull($learnerGroup->getProgramYear());
     }
 
     /**
@@ -119,16 +124,24 @@ class LearnerGroupTest extends EntityBase
         $programYear->setProgram($program);
         $cohort = new Cohort();
         $cohort->setProgramYear($programYear);
-        $this->object->setCohort($cohort);
+        $learnerGroup = new LearnerGroup();
+        $learnerGroup->setCohort($cohort);
+        $this->assertEquals($program, $learnerGroup->getProgram());
 
-        $this->assertEquals($program, $this->object->getProgram());
+        $programYear = new ProgramYear();
+        $cohort = new Cohort();
+        $cohort->setProgramYear($programYear);
+        $learnerGroup = new LearnerGroup();
+        $learnerGroup->setCohort($cohort);
+        $this->assertNull($learnerGroup->getProgram());
 
-        $program->setDeleted(true);
-        $this->assertNull($this->object->getProgram());
+        $cohort = new Cohort();
+        $learnerGroup = new LearnerGroup();
+        $learnerGroup->setCohort($cohort);
+        $this->assertNull($learnerGroup->getProgram());
 
-        $program->setDeleted(false);
-        $programYear->setDeleted(true);
-        $this->assertNull($this->object->getProgram());
+        $learnerGroup = new LearnerGroup();
+        $this->assertNull($learnerGroup->getProgram());
     }
 
     /**
@@ -143,19 +156,32 @@ class LearnerGroupTest extends EntityBase
         $programYear->setProgram($program);
         $cohort = new Cohort();
         $cohort->setProgramYear($programYear);
-        $this->object->setCohort($cohort);
+        $learnerGroup = new LearnerGroup();
+        $learnerGroup->setCohort($cohort);
+        $this->assertEquals($school, $learnerGroup->getSchool());
 
-        $this->assertEquals($school, $this->object->getSchool());
+        $program = new Program();
+        $programYear = new ProgramYear();
+        $programYear->setProgram($program);
+        $cohort = new Cohort();
+        $cohort->setProgramYear($programYear);
+        $learnerGroup = new LearnerGroup();
+        $learnerGroup->setCohort($cohort);
+        $this->assertNull($learnerGroup->getSchool());
 
-        $school->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $programYear = new ProgramYear();
+        $cohort = new Cohort();
+        $cohort->setProgramYear($programYear);
+        $learnerGroup = new LearnerGroup();
+        $learnerGroup->setCohort($cohort);
+        $this->assertNull($learnerGroup->getSchool());
 
-        $school->setDeleted(false);
-        $program->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $cohort = new Cohort();
+        $learnerGroup = new LearnerGroup();
+        $learnerGroup->setCohort($cohort);
+        $this->assertNull($learnerGroup->getSchool());
 
-        $program->setDeleted(false);
-        $programYear->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $learnerGroup = new LearnerGroup();
+        $this->assertNull($learnerGroup->getSchool());
     }
 }

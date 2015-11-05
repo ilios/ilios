@@ -18,7 +18,6 @@ class SessionManager extends AbstractManager implements SessionManagerInterface
         array $criteria,
         array $orderBy = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
@@ -31,7 +30,6 @@ class SessionManager extends AbstractManager implements SessionManagerInterface
         $limit = null,
         $offset = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -61,8 +59,8 @@ class SessionManager extends AbstractManager implements SessionManagerInterface
     public function deleteSession(
         SessionInterface $session
     ) {
-        $session->setDeleted(true);
-        $this->updateSession($session);
+        $this->em->remove($session);
+        $this->em->flush();
     }
 
     /**

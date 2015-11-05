@@ -79,15 +79,6 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::setDeleted
-     * @covers Ilios\CoreBundle\Entity\School::isDeleted
-     */
-    public function testSetDeleted()
-    {
-        $this->booleanSetTest('deleted');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\School::setChangeAlertRecipients
      * @covers Ilios\CoreBundle\Entity\School::getChangeAlertRecipients
      */
@@ -117,7 +108,7 @@ class SchoolTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->softDeleteEntityCollectionAddTest('course', 'Course');
+        $this->entityCollectionAddTest('course', 'Course');
     }
 
     /**
@@ -125,7 +116,7 @@ class SchoolTest extends EntityBase
      */
     public function testGetCourses()
     {
-        $this->softDeleteEntityCollectionSetTest('course', 'Course');
+        $this->entityCollectionSetTest('course', 'Course');
     }
 
     /**
@@ -133,7 +124,7 @@ class SchoolTest extends EntityBase
      */
     public function testAddDepartment()
     {
-        $this->softDeleteEntityCollectionAddTest('department', 'Department');
+        $this->entityCollectionAddTest('department', 'Department');
     }
 
     /**
@@ -141,7 +132,7 @@ class SchoolTest extends EntityBase
      */
     public function testGetDepartments()
     {
-        $this->softDeleteEntityCollectionSetTest('department', 'Department');
+        $this->entityCollectionSetTest('department', 'Department');
     }
 
     /**

@@ -25,7 +25,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  */
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
-//    use IdentifiableEntity;
     use DescribableEntity;
     use TitledEntity;
     use StringableIdEntity;
@@ -474,10 +473,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      */
     public function getCourse()
     {
-        if ($this->course && ! $this->course->isDeleted()) {
-            return $this->course;
-        }
-        return null;
+        return $this->course;
     }
 
     /**

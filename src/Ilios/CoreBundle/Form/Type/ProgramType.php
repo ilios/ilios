@@ -23,7 +23,6 @@ class ProgramType extends AbstractType
             ->add('title', null, ['required' => false, 'empty_data' => null])
             ->add('shortTitle', null, ['empty_data' => null])
             ->add('duration')
-            ->add('deleted', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])
             ->add('publishEvent', 'tdn_single_related', [
                 'required' => false,

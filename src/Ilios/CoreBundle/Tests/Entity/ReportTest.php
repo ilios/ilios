@@ -49,15 +49,6 @@ class ReportTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Report::setDeleted
-     * @covers Ilios\CoreBundle\Entity\Report::isDeleted
-     */
-    public function testSetDeleted()
-    {
-        $this->booleanSetTest('deleted');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\Report::setTitle
      * @covers Ilios\CoreBundle\Entity\Report::getTitle
      */

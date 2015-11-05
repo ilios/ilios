@@ -57,15 +57,6 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setDeleted
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::isDeleted
-     */
-    public function testSetDeleted()
-    {
-        $this->booleanSetTest('deleted');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::setLocked
      * @covers Ilios\CoreBundle\Entity\ProgramYear::isLocked
      */
@@ -98,7 +89,7 @@ class ProgramYearTest extends EntityBase
      */
     public function testSetProgram()
     {
-        $this->softDeleteEntitySetTest('program', 'Program');
+        $this->entitySetTest('program', 'Program');
     }
 
     /**
@@ -142,15 +133,16 @@ class ProgramYearTest extends EntityBase
         $school = new School();
         $program = new Program();
         $program->setSchool($school);
-        $this->object->setProgram($program);
+        $programYear = new ProgramYear();
+        $programYear->setProgram($program);
+        $this->assertEquals($school, $programYear->getSchool());
 
-        $this->assertEquals($school, $this->object->getSchool());
+        $program = new Program();
+        $programYear = new ProgramYear();
+        $programYear->setProgram($program);
+        $this->assertNull($programYear->getSchool());
 
-        $school->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
-
-        $school->setDeleted(false);
-        $program->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $programYear = new ProgramYear();
+        $this->assertNull($programYear->getSchool());
     }
 }

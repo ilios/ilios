@@ -36,13 +36,12 @@ class LoadSchoolData extends AbstractFixture
      */
     protected function populateEntity($entity, array $data)
     {
-        // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`deleted`,`change_alert_recipients`
+        // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`
         $entity->setId($data[0]);
         $entity->setTemplatePrefix($data[1]);
         $entity->setTitle($data[2]);
         $entity->setIliosAdministratorEmail($data[3]);
-        $entity->setDeleted((boolean) $data[4]);
-        $entity->setChangeAlertRecipients($data[5]);
+        $entity->setChangeAlertRecipients($data[4]);
         return $entity;
     }
 }

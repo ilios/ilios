@@ -24,7 +24,6 @@ class SessionType extends AbstractType
             ->add('attireRequired', null, ['required' => false])
             ->add('equipmentRequired', null, ['required' => false])
             ->add('supplemental', null, ['required' => false])
-            ->add('deleted', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])
             ->add('sessionType', 'tdn_single_related', [
                 'required' => false,

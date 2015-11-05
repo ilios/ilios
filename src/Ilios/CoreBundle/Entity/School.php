@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\CoursesEntity;
 use Ilios\CoreBundle\Traits\ProgramsEntity;
-use Ilios\CoreBundle\Traits\DeletableEntity;
 use Ilios\CoreBundle\Traits\StewardedEntity;
 
 /**
@@ -34,7 +33,6 @@ class School implements SchoolInterface
     use TitledEntity;
     use CoursesEntity;
     use ProgramsEntity;
-    use DeletableEntity;
     use StewardedEntity;
 
     /**
@@ -99,19 +97,6 @@ class School implements SchoolInterface
      * @JMS\SerializedName("iliosAdministratorEmail")
      */
     protected $iliosAdministratorEmail;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="deleted", type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     */
-    protected $deleted;
 
     /**
      * @todo: Normalize later. Collection of email addresses. (Add email entity, etc)
@@ -245,7 +230,6 @@ class School implements SchoolInterface
         $this->stewards = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->sessionTypes = new ArrayCollection();
-        $this->deleted = false;
     }
 
     /**
@@ -294,17 +278,6 @@ class School implements SchoolInterface
     public function getIliosAdministratorEmail()
     {
         return $this->iliosAdministratorEmail;
-    }
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
-        foreach ($this->getDepartments() as $department) {
-            $department->setDeleted($deleted);
-        }
     }
 
     /**
@@ -425,18 +398,7 @@ class School implements SchoolInterface
      */
     public function getDepartments()
     {
-        //criteria not 100% reliable on many to many relationships
-        //fix in https://github.com/doctrine/doctrine2/pull/1399
-        // $criteria = Criteria::create()->where(Criteria::expr()->eq("deleted", false));
-        // return new ArrayCollection($this->departments->matching($criteria)->getValues());
-        
-        $arr = $this->departments->filter(function ($entity) {
-            return !$entity->isDeleted();
-        })->toArray();
-        
-        $reIndexed = array_values($arr);
-        
-        return new ArrayCollection($reIndexed);
+        return $this->departments;
     }
 
     /**

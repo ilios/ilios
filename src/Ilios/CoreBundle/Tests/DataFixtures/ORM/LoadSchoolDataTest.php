@@ -43,13 +43,12 @@ class LoadSchoolDataTest extends AbstractDataFixtureTest
      */
     protected function assertDataEquals(array $data, $entity)
     {
-        // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`deleted`,`change_alert_recipients`
+        // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTemplatePrefix());
         $this->assertEquals($data[2], $entity->getTitle());
         $this->assertEquals($data[3], $entity->getIliosAdministratorEmail());
-        $this->assertEquals((boolean) $data[4], $entity->isDeleted());
-        $this->assertEquals($data[5], $entity->getChangeAlertRecipients());
+        $this->assertEquals($data[4], $entity->getChangeAlertRecipients());
     }
 
     /**

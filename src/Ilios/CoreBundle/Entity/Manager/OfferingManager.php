@@ -19,7 +19,6 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
         array $criteria,
         array $orderBy = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
@@ -32,7 +31,6 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
         $limit = null,
         $offset = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -62,8 +60,8 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
     public function deleteOffering(
         OfferingInterface $offering
     ) {
-        $offering->setDeleted(true);
-        $this->updateOffering($offering);
+        $this->em->remove($offering);
+        $this->em->flush();
     }
 
     /**
@@ -96,7 +94,6 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
         $expr = Criteria::expr();
         $criteria->where(
             $expr->andX(
-                $expr->eq('deleted', 0),
                 $expr->gte('startDate', $startDate),
                 $expr->lt('startDate', $endDate)
             )
@@ -104,18 +101,9 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
         $offerings = $this->getRepository()->matching($criteria);
 
         // filter out any offerings belonging to unpublished events
-        // and with deleted parentage
         $offerings->filter(function (OfferingInterface $offering) {
-            $session = $offering->getSession();
-            $course = $session->getCourse();
             $publishEvent = $offering->getSession()->getPublishEvent();
-            $school = $course->getSchool();
-            return (
-                isset($publishEvent)
-                && isset($school)
-                && ! $session->isDeleted()
-                && ! $course->isDeleted()
-            );
+            return isset($publishEvent);
         });
 
         return $offerings;

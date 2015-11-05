@@ -14,7 +14,6 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 use Ilios\CoreBundle\Traits\SchoolEntity;
-use Ilios\CoreBundle\Traits\DeletableEntity;
 
 /**
  * Class Program
@@ -33,10 +32,9 @@ class Program implements ProgramInterface
     use StringableIdEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
-    use DeletableEntity;
 
     /**
-     * @deprecated Replacde with trait in 3.x
+     * @deprecated Replace with trait in 3.x
      * @var int
      *
      * @ORM\Column(name="program_id", type="integer")
@@ -96,19 +94,6 @@ class Program implements ProgramInterface
      * @JMS\Type("integer")
      */
     protected $duration;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="deleted", type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     */
-    protected $deleted;
 
     /**
      * @var boolean
@@ -179,7 +164,6 @@ class Program implements ProgramInterface
      */
     public function __construct()
     {
-        $this->deleted = false;
         $this->publishedAsTbd = false;
         $this->programYears = new ArrayCollection();
         $this->curriculumInventoryReports = new ArrayCollection();
@@ -215,17 +199,6 @@ class Program implements ProgramInterface
     public function getDuration()
     {
         return $this->duration;
-    }
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
-        foreach ($this->getProgramYears() as $programYear) {
-            $programYear->setDeleted($deleted);
-        }
     }
 
     /**

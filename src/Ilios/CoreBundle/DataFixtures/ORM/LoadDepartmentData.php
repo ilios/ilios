@@ -48,11 +48,10 @@ class LoadDepartmentData extends AbstractFixture implements DependentFixtureInte
      */
     protected function populateEntity($entity, array $data)
     {
-        // `department_id`,`title`,`school_id`,`deleted`
+        // `department_id`,`title`,`school_id`
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
         $entity->setSchool($this->getReference('school' . $data[2]));
-        $entity->setDeleted((boolean) $data[3]);
         return $entity;
     }
 }

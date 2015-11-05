@@ -18,7 +18,6 @@ class DepartmentManager extends AbstractManager implements DepartmentManagerInte
         array $criteria,
         array $orderBy = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
 
@@ -31,7 +30,6 @@ class DepartmentManager extends AbstractManager implements DepartmentManagerInte
         $limit = null,
         $offset = null
     ) {
-        $criteria['deleted'] = false;
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -61,8 +59,8 @@ class DepartmentManager extends AbstractManager implements DepartmentManagerInte
     public function deleteDepartment(
         DepartmentInterface $department
     ) {
-        $department->setDeleted(true);
-        $this->updateDepartment($department);
+        $this->em->remove($department);
+        $this->em->flush();
     }
 
     /**

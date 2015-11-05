@@ -12,7 +12,7 @@ class ObjectiveData extends AbstractDataLoader
             'id' => 1,
             'title' => $this->faker->text,
             'competency' => "1",
-            'courses' => ['1', '2'],
+            'courses' => ['1', '2', '4'],
             'programYears' => [],
             'sessions' => ['1'],
             'parents' => [],

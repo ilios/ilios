@@ -1,6 +1,6 @@
-`school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`deleted`,`change_alert_recipients`
-1,SOM,Medicine,ilios_admin@bogus.ucsf.edu,0,
-2,SOD,Dentistry,ilios_admin@bogus.ucsf.edu,0,
-3,SOP,Pharmacy,ilios_admin@bogus.ucsf.edu,0,
-4,SON,Nursing,ilios_admin@bogus.ucsf.edu,0,
-5,OTHER,Other,ilios_admin@bogus.ucsf.edu,0,
+`school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`
+1,SOM,Medicine,ilios_admin@bogus.ucsf.edu,
+2,SOD,Dentistry,ilios_admin@bogus.ucsf.edu,
+3,SOP,Pharmacy,ilios_admin@bogus.ucsf.edu,
+4,SON,Nursing,ilios_admin@bogus.ucsf.edu,
+5,OTHER,Other,ilios_admin@bogus.ucsf.edu,

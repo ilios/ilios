@@ -113,13 +113,6 @@ interface IlmSessionInterface extends
     public function getSession();
 
     /**
-     * Checks if the session we belong to is deleted
-     * @return boolean
-     */
-    public function isDeleted();
-
-
-    /**
      * Get the school we belong to
      * @return SchoolInterface|null
      */

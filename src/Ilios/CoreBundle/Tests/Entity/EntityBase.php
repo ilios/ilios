@@ -7,6 +7,10 @@ use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
 use Symfony\Component\Validator\Validation;
 
+/**
+ * Class EntityBase
+ * @package Ilios\CoreBundle\Tests\Entity
+ */
 class EntityBase extends TestCase
 {
 
@@ -20,9 +24,9 @@ class EntityBase extends TestCase
     }
 
     /**
-     * Engage the symfony validator and test the object
-     * @param  integer $expectedCount how many erors are you expecting
-     * @return array an abreviated set of errors
+     * Engage the symfony validator and test the object.
+     * @param  integer $expectedCount how many errors are you expecting
+     * @return array an abbreviated set of errors
      */
     protected function validate($expectedCount)
     {
@@ -48,6 +52,9 @@ class EntityBase extends TestCase
         return $parsedErrors;
     }
 
+    /**
+     * @param array $fields
+     */
     protected function validateNotBlanks(array $fields)
     {
 
@@ -62,6 +69,9 @@ class EntityBase extends TestCase
         }
     }
 
+    /**
+     * @param array $fields
+     */
     protected function validateNotNulls(array $fields)
     {
 
@@ -77,7 +87,7 @@ class EntityBase extends TestCase
     }
 
     /**
-     * A generic test for entity setters
+     * A generic test for entity setters.
      *
      * @param string $property
      * @param string $type
@@ -94,10 +104,10 @@ class EntityBase extends TestCase
     }
 
     /**
-     * A generic test for boolean entity setters
+     * A generic test for boolean entity setters.
      *
      * @param string $property
-     * @param boolean $is shoud we use is vs has when generating the method
+     * @param boolean $is should we use is vs has when generating the method.
      */
     protected function booleanSetTest($property, $is = true)
     {
@@ -128,40 +138,14 @@ class EntityBase extends TestCase
     }
 
     /**
-     * A generic test for entity setters which use other entites
-     *
-     * @param string $property
-     * @param string $entityName
-     */
-    protected function softDeleteEntitySetTest($property, $entityName)
-    {
-        $setMethod = $this->getSetMethodForProperty($property);
-        $getMethod = $this->getGetMethodForProperty($property);
-        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
-        $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
-        $obj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-            
-        $this->object->$setMethod($obj);
-        $this->assertSame($obj, $this->object->$getMethod());
-        
-        $this->object->$setMethod($deletedObj);
-        $this->assertNull($this->object->$getMethod());
-    }
-
-    /**
-     * A generic test for setters for collections
+     * A generic test for setters for collections.
      * @todo should we mock Collection when passing it to the setMethod?
      *
      * @param string $property
      * @param string $entityName
-     * @param string $getter use instead of a generated method
-     * @param string $setter use instead of a generated method
-     * @param string $crossSaveMethod call on the inverse side of the relationship
+     * @param string|bool $getter name of the method to use instead of a generated method, or FALSE if n/a.
+     * @param string|bool $setter name of the method to use instead of a generated method, or FALSE if n/a.
+     * @param string|bool $crossSaveMethod name of the method to call on the inverse side of the relationship.
      */
     protected function entityCollectionSetTest(
         $property,
@@ -190,60 +174,15 @@ class EntityBase extends TestCase
         }
     }
 
-    /**
-     * A generic test for setters for collections
-     * @todo should we mock Collection when passing it to the setMethod?
-     *
-     * @param string $property
-     * @param string $entityName
-     * @param string $getter use instead of a generated method
-     * @param string $setter use instead of a generated method
-     */
-    protected function softDeleteEntityCollectionSetTest(
-        $property,
-        $entityName,
-        $getter = false,
-        $setter = false,
-        $crossSaveMethod = false
-    ) {
-        $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
-        $setMethod = $setter?$setter:$this->getSetMethodForCollectionProperty($property);
-        $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
-        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
-        $unDeletedObj1 = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-        $unDeletedObj2 = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        if ($crossSaveMethod) {
-            $unDeletedObj1->shouldReceive($crossSaveMethod)->with($this->object);
-            $deletedObj->shouldReceive($crossSaveMethod)->with($this->object);
-            $unDeletedObj2->shouldReceive($crossSaveMethod)->with($this->object);
-        }
-        $collection = new Collection([$unDeletedObj1, $deletedObj, $unDeletedObj2]);
-        $this->object->$setMethod($collection);
-        $results = $this->object->$getMethod();
-        $this->assertTrue($results instanceof Collection, 'Collection not returned.');
-        
-        $this->assertSame(2, count($results));
-        $this->assertTrue($results->containsKey(0));
-        $this->assertTrue($results->containsKey(1));
-        $this->assertSame($results[0], $unDeletedObj1);
-        $this->assertSame($results[1], $unDeletedObj2);
-        
-    }
 
     /**
-     * A generis test for entity setters which hold collections of other entites
+     * A generic test for entity setters which hold collections of other entities.
      *
      * @param string $property
      * @param string $entityName
-     * @param string $getter use instead of a generated method
-     * @param string $setter use instead of a generated method
+     * @param string|bool $getter name of the method to use instead of a generated method, or FALSE if n/a.
+     * @param string|bool $setter name of the method to use instead of a generated method, or FALSE if n/a.
+     * @param string|bool $crossSaveMethod name of the method to call on the inverse side of the relationship.
      */
     protected function entityCollectionAddTest(
         $property,
@@ -272,57 +211,14 @@ class EntityBase extends TestCase
     }
 
     /**
-     * A generis test for entity setters which hold collections of other entites
+     * A generic test for entity setters which hold collections of other entities.
      *
      * @param string $property
      * @param string $entityName
-     * @param string $getter use instead of a generated method
-     * @param string $setter use instead of a generated method
-     */
-    protected function softDeleteEntityCollectionAddTest(
-        $property,
-        $entityName,
-        $getter = false,
-        $setter = false,
-        $crossSaveMethod = false
-    ) {
-        $addMethod = $setter?$setter:$this->getAddMethodForProperty($property);
-        $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
-        $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
-        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
+     * @param string|bool $getter name of the method to use instead of a generated method, or FALSE if n/a.
+     * @param string|bool $setter name of the method to use instead of a generated method, or FALSE if n/a.
+     * @param string|bool $remover name of the method to use instead of a generated method, or FALSE if n/a.
 
-        $unDeletedObj1 = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        $deletedObj = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(true)
-            ->mock();
-        $unDeletedObj2 = m::mock('Ilios\CoreBundle\Entity\\' . $entityName)
-            ->shouldReceive('isDeleted')->withNoArgs()->andReturn(false)
-            ->mock();
-        if ($crossSaveMethod) {
-            $unDeletedObj1->shouldReceive($crossSaveMethod)->with($this->object);
-            $deletedObj->shouldReceive($crossSaveMethod)->with($this->object);
-            $unDeletedObj2->shouldReceive($crossSaveMethod)->with($this->object);
-        }
-        $this->object->$addMethod($unDeletedObj1);
-        $this->object->$addMethod($deletedObj);
-        $this->object->$addMethod($unDeletedObj2);
-        $results = $this->object->$getMethod();
-        $this->assertTrue($results instanceof Collection, 'Collection not returned.');
-        
-        $this->assertSame(2, count($results));
-        $this->assertTrue($results->containsKey(0));
-        $this->assertTrue($results->containsKey(1));
-        $this->assertSame($results[0], $unDeletedObj1);
-        $this->assertSame($results[1], $unDeletedObj2);
-    }
-
-    /**
-     * A generis test for entity setters which hold collections of other entites
-     *
-     * @param string $property
-     * @param string $entityName
      */
     protected function entityCollectionRemoveTest(
         $property,
@@ -352,6 +248,11 @@ class EntityBase extends TestCase
         // }
     }
 
+    /**
+     * @param $className
+     * @param $count
+     * @return array
+     */
     protected function getArrayOfMockObjects($className, $count)
     {
         $arr = array();
@@ -362,46 +263,83 @@ class EntityBase extends TestCase
         return $arr;
     }
 
+    /**
+     * @param $property
+     * @return string
+     */
     protected function getSetMethodForProperty($property)
     {
         return 'set' . ucfirst($property);
     }
 
+    /**
+     * @param $property
+     * @return string
+     */
     protected function getGetMethodForProperty($property)
     {
         return 'get' . ucfirst($property);
     }
 
+    /**
+     * @param $property
+     * @return string
+     */
     protected function getIsMethodForProperty($property)
     {
         return 'is' . ucfirst($property);
     }
 
+    /**
+     * @param $property
+     * @return string
+     */
     protected function getHasMethodForProperty($property)
     {
         return 'has' . ucfirst($property);
     }
 
+    /**
+     * @param $property
+     * @return string
+     */
     protected function getGetMethodForCollectionProperty($property)
     {
         return 'get' . ucfirst($property) . 's';
     }
 
+    /**
+     * @param $property
+     * @return string
+     */
     protected function getSetMethodForCollectionProperty($property)
     {
         return 'set' . ucfirst($property) . 's';
     }
 
+    /**
+     * @param $property
+     * @return string
+     */
     protected function getAddMethodForProperty($property)
     {
         return 'add' . ucfirst($property);
     }
 
+    /**
+     * @param $property
+     * @return string
+     */
     protected function getRemoveMethodForProperty($property)
     {
         return 'remove' . ucfirst($property);
     }
 
+    /**
+     * @param string $type
+     * @return \DateTime|float|int|bool|string
+     * @throws \Exception
+     */
     protected function getValueForType($type)
     {
         $faker = \Faker\Factory::create();

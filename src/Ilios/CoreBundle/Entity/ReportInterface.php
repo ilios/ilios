@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
@@ -13,8 +12,7 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 interface ReportInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    LoggableEntityInterface,
-    DeletableEntityInterface
+    LoggableEntityInterface
 {
 
     /**

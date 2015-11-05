@@ -5,7 +5,6 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\DeletableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
@@ -24,7 +23,6 @@ interface SessionInterface extends
     TimestampableEntityInterface,
     OfferingsEntityInterface,
     LoggableEntityInterface,
-    DeletableEntityInterface,
     ObjectivesEntityInterface
 {
     /**

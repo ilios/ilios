@@ -40,7 +40,7 @@ class ProgramYearStewardTest extends EntityBase
      */
     public function testSetProgramYear()
     {
-        $this->softDeleteEntitySetTest('programYear', 'ProgramYear');
+        $this->entitySetTest('programYear', 'ProgramYear');
     }
 
     /**
@@ -49,7 +49,7 @@ class ProgramYearStewardTest extends EntityBase
      */
     public function testSetSchool()
     {
-        $this->softDeleteEntitySetTest('school', 'School');
+        $this->entitySetTest('school', 'School');
     }
 
     /**
@@ -57,7 +57,7 @@ class ProgramYearStewardTest extends EntityBase
      */
     public function testGetSchool()
     {
-        $this->softDeleteEntitySetTest('school', 'School');
+        $this->entitySetTest('school', 'School');
     }
 
     /**
@@ -68,16 +68,17 @@ class ProgramYearStewardTest extends EntityBase
         $program = new Program();
         $programYear = new ProgramYear();
         $programYear->setProgram($program);
-        $this->object->setProgramYear($programYear);
+        $pySteward = new ProgramYearSteward();
+        $pySteward->setProgramYear($programYear);
+        $this->assertEquals($program, $pySteward->getProgram());
 
-        $this->assertEquals($program, $this->object->getProgram());
+        $programYear = new ProgramYear();
+        $pySteward = new ProgramYearSteward();
+        $pySteward->setProgramYear($programYear);
+        $this->assertNull($pySteward->getProgram());
 
-        $program->setDeleted(true);
-        $this->assertNull($this->object->getProgram());
-
-        $program->setDeleted(false);
-        $programYear->setDeleted(true);
-        $this->assertNull($this->object->getProgram());
+        $pySteward = new ProgramYearSteward();
+        $this->assertNull($pySteward->getProgram());
     }
 
     /**
@@ -90,19 +91,23 @@ class ProgramYearStewardTest extends EntityBase
         $program->setSchool($school);
         $programYear = new ProgramYear();
         $programYear->setProgram($program);
-        $this->object->setProgramYear($programYear);
+        $pySteward = new ProgramYearSteward();
+        $pySteward->setProgramYear($programYear);
+        $this->assertEquals($school, $pySteward->getProgramOwningSchool());
 
-        $this->assertEquals($program, $this->object->getProgram());
+        $program = new Program();
+        $programYear = new ProgramYear();
+        $programYear->setProgram($program);
+        $pySteward = new ProgramYearSteward();
+        $pySteward->setProgramYear($programYear);
+        $this->assertNull($pySteward->getProgramOwningSchool());
 
-        $school->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $programYear = new ProgramYear();
+        $pySteward = new ProgramYearSteward();
+        $pySteward->setProgramYear($programYear);
+        $this->assertNull($pySteward->getProgramOwningSchool());
 
-        $school->setDeleted(false);
-        $program->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
-
-        $program->setDeleted(false);
-        $programYear->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $pySteward = new ProgramYearSteward();
+        $this->assertNull($pySteward->getProgramOwningSchool());
     }
 }

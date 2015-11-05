@@ -73,9 +73,7 @@ class SessionControllerTest extends AbstractControllerTest
     public function testGetAllSessions()
     {
         $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
-        $unDeletedSessions = array_filter($sessions, function ($arr) {
-            return !$arr['deleted'];
-        });
+
         $this->createJsonRequest(
             'GET',
             $this->getUrl('cget_sessions'),
@@ -97,7 +95,7 @@ class SessionControllerTest extends AbstractControllerTest
         }
         $this->assertEquals(
             array_values($this->mockSerialize(
-                $unDeletedSessions
+                $sessions
             )),
             array_values($data)
         );
@@ -240,9 +238,10 @@ class SessionControllerTest extends AbstractControllerTest
     /**
      * Grab the first session from the fixtures and get the updatedAt time
      * from the server.
-     * @param integer $sessionId
      *
+     * @param int $sessionId
      * @return DateTime
+     * @throws \Exception
      */
     protected function getSessionUpdatedAt($sessionId)
     {
@@ -269,7 +268,7 @@ class SessionControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $data = json_decode($response->getContent(), true)['sessions'][0];
-        return  new DateTime($data['updatedAt']);
+        return new DateTime($data['updatedAt']);
     }
     
     /**

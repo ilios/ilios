@@ -28,9 +28,7 @@ class ReportControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-            'deleted'
-        ];
+        return [];
     }
 
     public function testGetReport()

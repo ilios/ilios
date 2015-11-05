@@ -79,21 +79,12 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setDeleted
-     * @covers Ilios\CoreBundle\Entity\Offering::isDeleted
-     */
-    public function testSetDeleted()
-    {
-        $this->booleanSetTest('deleted');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\Offering::setSession
      * @covers Ilios\CoreBundle\Entity\Offering::getSession
      */
     public function testSetSession()
     {
-        $this->softDeleteEntitySetTest('session', 'Session');
+        $this->entitySetTest('session', 'Session');
     }
 
     /**
@@ -123,19 +114,23 @@ class OfferingTest extends EntityBase
         $course->setSchool($school);
         $session = new Session();
         $session->setCourse($course);
-        $this->object->setSession($session);
+        $offering = new Offering();
+        $offering->setSession($session);
+        $this->assertSame($school, $offering->getSchool());
 
-        $this->assertSame($school, $this->object->getSchool());
+        $course = new Course();
+        $session = new Session();
+        $session->setCourse($course);
+        $offering = new Offering();
+        $offering->setSession($session);
+        $this->assertNull($offering->getSchool());
 
-        $school->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $session = new Session();
+        $offering = new Offering();
+        $offering->setSession($session);
+        $this->assertNull($offering->getSchool());
 
-        $school->setDeleted(false);
-        $course->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
-
-        $course->setDeleted(false);
-        $session->setDeleted(true);
-        $this->assertNull($this->object->getSchool());
+        $offering = new Offering();
+        $this->assertNull($offering->getSchool());
     }
 }

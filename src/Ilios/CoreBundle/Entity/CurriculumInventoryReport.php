@@ -279,11 +279,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     public function getProgram()
     {
-        if ($this->program && !$this->program->isDeleted()) {
-            return $this->program;
-        }
-        
-        return null;
+        return $this->program;
     }
 
     /**
