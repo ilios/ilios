@@ -9,7 +9,7 @@
     convertNoticesToExceptions  = "true"
     convertWarningsToExceptions = "true"
     processIsolation            = "false"
-    stopOnFailure               = "false"
+    stopOnFailure               = "true"
     syntaxCheck                 = "false"
     bootstrap                   = "var/bootstrap.php.cache" >
 
