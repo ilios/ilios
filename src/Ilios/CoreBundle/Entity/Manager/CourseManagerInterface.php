@@ -2,7 +2,9 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CourseInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Interface CourseManagerInterface
@@ -67,4 +69,13 @@ interface CourseManagerInterface extends ManagerInterface
      * @return CourseInterface
      */
     public function createCourse();
+
+    /**
+     * Checks if a given user is assigned as instructor to ILMs or offerings in a given course.
+     *
+     * @param UserInterface $user
+     * @param CourseInterface $course
+     * @return boolean TRUE if the user instructs at least one offering or ILM, FALSE otherwise.
+     */
+    public function isUserInstructingInCourse(UserInterface $user, CourseInterface $course);
 }

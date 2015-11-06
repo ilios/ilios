@@ -3,8 +3,6 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SessionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -13,20 +11,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 class IlmSessionVoter extends SessionVoter
 {
-    /**
-     * @var SessionManagerInterface
-     */
-    protected $sessionManager;
-    /**
-     * @param PermissionManagerInterface $permissionManager
-     * @param SessionManagerInterface $sessionManager
-     */
-    public function __construct(PermissionManagerInterface $permissionManager, SessionManagerInterface $sessionManager)
-    {
-        $this->sessionManager = $sessionManager;
-        parent::__construct($permissionManager);
-    }
-
     /**
      * {@inheritdoc}
      */
