@@ -20,8 +20,8 @@ class ProgramType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, ['required' => false, 'empty_data' => null])
-            ->add('shortTitle', null, ['empty_data' => null])
+            ->add('title', null, ['empty_data' => null])
+            ->add('shortTitle', null, ['required' => false, 'empty_data' => null])
             ->add('duration')
             ->add('publishedAsTbd', null, ['required' => false])
             ->add('publishEvent', 'tdn_single_related', [

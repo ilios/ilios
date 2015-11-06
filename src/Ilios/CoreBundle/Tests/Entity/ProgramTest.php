@@ -25,12 +25,12 @@ class ProgramTest extends EntityBase
     public function testNotBlankValidation()
     {
         $notBlank = array(
-            'shortTitle',
+            'title',
             'duration'
         );
         $this->validateNotBlanks($notBlank);
 
-        $this->object->setShortTitle('DVc');
+        $this->object->setTitle('DVc');
         $this->object->setDuration(30);
         $this->validate(0);
     }
