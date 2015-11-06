@@ -759,7 +759,7 @@ class User implements UserInterface
         $this->permissions = new ArrayCollection();
 
         foreach ($permissions as $permission) {
-            $this->addReminder($permission);
+            $this->addPermission($permission);
         }
     }
 
