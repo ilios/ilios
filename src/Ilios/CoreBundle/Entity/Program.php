@@ -49,10 +49,11 @@ class Program implements ProgramInterface
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=200, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=false)
      * @todo should be on the TitledEntity Trait
      * @var string
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -67,9 +68,8 @@ class Program implements ProgramInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="short_title", type="string", length=10)
+     * @ORM\Column(name="short_title", type="string", length=10, nullable=true)
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
