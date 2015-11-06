@@ -217,6 +217,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
