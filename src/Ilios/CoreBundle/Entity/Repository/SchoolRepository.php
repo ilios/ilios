@@ -44,7 +44,7 @@ class SchoolRepository extends EntityRepository
                 $events[$userEvent->offering] = $userEvent;
             }
         }
-        
+
         //These joins are DQL representations to go from a user to an ILMSession
         $joins = [
             ['c' => 'school.courses', 'se' => 'c.sessions', 'ilm' => 'se.ilmSession'],
@@ -200,6 +200,9 @@ class SchoolRepository extends EntityRepository
             $event->school = $schoolId;
             $event->name = $arr['title'];
             $event->startDate = $arr['dueDate'];
+            $endDate = clone $arr['dueDate'];
+            $event->endDate = $endDate->modify('+15 minutes');
+
             $event->ilmSession = $arr['id'];
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
