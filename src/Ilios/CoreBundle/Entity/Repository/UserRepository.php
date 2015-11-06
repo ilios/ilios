@@ -337,6 +337,9 @@ class UserRepository extends EntityRepository
             $event->user = $userId;
             $event->name = $arr['title'];
             $event->startDate = $arr['dueDate'];
+
+            $endDate = clone $arr['dueDate'];
+            $event->endDate = $endDate->modify('+15 minutes');
             $event->ilmSession = $arr['id'];
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
