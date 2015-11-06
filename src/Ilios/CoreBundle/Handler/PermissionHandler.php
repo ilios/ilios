@@ -2,8 +2,8 @@
 
 namespace Ilios\CoreBundle\Handler;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Form\Type\PermissionType;
@@ -18,11 +18,11 @@ class PermissionHandler extends PermissionManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);

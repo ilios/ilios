@@ -35,7 +35,8 @@ class UserData extends AbstractDataLoader
             'roles' => ['1'],
             'cohorts' => ['1'],
             'reminders' => [],
-            'pendingUserUpdates' => ['1', '2']
+            'pendingUserUpdates' => ['1', '2'],
+            'permissions' => [],
         );
 
         $arr[] = array(
@@ -64,7 +65,8 @@ class UserData extends AbstractDataLoader
             'roles' => ['1'],
             'cohorts' => ['1'],
             'reminders' => ['1', '2'],
-            'pendingUserUpdates' => []
+            'pendingUserUpdates' => [],
+            'permissions' => ['2', '3', '1']
         );
 
         $arr[] = array(
@@ -93,7 +95,8 @@ class UserData extends AbstractDataLoader
             'roles' => [],
             'cohorts' => [],
             'reminders' => [],
-            'pendingUserUpdates' => []
+            'pendingUserUpdates' => [],
+            'permissions' => []
         );
 
         $arr[] = array(
@@ -122,10 +125,9 @@ class UserData extends AbstractDataLoader
             'roles' => [],
             'cohorts' => [],
             'reminders' => [],
-            'pendingUserUpdates' => []
+            'pendingUserUpdates' => [],
+            'permissions' => [],
         );
-
-
 
         return $arr;
     }
@@ -158,7 +160,8 @@ class UserData extends AbstractDataLoader
             'roles' => ['1'],
             'cohorts' => ['1'],
             'reminders' => [],
-            'pendingUserUpdates' => []
+            'pendingUserUpdates' => [],
+            'permissions' => [],
         ];
     }
 

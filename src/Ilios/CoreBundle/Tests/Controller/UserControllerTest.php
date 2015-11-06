@@ -27,6 +27,7 @@ class UserControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPendingUserUpdateData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadPermissionData',
         ]);
     }
 
@@ -216,6 +217,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -245,6 +247,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -280,6 +283,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -315,6 +319,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -350,6 +355,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -385,6 +391,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -420,6 +427,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -455,6 +463,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -490,6 +499,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -525,6 +535,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -560,6 +571,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -595,6 +607,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'POST',
@@ -651,6 +664,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
 
         $this->createJsonRequest(
             'PUT',

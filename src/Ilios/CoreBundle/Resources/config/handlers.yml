@@ -152,7 +152,7 @@ services:
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Offering, '@form.factory']
     ilioscore.permission.handler:
         class: %ilioscore.permission.handler.class%
-        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Permission, '@form.factory']
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Permission, '@form.factory']
     ilioscore.pendinguserupdate.handler:
         class: %ilioscore.pendinguserupdate.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\PendingUserUpdate, '@form.factory']

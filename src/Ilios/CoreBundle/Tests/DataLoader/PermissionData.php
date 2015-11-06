@@ -10,23 +10,45 @@ class PermissionData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $arr = array();
+        $arr = [];
 
-        $arr[] = array(
+        $arr[] = [
             'id' => 1,
-            'user' => 2,
+            'user' => '2',
             'canRead' => true,
             'canWrite' => true,
             'tableRowId' => 2,
             'tableName' => 'school',
-        );
-
+        ];
+        $arr[] = [
+            'id' => 2,
+            'user' => '2',
+            'canRead' => true,
+            'canWrite' => false,
+            'tableRowId' => 1,
+            'tableName' => 'course',
+        ];
+        $arr[] = [
+            'id' => 3,
+            'user' => '2',
+            'canRead' => false,
+            'canWrite' => true,
+            'tableRowId' => 1,
+            'tableName' => 'program',
+        ];
         return $arr;
     }
 
     public function create()
     {
-        throw new \Exception('not implemented.');
+        return [
+            'id' => 4,
+            'user' => '1',
+            'canRead' => true,
+            'canWrite' => false,
+            'tableRowId' => 1,
+            'tableName' => 'program',
+        ];
     }
 
     public function createInvalid()

@@ -45,7 +45,7 @@ class Permission implements PermissionInterface
     /**
      * @var UserInterface
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="permissions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=false)
      * })
@@ -62,6 +62,10 @@ class Permission implements PermissionInterface
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("canRead")
      */
     protected $canRead;
 
@@ -72,6 +76,10 @@ class Permission implements PermissionInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("canWrite")
      */
     protected $canWrite;
 
@@ -81,6 +89,10 @@ class Permission implements PermissionInterface
      * @ORM\Column(name="table_row_id", type="integer", nullable=true)
      *
      * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     * @JMS\SerializedName("tableRowId")
      */
     protected $tableRowId;
 
@@ -95,6 +107,10 @@ class Permission implements PermissionInterface
      *      min = 1,
      *      max = 30
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("tableName")
      */
     protected $tableName;
 
