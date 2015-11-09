@@ -80,7 +80,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
                 'eppn' => $eppn,
                 'errors' => [],
                 'jwt' => null,
-            ), JsonResponse::HTTP_BAD_REQUEST);
+            ), JsonResponse::HTTP_OK);
         }
         $jwt = $this->jwtManager->createJwtFromUser($authEntity->getUser());
         
