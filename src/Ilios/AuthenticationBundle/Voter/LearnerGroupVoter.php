@@ -52,7 +52,9 @@ class LearnerGroupVoter extends AbstractVoter
                 // 2. the user has READ rights on the group's owning school via the permissions system
                 //    and has at least one of 'Course Director', 'Faculty' and 'Developer' roles.
                 // 3. the user has READ rights to the group's owning program.
+                // 4. the user is in the group
                 return (
+                    $group->getUsers()->contains($user) ||
                     $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                     && (
                         $this->schoolsAreIdentical(
