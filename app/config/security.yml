@@ -4,7 +4,7 @@ security:
             pattern:   ^/api/doc
             anonymous: ~
         anonymous_auth:
-            pattern:    ^/auth/(login|config)
+            pattern:    ^/auth/(login|config|logout)
             anonymous: ~
         authenticated_auth:
             pattern:    ^/auth

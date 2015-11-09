@@ -4,6 +4,9 @@ ilios_authentication.config:
 ilios_authentication.login:
     path:     /login
     defaults: { _controller: IliosAuthenticationBundle:Authentication:login }
+ilios_authentication.logout:
+    path:     /logout
+    defaults: { _controller: IliosAuthenticationBundle:Authentication:logout }
 ilios_authentication.whoami:
     path:     /whoami
     defaults: { _controller: IliosAuthenticationBundle:Authentication:whoami }

@@ -86,4 +86,21 @@ class ShibbolethAuthentication implements AuthenticationInterface
         
         return $this->createSuccessResponseFromJWT($jwt);
     }
+
+    /**
+     * Logout a user
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        $url = $request->getSchemeAndHttpHost();
+        $logoutUrl = $url . '/Shibboleth.sso/Logout';
+        return new JsonResponse(array(
+            'status' => 'redirect',
+            'logoutUrl' => $logoutUrl
+
+        ), JsonResponse::HTTP_OK);
+    }
 }
