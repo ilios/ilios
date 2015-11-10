@@ -19,6 +19,8 @@ class ReportData extends AbstractDataLoader
             'id' => 2,
             'title' => $this->faker->title(25),
             'subject' => $this->faker->title(25),
+            'prepositionalObject' => $this->faker->title(5),
+            'prepositionalObjectTableRowId' => $this->faker->randomDigitNotNull(),
             'user' => '2'
         );
 
@@ -31,6 +33,8 @@ class ReportData extends AbstractDataLoader
             'id' => 3,
             'title' => $this->faker->title(25),
             'subject' => $this->faker->title(25),
+            'prepositionalObject' => $this->faker->title(5),
+            'prepositionalObjectTableRowId' => $this->faker->randomDigitNotNull(),
             'user' => '2'
         );
 
