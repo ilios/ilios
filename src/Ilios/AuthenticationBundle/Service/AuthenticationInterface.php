@@ -14,4 +14,12 @@ interface AuthenticationInterface
      * @return JsonResponse
      */
     public function login(Request $request);
+
+    /**
+     * Logout a user based on a Request and return some status
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function logout(Request $request);
 }

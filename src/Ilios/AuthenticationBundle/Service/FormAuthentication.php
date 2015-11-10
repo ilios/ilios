@@ -96,6 +96,19 @@ class FormAuthentication implements AuthenticationInterface
             'jwt' => null,
         ), JsonResponse::HTTP_BAD_REQUEST);
     }
+
+    /**
+     * Logout a user
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        return new JsonResponse(array(
+            'status' => 'success'
+        ), JsonResponse::HTTP_OK);
+    }
     
     /**
      * Update users to the new password encoding when they login

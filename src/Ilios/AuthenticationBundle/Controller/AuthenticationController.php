@@ -70,4 +70,21 @@ class AuthenticationController extends Controller
 
         return new JsonResponse(array('jwt' => null), JsonResponse::HTTP_OK);
     }
+
+    /**
+     * Logout
+     * Passes off the task of logout to the service selected by the config
+     * option authentication_type.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function logoutAction(Request $request)
+    {
+        $authenticator = $this->container->get('ilios_authentication.authenticator');
+
+        return $authenticator->logout($request);
+
+    }
 }

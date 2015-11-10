@@ -100,6 +100,19 @@ class LdapAuthentication implements AuthenticationInterface
             'jwt' => null,
         ), JsonResponse::HTTP_BAD_REQUEST);
     }
+
+    /**
+     * Logout a user
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        return new JsonResponse(array(
+            'status' => 'success'
+        ), JsonResponse::HTTP_OK);
+    }
     
     /**
      * Check against ldap to see if the user is valid
