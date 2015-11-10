@@ -249,7 +249,7 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\Column(name="web_link", type="string", length=256, nullable=true)
      *
-     * @Assert\Url(groups={"link"})
+     * @Assert\Type(type="string", groups={"link"})
      */
     protected $link;
 
