@@ -31,6 +31,9 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAamcPcrs()
     {
         $aamcPcrs = $this->container
@@ -57,6 +60,9 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllAamcPcrs()
     {
         $this->createJsonRequest('GET', $this->getUrl('cget_aamcpcrs'), null, $this->getAuthenticatedUserToken());
@@ -73,6 +79,9 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostAamcPcrs()
     {
         $data = $this->container->get('ilioscore.dataloader.aamcpcrs')
@@ -97,6 +106,9 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCompetencyAamcPcrs()
     {
         $data = $this->container->get('ilioscore.dataloader.aamcpcrs')->create();
@@ -125,6 +137,9 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadAamcPcrs()
     {
         $invalidAamcPcrs = $this->container
@@ -143,6 +158,9 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutAamcPcrs()
     {
         $data = $this->container
@@ -170,6 +188,9 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteAamcPcrs()
     {
         $aamcPcrs = $this->container
@@ -203,6 +224,9 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testAamcPcrsNotFound()
     {
         $this->createJsonRequest(

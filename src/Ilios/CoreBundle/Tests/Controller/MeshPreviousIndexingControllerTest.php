@@ -31,6 +31,9 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetMeshPreviousIndexing()
     {
         $meshPreviousIndexing = $this->container
@@ -59,6 +62,9 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllMeshPreviousIndexings()
     {
         $this->createJsonRequest(
@@ -79,6 +85,9 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshPreviousIndexing()
     {
         $data = $this->container->get('ilioscore.dataloader.meshPreviousIndexing')
@@ -105,6 +114,9 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadMeshPreviousIndexing()
     {
         $invalidMeshPreviousIndexing = $this->container
@@ -123,6 +135,9 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutMeshPreviousIndexing()
     {
         $data = $this->container
@@ -153,6 +168,9 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteMeshPreviousIndexing()
     {
         $meshPreviousIndexing = $this->container
@@ -186,6 +204,9 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testMeshPreviousIndexingNotFound()
     {
         $this->createJsonRequest(

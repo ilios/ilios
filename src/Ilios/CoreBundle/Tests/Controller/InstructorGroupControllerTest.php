@@ -35,6 +35,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetInstructorGroup()
     {
         $instructorGroup = $this->container
@@ -61,6 +64,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllInstructorGroups()
     {
         $this->createJsonRequest(
@@ -82,6 +88,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostInstructorGroup()
     {
         $data = $this->container->get('ilioscore.dataloader.instructorgroup')
@@ -107,6 +116,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostInstructorGroupLearnerGroup()
     {
         $data = $this->container->get('ilioscore.dataloader.instructorgroup')->create();
@@ -137,6 +149,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostInstructorGroupIlmSession()
     {
         $data = $this->container->get('ilioscore.dataloader.instructorgroup')->create();
@@ -167,6 +182,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadInstructorGroup()
     {
         $invalidInstructorGroup = $this->container
@@ -185,6 +203,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutInstructorGroup()
     {
         $data = $this->container
@@ -212,6 +233,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteInstructorGroup()
     {
         $instructorGroup = $this->container
@@ -245,6 +269,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testInstructorGroupNotFound()
     {
         $this->createJsonRequest(

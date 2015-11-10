@@ -31,6 +31,9 @@ class ReportControllerTest extends AbstractControllerTest
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetReport()
     {
         $report = $this->container
@@ -63,6 +66,9 @@ class ReportControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllReports()
     {
         $this->createJsonRequest(
@@ -94,6 +100,9 @@ class ReportControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostReport()
     {
         $data = $this->container->get('ilioscore.dataloader.report')
@@ -125,6 +134,9 @@ class ReportControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadReport()
     {
         $invalidReport = $this->container
@@ -143,6 +155,9 @@ class ReportControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutReport()
     {
         $data = $this->container
@@ -173,6 +188,9 @@ class ReportControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteReport()
     {
         $report = $this->container
@@ -206,6 +224,9 @@ class ReportControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testReportNotFound()
     {
         $this->createJsonRequest(

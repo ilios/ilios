@@ -31,6 +31,9 @@ class UserRoleControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetUserRole()
     {
         $userRole = $this->container
@@ -57,6 +60,9 @@ class UserRoleControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllUserRoles()
     {
         $this->createJsonRequest(
@@ -78,6 +84,9 @@ class UserRoleControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserRole()
     {
         $data = $this->container->get('ilioscore.dataloader.userrole')
@@ -103,6 +112,9 @@ class UserRoleControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserRoleUser()
     {
         $data = $this->container->get('ilioscore.dataloader.userrole')
@@ -134,6 +146,9 @@ class UserRoleControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadUserRole()
     {
         $invalidUserRole = $this->container
@@ -152,6 +167,9 @@ class UserRoleControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutUserRole()
     {
         $data = $this->container
@@ -180,6 +198,9 @@ class UserRoleControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteUserRole()
     {
         $userRole = $this->container
@@ -213,6 +234,9 @@ class UserRoleControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testUserRoleNotFound()
     {
         $this->createJsonRequest(

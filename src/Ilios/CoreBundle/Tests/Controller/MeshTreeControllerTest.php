@@ -31,6 +31,9 @@ class MeshTreeControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetMeshTree()
     {
         $meshTree = $this->container
@@ -58,6 +61,9 @@ class MeshTreeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllMeshTrees()
     {
         $this->createJsonRequest(
@@ -79,6 +85,9 @@ class MeshTreeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshTree()
     {
         $data = $this->container->get('ilioscore.dataloader.meshTree')
@@ -105,6 +114,9 @@ class MeshTreeControllerTest extends AbstractControllerTest
 
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadMeshTree()
     {
         $invalidMeshTree = $this->container
@@ -123,6 +135,9 @@ class MeshTreeControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutMeshTree()
     {
         $data = $this->container
@@ -153,6 +168,9 @@ class MeshTreeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteMeshTree()
     {
         $meshTree = $this->container
@@ -186,6 +204,9 @@ class MeshTreeControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testMeshTreeNotFound()
     {
         $this->createJsonRequest(

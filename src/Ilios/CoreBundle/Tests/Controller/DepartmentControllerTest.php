@@ -32,6 +32,9 @@ class DepartmentControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetDepartment()
     {
         $department = $this->container
@@ -58,6 +61,9 @@ class DepartmentControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllDepartments()
     {
         $this->createJsonRequest('GET', $this->getUrl('cget_departments'), null, $this->getAuthenticatedUserToken());
@@ -74,6 +80,9 @@ class DepartmentControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostDepartment()
     {
         $data = $this->container->get('ilioscore.dataloader.department')
@@ -100,6 +109,9 @@ class DepartmentControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadDepartment()
     {
         $invalidDepartment = $this->container
@@ -118,6 +130,9 @@ class DepartmentControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutDepartment()
     {
         $data = $this->container
@@ -147,6 +162,9 @@ class DepartmentControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteDepartment()
     {
         $department = $this->container
@@ -180,6 +198,9 @@ class DepartmentControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testDepartmentNotFound()
     {
         $this->createJsonRequest(

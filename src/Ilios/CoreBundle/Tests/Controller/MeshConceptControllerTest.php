@@ -32,6 +32,9 @@ class MeshConceptControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetMeshConcept()
     {
         $meshConcept = $this->container
@@ -68,6 +71,9 @@ class MeshConceptControllerTest extends AbstractControllerTest
         $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllMeshConcepts()
     {
         $this->createJsonRequest(
@@ -101,6 +107,9 @@ class MeshConceptControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshConcept()
     {
         $data = $this->container->get('ilioscore.dataloader.meshConcept')
@@ -138,6 +147,9 @@ class MeshConceptControllerTest extends AbstractControllerTest
 
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshConceptTerm()
     {
         $data = $this->container->get('ilioscore.dataloader.meshConcept')->create();
@@ -169,6 +181,9 @@ class MeshConceptControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadMeshConcept()
     {
         $invalidMeshConcept = $this->container
@@ -187,6 +202,9 @@ class MeshConceptControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutMeshConcept()
     {
         $postData = $this->container
@@ -225,6 +243,9 @@ class MeshConceptControllerTest extends AbstractControllerTest
         $this->assertTrue($diffU->m < 1, 'The updatedAt timestamp is within the last minute');
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteMeshConcept()
     {
         $meshConcept = $this->container
@@ -258,6 +279,9 @@ class MeshConceptControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testMeshConceptNotFound()
     {
         $this->createJsonRequest(

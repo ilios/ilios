@@ -31,6 +31,9 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetCurriculumInventorySequenceBlockSession()
     {
         $curriculumInventorySequenceBlockSession = $this->container
@@ -57,6 +60,9 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllCurriculumInventorySequenceBlockSessions()
     {
         $this->createJsonRequest(
@@ -78,6 +84,9 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCurriculumInventorySequenceBlockSession()
     {
         $data = $this->container->get('ilioscore.dataloader.curriculuminventorysequenceblocksession')
@@ -103,6 +112,9 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadCurriculumInventorySequenceBlockSession()
     {
         $invalidCurriculumInventorySequenceBlockSession = $this->container
@@ -121,6 +133,9 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutCurriculumInventorySequenceBlockSession()
     {
         $data = $this->container
@@ -149,6 +164,9 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteCurriculumInventorySequenceBlockSession()
     {
         $curriculumInventorySequenceBlockSession = $this->container
@@ -182,6 +200,9 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testCurriculumInventorySequenceBlockSessionNotFound()
     {
         $this->createJsonRequest(

@@ -39,6 +39,9 @@ class SchoolControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetSchool()
     {
         $school = $this->container
@@ -65,6 +68,9 @@ class SchoolControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllSchools()
     {
         $this->createJsonRequest(
@@ -86,6 +92,9 @@ class SchoolControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostSchool()
     {
         $data = $this->container->get('ilioscore.dataloader.school')
@@ -119,6 +128,9 @@ class SchoolControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostSchoolRecipient()
     {
         $data = $this->container->get('ilioscore.dataloader.school')->create();
@@ -157,6 +169,9 @@ class SchoolControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadSchool()
     {
         $invalidSchool = $this->container
@@ -175,6 +190,9 @@ class SchoolControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutSchool()
     {
         $data = $this->container
@@ -211,6 +229,9 @@ class SchoolControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteSchool()
     {
         $school = $this->container
@@ -244,6 +265,9 @@ class SchoolControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testSchoolNotFound()
     {
         $this->createJsonRequest(

@@ -31,6 +31,9 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetUserMadeReminder()
     {
         $userMadeReminder = $this->container
@@ -63,6 +66,9 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllUserMadeReminders()
     {
         $this->createJsonRequest(
@@ -94,6 +100,9 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserMadeReminder()
     {
         $data = $this->container->get('ilioscore.dataloader.usermadereminder')
@@ -125,6 +134,9 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadUserMadeReminder()
     {
         $invalidUserMadeReminder = $this->container
@@ -143,6 +155,9 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutUserMadeReminder()
     {
         $data = $this->container
@@ -178,6 +193,9 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The createdAt timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteUserMadeReminder()
     {
         $userMadeReminder = $this->container
@@ -211,6 +229,9 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testUserMadeReminderNotFound()
     {
         $this->createJsonRequest(

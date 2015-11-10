@@ -25,7 +25,10 @@ class DownloadControllerTest extends WebTestCase
     public function tearDown()
     {
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testDownloadLearningMaterial()
     {
         $client = $this->createClient();
@@ -63,7 +66,10 @@ class DownloadControllerTest extends WebTestCase
         $this->assertEquals(file_get_contents($learningMaterialLoaderPath), $response->getContent());
         
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testBadLearningMaterialToken()
     {
         $client = $this->createClient();

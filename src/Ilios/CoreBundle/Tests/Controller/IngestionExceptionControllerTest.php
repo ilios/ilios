@@ -30,6 +30,9 @@ class IngestionExceptionControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetIngestionException()
     {
         $exception = $this->container
@@ -56,6 +59,9 @@ class IngestionExceptionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllIngestionExceptions()
     {
         $this->createJsonRequest(
@@ -77,7 +83,9 @@ class IngestionExceptionControllerTest extends AbstractControllerTest
         );
     }
 
-
+    /**
+     * @group controllers
+     */
     public function testIngestionExceptionNotFound()
     {
         $this->createJsonRequest(

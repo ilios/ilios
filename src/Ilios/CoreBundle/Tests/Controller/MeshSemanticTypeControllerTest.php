@@ -32,6 +32,9 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetMeshSemanticType()
     {
         $meshSemanticType = $this->container
@@ -68,6 +71,9 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
         $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllMeshSemanticTypes()
     {
         $this->createJsonRequest(
@@ -101,6 +107,9 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshSemanticType()
     {
         $data = $this->container->get('ilioscore.dataloader.meshSemanticType')
@@ -135,6 +144,9 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
 
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshSemanticTypeConcept()
     {
         $data = $this->container->get('ilioscore.dataloader.meshsemantictype')->create();
@@ -163,6 +175,9 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadMeshSemanticType()
     {
         $invalidMeshSemanticType = $this->container
@@ -181,6 +196,9 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutMeshSemanticType()
     {
         $postData = $this->container
@@ -217,6 +235,9 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
         $this->assertTrue($diffU->m < 1, 'The updatedAt timestamp is within the last minute');
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteMeshSemanticType()
     {
         $meshSemanticType = $this->container
@@ -250,6 +271,9 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testMeshSemanticTypeNotFound()
     {
         $this->createJsonRequest(

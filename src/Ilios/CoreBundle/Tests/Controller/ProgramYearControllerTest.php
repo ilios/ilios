@@ -38,6 +38,9 @@ class ProgramYearControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetProgramYear()
     {
         $programYear = $this->container
@@ -64,6 +67,9 @@ class ProgramYearControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllProgramYears()
     {
         $this->createJsonRequest(
@@ -85,6 +91,9 @@ class ProgramYearControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostProgramYear()
     {
         $data = $this->container->get('ilioscore.dataloader.programyear')
@@ -111,6 +120,9 @@ class ProgramYearControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadProgramYear()
     {
         $invalidProgramYear = $this->container
@@ -129,6 +141,9 @@ class ProgramYearControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutProgramYear()
     {
         $data = $this->container
@@ -158,6 +173,9 @@ class ProgramYearControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteProgramYear()
     {
         $programYear = $this->container
@@ -191,6 +209,9 @@ class ProgramYearControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testProgramYearNotFound()
     {
         $this->createJsonRequest(

@@ -38,6 +38,9 @@ class SessionControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetSession()
     {
         $session = $this->container
@@ -70,6 +73,9 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->y < 1, 'The updatedAt timestamp is within the last year');
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllSessions()
     {
         $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
@@ -101,6 +107,9 @@ class SessionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostSession()
     {
         $data = $this->container->get('ilioscore.dataloader.session')
@@ -134,6 +143,9 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadSession()
     {
         $invalidSession = $this->container
@@ -152,6 +164,9 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutSession()
     {
         $data = $this->container
@@ -189,6 +204,9 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteSession()
     {
         $session = $this->container
@@ -222,6 +240,9 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testSessionNotFound()
     {
         $this->createJsonRequest(
@@ -286,7 +307,10 @@ class SessionControllerTest extends AbstractControllerTest
             ' Now: ' . $now->format('c')
         );
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testUpdatingIlmUpdatesSessionStamp()
     {
         $ilm = $this->container
@@ -314,7 +338,10 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testUpdatingIlmInstructorUpdatesSessionStamp()
     {
         $ilm = $this->container
@@ -342,7 +369,10 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testUpdatingIlmInstructorGroupsUpdatesSessionStamp()
     {
         $ilm = $this->container
@@ -370,7 +400,10 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testUpdatingIlmLearnerGroupsUpdatesSessionStamp()
     {
         $ilm = $this->container
@@ -398,7 +431,10 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testUpdatingIlmLearnersUpdatesSessionStamp()
     {
         $ilm = $this->container
@@ -426,7 +462,10 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($ilm['session'], $firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testUpdatingLearningMaterialUpdatesSessionStamp()
     {
         $firstUpdatedAt = $this->getSessionUpdatedAt(1);
@@ -455,7 +494,10 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testNewSessionLearningMaterialUpdatesSessionStamp()
     {
         $firstUpdatedAt = $this->getSessionUpdatedAt(1);
@@ -480,7 +522,10 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_CREATED);
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testUpdatingSessionLearningMaterialUpdatesSessionStamp()
     {
         $firstUpdatedAt = $this->getSessionUpdatedAt(1);
@@ -506,7 +551,10 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testDeletingSessionLearningMaterialUpdatesSessionStamp()
     {
         $firstUpdatedAt = $this->getSessionUpdatedAt(1);
@@ -528,7 +576,10 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testDeletingSessionDescriptionUpdatesSessionStamp()
     {
         $firstUpdatedAt = $this->getSessionUpdatedAt(1);
@@ -550,7 +601,10 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testUpdatingSessionDescriptionUpdatesSessionStamp()
     {
         $firstUpdatedAt = $this->getSessionUpdatedAt(1);

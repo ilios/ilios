@@ -37,6 +37,9 @@ class OfferingControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetOffering()
     {
         $offering = $this->container
@@ -69,6 +72,9 @@ class OfferingControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The updatedAt timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllOfferings()
     {
         $this->createJsonRequest(
@@ -110,6 +116,9 @@ class OfferingControllerTest extends AbstractControllerTest
         $this->assertEquals($this->mockSerialize(array_values($filteredOfferings)), $data);
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostOffering()
     {
         $data = $this->container->get('ilioscore.dataloader.offering')
@@ -171,6 +180,9 @@ class OfferingControllerTest extends AbstractControllerTest
 
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadOffering()
     {
         $invalidOffering = $this->container
@@ -189,6 +201,9 @@ class OfferingControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutOffering()
     {
         $data = $this->container
@@ -327,6 +342,9 @@ class OfferingControllerTest extends AbstractControllerTest
 
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteOffering()
     {
         $offering = $this->container
@@ -360,6 +378,9 @@ class OfferingControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testOfferingNotFound()
     {
         $this->createJsonRequest(
@@ -416,7 +437,10 @@ class OfferingControllerTest extends AbstractControllerTest
             ' Now: ' . $now->format('c')
         );
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testUpdatingLearnerGroupUpdatesOfferingStamp()
     {
         $firstUpdatedAt = $this->getOfferingUpdatedAt();
@@ -444,7 +468,10 @@ class OfferingControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($firstUpdatedAt);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testUpdatingInstructorGroupUpdatesOfferingStamp()
     {
         $firstUpdatedAt = $this->getOfferingUpdatedAt();

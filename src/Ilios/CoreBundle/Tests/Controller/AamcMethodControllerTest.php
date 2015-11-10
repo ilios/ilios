@@ -31,6 +31,9 @@ class AamcMethodControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAamcMethod()
     {
         $aamcMethod = $this->container
@@ -57,6 +60,9 @@ class AamcMethodControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllAamcMethods()
     {
         $this->createJsonRequest('GET', $this->getUrl('cget_aamcmethods'), null, $this->getAuthenticatedUserToken());
@@ -73,6 +79,9 @@ class AamcMethodControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostAamcMethod()
     {
         $data = $this->container->get('ilioscore.dataloader.aamcmethod')
@@ -97,6 +106,9 @@ class AamcMethodControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostSessionTypeAamcMethod()
     {
         $data = $this->container->get('ilioscore.dataloader.aamcmethod')->create();
@@ -125,6 +137,9 @@ class AamcMethodControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadAamcMethod()
     {
         $invalidAamcMethod = $this->container
@@ -143,6 +158,9 @@ class AamcMethodControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutAamcMethod()
     {
         $data = $this->container
@@ -170,6 +188,9 @@ class AamcMethodControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteAamcMethod()
     {
         $aamcMethod = $this->container
@@ -203,6 +224,9 @@ class AamcMethodControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode(), $response->getContent());
     }
 
+    /**
+     * @group controllers
+     */
     public function testAamcMethodNotFound()
     {
         $this->createJsonRequest(

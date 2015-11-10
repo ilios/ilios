@@ -32,6 +32,9 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetCurriculumInventoryInstitution()
     {
         $curriculumInventoryInstitution = $this->container
@@ -58,6 +61,9 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllCurriculumInventoryInstitutions()
     {
         $this->createJsonRequest(
@@ -79,6 +85,9 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCurriculumInventoryInstitution()
     {
         $data = $this->container->get('ilioscore.dataloader.curriculuminventoryinstitution')
@@ -104,6 +113,9 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadCurriculumInventoryInstitution()
     {
         $invalidCurriculumInventoryInstitution = $this->container
@@ -122,6 +134,9 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutCurriculumInventoryInstitution()
     {
         $data = $this->container
@@ -149,6 +164,9 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteCurriculumInventoryInstitution()
     {
         $curriculumInventoryInstitution = $this->container
@@ -182,6 +200,9 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testCurriculumInventoryInstitutionNotFound()
     {
         $this->createJsonRequest(

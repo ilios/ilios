@@ -13,6 +13,9 @@ class BadRequestControllerTest extends WebTestCase
         ]);
     }
 
+    /**
+     * @group controllers
+     */
     public function testIndex()
     {
         $client = static::createClient();

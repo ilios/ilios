@@ -31,6 +31,9 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAlertChangeType()
     {
         $alertChangeType = $this->container
@@ -57,6 +60,9 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllAlertChangeTypes()
     {
         $this->createJsonRequest(
@@ -78,6 +84,9 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostAlertChangeType()
     {
         $data = $this->container->get('ilioscore.dataloader.alertchangetype')
@@ -103,6 +112,9 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostAlertAlertChangeType()
     {
         $data = $this->container->get('ilioscore.dataloader.alertchangetype')->create();
@@ -133,6 +145,9 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadAlertChangeType()
     {
         $invalidAlertChangeType = $this->container
@@ -151,6 +166,9 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutAlertChangeType()
     {
         $data = $this->container
@@ -179,6 +197,9 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteAlertChangeType()
     {
         $alertChangeType = $this->container
@@ -212,6 +233,9 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testAlertChangeTypeNotFound()
     {
         $this->createJsonRequest(

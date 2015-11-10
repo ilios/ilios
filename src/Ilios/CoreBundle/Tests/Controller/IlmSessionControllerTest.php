@@ -31,6 +31,9 @@ class IlmSessionControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetIlmSession()
     {
         $ilmSession = $this->container
@@ -57,6 +60,9 @@ class IlmSessionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllIlmSessions()
     {
         $this->createJsonRequest('GET', $this->getUrl('cget_ilmsessions'), null, $this->getAuthenticatedUserToken());
@@ -73,6 +79,9 @@ class IlmSessionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostIlmSession()
     {
         $data = $this->container->get('ilioscore.dataloader.ilmsession')
@@ -98,6 +107,9 @@ class IlmSessionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadIlmSession()
     {
         $invalidIlmSession = $this->container
@@ -116,6 +128,9 @@ class IlmSessionControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutIlmSession()
     {
         $data = $this->container
@@ -144,6 +159,9 @@ class IlmSessionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteIlmSession()
     {
         $ilmSession = $this->container
@@ -177,6 +195,9 @@ class IlmSessionControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testIlmSessionNotFound()
     {
         $this->createJsonRequest(

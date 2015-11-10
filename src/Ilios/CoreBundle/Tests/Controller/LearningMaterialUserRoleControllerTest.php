@@ -31,6 +31,9 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetLearningMaterialUserRole()
     {
         $learningMaterialUserRole = $this->container
@@ -57,6 +60,9 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllLearningMaterialUserRoles()
     {
         $this->createJsonRequest(
@@ -78,6 +84,9 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostLearningMaterialUserRole()
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterialuserrole')
@@ -103,6 +112,9 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadLearningMaterialUserRole()
     {
         $invalidLearningMaterialUserRole = $this->container
@@ -121,6 +133,9 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutLearningMaterialUserRole()
     {
         $data = $this->container
@@ -149,6 +164,9 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteLearningMaterialUserRole()
     {
         $learningMaterialUserRole = $this->container
@@ -182,6 +200,9 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testLearningMaterialUserRoleNotFound()
     {
         $this->createJsonRequest(

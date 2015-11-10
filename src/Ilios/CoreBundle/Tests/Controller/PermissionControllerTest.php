@@ -32,6 +32,7 @@ class PermissionControllerTest extends AbstractControllerTest
 
     /**
      * @covers Ilios\CoreBundle\Controller\PermissionController::getAction
+     * @group controllers
      */
     public function testGetPermission()
     {
@@ -61,6 +62,7 @@ class PermissionControllerTest extends AbstractControllerTest
 
     /**
      * @covers Ilios\CoreBundle\Controller\PermissionController::cgetAction
+     * @group controllers
      */
     public function testGetAllPermissions()
     {
@@ -80,6 +82,7 @@ class PermissionControllerTest extends AbstractControllerTest
 
     /**
      * @covers Ilios\CoreBundle\Controller\PermissionController::postAction
+     * @group controllers
      */
     public function testPostPermission()
     {
@@ -108,6 +111,7 @@ class PermissionControllerTest extends AbstractControllerTest
 
     /**
      * @covers Ilios\CoreBundle\Controller\PermissionController::postAction
+     * @group controllers
      */
     public function testPostBadPermission()
     {
@@ -129,6 +133,7 @@ class PermissionControllerTest extends AbstractControllerTest
 
     /**
      * @covers Ilios\CoreBundle\Controller\PermissionController::putAction
+     * @group controllers
      */
     public function testPutPermission()
     {
@@ -160,6 +165,7 @@ class PermissionControllerTest extends AbstractControllerTest
 
     /**
      * @covers Ilios\CoreBundle\Controller\PermissionController::deleteAction
+     * @group controllers
      */
     public function testDeletePermission()
     {
@@ -196,6 +202,7 @@ class PermissionControllerTest extends AbstractControllerTest
 
     /**
      * @covers Ilios\CoreBundle\Controller\PermissionController::getAction
+     * @group controllers
      */
     public function testPermissionNotFound()
     {

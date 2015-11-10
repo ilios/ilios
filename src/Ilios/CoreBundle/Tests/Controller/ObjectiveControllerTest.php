@@ -35,6 +35,9 @@ class ObjectiveControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetObjective()
     {
         $objective = $this->container
@@ -61,6 +64,9 @@ class ObjectiveControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllObjectives()
     {
         $this->createJsonRequest(
@@ -82,6 +88,9 @@ class ObjectiveControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostObjective()
     {
         $data = $this->container->get('ilioscore.dataloader.objective')
@@ -107,6 +116,9 @@ class ObjectiveControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCourseObjective()
     {
         $data = $this->container->get('ilioscore.dataloader.objective')->create();
@@ -137,7 +149,10 @@ class ObjectiveControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostProgramYeareObjective()
+    /**
+     * @group controllers
+     */
+    public function testPostProgramYearObjective()
     {
         $data = $this->container->get('ilioscore.dataloader.objective')->create();
         $postData = $data;
@@ -167,7 +182,10 @@ class ObjectiveControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostSessioneObjective()
+    /**
+     * @group controllers
+     */
+    public function testPostSessionObjective()
     {
         $data = $this->container->get('ilioscore.dataloader.objective')->create();
         $postData = $data;
@@ -211,6 +229,8 @@ class ObjectiveControllerTest extends AbstractControllerTest
      *
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
+     *
+     * @group controllers
      */
     public function testInputSanitation($input, $output)
     {
@@ -256,6 +276,8 @@ class ObjectiveControllerTest extends AbstractControllerTest
 
     /**
      * Assert that a POST request fails if form validation fails due to input sanitation.
+     *
+     * @group controllers
      */
     public function testInputSanitationFailure()
     {
@@ -277,6 +299,9 @@ class ObjectiveControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_BAD_REQUEST);
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadObjective()
     {
         $invalidObjective = $this->container
@@ -295,6 +320,9 @@ class ObjectiveControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutObjective()
     {
         $data = $this->container
@@ -323,6 +351,9 @@ class ObjectiveControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteObjective()
     {
         $objective = $this->container
@@ -356,6 +387,9 @@ class ObjectiveControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testObjectiveNotFound()
     {
         $this->createJsonRequest(

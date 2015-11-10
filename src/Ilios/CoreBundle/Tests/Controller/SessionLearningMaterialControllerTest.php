@@ -32,6 +32,9 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetSessionLearningMaterial()
     {
         $sessionLearningMaterial = $this->container
@@ -58,6 +61,9 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllSessionLearningMaterials()
     {
         $this->createJsonRequest(
@@ -79,6 +85,9 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostSessionLearningMaterial()
     {
         $data = $this->container->get('ilioscore.dataloader.sessionlearningmaterial')
@@ -104,6 +113,9 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadSessionLearningMaterial()
     {
         $invalidSessionLearningMaterial = $this->container
@@ -122,6 +134,9 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutSessionLearningMaterial()
     {
         $data = $this->container
@@ -150,6 +165,9 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteSessionLearningMaterial()
     {
         $sessionLearningMaterial = $this->container
@@ -183,6 +201,9 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testSessionLearningMaterialNotFound()
     {
         $this->createJsonRequest(

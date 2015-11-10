@@ -34,6 +34,9 @@ class ProgramControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetProgram()
     {
         $program = $this->container
@@ -60,6 +63,9 @@ class ProgramControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllPrograms()
     {
         $this->createJsonRequest(
@@ -81,6 +87,9 @@ class ProgramControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostProgram()
     {
         $data = $this->container->get('ilioscore.dataloader.program')
@@ -108,6 +117,9 @@ class ProgramControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadProgram()
     {
         $invalidProgram = $this->container
@@ -126,6 +138,9 @@ class ProgramControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutProgram()
     {
         $data = $this->container
@@ -156,6 +171,9 @@ class ProgramControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteProgram()
     {
         $program = $this->container
@@ -189,6 +207,9 @@ class ProgramControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testProgramNotFound()
     {
         $this->createJsonRequest(

@@ -30,6 +30,9 @@ class CurriculumInventorySequenceControllerTest extends AbstractControllerTest
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetCurriculumInventorySequence()
     {
         $curriculumInventorySequence = $this->container
@@ -56,6 +59,9 @@ class CurriculumInventorySequenceControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllCurriculumInventorySequences()
     {
         $this->createJsonRequest(
@@ -77,6 +83,9 @@ class CurriculumInventorySequenceControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCurriculumInventorySequence()
     {
         $data = $this->container->get('ilioscore.dataloader.curriculuminventorysequence')
@@ -102,6 +111,9 @@ class CurriculumInventorySequenceControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadCurriculumInventorySequence()
     {
         $invalidCurriculumInventorySequence = $this->container
@@ -120,6 +132,9 @@ class CurriculumInventorySequenceControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutCurriculumInventorySequence()
     {
         $data = $this->container
@@ -148,6 +163,9 @@ class CurriculumInventorySequenceControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteCurriculumInventorySequence()
     {
         $curriculumInventorySequence = $this->container
@@ -181,6 +199,9 @@ class CurriculumInventorySequenceControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testCurriculumInventorySequenceNotFound()
     {
         $this->createJsonRequest(

@@ -40,6 +40,9 @@ class PublishEventControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetPublishEvent()
     {
         $publishEvent = $this->container
@@ -66,6 +69,9 @@ class PublishEventControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllPublishEvents()
     {
         $this->createJsonRequest(
@@ -87,6 +93,9 @@ class PublishEventControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostPublishEvent()
     {
         $data = $this->container->get('ilioscore.dataloader.publishevent')
@@ -122,6 +131,9 @@ class PublishEventControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadPublishEvent()
     {
         $invalidPublishEvent = $this->container
@@ -140,6 +152,9 @@ class PublishEventControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPublishEventNotFound()
     {
         $this->createJsonRequest(

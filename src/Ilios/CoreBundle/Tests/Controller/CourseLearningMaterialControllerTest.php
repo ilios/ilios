@@ -30,6 +30,9 @@ class CourseLearningMaterialControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetCourseLearningMaterial()
     {
         $courseLearningMaterial = $this->container
@@ -55,6 +58,9 @@ class CourseLearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllCourseLearningMaterials()
     {
         $this->createJsonRequest(
@@ -76,6 +82,9 @@ class CourseLearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCourseLearningMaterial()
     {
         $data = $this->container->get('ilioscore.dataloader.courselearningmaterial')
@@ -101,6 +110,9 @@ class CourseLearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadCourseLearningMaterial()
     {
         $invalidCourseLearningMaterial = $this->container
@@ -119,6 +131,9 @@ class CourseLearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutCourseLearningMaterial()
     {
         $data = $this->container
@@ -146,6 +161,9 @@ class CourseLearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteCourseLearningMaterial()
     {
         $courseLearningMaterial = $this->container
@@ -179,6 +197,9 @@ class CourseLearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testCourseLearningMaterialNotFound()
     {
         $this->createJsonRequest(

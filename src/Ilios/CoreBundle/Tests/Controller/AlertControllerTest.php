@@ -33,6 +33,9 @@ class AlertControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAlert()
     {
         $alert = $this->container
@@ -59,6 +62,9 @@ class AlertControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllAlerts()
     {
         $this->createJsonRequest('GET', $this->getUrl('cget_alerts'), null, $this->getAuthenticatedUserToken());
@@ -75,6 +81,9 @@ class AlertControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostAlert()
     {
         $data = $this->container->get('ilioscore.dataloader.alert')
@@ -100,6 +109,9 @@ class AlertControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadAlert()
     {
         $invalidAlert = $this->container
@@ -118,6 +130,9 @@ class AlertControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutAlert()
     {
         $data = $this->container
@@ -146,6 +161,9 @@ class AlertControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteAlert()
     {
         $alert = $this->container
@@ -179,6 +197,9 @@ class AlertControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testAlertNotFound()
     {
         $this->createJsonRequest(

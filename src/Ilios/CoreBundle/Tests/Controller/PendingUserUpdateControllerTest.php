@@ -29,6 +29,9 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetPendingUserUpdate()
     {
         $pendingUserUpdate = $this->container
@@ -55,6 +58,9 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllPendingUserUpdates()
     {
         $this->createJsonRequest(
@@ -76,6 +82,9 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostPendingUserUpdate()
     {
         $data = $this->container->get('ilioscore.dataloader.pendinguserupdate')
@@ -101,6 +110,9 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadPendingUserUpdate()
     {
         $invalidPendingUserUpdate = $this->container
@@ -119,6 +131,9 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutPendingUserUpdate()
     {
         $data = $this->container
@@ -147,6 +162,9 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeletePendingUserUpdate()
     {
         $pendingUserUpdate = $this->container
@@ -180,6 +198,9 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPendingUserUpdateNotFound()
     {
         $this->createJsonRequest(

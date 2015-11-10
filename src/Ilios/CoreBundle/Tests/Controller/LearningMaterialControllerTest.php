@@ -35,6 +35,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetLearningMaterial()
     {
         $learningMaterial = $this->container
@@ -67,6 +70,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllLearningMaterials()
     {
         $this->createJsonRequest(
@@ -110,6 +116,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testFindLearningMaterials()
     {
         $materials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
@@ -170,6 +179,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostLearningMaterial()
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
@@ -205,6 +217,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostLearningMaterialCitation()
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
@@ -240,6 +255,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostLearningMaterialLink()
     {
         $data = $this->container->get('ilioscore.dataloader.learningmaterial')
@@ -275,6 +293,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostLearningMaterialFile()
     {
         $fs = new Filesystem();
@@ -354,6 +375,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(file_get_contents(__FILE__), $response->getContent());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadLearningMaterial()
     {
         $invalidLearningMaterial = $this->container
@@ -372,6 +396,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadLearningMaterialCitation()
     {
         $invalidLearningMaterial = $this->container
@@ -390,6 +417,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadLearningMaterialLink()
     {
         $invalidLearningMaterial = $this->container
@@ -408,6 +438,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutLearningMaterial()
     {
         $data = $this->container
@@ -446,6 +479,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertTrue($diff->i < 10, 'The uploadDate timestamp is within the last 10 minutes');
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteLearningMaterial()
     {
         $learningMaterial = $this->container
@@ -479,6 +515,9 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testLearningMaterialNotFound()
     {
         $this->createJsonRequest(
