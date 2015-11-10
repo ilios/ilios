@@ -119,7 +119,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testFindLearningMaterials()
+    public function testFindLearningMaterialsByTitle()
     {
         $materials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
         $this->createJsonRequest(
@@ -157,6 +157,69 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'GET',
             $this->getUrl('cget_learningmaterials', array('q' => 'lm')),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('learningMaterials', $result));
+        $gotMaterials = $result['learningMaterials'];
+        $this->assertEquals(3, count($gotMaterials));
+        $this->assertEquals(
+            $materials[0]['id'],
+            $gotMaterials[0]['id']
+        );
+        $this->assertEquals(
+            $materials[1]['id'],
+            $gotMaterials[1]['id']
+        );
+        $this->assertEquals(
+            $materials[2]['id'],
+            $gotMaterials[2]['id']
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFindLearningMaterialsByDescription()
+    {
+        $materials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', array('q' => '1')),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('learningMaterials', $result));
+        $gotMaterials = $result['learningMaterials'];
+        $this->assertEquals(1, count($gotMaterials));
+        $this->assertEquals(
+            $materials[0]['id'],
+            $gotMaterials[0]['id']
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', array('q' => '2')),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('learningMaterials', $result));
+        $gotMaterials = $result['learningMaterials'];
+        $this->assertEquals(1, count($gotMaterials));
+        $this->assertEquals(
+            $materials[1]['id'],
+            $gotMaterials[0]['id']
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', array('q' => 'desc')),
             null,
             $this->getAuthenticatedUserToken()
         );
