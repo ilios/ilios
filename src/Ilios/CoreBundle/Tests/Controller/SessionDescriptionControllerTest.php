@@ -30,6 +30,9 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetSessionDescription()
     {
         $sessionDescription = $this->container
@@ -56,6 +59,9 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllSessionDescriptions()
     {
         $this->createJsonRequest(
@@ -85,6 +91,9 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
         $this->assertEquals($this->mockSerialize($filteredDescriptions), $data);
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostSessionDescription()
     {
         $data = $this->container->get('ilioscore.dataloader.sessiondescription')
@@ -110,6 +119,9 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadSessionDescription()
     {
         $invalidSessionDescription = $this->container
@@ -128,6 +140,9 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutSessionDescription()
     {
         $data = $this->container
@@ -156,6 +171,9 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteSessionDescription()
     {
         $sessionDescription = $this->container
@@ -189,6 +207,9 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testSessionDescriptionNotFound()
     {
         $this->createJsonRequest(

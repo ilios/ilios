@@ -31,6 +31,9 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAssessmentOption()
     {
         $assessmentOption = $this->container
@@ -57,6 +60,9 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllAssessmentOptions()
     {
         $this->createJsonRequest(
@@ -78,6 +84,9 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostAssessmentOption()
     {
         $data = $this->container->get('ilioscore.dataloader.assessmentoption')
@@ -104,6 +113,9 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadAssessmentOption()
     {
         $invalidAssessmentOption = $this->container
@@ -122,6 +134,9 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutAssessmentOption()
     {
         $data = $this->container
@@ -151,6 +166,9 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteAssessmentOption()
     {
         $assessmentOption = $this->container
@@ -184,6 +202,9 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testAssessmentOptionNotFound()
     {
         $this->createJsonRequest(

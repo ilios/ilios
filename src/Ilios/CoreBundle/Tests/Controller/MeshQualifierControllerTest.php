@@ -31,6 +31,9 @@ class MeshQualifierControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetMeshQualifier()
     {
         $meshQualifier = $this->container
@@ -67,6 +70,9 @@ class MeshQualifierControllerTest extends AbstractControllerTest
         $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllMeshQualifiers()
     {
         $this->createJsonRequest(
@@ -100,6 +106,9 @@ class MeshQualifierControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshQualifier()
     {
         $data = $this->container->get('ilioscore.dataloader.meshQualifier')
@@ -134,6 +143,9 @@ class MeshQualifierControllerTest extends AbstractControllerTest
 
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadMeshQualifier()
     {
         $invalidMeshQualifier = $this->container
@@ -152,6 +164,9 @@ class MeshQualifierControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutMeshQualifier()
     {
         $postData = $this->container
@@ -188,6 +203,9 @@ class MeshQualifierControllerTest extends AbstractControllerTest
         $this->assertTrue($diffU->m < 1, 'The updatedAt timestamp is within the last minute');
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteMeshQualifier()
     {
         $meshQualifier = $this->container
@@ -221,6 +239,9 @@ class MeshQualifierControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testMeshQualifierNotFound()
     {
         $this->createJsonRequest(

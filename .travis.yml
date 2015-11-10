@@ -2,9 +2,32 @@ language: php
 services: mysql
 sudo: false
 
+matrix:
+  fast_finish: true
+  allow_failures:
+  exclude:
+    - php: "5.4"
+  include:
+    - php: "5.4"
+      env: TEST_PHPUNIT_CONTROLLERS=true
+    - php: "5.4"
+      env: TEST_PHPUNIT_OTHERS=true
+    - php: "5.4"
+      env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
+    - php: "5.4"
+      env: VALIDATE_SCHEMA=true
+    - php: "5.4"
+      env: CHECK_CODING_STANDARDS=true
 php:
   - "5.4"
 
+env:
+  matrix:
+    - TEST_PHPUNIT_CONTROLLERS=true
+    - TEST_PHPUNIT_OTHERS=true
+    - TEST_PHPUNIT_MESH_DATA_IMPORT=true
+    - VALIDATE_SCHEMA=true
+    - CHECK_CODING_STANDARDS=true
 cache:
   directories:
     - $HOME/.composer/cache
@@ -34,12 +57,12 @@ before_script:
   - bin/console doctrine:database:create --env=test
 
 script:
-  - bin/phpcs --standard=app/phpcs.xml src
-  - bin/phpunit --coverage-clover build/logs/clover.xml
-  - bin/console doctrine:schema:validate --env=dev
+  - if [ "$VALIDATE_SCHEMA" = true ]; then (bin/console doctrine:schema:validate --env=dev); fi
+  - if [ "$CHECK_CODING_STANDARDS" = true ]; then (bin/phpcs --standard=app/phpcs.xml src); fi
+  - if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ]; then (bin/phpunit -c phpunit.xml.dist --group mesh_data_import); fi
+  - if [ "$TEST_PHPUNIT_CONTROLLERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --group controllers); fi
+  - if [ "$TEST_PHPUNIT_OTHERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers); fi
 
-after_script:
-  - php bin/coveralls #send test coverage informatio to coveralls
 #encrypted the IRC room chat.freenode.net##ilios so that it doesn't run on pull requests
 notifications:
   irc:

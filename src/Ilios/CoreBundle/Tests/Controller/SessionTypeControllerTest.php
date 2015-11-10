@@ -33,6 +33,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetSessionType()
     {
         $sessionType = $this->container
@@ -59,6 +62,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllSessionTypes()
     {
         $sessionTypes = $this->container
@@ -82,6 +88,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostSessionType()
     {
         $data = $this->container->get('ilioscore.dataloader.sessiontype')
@@ -108,6 +117,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadSessionType()
     {
         $invalidSessionType = $this->container
@@ -126,6 +138,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutSessionType()
     {
         $data = $this->container
@@ -156,6 +171,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteSessionType()
     {
         $sessionType = $this->container
@@ -189,6 +207,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testSessionTypeNotFound()
     {
         $this->createJsonRequest(

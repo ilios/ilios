@@ -34,6 +34,9 @@ class CohortControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetCohort()
     {
         $cohort = $this->container
@@ -60,6 +63,9 @@ class CohortControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllCohorts()
     {
         $this->createJsonRequest('GET', $this->getUrl('cget_cohorts'), null, $this->getAuthenticatedUserToken());
@@ -76,6 +82,9 @@ class CohortControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCohort()
     {
         //create a program year we can attach this cohort to
@@ -120,6 +129,9 @@ class CohortControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCohortCourse()
     {
         //create a program year we can attach this cohort to
@@ -170,6 +182,9 @@ class CohortControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCohortUser()
     {
         //create a program year we can attach this cohort to
@@ -220,6 +235,9 @@ class CohortControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadCohort()
     {
         $invalidCohort = $this->container
@@ -238,6 +256,9 @@ class CohortControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutCohort()
     {
         $data = $this->container
@@ -266,6 +287,9 @@ class CohortControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteCohort()
     {
         $cohort = $this->container
@@ -299,6 +323,9 @@ class CohortControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testCohortNotFound()
     {
         $this->createJsonRequest(

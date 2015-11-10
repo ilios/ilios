@@ -42,6 +42,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetMeshDescriptor()
     {
         $meshDescriptor = $this->container
@@ -78,6 +81,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllMeshDescriptors()
     {
         $this->createJsonRequest(
@@ -110,7 +116,7 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             $data
         );
     }
-    
+
     protected function queryForDescriptorsTest($q, $expectedDescriptorId)
     {
         $this->createJsonRequest(
@@ -129,26 +135,38 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             $descriptors[0]['id']
         );
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testFindDescriptorsWithId()
     {
         $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
         $this->queryForDescriptorsTest($descriptor['id'], $descriptor['id']);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testFindDescriptorsWithName()
     {
         $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
         $this->queryForDescriptorsTest($descriptor['name'], $descriptor['id']);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testFindDescriptorsWithAnnotation()
     {
         $descriptors = $this->container->get('ilioscore.dataloader.meshDescriptor')->getAll();
         $descriptor = $descriptors[1];
         $this->queryForDescriptorsTest($descriptor['annotation'], $descriptor['id']);
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testFindDescriptorsByPreviousIndexing()
     {
         $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
@@ -159,7 +177,10 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->queryForDescriptorsTest($previousIndexing[0]['previousIndexing'], $descriptor['id']);
 
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testFindDescriptorBySemanticTypeName()
     {
         $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
@@ -174,7 +195,10 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->queryForDescriptorsTest($semanticType['name'], $descriptor['id']);
 
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testFindDescriptorByTermName()
     {
         $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
@@ -189,7 +213,10 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->queryForDescriptorsTest($term['name'], $descriptor['id']);
 
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testFindDescriptorByConceptName()
     {
         $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
@@ -200,7 +227,10 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->queryForDescriptorsTest($concept['name'], $descriptor['id']);
 
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testFindDescriptorByConceptScopeNote()
     {
         $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
@@ -211,7 +241,10 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->queryForDescriptorsTest($concept['scopeNote'], $descriptor['id']);
 
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testFindDescriptorByConceptCasn()
     {
         $descriptor = $this->container->get('ilioscore.dataloader.meshDescriptor')->getOne();
@@ -223,6 +256,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
 
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshDescriptor()
     {
         $data = $this->container->get('ilioscore.dataloader.meshdescriptor')
@@ -260,6 +296,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
 
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshDescriptorCourse()
     {
         $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
@@ -290,6 +329,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshDescriptorSession()
     {
         $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
@@ -320,6 +362,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshDescriptorObjective()
     {
         $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
@@ -350,6 +395,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshDescriptorConcepts()
     {
         $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
@@ -380,6 +428,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshDescriptorQualifier()
     {
         $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
@@ -410,6 +461,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshDescriptorSessionLearningMaterial()
     {
         $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
@@ -440,6 +494,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostMeshDescriptorCourseLearningMaterial()
     {
         $data = $this->container->get('ilioscore.dataloader.meshdescriptor')->create();
@@ -470,6 +527,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadMeshDescriptor()
     {
         $invalidMeshDescriptor = $this->container
@@ -488,6 +548,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutMeshDescriptor()
     {
         $data = $this->container
@@ -527,6 +590,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->assertTrue($diffU->m < 1, 'The updatedAt timestamp is within the last minute');
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteMeshDescriptor()
     {
         $meshDescriptor = $this->container
@@ -560,6 +626,9 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testMeshDescriptorNotFound()
     {
         $this->createJsonRequest(

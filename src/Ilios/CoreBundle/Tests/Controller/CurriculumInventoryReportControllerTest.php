@@ -34,6 +34,9 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetCurriculumInventoryReport()
     {
         $curriculumInventoryReport = $this->container
@@ -60,6 +63,9 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllCurriculumInventoryReports()
     {
         $this->createJsonRequest(
@@ -83,6 +89,9 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCurriculumInventoryReport()
     {
         $data = $this->container->get('ilioscore.dataloader.curriculuminventoryreport')
@@ -110,6 +119,9 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadCurriculumInventoryReport()
     {
         $invalidCurriculumInventoryReport = $this->container
@@ -128,6 +140,9 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutCurriculumInventoryReport()
     {
         $data = $this->container
@@ -158,6 +173,9 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteCurriculumInventoryReport()
     {
         $curriculumInventoryReport = $this->container
@@ -191,6 +209,9 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testCurriculumInventoryReportNotFound()
     {
         $this->createJsonRequest(

@@ -43,6 +43,9 @@ class UserControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetUser()
     {
         $user = $this->container
@@ -69,6 +72,9 @@ class UserControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllUsers()
     {
         $this->createJsonRequest(
@@ -90,6 +96,9 @@ class UserControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testFindUsers()
     {
         $users = $this->container->get('ilioscore.dataloader.user')->getAll();
@@ -170,6 +179,9 @@ class UserControllerTest extends AbstractControllerTest
         $this->assertEquals(0, count($gotUsers));
     }
 
+    /**
+     * @group controllers
+     */
     public function testFindUsersWithRoles()
     {
         $userRole = '1';
@@ -205,6 +217,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUser()
     {
         $data = $this->container->get('ilioscore.dataloader.user')
@@ -236,6 +251,9 @@ class UserControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserCourse()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -272,6 +290,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserLearnerGroup()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -308,6 +329,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserInstructorLearnerGroup()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -344,7 +368,10 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
-    public function testPostUserInstructoGroup()
+    /**
+     * @group controllers
+     */
+    public function testPostUserInstructorGroup()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
         $postData = $data;
@@ -380,6 +407,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserIlmSession()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -416,6 +446,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserInstructedIlmSession()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -452,6 +485,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserOffering()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -488,6 +524,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserInstructedOffering()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -524,6 +563,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserProgramYear()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -560,6 +602,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserAlert()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -596,6 +641,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostUserCohort()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -632,6 +680,9 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadUser()
     {
         $invalidUser = $this->container
@@ -650,6 +701,9 @@ class UserControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutUser()
     {
         $data = $this->container
@@ -683,6 +737,9 @@ class UserControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteUser()
     {
         $user = $this->container
@@ -716,6 +773,9 @@ class UserControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testUserNotFound()
     {
         $this->createJsonRequest(

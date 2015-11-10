@@ -32,6 +32,9 @@ class UsereventControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetEvents()
     {
         $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();

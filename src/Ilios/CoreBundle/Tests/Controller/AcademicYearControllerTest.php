@@ -29,6 +29,9 @@ class AcademicYearControllerTest extends AbstractControllerTest
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAcademicYear()
     {
         $course = $this->container
@@ -58,7 +61,10 @@ class AcademicYearControllerTest extends AbstractControllerTest
             json_decode($response->getContent(), true)['academicYears'][0]
         );
     }
-    
+
+    /**
+     * @group controllers
+     */
     public function testGetAllAcademicYears()
     {
         $courses = $this->container->get('ilioscore.dataloader.course')->getAll();

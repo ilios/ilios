@@ -34,6 +34,9 @@ class TopicControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetTopic()
     {
         $topic = $this->container
@@ -60,6 +63,9 @@ class TopicControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllTopics()
     {
         $this->createJsonRequest('GET', $this->getUrl('cget_topics'), null, $this->getAuthenticatedUserToken());
@@ -76,6 +82,9 @@ class TopicControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostTopic()
     {
         $data = $this->container->get('ilioscore.dataloader.topic')
@@ -101,6 +110,9 @@ class TopicControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostTopicCourse()
     {
         $data = $this->container->get('ilioscore.dataloader.topic')->create();
@@ -131,6 +143,9 @@ class TopicControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostTopicProgramYear()
     {
         $data = $this->container->get('ilioscore.dataloader.topic')->create();
@@ -161,6 +176,9 @@ class TopicControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostTopicSession()
     {
         $data = $this->container->get('ilioscore.dataloader.topic')->create();
@@ -191,6 +209,9 @@ class TopicControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadTopic()
     {
         $invalidTopic = $this->container
@@ -209,6 +230,9 @@ class TopicControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutTopic()
     {
         $data = $this->container
@@ -237,6 +261,9 @@ class TopicControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteTopic()
     {
         $topic = $this->container
@@ -270,6 +297,9 @@ class TopicControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testTopicNotFound()
     {
         $this->createJsonRequest(

@@ -33,6 +33,9 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
         return [];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetCurriculumInventoryAcademicLevel()
     {
         $curriculumInventoryAcademicLevel = $this->container
@@ -59,6 +62,9 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllCurriculumInventoryAcademicLevels()
     {
         $this->createJsonRequest(
@@ -80,6 +86,9 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCurriculumInventoryAcademicLevel()
     {
         $data = $this->container->get('ilioscore.dataloader.curriculuminventoryacademiclevel')
@@ -106,6 +115,9 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadCurriculumInventoryAcademicLevel()
     {
         $invalidCurriculumInventoryAcademicLevel = $this->container
@@ -124,6 +136,9 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutCurriculumInventoryAcademicLevel()
     {
         $data = $this->container
@@ -153,6 +168,9 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteCurriculumInventoryAcademicLevel()
     {
         $curriculumInventoryAcademicLevel = $this->container
@@ -186,6 +204,9 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testCurriculumInventoryAcademicLevelNotFound()
     {
         $this->createJsonRequest(

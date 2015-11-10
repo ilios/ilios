@@ -32,6 +32,9 @@ class SchooleventsControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetEvents()
     {
         $school = $this->container->get('ilioscore.dataloader.school')->getOne();

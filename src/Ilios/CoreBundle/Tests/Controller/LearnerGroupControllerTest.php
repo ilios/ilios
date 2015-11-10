@@ -35,6 +35,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetLearnerGroup()
     {
         $learnerGroup = $this->container
@@ -61,6 +64,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllLearnerGroups()
     {
         $this->createJsonRequest('GET', $this->getUrl('cget_learnergroups'), null, $this->getAuthenticatedUserToken());
@@ -77,6 +83,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostLearnerGroup()
     {
         $data = $this->container->get('ilioscore.dataloader.learnergroup')
@@ -103,6 +112,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostLearnerGroupIlmSession()
     {
         $data = $this->container->get('ilioscore.dataloader.learnergroup')->create();
@@ -134,6 +146,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostLearnerGroupOffering()
     {
         $data = $this->container->get('ilioscore.dataloader.learnergroup')->create();
@@ -165,6 +180,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadLearnerGroup()
     {
         $invalidLearnerGroup = $this->container
@@ -183,6 +201,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutLearnerGroup()
     {
         $data = $this->container
@@ -212,6 +233,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteLearnerGroup()
     {
         $learnerGroup = $this->container
@@ -245,6 +269,9 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testLearnerGroupNotFound()
     {
         $this->createJsonRequest(

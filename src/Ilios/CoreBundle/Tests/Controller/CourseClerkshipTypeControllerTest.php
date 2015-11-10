@@ -31,6 +31,9 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetCourseClerkshipType()
     {
         $courseClerkshipType = $this->container
@@ -57,6 +60,9 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllCourseClerkshipTypes()
     {
         $this->createJsonRequest(
@@ -78,6 +84,9 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCourseClerkshipType()
     {
         $data = $this->container->get('ilioscore.dataloader.courseclerkshiptype')
@@ -104,6 +113,9 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadCourseClerkshipType()
     {
         $invalidCourseClerkshipType = $this->container
@@ -122,6 +134,9 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutCourseClerkshipType()
     {
         $data = $this->container
@@ -151,6 +166,9 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteCourseClerkshipType()
     {
         $courseClerkshipType = $this->container
@@ -184,6 +202,9 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testCourseClerkshipTypeNotFound()
     {
         $this->createJsonRequest(

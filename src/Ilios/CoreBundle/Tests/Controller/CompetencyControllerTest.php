@@ -36,6 +36,9 @@ class CompetencyControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetCompetency()
     {
         $competency = $this->container
@@ -62,6 +65,9 @@ class CompetencyControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllCompetencies()
     {
         $this->createJsonRequest('GET', $this->getUrl('cget_competencies'), null, $this->getAuthenticatedUserToken());
@@ -78,6 +84,9 @@ class CompetencyControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCompetency()
     {
         $data = $this->container->get('ilioscore.dataloader.competency')
@@ -105,6 +114,9 @@ class CompetencyControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostCompetencyProgramYear()
     {
         $data = $this->container->get('ilioscore.dataloader.competency')->create();
@@ -137,6 +149,9 @@ class CompetencyControllerTest extends AbstractControllerTest
         }
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadCompetency()
     {
         $invalidCompetency = $this->container
@@ -155,6 +170,9 @@ class CompetencyControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutCompetency()
     {
         $data = $this->container
@@ -185,6 +203,9 @@ class CompetencyControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteCompetency()
     {
         $competency = $this->container
@@ -218,6 +239,9 @@ class CompetencyControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testCompetencyNotFound()
     {
         $this->createJsonRequest(

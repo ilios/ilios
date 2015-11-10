@@ -33,6 +33,9 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
         ];
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetProgramYearSteward()
     {
         $programYearSteward = $this->container
@@ -59,6 +62,9 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testGetAllProgramYearStewards()
     {
         $this->createJsonRequest(
@@ -80,6 +86,9 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostProgramYearSteward()
     {
         $data = $this->container->get('ilioscore.dataloader.programyearsteward')
@@ -105,6 +114,9 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testPostBadProgramYearSteward()
     {
         $invalidProgramYearSteward = $this->container
@@ -123,6 +135,9 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testPutProgramYearSteward()
     {
         $data = $this->container
@@ -151,6 +166,9 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testDeleteProgramYearSteward()
     {
         $programYearSteward = $this->container
@@ -184,6 +202,9 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    /**
+     * @group controllers
+     */
     public function testProgramYearStewardNotFound()
     {
         $this->createJsonRequest(
