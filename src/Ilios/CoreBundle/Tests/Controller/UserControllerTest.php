@@ -41,6 +41,8 @@ class UserControllerTest extends AbstractControllerTest
             'examined',
             'userSyncIgnore',
             'alerts',
+            'publishEvents',
+            'learningMaterials',
         ];
     }
 

@@ -259,7 +259,8 @@ class User implements UserInterface
      *
      * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="owningUser")
      *
-     * @JMS\Expose
+     * Don't put learningMaterials in the user API it takes forever to load them all
+     * @JMS\Exclude
      * @JMS\Type("array<string>")
      * @JMS\SerializedName("learningMaterials")
      */
@@ -270,7 +271,8 @@ class User implements UserInterface
      *
      * @ORM\OneToMany(targetEntity="PublishEvent", mappedBy="administrator")
      *
-     * @JMS\Expose
+     * Don't put publishEvents in the user API it takes forever to load them all
+     * @JMS\Exclude
      * @JMS\Type("array<string>")
      * @JMS\SerializedName("publishEvents")
      */
