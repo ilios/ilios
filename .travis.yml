@@ -59,7 +59,7 @@ before_script:
 script:
   - if [ "$VALIDATE_SCHEMA" = true ]; then (bin/console doctrine:schema:validate --env=dev); fi
   - if [ "$CHECK_CODING_STANDARDS" = true ]; then (bin/phpcs --standard=app/phpcs.xml src); fi
-  - if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true]; then (bin/phpunit -c phpunit.xml.dist --group mesh_data_import); fi
+  - if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ]; then (bin/phpunit -c phpunit.xml.dist --group mesh_data_import); fi
   - if [ "$TEST_PHPUNIT_CONTROLLERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --group controllers); fi
   - if [ "$TEST_PHPUNIT_OTHERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers); fi
 
