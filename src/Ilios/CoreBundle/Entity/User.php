@@ -403,7 +403,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="Alert", mappedBy="instigators")
      *
-     * @JMS\Expose
+     * Don't put alerts in the user API it takes forever to load them all
+     * @JMS\Exclude
      * @JMS\Type("array<string>")
      */
     protected $alerts;

@@ -40,6 +40,7 @@ class UserControllerTest extends AbstractControllerTest
             'addedViaIlios',
             'examined',
             'userSyncIgnore',
+            'alerts',
         ];
     }
 
@@ -605,45 +606,6 @@ class UserControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testPostUserAlert()
-    {
-        $data = $this->container->get('ilioscore.dataloader.user')->create();
-        $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['id']);
-        unset($postData['reminders']);
-        unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
-        unset($postData['reports']);
-        unset($postData['pendingUserUpdates']);
-        unset($postData['permissions']);
-
-        $this->createJsonRequest(
-            'POST',
-            $this->getUrl('post_users'),
-            json_encode(['user' => $postData]),
-            $this->getAuthenticatedUserToken()
-        );
-
-        $newId = json_decode($this->client->getResponse()->getContent(), true)['users'][0]['id'];
-        foreach ($postData['alerts'] as $id) {
-            $this->createJsonRequest(
-                'GET',
-                $this->getUrl(
-                    'get_alerts',
-                    ['id' => $id]
-                ),
-                null,
-                $this->getAuthenticatedUserToken()
-            );
-            $data = json_decode($this->client->getResponse()->getContent(), true)['alerts'][0];
-            $this->assertTrue(in_array($newId, $data['instigators']));
-        }
-    }
-
-    /**
-     * @group controllers
-     */
     public function testPostUserCohort()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
@@ -719,6 +681,7 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
+        unset($postData['alerts']);
 
         $this->createJsonRequest(
             'PUT',

@@ -156,7 +156,6 @@ class UserData extends AbstractDataLoader
             'offerings' => ['1'],
             'instructedOfferings' => ['1'],
             'programYears' => ['1'],
-            'alerts' => ['1'],
             'roles' => ['1'],
             'cohorts' => ['1'],
             'reminders' => [],
