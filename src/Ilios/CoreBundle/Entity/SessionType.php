@@ -139,7 +139,8 @@ class SessionType implements SessionTypeInterface
      *
      * @ORM\OneToMany(targetEntity="Session", mappedBy="sessionType")
      *
-     * @JMS\Expose
+     * Don't put sessions in the sessionType API it takes forever to load them all
+     * @JMS\Exclude
      * @JMS\Type("array<string>")
      */
     protected $sessions;

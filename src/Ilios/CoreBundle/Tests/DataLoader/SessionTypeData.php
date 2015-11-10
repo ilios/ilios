@@ -36,8 +36,7 @@ class SessionTypeData extends AbstractDataLoader
             'id' => 3,
             'title' => $this->faker->text(50),
             'school' => '1',
-            'aamcMethods' => [],
-            'sessions' => []
+            'aamcMethods' => []
         );
     }
 
