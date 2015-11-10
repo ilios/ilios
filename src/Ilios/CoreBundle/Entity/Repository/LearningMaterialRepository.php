@@ -38,7 +38,8 @@ class LearningMaterialRepository extends EntityRepository
 
         foreach ($terms as $key => $term) {
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('lm.title', "?{$key}")
+                $qb->expr()->like('lm.title', "?{$key}"),
+                $qb->expr()->like('lm.description', "?{$key}")
             ))
             ->setParameter($key, '%' . $term . '%');
         }
