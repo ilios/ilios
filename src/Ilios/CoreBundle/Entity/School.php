@@ -115,7 +115,8 @@ class School implements SchoolInterface
      *
      * @ORM\ManyToMany(targetEntity="Alert", mappedBy="recipients")
      *
-     * @JMS\Expose
+     * Don't put alerts in the school API it takes forever to load them all
+     * @JMS\Exclude
      * @JMS\Type("array<string>")
      */
     protected $alerts;

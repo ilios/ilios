@@ -52,7 +52,6 @@ class SchoolData extends AbstractDataLoader
             'title' => $this->faker->word,
             'iliosAdministratorEmail' => $this->faker->email,
             'changeAlertRecipients' => $this->faker->email,
-            'alerts' => ['1'],
             'competencies' => [],
             'courses' => [],
             'programs' => [],

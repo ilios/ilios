@@ -30,7 +30,7 @@ class SessionTypeControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [];
+        return ['sessions'];
     }
 
     /**

@@ -35,7 +35,8 @@ class SchoolControllerTest extends AbstractControllerTest
     protected function getPrivateFields()
     {
         return [
-            'templatePrefix'
+            'templatePrefix',
+            'alerts'
         ];
     }
 
@@ -131,47 +132,6 @@ class SchoolControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testPostSchoolRecipient()
-    {
-        $data = $this->container->get('ilioscore.dataloader.school')->create();
-        $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['id']);
-        unset($postData['courses']);
-        unset($postData['topics']);
-        unset($postData['departments']);
-        unset($postData['programs']);
-        unset($postData['competencies']);
-        unset($postData['instructorGroups']);
-        unset($postData['stewards']);
-        unset($postData['sessionTypes']);
-
-        $this->createJsonRequest(
-            'POST',
-            $this->getUrl('post_schools'),
-            json_encode(['school' => $postData]),
-            $this->getAuthenticatedUserToken()
-        );
-
-        $newId = json_decode($this->client->getResponse()->getContent(), true)['schools'][0]['id'];
-        foreach ($postData['alerts'] as $id) {
-            $this->createJsonRequest(
-                'GET',
-                $this->getUrl(
-                    'get_alerts',
-                    ['id' => $id]
-                ),
-                null,
-                $this->getAuthenticatedUserToken()
-            );
-            $data = json_decode($this->client->getResponse()->getContent(), true)['alerts'][0];
-            $this->assertTrue(in_array($newId, $data['recipients']));
-        }
-    }
-
-    /**
-     * @group controllers
-     */
     public function testPostBadSchool()
     {
         $invalidSchool = $this->container
@@ -210,6 +170,7 @@ class SchoolControllerTest extends AbstractControllerTest
         unset($postData['instructorGroups']);
         unset($postData['stewards']);
         unset($postData['sessionTypes']);
+        unset($postData['alerts']);
 
         $this->createJsonRequest(
             'PUT',

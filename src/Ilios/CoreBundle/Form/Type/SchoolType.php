@@ -24,10 +24,6 @@ class SchoolType extends AbstractType
             ->add('templatePrefix', null, ['required' => false, 'empty_data' => null])
             ->add('iliosAdministratorEmail', null, ['empty_data' => null])
             ->add('changeAlertRecipients', null, ['required' => false, 'empty_data' => null])
-            ->add('alerts', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Alert"
-            ])
             ->add('curriculumInventoryInstitution', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryInstitution"

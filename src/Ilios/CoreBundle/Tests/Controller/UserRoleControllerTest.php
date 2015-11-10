@@ -27,8 +27,7 @@ class UserRoleControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-        ];
+        return ['users'];
     }
 
     /**
@@ -115,40 +114,6 @@ class UserRoleControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testPostUserRoleUser()
-    {
-        $data = $this->container->get('ilioscore.dataloader.userrole')
-            ->create();
-        $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['id']);
-
-        $this->createJsonRequest(
-            'POST',
-            $this->getUrl('post_userroles'),
-            json_encode(['userRole' => $postData]),
-            $this->getAuthenticatedUserToken()
-        );
-
-        $newId = json_decode($this->client->getResponse()->getContent(), true)['userRoles'][0]['id'];
-        foreach ($postData['users'] as $id) {
-            $this->createJsonRequest(
-                'GET',
-                $this->getUrl(
-                    'get_users',
-                    ['id' => $id]
-                ),
-                null,
-                $this->getAuthenticatedUserToken()
-            );
-            $data = json_decode($this->client->getResponse()->getContent(), true)['users'][0];
-            $this->assertTrue(in_array($newId, $data['roles']));
-        }
-    }
-
-    /**
-     * @group controllers
-     */
     public function testPostBadUserRole()
     {
         $invalidUserRole = $this->container
@@ -179,6 +144,7 @@ class UserRoleControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['users']);
 
         $this->createJsonRequest(
             'PUT',
