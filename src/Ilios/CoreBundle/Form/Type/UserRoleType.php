@@ -21,10 +21,6 @@ class UserRoleType extends AbstractType
     {
         $builder
             ->add('title', null, ['empty_data' => null])
-            ->add('users', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:User"
-            ])
         ;
         $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
     }

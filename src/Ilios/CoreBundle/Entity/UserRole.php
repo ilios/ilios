@@ -64,7 +64,8 @@ class UserRole implements UserRoleInterface
      *
      * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
      *
-     * @JMS\Expose
+     * Don't put users in the UserRoel API it takes too long to load
+     * @JMS\Exclude
      * @JMS\Type("array<string>")
      */
     protected $users;

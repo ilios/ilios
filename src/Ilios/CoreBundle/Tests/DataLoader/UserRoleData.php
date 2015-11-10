@@ -24,8 +24,7 @@ class UserRoleData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text(10),
-            'users' => ['1','2'],
+            'title' => $this->faker->text(10)
         );
 
         return $arr[0];
