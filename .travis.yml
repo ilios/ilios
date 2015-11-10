@@ -13,6 +13,8 @@ matrix:
     - php: "5.4"
       env: TEST_PHPUNIT_OTHERS=true
     - php: "5.4"
+      env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
+    - php: "5.4"
       env: VALIDATE_SCHEMA=true
     - php: "5.4"
       env: CHECK_CODING_STANDARDS=true
@@ -23,6 +25,7 @@ env:
   matrix:
     - TEST_PHPUNIT_CONTROLLERS=true
     - TEST_PHPUNIT_OTHERS=true
+    - TEST_PHPUNIT_MESH_DATA_IMPORT=true
     - VALIDATE_SCHEMA=true
     - CHECK_CODING_STANDARDS=true
 cache:
@@ -56,11 +59,10 @@ before_script:
 script:
   - if [ "$VALIDATE_SCHEMA" = true ]; then (bin/console doctrine:schema:validate --env=dev); fi
   - if [ "$CHECK_CODING_STANDARDS" = true ]; then (bin/phpcs --standard=app/phpcs.xml src); fi
+  - if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true]; then (bin/phpunit -c phpunit.xml.dist --group mesh_data_import --coverage-clover build/logs/clover.xml); fi
   - if [ "$TEST_PHPUNIT_CONTROLLERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --group controllers --coverage-clover build/logs/clover.xml); fi
   - if [ "$TEST_PHPUNIT_OTHERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers --coverage-clover build/logs/clover.xml); fi
 
-after_script:
-  - if [ "$TEST_PHPUNIT_CONTROLLERS" = true ] || [ "$TEST_PHPUNIT_OTHERS" = true ]; then (php bin/coveralls); fi #send test coverage information to coveralls
 #encrypted the IRC room chat.freenode.net##ilios so that it doesn't run on pull requests
 notifications:
   irc:
