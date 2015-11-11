@@ -18,6 +18,12 @@ security:
             simple_preauth:
                 authenticator: ilios_authentication.jwt.authenticator
             provider: ilios_user_entity
+        errors:
+            pattern:    ^/errors
+            stateless: true
+            simple_preauth:
+                authenticator: ilios_authentication.jwt.authenticator
+            provider: ilios_user_entity
         default:
             pattern:    ^/api
             stateless: true
