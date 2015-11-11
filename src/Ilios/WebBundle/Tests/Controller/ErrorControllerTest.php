@@ -2,14 +2,21 @@
 
 namespace Ilios\WebBundle\Tests\Controller;
 
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Faker\Factory as FakerFactory;
 use FOS\RestBundle\Util\Codes;
 
 class ErrorControllerTest extends WebTestCase
 {
     use JsonControllerTest;
+
+    public function setUp()
+    {
+        $this->loadFixtures([
+            'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData',
+        ]);
+    }
 
     public function testIndex()
     {
