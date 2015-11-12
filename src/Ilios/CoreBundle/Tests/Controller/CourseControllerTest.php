@@ -498,4 +498,48 @@ class CourseControllerTest extends AbstractControllerTest
             $data[0]
         );
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByMeshDescriptor()
+    {
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['filters[meshDescriptors]' => ['abc1', 'abc2']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(4, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[1]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[2]
+            ),
+            $data[2]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[3]
+            ),
+            $data[3]
+        );
+    }
 }

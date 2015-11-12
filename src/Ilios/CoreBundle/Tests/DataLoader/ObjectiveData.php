@@ -44,6 +44,30 @@ class ObjectiveData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
+        $arr[] = array(
+            'id' => 4,
+            'title' => $this->faker->text,
+            'competency' => "",
+            'courses' => ["3"],
+            'programYears' => [],
+            'sessions' => [],
+            'parents' => [],
+            'children' => [],
+            'meshDescriptors' => ["abc1"]
+        );
+
+        $arr[] = array(
+            'id' => 5,
+            'title' => $this->faker->text,
+            'competency' => "",
+            'courses' => [],
+            'programYears' => [],
+            'sessions' => ["4"],
+            'parents' => [],
+            'children' => [],
+            'meshDescriptors' => ["abc1"]
+        );
+
 
         return $arr;
     }
@@ -51,7 +75,7 @@ class ObjectiveData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 4,
+            'id' => 6,
             'title' => $this->faker->text,
             'competency' => "1",
             'courses' => ['1'],

@@ -107,6 +107,27 @@ class CourseRepository extends EntityRepository
             $qb->orWhere($qb->expr()->in('competency.id', ':competencies'));
             $qb->setParameter(':competencies', $ids);
         }
+        if (array_key_exists('meshDescriptors', $criteria)) {
+            $ids = is_array($criteria['meshDescriptors']) ? $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
+            $qb->leftJoin('c.meshDescriptors', 'meshDescriptor');
+            $qb->orWhere($qb->expr()->in('meshDescriptor.id', ':meshDescriptors'));
+
+            $qb->leftJoin('c.sessions', 'session');
+            $qb->leftJoin('session.meshDescriptors', 'sessMeshDescriptor');
+            $qb->orWhere($qb->expr()->in('sessMeshDescriptor.id', ':meshDescriptors'));
+
+
+            $qb->leftJoin('c.objectives', 'cObjective');
+            $qb->leftJoin('cObjective.meshDescriptors', 'cObjectiveMeshDescriptor');
+            $qb->orWhere($qb->expr()->in('cObjectiveMeshDescriptor.id', ':meshDescriptors'));
+
+
+            $qb->leftJoin('session.objectives', 'sObjective');
+            $qb->leftJoin('sObjective.meshDescriptors', 'sObjectiveMeshDescriptors');
+            $qb->orWhere($qb->expr()->in('sObjectiveMeshDescriptors.id', ':meshDescriptors'));
+
+            $qb->setParameter(':meshDescriptors', $ids);
+        }
 
         //cleanup all the possible relationship filters
         unset($criteria['sessions']);
@@ -117,6 +138,7 @@ class CourseRepository extends EntityRepository
         unset($criteria['instructorGroups']);
         unset($criteria['learningMaterials']);
         unset($criteria['competencies']);
+        unset($criteria['meshDescriptors']);
 
 
         if (count($criteria)) {

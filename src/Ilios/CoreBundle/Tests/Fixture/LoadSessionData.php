@@ -43,7 +43,8 @@ class LoadSessionData extends AbstractFixture implements
             }
             $related = array(
                 'topics' => 'addTopic',
-                'objectives' => 'addObjective'
+                'objectives' => 'addObjective',
+                'meshDescriptors' => 'addMeshDescriptor',
             );
             foreach ($related as $key => $method) {
                 foreach ($arr[$key] as $id) {
@@ -65,6 +66,7 @@ class LoadSessionData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
         );
     }
 }
