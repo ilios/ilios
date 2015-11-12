@@ -146,8 +146,9 @@ class CourseRepository extends EntityRepository
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
-                $qb->orWhere($qb->expr()->like("c.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $value);
+                $values = is_array($value) ? $value : [$value];
+                $qb->orWhere($qb->expr()->in("c.{$key}", ":{$key}"));
+                $qb->setParameter(":{$key}", $values);
             }
         }
 
