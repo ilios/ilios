@@ -29,7 +29,7 @@ class ProgramYearData extends AbstractDataLoader
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
-            'program' => "1",
+            'program' => "2",
             'cohort' => "2",
             'directors' => [],
             'competencies' => [],

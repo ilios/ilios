@@ -21,7 +21,7 @@ class CohortData extends AbstractDataLoader
             'id' => 2,
             'title' => "Class of 2018",
             'programYear' => '2',
-            'courses' => [],
+            'courses' => ["3"],
             'learnerGroups' => [],
             'users' => []
         );

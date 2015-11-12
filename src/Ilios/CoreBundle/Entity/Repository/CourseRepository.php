@@ -32,18 +32,28 @@ class CourseRepository extends EntityRepository
             }
         }
         if (array_key_exists('sessions', $criteria)) {
-            $topicIds = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
+            $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
             $qb->join('c.sessions', 'session');
             $qb->andWhere($qb->expr()->in('session.id', ':sessions'));
-            $qb->setParameter(':sessions', $topicIds);
+            $qb->setParameter(':sessions', $ids);
             unset($criteria['sessions']);
         }
         if (array_key_exists('topics', $criteria)) {
-            $topicIds = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
+            $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
             $qb->join('c.topics', 'topic');
             $qb->andWhere($qb->expr()->in('topic.id', ':topics'));
-            $qb->setParameter(':topics', $topicIds);
+            $qb->setParameter(':topics', $ids);
             unset($criteria['topics']);
+        }
+        if (array_key_exists('programs', $criteria)) {
+            $ids = is_array($criteria['programs']) ? $criteria['programs'] : [$criteria['programs']];
+            $qb->join('c.cohorts', 'cohort');
+            $qb->join('cohort.programYear', 'programYear');
+            $qb->join('programYear.program', 'program');
+
+            $qb->andWhere($qb->expr()->in('program.id', ':programs'));
+            $qb->setParameter(':programs', $ids);
+            unset($criteria['programs']);
         }
 
         if (count($criteria)) {

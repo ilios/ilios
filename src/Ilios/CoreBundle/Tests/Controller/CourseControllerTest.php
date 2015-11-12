@@ -253,6 +253,32 @@ class CourseControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
+    public function testFilterByYear()
+    {
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['filters[year]' => 2012]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
     public function testFilterByTopic()
     {
         $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
@@ -297,6 +323,32 @@ class CourseControllerTest extends AbstractControllerTest
         $this->assertEquals(
             $this->mockSerialize(
                 $courses[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByProgram()
+    {
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['filters[programs][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[2]
             ),
             $data[0]
         );
