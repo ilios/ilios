@@ -77,7 +77,7 @@ class CourseData extends AbstractDataLoader
         $arr[] = array(
             'id' => 4,
             'title' => $this->faker->text(25),
-            'level' => 1,
+            'level' => 3,
             'year' => 2013,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",

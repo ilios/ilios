@@ -31,11 +31,26 @@ class CourseRepository extends EntityRepository
                 $qb->addOrderBy('c.' . $sort, $order);
             }
         }
+        if (array_key_exists('sessions', $criteria)) {
+            $topicIds = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
+            $qb->join('c.sessions', 'session');
+            $qb->andWhere($qb->expr()->in('session.id', ':sessions'));
+            $qb->setParameter(':sessions', $topicIds);
+            unset($criteria['sessions']);
+        }
         if (array_key_exists('topics', $criteria)) {
             $topicIds = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
             $qb->join('c.topics', 'topic');
             $qb->andWhere($qb->expr()->in('topic.id', ':topics'));
             $qb->setParameter(':topics', $topicIds);
+            unset($criteria['topics']);
+        }
+
+        if (count($criteria)) {
+            foreach ($criteria as $key => $value) {
+                $qb->andWhere($qb->expr()->like("c.{$key}", ":{$key}"));
+                $qb->setParameter(":{$key}", $value);
+            }
         }
 
         if ($offset) {
