@@ -351,7 +351,7 @@ class CourseControllerTest extends AbstractControllerTest
         $this->assertEquals(1, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
-                $courses[2]
+                $courses[3]
             ),
             $data[0]
         );

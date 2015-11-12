@@ -82,7 +82,7 @@ class SessionData extends AbstractDataLoader
                 'supplemental' => false,
                 'publishedAsTbd' => false,
                 'course' => '2',
-                'ilmSession' => $i - 3,
+                'ilmSession' => $i - 4,
                 'topics' => [],
                 'objectives' => [],
                 'meshDescriptors' => [],

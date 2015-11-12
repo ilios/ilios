@@ -86,10 +86,10 @@ class CourseData extends AbstractDataLoader
             'archived' => false,
             'publishedAsTbd' => false,
             'school' => "1",
-            'directors' => [],
-            'cohorts' => [],
+            'directors' => ["2"],
+            'cohorts' => ["3"],
             'topics' => [],
-            'objectives' => [],
+            'objectives' => ["1"],
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => ["4"]

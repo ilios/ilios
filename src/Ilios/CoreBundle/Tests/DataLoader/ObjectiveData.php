@@ -47,7 +47,6 @@ class ObjectiveData extends AbstractDataLoader
         $arr[] = array(
             'id' => 4,
             'title' => $this->faker->text,
-            'competency' => "",
             'courses' => ["3"],
             'programYears' => [],
             'sessions' => [],
@@ -59,7 +58,6 @@ class ObjectiveData extends AbstractDataLoader
         $arr[] = array(
             'id' => 5,
             'title' => $this->faker->text,
-            'competency' => "",
             'courses' => [],
             'programYears' => [],
             'sessions' => ["4"],
