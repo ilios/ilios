@@ -75,6 +75,16 @@ class CourseRepository extends EntityRepository
             $qb->setParameter(':users', $ids);
             unset($criteria['instructors']);
         }
+        if (array_key_exists('instructorGroups', $criteria)) {
+            $ids = is_array($criteria['instructorGroups']) ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
+            $qb->leftJoin('c.sessions', 'session');
+            $qb->leftJoin('session.offerings', 'offering');
+            $qb->leftJoin('offering.instructorGroups', 'igroup');
+
+            $qb->andWhere($qb->expr()->in('igroup.id', ':igroups'));
+            $qb->setParameter(':igroups', $ids);
+            unset($criteria['instructorGroups']);
+        }
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
