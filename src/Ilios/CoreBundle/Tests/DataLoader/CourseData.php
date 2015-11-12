@@ -25,7 +25,7 @@ class CourseData extends AbstractDataLoader
             'cohorts' => ['1'],
             'topics' => [],
             'objectives' => [1],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ["abc1"],
             'learningMaterials' => ['1', '2'],
             'sessions' => ['1', '2'],
             'publishEvent' => '3'
@@ -35,7 +35,7 @@ class CourseData extends AbstractDataLoader
             'id' => 2,
             'title' => $this->faker->text(25),
             'level' => 1,
-            'year' => 2013,
+            'year' => 2012,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",
             'externalId' => $this->faker->text(10),
@@ -46,11 +46,11 @@ class CourseData extends AbstractDataLoader
             'clerkshipType' => "1",
             'directors' => ['2'],
             'cohorts' => ['1'],
-            'topics' => [],
-            'objectives' => [1],
+            'topics' => ['1'],
+            'objectives' => ["1", "3"],
             'meshDescriptors' => [],
             'learningMaterials' => [],
-            'sessions' => ['3', '4', '5', '6', '7']
+            'sessions' => ['3', '5', '6', '7', '8']
         );
 
         $arr[] = array(
@@ -66,9 +66,9 @@ class CourseData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'school' => "1",
             'directors' => ["4"],
-            'cohorts' => [],
+            'cohorts' => ["2"],
             'topics' => [],
-            'objectives' => [],
+            'objectives' => ["4"],
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => []
@@ -77,7 +77,7 @@ class CourseData extends AbstractDataLoader
         $arr[] = array(
             'id' => 4,
             'title' => $this->faker->text(25),
-            'level' => 1,
+            'level' => 3,
             'year' => 2013,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",
@@ -86,13 +86,13 @@ class CourseData extends AbstractDataLoader
             'archived' => false,
             'publishedAsTbd' => false,
             'school' => "1",
-            'directors' => ['2'],
-            'cohorts' => ["1"],
+            'directors' => ["2"],
+            'cohorts' => ["3"],
             'topics' => [],
             'objectives' => ["1"],
             'meshDescriptors' => [],
             'learningMaterials' => [],
-            'sessions' => []
+            'sessions' => ["4"]
         );
 
         return $arr;

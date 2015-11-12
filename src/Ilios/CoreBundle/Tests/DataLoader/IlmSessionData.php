@@ -18,7 +18,7 @@ class IlmSessionData extends AbstractDataLoader
             'instructorGroups' => [],
             'instructors' => [],
             'learners' => [],
-            'session' => 4
+            'session' => 5
         );
         $dt->modify('+1 month');
         $arr[] = array(
@@ -29,7 +29,7 @@ class IlmSessionData extends AbstractDataLoader
             'instructorGroups' => ['3'],
             'instructors' => [],
             'learners' => [],
-            'session' => 5
+            'session' => 6
         );
 
         $dt->modify('+1 month');
@@ -41,7 +41,7 @@ class IlmSessionData extends AbstractDataLoader
             'instructorGroups' => [],
             'instructors' => ['2'],
             'learners' => [],
-            'session' => 6
+            'session' => 7
         );
 
         $dt->modify('+1 month');
@@ -53,7 +53,7 @@ class IlmSessionData extends AbstractDataLoader
             'instructorGroups' => [],
             'instructors' => [],
             'learners' => ['2'],
-            'session' => 7
+            'session' => 8
         );
 
         return $arr;

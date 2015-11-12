@@ -66,7 +66,7 @@ class OfferingData extends AbstractDataLoader
             'learnerGroups' => [],
             'instructorGroups' => [],
             'learners' => [],
-            'instructors' => ['2'],
+            'instructors' => ["2"],
         );
 
         $arr[] = array(
@@ -78,7 +78,7 @@ class OfferingData extends AbstractDataLoader
             'learnerGroups' => [],
             'instructorGroups' => [],
             'learners' => [],
-            'instructors' => [],
+            'instructors' => ['1'],
         );
 
         $arr[] = array(

@@ -58,6 +58,9 @@ class LoadCourseData extends AbstractFixture implements
             foreach ($arr['objectives'] as $id) {
                 $entity->addObjective($this->getReference('objectives' . $id));
             }
+            foreach ($arr['meshDescriptors'] as $id) {
+                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
+            }
             $manager->persist($entity);
             
             $this->addReference('courses' . $arr['id'], $entity);
@@ -76,6 +79,7 @@ class LoadCourseData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseClerkshipTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
         );
     }
 }

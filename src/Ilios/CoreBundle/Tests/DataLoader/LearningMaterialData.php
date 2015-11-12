@@ -52,7 +52,7 @@ class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => $this->faker->text,
             'copyrightPermission' => true,
-            'sessionLearningMaterials' => [],
+            'sessionLearningMaterials' => ['2'],
             'courseLearningMaterials' => [],
             'filename' => 'testfile.txt',
             'mimetype' => 'text/plain',

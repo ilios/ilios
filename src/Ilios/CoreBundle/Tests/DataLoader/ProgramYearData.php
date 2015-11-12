@@ -37,6 +37,20 @@ class ProgramYearData extends AbstractDataLoader
             'objectives' => [],
             'stewards' => []
         );
+        $arr[] = array(
+            'id' => 3,
+            'startYear' => "2014",
+            'locked' => false,
+            'archived' => false,
+            'publishedAsTbd' => false,
+            'program' => "2",
+            'cohort' => "3",
+            'directors' => [],
+            'competencies' => [],
+            'topics' => [],
+            'objectives' => [],
+            'stewards' => []
+        );
 
 
         return $arr;
@@ -45,7 +59,7 @@ class ProgramYearData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 3,
+            'id' => 4,
             'startYear' => "2015",
             'program' => "1",
             'directors' => [],

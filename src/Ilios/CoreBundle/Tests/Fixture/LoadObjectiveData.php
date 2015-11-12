@@ -32,11 +32,14 @@ class LoadObjectiveData extends AbstractFixture implements
             $entity = new Objective();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            if ($arr['competency']) {
+            if (array_key_exists('competency', $arr)) {
                 $entity->setCompetency($this->getReference('competencies' . $arr['competency']));
             }
             foreach ($arr['parents'] as $id) {
                 $entity->addParent($this->getReference('objectives' . $id));
+            }
+            foreach ($arr['meshDescriptors'] as $id) {
+                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
             }
             $manager->persist($entity);
             $this->addReference('objectives' . $arr['id'], $entity);
@@ -49,6 +52,7 @@ class LoadObjectiveData extends AbstractFixture implements
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
         );
     }
 }
