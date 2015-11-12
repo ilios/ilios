@@ -56,6 +56,15 @@ class CourseRepository extends EntityRepository
             $qb->setParameter(':programs', $ids);
             unset($criteria['programs']);
         }
+        if (array_key_exists('programYears', $criteria)) {
+            $ids = is_array($criteria['programYears']) ? $criteria['programYears'] : [$criteria['programYears']];
+            $qb->join('c.cohorts', 'cohort');
+            $qb->join('cohort.programYear', 'programYear');
+
+            $qb->andWhere($qb->expr()->in('programYear.id', ':programYears'));
+            $qb->setParameter(':programYears', $ids);
+            unset($criteria['programYears']);
+        }
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
             $qb->leftJoin('c.sessions', 'session');
