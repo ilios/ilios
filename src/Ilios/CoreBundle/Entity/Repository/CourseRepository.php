@@ -32,19 +32,18 @@ class CourseRepository extends EntityRepository
                 $qb->addOrderBy('c.' . $sort, $order);
             }
         }
+
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->join('c.sessions', 'session');
+            $qb->leftJoin('c.sessions', 'session');
             $qb->orWhere($qb->expr()->in('session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
-            unset($criteria['sessions']);
         }
         if (array_key_exists('topics', $criteria)) {
             $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
             $qb->join('c.topics', 'topic');
             $qb->orWhere($qb->expr()->in('topic.id', ':topics'));
             $qb->setParameter(':topics', $ids);
-            unset($criteria['topics']);
         }
         if (array_key_exists('programs', $criteria)) {
             $ids = is_array($criteria['programs']) ? $criteria['programs'] : [$criteria['programs']];
@@ -54,7 +53,6 @@ class CourseRepository extends EntityRepository
 
             $qb->andWhere($qb->expr()->in('program.id', ':programs'));
             $qb->setParameter(':programs', $ids);
-            unset($criteria['programs']);
         }
         if (array_key_exists('programYears', $criteria)) {
             $ids = is_array($criteria['programYears']) ? $criteria['programYears'] : [$criteria['programYears']];
@@ -63,7 +61,6 @@ class CourseRepository extends EntityRepository
 
             $qb->orWhere($qb->expr()->in('programYear.id', ':programYears'));
             $qb->setParameter(':programYears', $ids);
-            unset($criteria['programYears']);
         }
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
@@ -78,7 +75,6 @@ class CourseRepository extends EntityRepository
 
             $qb->setParameter(':users', $ids);
 
-            unset($criteria['instructors']);
         }
         if (array_key_exists('instructorGroups', $criteria)) {
             $ids = is_array($criteria['instructorGroups']) ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
@@ -88,8 +84,31 @@ class CourseRepository extends EntityRepository
 
             $qb->orWhere($qb->expr()->in('igroup.id', ':igroups'));
             $qb->setParameter(':igroups', $ids);
-            unset($criteria['instructorGroups']);
         }
+        if (array_key_exists('learningMaterials', $criteria)) {
+            $ids = is_array($criteria['learningMaterials']) ? $criteria['learningMaterials'] : [$criteria['learningMaterials']];
+            $qb->leftJoin('c.learningMaterials', 'clm');
+            $qb->leftJoin('clm.learningMaterial', 'lm');
+            $qb->orWhere($qb->expr()->in('lm.id', ':lms'));
+
+            $qb->leftJoin('c.sessions', 'session');
+            $qb->leftJoin('session.learningMaterials', 'slm');
+            $qb->leftJoin('slm.learningMaterial', 'lm2');
+
+            $qb->orWhere($qb->expr()->in('lm2.id', ':lms'));
+
+            $qb->setParameter(':lms', $ids);
+        }
+
+        //cleanup all the possible relationship filters
+        unset($criteria['sessions']);
+        unset($criteria['topics']);
+        unset($criteria['programs']);
+        unset($criteria['programYears']);
+        unset($criteria['instructors']);
+        unset($criteria['instructorGroups']);
+        unset($criteria['learningMaterials']);
+
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {

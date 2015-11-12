@@ -29,6 +29,7 @@ class CourseControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
         ]);
     }
 
@@ -359,7 +360,7 @@ class CourseControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testFilterByInstructors()
+    public function testFilterByInstructor()
     {
         $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
 
@@ -437,6 +438,38 @@ class CourseControllerTest extends AbstractControllerTest
                 $courses[0]
             ),
             $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByLearningMaterial()
+    {
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['filters[learningMaterials]' => [1,3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[1]
+            ),
+            $data[1]
         );
     }
 }

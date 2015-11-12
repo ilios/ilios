@@ -18,6 +18,16 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
+        $arr[] = array(
+            'id' => 2,
+            'required' => false,
+            'publicNotes' => false,
+            'notes' => $this->faker->text,
+            'session' => '3',
+            'learningMaterial' => '3',
+            'meshDescriptors' => []
+        );
+
 
         return $arr;
     }
@@ -28,7 +38,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
         $arr = array();
 
         return array(
-          'id' => 2,
+          'id' => 3,
           'required' => false,
           'notes' => $this->faker->text,
           'publicNotes' => false,
