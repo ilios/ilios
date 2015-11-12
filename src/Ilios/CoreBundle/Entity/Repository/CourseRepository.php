@@ -77,7 +77,8 @@ class CourseRepository extends EntityRepository
 
         }
         if (array_key_exists('instructorGroups', $criteria)) {
-            $ids = is_array($criteria['instructorGroups']) ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
+            $ids = is_array($criteria['instructorGroups']) ?
+                $criteria['instructorGroups'] : [$criteria['instructorGroups']];
             $qb->leftJoin('c.sessions', 'session');
             $qb->leftJoin('session.offerings', 'offering');
             $qb->leftJoin('offering.instructorGroups', 'igroup');
@@ -86,7 +87,8 @@ class CourseRepository extends EntityRepository
             $qb->setParameter(':igroups', $ids);
         }
         if (array_key_exists('learningMaterials', $criteria)) {
-            $ids = is_array($criteria['learningMaterials']) ? $criteria['learningMaterials'] : [$criteria['learningMaterials']];
+            $ids = is_array($criteria['learningMaterials']) ?
+                $criteria['learningMaterials'] : [$criteria['learningMaterials']];
             $qb->leftJoin('c.learningMaterials', 'clm');
             $qb->leftJoin('clm.learningMaterial', 'lm');
             $qb->orWhere($qb->expr()->in('lm.id', ':lms'));
@@ -108,7 +110,8 @@ class CourseRepository extends EntityRepository
             $qb->setParameter(':competencies', $ids);
         }
         if (array_key_exists('meshDescriptors', $criteria)) {
-            $ids = is_array($criteria['meshDescriptors']) ? $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
+            $ids = is_array($criteria['meshDescriptors']) ?
+                $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
             $qb->leftJoin('c.meshDescriptors', 'meshDescriptor');
             $qb->orWhere($qb->expr()->in('meshDescriptor.id', ':meshDescriptors'));
 
