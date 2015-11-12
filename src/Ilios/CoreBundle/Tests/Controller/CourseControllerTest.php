@@ -223,4 +223,30 @@ class CourseControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByTopic()
+    {
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['filters[topics][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(1, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[1]
+            ),
+            $data[0]
+        );
+    }
 }

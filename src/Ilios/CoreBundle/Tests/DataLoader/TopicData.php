@@ -11,7 +11,7 @@ class TopicData extends AbstractDataLoader
             'id' => 1,
             'title' => $this->faker->text(100),
             'school' => '1',
-            'courses' => [],
+            'courses' => ['2'],
             'programYears' => [],
             'sessions' => ['1']
         );

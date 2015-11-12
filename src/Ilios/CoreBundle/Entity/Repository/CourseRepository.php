@@ -8,6 +8,48 @@ use Ilios\CoreBundle\Entity\UserInterface;
 class CourseRepository extends EntityRepository
 {
     /**
+     * Custrom findBy so we can filter by related entities
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->add('select', 'c')->from('IliosCoreBundle:Course', 'c');
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('c.' . $sort, $order);
+            }
+        }
+        if (array_key_exists('topics', $criteria)) {
+            $topicIds = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
+            $qb->join('c.topics', 'topic');
+            $qb->andWhere($qb->expr()->in('topic.id', ':topics'));
+            $qb->setParameter(':topics', $topicIds);
+        }
+
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * @return array
      */
     public function getYears()
