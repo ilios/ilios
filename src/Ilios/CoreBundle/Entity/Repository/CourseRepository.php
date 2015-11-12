@@ -99,6 +99,14 @@ class CourseRepository extends EntityRepository
 
             $qb->setParameter(':lms', $ids);
         }
+        if (array_key_exists('competencies', $criteria)) {
+            $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
+            $qb->leftJoin('c.objectives', 'objective');
+            $qb->leftJoin('objective.competency', 'competency');
+
+            $qb->orWhere($qb->expr()->in('competency.id', ':competencies'));
+            $qb->setParameter(':competencies', $ids);
+        }
 
         //cleanup all the possible relationship filters
         unset($criteria['sessions']);
@@ -108,6 +116,7 @@ class CourseRepository extends EntityRepository
         unset($criteria['instructors']);
         unset($criteria['instructorGroups']);
         unset($criteria['learningMaterials']);
+        unset($criteria['competencies']);
 
 
         if (count($criteria)) {

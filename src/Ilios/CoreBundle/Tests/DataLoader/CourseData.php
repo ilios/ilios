@@ -47,7 +47,7 @@ class CourseData extends AbstractDataLoader
             'directors' => ['2'],
             'cohorts' => ['1'],
             'topics' => ['1'],
-            'objectives' => [1],
+            'objectives' => ["1", "3"],
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => ['3', '4', '5', '6', '7']
