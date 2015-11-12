@@ -408,7 +408,9 @@ class Offering implements OfferingInterface
      */
     public function addInstructor(UserInterface $instructor)
     {
-        $this->instructors->add($instructor);
+        if (!$this->instructors->contains($instructor)) {
+            $this->instructors->add($instructor);
+        }
     }
 
     /**

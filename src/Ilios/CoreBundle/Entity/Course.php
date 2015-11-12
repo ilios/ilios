@@ -555,7 +555,9 @@ class Course implements CourseInterface
      */
     public function addTopic(TopicInterface $topic)
     {
-        $this->topics->add($topic);
+        if (!$this->topics->contains($topic)) {
+            $this->topics->add($topic);
+        }
     }
 
     /**
@@ -586,7 +588,9 @@ class Course implements CourseInterface
      */
     public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
-        $this->meshDescriptors->add($meshDescriptor);
+        if (!$this->meshDescriptors->contains($meshDescriptor)) {
+            $this->meshDescriptors->add($meshDescriptor);
+        }
     }
 
     /**

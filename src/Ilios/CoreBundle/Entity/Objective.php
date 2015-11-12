@@ -252,7 +252,9 @@ class Objective implements ObjectiveInterface
      */
     public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
-        $this->meshDescriptors->add($meshDescriptor);
+        if (!$this->meshDescriptors->contains($meshDescriptor)) {
+            $this->meshDescriptors->add($meshDescriptor);
+        }
     }
 
     /**
