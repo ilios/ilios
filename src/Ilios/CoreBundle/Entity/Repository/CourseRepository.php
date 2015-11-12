@@ -20,7 +20,8 @@ class CourseRepository extends EntityRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'c')->from('IliosCoreBundle:Course', 'c');
+
+        $qb->select('DISTINCT c')->from('IliosCoreBundle:Course', 'c');
 
         if (empty($orderBy)) {
             $orderBy = ['id' => 'ASC'];
@@ -54,6 +55,16 @@ class CourseRepository extends EntityRepository
             $qb->andWhere($qb->expr()->in('program.id', ':programs'));
             $qb->setParameter(':programs', $ids);
             unset($criteria['programs']);
+        }
+        if (array_key_exists('instructors', $criteria)) {
+            $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
+            $qb->leftJoin('c.sessions', 'session');
+            $qb->leftJoin('session.offerings', 'offering');
+            $qb->leftJoin('offering.instructors', 'user');
+
+            $qb->andWhere($qb->expr()->in('user.id', ':users'));
+            $qb->setParameter(':users', $ids);
+            unset($criteria['instructors']);
         }
 
         if (count($criteria)) {
