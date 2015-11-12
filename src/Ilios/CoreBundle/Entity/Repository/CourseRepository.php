@@ -35,14 +35,14 @@ class CourseRepository extends EntityRepository
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
             $qb->join('c.sessions', 'session');
-            $qb->andWhere($qb->expr()->in('session.id', ':sessions'));
+            $qb->orWhere($qb->expr()->in('session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
             unset($criteria['sessions']);
         }
         if (array_key_exists('topics', $criteria)) {
             $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
             $qb->join('c.topics', 'topic');
-            $qb->andWhere($qb->expr()->in('topic.id', ':topics'));
+            $qb->orWhere($qb->expr()->in('topic.id', ':topics'));
             $qb->setParameter(':topics', $ids);
             unset($criteria['topics']);
         }
@@ -61,7 +61,7 @@ class CourseRepository extends EntityRepository
             $qb->join('c.cohorts', 'cohort');
             $qb->join('cohort.programYear', 'programYear');
 
-            $qb->andWhere($qb->expr()->in('programYear.id', ':programYears'));
+            $qb->orWhere($qb->expr()->in('programYear.id', ':programYears'));
             $qb->setParameter(':programYears', $ids);
             unset($criteria['programYears']);
         }
@@ -70,9 +70,14 @@ class CourseRepository extends EntityRepository
             $qb->leftJoin('c.sessions', 'session');
             $qb->leftJoin('session.offerings', 'offering');
             $qb->leftJoin('offering.instructors', 'user');
+            $qb->orWhere($qb->expr()->in('user.id', ':users'));
 
-            $qb->andWhere($qb->expr()->in('user.id', ':users'));
+            $qb->leftJoin('offering.instructorGroups', 'insGroup');
+            $qb->leftJoin('insGroup.users', 'groupUser');
+            $qb->orWhere($qb->expr()->in('groupUser.id', ':users'));
+
             $qb->setParameter(':users', $ids);
+
             unset($criteria['instructors']);
         }
         if (array_key_exists('instructorGroups', $criteria)) {
@@ -81,14 +86,14 @@ class CourseRepository extends EntityRepository
             $qb->leftJoin('session.offerings', 'offering');
             $qb->leftJoin('offering.instructorGroups', 'igroup');
 
-            $qb->andWhere($qb->expr()->in('igroup.id', ':igroups'));
+            $qb->orWhere($qb->expr()->in('igroup.id', ':igroups'));
             $qb->setParameter(':igroups', $ids);
             unset($criteria['instructorGroups']);
         }
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
-                $qb->andWhere($qb->expr()->like("c.{$key}", ":{$key}"));
+                $qb->orWhere($qb->expr()->like("c.{$key}", ":{$key}"));
                 $qb->setParameter(":{$key}", $value);
             }
         }
