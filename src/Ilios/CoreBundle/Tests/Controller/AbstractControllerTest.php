@@ -34,6 +34,7 @@ abstract class AbstractControllerTest extends WebTestCase
     {
         return [
             'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadPermissionData',
         ];
     }
 
