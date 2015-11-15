@@ -53,8 +53,6 @@ before_script:
   - bin/console doctrine:database:drop --force --env=dev
   - bin/console doctrine:database:create --env=dev
   - bin/console doctrine:migrations:migrate  --env=dev --no-interaction
-#initialize symfony sqlite test db
-  - bin/console doctrine:database:create --env=test
 
 script:
   - if [ "$VALIDATE_SCHEMA" = true ]; then (bin/console doctrine:schema:validate --env=dev); fi
