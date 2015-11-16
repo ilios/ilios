@@ -151,7 +151,7 @@ ilios_core:
 
 ilios_web:
     environment: staging
-    version: 2012de2 
+    version: b2db679 
 
 ilios_authentication:
     legacy_salt: "%legacy_password_salt%"
