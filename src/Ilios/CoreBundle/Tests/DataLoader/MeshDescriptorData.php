@@ -40,7 +40,7 @@ class MeshDescriptorData extends AbstractDataLoader
             'name' => 'desc' . $this->faker->text,
             'annotation' => 'annotation' . $this->faker->text,
             'courses' => [],
-            'objectives' => [],
+            'objectives' => ["6"],
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
             'sessions' => [],

@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
 class CourseRepository extends EntityRepository
 {
     /**
-     * Custrom findBy so we can filter by related entities
+     * Custom findBy so we can filter by related entities
      *
      * @param array $criteria
      * @param array|null $orderBy

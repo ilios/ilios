@@ -32,6 +32,9 @@ class LoadSessionData extends AbstractFixture implements
             $entity = new Session();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
+            $entity->setAttireRequired($arr['attireRequired']);
+            $entity->setEquipmentRequired($arr['equipmentRequired']);
+            $entity->setSupplemental($arr['supplemental']);
             if (!empty($arr['sessionType'])) {
                 $entity->setSessionType($this->getReference('sessionTypes' . $arr['sessionType']));
             }

@@ -13,7 +13,7 @@ class TopicData extends AbstractDataLoader
             'school' => '1',
             'courses' => ['2'],
             'programYears' => [],
-            'sessions' => ['1']
+            'sessions' => ['2']
         );
         $arr[] = array(
             'id' => 2,
