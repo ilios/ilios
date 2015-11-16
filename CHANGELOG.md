@@ -1,8 +1,64 @@
 # Change Log
 
-## [v3.0.0-beta9](https://github.com/ilios/ilios/tree/HEAD)
+## [v3.0.0-rc1](https://github.com/ilios/ilios/tree/HEAD)
 
-[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta8...HEAD)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta9...HEAD)
+
+**Closed issues:**
+
+- course list no longer filtering properly [\#1114](https://github.com/ilios/ilios/issues/1114)
+- Course filter by array of ids is broken [\#1112](https://github.com/ilios/ilios/issues/1112)
+- break travis test runs up into two [\#1103](https://github.com/ilios/ilios/issues/1103)
+- Remove users from UserRole endpoint [\#1102](https://github.com/ilios/ilios/issues/1102)
+- Remove sessions from SessionType endpoint [\#1101](https://github.com/ilios/ilios/issues/1101)
+- Remove Alerts from User and School endpoint [\#1100](https://github.com/ilios/ilios/issues/1100)
+- Students cannot view the learner groups they are in [\#1098](https://github.com/ilios/ilios/issues/1098)
+- Instructors in a course which is not in their primary school should have access to that course [\#1091](https://github.com/ilios/ilios/issues/1091)
+- whitelist underscore element [\#1089](https://github.com/ilios/ilios/issues/1089)
+- Remove soft delete as a concept [\#1085](https://github.com/ilios/ilios/issues/1085)
+- Need to invert the year selection list on Courses and Sessions [\#1084](https://github.com/ilios/ilios/issues/1084)
+- Program Short Title Should NOT Be Required [\#1083](https://github.com/ilios/ilios/issues/1083)
+- Program Title Should Be Required [\#1082](https://github.com/ilios/ilios/issues/1082)
+- simplify rules in learning materials voter [\#1080](https://github.com/ilios/ilios/issues/1080)
+- Permission API needed [\#1078](https://github.com/ilios/ilios/issues/1078)
+- Unable To Add Instructor\(s\) To ILM Session [\#1072](https://github.com/ilios/ilios/issues/1072)
+- unable to assign user to instructor group [\#1070](https://github.com/ilios/ilios/issues/1070)
+- Manage manyToMany collections on the inverse side [\#1069](https://github.com/ilios/ilios/issues/1069)
+- Add /errors endpoint to take frontend logs [\#1063](https://github.com/ilios/ilios/issues/1063)
+- Add description to searchable fields for learning materials [\#1057](https://github.com/ilios/ilios/issues/1057)
+- small group generator throwing 400 error [\#1051](https://github.com/ilios/ilios/issues/1051)
+- adjust getter chaining to soft deletes. [\#958](https://github.com/ilios/ilios/issues/958)
+- Bad Request 400 Error on Put - Save Session Offering Date [\#947](https://github.com/ilios/ilios/issues/947)
+
+**Merged pull requests:**
+
+- Update Libraries [\#1121](https://github.com/ilios/ilios/pull/1121) ([jrjohnson](https://github.com/jrjohnson))
+- Limit courses correctly when multiple filters are called [\#1115](https://github.com/ilios/ilios/pull/1115) ([jrjohnson](https://github.com/jrjohnson))
+- Handle course filter params as an array [\#1113](https://github.com/ilios/ilios/pull/1113) ([jrjohnson](https://github.com/jrjohnson))
+- Filter course by deep and interesting things [\#1111](https://github.com/ilios/ilios/pull/1111) ([jrjohnson](https://github.com/jrjohnson))
+- Add /errors endpoint for capturing errors from frontend [\#1110](https://github.com/ilios/ilios/pull/1110) ([jrjohnson](https://github.com/jrjohnson))
+- lm::link needs to be a string, but not necessarily an URL. [\#1109](https://github.com/ilios/ilios/pull/1109) ([stopfstedt](https://github.com/stopfstedt))
+- Match description in learning material search [\#1107](https://github.com/ilios/ilios/pull/1107) ([jrjohnson](https://github.com/jrjohnson))
+- Remove unnecessary API fields from highly trafficked endpoints [\#1106](https://github.com/ilios/ilios/pull/1106) ([jrjohnson](https://github.com/jrjohnson))
+- Add prepositionalObjectTableRowId to ReportType [\#1105](https://github.com/ilios/ilios/pull/1105) ([jrjohnson](https://github.com/jrjohnson))
+- broke up tests. [\#1104](https://github.com/ilios/ilios/pull/1104) ([stopfstedt](https://github.com/stopfstedt))
+- Allow users to access the groups they belong to [\#1099](https://github.com/ilios/ilios/pull/1099) ([jrjohnson](https://github.com/jrjohnson))
+- Add /auth/logout route [\#1097](https://github.com/ilios/ilios/pull/1097) ([jrjohnson](https://github.com/jrjohnson))
+- Return 200 when user does not have an account [\#1096](https://github.com/ilios/ilios/pull/1096) ([jrjohnson](https://github.com/jrjohnson))
+- Add endDate to ILMs 15 minutes after dueDate [\#1095](https://github.com/ilios/ilios/pull/1095) ([jrjohnson](https://github.com/jrjohnson))
+- have PHPUnit stop on first failure by default. [\#1094](https://github.com/ilios/ilios/pull/1094) ([stopfstedt](https://github.com/stopfstedt))
+- makes program title required and short title optional [\#1093](https://github.com/ilios/ilios/pull/1093) ([stopfstedt](https://github.com/stopfstedt))
+- added additional visibility checks on courses. [\#1092](https://github.com/ilios/ilios/pull/1092) ([stopfstedt](https://github.com/stopfstedt))
+- Whitelisted \<u\> element in input sanitation rules. [\#1090](https://github.com/ilios/ilios/pull/1090) ([stopfstedt](https://github.com/stopfstedt))
+- added API endpoint for permissions [\#1088](https://github.com/ilios/ilios/pull/1088) ([stopfstedt](https://github.com/stopfstedt))
+- remove soft deletes [\#1087](https://github.com/ilios/ilios/pull/1087) ([stopfstedt](https://github.com/stopfstedt))
+- simplified learning material voter rules [\#1086](https://github.com/ilios/ilios/pull/1086) ([stopfstedt](https://github.com/stopfstedt))
+- replace getter-chains with null-safe getter methods [\#1076](https://github.com/ilios/ilios/pull/1076) ([stopfstedt](https://github.com/stopfstedt))
+- add filtering by role to user search [\#1074](https://github.com/ilios/ilios/pull/1074) ([stopfstedt](https://github.com/stopfstedt))
+- Handle inverse side of manyToMany relationships [\#1073](https://github.com/ilios/ilios/pull/1073) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.0.0-beta9](https://github.com/ilios/ilios/tree/v3.0.0-beta9) (2015-10-27)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta8...v3.0.0-beta9)
 
 **Closed issues:**
 
@@ -21,6 +77,7 @@
 
 **Merged pull requests:**
 
+- v3.0.0-beta9 release [\#1071](https://github.com/ilios/ilios/pull/1071) ([thecoolestguy](https://github.com/thecoolestguy))
 - Allow fractional ILM hours [\#1067](https://github.com/ilios/ilios/pull/1067) ([jrjohnson](https://github.com/jrjohnson))
 - Allows offerings to save publishEvents [\#1064](https://github.com/ilios/ilios/pull/1064) ([jrjohnson](https://github.com/jrjohnson))
 - Don't allow saving of the many side on a one to many relationship [\#1061](https://github.com/ilios/ilios/pull/1061) ([jrjohnson](https://github.com/jrjohnson))
