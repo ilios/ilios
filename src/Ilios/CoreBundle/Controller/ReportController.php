@@ -128,11 +128,6 @@ class ReportController extends FOSRestController
             $criteria['createdAt'] = new \DateTime($criteria['createdAt']);
         }
 
-        // @todo delete once https://github.com/ilios/moodle-enrol-ilios/pull/10 lands. [ST 2015/11/04]
-        if (array_key_exists('deleted', $criteria)) {
-            unset($criteria['deleted']);
-        }
-
         $result = $this->getReportHandler()
             ->findReportsBy(
                 $criteria,
