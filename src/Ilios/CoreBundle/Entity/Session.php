@@ -27,8 +27,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  *   }
  * )
  *
- * @ORM\Entity
- *
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\SessionRepository")
+
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
  */

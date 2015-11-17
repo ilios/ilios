@@ -634,4 +634,441 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased(1, $firstUpdatedAt);
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByAttireRequired()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[attireRequired]' => true]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySupplemental()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[supplemental]' => true]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[1]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[2]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByIds()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[id]' => [1,3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[2]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySupplementalAndAttireRequired()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[supplemental]' => true, 'filters[attireRequired]' => true]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySessionType()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[sessionType]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[1]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[3]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySupplementalAndSessionType()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[supplemental]' => true, 'filters[sessionType]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByTopic()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[topics][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(1, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByCourse()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[course]' => 4]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[3]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByProgram()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[programs][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[3]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructor()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[instructors]' => [2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructorGroup()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[instructorGroups][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByLearningMaterial()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[learningMaterials]' => [3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[2]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByCompetency()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[competencies][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByMeshDescriptor()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[meshDescriptors]' => ['abc2', 'abc3']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[2]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[3]
+            ),
+            $data[1]
+        );
+    }
 }
