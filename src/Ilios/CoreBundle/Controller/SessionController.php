@@ -128,11 +128,6 @@ class SessionController extends FOSRestController
             $criteria['updatedAt'] = new \DateTime($criteria['updatedAt']);
         }
 
-        // @todo delete once https://github.com/ilios/moodle-enrol-ilios/pull/10 lands. [ST 2015/11/04]
-        if (array_key_exists('deleted', $criteria)) {
-            unset($criteria['deleted']);
-        }
-
         $result = $this->getSessionHandler()
             ->findSessionsBy(
                 $criteria,
