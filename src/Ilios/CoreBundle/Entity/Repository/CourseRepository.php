@@ -62,6 +62,44 @@ class CourseRepository extends EntityRepository
             $qb->andWhere($qb->expr()->in('programYear.id', ':programYears'));
             $qb->setParameter(':programYears', $ids);
         }
+        if (array_key_exists('users', $criteria)) {
+            $ids = is_array($criteria['users']) ? $criteria['users'] : [$criteria['users']];
+
+            $qb->leftJoin('c.directors', 'courseDirector');
+            $qb->leftJoin('c.sessions', 'session');
+            $qb->leftJoin('session.offerings', 'offering');
+            $qb->leftJoin('session.ilmSession', 'ilmSession');
+
+            $qb->leftJoin('offering.instructors', 'instructor');
+            $qb->leftJoin('offering.learners', 'learner');
+            $qb->leftJoin('offering.instructorGroups', 'insGroup');
+            $qb->leftJoin('insGroup.users', 'igUser');
+            $qb->leftJoin('offering.learnerGroups', 'learnerGroup');
+            $qb->leftJoin('learnerGroup.users', 'lgUser');
+
+            $qb->leftJoin('ilmSession.instructors', 'ilmInstructor');
+            $qb->leftJoin('ilmSession.learners', 'ilmLearner');
+            $qb->leftJoin('ilmSession.instructorGroups', 'ilmInsGroup');
+            $qb->leftJoin('ilmInsGroup.users', 'ilmIgUser');
+            $qb->leftJoin('ilmSession.learnerGroups', 'ilmLearnerGroup');
+            $qb->leftJoin('ilmLearnerGroup.users', 'ilmLgUser');
+
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('learner.id', ':users'),
+                $qb->expr()->in('instructor.id', ':users'),
+                $qb->expr()->in('courseDirector.id', ':users'),
+                $qb->expr()->in('igUser.id', ':users'),
+                $qb->expr()->in('lgUser.id', ':users'),
+                $qb->expr()->in('ilmLearner.id', ':users'),
+                $qb->expr()->in('ilmInstructor.id', ':users'),
+                $qb->expr()->in('ilmIgUser.id', ':users'),
+                $qb->expr()->in('ilmLgUser.id', ':users')
+            ));
+
+
+            $qb->setParameter(':users', $ids);
+
+        }
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
             $qb->leftJoin('c.sessions', 'session');
@@ -142,6 +180,7 @@ class CourseRepository extends EntityRepository
         unset($criteria['topics']);
         unset($criteria['programs']);
         unset($criteria['programYears']);
+        unset($criteria['users']);
         unset($criteria['instructors']);
         unset($criteria['instructorGroups']);
         unset($criteria['learningMaterials']);
