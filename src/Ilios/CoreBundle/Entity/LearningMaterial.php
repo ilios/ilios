@@ -64,7 +64,6 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\Column(name="description", type="text")
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
