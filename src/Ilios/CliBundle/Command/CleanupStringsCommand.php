@@ -2,6 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -10,6 +11,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Entity\Manager\ObjectiveManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
 
 /**
  * Cleans up all the strings in the database
@@ -35,6 +37,11 @@ class CleanupStringsCommand extends Command
     protected $objectiveManager;
 
     /**
+     * @var LearningMaterialManager
+     */
+    protected $learningMaterialManager;
+
+    /**
      * @var integer where to limit each query for memory management
      */
     const QUERY_LIMIT = 500;
@@ -42,11 +49,13 @@ class CleanupStringsCommand extends Command
     public function __construct(
         \HTMLPurifier $purifier,
         EntityManager $em,
-        ObjectiveManagerInterface $objectiveManager
+        ObjectiveManagerInterface $objectiveManager,
+        LearningMaterialManagerInterface $learningMaterialManager
     ) {
         $this->purifier = $purifier;
         $this->em = $em;
         $this->objectiveManager = $objectiveManager;
+        $this->learningMaterialManager = $learningMaterialManager;
 
         parent::__construct();
     }
@@ -64,6 +73,12 @@ class CleanupStringsCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'Should we update the title for objectives?'
+            )
+            ->addOption(
+                'learningmaterial-description',
+                null,
+                InputOption::VALUE_NONE,
+                'Should we update the description for learning materials?'
             );
     }
 
@@ -74,6 +89,9 @@ class CleanupStringsCommand extends Command
     {
         if ($input->getOption('objective-title')) {
             $this->purifyObjectiveTitle($output);
+        }
+        if ($input->getOption('learningmaterial-description')) {
+            $this->purifyLearnignMaterialDescription($output);
         }
         
     }
@@ -112,5 +130,41 @@ class CleanupStringsCommand extends Command
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleanedTitles} Objective Titles updated.</info>");
+    }
+
+    /**
+     * Purify learning material description
+     * @param OutputInterface $output
+     */
+    protected function purifyLearnignMaterialDescription(OutputInterface $output)
+    {
+        $cleaned = 0;
+        $offset = 1;
+        $limit = self::QUERY_LIMIT;
+        $total = $this->learningMaterialManager->getTotalLearningMaterialCount();
+        $progress = new ProgressBar($output, $total);
+        $progress->setRedrawFrequency(208);
+        $output->writeln("<info>Starting cleanup of learning material description...</info>");
+        $progress->start();
+        do {
+            $materials = $this->learningMaterialManager->findLearningMaterialsBy(array(), array('id' => 'ASC'), $limit, $offset);
+            foreach($materials as $material){
+                $original = $material->getDescription();
+                $clean = $this->purifier->purify($original);
+                if ($original != $clean) {
+                    $cleaned++;
+                    $material->setDescription($clean);
+                    $this->learningMaterialManager->updateLearningMaterial($material, false);
+                }
+                $progress->advance();
+            }
+
+            $offset += $limit;
+            $this->em->flush();
+            $this->em->clear();
+        } while (count($materials) == $limit);
+        $progress->finish();
+        $output->writeln('');
+        $output->writeln("<info>{$cleaned} Learning Material Descriptions updated.</info>");
     }
 }
