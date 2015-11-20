@@ -54,3 +54,8 @@ services:
         arguments: ["@ilioscore.alert.manager", "@ilioscore.auditlog.manager", "@ilioscore.offering.manager", "@templating", "@mailer"]
         tags:
             -  { name: console.command }
+    ilioscli.command.cleanup_strings:
+        class: Ilios\CliBundle\Command\CleanupStringsCommand
+        arguments: ["@exercise_html_purifier.default", "@doctrine.orm.entity_manager", "@ilioscore.objective.manager"]
+        tags:
+            -  { name: console.command }
