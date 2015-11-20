@@ -71,4 +71,13 @@ class CourseLearningMaterialManager extends AbstractManager implements CourseLea
         $class = $this->getClass();
         return new $class();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTotalCourseLearningMaterialCount()
+    {
+        return $this->em->createQuery('SELECT COUNT(l.id) FROM IliosCoreBundle:CourseLearningMaterial l')
+            ->getSingleScalarResult();
+    }
 }

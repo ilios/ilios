@@ -62,4 +62,9 @@ interface CourseLearningMaterialManagerInterface extends ManagerInterface
      * @return CourseLearningMaterialInterface
      */
     public function createCourseLearningMaterial();
+
+    /**
+     * @return integer
+     */
+    public function getTotalCourseLearningMaterialCount();
 }

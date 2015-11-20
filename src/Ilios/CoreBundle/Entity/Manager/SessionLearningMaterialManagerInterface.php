@@ -62,4 +62,9 @@ interface SessionLearningMaterialManagerInterface extends ManagerInterface
      * @return SessionLearningMaterialInterface
      */
     public function createSessionLearningMaterial();
+
+    /**
+     * @return integer
+     */
+    public function getTotalSessionLearningMaterialCount();
 }

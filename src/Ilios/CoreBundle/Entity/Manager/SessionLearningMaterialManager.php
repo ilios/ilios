@@ -71,4 +71,13 @@ class SessionLearningMaterialManager extends AbstractManager implements SessionL
         $class = $this->getClass();
         return new $class();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTotalSessionLearningMaterialCount()
+    {
+        return $this->em->createQuery('SELECT COUNT(l.id) FROM IliosCoreBundle:SessionLearningMaterial l')
+            ->getSingleScalarResult();
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace Ilios\CliBundle\Command;
 
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -11,7 +10,9 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Entity\Manager\ObjectiveManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManagerInterface;
 
 /**
  * Cleans up all the strings in the database
@@ -37,9 +38,21 @@ class CleanupStringsCommand extends Command
     protected $objectiveManager;
 
     /**
-     * @var LearningMaterialManager
+     * @var LearningMaterialManagerInterface
      */
     protected $learningMaterialManager;
+
+
+    /**
+     * @var CourseLearningMaterialManagerInterface
+     */
+    protected $courseLearningMaterialManager;
+
+
+    /**
+     * @var SessionLearningMaterialManagerInterface
+     */
+    protected $sessionLearningMaterialManager;
 
     /**
      * @var integer where to limit each query for memory management
@@ -50,12 +63,16 @@ class CleanupStringsCommand extends Command
         \HTMLPurifier $purifier,
         EntityManager $em,
         ObjectiveManagerInterface $objectiveManager,
-        LearningMaterialManagerInterface $learningMaterialManager
+        LearningMaterialManagerInterface $learningMaterialManager,
+        CourseLearningMaterialManagerInterface $courseLearningMaterialManager,
+        SessionLearningMaterialManagerInterface $sessionLearningMaterialManager
     ) {
         $this->purifier = $purifier;
         $this->em = $em;
         $this->objectiveManager = $objectiveManager;
         $this->learningMaterialManager = $learningMaterialManager;
+        $this->courseLearningMaterialManager = $courseLearningMaterialManager;
+        $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
 
         parent::__construct();
     }
@@ -79,6 +96,12 @@ class CleanupStringsCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'Should we update the description for learning materials?'
+            )
+            ->addOption(
+                'learningmaterial-note',
+                null,
+                InputOption::VALUE_NONE,
+                'Should we update the notes for learning materials?'
             );
     }
 
@@ -92,6 +115,11 @@ class CleanupStringsCommand extends Command
         }
         if ($input->getOption('learningmaterial-description')) {
             $this->purifyLearnignMaterialDescription($output);
+        }
+        if ($input->getOption('learningmaterial-note')) {
+            $this->purifyCourseLearningMaterialNote($output);
+            $output->writeln('');
+            $this->purifySessionLearningMaterialNote($output);
         }
         
     }
@@ -166,5 +194,79 @@ class CleanupStringsCommand extends Command
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Learning Material Descriptions updated.</info>");
+    }
+
+    /**
+     * Purify course learning material note
+     * @param OutputInterface $output
+     */
+    protected function purifyCourseLearningMaterialNote(OutputInterface $output)
+    {
+        $cleaned = 0;
+        $offset = 1;
+        $limit = self::QUERY_LIMIT;
+        $total = $this->courseLearningMaterialManager->getTotalCourseLearningMaterialCount();
+        $progress = new ProgressBar($output, $total);
+        $progress->setRedrawFrequency(208);
+        $output->writeln("<info>Starting cleanup of course learning material notes...</info>");
+        $progress->start();
+        do {
+            $materials = $this->courseLearningMaterialManager
+                ->findCourseLearningMaterialsBy(array(), array('id' => 'ASC'), $limit, $offset);
+            foreach($materials as $material){
+                $original = $material->getNotes();
+                $clean = $this->purifier->purify($original);
+                if ($original != $clean) {
+                    $cleaned++;
+                    $material->setNotes($clean);
+                    $this->courseLearningMaterialManager->updateCourseLearningMaterial($material, false);
+                }
+                $progress->advance();
+            }
+
+            $offset += $limit;
+            $this->em->flush();
+            $this->em->clear();
+        } while (count($materials) == $limit);
+        $progress->finish();
+        $output->writeln('');
+        $output->writeln("<info>{$cleaned} Course Learning Material Notes updated.</info>");
+    }
+
+    /**
+     * Purify session learning material note
+     * @param OutputInterface $output
+     */
+    protected function purifySessionLearningMaterialNote(OutputInterface $output)
+    {
+        $cleaned = 0;
+        $offset = 1;
+        $limit = self::QUERY_LIMIT;
+        $total = $this->sessionLearningMaterialManager->getTotalSessionLearningMaterialCount();
+        $progress = new ProgressBar($output, $total);
+        $progress->setRedrawFrequency(208);
+        $output->writeln("<info>Starting cleanup of session learning material notes...</info>");
+        $progress->start();
+        do {
+            $materials = $this->sessionLearningMaterialManager
+                ->findSessionLearningMaterialsBy(array(), array('id' => 'ASC'), $limit, $offset);
+            foreach($materials as $material){
+                $original = $material->getNotes();
+                $clean = $this->purifier->purify($original);
+                if ($original != $clean) {
+                    $cleaned++;
+                    $material->setNotes($clean);
+                    $this->sessionLearningMaterialManager->updateSessionLearningMaterial($material, false);
+                }
+                $progress->advance();
+            }
+
+            $offset += $limit;
+            $this->em->flush();
+            $this->em->clear();
+        } while (count($materials) == $limit);
+        $progress->finish();
+        $output->writeln('');
+        $output->writeln("<info>{$cleaned} Session Learning Material Notes updated.</info>");
     }
 }
