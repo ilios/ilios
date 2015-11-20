@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Entity\Manager\ObjectiveManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManagerInterface;
 
 /**
  * Cleans up all the strings in the database
@@ -54,6 +55,12 @@ class CleanupStringsCommand extends Command
      */
     protected $sessionLearningMaterialManager;
 
+
+    /**
+     * @var SessionDescriptionManagerInterface
+     */
+    protected $sessionDescriptionManager;
+
     /**
      * @var integer where to limit each query for memory management
      */
@@ -65,7 +72,8 @@ class CleanupStringsCommand extends Command
         ObjectiveManagerInterface $objectiveManager,
         LearningMaterialManagerInterface $learningMaterialManager,
         CourseLearningMaterialManagerInterface $courseLearningMaterialManager,
-        SessionLearningMaterialManagerInterface $sessionLearningMaterialManager
+        SessionLearningMaterialManagerInterface $sessionLearningMaterialManager,
+        SessionDescriptionManagerInterface $sessionDescriptionManager
     ) {
         $this->purifier = $purifier;
         $this->em = $em;
@@ -73,6 +81,7 @@ class CleanupStringsCommand extends Command
         $this->learningMaterialManager = $learningMaterialManager;
         $this->courseLearningMaterialManager = $courseLearningMaterialManager;
         $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
+        $this->sessionDescriptionManager = $sessionDescriptionManager;
 
         parent::__construct();
     }
@@ -102,6 +111,12 @@ class CleanupStringsCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'Should we update the notes for learning materials?'
+            )
+            ->addOption(
+                'session-description',
+                null,
+                InputOption::VALUE_NONE,
+                'Should we update the description for sessions?'
             );
     }
 
@@ -120,6 +135,9 @@ class CleanupStringsCommand extends Command
             $this->purifyCourseLearningMaterialNote($output);
             $output->writeln('');
             $this->purifySessionLearningMaterialNote($output);
+        }
+        if ($input->getOption('session-description')) {
+            $this->purifySessionDescription($output);
         }
         
     }
@@ -140,7 +158,7 @@ class CleanupStringsCommand extends Command
         $progress->start();
         do {
             $objectives = $this->objectiveManager->findObjectivesBy(array(), array('id' => 'ASC'), $limit, $offset);
-            foreach($objectives as $objective){
+            foreach ($objectives as $objective) {
                 $originalTitle = $objective->getTitle();
                 $cleanTitle = $this->purifier->purify($originalTitle);
                 if ($originalTitle != $cleanTitle) {
@@ -175,8 +193,9 @@ class CleanupStringsCommand extends Command
         $output->writeln("<info>Starting cleanup of learning material description...</info>");
         $progress->start();
         do {
-            $materials = $this->learningMaterialManager->findLearningMaterialsBy(array(), array('id' => 'ASC'), $limit, $offset);
-            foreach($materials as $material){
+            $materials = $this->learningMaterialManager
+                ->findLearningMaterialsBy(array(), array('id' => 'ASC'), $limit, $offset);
+            foreach ($materials as $material) {
                 $original = $material->getDescription();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
@@ -213,7 +232,7 @@ class CleanupStringsCommand extends Command
         do {
             $materials = $this->courseLearningMaterialManager
                 ->findCourseLearningMaterialsBy(array(), array('id' => 'ASC'), $limit, $offset);
-            foreach($materials as $material){
+            foreach ($materials as $material) {
                 $original = $material->getNotes();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
@@ -250,7 +269,7 @@ class CleanupStringsCommand extends Command
         do {
             $materials = $this->sessionLearningMaterialManager
                 ->findSessionLearningMaterialsBy(array(), array('id' => 'ASC'), $limit, $offset);
-            foreach($materials as $material){
+            foreach ($materials as $material) {
                 $original = $material->getNotes();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
@@ -268,5 +287,42 @@ class CleanupStringsCommand extends Command
         $progress->finish();
         $output->writeln('');
         $output->writeln("<info>{$cleaned} Session Learning Material Notes updated.</info>");
+    }
+
+    /**
+     * Purify session description
+     * @param OutputInterface $output
+     */
+    protected function purifySessionDescription(OutputInterface $output)
+    {
+        $cleaned = 0;
+        $offset = 1;
+        $limit = self::QUERY_LIMIT;
+        $total = $this->sessionDescriptionManager->getTotalSessionDescriptionCount();
+        $progress = new ProgressBar($output, $total);
+        $progress->setRedrawFrequency(208);
+        $output->writeln("<info>Starting cleanup of session descriptions...</info>");
+        $progress->start();
+        do {
+            $descriptions = $this->sessionDescriptionManager
+                ->findSessionDescriptionsBy(array(), array('id' => 'ASC'), $limit, $offset);
+            foreach ($descriptions as $description) {
+                $original = $description->getDescription();
+                $clean = $this->purifier->purify($original);
+                if ($original != $clean) {
+                    $cleaned++;
+                    $description->setDescription($clean);
+                    $this->sessionDescriptionManager->updateSessionDescription($description, false);
+                }
+                $progress->advance();
+            }
+
+            $offset += $limit;
+            $this->em->flush();
+            $this->em->clear();
+        } while (count($descriptions) == $limit);
+        $progress->finish();
+        $output->writeln('');
+        $output->writeln("<info>{$cleaned} Session Descriptions updated.</info>");
     }
 }

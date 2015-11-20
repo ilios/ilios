@@ -71,4 +71,13 @@ class SessionDescriptionManager extends AbstractManager implements SessionDescri
         $class = $this->getClass();
         return new $class();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTotalSessionDescriptionCount()
+    {
+        return $this->em->createQuery('SELECT COUNT(s.id) FROM IliosCoreBundle:SessionDescription s')
+            ->getSingleScalarResult();
+    }
 }

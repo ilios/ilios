@@ -56,6 +56,6 @@ services:
             -  { name: console.command }
     ilioscli.command.cleanup_strings:
         class: Ilios\CliBundle\Command\CleanupStringsCommand
-        arguments: ["@exercise_html_purifier.default", "@doctrine.orm.entity_manager", "@ilioscore.objective.manager", "@ilioscore.learningmaterial.manager", "@ilioscore.courselearningmaterial.manager", "@ilioscore.sessionlearningmaterial.manager"]
+        arguments: ["@exercise_html_purifier.default", "@doctrine.orm.entity_manager", "@ilioscore.objective.manager", "@ilioscore.learningmaterial.manager", "@ilioscore.courselearningmaterial.manager", "@ilioscore.sessionlearningmaterial.manager", "@ilioscore.sessiondescription.manager"]
         tags:
             -  { name: console.command }

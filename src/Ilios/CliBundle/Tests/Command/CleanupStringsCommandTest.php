@@ -16,15 +16,23 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
     protected $learningMaterialManager;
     protected $courseLearningMaterialManager;
     protected $sessionLearningMaterialManager;
+    protected $sessionDescriptionManager;
     protected $commandTester;
 
     public function setUp()
     {
         $this->purifier = m::mock('HTMLPurifier');
-        $this->objectiveManager = m::mock('Ilios\CoreBundle\Entity\Manager\ObjectiveManager');
-        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManager');
-        $this->courseLearningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager');
-        $this->sessionLearningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager');
+        $this->objectiveManager = m::mock('Ilios\CoreBundle\Entity\Manager\ObjectiveManagerInterface');
+        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface');
+        $this->courseLearningMaterialManager = m::mock(
+            'Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManagerInterface'
+        );
+        $this->sessionLearningMaterialManager = m::mock(
+            'Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManagerInterface'
+        );
+        $this->sessionDescriptionManager = m::mock(
+            'Ilios\CoreBundle\Entity\Manager\SessionDescriptionManagerInterface'
+        );
         $this->em = m::mock('Doctrine\Orm\EntityManager');
 
         $command = new CleanupStringsCommand(
@@ -33,7 +41,8 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
             $this->objectiveManager,
             $this->learningMaterialManager,
             $this->courseLearningMaterialManager,
-            $this->sessionLearningMaterialManager
+            $this->sessionLearningMaterialManager,
+            $this->sessionDescriptionManager
         );
         $application = new Application();
         $application->add($command);
@@ -52,6 +61,7 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
         unset($this->learningMaterialManager);
         unset($this->courseLearningMaterialManager);
         unset($this->sessionLearningMaterialManager);
+        unset($this->sessionDescriptionManager);
         unset($this->commandTester);
         m::close();
     }
@@ -89,7 +99,7 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testLearningMaterialDerscription()
+    public function testLearningMaterialDescription()
     {
         $clean = m::mock('Ilios\CoreBundle\Entity\LearningMaterialInterface')
             ->shouldReceive('getDescription')->andReturn('clean title')
@@ -98,7 +108,8 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getDescription')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setDescription')->with('<h1>html title</h1>')
             ->mock();
-        $this->learningMaterialManager->shouldReceive('findLearningMaterialsBy')->with(array(), array('id' => 'ASC'), 500, 1)
+        $this->learningMaterialManager->shouldReceive('findLearningMaterialsBy')
+            ->with(array(), array('id' => 'ASC'), 500, 1)
             ->andReturn(array($clean, $dirty));
         $this->learningMaterialManager->shouldReceive('updateLearningMaterial')->with($dirty, false);
         $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->andReturn(2);
@@ -131,7 +142,8 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getNotes')->andReturn('<script>alert();</script><h1>html course note</h1>')
             ->shouldReceive('setNotes')->with('<h1>html course note</h1>')
             ->mock();
-        $this->courseLearningMaterialManager->shouldReceive('findCourseLearningMaterialsBy')->with(array(), array('id' => 'ASC'), 500, 1)
+        $this->courseLearningMaterialManager->shouldReceive('findCourseLearningMaterialsBy')
+            ->with(array(), array('id' => 'ASC'), 500, 1)
             ->andReturn(array($cleanCourse, $dirtyCourse));
         $this->courseLearningMaterialManager->shouldReceive('updateCourseLearningMaterial')->with($dirtyCourse, false);
         $this->courseLearningMaterialManager->shouldReceive('getTotalCourseLearningMaterialCount')->andReturn(2);
@@ -149,9 +161,11 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getNotes')->andReturn('<script>alert();</script><h1>html session note</h1>')
             ->shouldReceive('setNotes')->with('<h1>html session note</h1>')
             ->mock();
-        $this->sessionLearningMaterialManager->shouldReceive('findSessionLearningMaterialsBy')->with(array(), array('id' => 'ASC'), 500, 1)
+        $this->sessionLearningMaterialManager->shouldReceive('findSessionLearningMaterialsBy')
+            ->with(array(), array('id' => 'ASC'), 500, 1)
             ->andReturn(array($cleanSession, $dirtySession));
-        $this->sessionLearningMaterialManager->shouldReceive('updateSessionLearningMaterial')->with($dirtySession, false);
+        $this->sessionLearningMaterialManager->shouldReceive('updateSessionLearningMaterial')
+            ->with($dirtySession, false);
         $this->sessionLearningMaterialManager->shouldReceive('getTotalSessionLearningMaterialCount')->andReturn(2);
 
         $this->purifier->shouldReceive('purify')->with('clean session note')->andReturn('clean session note');
@@ -177,6 +191,40 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
             '/1 Session Learning Material Notes updated/',
+            $output
+        );
+    }
+
+    public function testSessionDescription()
+    {
+        $clean = m::mock('Ilios\CoreBundle\Entity\SessionDescriptionInterface')
+            ->shouldReceive('getDescription')->andReturn('clean title')
+            ->mock();
+        $dirty = m::mock('Ilios\CoreBundle\Entity\SessionDescriptionInterface')
+            ->shouldReceive('getDescription')->andReturn('<script>alert();</script><h1>html title</h1>')
+            ->shouldReceive('setDescription')->with('<h1>html title</h1>')
+            ->mock();
+        $this->sessionDescriptionManager->shouldReceive('findSessionDescriptionsBy')
+            ->with(array(), array('id' => 'ASC'), 500, 1)
+            ->andReturn(array($clean, $dirty));
+        $this->sessionDescriptionManager->shouldReceive('updateSessionDescription')->with($dirty, false);
+        $this->sessionDescriptionManager->shouldReceive('getTotalSessionDescriptionCount')->andReturn(2);
+
+        $this->purifier->shouldReceive('purify')->with('clean title')->andReturn('clean title');
+        $this->purifier->shouldReceive('purify')
+            ->with('<script>alert();</script><h1>html title</h1>')
+            ->andReturn('<h1>html title</h1>');
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute(array(
+            'command'           => self::COMMAND_NAME,
+            '--session-description' => true
+        ));
+
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/1 Session Descriptions updated/',
             $output
         );
     }
