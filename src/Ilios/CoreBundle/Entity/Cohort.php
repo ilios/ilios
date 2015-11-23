@@ -71,7 +71,7 @@ class Cohort implements CohortInterface
      * @var ProgramYearInterface
      *
      * @ORM\OneToOne(targetEntity="ProgramYear", fetch="EXTRA_LAZY", inversedBy="cohort")
-     * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", unique=true)
+     * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", unique=true, onDelete="cascade")
      *
      * @JMS\Expose
      * @JMS\Type("string")
