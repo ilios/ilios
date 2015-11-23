@@ -84,4 +84,9 @@ interface LearningMaterialManagerInterface extends ManagerInterface
      * Find all the File type learning materials
      */
     public function findFileLearningMaterials();
+
+    /**
+     * @return integer
+     */
+    public function getTotalLearningMaterialCount();
 }

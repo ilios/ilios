@@ -62,4 +62,9 @@ interface ObjectiveManagerInterface extends ManagerInterface
      * @return ObjectiveInterface
      */
     public function createObjective();
+
+    /**
+     * @return integer
+     */
+    public function getTotalObjectiveCount();
 }

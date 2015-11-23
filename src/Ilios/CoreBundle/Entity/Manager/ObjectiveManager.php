@@ -71,4 +71,12 @@ class ObjectiveManager extends AbstractManager implements ObjectiveManagerInterf
         $class = $this->getClass();
         return new $class();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTotalObjectiveCount()
+    {
+        return $this->em->createQuery('SELECT COUNT(o.id) FROM IliosCoreBundle:Objective o')->getSingleScalarResult();
+    }
 }

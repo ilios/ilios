@@ -62,4 +62,9 @@ interface SessionDescriptionManagerInterface extends ManagerInterface
      * @return SessionDescriptionInterface
      */
     public function createSessionDescription();
+
+    /**
+     * @return integer
+     */
+    public function getTotalSessionDescriptionCount();
 }
