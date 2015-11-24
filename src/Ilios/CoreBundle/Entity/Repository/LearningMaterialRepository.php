@@ -54,16 +54,19 @@ class LearningMaterialRepository extends EntityRepository
             $qb->leftJoin('offering.instructors', 'user');
             $qb->leftJoin('offering.instructorGroups', 'insGroup');
             $qb->leftJoin('insGroup.users', 'groupUser');
-
+            $qb->leftJoin('session.ilmSession', 'ilmSession');
+            $qb->leftJoin('ilmSession.instructors', 'ilmInstructor');
+            $qb->leftJoin('ilmSession.instructorGroups', 'ilmInsGroup');
+            $qb->leftJoin('ilmInsGroup.users', 'ilmInsGroupUser');
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->in('user.id', ':users'),
-                $qb->expr()->in('groupUser.id', ':users')
+                $qb->expr()->in('groupUser.id', ':users'),
+                $qb->expr()->in('ilmInstructor.id', ':users'),
+                $qb->expr()->in('ilmInsGroupUser.id', ':users')
             ));
-
-
             $qb->setParameter(':users', $ids);
-
         }
+
         if (array_key_exists('instructorGroups', $criteria)) {
             $ids = is_array($criteria['instructorGroups']) ?
                 $criteria['instructorGroups'] : [$criteria['instructorGroups']];
@@ -71,8 +74,14 @@ class LearningMaterialRepository extends EntityRepository
             $qb->leftJoin('slm.session', 'session');
             $qb->leftJoin('session.offerings', 'offering');
             $qb->leftJoin('offering.instructorGroups', 'igroup');
-
-            $qb->andWhere($qb->expr()->in('igroup.id', ':igroups'));
+            $qb->leftJoin('session.ilmSession', 'ilmSession');
+            $qb->leftJoin('ilmSession.instructorGroups', 'ilmInsGroup');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('igroup.id', ':igroups'),
+                    $qb->expr()->in('ilmInsGroup.id', ':igroups')
+                )
+            );
             $qb->setParameter(':igroups', $ids);
         }
         if (array_key_exists('topics', $criteria)) {
