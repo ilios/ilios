@@ -39,7 +39,6 @@ class SessionTypeRepository extends EntityRepository
             $qb->setParameter(':sessions', $ids);
         }
 
-
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
             $qb->leftJoin('st.sessions', 'session');
@@ -89,10 +88,27 @@ class SessionTypeRepository extends EntityRepository
             $qb->setParameter(':competencies', $ids);
         }
 
+        if (array_key_exists('meshDescriptors', $criteria)) {
+            $ids = is_array($criteria['meshDescriptors']) ?
+                $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
+            $qb->leftJoin('st.sessions', 'session');
+            $qb->leftJoin('session.meshDescriptors', 'meshDescriptor');
+            $qb->leftJoin('session.objectives', 'objective');
+            $qb->leftJoin('objective.meshDescriptors', 'objectiveMeshDescriptor');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('meshDescriptor.id', ':meshDescriptors'),
+                    $qb->expr()->in('objectiveMeshDescriptor.id', ':meshDescriptors')
+                )
+            );
+            $qb->setParameter(':meshDescriptors', $ids);
+        }
+
         unset($criteria['sessions']);
         unset($criteria['instructors']);
         unset($criteria['instructorGroups']);
         unset($criteria['competencies']);
+        unset($criteria['meshDescriptors']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
