@@ -21,7 +21,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAamcMethodData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
         ]);
     }
 
@@ -221,5 +223,60 @@ class SessionTypeControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySession()
+    {
+        $sessionTypes = $this->container->get('ilioscore.dataloader.sessiontype')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessiontypes', ['filters[sessions][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessionTypes'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[1]
+            ),
+            $data[0]
+        );
+    }
+
+    public function testFilterByInstructor()
+    {
+        $sessionTypes = $this->container->get('ilioscore.dataloader.sessiontype')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessiontypes', ['filters[instructors][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessionTypes'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[1]
+            ),
+            $data[1]
+        );
     }
 }
