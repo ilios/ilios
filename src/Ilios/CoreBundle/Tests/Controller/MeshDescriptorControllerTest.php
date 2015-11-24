@@ -641,4 +641,183 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySession()
+    {
+        $meshDescriptors = $this->container->get('ilioscore.dataloader.meshdescriptor')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_meshdescriptors', ['filters[sessions][]' => 3]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            unset($arr['createdAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['meshDescriptors']);
+
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $meshDescriptors[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByCourse()
+    {
+        $meshDescriptors = $this->container->get('ilioscore.dataloader.meshdescriptor')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_meshdescriptors', ['filters[courses]' => [2, 3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            unset($arr['createdAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['meshDescriptors']);
+
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $meshDescriptors[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $meshDescriptors[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByLearningMaterial()
+    {
+        $meshDescriptors = $this->container->get('ilioscore.dataloader.meshdescriptor')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_meshdescriptors', ['filters[learningMaterials]' => [1, 2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            unset($arr['createdAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['meshDescriptors']);
+
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $meshDescriptors[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByTopic()
+    {
+        $meshDescriptors = $this->container->get('ilioscore.dataloader.meshdescriptor')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_meshdescriptors', ['filters[topics]' => [1, 2, 3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            unset($arr['createdAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['meshDescriptors']);
+
+        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $meshDescriptors[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $meshDescriptors[1]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $meshDescriptors[2]
+            ),
+            $data[2]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySessionType()
+    {
+        $meshDescriptors = $this->container->get('ilioscore.dataloader.meshdescriptor')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_meshdescriptors', ['filters[sessionTypes]' => [2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            unset($arr['createdAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['meshDescriptors']);
+
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $meshDescriptors[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $meshDescriptors[2]
+            ),
+            $data[1]
+        );
+    }
 }
