@@ -36,7 +36,9 @@ class LoadCourseLearningMaterialData extends AbstractFixture implements
             $entity->setNotes($arr['notes']);
             $entity->setCourse($this->getReference('courses' . $arr['course']));
             $entity->setLearningMaterial($this->getReference('learningMaterials' . $arr['learningMaterial']));
-
+            foreach ($arr['meshDescriptors'] as $id) {
+                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
+            }
             $manager->persist($entity);
             $this->addReference('courseLearningMaterials' . $arr['id'], $entity);
         }
@@ -49,6 +51,7 @@ class LoadCourseLearningMaterialData extends AbstractFixture implements
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
         );
     }
 }

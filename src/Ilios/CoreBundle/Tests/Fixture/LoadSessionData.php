@@ -70,6 +70,7 @@ class LoadSessionData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
         );
     }
 }

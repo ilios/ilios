@@ -88,10 +88,10 @@ class CourseData extends AbstractDataLoader
             'school' => "2",
             'directors' => ["2"],
             'cohorts' => ["3"],
-            'topics' => [],
+            'topics' => ["3"],
             'objectives' => ["1"],
             'meshDescriptors' => [],
-            'learningMaterials' => [],
+            'learningMaterials' => ["3"],
             'sessions' => ["4"]
         );
 

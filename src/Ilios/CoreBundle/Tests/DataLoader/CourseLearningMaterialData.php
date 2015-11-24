@@ -28,6 +28,16 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
+        $arr[] = array(
+            'id' => 3,
+            'required' => true,
+            'publicNotes' => true,
+            'notes' => $this->faker->text,
+            'course' => "4",
+            'learningMaterial' => "1",
+            'meshDescriptors' => ['abc1']
+        );
+
 
         return $arr;
     }
@@ -35,7 +45,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 3,
+            'id' => 4,
             'required' => true,
             'publicNotes' => true,
             'notes' => $this->faker->text,

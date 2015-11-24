@@ -23,6 +23,14 @@ class TopicData extends AbstractDataLoader
             'programYears' => [],
             'sessions' => ['1']
         );
+        $arr[] = array(
+            'id' => 3,
+            'title' => $this->faker->text(100),
+            'school' => '1',
+            'courses' => ['4'],
+            'programYears' => [],
+            'sessions' => ['3']
+        );
 
 
         return $arr;
@@ -31,7 +39,7 @@ class TopicData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 3,
+            'id' => 4,
             'title' => $this->faker->text(100),
             'school' => '1',
             'courses' => [],
