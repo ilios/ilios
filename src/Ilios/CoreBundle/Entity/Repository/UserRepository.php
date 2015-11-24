@@ -240,9 +240,13 @@ class UserRepository extends EntityRepository
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.publishEvent', 'pe');
 
-        $qb->where($qb->expr()->andX(
-            $qb->expr()->eq('u.id', ':user_id'),
-            $qb->expr()->between('o.startDate', ':date_from', ':date_to')
+        $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
+        $qb->andWhere($qb->expr()->orX(
+            $qb->expr()->between('o.startDate', ':date_from', ':date_to'),
+            $qb->expr()->andX(
+                $qb->expr()->lte('o.startDate', ':date_from'),
+                $qb->expr()->gte('o.endDate', ':date_from')
+            )
         ));
         $qb->setParameter('user_id', $id);
 

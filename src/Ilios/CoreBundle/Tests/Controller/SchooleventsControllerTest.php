@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Tests\Controller;
 
 use FOS\RestBundle\Util\Codes;
+use DateTime;
 
 /**
  * UserRole controller Test.
@@ -70,5 +71,33 @@ class SchooleventsControllerTest extends AbstractControllerTest
         foreach ($events as $event) {
             $this->assertEquals($school['id'], $event['school']);
         }
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testMultidayEvent()
+    {
+        $school = $this->container->get('ilioscore.dataloader.school')->getOne();
+        $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
+        $from = new DateTime('2015-01-30 00:00:00');
+        $to = new DateTime('2015-01-30 23:59:59');
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_schoolevents',
+                ['id' => $school['id'], 'from' => $from->getTimestamp(), 'to' => $to->getTimestamp()]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $events = json_decode($response->getContent(), true)['events'];
+        $this->assertEquals(1, count($events), 'Expected events returned');
+
+        $this->assertEquals($events[0]['startDate'], $offerings[5]['startDate']);
+        $this->assertEquals($events[0]['endDate'], $offerings[5]['endDate']);
+        $this->assertEquals($events[0]['offering'], $offerings[5]['id']);
     }
 }
