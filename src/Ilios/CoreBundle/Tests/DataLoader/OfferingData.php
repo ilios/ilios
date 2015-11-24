@@ -73,7 +73,7 @@ class OfferingData extends AbstractDataLoader
             'id' => 6,
             'room' => $this->faker->text(10),
             'startDate' => "2015-01-15T15:00:00+00:00",
-            'endDate' => "2015-01-15T17:00:00+00:00",
+            'endDate' => "2015-02-15T17:00:00+00:00",
             'session' => '3',
             'learnerGroups' => [],
             'instructorGroups' => [],
