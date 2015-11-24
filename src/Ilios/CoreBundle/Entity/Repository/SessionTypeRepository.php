@@ -62,8 +62,26 @@ class SessionTypeRepository extends EntityRepository
             $qb->setParameter(':users', $ids);
         }
 
+        if (array_key_exists('instructorGroups', $criteria)) {
+            $ids = is_array($criteria['instructorsGroups'])
+                ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
+            $qb->leftJoin('st.sessions', 'session');
+            $qb->leftJoin('session.offerings', 'offering');
+            $qb->leftJoin('offering.instructorGroups', 'insGroup');
+            $qb->leftJoin('session.ilmSession', 'ilmSession');
+            $qb->leftJoin('ilmSession.instructorGroups', 'ilmInsGroup');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('insGroup.id', ':igroups'),
+                    $qb->expr()->in('ilmInsGroup.id', ':igroups')
+                )
+            );
+            $qb->setParameter(':igroups', $ids);
+        }
+
         unset($criteria['sessions']);
         unset($criteria['instructors']);
+        unset($criteria['instructorGroups']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
