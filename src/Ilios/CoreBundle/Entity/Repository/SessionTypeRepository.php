@@ -62,7 +62,7 @@ class SessionTypeRepository extends EntityRepository
         }
 
         if (array_key_exists('instructorGroups', $criteria)) {
-            $ids = is_array($criteria['instructorsGroups'])
+            $ids = is_array($criteria['instructorGroups'])
                 ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
             $qb->leftJoin('st.sessions', 'session');
             $qb->leftJoin('session.offerings', 'offering');
