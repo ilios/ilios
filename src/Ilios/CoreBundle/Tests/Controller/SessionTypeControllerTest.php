@@ -251,6 +251,9 @@ class SessionTypeControllerTest extends AbstractControllerTest
         );
     }
 
+    /**
+     * @group controllers
+     */
     public function testFilterByInstructor()
     {
         $sessionTypes = $this->container->get('ilioscore.dataloader.sessiontype')->getAll();
@@ -277,6 +280,84 @@ class SessionTypeControllerTest extends AbstractControllerTest
                 $sessionTypes[1]
             ),
             $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructorGroup()
+    {
+        $sessionTypes = $this->container->get('ilioscore.dataloader.sessiontype')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessiontypes', ['filters[instructorGroups][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessionTypes'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByCompetency()
+    {
+        $sessionTypes = $this->container->get('ilioscore.dataloader.sessiontype')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessiontypes', ['filters[competencies][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessionTypes'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByMeshDescriptor()
+    {
+        $sessionTypes = $this->container->get('ilioscore.dataloader.sessiontype')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessiontypes', ['filters[meshDescriptors]' => ['abc2', 'abc3']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessionTypes'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[1]
+            ),
+            $data[0]
         );
     }
 }
