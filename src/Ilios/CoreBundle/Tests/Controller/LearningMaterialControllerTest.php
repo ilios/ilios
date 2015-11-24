@@ -22,7 +22,11 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
         ]);
     }
 
@@ -592,5 +596,379 @@ class LearningMaterialControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByMimeType()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[mimetype]' => 'text/plain']),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[2]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByIds()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[id]' => [1,3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[2]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByRole()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[userRole]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[1]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[2]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByMimeTypeAndRole()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[mimetype]' => 'text/plain', 'filters[userRole]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[2]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByCourse()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[courses][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySession()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[sessions][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[0]
+            ),
+            $data[0]
+        );
+    }
+
+
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructor()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[instructors]' => [1,2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[2]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructorGroup()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[instructorGroups][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByTopic()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[topics][]' => 3]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[2]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByMeshDescriptor()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[meshDescriptors]' => ['abc1', 'abc2']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[1]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[2]
+            ),
+            $data[2]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySessionType()
+    {
+        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learningmaterials', ['filters[sessionTypes]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['uploadDate']);
+            unset($arr['absoluteFileUri']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['learningMaterials']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[0]
+            ),
+            $data[0]
+        );
     }
 }

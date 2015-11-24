@@ -51,10 +51,10 @@ class SessionData extends AbstractDataLoader
             'supplemental' => true,
             'publishedAsTbd' => false,
             'course' => '2',
-            'topics' => [],
+            'topics' => ['3'],
             'objectives' => [],
             'meshDescriptors' => ["abc2"],
-            'learningMaterials' => ["2"],
+            'learningMaterials' => ['2'],
             'offerings' => ['6', '7']
         );
 

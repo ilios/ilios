@@ -23,7 +23,7 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightRationale' => $this->faker->text,
             'copyrightPermission' => true,
             'sessionLearningMaterials' => [1],
-            'courseLearningMaterials' => [1],
+            'courseLearningMaterials' => ['1', '3'],
             'citation' => $this->faker->text,
         );
 

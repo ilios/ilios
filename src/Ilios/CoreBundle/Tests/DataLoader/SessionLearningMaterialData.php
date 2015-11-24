@@ -25,7 +25,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'notes' => $this->faker->text,
             'session' => '3',
             'learningMaterial' => '3',
-            'meshDescriptors' => []
+            'meshDescriptors' => ['abc2']
         );
 
 
