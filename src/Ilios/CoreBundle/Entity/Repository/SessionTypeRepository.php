@@ -20,7 +20,7 @@ class SessionTypeRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder();
 
 
-        $qb->select('DISTINCT s')->from('IliosCoreBundle:SessionType', 's');
+        $qb->select('DISTINCT st')->from('IliosCoreBundle:SessionType', 'st');
 
         if (empty($orderBy)) {
             $orderBy = ['id' => 'ASC'];
@@ -28,13 +28,13 @@ class SessionTypeRepository extends EntityRepository
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('s.'.$sort, $order);
+                $qb->addOrderBy('st.'.$sort, $order);
             }
         }
 
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->join('s.sessions', 'session');
+            $qb->join('st.sessions', 'session');
             $qb->andWhere($qb->expr()->in('session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
         }
@@ -44,7 +44,7 @@ class SessionTypeRepository extends EntityRepository
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("s.{$key}", ":{$key}"));
+                $qb->andWhere($qb->expr()->in("st.{$key}", ":{$key}"));
                 $qb->setParameter(":{$key}", $values);
             }
         }
