@@ -22,7 +22,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  *     @ORM\Index(name="assessment_option_fkey", columns={"assessment_option_id"})
  *   }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\SessionTypeRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
