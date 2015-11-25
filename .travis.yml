@@ -41,6 +41,8 @@ before_install:
 #install ldap extension so composer install will run
   - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
+#install the symfony security checker
+  - if [ "$CHECK_CODING_STANDARDS" ]; then wget http://get.sensiolabs.org/security-checker.phar -O security-checker.phar; fi
 
 install:
     #Install production first this will fail if production dependencies are messed up
@@ -57,6 +59,7 @@ before_script:
 script:
   - if [ "$VALIDATE_SCHEMA" = true ]; then (bin/console doctrine:schema:validate --env=dev); fi
   - if [ "$CHECK_CODING_STANDARDS" = true ]; then (bin/phpcs --standard=app/phpcs.xml src); fi
+  - if [ "$CHECK_CODING_STANDARDS" = true ]; then (php security-checker.phar security:check); fi
   - if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ]; then (bin/phpunit -c phpunit.xml.dist --group mesh_data_import); fi
   - if [ "$TEST_PHPUNIT_CONTROLLERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --group controllers); fi
   - if [ "$TEST_PHPUNIT_OTHERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers); fi
