@@ -12,7 +12,7 @@ class ProgramData extends AbstractDataLoader
             'id' => 1,
             'title' => $this->faker->title(15),
             'shortTitle' => $this->faker->title(5),
-            'duration' => 4,
+            'duration' => 3,
             'publishedAsTbd' => false,
             'publishEvent' => '1',
             'school' => "1",
@@ -31,6 +31,17 @@ class ProgramData extends AbstractDataLoader
             'curriculumInventoryReports' => []
         );
 
+        $arr[] = array(
+            'id' => 3,
+            'title' => $this->faker->title(15),
+            'shortTitle' => $this->faker->title(5),
+            'duration' => 4,
+            'publishedAsTbd' => false,
+            'school' => "2",
+            'programYears' => [],
+            'curriculumInventoryReports' => []
+        );
+
 
         return $arr;
     }
@@ -38,7 +49,7 @@ class ProgramData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 3,
+            'id' => 4,
             'title' => $this->faker->title(15),
             'shortTitle' => $this->faker->title(5),
             'duration' => 4,
