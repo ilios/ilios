@@ -12,7 +12,7 @@ class TopicData extends AbstractDataLoader
             'title' => $this->faker->text(100),
             'school' => '1',
             'courses' => ['2'],
-            'programYears' => [],
+            'programYears' => ["2"],
             'sessions' => ['2']
         );
         $arr[] = array(

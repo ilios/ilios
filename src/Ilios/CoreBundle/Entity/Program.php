@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="program")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ProgramRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")

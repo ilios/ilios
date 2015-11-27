@@ -33,7 +33,7 @@ class ProgramYearData extends AbstractDataLoader
             'cohort' => "2",
             'directors' => [],
             'competencies' => [],
-            'topics' => [],
+            'topics' => ["1"],
             'objectives' => [],
             'stewards' => []
         );
