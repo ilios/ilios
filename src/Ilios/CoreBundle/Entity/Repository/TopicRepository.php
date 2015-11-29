@@ -60,7 +60,10 @@ class TopicRepository extends EntityRepository
 
         if (array_key_exists('programs', $criteria)) {
             $ids = is_array($criteria['programs']) ? $criteria['programs'] : [$criteria['programs']];
-            // @todo implement filter. [ST 2015/11/28]
+            $qb->join('t.programYears', 'programYear');
+            $qb->join('programYear.program', 'program');
+            $qb->andWhere($qb->expr()->in('program.id', ':programs'));
+            $qb->setParameter(':programs', $ids);
         }
 
         if (array_key_exists('instructors', $criteria)) {
