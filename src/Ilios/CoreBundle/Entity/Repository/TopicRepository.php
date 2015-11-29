@@ -17,7 +17,7 @@ class TopicRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder();
 
 
-        $qb->select('DISTINCT p')->from('IliosCoreBundle:Topic', 't');
+        $qb->select('DISTINCT t')->from('IliosCoreBundle:Topic', 't');
 
         if (empty($orderBy)) {
             $orderBy = ['id' => 'ASC'];
