@@ -25,7 +25,9 @@ class ProgramYearControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearStewardData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearStewardData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData'
         ]);
     }
 
@@ -223,5 +225,83 @@ class ProgramYearControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByCourses()
+    {
+        $programYears = $this->container->get('ilioscore.dataloader.programyear')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_programyears', ['filters[courses]' => 4]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['programYears'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programYears[2]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySession()
+    {
+        $programYears = $this->container->get('ilioscore.dataloader.programyear')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_programyears', ['filters[sessions][]' => 3]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['programYears'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programYears[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByTopic()
+    {
+        $programYears = $this->container->get('ilioscore.dataloader.programyear')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_programyears', ['filters[topics][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['programYears'];
+        $this->assertEquals(1, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programYears[1]
+            ),
+            $data[0]
+        );
     }
 }
