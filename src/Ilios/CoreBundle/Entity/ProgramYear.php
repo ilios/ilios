@@ -19,7 +19,7 @@ use Ilios\CoreBundle\Traits\StewardedEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="program_year")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ProgramYearRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
