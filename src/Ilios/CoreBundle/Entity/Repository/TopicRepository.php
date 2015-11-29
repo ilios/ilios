@@ -52,7 +52,10 @@ class TopicRepository extends EntityRepository
 
         if (array_key_exists('sessionTypes', $criteria)) {
             $ids = is_array($criteria['sessionTypes']) ? $criteria['sessionTypes'] : [$criteria['sessionTypes']];
-            // @todo implement filter. [ST 2015/11/28]
+            $qb->join('t.sessions', 'session');
+            $qb->join('session.sessionType', 'sessionType');
+            $qb->andWhere($qb->expr()->in('sessionType.id', ':sessionTypes'));
+            $qb->setParameter(':sessionTypes', $ids);
         }
 
         if (array_key_exists('programs', $criteria)) {
