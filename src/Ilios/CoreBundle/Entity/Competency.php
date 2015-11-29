@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="competency", indexes={@ORM\Index(name="parent_competency_id_k", columns={"parent_competency_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CompetencyRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")

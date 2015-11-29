@@ -17,11 +17,12 @@ class CompetencyControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAamcPcrsData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData'
         ]);
@@ -253,5 +254,115 @@ class CompetencyControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByTopic()
+    {
+        $competencies = $this->container->get('ilioscore.dataloader.competency')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_competencies', ['filters[topics]' => [1, 2, 3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['competencies'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySession()
+    {
+        $competencies = $this->container->get('ilioscore.dataloader.competency')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_competencies', ['filters[sessions][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['competencies'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySessionType()
+    {
+        $competencies = $this->container->get('ilioscore.dataloader.competency')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_competencies', ['filters[sessionTypes][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['competencies'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByCourse()
+    {
+        $competencies = $this->container->get('ilioscore.dataloader.competency')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_competencies', ['filters[courses][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['competencies'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[0]
+            ),
+            $data[0]
+        );
     }
 }
