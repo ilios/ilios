@@ -106,7 +106,26 @@ class UserRepository extends EntityRepository
         if (array_key_exists('instructedTopics', $criteria)) {
             $ids = is_array($criteria['instructedTopics'])
                 ? $criteria['instructedTopics'] : [$criteria['instructedTopics']];
-            // @todo implement. [ST 2015/11/30]
+            $qb->leftJoin('u.instructedOfferings', 'offering');
+            $qb->leftJoin('u.instructorIlmSessions', 'ilm');
+            $qb->leftJoin('u.instructorGroups', 'iGroup');
+            $qb->leftJoin('iGroup.offerings', 'offering2');
+            $qb->leftJoin('iGroup.ilmSessions', 'ilm2');
+            $qb->leftJoin('offering.session', 'session');
+            $qb->leftJoin('ilm.session', 'session2');
+            $qb->leftJoin('offering2.session', 'session3');
+            $qb->leftJoin('ilm2.session', 'session4');
+            $qb->leftJoin('session.topics', 'topic');
+            $qb->leftJoin('session2.topics', 'topic2');
+            $qb->leftJoin('session3.topics', 'topic3');
+            $qb->leftJoin('session4.topics', 'topic4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('topic.id', ':topics'),
+                $qb->expr()->in('topic2.id', ':topics'),
+                $qb->expr()->in('topic3.id', ':topics'),
+                $qb->expr()->in('topic4.id', ':topics')
+            ));
+            $qb->setParameter(':topics', $ids);
         }
 
         if (array_key_exists('instructedSessionTypes', $criteria)) {
