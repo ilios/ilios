@@ -99,7 +99,7 @@ class TopicRepository extends EntityRepository
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->in('iGroup.id', ':iGroups'),
-                    $qb->expr()->in('iGroups2.id', ':iGroups')
+                    $qb->expr()->in('iGroup2.id', ':iGroups')
                 )
             );
             $qb->setParameter(':iGroups', $ids);
@@ -127,7 +127,7 @@ class TopicRepository extends EntityRepository
             $qb->leftJoin('t.sessions', 'session');
             $qb->leftJoin('course.objectives', 'objective');
             $qb->leftJoin('objective.competency', 'competency');
-            $qb->leftJoin('sessions.objectives', 'objective2');
+            $qb->leftJoin('session.objectives', 'objective2');
             $qb->leftJoin('objective2.parents', 'objective3');
             $qb->leftJoin('objective3.competency', 'competency2');
             $qb->andWhere(
