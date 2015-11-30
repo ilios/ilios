@@ -21,5 +21,7 @@ class IndexControllerTest extends WebTestCase
 
         $this->assertSame($text, $content);
 
+        //ensure we have a 60 second max age
+        $this->assertSame(60, $response->getMaxAge());
     }
 }

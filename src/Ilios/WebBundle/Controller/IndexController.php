@@ -16,6 +16,9 @@ class IndexController extends Controller
         $response = new Response($file);
         $response->headers->set('Content-Type', 'text/html');
 
+        $response->setPublic();
+        $response->setMaxAge(60);
+
         return $response;
     }
 }
