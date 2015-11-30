@@ -157,7 +157,7 @@ class UserRepository extends EntityRepository
             $ids = is_array($criteria['instructorGroups'])
                 ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
             $qb->join('u.instructorGroups', 'iGroup');
-            $qb->andHaving($qb->expr()->in('iGroup.id', ':instructorGroups'));
+            $qb->andWhere($qb->expr()->in('iGroup.id', ':instructorGroups'));
             $qb->setParameter('instructorGroups', $ids);
         }
 
