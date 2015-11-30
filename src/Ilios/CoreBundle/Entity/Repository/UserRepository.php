@@ -35,18 +35,31 @@ class UserRepository extends EntityRepository
         if (array_key_exists('instructedCourses', $criteria)) {
             $ids = is_array($criteria['instructedCourses'])
                 ? $criteria['instructedCourses'] : [$criteria['instructedCourses']];
-            // @todo implement. [ST 2015/11/30]
+            $qb->leftJoin('u.instructedOfferings', 'offering');
+            $qb->leftJoin('u.instructorIlmSessions', 'ilm');
+            $qb->leftJoin('u.instructorGroups', 'iGroup');
+            $qb->leftJoin('iGroup.offerings', 'offering2');
+            $qb->leftJoin('iGroup.ilmSessions', 'ilm2');
+            $qb->leftJoin('offering.session', 'session');
+            $qb->leftJoin('ilm.session', 'session2');
+            $qb->leftJoin('offering2.session', 'session3');
+            $qb->leftJoin('ilm2.session', 'session4');
+            $qb->leftJoin('session.course', 'course');
+            $qb->leftJoin('session2.course', 'course2');
+            $qb->leftJoin('session3.course', 'course3');
+            $qb->leftJoin('session4.course', 'course4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('course.id', ':courses'),
+                $qb->expr()->in('course2.id', ':courses'),
+                $qb->expr()->in('course3.id', ':courses'),
+                $qb->expr()->in('course4.id', ':courses')
+            ));
+            $qb->setParameter(':courses', $ids);
         }
 
         if (array_key_exists('instructedSessions', $criteria)) {
             $ids = is_array($criteria['instructedSessions'])
                 ? $criteria['instructedSessions'] : [$criteria['instructedSessions']];
-            // @todo implement. [ST 2015/11/30]
-        }
-
-        if (array_key_exists('instructorGroups', $criteria)) {
-            $ids = is_array($criteria['instructorGroups'])
-                ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
             // @todo implement. [ST 2015/11/30]
         }
 
@@ -71,7 +84,6 @@ class UserRepository extends EntityRepository
         //cleanup all the possible relationship filters
         unset($criteria['instructedCourses']);
         unset($criteria['instructedSessions']);
-        unset($criteria['instructorGroups']);
         unset($criteria['instructedLearningMaterials']);
         unset($criteria['instructedTopics']);
         unset($criteria['instructedSessionTypes']);
