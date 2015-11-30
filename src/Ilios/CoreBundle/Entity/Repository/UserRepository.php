@@ -60,7 +60,22 @@ class UserRepository extends EntityRepository
         if (array_key_exists('instructedSessions', $criteria)) {
             $ids = is_array($criteria['instructedSessions'])
                 ? $criteria['instructedSessions'] : [$criteria['instructedSessions']];
-            // @todo implement. [ST 2015/11/30]
+            $qb->leftJoin('u.instructedOfferings', 'offering');
+            $qb->leftJoin('u.instructorIlmSessions', 'ilm');
+            $qb->leftJoin('u.instructorGroups', 'iGroup');
+            $qb->leftJoin('iGroup.offerings', 'offering2');
+            $qb->leftJoin('iGroup.ilmSessions', 'ilm2');
+            $qb->leftJoin('offering.session', 'session');
+            $qb->leftJoin('ilm.session', 'session2');
+            $qb->leftJoin('offering2.session', 'session3');
+            $qb->leftJoin('ilm2.session', 'session4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('session.id', ':sessions'),
+                $qb->expr()->in('session.id', ':sessions'),
+                $qb->expr()->in('session.id', ':sessions'),
+                $qb->expr()->in('session.id', ':sessions')
+            ));
+            $qb->setParameter(':sessions', $ids);
         }
 
         if (array_key_exists('instructedLearningMaterials', $criteria)) {
