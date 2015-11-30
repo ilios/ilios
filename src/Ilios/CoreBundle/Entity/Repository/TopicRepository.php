@@ -85,7 +85,20 @@ class TopicRepository extends EntityRepository
 
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
-            // @todo implement filter. [ST 2015/11/28]
+            $qb->leftJoin('t.courses', 'course');
+            $qb->leftJoin('t.sessions', 'session');
+            $qb->leftJoin('course.objectives', 'objective');
+            $qb->leftJoin('objective.competency', 'competency');
+            $qb->leftJoin('sessions.objectives', 'objective2');
+            $qb->leftJoin('objective2.parents', 'objective3');
+            $qb->leftJoin('objective3.competency', 'competency2');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('competency.id', ':competencies'),
+                    $qb->expr()->in('competency2.id', ':competencies')
+                )
+            );
+            $qb->setParameter(':competencies', $ids);
         }
 
         if (array_key_exists('meshDescriptors', $criteria)) {
