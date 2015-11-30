@@ -96,12 +96,21 @@ class UserRepository extends EntityRepository
             // @todo implement. [ST 2015/11/30]
         }
 
+        if (array_key_exists('instructorGroups', $criteria)) {
+            $ids = is_array($criteria['instructorGroups'])
+                ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
+            $qb->join('u.instructorGroups', 'iGroup');
+            $qb->andHaving($qb->expr()->in('iGroup.id', ':instructorGroups'));
+            $qb->setParameter('instructorGroups', $ids);
+        }
+
         //cleanup all the possible relationship filters
         unset($criteria['instructedCourses']);
         unset($criteria['instructedSessions']);
         unset($criteria['instructedLearningMaterials']);
         unset($criteria['instructedTopics']);
         unset($criteria['instructedSessionTypes']);
+        unset($criteria['instructorGroups']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
