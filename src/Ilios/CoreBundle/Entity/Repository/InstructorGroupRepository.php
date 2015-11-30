@@ -106,15 +106,27 @@ class InstructorGroupRepository extends EntityRepository
         if (array_key_exists('topics', $criteria)) {
             $ids = is_array($criteria['topics'])
                 ? $criteria['topics'] : [$criteria['topics']];
-            // @todo implement. [ST 2015/11/30]
+            $qb->leftJoin('i.ilmSessions', 'ilm');
+            $qb->leftJoin('i.offerings', 'offering');
+            $qb->leftJoin('ilm.session', 'session');
+            $qb->leftJoin('offering.session', 'session2');
+            $qb->leftJoin('session.topics', 'topic');
+            $qb->leftJoin('session2.topics', 'topic2');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('topic.id', ':topics'),
+                    $qb->expr()->in('topic2.id', ':topics')
+                )
+            );
+            $qb->setParameter(':topics', $ids);
         }
 
         unset($criteria['courses']);
         unset($criteria['sessions']);
         unset($criteria['sessionTypes']);
         unset($criteria['instructors']);
-        unset($criteria['topics']);
         unset($criteria['learningMaterials']);
+        unset($criteria['topics']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
