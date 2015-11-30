@@ -80,7 +80,9 @@ class InstructorGroupRepository extends EntityRepository
 
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
-            // @todo implement. [ST 2015/11/30]
+            $qb->join('i.users', 'instructor');
+            $qb->andWhere($qb->expr()->in('instructor.id', ':instructors'));
+            $qb->setParameter(':instructors', $ids);
         }
 
         if (array_key_exists('learningMaterials', $criteria)) {
