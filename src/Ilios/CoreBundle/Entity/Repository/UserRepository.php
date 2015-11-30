@@ -14,6 +14,87 @@ use Ilios\CoreBundle\Entity\UserInterface;
 class UserRepository extends EntityRepository
 {
     /**
+     * @inheritdoc
+     */
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select('DISTINCT u')->from('IliosCoreBundle:User', 'u');
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('u.' . $sort, $order);
+            }
+        }
+
+        if (array_key_exists('instructedCourses', $criteria)) {
+            $ids = is_array($criteria['instructedCourses'])
+                ? $criteria['instructedCourses'] : [$criteria['instructedCourses']];
+            // @todo implement. [ST 2015/11/30]
+        }
+
+        if (array_key_exists('instructedSessions', $criteria)) {
+            $ids = is_array($criteria['instructedSessions'])
+                ? $criteria['instructedSessions'] : [$criteria['instructedSessions']];
+            // @todo implement. [ST 2015/11/30]
+        }
+
+        if (array_key_exists('instructorGroups', $criteria)) {
+            $ids = is_array($criteria['instructorGroups'])
+                ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
+            // @todo implement. [ST 2015/11/30]
+        }
+
+        if (array_key_exists('instructedLearningMaterials', $criteria)) {
+            $ids = is_array($criteria['instructedLearningMaterials']) ?
+                $criteria['instructedLearningMaterials'] : [$criteria['instructedLearningMaterials']];
+            // @todo implement. [ST 2015/11/30]
+        }
+
+        if (array_key_exists('instructedTopics', $criteria)) {
+            $ids = is_array($criteria['instructedTopics'])
+                ? $criteria['instructedTopics'] : [$criteria['instructedTopics']];
+            // @todo implement. [ST 2015/11/30]
+        }
+
+        if (array_key_exists('instructedSessionTypes', $criteria)) {
+            $ids = is_array($criteria['instructedSessionTypes']) ?
+                $criteria['instructedSessionTypes'] : [$criteria['instructedSessionTypes']];
+            // @todo implement. [ST 2015/11/30]
+        }
+
+        //cleanup all the possible relationship filters
+        unset($criteria['instructedCourses']);
+        unset($criteria['instructedSessions']);
+        unset($criteria['instructorGroups']);
+        unset($criteria['instructedLearningMaterials']);
+        unset($criteria['instructedTopics']);
+        unset($criteria['instructedSessionTypes']);
+
+        if (count($criteria)) {
+            foreach ($criteria as $key => $value) {
+                $values = is_array($value) ? $value : [$value];
+                $qb->andWhere($qb->expr()->in("u.{$key}", ":{$key}"));
+                $qb->setParameter(":{$key}", $values);
+            }
+        }
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * Find by a string query
      * @param string $q
      * @param integer $orderBy
@@ -353,4 +434,6 @@ class UserRepository extends EntityRepository
             return $event;
         }, $results);
     }
+
+
 }
