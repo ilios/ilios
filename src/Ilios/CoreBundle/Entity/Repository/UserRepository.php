@@ -93,7 +93,26 @@ class UserRepository extends EntityRepository
         if (array_key_exists('instructedSessionTypes', $criteria)) {
             $ids = is_array($criteria['instructedSessionTypes']) ?
                 $criteria['instructedSessionTypes'] : [$criteria['instructedSessionTypes']];
-            // @todo implement. [ST 2015/11/30]
+            $qb->leftJoin('u.instructedOfferings', 'offering');
+            $qb->leftJoin('u.instructorIlmSessions', 'ilm');
+            $qb->leftJoin('u.instructorGroups', 'iGroup');
+            $qb->leftJoin('iGroup.offerings', 'offering2');
+            $qb->leftJoin('iGroup.ilmSessions', 'ilm2');
+            $qb->leftJoin('offering.session', 'session');
+            $qb->leftJoin('ilm.session', 'session2');
+            $qb->leftJoin('offering2.session', 'session3');
+            $qb->leftJoin('ilm2.session', 'session4');
+            $qb->leftJoin('session.sessionType', 'sessionType');
+            $qb->leftJoin('session2.sessionType', 'sessionType2');
+            $qb->leftJoin('session3.sessionType', 'sessionType3');
+            $qb->leftJoin('session4.sessionType', 'sessionType4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('sessionType.id', ':sessionTypes'),
+                $qb->expr()->in('sessionType2.id', ':sessionTypes'),
+                $qb->expr()->in('sessionType3.id', ':sessionTypes'),
+                $qb->expr()->in('sessionType4.id', ':sessionTypes')
+            ));
+            $qb->setParameter(':sessionTypes', $ids);
         }
 
         if (array_key_exists('instructorGroups', $criteria)) {
