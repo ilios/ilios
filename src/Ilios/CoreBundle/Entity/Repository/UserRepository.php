@@ -81,7 +81,26 @@ class UserRepository extends EntityRepository
         if (array_key_exists('instructedLearningMaterials', $criteria)) {
             $ids = is_array($criteria['instructedLearningMaterials']) ?
                 $criteria['instructedLearningMaterials'] : [$criteria['instructedLearningMaterials']];
-            // @todo implement. [ST 2015/11/30]
+            $qb->leftJoin('u.instructedOfferings', 'offering');
+            $qb->leftJoin('u.instructorIlmSessions', 'ilm');
+            $qb->leftJoin('u.instructorGroups', 'iGroup');
+            $qb->leftJoin('iGroup.offerings', 'offering2');
+            $qb->leftJoin('iGroup.ilmSessions', 'ilm2');
+            $qb->leftJoin('offering.session', 'session');
+            $qb->leftJoin('ilm.session', 'session2');
+            $qb->leftJoin('offering2.session', 'session3');
+            $qb->leftJoin('ilm2.session', 'session4');
+            $qb->leftJoin('session.learningMaterials', 'slm');
+            $qb->leftJoin('session2.learningMaterials', 'slm2');
+            $qb->leftJoin('session3.learningMaterials', 'slm3');
+            $qb->leftJoin('session4.learningMaterials', 'slm4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('slm.id', ':learningMaterials'),
+                $qb->expr()->in('slm2.id', ':learningMaterials'),
+                $qb->expr()->in('slm3.id', ':learningMaterials'),
+                $qb->expr()->in('slm4.id', ':learningMaterials')
+            ));
+            $qb->setParameter(':learningMaterials', $ids);
         }
 
         if (array_key_exists('instructedTopics', $criteria)) {
