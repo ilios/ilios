@@ -104,7 +104,39 @@ class TopicRepository extends EntityRepository
         if (array_key_exists('meshDescriptors', $criteria)) {
             $ids = is_array($criteria['meshDescriptors'])
                 ? $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
-            // @todo implement filter. [ST 2015/11/28]
+            $qb->leftJoin('t.courses', 'course');
+            $qb->leftJoin('t.sessions', 'session');
+            $qb->leftJoin('course.meshDescriptors', 'meshDescriptor');
+            $qb->leftJoin('session.meshDescriptors', 'meshDescriptor2');
+            $qb->leftJoin('session.course', 'course2');
+            $qb->leftJoin('course2.meshDescriptors', 'meshDescriptor3');
+            $qb->leftJoin('course.learningMaterials', 'clm');
+            $qb->leftJoin('clm.meshDescriptors', 'meshDescriptor4');
+            $qb->leftJoin('session.learningMaterials', 'slm');
+            $qb->leftJoin('slm.meshDescriptors', 'meshDescriptor5');
+            $qb->leftJoin('course2.learningMaterials', 'clm2');
+            $qb->leftJoin('clm.meshDescriptors', 'meshDescriptor6');
+            $qb->leftJoin('course.objectives', 'objective');
+            $qb->leftJoin('objective.meshDescriptors', 'meshDescriptor7');
+            $qb->leftJoin('session.objectives', 'objective2');
+            $qb->leftJoin('objective2.meshDescriptors', 'meshDescriptor8');
+            $qb->leftJoin('course2.objectives', 'objective3');
+            $qb->leftJoin('objective3.meshDescriptors', 'meshDescriptor9');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('meshDescriptor.id', ':meshDescriptors'),
+                    $qb->expr()->in('meshDescriptor2.id', ':meshDescriptors'),
+                    $qb->expr()->in('meshDescriptor3.id', ':meshDescriptors'),
+                    $qb->expr()->in('meshDescriptor4.id', ':meshDescriptors'),
+                    $qb->expr()->in('meshDescriptor5.id', ':meshDescriptors'),
+                    $qb->expr()->in('meshDescriptor6.id', ':meshDescriptors'),
+                    $qb->expr()->in('meshDescriptor7.id', ':meshDescriptors'),
+                    $qb->expr()->in('meshDescriptor8.id', ':meshDescriptors'),
+                    $qb->expr()->in('meshDescriptor9.id', ':meshDescriptors')
+                )
+            );
+            $qb->setParameter(':meshDescriptors', $ids);
+
         }
 
         unset($criteria['courses']);
