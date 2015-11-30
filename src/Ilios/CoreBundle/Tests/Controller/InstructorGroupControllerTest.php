@@ -6,7 +6,8 @@ use FOS\RestBundle\Util\Codes;
 
 /**
  * InstructorGroup controller Test.
- * @package Ilios\CoreBundle\Test\Controller;
+ *
+ * @package Ilios\CoreBundle\Tests\Controller
  */
 class InstructorGroupControllerTest extends AbstractControllerTest
 {
@@ -22,7 +23,9 @@ class InstructorGroupControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
         ]);
     }
 
@@ -283,5 +286,197 @@ class InstructorGroupControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByCourse()
+    {
+        $groups = $this->container->get('ilioscore.dataloader.instructorgroup')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_instructorgroups', ['filters[courses][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['instructorGroups'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySession()
+    {
+        $groups = $this->container->get('ilioscore.dataloader.instructorgroup')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_instructorgroups', ['filters[sessions]' => [1, 2, 3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['instructorGroups'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySessionType()
+    {
+        $groups = $this->container->get('ilioscore.dataloader.instructorgroup')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_instructorgroups', ['filters[sessionTypes]' => [1, 2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['instructorGroups'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByLearningMaterial()
+    {
+        $groups = $this->container->get('ilioscore.dataloader.instructorgroup')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_instructorgroups', ['filters[learningMaterials][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['instructorGroups'];
+        $this->assertEquals(1, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructor()
+    {
+        $groups = $this->container->get('ilioscore.dataloader.instructorgroup')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_instructorgroups', ['filters[instructors][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['instructorGroups'];
+        $this->assertEquals(3, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[1]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[2]
+            ),
+            $data[2]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByTopic()
+    {
+        $groups = $this->container->get('ilioscore.dataloader.instructorgroup')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_instructorgroups', ['filters[topics]' => [1, 2, 3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['instructorGroups'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[1]
+            ),
+            $data[1]
+        );
     }
 }
