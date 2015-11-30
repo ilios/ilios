@@ -28,6 +28,7 @@ class UserControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPendingUserUpdateData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPermissionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
         ]);
     }
 
@@ -752,5 +753,173 @@ class UserControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructedCourse()
+    {
+        $instructors = $this->container->get('ilioscore.dataloader.user')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', ['filters[instructedCourses][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['users'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $instructors[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructedSession()
+    {
+        $instructors = $this->container->get('ilioscore.dataloader.user')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', ['filters[instructedSessions][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['users'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $instructors[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructedSessionType()
+    {
+        $instructors = $this->container->get('ilioscore.dataloader.user')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', ['filters[instructedSessionTypes][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['users'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $instructors[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructedTopic()
+    {
+        $instructors = $this->container->get('ilioscore.dataloader.user')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', ['filters[instructedTopics]' => [1, 2, 3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['users'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $instructors[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $instructors[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructedLearningMaterial()
+    {
+        $instructors = $this->container->get('ilioscore.dataloader.user')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', ['filters[instructedLearningMaterials]' => [1, 2, 3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['users'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $instructors[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $instructors[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByInstructorGroup()
+    {
+        $instructors = $this->container->get('ilioscore.dataloader.user')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', ['filters[instructorGroups]' => [1, 2, 3]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['users'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $instructors[1]
+            ),
+            $data[0]
+        );
     }
 }
