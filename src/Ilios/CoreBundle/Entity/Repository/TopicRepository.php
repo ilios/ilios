@@ -80,7 +80,17 @@ class TopicRepository extends EntityRepository
         if (array_key_exists('learningMaterials', $criteria)) {
             $ids = is_array($criteria['learningMaterials'])
                 ? $criteria['learningMaterials'] : [$criteria['learningMaterials']];
-            // @todo implement filter. [ST 2015/11/28]
+            $qb->leftJoin('t.courses', 'course');
+            $qb->leftJoin('t.sessions', 'session');
+            $qb->leftJoin('course.learningMaterials', 'clm');
+            $qb->leftJoin('session.learningMaterials', 'slm');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('slm.id', ':learningMaterials'),
+                    $qb->expr()->in('clm.id', ':learningMaterials')
+                )
+            );
+            $qb->setParameter(':learningMaterials', $ids);
         }
 
         if (array_key_exists('competencies', $criteria)) {
