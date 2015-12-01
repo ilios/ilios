@@ -527,6 +527,4 @@ class UserRepository extends EntityRepository
             return $event;
         }, $results);
     }
-
-
 }
