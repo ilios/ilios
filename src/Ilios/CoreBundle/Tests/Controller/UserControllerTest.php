@@ -40,7 +40,6 @@ class UserControllerTest extends AbstractControllerTest
         return [
             'addedViaIlios',
             'examined',
-            'userSyncIgnore',
             'alerts',
             'publishEvents',
             'learningMaterials',
@@ -674,6 +673,10 @@ class UserControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.user')
             ->getOne();
+
+        $data['userSyncIgnore'] = true;
+        $data['firstName'] = 'Omar';
+        $data['lastName'] = 'Vizquel';
 
         $postData = $data;
         //unset any parameters which should not be POSTed
