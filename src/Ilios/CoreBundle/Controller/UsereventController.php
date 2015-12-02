@@ -79,10 +79,12 @@ class UsereventController extends FOSRestController
         if (!$to) {
             throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
         }
-        $result = $userHandler->findEventsForUser(
-            $user->getId(),
-            $from,
-            $to
+        $result = $userHandler->addInstructorsToEvents(
+            $userHandler->findEventsForUser(
+                $user->getId(),
+                $from,
+                $to
+            )
         );
 
         $authChecker = $this->get('security.authorization_checker');
