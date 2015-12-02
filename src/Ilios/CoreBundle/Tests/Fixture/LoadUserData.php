@@ -38,6 +38,7 @@ class LoadUserData extends AbstractFixture implements
             $entity->setEnabled($arr['enabled']);
             $entity->setIcsFeedKey($arr['icsFeedKey']);
             $entity->setPhone($arr['phone']);
+            $entity->setUserSyncIgnore($arr['userSyncIgnore']);
             foreach ($arr['roles'] as $id) {
                 $entity->addRole($this->getReference('userRoles' . $id));
             }

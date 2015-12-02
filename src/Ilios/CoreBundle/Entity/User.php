@@ -210,6 +210,10 @@ class User implements UserInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("userSyncIgnore")
      */
     protected $userSyncIgnore;
 
