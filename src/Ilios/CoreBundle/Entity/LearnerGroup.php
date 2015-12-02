@@ -254,7 +254,9 @@ class LearnerGroup implements LearnerGroupInterface
      */
     public function addUser(UserInterface $user)
     {
-        $this->users->add($user);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
     }
 
     /**
@@ -334,7 +336,9 @@ class LearnerGroup implements LearnerGroupInterface
      */
     public function addChild(LearnerGroupInterface $child)
     {
-        $this->children->add($child);
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+        }
     }
 
     /**
@@ -366,7 +370,9 @@ class LearnerGroup implements LearnerGroupInterface
      */
     public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
     {
-        $this->instructorGroups->add($instructorGroup);
+        if (!$this->instructorGroups->contains($instructorGroup)) {
+            $this->instructorGroups->add($instructorGroup);
+        }
     }
 
     /**
