@@ -556,7 +556,7 @@ class UserRepository extends EntityRepository
         $results = $qb->getQuery()->getArrayResult();
 
         $offeringInstructors = [];
-        foreach($results as $result) {
+        foreach ($results as $result) {
             if ($result['oId']) {
                 if (! array_key_exists($result['oId'], $offeringInstructors)) {
                     $offeringInstructors[$result['oId']] = [];
@@ -603,7 +603,7 @@ class UserRepository extends EntityRepository
         $results = $qb->getQuery()->getArrayResult();
 
         $ilmInstructors = [];
-        foreach($results as $result) {
+        foreach ($results as $result) {
             if ($result['ilmId']) {
                 if (! array_key_exists($result['ilmId'], $ilmInstructors)) {
                     $ilmInstructors[$result['ilmId']] = [];
@@ -628,15 +628,15 @@ class UserRepository extends EntityRepository
      */
     public function addInstructorsToEvents(array $events)
     {
-        $offeringIds = array_map(function($event) {
+        $offeringIds = array_map(function ($event) {
             return $event->offering;
-        }, array_filter($events, function($event) {
+        }, array_filter($events, function ($event) {
             return $event->offering;
         }));
 
-        $ilmIds = array_map(function($event) {
+        $ilmIds = array_map(function ($event) {
             return $event->ilmSession;
-        }, array_filter($events, function($event) {
+        }, array_filter($events, function ($event) {
             return $event->ilmSession;
         }));
 
