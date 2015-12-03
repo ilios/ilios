@@ -1,10 +1,14 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Controller;
+namespace Ilios\WebBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Class ConfigController
+ * @package Ilios\WebBundle\Controller
+ */
 class ConfigController extends Controller
 {
     public function indexAction()
