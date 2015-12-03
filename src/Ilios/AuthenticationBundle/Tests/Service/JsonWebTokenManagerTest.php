@@ -3,7 +3,7 @@ namespace Ilios\AuthenticationBundle\Tests\Service;
 
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use JWT;
+use Firebase\JWT\JWT;
 use DateTime;
 use Mockery as m;
 

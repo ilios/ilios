@@ -5,7 +5,7 @@ namespace Ilios\AuthenticationBundle\Tests\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Util\Codes;
-use JWT;
+use Firebase\JWT\JWT;
 use DateTime;
 
 use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
