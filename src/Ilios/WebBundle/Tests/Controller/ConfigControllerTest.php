@@ -1,11 +1,15 @@
 <?php
-namespace Ilios\AuthenticationBundle\Tests\Controller;
+namespace Ilios\WebBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Util\Codes;
 use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
 
+/**
+ * Class ConfigControllerTest
+ * @package Ilios\WebBundle\Tests\Controller
+ */
 class ConfigControllerTest extends WebTestCase
 {
     use JsonControllerTest;
@@ -13,7 +17,7 @@ class ConfigControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/auth/config');
+        $client->request('GET', '/config');
 
         $response = $client->getResponse();
 
