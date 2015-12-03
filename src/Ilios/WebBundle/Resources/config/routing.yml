@@ -16,3 +16,6 @@ ilios_web_homepage:
         _controller: IliosWebBundle:Index:index
     requirements:
         url: ".+"
+ilios_web_config:
+    path:     /config
+    defaults: { _controller: IliosWebBundle:Error:Config:index }
