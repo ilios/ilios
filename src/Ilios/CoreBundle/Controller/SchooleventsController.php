@@ -54,6 +54,7 @@ class SchooleventsController extends FOSRestController
     public function getAction($id, ParamFetcherInterface $paramFetcher)
     {
         $schoolHandler = $this->container->get('ilioscore.school.handler');
+        $userHandler = $this->container->get('ilioscore.user.handler');
 
         $school = $schoolHandler->findSchoolBy(['id' => $id]);
 
@@ -70,10 +71,12 @@ class SchooleventsController extends FOSRestController
         if (!$to) {
             throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
         }
-        $result = $schoolHandler->findEventsForSchool(
-            $school->getId(),
-            $from,
-            $to
+        $result = $userHandler->addInstructorsToEvents(
+            $schoolHandler->findEventsForSchool(
+                $school->getId(),
+                $from,
+                $to
+            )
         );
 
         $authChecker = $this->get('security.authorization_checker');

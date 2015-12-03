@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Classes\UserEvent;
+use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -113,4 +114,12 @@ interface UserManagerInterface extends ManagerInterface
      * @return UserEvent[]
      */
     public function findEventsForUser($userId, \DateTime $from, \DateTime $to);
+
+    /**
+     * Finds and adds instructors to a given list of calendar events.
+     *
+     * @param CalendarEvent[] $events
+     * @return CalendarEvent[]
+     */
+    public function addInstructorsToEvents(array $events);
 }

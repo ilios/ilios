@@ -430,7 +430,7 @@ class UserRepository extends EntityRepository
         $results = $qb->getQuery()->getArrayResult();
         return $this->createEventObjectsForOfferings($id, $results);
     }
-    
+
     /**
       * Use the query builder and the $joins to get a set of
       * ILMSession based user events
@@ -526,5 +526,134 @@ class UserRepository extends EntityRepository
 
             return $event;
         }, $results);
+    }
+
+    /**
+     * Retrieves a list of instructors associated with given offerings.
+     *
+     * @param array $ids A list of offering ids.
+     * @return array A map of instructor lists, keyed off by offering ids.
+     */
+    protected function getInstructorsForOfferings(array $ids)
+    {
+        if (empty($ids)) {
+            return [];
+        }
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('o.id oId, o2.id AS oId2, u.id AS userId, u.firstName, u.lastName')
+            ->from('IliosCoreBundle:User', 'u');
+        $qb->leftJoin('u.instructedOfferings', 'o');
+        $qb->leftJoin('u.instructorGroups', 'ig');
+        $qb->leftJoin('ig.offerings', 'o2');
+        $qb->where(
+            $qb->expr()->orX(
+                $qb->expr()->in('o.id', ':offerings'),
+                $qb->expr()->in('o2.id', ':offerings')
+            )
+        );
+        $qb->setParameter(':offerings', $ids);
+        $results = $qb->getQuery()->getArrayResult();
+
+        $offeringInstructors = [];
+        foreach ($results as $result) {
+            if ($result['oId']) {
+                if (! array_key_exists($result['oId'], $offeringInstructors)) {
+                    $offeringInstructors[$result['oId']] = [];
+                }
+                $offeringInstructors[$result['oId']][$result['userId']]
+                    = $result['firstName'] . ' ' . $result['lastName'];
+            }
+            if ($result['oId2']) {
+                if (! array_key_exists($result['oId2'], $offeringInstructors)) {
+                    $offeringInstructors[$result['oId2']] = [];
+                }
+                $offeringInstructors[$result['oId2']][$result['userId']]
+                    = $result['firstName'] . ' ' . $result['lastName'];
+            }
+        }
+        return $offeringInstructors;
+    }
+
+    /**
+     * Retrieves a list of instructors associated with given ILM sessions.
+     *
+     * @param array $ids A list of ILM session ids.
+     * @return array A map of instructor lists, keyed off by ILM sessions ids.
+     */
+    protected function getInstructorsForIlmSessions(array $ids)
+    {
+        if (empty($ids)) {
+            return [];
+        }
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('ilm.id ilmId, ilm2.id AS ilmId2, u.id AS userId, u.firstName, u.lastName')
+            ->from('IliosCoreBundle:User', 'u');
+        $qb->leftJoin('u.instructorIlmSessions', 'ilm');
+        $qb->leftJoin('u.instructorGroups', 'ig');
+        $qb->leftJoin('ig.ilmSessions', 'ilm2');
+        $qb->where(
+            $qb->expr()->orX(
+                $qb->expr()->in('ilm.id', ':ilms'),
+                $qb->expr()->in('ilm2.id', ':ilms')
+            )
+        );
+        $qb->setParameter(':ilms', $ids);
+        $results = $qb->getQuery()->getArrayResult();
+
+        $ilmInstructors = [];
+        foreach ($results as $result) {
+            if ($result['ilmId']) {
+                if (! array_key_exists($result['ilmId'], $ilmInstructors)) {
+                    $ilmInstructors[$result['ilmId']] = [];
+                }
+                $ilmInstructors[$result['ilmId']][$result['userId']] = $result['firstName'] . ' ' . $result['lastName'];
+            }
+            if ($result['ilmId2']) {
+                if (! array_key_exists($result['ilmId2'], $ilmInstructors)) {
+                    $ilmInstructors[$result['ilmId2']] = [];
+                }
+                $ilmInstructors[$result['ilmId2']][$result['userId']]
+                    = $result['firstName'] . ' ' . $result['lastName'];
+            }
+        }
+        return $ilmInstructors;
+    }
+
+    /**
+     * Adds instructors to a given list of events.
+     * @param array $events A list of events
+     * @return array The events list with instructors added.
+     */
+    public function addInstructorsToEvents(array $events)
+    {
+        $offeringIds = array_map(function ($event) {
+            return $event->offering;
+        }, array_filter($events, function ($event) {
+            return $event->offering;
+        }));
+
+        $ilmIds = array_map(function ($event) {
+            return $event->ilmSession;
+        }, array_filter($events, function ($event) {
+            return $event->ilmSession;
+        }));
+
+        $offeringInstructors = $this->getInstructorsForOfferings($offeringIds);
+        $ilmInstructors = $this->getInstructorsForIlmSessions($ilmIds);
+
+        for ($i = 0, $n = count($events); $i < $n; $i++) {
+            if ($events[$i]->offering) { // event maps to offering
+                if (array_key_exists($events[$i]->offering, $offeringInstructors)) {
+                    $events[$i]->instructors = array_values($offeringInstructors[$events[$i]->offering]);
+                }
+            } else { // event maps to ILM session
+                if (array_key_exists($events[$i]->ilmSession, $ilmInstructors)) {
+                    $events[$i]->instructors = array_values($ilmInstructors[$events[$i]->ilmSession]);
+                }
+            }
+        }
+        return $events;
     }
 }
