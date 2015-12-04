@@ -24,13 +24,23 @@ class ReportData extends AbstractDataLoader
             'user' => '2'
         );
 
+        $arr[] = array(
+            'id' => 3,
+            'title' => $this->faker->title(25),
+            'subject' => $this->faker->title(25),
+            'prepositionalObject' => $this->faker->title(5),
+            'prepositionalObjectTableRowId' => $this->faker->randomDigitNotNull(),
+            'user' => '2',
+            'school' => '1',
+        );
+
         return $arr;
     }
 
     public function create()
     {
         return array(
-            'id' => 3,
+            'id' => 4,
             'title' => $this->faker->title(25),
             'subject' => $this->faker->title(25),
             'prepositionalObject' => $this->faker->title(5),

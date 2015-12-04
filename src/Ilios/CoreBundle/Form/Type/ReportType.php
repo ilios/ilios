@@ -28,6 +28,10 @@ class ReportType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
+            ->add('school', 'tdn_single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:School"
+            ])
         ;
         $transformer = new RemoveMarkupTransformer();
         foreach (['title', 'subject', 'prepositionalObject'] as $element) {

@@ -52,7 +52,7 @@ class UserData extends AbstractDataLoader
             'icsFeedKey' => hash('sha256', '2'),
             'learningMaterials' => [],
             'publishEvents' => [],
-            'reports' => [],
+            'reports' => ['1', '2', '3'],
             'school' => '1',
             'directedCourses' => ['2', '4'],
             'learnerGroups' => ['1', '2', '3'],
