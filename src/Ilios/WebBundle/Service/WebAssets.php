@@ -59,7 +59,7 @@ class WebAssets
      */
     public function getIndex()
     {
-        $fileName = $this->version?'ilios:' . $this->version:'index';
-        return $this->getFileString($fileName . '.html');
+        $fileName = $this->version?'index.html:' . $this->version:'index.html';
+        return $this->getFileString($fileName);
     }
 }

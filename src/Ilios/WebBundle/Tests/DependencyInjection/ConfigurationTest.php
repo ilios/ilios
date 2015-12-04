@@ -31,8 +31,8 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         $defaults = array(
             'environment' => 'production',
             'version' => false,
-            'production_bucket_path' => 'https://s3-us-west-1.amazonaws.com/iliosindex/',
-            'staging_bucket_path' => 'https://s3-us-west-1.amazonaws.com/dev-iliosindex/',
+            'production_bucket_path' => 'https://s3-us-west-2.amazonaws.com/frontend-apiv1.0-index-prod/',
+            'staging_bucket_path' => 'https://s3-us-west-2.amazonaws.com/frontend-apiv1.0-index-stage/',
         );
         $this->assertProcessedConfigurationEquals(
             array(),

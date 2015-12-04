@@ -20,7 +20,7 @@ class IliosWebExtensionTest extends AbstractExtensionTestCase
         $parameters = array(
             'ilios_web.environment' => 'production',
             'ilios_web.version' => false,
-            'ilios_web.bucket_url' => 'https://s3-us-west-1.amazonaws.com/iliosindex/',
+            'ilios_web.bucket_url' => 'https://s3-us-west-2.amazonaws.com/frontend-apiv1.0-index-prod/',
         );
         $this->load();
         foreach ($parameters as $name => $value) {
