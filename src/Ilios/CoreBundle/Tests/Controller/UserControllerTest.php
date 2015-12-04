@@ -180,6 +180,37 @@ class UserControllerTest extends AbstractControllerTest
         $this->assertTrue(array_key_exists('users', $result));
         $gotUsers = $result['users'];
         $this->assertEquals(0, count($gotUsers));
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', array('q' => 'newuser')),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('users', $result));
+        $gotUsers = $result['users'];
+        $this->assertEquals(1, count($gotUsers));
+        $this->assertEquals(
+            $users[1]['id'],
+            $gotUsers[0]['id']
+        );
+
+        $users = $this->container->get('ilioscore.dataloader.user')->getAll();
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', array('q' => '1111@school')),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $result = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue(array_key_exists('users', $result));
+        $gotUsers = $result['users'];
+        $this->assertEquals(1, count($gotUsers));
+        $this->assertEquals(
+            $users[0]['id'],
+            $gotUsers[0]['id']
+        );
     }
 
     /**
