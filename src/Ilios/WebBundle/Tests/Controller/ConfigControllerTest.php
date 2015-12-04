@@ -27,7 +27,5 @@ class ConfigControllerTest extends WebTestCase
             array('config' => array('type' => 'form', 'locale' => 'en')),
             json_decode($response->getContent(), true)
         );
-
-
     }
 }
