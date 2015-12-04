@@ -4,6 +4,11 @@ ilios_web_ics:
         _controller: IliosWebBundle:Ics:index
     requirements:
         key: "^[a-zA-Z0-9]{64}$"
+ilios_web_config:
+    path:     /config
+    defaults:
+        _controller: IliosWebBundle:Config:index
+    methods: [GET]
 ilios_web_errors:
     pattern:     /errors
     defaults:
@@ -16,6 +21,3 @@ ilios_web_homepage:
         _controller: IliosWebBundle:Index:index
     requirements:
         url: ".+"
-ilios_web_config:
-    path:     /config
-    defaults: { _controller: IliosWebBundle:Error:Config:index }
