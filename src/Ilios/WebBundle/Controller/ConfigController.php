@@ -1,10 +1,14 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Controller;
+namespace Ilios\WebBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Class ConfigController
+ * @package Ilios\WebBundle\Controller
+ */
 class ConfigController extends Controller
 {
     public function indexAction()
@@ -16,6 +20,7 @@ class ConfigController extends Controller
             $url = $this->get('request')->getSchemeAndHttpHost();
             $configuration['loginUrl'] = $url . '/Shibboleth.sso/Login';
         }
+        $configuration['locale'] = $this->container->getParameter('locale');
         return new JsonResponse(array('config' => $configuration));
     }
 }
