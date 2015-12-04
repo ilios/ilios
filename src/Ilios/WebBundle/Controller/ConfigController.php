@@ -20,6 +20,7 @@ class ConfigController extends Controller
             $url = $this->get('request')->getSchemeAndHttpHost();
             $configuration['loginUrl'] = $url . '/Shibboleth.sso/Login';
         }
+        $configuration['locale'] = $this->container->getParameter('locale');
         return new JsonResponse(array('config' => $configuration));
     }
 }
