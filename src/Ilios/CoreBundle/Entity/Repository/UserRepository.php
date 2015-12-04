@@ -200,6 +200,8 @@ class UserRepository extends EntityRepository
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->add('select', 'u')->from('IliosCoreBundle:User', 'u');
+        $qb->leftJoin('u.authentication', 'auth');
+
         $terms = explode(' ', $q);
         $terms = array_filter($terms, 'strlen');
         if (empty($terms)) {
@@ -207,11 +209,14 @@ class UserRepository extends EntityRepository
         }
 
         foreach ($terms as $key => $term) {
+
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->like('u.firstName', "?{$key}"),
                 $qb->expr()->like('u.lastName', "?{$key}"),
                 $qb->expr()->like('u.middleName', "?{$key}"),
-                $qb->expr()->like('u.email', "?{$key}")
+                $qb->expr()->like('u.email', "?{$key}"),
+                $qb->expr()->like('u.campusId', "?{$key}"),
+                $qb->expr()->like('auth.username', "?{$key}")
             ))
             ->setParameter($key, '%' . $term . '%');
         }
