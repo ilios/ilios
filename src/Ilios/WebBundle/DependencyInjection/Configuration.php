@@ -29,10 +29,10 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('version')->defaultValue(false)->end()
                 ->scalarNode('production_bucket_path')
-                  ->defaultValue('https://s3-us-west-1.amazonaws.com/iliosindex/')
+                  ->defaultValue('https://s3-us-west-2.amazonaws.com/frontend-apiv1.0-index-prod/')
                 ->end()
                 ->scalarNode('staging_bucket_path')
-                  ->defaultValue('https://s3-us-west-1.amazonaws.com/dev-iliosindex/')
+                  ->defaultValue('https://s3-us-west-2.amazonaws.com/frontend-apiv1.0-index-stage/')
                 ->end()
             ->end();
 
