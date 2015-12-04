@@ -21,7 +21,7 @@
         "nelmio/api-doc-bundle": "~2.10",
         "nelmio/cors-bundle": "~1.4",
         "jms/di-extra-bundle": "~1.5",
-        "firebase/php-jwt": "^2.2",
+        "firebase/php-jwt": "^3.0",
         "ircmaxell/password-compat": "^1.0.4",
         "psr/log": "1.0.0",
         "doctrine/doctrine-migrations-bundle": "^1.0",

@@ -5,7 +5,7 @@ namespace Ilios\AuthenticationBundle\Tests\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Util\Codes;
-use JWT;
+use Firebase\JWT\JWT;
 use DateTime;
 
 use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
@@ -15,11 +15,21 @@ class AuthenticationControllerTest extends WebTestCase
 {
     use JsonControllerTest;
 
+    /**
+     * @var string
+     */
+    protected $jwtKey;
+
+    /**
+     * @inheritdoc
+     */
     public function setUp()
     {
         $this->loadFixtures([
             'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData'
         ]);
+
+        $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $this->getContainer()->getParameter('kernel.secret');
     }
 
     public function testMissingValues()
@@ -54,8 +64,7 @@ class AuthenticationControllerTest extends WebTestCase
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
-        
-        $token = (array) JWT::decode($data->jwt);
+        $token = (array) JWT::decode($data->jwt, $this->jwtKey, array('HS256'));
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(1, $token['user_id']);
     }
@@ -77,8 +86,8 @@ class AuthenticationControllerTest extends WebTestCase
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
-        
-        $token = (array) JWT::decode($data->jwt);
+
+        $token = (array) JWT::decode($data->jwt, $this->jwtKey, array('HS256'));
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(2, $token['user_id']);
     }
@@ -99,8 +108,8 @@ class AuthenticationControllerTest extends WebTestCase
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
-        
-        $token = (array) JWT::decode($data->jwt);
+
+        $token = (array) JWT::decode($data->jwt, $this->jwtKey, array('HS256'));
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(1, $token['user_id']);
     }
@@ -121,8 +130,8 @@ class AuthenticationControllerTest extends WebTestCase
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
-        
-        $token = (array) JWT::decode($data->jwt);
+
+        $token = (array) JWT::decode($data->jwt, $this->jwtKey, array('HS256'));
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(2, $token['user_id']);
     }
@@ -199,8 +208,8 @@ class AuthenticationControllerTest extends WebTestCase
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
-        
-        $token = (array) JWT::decode($data->jwt);
+
+        $token = (array) JWT::decode($data->jwt, $this->jwtKey, array('HS256'));
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(1, $token['user_id']);
     
@@ -215,7 +224,6 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $jwt = $this->getAuthenticatedUserToken();
-        $token = (array) JWT::decode($jwt);
         $this->makeJsonRequest(
             $client,
             'get',
@@ -242,7 +250,7 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $jwt = $this->getAuthenticatedUserToken();
-        $token = (array) JWT::decode($jwt);
+        $token = (array) JWT::decode($jwt, $this->jwtKey, array('HS256'));
         $this->makeJsonRequest(
             $client,
             'get',
@@ -252,7 +260,7 @@ class AuthenticationControllerTest extends WebTestCase
         );
         $response = $client->getResponse();
         $response = json_decode($response->getContent(), true);
-        $token2 = (array) JWT::decode($response['jwt']);
+        $token2 = (array) JWT::decode($response['jwt'], $this->jwtKey, array('HS256'));
     
         // figure out the delta between issued and expiration datetime
         $exp = new \DateTime();
@@ -290,7 +298,7 @@ class AuthenticationControllerTest extends WebTestCase
         
         $response = $client->getResponse();
         $response = json_decode($response->getContent(), true);
-        $token = (array) JWT::decode($response['jwt']);
+        $token = (array) JWT::decode($response['jwt'], $this->jwtKey, array('HS256'));
         
         
         $now = new DateTime();
