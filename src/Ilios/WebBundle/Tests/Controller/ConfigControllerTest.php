@@ -17,7 +17,7 @@ class ConfigControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/config');
+        $client->request('GET', '/application/config');
 
         $response = $client->getResponse();
 

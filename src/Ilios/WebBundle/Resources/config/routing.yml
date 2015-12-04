@@ -5,7 +5,7 @@ ilios_web_ics:
     requirements:
         key: "^[a-zA-Z0-9]{64}$"
 ilios_web_config:
-    path:     /config
+    path:     /application/config
     defaults:
         _controller: IliosWebBundle:Config:index
     methods: [GET]
