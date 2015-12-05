@@ -32,7 +32,7 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAssessmentOption()
     {
@@ -61,7 +61,7 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllAssessmentOptions()
     {
@@ -85,7 +85,7 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostAssessmentOption()
     {
@@ -114,7 +114,7 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadAssessmentOption()
     {
@@ -135,7 +135,7 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutAssessmentOption()
     {

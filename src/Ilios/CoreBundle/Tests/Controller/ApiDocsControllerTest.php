@@ -11,7 +11,7 @@ class ApiDocsControllerTest extends WebTestCase
     /**
      * Ensure that the page will load correctly
      * it fails when there are major issues with the API docs block comments
-     * @group controllers
+     * @group controllers_a
      */
     public function testLoad()
     {

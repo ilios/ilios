@@ -32,7 +32,7 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetLearningMaterialUserRole()
     {
@@ -61,7 +61,7 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllLearningMaterialUserRoles()
     {
@@ -85,7 +85,7 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostLearningMaterialUserRole()
     {
@@ -113,7 +113,7 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadLearningMaterialUserRole()
     {
@@ -134,7 +134,7 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutLearningMaterialUserRole()
     {

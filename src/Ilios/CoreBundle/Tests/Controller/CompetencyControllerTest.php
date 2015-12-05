@@ -38,7 +38,7 @@ class CompetencyControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetCompetency()
     {
@@ -67,7 +67,7 @@ class CompetencyControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllCompetencies()
     {
@@ -86,7 +86,7 @@ class CompetencyControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCompetency()
     {
@@ -116,7 +116,7 @@ class CompetencyControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCompetencyProgramYear()
     {
@@ -151,7 +151,7 @@ class CompetencyControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadCompetency()
     {

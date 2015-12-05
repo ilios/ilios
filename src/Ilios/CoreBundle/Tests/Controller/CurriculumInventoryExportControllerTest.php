@@ -37,7 +37,7 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
 
     /**
      * @covers Ilios\CoreBundle\Controller\CurriculumInventoryExportController::postAction
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCurriculumInventoryExport()
     {

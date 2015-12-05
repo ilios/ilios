@@ -32,7 +32,7 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAlertChangeType()
     {
@@ -61,7 +61,7 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllAlertChangeTypes()
     {
@@ -85,7 +85,7 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostAlertChangeType()
     {
@@ -113,7 +113,7 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostAlertAlertChangeType()
     {
@@ -146,7 +146,7 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadAlertChangeType()
     {

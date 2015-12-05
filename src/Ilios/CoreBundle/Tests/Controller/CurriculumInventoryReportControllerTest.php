@@ -35,7 +35,7 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetCurriculumInventoryReport()
     {
@@ -64,7 +64,7 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllCurriculumInventoryReports()
     {
@@ -90,7 +90,7 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCurriculumInventoryReport()
     {
@@ -120,7 +120,7 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadCurriculumInventoryReport()
     {
@@ -141,7 +141,7 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutCurriculumInventoryReport()
     {

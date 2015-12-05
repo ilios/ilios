@@ -33,7 +33,7 @@ class MeshConceptControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetMeshConcept()
     {
@@ -72,7 +72,7 @@ class MeshConceptControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllMeshConcepts()
     {
@@ -108,7 +108,7 @@ class MeshConceptControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostMeshConcept()
     {
@@ -148,7 +148,7 @@ class MeshConceptControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostMeshConceptTerm()
     {
@@ -182,7 +182,7 @@ class MeshConceptControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadMeshConcept()
     {

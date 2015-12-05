@@ -43,7 +43,7 @@ class CourseControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetCourse()
     {
@@ -73,7 +73,7 @@ class CourseControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllCourses()
     {
@@ -92,7 +92,7 @@ class CourseControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCourse()
     {
@@ -122,7 +122,7 @@ class CourseControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadCourse()
     {
@@ -143,7 +143,7 @@ class CourseControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutCourse()
     {

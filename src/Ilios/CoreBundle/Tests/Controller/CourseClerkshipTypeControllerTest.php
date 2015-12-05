@@ -32,7 +32,7 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetCourseClerkshipType()
     {
@@ -61,7 +61,7 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllCourseClerkshipTypes()
     {
@@ -85,7 +85,7 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCourseClerkshipType()
     {
@@ -114,7 +114,7 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadCourseClerkshipType()
     {
@@ -135,7 +135,7 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutCourseClerkshipType()
     {

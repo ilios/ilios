@@ -43,7 +43,7 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetMeshDescriptor()
     {
@@ -82,7 +82,7 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllMeshDescriptors()
     {
@@ -137,7 +137,7 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFindDescriptorsWithId()
     {
@@ -146,7 +146,7 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFindDescriptorsWithName()
     {
@@ -155,7 +155,7 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFindDescriptorsWithAnnotation()
     {

@@ -32,7 +32,7 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetMeshPreviousIndexing()
     {
@@ -63,7 +63,7 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllMeshPreviousIndexings()
     {
@@ -86,7 +86,7 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostMeshPreviousIndexing()
     {
@@ -115,7 +115,7 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadMeshPreviousIndexing()
     {
@@ -136,7 +136,7 @@ class MeshPreviousIndexingControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutMeshPreviousIndexing()
     {

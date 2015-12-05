@@ -14,7 +14,7 @@ class BadRequestControllerTest extends WebTestCase
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testIndex()
     {

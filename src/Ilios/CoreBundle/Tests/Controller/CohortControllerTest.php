@@ -35,7 +35,7 @@ class CohortControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetCohort()
     {
@@ -64,7 +64,7 @@ class CohortControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllCohorts()
     {
@@ -83,7 +83,7 @@ class CohortControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCohort()
     {
@@ -130,7 +130,7 @@ class CohortControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCohortCourse()
     {
@@ -183,7 +183,7 @@ class CohortControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCohortUser()
     {

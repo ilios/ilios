@@ -33,7 +33,7 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetCurriculumInventoryInstitution()
     {
@@ -62,7 +62,7 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllCurriculumInventoryInstitutions()
     {
@@ -86,7 +86,7 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCurriculumInventoryInstitution()
     {
@@ -114,7 +114,7 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadCurriculumInventoryInstitution()
     {
@@ -135,7 +135,7 @@ class CurriculumInventoryInstitutionControllerTest extends AbstractControllerTes
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutCurriculumInventoryInstitution()
     {

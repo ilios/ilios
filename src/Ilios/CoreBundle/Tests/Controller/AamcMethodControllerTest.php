@@ -32,7 +32,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a_a
      */
     public function testGetAamcMethod()
     {
@@ -61,7 +61,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllAamcMethods()
     {
@@ -80,7 +80,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostAamcMethod()
     {
@@ -107,7 +107,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostSessionTypeAamcMethod()
     {
@@ -138,7 +138,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadAamcMethod()
     {

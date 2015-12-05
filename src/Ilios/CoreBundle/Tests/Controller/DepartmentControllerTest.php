@@ -33,7 +33,7 @@ class DepartmentControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetDepartment()
     {
@@ -62,7 +62,7 @@ class DepartmentControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllDepartments()
     {
@@ -81,7 +81,7 @@ class DepartmentControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostDepartment()
     {
@@ -110,7 +110,7 @@ class DepartmentControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadDepartment()
     {
@@ -131,7 +131,7 @@ class DepartmentControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutDepartment()
     {

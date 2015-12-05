@@ -27,7 +27,7 @@ class DownloadControllerTest extends WebTestCase
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testDownloadLearningMaterial()
     {
@@ -68,7 +68,7 @@ class DownloadControllerTest extends WebTestCase
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testBadLearningMaterialToken()
     {

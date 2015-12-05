@@ -34,7 +34,7 @@ class AlertControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAlert()
     {
@@ -63,7 +63,7 @@ class AlertControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllAlerts()
     {
@@ -82,7 +82,7 @@ class AlertControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostAlert()
     {
@@ -110,7 +110,7 @@ class AlertControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadAlert()
     {
@@ -131,7 +131,7 @@ class AlertControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutAlert()
     {
