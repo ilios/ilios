@@ -9,11 +9,11 @@ matrix:
     - php: "5.4"
   include:
     - php: "5.4"
+      env: TEST_PHPUNIT_OTHERS=true
+    - php: "5.4"
       env: TEST_PHPUNIT_CONTROLLERSA=true
     - php: "5.4"
       env: TEST_PHPUNIT_CONTROLLERSB=true
-    - php: "5.4"
-      env: TEST_PHPUNIT_OTHERS=true
     - php: "5.4"
       env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
     - php: "5.4"
