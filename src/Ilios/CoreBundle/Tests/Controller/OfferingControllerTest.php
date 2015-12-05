@@ -38,7 +38,7 @@ class OfferingControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetOffering()
     {
@@ -73,7 +73,7 @@ class OfferingControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllOfferings()
     {
@@ -117,7 +117,7 @@ class OfferingControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostOffering()
     {
@@ -181,7 +181,7 @@ class OfferingControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadOffering()
     {
@@ -202,7 +202,7 @@ class OfferingControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutOffering()
     {

@@ -47,7 +47,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetUser()
     {
@@ -76,7 +76,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllUsers()
     {
@@ -100,7 +100,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFindUsers()
     {
@@ -183,7 +183,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFindUsersWithRoles()
     {
@@ -221,7 +221,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUser()
     {

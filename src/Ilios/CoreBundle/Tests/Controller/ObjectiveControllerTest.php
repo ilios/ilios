@@ -36,7 +36,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetObjective()
     {
@@ -65,7 +65,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllObjectives()
     {
@@ -89,7 +89,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostObjective()
     {
@@ -117,7 +117,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostCourseObjective()
     {
@@ -150,7 +150,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostProgramYearObjective()
     {

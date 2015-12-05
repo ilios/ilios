@@ -32,7 +32,7 @@ class ReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetReport()
     {
@@ -67,7 +67,7 @@ class ReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllReports()
     {
@@ -101,7 +101,7 @@ class ReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostReport()
     {
@@ -135,7 +135,7 @@ class ReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadReport()
     {
@@ -156,7 +156,7 @@ class ReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutReport()
     {

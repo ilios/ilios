@@ -41,7 +41,7 @@ class PublishEventControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetPublishEvent()
     {
@@ -70,7 +70,7 @@ class PublishEventControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllPublishEvents()
     {
@@ -94,7 +94,7 @@ class PublishEventControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostPublishEvent()
     {
@@ -132,7 +132,7 @@ class PublishEventControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadPublishEvent()
     {
@@ -153,7 +153,7 @@ class PublishEventControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPublishEventNotFound()
     {

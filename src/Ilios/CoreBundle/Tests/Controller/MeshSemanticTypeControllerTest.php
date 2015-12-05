@@ -33,7 +33,7 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetMeshSemanticType()
     {
@@ -72,7 +72,7 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllMeshSemanticTypes()
     {
@@ -108,7 +108,7 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostMeshSemanticType()
     {
@@ -145,7 +145,7 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostMeshSemanticTypeConcept()
     {
@@ -176,7 +176,7 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadMeshSemanticType()
     {

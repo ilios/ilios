@@ -34,7 +34,7 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetProgramYearSteward()
     {
@@ -63,7 +63,7 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllProgramYearStewards()
     {
@@ -87,7 +87,7 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostProgramYearSteward()
     {
@@ -115,7 +115,7 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadProgramYearSteward()
     {
@@ -136,7 +136,7 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutProgramYearSteward()
     {
