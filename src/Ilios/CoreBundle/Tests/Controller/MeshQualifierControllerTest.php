@@ -32,7 +32,7 @@ class MeshQualifierControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetMeshQualifier()
     {
@@ -71,7 +71,7 @@ class MeshQualifierControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllMeshQualifiers()
     {
@@ -107,7 +107,7 @@ class MeshQualifierControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostMeshQualifier()
     {
@@ -144,7 +144,7 @@ class MeshQualifierControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadMeshQualifier()
     {
@@ -165,7 +165,7 @@ class MeshQualifierControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutMeshQualifier()
     {

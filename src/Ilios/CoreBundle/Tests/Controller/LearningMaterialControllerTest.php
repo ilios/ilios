@@ -40,7 +40,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetLearningMaterial()
     {
@@ -75,7 +75,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllLearningMaterials()
     {
@@ -121,7 +121,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFindLearningMaterialsByTitle()
     {
@@ -184,7 +184,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFindLearningMaterialsByDescription()
     {
@@ -247,7 +247,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostLearningMaterial()
     {

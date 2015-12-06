@@ -32,7 +32,7 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetCurriculumInventorySequenceBlockSession()
     {
@@ -61,7 +61,7 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllCurriculumInventorySequenceBlockSessions()
     {
@@ -85,7 +85,7 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCurriculumInventorySequenceBlockSession()
     {
@@ -113,7 +113,7 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadCurriculumInventorySequenceBlockSession()
     {
@@ -134,7 +134,7 @@ class CurriculumInventorySequenceBlockSessionControllerTest extends AbstractCont
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutCurriculumInventorySequenceBlockSession()
     {

@@ -41,7 +41,7 @@ class SchoolControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetSchool()
     {
@@ -70,7 +70,7 @@ class SchoolControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllSchools()
     {
@@ -94,7 +94,7 @@ class SchoolControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostSchool()
     {
@@ -130,7 +130,7 @@ class SchoolControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadSchool()
     {
@@ -151,7 +151,7 @@ class SchoolControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutSchool()
     {

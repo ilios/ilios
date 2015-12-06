@@ -32,7 +32,7 @@ class LearningMaterialStatusControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetLearningMaterialStatus()
     {
@@ -61,7 +61,7 @@ class LearningMaterialStatusControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllLearningMaterialStatuses()
     {
@@ -85,7 +85,7 @@ class LearningMaterialStatusControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostLearningMaterialStatus()
     {
@@ -113,7 +113,7 @@ class LearningMaterialStatusControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadLearningMaterialStatus()
     {
@@ -134,7 +134,7 @@ class LearningMaterialStatusControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutLearningMaterialStatus()
     {

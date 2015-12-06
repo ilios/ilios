@@ -31,7 +31,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetCurriculumInventorySequenceBlock()
     {
@@ -60,7 +60,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllCurriculumInventorySequenceBlocks()
     {
@@ -84,7 +84,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCurriculumInventorySequenceBlock()
     {
@@ -114,7 +114,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadCurriculumInventorySequenceBlock()
     {
@@ -135,7 +135,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutCurriculumInventorySequenceBlock()
     {

@@ -32,7 +32,7 @@ class IlmSessionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetIlmSession()
     {
@@ -61,7 +61,7 @@ class IlmSessionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllIlmSessions()
     {
@@ -80,7 +80,7 @@ class IlmSessionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostIlmSession()
     {
@@ -108,7 +108,7 @@ class IlmSessionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadIlmSession()
     {
@@ -129,7 +129,7 @@ class IlmSessionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutIlmSession()
     {

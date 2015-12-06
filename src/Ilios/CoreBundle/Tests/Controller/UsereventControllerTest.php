@@ -34,7 +34,7 @@ class UsereventControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetEvents()
     {
@@ -74,7 +74,7 @@ class UsereventControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testMultidayEvent()
     {

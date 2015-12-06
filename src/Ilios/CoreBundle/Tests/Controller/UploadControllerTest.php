@@ -44,7 +44,7 @@ class UploadControllerTest extends WebTestCase
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testUploadFile()
     {
@@ -68,7 +68,7 @@ class UploadControllerTest extends WebTestCase
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testBadUpload()
     {

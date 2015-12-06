@@ -42,7 +42,7 @@ class TopicControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetTopic()
     {
@@ -71,7 +71,7 @@ class TopicControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllTopics()
     {
@@ -90,7 +90,7 @@ class TopicControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostTopic()
     {
@@ -118,7 +118,7 @@ class TopicControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostTopicCourse()
     {
@@ -151,7 +151,7 @@ class TopicControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostTopicProgramYear()
     {

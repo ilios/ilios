@@ -32,7 +32,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAamcPcrs()
     {
@@ -61,7 +61,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllAamcPcrs()
     {
@@ -80,7 +80,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostAamcPcrs()
     {
@@ -107,7 +107,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCompetencyAamcPcrs()
     {
@@ -138,7 +138,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadAamcPcrs()
     {

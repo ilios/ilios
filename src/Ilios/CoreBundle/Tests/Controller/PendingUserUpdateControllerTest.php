@@ -30,7 +30,7 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetPendingUserUpdate()
     {
@@ -59,7 +59,7 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllPendingUserUpdates()
     {
@@ -83,7 +83,7 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostPendingUserUpdate()
     {
@@ -111,7 +111,7 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadPendingUserUpdate()
     {
@@ -132,7 +132,7 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutPendingUserUpdate()
     {

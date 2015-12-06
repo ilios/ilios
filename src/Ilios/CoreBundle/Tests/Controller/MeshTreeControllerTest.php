@@ -32,7 +32,7 @@ class MeshTreeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetMeshTree()
     {
@@ -62,7 +62,7 @@ class MeshTreeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllMeshTrees()
     {
@@ -86,7 +86,7 @@ class MeshTreeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostMeshTree()
     {
@@ -115,7 +115,7 @@ class MeshTreeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadMeshTree()
     {
@@ -136,7 +136,7 @@ class MeshTreeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutMeshTree()
     {

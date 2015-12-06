@@ -9,9 +9,11 @@ matrix:
     - php: "5.4"
   include:
     - php: "5.4"
-      env: TEST_PHPUNIT_CONTROLLERS=true
-    - php: "5.4"
       env: TEST_PHPUNIT_OTHERS=true
+    - php: "5.4"
+      env: TEST_PHPUNIT_CONTROLLERSA=true
+    - php: "5.4"
+      env: TEST_PHPUNIT_CONTROLLERSB=true
     - php: "5.4"
       env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
     - php: "5.4"
@@ -23,7 +25,8 @@ php:
 
 env:
   matrix:
-    - TEST_PHPUNIT_CONTROLLERS=true
+    - TEST_PHPUNIT_CONTROLLERSA=true
+    - TEST_PHPUNIT_CONTROLLERSB=true
     - TEST_PHPUNIT_OTHERS=true
     - TEST_PHPUNIT_MESH_DATA_IMPORT=true
     - VALIDATE_SCHEMA=true
@@ -61,8 +64,9 @@ script:
   - if [ "$CHECK_CODING_STANDARDS" = true ]; then (bin/phpcs --standard=app/phpcs.xml src); fi
   - if [ "$CHECK_CODING_STANDARDS" = true ]; then (php security-checker.phar security:check); fi
   - if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ]; then (bin/phpunit -c phpunit.xml.dist --group mesh_data_import); fi
-  - if [ "$TEST_PHPUNIT_CONTROLLERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --group controllers); fi
-  - if [ "$TEST_PHPUNIT_OTHERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers); fi
+  - if [ "$TEST_PHPUNIT_CONTROLLERSA" = true ]; then (bin/phpunit -c phpunit.xml.dist --group controllers_a); fi
+  - if [ "$TEST_PHPUNIT_CONTROLLERSB" = true ]; then (bin/phpunit -c phpunit.xml.dist --group controllers_b); fi
+  - if [ "$TEST_PHPUNIT_OTHERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers_a,controllers_b); fi
 
 #encrypted the IRC room chat.freenode.net##ilios so that it doesn't run on pull requests
 notifications:

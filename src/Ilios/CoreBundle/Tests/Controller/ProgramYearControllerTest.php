@@ -41,7 +41,7 @@ class ProgramYearControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetProgramYear()
     {
@@ -70,7 +70,7 @@ class ProgramYearControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllProgramYears()
     {
@@ -94,7 +94,7 @@ class ProgramYearControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostProgramYear()
     {
@@ -123,7 +123,7 @@ class ProgramYearControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadProgramYear()
     {
@@ -144,7 +144,7 @@ class ProgramYearControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutProgramYear()
     {

@@ -31,7 +31,7 @@ class IngestionExceptionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetIngestionException()
     {
@@ -60,7 +60,7 @@ class IngestionExceptionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllIngestionExceptions()
     {
@@ -84,7 +84,7 @@ class IngestionExceptionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testIngestionExceptionNotFound()
     {

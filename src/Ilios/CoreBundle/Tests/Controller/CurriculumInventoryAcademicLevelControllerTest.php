@@ -34,7 +34,7 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetCurriculumInventoryAcademicLevel()
     {
@@ -63,7 +63,7 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllCurriculumInventoryAcademicLevels()
     {
@@ -87,7 +87,7 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostCurriculumInventoryAcademicLevel()
     {
@@ -116,7 +116,7 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadCurriculumInventoryAcademicLevel()
     {
@@ -137,7 +137,7 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutCurriculumInventoryAcademicLevel()
     {

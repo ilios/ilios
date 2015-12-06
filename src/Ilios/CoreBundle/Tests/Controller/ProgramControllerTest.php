@@ -37,7 +37,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetProgram()
     {
@@ -66,7 +66,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllPrograms()
     {
@@ -90,7 +90,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostProgram()
     {
@@ -120,7 +120,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadProgram()
     {
@@ -141,7 +141,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutProgram()
     {

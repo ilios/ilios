@@ -33,7 +33,7 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetSessionLearningMaterial()
     {
@@ -62,7 +62,7 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllSessionLearningMaterials()
     {
@@ -86,7 +86,7 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostSessionLearningMaterial()
     {
@@ -114,7 +114,7 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadSessionLearningMaterial()
     {
@@ -135,7 +135,7 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutSessionLearningMaterial()
     {

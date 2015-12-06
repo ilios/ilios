@@ -31,7 +31,7 @@ class UserRoleControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetUserRole()
     {
@@ -60,7 +60,7 @@ class UserRoleControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllUserRoles()
     {
@@ -84,7 +84,7 @@ class UserRoleControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserRole()
     {
@@ -112,7 +112,7 @@ class UserRoleControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadUserRole()
     {
@@ -133,7 +133,7 @@ class UserRoleControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutUserRole()
     {

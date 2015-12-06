@@ -39,7 +39,7 @@ class SessionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetSession()
     {
@@ -74,7 +74,7 @@ class SessionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllSessions()
     {
@@ -108,7 +108,7 @@ class SessionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostSession()
     {
@@ -144,7 +144,7 @@ class SessionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadSession()
     {
@@ -165,7 +165,7 @@ class SessionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutSession()
     {

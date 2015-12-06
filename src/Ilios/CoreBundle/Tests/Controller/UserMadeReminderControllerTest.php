@@ -32,7 +32,7 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetUserMadeReminder()
     {
@@ -67,7 +67,7 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testGetAllUserMadeReminders()
     {
@@ -101,7 +101,7 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserMadeReminder()
     {
@@ -135,7 +135,7 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadUserMadeReminder()
     {
@@ -156,7 +156,7 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutUserMadeReminder()
     {

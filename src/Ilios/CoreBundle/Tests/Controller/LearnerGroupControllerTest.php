@@ -36,7 +36,7 @@ class LearnerGroupControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetLearnerGroup()
     {
@@ -65,7 +65,7 @@ class LearnerGroupControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllLearnerGroups()
     {
@@ -84,7 +84,7 @@ class LearnerGroupControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostLearnerGroup()
     {
@@ -113,7 +113,7 @@ class LearnerGroupControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostLearnerGroupIlmSession()
     {
@@ -147,7 +147,7 @@ class LearnerGroupControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostLearnerGroupOffering()
     {

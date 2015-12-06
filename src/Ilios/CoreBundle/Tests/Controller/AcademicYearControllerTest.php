@@ -30,7 +30,7 @@ class AcademicYearControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAcademicYear()
     {
@@ -63,7 +63,7 @@ class AcademicYearControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testGetAllAcademicYears()
     {
