@@ -34,28 +34,28 @@ class ProgramRepository extends EntityRepository
 
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
-            $qb->join('p.programYears', 'programYear');
-            $qb->join('programYear.cohort', 'cohort');
-            $qb->join('cohort.courses', 'course');
-            $qb->andWhere($qb->expr()->in('course.id', ':courses'));
+            $qb->join('p.programYears', 'c_programYear');
+            $qb->join('c_programYear.cohort', 'c_cohort');
+            $qb->join('c_cohort.courses', 'c_course');
+            $qb->andWhere($qb->expr()->in('c_course.id', ':courses'));
             $qb->setParameter(':courses', $ids);
         }
 
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->join('p.programYears', 'programYear');
-            $qb->join('programYear.cohort', 'cohort');
-            $qb->join('cohort.courses', 'course');
-            $qb->join('course.sessions', 'session');
-            $qb->andWhere($qb->expr()->in('session.id', ':sessions'));
+            $qb->join('p.programYears', 'se_programYear');
+            $qb->join('se_programYear.cohort', 'se_cohort');
+            $qb->join('se_cohort.courses', 'se_course');
+            $qb->join('se_course.sessions', 'se_session');
+            $qb->andWhere($qb->expr()->in('se_session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
         }
 
         if (array_key_exists('topics', $criteria)) {
             $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
-            $qb->join('p.programYears', 'programYear');
-            $qb->join('programYear.topics', 'topic');
-            $qb->andWhere($qb->expr()->in('topic.id', ':topics'));
+            $qb->join('p.programYears', 't_programYear');
+            $qb->join('t_programYear.topics', 't_topic');
+            $qb->andWhere($qb->expr()->in('t_topic.id', ':topics'));
             $qb->setParameter(':topics', $ids);
         }
 
