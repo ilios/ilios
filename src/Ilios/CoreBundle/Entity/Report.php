@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\SchoolEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,6 +26,7 @@ class Report implements ReportInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use TitledEntity;
+    use SchoolEntity;
 
     /**
      * @var int
@@ -69,6 +71,19 @@ class Report implements ReportInterface
      * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
+
+    /**
+     * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $school;
 
     /**
      * @var string

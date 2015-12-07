@@ -65,4 +65,13 @@ class ReportTest extends EntityBase
     {
         $this->entitySetTest('user', 'User');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Report::setSchool
+     * @covers Ilios\CoreBundle\Entity\Report::getSchool
+     */
+    public function testSetSchool()
+    {
+        $this->entitySetTest('school', 'School');
+    }
 }

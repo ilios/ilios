@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
@@ -12,6 +13,7 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 interface ReportInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
+    SchoolEntityInterface,
     LoggableEntityInterface
 {
 

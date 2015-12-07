@@ -40,6 +40,10 @@ class LoadReportData extends AbstractFixture implements
                 $entity->setPrepositionalObjectTableRowId($arr['prepositionalObjectTableRowId']);
             }
             $entity->setUser($this->getReference('users' . $arr['user']));
+
+            if (array_key_exists('school', $arr)) {
+                $entity->setSchool($this->getReference('schools' . $arr['school']));
+            }
             $manager->persist($entity);
             $this->addReference('reports' . $arr['id'], $entity);
         }
@@ -53,5 +57,6 @@ class LoadReportData extends AbstractFixture implements
     public function getDependencies()
     {
         return array('Ilios\CoreBundle\Tests\Fixture\LoadUserData');
+        return array('Ilios\CoreBundle\Tests\Fixture\LoadSchoolData');
     }
 }
