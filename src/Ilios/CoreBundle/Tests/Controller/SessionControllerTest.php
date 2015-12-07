@@ -1083,4 +1083,33 @@ class SessionControllerTest extends AbstractControllerTest
             $data[1]
         );
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySchool()
+    {
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessions', ['filters[schools][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = array_map(function ($arr) {
+            unset($arr['updatedAt']);
+            return $arr;
+        }, json_decode($response->getContent(), true)['sessions']);
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[3]
+            ),
+            $data[0]
+        );
+    }
 }

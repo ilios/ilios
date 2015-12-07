@@ -114,7 +114,19 @@ class SessionRepository extends EntityRepository
             $qb->setParameter(':meshDescriptors', $ids);
         }
 
+        if (array_key_exists('schools', $criteria)) {
+            $ids = is_array($criteria['schools']) ?
+                $criteria['schools'] : [$criteria['schools']];
+            $qb->join('s.course', 's_course');
+            $qb->join('s_course.school', 's_school');
+            $qb->andWhere(
+                $qb->expr()->in('s_school.id', ':schools')
+            );
+            $qb->setParameter(':schools', $ids);
+        }
+
         //cleanup all the possible relationship filters
+        unset($criteria['schools']);
         unset($criteria['sessions']);
         unset($criteria['topics']);
         unset($criteria['programs']);
