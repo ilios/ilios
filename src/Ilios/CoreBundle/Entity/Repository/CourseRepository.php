@@ -174,7 +174,15 @@ class CourseRepository extends EntityRepository
             $qb->setParameter(':meshDescriptors', $ids);
         }
 
+        if (array_key_exists('schools', $criteria)) {
+            $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
+            $qb->join('c.school', 'sc_school');
+            $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
+            $qb->setParameter(':schools', $ids);
+        }
+
         //cleanup all the possible relationship filters
+        unset($criteria['schools']);
         unset($criteria['sessions']);
         unset($criteria['topics']);
         unset($criteria['programs']);
