@@ -53,6 +53,15 @@ class ProgramYearRepository extends EntityRepository
             $qb->setParameter(':topics', $ids);
         }
 
+        if (array_key_exists('schools', $criteria)) {
+            $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
+            $qb->join('p.program', 'py_program');
+            $qb->join('py_program.school', 'py_school');
+            $qb->andWhere($qb->expr()->in('py_school.id', ':schools'));
+            $qb->setParameter(':schools', $ids);
+        }
+
+        unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
         unset($criteria['topics']);

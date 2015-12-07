@@ -304,4 +304,42 @@ class ProgramYearControllerTest extends AbstractControllerTest
             $data[0]
         );
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySchool()
+    {
+        $programYears = $this->container->get('ilioscore.dataloader.programyear')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_programyears', ['filters[schools][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['programYears'];
+        $this->assertEquals(3, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programYears[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programYears[1]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programYears[2]
+            ),
+            $data[2]
+        );
+    }
 }
