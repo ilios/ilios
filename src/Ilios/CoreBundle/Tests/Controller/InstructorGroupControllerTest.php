@@ -479,4 +479,42 @@ class InstructorGroupControllerTest extends AbstractControllerTest
             $data[1]
         );
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySchool()
+    {
+        $groups = $this->container->get('ilioscore.dataloader.instructorgroup')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_instructorgroups', ['filters[schools]' => [1]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['instructorGroups'];
+        $this->assertEquals(3, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[1]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[2]
+            ),
+            $data[2]
+        );
+    }
 }

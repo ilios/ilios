@@ -121,6 +121,14 @@ class InstructorGroupRepository extends EntityRepository
             $qb->setParameter(':topics', $ids);
         }
 
+        if (array_key_exists('schools', $criteria)) {
+            $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
+            $qb->join('i.school', 'sc_school');
+            $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
+            $qb->setParameter(':schools', $ids);
+        }
+
+        unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
         unset($criteria['sessionTypes']);
