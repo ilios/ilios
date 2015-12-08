@@ -30,14 +30,14 @@ class CompetencyRepository extends EntityRepository
 
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->leftJoin('c.objectives', 'objective');
-            $qb->leftJoin('objective.sessions', 'session');
-            $qb->leftJoin('objective.children', 'objective2');
-            $qb->leftJoin('objective2.sessions', 'session2');
+            $qb->leftJoin('c.objectives', 'se_objective');
+            $qb->leftJoin('se_objective.sessions', 'se_session');
+            $qb->leftJoin('se_objective.children', 'se_objective2');
+            $qb->leftJoin('se_objective2.sessions', 'se_session2');
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->in('session.id', ':sessions'),
-                    $qb->expr()->in('session2.id', ':sessions')
+                    $qb->expr()->in('se_session.id', ':sessions'),
+                    $qb->expr()->in('se_session2.id', ':sessions')
                 )
             );
             $qb->setParameter(':sessions', $ids);
@@ -45,16 +45,16 @@ class CompetencyRepository extends EntityRepository
 
         if (array_key_exists('sessionTypes', $criteria)) {
             $ids = is_array($criteria['sessionTypes']) ? $criteria['sessionTypes'] : [$criteria['sessionTypes']];
-            $qb->leftJoin('c.objectives', 'objective');
-            $qb->leftJoin('objective.sessions', 'session');
-            $qb->leftJoin('session.sessionType', 'sessionType');
-            $qb->leftJoin('objective.children', 'objective2');
-            $qb->leftJoin('objective2.sessions', 'session2');
-            $qb->leftJoin('session2.sessionType', 'sessionType2');
+            $qb->leftJoin('c.objectives', 'st_objective');
+            $qb->leftJoin('st_objective.sessions', 'st_session');
+            $qb->leftJoin('st_session.sessionType', 'st_sessionType');
+            $qb->leftJoin('st_objective.children', 'st_objective2');
+            $qb->leftJoin('st_objective2.sessions', 'st_session2');
+            $qb->leftJoin('st_session2.sessionType', 'st_sessionType2');
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->in('sessionType.id', ':sessionTypes'),
-                    $qb->expr()->in('sessionType2.id', ':sessionTypes')
+                    $qb->expr()->in('st_sessionType.id', ':sessionTypes'),
+                    $qb->expr()->in('st_sessionType2.id', ':sessionTypes')
                 )
             );
             $qb->setParameter(':sessionTypes', $ids);
@@ -62,27 +62,27 @@ class CompetencyRepository extends EntityRepository
 
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
-            $qb->leftJoin('c.objectives', 'objective');
-            $qb->leftJoin('objective.courses', 'course');
-            $qb->andWhere($qb->expr()->in('course.id', ':courses'));
+            $qb->leftJoin('c.objectives', 'c_objective');
+            $qb->leftJoin('c_objective.courses', 'c_course');
+            $qb->andWhere($qb->expr()->in('c_course.id', ':courses'));
             $qb->setParameter(':courses', $ids);
         }
 
         if (array_key_exists('topics', $criteria)) {
             $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
-            $qb->leftJoin('c.objectives', 'objective');
-            $qb->leftJoin('objective.courses', 'course');
-            $qb->leftJoin('course.topics', 'topic');
-            $qb->leftJoin('objective.sessions', 'session');
-            $qb->leftJoin('session.topics', 'topic2');
-            $qb->leftJoin('objective.children', 'objective2');
-            $qb->leftJoin('objective2.sessions', 'session2');
-            $qb->leftJoin('session2.topics', 'topic3');
+            $qb->leftJoin('c.objectives', 't_objective');
+            $qb->leftJoin('t_objective.courses', 't_course');
+            $qb->leftJoin('t_course.topics', 't_topic');
+            $qb->leftJoin('t_objective.sessions', 't_session');
+            $qb->leftJoin('t_session.topics', 't_topic2');
+            $qb->leftJoin('t_objective.children', 't_objective2');
+            $qb->leftJoin('t_objective2.sessions', 't_session2');
+            $qb->leftJoin('t_session2.topics', 't_topic3');
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->in('topic.id', ':topics'),
-                    $qb->expr()->in('topic2.id', ':topics'),
-                    $qb->expr()->in('topic3.id', ':topics')
+                    $qb->expr()->in('t_topic.id', ':topics'),
+                    $qb->expr()->in('t_topic2.id', ':topics'),
+                    $qb->expr()->in('t_topic3.id', ':topics')
                 )
             );
             $qb->setParameter(':topics', $ids);
