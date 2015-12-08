@@ -55,6 +55,7 @@ class SchoolVoter extends AbstractVoter
                 // via the permissions system.
                 return (
                     $this->schoolsAreIdentical($school, $user->getSchool())
+                    || $this->userHasRole($user, ['Developer'])
                     || $this->permissionManager->userHasReadPermissionToSchool($user, $school)
                 );
                 break;
