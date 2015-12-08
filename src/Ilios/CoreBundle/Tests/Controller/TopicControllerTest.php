@@ -613,4 +613,42 @@ class TopicControllerTest extends AbstractControllerTest
             $data[0]
         );
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySchool()
+    {
+        $topics = $this->container->get('ilioscore.dataloader.topic')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_topics', ['filters[schools][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['topics'];
+        $this->assertEquals(3, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $topics[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $topics[1]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $topics[2]
+            ),
+            $data[2]
+        );
+    }
 }

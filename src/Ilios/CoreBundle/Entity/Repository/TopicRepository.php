@@ -176,6 +176,16 @@ class TopicRepository extends EntityRepository
             $qb->setParameter(':meshDescriptors', $ids);
         }
 
+        if (array_key_exists('schools', $criteria)) {
+            $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
+            $qb->join('t.sessions', 'sc_session');
+            $qb->join('sc_session.course', 'sc_course');
+            $qb->join('sc_course.school', 'sc_school');
+            $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
+            $qb->setParameter(':schools', $ids);
+        }
+
+        unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
         unset($criteria['sessionTypes']);
