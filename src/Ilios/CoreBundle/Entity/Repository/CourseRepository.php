@@ -35,87 +35,82 @@ class CourseRepository extends EntityRepository
 
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->leftJoin('c.sessions', 'session');
-            $qb->andWhere($qb->expr()->in('session.id', ':sessions'));
+            $qb->leftJoin('c.sessions', 'se_session');
+            $qb->andWhere($qb->expr()->in('se_session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
         }
+
         if (array_key_exists('topics', $criteria)) {
             $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
-            $qb->join('c.topics', 'topic');
-            $qb->andWhere($qb->expr()->in('topic.id', ':topics'));
+            $qb->join('c.topics', 't_topic');
+            $qb->andWhere($qb->expr()->in('t_topic.id', ':topics'));
             $qb->setParameter(':topics', $ids);
         }
+
         if (array_key_exists('programs', $criteria)) {
             $ids = is_array($criteria['programs']) ? $criteria['programs'] : [$criteria['programs']];
-            $qb->join('c.cohorts', 'cohort');
-            $qb->join('cohort.programYear', 'programYear');
-            $qb->join('programYear.program', 'program');
-
-            $qb->andWhere($qb->expr()->in('program.id', ':programs'));
+            $qb->join('c.cohorts', 'p_cohort');
+            $qb->join('p_cohort.programYear', 'p_programYear');
+            $qb->join('p_programYear.program', 'p_program');
+            $qb->andWhere($qb->expr()->in('p_program.id', ':programs'));
             $qb->setParameter(':programs', $ids);
         }
+
         if (array_key_exists('programYears', $criteria)) {
             $ids = is_array($criteria['programYears']) ? $criteria['programYears'] : [$criteria['programYears']];
-            $qb->join('c.cohorts', 'cohort');
-            $qb->join('cohort.programYear', 'programYear');
-
-            $qb->andWhere($qb->expr()->in('programYear.id', ':programYears'));
+            $qb->join('c.cohorts', 'py_cohort');
+            $qb->join('py_cohort.programYear', 'py_programYear');
+            $qb->andWhere($qb->expr()->in('py_programYear.id', ':programYears'));
             $qb->setParameter(':programYears', $ids);
         }
+
         if (array_key_exists('users', $criteria)) {
             $ids = is_array($criteria['users']) ? $criteria['users'] : [$criteria['users']];
-
-            $qb->leftJoin('c.directors', 'courseDirector');
-            $qb->leftJoin('c.sessions', 'session');
-            $qb->leftJoin('session.offerings', 'offering');
-            $qb->leftJoin('session.ilmSession', 'ilmSession');
-
-            $qb->leftJoin('offering.instructors', 'instructor');
-            $qb->leftJoin('offering.learners', 'learner');
-            $qb->leftJoin('offering.instructorGroups', 'insGroup');
-            $qb->leftJoin('insGroup.users', 'igUser');
-            $qb->leftJoin('offering.learnerGroups', 'learnerGroup');
-            $qb->leftJoin('learnerGroup.users', 'lgUser');
-
-            $qb->leftJoin('ilmSession.instructors', 'ilmInstructor');
-            $qb->leftJoin('ilmSession.learners', 'ilmLearner');
-            $qb->leftJoin('ilmSession.instructorGroups', 'ilmInsGroup');
-            $qb->leftJoin('ilmInsGroup.users', 'ilmIgUser');
-            $qb->leftJoin('ilmSession.learnerGroups', 'ilmLearnerGroup');
-            $qb->leftJoin('ilmLearnerGroup.users', 'ilmLgUser');
-
+            $qb->leftJoin('c.directors', 'u_courseDirector');
+            $qb->leftJoin('c.sessions', 'u_session');
+            $qb->leftJoin('u_session.offerings', 'u_offering');
+            $qb->leftJoin('u_session.ilmSession', 'u_ilmSession');
+            $qb->leftJoin('u_offering.instructors', 'u_instructor');
+            $qb->leftJoin('u_offering.learners', 'u_learner');
+            $qb->leftJoin('u_offering.instructorGroups', 'u_insGroup');
+            $qb->leftJoin('u_insGroup.users', 'u_igUser');
+            $qb->leftJoin('u_offering.learnerGroups', 'u_learnerGroup');
+            $qb->leftJoin('u_learnerGroup.users', 'u_lgUser');
+            $qb->leftJoin('u_ilmSession.instructors', 'u_ilmInstructor');
+            $qb->leftJoin('u_ilmSession.learners', 'u_ilmLearner');
+            $qb->leftJoin('u_ilmSession.instructorGroups', 'u_ilmInsGroup');
+            $qb->leftJoin('u_ilmInsGroup.users', 'u_ilmIgUser');
+            $qb->leftJoin('u_ilmSession.learnerGroups', 'u_ilmLearnerGroup');
+            $qb->leftJoin('u_ilmLearnerGroup.users', 'u_ilmLgUser');
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('learner.id', ':users'),
-                $qb->expr()->in('instructor.id', ':users'),
-                $qb->expr()->in('courseDirector.id', ':users'),
-                $qb->expr()->in('igUser.id', ':users'),
-                $qb->expr()->in('lgUser.id', ':users'),
-                $qb->expr()->in('ilmLearner.id', ':users'),
-                $qb->expr()->in('ilmInstructor.id', ':users'),
-                $qb->expr()->in('ilmIgUser.id', ':users'),
-                $qb->expr()->in('ilmLgUser.id', ':users')
+                $qb->expr()->in('u_learner.id', ':users'),
+                $qb->expr()->in('u_instructor.id', ':users'),
+                $qb->expr()->in('u_courseDirector.id', ':users'),
+                $qb->expr()->in('u_igUser.id', ':users'),
+                $qb->expr()->in('u_lgUser.id', ':users'),
+                $qb->expr()->in('u_ilmLearner.id', ':users'),
+                $qb->expr()->in('u_ilmInstructor.id', ':users'),
+                $qb->expr()->in('u_ilmIgUser.id', ':users'),
+                $qb->expr()->in('u_ilmLgUser.id', ':users')
             ));
-
-
             $qb->setParameter(':users', $ids);
-
         }
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
-            $qb->leftJoin('c.sessions', 'session');
-            $qb->leftJoin('session.offerings', 'offering');
-            $qb->leftJoin('offering.instructors', 'user');
-            $qb->leftJoin('offering.instructorGroups', 'insGroup');
-            $qb->leftJoin('insGroup.users', 'groupUser');
-            $qb->leftJoin('session.ilmSession', 'ilmSession');
-            $qb->leftJoin('ilmSession.instructors', 'ilmInstructor');
-            $qb->leftJoin('ilmSession.instructorGroups', 'ilmInsGroup');
-            $qb->leftJoin('ilmInsGroup.users', 'ilmInsGroupUser');
+            $qb->leftJoin('c.sessions', 'i_session');
+            $qb->leftJoin('i_session.offerings', 'i_offering');
+            $qb->leftJoin('i_offering.instructors', 'i_user');
+            $qb->leftJoin('i_offering.instructorGroups', 'i_insGroup');
+            $qb->leftJoin('i_insGroup.users', 'i_groupUser');
+            $qb->leftJoin('i_session.ilmSession', 'i_ilmSession');
+            $qb->leftJoin('i_ilmSession.instructors', 'i_ilmInstructor');
+            $qb->leftJoin('i_ilmSession.instructorGroups', 'i_ilmInsGroup');
+            $qb->leftJoin('i_ilmInsGroup.users', 'i_ilmInsGroupUser');
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('user.id', ':users'),
-                $qb->expr()->in('groupUser.id', ':users'),
-                $qb->expr()->in('ilmInstructor.id', ':users'),
-                $qb->expr()->in('ilmInsGroupUser.id', ':users')
+                $qb->expr()->in('i_user.id', ':users'),
+                $qb->expr()->in('i_groupUser.id', ':users'),
+                $qb->expr()->in('i_ilmInstructor.id', ':users'),
+                $qb->expr()->in('i_ilmInsGroupUser.id', ':users')
             ));
             $qb->setParameter(':users', $ids);
         }
@@ -123,68 +118,71 @@ class CourseRepository extends EntityRepository
         if (array_key_exists('instructorGroups', $criteria)) {
             $ids = is_array($criteria['instructorGroups']) ?
                 $criteria['instructorGroups'] : [$criteria['instructorGroups']];
-            $qb->leftJoin('c.sessions', 'session');
-            $qb->leftJoin('session.offerings', 'offering');
-            $qb->leftJoin('offering.instructorGroups', 'igroup');
-            $qb->leftJoin('session.ilmSession', 'ilmSession');
-            $qb->leftJoin('ilmSession.instructorGroups', 'ilmInsGroup');
+            $qb->leftJoin('c.sessions', 'ig_session');
+            $qb->leftJoin('ig_session.offerings', 'ig_offering');
+            $qb->leftJoin('ig_offering.instructorGroups', 'ig_igroup');
+            $qb->leftJoin('ig_session.ilmSession', 'ig_ilmSession');
+            $qb->leftJoin('ig_ilmSession.instructorGroups', 'ig_ilmInsGroup');
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->in('igroup.id', ':igroups'),
-                    $qb->expr()->in('ilmInsGroup.id', ':igroups')
+                    $qb->expr()->in('ig_igroup.id', ':igroups'),
+                    $qb->expr()->in('ig_ilmInsGroup.id', ':igroups')
                 )
             );
             $qb->setParameter(':igroups', $ids);
         }
+
         if (array_key_exists('learningMaterials', $criteria)) {
             $ids = is_array($criteria['learningMaterials']) ?
                 $criteria['learningMaterials'] : [$criteria['learningMaterials']];
-
-            $qb->leftJoin('c.learningMaterials', 'clm');
-            $qb->leftJoin('clm.learningMaterial', 'lm');
-
-            $qb->leftJoin('c.sessions', 'session');
-            $qb->leftJoin('session.learningMaterials', 'slm');
-            $qb->leftJoin('slm.learningMaterial', 'lm2');
-
+            $qb->leftJoin('c.learningMaterials', 'lm_clm');
+            $qb->leftJoin('lm_clm.learningMaterial', 'lm_lm');
+            $qb->leftJoin('c.sessions', 'lm_session');
+            $qb->leftJoin('lm_session.learningMaterials', 'lm_slm');
+            $qb->leftJoin('lm_slm.learningMaterial', 'lm_lm2');
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('lm.id', ':lms'),
-                $qb->expr()->in('lm2.id', ':lms')
+                $qb->expr()->in('lm_lm.id', ':lms'),
+                $qb->expr()->in('lm_lm2.id', ':lms')
             ));
-
             $qb->setParameter(':lms', $ids);
         }
+
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
-            $qb->leftJoin('c.objectives', 'objective');
-            $qb->leftJoin('objective.competency', 'competency');
-
-            $qb->andWhere($qb->expr()->in('competency.id', ':competencies'));
+            $qb->leftJoin('c.objectives', 'c_objective');
+            $qb->leftJoin('c_objective.competency', 'c_competency');
+            $qb->andWhere($qb->expr()->in('c_competency.id', ':competencies'));
             $qb->setParameter(':competencies', $ids);
         }
+
         if (array_key_exists('meshDescriptors', $criteria)) {
             $ids = is_array($criteria['meshDescriptors']) ?
                 $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
-
-            $qb->leftJoin('c.meshDescriptors', 'meshDescriptor');
-            $qb->leftJoin('c.sessions', 'session');
-            $qb->leftJoin('session.meshDescriptors', 'sessMeshDescriptor');
-            $qb->leftJoin('c.objectives', 'cObjective');
-            $qb->leftJoin('cObjective.meshDescriptors', 'cObjectiveMeshDescriptor');
-            $qb->leftJoin('session.objectives', 'sObjective');
-            $qb->leftJoin('sObjective.meshDescriptors', 'sObjectiveMeshDescriptors');
-
+            $qb->leftJoin('c.meshDescriptors', 'm_meshDescriptor');
+            $qb->leftJoin('c.sessions', 'm_session');
+            $qb->leftJoin('m_session.meshDescriptors', 'm_sessMeshDescriptor');
+            $qb->leftJoin('c.objectives', 'm_cObjective');
+            $qb->leftJoin('m_cObjective.meshDescriptors', 'm_cObjectiveMeshDescriptor');
+            $qb->leftJoin('m_session.objectives', 'm_sObjective');
+            $qb->leftJoin('m_sObjective.meshDescriptors', 'm_sObjectiveMeshDescriptors');
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('meshDescriptor.id', ':meshDescriptors'),
-                $qb->expr()->in('sessMeshDescriptor.id', ':meshDescriptors'),
-                $qb->expr()->in('cObjectiveMeshDescriptor.id', ':meshDescriptors'),
-                $qb->expr()->in('sObjectiveMeshDescriptors.id', ':meshDescriptors')
+                $qb->expr()->in('m_meshDescriptor.id', ':meshDescriptors'),
+                $qb->expr()->in('m_sessMeshDescriptor.id', ':meshDescriptors'),
+                $qb->expr()->in('m_cObjectiveMeshDescriptor.id', ':meshDescriptors'),
+                $qb->expr()->in('m_sObjectiveMeshDescriptors.id', ':meshDescriptors')
             ));
-
             $qb->setParameter(':meshDescriptors', $ids);
         }
 
+        if (array_key_exists('schools', $criteria)) {
+            $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
+            $qb->join('c.school', 'sc_school');
+            $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
+            $qb->setParameter(':schools', $ids);
+        }
+
         //cleanup all the possible relationship filters
+        unset($criteria['schools']);
         unset($criteria['sessions']);
         unset($criteria['topics']);
         unset($criteria['programs']);

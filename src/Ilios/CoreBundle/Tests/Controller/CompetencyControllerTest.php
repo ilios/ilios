@@ -365,4 +365,42 @@ class CompetencyControllerTest extends AbstractControllerTest
             $data[0]
         );
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySchool()
+    {
+        $competencies = $this->container->get('ilioscore.dataloader.competency')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_competencies', ['filters[schools]' => [1]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['competencies'];
+        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[1]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[2]
+            ),
+            $data[2]
+        );
+    }
 }

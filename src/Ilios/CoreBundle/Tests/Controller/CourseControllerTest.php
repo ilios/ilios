@@ -709,4 +709,36 @@ class CourseControllerTest extends AbstractControllerTest
             $data[3]
         );
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySchools()
+    {
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['filters[schools]' => [2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[2]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[3]
+            ),
+            $data[1]
+        );
+    }
 }

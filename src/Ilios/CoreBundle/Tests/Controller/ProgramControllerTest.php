@@ -470,4 +470,36 @@ class ProgramControllerTest extends AbstractControllerTest
             $data[0]
         );
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySchools()
+    {
+        $programs = $this->container->get('ilioscore.dataloader.program')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_programs', ['filters[schools][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['programs'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programs[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programs[1]
+            ),
+            $data[1]
+        );
+    }
 }
