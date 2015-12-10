@@ -56,7 +56,7 @@ class IliosFileSystemTest extends TestCase
         $file = m::mock('Symfony\Component\HttpFoundation\File\File')
             ->shouldReceive('getPathname')->andReturn($path)->getMock();
         $this->mockFileSystem->shouldReceive('copy')
-            ->with($path, $newFilePath);
+            ->with($path, $newFilePath, false);
         $this->mockFileSystem->shouldReceive('mkdir');
         $this->iliosFileSystem->storeLearningMaterialFile($file);
     }
@@ -130,6 +130,22 @@ class IliosFileSystemTest extends TestCase
         $this->assertSame($newFile->getPathname(), $testFilePath);
         $this->assertSame(file_get_contents($newFile->getPathname()), $someJunk);
         $fs->remove($this->fakeTestFileDir . '/learning_materials');
+    }
+
+    public function testCheckLearningMaterialFilePath()
+    {
+        $goodLm = m::mock('Ilios\CoreBundle\Entity\LearningMaterial')
+            ->shouldReceive('getRelativePath')->andReturn('goodfile')
+            ->mock();
+        $badLm = m::mock('Ilios\CoreBundle\Entity\LearningMaterial')
+            ->shouldReceive('getRelativePath')->andReturn('badfile')
+            ->mock();
+        $this->mockFileSystem->shouldReceive('exists')
+            ->with($this->fakeTestFileDir . '/goodfile')->andReturn(true)->once();
+        $this->mockFileSystem->shouldReceive('exists')
+            ->with($this->fakeTestFileDir . '/badfile')->andReturn(false)->once();
+        $this->assertTrue($this->iliosFileSystem->checkLearningMaterialFilePath($goodLm));
+        $this->assertFalse($this->iliosFileSystem->checkLearningMaterialFilePath($badLm));
     }
     
     
