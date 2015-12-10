@@ -5,6 +5,8 @@ namespace Ilios\CoreBundle\Classes;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
+use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+
 /**
  * Class FileSystem
  * @package Ilios\CoreBundle\Classes
@@ -55,7 +57,8 @@ class IliosFileSystem
         if ($preserveOriginalFile) {
             $this->fileSystem->copy(
                 $file->getPathname(),
-                $fullPath
+                $fullPath,
+                false
             );
         } else {
             if (!$this->fileSystem->exists($fullPath)) {
@@ -109,6 +112,21 @@ class IliosFileSystem
     public function getSymfonyFileForPath($path)
     {
         return new File($path);
+    }
+
+    /**
+     * Get if a learning material file path is valid
+     * @param LearningMaterialInterface $lm
+     *
+     * @return boolean
+     */
+    public function checkLearningMaterialFilePath(LearningMaterialInterface $lm)
+    {
+        $relativePath = $lm->getRelativePath();
+        $fullPath = $this->getPath($relativePath);
+
+        return $this->fileSystem->exists($fullPath);
+
     }
     
     /**

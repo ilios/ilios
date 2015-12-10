@@ -5,11 +5,10 @@ namespace Ilios\CliBundle\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface;
 use Ilios\CoreBundle\Classes\IliosFileSystem;
@@ -76,40 +75,56 @@ class MigrateIlios2LearningMaterialsCommand extends Command
             );
         }
         
-        $learningMaterials = $this->learningMaterialManager->findFileLearningMaterials();
-        
+        $totalLearningMaterialsCount = $this->learningMaterialManager->getTotalFileLearningMaterialCount();
+
         $helper = $this->getHelper('question');
         $output->writeln('');
         $question = new ConfirmationQuestion(
-            '<question>Ready to copy ' . count($learningMaterials) .
+            '<question>Ready to copy ' . $totalLearningMaterialsCount .
             ' learning materials. Shall we continue? </question>' . "\n",
             true
         );
         
         if ($helper->ask($input, $output, $question)) {
-            $migrated = 0;
-            foreach ($learningMaterials as $lm) {
-                $fullPath = $pathToIlios2 . $lm->getRelativePath();
-                if (!$this->symfonyFileSystem->exists($fullPath)) {
-                    throw new \Exception(
-                        'Unable to migrated learning material #' . $lm ->getId() .
-                        ".  No file found at '${fullPath}'."
-                    );
-                }
-                $file = $this->iliosFileSystem->getSymfonyFileForPath($fullPath);
-                $newPath = $this->iliosFileSystem->storeLearningMaterialFile($file);
-                $lm->setRelativePath($newPath);
-                $this->learningMaterialManager->updateLearningMaterial($lm, false);
-                $migrated ++;
 
-                if ($migrated % 500) {
-                    $this->learningMaterialManager->flushAndClear();
+            $progress = new ProgressBar($output, $totalLearningMaterialsCount);
+            $progress->setRedrawFrequency(208);
+            $output->writeln("<info>Starting migration of learning materials...</info>");
+            $progress->start();
+
+            $migrated = 0;
+            $skipped = 0;
+            $offset = 0;
+            $limit = 50;
+
+            while ($migrated + $skipped < $totalLearningMaterialsCount) {
+                $learningMaterials = $this->learningMaterialManager->findFileLearningMaterials($limit, $offset);
+                foreach ($learningMaterials as $lm) {
+                    $fullPath = $pathToIlios2 . $lm->getRelativePath();
+                    if (!$this->symfonyFileSystem->exists($fullPath)) {
+                        $skipped++;
+                    } else {
+                        $file = $this->iliosFileSystem->getSymfonyFileForPath($fullPath);
+                        $newPath = $this->iliosFileSystem->storeLearningMaterialFile($file);
+                        $lm->setRelativePath($newPath);
+                        $this->learningMaterialManager->updateLearningMaterial($lm, false);
+                        $migrated ++;
+                    }
+                    $progress->advance();
                 }
+                $this->learningMaterialManager->flushAndClear();
+                $offset += $limit;
             }
-            
-            $this->learningMaterialManager->flushAndClear();
+
+            $progress->finish();
+            $output->writeln('');
             
             $output->writeln("<info>Migrated {$migrated} learning materials successfully!</info>");
+            if ($skipped) {
+                $msg = "<comment>Skipped {$skipped} learning materials because they could not be located " .
+                "or were already migrated.</comment>";
+                $output->writeln($msg);
+            }
         } else {
             $output->writeln('<comment>Migration canceled.</comment>');
         }

@@ -55,9 +55,10 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
             ->shouldReceive('setRelativePath')->with('newrelativepath')->once()
             ->mock();
         $this->learningMaterialManager
+            ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once()
             ->shouldReceive('findFileLearningMaterials')->andReturn([$lm])->once()
             ->shouldReceive('updateLearningMaterial')->with($lm, false)->once()
-            ->shouldReceive('flushAndClear')->twice()
+            ->shouldReceive('flushAndClear')->once()
         ;
         $file = m::mock('Symfony\Component\HttpFoundation\File\File');
         
@@ -91,23 +92,29 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
             ->shouldReceive('exists')->with('path/pathtofile')->andReturn(false);
         
         $lm = m::mock('Ilios\CoreBundle\Entity\LearningMaterial')
-            ->shouldReceive('getId')->andReturn('id')->once()
             ->shouldReceive('getRelativePath')->andReturn('/pathtofile')->once()
             ->mock();
         $this->learningMaterialManager
+            ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once()
             ->shouldReceive('findFileLearningMaterials')->andReturn([$lm])->once()
+            ->shouldReceive('flushAndClear')->once()
         ;
 
         $this->sayYesWhenAsked();
-        
-        $this->setExpectedException(
-            'Exception',
-            "Unable to migrated learning material #id.  No file found at 'path/pathtofile'."
-        );
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'pathToIlios2'         => 'path'
         ));
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertRegExp(
+            '/Migrated 0 learning materials successfully!/',
+            $output
+        );
+        $this->assertRegExp(
+            '/Skipped 1 learning materials because they could not be located or were already migrated./',
+            $output
+        );
         
     }
     

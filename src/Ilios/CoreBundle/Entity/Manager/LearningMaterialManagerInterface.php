@@ -82,11 +82,20 @@ interface LearningMaterialManagerInterface extends ManagerInterface
     
     /**
      * Find all the File type learning materials
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return LearningMaterialInterface[]
      */
-    public function findFileLearningMaterials();
+    public function findFileLearningMaterials($limit, $offset);
 
     /**
      * @return integer
      */
     public function getTotalLearningMaterialCount();
+
+    /**
+     * @return integer
+     */
+    public function getTotalFileLearningMaterialCount();
 }

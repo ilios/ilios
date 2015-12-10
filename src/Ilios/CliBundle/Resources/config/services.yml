@@ -59,3 +59,8 @@ services:
         arguments: ["@exercise_html_purifier.default", "@doctrine.orm.entity_manager", "@ilioscore.objective.manager", "@ilioscore.learningmaterial.manager", "@ilioscore.courselearningmaterial.manager", "@ilioscore.sessionlearningmaterial.manager", "@ilioscore.sessiondescription.manager"]
         tags:
             -  { name: console.command }
+    ilioscli.command.validate_learning_material_paths:
+        class: Ilios\CliBundle\Command\ValidateLearningMaterialPathsCommand
+        arguments: ["@ilioscore.filesystem", "@ilioscore.learningmaterial.manager"]
+        tags:
+            -  { name: console.command }
