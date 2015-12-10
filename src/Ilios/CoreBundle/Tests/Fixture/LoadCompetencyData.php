@@ -41,6 +41,9 @@ class LoadCompetencyData extends AbstractFixture implements
             }
             $entity->setSchool($this->getReference('schools' . $arr['school']));
 
+            foreach ($arr['programYears'] as $id) {
+                $entity->addProgramYear($this->getReference('programYears' . $id));
+            }
 
             $manager->persist($entity);
             $this->addReference('competencies' . $arr['id'], $entity);
@@ -54,6 +57,7 @@ class LoadCompetencyData extends AbstractFixture implements
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadAamcPcrsData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
         );
     }
 }
