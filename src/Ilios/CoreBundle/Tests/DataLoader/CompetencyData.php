@@ -12,8 +12,8 @@ class CompetencyData extends AbstractDataLoader
             'id' => 1,
             'title' => $this->faker->text,
             'school' => "1",
-            'objectives' => ["1", "2"],
-            'children' => [3],
+            'objectives' => [],
+            'children' => ['3'],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101'],
             'programYears' => []
         );
@@ -22,7 +22,7 @@ class CompetencyData extends AbstractDataLoader
             'id' => 2,
             'title' => $this->faker->text,
             'school' => "1",
-            'objectives' => ["3"],
+            'objectives' => [],
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102'],
             'programYears' => []
@@ -32,14 +32,12 @@ class CompetencyData extends AbstractDataLoader
             'id' => 3,
             'title' => $this->faker->text,
             'school' => "1",
-            'objectives' => [],
+            'objectives' => ['1'],
             'parent' => "1",
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0102'],
-            'programYears' => []
+            'programYears' => ['1']
         );
-
-
 
         return $arr;
     }
