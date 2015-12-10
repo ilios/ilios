@@ -15,7 +15,7 @@ class CompetencyData extends AbstractDataLoader
             'objectives' => [],
             'children' => ['3'],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101'],
-            'programYears' => []
+            'programYears' => ['1']
         );
 
         $arr[] = array(
