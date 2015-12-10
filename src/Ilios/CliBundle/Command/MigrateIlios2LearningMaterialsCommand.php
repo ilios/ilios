@@ -120,7 +120,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
             $output->writeln('');
             
             $output->writeln("<info>Migrated {$migrated} learning materials successfully!</info>");
-            if($skipped){
+            if ($skipped) {
                 $msg = "<comment>Skipped {$skipped} learning materials because they could not be located " .
                 "or were already migrated.</comment>";
                 $output->writeln($msg);
