@@ -166,12 +166,19 @@ class LearningMaterialRepository extends EntityRepository
     
     /**
      * Find all the file type learning materials
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return LearningMaterialInterface[]
      */
-    public function findFileLearningMaterials()
+    public function findFileLearningMaterials($limit, $offset)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->add('select', 'lm')->from('IliosCoreBundle:LearningMaterial', 'lm');
         $qb->where($qb->expr()->isNotNull('lm.relativePath'));
+
+        $qb->setFirstResult($offset);
+        $qb->setMaxResults($limit);
 
         return $qb->getQuery()->getResult();
     }

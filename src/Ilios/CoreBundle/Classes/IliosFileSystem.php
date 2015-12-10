@@ -55,7 +55,8 @@ class IliosFileSystem
         if ($preserveOriginalFile) {
             $this->fileSystem->copy(
                 $file->getPathname(),
-                $fullPath
+                $fullPath,
+                false
             );
         } else {
             if (!$this->fileSystem->exists($fullPath)) {

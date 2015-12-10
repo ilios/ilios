@@ -87,9 +87,19 @@ class LearningMaterialManager extends AbstractManager implements LearningMateria
     /**
      * {@inheritdoc}
      */
-    public function findFileLearningMaterials()
+    public function findFileLearningMaterials($limit, $offset)
     {
-        return $this->getRepository()->findFileLearningMaterials();
+        return $this->getRepository()->findFileLearningMaterials($limit, $offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTotalFileLearningMaterialCount()
+    {
+        $dql = 'SELECT COUNT(l.id) FROM IliosCoreBundle:LearningMaterial l WHERE l.relativePath IS NOT NULL';
+        return $this->em
+            ->createQuery($dql)->getSingleScalarResult();
     }
 
     /**
