@@ -91,14 +91,21 @@ class SessionRepository extends EntityRepository
             $qb->andWhere($qb->expr()->in('p_program.id', ':programs'));
             $qb->setParameter(':programs', $ids);
         }
+
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
-            $qb->leftJoin('s.objectives', 'c_objective');
-            $qb->leftJoin('c_objective.parents', 'c_parent');
-            $qb->leftJoin('c_parent.competency', 'c_competency');
-            $qb->andWhere($qb->expr()->in('c_competency.id', ':competencies'));
+            $qb->join('s.objectives', 'c_session_objective');
+            $qb->join('c_session_objective.parents', 'c_course_objective');
+            $qb->join('c_course_objective.parents', 'c_program_year_objective');
+            $qb->leftJoin('c_program_year_objective.competency', 'c_competency');
+            $qb->leftJoin('c_competency.parent', 'c_competency2');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('c_competency.id', ':competencies'),
+                $qb->expr()->in('c_competency2.id', ':competencies')
+            ));
             $qb->setParameter(':competencies', $ids);
         }
+
         if (array_key_exists('meshDescriptors', $criteria)) {
             $ids = is_array($criteria['meshDescriptors']) ?
                 $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];

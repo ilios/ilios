@@ -149,9 +149,14 @@ class CourseRepository extends EntityRepository
 
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
-            $qb->join('c.objectives', 'c_objective');
-            $qb->join('c_objective.competency', 'c_competency');
-            $qb->andWhere($qb->expr()->in('c_competency.id', ':competencies'));
+            $qb->join('c.objectives', 'c_course_objective');
+            $qb->join('c_course_objective.parents', 'c_program_year_objective');
+            $qb->leftJoin('c_program_year_objective.competency', 'c_competency');
+            $qb->leftJoin('c_competency.parent', 'c_competency2');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('c_competency.id', ':competencies'),
+                $qb->expr()->in('c_competency2.id', ':competencies')
+            ));
             $qb->setParameter(':competencies', $ids);
         }
 

@@ -80,11 +80,16 @@ class SessionTypeRepository extends EntityRepository
 
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
-            $qb->leftJoin('st.sessions', 'c_session');
-            $qb->leftJoin('c_session.objectives', 'c_objective');
-            $qb->leftJoin('c_objective.parents', 'c_parent');
-            $qb->leftJoin('c_parent.competency', 'c_competency');
-            $qb->andWhere($qb->expr()->in('c_competency.id', ':competencies'));
+            $qb->join('st.sessions', 'c_session');
+            $qb->join('c_session.objectives', 'c_session_objective');
+            $qb->join('c_session_objective.parents', 'c_course_objective');
+            $qb->join('c_course_objective.parents', 'c_program_year_objective');
+            $qb->leftJoin('c_program_year_objective.competency', 'c_competency');
+            $qb->leftJoin('c_competency.parent', 'c_competency2');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('c_competency.id', ':competencies'),
+                $qb->expr()->in('c_competency2.id', ':competencies')
+            ));
             $qb->setParameter(':competencies', $ids);
         }
 

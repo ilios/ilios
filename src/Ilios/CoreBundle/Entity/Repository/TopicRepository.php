@@ -125,17 +125,21 @@ class TopicRepository extends EntityRepository
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
             $qb->leftJoin('t.courses', 'cm_course');
             $qb->leftJoin('t.sessions', 'cm_session');
-            $qb->leftJoin('cm_course.objectives', 'cm_objective');
-            $qb->leftJoin('cm_objective.competency', 'cm_competency');
-            $qb->leftJoin('cm_session.objectives', 'cm_objective2');
-            $qb->leftJoin('cm_objective2.parents', 'cm_objective3');
-            $qb->leftJoin('cm_objective3.competency', 'cm_competency2');
-            $qb->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->in('cm_competency.id', ':competencies'),
-                    $qb->expr()->in('cm_competency2.id', ':competencies')
-                )
-            );
+            $qb->leftJoin('cm_course.objectives', 'cm_course_objective');
+            $qb->leftJoin('cm_course_objective.parents', 'cm_program_year_objective');
+            $qb->leftJoin('cm_program_year_objective.competency', 'cm_competency');
+            $qb->leftJoin('cm_competency.parent', 'cm_competency2');
+            $qb->leftJoin('cm_session.objectives', 'cm_session_objective');
+            $qb->leftJoin('cm_session_objective.parents', 'cm_course_objective2');
+            $qb->leftJoin('cm_course_objective2.parents', 'cm_program_year_objective2');
+            $qb->leftJoin('cm_program_year_objective2.competency', 'cm_competency3');
+            $qb->leftJoin('cm_competency3.parent', 'cm_competency4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('cm_competency.id', ':competencies'),
+                $qb->expr()->in('cm_competency2.id', ':competencies'),
+                $qb->expr()->in('cm_competency3.id', ':competencies'),
+                $qb->expr()->in('cm_competency4.id', ':competencies')
+            ));
             $qb->setParameter(':competencies', $ids);
         }
 
