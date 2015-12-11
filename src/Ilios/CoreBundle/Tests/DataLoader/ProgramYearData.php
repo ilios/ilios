@@ -17,9 +17,9 @@ class ProgramYearData extends AbstractDataLoader
             'program' => "1",
             'cohort' => "1",
             'directors' => [],
-            'competencies' => [],
+            'competencies' => ['1', '3'],
             'topics' => [],
-            'objectives' => [],
+            'objectives' => ['1'],
             'publishEvent' => '2',
             'stewards' => ['1', '2']
         );

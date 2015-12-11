@@ -339,12 +339,15 @@ class ProgramYear implements ProgramYearInterface
             $this->addCompetency($competency);
         }
     }
+
     /**
      * @param CompetencyInterface $competency
      */
     public function addCompetency(CompetencyInterface $competency)
     {
-        $this->competencies->add($competency);
+        if (! $this->competencies->contains($competency)) {
+            $this->competencies->add($competency);
+        }
     }
 
     /**

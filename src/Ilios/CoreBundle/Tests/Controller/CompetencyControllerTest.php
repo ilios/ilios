@@ -282,7 +282,7 @@ class CompetencyControllerTest extends AbstractControllerTest
         );
         $this->assertEquals(
             $this->mockSerialize(
-                $competencies[1]
+                $competencies[2]
             ),
             $data[1]
         );
@@ -305,12 +305,18 @@ class CompetencyControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['competencies'];
-        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(2, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $competencies[0]
             ),
             $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[2]
+            ),
+            $data[1]
         );
     }
 
@@ -331,12 +337,18 @@ class CompetencyControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['competencies'];
-        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(2, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $competencies[0]
             ),
             $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[2]
+            ),
+            $data[1]
         );
     }
 
@@ -357,12 +369,18 @@ class CompetencyControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['competencies'];
-        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(2, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $competencies[0]
             ),
             $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $competencies[2]
+            ),
+            $data[1]
         );
     }
 

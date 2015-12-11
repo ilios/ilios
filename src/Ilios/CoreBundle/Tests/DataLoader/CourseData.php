@@ -24,7 +24,7 @@ class CourseData extends AbstractDataLoader
             'directors' => [],
             'cohorts' => ['1'],
             'topics' => [],
-            'objectives' => [1],
+            'objectives' => ['2'],
             'meshDescriptors' => ["abc1"],
             'learningMaterials' => ['1', '2'],
             'sessions' => ['1', '2'],
@@ -47,7 +47,7 @@ class CourseData extends AbstractDataLoader
             'directors' => ['2'],
             'cohorts' => ['1'],
             'topics' => ['1'],
-            'objectives' => ["1", "3"],
+            'objectives' => ['2', '4'],
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => ['3', '5', '6', '7', '8']
@@ -68,7 +68,7 @@ class CourseData extends AbstractDataLoader
             'directors' => ["4"],
             'cohorts' => ["2"],
             'topics' => [],
-            'objectives' => ["4"],
+            'objectives' => ['5'],
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => []
@@ -89,7 +89,7 @@ class CourseData extends AbstractDataLoader
             'directors' => ["2"],
             'cohorts' => ["3"],
             'topics' => ["3"],
-            'objectives' => ["1"],
+            'objectives' => ['2'],
             'meshDescriptors' => [],
             'learningMaterials' => ["3"],
             'sessions' => ["4"]

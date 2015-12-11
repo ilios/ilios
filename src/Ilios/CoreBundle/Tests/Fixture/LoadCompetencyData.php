@@ -41,7 +41,6 @@ class LoadCompetencyData extends AbstractFixture implements
             }
             $entity->setSchool($this->getReference('schools' . $arr['school']));
 
-
             $manager->persist($entity);
             $this->addReference('competencies' . $arr['id'], $entity);
         }

@@ -42,6 +42,13 @@ class LoadProgramYearData extends AbstractFixture implements
             foreach ($arr['topics'] as $id) {
                 $entity->addTopic($this->getReference('topics' . $id));
             }
+            foreach ($arr['objectives'] as $id) {
+                $entity->addObjective($this->getReference('objectives' . $id));
+            }
+
+            foreach ($arr['competencies'] as $id) {
+                $entity->addCompetency($this->getReference('competencies'.$id));
+            }
             $manager->persist($entity);
             $this->addReference('programYears' . $arr['id'], $entity);
         }
@@ -55,6 +62,8 @@ class LoadProgramYearData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
             'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
         );
     }
 }
