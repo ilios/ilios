@@ -1,6 +1,6 @@
 # Ilios 3 Installation Instructions
 
-This documentation covers new Ilios installations for users that have never had any current or prior version of Ilios running on their server. If you are looking to upgrade a previous installation of Ilios, please see [Upgrading Ilios 2.x to Ilios 3](https://github.com/ilios/ilios/blob/master/UPGRADE.md).
+This documentation covers new Ilios installations for users that have never had any current or prior version of Ilios running on their server. If you are looking to upgrade a previous installation of Ilios, please see [Upgrading Ilios 2.x to Ilios 3](UPGRADE.md).
 
 ## Ilios 3 - Frontend vs. Backend
 
@@ -137,7 +137,7 @@ database_mysql_version: 5.1
 
 ### Upgrading from previous versions of Ilios
 
-If you are already running a 2.x version of Ilios, you can upgrade your current database by following the intructions at [Upgrading Ilios 2.x to Ilios 3](https://github.com/ilios/ilios/blob/master/UPGRADE.md).
+If you are already running a 2.x version of Ilios, you can upgrade your current database by following the intructions at [Upgrading Ilios 2.x to Ilios 3](UPGRADE.md).
 
 ### Creating a new database for Ilios
 If you are NOT upgrading from a previous version of Ilios, you can create a new, empty database schema by using the following Symfony console command:
