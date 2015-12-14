@@ -53,7 +53,7 @@ This will create a folder named 'ilios' in your server root directory.  The enti
 ```bash
 cd ilios
 ```
-You should now be in the '/web/ilios3/ilios'  
+You should now be in the '/web/ilios3/ilios' directory  
 4. Checkout the correct release version, based on its release tag ('v3.0.0' for this example):
 ```bash
 sudo -u apache git checkout tags/v3.0.0
