@@ -94,9 +94,16 @@ One of the biggest complaints of users of Ilios 2.x, regarding the application, 
 
 We have provided a solution to this problem with a fix that will allow you to quickly remove all but only the allowed characters from your item title and description text.  To apply this fix and reformat all your text to only use the proper formatting native to Ilios 3, do the following:
 
-* Navigate to your Ilios application root directory ('/web/ilios3/ilios' for example) and run the following command:
+* Navigate to your Ilios application root directory ('/web/ilios3/ilios' for example) and run the following command for each respective text-type:
 
 ```bash
-sudo -u apache bin/console ilios:maintenance:cleanup-strings --env=prod
+#for Objective Titles
+sudo -u apache bin/console ilios:maintenance:cleanup-strings --objective-title --env=prod
+#for Learning Material Descriptions
+sudo -u apache bin/console ilios:maintenance:cleanup-strings --learningmaterial-description --env=prod
+#for Learning Material Notes
+sudo -u apache bin/console ilios:maintenance:cleanup-strings --learningmaterial-note --env=prod
+#for Session Descriptions
+sudo -u apache bin/console ilios:maintenance:cleanup-strings --session-description --env=prod
 ```
 
