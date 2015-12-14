@@ -69,7 +69,7 @@ If you have plenty of space and believe you are able to migrate your learning ma
 
 1. Backup your learning materials!!!
 2. Seriously! Back up your learning materials before running this command!!!  If you cannot back up your learning materials or quarantine a copy of them to a separate place on your server where they cannot be affected by this process, you should really consider backing them up offline to some type of external storage device.  Do not risk losing your existing learning materials!
-3. Now that you're sure you're ready to migrate, navigate into your Ilios application's root directory (eg, /web/ilios3/ilios) and examine the file at app/config/parameters.yml.  Look for the value that corresponds to file_system_storage_path.  This is where your learning materials will be moved.
+3. Now that you're sure you're ready to migrate, navigate into your Ilios application's root directory (eg, /web/ilios3/ilios) and examine the file at app/config/parameters.yml.  Look for the value that corresponds to file_system_storage_path.  This location to where your learning materials will be copied.
 4. Now, check to see where your *CURRENT* Ilios 2 learning materials reside.  If your Ilios 2 installation is at /web/ilios2/htdocs, your current learning material are probably in '/web/ilios2/htdocs/learning_materials'. If this is the case, your learning materials reside in '/web/ilios2/htdocs' -- this is the 'Path to Ilios 2' location that you should enter in the following migration command:
 
 Now, while still in your Ilios application's root directory, run this command:
