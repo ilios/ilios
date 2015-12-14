@@ -85,7 +85,7 @@ This process can take a while to complete, depending on the number/size of the L
 If you would like to verify that your new learning materials are correctly stored, you can run the following command when the migration is complete:
 
 ```bash
-sudo -u apache bin/console ilios:setup:validate-learning-materials /web/ilios2/htdocs --env=prod
+sudo -u apache bin/console ilios:maintenance:validate-learning-materials /web/ilios2/htdocs --env=prod
 ```
 
 ## Cleaning up the text of your Ilios 2.x Topics
