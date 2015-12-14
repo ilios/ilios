@@ -148,7 +148,7 @@ bin/console doctrine:migrations:migrate
 bin/console doctrine:fixtures:load
 ```
 
-This will create all structure data for the database, including tables and constraints, but there will not be any data until you login and add some!
+This will your database schema, with all tables and constraints, and will also load in all the default lookup table data, like competencies and topics --- which you can modify once you're done with setup --- but it won't have any course data or any other unique data about your specific school or curriculum until you log in and add some.
 
 * Then change into the document root folder ('/web/ilios3/ilios/web') and remove the 'app_dev.php' file as this file should not exist on a production machine.
 ```bash
