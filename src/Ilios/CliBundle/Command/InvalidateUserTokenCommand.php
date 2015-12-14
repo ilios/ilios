@@ -45,7 +45,7 @@ class InvalidateUserTokenCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:setup:invalidate-user-tokens')
+            ->setName('ilios:maintenance:invalidate-user-tokens')
             ->setDescription('Invalidate all user tokens issued before now.')
             ->addArgument(
                 'userId',

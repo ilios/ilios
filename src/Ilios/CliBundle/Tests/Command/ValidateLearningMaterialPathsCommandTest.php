@@ -8,7 +8,7 @@ use Mockery as m;
 
 class ValidateLearningMaterialPathsCommandTest extends \PHPUnit_Framework_TestCase
 {
-    const COMMAND_NAME = 'ilios:setup:validate-learning-materials';
+    const COMMAND_NAME = 'ilios:maintenance:validate-learning-materials';
     
     protected $iliosFileSystem;
     protected $learningMaterialManager;
