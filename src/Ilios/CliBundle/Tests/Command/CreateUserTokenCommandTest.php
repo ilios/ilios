@@ -8,7 +8,7 @@ use Mockery as m;
 
 class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
 {
-    const COMMAND_NAME = 'ilios:setup:create-user-token';
+    const COMMAND_NAME = 'ilios:maintenance:create-user-token';
     
     protected $userManager;
     protected $commandTester;

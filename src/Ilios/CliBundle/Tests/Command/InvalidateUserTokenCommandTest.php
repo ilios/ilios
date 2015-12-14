@@ -10,7 +10,7 @@ use \DateTime;
 
 class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
 {
-    const COMMAND_NAME = 'ilios:setup:invalidate-user-tokens';
+    const COMMAND_NAME = 'ilios:maintenance:invalidate-user-tokens';
     
     protected $userManager;
     protected $authenticationManager;
