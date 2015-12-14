@@ -1,8 +1,3 @@
-# MAJOR WORK IN PROGRESS
-
-While this will eventually replace the existing Ilios API entirely, right
-now it does nothing.  Only developers should be working with this code at this time.
-
 # About
 
 The Ilios Curriculum Management System addresses the needs of the Health Professions educational community by providing a user-friendly, flexible, and robust web application to collect, manage, analyze and deliver curricular information.
