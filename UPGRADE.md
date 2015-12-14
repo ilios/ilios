@@ -87,3 +87,16 @@ If you would like to verify that your new learning materials are correctly store
 ```bash
 sudo -u apache bin/console ilios:setup:validate-learning-materials /web/ilios2/htdocs --env=prod
 ```
+
+## Cleaning up the text of your Ilios 2.x Topics
+
+One of the biggest complaints of users of Ilios 2.x, regarding the application, was the poor-formatting of the text in item titles and descriptions. While Ilios 2.x did provide a WYSIWYG editor to its users, too many of the users chose to paste text directly into the Ilios text fields from whatever application they were already in (usually MS Word or some other MS Office application), instead of re-entering the text using the in-app editor.  This caused a real problem with the formatting of text in Ilios, so we've updated the handling of text in Ilios 3 and limited the formatting options to only those most-used in Ilios 2.  Doing so, while making new and future text entries format quite nicely, has made the old, over-formatted, pasted-from-Word text format terribly, rendering much of it unreadable.
+
+We have provided a solution to this problem with a fix that will allow you to quickly remove all but only the allowed characters from your item title and description text.  To apply this fix and reformat all your text to only use the proper formatting native to Ilios 3, do the following:
+
+* Navigate to your Ilios application root directory ('/web/ilios3/ilios' for example) and run the following command:
+
+```bash
+sudo -u apache bin/console ilios:maintenance:cleanup-strings --env=prod
+```
+
