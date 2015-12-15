@@ -1,3 +1,11 @@
+#Ilios: Curriculum Management from UCSF
+
+More Information at [iliosproject.org](http://iliosproject.org)
+
+[Instructions for a new Install] (INSTALL.md)
+
+[Updating From Ilios 2.x](UPGRADE.md)
+
 # About
 
 The Ilios Curriculum Management System addresses the needs of the Health Professions educational community by providing a user-friendly, flexible, and robust web application to collect, manage, analyze and deliver curricular information.
