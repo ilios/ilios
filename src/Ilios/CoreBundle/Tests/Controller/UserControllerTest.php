@@ -287,7 +287,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserCourse()
     {
@@ -326,7 +326,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserLearnerGroup()
     {
@@ -365,7 +365,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserInstructorLearnerGroup()
     {
@@ -404,7 +404,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserInstructorGroup()
     {
@@ -443,7 +443,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserIlmSession()
     {
@@ -482,7 +482,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserInstructedIlmSession()
     {
@@ -521,7 +521,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserOffering()
     {
@@ -560,7 +560,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserInstructedOffering()
     {
@@ -599,7 +599,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserProgramYear()
     {
@@ -638,7 +638,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostUserCohort()
     {
@@ -677,7 +677,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPostBadUser()
     {
@@ -698,7 +698,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testPutUser()
     {
@@ -739,7 +739,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testDeleteUser()
     {
@@ -775,7 +775,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testUserNotFound()
     {
@@ -791,7 +791,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByInstructedCourse()
     {
@@ -817,7 +817,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByInstructedSession()
     {
@@ -843,7 +843,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByInstructedSessionType()
     {
@@ -869,7 +869,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByInstructedTopic()
     {
@@ -901,7 +901,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByInstructedLearningMaterial()
     {
@@ -933,7 +933,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByInstructorGroup()
     {
@@ -959,7 +959,7 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterBySchool()
     {
