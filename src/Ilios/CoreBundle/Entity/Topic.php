@@ -83,8 +83,8 @@ class Topic implements TopicInterface
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="topics")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * Don't put courses in the topic API it takes forever to load them all
+     * @JMS\Exclude
      */
     protected $courses;
 
@@ -93,9 +93,8 @@ class Topic implements TopicInterface
      *
      * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="topics")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * Don't put programYears in the topic API it takes forever to load them all
+     * @JMS\Exclude
      */
     protected $programYears;
 
@@ -104,8 +103,8 @@ class Topic implements TopicInterface
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="topics")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * Don't put sessions in the topic API it takes forever to load them all
+     * @JMS\Exclude
      */
     protected $sessions;
 

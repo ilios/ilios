@@ -25,18 +25,6 @@ class TopicType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('courses', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Course"
-            ])
-            ->add('programYears', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:ProgramYear"
-            ])
-            ->add('sessions', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Session"
-            ])
         ;
 
         $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
