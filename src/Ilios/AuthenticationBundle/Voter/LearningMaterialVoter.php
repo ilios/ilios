@@ -42,12 +42,12 @@ class LearningMaterialVoter extends AbstractVoter
                 // users with 'Faculty', 'Course director' or 'Developer' role can create materials.
                 return $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer']);
                 break;
-                case self::EDIT:
-                case self::DELETE:
-                    // in order to grant EDIT and DELETE privileges on the given learning material to the given user,
-                    // at least one of the following statements must be true:
-                    // 1. the user owns the learning material
-                    // 2. the user has at least one of 'Faculty', 'Course Director' or 'Developer' roles.
+            case self::EDIT:
+            case self::DELETE:
+                // in order to grant EDIT and DELETE privileges on the given learning material to the given user,
+                // at least one of the following statements must be true:
+                // 1. the user owns the learning material
+                // 2. the user has at least one of 'Faculty', 'Course Director' or 'Developer' roles.
                 return (
                     $this->usersAreIdentical($user, $material->getOwningUser())
                     || $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])

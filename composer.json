@@ -1,6 +1,6 @@
 {
     "name": "ilios/ilios",
-    "license": "GPL-3.0+",
+    "license": "MIT",
     "type": "project",
     "description": "The \"Ilios Standard Edition\" distribution",
     "autoload": {
@@ -8,17 +8,17 @@
     },
     "require": {
         "php": "~5.4,>=5.4.4",
-        "symfony/symfony": "2.7.*",
+        "symfony/symfony": "2.8.*",
         "doctrine/orm": "2.5.*",
         "doctrine/doctrine-bundle": "1.6.*",
         "twig/extensions": "1.3.*",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.8",
-        "sensio/distribution-bundle": "~3.0",
+        "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "jms/serializer-bundle": "^1.0",
-        "nelmio/api-doc-bundle": "~2.10",
+        "nelmio/api-doc-bundle": "~2.11",
         "nelmio/cors-bundle": "~1.4",
         "jms/di-extra-bundle": "~1.5",
         "firebase/php-jwt": "^3.0",
@@ -28,7 +28,7 @@
         "doctrine/doctrine-fixtures-bundle": "~2.3",
         "friendsofsymfony/rest-bundle": "~1.7",
         "tdn/php-types": "1.*",
-        "matthiasnoback/symfony-console-form": "^1.1",
+        "matthiasnoback/symfony-console-form": "^1.2",
         "dreamscapes/ldap-core": "^3.1",
         "eluceo/ical": "^0.9.0",
         "exercise/htmlpurifier-bundle": "@stable"
@@ -41,17 +41,10 @@
         "matthiasnoback/symfony-dependency-injection-test": "@stable",
         "matthiasnoback/symfony-config-test": "@stable",
         "instaclick/base-test-bundle": "^0.5",
-        "mockery/mockery": "^0.9.3",
+        "mockery/mockery": "^0.9.4",
         "fzaninotto/faker": "^1.5",
-        "liip/functional-test-bundle": "~1.2",
-        "satooshi/php-coveralls": "^0.6"
+        "liip/functional-test-bundle": "~1.3"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/markuspoerschke/iCal"
-        }
-    ],
     "scripts": {
         "post-root-package-install": [
             "SymfonyStandard\\Composer::hookRootPackageInstall"
