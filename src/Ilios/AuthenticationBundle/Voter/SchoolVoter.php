@@ -63,14 +63,14 @@ class SchoolVoter extends AbstractVoter
                 // only developers can create schools.
                 return $this->userHasRole($user, ['Developer']);
                 break;
-                case self::EDIT:
-                case self::DELETE:
-                    // Only grant EDIT and DELETE permissions if the user has the 'Developer' role.
-                    // - and -
-                    // the user must be associated with the given school,
-                    // either by its primary school attribute
-                    //     - or - by WRITE rights for the school
-                    // via the permissions system.
+            case self::EDIT:
+            case self::DELETE:
+                // Only grant EDIT and DELETE permissions if the user has the 'Developer' role.
+                // - and -
+                // the user must be associated with the given school,
+                // either by its primary school attribute
+                //     - or - by WRITE rights for the school
+                // via the permissions system.
                 return (
                     $this->userHasRole($user, ['Developer'])
                     && (
