@@ -40,7 +40,6 @@ parameters:
     ilioscore.dataloader.programyear.class: Ilios\CoreBundle\Tests\DataLoader\ProgramYearData
     ilioscore.dataloader.programyearsteward.class: Ilios\CoreBundle\Tests\DataLoader\ProgramYearStewardData
     ilioscore.dataloader.program.class: Ilios\CoreBundle\Tests\DataLoader\ProgramData
-    ilioscore.dataloader.publishevent.class: Ilios\CoreBundle\Tests\DataLoader\PublishEventData
     ilioscore.dataloader.report.class: Ilios\CoreBundle\Tests\DataLoader\ReportData
     ilioscore.dataloader.school.class: Ilios\CoreBundle\Tests\DataLoader\SchoolData
     ilioscore.dataloader.sessiondescription.class: Ilios\CoreBundle\Tests\DataLoader\SessionDescriptionData
@@ -134,8 +133,6 @@ services:
         class: %ilioscore.dataloader.programyearsteward.class%
     ilioscore.dataloader.program:
         class: %ilioscore.dataloader.program.class%
-    ilioscore.dataloader.publishevent:
-        class: %ilioscore.dataloader.publishevent.class%
     ilioscore.dataloader.report:
         class: %ilioscore.dataloader.report.class%
     ilioscore.dataloader.school:

@@ -39,7 +39,6 @@ parameters:
     ilioscore.program.manager.class: Ilios\CoreBundle\Entity\Manager\ProgramManager
     ilioscore.programyear.manager.class: Ilios\CoreBundle\Entity\Manager\ProgramYearManager
     ilioscore.programyearsteward.manager.class: Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager
-    ilioscore.publishevent.manager.class: Ilios\CoreBundle\Entity\Manager\PublishEventManager
     ilioscore.report.manager.class: Ilios\CoreBundle\Entity\Manager\ReportManager
     ilioscore.school.manager.class: Ilios\CoreBundle\Entity\Manager\SchoolManager
     ilioscore.sessiondescription.manager.class: Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager
@@ -173,10 +172,6 @@ services:
     ilioscore.programyearsteward.manager:
         class: %ilioscore.programyearsteward.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\ProgramYearSteward]
-    ilioscore.publishevent.manager:
-        class: %ilioscore.publishevent.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\PublishEvent]
-        scope: request
     ilioscore.report.manager:
         class: %ilioscore.report.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Report]

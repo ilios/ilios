@@ -282,14 +282,6 @@ api_programyearsteward_v1:
     prefix:   /v1
     defaults: {_format:json}
 
-
-api_publishevent_v1:
-    resource: "@IliosCoreBundle/Controller/PublishEventController.php"
-    type:     rest
-    prefix:   /v1
-    defaults: {_format:json}
-
-
 api_report_v1:
     resource: "@IliosCoreBundle/Controller/ReportController.php"
     type:     rest

@@ -96,15 +96,6 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setPublishEvent
-     * @covers Ilios\CoreBundle\Entity\Offering::getPublishEvent
-     */
-    public function testSetPublishEvent()
-    {
-        $this->entitySetTest('publishEvent', 'PublishEvent');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\Offering::getSchool
      */
     public function testGetSchool()

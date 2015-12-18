@@ -271,18 +271,6 @@ class User implements UserInterface
     protected $learningMaterials;
 
     /**
-     * @var ArrayCollection|PublishEventInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="PublishEvent", mappedBy="administrator")
-     *
-     * Don't put publishEvents in the user API it takes forever to load them all
-     * @JMS\Exclude
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("publishEvents")
-     */
-    protected $publishEvents;
-
-    /**
      * @var ArrayCollection|ReportInterface[]
      *
      * @ORM\OneToMany(targetEntity="Report", mappedBy="user")
@@ -503,7 +491,6 @@ class User implements UserInterface
         $this->alerts                   = new ArrayCollection();
         $this->roles                    = new ArrayCollection();
         $this->learningMaterials        = new ArrayCollection();
-        $this->publishEvents            = new ArrayCollection();
         $this->reports                  = new ArrayCollection();
         $this->cohorts                  = new ArrayCollection();
         $this->pendingUserUpdates       = new ArrayCollection();
@@ -1076,34 +1063,6 @@ class User implements UserInterface
     public function getLearningMaterials()
     {
         return $this->learningMaterials;
-    }
-
-    /**
-     * @param Collection $publishEvents
-     */
-    public function setPublishEvents(Collection $publishEvents)
-    {
-        $this->publishEvents = new ArrayCollection();
-
-        foreach ($publishEvents as $publishEvent) {
-            $this->addPublishEvent($publishEvent);
-        }
-    }
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function addPublishEvent(PublishEventInterface $publishEvent)
-    {
-        $this->publishEvents->add($publishEvent);
-    }
-
-    /**
-     * @return ArrayCollection|PublishEventInterface[]
-     */
-    public function getPublishEvents()
-    {
-        return $this->publishEvents;
     }
 
     /**

@@ -37,7 +37,6 @@ parameters:
     ilioscore.program.handler.class: Ilios\CoreBundle\Handler\ProgramHandler
     ilioscore.programyear.handler.class: Ilios\CoreBundle\Handler\ProgramYearHandler
     ilioscore.programyearsteward.handler.class: Ilios\CoreBundle\Handler\ProgramYearStewardHandler
-    ilioscore.publishevent.handler.class: Ilios\CoreBundle\Handler\PublishEventHandler
     ilioscore.report.handler.class: Ilios\CoreBundle\Handler\ReportHandler
     ilioscore.school.handler.class: Ilios\CoreBundle\Handler\SchoolHandler
     ilioscore.sessiondescription.handler.class: Ilios\CoreBundle\Handler\SessionDescriptionHandler
@@ -165,10 +164,6 @@ services:
     ilioscore.programyearsteward.handler:
         class: %ilioscore.programyearsteward.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\ProgramYearSteward, '@form.factory']
-    ilioscore.publishevent.handler:
-        class: %ilioscore.publishevent.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\PublishEvent, '@form.factory', '@request']
-        scope: request
     ilioscore.report.handler:
         class: %ilioscore.report.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Report, '@form.factory']

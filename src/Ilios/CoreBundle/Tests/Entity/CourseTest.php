@@ -128,6 +128,24 @@ class CourseTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Course::setPublishedAsTbd
+     * @covers Ilios\CoreBundle\Entity\Course::isPublishedAsTbd
+     */
+    public function testSetPublishedAsTbd()
+    {
+        $this->booleanSetTest('publishedAsTbd');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::setPublished
+     * @covers Ilios\CoreBundle\Entity\Course::isPublished
+     */
+    public function testSetPublished()
+    {
+        $this->booleanSetTest('published');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Course::setSchool
      * @covers Ilios\CoreBundle\Entity\Course::getSchool
      */
@@ -151,15 +169,6 @@ class CourseTest extends EntityBase
     public function testAddDirector()
     {
         $this->entityCollectionAddTest('director', 'User');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\Course::setPublishEvent
-     * @covers Ilios\CoreBundle\Entity\Course::getPublishEvent
-     */
-    public function testSetPublishEvent()
-    {
-        $this->entitySetTest('publishEvent', 'PublishEvent');
     }
 
     /**
