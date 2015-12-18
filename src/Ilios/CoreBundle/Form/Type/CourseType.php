@@ -33,6 +33,7 @@ class CourseType extends AbstractType
             ->add('locked', null, ['required' => false])
             ->add('archived', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])
+            ->add('published', null, ['required' => false])
             ->add('clerkshipType', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CourseClerkshipType"
@@ -40,10 +41,6 @@ class CourseType extends AbstractType
             ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
-            ])
-            ->add('publishEvent', 'tdn_single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:PublishEvent"
             ])
             ->add('directors', 'tdn_many_related', [
                 'required' => false,

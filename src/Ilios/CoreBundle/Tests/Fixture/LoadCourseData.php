@@ -39,12 +39,11 @@ class LoadCourseData extends AbstractFixture implements
             $entity->setExternalId($arr['externalId']);
             $entity->setLocked($arr['locked']);
             $entity->setArchived($arr['archived']);
+            $entity->setPublishedAsTbd($arr['publishedAsTbd']);
+            $entity->setPublished($arr['published']);
             $entity->setSchool($this->getReference('schools' . $arr['school']));
             if (isset($arr['clerkshipType'])) {
                 $entity->setClerkshipType($this->getReference('courseClerkshipTypes' . $arr['clerkshipType']));
-            }
-            if (!empty($arr['publishEvent'])) {
-                $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));
             }
             foreach ($arr['cohorts'] as $id) {
                 $entity->addCohort($this->getReference('cohorts' . $id));
@@ -78,7 +77,6 @@ class LoadCourseData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseClerkshipTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
         );
     }

@@ -19,6 +19,7 @@ class CourseData extends AbstractDataLoader
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
+            'published' => true,
             'school' => "1",
             'clerkshipType' => "1",
             'directors' => [],
@@ -27,8 +28,7 @@ class CourseData extends AbstractDataLoader
             'objectives' => ['2'],
             'meshDescriptors' => ["abc1"],
             'learningMaterials' => ['1', '2'],
-            'sessions' => ['1', '2'],
-            'publishEvent' => '3'
+            'sessions' => ['1', '2']
         );
 
         $arr[] = array(
@@ -42,6 +42,7 @@ class CourseData extends AbstractDataLoader
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
+            'published' => false,
             'school' => "1",
             'clerkshipType' => "1",
             'directors' => ['2'],
@@ -64,6 +65,7 @@ class CourseData extends AbstractDataLoader
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
+            'published' => false,
             'school' => "2",
             'directors' => ["4"],
             'cohorts' => ["2"],
@@ -85,6 +87,7 @@ class CourseData extends AbstractDataLoader
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
+            'published' => false,
             'school' => "2",
             'directors' => ["2"],
             'cohorts' => ["3"],
@@ -111,6 +114,7 @@ class CourseData extends AbstractDataLoader
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
+            'published' => false,
             'school' => "1",
             'clerkshipType' => "1",
             'directors' => [],

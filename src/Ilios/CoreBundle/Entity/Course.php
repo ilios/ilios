@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
+use Ilios\CoreBundle\Traits\PublishableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,6 +42,7 @@ class Course implements CourseInterface
     use SessionsEntity;
     use SchoolEntity;
     use ObjectivesEntity;
+    use PublishableEntity;
 
     /**
      * @var int
@@ -187,6 +189,19 @@ class Course implements CourseInterface
     protected $publishedAsTbd;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     */
+    protected $published;
+
+    /**
      * @var CourseClerkshipTypeInterface
      *
      * @ORM\ManyToOne(targetEntity="CourseClerkshipType", inversedBy="courses")
@@ -213,20 +228,6 @@ class Course implements CourseInterface
      * @JMS\SerializedName("school")
      */
     protected $school;
-
-    /**
-     * @var PublishEventInterface
-     *
-     * @ORM\ManyToOne(targetEntity="PublishEvent", inversedBy="courses")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
-     * })
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("publishEvent")
-     */
-    protected $publishEvent;
 
     /**
      * @var ArrayCollection|UserInterface[]
@@ -353,6 +354,7 @@ class Course implements CourseInterface
         $this->learningMaterials = new ArrayCollection();
         $this->sessions = new ArrayCollection();
         $this->publishedAsTbd = false;
+        $this->published = false;
         $this->archived = false;
         $this->locked = false;
     }
@@ -437,22 +439,6 @@ class Course implements CourseInterface
     public function getExternalId()
     {
         return $this->externalId;
-    }
-
-    /**
-     * @param boolean $publishedAsTbd
-     */
-    public function setPublishedAsTbd($publishedAsTbd)
-    {
-        $this->publishedAsTbd = (boolean) $publishedAsTbd;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPublishedAsTbd()
-    {
-        return $this->publishedAsTbd;
     }
 
     /**
@@ -599,22 +585,6 @@ class Course implements CourseInterface
     public function getMeshDescriptors()
     {
         return $this->meshDescriptors;
-    }
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function setPublishEvent(PublishEventInterface $publishEvent = null)
-    {
-        $this->publishEvent = $publishEvent;
-    }
-
-    /**
-     * @return PublishEventInterface
-     */
-    public function getPublishEvent()
-    {
-        return $this->publishEvent;
     }
 
     /**
