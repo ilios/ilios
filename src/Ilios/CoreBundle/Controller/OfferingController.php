@@ -192,7 +192,7 @@ class OfferingController extends FOSRestController
             $this->getOfferingHandler()->updateOffering($offering, true, false);
 
             $session = $offering->getSession();
-            if ($session && $session->getPublishEvent()) {
+            if ($session && $session->isPublished()) {
                 $this->createAlertForNewOffering($offering);
             }
 
@@ -261,7 +261,7 @@ class OfferingController extends FOSRestController
             $this->getOfferingHandler()->updateOffering($offering, true, true);
 
             $session = $offering->getSession();
-            if ($session && $session->getPublishEvent()) {
+            if ($session && $session->isPublished()) {
                 if (Codes::HTTP_CREATED === $code) {
                     $this->createAlertForNewOffering($offering);
                 } else {

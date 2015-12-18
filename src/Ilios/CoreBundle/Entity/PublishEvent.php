@@ -113,25 +113,10 @@ class PublishEvent implements PublishEventInterface
     protected $administrator;
 
     /**
-     * @var ArrayCollection|OfferingInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="Offering", mappedBy="publishEvent")
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     */
-    protected $offerings;
-
-    /**
      * Set the audit details for a publish event
      */
     public function __construct()
     {
-        $this->courses = new ArrayCollection();
-        $this->sessions = new ArrayCollection();
-        $this->programs = new ArrayCollection();
-        $this->programYears = new ArrayCollection();
-        $this->offerings = new ArrayCollection();
         $this->setTimeStamp(new \DateTime());
         $this->setTableName('new');
         $this->setTableRowId(0);
