@@ -113,17 +113,6 @@ class PublishEvent implements PublishEventInterface
     protected $administrator;
 
     /**
-     * @var ArrayCollection|ProgramYearInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="ProgramYear", mappedBy="publishEvent")
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
-     */
-    protected $programYears;
-
-    /**
      * @var ArrayCollection|OfferingInterface[]
      *
      * @ORM\OneToMany(targetEntity="Offering", mappedBy="publishEvent")

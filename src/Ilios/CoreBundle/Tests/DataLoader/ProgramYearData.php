@@ -14,13 +14,13 @@ class ProgramYearData extends AbstractDataLoader
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
+            'published' => true,
             'program' => "1",
             'cohort' => "1",
             'directors' => [],
             'competencies' => ['1', '3'],
             'topics' => [],
             'objectives' => ['1'],
-            'publishEvent' => '2',
             'stewards' => ['1', '2']
         );
         $arr[] = array(
@@ -29,6 +29,7 @@ class ProgramYearData extends AbstractDataLoader
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
+            'published' => false,
             'program' => "1",
             'cohort' => "2",
             'directors' => [],
@@ -43,6 +44,7 @@ class ProgramYearData extends AbstractDataLoader
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
+            'published' => false,
             'program' => "2",
             'cohort' => "3",
             'directors' => [],
@@ -66,9 +68,10 @@ class ProgramYearData extends AbstractDataLoader
             'competencies' => [],
             'topics' => [],
             'objectives' => [],
-            'locked' => false,
-            'archived' => false,
-            'publishedAsTbd' => false,
+            'locked' => true,
+            'archived' => true,
+            'publishedAsTbd' => true,
+            'published' => true,
             'stewards' => []
         ];
     }

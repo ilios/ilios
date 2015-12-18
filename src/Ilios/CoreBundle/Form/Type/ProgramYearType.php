@@ -23,6 +23,7 @@ class ProgramYearType extends AbstractType
             ->add('locked', null, ['required' => false])
             ->add('archived', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])
+            ->add('published', null, ['required' => false])
             ->add('program', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Program"
@@ -46,10 +47,6 @@ class ProgramYearType extends AbstractType
             ->add('objectives', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
-            ])
-            ->add('publishEvent', 'tdn_single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:PublishEvent"
             ])
         ;
     }

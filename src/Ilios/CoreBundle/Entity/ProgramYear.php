@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
+use Ilios\CoreBundle\Traits\PublishableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,9 +32,9 @@ class ProgramYear implements ProgramYearInterface
     use ArchivableEntity;
     use StewardedEntity;
     use ObjectivesEntity;
+    use PublishableEntity;
 
     /**
-    * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
     * @var int
     *
     * @ORM\Column(name="program_year_id", type="integer")
@@ -100,6 +101,19 @@ class ProgramYear implements ProgramYearInterface
      * @ORM\Column(name="published_as_tbd", type="boolean")
      */
     protected $publishedAsTbd;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     */
+    protected $published;
 
     /**
      * @var ProgramInterface
@@ -196,20 +210,6 @@ class ProgramYear implements ProgramYearInterface
     protected $objectives;
 
     /**
-     * @var PublishEventInterface
-     *
-     * @ORM\ManyToOne(targetEntity="PublishEvent", inversedBy="programYears")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
-     * })
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("publishEvent")
-     */
-    protected $publishEvent;
-
-    /**
      * @var ArrayCollection|ProgramYearStewardInterface[]
      *
      * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="programYear")
@@ -227,29 +227,13 @@ class ProgramYear implements ProgramYearInterface
         $this->archived = false;
         $this->locked = false;
         $this->publishedAsTbd = false;
+        $this->published = false;
         $this->directors = new ArrayCollection();
         $this->competencies = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->stewards = new ArrayCollection();
 
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->programYearId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->programYearId : $this->id;
     }
 
     /**
@@ -268,21 +252,6 @@ class ProgramYear implements ProgramYearInterface
         return $this->startYear;
     }
 
-    /**
-     * @param boolean $publishedAsTbd
-     */
-    public function setPublishedAsTbd($publishedAsTbd)
-    {
-        $this->publishedAsTbd = $publishedAsTbd;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPublishedAsTbd()
-    {
-        return $this->publishedAsTbd;
-    }
 
     /**
      * @param ProgramInterface $program
@@ -386,22 +355,6 @@ class ProgramYear implements ProgramYearInterface
     public function getTopics()
     {
         return $this->topics;
-    }
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function setPublishEvent(PublishEventInterface $publishEvent = null)
-    {
-        $this->publishEvent = $publishEvent;
-    }
-
-    /**
-     * @return PublishEventInterface
-     */
-    public function getPublishEvent()
-    {
-        return $this->publishEvent;
     }
 
     /**
