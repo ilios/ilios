@@ -415,17 +415,18 @@ class UserRepository extends EntityRepository
 
         $qb = $this->_em->createQueryBuilder();
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
-          's.title, s.publishedAsTbd as sessionPublishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId,' .
-          'cpe.id as coursePublishEventId, c.publishedAsTbd as coursePublishedAsTbd';
+            's.title, st.sessionTypeCssClass, ' .
+            's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished';
+        $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
+
         $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
         $qb->leftJoin('o.session', 's');
         $qb->leftJoin('s.course', 'c');
-        $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.sessionType', 'st');
-        $qb->leftJoin('s.publishEvent', 'pe');
 
         $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
         $qb->andWhere($qb->expr()->orX(
@@ -458,17 +459,16 @@ class UserRepository extends EntityRepository
     {
         $qb = $this->_em->createQueryBuilder();
         $what = 'ilm.id, ilm.dueDate, ' .
-          's.updatedAt, s.title, s.publishedAsTbd as sessionPublishedAsTbd, st.sessionTypeCssClass,' .
-          'pe.id as publishEventId, cpe.id as coursePublishEventId, c.publishedAsTbd as coursePublishedAsTbd';
+            's.title, st.sessionTypeCssClass, ' .
+            's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished';
         $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
         $qb->leftJoin('ilm.session', 's');
         $qb->leftJoin('s.course', 'c');
-        $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.sessionType', 'st');
-        $qb->leftJoin('s.publishEvent', 'pe');
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('u.id', ':user_id'),
@@ -502,7 +502,7 @@ class UserRepository extends EntityRepository
             $event->location = $arr['room'];
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
-            $event->isPublished = !empty($arr['publishEventId']) && !empty($arr['coursePublishEventId']);
+            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
 
             return $event;
@@ -529,7 +529,7 @@ class UserRepository extends EntityRepository
             $event->ilmSession = $arr['id'];
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
-            $event->isPublished = !empty($arr['publishEventId']) && !empty($arr['coursePublishEventId']);
+            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
 
             return $event;

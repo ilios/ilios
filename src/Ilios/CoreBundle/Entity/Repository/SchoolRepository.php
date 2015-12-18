@@ -73,15 +73,14 @@ class SchoolRepository extends EntityRepository
     ) {
         $qb = $this->_em->createQueryBuilder();
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
-          's.title, s.publishedAsTbd as sessionPublishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId,' .
-          'cpe.id as coursePublishEventId, c.publishedAsTbd as coursePublishedAsTbd';
+          's.title, st.sessionTypeCssClass, ' .
+          's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+          'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.offerings', 'o');
         $qb->leftJoin('s.sessionType', 'st');
-        $qb->leftJoin('c.publishEvent', 'cpe');
-        $qb->leftJoin('s.publishEvent', 'pe');
 
         $qb->andWhere($qb->expr()->eq('school.id', ':school_id'));
         $qb->andWhere($qb->expr()->orX(
@@ -116,16 +115,18 @@ class SchoolRepository extends EntityRepository
     ) {
 
         $qb = $this->_em->createQueryBuilder();
+
         $what = 'ilm.id, ilm.dueDate, ' .
-          's.updatedAt, s.title, s.publishedAsTbd as sessionPublishedAsTbd, st.sessionTypeCssClass,' .
-          ' pe.id as publishEventId, cpe.id as coursePublishEventId, c.publishedAsTbd as coursePublishedAsTbd';
+            's.title, st.sessionTypeCssClass, ' .
+            's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished';
+        $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
+
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.ilmSession', 'ilm');
         $qb->leftJoin('s.sessionType', 'st');
-        $qb->leftJoin('c.publishEvent', 'cpe');
-        $qb->leftJoin('s.publishEvent', 'pe');
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('school.id', ':school_id'),
@@ -161,7 +162,7 @@ class SchoolRepository extends EntityRepository
             $event->location = $arr['room'];
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
-            $event->isPublished = !empty($arr['publishEventId']) && !empty($arr['coursePublishEventId']);
+            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
 
             return $event;
@@ -189,7 +190,7 @@ class SchoolRepository extends EntityRepository
             $event->ilmSession = $arr['id'];
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
-            $event->isPublished = !empty($arr['publishEventId']) && !empty($arr['coursePublishEventId']);
+            $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
 
             return $event;
