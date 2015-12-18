@@ -25,6 +25,7 @@ class SessionType extends AbstractType
             ->add('equipmentRequired', null, ['required' => false])
             ->add('supplemental', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])
+            ->add('published', null, ['required' => false])
             ->add('sessionType', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionType"
@@ -52,10 +53,6 @@ class SessionType extends AbstractType
             ->add('meshDescriptors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
-            ])
-            ->add('publishEvent', 'tdn_single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:PublishEvent"
             ])
             ->add('sessionDescription', 'tdn_single_related', [
                 'required' => false,

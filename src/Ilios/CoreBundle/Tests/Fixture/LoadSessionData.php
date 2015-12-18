@@ -35,14 +35,13 @@ class LoadSessionData extends AbstractFixture implements
             $entity->setAttireRequired($arr['attireRequired']);
             $entity->setEquipmentRequired($arr['equipmentRequired']);
             $entity->setSupplemental($arr['supplemental']);
+            $entity->setPublishedAsTbd($arr['publishedAsTbd']);
+            $entity->setPublished($arr['published']);
             if (!empty($arr['sessionType'])) {
                 $entity->setSessionType($this->getReference('sessionTypes' . $arr['sessionType']));
             }
             if (!empty($arr['course'])) {
                 $entity->setCourse($this->getReference('courses' . $arr['course']));
-            }
-            if (!empty($arr['publishEvent'])) {
-                $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));
             }
             $related = array(
                 'topics' => 'addTopic',
@@ -68,7 +67,6 @@ class LoadSessionData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
             'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
         );

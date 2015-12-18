@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
+use Ilios\CoreBundle\Traits\PublishableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
@@ -23,7 +24,8 @@ interface SessionInterface extends
     TimestampableEntityInterface,
     OfferingsEntityInterface,
     LoggableEntityInterface,
-    ObjectivesEntityInterface
+    ObjectivesEntityInterface,
+    PublishableEntityInterface
 {
     /**
      * @param boolean $attireRequired
@@ -54,16 +56,6 @@ interface SessionInterface extends
      * @return boolean
      */
     public function isSupplemental();
-
-    /**
-     * @param boolean $publishedAsTbd
-     */
-    public function setPublishedAsTbd($publishedAsTbd);
-
-    /**
-     * @return boolean
-     */
-    public function isPublishedAsTbd();
 
     /**
      * @param SessionTypeInterface $sessionType
@@ -124,16 +116,6 @@ interface SessionInterface extends
      * @return ArrayCollection|MeshDescriptorInterface[]
      */
     public function getMeshDescriptors();
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function setPublishEvent(PublishEventInterface $publishEvent);
-
-    /**
-     * @return PublishEventInterface
-     */
-    public function getPublishEvent();
 
     /**
      * @param SessionDescriptionInterface $sessionDescripiton

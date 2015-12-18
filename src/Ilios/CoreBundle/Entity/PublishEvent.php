@@ -113,16 +113,6 @@ class PublishEvent implements PublishEventInterface
     protected $administrator;
 
     /**
-     * @var ArrayCollection|SessionInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="Session", mappedBy="publishEvent")
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     */
-    protected $sessions;
-
-    /**
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\OneToMany(targetEntity="Program", mappedBy="publishEvent")

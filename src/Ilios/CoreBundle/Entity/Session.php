@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
+use Ilios\CoreBundle\Traits\PublishableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -40,6 +41,7 @@ class Session implements SessionInterface
     use TimestampableEntity;
     use OfferingsEntity;
     use ObjectivesEntity;
+    use PublishableEntity;
 
     /**
      * @var int
@@ -125,6 +127,19 @@ class Session implements SessionInterface
      * @JMS\SerializedName("publishedAsTbd")
      */
     protected $publishedAsTbd;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     */
+    protected $published;
 
     /**
      * @deprecated Replace with Timestampable trait in 3.x
@@ -235,20 +250,6 @@ class Session implements SessionInterface
     protected $meshDescriptors;
 
     /**
-     * @var PublishEventInterface
-     *
-     * @ORM\ManyToOne(targetEntity="PublishEvent", inversedBy="sessions")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
-     * })
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("publishEvent")
-     */
-    protected $publishEvent;
-
-    /**
      * @var SessionDescription
      *
      * @ORM\OneToOne(targetEntity="SessionDescription", mappedBy="session")
@@ -292,6 +293,7 @@ class Session implements SessionInterface
         $this->equipmentRequired = false;
         $this->supplemental = false;
         $this->publishedAsTbd = false;
+        $this->published = false;
 
         $this->topics = new ArrayCollection();
         $this->objectives = new ArrayCollection();
@@ -348,22 +350,6 @@ class Session implements SessionInterface
     public function isSupplemental()
     {
         return $this->supplemental;
-    }
-
-    /**
-     * @param boolean $publishedAsTbd
-     */
-    public function setPublishedAsTbd($publishedAsTbd)
-    {
-        $this->publishedAsTbd = $publishedAsTbd;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPublishedAsTbd()
-    {
-        return $this->publishedAsTbd;
     }
 
     /**
@@ -470,22 +456,6 @@ class Session implements SessionInterface
     public function getMeshDescriptors()
     {
         return $this->meshDescriptors;
-    }
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function setPublishEvent(PublishEventInterface $publishEvent = null)
-    {
-        $this->publishEvent = $publishEvent;
-    }
-
-    /**
-     * @return PublishEventInterface
-     */
-    public function getPublishEvent()
-    {
-        return $this->publishEvent;
     }
 
     /**
