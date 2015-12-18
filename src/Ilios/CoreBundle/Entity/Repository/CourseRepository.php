@@ -301,7 +301,121 @@ EOL;
         $isInstructing = ! empty($rows);
         $stmt->closeCursor();
         return $isInstructing;
+    }
 
+    /**
+     * Finds all courses associated with a given user.
+     * A user can be associated as either course director, learner or instructor with a given course.
+     *
+     * @param \Ilios\CoreBundle\Entity\UserInterface $user
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function findByUser(
+        UserInterface $user,
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null)
+    {
+        $sql =<<<EOL
+SELECT c.* FROM course c
+  JOIN course_director cd ON cd.course_id = c.course_id
+  JOIN user u ON u.user_id = cd.course_id
+  WHERE u.user_id = :user_id
+UNION
+SELECT c.* FROM course c
+  JOIN `session` s ON s.course_id = c.course_id
+  JOIN offering o ON o.session_id = s.session_id
+  JOIN offering_x_learner oxl ON oxl.offering_id = o.offering_id
+  JOIN user u ON u.user_id = oxl.user_id
+  WHERE u.user_id = :user_id
+UNION
+SELECT c.* FROM course c
+  JOIN `session` s ON s.course_id = c.course_id
+  JOIN offering o ON o.session_id = s.session_id
+  JOIN offering_x_group oxg ON oxg.offering_id = o.offering_id
+  JOIN `group` g ON g.group_id = oxg.group_id
+  JOIN group_x_user gxu ON gxu.group_id = g.group_id
+  JOIN user u ON u.user_id = gxu.user_id
+  WHERE u.user_id = :user_id
+UNION
+SELECT c.* FROM course c
+  JOIN `session` s ON s.course_id = c.course_id
+  JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+  JOIN ilm_session_facet_x_learner ilmxl ON ilmxl.ilm_session_facet_id = ilm.ilm_session_facet_id
+  JOIN user u ON u.user_id = ilmxl.user_id
+  WHERE u.user_id = :user_id
+UNION
+SELECT c.* FROM course c
+  JOIN `session` s ON s.course_id = c.course_id
+  JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+  JOIN ilm_session_facet_x_group ilmxg ON ilmxg.ilm_session_facet_id = ilm.ilm_session_facet_id
+  JOIN `group` g ON g.group_id = ilmxg.group_id
+  JOIN group_x_user gxu ON gxu.group_id = g.group_id
+  JOIN user u ON u.user_id = gxu.user_id
+  WHERE u.user_id = :user_id
+UNION
+SELECT c.* FROM course c
+  JOIN `session` s ON s.course_id = c.course_id
+  JOIN offering o ON o.session_id = s.session_id
+  JOIN offering_x_instructor oxi ON oxi.offering_id = o.offering_id
+  JOIN user u ON u.user_id = oxi.user_id
+  WHERE u.user_id = :user_id
+UNION
+SELECT c.* FROM course c
+  JOIN `session` s ON s.course_id = c.course_id
+  JOIN offering o ON o.session_id = s.session_id
+  JOIN offering_x_instructor_group oxig ON oxig.offering_id = o.offering_id
+  JOIN `group` g ON g.group_id = oxig.instructor_group_id
+  JOIN group_x_user gxu ON gxu.group_id = g.group_id
+  JOIN user u ON u.user_id = gxu.user_id
+  WHERE u.user_id = :user_id
+UNION
+SELECT c.* FROM course c
+  JOIN `session` s ON s.course_id = c.course_id
+  JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+  JOIN ilm_session_facet_x_instructor ilmxi ON ilmxi.ilm_session_facet_id = ilm.ilm_session_facet_id
+  JOIN user u ON u.user_id = ilmxi.user_id
+  WHERE u.user_id = :user_id
+UNION
+SELECT c.* FROM course c
+  JOIN `session` s ON s.course_id = c.course_id
+  JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+  JOIN ilm_session_facet_x_instructor_group ilmxig ON ilmxig.ilm_session_facet_id = ilm.ilm_session_facet_id
+  JOIN `group` g ON g.group_id = ilmxig.instructor_group_id
+  JOIN group_x_user gxu ON gxu.group_id = g.group_id
+  JOIN user u ON u.user_id = gxu.user_id
+  WHERE u.user_id = :user_id
+EOL;
 
+        // @todo Add property filter criteria to query. [ST 2015/12/18]
+        // @todo Add ORDER BY clause(s) to query. [ST 2015/12/18]
+
+        if (isset($limit)) {
+            $sql .= ' LIMIT :limit';
+        }
+
+        if (isset($offset)) {
+            $sql .= ' OFFSET :offset';
+        }
+
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue("user_id", $user->getId());
+
+        // @todo Bind criteria values. [ST 2015/12/18]
+        // @todo Bind order-by values. [ST 2015/12/18]
+
+        if (isset($limit)) {
+            $stmt->bindValue('limit', $limit);
+        }
+        if (isset($offset)) {
+            $stmt->bindValue('offset', $offset);
+        }
+        $stmt->execute();
     }
 }
