@@ -2,6 +2,7 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -275,12 +276,12 @@ EOL;
      * Finds all courses associated with a given user.
      * A user can be associated as either course director, learner or instructor with a given course.
      *
-     * @param \Ilios\CoreBundle\Entity\UserInterface $user
+     * @param UserInterface $user
      * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
-     * @throws \Doctrine\DBAL\DBALException
+     * @return CourseInterface[]
      */
     public function findByUser(
         UserInterface $user,
@@ -290,18 +291,6 @@ EOL;
         $offset = null)
     {
         $sql =<<<EOL
-SELECT c.* FROM course c
-  JOIN course_director cd ON cd.course_id = c.course_id
-  JOIN user u ON u.user_id = cd.course_id
-  WHERE u.user_id = :user_id
-UNION
-SELECT c.* FROM course c
-  JOIN `session` s ON s.course_id = c.course_id
-  JOIN offering o ON o.session_id = s.session_id
-  JOIN offering_x_learner oxl ON oxl.offering_id = o.offering_id
-  JOIN user u ON u.user_id = oxl.user_id
-  WHERE u.user_id = :user_id
-UNION
 SELECT c.* FROM course c
   JOIN `session` s ON s.course_id = c.course_id
   JOIN offering o ON o.session_id = s.session_id
@@ -371,19 +360,21 @@ EOL;
             $sql .= ' OFFSET :offset';
         }
 
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue("user_id", $user->getId());
+        $rsm = new ResultSetMappingBuilder($this->_em);
+        $rsm->addRootEntityFromClassMetadata('IliosCoreBundle:Course', 'c');
+
+        $query = $this->_em->createNativeQuery($sql, $rsm);
+        $query->setParameter('user_id', $user->getId());
 
         // @todo Bind criteria values. [ST 2015/12/18]
         // @todo Bind order-by values. [ST 2015/12/18]
 
         if (isset($limit)) {
-            $stmt->bindValue('limit', $limit);
+            $query->setParameter('limit', (int) $limit);
         }
         if (isset($offset)) {
-            $stmt->bindValue('offset', $offset);
+            $query->setParameter('offset', (int) $offset);
         }
-        $stmt->execute();
+        return $query->getResult();
     }
 }
