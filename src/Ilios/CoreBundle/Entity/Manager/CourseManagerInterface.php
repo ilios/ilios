@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -32,6 +31,26 @@ interface CourseManagerInterface extends ManagerInterface
      * @return CourseInterface[]
      */
     public function findCoursesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
+     * Retrieves all courses associated with the given user.
+     *
+     * @param UserInterface $user
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     * @return CourseInterface[]
+     *
+     * @see Ilios\CoreBundle\Entity\Repository\CourseRepository::findByUser()
+     */
+    public function findCoursesByUser(
+        UserInterface $user,
         array $criteria,
         array $orderBy = null,
         $limit = null,
