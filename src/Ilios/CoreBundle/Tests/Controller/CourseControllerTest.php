@@ -20,7 +20,6 @@ class CourseControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseClerkshipTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
             'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',

@@ -42,7 +42,6 @@ class UserControllerTest extends AbstractControllerTest
             'addedViaIlios',
             'examined',
             'alerts',
-            'publishEvents',
             'learningMaterials',
         ];
     }
@@ -264,7 +263,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -297,7 +295,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -336,7 +333,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -375,7 +371,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -414,7 +409,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -453,7 +447,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -492,7 +485,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -531,7 +523,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -570,7 +561,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -609,7 +599,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -648,7 +637,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
@@ -715,7 +703,6 @@ class UserControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['reminders']);
         unset($postData['learningMaterials']);
-        unset($postData['publishEvents']);
         unset($postData['reports']);
         unset($postData['pendingUserUpdates']);
         unset($postData['permissions']);
