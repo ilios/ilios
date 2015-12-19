@@ -288,8 +288,9 @@ EOL;
         array $criteria,
         array $orderBy = null,
         $limit = null,
-        $offset = null)
-    {
+        $offset = null
+    ) {
+    
         $sql =<<<EOL
 SELECT c.* FROM course c
   JOIN `session` s ON s.course_id = c.course_id
