@@ -2,6 +2,7 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -290,7 +291,11 @@ EOL;
         $limit = null,
         $offset = null
     ) {
-    
+
+        $rsm = new ResultSetMappingBuilder($this->_em);
+        $rsm->addRootEntityFromClassMetadata('IliosCoreBundle:Course', 'c');
+        $meta = $this->_em->getClassMetadata('IliosCoreBundle:Course');
+
         $sql =<<<EOL
 SELECT c.* FROM course c
   JOIN `session` s ON s.course_id = c.course_id
@@ -350,7 +355,24 @@ SELECT c.* FROM course c
   WHERE u.user_id = :user_id
 EOL;
 
-        // @todo Add property filter criteria to query. [ST 2015/12/18]
+        $params = [];
+        $i = 0;
+        foreach ($criteria as $name => $value) {
+            if ($meta->hasField($name)) {
+                $i++;
+                if (1 === $i) {
+                    $sql .= ' WHERE ';
+                }
+                $column = $meta->getColumnName($name);
+                $label = 'param' . $i;
+                $params[$name] = $label;
+                if (is_array($value)) {
+                    $sql .= " {$column} IN (:{$label})";
+                } else {
+                    $sql .= " {$column} = :{$label}";
+                }
+            }
+        }
         // @todo Add ORDER BY clause(s) to query. [ST 2015/12/18]
 
         if (isset($limit)) {
@@ -361,13 +383,13 @@ EOL;
             $sql .= ' OFFSET :offset';
         }
 
-        $rsm = new ResultSetMappingBuilder($this->_em);
-        $rsm->addRootEntityFromClassMetadata('IliosCoreBundle:Course', 'c');
-
         $query = $this->_em->createNativeQuery($sql, $rsm);
         $query->setParameter('user_id', $user->getId());
+        foreach ($params as $field => $label) {
+            $value = $criteria[$field];
+            $query->setParameter($label, $value);
+        }
 
-        // @todo Bind criteria values. [ST 2015/12/18]
         // @todo Bind order-by values. [ST 2015/12/18]
 
         if (isset($limit)) {
