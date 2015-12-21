@@ -55,11 +55,16 @@ class UsereventVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                // check if the event-owning user is the given user
-                return $user->getId() === $event->user;
+                // Check if the event-owning user is the given user.
+                // In addition, if the given user has NOT elevated privileges,
+                // then do not grant access to view un-published events.
+                if ($this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])) {
+                    return $user->getId() === $event->user;
+                } else {
+                    return ($user->getId() == $event->user && $event->isPublished);
+                }
                 break;
         }
-
         return false;
     }
 }
