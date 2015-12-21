@@ -40,7 +40,7 @@ class CurrentsessionController extends FOSRestController
      */
     public function getCurrentsessionAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         if (!$user instanceof User) {
             throw new NotFoundHttpException('No current session');
         }

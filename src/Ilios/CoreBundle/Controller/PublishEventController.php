@@ -180,7 +180,7 @@ class PublishEventController extends FOSRestController
             $publishEvent = $handler->post(
                 $this->getPostData($request),
                 $request,
-                $this->get('security.context')->getToken()->getUser()
+                $this->get('security.token_storage')->getToken()->getUser()
             );
 
             $authChecker = $this->get('security.authorization_checker');
