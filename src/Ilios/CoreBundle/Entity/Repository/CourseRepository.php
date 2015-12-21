@@ -283,6 +283,7 @@ EOL;
      * @param null $limit
      * @param null $offset
      * @return CourseInterface[]
+     * @throws \Exception
      */
     public function findByUser(
         UserInterface $user,
@@ -296,84 +297,105 @@ EOL;
         $rsm->addRootEntityFromClassMetadata('IliosCoreBundle:Course', 'c');
         $meta = $this->_em->getClassMetadata('IliosCoreBundle:Course');
 
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
         $sql =<<<EOL
-SELECT c.* FROM course c
-  JOIN `session` s ON s.course_id = c.course_id
-  JOIN offering o ON o.session_id = s.session_id
-  JOIN offering_x_group oxg ON oxg.offering_id = o.offering_id
-  JOIN `group` g ON g.group_id = oxg.group_id
-  JOIN group_x_user gxu ON gxu.group_id = g.group_id
-  JOIN user u ON u.user_id = gxu.user_id
-  WHERE u.user_id = :user_id
-UNION
-SELECT c.* FROM course c
-  JOIN `session` s ON s.course_id = c.course_id
-  JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
-  JOIN ilm_session_facet_x_learner ilmxl ON ilmxl.ilm_session_facet_id = ilm.ilm_session_facet_id
-  JOIN user u ON u.user_id = ilmxl.user_id
-  WHERE u.user_id = :user_id
-UNION
-SELECT c.* FROM course c
-  JOIN `session` s ON s.course_id = c.course_id
-  JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
-  JOIN ilm_session_facet_x_group ilmxg ON ilmxg.ilm_session_facet_id = ilm.ilm_session_facet_id
-  JOIN `group` g ON g.group_id = ilmxg.group_id
-  JOIN group_x_user gxu ON gxu.group_id = g.group_id
-  JOIN user u ON u.user_id = gxu.user_id
-  WHERE u.user_id = :user_id
-UNION
-SELECT c.* FROM course c
-  JOIN `session` s ON s.course_id = c.course_id
-  JOIN offering o ON o.session_id = s.session_id
-  JOIN offering_x_instructor oxi ON oxi.offering_id = o.offering_id
-  JOIN user u ON u.user_id = oxi.user_id
-  WHERE u.user_id = :user_id
-UNION
-SELECT c.* FROM course c
-  JOIN `session` s ON s.course_id = c.course_id
-  JOIN offering o ON o.session_id = s.session_id
-  JOIN offering_x_instructor_group oxig ON oxig.offering_id = o.offering_id
-  JOIN `group` g ON g.group_id = oxig.instructor_group_id
-  JOIN group_x_user gxu ON gxu.group_id = g.group_id
-  JOIN user u ON u.user_id = gxu.user_id
-  WHERE u.user_id = :user_id
-UNION
-SELECT c.* FROM course c
-  JOIN `session` s ON s.course_id = c.course_id
-  JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
-  JOIN ilm_session_facet_x_instructor ilmxi ON ilmxi.ilm_session_facet_id = ilm.ilm_session_facet_id
-  JOIN user u ON u.user_id = ilmxi.user_id
-  WHERE u.user_id = :user_id
-UNION
-SELECT c.* FROM course c
-  JOIN `session` s ON s.course_id = c.course_id
-  JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
-  JOIN ilm_session_facet_x_instructor_group ilmxig ON ilmxig.ilm_session_facet_id = ilm.ilm_session_facet_id
-  JOIN `group` g ON g.group_id = ilmxig.instructor_group_id
-  JOIN group_x_user gxu ON gxu.group_id = g.group_id
-  JOIN user u ON u.user_id = gxu.user_id
-  WHERE u.user_id = :user_id
+SELECT * FROM (
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN offering o ON o.session_id = s.session_id
+    JOIN offering_x_group oxg ON oxg.offering_id = o.offering_id
+    JOIN `group` g ON g.group_id = oxg.group_id
+    JOIN group_x_user gxu ON gxu.group_id = g.group_id
+    JOIN user u ON u.user_id = gxu.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+    JOIN ilm_session_facet_x_learner ilmxl ON ilmxl.ilm_session_facet_id = ilm.ilm_session_facet_id
+    JOIN user u ON u.user_id = ilmxl.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+    JOIN ilm_session_facet_x_group ilmxg ON ilmxg.ilm_session_facet_id = ilm.ilm_session_facet_id
+    JOIN `group` g ON g.group_id = ilmxg.group_id
+    JOIN group_x_user gxu ON gxu.group_id = g.group_id
+    JOIN user u ON u.user_id = gxu.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN offering o ON o.session_id = s.session_id
+    JOIN offering_x_instructor oxi ON oxi.offering_id = o.offering_id
+    JOIN user u ON u.user_id = oxi.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN offering o ON o.session_id = s.session_id
+    JOIN offering_x_instructor_group oxig ON oxig.offering_id = o.offering_id
+    JOIN `group` g ON g.group_id = oxig.instructor_group_id
+    JOIN group_x_user gxu ON gxu.group_id = g.group_id
+    JOIN user u ON u.user_id = gxu.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+    JOIN ilm_session_facet_x_instructor ilmxi ON ilmxi.ilm_session_facet_id = ilm.ilm_session_facet_id
+    JOIN user u ON u.user_id = ilmxi.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+    JOIN ilm_session_facet_x_instructor_group ilmxig ON ilmxig.ilm_session_facet_id = ilm.ilm_session_facet_id
+    JOIN `group` g ON g.group_id = ilmxig.instructor_group_id
+    JOIN group_x_user gxu ON gxu.group_id = g.group_id
+    JOIN user u ON u.user_id = gxu.user_id
+    WHERE u.user_id = :user_id
+) AS my_courses
 EOL;
 
         $params = [];
         $i = 0;
+        $sqlFragments = [];
         foreach ($criteria as $name => $value) {
-            if ($meta->hasField($name)) {
-                $i++;
-                if (1 === $i) {
-                    $sql .= ' WHERE ';
-                }
-                $column = $meta->getColumnName($name);
-                $label = 'param' . $i;
-                $params[$name] = $label;
-                if (is_array($value)) {
-                    $sql .= " {$column} IN (:{$label})";
-                } else {
-                    $sql .= " {$column} = :{$label}";
-                }
+            $i++;
+            if (! $meta->hasField($name)) {
+                throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $name));
+            }
+
+            $column = $meta->getColumnName($name);
+            $label = 'param' . $i;
+            $params[$name] = $label;
+            if (is_array($value)) {
+                $sqlFragments[] = "{$column} IN (:{$label})";
+            } else {
+                $sqlFragments[] = "{$column} = :{$label}";
             }
         }
-        // @todo Add ORDER BY clause(s) to query. [ST 2015/12/18]
+        if (count($sqlFragments)) {
+            $sql .= ' WHERE ' . implode(' AND ', $sqlFragments);
+        }
+
+        if (is_array($orderBy)) {
+            $sqlFragments = [];
+            foreach ($orderBy as $sort => $order) {
+                if (! $meta->hasField($sort)) {
+                    throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $sort));
+                }
+                $column = $meta->getColumnName($sort);
+                $sqlFragments[] = "{$column} " . ('desc' === strtolower($order) ? 'DESC' : 'ASC');
+            }
+            $sql .= ' ORDER BY ';
+            $sql .= implode(', ', $sqlFragments);
+        }
 
         if (isset($limit)) {
             $sql .= ' LIMIT :limit';
@@ -389,8 +411,6 @@ EOL;
             $value = $criteria[$field];
             $query->setParameter($label, $value);
         }
-
-        // @todo Bind order-by values. [ST 2015/12/18]
 
         if (isset($limit)) {
             $query->setParameter('limit', (int) $limit);
