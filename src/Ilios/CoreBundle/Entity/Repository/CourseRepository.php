@@ -304,6 +304,18 @@ EOL;
         $sql =<<<EOL
 SELECT * FROM (
   SELECT c.* FROM course c
+    JOIN course_director cd ON cd.course_id = c.course_id
+    JOIN user u ON u.user_id = cd.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN offering o ON o.session_id = s.session_id
+    JOIN offering_x_learner oxl ON oxl.offering_id = o.offering_id
+    JOIN user u ON u.user_id = oxl.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
     JOIN `session` s ON s.course_id = c.course_id
     JOIN offering o ON o.session_id = s.session_id
     JOIN offering_x_group oxg ON oxg.offering_id = o.offering_id
