@@ -66,14 +66,20 @@ class SchooleventVoter extends AbstractVoter
         switch ($attribute) {
             case self::VIEW:
                 // grant VIEW permissions if the event-owning school matches any of the given user's schools.
+                // In addition, if the given user has NOT elevated privileges,
+                // then do not grant access to view un-published events.
                 $eventOwningSchool = $this->schoolManager->findSchoolBy(['id' => $event->school]);
-                return (
-                    $this->schoolsAreIdentical($eventOwningSchool, $user->getSchool())
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool)
-                );
+                if ($this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])) {
+                    return $this->schoolsAreIdentical($eventOwningSchool, $user->getSchool())
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool);
+                } else {
+                    return ((
+                            $this->schoolsAreIdentical($eventOwningSchool, $user->getSchool())
+                            || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool)
+                        ) && $event->isPublished);
+                }
                 break;
         }
-
         return false;
     }
 }
