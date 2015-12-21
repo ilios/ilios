@@ -68,8 +68,8 @@ class ProgramYearData extends AbstractDataLoader
             'competencies' => [],
             'topics' => [],
             'objectives' => [],
-            'locked' => true,
-            'archived' => true,
+            'locked' => false,
+            'archived' => false,
             'publishedAsTbd' => true,
             'published' => true,
             'stewards' => []
