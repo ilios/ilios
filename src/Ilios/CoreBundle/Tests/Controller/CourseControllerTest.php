@@ -71,6 +71,197 @@ class CourseControllerTest extends AbstractControllerTest
             json_decode($response->getContent(), true)['courses'][0]
         );
     }
+    /**
+     * @group controllers_a
+     */
+    public function testGetMyCourses()
+    {
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['my' => true]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[1]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[3]
+            ),
+            $data[2]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testGetMyCoursesSorted()
+    {
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['my' => true, 'order_by[year]' => 'ASC', 'order_by[id]' => 'DESC']),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[1]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[3]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[0]
+            ),
+            $data[2]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testGetMyCoursesFailureOnBogusField()
+    {
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['my' => true, 'order_by[glefarknik]' => 'ASC']),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['my' => true, 'filters[farnk]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testGetMyCoursesWithLimitAndOffset()
+    {
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['my' => true, 'limit' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[1]
+            ),
+            $data[1]
+        );
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['my' => true, 'limit' => 1, 'offset' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testGetMyCoursesFilteredByYear()
+    {
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['my' => true, 'filters[year]' => '2012']),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['my' => true, 'filters[year]' => '2013']),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_courses', ['my' => true, 'filters[year]' => ['2012', '2013']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $this->assertEquals(3, count($data), var_export($data, true));
+    }
 
     /**
      * @group controllers_a
