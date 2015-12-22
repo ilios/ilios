@@ -37,6 +37,19 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function findCoursesByUser(
+        UserInterface $user,
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findByUser($user, $criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function updateCourse(
         CourseInterface $course,
         $andFlush = true,

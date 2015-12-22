@@ -104,6 +104,11 @@ class CourseController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     * @QueryParam(
+     *   name="my",
+     *   nullable=true,
+     *   description="Indicates that all courses associated with the given user should be retrieved."
+     * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
@@ -116,6 +121,7 @@ class CourseController extends FOSRestController
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
+        $my = $paramFetcher->get('my');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
             $item = $item == 'null' ? null : $item;
@@ -125,13 +131,26 @@ class CourseController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getCourseHandler()
-            ->findCoursesBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+
+        if (isset($my)) {
+            $result = $this->getCourseHandler()
+                ->findCoursesByUser(
+                    $currentUser,
+                    $criteria,
+                    $orderBy,
+                    $limit,
+                    $offset
+                );
+        } else {
+            $result = $this->getCourseHandler()
+                ->findCoursesBy(
+                    $criteria,
+                    $orderBy,
+                    $limit,
+                    $offset
+                );
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {

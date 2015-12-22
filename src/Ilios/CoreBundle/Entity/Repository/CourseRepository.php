@@ -2,6 +2,8 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -64,37 +66,6 @@ class CourseRepository extends EntityRepository
             $qb->setParameter(':programYears', $ids);
         }
 
-        if (array_key_exists('users', $criteria)) {
-            $ids = is_array($criteria['users']) ? $criteria['users'] : [$criteria['users']];
-            $qb->leftJoin('c.directors', 'u_courseDirector');
-            $qb->leftJoin('c.sessions', 'u_session');
-            $qb->leftJoin('u_session.offerings', 'u_offering');
-            $qb->leftJoin('u_session.ilmSession', 'u_ilmSession');
-            $qb->leftJoin('u_offering.instructors', 'u_instructor');
-            $qb->leftJoin('u_offering.learners', 'u_learner');
-            $qb->leftJoin('u_offering.instructorGroups', 'u_insGroup');
-            $qb->leftJoin('u_insGroup.users', 'u_igUser');
-            $qb->leftJoin('u_offering.learnerGroups', 'u_learnerGroup');
-            $qb->leftJoin('u_learnerGroup.users', 'u_lgUser');
-            $qb->leftJoin('u_ilmSession.instructors', 'u_ilmInstructor');
-            $qb->leftJoin('u_ilmSession.learners', 'u_ilmLearner');
-            $qb->leftJoin('u_ilmSession.instructorGroups', 'u_ilmInsGroup');
-            $qb->leftJoin('u_ilmInsGroup.users', 'u_ilmIgUser');
-            $qb->leftJoin('u_ilmSession.learnerGroups', 'u_ilmLearnerGroup');
-            $qb->leftJoin('u_ilmLearnerGroup.users', 'u_ilmLgUser');
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('u_learner.id', ':users'),
-                $qb->expr()->in('u_instructor.id', ':users'),
-                $qb->expr()->in('u_courseDirector.id', ':users'),
-                $qb->expr()->in('u_igUser.id', ':users'),
-                $qb->expr()->in('u_lgUser.id', ':users'),
-                $qb->expr()->in('u_ilmLearner.id', ':users'),
-                $qb->expr()->in('u_ilmInstructor.id', ':users'),
-                $qb->expr()->in('u_ilmIgUser.id', ':users'),
-                $qb->expr()->in('u_ilmLgUser.id', ':users')
-            ));
-            $qb->setParameter(':users', $ids);
-        }
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
             $qb->leftJoin('c.sessions', 'i_session');
@@ -192,7 +163,6 @@ class CourseRepository extends EntityRepository
         unset($criteria['topics']);
         unset($criteria['programs']);
         unset($criteria['programYears']);
-        unset($criteria['users']);
         unset($criteria['instructors']);
         unset($criteria['instructorGroups']);
         unset($criteria['learningMaterials']);
@@ -301,7 +271,165 @@ EOL;
         $isInstructing = ! empty($rows);
         $stmt->closeCursor();
         return $isInstructing;
+    }
 
+    /**
+     * Finds all courses associated with a given user.
+     * A user can be associated as either course director, learner or instructor with a given course.
+     *
+     * @param UserInterface $user
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     * @return CourseInterface[]
+     * @throws \Exception
+     */
+    public function findByUser(
+        UserInterface $user,
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
 
+        $rsm = new ResultSetMappingBuilder($this->_em);
+        $rsm->addRootEntityFromClassMetadata('IliosCoreBundle:Course', 'c');
+        $meta = $this->_em->getClassMetadata('IliosCoreBundle:Course');
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        $sql =<<<EOL
+SELECT * FROM (
+  SELECT c.* FROM course c
+    JOIN course_director cd ON cd.course_id = c.course_id
+    JOIN user u ON u.user_id = cd.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN offering o ON o.session_id = s.session_id
+    JOIN offering_x_learner oxl ON oxl.offering_id = o.offering_id
+    JOIN user u ON u.user_id = oxl.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN offering o ON o.session_id = s.session_id
+    JOIN offering_x_group oxg ON oxg.offering_id = o.offering_id
+    JOIN `group` g ON g.group_id = oxg.group_id
+    JOIN group_x_user gxu ON gxu.group_id = g.group_id
+    JOIN user u ON u.user_id = gxu.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+    JOIN ilm_session_facet_x_learner ilmxl ON ilmxl.ilm_session_facet_id = ilm.ilm_session_facet_id
+    JOIN user u ON u.user_id = ilmxl.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+    JOIN ilm_session_facet_x_group ilmxg ON ilmxg.ilm_session_facet_id = ilm.ilm_session_facet_id
+    JOIN `group` g ON g.group_id = ilmxg.group_id
+    JOIN group_x_user gxu ON gxu.group_id = g.group_id
+    JOIN user u ON u.user_id = gxu.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN offering o ON o.session_id = s.session_id
+    JOIN offering_x_instructor oxi ON oxi.offering_id = o.offering_id
+    JOIN user u ON u.user_id = oxi.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN offering o ON o.session_id = s.session_id
+    JOIN offering_x_instructor_group oxig ON oxig.offering_id = o.offering_id
+    JOIN `group` g ON g.group_id = oxig.instructor_group_id
+    JOIN group_x_user gxu ON gxu.group_id = g.group_id
+    JOIN user u ON u.user_id = gxu.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+    JOIN ilm_session_facet_x_instructor ilmxi ON ilmxi.ilm_session_facet_id = ilm.ilm_session_facet_id
+    JOIN user u ON u.user_id = ilmxi.user_id
+    WHERE u.user_id = :user_id
+  UNION
+  SELECT c.* FROM course c
+    JOIN `session` s ON s.course_id = c.course_id
+    JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
+    JOIN ilm_session_facet_x_instructor_group ilmxig ON ilmxig.ilm_session_facet_id = ilm.ilm_session_facet_id
+    JOIN `group` g ON g.group_id = ilmxig.instructor_group_id
+    JOIN group_x_user gxu ON gxu.group_id = g.group_id
+    JOIN user u ON u.user_id = gxu.user_id
+    WHERE u.user_id = :user_id
+) AS my_courses
+EOL;
+
+        $params = [];
+        $i = 0;
+        $sqlFragments = [];
+        foreach ($criteria as $name => $value) {
+            $i++;
+            if (! $meta->hasField($name)) {
+                throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $name));
+            }
+
+            $column = $meta->getColumnName($name);
+            $label = 'param' . $i;
+            $params[$name] = $label;
+            if (is_array($value)) {
+                $sqlFragments[] = "{$column} IN (:{$label})";
+            } else {
+                $sqlFragments[] = "{$column} = :{$label}";
+            }
+        }
+        if (count($sqlFragments)) {
+            $sql .= ' WHERE ' . implode(' AND ', $sqlFragments);
+        }
+
+        if (is_array($orderBy)) {
+            $sqlFragments = [];
+            foreach ($orderBy as $sort => $order) {
+                if (! $meta->hasField($sort)) {
+                    throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $sort));
+                }
+                $column = $meta->getColumnName($sort);
+                $sqlFragments[] = "{$column} " . ('desc' === strtolower($order) ? 'DESC' : 'ASC');
+            }
+            $sql .= ' ORDER BY ';
+            $sql .= implode(', ', $sqlFragments);
+        }
+
+        if (isset($limit)) {
+            $sql .= ' LIMIT :limit';
+        }
+
+        if (isset($offset)) {
+            $sql .= ' OFFSET :offset';
+        }
+
+        $query = $this->_em->createNativeQuery($sql, $rsm);
+        $query->setParameter('user_id', $user->getId());
+        foreach ($params as $field => $label) {
+            $value = $criteria[$field];
+            $query->setParameter($label, $value);
+        }
+
+        if (isset($limit)) {
+            $query->setParameter('limit', (int) $limit);
+        }
+        if (isset($offset)) {
+            $query->setParameter('offset', (int) $offset);
+        }
+        return $query->getResult();
     }
 }
