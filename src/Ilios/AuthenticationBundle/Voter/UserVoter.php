@@ -49,22 +49,10 @@ class UserVoter extends AbstractVoter
             // at least one of these must be true.
             // 1. the requested user is the current user
             // 2. the current user has faculty/course director/developer role
-            //    and has the same primary school affiliation as the given user
-            // 3. the current user has faculty/course director/developer role
-            //    and has READ rights to one of the users affiliated schools.
             case self::VIEW:
                 return (
                     $user->getId() === $requestedUser->getId()
-                    || (
-                        $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
-                        && (
-                            $requestedUser->getAllSchools()->contains($user->getSchool())
-                            || $this->permissionManager->userHasReadPermissionToSchools(
-                                $user,
-                                $requestedUser->getAllSchools()
-                            )
-                        )
-                    )
+                    || $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                 );
                 break;
             // at least one of these must be true.
