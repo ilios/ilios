@@ -78,9 +78,9 @@ class UsereventController extends FOSRestController
         // Offset date range parameters for ILMs.
         // [ST 2015/12/22]
         $fromIlm = DateTime::createFromFormat('U', $fromTimestamp);
-        $fromIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.frontend_timezone')));
+        $fromIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.timezone')));
         $toIlm = DateTime::createFromFormat('U', $toTimestamp);
-        $toIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.frontend_timezone')));
+        $toIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.timezone')));
 
         if (!$from) {
             throw new InvalidInputWithSafeUserMessageException("?from is missing or is not a valid timestamp");
