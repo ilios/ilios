@@ -34,6 +34,8 @@ class IcsController extends Controller
         $events = $userManager->findEventsForUser(
             $user->getId(),
             $from,
+            $to,
+            $from,
             $to
         );
         foreach ($events as $event) {

@@ -262,13 +262,17 @@ class UserRepository extends EntityRepository
      * @param integer $id
      * @param \DateTime $from
      * @param \DateTime $to
+     * @param \DateTime $fromIlm
+     * @param \DateTime $toIlm
      *
      * @return UserEvent[]
      */
     public function findEventsForUser(
         $id,
         \DateTime $from,
-        \DateTime $to
+        \DateTime $to,
+        \DateTime $fromIlm,
+        \DateTime $toIlm
     ) {
         //These joins are DQL representations to go from a user to an offerings
         $joins = [
@@ -305,7 +309,7 @@ class UserRepository extends EntityRepository
         $ilmEvents = [];
         //using each of the joins above create a query to get events
         foreach ($joins as $join) {
-            $groupEvents = $this->getIlmSessionEventsFor($id, $from, $to, $join);
+            $groupEvents = $this->getIlmSessionEventsFor($id, $fromIlm, $toIlm, $join);
             $ilmEvents = array_merge($ilmEvents, $groupEvents);
         }
 
@@ -479,7 +483,6 @@ class UserRepository extends EntityRepository
             $qb->expr()->between('ilm.dueDate', ':date_from', ':date_to')
         ));
         $qb->setParameter('user_id', $id);
-
         $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 

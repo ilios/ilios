@@ -110,10 +110,12 @@ interface UserManagerInterface extends ManagerInterface
      * @param integer $userId
      * @param \DateTime $from
      * @param \DateTime $to
+     * @param \DateTime $fromIlm
+     * @param \DateTime $toIlm
      *
      * @return UserEvent[]
      */
-    public function findEventsForUser($userId, \DateTime $from, \DateTime $to);
+    public function findEventsForUser($userId, \DateTime $from, \DateTime $to, \DateTime $fromIlm, \DateTime $toIlm);
 
     /**
      * Finds and adds instructors to a given list of calendar events.
