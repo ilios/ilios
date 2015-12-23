@@ -43,6 +43,11 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
      */
     protected $commandTester;
 
+    /**
+     * @var string
+     */
+    protected $timezone;
+
     public function setUp()
     {
         $offering = $this->createOffering();
@@ -64,10 +69,13 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $kernel->boot();
         $application = new Application($kernel);
 
+        $this->timezone = $kernel->getContainer()->getParameter('ilios_core.timezone');
+
         $command = new SendTeachingRemindersCommand(
             $this->fakeOfferingManager,
             $kernel->getContainer()->get('templating'),
-            $kernel->getContainer()->get('mailer')
+            $kernel->getContainer()->get('mailer'),
+            $this->timezone
         );
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
@@ -108,20 +116,19 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $this->assertContains("Dear {$instructor->getFirstName()} {$instructor->getLastName()}", $output);
         }
 
+        $timezone = new \DateTimeZone($this->timezone);
+        $startDate = $offering->getStartDate()->setTimezone($timezone);
+        $endDate = $offering->getEndDate()->setTimezone($timezone);
+
         $this->assertContains("From: {$sender}", $output);
         $subject = SendTeachingRemindersCommand::DEFAULT_MESSAGE_SUBJECT;
         $this->assertContains("Subject: {$subject}", $output);
-
         $this->assertContains("upcoming {$offering->getSession()->getSessionType()->getTitle()}", $output);
         $this->assertContains("School of {$offering->getSession()->getCourse()->getSchool()->getTitle()}", $output);
         $this->assertContains("Course:   {$offering->getSession()->getCourse()->getTitle()}", $output);
         $this->assertContains("Session:  {$offering->getSession()->getTitle()}", $output);
-        $this->assertContains('Date:     ' . $offering->getStartDate()->format('D M d, Y'), $output);
-        $this->assertContains(
-            'Time:     ' . $offering->getStartDate()->format('h:i a') . ' - '
-            . $offering->getEndDate()->format('h:i a'),
-            $output
-        );
+        $this->assertContains("Date:     {$startDate->format('D M d, Y')}", $output);
+        $this->assertContains("Time:     {$startDate->format('h:i a')} - {$endDate->format('h:i a')}", $output);
         $this->assertContains("Location: {$offering->getRoom()}", $output);
         $this->assertContains(
             "Coordinator at {$offering->getSession()->getCourse()->getSchool()->getIliosAdministratorEmail()}.",
