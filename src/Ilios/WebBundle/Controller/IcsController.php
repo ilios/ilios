@@ -36,7 +36,7 @@ class IcsController extends Controller
         // [ST 2015/12/22]
         $fromIlm =  new \DateTime('-6 months');
         $fromIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.frontend_timezone')));
-        $toIlm = new \DateTime('-6 months');
+        $toIlm = new \DateTime('+6 months');
         $toIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.frontend_timezone')));
 
         $events = $userManager->findEventsForUser(
