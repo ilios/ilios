@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
@@ -62,4 +63,20 @@ interface SchoolManagerInterface extends ManagerInterface
      * @return SchoolInterface
      */
     public function createSchool();
+
+    /**
+     * @param int $schoolId
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @param \DateTime $fromIlm
+     * @param \DateTime $toIlm
+     * @return SchoolEvent[]
+     */
+    public function findEventsForSchool(
+        $schoolId,
+        \DateTime $from,
+        \DateTime $to,
+        \DateTime $fromIlm,
+        \DateTime $toIlm
+    );
 }

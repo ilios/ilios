@@ -65,6 +65,14 @@ class SchooleventsController extends FOSRestController
         $toTimestamp = $paramFetcher->get('to');
         $from = DateTime::createFromFormat('U', $fromTimestamp);
         $to = DateTime::createFromFormat('U', $toTimestamp);
+        // MOST TERRIBLE KLUDGE!
+        // Offset date range parameters for ILMs.
+        // [ST 2015/12/22]
+        $fromIlm = DateTime::createFromFormat('U', $fromTimestamp);
+        $fromIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.frontend_timezone')));
+        $toIlm = DateTime::createFromFormat('U', $toTimestamp);
+        $toIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.frontend_timezone')));
+
         if (!$from) {
             throw new InvalidInputWithSafeUserMessageException("?from is missing or is not a valid timestamp");
         }
@@ -75,7 +83,9 @@ class SchooleventsController extends FOSRestController
             $schoolHandler->findEventsForSchool(
                 $school->getId(),
                 $from,
-                $to
+                $to,
+                $fromIlm,
+                $toIlm
             )
         );
 

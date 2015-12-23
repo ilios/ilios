@@ -49,6 +49,7 @@ class Configuration implements ConfigurationInterface
                         "Optional 'supporting link' for the curriculum inventory exports."
                     )
                 ->end()
+                ->scalarNode('frontend_timezone')
             ->end();
 
         return $treeBuilder;

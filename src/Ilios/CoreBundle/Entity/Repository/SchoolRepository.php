@@ -23,7 +23,9 @@ class SchoolRepository extends EntityRepository
     public function findEventsForSchool(
         $id,
         \DateTime $from,
-        \DateTime $to
+        \DateTime $to,
+        \DateTime $fromIlm,
+        \DateTime $toIlm
     ) {
         //These joins are DQL representations to go from a user to an offerings
         $joins = [
@@ -53,7 +55,7 @@ class SchoolRepository extends EntityRepository
         $ilmEvents = [];
         //using each of the joins above create a query to get events
         foreach ($joins as $join) {
-            $groupEvents = $this->getIlmSessionEventsFor($id, $from, $to, $join);
+            $groupEvents = $this->getIlmSessionEventsFor($id, $fromIlm, $toIlm, $join);
             $ilmEvents = array_merge($ilmEvents, $groupEvents);
         }
 

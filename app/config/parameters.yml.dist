@@ -34,3 +34,4 @@ parameters:
     ldap_directory_search_base: null
     ldap_directory_campus_id_property: null
     ldap_directory_username_property: null
+    frontend_timezone: 'America/Los_Angeles'

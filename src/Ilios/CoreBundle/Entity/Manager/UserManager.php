@@ -91,9 +91,11 @@ class UserManager extends AbstractManager implements UserManagerInterface
     public function findEventsForUser(
         $userId,
         \DateTime $from,
-        \DateTime $to
+        \DateTime $to,
+        \DateTime $fromIlm,
+        \DateTime $toIlm
     ) {
-        return $this->getRepository()->findEventsForUser($userId, $from, $to);
+        return $this->getRepository()->findEventsForUser($userId, $from, $to, $fromIlm, $toIlm);
 
     }
 
