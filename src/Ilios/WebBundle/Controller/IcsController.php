@@ -29,14 +29,22 @@ class IcsController extends Controller
         $calendar->setPublishedTTL('P1H');
         
         $from = new \DateTime('-6 months');
-        $to = new \DateTime('+6 months');
+        $to =  new \DateTime('-6 months');
+
+        // MOST TERRIBLE KLUDGE!
+        // Offset date range parameters for ILMs.
+        // [ST 2015/12/22]
+        $fromIlm =  new \DateTime('-6 months');
+        $fromIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.frontend_timezone')));
+        $toIlm = new \DateTime('-6 months');
+        $toIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.frontend_timezone')));
 
         $events = $userManager->findEventsForUser(
             $user->getId(),
             $from,
             $to,
-            $from,
-            $to
+            $fromIlm,
+            $toIlm
         );
         foreach ($events as $event) {
             $vEvent = new ICS\Event();
