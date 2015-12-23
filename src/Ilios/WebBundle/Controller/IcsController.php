@@ -29,7 +29,7 @@ class IcsController extends Controller
         $calendar->setPublishedTTL('P1H');
         
         $from = new \DateTime('-6 months');
-        $to =  new \DateTime('-6 months');
+        $to =  new \DateTime('+6 months');
 
         // MOST TERRIBLE KLUDGE!
         // Offset date range parameters for ILMs.
