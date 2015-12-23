@@ -65,7 +65,7 @@ class IcsController extends Controller
         $response->headers->set('Content-Type', 'text/calendar');
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $key . '.ics"');
         $response->prepare($request);
-        $response->send();
+        return $response;
     }
 
     /**
