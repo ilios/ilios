@@ -31,6 +31,7 @@ class IliosCoreExtension extends Extension
         $container->setParameter('ilios_core.ldap.username_property', $config['ldap_directory_username_property']);
         $container->setParameter('ilios_core.institution_domain', $config['institution_domain']);
         $container->setParameter('ilios_core.supporting_link', $config['supporting_link']);
+        $container->setParameter('ilios_core.frontend_timezone', $config['frontend_timezone']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
@@ -38,6 +39,5 @@ class IliosCoreExtension extends Extension
         $loader->load('managers.yml');
         $loader->load('handlers.yml');
         $loader->load('dataloaders.yml');
-
     }
 }

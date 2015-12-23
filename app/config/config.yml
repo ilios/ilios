@@ -148,6 +148,7 @@ ilios_core:
     ldap_directory_username_property: "%ldap_directory_username_property%"
     institution_domain: "%institution_domain%"
     supporting_link: "%supporting_link%"
+    frontend_timezone: "%frontend_timezone%"
 
 ilios_web:
     environment: staging

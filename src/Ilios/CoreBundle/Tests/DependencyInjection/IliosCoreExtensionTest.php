@@ -34,6 +34,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ldap_directory_username_property' => $ldapUsernameProperty,
             'institution_domain' => 'ucsf.edu',
             'supporting_link' => 'https://inventory.ucsf.edu',
+            'frontend_timezone' => 'America\Los_Angeles',
         ));
         $parameters = array(
             'ilioscore.aamcmethod.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AamcMethodManager',
