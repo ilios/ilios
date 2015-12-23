@@ -53,19 +53,25 @@ class SendChangeAlertsCommand extends Command
     protected $mailer;
 
     /**
+     * @var string
+     */
+    protected $timezone;
+
+    /**
      * @param AlertManagerInterface $alertManager
      * @param AuditLogManagerInterface $auditLogManager
      * @param OfferingManagerInterface $offeringManager
      * @param EngineInterface $templatingEngine
-     *
      * @param \Swift_Mailer $mailer
+     * @param string $timezone
      */
     public function __construct(
         AlertManagerInterface $alertManager,
         AuditLogManagerInterface $auditLogManager,
         OfferingManagerInterface $offeringManager,
         EngineInterface $templatingEngine,
-        $mailer
+        $mailer,
+        $timezone
     ) {
         parent::__construct();
         $this->alertManager = $alertManager;
@@ -73,6 +79,7 @@ class SendChangeAlertsCommand extends Command
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
         $this->mailer = $mailer;
+        $this->timezone = $timezone;
     }
 
     /**
@@ -172,6 +179,7 @@ class SendChangeAlertsCommand extends Command
                 'alert' => $alert,
                 'history' => $history,
                 'offering' => $offering,
+                'timezone' => $this->timezone
             ]);
 
             $message = \Swift_Message::newInstance()

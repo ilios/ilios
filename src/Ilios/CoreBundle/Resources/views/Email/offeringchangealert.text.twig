@@ -7,13 +7,14 @@
  * - $alert:    The change alert.
  * - $history:  A collection of audit atoms providing the audit trail of this change alert.
  * - $offering: The offering that this change alert pertains to.
+ * - $timezone: The institution timezone
  */
 #}
 Course:   {{ offering.session.course.title|raw }}
 Session:  {{ offering.session.title|raw }}
 Type:     {{ offering.session.sessionType.title|raw }}
-Date:     {{ offering.startDate|date('D M d, Y') }}
-Time:     {{ offering.startDate|date('h:i a') }} - {{ offering.endDate|date('h:i a') }}
+Date:     {{ offering.startDate|date('D M d, Y', timezone) }}
+Time:     {{ offering.startDate|date('h:i a', timezone) }} - {{ offering.endDate|date('h:i a', timezone) }}
 Location: {{ offering.room }}
 
 Instructors:
@@ -38,6 +39,6 @@ List of modifications:
 
 Change History:
 {% for item in history %}
-- Updates made {{ item.createdAt|date('m/d/Y') }} at {{ item.createdAt|date('h:i a') }} by {{ item.user.firstName }} {{ item.user.lastName }}
+- Updates made {{ item.createdAt|date('m/d/Y', timezone) }} at {{ item.createdAt|date('h:i a', timezone) }} by {{ item.user.firstName }} {{ item.user.lastName }}
 {% endfor %}
 

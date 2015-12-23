@@ -7,6 +7,7 @@
  * - $base_url:           The Ilios base URL.
  * - $instructor:         The instructor to be notified in this mail.
  * - $offering:           The offering that this notification is about.
+ * - $timezone:           The institution timezone.
  */
 #}
 Dear {{ instructor.firstName }} {{ instructor.lastName }}:
@@ -15,8 +16,8 @@ This message is a reminder for your upcoming {{ offering.session.sessionType.tit
 
 Course:   {{ offering.session.course.title|raw }}
 Session:  {{ offering.session.title|raw }}
-Date:     {{ offering.startDate|date('D M d, Y') }}
-Time:     {{ offering.startDate|date('h:i a') }} - {{ offering.endDate|date('h:i a') }}
+Date:     {{ offering.startDate|date('D M d, Y', timezone) }}
+Time:     {{ offering.startDate|date('h:i a', timezone) }} - {{ offering.endDate|date('h:i a', timezone) }}
 Location: {{ offering.room }}
 
 The learner groups participating in this session are:

@@ -48,19 +48,27 @@ class SendTeachingRemindersCommand extends Command
     protected $mailer;
 
     /**
+     * @var string
+     */
+    protected $timezone;
+
+    /**
      * @param \Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface $offeringManager
      * @param \Symfony\Component\Templating\EngineInterface
      * @param \Swift_Mailer $mailer
+     * @param string $timezone
      */
     public function __construct(
         OfferingManagerInterface $offeringManager,
         EngineInterface $templatingEngine,
-        $mailer
+        $mailer,
+        $timezone
     ) {
         parent::__construct();
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
         $this->mailer = $mailer;
+        $this->timezone = $timezone;
     }
 
     /**
@@ -145,6 +153,7 @@ class SendTeachingRemindersCommand extends Command
             if ($deleted) {
                 continue;
             }
+
             $school = $offering->getSchool();
             if (! array_key_exists($school->getId(), $templateCache)) {
                 $template = $this->getTemplatePath($school);
@@ -161,6 +170,7 @@ class SendTeachingRemindersCommand extends Command
                     'base_url' => $baseUrl,
                     'instructor' => $instructor,
                     'offering' => $offering,
+                    'timezone' => $this->timezone
                 ]);
                 $message = \Swift_Message::newInstance()
                     ->setSubject($subject)

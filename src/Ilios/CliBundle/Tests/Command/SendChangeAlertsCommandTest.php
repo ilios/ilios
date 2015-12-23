@@ -55,10 +55,13 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      */
     protected $commandTester;
 
+    /**
+     * @var string
+     */
+    protected $timezone;
+
     public function setUp()
     {
-
-
         $this->offeringManager = m::mock('Ilios\CoreBundle\Entity\Manager\OfferingManager');
         $this->alertManager = m::mock('Ilios\CoreBundle\Entity\Manager\AlertManager');
         $this->auditLogManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuditLogManager');
@@ -67,12 +70,15 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $kernel->boot();
         $application = new Application($kernel);
 
+        $this->timezone = $kernel->getContainer()->getParameter('ilios_core.timezone');
+
         $command = new SendChangeAlertsCommand(
             $this->alertManager,
             $this->auditLogManager,
             $this->offeringManager,
             $kernel->getContainer()->get('templating'),
-            $kernel->getContainer()->get('mailer')
+            $kernel->getContainer()->get('mailer'),
+            $this->timezone
         );
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
@@ -133,14 +139,14 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->assertContains($expectedSubject, $output);
 
         // check mail body
+        $timezone = new \DateTimeZone($this->timezone);
+        $startDate = $offering->getStartDate()->setTimezone($timezone);
+        $endDate = $offering->getEndDate()->setTimezone($timezone);
         $this->assertContains("Course:   {$offering->getSession()->getCourse()->getTitle()}", $output);
         $this->assertContains("Session:  {$offering->getSession()->getTitle()}", $output);
         $this->assertContains("Type:     {$offering->getSession()->getSessionType()->getTitle()}", $output);
-        $this->assertContains("Date:     {$offering->getStartDate()->format('D M d, Y')}", $output);
-        $this->assertContains(
-            "Time:     {$offering->getStartDate()->format('h:i a')} - {$offering->getEndDate()->format('h:i a')}",
-            $output
-        );
+        $this->assertContains("Date:     {$startDate->format('D M d, Y')}", $output);
+        $this->assertContains("Time:     {$startDate->format('h:i a')} - {$endDate->format('h:i a')}", $output);
         $this->assertContains("Location: {$offering->getRoom()}", $output);
         /** @var UserInterface $instructor */
         foreach ($offering->getAllInstructors()->toArray() as $instructor) {
@@ -161,7 +167,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         /** @var AuditLogInterface $log */
         foreach ($auditLogs as $log) {
             $user = $log->getUser();
-            $createdAt = $log->getCreatedAt();
+            $createdAt = $log->getCreatedAt()->setTimezone($timezone);
             $this->assertContains(
                 "- Updates made {$createdAt->format('m/d/Y')} at {$createdAt->format('h:i a')}"
                 . " by {$user->getFirstName()} {$user->getLastName()}",
