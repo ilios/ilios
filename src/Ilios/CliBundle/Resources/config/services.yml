@@ -46,7 +46,7 @@ services:
             -  { name: console.command }
     ilioscli.command.send_teaching_reminders:
         class: Ilios\CliBundle\Command\SendTeachingRemindersCommand
-        arguments: ["@ilioscore.offering.manager", "@templating", "@mailer"]
+        arguments: ["@ilioscore.offering.manager", "@templating", "@mailer", "%ilios_core.timezone%"]
         tags:
             -  { name: console.command }
     ilioscli.command.send_change_alerts:
