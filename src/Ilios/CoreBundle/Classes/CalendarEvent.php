@@ -20,7 +20,7 @@ abstract class CalendarEvent
     public $name;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("startDate")
@@ -28,7 +28,7 @@ abstract class CalendarEvent
     public $startDate;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("endDate")
