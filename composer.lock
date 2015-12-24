@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "385ddebbfdf20814085aa9125f6947a9",
-    "content-hash": "8416e0469455ec895478e821a37a2589",
+    "hash": "078a4b377923bba43cc1db1d876921a7",
+    "content-hash": "a257458a09837a5349a8a96c936f808e",
     "packages": [
         {
             "name": "danielstjules/stringy",
@@ -1120,16 +1120,16 @@
         },
         {
             "name": "eluceo/ical",
-            "version": "0.9.0",
+            "version": "0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markuspoerschke/iCal.git",
-                "reference": "7492b9e4e0f8425192600b6c5d2cde381f8c71f1"
+                "reference": "a291711851d1538e2726ffe95862aa5e340ddb9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/7492b9e4e0f8425192600b6c5d2cde381f8c71f1",
-                "reference": "7492b9e4e0f8425192600b6c5d2cde381f8c71f1",
+                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/a291711851d1538e2726ffe95862aa5e340ddb9a",
+                "reference": "a291711851d1538e2726ffe95862aa5e340ddb9a",
                 "shasum": ""
             },
             "require": {
@@ -1169,7 +1169,7 @@
                 "ics",
                 "php calendar"
             ],
-            "time": "2015-11-13 22:33:54"
+            "time": "2015-07-12 18:19:30"
         },
         {
             "name": "exercise/htmlpurifier-bundle",
