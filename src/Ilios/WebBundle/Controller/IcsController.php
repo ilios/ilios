@@ -34,17 +34,19 @@ class IcsController extends Controller
         // MOST TERRIBLE KLUDGE!
         // Offset date range parameters for ILMs.
         // [ST 2015/12/22]
+        $timezone = new \DateTimeZone($this->container->getParameter('ilios_core.timezone'));
         $fromIlm =  new \DateTime('-6 months');
-        $fromIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.timezone')));
+        $fromIlm->setTimezone($timezone);
         $toIlm = new \DateTime('+6 months');
-        $toIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.timezone')));
+        $toIlm->setTimezone($timezone);
 
         $events = $userManager->findEventsForUser(
             $user->getId(),
             $from,
             $to,
             $fromIlm,
-            $toIlm
+            $toIlm,
+            $timezone
         );
         foreach ($events as $event) {
             $vEvent = new ICS\Event();
