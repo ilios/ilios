@@ -30,7 +30,7 @@
         "tdn/php-types": "1.*",
         "matthiasnoback/symfony-console-form": "^1.2",
         "dreamscapes/ldap-core": "^3.1",
-        "eluceo/ical": "^0.9.0",
+        "eluceo/ical": "0.8.0",
         "exercise/htmlpurifier-bundle": "@stable"
     },
     "require-dev": {
