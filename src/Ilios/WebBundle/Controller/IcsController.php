@@ -16,6 +16,9 @@ use \Eluceo\iCal\Component as ICS;
 
 class IcsController extends Controller
 {
+    const LOOK_BACK = '-1 months';
+    const LOOK_FORWARD = '+2 months';
+
     public function indexAction(Request $request, $key)
     {
         $userManager = $this->container->get('ilioscore.user.manager');
@@ -28,16 +31,16 @@ class IcsController extends Controller
         $calendar = new ICS\Calendar('Ilios Calendar for ' . $user->getFirstAndLastName());
         $calendar->setPublishedTTL('P1H');
         
-        $from = new \DateTime('-6 months');
-        $to =  new \DateTime('+6 months');
+        $from = new \DateTime(self::LOOK_BACK);
+        $to =  new \DateTime(self::LOOK_FORWARD);
 
         // MOST TERRIBLE KLUDGE!
         // Offset date range parameters for ILMs.
         // [ST 2015/12/22]
         $timezone = new \DateTimeZone($this->container->getParameter('ilios_core.timezone'));
-        $fromIlm =  new \DateTime('-6 months');
+        $fromIlm =  new \DateTime(self::LOOK_BACK);
         $fromIlm->setTimezone($timezone);
-        $toIlm = new \DateTime('+6 months');
+        $toIlm = new \DateTime(self::LOOK_FORWARD);
         $toIlm->setTimezone($timezone);
 
         $events = $userManager->findEventsForUser(
