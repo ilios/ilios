@@ -201,7 +201,8 @@ class SchoolRepository extends EntityRepository
             $event->school = $schoolId;
             $event->name = $arr['title'];
             $event->startDate = $arr['dueDate'];
-            $endDate = clone $arr['dueDate'];
+            $endDate = new \DateTime();
+            $endDate->setTimestamp($event->startDate->getTimestamp());
             $event->endDate = $endDate->modify('+15 minutes');
             $event->ilmSession = $arr['id'];
             $event->eventClass = $arr['sessionTypeCssClass'];
