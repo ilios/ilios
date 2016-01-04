@@ -80,7 +80,7 @@ class IlmSession implements IlmSessionInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="due_date", type="date")
+     * @ORM\Column(name="due_date", type="datetime")
      *
      * @Assert\NotBlank()
      * @Assert\DateTime()
