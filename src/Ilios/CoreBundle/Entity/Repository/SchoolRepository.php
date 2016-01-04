@@ -20,13 +20,8 @@ class SchoolRepository extends EntityRepository
      *
      * @return UserEvent[]
      */
-    public function findEventsForSchool(
-        $id,
-        \DateTime $from,
-        \DateTime $to,
-        \DateTime $fromIlm,
-        \DateTime $toIlm
-    ) {
+    public function findEventsForSchool($id, \DateTime $from, \DateTime $to)
+    {
         //These joins are DQL representations to go from a user to an offerings
         $joins = [
             ['c' => 'school.courses', 'se' => 'c.sessions', 'o' => 'se.offerings'],
@@ -55,7 +50,7 @@ class SchoolRepository extends EntityRepository
         $ilmEvents = [];
         //using each of the joins above create a query to get events
         foreach ($joins as $join) {
-            $groupEvents = $this->getIlmSessionEventsFor($id, $fromIlm, $toIlm, $join);
+            $groupEvents = $this->getIlmSessionEventsFor($id, $from, $to, $join);
             $ilmEvents = array_merge($ilmEvents, $groupEvents);
         }
 
@@ -208,7 +203,6 @@ class SchoolRepository extends EntityRepository
             $event->startDate = $arr['dueDate'];
             $endDate = clone $arr['dueDate'];
             $event->endDate = $endDate->modify('+15 minutes');
-
             $event->ilmSession = $arr['id'];
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];

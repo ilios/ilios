@@ -74,29 +74,13 @@ class UsereventController extends FOSRestController
         $from = DateTime::createFromFormat('U', $fromTimestamp);
         $to = DateTime::createFromFormat('U', $toTimestamp);
 
-        // MOST TERRIBLE KLUDGE!
-        // Offset date range parameters for ILMs.
-        // [ST 2015/12/22]
-        $fromIlm = DateTime::createFromFormat('U', $fromTimestamp);
-        $fromIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.timezone')));
-        $toIlm = DateTime::createFromFormat('U', $toTimestamp);
-        $toIlm->setTimezone(new \DateTimeZone($this->container->getParameter('ilios_core.timezone')));
-
         if (!$from) {
             throw new InvalidInputWithSafeUserMessageException("?from is missing or is not a valid timestamp");
         }
         if (!$to) {
             throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
         }
-        $result = $userHandler->addInstructorsToEvents(
-            $userHandler->findEventsForUser(
-                $user->getId(),
-                $from,
-                $to,
-                $fromIlm,
-                $toIlm
-            )
-        );
+        $result = $userHandler->addInstructorsToEvents($userHandler->findEventsForUser($user->getId(), $from, $to));
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
