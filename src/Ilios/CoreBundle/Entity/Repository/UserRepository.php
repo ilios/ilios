@@ -262,20 +262,10 @@ class UserRepository extends EntityRepository
      * @param integer $id
      * @param \DateTime $from
      * @param \DateTime $to
-     * @param \DateTime $fromIlm
-     * @param \DateTime $toIlm
-     * @param \DateTimeZone|null $timezone
-     *
      * @return UserEvent[]
      */
-    public function findEventsForUser(
-        $id,
-        \DateTime $from,
-        \DateTime $to,
-        \DateTime $fromIlm,
-        \DateTime $toIlm,
-        \DateTimeZone $timezone = null
-    ) {
+    public function findEventsForUser($id, \DateTime $from, \DateTime $to)
+    {
         //These joins are DQL representations to go from a user to an offerings
         $joins = [
             ['g' => 'u.learnerGroups', 'o' => 'g.offerings'],
@@ -311,7 +301,7 @@ class UserRepository extends EntityRepository
         $ilmEvents = [];
         //using each of the joins above create a query to get events
         foreach ($joins as $join) {
-            $groupEvents = $this->getIlmSessionEventsFor($id, $fromIlm, $toIlm, $join, $timezone);
+            $groupEvents = $this->getIlmSessionEventsFor($id, $from, $to, $join);
             $ilmEvents = array_merge($ilmEvents, $groupEvents);
         }
 
@@ -452,24 +442,17 @@ class UserRepository extends EntityRepository
     }
 
     /**
-      * Use the query builder and the $joins to get a set of
-      * ILMSession based user events
-      *
-      * @param integer $id
-      * @param \DateTime $from
-      * @param \DateTime $to
-      * @param array $joins
-      * @param \DateTimeZone|null $timezone
+     * Use the query builder and the $joins to get a set of
+     * ILMSession based user events
+     *
+     * @param integer $id
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @param array $joins
      * @return UserEvent[]
      */
-    protected function getIlmSessionEventsFor(
-        $id,
-        \DateTime $from,
-        \DateTime $to,
-        array $joins,
-        \DateTimeZone $timezone = null
-    ) {
-
+    protected function getIlmSessionEventsFor($id, \DateTime $from, \DateTime $to, array $joins)
+    {
         $qb = $this->_em->createQueryBuilder();
         $what = 'ilm.id, ilm.dueDate, ' .
           's.updatedAt, s.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId';
@@ -490,7 +473,7 @@ class UserRepository extends EntityRepository
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
 
         $results = $qb->getQuery()->getArrayResult();
-        return $this->createEventObjectsForIlmSessions($id, $results, $timezone);
+        return $this->createEventObjectsForIlmSessions($id, $results);
     }
 
     
@@ -525,31 +508,15 @@ class UserRepository extends EntityRepository
      * Convert IlmSessions into UserEvent objects
      * @param integer $userId
      * @param array $results
-     * @param \DateTimeZone|null $timezone
-     *
      * @return UserEvent[]
      */
-    protected function createEventObjectsForIlmSessions($userId, array $results, \DateTimeZone $timezone = null)
+    protected function createEventObjectsForIlmSessions($userId, array $results)
     {
-        return array_map(function ($arr) use ($userId, $timezone) {
+        return array_map(function ($arr) use ($userId) {
             $event = new UserEvent();
             $event->user = $userId;
             $event->name = $arr['title'];
             $event->startDate = $arr['dueDate'];
-            // SHAMEFUL HACK!
-            // if a timezone was passed, then take it as an indicator that
-            // we need to do some time and timezone adjustment to the ILM event
-            // server-side.
-            // adjust the date with the TZ offset from GMT to shift the date back
-            // to 'local midnight', then add 17 hours to fixate it at 5pm.
-            // ACHTUNG! the 5pm fix will break on days that have less/more than 24 hours.
-            // @link https://github.com/ilios/ilios/pull/1224
-            // @todo Rid the world of this junk ASAP. [ST 2015/12/23]
-            if (isset($timezone)) {
-                $offset = $timezone->getOffset($event->startDate);
-                $offset = $offset * -1;
-                $event->startDate->modify("{$offset} seconds")->modify('+17 hours');
-            }
             $endDate = new \DateTime();
             $endDate->setTimestamp($event->startDate->getTimestamp());
             $event->endDate = $endDate->modify('+15 minutes');

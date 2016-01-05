@@ -68,15 +68,7 @@ interface SchoolManagerInterface extends ManagerInterface
      * @param int $schoolId
      * @param \DateTime $from
      * @param \DateTime $to
-     * @param \DateTime $fromIlm
-     * @param \DateTime $toIlm
      * @return SchoolEvent[]
      */
-    public function findEventsForSchool(
-        $schoolId,
-        \DateTime $from,
-        \DateTime $to,
-        \DateTime $fromIlm,
-        \DateTime $toIlm
-    );
+    public function findEventsForSchool($schoolId, \DateTime $from, \DateTime $to);
 }

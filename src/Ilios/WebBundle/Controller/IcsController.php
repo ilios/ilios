@@ -34,22 +34,10 @@ class IcsController extends Controller
         $from = new \DateTime(self::LOOK_BACK);
         $to =  new \DateTime(self::LOOK_FORWARD);
 
-        // MOST TERRIBLE KLUDGE!
-        // Offset date range parameters for ILMs.
-        // [ST 2015/12/22]
-        $timezone = new \DateTimeZone($this->container->getParameter('ilios_core.timezone'));
-        $fromIlm =  new \DateTime(self::LOOK_BACK);
-        $fromIlm->setTimezone($timezone);
-        $toIlm = new \DateTime(self::LOOK_FORWARD);
-        $toIlm->setTimezone($timezone);
-
         $events = $userManager->findEventsForUser(
             $user->getId(),
             $from,
-            $to,
-            $fromIlm,
-            $toIlm,
-            $timezone
+            $to
         );
         foreach ($events as $event) {
             $vEvent = new ICS\Event();
