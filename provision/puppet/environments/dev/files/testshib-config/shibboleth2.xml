@@ -14,7 +14,7 @@ https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPConfiguration
     clockSkew="1800">
 
     <!-- The entityID is the name TestShib made for your SP. -->
-    <ApplicationDefaults entityID="https://ilios.dev/shibboleth"
+    <ApplicationDefaults entityID="http://ilios.dev/shibboleth"
         REMOTE_USER="eppn">
 
         <!-- You should use secure cookies if at all possible.  See cookieProps in this Wiki article. -->
