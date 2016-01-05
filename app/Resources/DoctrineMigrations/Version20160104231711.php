@@ -15,7 +15,6 @@ class Version20160104231711 extends AbstractMigration
      */
     public function up(Schema $schema)
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE ilm_session_facet CHANGE due_date due_date DATETIME NOT NULL');
@@ -26,7 +25,6 @@ class Version20160104231711 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE ilm_session_facet CHANGE due_date due_date DATE NOT NULL');
