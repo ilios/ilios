@@ -138,7 +138,7 @@ class SchoolRepository extends EntityRepository
 
         $qb = $this->_em->createQueryBuilder();
         $what = 'ilm.id, ilm.dueDate, ' .
-          's.updatedAt, s.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId' .
+          's.updatedAt, s.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId,' .
           'cpe.id as coursePublishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         foreach ($joins as $key => $statement) {

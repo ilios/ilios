@@ -465,7 +465,7 @@ class UserRepository extends EntityRepository
         }
         $qb->leftJoin('ilm.session', 's');
         $qb->leftJoin('s.course', 'c');
-        $qb->leftJoin('c.publishEventId', 'cpe');
+        $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.publishEvent', 'pe');
 
