@@ -72,14 +72,22 @@ class SchooleventsController extends FOSRestController
         if (!$to) {
             throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
         }
-        $result = $userHandler->addInstructorsToEvents(
-            $schoolHandler->findEventsForSchool($school->getId(), $from, $to)
-        );
+        $events = $schoolHandler->findEventsForSchool($school->getId(), $from, $to);
 
         $authChecker = $this->get('security.authorization_checker');
-        $result = array_filter($result, function ($entity) use ($authChecker) {
+        $events = array_filter($events, function ($entity) use ($authChecker) {
             return $authChecker->isGranted('view', $entity);
         });
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        //Un-privileged users get less data
+        if (!$user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+            foreach ($events as $event) {
+                $event->clearDataForScheduledEvent();
+            }
+        }
+
+        $result = $userHandler->addInstructorsToEvents($events);
 
         //If there are no matches return an empty array
         $answer['events'] = $result ? array_values($result) : [];

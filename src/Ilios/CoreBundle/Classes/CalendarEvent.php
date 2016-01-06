@@ -96,4 +96,21 @@ abstract class CalendarEvent
      * @JMS\SerializedName("instructors")
      */
     public $instructors = array();
+
+    /**
+     * Clean out all the data for scheduled events
+     *
+     * This information is not availalbe to un-priviledged users
+     */
+    public function clearDataForScheduledEvent()
+    {
+        if ($this->isScheduled) {
+            $this->name = 'Scheduled';
+            $this->offering = null;
+            $this->ilmSession = null;
+            $this->eventClass = null;
+            $this->location = null;
+            $this->instructors = [];
+        }
+    }
 }
