@@ -1034,6 +1034,23 @@ class User implements UserInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function hasRole(array $eligibleRoles)
+    {
+        $roles = array_map(
+            function (UserRoleInterface $role) {
+                return $role->getTitle();
+            },
+            $this->getRoles()->toArray()
+        );
+
+        $intersection = array_intersect($eligibleRoles, $roles);
+
+        return ! empty($intersection);
+    }
+
+    /**
      * @param Collection $learningMaterials
      */
     public function setLearningMaterials(Collection $learningMaterials)

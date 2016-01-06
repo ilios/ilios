@@ -47,18 +47,9 @@ abstract class AbstractVoter extends Voter
      * @param array $eligibleRoles a list of role names
      * @return bool TRUE if the user has at least one of the roles, FALSE otherwise.
      */
-    public function userHasRole(UserInterface $user, $eligibleRoles = array())
+    public function userHasRole(UserInterface $user, array $eligibleRoles = array())
     {
-        $roles = array_map(
-            function (UserRoleInterface $role) {
-                return $role->getTitle();
-            },
-            $user->getRoles()->toArray()
-        );
-
-        $intersection = array_intersect($eligibleRoles, $roles);
-
-        return ! empty($intersection);
+        return $user->hasRole($eligibleRoles);
     }
 
     /**

@@ -266,6 +266,14 @@ interface UserInterface extends
     public function getRoles();
 
     /**
+     * Utility method, determines if the user has any of the given roles.
+     * @param array $eligibleRoles a list of role names
+     *
+     * @return bool TRUE if the user has at least one of the roles, FALSE otherwise.
+     */
+    public function hasRole(array $eligibleRoles);
+
+    /**
      * @param Collection $learningMaterials
      */
     public function setLearningMaterials(Collection $learningMaterials);
