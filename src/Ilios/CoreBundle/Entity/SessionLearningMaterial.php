@@ -91,7 +91,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @ORM\ManyToOne(targetEntity="Session", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id")
+     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
      * })
      *
      * @JMS\Expose
