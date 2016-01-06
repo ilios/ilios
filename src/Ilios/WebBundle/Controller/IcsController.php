@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,34 +20,42 @@ class IcsController extends Controller
 
     public function indexAction(Request $request, $key)
     {
-        $userManager = $this->container->get('ilioscore.user.manager');
-        $user = $userManager->findUserBy(array('icsFeedKey' => $key));
-        
+        $userHandler = $this->container->get('ilioscore.user.handler');
+        $user = $userHandler->findUserBy(array('icsFeedKey' => $key));
+
         if (!$user) {
             throw new NotFoundHttpException();
         }
-        
+
         $calendar = new ICS\Calendar('Ilios Calendar for ' . $user->getFirstAndLastName());
         $calendar->setPublishedTTL('P1H');
         
         $from = new \DateTime(self::LOOK_BACK);
         $to =  new \DateTime(self::LOOK_FORWARD);
 
-        $events = $userManager->findEventsForUser(
-            $user->getId(),
-            $from,
-            $to
-        );
+        $events = $userHandler->addInstructorsToEvents($userHandler->findEventsForUser($user->getId(), $from, $to));
+
+        //Only show published events
+        $events = array_filter($events, function ($event) {
+            return $event->isPublished;
+        });
+
+
         foreach ($events as $event) {
             $vEvent = new ICS\Event();
             $vEvent
                 ->setDtStart($event->startDate)
                 ->setDtEnd($event->endDate)
                 ->setSummary($event->name)
-                ->setDescription($this->getDescriptionForEvent($event))
-                ->setCategories([$event->eventClass])
-                ->setLocation($event->location)
             ;
+
+            if (!$event->isScheduled) {
+                $vEvent
+                    ->setSummary('Scheduled')
+                    ->setDescription($this->getDescriptionForEvent($event))
+                    ->setCategories([$event->eventClass])
+                    ->setLocation($event->location);
+            }
             $calendar->addComponent($vEvent);
         }
 
@@ -72,17 +79,11 @@ class IcsController extends Controller
             $offeringManager = $this->container->get('ilioscore.offering.manager');
             $offering = $offeringManager->findOfferingBy(['id' => $event->offering]);
             $session = $offering->getSession();
-            $instructors = $offering->getAllInstructors()->map(function (UserInterface $user) {
-                return $user->getFirstAndLastName();
-            })->toArray();
         }
         if ($event->ilmSession) {
             $ilmSessionManager = $this->container->get('ilioscore.ilmSession.manager');
             $ilmSession = $ilmSessionManager->findIlmSessionBy(['id' => $event->ilmSession]);
             $session = $ilmSession->getSession();
-            $instructors = $ilmSession->getAllInstructors()->map(function (UserInterface $user) {
-                return $user->getFirstAndLastName();
-            })->toArray();
         }
 
         $type = 'This offering is a(n) ' . $session->getSessionType()->getTitle();
@@ -115,7 +116,7 @@ class IcsController extends Controller
 
         $lines = [
             $this->purify($description),
-            'Taught By ' . implode($instructors, '; '),
+            'Taught By ' . implode($event->instructors, '; '),
             $this->purify($type),
             $session->isAttireRequired()?'You will need special attire':null,
             $session->isEquipmentRequired()?'You will need special equiptment':null,
