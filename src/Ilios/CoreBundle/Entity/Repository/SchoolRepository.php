@@ -91,12 +91,13 @@ class SchoolRepository extends EntityRepository
 
         $qb = $this->_em->createQueryBuilder();
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
-          's.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId';
+          's.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId, cpe.id as coursePublishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
         $qb->leftJoin('o.session', 's');
+        $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.publishEvent', 'pe');
         
@@ -137,12 +138,14 @@ class SchoolRepository extends EntityRepository
 
         $qb = $this->_em->createQueryBuilder();
         $what = 'ilm.id, ilm.dueDate, ' .
-          's.updatedAt, s.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId';
+          's.updatedAt, s.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId' .
+          'cpe.id as coursePublishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
         $qb->leftJoin('ilm.session', 's');
+        $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.publishEvent', 'pe');
 
@@ -179,7 +182,7 @@ class SchoolRepository extends EntityRepository
             $event->location = $arr['room'];
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
-            $event->isPublished = !empty($arr['publishEventId']);
+            $event->isPublished = !empty($arr['publishEventId']) && !empty($arr['coursePublishEventId']);
             $event->isScheduled = $arr['publishedAsTbd'];
 
             return $event;
@@ -207,7 +210,7 @@ class SchoolRepository extends EntityRepository
             $event->ilmSession = $arr['id'];
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
-            $event->isPublished = !empty($arr['publishEventId']);
+            $event->isPublished = !empty($arr['publishEventId']) && !empty($arr['coursePublishEventId']);
             $event->isScheduled = $arr['publishedAsTbd'];
 
             return $event;
