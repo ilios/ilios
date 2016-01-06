@@ -33,29 +33,37 @@ class IcsController extends Controller
         $from = new \DateTime(self::LOOK_BACK);
         $to =  new \DateTime(self::LOOK_FORWARD);
 
-        $events = $userHandler->addInstructorsToEvents($userHandler->findEventsForUser($user->getId(), $from, $to));
+        $events = $userHandler->findEventsForUser($user->getId(), $from, $to);
 
-        //Only show published events
-        $events = array_filter($events, function ($event) {
-            return $event->isPublished;
+        $publishedEvents = array_filter($events, function (UserEvent $event) {
+            return $event->isPublished && !$event->isScheduled;
+        });
+        $publishedEvents = $userHandler->addInstructorsToEvents($publishedEvents);
+
+        $scheduledEvents = array_filter($events, function (UserEvent $event) {
+            return $event->isPublished && $event->isScheduled;
         });
 
 
-        foreach ($events as $event) {
+        foreach ($publishedEvents as $event) {
             $vEvent = new ICS\Event();
             $vEvent
                 ->setDtStart($event->startDate)
                 ->setDtEnd($event->endDate)
                 ->setSummary($event->name)
-            ;
+                ->setDescription($this->getDescriptionForEvent($event))
+                ->setCategories([$event->eventClass])
+                ->setLocation($event->location);
+            $calendar->addComponent($vEvent);
+        }
 
-            if (!$event->isScheduled) {
-                $vEvent
-                    ->setSummary('Scheduled')
-                    ->setDescription($this->getDescriptionForEvent($event))
-                    ->setCategories([$event->eventClass])
-                    ->setLocation($event->location);
-            }
+        foreach ($scheduledEvents as $event) {
+            $vEvent = new ICS\Event();
+            $vEvent
+                ->setDtStart($event->startDate)
+                ->setDtEnd($event->endDate)
+                ->setSummary('Scheduled')
+            ;
             $calendar->addComponent($vEvent);
         }
 
