@@ -82,7 +82,7 @@ class SchoolRepository extends EntityRepository
           's.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId, cpe.id as coursePublishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         foreach ($joins as $key => $statement) {
-            $qb->leftJoin($statement, $key);
+            $qb->join($statement, $key);
         }
         $qb->leftJoin('o.session', 's');
         $qb->leftJoin('c.publishEvent', 'cpe');
@@ -132,7 +132,7 @@ class SchoolRepository extends EntityRepository
           'cpe.id as coursePublishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         foreach ($joins as $key => $statement) {
-            $qb->leftJoin($statement, $key);
+            $qb->join($statement, $key);
         }
         $qb->leftJoin('ilm.session', 's');
         $qb->leftJoin('c.publishEvent', 'cpe');
