@@ -123,7 +123,7 @@ class SchoolRepository extends EntityRepository
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.ilmSession', 'ilm');
-        $qb->leftJoin('se.sessionType', 'st');
+        $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.publishEvent', 'pe');
 
