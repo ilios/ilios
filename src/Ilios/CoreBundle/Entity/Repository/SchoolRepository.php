@@ -85,8 +85,8 @@ class SchoolRepository extends EntityRepository
             $qb->join($statement, $key);
         }
         $qb->leftJoin('o.session', 's');
-        $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.sessionType', 'st');
+        $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.publishEvent', 'pe');
 
         $qb->andWhere($qb->expr()->eq('school.id', ':school_id'));
@@ -135,8 +135,8 @@ class SchoolRepository extends EntityRepository
             $qb->join($statement, $key);
         }
         $qb->leftJoin('ilm.session', 's');
-        $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.sessionType', 'st');
+        $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.publishEvent', 'pe');
 
         $qb->where($qb->expr()->andX(
