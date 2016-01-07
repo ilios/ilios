@@ -76,9 +76,8 @@ class SchoolRepository extends EntityRepository
           's.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId, cpe.id as coursePublishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         $qb->join('school.courses', 'c');
-        $qb->join('c.sessions', 'se');
-        $qb->join('se.offerings', 'o');
-        $qb->leftJoin('o.session', 's');
+        $qb->join('c.sessions', 's');
+        $qb->join('s.offerings', 'o');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.publishEvent', 'pe');
@@ -122,10 +121,9 @@ class SchoolRepository extends EntityRepository
           'cpe.id as coursePublishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         $qb->join('school.courses', 'c');
-        $qb->join('c.sessions', 'se');
-        $qb->join('se.ilmSession', 'ilm');
-        $qb->leftJoin('ilm.session', 's');
-        $qb->leftJoin('s.sessionType', 'st');
+        $qb->join('c.sessions', 's');
+        $qb->join('s.ilmSession', 'ilm');
+        $qb->leftJoin('se.sessionType', 'st');
         $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.publishEvent', 'pe');
 
