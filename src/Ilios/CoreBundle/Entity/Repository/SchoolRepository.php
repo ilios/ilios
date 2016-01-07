@@ -71,19 +71,13 @@ class SchoolRepository extends EntityRepository
         \DateTime $from,
         \DateTime $to
     ) {
-
-        //These joins are DQL representations to go from a user to an offerings
-        $joins = [
-            ['c' => 'school.courses', 'se' => 'c.sessions', 'o' => 'se.offerings'],
-        ];
-
         $qb = $this->_em->createQueryBuilder();
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
           's.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId, cpe.id as coursePublishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
-        foreach ($joins as $key => $statement) {
-            $qb->join($statement, $key);
-        }
+        $qb->join('school.courses', 'c');
+        $qb->join('c.sessions', 'se');
+        $qb->join('se.offerings', 'o');
         $qb->leftJoin('o.session', 's');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('c.publishEvent', 'cpe');
@@ -122,18 +116,14 @@ class SchoolRepository extends EntityRepository
         \DateTime $to
     ) {
 
-        $joins = [
-            ['c' => 'school.courses', 'se' => 'c.sessions', 'ilm' => 'se.ilmSession'],
-        ];
-
         $qb = $this->_em->createQueryBuilder();
         $what = 'ilm.id, ilm.dueDate, ' .
           's.updatedAt, s.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId,' .
           'cpe.id as coursePublishEventId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
-        foreach ($joins as $key => $statement) {
-            $qb->join($statement, $key);
-        }
+        $qb->join('school.courses', 'c');
+        $qb->join('c.sessions', 'se');
+        $qb->join('se.ilmSession', 'ilm');
         $qb->leftJoin('ilm.session', 's');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('c.publishEvent', 'cpe');
