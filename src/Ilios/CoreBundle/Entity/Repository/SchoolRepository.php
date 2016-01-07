@@ -22,17 +22,10 @@ class SchoolRepository extends EntityRepository
      */
     public function findEventsForSchool($id, \DateTime $from, \DateTime $to)
     {
-        //These joins are DQL representations to go from a user to an offerings
-        $joins = [
-            ['c' => 'school.courses', 'se' => 'c.sessions', 'o' => 'se.offerings'],
-        ];
-        
         $offeringEvents = [];
-        //using each of the joins above create a query to get events
-        foreach ($joins as $join) {
-            $groupEvents = $this->getOfferingEventsFor($id, $from, $to, $join);
-            $offeringEvents = array_merge($offeringEvents, $groupEvents);
-        }
+        $groupEvents = $this->getOfferingEventsFor($id, $from, $to);
+        $offeringEvents = array_merge($offeringEvents, $groupEvents);
+
         
         $events = [];
         //extract unique offeringEvents by using the offering ID
@@ -42,17 +35,9 @@ class SchoolRepository extends EntityRepository
             }
         }
 
-        //These joins are DQL representations to go from a user to an ILMSession
-        $joins = [
-            ['c' => 'school.courses', 'se' => 'c.sessions', 'ilm' => 'se.ilmSession'],
-        ];
-        
         $ilmEvents = [];
-        //using each of the joins above create a query to get events
-        foreach ($joins as $join) {
-            $groupEvents = $this->getIlmSessionEventsFor($id, $from, $to, $join);
-            $ilmEvents = array_merge($ilmEvents, $groupEvents);
-        }
+        $groupEvents = $this->getIlmSessionEventsFor($id, $from, $to);
+        $ilmEvents = array_merge($ilmEvents, $groupEvents);
 
         $uniqueIlmEvents = [];
         //extract unique ilmEvents by using the ILM ID
@@ -61,33 +46,36 @@ class SchoolRepository extends EntityRepository
                 $uniqueIlmEvents[$userEvent->ilmSession] = $userEvent;
             }
         }
-        
+
         $events = array_merge($events, $uniqueIlmEvents);
         //sort events by startDate for consistency
         usort($events, function ($a, $b) {
             return $a->startDate->getTimestamp() - $b->startDate->getTimestamp();
         });
-        
+
         return $events;
     }
     
     /**
-      * Use the query builder and the $joins to get a set of
-      * offering based school events
-      *
-      * @param integer $id
-      * @param \DateTime $from
-      * @param \DateTime $to
-      * @param array $joins
-      *
+     * Use the query builder and the $joins to get a set of
+     * offering based school events
+     *
+     * @param integer $id
+     * @param \DateTime $from
+     * @param \DateTime $to
+     *
      * @return SchoolEvent[]
      */
     protected function getOfferingEventsFor(
         $id,
         \DateTime $from,
-        \DateTime $to,
-        array $joins
+        \DateTime $to
     ) {
+
+        //These joins are DQL representations to go from a user to an offerings
+        $joins = [
+            ['c' => 'school.courses', 'se' => 'c.sessions', 'o' => 'se.offerings'],
+        ];
 
         $qb = $this->_em->createQueryBuilder();
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
@@ -100,7 +88,7 @@ class SchoolRepository extends EntityRepository
         $qb->leftJoin('c.publishEvent', 'cpe');
         $qb->leftJoin('s.sessionType', 'st');
         $qb->leftJoin('s.publishEvent', 'pe');
-        
+
         $qb->andWhere($qb->expr()->eq('school.id', ':school_id'));
         $qb->andWhere($qb->expr()->orX(
             $qb->expr()->between('o.startDate', ':date_from', ':date_to'),
@@ -119,22 +107,24 @@ class SchoolRepository extends EntityRepository
     }
     
     /**
-      * Use the query builder and the $joins to get a set of
-      * ILMSession based user events
-      *
-      * @param integer $id
-      * @param \DateTime $from
-      * @param \DateTime $to
-      * @param array $joins
-      *
+     * Use the query builder and the $joins to get a set of
+     * ILMSession based user events
+     *
+     * @param integer $id
+     * @param \DateTime $from
+     * @param \DateTime $to
+     *
      * @return UserEvent[]
      */
     protected function getIlmSessionEventsFor(
         $id,
         \DateTime $from,
-        \DateTime $to,
-        array $joins
+        \DateTime $to
     ) {
+
+        $joins = [
+            ['c' => 'school.courses', 'se' => 'c.sessions', 'ilm' => 'se.ilmSession'],
+        ];
 
         $qb = $this->_em->createQueryBuilder();
         $what = 'ilm.id, ilm.dueDate, ' .
