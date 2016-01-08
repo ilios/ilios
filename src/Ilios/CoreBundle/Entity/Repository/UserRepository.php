@@ -656,7 +656,7 @@ class UserRepository extends EntityRepository
                 if (array_key_exists($events[$i]->offering, $offeringInstructors)) {
                     $events[$i]->instructors = array_values($offeringInstructors[$events[$i]->offering]);
                 }
-            } else { // event maps to ILM session
+            } elseif ($events[$i]->ilmSession){ // event maps to ILM session
                 if (array_key_exists($events[$i]->ilmSession, $ilmInstructors)) {
                     $events[$i]->instructors = array_values($ilmInstructors[$events[$i]->ilmSession]);
                 }
