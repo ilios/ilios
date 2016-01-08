@@ -6,16 +6,15 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Recreates foreign keys to allow for cascading deletes of sessions and associated data points.
  */
 class Version20160106235355 extends AbstractMigration
 {
     /**
-     * @param Schema $schema
+     * @inheritdoc
      */
     public function up(Schema $schema)
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE offering DROP FOREIGN KEY FK_A5682AB1613FECDF');
@@ -35,11 +34,10 @@ class Version20160106235355 extends AbstractMigration
     }
 
     /**
-     * @param Schema $schema
+     * @inheritdoc
      */
     public function down(Schema $schema)
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE offering DROP FOREIGN KEY FK_A5682AB1613FECDF');
