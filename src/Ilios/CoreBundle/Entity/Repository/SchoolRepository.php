@@ -73,7 +73,8 @@ class SchoolRepository extends EntityRepository
     ) {
         $qb = $this->_em->createQueryBuilder();
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
-          's.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId, cpe.id as coursePublishEventId';
+          's.title, s.publishedAsTbd as sessionPublishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId,' .
+          'cpe.id as coursePublishEventId, c.publishedAsTbd as coursePublishedAsTbd';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
@@ -116,8 +117,8 @@ class SchoolRepository extends EntityRepository
 
         $qb = $this->_em->createQueryBuilder();
         $what = 'ilm.id, ilm.dueDate, ' .
-          's.updatedAt, s.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId,' .
-          'cpe.id as coursePublishEventId';
+          's.updatedAt, s.title, s.publishedAsTbd as sessionPublishedAsTbd, st.sessionTypeCssClass,' .
+          ' pe.id as publishEventId, cpe.id as coursePublishEventId, c.publishedAsTbd as coursePublishedAsTbd';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
@@ -161,7 +162,7 @@ class SchoolRepository extends EntityRepository
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
             $event->isPublished = !empty($arr['publishEventId']) && !empty($arr['coursePublishEventId']);
-            $event->isScheduled = $arr['publishedAsTbd'];
+            $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
 
             return $event;
         }, $results);
@@ -189,7 +190,7 @@ class SchoolRepository extends EntityRepository
             $event->eventClass = $arr['sessionTypeCssClass'];
             $event->lastModified = $arr['updatedAt'];
             $event->isPublished = !empty($arr['publishEventId']) && !empty($arr['coursePublishEventId']);
-            $event->isScheduled = $arr['publishedAsTbd'];
+            $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
 
             return $event;
         }, $results);
