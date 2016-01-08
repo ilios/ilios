@@ -13,7 +13,8 @@ use Ilios\CoreBundle\Classes\UserEvent;
 class SchoolRepository extends EntityRepository
 {
     /**
-     * Find all of the events for a user id between two dates
+     * Find all of the events for a user id between two dates.
+     *
      * @param integer $id
      * @param \DateTime $from
      * @param \DateTime $to
@@ -57,8 +58,7 @@ class SchoolRepository extends EntityRepository
     }
     
     /**
-     * Use the query builder and the $joins to get a set of
-     * offering based school events
+     * Use the query builder to get a set of offering based school events.
      *
      * @param integer $id
      * @param \DateTime $from
@@ -100,8 +100,7 @@ class SchoolRepository extends EntityRepository
     }
     
     /**
-     * Use the query builder and the $joins to get a set of
-     * ILMSession based user events
+     * Use the query builder to get a set of ILMSession based user events.
      *
      * @param integer $id
      * @param \DateTime $from
@@ -142,7 +141,8 @@ class SchoolRepository extends EntityRepository
 
     
     /**
-     * Convert offerings into UserEvent objects
+     * Convert offerings into UserEvent objects.
+     *
      * @param integer $schoolId
      * @param array $results
      *
