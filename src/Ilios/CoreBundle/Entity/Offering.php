@@ -109,7 +109,7 @@ class Offering implements OfferingInterface
      *
      * @ORM\ManyToOne(targetEntity="Session", inversedBy="offerings")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id")
+     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
      * })
      *
      * @JMS\Expose
@@ -123,7 +123,7 @@ class Offering implements OfferingInterface
      * @ORM\ManyToMany(targetEntity="LearnerGroup", inversedBy="offerings")
      * @ORM\JoinTable(name="offering_x_group",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id")
+     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id")
@@ -156,7 +156,7 @@ class Offering implements OfferingInterface
      * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="offerings")
      * @ORM\JoinTable(name="offering_x_instructor_group",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id")
+     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id")
@@ -175,7 +175,7 @@ class Offering implements OfferingInterface
      * @ORM\ManyToMany(targetEntity="User", inversedBy="offerings")
      * @ORM\JoinTable(name="offering_x_learner",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id")
+     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
@@ -193,7 +193,7 @@ class Offering implements OfferingInterface
      * @ORM\ManyToMany(targetEntity="User", inversedBy="instructedOfferings")
      * @ORM\JoinTable(name="offering_x_instructor",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id")
+     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
