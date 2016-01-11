@@ -1,8 +1,59 @@
 # Change Log
 
-## [v3.0.0](https://github.com/ilios/ilios/tree/HEAD)
+## [v3.1.0](https://github.com/ilios/ilios/tree/v3.1.0)
 
-[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-rc1...HEAD)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0...v3.1.0)
+
+**Closed issues:**
+
+- events should be flagged as TBD if owning session or course is published as TBD [\#1247](https://github.com/ilios/ilios/issues/1247)
+- filter out offerings in teaching reminders owned by unpublished courses. [\#1244](https://github.com/ilios/ilios/issues/1244)
+- streamline query for school events [\#1242](https://github.com/ilios/ilios/issues/1242)
+- filter out user/school events from published session/unpublished course as applicable [\#1240](https://github.com/ilios/ilios/issues/1240)
+- Limit scheduled user and school event data for students [\#1237](https://github.com/ilios/ilios/issues/1237)
+- calendar feed is sending unpublished events [\#1235](https://github.com/ilios/ilios/issues/1235)
+- Convert ILM due dates from dates to date-times [\#1233](https://github.com/ilios/ilios/issues/1233)
+- deletes not cascading [\#1231](https://github.com/ilios/ilios/issues/1231)
+- ics generation is borked [\#1225](https://github.com/ilios/ilios/issues/1225)
+- Change alert date time values are in utc [\#1223](https://github.com/ilios/ilios/issues/1223)
+- ILM dates are off in ICS feed  [\#1222](https://github.com/ilios/ilios/issues/1222)
+- Teaching Reminder Emails Are Off Because of the UTC Time Zone Issue [\#1221](https://github.com/ilios/ilios/issues/1221)
+- allow for querying the API for "my courses" [\#1210](https://github.com/ilios/ilios/issues/1210)
+- Update to Symfony 2.8 [\#1206](https://github.com/ilios/ilios/issues/1206)
+- Remove sessions and programYears from topics endpoint [\#1203](https://github.com/ilios/ilios/issues/1203)
+- Learning Material migration needs step to skip already-migrated files to save time [\#1168](https://github.com/ilios/ilios/issues/1168)
+- refactor publish events [\#945](https://github.com/ilios/ilios/issues/945)
+- Remove alerts from the School endpoint [\#937](https://github.com/ilios/ilios/issues/937)
+
+**Merged pull requests:**
+
+- various bug fixes in method that adds instructors to events [\#1249](https://github.com/ilios/ilios/pull/1249) ([stopfstedt](https://github.com/stopfstedt))
+- checks courses for published as tbd status when flagging events as scheduled [\#1248](https://github.com/ilios/ilios/pull/1248) ([stopfstedt](https://github.com/stopfstedt))
+- streamlines school events queries [\#1246](https://github.com/ilios/ilios/pull/1246) ([stopfstedt](https://github.com/stopfstedt))
+- filter out offerings belonging to unpublished courses. [\#1245](https://github.com/ilios/ilios/pull/1245) ([stopfstedt](https://github.com/stopfstedt))
+- Limit Data in Scheduled Events [\#1243](https://github.com/ilios/ilios/pull/1243) ([jrjohnson](https://github.com/jrjohnson))
+- Cascading session deletes [\#1239](https://github.com/ilios/ilios/pull/1239) ([stopfstedt](https://github.com/stopfstedt))
+- Hide unpublished info from the ICS feed [\#1236](https://github.com/ilios/ilios/pull/1236) ([jrjohnson](https://github.com/jrjohnson))
+- Ilm due date datetime conversion [\#1234](https://github.com/ilios/ilios/pull/1234) ([stopfstedt](https://github.com/stopfstedt))
+- Update shibboleth config to not require https [\#1232](https://github.com/ilios/ilios/pull/1232) ([jrjohnson](https://github.com/jrjohnson))
+- Limit ICS feed events to 1 month back and 2 months forward [\#1229](https://github.com/ilios/ilios/pull/1229) ([jrjohnson](https://github.com/jrjohnson))
+- Backup to a working version of our ical library [\#1227](https://github.com/ilios/ilios/pull/1227) ([jrjohnson](https://github.com/jrjohnson))
+- date time adjustment hack for ILMs in ICS calendar feed. [\#1226](https://github.com/ilios/ilios/pull/1226) ([stopfstedt](https://github.com/stopfstedt))
+- Fix timezone offset in notifications [\#1224](https://github.com/ilios/ilios/pull/1224) ([stopfstedt](https://github.com/stopfstedt))
+- return response from controller, don't send it. [\#1219](https://github.com/ilios/ilios/pull/1219) ([stopfstedt](https://github.com/stopfstedt))
+- adjust user/school event query ranges for ILMs [\#1218](https://github.com/ilios/ilios/pull/1218) ([stopfstedt](https://github.com/stopfstedt))
+- loosen up restrictions for viewing users. [\#1217](https://github.com/ilios/ilios/pull/1217) ([stopfstedt](https://github.com/stopfstedt))
+- restrict access to view un-published events for students. [\#1215](https://github.com/ilios/ilios/pull/1215) ([stopfstedt](https://github.com/stopfstedt))
+- get current user from token storage instead of from security context service [\#1213](https://github.com/ilios/ilios/pull/1213) ([stopfstedt](https://github.com/stopfstedt))
+- Gimme my courses [\#1211](https://github.com/ilios/ilios/pull/1211) ([stopfstedt](https://github.com/stopfstedt))
+- Update symphony to 2.8 [\#1208](https://github.com/ilios/ilios/pull/1208) ([jrjohnson](https://github.com/jrjohnson))
+- Remove courses, sessions, and programYears from topic endpoint [\#1205](https://github.com/ilios/ilios/pull/1205) ([jrjohnson](https://github.com/jrjohnson))
+- consider course published status when determining event published status [\#1241](https://github.com/ilios/ilios/pull/1241) ([stopfstedt](https://github.com/stopfstedt))
+
+
+## [v3.0.0](https://github.com/ilios/ilios/tree/v3.0.0)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-rc1...v3.0.0)
 
 **Closed issues:**
 
