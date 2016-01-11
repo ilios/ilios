@@ -459,7 +459,7 @@ class UserRepository extends EntityRepository
     {
         $qb = $this->_em->createQueryBuilder();
         $what = 'ilm.id, ilm.dueDate, ' .
-            's.title, st.sessionTypeCssClass, ' .
+            's.updatedAt, s.title, st.sessionTypeCssClass, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished';
         $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
