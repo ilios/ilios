@@ -122,7 +122,6 @@ class SchoolRepository extends EntityRepository
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
 
-        $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.ilmSession', 'ilm');
