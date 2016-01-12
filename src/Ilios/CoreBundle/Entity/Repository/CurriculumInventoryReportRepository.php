@@ -54,7 +54,7 @@ FROM
   JOIN session_x_mesh sxm ON sxm.session_id = s.session_id
   JOIN mesh_descriptor md ON md.mesh_descriptor_uid = sxm.mesh_descriptor_uid
 WHERE
-  s.publish_event_id IS NOT NULL
+  s.published
   AND sb.report_id = :report_id
 EOL;
         $conn = $this->getEntityManager()->getConnection();
@@ -85,7 +85,7 @@ FROM `session` s
   JOIN `course` c ON c.course_id = s.course_id
   JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
 WHERE
-  s.publish_event_id IS NOT NULL
+  s.published
   AND sb.report_id = :report_id
 EOL;
         $conn = $this->getEntityManager()->getConnection();
@@ -205,7 +205,7 @@ FROM
   JOIN session_x_objective sxo ON sxo.session_id = s.session_id
   JOIN objective o ON o.objective_id = sxo.objective_id
 WHERE
-  s.publish_event_id IS NOT NULL
+  s.published
   AND r.report_id = :report_id
 EOL;
         $conn = $this->getEntityManager()->getConnection();
@@ -263,7 +263,7 @@ FROM
   LEFT JOIN objective_x_objective oxo2 ON oxo2.objective_id = o.objective_id
   LEFT JOIN objective o2 ON o2.objective_id = oxo2.parent_objective_id
 WHERE
-  s.publish_event_id IS NOT NULL
+  s.published
   AND r.report_id = :report_id
 EOL;
         $conn = $this->getEntityManager()->getConnection();
@@ -623,7 +623,7 @@ FROM
   LEFT JOIN session_type_x_aamc_method stxam ON stxam.session_type_id = st.session_type_id
   LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
 WHERE
-  s.publish_event_id IS NOT NULL
+  s.published
   AND sb.report_id = :report_id
 GROUP BY
   s.session_id,
@@ -681,7 +681,7 @@ FROM
   LEFT JOIN ilm_session_facet sf ON sf.session_id = s.session_id
   LEFT JOIN curriculum_inventory_sequence_block_session sbs ON sbs.session_id = s.session_id
 WHERE
-  s.publish_event_id IS NOT NULL
+  s.published
   AND sf.ilm_session_facet_id IS NULL
   AND sb.report_id = :report_id
 ORDER BY

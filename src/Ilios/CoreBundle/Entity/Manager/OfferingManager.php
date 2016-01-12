@@ -102,9 +102,14 @@ class OfferingManager extends AbstractManager implements OfferingManagerInterfac
 
         // filter out any offerings belonging to unpublished events
         $offerings->filter(function (OfferingInterface $offering) {
-            $sessionPublishEvent = $offering->getSession()->getPublishEvent();
-            $coursePublishEvent = $offering->getSession()->getCourse()->getPublishEvent();
-            return (isset($sessionPublishEvent) && isset($coursePublishEvent));
+            $session = $offering->getSession();
+            if (!$session) {
+                return false;
+            }
+
+            $course = $session->getCourse();
+
+            return ($course && $course->isPublished() && $session->isPublished());
         });
 
         return $offerings;

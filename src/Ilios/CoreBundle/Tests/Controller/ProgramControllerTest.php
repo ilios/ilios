@@ -18,7 +18,6 @@ class ProgramControllerTest extends AbstractControllerTest
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',

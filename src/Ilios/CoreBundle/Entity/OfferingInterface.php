@@ -65,16 +65,6 @@ interface OfferingInterface extends
     public function getSession();
 
     /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function setPublishEvent(PublishEventInterface $publishEvent);
-
-    /**
-     * @return PublishEventInterface
-     */
-    public function getPublishEvent();
-
-    /**
      * @param Collection $groups
      */
     public function setLearnerGroups(Collection $learnerGroups);

@@ -35,9 +35,6 @@ class LoadOfferingData extends AbstractFixture implements
             $entity->setStartDate(new \DateTime($arr['startDate']));
             $entity->setEndDate(new \DateTime($arr['endDate']));
             $entity->setSession($this->getReference('sessions' . $arr['session']));
-            if (!empty($arr['publishEvent'])) {
-                $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));
-            }
             foreach ($arr['learnerGroups'] as $id) {
                 $entity->addLearnerGroup($this->getReference('learnerGroups' . $id));
             }
@@ -67,7 +64,6 @@ class LoadOfferingData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
         ];
     }
 }

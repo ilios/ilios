@@ -81,20 +81,20 @@ class ProgramTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Program::setPublished
+     * @covers Ilios\CoreBundle\Entity\Program::isPublished
+     */
+    public function testSetPublished()
+    {
+        $this->booleanSetTest('published');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Program::setSchool
      * @covers Ilios\CoreBundle\Entity\Program::getSchool
      */
     public function testSetSchool()
     {
         $this->entitySetTest('school', 'School');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\Program::setPublishEvent
-     * @covers Ilios\CoreBundle\Entity\Program::getPublishEvent
-     */
-    public function testSetPublishEvent()
-    {
-        $this->entitySetTest('publishEvent', 'PublishEvent');
     }
 }

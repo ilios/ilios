@@ -289,21 +289,6 @@ interface UserInterface extends
     public function getLearningMaterials();
 
     /**
-     * @param Collection $publishEvents
-     */
-    public function setPublishEvents(Collection $publishEvents);
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function addPublishEvent(PublishEventInterface $publishEvent);
-
-    /**
-     * @return ArrayCollection|PublishEventInterface[]
-     */
-    public function getPublishEvents();
-
-    /**
      * @param Collection $reports
      */
     public function setReports(Collection $reports);

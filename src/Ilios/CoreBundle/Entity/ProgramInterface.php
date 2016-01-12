@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\PublishableEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
@@ -20,7 +21,8 @@ interface ProgramInterface extends
     StringableEntityInterface,
     ProgramYearsEntityInterface,
     SchoolEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    PublishableEntityInterface
 {
     /**
      * @param string $shortTitle
@@ -41,27 +43,6 @@ interface ProgramInterface extends
      * @return int
      */
     public function getDuration();
-
-    /**
-     * @param boolean $publishedAsTbd
-     */
-    public function setPublishedAsTbd($publishedAsTbd);
-
-    /**
-     * @return boolean
-     */
-    public function isPublishedAsTbd();
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function setPublishEvent(PublishEventInterface $publishEvent);
-
-    /**
-     * @return PublishEventInterface
-     */
-    public function getPublishEvent();
-
 
     /**
      * @param Collection $reports

@@ -35,10 +35,8 @@ class LoadProgramData extends AbstractFixture implements
             $entity->setShortTitle($arr['shortTitle']);
             $entity->setDuration($arr['duration']);
             $entity->setPublishedAsTbd($arr['publishedAsTbd']);
+            $entity->setPublished($arr['published']);
             $entity->setSchool($this->getReference('schools' . $arr['school']));
-            if (!empty($arr['publishEvent'])) {
-                $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));
-            }
             $manager->persist($entity);
             $this->addReference('programs' . $arr['id'], $entity);
         }
@@ -50,7 +48,6 @@ class LoadProgramData extends AbstractFixture implements
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
         );
     }
 }

@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
+use Ilios\CoreBundle\Traits\PublishableEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
@@ -27,7 +28,8 @@ interface CourseInterface extends
     SessionsEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,
-    ObjectivesEntityInterface
+    ObjectivesEntityInterface,
+    PublishableEntityInterface
 {
     /**
      * @param int $level
@@ -80,16 +82,6 @@ interface CourseInterface extends
      * @return string
      */
     public function getExternalId();
-
-    /**
-     * @param boolean $publishedAsTbd
-     */
-    public function setPublishedAsTbd($publishedAsTbd);
-
-    /**
-     * @return boolean
-     */
-    public function isPublishedAsTbd();
 
     /**
      * @param CourseClerkshipTypeInterface $clerkshipType
@@ -160,16 +152,6 @@ interface CourseInterface extends
      * @return Collection|MeshDescriptorInterface[]
      */
     public function getMeshDescriptors();
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function setPublishEvent(PublishEventInterface $publishEvent);
-
-    /**
-     * @return PublishEventInterface
-     */
-    public function getPublishEvent();
 
     /**
      * @param Collection $learningMaterials

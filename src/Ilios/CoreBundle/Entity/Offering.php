@@ -137,20 +137,6 @@ class Offering implements OfferingInterface
     protected $learnerGroups;
 
     /**
-     * @var PublishEventInterface
-     *
-     * @ORM\ManyToOne(targetEntity="PublishEvent", inversedBy="offerings")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
-     * })
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("publishEvent")
-     */
-    protected $publishEvent;
-
-    /**
      * @var ArrayCollection|InstructorGroupInterface[]
      *
      * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="offerings")
@@ -287,22 +273,6 @@ class Offering implements OfferingInterface
     public function getSession()
     {
         return $this->session;
-    }
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function setPublishEvent(PublishEventInterface $publishEvent)
-    {
-        $this->publishEvent = $publishEvent;
-    }
-
-    /**
-     * @return PublishEventInterface
-     */
-    public function getPublishEvent()
-    {
-        return $this->publishEvent;
     }
 
     /**

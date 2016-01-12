@@ -134,8 +134,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.programyear.manager.class' => 'Ilios\CoreBundle\Entity\Manager\ProgramYearManager',
             'ilioscore.programyearsteward.handler.class' => 'Ilios\CoreBundle\Handler\ProgramYearStewardHandler',
             'ilioscore.programyearsteward.manager.class' => 'Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager',
-            'ilioscore.publishevent.handler.class' => 'Ilios\CoreBundle\Handler\PublishEventHandler',
-            'ilioscore.publishevent.manager.class' => 'Ilios\CoreBundle\Entity\Manager\PublishEventManager',
             'ilioscore.report.handler.class' => 'Ilios\CoreBundle\Handler\ReportHandler',
             'ilioscore.report.manager.class' => 'Ilios\CoreBundle\Entity\Manager\ReportManager',
             'ilioscore.school.handler.class' => 'Ilios\CoreBundle\Handler\SchoolHandler',
@@ -202,7 +200,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.programyearsteward.class' =>
                 'Ilios\CoreBundle\Tests\DataLoader\ProgramYearStewardData',
             'ilioscore.dataloader.program.class' => 'Ilios\CoreBundle\Tests\DataLoader\ProgramData',
-            'ilioscore.dataloader.publishevent.class' => 'Ilios\CoreBundle\Tests\DataLoader\PublishEventData',
             'ilioscore.dataloader.report.class' => 'Ilios\CoreBundle\Tests\DataLoader\ReportData',
             'ilioscore.dataloader.school.class' => 'Ilios\CoreBundle\Tests\DataLoader\SchoolData',
             'ilioscore.dataloader.sessiondescription.class' =>
@@ -303,8 +300,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.programyear.manager',
             'ilioscore.programyearsteward.handler',
             'ilioscore.programyearsteward.manager',
-            'ilioscore.publishevent.handler',
-            'ilioscore.publishevent.manager',
             'ilioscore.report.handler',
             'ilioscore.report.manager',
             'ilioscore.school.handler',
@@ -355,7 +350,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.programyear',
             'ilioscore.dataloader.programyearsteward',
             'ilioscore.dataloader.program',
-            'ilioscore.dataloader.publishevent',
             'ilioscore.dataloader.report',
             'ilioscore.dataloader.school',
             'ilioscore.dataloader.sessiondescription',

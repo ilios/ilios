@@ -56,7 +56,6 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getLearningMaterials());
         $this->assertEmpty($this->object->getCohorts());
         $this->assertEmpty($this->object->getAuditLogs());
-        $this->assertEmpty($this->object->getPublishEvents());
         $this->assertEmpty($this->object->getReports());
         $this->assertEmpty($this->object->getPendingUserUpdates());
         $this->assertEmpty($this->object->getPermissions());
@@ -356,22 +355,6 @@ class UserTest extends EntityBase
     public function testSetLearningMaterials()
     {
         $this->entityCollectionSetTest('learningMaterial', 'LearningMaterial');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\User::addPublishEvent
-     */
-    public function testAddPublishEvent()
-    {
-        $this->entityCollectionAddTest('publishEvent', 'PublishEvent');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\User::getPublishEvents
-     */
-    public function testSetPublishEvents()
-    {
-        $this->entityCollectionSetTest('publishEvent', 'PublishEvent');
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\PublishableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use JMS\Serializer\Annotation as JMS;
@@ -32,6 +33,7 @@ class Program implements ProgramInterface
     use StringableIdEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
+    use PublishableEntity;
 
     /**
      * @deprecated Replace with trait in 3.x
@@ -50,7 +52,6 @@ class Program implements ProgramInterface
 
     /**
      * @ORM\Column(type="string", length=200, nullable=false)
-     * @todo should be on the TitledEntity Trait
      * @var string
      *
      * @Assert\NotBlank()
@@ -110,18 +111,17 @@ class Program implements ProgramInterface
     protected $publishedAsTbd;
 
     /**
-     * @var PublishEventInterface
+     * @var boolean
      *
-     * @ORM\ManyToOne(targetEntity="PublishEvent", inversedBy="programs")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
-     * })
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
      *
      * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("publishEvent")
+     * @JMS\Type("boolean")
      */
-    protected $publishEvent;
+    protected $published;
 
     /**
     * @var SchoolInterface
@@ -165,6 +165,7 @@ class Program implements ProgramInterface
     public function __construct()
     {
         $this->publishedAsTbd = false;
+        $this->published = false;
         $this->programYears = new ArrayCollection();
         $this->curriculumInventoryReports = new ArrayCollection();
     }
@@ -199,38 +200,6 @@ class Program implements ProgramInterface
     public function getDuration()
     {
         return $this->duration;
-    }
-
-    /**
-     * @param boolean $publishedAsTbd
-     */
-    public function setPublishedAsTbd($publishedAsTbd)
-    {
-        $this->publishedAsTbd = $publishedAsTbd;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPublishedAsTbd()
-    {
-        return $this->publishedAsTbd;
-    }
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function setPublishEvent(PublishEventInterface $publishEvent = null)
-    {
-        $this->publishEvent = $publishEvent;
-    }
-
-    /**
-     * @return PublishEventInterface
-     */
-    public function getPublishEvent()
-    {
-        return $this->publishEvent;
     }
 
     /**

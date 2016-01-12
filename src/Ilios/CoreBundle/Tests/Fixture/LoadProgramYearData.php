@@ -35,9 +35,7 @@ class LoadProgramYearData extends AbstractFixture implements
             $entity->setLocked($arr['locked']);
             $entity->setArchived($arr['archived']);
             $entity->setPublishedAsTbd($arr['publishedAsTbd']);
-            if (!empty($arr['publishEvent'])) {
-                $entity->setPublishEvent($this->getReference('publishEvents' . $arr['publishEvent']));
-            }
+            $entity->setPublished($arr['published']);
             $entity->setProgram($this->getReference('programs' . $arr['program']));
             foreach ($arr['topics'] as $id) {
                 $entity->addTopic($this->getReference('topics' . $id));
@@ -60,7 +58,6 @@ class LoadProgramYearData extends AbstractFixture implements
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
             'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',

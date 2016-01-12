@@ -89,6 +89,15 @@ class SessionTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Session::setPublished
+     * @covers Ilios\CoreBundle\Entity\Session::isPublished
+     */
+    public function testSetPublished()
+    {
+        $this->booleanSetTest('published');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Session::setSessionType
      * @covers Ilios\CoreBundle\Entity\Session::getSessionType
      */
@@ -121,15 +130,6 @@ class SessionTest extends EntityBase
     public function testAddTopic()
     {
         $this->entityCollectionAddTest('topic', 'Topic');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\Session::setPublishEvent
-     * @covers Ilios\CoreBundle\Entity\Session::getPublishEvent
-     */
-    public function testSetPublishEvent()
-    {
-        $this->entitySetTest('publishEvent', 'PublishEvent');
     }
 
     /**

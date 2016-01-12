@@ -14,7 +14,7 @@ class ProgramData extends AbstractDataLoader
             'shortTitle' => $this->faker->title(5),
             'duration' => 3,
             'publishedAsTbd' => false,
-            'publishEvent' => '1',
+            'published' => true,
             'school' => "1",
             'programYears' => ["1", "2"],
             'curriculumInventoryReports' => ["1", "2", "3"]
@@ -26,6 +26,7 @@ class ProgramData extends AbstractDataLoader
             'shortTitle' => $this->faker->title(5),
             'duration' => 4,
             'publishedAsTbd' => true,
+            'published' => false,
             'school' => "1",
             'programYears' => ["3"],
             'curriculumInventoryReports' => []
@@ -37,6 +38,7 @@ class ProgramData extends AbstractDataLoader
             'shortTitle' => $this->faker->title(5),
             'duration' => 4,
             'publishedAsTbd' => false,
+            'published' => false,
             'school' => "2",
             'programYears' => [],
             'curriculumInventoryReports' => []
@@ -54,6 +56,7 @@ class ProgramData extends AbstractDataLoader
             'shortTitle' => $this->faker->title(5),
             'duration' => 4,
             'publishedAsTbd' => true,
+            'published' => true,
             'school' => "1",
             'programYears' => [],
             'curriculumInventoryReports' => []

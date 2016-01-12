@@ -84,6 +84,15 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::setPublished
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::isPublished
+     */
+    public function testSetPublished()
+    {
+        $this->booleanSetTest('published');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::setProgram
      * @covers Ilios\CoreBundle\Entity\ProgramYear::getProgram
      */
@@ -98,15 +107,6 @@ class ProgramYearTest extends EntityBase
     public function testAddDirector()
     {
         $this->entityCollectionAddTest('director', 'User');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setPublishEvent
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getPublishEvent
-     */
-    public function testSetPublishEvent()
-    {
-        $this->entitySetTest('publishEvent', 'PublishEvent');
     }
 
     /**

@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
+use Ilios\CoreBundle\Traits\PublishableEntityInterface;
 use Ilios\CoreBundle\Traits\StewardedEntityInterface;
 
 /**
@@ -21,7 +22,8 @@ interface ProgramYearInterface extends
     ArchivableEntityInterface,
     LoggableEntityInterface,
     StewardedEntityInterface,
-    ObjectivesEntityInterface
+    ObjectivesEntityInterface,
+    PublishableEntityInterface
 {
     /**
      * @param int $startYear
@@ -32,16 +34,6 @@ interface ProgramYearInterface extends
      * @return int
      */
     public function getStartYear();
-
-    /**
-     * @param boolean $publishedAsTbd
-     */
-    public function setPublishedAsTbd($publishedAsTbd);
-
-    /**
-     * @return boolean
-     */
-    public function isPublishedAsTbd();
 
     /**
      * @param ProgramInterface $program
@@ -97,16 +89,6 @@ interface ProgramYearInterface extends
      * @return ArrayCollection|TopicInterface[]
      */
     public function getTopics();
-
-    /**
-     * @param PublishEventInterface $publishEvent
-     */
-    public function setPublishEvent(PublishEventInterface $publishEvent);
-
-    /**
-     * @return PublishEventInterface
-     */
-    public function getPublishEvent();
 
     /**
      * Gets the school that this program year belongs to.

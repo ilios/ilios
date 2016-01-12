@@ -201,12 +201,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.publish_event_voter:
-        class: Ilios\AuthenticationBundle\Voter\PublishEventVoter
-        arguments: [ @ilioscore.permission.manager, @ilioscore.program.manager, @ilioscore.programyear.manager, @ilioscore.course.manager, @ilioscore.session.manager, @ilioscore.programyearsteward.manager ]
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.report_voter:
         class: Ilios\AuthenticationBundle\Voter\ReportVoter
         public: false

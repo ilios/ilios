@@ -24,10 +24,7 @@ class ProgramType extends AbstractType
             ->add('shortTitle', null, ['required' => false, 'empty_data' => null])
             ->add('duration')
             ->add('publishedAsTbd', null, ['required' => false])
-            ->add('publishEvent', 'tdn_single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:PublishEvent"
-            ])
+            ->add('published', null, ['required' => false])
             ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
