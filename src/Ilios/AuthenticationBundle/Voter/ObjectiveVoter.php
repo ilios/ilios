@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Entity\ObjectiveInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class ObjectiveVoter
@@ -41,20 +42,22 @@ class ObjectiveVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\ObjectiveInterface');
+        return $subject instanceof ObjectiveInterface && in_array($attribute, array(
+            self::VIEW, self::CREATE, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param ObjectiveInterface $objective
-     * @param UserInterface|null $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $objective, $user = null)
+    protected function voteOnAttribute($attribute, $objective, TokenInterface $token)
     {
-        // make sure there is a user object (i.e. that the user is logged in)
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

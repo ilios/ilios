@@ -4,6 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Classes\TemporaryFileSystem;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class TemporaryFileSystemVoter
@@ -14,27 +15,20 @@ class TemporaryFileSystemVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    public function getSupportedAttributes()
+    protected function supports($attribute, $subject)
     {
-        return array(self::CREATE);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getSupportedClasses()
-    {
-        return array('Ilios\CoreBundle\Classes\TemporaryFileSystem');
+        return $subject instanceof TemporaryFileSystem && in_array($attribute, array(self::CREATE));
     }
 
     /**
      * @param string $attribute
      * @param TemporaryFileSystem $fileSystem
-     * @param UserInterface $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $fileSystem, $user = null)
+    protected function voteOnAttribute($attribute, $fileSystem, TokenInterface $token)
     {
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

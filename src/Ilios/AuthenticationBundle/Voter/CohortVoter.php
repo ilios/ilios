@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CohortInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CohortVoter
@@ -14,24 +14,27 @@ class CohortVoter extends ProgramYearVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\CohortInterface');
+        return $subject instanceof CohortInterface && in_array($attribute, array(
+            self::CREATE, self::VIEW, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param CohortInterface $cohort
-     * @param UserInterface|null $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $cohort, $user = null)
+    protected function voteOnAttribute($attribute, $cohort, TokenInterface $token)
     {
         $programYear = $cohort->getProgramYear();
         if (! $programYear) {
             return false;
         }
-        return parent::isGranted($attribute, $programYear, $user);
+
+        return parent::voteOnAttribute($attribute, $programYear, $token);
     }
 
     /**

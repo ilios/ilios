@@ -1,11 +1,9 @@
 <?php
-
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\UserRoleInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter as Voter;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Class AbstractVoter
@@ -32,14 +30,6 @@ abstract class AbstractVoter extends Voter
      * @var string
      */
     const CREATE = 'create';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getSupportedAttributes()
-    {
-        return array(self::CREATE, self::VIEW, self::EDIT, self::DELETE);
-    }
 
     /**
      * Utility method, determines if a given user has any of the given roles.

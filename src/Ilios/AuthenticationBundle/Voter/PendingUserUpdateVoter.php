@@ -2,8 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\PendingUserUpdateInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class PendingUserUpdateVoter
@@ -14,20 +14,22 @@ class PendingUserUpdateVoter extends UserVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return ['Ilios\CoreBundle\Entity\PendingUserUpdateInterface'];
+        return $subject instanceof PendingUserUpdateInterface && in_array($attribute, array(
+            self::VIEW, self::CREATE, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param PendingUserUpdateInterface $pendingUserUpdate
-     * @param UserInterface|null $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $pendingUserUpdate, $user = null)
+    protected function voteOnAttribute($attribute, $pendingUserUpdate, TokenInterface $token)
     {
         // grant perms based on the user
-        return parent::isGranted($attribute, $pendingUserUpdate->getUser(), $user);
+        return parent::voteOnAttribute($attribute, $pendingUserUpdate->getUser(), $token);
     }
 }

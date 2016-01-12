@@ -4,6 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\PermissionInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class PermissionVoter
@@ -11,24 +12,25 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 class PermissionVoter extends AbstractVoter
 {
-
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\PermissionInterface');
+        return $subject instanceof PermissionInterface && in_array($attribute, array(
+            self::VIEW, self::CREATE, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param PermissionInterface $permission
-     * @param UserInterface|null $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $permission, $user = null)
+    protected function voteOnAttribute($attribute, $permission, TokenInterface $token)
     {
-        // make sure there is a user object (i.e. that the user is logged in)
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

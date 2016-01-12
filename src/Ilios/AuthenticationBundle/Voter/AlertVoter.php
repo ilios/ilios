@@ -4,6 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\AlertInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class AlertVoter
@@ -14,20 +15,22 @@ class AlertVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\AlertInterface');
+        return $subject instanceof AlertInterface && in_array($attribute, array(
+            self::CREATE, self::VIEW, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param AlertInterface $alert
-     * @param UserInterface $user
+     * @param TokenInterface $token
      * @return bool
-     * @todo revisit implementation. [ST 2015/07/31]
      */
-    protected function isGranted($attribute, $alert, $user = null)
+    protected function voteOnAttribute($attribute, $alert, TokenInterface $token)
     {
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

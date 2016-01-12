@@ -4,6 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class AamcMethodVoter
@@ -14,19 +15,22 @@ class AamcMethodVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\AamcMethodInterface');
+        return $subject instanceof AamcMethodInterface && in_array($attribute, array(
+            self::CREATE, self::VIEW, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param AamcMethodInterface $aamcMethod
-     * @param UserInterface $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $aamcMethod, $user = null)
+    protected function voteOnAttribute($attribute, $aamcMethod, TokenInterface $token)
     {
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

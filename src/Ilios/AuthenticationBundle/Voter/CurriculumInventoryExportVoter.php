@@ -5,6 +5,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CurriculumInventoryExportVoter
@@ -28,28 +29,22 @@ class CurriculumInventoryExportVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedAttributes()
+    protected function supports($attribute, $subject)
     {
-        return array(self::CREATE, self::VIEW);
-    }
-
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getSupportedClasses()
-    {
-        return array('Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface');
+        return $subject instanceof CurriculumInventoryExportInterface && in_array($attribute, array(
+            self::VIEW, self::CREATE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param CurriculumInventoryExportInterface $export
-     * @param UserInterface $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $export, $user = null)
+    protected function voteOnAttribute($attribute, $export, TokenInterface $token)
     {
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

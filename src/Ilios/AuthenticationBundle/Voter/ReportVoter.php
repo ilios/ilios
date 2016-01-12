@@ -5,6 +5,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 use Ilios\CoreBundle\Entity\ReportInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class ReportVoter
@@ -15,19 +16,22 @@ class ReportVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\ReportInterface');
+        return $subject instanceof ReportInterface && in_array($attribute, array(
+            self::VIEW, self::CREATE, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param ReportInterface $report
-     * @param UserInterface $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $report, $user = null)
+    protected function voteOnAttribute($attribute, $report, TokenInterface $token)
     {
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

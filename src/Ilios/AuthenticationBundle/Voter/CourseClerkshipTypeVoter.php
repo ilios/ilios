@@ -4,6 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CourseClerkshipTypeVoter
@@ -14,19 +15,22 @@ class CourseClerkshipTypeVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface');
+        return $subject instanceof CourseClerkshipTypeInterface && in_array($attribute, array(
+            self::CREATE, self::VIEW, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param CourseClerkshipTypeInterface $type
-     * @param UserInterface $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $type, $user = null)
+    protected function voteOnAttribute($attribute, $type, TokenInterface $token)
     {
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }
