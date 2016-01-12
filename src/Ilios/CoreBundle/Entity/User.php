@@ -467,6 +467,7 @@ class User implements UserInterface
     /**
      * @var ArrayCollection|PermissionInterface[]
      * @ORM\OneToMany(targetEntity="Permission", mappedBy="user")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
