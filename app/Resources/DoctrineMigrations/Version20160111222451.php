@@ -11,7 +11,7 @@ use Doctrine\DBAL\Schema\Schema;
  *
  * NOTICE!  This migration cannot be reversed!  It would do bad things if we let you.
  */
-class Version20151218222451 extends AbstractMigration
+class Version20160111222451 extends AbstractMigration
 {
     /**
      * @param Schema $schema
