@@ -10,8 +10,8 @@
  * - $timezone: The institution timezone
  */
 #}
-Course:   {{ offering.session.course.title|raw }}
-Session:  {{ offering.session.title|raw }}
+Course:   {{ offering.session.course.title|striptags|trim|raw }}
+Session:  {{ offering.session.title|striptags|trim|raw }}
 Type:     {{ offering.session.sessionType.title|raw }}
 Date:     {{ offering.startDate|date('D M d, Y', timezone) }}
 Time:     {{ offering.startDate|date('h:i a', timezone) }} - {{ offering.endDate|date('h:i a', timezone) }}
@@ -19,7 +19,7 @@ Location: {{ offering.room }}
 
 Instructors:
 {% for instructor in offering.allInstructors %}
-- {{ instructor.firstName }} {{ instructor.lastName }}
+- {{ instructor.firstName|raw }} {{ instructor.lastName|raw }}
 {% endfor %}
 
 Learner groups:
@@ -29,7 +29,7 @@ Learner groups:
 
 Learners:
 {% for learner in offering.learners %}
-- {{ learner.firstName }} {{ learner.lastName }}
+- {{ learner.firstName|raw }} {{ learner.lastName|raw }}
 {% endfor %}
 
 List of modifications:
@@ -39,6 +39,6 @@ List of modifications:
 
 Change History:
 {% for item in history %}
-- Updates made {{ item.createdAt|date('m/d/Y', timezone) }} at {{ item.createdAt|date('h:i a', timezone) }} by {{ item.user.firstName }} {{ item.user.lastName }}
+- Updates made {{ item.createdAt|date('m/d/Y', timezone) }} at {{ item.createdAt|date('h:i a', timezone) }} by {{ item.user.firstName|raw }} {{ item.user.lastName|raw }}
 {% endfor %}
 
