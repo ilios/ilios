@@ -142,8 +142,10 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $timezone = new \DateTimeZone($this->timezone);
         $startDate = $offering->getStartDate()->setTimezone($timezone);
         $endDate = $offering->getEndDate()->setTimezone($timezone);
-        $this->assertContains("Course:   {$offering->getSession()->getCourse()->getTitle()}", $output);
-        $this->assertContains("Session:  {$offering->getSession()->getTitle()}", $output);
+        $courseTitle = trim(strip_tags($offering->getSession()->getCourse()->getTitle()));
+        $this->assertContains("Course:   {$courseTitle}", $output);
+        $sessionTitle = trim(strip_tags($offering->getSession()->getTitle()));
+        $this->assertContains("Session:  {$sessionTitle}", $output);
         $this->assertContains("Type:     {$offering->getSession()->getSessionType()->getTitle()}", $output);
         $this->assertContains("Date:     {$startDate->format('D M d, Y')}", $output);
         $this->assertContains("Time:     {$startDate->format('h:i a')} - {$endDate->format('h:i a')}", $output);
@@ -302,7 +304,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
         $course = new Course();
         $course->setId(1);
-        $course->setTitle('Course A');
+        $course->setTitle('Course <strong>A</strong>');
         $course->setExternalId('ILIOS123');
         $course->setSchool($schoolA);
 
@@ -314,13 +316,13 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $session->setId(1);
         $session->setCourse($course);
         $session->setSessionType($sessionType);
-        $session->setTitle('Session A');
+        $session->setTitle('<i>Session A</i>');
 
         $instructor1 = new User();
         $instructor1->setId(1);
-        $instructor1->setFirstName('Jane');
-        $instructor1->setLastName('Doe');
-        $instructor1->setEmail('jane.doe@test.com');
+        $instructor1->setFirstName("D'jango");
+        $instructor1->setLastName("D'avila");
+        $instructor1->setEmail('django.davila@test.com');
 
         $instructor2 = new User();
         $instructor2->setId(2);
@@ -334,12 +336,12 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
         $learnerGroup = new LearnerGroup();
         $learnerGroup->setId(1);
-        $learnerGroup->setTitle('Learner Group A');
+        $learnerGroup->setTitle('Learner <em>Group</em> A');
 
         $learner = new User();
         $learner->setId(2);
         $learner->setFirstName('Jimmy');
-        $learner->setLastName('Dumas');
+        $learner->setLastName("O'Mulligan");
 
         $offering = new Offering();
         $offering->setId(1);
@@ -369,8 +371,8 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
         $userA = new User();
         $userA->setId(1);
-        $userA->setFirstName('Jimmy');
-        $userA->setLastName('Miller');
+        $userA->setFirstName("K'aren");
+        $userA->setLastName("D'lunchtime");
 
         $userB = new User();
         $userB->setId(2);
