@@ -25,7 +25,6 @@ class LearningMaterialType extends AbstractType
             ->add('title', null, ['empty_data' => null])
             ->add('description', 'purified_textarea')
             ->add('originalAuthor', null, ['required' => false, 'empty_data' => null])
-            ->add('relativePath', null, ['empty_data' => null])
             ->add('filename', null, ['empty_data' => null])
             ->add('copyrightPermission')
             ->add('copyrightRationale', null, ['empty_data' => null])
@@ -50,7 +49,6 @@ class LearningMaterialType extends AbstractType
         $elements = [
             'title',
             'originalAuthor',
-            'relativePath',
             'filename',
             'copyrightRationale',
             'mimetype',
