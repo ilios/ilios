@@ -200,6 +200,7 @@ class LearningMaterialController extends FOSRestController
         try {
             $postData = $this->getPostData($request);
             $file = false;
+            $relativePath = false;
             if (array_key_exists('fileHash', $postData)) {
                 $fileHash = $postData['fileHash'];
                 $temporaryFileSystem = $this->container->get('ilioscore.temporary_filesystem');
@@ -214,7 +215,7 @@ class LearningMaterialController extends FOSRestController
                 unset($postData['fileHash']);
                 unset($postData['uploadDate']);
                 $postData['mimetype'] = $file->getMimeType();
-                $postData['relativePath'] = $fs->getLearningMaterialFilePath($file);
+                $relativePath = $fs->getLearningMaterialFilePath($file);
                 $postData['filesize'] = $file->getSize();
             }
 
@@ -227,10 +228,14 @@ class LearningMaterialController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getLearningMaterialHandler()->updateLearningMaterial($learningMaterial, true, false);
             if ($file) {
                 $fs->storeLearningMaterialFile($file, true);
             }
+
+            if ($relativePath) {
+                $learningMaterial->setRelativePath($relativePath);
+            }
+            $handler->updateLearningMaterial($learningMaterial, true, false);
 
             $factory = $this->get('ilioscore.learningmaterial_decorator.factory');
 
