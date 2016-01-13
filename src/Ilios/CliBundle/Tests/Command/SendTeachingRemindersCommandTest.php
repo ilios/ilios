@@ -125,8 +125,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $this->assertContains("Subject: {$subject}", $output);
         $this->assertContains("upcoming {$offering->getSession()->getSessionType()->getTitle()}", $output);
         $this->assertContains("School of {$offering->getSession()->getCourse()->getSchool()->getTitle()}", $output);
-        $this->assertContains("Course:   {$offering->getSession()->getCourse()->getTitle()}", $output);
-        $this->assertContains("Session:  {$offering->getSession()->getTitle()}", $output);
+        $courseTitle = trim(strip_tags($offering->getSession()->getCourse()->getTitle()));
+        $this->assertContains("Course:   {$courseTitle}", $output);
+        $sessionTitle = trim(strip_tags($offering->getSession()->getTitle()));
+        $this->assertContains("Session:  {$sessionTitle}", $output);
         $this->assertContains("Date:     {$startDate->format('D M d, Y')}", $output);
         $this->assertContains("Time:     {$startDate->format('h:i a')} - {$endDate->format('h:i a')}", $output);
         $this->assertContains("Location: {$offering->getRoom()}", $output);
@@ -147,12 +149,14 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         /** @var ObjectiveInterface $objective */
         foreach ($offering->getSession()->getObjectives() as $objective) {
-            $this->assertContains("- {$objective->getTitle()}", $output);
+            $title = trim(strip_tags($objective->getTitle()));
+            $this->assertContains("- {$title}", $output);
         }
 
         /** @var ObjectiveInterface $objective */
         foreach ($offering->getSession()->getCourse()->getObjectives() as $objective) {
-            $this->assertContains("- {$objective->getTitle()}", $output);
+            $title = trim(strip_tags($objective->getTitle()));
+            $this->assertContains("- {$title}", $output);
         }
 
         $this->assertContains("{$baseUrl}/courses/{$offering->getSession()->getCourse()->getId()}", $output);
@@ -273,20 +277,20 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $course = new Course();
         $course->setId(1);
-        $course->setTitle('Test Course 1');
+        $course->setTitle('Test Course <em>1</em>');
         $course->setSchool($school);
 
         $i = 0;
         foreach (['A', 'B', 'C'] as $letter) {
             $courseObjective = new Objective();
             $courseObjective->setId(++$i);
-            $courseObjective->setTitle("Course Objective {$letter}");
+            $courseObjective->setTitle("Course <i>Objective</i> '{$letter}'");
             $course->addObjective($courseObjective);
         }
 
         $session = new Session();
         $session->setId(1);
-        $session->setTitle('Test Session 1');
+        $session->setTitle('Test Session <b>1</b>');
         $session->setCourse($course);
 
         $sessionType = new SessionType();
@@ -298,7 +302,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         foreach (['A', 'B', 'C'] as $letter) {
             $sessionObjective = new Objective();
             $sessionObjective->setId(++$i);
-            $sessionObjective->setTitle("Session Objective {$letter}");
+            $sessionObjective->setTitle("Session Objective <strong>{$letter}</strong>");
             $session->addObjective($sessionObjective);
         }
 
@@ -310,7 +314,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $instructor2 = new User();
         $instructor2->setId(2);
-        $instructor2->setFirstName('Mike');
+        $instructor2->setFirstName("Jimmy");
         $instructor2->setLastName('Smith');
         $instructor2->setEmail('mike.smith@test.com');
 
@@ -320,12 +324,12 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $learnerGroup = new LearnerGroup();
         $learnerGroup->setId(1);
-        $learnerGroup->setTitle('Learner Group A');
+        $learnerGroup->setTitle("Learner Group 'alpha'");
 
         $learner = new User();
         $learner->setId(2);
-        $learner->setFirstName('Jimmy');
-        $learner->setLastName('Dumas');
+        $learner->setFirstName("D'arcy");
+        $learner->setLastName("O'Donovan");
 
         $offering = new Offering();
         $offering->setId(1);
