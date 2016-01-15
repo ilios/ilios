@@ -296,6 +296,7 @@ class UserRepository extends EntityRepository
             ['g' => 'u.instructorGroups', 'ilm' => 'g.ilmSessions'],
             ['ilm' => 'u.learnerIlmSessions'],
             ['ilm' => 'u.instructorIlmSessions'],
+            ['dc' => 'u.directedCourses', 'sess' => 'dc.sessions', 'ilm' => 'sess.ilmSession']
         ];
         
         $ilmEvents = [];
