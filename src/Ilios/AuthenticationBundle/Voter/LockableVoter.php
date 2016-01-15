@@ -2,9 +2,9 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter as Voter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Class LockableVoter
@@ -20,26 +20,18 @@ class LockableVoter extends Voter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedAttributes()
+    protected function supports($attribute, $subject)
     {
-        return array(self::MODIFY);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getSupportedClasses()
-    {
-        return array('Ilios\CoreBundle\Traits\LockableEntityInterface');
+        return $subject instanceof LockableEntityInterface && in_array($attribute, array(self::MODIFY));
     }
 
     /**
      * @param string $attribute
      * @param LockableEntityInterface $lockable
-     * @param UserInterface|null $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $lockable, $user = null)
+    protected function voteOnAttribute($attribute, $lockable, TokenInterface $token)
     {
         if (self::MODIFY === $attribute) {
             return ! $lockable->isLocked();

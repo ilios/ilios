@@ -5,6 +5,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class SessionTypeVoter
@@ -28,19 +29,22 @@ class SessionTypeVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\SessionTypeInterface');
+        return $subject instanceof SessionTypeInterface && in_array($attribute, array(
+            self::CREATE, self::VIEW, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param SessionTypeInterface $sessionType
-     * @param UserInterface $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $sessionType, $user = null)
+    protected function voteOnAttribute($attribute, $sessionType, TokenInterface $token)
     {
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

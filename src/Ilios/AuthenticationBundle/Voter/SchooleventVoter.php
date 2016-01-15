@@ -5,8 +5,8 @@ namespace Ilios\AuthenticationBundle\Voter;
 use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
-use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class SchoolVoter
@@ -37,28 +37,20 @@ class SchooleventVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedAttributes()
+    protected function supports($attribute, $subject)
     {
-        return array(self::VIEW);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getSupportedClasses()
-    {
-        return array('Ilios\CoreBundle\Classes\SchoolEvent');
+        return $subject instanceof SchoolEvent && in_array($attribute, array(self::VIEW));
     }
 
     /**
      * @param string $attribute
      * @param SchoolEvent $event
-     * @param UserInterface|null $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $event, $user = null)
+    protected function voteOnAttribute($attribute, $event, TokenInterface $token)
     {
-        // make sure there is a user object (i.e. that the user is logged in)
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

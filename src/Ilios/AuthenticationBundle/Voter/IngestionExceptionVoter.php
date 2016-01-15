@@ -4,6 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\IngestionException;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class SchoolVoter
@@ -14,28 +15,20 @@ class IngestionExceptionVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedAttributes()
+    protected function supports($attribute, $subject)
     {
-        return array(self::VIEW);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getSupportedClasses()
-    {
-        return array('Ilios\CoreBundle\Entity\IngestionException');
+        return $subject instanceof IngestionException && in_array($attribute, array(self::VIEW));
     }
 
     /**
      * @param string $attribute
      * @param IngestionException $exception
-     * @param UserInterface|null $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $exception, $user = null)
+    protected function voteOnAttribute($attribute, $exception, TokenInterface $token)
     {
-        // make sure there is a user object (i.e. that the user is logged in)
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

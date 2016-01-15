@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CourseVoter
@@ -23,6 +24,10 @@ class CourseVoter extends AbstractVoter
      */
     protected $courseManager;
 
+    /**
+     * @param CourseManagerInterface $courseManager
+     * @param PermissionManagerInterface $permissionManager
+     */
     public function __construct(CourseManagerInterface $courseManager, PermissionManagerInterface $permissionManager)
     {
         $this->courseManager = $courseManager;
@@ -32,20 +37,22 @@ class CourseVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\CourseInterface');
+        return $subject instanceof CourseInterface && in_array($attribute, array(
+            self::CREATE, self::VIEW, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param CourseInterface $course
-     * @param UserInterface|null $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $course, $user = null)
+    protected function voteOnAttribute($attribute, $course, TokenInterface $token)
     {
-        // make sure there is a user object (i.e. that the user is logged in)
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }

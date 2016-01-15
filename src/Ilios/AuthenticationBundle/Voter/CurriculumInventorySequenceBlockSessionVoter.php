@@ -2,9 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSessionInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CurriculumInventorySequenceBlockSessionVoter
@@ -15,20 +14,22 @@ class CurriculumInventorySequenceBlockSessionVoter extends CurriculumInventoryRe
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSessionInterface');
+        return $subject instanceof CurriculumInventorySequenceBlockSessionInterface && in_array($attribute, array(
+            self::VIEW, self::CREATE, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param CurriculumInventorySequenceBlockSessionInterface $session
-     * @param UserInterface $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $session, $user = null)
+    protected function voteOnAttribute($attribute, $session, TokenInterface $token)
     {
-        return parent::isGranted($attribute, $session->getSequenceBlock()->getReport(), $user);
+        return parent::voteOnAttribute($attribute, $session->getSequenceBlock()->getReport(), $token);
     }
 
     /**

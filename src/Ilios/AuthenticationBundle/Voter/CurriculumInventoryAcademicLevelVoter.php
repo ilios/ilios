@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CurriculumInventoryAcademicLevelVoter
@@ -14,20 +14,22 @@ class CurriculumInventoryAcademicLevelVoter extends CurriculumInventoryReportVot
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface');
+        return $subject instanceof CurriculumInventoryAcademicLevelInterface && in_array($attribute, array(
+            self::CREATE, self::VIEW, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param CurriculumInventoryAcademicLevelInterface $level
-     * @param UserInterface $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $level, $user = null)
+    protected function voteOnAttribute($attribute, $level, TokenInterface $token)
     {
-        return parent::isGranted($attribute, $level->getReport(), $user);
+        return parent::voteOnAttribute($attribute, $level->getReport(), $token);
     }
 
     /**

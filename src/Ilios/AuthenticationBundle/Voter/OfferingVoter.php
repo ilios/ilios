@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\OfferingInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class SessionVoter
@@ -14,24 +14,26 @@ class OfferingVoter extends SessionVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return array('Ilios\CoreBundle\Entity\OfferingInterface');
+        return $subject instanceof OfferingInterface && in_array($attribute, array(
+            self::VIEW, self::CREATE, self::EDIT, self::DELETE
+        ));
     }
 
     /**
      * @param string $attribute
      * @param OfferingInterface $offering
-     * @param UserInterface|null $user
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $offering, $user = null)
+    protected function voteOnAttribute($attribute, $offering, TokenInterface $token)
     {
         $session = $offering->getSession();
         if (! $session) {
             return false;
         }
         // grant perms based on the owning session
-        return parent::isGranted($attribute, $session, $user);
+        return parent::voteOnAttribute($attribute, $session, $token);
     }
 }

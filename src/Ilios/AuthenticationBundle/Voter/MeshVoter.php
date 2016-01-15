@@ -2,7 +2,15 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\CoreBundle\Entity\MeshConceptInterface;
+use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
+use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
+use Ilios\CoreBundle\Entity\MeshQualifierInterface;
+use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
+use Ilios\CoreBundle\Entity\MeshTermInterface;
+use Ilios\CoreBundle\Entity\MeshTreeInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class MeshVoter
@@ -13,27 +21,28 @@ class MeshVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    protected function supports($attribute, $subject)
     {
-        return [
-            'Ilios\CoreBundle\Entity\MeshConceptInterface',
-            'Ilios\CoreBundle\Entity\MeshDescriptorInterface',
-            'Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface',
-            'Ilios\CoreBundle\Entity\MeshQualifierInterface',
-            'Ilios\CoreBundle\Entity\MeshSemanticTypeInterface',
-            'Ilios\CoreBundle\Entity\MeshTermInterface',
-            'Ilios\CoreBundle\Entity\MeshTreeInterface',
-        ];
+        return (
+            $subject instanceof MeshConceptInterface ||
+            $subject instanceof MeshDescriptorInterface ||
+            $subject instanceof MeshPreviousIndexingInterface ||
+            $subject instanceof MeshQualifierInterface ||
+            $subject instanceof MeshSemanticTypeInterface ||
+            $subject instanceof MeshTermInterface ||
+            $subject instanceof MeshTreeInterface
+        ) && in_array($attribute, array(self::CREATE, self::VIEW, self::EDIT, self::DELETE));
     }
 
     /**
      * @param string $attribute
-     * @param Object $meshDescriptor
-     * @param UserInterface $user
+     * @param object $meshObject
+     * @param TokenInterface $token
      * @return bool
      */
-    protected function isGranted($attribute, $meshObject, $user = null)
+    protected function voteOnAttribute($attribute, $meshObject, TokenInterface $token)
     {
+        $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;
         }
