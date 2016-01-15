@@ -13,11 +13,19 @@ use JMS\Serializer\Annotation as JMS;
 abstract class CalendarEvent
 {
     /**
-     * @var int
+     * @var string
      * @JMS\Expose
      * @JMS\Type("string")
      **/
     public $name;
+
+    /**
+     * @var string
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("courseTitle")
+     **/
+    public $courseTitle;
 
     /**
      * @var \DateTime
@@ -100,12 +108,13 @@ abstract class CalendarEvent
     /**
      * Clean out all the data for scheduled events
      *
-     * This information is not availalbe to un-priviledged users
+     * This information is not available to un-privileged users
      */
     public function clearDataForScheduledEvent()
     {
         if ($this->isScheduled) {
             $this->name = 'Scheduled';
+            $this->courseTitle = null;
             $this->offering = null;
             $this->ilmSession = null;
             $this->eventClass = null;

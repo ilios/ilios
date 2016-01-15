@@ -41,6 +41,9 @@ class SchooleventsControllerTest extends AbstractControllerTest
         $school = $this->container->get('ilioscore.dataloader.school')->getOne();
         $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
         $ilmSessions = $this->container->get('ilioscore.dataloader.ilmSession')->getAll();
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
@@ -63,10 +66,14 @@ class SchooleventsControllerTest extends AbstractControllerTest
             $this->assertEquals($events[$i]['offering'], $i+1);
             $this->assertEquals($events[$i]['startDate'], $offerings[$i]['startDate']);
             $this->assertEquals($events[$i]['endDate'], $offerings[$i]['endDate']);
+            $courseTitle  = $courses[$sessions[$offerings[$i]['session']-1]['course']-1]['title'];
+            $this->assertEquals($events[$i]['courseTitle'], $courseTitle);
         }
         for ($i = 7; $i <=10; $i++) {
             $this->assertEquals($events[$i]['ilmSession'], $i-7+1);
             $this->assertEquals($events[$i]['startDate'], $ilmSessions[$i-7]['dueDate']);
+            $courseTitle  = $courses[$sessions[$ilmSessions[$i-7]['session']-1]['course']-1]['title'];
+            $this->assertEquals($events[$i]['courseTitle'], $courseTitle);
         }
         foreach ($events as $event) {
             $this->assertEquals($school['id'], $event['school']);

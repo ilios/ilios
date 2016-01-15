@@ -75,7 +75,7 @@ class SchoolRepository extends EntityRepository
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
           's.title, st.sessionTypeCssClass, ' .
           's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
-          'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished';
+          'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
@@ -119,7 +119,7 @@ class SchoolRepository extends EntityRepository
         $what = 'ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.sessionTypeCssClass, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
-            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished';
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
 
         $qb->join('school.courses', 'c');
@@ -163,7 +163,7 @@ class SchoolRepository extends EntityRepository
             $event->lastModified = $arr['updatedAt'];
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
-
+            $event->courseTitle = $arr['courseTitle'];
             return $event;
         }, $results);
     }
@@ -191,7 +191,7 @@ class SchoolRepository extends EntityRepository
             $event->lastModified = $arr['updatedAt'];
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
-
+            $event->courseTitle = $arr['courseTitle'];
             return $event;
         }, $results);
     }
