@@ -23,6 +23,7 @@ abstract class CalendarEvent
      * @var string
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("courseTitle")
      **/
     public $courseTitle;
 
