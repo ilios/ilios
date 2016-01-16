@@ -1,5 +1,45 @@
 # Change Log
 
+## [v3.2.0](https://github.com/ilios/ilios/tree/v3.2.0)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.1.0...v3.2.0)
+
+**Closed issues:**
+
+- course directors missing ILM-based user events in their calendar [\#1260](https://github.com/ilios/ilios/issues/1260)
+
+- add course title to events [\#1258](https://github.com/ilios/ilios/issues/1258)
+
+- Updating a course learning material removes the original file reference [\#1253](https://github.com/ilios/ilios/issues/1253)
+
+- query user events across multiple schools [\#1250](https://github.com/ilios/ilios/issues/1250)
+
+- Teaching Reminders have HTML entities in them [\#1228](https://github.com/ilios/ilios/issues/1228)
+
+- Symfony 2.8: update deprecated Voter implementations [\#1220](https://github.com/ilios/ilios/issues/1220)
+
+- Update IcsController to use events instructors for Taught By [\#1204](https://github.com/ilios/ilios/issues/1204)
+
+- Replace deprecated publish event [\#1041](https://github.com/ilios/ilios/issues/1041)
+
+**Merged pull requests:**
+
+- expose course title on calendar events [\#1264](https://github.com/ilios/ilios/pull/1264) ([stopfstedt](https://github.com/stopfstedt))
+
+- expanded queries to pull ILm-based events for directed courses [\#1263](https://github.com/ilios/ilios/pull/1263) ([stopfstedt](https://github.com/stopfstedt))
+
+- Html entity escaping in notifications [\#1256](https://github.com/ilios/ilios/pull/1256) ([stopfstedt](https://github.com/stopfstedt))
+
+- upgrading voters to extend from new symfony class. [\#1255](https://github.com/ilios/ilios/pull/1255) ([stopfstedt](https://github.com/stopfstedt))
+
+- Don't set relativePath for learning materials [\#1254](https://github.com/ilios/ilios/pull/1254) ([jrjohnson](https://github.com/jrjohnson))
+
+- Move publishing migration to the right place in time [\#1252](https://github.com/ilios/ilios/pull/1252) ([jrjohnson](https://github.com/jrjohnson))
+
+- Publishing Simplified [\#1212](https://github.com/ilios/ilios/pull/1212) ([jrjohnson](https://github.com/jrjohnson))
+
+
+
 ## [v3.1.0](https://github.com/ilios/ilios/tree/v3.1.0)
 
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0...v3.1.0)
