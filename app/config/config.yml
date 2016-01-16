@@ -152,7 +152,7 @@ ilios_core:
 
 ilios_web:
     environment: production
-    version: 24296b36791720a842087339f39f1a17
+    version: c1de4ffe87faf5d4f5e6000ede5396a5 
 
 ilios_authentication:
     legacy_salt: "%legacy_password_salt%"
