@@ -387,7 +387,7 @@ class Session implements SessionInterface
     /**
      * @param IlmSessionInterface $ilmSession
      */
-    public function setIlmSession(IlmSessionInterface $ilmSession)
+    public function setIlmSession(IlmSessionInterface $ilmSession = null)
     {
         $this->ilmSession = $ilmSession;
     }
