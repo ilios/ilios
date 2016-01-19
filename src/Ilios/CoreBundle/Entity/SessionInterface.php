@@ -80,7 +80,7 @@ interface SessionInterface extends
     /**
      * @param IlmSessionInterface $ilmSession
      */
-    public function setIlmSession(IlmSessionInterface $ilmSession);
+    public function setIlmSession(IlmSessionInterface $ilmSession = null);
 
     /**
      * @return IlmSessionInterface
