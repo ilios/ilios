@@ -40,7 +40,7 @@ class LearningMaterialVoter extends AbstractVoter
             case self::VIEW:
                 // Deny access to LMs that are 'in draft' if the current user
                 // does not have elevated privileges.
-                return LearningMaterialStatusInterface::IN_DRAFT !== $material->getStatus()->getId()
+                return LearningMaterialStatusInterface::IN_DRAFT !== $material->getLearningMaterial()->getStatus()->getId()
                     || $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer']);
                 break;
             case self::CREATE:
