@@ -18,6 +18,21 @@ interface LearningMaterialStatusInterface extends
     LoggableEntityInterface
 {
     /**
+     * @var int
+     */
+    const IN_DRAFT = 1;
+
+    /**
+     * @var int
+     */
+    const FINALIZED  = 2;
+
+    /**
+     * @var int
+     */
+    const REVISED = 3;
+
+    /**
      * @param Collection $learningMaterials
      */
     public function setLearningMaterials(Collection $learningMaterials);
