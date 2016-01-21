@@ -188,6 +188,29 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     /**
      * @covers Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
      */
+    public function testExecuteDryRunWithSenderName()
+    {
+        $sender = 'foo@bar.edu';
+        $name = 'Horst Krause';
+        $subject = "Custom email subject";
+        $baseUrl = 'https://ilios.bar.edu';
+
+        $this->commandTester->execute([
+            'sender' => $sender,
+            'base_url' => $baseUrl,
+            '--dry-run' => true,
+            '--subject' => $subject,
+            '--sender_name' => $name,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+
+        $this->assertContains("From: {$name} <{$sender}>", $output);
+    }
+
+    /**
+     * @covers Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
+     */
     public function testExecuteDryRunWithCustomSubject()
     {
         $sender = 'foo@bar.edu';
