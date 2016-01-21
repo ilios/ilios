@@ -45,10 +45,12 @@ class WebAssets
             )
         );
         $context = stream_context_create($opts);
+        $url = $this->bucket . $fileName;
         $fileContents = file_get_contents($this->bucket . $fileName, false, $context);
-
+        if (false === $fileContents) {
+            throw new \Exception('Failed to web asset from ' . $url);
+        }
         $fs->dumpFile($cacheLocation, $fileContents);
-
         return $fileContents;
     }
 
