@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
+use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -34,7 +35,15 @@ class CourseLearningMaterialVoter extends CourseVoter
             return false;
         }
         // grant perms based on the owning course
-        return parent::voteOnAttribute($attribute, $course, $token);
+        $granted = parent::voteOnAttribute($attribute, $course, $token);
+
+        // prevent access if associated LM is in draft, and the current user has no elevated privileges.
+        if ($granted && self::VIEW === $attribute) {
+            return $material->getLearningMaterial()->getStatus() !== LearningMaterialStatusInterface::IN_DRAFT
+            || $this->userHasRole($token->getUser(), ['Faculty', 'Course Director', 'Developer']);
+        }
+
+        return $granted;
     }
 
     /**
