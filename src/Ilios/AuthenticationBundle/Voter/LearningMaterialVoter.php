@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -37,7 +38,12 @@ class LearningMaterialVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                // any authenticated user can see all learning materials.
+                // Deny access to LMs that are 'in draft' if the current user
+                // does not have elevated privileges.
+                if ($material->getStatus()->getId() === LearningMaterialStatusInterface::IN_DRAFT &&
+                    !$this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])) {
+                    return false;
+                }
                 return true;
                 break;
             case self::CREATE:
