@@ -67,7 +67,7 @@ class Department implements DepartmentInterface
      *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="departments")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
      *
      * @JMS\Expose

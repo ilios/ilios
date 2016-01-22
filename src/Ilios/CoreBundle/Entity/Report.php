@@ -141,7 +141,7 @@ class Report implements ReportInterface
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="cascade")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="cascade", nullable=false)
      * })
      *
      * @JMS\Expose

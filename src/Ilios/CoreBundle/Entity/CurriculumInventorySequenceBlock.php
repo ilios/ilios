@@ -204,7 +204,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\ManyToOne(targetEntity="CurriculumInventoryAcademicLevel", inversedBy="sequenceBlocks")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="academic_level_id", referencedColumnName="academic_level_id")
+     *   @ORM\JoinColumn(name="academic_level_id", referencedColumnName="academic_level_id", nullable=false)
      * })
      *
      * @JMS\Expose

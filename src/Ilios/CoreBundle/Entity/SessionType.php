@@ -106,7 +106,7 @@ class SessionType implements SessionTypeInterface
      *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="sessionTypes")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
      *
      * @JMS\Expose

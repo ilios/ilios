@@ -82,7 +82,7 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @ORM\ManyToOne(targetEntity="Cohort", inversedBy="learnerGroups")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE", nullable=false)
      * })
      *
      * @JMS\Expose
