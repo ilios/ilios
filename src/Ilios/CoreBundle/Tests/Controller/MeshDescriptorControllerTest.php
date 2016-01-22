@@ -806,7 +806,7 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             return $arr;
         }, json_decode($response->getContent(), true)['meshDescriptors']);
 
-        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(3, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $meshDescriptors[0]
@@ -815,9 +815,15 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         );
         $this->assertEquals(
             $this->mockSerialize(
-                $meshDescriptors[2]
+                $meshDescriptors[1]
             ),
             $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $meshDescriptors[2]
+            ),
+            $data[2]
         );
     }
 }

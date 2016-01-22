@@ -369,7 +369,7 @@ class InstructorGroupControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['instructorGroups'];
-        $this->assertEquals(2, count($data));
+        $this->assertEquals(3, count($data));
         $this->assertEquals(
             $this->mockSerialize(
                 $groups[0]
@@ -381,6 +381,12 @@ class InstructorGroupControllerTest extends AbstractControllerTest
                 $groups[1]
             ),
             $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $groups[2]
+            ),
+            $data[2]
         );
     }
 

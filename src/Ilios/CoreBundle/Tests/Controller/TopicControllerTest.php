@@ -311,7 +311,7 @@ class TopicControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['topics'];
-        $this->assertEquals(2, count($data));
+        $this->assertEquals(3, count($data));
         $this->assertEquals(
             $this->mockSerialize(
                 $topics[0]
@@ -323,6 +323,12 @@ class TopicControllerTest extends AbstractControllerTest
                 $topics[1]
             ),
             $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $topics[2]
+            ),
+            $data[2]
         );
     }
 
