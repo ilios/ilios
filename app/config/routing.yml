@@ -1,18 +1,22 @@
 IliosAuthenticationBundle:
     resource: "@IliosAuthenticationBundle/Resources/config/routing.yml"
     prefix:   /auth
+    schemes:  [%forceProtocol%]
 
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
+    schemes:  [%forceProtocol%]
 
 IliosCoreBundle:
     resource: "@IliosCoreBundle/Resources/config/routing.yml"
     prefix:   /api
+    schemes:  [%forceProtocol%]
     
 ilios_core_uploadfile:
     path: /upload
     defaults:  { _controller: IliosCoreBundle:Upload:upload }
+    schemes:  [%forceProtocol%]
 
 ilios_core_downloadlearningmaterial:
     pattern:     /lm/{token}
@@ -20,7 +24,9 @@ ilios_core_downloadlearningmaterial:
         _controller: IliosCoreBundle:Download:learningMaterial
     requirements:
         token: "^[a-zA-Z0-9]{64}$"
+    schemes:  [%forceProtocol%]
 
 ilios_web:
     resource: "@IliosWebBundle/Resources/config/routing.yml"
     prefix:   /
+    schemes:  [%forceProtocol%]
