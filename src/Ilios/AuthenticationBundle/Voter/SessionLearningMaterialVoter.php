@@ -4,7 +4,6 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -40,8 +39,8 @@ class SessionLearningMaterialVoter extends SessionVoter
 
         // prevent access if associated LM is in draft, and the current user has no elevated privileges.
         if ($granted && self::VIEW === $attribute) {
-            return LearningMaterialStatusInterface::IN_DRAFT !== $material->getLearningMaterial()->getStatus()->getId()
-            || $this->userHasRole($token->getUser(), ['Faculty', 'Course Director', 'Developer']);
+            $granted = $this->userHasRole($token->getUser(), ['Faculty', 'Course Director', 'Developer'])
+                || LearningMaterialStatusInterface::IN_DRAFT !== $material->getLearningMaterial()->getStatus()->getId();
         }
 
         return $granted;
