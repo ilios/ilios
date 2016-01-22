@@ -35,3 +35,4 @@ parameters:
     ldap_directory_campus_id_property: null
     ldap_directory_username_property: null
     timezone: 'America/Los_Angeles'
+    forceProtocol: https
