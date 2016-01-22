@@ -360,7 +360,7 @@ class LearningMaterialController extends FOSRestController
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
-            throw new \RuntimeException("Deletion not allowed");
+            throw new \RuntimeException("Deletion not allowed: " . $exception->getMessage());
         }
     }
 
