@@ -34,20 +34,15 @@ class SessionLearningMaterialData extends AbstractDataLoader
 
     public function create()
     {
-
-        $arr = array();
-
         return array(
           'id' => 3,
           'required' => false,
           'notes' => $this->faker->text,
           'publicNotes' => false,
           'session' => '1',
+          'learningMaterial' => '2',
           'meshDescriptors' => []
         );
-
-        return $arr;
-
     }
 
     public function createInvalid()

@@ -128,7 +128,7 @@ class Program implements ProgramInterface
     *
     * @ORM\ManyToOne(targetEntity="School", inversedBy="programs")
     * @ORM\JoinColumns({
-    *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
+    *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
     * })
     *
     * @JMS\Expose

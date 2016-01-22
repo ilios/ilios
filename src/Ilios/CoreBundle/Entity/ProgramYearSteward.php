@@ -68,7 +68,8 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      *
      * @ORM\ManyToOne(targetEntity="ProgramYear", inversedBy="stewards")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", onDelete="CASCADE",
+           nullable=false)
      * })
      *
      * @JMS\Expose
@@ -82,7 +83,7 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="stewards")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", onDelete="CASCADE", nullable=false)
      * })
      *
      * @JMS\Expose

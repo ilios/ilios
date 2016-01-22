@@ -33,6 +33,7 @@ class LoadCurriculumInventorySequenceBlockSessionData extends AbstractFixture im
             $entity->setId($arr['id']);
             $entity->setSequenceBlock($this->getReference('curriculumInventorySequenceBlocks' . $arr['sequenceBlock']));
             $entity->setCountOfferingsOnce($arr['countOfferingsOnce']);
+            $entity->setSession($this->getReference('sessions' . $arr['session']));
             $manager->persist($entity);
             $this->addReference('curriculumInventorySequenceBlockSessions' . $arr['id'], $entity);
         }
@@ -43,7 +44,8 @@ class LoadCurriculumInventorySequenceBlockSessionData extends AbstractFixture im
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
         );
     }
 }

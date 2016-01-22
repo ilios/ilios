@@ -161,7 +161,7 @@ class Session implements SessionInterface
      *
      * @ORM\ManyToOne(targetEntity="SessionType", inversedBy="sessions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="session_type_id", referencedColumnName="session_type_id")
+     *   @ORM\JoinColumn(name="session_type_id", referencedColumnName="session_type_id", nullable=false)
      * })
      *
      * @JMS\Expose
@@ -175,7 +175,7 @@ class Session implements SessionInterface
      *
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="sessions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id")
+     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", nullable=false)
      * })
      *
      * @JMS\Expose

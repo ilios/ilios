@@ -40,6 +40,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
             $entity->setRequired($arr['required']);
             $entity->setStartDate(new \DateTime($arr['startDate']));
             $entity->setEndDate(new \DateTime($arr['endDate']));
+            $entity->setAcademicLevel($this->getReference('curriculumInventoryAcademicLevels' . $arr['academicLevel']));
             $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
             if (!empty($arr['parent'])) {
                 $entity->setParent($this->getReference('curriculumInventorySequenceBlocks' . $arr['parent']));
@@ -58,6 +59,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
         );
     }
 }

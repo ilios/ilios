@@ -846,12 +846,18 @@ class UserControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['users'];
-        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $instructors[0]
+            ),
+            $data[0]
+        );
         $this->assertEquals(
             $this->mockSerialize(
                 $instructors[1]
             ),
-            $data[0]
+            $data[1]
         );
     }
 

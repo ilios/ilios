@@ -13,7 +13,7 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
             'description' => $this->faker->text(100),
             'level' => 1,
             'report' => '1',
-            'sequenceBlocks' => [],
+            'sequenceBlocks' => ['1'],
         );
         $arr[] = array(
             'id' => 2,
@@ -21,7 +21,7 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
             'description' => $this->faker->text(100),
             'level' => 1,
             'report' => '2',
-            'sequenceBlocks' => [],
+            'sequenceBlocks' => ['2'],
         );
 
         return $arr;

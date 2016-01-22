@@ -784,7 +784,7 @@ class SessionControllerTest extends AbstractControllerTest
             unset($arr['updatedAt']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
-        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(3, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $sessions[1]
@@ -793,9 +793,15 @@ class SessionControllerTest extends AbstractControllerTest
         );
         $this->assertEquals(
             $this->mockSerialize(
-                $sessions[3]
+                $sessions[2]
             ),
             $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[3]
+            ),
+            $data[2]
         );
     }
 
@@ -819,12 +825,18 @@ class SessionControllerTest extends AbstractControllerTest
             unset($arr['updatedAt']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
-        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(2, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $sessions[1]
             ),
             $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[2]
+            ),
+            $data[1]
         );
     }
 

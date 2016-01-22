@@ -10,6 +10,7 @@ class CurriculumInventorySequenceBlockSessionData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'sequenceBlock' => '1',
+            'session' => '1',
             'countOfferingsOnce' => false
         );
 
@@ -21,6 +22,7 @@ class CurriculumInventorySequenceBlockSessionData extends AbstractDataLoader
         return array(
             'id' => 2,
             'sequenceBlock' => '1',
+            'session' => '2',
             'countOfferingsOnce' => true
         );
     }

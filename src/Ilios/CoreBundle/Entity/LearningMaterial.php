@@ -113,7 +113,8 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\ManyToOne(targetEntity="LearningMaterialUserRole", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="learning_material_user_role_id", referencedColumnName="learning_material_user_role_id")
+     *   @ORM\JoinColumn(name="learning_material_user_role_id", referencedColumnName="learning_material_user_role_id",
+           nullable=false)
      * })
      */
     protected $userRole;
@@ -123,7 +124,8 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\ManyToOne(targetEntity="LearningMaterialStatus", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="learning_material_status_id", referencedColumnName="learning_material_status_id")
+     *   @ORM\JoinColumn(name="learning_material_status_id", referencedColumnName="learning_material_status_id",
+           nullable=false)
      * })
      */
     protected $status;
@@ -133,7 +135,7 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="owning_user_id", referencedColumnName="user_id")
+     *   @ORM\JoinColumn(name="owning_user_id", referencedColumnName="user_id", nullable=false)
      * })
      */
     protected $owningUser;
