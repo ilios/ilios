@@ -104,6 +104,12 @@ class SendTeachingRemindersCommand extends Command
                 self::DEFAULT_MESSAGE_SUBJECT
             )
             ->addOption(
+                'sender_name',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                "The name of the reminder's sender."
+            )
+            ->addOption(
                 'dry-run',
                 null,
                 InputOption::VALUE_NONE,
@@ -130,6 +136,11 @@ class SendTeachingRemindersCommand extends Command
         $baseUrl = rtrim($input->getArgument('base_url'), '/');
         $subject = $input->getOption('subject');
         $isDryRun = $input->getOption('dry-run');
+        $senderName = $input->getOption('sender_name');
+        $from = $sender;
+        if ($senderName) {
+            $from = [$sender => $senderName];
+        }
 
         // get all applicable offerings.
         $offerings = $this->offeringManager->getOfferingsForTeachingReminders($daysInAdvance);
@@ -174,7 +185,7 @@ class SendTeachingRemindersCommand extends Command
                 ]);
                 $message = \Swift_Message::newInstance()
                     ->setSubject($subject)
-                    ->setFrom($sender)
+                    ->setFrom($from)
                     ->setTo($instructor->getEmail())
                     ->setCharset('UTF-8')
                     ->setContentType('text/plain')
