@@ -1,68 +1,87 @@
 # Change Log
 
-## [v3.2.0](https://github.com/ilios/ilios/tree/v3.2.0)
+## [v3.3.0](https://github.com/ilios/ilios/tree/v3.3.0)
 
-[Full Changelog](https://github.com/ilios/ilios/compare/v3.1.0...v3.2.0)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.2.0...v3.3.0)
+
+**Implemented enhancements:**
+
+- Allow for email name AND address in messaging console commands [\#1214](https://github.com/ilios/ilios/issues/1214)
 
 **Closed issues:**
 
-- course directors missing ILM-based user events in their calendar [\#1260](https://github.com/ilios/ilios/issues/1260)
+- Changing ILM to non-ILM status throws 500 error [\#1267](https://github.com/ilios/ilios/issues/1267)
+- Add https redirection by default in .htaccess [\#1261](https://github.com/ilios/ilios/issues/1261)
+- Unable to Add Learner To Learner Group [\#1259](https://github.com/ilios/ilios/issues/1259)
+- Handle errors fetching the frontend index file [\#1209](https://github.com/ilios/ilios/issues/1209)
+- Update Data Dictionary for 3.0 [\#969](https://github.com/ilios/ilios/issues/969)
+- Add more detail to delete exceptions [\#908](https://github.com/ilios/ilios/issues/908)
 
-- add course title to events [\#1258](https://github.com/ilios/ilios/issues/1258)
+**Merged pull requests:**
 
-- Updating a course learning material removes the original file reference [\#1253](https://github.com/ilios/ilios/issues/1253)
+- Configurable forcing of https [\#1275](https://github.com/ilios/ilios/pull/1275) ([jrjohnson](https://github.com/jrjohnson))
+- set join columns to be not null [\#1274](https://github.com/ilios/ilios/pull/1274) ([stopfstedt](https://github.com/stopfstedt))
+- Provide more detailed logs when deletion doesn't work [\#1273](https://github.com/ilios/ilios/pull/1273) ([jrjohnson](https://github.com/jrjohnson))
+- reject student access to in-draft LMs [\#1272](https://github.com/ilios/ilios/pull/1272) ([stopfstedt](https://github.com/stopfstedt))
+- added 'sender\_name' option to "send teaching reminders" command [\#1271](https://github.com/ilios/ilios/pull/1271) ([stopfstedt](https://github.com/stopfstedt))
+- allow for un-setting of ilm on session. [\#1269](https://github.com/ilios/ilios/pull/1269) ([stopfstedt](https://github.com/stopfstedt))
+- Stop logging events in dev logs [\#1268](https://github.com/ilios/ilios/pull/1268) ([jrjohnson](https://github.com/jrjohnson))
+- throw an exception if remote file could not be loaded. [\#1266](https://github.com/ilios/ilios/pull/1266) ([stopfstedt](https://github.com/stopfstedt))
+- check for pre-existing relationship before adding learner group to ilm [\#1265](https://github.com/ilios/ilios/pull/1265) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.2.0](https://github.com/ilios/ilios/tree/v3.2.0) (2016-01-16)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.1.0...v3.2.0)
+
+**Implemented enhancements:**
 
 - query user events across multiple schools [\#1250](https://github.com/ilios/ilios/issues/1250)
+- add course title to events [\#1258](https://github.com/ilios/ilios/issues/1258)
+- Update IcsController to use events instructors for Taught By [\#1204](https://github.com/ilios/ilios/issues/1204)
+- refactor publish events [\#945](https://github.com/ilios/ilios/issues/945)
+
+**Closed issues:**
 
 - Teaching Reminders have HTML entities in them [\#1228](https://github.com/ilios/ilios/issues/1228)
-
 - Symfony 2.8: update deprecated Voter implementations [\#1220](https://github.com/ilios/ilios/issues/1220)
-
-- Update IcsController to use events instructors for Taught By [\#1204](https://github.com/ilios/ilios/issues/1204)
-
+- course directors missing ILM-based user events in their calendar [\#1260](https://github.com/ilios/ilios/issues/1260)
+- Updating a course learning material removes the original file reference [\#1253](https://github.com/ilios/ilios/issues/1253)
 - Replace deprecated publish event [\#1041](https://github.com/ilios/ilios/issues/1041)
 
 **Merged pull requests:**
 
 - expose course title on calendar events [\#1264](https://github.com/ilios/ilios/pull/1264) ([stopfstedt](https://github.com/stopfstedt))
-
 - expanded queries to pull ILm-based events for directed courses [\#1263](https://github.com/ilios/ilios/pull/1263) ([stopfstedt](https://github.com/stopfstedt))
-
 - Html entity escaping in notifications [\#1256](https://github.com/ilios/ilios/pull/1256) ([stopfstedt](https://github.com/stopfstedt))
-
 - upgrading voters to extend from new symfony class. [\#1255](https://github.com/ilios/ilios/pull/1255) ([stopfstedt](https://github.com/stopfstedt))
-
 - Don't set relativePath for learning materials [\#1254](https://github.com/ilios/ilios/pull/1254) ([jrjohnson](https://github.com/jrjohnson))
-
 - Move publishing migration to the right place in time [\#1252](https://github.com/ilios/ilios/pull/1252) ([jrjohnson](https://github.com/jrjohnson))
-
 - Publishing Simplified [\#1212](https://github.com/ilios/ilios/pull/1212) ([jrjohnson](https://github.com/jrjohnson))
 
-
-
-## [v3.1.0](https://github.com/ilios/ilios/tree/v3.1.0)
-
+## [v3.1.0](https://github.com/ilios/ilios/tree/v3.1.0) (2016-01-11)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0...v3.1.0)
+
+**Implemented enhancements:**
+
+- streamline query for school events [\#1242](https://github.com/ilios/ilios/issues/1242)
+- Convert ILM due dates from dates to date-times [\#1233](https://github.com/ilios/ilios/issues/1233)
 
 **Closed issues:**
 
 - events should be flagged as TBD if owning session or course is published as TBD [\#1247](https://github.com/ilios/ilios/issues/1247)
 - filter out offerings in teaching reminders owned by unpublished courses. [\#1244](https://github.com/ilios/ilios/issues/1244)
-- streamline query for school events [\#1242](https://github.com/ilios/ilios/issues/1242)
 - filter out user/school events from published session/unpublished course as applicable [\#1240](https://github.com/ilios/ilios/issues/1240)
-- Limit scheduled user and school event data for students [\#1237](https://github.com/ilios/ilios/issues/1237)
 - calendar feed is sending unpublished events [\#1235](https://github.com/ilios/ilios/issues/1235)
-- Convert ILM due dates from dates to date-times [\#1233](https://github.com/ilios/ilios/issues/1233)
 - deletes not cascading [\#1231](https://github.com/ilios/ilios/issues/1231)
 - ics generation is borked [\#1225](https://github.com/ilios/ilios/issues/1225)
 - Change alert date time values are in utc [\#1223](https://github.com/ilios/ilios/issues/1223)
 - ILM dates are off in ICS feed  [\#1222](https://github.com/ilios/ilios/issues/1222)
 - Teaching Reminder Emails Are Off Because of the UTC Time Zone Issue [\#1221](https://github.com/ilios/ilios/issues/1221)
 - allow for querying the API for "my courses" [\#1210](https://github.com/ilios/ilios/issues/1210)
+- Learning Material migration needs step to skip already-migrated files to save time [\#1168](https://github.com/ilios/ilios/issues/1168)
+- Limit scheduled user and school event data for students [\#1237](https://github.com/ilios/ilios/issues/1237)
 - Update to Symfony 2.8 [\#1206](https://github.com/ilios/ilios/issues/1206)
 - Remove sessions and programYears from topics endpoint [\#1203](https://github.com/ilios/ilios/issues/1203)
-- Learning Material migration needs step to skip already-migrated files to save time [\#1168](https://github.com/ilios/ilios/issues/1168)
-- refactor publish events [\#945](https://github.com/ilios/ilios/issues/945)
+- Additional fields for user query [\#1142](https://github.com/ilios/ilios/issues/1142)
 - Remove alerts from the School endpoint [\#937](https://github.com/ilios/ilios/issues/937)
 
 **Merged pull requests:**
@@ -88,12 +107,14 @@
 - Gimme my courses [\#1211](https://github.com/ilios/ilios/pull/1211) ([stopfstedt](https://github.com/stopfstedt))
 - Update symphony to 2.8 [\#1208](https://github.com/ilios/ilios/pull/1208) ([jrjohnson](https://github.com/jrjohnson))
 - Remove courses, sessions, and programYears from topic endpoint [\#1205](https://github.com/ilios/ilios/pull/1205) ([jrjohnson](https://github.com/jrjohnson))
-- consider course published status when determining event published status [\#1241](https://github.com/ilios/ilios/pull/1241) ([stopfstedt](https://github.com/stopfstedt))
 
-
-## [v3.0.0](https://github.com/ilios/ilios/tree/v3.0.0)
-
+## [v3.0.0](https://github.com/ilios/ilios/tree/v3.0.0) (2015-12-15)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-rc1...v3.0.0)
+
+**Implemented enhancements:**
+
+- expose default locale in config object [\#1176](https://github.com/ilios/ilios/issues/1176)
+- move auth/config to a new route [\#1175](https://github.com/ilios/ilios/issues/1175)
 
 **Closed issues:**
 
@@ -104,8 +125,6 @@
 - Add filter by school to report subject endpoints [\#1183](https://github.com/ilios/ilios/issues/1183)
 - Update our Travis build/test process to run on container based infrastructure [\#1182](https://github.com/ilios/ilios/issues/1182)
 - Allow reports to be scoped by school [\#1180](https://github.com/ilios/ilios/issues/1180)
-- expose default locale in config object [\#1176](https://github.com/ilios/ilios/issues/1176)
-- move auth/config to a new route [\#1175](https://github.com/ilios/ilios/issues/1175)
 - perms issue: students cannot see instructors in calendar event details [\#1169](https://github.com/ilios/ilios/issues/1169)
 - 500 server error during user model update [\#1167](https://github.com/ilios/ilios/issues/1167)
 - userSyncIgnore property in the user model does not keep state in the server [\#1166](https://github.com/ilios/ilios/issues/1166)
@@ -117,7 +136,6 @@
 - Install guide should cover string cleanup [\#1145](https://github.com/ilios/ilios/issues/1145)
 - Install guide should cover learning materials [\#1144](https://github.com/ilios/ilios/issues/1144)
 - Update Hardware requirements in documentation [\#1143](https://github.com/ilios/ilios/issues/1143)
-- Additional fields for user query [\#1142](https://github.com/ilios/ilios/issues/1142)
 - Allow Querying for session type by relationship [\#1140](https://github.com/ilios/ilios/issues/1140)
 - Allow querying for mesh descriptor by relationship [\#1139](https://github.com/ilios/ilios/issues/1139)
 - Allow querying for topic by relationshp [\#1138](https://github.com/ilios/ilios/issues/1138)
@@ -140,6 +158,7 @@
 
 **Merged pull requests:**
 
+- CHANGELOG updated for v3.0.0, config.yml updated to reflect Ilios Frontend 1.0.0 [\#1202](https://github.com/ilios/ilios/pull/1202) ([thecoolestguy](https://github.com/thecoolestguy))
 - Update project README [\#1201](https://github.com/ilios/ilios/pull/1201) ([jrjohnson](https://github.com/jrjohnson))
 - Updates to installation and upgrade documentation [\#1199](https://github.com/ilios/ilios/pull/1199) ([thecoolestguy](https://github.com/thecoolestguy))
 - Move some setup commands to maintenance [\#1198](https://github.com/ilios/ilios/pull/1198) ([jrjohnson](https://github.com/jrjohnson))
@@ -183,6 +202,16 @@
 ## [v3.0.0-rc1](https://github.com/ilios/ilios/tree/v3.0.0-rc1) (2015-11-16)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta9...v3.0.0-rc1)
 
+**Implemented enhancements:**
+
+- whitelist underscore element [\#1089](https://github.com/ilios/ilios/issues/1089)
+- Permission API needed [\#1078](https://github.com/ilios/ilios/issues/1078)
+- decide which fields on the API to escape in order to allow the display of input HTML [\#1047](https://github.com/ilios/ilios/issues/1047)
+- re-implement change alert creation [\#1037](https://github.com/ilios/ilios/issues/1037)
+- Add ICS generator and ICS calendar feed [\#1010](https://github.com/ilios/ilios/issues/1010)
+- on demand jwt invalidation [\#954](https://github.com/ilios/ilios/issues/954)
+- Authorize API Access [\#923](https://github.com/ilios/ilios/issues/923)
+
 **Closed issues:**
 
 - course list no longer filtering properly [\#1114](https://github.com/ilios/ilios/issues/1114)
@@ -193,13 +222,11 @@
 - Remove Alerts from User and School endpoint [\#1100](https://github.com/ilios/ilios/issues/1100)
 - Students cannot view the learner groups they are in [\#1098](https://github.com/ilios/ilios/issues/1098)
 - Instructors in a course which is not in their primary school should have access to that course [\#1091](https://github.com/ilios/ilios/issues/1091)
-- whitelist underscore element [\#1089](https://github.com/ilios/ilios/issues/1089)
 - Remove soft delete as a concept [\#1085](https://github.com/ilios/ilios/issues/1085)
 - Need to invert the year selection list on Courses and Sessions [\#1084](https://github.com/ilios/ilios/issues/1084)
 - Program Short Title Should NOT Be Required [\#1083](https://github.com/ilios/ilios/issues/1083)
 - Program Title Should Be Required [\#1082](https://github.com/ilios/ilios/issues/1082)
 - simplify rules in learning materials voter [\#1080](https://github.com/ilios/ilios/issues/1080)
-- Permission API needed [\#1078](https://github.com/ilios/ilios/issues/1078)
 - Unable To Add Instructor\(s\) To ILM Session [\#1072](https://github.com/ilios/ilios/issues/1072)
 - Manage manyToMany collections on the inverse side [\#1069](https://github.com/ilios/ilios/issues/1069)
 - Add /errors endpoint to take frontend logs [\#1063](https://github.com/ilios/ilios/issues/1063)
@@ -209,16 +236,13 @@
 - Bad Request 400 Error on Put - Save Session Offering Date [\#947](https://github.com/ilios/ilios/issues/947)
 - unable to assign user to instructor group [\#1070](https://github.com/ilios/ilios/issues/1070)
 - Don't allow many to one relationships to be saved [\#1059](https://github.com/ilios/ilios/issues/1059)
-- decide which fields on the API to escape in order to allow the display of input HTML [\#1047](https://github.com/ilios/ilios/issues/1047)
 - Better LearningMaterial API endpoint [\#1040](https://github.com/ilios/ilios/issues/1040)
-- re-implement change alert creation [\#1037](https://github.com/ilios/ilios/issues/1037)
 - Return a numerically indexed array from cget actions controllers [\#1029](https://github.com/ilios/ilios/issues/1029)
 - Offerings belonging to deleted sessions are showing up in the user api instructed offering list [\#1028](https://github.com/ilios/ilios/issues/1028)
 - Add Learning Materials and other Details to ICS Feed [\#1020](https://github.com/ilios/ilios/issues/1020)
 - Learning Material Download [\#1019](https://github.com/ilios/ilios/issues/1019)
 - API for PendingUserUpdates [\#1016](https://github.com/ilios/ilios/issues/1016)
 - Rename ucUid in user api to campusId [\#1011](https://github.com/ilios/ilios/issues/1011)
-- Add ICS generator and ICS calendar feed [\#1010](https://github.com/ilios/ilios/issues/1010)
 - Problem with access to users in a learner group [\#1004](https://github.com/ilios/ilios/issues/1004)
 - Session-\>sessionDescription is in correct [\#1002](https://github.com/ilios/ilios/issues/1002)
 - sync ilios2 and ilios3 - third iteration. [\#997](https://github.com/ilios/ilios/issues/997)
@@ -235,7 +259,6 @@
 - Incorrect class name for Schoolevents API docs [\#972](https://github.com/ilios/ilios/issues/972)
 - Remove API\_Key entity [\#966](https://github.com/ilios/ilios/issues/966)
 - Remove CI\_Session Entity [\#965](https://github.com/ilios/ilios/issues/965)
-- on demand jwt invalidation [\#954](https://github.com/ilios/ilios/issues/954)
 - Set the administrator for new publish events [\#943](https://github.com/ilios/ilios/issues/943)
 - Soft delete collections are returned with original keys [\#941](https://github.com/ilios/ilios/issues/941)
 - ucUid is still missing in the `users` api response. [\#939](https://github.com/ilios/ilios/issues/939)
@@ -246,7 +269,6 @@
 - Remove Recurring Event Concept [\#932](https://github.com/ilios/ilios/issues/932)
 - Create school events api endpoint [\#927](https://github.com/ilios/ilios/issues/927)
 - add foreign key referencing `session:session\_id` to `ilm\_session\_facet` table [\#925](https://github.com/ilios/ilios/issues/925)
-- Authorize API Access [\#923](https://github.com/ilios/ilios/issues/923)
 - consolidate owningSchool, primarySchool and school [\#922](https://github.com/ilios/ilios/issues/922)
 - Token implementation partially broken. [\#921](https://github.com/ilios/ilios/issues/921)
 - Unable to Move Learner Between Groups - Timeout - 500 error  [\#918](https://github.com/ilios/ilios/issues/918)
@@ -317,6 +339,10 @@
 ## [v3.0.0-beta9](https://github.com/ilios/ilios/tree/v3.0.0-beta9) (2015-10-27)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta8...v3.0.0-beta9)
 
+**Implemented enhancements:**
+
+- ability to pass expiration date to refresh token API endpoint [\#917](https://github.com/ilios/ilios/issues/917)
+
 **Closed issues:**
 
 - Can't save course objective [\#1068](https://github.com/ilios/ilios/issues/1068)
@@ -326,7 +352,6 @@
 - Learner Group Mgt Bulk edit fails with 403 [\#1048](https://github.com/ilios/ilios/issues/1048)
 - Session Offerings Get Removed After Changing Session Data [\#1039](https://github.com/ilios/ilios/issues/1039)
 - Navigation to Courses and Sessions From All Events Calendar Very Slow \(if Eventual\) [\#996](https://github.com/ilios/ilios/issues/996)
-- ability to pass expiration date to refresh token API endpoint [\#917](https://github.com/ilios/ilios/issues/917)
 - Can we declare support for only a JSON API? [\#812](https://github.com/ilios/ilios/issues/812)
 - Add PHP pre-commit hooks [\#769](https://github.com/ilios/ilios/issues/769)
 
@@ -446,15 +471,18 @@
 ## [v3.0.0-beta4](https://github.com/ilios/ilios/tree/v3.0.0-beta4) (2015-08-10)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta3...v3.0.0-beta4)
 
+**Implemented enhancements:**
+
+- refreshing token should honor TTL of given token [\#913](https://github.com/ilios/ilios/issues/913)
+- create custom learning material validator class. [\#897](https://github.com/ilios/ilios/issues/897)
+
 **Closed issues:**
 
 - Finish user events endpoint [\#920](https://github.com/ilios/ilios/issues/920)
-- refreshing token should honor TTL of given token [\#913](https://github.com/ilios/ilios/issues/913)
 - API: auth/refreshToken broken [\#910](https://github.com/ilios/ilios/issues/910)
 - Trying to Load Up Learner Groups Ember Error [\#909](https://github.com/ilios/ilios/issues/909)
 - Add test for user events API [\#907](https://github.com/ilios/ilios/issues/907)
 - Use production builds for production [\#905](https://github.com/ilios/ilios/issues/905)
-- create custom learning material validator class. [\#897](https://github.com/ilios/ilios/issues/897)
 - Add an endpoint for uploading files [\#895](https://github.com/ilios/ilios/issues/895)
 - The return parameter name, 'curriculumInventoryInstitution', under the 'schools' api is misspelled as 'curriculumInventoryInsitution' [\#891](https://github.com/ilios/ilios/issues/891)
 - Remove PATCH methods [\#888](https://github.com/ilios/ilios/issues/888)
@@ -613,11 +641,14 @@
 ## [v2.4.8](https://github.com/ilios/ilios/tree/v2.4.8) (2014-11-04)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.7...v2.4.8)
 
+**Implemented enhancements:**
+
+- provide option for populating new user groups [\#611](https://github.com/ilios/ilios/issues/611)
+
 **Closed issues:**
 
 - Save Event Not Firing When Adding A User \(Admin Console\) [\#715](https://github.com/ilios/ilios/issues/715)
 - MeSH Term Not Updating - Session Objectives [\#664](https://github.com/ilios/ilios/issues/664)
-- provide option for populating new user groups [\#611](https://github.com/ilios/ilios/issues/611)
 
 **Merged pull requests:**
 
@@ -633,16 +664,19 @@
 ## [v2.4.7](https://github.com/ilios/ilios/tree/v2.4.7) (2014-10-14)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.6...v2.4.7)
 
-**Closed issues:**
+**Implemented enhancements:**
 
 - calendar download for instructor/director level users [\#221](https://github.com/ilios/ilios/issues/221)
-- Extend Calendar Feed time period [\#708](https://github.com/ilios/ilios/issues/708)
 - Special Cron Job for Syncing Users [\#677](https://github.com/ilios/ilios/issues/677)
+- Identifying students once they have graduated as "graduates" [\#327](https://github.com/ilios/ilios/issues/327)
+
+**Closed issues:**
+
+- Extend Calendar Feed time period [\#708](https://github.com/ilios/ilios/issues/708)
 - Add MeSH\(x\) Label Not Displaying Correct Total \(x\) - Session - Objective [\#666](https://github.com/ilios/ilios/issues/666)
 - Disallow NULL password value for setups using anonymous LDAP binds [\#645](https://github.com/ilios/ilios/issues/645)
 - Show all associated student groups filter fails [\#636](https://github.com/ilios/ilios/issues/636)
 - "Filing" a course removes it from the calendar search/filter widget [\#576](https://github.com/ilios/ilios/issues/576)
-- Identifying students once they have graduated as "graduates" [\#327](https://github.com/ilios/ilios/issues/327)
 
 **Merged pull requests:**
 
@@ -664,6 +698,10 @@
 ## [v2.4.6](https://github.com/ilios/ilios/tree/v2.4.6) (2014-09-02)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.6-rc1...v2.4.6)
 
+**Implemented enhancements:**
+
+- decouple persisting learning materials from sessions/courses [\#205](https://github.com/ilios/ilios/issues/205)
+
 **Closed issues:**
 
 - Make "Final" the Default Status for Uploading Learning Materials to Course and / or Session [\#672](https://github.com/ilios/ilios/issues/672)
@@ -671,7 +709,6 @@
 - Add MeSH\(null\) Label Displayed - Learning Materials - Session  [\#665](https://github.com/ilios/ilios/issues/665)
 - course dirty state interrupts session description save [\#663](https://github.com/ilios/ilios/issues/663)
 - An ugly Error msg is returned when no Email address is contained in shibboleth [\#657](https://github.com/ilios/ilios/issues/657)
-- decouple persisting learning materials from sessions/courses [\#205](https://github.com/ilios/ilios/issues/205)
 
 **Merged pull requests:**
 
@@ -683,7 +720,7 @@
 ## [v2.4.6-rc1](https://github.com/ilios/ilios/tree/v2.4.6-rc1) (2014-08-15)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.5...v2.4.6-rc1)
 
-**Closed issues:**
+**Implemented enhancements:**
 
 - SQL generated from MeSH parser should use REPLACE syntax [\#304](https://github.com/ilios/ilios/issues/304)
 - change output from mesh parser from db to file [\#303](https://github.com/ilios/ilios/issues/303)
@@ -698,6 +735,11 @@
 ## [v2.4.5](https://github.com/ilios/ilios/tree/v2.4.5) (2014-08-08)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.3...v2.4.5)
 
+**Implemented enhancements:**
+
+- Provide method for adjusting "duration" for small group events [\#473](https://github.com/ilios/ilios/issues/473)
+- add timestamps to mesh\_\* tables \(MeSH Parser\) [\#302](https://github.com/ilios/ilios/issues/302)
+
 **Closed issues:**
 
 - Unable to upload PPTX files [\#653](https://github.com/ilios/ilios/issues/653)
@@ -707,10 +749,8 @@
 - 403 Forbidden should return 403 not 200 [\#521](https://github.com/ilios/ilios/issues/521)
 - remove "GALEN ID" label and update the csv load [\#496](https://github.com/ilios/ilios/issues/496)
 - Modify "UC ID" labeling globally to "ID" [\#495](https://github.com/ilios/ilios/issues/495)
-- Provide method for adjusting "duration" for small group events [\#473](https://github.com/ilios/ilios/issues/473)
 - expand instruction in user guide etc. for CI management tools [\#423](https://github.com/ilios/ilios/issues/423)
 - update the data population for the PCRS to include AAMC last-minutes changes and addition of "x.99 - OTHER" categories [\#422](https://github.com/ilios/ilios/issues/422)
-- add timestamps to mesh\_\* tables \(MeSH Parser\) [\#302](https://github.com/ilios/ilios/issues/302)
 
 **Merged pull requests:**
 
@@ -730,13 +770,16 @@
 ## [v2.4.3](https://github.com/ilios/ilios/tree/v2.4.3) (2014-06-20)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.2...v2.4.3)
 
+**Implemented enhancements:**
+
+- Add uc\_uid length limitations to configuration [\#626](https://github.com/ilios/ilios/issues/626)
+- Google Analytics [\#429](https://github.com/ilios/ilios/issues/429)
+
 **Closed issues:**
 
 - upgrade to codeigniter 2.2.0 [\#628](https://github.com/ilios/ilios/issues/628)
-- Add uc\_uid length limitations to configuration [\#626](https://github.com/ilios/ilios/issues/626)
 - Sauce for IE11 [\#461](https://github.com/ilios/ilios/issues/461)
 - Sauce for IE9 [\#460](https://github.com/ilios/ilios/issues/460)
-- Google Analytics [\#429](https://github.com/ilios/ilios/issues/429)
 
 **Merged pull requests:**
 
@@ -758,6 +801,11 @@
 ## [v2.4.2](https://github.com/ilios/ilios/tree/v2.4.2) (2014-05-21)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.2-prerelease-20140407...v2.4.2)
 
+**Implemented enhancements:**
+
+- Provide ability to configure the time step value for start/end times of calendar events [\#595](https://github.com/ilios/ilios/issues/595)
+- Create script to automate the regular dump of audit information to log [\#424](https://github.com/ilios/ilios/issues/424)
+
 **Closed issues:**
 
 - phpMyAdmin upload file size too small [\#604](https://github.com/ilios/ilios/issues/604)
@@ -765,7 +813,6 @@
 - COPYRIGHT file conflicts with LICENSE file [\#558](https://github.com/ilios/ilios/issues/558)
 - Streamline Welcome Screen [\#542](https://github.com/ilios/ilios/issues/542)
 - Use single email value from 'mail' attribute when multiple values are returned by Shibboleth IDp  [\#614](https://github.com/ilios/ilios/issues/614)
-- Provide ability to configure the time step value for start/end times of calendar events [\#595](https://github.com/ilios/ilios/issues/595)
 - Public access to vagrant vm [\#568](https://github.com/ilios/ilios/issues/568)
 - Do we need to encrypt our sauce token? [\#563](https://github.com/ilios/ilios/issues/563)
 - ILM sessions do not sort by date [\#475](https://github.com/ilios/ilios/issues/475)
@@ -778,7 +825,6 @@
 - Jasmine Unit Tests for ilios\_dom.js [\#448](https://github.com/ilios/ilios/issues/448)
 - Script/automate setup and run for behat tests [\#445](https://github.com/ilios/ilios/issues/445)
 - Update \(Create?\) High-Level Architecture Document [\#444](https://github.com/ilios/ilios/issues/444)
-- Create script to automate the regular dump of audit information to log [\#424](https://github.com/ilios/ilios/issues/424)
 
 **Merged pull requests:**
 
@@ -909,17 +955,24 @@
 ## [v2.4.0](https://github.com/ilios/ilios/tree/v2.4.0) (2014-02-20)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.3.2...v2.4.0)
 
+**Implemented enhancements:**
+
+- update migration scripts to include data population for CI tools [\#433](https://github.com/ilios/ilios/issues/433)
+- Warn users that their calendar feed should be treated like a password [\#397](https://github.com/ilios/ilios/issues/397)
+- Inability to access learning materials in shibboleth enabled systems [\#380](https://github.com/ilios/ilios/issues/380)
+- rig up behat tests to CI process [\#342](https://github.com/ilios/ilios/issues/342)
+- streamline auditing system [\#337](https://github.com/ilios/ilios/issues/337)
+- convert cucumber tests to behat [\#336](https://github.com/ilios/ilios/issues/336)
+- de-ajaxify the login "form" [\#335](https://github.com/ilios/ilios/issues/335)
+
 **Closed issues:**
 
 - Get behat tests to work in Travis [\#456](https://github.com/ilios/ilios/issues/456)
 - behat tests for \#199 [\#450](https://github.com/ilios/ilios/issues/450)
 - Sauce Labs or other integration for behat tests [\#446](https://github.com/ilios/ilios/issues/446)
 - Topics display list requires page refresh to show additions [\#442](https://github.com/ilios/ilios/issues/442)
-- update migration scripts to include data population for CI tools [\#433](https://github.com/ilios/ilios/issues/433)
-- Warn users that their calendar feed should be treated like a password [\#397](https://github.com/ilios/ilios/issues/397)
 - enable behat tests against vagrant [\#394](https://github.com/ilios/ilios/issues/394)
 - vagrant up does not work with vagrant 1.4.2 [\#392](https://github.com/ilios/ilios/issues/392)
-- Inability to access learning materials in shibboleth enabled systems [\#380](https://github.com/ilios/ilios/issues/380)
 - 'required' in CI Export for sessions [\#375](https://github.com/ilios/ilios/issues/375)
 - ilios.utilities.htmlEntities\(\) double encodes " [\#369](https://github.com/ilios/ilios/issues/369)
 - eliminate ilios.lang.startsWith\(\) function [\#361](https://github.com/ilios/ilios/issues/361)
@@ -927,11 +980,7 @@
 - eliminate ilios.lang.endsWith\(\) function [\#359](https://github.com/ilios/ilios/issues/359)
 - DB install instructions incomplete [\#354](https://github.com/ilios/ilios/issues/354)
 - move webcal to webcals [\#348](https://github.com/ilios/ilios/issues/348)
-- rig up behat tests to CI process [\#342](https://github.com/ilios/ilios/issues/342)
 - Notes field in Learning Materials does not alert user if max char length is exceeded. [\#339](https://github.com/ilios/ilios/issues/339)
-- streamline auditing system [\#337](https://github.com/ilios/ilios/issues/337)
-- convert cucumber tests to behat [\#336](https://github.com/ilios/ilios/issues/336)
-- de-ajaxify the login "form" [\#335](https://github.com/ilios/ilios/issues/335)
 
 **Merged pull requests:**
 
@@ -1030,18 +1079,21 @@
 ## [v2.3.2](https://github.com/ilios/ilios/tree/v2.3.2) (2013-12-10)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.3.1...v2.3.2)
 
-**Closed issues:**
+**Implemented enhancements:**
 
-- unlink competencies from PCRS [\#268](https://github.com/ilios/ilios/issues/268)
-- IE conditional classes not needed [\#262](https://github.com/ilios/ilios/issues/262)
 - replace dashes in inventory report id [\#295](https://github.com/ilios/ilios/issues/295)
 - improve topics picker performance [\#291](https://github.com/ilios/ilios/issues/291)
 - translation helper methods [\#288](https://github.com/ilios/ilios/issues/288)
 - simplify translation api [\#286](https://github.com/ilios/ilios/issues/286)
-- recurring events tool creates additional offerings when used with "create offerings by group" feature [\#275](https://github.com/ilios/ilios/issues/275)
-- mesh picker for my reports not functioning [\#260](https://github.com/ilios/ilios/issues/260)
 - associate each learner group with its "owning" cohort [\#214](https://github.com/ilios/ilios/issues/214)
 - refactor user/user-group join tables [\#211](https://github.com/ilios/ilios/issues/211)
+
+**Closed issues:**
+
+- unlink competencies from PCRS [\#268](https://github.com/ilios/ilios/issues/268)
+- IE conditional classes not needed [\#262](https://github.com/ilios/ilios/issues/262)
+- recurring events tool creates additional offerings when used with "create offerings by group" feature [\#275](https://github.com/ilios/ilios/issues/275)
+- mesh picker for my reports not functioning [\#260](https://github.com/ilios/ilios/issues/260)
 
 **Merged pull requests:**
 
@@ -1084,6 +1136,10 @@
 ## [v2.3.1](https://github.com/ilios/ilios/tree/v2.3.1) (2013-11-01)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.3...v2.3.1)
 
+**Implemented enhancements:**
+
+- modify display for course names/IDs in calendar search [\#196](https://github.com/ilios/ilios/issues/196)
+
 **Closed issues:**
 
 - lastest phing version fails in deploy-prepare task [\#248](https://github.com/ilios/ilios/issues/248)
@@ -1100,7 +1156,6 @@
 - no dirty state alert for instructor groups page [\#201](https://github.com/ilios/ilios/issues/201)
 - no dirty state alert for learner groups page [\#200](https://github.com/ilios/ilios/issues/200)
 - character encoding issue with CSV upload [\#198](https://github.com/ilios/ilios/issues/198)
-- modify display for course names/IDs in calendar search [\#196](https://github.com/ilios/ilios/issues/196)
 - offering does not display in student search if published with no student group associations [\#195](https://github.com/ilios/ilios/issues/195)
 - recurring events display does not load correctly on event creation [\#193](https://github.com/ilios/ilios/issues/193)
 
