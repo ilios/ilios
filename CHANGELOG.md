@@ -1,8 +1,8 @@
 # Change Log
 
-## [v3.3.0](https://github.com/ilios/ilios/tree/HEAD)
+## [v3.3.0](https://github.com/ilios/ilios/tree/v3.3.0)
 
-[Full Changelog](https://github.com/ilios/ilios/compare/v3.2.0...HEAD)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.2.0...v3.3.0)
 
 **Implemented enhancements:**
 
