@@ -17,14 +17,15 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
  * @package Ilios\CoreBundle\Entity
  */
 interface TermInterface extends
-    CoursesEntityInterface,
     DescribableEntityInterface,
     IdentifiableEntityInterface,
+    StringableEntityInterface,
+    TitledEntityInterface,
     LoggableEntityInterface,
     ProgramYearsEntityInterface,
     SessionsEntityInterface,
-    StringableEntityInterface,
-    TitledEntityInterface
+    CoursesEntityInterface
+
 {
     /**
      * @param VocabularyInterface $vocabulary
