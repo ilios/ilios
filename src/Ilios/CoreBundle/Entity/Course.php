@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\CategorizableEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use JMS\Serializer\Annotation as JMS;
@@ -43,6 +44,7 @@ class Course implements CourseInterface
     use SchoolEntity;
     use ObjectivesEntity;
     use PublishableEntity;
+    use CategorizableEntity;
 
     /**
      * @var int
@@ -266,6 +268,7 @@ class Course implements CourseInterface
     protected $cohorts;
 
     /**
+     * @deprecated
      * @var ArrayCollection|TopicInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Topic", inversedBy="courses")
@@ -282,6 +285,24 @@ class Course implements CourseInterface
      * @JMS\Type("array<string>")
      */
     protected $topics;
+
+    /**
+     * @var ArrayCollection|TermInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Term", inversedBy="courses")
+     * @ORM\JoinTable(name="course_x_term",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $terms;
 
     /**
      * @var ArrayCollection|ObjectiveInterface[]
@@ -349,6 +370,7 @@ class Course implements CourseInterface
         $this->directors = new ArrayCollection();
         $this->cohorts = new ArrayCollection();
         $this->topics = new ArrayCollection();
+        $this->terms = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
@@ -522,7 +544,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param Collection|TopicInterface[] $topics
+     * @inheritdoc
      */
     public function setTopics(Collection $topics = null)
     {
@@ -537,7 +559,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param TopicInterface $topic
+     * @inheritdoc
      */
     public function addTopic(TopicInterface $topic)
     {
@@ -547,7 +569,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return ArrayCollection|TopicInterface[]
+     * @inheritdoc
      */
     public function getTopics()
     {

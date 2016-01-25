@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
 use Ilios\CoreBundle\Traits\PublishableEntityInterface;
@@ -25,7 +26,8 @@ interface SessionInterface extends
     OfferingsEntityInterface,
     LoggableEntityInterface,
     ObjectivesEntityInterface,
-    PublishableEntityInterface
+    PublishableEntityInterface,
+    CategorizableEntityInterface
 {
     /**
      * @param boolean $attireRequired
@@ -88,16 +90,19 @@ interface SessionInterface extends
     public function getIlmSession();
 
     /**
+     * @deprecated
      * @param Collection $topics
      */
     public function setTopics(Collection $topics);
 
     /**
+     * @deprecated
      * @param TopicInterface $topic
      */
     public function addTopic(TopicInterface $topic);
 
     /**
+     * @deprecated
      * @return ArrayCollection|TopicInterface[]
      */
     public function getTopics();

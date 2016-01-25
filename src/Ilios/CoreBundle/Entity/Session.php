@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\CategorizableEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use JMS\Serializer\Annotation as JMS;
@@ -42,6 +43,7 @@ class Session implements SessionInterface
     use OfferingsEntity;
     use ObjectivesEntity;
     use PublishableEntity;
+    use CategorizableEntity;
 
     /**
      * @var int
@@ -195,6 +197,7 @@ class Session implements SessionInterface
     protected $ilmSession;
 
     /**
+     * @deprecated
      * @var ArrayCollection|TopicInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Topic", inversedBy="sessions")
@@ -211,6 +214,24 @@ class Session implements SessionInterface
      * @JMS\Type("array<string>")
      */
     protected $topics;
+
+    /**
+     * @var ArrayCollection|TermInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Term", inversedBy="sessions")
+     * @ORM\JoinTable(name="session_x_term",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $terms;
 
     /**
      * @var ArrayCollection|ObjectiveInterface[]
@@ -294,8 +315,8 @@ class Session implements SessionInterface
         $this->supplemental = false;
         $this->publishedAsTbd = false;
         $this->published = false;
-
         $this->topics = new ArrayCollection();
+        $this->terms = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
         $this->offerings = new ArrayCollection();
@@ -401,7 +422,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param Collection $topics
+     * @inheritdoc
      */
     public function setTopics(Collection $topics)
     {
@@ -413,7 +434,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param TopicInterface $topic
+     * @inheritdoc
      */
     public function addTopic(TopicInterface $topic)
     {
@@ -423,7 +444,7 @@ class Session implements SessionInterface
     }
 
     /**
-     * @return ArrayCollection|TopicInterface[]
+     * @inheritdoc
      */
     public function getTopics()
     {

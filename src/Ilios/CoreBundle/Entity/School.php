@@ -163,6 +163,7 @@ class School implements SchoolInterface
     protected $departments;
 
     /**
+     * @deprecated
      * @var ArrayCollection|TopicInterface[]
      *
      * @ORM\OneToMany(targetEntity="Topic", mappedBy="school")
@@ -171,6 +172,16 @@ class School implements SchoolInterface
      * @JMS\Type("array<string>")
      */
     protected $topics;
+
+    /**
+     * @var ArrayCollection|VocabularyInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Vocabulary", mappedBy="school")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $vocabularies;
 
     /**
     * @var ArrayCollection|InstructorGroupInterface[]
@@ -228,6 +239,7 @@ class School implements SchoolInterface
         $this->courses = new ArrayCollection();
         $this->departments = new ArrayCollection();
         $this->topics = new ArrayCollection();
+        $this->vocabularies = new ArrayCollection();
         $this->programs = new ArrayCollection();
         $this->stewards = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
@@ -388,7 +400,7 @@ class School implements SchoolInterface
     }
 
     /**
-     * @param Collection $topics
+     * @inheritdoc
      */
     public function setTopics(Collection $topics)
     {
@@ -400,7 +412,7 @@ class School implements SchoolInterface
     }
 
     /**
-     * @param TopicInterface $topic
+     * @inheritdoc
      */
     public function addTopic(TopicInterface $topic)
     {
@@ -408,11 +420,39 @@ class School implements SchoolInterface
     }
 
     /**
-     * @return ArrayCollection|TopicInterface[]
+     * @inheritdoc
      */
     public function getTopics()
     {
         return $this->topics;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setVocabularies(Collection $vocabularies)
+    {
+        $this->vocabularies = new ArrayCollection();
+
+        foreach ($vocabularies as $vocabulary) {
+            $this->addVocabulary($vocabulary);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addVocabulary(VocabularyInterface $vocabulary)
+    {
+        $this->vocabularies->add($vocabulary);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getVocabularies()
+    {
+        return $this->vocabularies;
     }
 
     /**

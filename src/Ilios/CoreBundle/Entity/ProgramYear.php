@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\CategorizableEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use JMS\Serializer\Annotation as JMS;
@@ -33,6 +34,7 @@ class ProgramYear implements ProgramYearInterface
     use StewardedEntity;
     use ObjectivesEntity;
     use PublishableEntity;
+    use CategorizableEntity;
 
     /**
     * @var int
@@ -174,6 +176,7 @@ class ProgramYear implements ProgramYearInterface
     protected $competencies;
 
     /**
+     * @deprecated
      * @var ArrayCollection|TopicInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Topic", inversedBy="programYears")
@@ -190,6 +193,24 @@ class ProgramYear implements ProgramYearInterface
      * @JMS\Type("array<string>")
      */
     protected $topics;
+
+    /**
+     * @var ArrayCollection|TermInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Term", inversedBy="programYears")
+     * @ORM\JoinTable(name="program_year_x_term",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $terms;
 
     /**
      * @var ArrayCollection|ObjectiveInterface[]
@@ -231,6 +252,7 @@ class ProgramYear implements ProgramYearInterface
         $this->directors = new ArrayCollection();
         $this->competencies = new ArrayCollection();
         $this->topics = new ArrayCollection();
+        $this->terms = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->stewards = new ArrayCollection();
 
@@ -328,7 +350,7 @@ class ProgramYear implements ProgramYearInterface
     }
 
     /**
-     * @param Collection $topics
+     * @inheritdoc
      */
     public function setTopics(Collection $topics)
     {
@@ -340,7 +362,7 @@ class ProgramYear implements ProgramYearInterface
     }
 
     /**
-     * @param TopicInterface $topic
+     * @inheritdoc
      */
     public function addTopic(TopicInterface $topic)
     {
@@ -350,7 +372,7 @@ class ProgramYear implements ProgramYearInterface
     }
 
     /**
-     * @return ArrayCollection|TopicInterface[]
+     * @inheritdoc
      */
     public function getTopics()
     {
