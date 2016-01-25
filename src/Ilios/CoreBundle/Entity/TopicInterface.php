@@ -11,6 +11,8 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 
 /**
  * Interface TopicInterface
+ *
+ * @deprecated 
  */
 interface TopicInterface extends
     IdentifiableEntityInterface,
