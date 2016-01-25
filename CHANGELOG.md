@@ -1,6 +1,14 @@
 # Change Log
 
-## [v3.3.0](https://github.com/ilios/ilios/tree/v3.3.0)
+## [v3.3.1](https://github.com/ilios/ilios/tree/v3.3.1)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.3.0...v3.3.1)
+
+**Merged pull requests:**
+
+- updated frontend build hash to non-corrupted one [\#1278](https://github.com/ilios/ilios/pull/1278) ([thecoolestguy](https://github.com/thecoolestguy))
+
+## [v3.3.0](https://github.com/ilios/ilios/tree/v3.3.0) (2016-01-22) 
 
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.2.0...v3.3.0)
 
