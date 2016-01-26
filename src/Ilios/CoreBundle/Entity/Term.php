@@ -215,7 +215,7 @@ class Term implements TermInterface
     }
 
     /**
-     * @return TermInterface
+     * @inheritdoc
      */
     public function getParent()
     {
@@ -223,15 +223,15 @@ class Term implements TermInterface
     }
 
     /**
-     * @param CompetencyInterface $parent
+     * @inheritdoc
      */
-    public function setParent(CompetencyInterface $parent)
+    public function setParent(TermInterface $parent)
     {
         $this->parent = $parent;
     }
 
     /**
-     * @return ArrayCollection|TermInterface[]
+     * @inheritdoc
      */
     public function getChildren()
     {
@@ -239,7 +239,7 @@ class Term implements TermInterface
     }
 
     /**
-     * @param Collection $children
+     * @inheritdoc
      */
     public function setChildren(Collection $children)
     {
@@ -251,7 +251,7 @@ class Term implements TermInterface
     }
 
     /**
-     * @param TermInterface $child
+     * @inheritdoc
      */
     public function addChild(TermInterface $child)
     {
@@ -259,7 +259,7 @@ class Term implements TermInterface
     }
 
     /**
-     * @return bool
+     * @inheritdoc
      */
     public function hasChildren()
     {

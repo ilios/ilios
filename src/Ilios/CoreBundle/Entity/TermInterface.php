@@ -37,9 +37,9 @@ interface TermInterface extends
     public function getVocabulary();
 
     /**
-     * @param CompetencyInterface $parent
+     * @param TermInterface $parent
      */
-    public function setParent(CompetencyInterface $parent);
+    public function setParent(TermInterface $parent);
 
     /**
      * @return TermInterface
