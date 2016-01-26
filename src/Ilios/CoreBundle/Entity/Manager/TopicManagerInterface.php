@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
 use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
+ * @deprecated
  * Interface TopicManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
