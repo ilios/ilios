@@ -143,12 +143,6 @@ api_department_v1:
     defaults: {_format:json}
 
 
-api_topic_v1:
-    resource: "@IliosCoreBundle/Controller/TopicController.php"
-    type:     rest
-    prefix:   /v1
-    defaults: {_format:json}
-
 api_ilmsession_v1:
     resource: "@IliosCoreBundle/Controller/IlmSessionController.php"
     type:     rest
@@ -329,6 +323,17 @@ api_sessiontype_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+api_term_v1:
+    resource: "@IliosCoreBundle/Controller/TermController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_topic_v1:
+    resource: "@IliosCoreBundle/Controller/TopicController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
 
 api_usermadereminder_v1:
     resource: "@IliosCoreBundle/Controller/UserMadeReminderController.php"
@@ -353,6 +358,12 @@ api_userrole_v1:
 
 api_userevent_v1:
     resource: "@IliosCoreBundle/Controller/UsereventController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_vocabulary_v1:
+    resource: "@IliosCoreBundle/Controller/VocabularyController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
