@@ -157,7 +157,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.usermadereminder.manager.class' => 'Ilios\CoreBundle\Entity\Manager\UserMadeReminderManager',
             'ilioscore.userrole.handler.class' => 'Ilios\CoreBundle\Handler\UserRoleHandler',
             'ilioscore.userrole.manager.class' => 'Ilios\CoreBundle\Entity\Manager\UserRoleManager',
-            'ilioscore.vocabulary.handler.class' => 'Ilios\CoreBundle\Handler\VocabularyTopicHandler',
+            'ilioscore.vocabulary.handler.class' => 'Ilios\CoreBundle\Handler\VocabularyHandler',
             'ilioscore.vocabulary.manager.class' => 'Ilios\CoreBundle\Entity\Manager\VocabularyManager',
             'ilioscore.dataloader.aamcmethod.class' => 'Ilios\CoreBundle\Tests\DataLoader\AamcMethodData',
             'ilioscore.dataloader.aamcpcrs.class' => 'Ilios\CoreBundle\Tests\DataLoader\AamcPcrsData',
