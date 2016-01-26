@@ -106,12 +106,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.topic_voter:
-        class: Ilios\AuthenticationBundle\Voter\TopicVoter
-        arguments: [ @ilioscore.permission.manager ]
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.ilm_session_voter:
         class: Ilios\AuthenticationBundle\Voter\IlmSessionVoter
         parent: security.access.session_voter
@@ -248,6 +242,18 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.term_voter:
+        class: Ilios\AuthenticationBundle\Voter\TermVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.topic_voter:
+        class: Ilios\AuthenticationBundle\Voter\TopicVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.userevent_voter:
         class: Ilios\AuthenticationBundle\Voter\UsereventVoter
         arguments: [ @ilioscore.user.manager ]
@@ -266,6 +272,12 @@ services:
             - { name: security.voter }
     security.access.user_voter:
         class: Ilios\AuthenticationBundle\Voter\UserVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.vocabulary_voter:
+        class: Ilios\AuthenticationBundle\Voter\VocabularyVoter
         arguments: [ @ilioscore.permission.manager ]
         public: false
         tags:
