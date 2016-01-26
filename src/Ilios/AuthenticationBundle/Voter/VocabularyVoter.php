@@ -14,19 +14,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class VocabularyVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManagerInterface
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManagerInterface $permissionManager
-     */
-    public function __construct(PermissionManagerInterface $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
