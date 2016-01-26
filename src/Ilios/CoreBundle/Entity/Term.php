@@ -24,7 +24,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  *     @ORM\UniqueConstraint(name="unique_term_title", columns={"vocabulary_id", "title"})
  *   }
  * )
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\TermRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
