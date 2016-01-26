@@ -20,16 +20,6 @@ interface VocabularyInterface extends
     TitledEntityInterface
 {
     /**
-     * @param boolean $hierarchical
-     */
-    public function setHierarchical($hierarchical);
-
-    /**
-     * @return boolean
-     */
-    public function isHierarchical();
-
-    /**
      * @param Collection $terms
      */
     public function setTerms(Collection $terms);

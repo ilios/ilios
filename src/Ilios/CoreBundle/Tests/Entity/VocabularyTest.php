@@ -49,15 +49,6 @@ class VocabularyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::setHierarchical
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::isHierarchical
-     */
-    public function testSetHierarchical()
-    {
-        $this->booleanSetTest('hierarchical');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\Vocabulary::addTerm
      */
     public function testAddSteward()

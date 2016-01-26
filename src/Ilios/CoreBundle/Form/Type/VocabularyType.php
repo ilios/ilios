@@ -25,7 +25,6 @@ class VocabularyType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('hierarchical', null, ['required' => false])
         ;
 
         $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());

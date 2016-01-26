@@ -43,11 +43,10 @@ class LoadVocabularyDataTest extends AbstractDataFixtureTest
      */
     protected function assertDataEquals(array $data, $entity)
     {
-        // `vocabulary_id`,`title`,`hierarchical`, `school_id`
+        // `vocabulary_id`,`title`,`school_id`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
-        $this->assertEquals((boolean) $data[2], $entity->isHierarchical());
-        $this->assertEquals($data[3], $entity->getSchool()->getId());
+        $this->assertEquals($data[2], $entity->getSchool()->getId());
     }
 
     /**

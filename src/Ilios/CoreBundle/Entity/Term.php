@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  *
  * @ORM\Table(name="term",
  *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_term_title", columns={"vocabulary_id", "title"})
+ *     @ORM\UniqueConstraint(name="unique_term_title", columns={"vocabulary_id", "title", "parent_term_id"})
  *   }
  * )
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\TermRepository")

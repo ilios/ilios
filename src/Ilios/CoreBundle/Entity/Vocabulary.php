@@ -65,19 +65,6 @@ class Vocabulary implements VocabularyInterface
     protected $title;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="hierarchical", type="boolean")
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="boolean")
-     *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     */
-    protected $hierarchical;
-
-    /**
      * @var SchoolInterface
      *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="vocabularies")
@@ -108,22 +95,6 @@ class Vocabulary implements VocabularyInterface
     public function __construct()
     {
         $this->terms = new ArrayCollection();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setHierarchical($hierarchical)
-    {
-        $this->hierarchical = $hierarchical;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isHierarchical()
-    {
-        return $this->hierarchical;
     }
 
     /**
