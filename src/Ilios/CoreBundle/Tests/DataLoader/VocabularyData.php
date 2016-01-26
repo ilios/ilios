@@ -19,7 +19,7 @@ class VocabularyData extends AbstractDataLoader
             'title' => $this->faker->text(100),
             'hierarchical' => true,
             'school' => '2',
-            'terms' => ['4', '5']
+            'terms' => ['4', '5', '6']
         );
         return $arr;
     }
