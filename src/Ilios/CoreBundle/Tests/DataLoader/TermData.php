@@ -10,6 +10,7 @@ class TermData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
             'vocabulary' => '1',
             'parent' => null,
             'children' => ['1', '2'],
@@ -20,6 +21,7 @@ class TermData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'title' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
             'vocabulary' => '1',
             'parent' => '1',
             'children' => [],
@@ -30,6 +32,7 @@ class TermData extends AbstractDataLoader
         $arr[] = array(
             'id' => 3,
             'title' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
             'vocabulary' => '1',
             'parent' => '1',
             'children' => [],
@@ -41,6 +44,7 @@ class TermData extends AbstractDataLoader
         $arr[] = array(
             'id' => 4,
             'title' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
             'vocabulary' => '2',
             'parent' => null,
             'children' => [],
@@ -51,6 +55,7 @@ class TermData extends AbstractDataLoader
         $arr[] = array(
             'id' => 5,
             'title' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
             'vocabulary' => '2',
             'parent' => null,
             'children' => [],
@@ -61,6 +66,7 @@ class TermData extends AbstractDataLoader
         $arr[] = array(
             'id' => 6,
             'title' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
             'vocabulary' => '2',
             'parent' => null,
             'children' => [],
@@ -77,6 +83,7 @@ class TermData extends AbstractDataLoader
         return [
             'id' => 7,
             'title' => $this->faker->text(100),
+            'description' => $this->faker->text(200),
             'vocabulary' => '2',
             'parent' => null,
             'children' => [],
