@@ -45,6 +45,7 @@ class ProgramYearTest extends EntityBase
         $this->assertEmpty($this->object->getTopics());
         $this->assertEmpty($this->object->getObjectives());
         $this->assertEmpty($this->object->getStewards());
+        $this->assertEmpty($this->object->getTerms());
     }
 
     /**
@@ -144,5 +145,22 @@ class ProgramYearTest extends EntityBase
 
         $programYear = new ProgramYear();
         $this->assertNull($programYear->getSchool());
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::addTerm
+     */
+    public function testAddTerm()
+    {
+        $this->entityCollectionAddTest('term', 'Term');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::getTerms
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::setTerms
+     */
+    public function testSetTerms()
+    {
+        $this->entityCollectionSetTest('term', 'Term');
     }
 }
