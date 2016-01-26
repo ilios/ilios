@@ -24,7 +24,7 @@ class LoadTermData extends AbstractFixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            'Ilios\CoreBundle\DataFixtures\ORM\LoadSchoolData',
+            'Ilios\CoreBundle\DataFixtures\ORM\LoadVocabularyData',
         ];
     }
 
