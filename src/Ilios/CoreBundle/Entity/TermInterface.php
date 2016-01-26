@@ -25,7 +25,6 @@ interface TermInterface extends
     ProgramYearsEntityInterface,
     SessionsEntityInterface,
     CoursesEntityInterface
-
 {
     /**
      * @param VocabularyInterface $vocabulary

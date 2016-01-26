@@ -153,4 +153,3 @@ class Vocabulary implements VocabularyInterface
         return $this->terms;
     }
 }
-

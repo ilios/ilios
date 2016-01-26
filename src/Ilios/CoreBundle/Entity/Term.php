@@ -266,4 +266,3 @@ class Term implements TermInterface
         return (!$this->children->isEmpty()) ? true : false;
     }
 }
-
