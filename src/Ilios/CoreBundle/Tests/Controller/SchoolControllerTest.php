@@ -106,6 +106,7 @@ class SchoolControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['courses']);
         unset($postData['topics']);
+        unset($postData['vocabularies']);
         unset($postData['departments']);
         unset($postData['programs']);
         unset($postData['competencies']);
@@ -166,6 +167,7 @@ class SchoolControllerTest extends AbstractControllerTest
         unset($postData['courses']);
         unset($postData['programs']);
         unset($postData['topics']);
+        unset($postData['vocabularies']);
         unset($postData['departments']);
         unset($postData['competencies']);
         unset($postData['instructorGroups']);
