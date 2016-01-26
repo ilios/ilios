@@ -19,10 +19,11 @@ parameters:
     ilioscore.curriculuminventorysequenceblocksession.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockSessionManager
     ilioscore.curriculuminventorysequence.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager
     ilioscore.department.manager.class: Ilios\CoreBundle\Entity\Manager\DepartmentManager
-    ilioscore.topic.manager.class: Ilios\CoreBundle\Entity\Manager\TopicManager
     ilioscore.ilmsession.manager.class: Ilios\CoreBundle\Entity\Manager\IlmSessionManager
     ilioscore.ingestionexception.manager.class: Ilios\CoreBundle\Entity\Manager\IngestionExceptionManager
     ilioscore.instructorgroup.manager.class: Ilios\CoreBundle\Entity\Manager\InstructorGroupManager
+    ilioscore.learningmaterial.manager.class: Ilios\CoreBundle\Entity\Manager\LearningMaterialManager
+    ilioscore.learnergroup.manager.class: Ilios\CoreBundle\Entity\Manager\LearnerGroupManager
     ilioscore.learningmaterialstatus.manager.class: Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager
     ilioscore.learningmaterialuserrole.manager.class: Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager
     ilioscore.meshconcept.manager.class: Ilios\CoreBundle\Entity\Manager\MeshConceptManager
@@ -45,11 +46,13 @@ parameters:
     ilioscore.sessionlearningmaterial.manager.class: Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager
     ilioscore.session.manager.class: Ilios\CoreBundle\Entity\Manager\SessionManager
     ilioscore.sessiontype.manager.class: Ilios\CoreBundle\Entity\Manager\SessionTypeManager
+    ilioscore.term.manager.class: Ilios\CoreBundle\Entity\Manager\TermManager
+    ilioscore.topic.manager.class: Ilios\CoreBundle\Entity\Manager\TopicManager
     ilioscore.usermadereminder.manager.class: Ilios\CoreBundle\Entity\Manager\UserMadeReminderManager
     ilioscore.user.manager.class: Ilios\CoreBundle\Entity\Manager\UserManager
     ilioscore.userrole.manager.class: Ilios\CoreBundle\Entity\Manager\UserRoleManager
-    ilioscore.learningmaterial.manager.class: Ilios\CoreBundle\Entity\Manager\LearningMaterialManager
-    ilioscore.learnergroup.manager.class: Ilios\CoreBundle\Entity\Manager\LearnerGroupManager
+    ilioscore.vocabulary.manager.class: Ilios\CoreBundle\Entity\Manager\VocabularyManager
+
 
 services:
     ilioscore.aamcmethod.manager:
@@ -112,9 +115,6 @@ services:
     ilioscore.department.manager:
         class: %ilioscore.department.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Department]
-    ilioscore.topic.manager:
-        class: %ilioscore.topic.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Topic]
     ilioscore.ilmsession.manager:
         class: %ilioscore.ilmsession.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IlmSession]
@@ -124,6 +124,12 @@ services:
     ilioscore.instructorgroup.manager:
         class: %ilioscore.instructorgroup.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\InstructorGroup]
+    ilioscore.learnergroup.manager:
+        class: %ilioscore.learnergroup.manager.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearnerGroup]
+    ilioscore.learningmaterial.manager:
+        class: %ilioscore.learningmaterial.manager.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterial]
     ilioscore.learningmaterialstatus.manager:
         class: %ilioscore.learningmaterialstatus.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterialStatus]
@@ -190,6 +196,12 @@ services:
     ilioscore.sessiontype.manager:
         class: %ilioscore.sessiontype.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\SessionType]
+    ilioscore.term.manager:
+        class: %ilioscore.term.manager.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Term]
+    ilioscore.topic.manager:
+        class: %ilioscore.topic.manager.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Topic]
     ilioscore.usermadereminder.manager:
         class: %ilioscore.usermadereminder.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\UserMadeReminder]
@@ -199,9 +211,6 @@ services:
     ilioscore.userrole.manager:
         class: %ilioscore.userrole.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\UserRole]
-    ilioscore.learnergroup.manager:
-        class: %ilioscore.learnergroup.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearnerGroup]
-    ilioscore.learningmaterial.manager:
-        class: %ilioscore.learningmaterial.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterial]
+    ilioscore.vocabulary.manager:
+        class: %ilioscore.vocabulary.manager.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Vocabulary]
