@@ -6,6 +6,7 @@ use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
+ * @deprecated
  * Tests for Entity Topic
  */
 class TopicTest extends EntityBase

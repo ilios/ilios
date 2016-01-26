@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
+ * @deprecated
  * Topic controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
