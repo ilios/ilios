@@ -44,6 +44,10 @@ class ProgramYearType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Topic"
             ])
+            ->add('terms', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Term"
+            ])
             ->add('objectives', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
