@@ -6,6 +6,8 @@ use Ilios\CoreBundle\Entity\Manager\TopicManagerInterface;
 use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
+ * @deprecated
+ *
  * Class LoadTopicDataTest
  * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
  */
