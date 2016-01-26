@@ -95,6 +95,7 @@ class Vocabulary implements VocabularyInterface
      * @var ArrayCollection|TermInterface[]
      *
      * @ORM\OneToMany(targetEntity="Term", mappedBy="vocabulary")
+     * @ORM\OrderBy({"id" = "ASC"})
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
