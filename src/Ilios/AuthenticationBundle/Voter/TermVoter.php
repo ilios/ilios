@@ -3,7 +3,6 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\TermInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -25,12 +24,12 @@ class TermVoter extends AbstractVoter
 
     /**
      * @param string $attribute
-     * @param TermInterface $topic
+     * @param TermInterface $term
      * @param TokenInterface $token
      * @return bool
      * @todo Review implemented rules. [ST 2016/01/25]
      */
-    protected function voteOnAttribute($attribute, $topic, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $term, TokenInterface $token)
     {
         $user = $token->getUser();
         if (!$user instanceof UserInterface) {
