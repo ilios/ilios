@@ -268,25 +268,6 @@ class Course implements CourseInterface
     protected $cohorts;
 
     /**
-     * @deprecated
-     * @var ArrayCollection|TopicInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Topic", inversedBy="courses")
-     * @ORM\JoinTable(name="course_x_discipline",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="discipline_id", referencedColumnName="discipline_id", onDelete="CASCADE")
-     *   }
-     * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     */
-    protected $topics;
-
-    /**
      * @var ArrayCollection|TermInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Term", inversedBy="courses")
@@ -369,7 +350,6 @@ class Course implements CourseInterface
     {
         $this->directors = new ArrayCollection();
         $this->cohorts = new ArrayCollection();
-        $this->topics = new ArrayCollection();
         $this->terms = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
@@ -543,39 +523,6 @@ class Course implements CourseInterface
     public function getCohorts()
     {
         return $this->cohorts;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setTopics(Collection $topics = null)
-    {
-        $this->topics = new ArrayCollection();
-        if (is_null($topics)) {
-            return;
-        }
-
-        foreach ($topics as $topic) {
-            $this->addTopic($topic);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addTopic(TopicInterface $topic)
-    {
-        if (!$this->topics->contains($topic)) {
-            $this->topics->add($topic);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTopics()
-    {
-        return $this->topics;
     }
 
     /**

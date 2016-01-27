@@ -44,10 +44,6 @@ class SessionType extends AbstractType
                 'entityName' => "IliosCoreBundle:IlmSession"
                 ]
             )
-            ->add('topics', ManyRelatedType::class, [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Topic"
-            ])
             ->add('terms', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Term"

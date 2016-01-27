@@ -101,24 +101,6 @@ interface SchoolInterface extends
     public function getDepartments();
 
     /**
-     * @deprecated
-     * @param Collection $topics
-     */
-    public function setTopics(Collection $topics);
-
-    /**
-     * @deprecated
-     * @param TopicInterface $topic
-     */
-    public function addTopic(TopicInterface $topic);
-
-    /**
-     * @deprecated
-     * @return ArrayCollection|TopicInterface[]
-     */
-    public function getTopics();
-
-    /**
      * @param Collection $vocabularies
      */
     public function setVocabularies(Collection $vocabularies);

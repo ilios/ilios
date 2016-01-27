@@ -78,34 +78,6 @@ interface ProgramYearInterface extends
     public function getCompetencies();
 
     /**
-     * @deprecated
-     * @param Collection $topics
-     */
-    public function setTopics(Collection $topics);
-
-    /**
-     * @deprecated
-     * @param TopicInterface $topic
-     */
-    public function addTopic(TopicInterface $topic);
-
-    /**
-     * @deprecated
-     * @return ArrayCollection|TopicInterface[]
-     */
-    public function getTopics();
-
-    /**
-     * @param CohortInterface
-     */
-    public function setCohort(CohortInterface $cohort);
-
-    /**
-     * @return CohortInterface
-     */
-    public function getCohort();
-
-    /**
      * Gets the school that this program year belongs to.
      * @return SchoolInterface|null
      */

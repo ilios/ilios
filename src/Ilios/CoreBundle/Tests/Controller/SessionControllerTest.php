@@ -19,6 +19,7 @@ class SessionControllerTest extends AbstractControllerTest
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionDescriptionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
@@ -843,13 +844,13 @@ class SessionControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testFilterByTopic()
+    public function testFilterByTerm()
     {
         $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_sessions', ['filters[topics][]' => 1]),
+            $this->getUrl('cget_sessions', ['filters[terms][]' => 1]),
             null,
             $this->getAuthenticatedUserToken()
         );

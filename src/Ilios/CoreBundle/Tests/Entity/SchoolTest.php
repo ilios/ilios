@@ -44,7 +44,6 @@ class SchoolTest extends EntityBase
         $this->assertEmpty($this->object->getStewards());
         $this->assertEmpty($this->object->getCourses());
         $this->assertEmpty($this->object->getPrograms());
-        $this->assertEmpty($this->object->getTopics());
         $this->assertEmpty($this->object->getDepartments());
         $this->assertEmpty($this->object->getInstructorGroups());
         $this->assertEmpty($this->object->getCompetencies());

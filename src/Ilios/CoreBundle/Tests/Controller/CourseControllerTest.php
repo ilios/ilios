@@ -22,7 +22,7 @@ class CourseControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
@@ -594,13 +594,13 @@ class CourseControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testFilterByTopic()
+    public function testFilterByTerm()
     {
         $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_courses', ['filters[topics][]' => 1]),
+            $this->getUrl('cget_courses', ['filters[terms][]' => 1]),
             null,
             $this->getAuthenticatedUserToken()
         );

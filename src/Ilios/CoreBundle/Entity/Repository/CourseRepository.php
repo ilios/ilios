@@ -80,7 +80,6 @@ class CourseRepository extends EntityRepository
         $related = [
             'directors',
             'cohorts',
-            'topics',
             'terms',
             'objectives',
             'meshDescriptors',
@@ -372,11 +371,11 @@ EOL;
             $qb->setParameter(':sessions', $ids);
         }
 
-        if (array_key_exists('topics', $criteria)) {
-            $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
-            $qb->join('c.topics', 't_topic');
-            $qb->andWhere($qb->expr()->in('t_topic.id', ':topics'));
-            $qb->setParameter(':topics', $ids);
+        if (array_key_exists('terms', $criteria)) {
+            $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
+            $qb->join('c.terms', 't_term');
+            $qb->andWhere($qb->expr()->in('t_term.id', ':terms'));
+            $qb->setParameter(':terms', $ids);
         }
 
         if (array_key_exists('programs', $criteria)) {
@@ -490,7 +489,7 @@ EOL;
         //cleanup all the possible relationship filters
         unset($criteria['schools']);
         unset($criteria['sessions']);
-        unset($criteria['topics']);
+        unset($criteria['terms']);
         unset($criteria['programs']);
         unset($criteria['programYears']);
         unset($criteria['instructors']);

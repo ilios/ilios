@@ -77,7 +77,6 @@ class SessionRepository extends EntityRepository
         }
 
         $related = [
-            'topics',
             'terms',
             'objectives',
             'meshDescriptors',
@@ -114,11 +113,11 @@ class SessionRepository extends EntityRepository
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
     {
-        if (array_key_exists('topics', $criteria)) {
-            $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
-            $qb->join('s.topics', 'topic');
-            $qb->andWhere($qb->expr()->in('topic.id', ':topics'));
-            $qb->setParameter(':topics', $ids);
+        if (array_key_exists('terms', $criteria)) {
+            $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
+            $qb->join('s.terms', 'term');
+            $qb->andWhere($qb->expr()->in('term.id', ':terms'));
+            $qb->setParameter(':terms', $ids);
         }
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
@@ -218,7 +217,8 @@ class SessionRepository extends EntityRepository
 
         //cleanup all the possible relationship filters
         unset($criteria['schools']);
-        unset($criteria['topics']);
+        unset($criteria['sessions']);
+        unset($criteria['terms']);
         unset($criteria['programs']);
         unset($criteria['instructors']);
         unset($criteria['instructorGroups']);

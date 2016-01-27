@@ -20,6 +20,7 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
             'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
             'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
@@ -457,13 +458,13 @@ class InstructorGroupControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testFilterByTopic()
+    public function testFilterByTerm()
     {
         $groups = $this->container->get('ilioscore.dataloader.instructorgroup')->getAll();
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_instructorgroups', ['filters[topics]' => [1, 2, 3]]),
+            $this->getUrl('cget_instructorgroups', ['filters[terms]' => [1, 2, 3]]),
             null,
             $this->getAuthenticatedUserToken()
         );

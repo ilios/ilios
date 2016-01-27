@@ -87,19 +87,19 @@ class LearningMaterialRepository extends EntityRepository
             $qb->setParameter(':igroups', $ids);
         }
 
-        if (array_key_exists('topics', $criteria)) {
-            $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
+        if (array_key_exists('terms', $criteria)) {
+            $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
             $qb->leftJoin('lm.sessionLearningMaterials', 't_slm');
             $qb->leftJoin('lm.courseLearningMaterials', 't_clm');
             $qb->leftJoin('t_slm.session', 't_session');
-            $qb->leftJoin('t_session.topics', 't_sessionTopic');
+            $qb->leftJoin('t_session.terms', 't_sessionTerm');
             $qb->leftJoin('t_clm.course', 't_course');
-            $qb->leftJoin('t_course.topics', 't_courseTopic');
+            $qb->leftJoin('t_course.terms', 't_courseTerm');
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('t_courseTopic.id', ':topics'),
-                $qb->expr()->in('t_sessionTopic.id', ':topics')
+                $qb->expr()->in('t_courseTerm.id', ':terms'),
+                $qb->expr()->in('t_sessionTerm.id', ':terms')
             ));
-            $qb->setParameter(':topics', $ids);
+            $qb->setParameter(':terms', $ids);
         }
 
         if (array_key_exists('meshDescriptors', $criteria)) {
@@ -142,7 +142,7 @@ class LearningMaterialRepository extends EntityRepository
         unset($criteria['sessions']);
         unset($criteria['instructors']);
         unset($criteria['instructorGroups']);
-        unset($criteria['topics']);
+        unset($criteria['terms']);
         unset($criteria['meshDescriptors']);
         unset($criteria['sessionTypes']);
 

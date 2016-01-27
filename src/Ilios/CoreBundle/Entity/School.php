@@ -163,17 +163,6 @@ class School implements SchoolInterface
     protected $departments;
 
     /**
-     * @deprecated
-     * @var ArrayCollection|TopicInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="Topic", mappedBy="school")
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     */
-    protected $topics;
-
-    /**
      * @var ArrayCollection|VocabularyInterface[]
      *
      * @ORM\OneToMany(targetEntity="Vocabulary", mappedBy="school")
@@ -238,7 +227,6 @@ class School implements SchoolInterface
         $this->competencies = new ArrayCollection();
         $this->courses = new ArrayCollection();
         $this->departments = new ArrayCollection();
-        $this->topics = new ArrayCollection();
         $this->vocabularies = new ArrayCollection();
         $this->programs = new ArrayCollection();
         $this->stewards = new ArrayCollection();
@@ -397,34 +385,6 @@ class School implements SchoolInterface
     public function getDepartments()
     {
         return $this->departments;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setTopics(Collection $topics)
-    {
-        $this->topics = new ArrayCollection();
-
-        foreach ($topics as $topic) {
-            $this->addTopic($topic);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addTopic(TopicInterface $topic)
-    {
-        $this->topics->add($topic);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTopics()
-    {
-        return $this->topics;
     }
 
     /**

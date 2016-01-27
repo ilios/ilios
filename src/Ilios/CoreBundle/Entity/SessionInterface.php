@@ -90,24 +90,6 @@ interface SessionInterface extends
     public function getIlmSession();
 
     /**
-     * @deprecated
-     * @param Collection $topics
-     */
-    public function setTopics(Collection $topics);
-
-    /**
-     * @deprecated
-     * @param TopicInterface $topic
-     */
-    public function addTopic(TopicInterface $topic);
-
-    /**
-     * @deprecated
-     * @return ArrayCollection|TopicInterface[]
-     */
-    public function getTopics();
-
-    /**
      * @param Collection $meshDescriptors
      */
     public function setMeshDescriptors(Collection $meshDescriptors);

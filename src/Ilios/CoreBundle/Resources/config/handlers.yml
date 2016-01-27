@@ -46,7 +46,6 @@ parameters:
     ilioscore.session.handler.class: Ilios\CoreBundle\Handler\SessionHandler
     ilioscore.sessiontype.handler.class: Ilios\CoreBundle\Handler\SessionTypeHandler
     ilioscore.term.handler.class: Ilios\CoreBundle\Handler\TermHandler
-    ilioscore.topic.handler.class: Ilios\CoreBundle\Handler\TopicHandler
     ilioscore.usermadereminder.handler.class: Ilios\CoreBundle\Handler\UserMadeReminderHandler
     ilioscore.user.handler.class: Ilios\CoreBundle\Handler\UserHandler
     ilioscore.userrole.handler.class: Ilios\CoreBundle\Handler\UserRoleHandler
@@ -194,9 +193,6 @@ services:
     ilioscore.term.handler:
         class: %ilioscore.term.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Term, '@form.factory']
-    ilioscore.topic.handler:
-        class: %ilioscore.topic.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Topic, '@form.factory']
     ilioscore.usermadereminder.handler:
         class: %ilioscore.usermadereminder.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\UserMadeReminder, '@form.factory']

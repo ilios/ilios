@@ -176,25 +176,6 @@ class ProgramYear implements ProgramYearInterface
     protected $competencies;
 
     /**
-     * @deprecated
-     * @var ArrayCollection|TopicInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Topic", inversedBy="programYears")
-     * @ORM\JoinTable(name="program_year_x_discipline",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="discipline_id", referencedColumnName="discipline_id", onDelete="CASCADE")
-     *   }
-     * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     */
-    protected $topics;
-
-    /**
      * @var ArrayCollection|TermInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Term", inversedBy="programYears")
@@ -251,7 +232,6 @@ class ProgramYear implements ProgramYearInterface
         $this->published = false;
         $this->directors = new ArrayCollection();
         $this->competencies = new ArrayCollection();
-        $this->topics = new ArrayCollection();
         $this->terms = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->stewards = new ArrayCollection();
@@ -352,37 +332,7 @@ class ProgramYear implements ProgramYearInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function setTopics(Collection $topics)
-    {
-        $this->topics = new ArrayCollection();
-
-        foreach ($topics as $topic) {
-            $this->addTopic($topic);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addTopic(TopicInterface $topic)
-    {
-        if (!$this->topics->contains($topic)) {
-            $this->topics->add($topic);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTopics()
-    {
-        return $this->topics;
-    }
-
-    /**
-     * @inheritdoc
+     * @param CohortInterface
      */
     public function setCohort(CohortInterface $cohort)
     {

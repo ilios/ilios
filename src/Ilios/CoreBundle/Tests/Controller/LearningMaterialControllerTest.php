@@ -869,13 +869,13 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     /**
      * @group controllers_a
      */
-    public function testFilterByTopic()
+    public function testFilterByTerm()
     {
         $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_learningmaterials', ['filters[topics][]' => 3]),
+            $this->getUrl('cget_learningmaterials', ['filters[terms][]' => 3]),
             null,
             $this->getAuthenticatedUserToken()
         );

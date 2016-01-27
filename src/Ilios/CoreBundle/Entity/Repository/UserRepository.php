@@ -632,9 +632,9 @@ class UserRepository extends EntityRepository
             $qb->setParameter(':learningMaterials', $ids);
         }
 
-        if (array_key_exists('instructedTopics', $criteria)) {
-            $ids = is_array($criteria['instructedTopics'])
-                ? $criteria['instructedTopics'] : [$criteria['instructedTopics']];
+        if (array_key_exists('instructedTerms', $criteria)) {
+            $ids = is_array($criteria['instructedTerms'])
+                ? $criteria['instructedTerms'] : [$criteria['instructedTerms']];
             $qb->leftJoin('u.instructedOfferings', 'it_offering');
             $qb->leftJoin('u.instructorIlmSessions', 'it_ilm');
             $qb->leftJoin('u.instructorGroups', 'it_iGroup');
@@ -644,17 +644,17 @@ class UserRepository extends EntityRepository
             $qb->leftJoin('it_ilm.session', 'it_session2');
             $qb->leftJoin('it_offering2.session', 'it_session3');
             $qb->leftJoin('it_ilm2.session', 'it_session4');
-            $qb->leftJoin('it_session.topics', 'it_topic');
-            $qb->leftJoin('it_session2.topics', 'it_topic2');
-            $qb->leftJoin('it_session3.topics', 'it_topic3');
-            $qb->leftJoin('it_session4.topics', 'it_topic4');
+            $qb->leftJoin('it_session.terms', 'it_term');
+            $qb->leftJoin('it_session2.terms', 'it_term2');
+            $qb->leftJoin('it_session3.terms', 'it_term3');
+            $qb->leftJoin('it_session4.terms', 'it_term4');
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('it_topic.id', ':topics'),
-                $qb->expr()->in('it_topic2.id', ':topics'),
-                $qb->expr()->in('it_topic3.id', ':topics'),
-                $qb->expr()->in('it_topic4.id', ':topics')
+                $qb->expr()->in('it_term.id', ':terms'),
+                $qb->expr()->in('it_term2.id', ':terms'),
+                $qb->expr()->in('it_term3.id', ':terms'),
+                $qb->expr()->in('it_term4.id', ':terms')
             ));
-            $qb->setParameter(':topics', $ids);
+            $qb->setParameter(':terms', $ids);
         }
 
         if (array_key_exists('instructedSessionTypes', $criteria)) {
@@ -703,7 +703,7 @@ class UserRepository extends EntityRepository
         unset($criteria['instructedCourses']);
         unset($criteria['instructedSessions']);
         unset($criteria['instructedLearningMaterials']);
-        unset($criteria['instructedTopics']);
+        unset($criteria['instructedTerms']);
         unset($criteria['instructedSessionTypes']);
         unset($criteria['instructorGroups']);
 

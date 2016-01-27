@@ -244,12 +244,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.topic_voter:
-        class: Ilios\AuthenticationBundle\Voter\TopicVoter
-        arguments: [ @ilioscore.permission.manager ]
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.userevent_voter:
         class: Ilios\AuthenticationBundle\Voter\UsereventVoter
         arguments: [ @ilioscore.user.manager ]
