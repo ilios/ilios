@@ -91,6 +91,16 @@ interface ProgramYearInterface extends
     public function getTopics();
 
     /**
+     * @param CohortInterface
+     */
+    public function setCohort(CohortInterface $cohort);
+
+    /**
+     * @return CohortInterface
+     */
+    public function getCohort();
+
+    /**
      * Gets the school that this program year belongs to.
      * @return SchoolInterface|null
      */
