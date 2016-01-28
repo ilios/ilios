@@ -25,12 +25,12 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  */
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
+    use IdentifiableEntity;
     use DescribableEntity;
     use TitledEntity;
     use StringableIdEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Column(name="sequence_block_id", type="integer")
@@ -46,7 +46,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * @ORM\Column(type="string", length=200)
-     * @todo should be on the TitledEntity Trait
      * @var string
      *
      * @Assert\NotBlank()
@@ -281,23 +280,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->sessions = new ArrayCollection();
         $this->required = self::OPTIONAL;
         $this->track = false;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->sequenceBlockId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->sequenceBlockId : $this->id;
     }
 
     /**
