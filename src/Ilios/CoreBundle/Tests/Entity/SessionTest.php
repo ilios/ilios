@@ -41,6 +41,7 @@ class SessionTest extends EntityBase
         $this->assertEmpty($this->object->getMeshDescriptors());
         $this->assertEmpty($this->object->getObjectives());
         $this->assertEmpty($this->object->getOfferings());
+        $this->assertEmpty($this->object->getTerms());
     }
 
     /**
@@ -182,5 +183,22 @@ class SessionTest extends EntityBase
 
         $session = new Session();
         $this->assertNull($session->getSchool());
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::addTerm
+     */
+    public function testAddTerm()
+    {
+        $this->entityCollectionAddTest('term', 'Term');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::getTerms
+     * @covers Ilios\CoreBundle\Entity\Session::setTerms
+     */
+    public function testSetTerms()
+    {
+        $this->entityCollectionSetTest('term', 'Term');
     }
 }

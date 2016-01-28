@@ -53,6 +53,7 @@ class CourseTest extends EntityBase
         $this->assertEmpty($this->object->getObjectives());
         $this->assertEmpty($this->object->getLearningMaterials());
         $this->assertEmpty($this->object->getSessions());
+        $this->assertEmpty($this->object->getTerms());
     }
 
     /**
@@ -186,5 +187,22 @@ class CourseTest extends EntityBase
     public function testGetLearningMaterials()
     {
         $this->entityCollectionSetTest('learningMaterial', 'CourseLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::addTerm
+     */
+    public function testAddTerm()
+    {
+        $this->entityCollectionAddTest('term', 'Term');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::getTerms
+     * @covers Ilios\CoreBundle\Entity\Course::setTerms
+     */
+    public function testSetTerms()
+    {
+        $this->entityCollectionSetTest('term', 'Term');
     }
 }

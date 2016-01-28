@@ -49,6 +49,7 @@ class SchoolTest extends EntityBase
         $this->assertEmpty($this->object->getInstructorGroups());
         $this->assertEmpty($this->object->getCompetencies());
         $this->assertEmpty($this->object->getSessionTypes());
+        $this->assertEmpty($this->object->getVocabularies());
     }
 
     /**
@@ -149,5 +150,22 @@ class SchoolTest extends EntityBase
     public function testGetSteward()
     {
         $this->entityCollectionSetTest('steward', 'ProgramYearSteward');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addVocabulary
+     */
+    public function testAddVocabulary()
+    {
+        $this->entityCollectionAddTest('vocabulary', 'Vocabulary', 'getVocabularies');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::getVocabularies
+     * @covers Ilios\CoreBundle\Entity\School::setVocabularies
+     */
+    public function testGetVocabularies()
+    {
+        $this->entityCollectionSetTest('vocabulary', 'Vocabulary', 'getVocabularies', 'setVocabularies');
     }
 }

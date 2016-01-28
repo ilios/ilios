@@ -44,6 +44,7 @@ class LoadSessionData extends AbstractFixture implements
                 $entity->setCourse($this->getReference('courses' . $arr['course']));
             }
             $related = array(
+                'terms' => 'addTerm',
                 'topics' => 'addTopic',
                 'objectives' => 'addObjective',
                 'meshDescriptors' => 'addMeshDescriptor',
@@ -69,6 +70,7 @@ class LoadSessionData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
             'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
         );
     }
 }

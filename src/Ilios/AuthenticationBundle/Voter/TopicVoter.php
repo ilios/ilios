@@ -8,6 +8,8 @@ use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
+ * @deprecated
+ *
  * Class TopicVoter
  * @package Ilios\AuthenticationBundle\Voter
  */

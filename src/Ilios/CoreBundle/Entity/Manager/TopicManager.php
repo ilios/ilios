@@ -6,6 +6,7 @@ use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
+ * @deprecated
  * Class TopicManager
  * @package Ilios\CoreBundle\Entity\Manager
  */

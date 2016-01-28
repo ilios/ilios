@@ -8,6 +8,8 @@ use Ilios\CoreBundle\Entity\Topic;
 use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
+ * @deprecated
+ *
  * Class LoadTopicData
  * @package Ilios\CoreBundle\DataFixtures\ORM
  */

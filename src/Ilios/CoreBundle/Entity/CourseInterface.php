@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
+use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
@@ -29,7 +30,8 @@ interface CourseInterface extends
     SchoolEntityInterface,
     LoggableEntityInterface,
     ObjectivesEntityInterface,
-    PublishableEntityInterface
+    PublishableEntityInterface,
+    CategorizableEntityInterface
 {
     /**
      * @param int $level
@@ -124,16 +126,19 @@ interface CourseInterface extends
     public function getCohorts();
 
     /**
+     * @deprecated
      * @param TopicInterface $topic
      */
     public function addTopic(TopicInterface $topic);
 
     /**
+     * @deprecated
      * @return ArrayCollection|TopicInterface[]
      */
     public function getTopics();
 
     /**
+     * @deprecated
      * @param Collection|TopicInterface[] $topics
      */
     public function setTopics(Collection $topics = null);

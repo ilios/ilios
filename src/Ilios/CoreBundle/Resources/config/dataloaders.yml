@@ -18,7 +18,6 @@ parameters:
     ilioscore.dataloader.curriculuminventorysequenceblocksession.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData
     ilioscore.dataloader.curriculuminventorysequence.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceData
     ilioscore.dataloader.department.class: Ilios\CoreBundle\Tests\DataLoader\DepartmentData
-    ilioscore.dataloader.topic.class: Ilios\CoreBundle\Tests\DataLoader\TopicData
     ilioscore.dataloader.ilmsession.class: Ilios\CoreBundle\Tests\DataLoader\IlmSessionData
     ilioscore.dataloader.ingestionexception.class: Ilios\CoreBundle\Tests\DataLoader\IngestionExceptionData
     ilioscore.dataloader.instructorgroup.class: Ilios\CoreBundle\Tests\DataLoader\InstructorGroupData
@@ -46,9 +45,12 @@ parameters:
     ilioscore.dataloader.sessionlearningmaterial.class: Ilios\CoreBundle\Tests\DataLoader\SessionLearningMaterialData
     ilioscore.dataloader.sessiontype.class: Ilios\CoreBundle\Tests\DataLoader\SessionTypeData
     ilioscore.dataloader.session.class: Ilios\CoreBundle\Tests\DataLoader\SessionData
+    ilioscore.dataloader.term.class: Ilios\CoreBundle\Tests\DataLoader\TermData
+    ilioscore.dataloader.topic.class: Ilios\CoreBundle\Tests\DataLoader\TopicData
     ilioscore.dataloader.usermadereminder.class: Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData
     ilioscore.dataloader.userrole.class: Ilios\CoreBundle\Tests\DataLoader\UserRoleData
     ilioscore.dataloader.user.class: Ilios\CoreBundle\Tests\DataLoader\UserData
+    ilioscore.dataloader.vocabulary.class: Ilios\CoreBundle\Tests\DataLoader\VocabularyData
 
 services:
     ilioscore.dataloader.aamcmethod:
@@ -89,8 +91,6 @@ services:
         class: %ilioscore.dataloader.curriculuminventorysequence.class%
     ilioscore.dataloader.department:
         class: %ilioscore.dataloader.department.class%
-    ilioscore.dataloader.topic:
-        class: %ilioscore.dataloader.topic.class%
     ilioscore.dataloader.ilmsession:
         class: %ilioscore.dataloader.ilmsession.class%
     ilioscore.dataloader.ingestionexception:
@@ -145,9 +145,15 @@ services:
         class: %ilioscore.dataloader.sessiontype.class%
     ilioscore.dataloader.session:
         class: %ilioscore.dataloader.session.class%
+    ilioscore.dataloader.term:
+        class: %ilioscore.dataloader.term.class%
+    ilioscore.dataloader.topic:
+        class: %ilioscore.dataloader.topic.class%
     ilioscore.dataloader.usermadereminder:
         class: %ilioscore.dataloader.usermadereminder.class%
     ilioscore.dataloader.userrole:
         class: %ilioscore.dataloader.userrole.class%
     ilioscore.dataloader.user:
         class: %ilioscore.dataloader.user.class%
+    ilioscore.dataloader.vocabulary:
+        class: %ilioscore.dataloader.vocabulary.class%

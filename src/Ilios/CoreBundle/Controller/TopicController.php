@@ -18,6 +18,8 @@ use Ilios\CoreBundle\Handler\TopicHandler;
 use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
+ * @deprecated
+ *
  * Class TopicController
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Topics")

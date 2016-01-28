@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Entity\Manager\TopicManager;
 use Ilios\CoreBundle\Entity\TopicInterface;
 
 /**
+ * @deprecated
  * Class TopicHandler
  * @package Ilios\CoreBundle\Handler
  */

@@ -23,6 +23,8 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
+ *
+ * @deprecated
  */
 class Topic implements TopicInterface
 {

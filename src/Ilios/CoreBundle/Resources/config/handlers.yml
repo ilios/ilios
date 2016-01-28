@@ -17,10 +17,11 @@ parameters:
     ilioscore.curriculuminventorysequenceblocksession.handler.class: Ilios\CoreBundle\Handler\CurriculumInventorySequenceBlockSessionHandler
     ilioscore.curriculuminventorysequence.handler.class: Ilios\CoreBundle\Handler\CurriculumInventorySequenceHandler
     ilioscore.department.handler.class: Ilios\CoreBundle\Handler\DepartmentHandler
-    ilioscore.topic.handler.class: Ilios\CoreBundle\Handler\TopicHandler
     ilioscore.ilmsession.handler.class: Ilios\CoreBundle\Handler\IlmSessionHandler
     ilioscore.ingestionexception.handler.class: Ilios\CoreBundle\Handler\IngestionExceptionHandler
     ilioscore.instructorgroup.handler.class: Ilios\CoreBundle\Handler\InstructorGroupHandler
+    ilioscore.learnergroup.handler.class: Ilios\CoreBundle\Handler\LearnerGroupHandler
+    ilioscore.learningmaterial.handler.class: Ilios\CoreBundle\Handler\LearningMaterialHandler
     ilioscore.learningmaterialstatus.handler.class: Ilios\CoreBundle\Handler\LearningMaterialStatusHandler
     ilioscore.learningmaterialuserrole.handler.class: Ilios\CoreBundle\Handler\LearningMaterialUserRoleHandler
     ilioscore.meshconcept.handler.class: Ilios\CoreBundle\Handler\MeshConceptHandler
@@ -43,11 +44,12 @@ parameters:
     ilioscore.sessionlearningmaterial.handler.class: Ilios\CoreBundle\Handler\SessionLearningMaterialHandler
     ilioscore.session.handler.class: Ilios\CoreBundle\Handler\SessionHandler
     ilioscore.sessiontype.handler.class: Ilios\CoreBundle\Handler\SessionTypeHandler
+    ilioscore.term.handler.class: Ilios\CoreBundle\Handler\TermHandler
+    ilioscore.topic.handler.class: Ilios\CoreBundle\Handler\TopicHandler
     ilioscore.usermadereminder.handler.class: Ilios\CoreBundle\Handler\UserMadeReminderHandler
     ilioscore.user.handler.class: Ilios\CoreBundle\Handler\UserHandler
     ilioscore.userrole.handler.class: Ilios\CoreBundle\Handler\UserRoleHandler
-    ilioscore.learnergroup.handler.class: Ilios\CoreBundle\Handler\LearnerGroupHandler
-    ilioscore.learningmaterial.handler.class: Ilios\CoreBundle\Handler\LearningMaterialHandler
+    ilioscore.vocabulary.handler.class: Ilios\CoreBundle\Handler\VocabularyHandler
 
 services:
     ilioscore.aamcmethod.handler:
@@ -104,9 +106,6 @@ services:
     ilioscore.department.handler:
         class: %ilioscore.department.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Department, '@form.factory']
-    ilioscore.topic.handler:
-        class: %ilioscore.topic.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Topic, '@form.factory']
     ilioscore.ilmsession.handler:
         class: %ilioscore.ilmsession.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IlmSession, '@form.factory']
@@ -116,6 +115,12 @@ services:
     ilioscore.instructorgroup.handler:
         class: %ilioscore.instructorgroup.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\InstructorGroup, '@form.factory']
+    ilioscore.learnergroup.handler:
+        class: %ilioscore.learnergroup.handler.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearnerGroup, '@form.factory']
+    ilioscore.learningmaterial.handler:
+        class: %ilioscore.learningmaterial.handler.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterial, '@form.factory']
     ilioscore.learningmaterialstatus.handler:
         class: %ilioscore.learningmaterialstatus.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterialStatus, '@form.factory']
@@ -182,6 +187,12 @@ services:
     ilioscore.sessiontype.handler:
         class: %ilioscore.sessiontype.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\SessionType, '@form.factory']
+    ilioscore.term.handler:
+        class: %ilioscore.term.handler.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Term, '@form.factory']
+    ilioscore.topic.handler:
+        class: %ilioscore.topic.handler.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Topic, '@form.factory']
     ilioscore.usermadereminder.handler:
         class: %ilioscore.usermadereminder.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\UserMadeReminder, '@form.factory']
@@ -191,9 +202,6 @@ services:
     ilioscore.userrole.handler:
         class: %ilioscore.userrole.handler.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\UserRole, '@form.factory']
-    ilioscore.learnergroup.handler:
-        class: %ilioscore.learnergroup.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearnerGroup, '@form.factory']
-    ilioscore.learningmaterial.handler:
-        class: %ilioscore.learningmaterial.handler.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterial, '@form.factory']
+    ilioscore.vocabulary.handler:
+        class: %ilioscore.vocabulary.handler.class%
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\Vocabulary, '@form.factory']

@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
+use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
@@ -23,7 +24,8 @@ interface ProgramYearInterface extends
     LoggableEntityInterface,
     StewardedEntityInterface,
     ObjectivesEntityInterface,
-    PublishableEntityInterface
+    PublishableEntityInterface,
+    CategorizableEntityInterface
 {
     /**
      * @param int $startYear
@@ -76,16 +78,19 @@ interface ProgramYearInterface extends
     public function getCompetencies();
 
     /**
+     * @deprecated
      * @param Collection $topics
      */
     public function setTopics(Collection $topics);
 
     /**
+     * @deprecated
      * @param TopicInterface $topic
      */
     public function addTopic(TopicInterface $topic);
 
     /**
+     * @deprecated
      * @return ArrayCollection|TopicInterface[]
      */
     public function getTopics();
