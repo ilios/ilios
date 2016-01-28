@@ -25,14 +25,17 @@ class TermType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Vocabulary"
             ])
-            ->add('description', 'purified_textarea', ['required' => false])
+            ->add('description', 'textarea', ['required' => false])
             ->add('parent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Term"
             ])
         ;
 
-        $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['title', 'description'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**
