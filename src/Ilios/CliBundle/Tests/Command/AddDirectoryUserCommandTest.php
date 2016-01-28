@@ -1,12 +1,12 @@
 <?php
 namespace Ilios\CliBundle\Tests\Command;
 
-use Ilios\CliBundle\Command\AddUserCommand;
+use Ilios\CliBundle\Command\AddDirectoryUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
-class AddUserCommandTest extends \PHPUnit_Framework_TestCase
+class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
 {
     const COMMAND_NAME = 'ilios:directory:add-user';
     
@@ -23,8 +23,8 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
         $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
-        
-        $command = new AddUserCommand(
+
+        $command = new AddDirectoryUserCommand(
             $this->userManager,
             $this->authenticationManager,
             $this->schoolManager,
@@ -35,7 +35,6 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
         $this->questionHelper = $command->getHelper('question');
-        
     }
 
     /**

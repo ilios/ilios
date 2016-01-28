@@ -17,10 +17,10 @@ use Ilios\CoreBundle\Service\Directory;
 /**
  * Add a user by looking them up in the directory
  *
- * Class AddUserCommand
+ * Class AddDirectoryUserCommand
  * @package Ilios\CliBUndle\Command
  */
-class AddUserCommand extends Command
+class AddDirectoryUserCommand extends Command
 {
     /**
      * @var UserManagerInterface

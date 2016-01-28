@@ -20,7 +20,7 @@ services:
         tags:
             -  { name: console.command }
     ilioscli.command.add_directory_user:
-        class: Ilios\CliBundle\Command\AddUserCommand
+        class: Ilios\CliBundle\Command\AddDirectoryUserCommand
         arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.school.manager", "@ilioscore.directory"]
         tags:
             -  { name: console.command }
