@@ -40,6 +40,21 @@ class Term implements TermInterface
     use TitledEntity;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="term_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     * @JMS\SerializedName("id")
+     */
+    protected $id;
+
+    /**
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="terms")
@@ -65,21 +80,6 @@ class Term implements TermInterface
      *
      */
     protected $description;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="term_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @Assert\Type(type="integer")
-     *
-     * @JMS\Expose
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("id")
-     */
-    protected $id;
 
     /**
      * @var TermInterface
