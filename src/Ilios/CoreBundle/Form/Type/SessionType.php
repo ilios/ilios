@@ -43,8 +43,8 @@ class SessionType extends AbstractType
                 ]
             )
             ->add('topics', 'tdn_many_related', [
-            'required' => false,
-            'entityName' => "IliosCoreBundle:Topic"
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Topic"
             ])
             ->add('terms', 'tdn_many_related', [
                 'required' => false,
