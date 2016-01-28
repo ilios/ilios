@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Traits;
 
 /**
- * Class StinrgableIdEntity
+ * Class StringableIdEntity
  * @package Ilios\CoreBundle\Traits
  */
 trait StringableIdEntity
