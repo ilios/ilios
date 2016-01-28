@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\CategorizableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -32,6 +33,7 @@ class Vocabulary implements VocabularyInterface
     use SchoolEntity;
     use StringableIdEntity;
     use TitledEntity;
+    use CategorizableEntity;
 
     /**
      * @var int
@@ -95,33 +97,5 @@ class Vocabulary implements VocabularyInterface
     public function __construct()
     {
         $this->terms = new ArrayCollection();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setTerms(Collection $terms)
-    {
-        $this->terms = new ArrayCollection();
-
-        foreach ($terms as $term) {
-            $this->addTerm($term);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addTerm(TermInterface $term)
-    {
-        $this->terms->add($term);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTerms()
-    {
-        return $this->terms;
     }
 }
