@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,13 +31,13 @@ use Ilios\CoreBundle\Traits\StewardedEntity;
  */
 class School implements SchoolInterface
 {
+    use IdentifiableEntity;
     use TitledEntity;
     use CoursesEntity;
     use ProgramsEntity;
     use StewardedEntity;
 
     /**
-     * @deprecated Replace with Trait in 3.xf
      * @var int
      *
      * @ORM\Column(name="school_id", type="integer")
@@ -231,22 +232,6 @@ class School implements SchoolInterface
         $this->stewards = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->sessionTypes = new ArrayCollection();
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->schoolId = $id;
-        $this->id = $id;
-    }
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->schoolId : $this->id;
     }
 
     /**
