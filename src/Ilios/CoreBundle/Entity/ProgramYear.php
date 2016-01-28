@@ -358,7 +358,7 @@ class ProgramYear implements ProgramYearInterface
     }
 
     /**
-     * @param CohortInterface
+     * @inheritdoc
      */
     public function setCohort(CohortInterface $cohort)
     {
@@ -366,7 +366,7 @@ class ProgramYear implements ProgramYearInterface
     }
 
     /**
-     * @return CohortInterface
+     * @inheritdoc
      */
     public function getCohort()
     {
