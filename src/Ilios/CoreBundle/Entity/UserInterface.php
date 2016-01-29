@@ -70,6 +70,11 @@ interface UserInterface extends
     public function getMiddleName();
 
     /**
+     * @return string
+     */
+    public function getFirstAndLastName();
+
+    /**
      * @param string $phone
      */
     public function setPhone($phone);
