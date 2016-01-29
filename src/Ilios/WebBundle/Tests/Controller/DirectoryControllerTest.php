@@ -58,6 +58,7 @@ class DirectoryControllerTest extends WebTestCase
                 'ilios_web_directory_search',
                 ['searchTerms' => 'a b']
             ),
+            null,
             $this->getAuthenticatedUserToken()
         );
 
