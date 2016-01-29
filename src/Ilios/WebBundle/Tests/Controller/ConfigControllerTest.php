@@ -24,7 +24,7 @@ class ConfigControllerTest extends WebTestCase
         $this->assertJsonResponse($response, Codes::HTTP_OK);
 
         $this->assertEquals(
-            array('config' => array('type' => 'form', 'locale' => 'en')),
+            array('config' => array('type' => 'form', 'locale' => 'en', 'userSearchType' => 'local')),
             json_decode($response->getContent(), true)
         );
     }
