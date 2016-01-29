@@ -70,7 +70,7 @@ class DirectoryTest extends TestCase
     {
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
         $obj = new Directory($ldapManager, 'campusId');
-        $filter= '(&(|(sn=a*)(givenname=a*)(mail=a*))(|(sn=b*)(givenname=b*)(mail=b*)))';
+        $filter= '(&(|(sn=a*)(givenname=a*)(mail=a*)(campusId=a*))(|(sn=b*)(givenname=b*)(mail=b*)(campusId=b*)))';
         $ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
         
         $result = $obj->find(array('a', 'b'));
