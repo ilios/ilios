@@ -43,5 +43,8 @@ swiftmailer:
     disable_delivery: true
 #    delivery_address: me@example.com
 
+ilios_core:
+    ldap_directory_url: null
+
 ilios_authentication:
     type: "form"
