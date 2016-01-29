@@ -552,7 +552,10 @@ class User implements UserInterface
     {
         return $this->middleName;
     }
-    
+
+    /**
+     * @inheritdoc
+     */
     public function getFirstAndLastName()
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
