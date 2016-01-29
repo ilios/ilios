@@ -151,4 +151,9 @@ interface SessionInterface extends
      * @return SchoolInterface|null
      */
     public function getSchool();
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getFirstOfferingDate();
 }
