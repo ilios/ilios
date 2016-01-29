@@ -87,7 +87,7 @@ class MeshConceptControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $responses = json_decode($response->getContent(), true)['meshConcepts'];
         $now = new DateTime();
-        $date = [];
+        $data = [];
         foreach ($responses as $response) {
             $updatedAt = new DateTime($response['updatedAt']);
             $createdAt = new DateTime($response['createdAt']);
