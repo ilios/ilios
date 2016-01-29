@@ -10,6 +10,7 @@ use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Criteria;
 
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -535,5 +536,35 @@ class Session implements SessionInterface
             return $course->getSchool();
         }
         return null;
+    }
+
+    /**
+     * Get the first offering data for the session
+     *
+     * @JMS\VirtualProperty
+     *
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("firstOfferingDate")
+     *
+     * @return \DateTime|null
+     */
+    public function getFirstOfferingDate()
+    {
+        $ilmSession = $this->getIlmSession();
+        if ($ilmSession) {
+            return $ilmSession->getDueDate();
+        } else {
+            $offerings = $this->getOfferings();
+
+            $criteria = Criteria::create()
+                ->orderBy(array("startDate" => Criteria::ASC))
+                ->setFirstResult(0)
+                ->setMaxResults(1)
+            ;
+
+            $firstOffering = $offerings->matching($criteria)->first();
+
+            return $firstOffering?$firstOffering->getStartDate():null;
+        }
     }
 }

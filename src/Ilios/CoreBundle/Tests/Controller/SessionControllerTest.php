@@ -64,6 +64,7 @@ class SessionControllerTest extends AbstractControllerTest
         $data = json_decode($response->getContent(), true)['sessions'][0];
         $updatedAt = new DateTime($data['updatedAt']);
         unset($data['updatedAt']);
+        unset($data['firstOfferingDate']);
         $this->assertEquals(
             $this->mockSerialize($session),
             $data
@@ -95,6 +96,7 @@ class SessionControllerTest extends AbstractControllerTest
         foreach ($responses as $response) {
             $updatedAt = new DateTime($response['updatedAt']);
             unset($response['updatedAt']);
+            unset($response['firstOfferingDate']);
             $diff = $now->diff($updatedAt);
             $this->assertTrue($diff->y < 1, 'The updatedAt timestamp is within the last year');
             $data[] = $response;
@@ -133,6 +135,7 @@ class SessionControllerTest extends AbstractControllerTest
         $responseData = json_decode($response->getContent(), true)['sessions'][0];
         $updatedAt = new DateTime($responseData['updatedAt']);
         unset($responseData['updatedAt']);
+        unset($responseData['firstOfferingDate']);
         $this->assertEquals(
             $data,
             $responseData,
@@ -194,6 +197,7 @@ class SessionControllerTest extends AbstractControllerTest
         $responseData = json_decode($response->getContent(), true)['session'];
         $updatedAt = new DateTime($responseData['updatedAt']);
         unset($responseData['updatedAt']);
+        unset($responseData['firstOfferingDate']);
         $this->assertEquals(
             $data,
             $responseData,
@@ -653,6 +657,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
 
@@ -683,6 +688,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(2, count($data), var_export($data, true));
@@ -718,6 +724,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(2, count($data), var_export($data, true));
@@ -753,6 +760,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(1, count($data), var_export($data, true));
@@ -782,6 +790,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(3, count($data), var_export($data, true));
@@ -823,6 +832,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(2, count($data), var_export($data, true));
@@ -858,6 +868,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(1, count($data));
@@ -887,6 +898,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(1, count($data), var_export($data, true));
@@ -916,6 +928,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(1, count($data), var_export($data, true));
@@ -945,6 +958,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(4, count($data), var_export($data, true));
@@ -992,6 +1006,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(1, count($data), var_export($data, true));
@@ -1021,6 +1036,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(1, count($data), var_export($data, true));
@@ -1050,6 +1066,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(1, count($data), var_export($data, true));
@@ -1079,6 +1096,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(2, count($data), var_export($data, true));
@@ -1114,6 +1132,7 @@ class SessionControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = array_map(function ($arr) {
             unset($arr['updatedAt']);
+            unset($arr['firstOfferingDate']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
         $this->assertEquals(1, count($data), var_export($data, true));
@@ -1123,5 +1142,66 @@ class SessionControllerTest extends AbstractControllerTest
             ),
             $data[0]
         );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFirstOfferingDate()
+    {
+        $session = $this->container
+            ->get('ilioscore.dataloader.session')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_sessions',
+                ['id' => $session['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessions'][0];
+        $this->assertEquals($data['firstOfferingDate'], '2014-09-15T15:00:00+00:00', 'First Offering Date is correct');
+
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFirstOfferingIlmSessions()
+    {
+        $sessions = $this->container
+            ->get('ilioscore.dataloader.session')
+            ->getAll()
+        ;
+        $session = $sessions[4];
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_sessions',
+                ['id' => $session['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessions'][0];
+        $this->assertEquals(
+            $data['firstOfferingDate'],
+            '2016-01-01T00:00:00+00:00',
+            'ILM First Offering Date is correct'
+        );
+
     }
 }
