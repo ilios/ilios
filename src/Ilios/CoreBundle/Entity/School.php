@@ -54,7 +54,7 @@ class School implements SchoolInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=60, unique=true)
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")

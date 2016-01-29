@@ -2,17 +2,20 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
-use Ilios\CoreBundle\Service\Directory;
 
 /**
  * Add a user by looking them up in the directory
@@ -36,23 +39,23 @@ class AddUserCommand extends Command
      * @var SchoolManagerInterface
      */
     protected $schoolManager;
-    
+
     /**
-     * @var Directory
+     * @var UserPasswordEncoderInterface
      */
-    protected $directory;
+    protected $encoder;
     
     public function __construct(
         UserManagerInterface $userManager,
         AuthenticationManagerInterface $authenticationManager,
         SchoolManagerInterface $schoolManager,
-        Directory $directory
+        UserPasswordEncoderInterface $encoder
     ) {
         $this->userManager = $userManager;
         $this->authenticationManager = $authenticationManager;
         $this->schoolManager = $schoolManager;
-        $this->directory = $directory;
-        
+        $this->encoder = $encoder;
+
         parent::__construct();
     }
     
@@ -61,19 +64,26 @@ class AddUserCommand extends Command
      */
     protected function configure()
     {
-        $this
-            ->setName('ilios:directory:add-user')
-            ->setDescription('Add a user to ilios.')
-            ->addArgument(
-                'campusId',
-                InputArgument::REQUIRED,
-                'The campus ID to lookup for adding the new user.'
-            )
-            ->addArgument(
-                'schoolId',
-                InputArgument::REQUIRED,
-                'The primary school of the new user.'
+        $this->setName('ilios:maintenance:add-user')->setDescription('Add a user to ilios.');
+        $userOptions = [
+            'schoolId',
+            'firstName',
+            'lastName',
+            'email',
+            'telephoneNumber',
+            'campusId',
+            'username',
+            'password',
+        ];
+
+        foreach ($userOptions as $option) {
+            $this->addOption(
+                $option,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                "{$option} for new user"
             );
+        }
     }
 
     /**
@@ -81,28 +91,54 @@ class AddUserCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $campusId = $input->getArgument('campusId');
-        $user = $this->userManager->findUserBy(['campusId' => $campusId]);
-        if ($user) {
-            throw new \Exception(
-                'User #' . $user->getId() . " with campus id {$campusId} already exists."
+
+        $schoolId = $input->getOption('schoolId');
+        if (!$schoolId) {
+            $schoolTitles = [];
+            foreach ($this->schoolManager->findSchoolsBy([], ['title' => 'ASC']) as $school) {
+                $schoolTitles[$school->getTitle()] = $school->getId();
+            }
+            $helper = $this->getHelper('question');
+            $question = new ChoiceQuestion(
+                'What is this users primary school?',
+                array_keys($schoolTitles)
             );
+            $question->setErrorMessage('School %s is invalid.');
+
+            $schoolTitle = $helper->ask($input, $output, $question);
+            $schoolId = $schoolTitles[$schoolTitle];
         }
-        $schoolId = $input->getArgument('schoolId');
         $school = $this->schoolManager->findSchoolBy(['id' => $schoolId]);
         if (!$school) {
             throw new \Exception(
                 "School with id {$schoolId} could not be found."
             );
         }
-        
-        $userRecord = $this->directory->findByCampusId($campusId);
-        
-        if (!$userRecord) {
-            $output->writeln("<error>Unable to find campus ID {$campusId} in the directory.</error>");
-            return;
+        $userRecord = [
+            'firstName'         => $input->getOption('firstName'),
+            'lastName'          => $input->getOption('lastName'),
+            'email'             => $input->getOption('email'),
+            'telephoneNumber'   => $input->getOption('telephoneNumber'),
+            'campusId'          => $input->getOption('campusId'),
+            'username'          => $input->getOption('username'),
+            'password'          => $input->getOption('password'),
+        ];
+
+        $userRecord = $this->fillUserRecord($userRecord, $input, $output);
+
+        $user = $this->userManager->findUserBy(['campusId' => $userRecord['campusId']]);
+        if ($user) {
+            throw new \Exception(
+                'User #' . $user->getId() . " with campus id {$userRecord['campusId']} already exists."
+            );
         }
-        
+        $user = $this->userManager->findUserBy(['email' => $userRecord['email']]);
+        if ($user) {
+            throw new \Exception(
+                'User #' . $user->getId() . " with email address {$userRecord['email']} already exists."
+            );
+        }
+
         $table = new Table($output);
         $table
             ->setHeaders(array('Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number'))
@@ -122,7 +158,7 @@ class AddUserCommand extends Command
         $helper = $this->getHelper('question');
         $output->writeln('');
         $question = new ConfirmationQuestion(
-            "<question>Do you wish to add this user to Ilios?</question>\n",
+            "<question>Do you wish to add this user to Ilios in {$school->getTitle()}?</question>\n",
             true
         );
         
@@ -137,10 +173,15 @@ class AddUserCommand extends Command
             $user->setSchool($school);
             $user->setUserSyncIgnore(false);
             $this->userManager->updateUser($user);
-            
+
             $authentication = $this->authenticationManager->createAuthentication();
-            $authentication->setUser($user);
             $authentication->setUsername($userRecord['username']);
+
+            $user->setAuthentication($authentication);
+
+            $encodedPassword = $this->encoder->encodePassword($user, $userRecord['password']);
+            $authentication->setPasswordBcrypt($encodedPassword);
+
             $this->authenticationManager->updateAuthentication($authentication);
 
             $output->writeln(
@@ -151,5 +192,74 @@ class AddUserCommand extends Command
         }
         
         
+    }
+
+    protected function fillUserRecord(array $userRecord, $input, $output)
+    {
+        if (empty($userRecord['firstName'])) {
+            $userRecord['firstName'] = $this->askForString('First Name', 1, 20, $input, $output);
+        }
+        if (empty($userRecord['lastName'])) {
+            $userRecord['lastName'] = $this->askForString('Last Name', 1, 30, $input, $output);
+        }
+        if (empty($userRecord['telephoneNumber'])) {
+            $userRecord['telephoneNumber'] = $this->askForString('Phone Number', 0, 30, $input, $output);
+        }
+        if (empty($userRecord['campusId'])) {
+            $userRecord['campusId'] = $this->askForString('Campus ID', 0, 16, $input, $output);
+        }
+        if (empty($userRecord['username'])) {
+            $userRecord['username'] = $this->askForString('Username', 1, 100, $input, $output);
+        }
+        if (empty($userRecord['password'])) {
+            $question = new Question("What is the users password? ");
+            $question->setValidator(function ($answer) {
+                if (strlen($answer) < 7) {
+                    throw new \RuntimeException(
+                        "Password must be at least 7 character"
+                    );
+                }
+
+                return $answer;
+            });
+            $question->setHidden(true);
+            $userRecord['password'] = $this->getHelper('question')->ask($input, $output, $question);
+        }
+        if (empty($userRecord['email'])) {
+            $question = new Question("What is the users Email Address? ");
+            $question->setValidator(function ($answer) {
+                if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
+                    throw new \RuntimeException(
+                        "Email is not valid"
+                    );
+                }
+                return $answer;
+            });
+            $userRecord['email'] = $this->getHelper('question')->ask($input, $output, $question);
+        }
+
+
+
+
+        return $userRecord;
+    }
+
+    protected function askForString($what, $min, $max, $input, $output)
+    {
+        $question = new Question("What is the users {$what}? ");
+        $question->setValidator(function ($answer) use ($what, $min, $max) {
+            if (strlen($answer) < $min) {
+                throw new \RuntimeException(
+                    "{$what} must be at least {$min} character"
+                );
+            }
+            if (strlen($answer) >= $max) {
+                throw new \RuntimeException(
+                    "{$what} must be less than {$max} characters"
+                );
+            }
+            return $answer;
+        });
+        return $this->getHelper('question')->ask($input, $output, $question);
     }
 }

@@ -20,7 +20,7 @@ services:
         tags:
             -  { name: console.command }
     ilioscli.command.add_directory_user:
-        class: Ilios\CliBundle\Command\AddUserCommand
+        class: Ilios\CliBundle\Command\AddDirectoryUserCommand
         arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.school.manager", "@ilioscore.directory"]
         tags:
             -  { name: console.command }
@@ -62,5 +62,10 @@ services:
     ilioscli.command.validate_learning_material_paths:
         class: Ilios\CliBundle\Command\ValidateLearningMaterialPathsCommand
         arguments: ["@ilioscore.filesystem", "@ilioscore.learningmaterial.manager"]
+        tags:
+            -  { name: console.command }
+    ilioscli.command.add_user:
+        class: Ilios\CliBundle\Command\AddUserCommand
+        arguments: ["@ilioscore.user.manager", "@ilioscore.authentication.manager", "@ilioscore.school.manager", "@security.password_encoder"]
         tags:
             -  { name: console.command }
