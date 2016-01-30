@@ -3,11 +3,8 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\Util\SecureRandom;
-
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -296,13 +293,12 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function generateToken()
     {
-        $generator = new SecureRandom();
-        $random = $generator->nextBytes(128);
-        
+        $random = random_bytes(128);
+
         // prepend id to avoid a conflict
         // and current time to prevent a conflict with regeneration
         $key = $this->getId() . microtime() . $random;
-        
+
         // hash the string to give consistent length and URL safe characters
         $this->token = hash('sha256', $key);
     }
