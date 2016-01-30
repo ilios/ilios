@@ -51,9 +51,4 @@ class EntityType extends BaseEntityType
     {
         return 'entity';
     }
-
-    public function getName()
-    {
-        return 'tdn_entity';
-    }
 }

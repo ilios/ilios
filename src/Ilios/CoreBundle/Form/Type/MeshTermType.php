@@ -46,12 +46,4 @@ class MeshTermType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\MeshTerm'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'meshterm';
-    }
 }

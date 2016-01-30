@@ -64,12 +64,4 @@ class ProgramYearType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\ProgramYear'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'programyear';
-    }
 }

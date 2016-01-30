@@ -38,12 +38,4 @@ class AlertChangeTypeType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\AlertChangeType'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'alertchangetype';
-    }
 }

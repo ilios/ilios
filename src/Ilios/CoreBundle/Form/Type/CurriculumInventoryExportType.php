@@ -31,16 +31,10 @@ class CurriculumInventoryExportType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Ilios\CoreBundle\Entity\CurriculumInventoryExport'
-        ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'curriculuminventoryexport';
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'Ilios\CoreBundle\Entity\CurriculumInventoryExport'
+            )
+        );
     }
 }

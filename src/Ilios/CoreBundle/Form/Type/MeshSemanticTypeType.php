@@ -41,12 +41,4 @@ class MeshSemanticTypeType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\MeshSemanticType'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'meshsemantictype';
-    }
 }

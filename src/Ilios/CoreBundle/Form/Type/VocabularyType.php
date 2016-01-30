@@ -39,12 +39,4 @@ class VocabularyType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Vocabulary'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'vocabulary';
-    }
 }

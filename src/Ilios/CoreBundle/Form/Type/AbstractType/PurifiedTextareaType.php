@@ -51,12 +51,4 @@ class PurifiedTextareaType extends AbstractType
             'compound' => false,
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'purified_textarea';
-    }
 }

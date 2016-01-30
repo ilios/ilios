@@ -34,12 +34,4 @@ class UserRoleType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\UserRole'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'userrole';
-    }
 }

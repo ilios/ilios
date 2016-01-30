@@ -42,12 +42,4 @@ class UserMadeReminderType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\UserMadeReminder'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'usermadereminder';
-    }
 }

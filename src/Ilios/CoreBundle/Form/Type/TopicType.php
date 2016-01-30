@@ -39,12 +39,4 @@ class TopicType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Topic'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'topic';
-    }
 }

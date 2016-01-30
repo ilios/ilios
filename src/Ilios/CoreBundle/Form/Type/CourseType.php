@@ -82,12 +82,4 @@ class CourseType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Course'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'course';
-    }
 }

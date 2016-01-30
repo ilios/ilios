@@ -37,12 +37,4 @@ class MeshTreeType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\MeshTree'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'meshtree';
-    }
 }

@@ -57,12 +57,4 @@ class CurriculumInventoryReportType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\CurriculumInventoryReport'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'curriculuminventoryreport';
-    }
 }

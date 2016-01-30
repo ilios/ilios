@@ -50,12 +50,4 @@ class CompetencyType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Competency'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'competency';
-    }
 }

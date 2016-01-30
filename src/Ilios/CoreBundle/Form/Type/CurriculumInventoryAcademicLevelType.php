@@ -43,12 +43,4 @@ class CurriculumInventoryAcademicLevelType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'curriculuminventoryacademiclevel';
-    }
 }

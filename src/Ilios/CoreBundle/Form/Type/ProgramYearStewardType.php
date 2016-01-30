@@ -43,12 +43,4 @@ class ProgramYearStewardType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\ProgramYearSteward'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'programyearsteward';
-    }
 }

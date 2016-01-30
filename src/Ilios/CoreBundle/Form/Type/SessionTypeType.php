@@ -52,12 +52,4 @@ class SessionTypeType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\SessionType'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'sessiontype';
-    }
 }

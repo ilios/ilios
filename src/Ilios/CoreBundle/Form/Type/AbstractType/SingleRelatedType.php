@@ -52,9 +52,4 @@ class SingleRelatedType extends AbstractType
     {
         return 'text';
     }
-
-    public function getName()
-    {
-        return 'tdn_single_related';
-    }
 }

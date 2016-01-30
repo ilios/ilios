@@ -60,12 +60,4 @@ class ObjectiveType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Objective'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'objective';
-    }
 }

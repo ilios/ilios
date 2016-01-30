@@ -66,12 +66,4 @@ class LearnerGroupType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\LearnerGroup'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'learnergroup';
-    }
 }

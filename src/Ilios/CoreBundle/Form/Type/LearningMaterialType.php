@@ -84,12 +84,4 @@ class LearningMaterialType extends AbstractType
             },
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'learningmaterial';
-    }
 }

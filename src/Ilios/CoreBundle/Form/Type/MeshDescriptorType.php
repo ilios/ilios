@@ -71,12 +71,4 @@ class MeshDescriptorType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\MeshDescriptor'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'meshdescriptor';
-    }
 }

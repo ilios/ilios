@@ -52,12 +52,4 @@ class AlertType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Alert',
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'alert';
-    }
 }

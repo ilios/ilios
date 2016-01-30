@@ -55,12 +55,4 @@ class IlmSessionType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\IlmSession'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'ilmsession';
-    }
 }

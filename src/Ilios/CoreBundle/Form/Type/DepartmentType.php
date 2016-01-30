@@ -38,12 +38,4 @@ class DepartmentType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Department'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'department';
-    }
 }

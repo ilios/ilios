@@ -52,12 +52,4 @@ class MeshConceptType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\MeshConcept'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'meshconcept';
-    }
 }

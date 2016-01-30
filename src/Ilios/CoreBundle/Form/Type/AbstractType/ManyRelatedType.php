@@ -57,9 +57,4 @@ class ManyRelatedType extends AbstractType
     {
         return 'text';
     }
-
-    public function getName()
-    {
-        return 'tdn_many_related';
-    }
 }

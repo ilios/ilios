@@ -46,12 +46,4 @@ class SessionLearningMaterialType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\SessionLearningMaterial'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'sessionlearningmaterial';
-    }
 }

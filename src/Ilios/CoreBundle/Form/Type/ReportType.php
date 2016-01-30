@@ -48,12 +48,4 @@ class ReportType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Report'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'report';
-    }
 }

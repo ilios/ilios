@@ -38,12 +38,4 @@ class MeshPreviousIndexingType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\MeshPreviousIndexing'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'meshpreviousindexing';
-    }
 }

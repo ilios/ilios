@@ -42,12 +42,4 @@ class MeshQualifierType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\MeshQualifier'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'meshqualifier';
-    }
 }

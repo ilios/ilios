@@ -44,12 +44,4 @@ class SchoolType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\School'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'school';
-    }
 }

@@ -45,12 +45,4 @@ class ProgramType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Program'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'program';
-    }
 }

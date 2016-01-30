@@ -39,12 +39,4 @@ class AamcPcrsType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\AamcPcrs'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'aamcpcrs';
-    }
 }

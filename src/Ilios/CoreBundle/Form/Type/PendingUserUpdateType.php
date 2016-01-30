@@ -43,12 +43,4 @@ class PendingUserUpdateType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\PendingUserUpdate'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'pendinguserupdate';
-    }
 }

@@ -67,12 +67,4 @@ class CurriculumInventorySequenceBlockType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'curriculuminventorysequenceblock';
-    }
 }

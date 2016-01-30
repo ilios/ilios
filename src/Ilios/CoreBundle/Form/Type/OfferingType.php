@@ -60,12 +60,4 @@ class OfferingType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Offering'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'offering';
-    }
 }

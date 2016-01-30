@@ -40,12 +40,4 @@ class PermissionType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Permission'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'permission';
-    }
 }

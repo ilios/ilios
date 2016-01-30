@@ -46,12 +46,4 @@ class CourseLearningMaterialType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\CourseLearningMaterial'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'courselearningmaterial';
-    }
 }

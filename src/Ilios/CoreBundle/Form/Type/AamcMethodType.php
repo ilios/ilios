@@ -39,12 +39,4 @@ class AamcMethodType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\AamcMethod'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'aamcmethod';
-    }
 }

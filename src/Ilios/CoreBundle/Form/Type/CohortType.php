@@ -46,12 +46,4 @@ class CohortType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Cohort'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'cohort';
-    }
 }

@@ -47,12 +47,4 @@ class TermType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\Term'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'term';
-    }
 }

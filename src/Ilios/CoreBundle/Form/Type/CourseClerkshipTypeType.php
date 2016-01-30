@@ -34,12 +34,4 @@ class CourseClerkshipTypeType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\CourseClerkshipType'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'courseclerkshiptype';
-    }
 }
