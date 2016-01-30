@@ -3,17 +3,24 @@
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
+/**
+ * Class AppKernel
+ */
 class AppKernel extends Kernel
 {
     /**
-     * Force a UTC timezone on everyone
+     * @inheritdoc
      */
-    public function init()
+    public function __construct($environment, $debug)
     {
+        // Force a UTC timezone on everyone
         date_default_timezone_set('UTC');
-        parent::init();
+        parent::__construct($environment, $debug);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function registerBundles()
     {
         $bundles = array(
@@ -52,18 +59,20 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
 
     /**
-     * Register an alternative container for testing which allows us to mock services
-     *
-     * @return string
+     * @inheritdoc
      */
     protected function getContainerBaseClass()
     {
+        // Register an alternative container for testing which allows us to mock services.
         if ('test' == $this->environment) {
             return '\PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer';
         }
