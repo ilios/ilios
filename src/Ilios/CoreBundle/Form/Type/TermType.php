@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,12 +22,12 @@ class TermType extends AbstractType
     {
         $builder
             ->add('title', null, ['required' => false, 'empty_data' => null])
-            ->add('vocabulary', 'tdn_single_related', [
+            ->add('vocabulary', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Vocabulary"
             ])
             ->add('description', 'textarea', ['required' => false])
-            ->add('parent', 'tdn_single_related', [
+            ->add('parent', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Term"
             ])

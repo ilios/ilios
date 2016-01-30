@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,23 +25,23 @@ class IlmSessionType extends AbstractType
             ->add('dueDate', 'datetime', array(
                 'widget' => 'single_text',
             ))
-            ->add('learnerGroups', 'tdn_many_related', [
+            ->add('learnerGroups', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('instructorGroups', 'tdn_many_related', [
+            ->add('instructorGroups', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:InstructorGroup"
             ])
-            ->add('instructors', 'tdn_many_related', [
+            ->add('instructors', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('learners', 'tdn_many_related', [
+            ->add('learners', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('session', 'tdn_single_related', [
+            ->add('session', SingleRelatedType::class, [
                 'required' => true,
                 'entityName' => "IliosCoreBundle:Session"
             ])

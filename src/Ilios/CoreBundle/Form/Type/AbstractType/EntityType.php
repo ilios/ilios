@@ -49,6 +49,6 @@ class EntityType extends BaseEntityType
 
     public function getParent()
     {
-        return 'entity';
+        return BaseEntityType::class;
     }
 }

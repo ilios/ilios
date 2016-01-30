@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\Type\AbstractType\PurifiedTextareaType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,8 +21,8 @@ class SessionDescriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description', 'purified_textarea', ['required' => false])
-            ->add('session', 'tdn_single_related', [
+            ->add('description', PurifiedTextareaType::class, ['required' => false])
+            ->add('session', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])

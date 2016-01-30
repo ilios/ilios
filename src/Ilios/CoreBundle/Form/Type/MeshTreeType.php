@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +22,7 @@ class MeshTreeType extends AbstractType
     {
         $builder
             ->add('treeNumber', null, ['empty_data' => null])
-            ->add('descriptor', 'tdn_single_related', [
+            ->add('descriptor', SingleRelatedType::class, [
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
         ;

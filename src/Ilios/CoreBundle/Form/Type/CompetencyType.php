@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,19 +23,19 @@ class CompetencyType extends AbstractType
     {
         $builder
             ->add('title', null, ['required' => false, 'empty_data' => null])
-            ->add('school', 'tdn_single_related', [
+            ->add('school', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('parent', 'tdn_single_related', [
+            ->add('parent', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
             ])
-            ->add('aamcPcrses', 'tdn_many_related', [
+            ->add('aamcPcrses', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AamcPcrs"
             ])
-            ->add('programYears', 'tdn_many_related', [
+            ->add('programYears', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])

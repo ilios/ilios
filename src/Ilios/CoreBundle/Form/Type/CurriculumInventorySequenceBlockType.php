@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,19 +36,19 @@ class CurriculumInventorySequenceBlockType extends AbstractType
                 'widget' => 'single_text',
             ))
             ->add('duration')
-            ->add('academicLevel', 'tdn_single_related', [
+            ->add('academicLevel', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryAcademicLevel"
             ])
-            ->add('course', 'tdn_single_related', [
+            ->add('course', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('parent', 'tdn_single_related', [
+            ->add('parent', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
             ])
-            ->add('report', 'tdn_single_related', [
+            ->add('report', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])

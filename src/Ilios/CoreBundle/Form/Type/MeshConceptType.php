@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,13 +28,13 @@ class MeshConceptType extends AbstractType
             ->add('scopeNote', null, ['required' => false, 'empty_data' => null])
             ->add('casn1Name', null, ['required' => false, 'empty_data' => null])
             ->add('registryNumber', null, ['required' => false, 'empty_data' => null])
-            ->add('descriptors', 'tdn_many_related', [
+            ->add('descriptors', ManyRelatedType::class, [
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
-            ->add('semanticTypes', 'tdn_many_related', [
+            ->add('semanticTypes', ManyRelatedType::class, [
                 'entityName' => "IliosCoreBundle:MeshSemanticType"
             ])
-            ->add('terms', 'tdn_many_related', [
+            ->add('terms', ManyRelatedType::class, [
                 'entityName' => "IliosCoreBundle:MeshTerm"
             ])
         ;

@@ -4,6 +4,8 @@ namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\PurifiedTextareaType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,22 +25,22 @@ class LearningMaterialType extends AbstractType
     {
         $builder
             ->add('title', null, ['empty_data' => null])
-            ->add('description', 'purified_textarea')
+            ->add('description', PurifiedTextareaType::class)
             ->add('originalAuthor', null, ['required' => false, 'empty_data' => null])
             ->add('filename', null, ['empty_data' => null])
             ->add('copyrightPermission')
             ->add('copyrightRationale', null, ['empty_data' => null])
             ->add('filesize')
             ->add('mimetype', null, ['empty_data' => null])
-            ->add('userRole', 'tdn_single_related', [
+            ->add('userRole', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearningMaterialUserRole"
             ])
-            ->add('status', 'tdn_single_related', [
+            ->add('status', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearningMaterialStatus"
             ])
-            ->add('owningUser', 'tdn_single_related', [
+            ->add('owningUser', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])

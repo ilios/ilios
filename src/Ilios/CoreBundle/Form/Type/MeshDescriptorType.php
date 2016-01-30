@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,35 +25,35 @@ class MeshDescriptorType extends AbstractType
             ->add('id', null, ['empty_data' => null])
             ->add('name', null, ['empty_data' => null])
             ->add('annotation', null, ['required' => false, 'empty_data' => null])
-            ->add('courses', 'tdn_many_related', [
+            ->add('courses', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('objectives', 'tdn_many_related', [
+            ->add('objectives', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('sessions', 'tdn_many_related', [
+            ->add('sessions', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
-            ->add('sessionLearningMaterials', 'tdn_many_related', [
+            ->add('sessionLearningMaterials', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionLearningMaterial"
             ])
-            ->add('courseLearningMaterials', 'tdn_many_related', [
+            ->add('courseLearningMaterials', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CourseLearningMaterial"
             ])
-            ->add('previousIndexing', 'tdn_single_related', [
+            ->add('previousIndexing', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshPreviousIndexing"
             ])
-            ->add('qualifiers', 'tdn_many_related', [
+            ->add('qualifiers', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshQualifier"
             ])
-            ->add('concepts', 'tdn_many_related', [
+            ->add('concepts', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshConcept"
             ])

@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +22,7 @@ class CurriculumInventorySequenceType extends AbstractType
     {
         $builder
             ->add('description', null, ['required' => false, 'empty_data' => null])
-            ->add('report', 'tdn_single_related', [
+            ->add('report', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])

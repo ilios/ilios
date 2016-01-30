@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,15 +23,15 @@ class CohortType extends AbstractType
     {
         $builder
             ->add('title', null, ['empty_data' => null])
-            ->add('programYear', 'tdn_single_related', [
+            ->add('programYear', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('courses', 'tdn_many_related', [
+            ->add('courses', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('users', 'tdn_many_related', [
+            ->add('users', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])

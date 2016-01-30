@@ -1,6 +1,6 @@
 parameters:
   tdn.type.tdn_entity.class: Ilios\CoreBundle\Form\Type\AbstractType\EntityType
-  tdn.type.tdn_many_reated.class: Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType
+  tdn.type.tdn_many_related.class: Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType
   tdn.type.tdn_single_related.class: Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType
   ilioscore.type.purified_textarea.class: Ilios\CoreBundle\Form\Type\AbstractType\PurifiedTextareaType
 services:
@@ -8,19 +8,19 @@ services:
     class: %tdn.type.tdn_entity.class%
     arguments: ['@doctrine']
     tags:
-        - { name: 'form.type', alias: 'tdn_entity' }
-  tdn.type.tdn_many_reated:
-    class: %tdn.type.tdn_many_reated.class%
+        - { name: 'form.type' }
+  tdn.type.tdn_many_related:
+    class: %tdn.type.tdn_many_related.class%
     arguments: ['@doctrine']
     tags:
-        - { name: 'form.type', alias: 'tdn_many_related' }
+        - { name: 'form.type' }
   tdn.type.tdn_single_related:
     class: %tdn.type.tdn_single_related.class%
     arguments: ['@doctrine']
     tags:
-        - { name: 'form.type', alias: 'tdn_single_related' }
+        - { name: 'form.type' }
   ilioscore.form.type.purified_textarea:
     class: %ilioscore.type.purified_textarea.class%
     arguments: ['@ilioscore.form.transformer.html_purifier']
     tags:
-        - { name: 'form.type', alias: 'purified_textarea' }
+        - { name: 'form.type' }

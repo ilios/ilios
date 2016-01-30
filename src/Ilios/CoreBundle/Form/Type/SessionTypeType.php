@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,15 +25,15 @@ class SessionTypeType extends AbstractType
             ->add('title', null, ['empty_data' => null])
             ->add('sessionTypeCssClass', null, ['required' => false, 'empty_data' => null])
             ->add('assessment', null, ['required' => false])
-            ->add('assessmentOption', 'tdn_single_related', [
+            ->add('assessmentOption', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AssessmentOption"
             ])
-            ->add('school', 'tdn_single_related', [
+            ->add('school', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('aamcMethods', 'tdn_many_related', [
+            ->add('aamcMethods', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AamcMethod"
             ])
