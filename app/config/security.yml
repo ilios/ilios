@@ -4,10 +4,16 @@ security:
             pattern:   ^/api/doc
             anonymous: ~
         anonymous_auth:
-            pattern:    ^/auth/(login|config|logout)
+            pattern:    ^/(auth|application)/(login|config|logout)
             anonymous: ~
         authenticated_auth:
             pattern:    ^/auth
+            stateless: true
+            simple_preauth:
+                authenticator: ilios_authentication.jwt.authenticator
+            provider: ilios_user_entity
+        authenticated_application:
+            pattern:    ^/application
             stateless: true
             simple_preauth:
                 authenticator: ilios_authentication.jwt.authenticator

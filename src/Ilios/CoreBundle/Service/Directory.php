@@ -74,7 +74,7 @@ class Directory
     public function find(array $searchTerms)
     {
         $filterTerms = array_map(function ($term) {
-            return "(|(sn={$term}*)(givenname={$term}*)(mail={$term}*))";
+            return "(|(sn={$term}*)(givenname={$term}*)(mail={$term}*)({$this->ldapCampusIdProperty}={$term}*))";
         }, $searchTerms);
         $filterTermsString = implode($filterTerms, '');
         $filter = "(&{$filterTermsString})";

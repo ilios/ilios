@@ -14,6 +14,11 @@ ilios_web_errors:
     defaults:
         _controller: IliosWebBundle:Error:error
     methods:  [POST]
+ilios_web_directory_search:
+    path:     /application/directory/search
+    defaults:
+        _controller: IliosWebBundle:Directory:search
+    methods: [GET]
 ilios_web_homepage:
     pattern:     /{url}
     defaults:

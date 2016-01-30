@@ -56,4 +56,18 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
+
+    /**
+     * Register an alternative container for testing which allows us to mock services
+     *
+     * @return string
+     */
+    protected function getContainerBaseClass()
+    {
+        if ('test' == $this->environment) {
+            return '\PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer';
+        }
+
+        return parent::getContainerBaseClass();
+    }
 }
