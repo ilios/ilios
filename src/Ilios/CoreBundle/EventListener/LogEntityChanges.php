@@ -1,21 +1,19 @@
 <?php
 namespace Ilios\CoreBundle\EventListener;
 
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Symfony\Component\DependencyInjection\ContainerAware;
-
 use Ilios\CoreBundle\Service\Logger;
-use Ilios\CoreBundle\Entity\AuditLog;
 use Ilios\CoreBundle\Entity\LoggableEntityInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * LogEntityChanges event listener
- * Listen for every chagne to an entity and log it
- *
- * */
-class LogEntityChanges extends ContainerAware
+ * Listen for every change to an entity and log it
+ */
+class LogEntityChanges
 {
+    use ContainerAwareTrait;
+
     public function getSubscribedEvents()
     {
         return [
