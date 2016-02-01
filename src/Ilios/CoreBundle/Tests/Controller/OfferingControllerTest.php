@@ -496,4 +496,66 @@ class OfferingControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
         $this->checkUpdatedAtIncreased($firstUpdatedAt);
     }
+
+    /**
+     * @group controllers
+     */
+    public function testUpdatingInstructorUpdatesOfferingStamp()
+    {
+        $offering = $this->container
+            ->get('ilioscore.dataloader.offering')
+            ->getOne();
+
+        $postData = $offering;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $firstUpdatedAt = $this->getOfferingUpdatedAt();
+        sleep(2); //wait for two seconds
+
+        $postData['instructors'] = ['1'];
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_offerings',
+                ['id' => $offering['id']]
+            ),
+            json_encode(['offering' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testUpdatingILearnerUpdatesOfferingStamp()
+    {
+        $offering = $this->container
+            ->get('ilioscore.dataloader.offering')
+            ->getOne();
+
+        $postData = $offering;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
+        $firstUpdatedAt = $this->getOfferingUpdatedAt();
+        sleep(2); //wait for two seconds
+
+        $postData['learners'] = ['1'];
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_offerings',
+                ['id' => $offering['id']]
+            ),
+            json_encode(['offering' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_OK);
+        $this->checkUpdatedAtIncreased($firstUpdatedAt);
+    }
 }
