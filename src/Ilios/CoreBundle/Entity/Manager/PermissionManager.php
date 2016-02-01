@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
+use Ilios\CoreBundle\Entity\CohortInterface;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\PermissionInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
@@ -162,6 +163,25 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
         }
 
         foreach ($school->getCourses() as $course) {
+            if ($this->userHasReadPermissionToCourse($user, $course)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function userHasReadPermissionToCoursesAssociatedWithCohort(
+        UserInterface $user,
+        CohortInterface $cohort = null
+    ) {
+        if (! $cohort) {
+            return false;
+        }
+
+        foreach ($cohort->getCourses() as $course) {
             if ($this->userHasReadPermissionToCourse($user, $course)) {
                 return true;
             }
