@@ -131,4 +131,12 @@ interface PermissionManagerInterface extends ManagerInterface
      * @return bool
      */
     public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school = null);
+
+    /**
+     * Checks if a given user has "read" permissions to any courses in a given school.
+     * @param UserInterface $user
+     * @param SchoolInterface|null $school
+     * @return bool
+     */
+    public function userHasReadPermissionToCoursesInSchool(UserInterface $user, SchoolInterface $school = null);
 }

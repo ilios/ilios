@@ -51,15 +51,16 @@ class SchoolVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                // Only grant VIEW permissions if the given school is the given user's
-                // primary school
-                // - or -
-                // if the given user has been granted READ right on the given school
-                // via the permissions system.
+                // at least one of these must be true.
+                // 1. the given user has developer role
+                // 2. the given user has explicit read permissions to the given school
+                // 3. the given user has explicit read permissions to at least one course in the given school.
+                // 4. the given user is a learner,instructor or director in courses of the given school.
                 return (
-                    $this->schoolsAreIdentical($school, $user->getSchool())
-                    || $this->userHasRole($user, ['Developer'])
+                    $this->userHasRole($user, ['Developer'])
                     || $this->permissionManager->userHasReadPermissionToSchool($user, $school)
+                    || $this->permissionManager->userHasReadPermissionToCoursesInSchool($user, $school)
+                    || $user->getAllSchools()->contains($school)
                 );
                 break;
             case self::CREATE:

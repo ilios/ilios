@@ -153,6 +153,23 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
+     * @inheritdoc
+     */
+    public function userHasReadPermissionToCoursesInSchool(UserInterface $user, SchoolInterface $school = null)
+    {
+        if (! $school) {
+            return false;
+        }
+
+        foreach ($school->getCourses() as $course) {
+            if ($this->userHasReadPermissionToCourse($user, $course)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @param UserInterface $user
      * @param string $permission must be either 'canRead' or 'canWrite'.
      * @param string $tableName
