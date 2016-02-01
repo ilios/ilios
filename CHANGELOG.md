@@ -1,5 +1,35 @@
 # Change Log
 
+## [v3.4.0](https://github.com/ilios/ilios/tree/v3.4.0)
+
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.3.1...v3.4.0)
+
+**Implemented enhancements:**
+
+- Add user search type to /application/config [\#1291](https://github.com/ilios/ilios/issues/1291)
+- Add /application/directory endpoint [\#1290](https://github.com/ilios/ilios/issues/1290)
+
+**Closed issues:**
+
+- consider session modified timestamp in school/user-events [\#1299](https://github.com/ilios/ilios/issues/1299)
+
+**Merged pull requests:**
+
+- Updating a user should not update all of their offerings [\#1305](https://github.com/ilios/ilios/pull/1305) ([jrjohnson](https://github.com/jrjohnson))
+- uses newer updated-timestamp from offerings and sessions in calendar events. [\#1304](https://github.com/ilios/ilios/pull/1304) ([stopfstedt](https://github.com/stopfstedt))
+- replaced deprecated init\(\) method with constructor. [\#1298](https://github.com/ilios/ilios/pull/1298) ([stopfstedt](https://github.com/stopfstedt))
+- defined getFirstAndLastName\(\) in UserInterface. [\#1297](https://github.com/ilios/ilios/pull/1297) ([stopfstedt](https://github.com/stopfstedt))
+- Add /application/directory/search endpoint [\#1296](https://github.com/ilios/ilios/pull/1296) ([jrjohnson](https://github.com/jrjohnson))
+- corrected typo in variable name. [\#1293](https://github.com/ilios/ilios/pull/1293) ([stopfstedt](https://github.com/stopfstedt))
+- Add a userSearchType value to config [\#1292](https://github.com/ilios/ilios/pull/1292) ([jrjohnson](https://github.com/jrjohnson))
+- Add PHP 5.6 to the PHP versions we test against [\#1289](https://github.com/ilios/ilios/pull/1289) ([jrjohnson](https://github.com/jrjohnson))
+- Created Add User Command [\#1287](https://github.com/ilios/ilios/pull/1287) ([jrjohnson](https://github.com/jrjohnson))
+- Rm broken namespace import [\#1285](https://github.com/ilios/ilios/pull/1285) ([stopfstedt](https://github.com/stopfstedt))
+- fixed typo in class docblock. [\#1284](https://github.com/ilios/ilios/pull/1284) ([stopfstedt](https://github.com/stopfstedt))
+- replaced id-getter/setters with identifable entity trait. [\#1283](https://github.com/ilios/ilios/pull/1283) ([stopfstedt](https://github.com/stopfstedt))
+- declared cohort-getter/setters in program-year entity interface. [\#1282](https://github.com/ilios/ilios/pull/1282) ([stopfstedt](https://github.com/stopfstedt))
+- Add new taxonomy system [\#1279](https://github.com/ilios/ilios/pull/1279) ([stopfstedt](https://github.com/stopfstedt))
+
 ## [v3.3.1](https://github.com/ilios/ilios/tree/v3.3.1)
 
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.3.0...v3.3.1)
