@@ -51,15 +51,9 @@ class SessionTypeVoter extends AbstractVoter
 
         switch ($attribute) {
             // grant VIEW privileges
-            // if the user's primary school is the session type's owning school
-            // - or -
-            // if the user has READ rights on the session type's owning school
-            // via the permissions system.
+            // do not impose any restrictions.
             case self::VIEW:
-                return (
-                    $this->schoolsAreIdentical($sessionType->getSchool(), $user->getSchool())
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $sessionType->getSchool())
-                );
+                return true;
                 break;
             case self::CREATE:
             case self::EDIT:
