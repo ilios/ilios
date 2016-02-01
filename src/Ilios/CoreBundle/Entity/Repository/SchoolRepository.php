@@ -72,8 +72,8 @@ class SchoolRepository extends EntityRepository
         \DateTime $to
     ) {
         $qb = $this->_em->createQueryBuilder();
-        $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, ' .
-          's.title, st.sessionTypeCssClass, ' .
+        $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
+          's.updatedAt AS sessionUpdatedAt, s.title, st.sessionTypeCssClass, ' .
           's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
           'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
@@ -160,7 +160,7 @@ class SchoolRepository extends EntityRepository
             $event->offering = $arr['id'];
             $event->location = $arr['room'];
             $event->eventClass = $arr['sessionTypeCssClass'];
-            $event->lastModified = $arr['updatedAt'];
+            $event->lastModified = max($arr['offeringUpdatedAt'], $arr['sessionUpdatedAt']);
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
             $event->courseTitle = $arr['courseTitle'];
