@@ -11,27 +11,27 @@ matrix:
   include:
     - php: "5.5"
       env: TEST_PHPUNIT_OTHERS=true
-    - php: "5.5"
+    - php: "5.6"
       env: TEST_PHPUNIT_OTHERS=true
     - php: "5.5"
       env: TEST_PHPUNIT_CONTROLLERSA=true
-    - php: "5.5"
+    - php: "5.6"
       env: TEST_PHPUNIT_CONTROLLERSA=true
     - php: "5.5"
       env: TEST_PHPUNIT_CONTROLLERSB=true
-    - php: "5.5"
+    - php: "5.6"
       env: TEST_PHPUNIT_CONTROLLERSB=true
     - php: "5.5"
       env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
-    - php: "5.5"
+    - php: "5.6"
       env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
     - php: "5.5"
       env: VALIDATE_SCHEMA=true
-    - php: "5.5"
+    - php: "5.6"
       env: VALIDATE_SCHEMA=true
     - php: "5.5"
       env: CHECK_CODING_STANDARDS=true
-    - php: "5.5"
+    - php: "5.6"
       env: CHECK_CODING_STANDARDS=true
 php:
   - "5.5"
