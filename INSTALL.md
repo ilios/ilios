@@ -17,9 +17,9 @@ To build/deploy the Ilios 3 backend, you will need to install the default Ilios 
 ## Pre-requisites/requirements
 As mentioned above, Ilios 3 uses a Symfony (PHP/SQL) backend to serve its API, so these tools and their required dependencies need to be installed before you can install the application itself. Here at the Ilios Project, we currently run and recommend running Ilios 3 using a "LAMP" (Linux Apache MySQL PHP) technology stack with the following software packages and versions:
 
-* CentOS 6.7 - Any modern Linux should work, but we recommend Redhat (RHEL, CentOS, or Fedora) or Ubuntu
+* CentOS 7 - Any modern Linux should work, but we recommend Redhat (RHEL, CentOS, or Fedora) or Ubuntu
 * MySQL using the InnoDB database engine (v5.1 or later required, 5.5+ recommended)
-* PHP v5.4 or later
+* PHP v5.6 or later (available for CentOS and RHEL from https://www.softwarecollections.org/en/)
 
 PHP should configured with a 'memory_limit' setting of at least 386MB and have the following required packages/modules/extensions enabled:
 
@@ -27,7 +27,7 @@ PHP should configured with a 'memory_limit' setting of at least 386MB and have t
 * php-ldap - for ldap-connectivity support (when using LDAP)
 * php-xml 
 * php-domxml
-* php-pecl-apcu - opcode caching
+* php-pecl-apcu - caching
 * php-mysql - DB connectivity
 * php-mysqlnd - DB connectivity
 * php-pdo - DB connectivity
@@ -58,7 +58,7 @@ You should now be in the '/web/ilios3/ilios' directory
 ```bash
 sudo -u apache git checkout tags/v3.0.0
 ```   
-5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 5.4+ and Composer installed on your system:
+5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 5.6+ and Composer installed on your system:
 ```bash
 sudo -u apache composer install
 ```  

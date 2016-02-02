@@ -6,30 +6,35 @@ matrix:
   fast_finish: true
   allow_failures:
   exclude:
-    - php: "5.4"
+    - php: "5.5"
     - php: "5.6"
   include:
-    - php: "5.4"
+    - php: "5.5"
       env: TEST_PHPUNIT_OTHERS=true
-    - php: "5.4"
+    - php: "5.6"
+      env: TEST_PHPUNIT_OTHERS=true
+    - php: "5.5"
       env: TEST_PHPUNIT_CONTROLLERSA=true
-    - php: "5.4"
+    - php: "5.6"
+      env: TEST_PHPUNIT_CONTROLLERSA=true
+    - php: "5.5"
       env: TEST_PHPUNIT_CONTROLLERSB=true
-    - php: "5.4"
+    - php: "5.6"
+      env: TEST_PHPUNIT_CONTROLLERSB=true
+    - php: "5.5"
       env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
-    - php: "5.4"
+    - php: "5.6"
+      env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
+    - php: "5.5"
       env: VALIDATE_SCHEMA=true
-    - php: "5.4"
+    - php: "5.6"
+      env: VALIDATE_SCHEMA=true
+    - php: "5.5"
       env: CHECK_CODING_STANDARDS=true
-
     - php: "5.6"
-      env: TEST_PHPUNIT_OTHERS=true
-    - php: "5.6"
-      env: TEST_PHPUNIT_CONTROLLERSA=true
-    - php: "5.6"
-      env: TEST_PHPUNIT_CONTROLLERSB=true
+      env: CHECK_CODING_STANDARDS=true
 php:
-  - "5.4"
+  - "5.5"
   - "5.6"
 
 env:
@@ -47,8 +52,7 @@ cache:
 before_install:
   - mysql -e "create database IF NOT EXISTS ilios;" -uroot
 #install apc extension so composer production install will run
-  - if [ $(phpenv version-name) = 5.4 ]; then echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
-  - if [ $(phpenv version-name) = 5.6 ]; then echo yes | pecl install apcu-4.0.10; fi;
+  - echo yes | pecl install apcu-4.0.10;
 #increase our PHP memory limit so test coverage will work
   - echo "memory_limit=2048M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 #install ldap extension so composer install will run
