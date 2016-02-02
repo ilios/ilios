@@ -1,7 +1,18 @@
 # Change Log
 
-## [v3.4.0](https://github.com/ilios/ilios/tree/v3.4.0)
+## [v3.4.1](https://github.com/ilios/ilios/tree/v3.4.1)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.4.0...v3.4.1)
+
+**Closed issues:**
+
+- Reminder Emails Should Not Go Out on Not Published Courses and Sessions [\#1308](https://github.com/ilios/ilios/issues/1308)
+
+**Merged pull requests:**
+
+- filter unpublished offerings out of teaching reminders [\#1309](https://github.com/ilios/ilios/pull/1309) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.4.0](https://github.com/ilios/ilios/tree/v3.4.0) (2016-02-01)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.3.1...v3.4.0)
 
 **Implemented enhancements:**
@@ -30,16 +41,14 @@
 - declared cohort-getter/setters in program-year entity interface. [\#1282](https://github.com/ilios/ilios/pull/1282) ([stopfstedt](https://github.com/stopfstedt))
 - Add new taxonomy system [\#1279](https://github.com/ilios/ilios/pull/1279) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.3.1](https://github.com/ilios/ilios/tree/v3.3.1)
-
+## [v3.3.1](https://github.com/ilios/ilios/tree/v3.3.1) (2016-01-25)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.3.0...v3.3.1)
 
 **Merged pull requests:**
 
 - updated frontend build hash to non-corrupted one [\#1278](https://github.com/ilios/ilios/pull/1278) ([thecoolestguy](https://github.com/thecoolestguy))
 
-## [v3.3.0](https://github.com/ilios/ilios/tree/v3.3.0) (2016-01-22) 
-
+## [v3.3.0](https://github.com/ilios/ilios/tree/v3.3.0) (2016-01-23)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.2.0...v3.3.0)
 
 **Implemented enhancements:**
@@ -51,12 +60,14 @@
 - Changing ILM to non-ILM status throws 500 error [\#1267](https://github.com/ilios/ilios/issues/1267)
 - Add https redirection by default in .htaccess [\#1261](https://github.com/ilios/ilios/issues/1261)
 - Unable to Add Learner To Learner Group [\#1259](https://github.com/ilios/ilios/issues/1259)
+- Symfony 2.8: update deprecated Voter implementations [\#1220](https://github.com/ilios/ilios/issues/1220)
 - Handle errors fetching the frontend index file [\#1209](https://github.com/ilios/ilios/issues/1209)
 - Update Data Dictionary for 3.0 [\#969](https://github.com/ilios/ilios/issues/969)
 - Add more detail to delete exceptions [\#908](https://github.com/ilios/ilios/issues/908)
 
 **Merged pull requests:**
 
+- Updated changelog and frontend version for v3.3.0 [\#1276](https://github.com/ilios/ilios/pull/1276) ([thecoolestguy](https://github.com/thecoolestguy))
 - Configurable forcing of https [\#1275](https://github.com/ilios/ilios/pull/1275) ([jrjohnson](https://github.com/jrjohnson))
 - set join columns to be not null [\#1274](https://github.com/ilios/ilios/pull/1274) ([stopfstedt](https://github.com/stopfstedt))
 - Provide more detailed logs when deletion doesn't work [\#1273](https://github.com/ilios/ilios/pull/1273) ([jrjohnson](https://github.com/jrjohnson))
@@ -80,7 +91,6 @@
 **Closed issues:**
 
 - Teaching Reminders have HTML entities in them [\#1228](https://github.com/ilios/ilios/issues/1228)
-- Symfony 2.8: update deprecated Voter implementations [\#1220](https://github.com/ilios/ilios/issues/1220)
 - course directors missing ILM-based user events in their calendar [\#1260](https://github.com/ilios/ilios/issues/1260)
 - Updating a course learning material removes the original file reference [\#1253](https://github.com/ilios/ilios/issues/1253)
 - Replace deprecated publish event [\#1041](https://github.com/ilios/ilios/issues/1041)
