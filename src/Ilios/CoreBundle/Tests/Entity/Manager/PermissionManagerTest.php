@@ -2,6 +2,8 @@
 namespace Ilios\CoreBundle\Tests\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Classes\SchoolEvent;
+use Ilios\CoreBundle\Entity\Cohort;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use IC\Bundle\Base\TestBundle\Test\TestCase;
@@ -332,6 +334,7 @@ class PermissionManagerTest extends TestCase
         $this->assertFalse($manager->userHasWritePermissionToSchools($user, new ArrayCollection([$schoolC])));
         $this->assertFalse($manager->userHasWritePermissionToSchools($user, new ArrayCollection()));
     }
+
     /**
      * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToSchools
      */
@@ -375,5 +378,167 @@ class PermissionManagerTest extends TestCase
         $this->assertTrue($manager->userHasReadPermissionToSchools($user, new ArrayCollection([$schoolA, $schoolC])));
         $this->assertFalse($manager->userHasReadPermissionToSchools($user, new ArrayCollection([$schoolC])));
         $this->assertFalse($manager->userHasReadPermissionToSchools($user, new ArrayCollection()));
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToCoursesBySchool
+     */
+    public function testUserHasReadPermissionToCoursesBySchool()
+    {
+        $schoolA = new School();
+        $schoolA->setId(100);
+        $schoolB = new School();
+        $schoolB->setId(200);
+        $schoolC = new School();
+        $schoolC->setId(300);
+
+        $courseA = new Course();
+        $courseA->setId(1);
+        $schoolA->addCourse($courseA);
+
+        $courseB = new Course();
+        $courseB->setId(2);
+        $schoolB->addCourse($courseB);
+
+        $coursePermissionA = new Permission();
+        $coursePermissionA->setTableRowId(1);
+
+        $user = new User();
+
+        $class = 'Ilios\CoreBundle\Entity\Permission';
+        $em = m::mock('Doctrine\ORM\EntityManager');
+        $repository = m::mock('Doctrine\ORM\Repository')
+            ->shouldReceive('findOneBy')
+            ->with([
+                'tableName' => 'course',
+                'canRead' => true,
+                'user' => $user,
+                'tableRowId' => $courseA->getId()
+            ], null)
+            ->andReturn([$coursePermissionA])
+            ->mock();
+        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->shouldReceive('getManagerForClass')
+            ->andReturn($em)
+            ->shouldReceive('getRepository')
+            ->andReturn($repository)
+            ->mock();
+        $manager = new PermissionManager($registry, $class);
+
+        $this->assertFalse($manager->userHasReadPermissionToCoursesInSchool($user, null));
+        $this->assertTrue($manager->userHasReadPermissionToCoursesInSchool($user, $schoolA));
+
+        $repository = m::mock('Doctrine\ORM\Repository')
+            ->shouldReceive('findOneBy')
+            ->with([
+                'tableName' => 'course',
+                'canRead' => true,
+                'user' => $user,
+                'tableRowId' => $courseB->getId()
+            ], null)
+            ->andReturn(null)
+            ->mock();
+        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->shouldReceive('getManagerForClass')
+            ->andReturn($em)
+            ->shouldReceive('getRepository')
+            ->andReturn($repository)
+            ->mock();
+        $manager = new PermissionManager($registry, $class);
+        $this->assertFalse($manager->userHasReadPermissionToCoursesInSchool($user, $schoolB));
+
+        $repository = m::mock('Doctrine\ORM\Repository')
+            ->shouldNotReceive('findOneBy')
+            ->mock();
+
+        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->shouldReceive('getManagerForClass')
+            ->andReturn($em)
+            ->shouldReceive('getRepository')
+            ->andReturn($repository)
+            ->mock();
+        $manager = new PermissionManager($registry, $class);
+        $this->assertFalse($manager->userHasReadPermissionToCoursesInSchool($user, $schoolC));
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToCoursesAssociatedWithCohort
+     */
+    public function testUserHasReadPermissionToCoursesAssociatedWithCohort()
+    {
+        $cohortA = new Cohort();
+        $cohortA->setId(100);
+        $cohortB = new Cohort();
+        $cohortB->setId(200);
+        $cohortC = new Cohort();
+        $cohortC->setId(300);
+
+        $courseA = new Course();
+        $courseA->setId(1);
+        $cohortA->addCourse($courseA);
+
+        $courseB = new Course();
+        $courseB->setId(2);
+        $cohortB->addCourse($courseB);
+
+        $coursePermissionA = new Permission();
+        $coursePermissionA->setTableRowId(1);
+
+        $user = new User();
+
+        $class = 'Ilios\CoreBundle\Entity\Permission';
+        $em = m::mock('Doctrine\ORM\EntityManager');
+        $repository = m::mock('Doctrine\ORM\Repository')
+            ->shouldReceive('findOneBy')
+            ->with([
+                'tableName' => 'course',
+                'canRead' => true,
+                'user' => $user,
+                'tableRowId' => $courseA->getId()
+            ], null)
+            ->andReturn([$coursePermissionA])
+            ->mock();
+        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->shouldReceive('getManagerForClass')
+            ->andReturn($em)
+            ->shouldReceive('getRepository')
+            ->andReturn($repository)
+            ->mock();
+        $manager = new PermissionManager($registry, $class);
+
+        $this->assertFalse($manager->userHasReadPermissionToCoursesAssociatedWithCohort($user, null));
+        $this->assertTrue($manager->userHasReadPermissionToCoursesAssociatedWithCohort($user, $cohortA));
+
+        $repository = m::mock('Doctrine\ORM\Repository')
+            ->shouldReceive('findOneBy')
+            ->with([
+                'tableName' => 'course',
+                'canRead' => true,
+                'user' => $user,
+                'tableRowId' => $courseB->getId()
+            ], null)
+            ->andReturn(null)
+            ->mock();
+        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->shouldReceive('getManagerForClass')
+            ->andReturn($em)
+            ->shouldReceive('getRepository')
+            ->andReturn($repository)
+            ->mock();
+        $manager = new PermissionManager($registry, $class);
+        $this->assertFalse($manager->userHasReadPermissionToCoursesAssociatedWithCohort($user, $cohortB));
+
+        $repository = m::mock('Doctrine\ORM\Repository')
+            ->shouldNotReceive('findOneBy')
+            ->mock();
+
+        $registry = m::mock('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->shouldReceive('getManagerForClass')
+            ->andReturn($em)
+            ->shouldReceive('getRepository')
+            ->andReturn($repository)
+            ->mock();
+        $manager = new PermissionManager($registry, $class);
+        $this->assertFalse($manager->userHasReadPermissionToCoursesAssociatedWithCohort($user, $cohortC));
     }
 }
