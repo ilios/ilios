@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,39 +28,39 @@ class SessionType extends AbstractType
             ->add('supplemental', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])
             ->add('published', null, ['required' => false])
-            ->add('sessionType', 'tdn_single_related', [
+            ->add('sessionType', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionType"
             ])
-            ->add('course', 'tdn_single_related', [
+            ->add('course', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
             ->add(
                 'ilmSession',
-                'tdn_single_related',
+                SingleRelatedType::class,
                 [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSession"
                 ]
             )
-            ->add('topics', 'tdn_many_related', [
+            ->add('topics', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Topic"
             ])
-            ->add('terms', 'tdn_many_related', [
+            ->add('terms', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Term"
             ])
-            ->add('objectives', 'tdn_many_related', [
+            ->add('objectives', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('meshDescriptors', 'tdn_many_related', [
+            ->add('meshDescriptors', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
-            ->add('sessionDescription', 'tdn_single_related', [
+            ->add('sessionDescription', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionDescription"
             ])
@@ -75,13 +77,5 @@ class SessionType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\Session'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'session';
     }
 }

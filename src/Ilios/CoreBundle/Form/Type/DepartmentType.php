@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +22,7 @@ class DepartmentType extends AbstractType
     {
         $builder
             ->add('title', null, ['empty_data' => null])
-            ->add('school', 'tdn_single_related', [
+            ->add('school', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
@@ -37,13 +38,5 @@ class DepartmentType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\Department'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'department';
     }
 }

@@ -54,12 +54,4 @@ class InstallFirstUserType extends AbstractType
                 ]
             );
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'ilios_install_first_user';
-    }
 }

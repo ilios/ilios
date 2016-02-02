@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,23 +23,23 @@ class InstructorGroupType extends AbstractType
     {
         $builder
             ->add('title', null, ['empty_data' => null])
-            ->add('school', 'tdn_single_related', [
+            ->add('school', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('learnerGroups', 'tdn_many_related', [
+            ->add('learnerGroups', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('ilmSessions', 'tdn_many_related', [
+            ->add('ilmSessions', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSession"
             ])
-            ->add('users', 'tdn_many_related', [
+            ->add('users', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('offerings', 'tdn_many_related', [
+            ->add('offerings', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Offering"
             ])
@@ -53,13 +55,5 @@ class InstructorGroupType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\InstructorGroup'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'instructorgroup';
     }
 }

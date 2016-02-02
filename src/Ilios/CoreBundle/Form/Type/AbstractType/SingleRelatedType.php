@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type\AbstractType;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
@@ -50,11 +51,6 @@ class SingleRelatedType extends AbstractType
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'tdn_single_related';
+        return TextType::class;
     }
 }

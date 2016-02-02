@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,7 @@ class AamcPcrsType extends AbstractType
         $builder
             ->add('id')
             ->add('description', null, ['empty_data' => null])
-            ->add('competencies', 'tdn_many_related', [
+            ->add('competencies', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
             ])
@@ -38,13 +39,5 @@ class AamcPcrsType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\AamcPcrs'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'aamcpcrs';
     }
 }

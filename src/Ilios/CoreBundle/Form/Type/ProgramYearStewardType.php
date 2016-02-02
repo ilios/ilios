@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,15 +20,15 @@ class ProgramYearStewardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('department', 'tdn_single_related', [
+            ->add('department', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Department"
             ])
-            ->add('programYear', 'tdn_single_related', [
+            ->add('programYear', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('school', 'tdn_single_related', [
+            ->add('school', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
@@ -42,13 +43,5 @@ class ProgramYearStewardType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\ProgramYearSteward'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'programyearsteward';
     }
 }

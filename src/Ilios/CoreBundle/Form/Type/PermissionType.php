@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +26,7 @@ class PermissionType extends AbstractType
             ->add('canWrite', null)
             ->add('tableRowId', null)
             ->add('tableName', null)
-            ->add('user', 'tdn_single_related', [
+            ->add('user', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ]);
@@ -39,13 +40,5 @@ class PermissionType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\Permission'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'permission';
     }
 }

@@ -32,12 +32,4 @@ class LearningMaterialUserRoleType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\LearningMaterialUserRole'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'learningmaterialuserrole';
-    }
 }

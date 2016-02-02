@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -34,35 +36,35 @@ class CourseType extends AbstractType
             ->add('archived', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])
             ->add('published', null, ['required' => false])
-            ->add('clerkshipType', 'tdn_single_related', [
+            ->add('clerkshipType', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CourseClerkshipType"
             ])
-            ->add('school', 'tdn_single_related', [
+            ->add('school', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('directors', 'tdn_many_related', [
+            ->add('directors', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('cohorts', 'tdn_many_related', [
+            ->add('cohorts', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
             ])
-            ->add('topics', 'tdn_many_related', [
+            ->add('topics', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Topic"
             ])
-            ->add('terms', 'tdn_many_related', [
+            ->add('terms', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Term"
             ])
-            ->add('objectives', 'tdn_many_related', [
+            ->add('objectives', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('meshDescriptors', 'tdn_many_related', [
+            ->add('meshDescriptors', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
@@ -81,13 +83,5 @@ class CourseType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\Course'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'course';
     }
 }

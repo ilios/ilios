@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,15 +30,15 @@ class CurriculumInventoryReportType extends AbstractType
             ->add('endDate', 'datetime', array(
                 'widget' => 'single_text',
             ))
-            ->add('export', 'tdn_single_related', [
+            ->add('export', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryExport"
             ])
-            ->add('sequence', 'tdn_single_related', [
+            ->add('sequence', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequence"
             ])
-            ->add('program', 'tdn_single_related', [
+            ->add('program', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Program"
             ])
@@ -56,13 +57,5 @@ class CurriculumInventoryReportType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\CurriculumInventoryReport'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'curriculuminventoryreport';
     }
 }

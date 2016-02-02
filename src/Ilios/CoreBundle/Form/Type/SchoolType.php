@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +25,7 @@ class SchoolType extends AbstractType
             ->add('templatePrefix', null, ['required' => false, 'empty_data' => null])
             ->add('iliosAdministratorEmail', null, ['empty_data' => null])
             ->add('changeAlertRecipients', null, ['required' => false, 'empty_data' => null])
-            ->add('curriculumInventoryInstitution', 'tdn_single_related', [
+            ->add('curriculumInventoryInstitution', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryInstitution"
             ])
@@ -43,13 +44,5 @@ class SchoolType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\School'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'school';
     }
 }

@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,7 +24,7 @@ class PendingUserUpdateType extends AbstractType
             ->add('type', null, ['empty_data' => null])
             ->add('property', null, ['empty_data' => null])
             ->add('value', null, ['empty_data' => null])
-            ->add('user', 'tdn_single_related', [
+            ->add('user', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
@@ -42,13 +43,5 @@ class PendingUserUpdateType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\PendingUserUpdate'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'pendinguserupdate';
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\PurifiedTextareaType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,18 +22,18 @@ class SessionLearningMaterialType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('notes', 'purified_textarea', ['required' => false])
+            ->add('notes', PurifiedTextareaType::class, ['required' => false])
             ->add('required', null, ['required' => false])
             ->add('publicNotes', null, ['required' => false])
-            ->add('session', 'tdn_single_related', [
+            ->add('session', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
-            ->add('learningMaterial', 'tdn_single_related', [
+            ->add('learningMaterial', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearningMaterial"
             ])
-            ->add('meshDescriptors', 'tdn_many_related', [
+            ->add('meshDescriptors', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
@@ -45,13 +48,5 @@ class SessionLearningMaterialType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\SessionLearningMaterial'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'sessionlearningmaterial';
     }
 }

@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +22,7 @@ class AlertChangeTypeType extends AbstractType
     {
         $builder
             ->add('title', null, ['empty_data' => null])
-            ->add('alerts', 'tdn_many_related', [
+            ->add('alerts', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Alert"
             ])
@@ -37,13 +38,5 @@ class AlertChangeTypeType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\AlertChangeType'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'alertchangetype';
     }
 }

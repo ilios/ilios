@@ -2,6 +2,9 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\PurifiedTextareaType;
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,32 +22,32 @@ class ObjectiveType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'purified_textarea')
-            ->add('competency', 'tdn_single_related', [
+            ->add('title', PurifiedTextareaType::class)
+            ->add('competency', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
             ])
-            ->add('courses', 'tdn_many_related', [
+            ->add('courses', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('programYears', 'tdn_many_related', [
+            ->add('programYears', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('sessions', 'tdn_many_related', [
+            ->add('sessions', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
-            ->add('parents', 'tdn_many_related', [
+            ->add('parents', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('children', 'tdn_many_related', [
+            ->add('children', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('meshDescriptors', 'tdn_many_related', [
+            ->add('meshDescriptors', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
@@ -59,13 +62,5 @@ class ObjectiveType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\Objective'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'objective';
     }
 }

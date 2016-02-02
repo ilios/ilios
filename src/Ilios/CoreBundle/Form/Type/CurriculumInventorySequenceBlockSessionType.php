@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type;
 
+use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,11 +21,11 @@ class CurriculumInventorySequenceBlockSessionType extends AbstractType
     {
         $builder
             ->add('countOfferingsOnce', null, ['required' => false])
-            ->add('sequenceBlock', 'tdn_single_related', [
+            ->add('sequenceBlock', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
             ])
-            ->add('session', 'tdn_single_related', [
+            ->add('session', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
@@ -39,13 +40,5 @@ class CurriculumInventorySequenceBlockSessionType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'curriculuminventorysequenceblocksession';
     }
 }

@@ -34,12 +34,4 @@ class AssessmentOptionType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\AssessmentOption'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'assessmentoption';
-    }
 }

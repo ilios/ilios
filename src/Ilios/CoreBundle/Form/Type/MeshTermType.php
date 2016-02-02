@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,7 +28,7 @@ class MeshTermType extends AbstractType
             ->add('recordPreferred')
             ->add('permuted')
             ->add('printable')
-            ->add('concepts', 'tdn_many_related', [
+            ->add('concepts', ManyRelatedType::class, [
                 'entityName' => "IliosCoreBundle:MeshConcept"
             ])
         ;
@@ -45,13 +46,5 @@ class MeshTermType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Ilios\CoreBundle\Entity\MeshTerm'
         ));
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'meshterm';
     }
 }

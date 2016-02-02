@@ -34,12 +34,4 @@ class LearningMaterialStatusType extends AbstractType
             'data_class' => 'Ilios\CoreBundle\Entity\LearningMaterialStatus'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'learningmaterialstatus';
-    }
 }

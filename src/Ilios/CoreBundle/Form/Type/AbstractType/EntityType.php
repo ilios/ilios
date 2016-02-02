@@ -49,11 +49,6 @@ class EntityType extends BaseEntityType
 
     public function getParent()
     {
-        return 'entity';
-    }
-
-    public function getName()
-    {
-        return 'tdn_entity';
+        return BaseEntityType::class;
     }
 }

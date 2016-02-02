@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Form\Type\AbstractType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -39,7 +40,7 @@ class PurifiedTextareaType extends AbstractType
      */
     public function getParent()
     {
-        return 'textarea';
+        return TextareaType::class;
     }
 
     /**
@@ -50,13 +51,5 @@ class PurifiedTextareaType extends AbstractType
         $resolver->setDefaults(array(
             'compound' => false,
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'purified_textarea';
     }
 }
