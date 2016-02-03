@@ -9,7 +9,7 @@ use Doctrine\DBAL\Schema\Schema;
  * Migrate topics data to terms and vocabularies.
  * Then, remove topics from the schema.
  */
-class Version20160127215618 extends AbstractMigration
+class Version20160202215618 extends AbstractMigration
 {
     /**
      * @inheritdoc
