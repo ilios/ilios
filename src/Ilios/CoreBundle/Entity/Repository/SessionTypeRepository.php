@@ -136,6 +136,17 @@ class SessionTypeRepository extends EntityRepository
             $qb->setParameter(':lms', $ids);
         }
 
+        if (array_key_exists('programs', $criteria)) {
+            $ids = is_array($criteria['programs']) ? $criteria['programs'] : [$criteria['programs']];
+            $qb->join('st.sessions', 'p_session');
+            $qb->join('p_session.course', 'p_course');
+            $qb->join('p_course.cohorts', 'p_cohort');
+            $qb->join('p_cohort.programYear', 'p_programYear');
+            $qb->join('p_programYear.program', 'p_program');
+            $qb->andWhere($qb->expr()->in('p_program.id', ':programs'));
+            $qb->setParameter(':programs', $ids);
+        }
+
         if (array_key_exists('schools', $criteria)) {
             $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
             $qb->join('st.school', 'sc_school');
@@ -144,6 +155,7 @@ class SessionTypeRepository extends EntityRepository
         }
 
         unset($criteria['schools']);
+        unset($criteria['programs']);
         unset($criteria['sessions']);
         unset($criteria['courses']);
         unset($criteria['instructors']);
