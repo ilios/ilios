@@ -254,6 +254,38 @@ class SessionTypeControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
+    public function testFilterByCourses()
+    {
+        $sessionTypes = $this->container->get('ilioscore.dataloader.sessiontype')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessiontypes', ['filters[courses]' => [1, 2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessionTypes'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
     public function testFilterByInstructor()
     {
         $sessionTypes = $this->container->get('ilioscore.dataloader.sessiontype')->getAll();
