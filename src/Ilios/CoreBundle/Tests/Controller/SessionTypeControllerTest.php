@@ -17,7 +17,10 @@ class SessionTypeControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
+            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAamcMethodData',
@@ -261,6 +264,38 @@ class SessionTypeControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'GET',
             $this->getUrl('cget_sessiontypes', ['filters[courses]' => [1, 2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessionTypes'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByLearningMaterial()
+    {
+        $sessionTypes = $this->container->get('ilioscore.dataloader.sessiontype')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessiontypes', ['filters[learningMaterials]' => [1, 2, 3]]),
             null,
             $this->getAuthenticatedUserToken()
         );

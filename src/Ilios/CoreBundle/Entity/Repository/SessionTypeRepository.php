@@ -117,6 +117,25 @@ class SessionTypeRepository extends EntityRepository
             $qb->setParameter(':meshDescriptors', $ids);
         }
 
+        if (array_key_exists('learningMaterials', $criteria)) {
+            $ids = is_array($criteria['learningMaterials']) ?
+                $criteria['learningMaterials'] : [$criteria['learningMaterials']];
+
+            $qb->join('st.sessions', 'lm_session');
+            $qb->join('lm_session.course', 'lm_course');
+            $qb->leftJoin('lm_session.learningMaterials', 'lm_slm');
+            $qb->leftJoin('lm_slm.learningMaterial', 'lm_lm1');
+            $qb->leftJoin('lm_course.learningMaterials', 'lm_clm');
+            $qb->leftJoin('lm_clm.learningMaterial', 'lm_lm2');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('lm_lm1.id', ':lms'),
+                    $qb->expr()->in('lm_lm2.id', ':lms')
+                )
+            );
+            $qb->setParameter(':lms', $ids);
+        }
+
         if (array_key_exists('schools', $criteria)) {
             $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
             $qb->join('st.school', 'sc_school');
@@ -131,6 +150,7 @@ class SessionTypeRepository extends EntityRepository
         unset($criteria['instructorGroups']);
         unset($criteria['competencies']);
         unset($criteria['meshDescriptors']);
+        unset($criteria['learningMaterials']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
