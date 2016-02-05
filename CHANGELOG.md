@@ -1,7 +1,32 @@
 # Change Log
 
-## [v3.4.1](https://github.com/ilios/ilios/tree/v3.4.1)
+## [v3.5.0](https://github.com/ilios/ilios/tree/v3.5.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.4.1...v3.5.0)
+
+**Implemented enhancements:**
+
+- Filter session type by course [\#1316](https://github.com/ilios/ilios/issues/1316)
+- Filter session type by learning material [\#1315](https://github.com/ilios/ilios/issues/1315)
+- Filter session type by program [\#1314](https://github.com/ilios/ilios/issues/1314)
+
+**Closed issues:**
+
+- raise PHP minimum required version to 5.5 [\#1302](https://github.com/ilios/ilios/issues/1302)
+- fix symfony deprecations [\#1300](https://github.com/ilios/ilios/issues/1300)
+- View Permissions On Session Offerings Is Too Stringent [\#1251](https://github.com/ilios/ilios/issues/1251)
+
+**Merged pull requests:**
+
+- filter session type by program. [\#1319](https://github.com/ilios/ilios/pull/1319) ([stopfstedt](https://github.com/stopfstedt))
+- filter session type by learning material. [\#1318](https://github.com/ilios/ilios/pull/1318) ([stopfstedt](https://github.com/stopfstedt))
+- filter session type by courses. [\#1317](https://github.com/ilios/ilios/pull/1317) ([stopfstedt](https://github.com/stopfstedt))
+- rm obsolete, soft-deletes-related code. [\#1310](https://github.com/ilios/ilios/pull/1310) ([stopfstedt](https://github.com/stopfstedt))
+- reworked various read permissions checks [\#1306](https://github.com/ilios/ilios/pull/1306) ([stopfstedt](https://github.com/stopfstedt))
+- Remove support for PHP 5.4 [\#1303](https://github.com/ilios/ilios/pull/1303) ([jrjohnson](https://github.com/jrjohnson))
+- get rid of deprecation warnings [\#1301](https://github.com/ilios/ilios/pull/1301) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.4.1](https://github.com/ilios/ilios/tree/v3.4.1) (2016-02-02)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.4.0...v3.4.1)
 
 **Closed issues:**
