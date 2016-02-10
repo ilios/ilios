@@ -159,7 +159,7 @@ class CourseDTO
         $archived,
         $publishedAsTbd,
         $published
-    ){
+    ) {
         $this->id = $id;
         $this->title = $title;
         $this->level = $level;
@@ -182,5 +182,4 @@ class CourseDTO
         $this->sessions = [];
 
     }
-
 }

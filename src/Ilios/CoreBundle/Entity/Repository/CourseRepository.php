@@ -65,7 +65,8 @@ class CourseRepository extends EntityRepository
         $courseIds = array_keys($courseDTOs);
 
         $qb = $this->_em->createQueryBuilder()
-            ->select('s.id as schoolId, cl.id as clerkshipTypeId, c.id as courseId')->from('IliosCoreBundle:Course', 'c')
+            ->select('s.id as schoolId, cl.id as clerkshipTypeId, c.id as courseId')
+            ->from('IliosCoreBundle:Course', 'c')
             ->join('c.school', 's')
             ->leftJoin('c.clerkshipType', 'cl')
             ->where($qb->expr()->in('c.id', ':courseIds'))

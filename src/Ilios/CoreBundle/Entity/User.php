@@ -811,7 +811,7 @@ class User implements UserInterface
      */
     public function isDirectingCourse($courseId)
     {
-        return $this->directedCourses->map(function (CourseInterface $course){
+        return $this->directedCourses->map(function (CourseInterface $course) {
             return $course->getId();
         })->contains($courseId);
     }
