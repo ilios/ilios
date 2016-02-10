@@ -58,7 +58,7 @@ class DepartmentVoter extends AbstractVoter
             case self::VIEW:
                 return (
                     $this->schoolsAreIdentical($department->getSchool(), $user->getSchool())
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $department->getSchool())
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $department->getSchool()->getId())
                 );
                 break;
             case self::CREATE:
@@ -75,7 +75,7 @@ class DepartmentVoter extends AbstractVoter
                     $this->userHasRole($user, ['Developer'])
                     && (
                         $this->schoolsAreIdentical($department->getSchool(), $user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $department->getSchool())
+                        || $this->permissionManager->userHasWritePermissionToSchool($user, $department->getSchool()->getId())
                     )
                 );
                 break;

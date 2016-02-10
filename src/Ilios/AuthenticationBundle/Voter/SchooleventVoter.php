@@ -63,11 +63,14 @@ class SchooleventVoter extends AbstractVoter
                 $eventOwningSchool = $this->schoolManager->findSchoolBy(['id' => $event->school]);
                 if ($this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])) {
                     return $this->schoolsAreIdentical($eventOwningSchool, $user->getSchool())
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool);
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool->getId());
                 } else {
                     return ((
                             $this->schoolsAreIdentical($eventOwningSchool, $user->getSchool())
-                            || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool)
+                            || $this->permissionManager->userHasReadPermissionToSchool(
+                                $user,
+                                $eventOwningSchool->getId()
+                            )
                         ) && $event->isPublished);
                 }
                 break;

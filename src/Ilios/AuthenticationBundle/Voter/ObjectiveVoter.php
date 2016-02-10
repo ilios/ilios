@@ -112,7 +112,7 @@ class ObjectiveVoter extends AbstractVoter
                     $this->schoolsAreIdentical($programYear->getSchool(), $user->getSchool())
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
-                        $programYear->getSchool()
+                        $programYear->getSchool()->getId()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
                 )
@@ -145,7 +145,7 @@ class ObjectiveVoter extends AbstractVoter
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
             && (
                 $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
+                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool()->getId())
             )
             || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
         );
@@ -172,7 +172,7 @@ class ObjectiveVoter extends AbstractVoter
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
             && (
                 $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
+                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool()->getId())
             )
             || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
         );

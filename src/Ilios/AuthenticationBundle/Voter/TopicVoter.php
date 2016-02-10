@@ -60,7 +60,7 @@ class TopicVoter extends AbstractVoter
             case self::VIEW:
                 return (
                     $this->schoolsAreIdentical($topic->getSchool(), $user->getSchool())
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $topic->getSchool())
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $topic->getSchool()->getId())
                 );
                 break;
             case self::CREATE:
@@ -79,7 +79,7 @@ class TopicVoter extends AbstractVoter
                         $this->schoolsAreIdentical($topic->getSchool(), $user->getSchool())
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
-                            $topic->getSchool()
+                            $topic->getSchool()->getId()
                         )
                     )
                 );

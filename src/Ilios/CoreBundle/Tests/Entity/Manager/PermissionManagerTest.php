@@ -251,7 +251,7 @@ class PermissionManagerTest extends TestCase
             ->mock();
         $manager = new PermissionManager($registry, $class);
 
-        $this->assertTrue($manager->userHasWritePermissionToSchool($user, $school));
+        $this->assertTrue($manager->userHasWritePermissionToSchool($user, $school->getId()));
         $this->assertFalse($manager->userHasWritePermissionToSchool($user, null));
     }
 

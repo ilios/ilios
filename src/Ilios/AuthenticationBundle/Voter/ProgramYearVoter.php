@@ -108,7 +108,7 @@ class ProgramYearVoter extends AbstractVoter
                     $this->schoolsAreIdentical($programYear->getSchool(), $user->getSchool())
                     || $this->permissionManager->userHasWritePermissionToSchool(
                         $user,
-                        $programYear->getSchool()
+                        $programYear->getSchool()->getId()
                     )
                     || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
                 )

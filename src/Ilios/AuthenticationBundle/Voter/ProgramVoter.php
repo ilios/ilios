@@ -71,7 +71,7 @@ class ProgramVoter extends AbstractVoter
                             $this->schoolsAreIdentical($program->getSchool(), $user->getSchool())
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
-                                $program->getSchool()
+                                $program->getSchool()->getId()
                             )
                         )
                     )

@@ -108,9 +108,9 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     /**
      * {@inheritdoc}
      */
-    public function userHasReadPermissionToSchool(UserInterface $user, SchoolInterface $school = null)
+    public function userHasReadPermissionToSchool(UserInterface $user, $schoolId = null)
     {
-        return $school && $this->userHasPermission($user, self::CAN_READ, 'school', $school->getId());
+        return $schoolId && $this->userHasPermission($user, self::CAN_READ, 'school', $schoolId);
     }
 
     /**
@@ -148,9 +148,9 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     /**
      * {@inheritdoc}
      */
-    public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school = null)
+    public function userHasWritePermissionToSchool(UserInterface $user, $schoolId = null)
     {
-        return $school && $this->userHasPermission($user, self::CAN_WRITE, 'school', $school->getId());
+        return $schoolId && $this->userHasPermission($user, self::CAN_WRITE, 'school', $schoolId);
     }
 
     /**

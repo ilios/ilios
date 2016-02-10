@@ -58,7 +58,7 @@ class CompetencyVoter extends AbstractVoter
             case self::VIEW:
                 return (
                     $this->schoolsAreIdentical($competency->getSchool(), $user->getSchool())
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $competency->getSchool())
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $competency->getSchool()->getId())
                 );
                 break;
             case self::CREATE:
@@ -74,7 +74,7 @@ class CompetencyVoter extends AbstractVoter
                 return ($this->userHasRole($user, ['Developer'])
                     && (
                         $this->schoolsAreIdentical($competency->getSchool(), $user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $competency->getSchool())
+                        || $this->permissionManager->userHasWritePermissionToSchool($user, $competency->getSchool()->getId())
                     )
                 );
                 break;

@@ -64,7 +64,7 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                         $this->schoolsAreIdentical($user->getSchool(), $export->getReport()->getSchool())
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
-                            $export->getReport()->getSchool()
+                            $export->getReport()->getSchool()->getId()
                         ))
                 );
             case self::VIEW:
@@ -81,7 +81,7 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                         $this->schoolsAreIdentical($user->getSchool(), $export->getReport()->getSchool())
                         || $this->permissionManager->userHasReadPermissionToSchool(
                             $user,
-                            $export->getReport()->getSchool()
+                            $export->getReport()->getSchool()->getId()
                         ))
                 );
                 break;
