@@ -71,7 +71,7 @@ class SessionTypeVoter extends AbstractVoter
                         $this->schoolsAreIdentical($sessionType->getSchool(), $user->getSchool())
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
-                            $sessionType->getSchool()
+                            $sessionType->getSchool()->getId()
                         )
                     )
                 );

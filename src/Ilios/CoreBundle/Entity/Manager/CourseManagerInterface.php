@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
+use Ilios\CoreBundle\Entity\DTO\CourseDTO;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -25,12 +26,38 @@ interface CourseManagerInterface extends ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
+     *
+     * @return CourseDTO
+     */
+    public function findCourseDTOBy(
+        array $criteria,
+        array $orderBy = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return CourseInterface[]
      */
     public function findCoursesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return CourseDTO[]
+     */
+    public function findCourseDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -93,8 +120,8 @@ interface CourseManagerInterface extends ManagerInterface
      * Checks if a given user is assigned as instructor to ILMs or offerings in a given course.
      *
      * @param UserInterface $user
-     * @param CourseInterface $course
+     * @param int $courseId
      * @return boolean TRUE if the user instructs at least one offering or ILM, FALSE otherwise.
      */
-    public function isUserInstructingInCourse(UserInterface $user, CourseInterface $course);
+    public function isUserInstructingInCourse(UserInterface $user, $courseId);
 }

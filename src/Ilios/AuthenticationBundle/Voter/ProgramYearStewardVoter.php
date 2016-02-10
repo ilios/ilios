@@ -70,7 +70,7 @@ class ProgramYearStewardVoter extends AbstractVoter
                             )
                             || $this->permissionManager->userHasReadPermissionToSchool(
                                 $user,
-                                $steward->getProgramOwningSchool()
+                                $steward->getProgramOwningSchool()->getId()
                             )
                             || $this->schoolsAreIdentical($steward->getSchool(), $user->getSchool())
                         )
@@ -103,7 +103,7 @@ class ProgramYearStewardVoter extends AbstractVoter
                             )
                             || $this->permissionManager->userHasWritePermissionToSchool(
                                 $user,
-                                $steward->getProgramOwningSchool()
+                                $steward->getProgramOwningSchool()->getId()
                             )
                             || $this->schoolsAreIdentical($steward->getSchool(), $user->getSchool())
                         )

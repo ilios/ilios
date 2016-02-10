@@ -66,7 +66,7 @@ class InstructorGroupVoter extends AbstractVoter
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && (
                         $this->schoolsAreIdentical($user->getSchool(), $group->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $group->getSchool())
+                        || $this->permissionManager->userHasWritePermissionToSchool($user, $group->getSchool()->getId())
                     )
                 );
                 break;

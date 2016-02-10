@@ -70,7 +70,7 @@ class LearnerGroupVoter extends AbstractVoter
                         )
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
-                            $group->getSchool()
+                            $group->getSchool()->getId()
                         )
                     )
                     || $this->permissionManager->userHasWritePermissionToProgram(

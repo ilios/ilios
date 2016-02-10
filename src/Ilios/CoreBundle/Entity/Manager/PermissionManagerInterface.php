@@ -72,10 +72,10 @@ interface PermissionManagerInterface extends ManagerInterface
     /**
      * Checks if a given user has "read" permissions for a given course.
      * @param UserInterface $user
-     * @param CourseInterface|null $course
+     * @param null|$courseId
      * @return bool
      */
-    public function userHasReadPermissionToCourse(UserInterface $user, CourseInterface $course = null);
+    public function userHasReadPermissionToCourse(UserInterface $user, $courseId = null);
 
     /**
      * Checks if a given user has "read" permissions for a given program.
@@ -88,10 +88,10 @@ interface PermissionManagerInterface extends ManagerInterface
     /**
      * Checks if a given user has "read" permissions for a given school.
      * @param UserInterface $user
-     * @param SchoolInterface|null $school
+     * @param int|null $schoolId
      * @return bool
      */
-    public function userHasReadPermissionToSchool(UserInterface $user, SchoolInterface $school = null);
+    public function userHasReadPermissionToSchool(UserInterface $user, $schoolId = null);
     
     /**
      * Checks if a given user has "read" permissions for and in an array of schools.
@@ -112,10 +112,10 @@ interface PermissionManagerInterface extends ManagerInterface
     /**
      * Checks if a given user has "write" permissions for a given course.
      * @param UserInterface $user
-     * @param CourseInterface|null $course
+     * @param int|null $courseId
      * @return bool
      */
-    public function userHasWritePermissionToCourse(UserInterface $user, CourseInterface $course = null);
+    public function userHasWritePermissionToCourse(UserInterface $user, $courseId = null);
 
     /**
      * Checks if a given user has "write" permissions for a given program.
@@ -128,10 +128,10 @@ interface PermissionManagerInterface extends ManagerInterface
     /**
      * Checks if a given user has "write" permissions for a given school.
      * @param UserInterface $user
-     * @param SchoolInterface|null $school
+     * @param int|null $schoolId
      * @return bool
      */
-    public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school = null);
+    public function userHasWritePermissionToSchool(UserInterface $user, $schoolId = null);
 
     /**
      * Checks if a given user has "read" permissions to any courses in a given school.

@@ -92,9 +92,9 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     /**
      * {@inheritdoc}
      */
-    public function userHasReadPermissionToCourse(UserInterface $user, CourseInterface $course = null)
+    public function userHasReadPermissionToCourse(UserInterface $user, $courseId = null)
     {
-        return $course && $this->userHasPermission($user, self::CAN_READ, 'course', $course->getId());
+        return $courseId && $this->userHasPermission($user, self::CAN_READ, 'course', $courseId);
     }
 
     /**
@@ -108,9 +108,9 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     /**
      * {@inheritdoc}
      */
-    public function userHasReadPermissionToSchool(UserInterface $user, SchoolInterface $school = null)
+    public function userHasReadPermissionToSchool(UserInterface $user, $schoolId = null)
     {
-        return $school && $this->userHasPermission($user, self::CAN_READ, 'school', $school->getId());
+        return $schoolId && $this->userHasPermission($user, self::CAN_READ, 'school', $schoolId);
     }
 
     /**
@@ -132,9 +132,9 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     /**
      * {@inheritdoc}
      */
-    public function userHasWritePermissionToCourse(UserInterface $user, CourseInterface $course = null)
+    public function userHasWritePermissionToCourse(UserInterface $user, $courseId = null)
     {
-        return $course && $this->userHasPermission($user, self::CAN_WRITE, 'course', $course->getId());
+        return $courseId && $this->userHasPermission($user, self::CAN_WRITE, 'course', $courseId);
     }
 
     /**
@@ -148,9 +148,9 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     /**
      * {@inheritdoc}
      */
-    public function userHasWritePermissionToSchool(UserInterface $user, SchoolInterface $school = null)
+    public function userHasWritePermissionToSchool(UserInterface $user, $schoolId = null)
     {
-        return $school && $this->userHasPermission($user, self::CAN_WRITE, 'school', $school->getId());
+        return $schoolId && $this->userHasPermission($user, self::CAN_WRITE, 'school', $schoolId);
     }
 
     /**
@@ -163,7 +163,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
         }
 
         foreach ($school->getCourses() as $course) {
-            if ($this->userHasReadPermissionToCourse($user, $course)) {
+            if ($this->userHasReadPermissionToCourse($user, $course->getId())) {
                 return true;
             }
         }
@@ -182,7 +182,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
         }
 
         foreach ($cohort->getCourses() as $course) {
-            if ($this->userHasReadPermissionToCourse($user, $course)) {
+            if ($this->userHasReadPermissionToCourse($user, $course->getId())) {
                 return true;
             }
         }

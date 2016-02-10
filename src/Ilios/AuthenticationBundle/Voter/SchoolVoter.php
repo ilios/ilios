@@ -58,7 +58,7 @@ class SchoolVoter extends AbstractVoter
                 // 4. the given user is a learner,instructor or director in courses of the given school.
                 return (
                     $this->userHasRole($user, ['Developer'])
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $school)
+                    || $this->permissionManager->userHasReadPermissionToSchool($user, $school->getId())
                     || $this->permissionManager->userHasReadPermissionToCoursesInSchool($user, $school)
                     || $user->getAllSchools()->contains($school)
                 );
@@ -79,7 +79,7 @@ class SchoolVoter extends AbstractVoter
                     $this->userHasRole($user, ['Developer'])
                     && (
                         $this->schoolsAreIdentical($school, $user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $school)
+                        || $this->permissionManager->userHasWritePermissionToSchool($user, $school->getId())
                     )
                 );
                 break;

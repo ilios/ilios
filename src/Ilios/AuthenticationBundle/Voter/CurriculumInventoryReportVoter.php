@@ -86,7 +86,7 @@ class CurriculumInventoryReportVoter extends AbstractVoter
                 $this->schoolsAreIdentical($user->getSchool(), $report->getSchool())
                 || $this->permissionManager->userHasReadPermissionToSchool(
                     $user,
-                    $report->getSchool()
+                    $report->getSchool()->getId()
                 )
             )
         );
@@ -127,7 +127,7 @@ class CurriculumInventoryReportVoter extends AbstractVoter
                 $this->schoolsAreIdentical($user->getSchool(), $report->getSchool())
                 || $this->permissionManager->userHasWritePermissionToSchool(
                     $user,
-                    $report->getSchool()
+                    $report->getSchool()->getId()
                 ))
         );
     }
