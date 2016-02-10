@@ -39,7 +39,7 @@ class CourseController extends FOSRestController
      *        "description"="Course identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\Course",
+     *   output="Ilios\CoreBundle\Entity\DTO\CourseDTO",
      *   statusCodes={
      *     200 = "Course.",
      *     404 = "Not Found."
@@ -54,7 +54,11 @@ class CourseController extends FOSRestController
      */
     public function getAction($id)
     {
-        $course = $this->getOr404($id);
+        $course = $this->getCourseHandler()->findCourseDTOBy(['id' => $id]);
+
+        if (!$course) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $course)) {
@@ -73,7 +77,7 @@ class CourseController extends FOSRestController
      *   section = "Course",
      *   description = "Get all Course.",
      *   resource = true,
-     *   output="Ilios\CoreBundle\Entity\Course",
+     *   output="Ilios\CoreBundle\Entity\DTO\CourseDTO",
      *   statusCodes = {
      *     200 = "List of all Course",
      *     204 = "No content. Nothing to list."
@@ -144,7 +148,7 @@ class CourseController extends FOSRestController
                 );
         } else {
             $result = $this->getCourseHandler()
-                ->findCoursesBy(
+                ->findCourseDTOsBy(
                     $criteria,
                     $orderBy,
                     $limit,

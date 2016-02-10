@@ -25,6 +25,18 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function findCourseDTOBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
+        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
+
+        return empty($results)?false:$results[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findCoursesBy(
         array $criteria,
         array $orderBy = null,
@@ -32,6 +44,18 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
         $offset = null
     ) {
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findCourseDTOsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -97,8 +121,8 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     /**
      * @inheritdoc
      */
-    public function isUserInstructingInCourse(UserInterface $user, CourseInterface $course)
+    public function isUserInstructingInCourse(UserInterface $user, $courseId)
     {
-        return $this->getRepository()->isUserInstructingInCourse($user, $course);
+        return $this->getRepository()->isUserInstructingInCourse($user, $courseId);
     }
 }
