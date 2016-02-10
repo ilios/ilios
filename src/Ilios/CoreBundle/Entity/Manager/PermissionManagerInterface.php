@@ -72,10 +72,10 @@ interface PermissionManagerInterface extends ManagerInterface
     /**
      * Checks if a given user has "read" permissions for a given course.
      * @param UserInterface $user
-     * @param CourseInterface|null $course
+     * @param null|$courseId
      * @return bool
      */
-    public function userHasReadPermissionToCourse(UserInterface $user, CourseInterface $course = null);
+    public function userHasReadPermissionToCourse(UserInterface $user, $courseId = null);
 
     /**
      * Checks if a given user has "read" permissions for a given program.
@@ -112,10 +112,10 @@ interface PermissionManagerInterface extends ManagerInterface
     /**
      * Checks if a given user has "write" permissions for a given course.
      * @param UserInterface $user
-     * @param CourseInterface|null $course
+     * @param int|null $courseId
      * @return bool
      */
-    public function userHasWritePermissionToCourse(UserInterface $user, CourseInterface $course = null);
+    public function userHasWritePermissionToCourse(UserInterface $user, $courseId = null);
 
     /**
      * Checks if a given user has "write" permissions for a given program.

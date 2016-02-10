@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\SessionInterface;
+use Ilios\CoreBundle\Entity\CourseInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -40,7 +41,7 @@ class SessionVoter extends CourseVoter
     /**
      * {@inheritdoc}
      */
-    protected function isWriteGranted($course, $user)
+    protected function isWriteGranted(CourseInterface $course, $user)
     {
         // prevent any sort of write operation (create/edit/delete) if the parent course is locked or archived.
         if ($course->isLocked() || $course->isArchived()) {

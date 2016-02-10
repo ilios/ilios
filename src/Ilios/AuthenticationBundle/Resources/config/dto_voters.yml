@@ -1,0 +1,7 @@
+services:
+    security.access.api_proxy_course_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\CourseDTOVoter
+        arguments: [ @ilioscore.course.manager, @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
