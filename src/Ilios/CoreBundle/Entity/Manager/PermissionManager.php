@@ -163,7 +163,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
         }
 
         foreach ($school->getCourses() as $course) {
-            if ($this->userHasReadPermissionToCourse($user, $course)) {
+            if ($this->userHasReadPermissionToCourse($user, $course->getId())) {
                 return true;
             }
         }
@@ -182,7 +182,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
         }
 
         foreach ($cohort->getCourses() as $course) {
-            if ($this->userHasReadPermissionToCourse($user, $course)) {
+            if ($this->userHasReadPermissionToCourse($user, $course->getId())) {
                 return true;
             }
         }

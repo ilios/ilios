@@ -110,7 +110,7 @@ class PermissionManagerTest extends TestCase
             ->mock();
         $manager = new PermissionManager($registry, $class);
 
-        $this->assertTrue($manager->userHasWritePermissionToCourse($user, $course));
+        $this->assertTrue($manager->userHasWritePermissionToCourse($user, $course->getId()));
         $this->assertFalse($manager->userHasWritePermissionToCourse($user, null));
     }
 
@@ -145,7 +145,7 @@ class PermissionManagerTest extends TestCase
             ->mock();
         $manager = new PermissionManager($registry, $class);
 
-        $this->assertTrue($manager->userHasReadPermissionToCourse($user, $course));
+        $this->assertTrue($manager->userHasReadPermissionToCourse($user, $course->getId()));
         $this->assertFalse($manager->userHasReadPermissionToCourse($user, null));
     }
 
@@ -286,7 +286,7 @@ class PermissionManagerTest extends TestCase
             ->mock();
         $manager = new PermissionManager($registry, $class);
 
-        $this->assertTrue($manager->userHasReadPermissionToSchool($user, $school));
+        $this->assertTrue($manager->userHasReadPermissionToSchool($user, $school->getId()));
         $this->assertFalse($manager->userHasReadPermissionToSchool($user, null));
     }
 
