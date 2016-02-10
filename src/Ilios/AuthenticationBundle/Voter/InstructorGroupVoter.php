@@ -52,6 +52,7 @@ class InstructorGroupVoter extends AbstractVoter
                 // should be visible to any authenticated user in the system.
                 // do not enforce any special permissions for viewing them.
                 return true;
+                break;
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
