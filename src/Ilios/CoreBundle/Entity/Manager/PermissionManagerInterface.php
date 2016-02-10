@@ -3,8 +3,6 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\CohortInterface;
-use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\PermissionInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
@@ -140,15 +138,4 @@ interface PermissionManagerInterface extends ManagerInterface
      * @return bool
      */
     public function userHasReadPermissionToCoursesInSchool(UserInterface $user, SchoolInterface $school = null);
-
-    /**
-     * Checks if a given user has "read" permissions to any courses associated with a given cohort.
-     * @param UserInterface $user
-     * @param CohortInterface|null $cohort
-     * @return bool
-     */
-    public function userHasReadPermissionToCoursesAssociatedWithCohort(
-        UserInterface $user,
-        CohortInterface $cohort = null
-    );
 }
