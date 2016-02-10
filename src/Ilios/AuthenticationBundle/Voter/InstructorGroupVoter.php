@@ -48,20 +48,10 @@ class InstructorGroupVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                // grant VIEW privileges if at least one of the following
-                // statements is true:
-                // 1. the user's primary school is the group's owning school
-                //    and has at least one of 'Course Director', 'Faculty' and 'Developer' roles.
-                // 2. the user has READ rights on the group's owning school via the permissions system
-                //    and has at least one of 'InstructorGroup Director', 'Faculty' and 'Developer' roles.
-                return (
-                    $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
-                    && (
-                        $this->schoolsAreIdentical($user->getSchool(), $group->getSchool())
-                        || $this->permissionManager->userHasReadPermissionToSchool($user, $group->getSchool())
-                    )
-                );
-                break;
+                // unlike instructor details, instructor groups
+                // should be visible to any authenticated user in the system.
+                // do not enforce any special permissions for viewing them.
+                return true;
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
