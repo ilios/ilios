@@ -51,26 +51,8 @@ class ProgramVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                // the given user is granted VIEW permissions on the given program
-                // when at least one of the following statements is true
-                // 1. The user's primary school is the same as the program's owning school
-                //    and the user has at least one of 'Course Director', 'Faculty' and 'Developer' role.
-                // 2. The user has READ permissions on the program's owning school
-                //    and the user has at least one of 'Course Director', 'Faculty' and 'Developer' role.
-                // 3. The user has READ permissions on the program.
-                return (
-                    (
-                        $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
-                        && (
-                            $this->schoolsAreIdentical($program->getSchool(), $user->getSchool())
-                            || $this->permissionManager->userHasReadPermissionToSchool(
-                                $user,
-                                $program->getSchool()
-                            )
-                        )
-                    )
-                    || $this->permissionManager->userHasReadPermissionToProgram($user, $program)
-                );
+                // do not enforce special views permissions on programs.
+                return true;
                 break;
             case self::CREATE:
             case self::EDIT:

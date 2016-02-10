@@ -48,38 +48,8 @@ class LearnerGroupVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                // grant VIEW privileges if at least one of the following
-                // statements is true:
-                // 1. the user's primary school is the group's owning school
-                //    and has at least one of 'Course Director', 'Faculty' and 'Developer' roles.
-                // 2. the user has READ rights on the group's owning school via the permissions system
-                //    and has at least one of 'Course Director', 'Faculty' and 'Developer' roles.
-                // 3. the user has READ rights to courses linked to the group's cohort via the the permissions system,
-                //    and the user has at least one of 'Course Director', 'Faculty' and 'Developer' roles.
-                // 4. the user has READ rights to the group's owning program.
-                // 5. the user is in the group
-                return (
-                    $group->getUsers()->contains($user) ||
-                    $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
-                    && (
-                        $this->schoolsAreIdentical(
-                            $user->getSchool(),
-                            $group->getSchool()
-                        )
-                        || $this->permissionManager->userHasReadPermissionToCoursesAssociatedWithCohort(
-                            $user,
-                            $group->getCohort()
-                        )
-                        || $this->permissionManager->userHasReadPermissionToSchool(
-                            $user,
-                            $group->getSchool()
-                        )
-                    )
-                    || $this->permissionManager->userHasReadPermissionToProgram(
-                        $user,
-                        $group->getProgram()
-                    )
-                );
+                // do not enforce special views permissions on learner groups.
+                return true;
                 break;
             case self::CREATE:
             case self::EDIT:
