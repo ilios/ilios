@@ -201,6 +201,12 @@ interface UserInterface extends
     public function getDirectedCourses();
 
     /**
+     * @param int $courseId
+     * @return boolean
+     */
+    public function isDirectingCourse($courseId);
+
+    /**
      * @param Collection $userGroups
      */
     public function setLearnerGroups(Collection $userGroups);

@@ -1,6 +1,6 @@
 services:
-    security.access.dto.course_voter:
-        class: Ilios\AuthenticationBundle\Voter\DTO\CourseDTOVoter
+    security.access.entity.course_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CourseEntityVoter
         parent: security.access.course_voter
         public: false
         tags:

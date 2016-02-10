@@ -807,6 +807,16 @@ class User implements UserInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function isDirectingCourse($courseId)
+    {
+        return $this->directedCourses->map(function (CourseInterface $course){
+            return $course->getId();
+        })->contains($courseId);
+    }
+
+    /**
      * @param Collection $learnerGroups
      */
     public function setLearnerGroups(Collection $learnerGroups)

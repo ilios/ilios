@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * Class CourseVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class CourseVoter extends AbstractVoter
+abstract class CourseVoter extends AbstractVoter
 {
     /**
      * @var PermissionManagerInterface
@@ -35,47 +35,13 @@ class CourseVoter extends AbstractVoter
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function supports($attribute, $subject)
-    {
-        return $subject instanceof CourseInterface && in_array($attribute, array(
-            self::CREATE, self::VIEW, self::EDIT, self::DELETE
-        ));
-    }
-
-    /**
-     * @param string $attribute
-     * @param CourseInterface $course
-     * @param TokenInterface $token
-     * @return bool
-     */
-    protected function voteOnAttribute($attribute, $course, TokenInterface $token)
-    {
-        $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
-            return false;
-        }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return $this->isViewGranted($course, $user);
-                break;
-            case self::CREATE:
-            case self::EDIT:
-            case self::DELETE:
-                return $this->isWriteGranted($course, $user);
-                break;
-        }
-        return false;
-    }
-
-    /**
-     * @param CourseInterface $course
+     * @param int $courseId
+     * @param int $owningSchoolId
      * @param UserInterface $user
+     *
      * @return bool
      */
-    protected function isViewGranted(CourseInterface $course, $user)
+    protected function isViewGranted($courseId, $owningSchoolId, UserInterface $user)
     {
         // grant VIEW privileges if at least one of the following
         // statements is true:
@@ -85,20 +51,22 @@ class CourseVoter extends AbstractVoter
         // 4. the user has READ rights on the course's owning school via the permissions system
         // 5. the user has READ rights on the course via the permissions system
         return (
-            $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
-            || $this->courseManager->isUserInstructingInCourse($user, $course->getId())
-            || $user->getDirectedCourses()->contains($course)
-            || $this->permissionManager->userHasReadPermissionToSchool($user, $course->getSchool())
-            || $this->permissionManager->userHasReadPermissionToCourse($user, $course->getId())
+            $owningSchoolId === $user->getSchool()->getId()
+            || $this->courseManager->isUserInstructingInCourse($user, $courseId)
+            || $user->isDirectingCourse($courseId)
+            || $this->permissionManager->userHasReadPermissionToSchool($user, $owningSchoolId)
+            || $this->permissionManager->userHasReadPermissionToCourse($user, $courseId)
         );
     }
 
     /**
-     * @param CourseInterface $course
+     * @param int $courseId
+     * @param int $owningSchoolId
      * @param UserInterface $user
+     *
      * @return bool
      */
-    protected function isWriteGranted(CourseInterface $course, $user)
+    protected function isWriteGranted($courseId, $owningSchoolId, UserInterface $user)
     {
         // grant CREATE/EDIT/DELETE privileges if at least one of the following
         // statements is true:
@@ -109,10 +77,11 @@ class CourseVoter extends AbstractVoter
         // 3. the user has WRITE rights on the course via the permissions system
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
-            && ($this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool())
+            && (
+                $owningSchoolId === $user->getSchool()->getId()
+                || $this->permissionManager->userHasWritePermissionToSchool($user, $owningSchoolId)
             )
-            || $this->permissionManager->userHasWritePermissionToCourse($user, $course->getId())
+            || $this->permissionManager->userHasWritePermissionToCourse($user, $courseId)
         );
     }
 }
