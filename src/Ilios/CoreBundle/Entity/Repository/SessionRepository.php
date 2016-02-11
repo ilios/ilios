@@ -54,22 +54,24 @@ class SessionRepository extends EntityRepository
                 $arr['supplemental'],
                 $arr['publishedAsTbd'],
                 $arr['published'],
-                $arr['updatedAt'],
-                $arr['sessionType'],
-                $arr['course']
+                $arr['updatedAt']
             );
         }
         $sessionIds = array_keys($sessionDTOs);
 
         $qb = $this->_em->createQueryBuilder()
-            ->select('ilm.id AS ilmId, sd.id AS descId, c.id as sessionId')
+            ->select('s.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, sd.id AS descId')
             ->from('IliosCoreBundle:Session', 's')
+            ->join('s.course', 'c')
+            ->join('s.sessionType', 'st')
             ->leftJoin('s.ilmSession', 'ilm')
             ->leftJoin('s.sessionDescription', 'sd')
             ->where($qb->expr()->in('s.id', ':sessionIds'))
             ->setParameter('sessionIds', $sessionIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
+            $sessionDTOs[$arr['sessionId']]->course = $arr['courseId'];
+            $sessionDTOs[$arr['sessionId']]->sessionType = $arr['sessionTypeId'];
             $sessionDTOs[$arr['sessionId']]->ilmSession = $arr['ilmId'] ? $arr['ilmId'] : null;
             $sessionDTOs[$arr['sessionId']]->sessionDescription = $arr['descId'] ? $arr['descId'] : null;
         }
@@ -92,7 +94,7 @@ class SessionRepository extends EntityRepository
                 ->setParameter('sessionIds', $sessionIds);
 
             foreach ($qb->getQuery()->getResult() as $arr) {
-                $sessionIds[$arr['sessionId']]->{$rel}[] = $arr['relId'];
+                $sessionDTOs[$arr['sessionId']]->{$rel}[] = $arr['relId'];
             }
         }
 

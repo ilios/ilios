@@ -130,7 +130,7 @@ class SessionDTO
      * @var int[]
      * @JMS\Type("array<string>")
      */
-    protected $offerings;
+    public $offerings;
 
     public function __construct(
         $id,
@@ -140,9 +140,7 @@ class SessionDTO
         $supplemental,
         $publishedAsTbd,
         $published,
-        $updatedAt,
-        $sessionType,
-        $course
+        $updatedAt
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -152,8 +150,6 @@ class SessionDTO
         $this->publishedAsTbd = $publishedAsTbd;
         $this->published = $published;
         $this->updatedAt = $updatedAt;
-        $this->sessionType = $sessionType;
-        $this->course = $course;
 
         $this->topics = [];
         $this->terms = [];
