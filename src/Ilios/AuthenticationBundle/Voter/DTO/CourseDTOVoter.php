@@ -9,19 +9,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CourseDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\ApiProxy\V1
+ * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class CourseDTOVoter extends CourseVoter
 {
-
     /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof CourseDTO && in_array($attribute, array(
-            self::CREATE, self::VIEW, self::EDIT, self::DELETE
-        ));
+        return $subject instanceof CourseDTO && in_array($attribute, array(self::VIEW));
     }
 
     /**
@@ -40,11 +37,6 @@ class CourseDTOVoter extends CourseVoter
         switch ($attribute) {
             case self::VIEW:
                 return $this->isViewGranted($course->id, $course->school, $user);
-                break;
-            case self::CREATE:
-            case self::EDIT:
-            case self::DELETE:
-                return $this->isWriteGranted($course->id, $course->school, $user);
                 break;
         }
         return false;

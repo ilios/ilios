@@ -50,16 +50,9 @@ class CompetencyVoter extends AbstractVoter
         }
 
         switch ($attribute) {
-            // grant VIEW privileges
-            // if the user's primary school is the the competency's owning school
-            // - or -
-            // if the user has READ rights on the competency's owning school
-            // via the permissions system.
             case self::VIEW:
-                return (
-                    $this->schoolsAreIdentical($competency->getSchool(), $user->getSchool())
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $competency->getSchool()->getId())
-                );
+                // do not enforce special view permissions.
+                return true;
                 break;
             case self::CREATE:
             case self::EDIT:
