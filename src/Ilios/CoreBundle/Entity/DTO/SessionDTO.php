@@ -142,9 +142,7 @@ class SessionDTO
         $published,
         $updatedAt,
         $sessionType,
-        $sessionDescription,
-        $course,
-        $ilmSession
+        $course
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -155,9 +153,7 @@ class SessionDTO
         $this->published = $published;
         $this->updatedAt = $updatedAt;
         $this->sessionType = $sessionType;
-        $this->sessionDescription = $sessionDescription;
         $this->course = $course;
-        $this->ilmSession = $ilmSession;
 
         $this->topics = [];
         $this->terms = [];
