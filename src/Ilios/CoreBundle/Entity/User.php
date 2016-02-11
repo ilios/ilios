@@ -697,7 +697,7 @@ class User implements UserInterface
         
         // prepend user id to avoid a conflict
         // and current time to give some more uniqueness
-        $key = $this->getId() . microtime() . '_' . $random;
+        $key = microtime() . '_' . $random;
         
         // hash the string to give consistent length and URL safe characters
         $this->icsFeedKey = hash('sha256', $key);

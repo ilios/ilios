@@ -186,8 +186,14 @@ class UserController extends FOSRestController
     {
         try {
             $handler = $this->getUserHandler();
+            $data = $this->getPostData($request);
 
-            $user = $handler->post($this->getPostData($request));
+            //create an icsFeedKey for the new user
+            $random = random_bytes(128);
+            $key = microtime() . '_' . $random;
+            $data['icsFeedKey'] = hash('sha256', $key);
+
+            $user = $handler->post($data);
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('create', $user)) {
