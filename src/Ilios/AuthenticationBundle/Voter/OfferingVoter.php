@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\AuthenticationBundle\Voter\Entity\SessionEntityVoter;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -9,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * Class SessionVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class OfferingVoter extends SessionVoter
+class OfferingVoter extends SessionEntityVoter
 {
     /**
      * {@inheritdoc}

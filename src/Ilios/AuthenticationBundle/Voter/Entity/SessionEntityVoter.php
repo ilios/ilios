@@ -1,19 +1,19 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class SessionVoter
- * @package Ilios\AuthenticationBundle\Voter
+ * Class SessionEntityVoter
+ * @package Ilios\AuthenticationBundle\Voter\Entity
  */
-class SessionVoter extends CourseVoter
+class SessionEntityVoter extends CourseEntityVoter
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function supports($attribute, $subject)
     {
@@ -36,9 +36,6 @@ class SessionVoter extends CourseVoter
         }
 
         $course = $session->getCourse();
-        if (! $course) {
-            return false;
-        }
 
         switch ($attribute) {
             case self::VIEW:

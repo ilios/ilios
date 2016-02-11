@@ -106,7 +106,7 @@ services:
             - { name: security.voter }
     security.access.ilm_session_voter:
         class: Ilios\AuthenticationBundle\Voter\IlmSessionVoter
-        parent: security.access.session_voter
+        parent: security.access.entity.session_voter
         public: false
         tags:
             - { name: security.voter }
@@ -160,7 +160,7 @@ services:
             - { name: security.voter }
     security.access.offering_voter:
         class: Ilios\AuthenticationBundle\Voter\OfferingVoter
-        parent: security.access.session_voter
+        parent: security.access.entity.session_voter
         public: false
         tags:
             - { name: security.voter }
@@ -210,21 +210,15 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.session_voter:
-        class: Ilios\AuthenticationBundle\Voter\SessionVoter
-        parent: security.access.course_voter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.session_description_voter:
         class: Ilios\AuthenticationBundle\Voter\SessionDescriptionVoter
-        parent: security.access.session_voter
+        parent: security.access.entity.session_voter
         public: false
         tags:
             - { name: security.voter }
     security.access.session_learning_material_voter:
         class: Ilios\AuthenticationBundle\Voter\SessionLearningMaterialVoter
-        parent: security.access.session_voter
+        parent: security.access.entity.session_voter
         public: false
         tags:
             - { name: security.voter }
