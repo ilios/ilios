@@ -35,7 +35,7 @@ class AuthenticationVoter extends AbstractVoter
             return false;
         }
 
-       switch ($attribute) {
+        switch ($attribute) {
             case self::CREATE:
             case self::EDIT:
                 return $this->userHasRole($user, ['Developer']);

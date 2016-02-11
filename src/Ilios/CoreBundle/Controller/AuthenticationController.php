@@ -52,7 +52,7 @@ class AuthenticationController extends FOSRestController
             $handler = $this->getAuthenticationHandler();
             $data = $this->getPostData($request);
 
-            if (!empty($data['password']) && !empty($data['user']) ){
+            if (!empty($data['password']) && !empty($data['user'])) {
                 $userManager = $this->container->get('ilioscore.user.manager');
                 $user = $userManager->findUserBy(['id' => $data['user']]);
                 if ($user) {
@@ -124,7 +124,7 @@ class AuthenticationController extends FOSRestController
 
             $data = $this->getPostData($request);
 
-            if (!empty($data['password']) && !empty($data['user']) ){
+            if (!empty($data['password']) && !empty($data['user'])) {
                 $userManager = $this->container->get('ilioscore.user.manager');
                 $user = $userManager->findUserBy(['id' => $data['user']]);
                 if ($user) {
