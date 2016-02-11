@@ -1346,7 +1346,7 @@ class User implements UserInterface
      */
     public function getEncoderName()
     {
-        if ($this->getAuthentication()->isLegacyAccount()) {
+        if ($this->getAuthentication() && $this->getAuthentication()->isLegacyAccount()) {
             return 'ilios_legacy_encoder';
         }
 
