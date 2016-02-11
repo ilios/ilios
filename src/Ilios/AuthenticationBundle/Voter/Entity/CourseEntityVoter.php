@@ -13,7 +13,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class CourseEntityVoter extends CourseVoter
 {
-
     /**
      * {@inheritdoc}
      */
