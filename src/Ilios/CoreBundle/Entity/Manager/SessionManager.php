@@ -22,6 +22,17 @@ class SessionManager extends AbstractManager implements SessionManagerInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function findSessionDTOBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
+        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
+        return empty($results) ? false : $results[0];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function findSessionsBy(
@@ -31,6 +42,18 @@ class SessionManager extends AbstractManager implements SessionManagerInterface
         $offset = null
     ) {
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function findSessionDTOsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
