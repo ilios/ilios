@@ -43,6 +43,12 @@ api_assessmentoption_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+api_authentication_v1:
+    resource: "@IliosCoreBundle/Controller/AuthenticationController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
 api_cohort_v1:
     resource: "@IliosCoreBundle/Controller/CohortController.php"
     type:     rest

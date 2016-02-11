@@ -28,7 +28,11 @@ class AuthenticationData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return [
+            'user' => 3,
+            'username' => 'createduser',
+            'password' => 'newpass'
+        ];
     }
 
     public function createInvalid()

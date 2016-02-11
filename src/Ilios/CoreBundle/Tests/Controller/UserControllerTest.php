@@ -664,6 +664,37 @@ class UserControllerTest extends AbstractControllerTest
         }
     }
 
+
+    /**
+     * @group controllers_b
+     */
+    public function testPostUserithNoIcsFeeDKey()
+    {
+        $data = $this->container->get('ilioscore.dataloader.user')
+            ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        unset($postData['icsFeedKey']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $content = json_decode($response->getContent(), true)['users'][0];
+        $this->assertEquals(64, strlen($content['icsFeedKey']), var_export($content, true));
+    }
     /**
      * @group controllers_b
      */
