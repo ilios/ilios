@@ -1,7 +1,28 @@
 # Change Log
 
-## [v3.5.0](https://github.com/ilios/ilios/tree/v3.5.0)
+## [v3.6.0](https://github.com/ilios/ilios/tree/v3.6.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.5.0...v3.6.0)
+
+**Closed issues:**
+
+- 403/access denied error when requesting instructor groups from the dashboard calendar. [\#1322](https://github.com/ilios/ilios/issues/1322)
+- Loading all sessions is too memory intensive [\#1313](https://github.com/ilios/ilios/issues/1313)
+- Loading all courses is too memory intensive [\#1312](https://github.com/ilios/ilios/issues/1312)
+- Learner Groups with Learners From Multiple Schools Not Displaying [\#1307](https://github.com/ilios/ilios/issues/1307)
+
+**Merged pull requests:**
+
+- disable profiler in test env. [\#1330](https://github.com/ilios/ilios/pull/1330) ([stopfstedt](https://github.com/stopfstedt))
+- Make it easier to add a new user [\#1329](https://github.com/ilios/ilios/pull/1329) ([jrjohnson](https://github.com/jrjohnson))
+- session DTO [\#1328](https://github.com/ilios/ilios/pull/1328) ([stopfstedt](https://github.com/stopfstedt))
+- Voters cleanup [\#1327](https://github.com/ilios/ilios/pull/1327) ([stopfstedt](https://github.com/stopfstedt))
+- Minor version bumps for third party libs [\#1326](https://github.com/ilios/ilios/pull/1326) ([jrjohnson](https://github.com/jrjohnson))
+- Course as a Data Transfer Object [\#1325](https://github.com/ilios/ilios/pull/1325) ([jrjohnson](https://github.com/jrjohnson))
+- losened up views perms. [\#1324](https://github.com/ilios/ilios/pull/1324) ([stopfstedt](https://github.com/stopfstedt))
+- losened up view perms on instructor groups. [\#1323](https://github.com/ilios/ilios/pull/1323) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.5.0](https://github.com/ilios/ilios/tree/v3.5.0) (2016-02-05)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.4.1...v3.5.0)
 
 **Implemented enhancements:**
@@ -12,9 +33,9 @@
 
 **Closed issues:**
 
-- raise PHP minimum required version to 5.5 [\#1302](https://github.com/ilios/ilios/issues/1302)
 - fix symfony deprecations [\#1300](https://github.com/ilios/ilios/issues/1300)
 - View Permissions On Session Offerings Is Too Stringent [\#1251](https://github.com/ilios/ilios/issues/1251)
+- raise PHP minimum required version to 5.5 [\#1302](https://github.com/ilios/ilios/issues/1302)
 
 **Merged pull requests:**
 
