@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Ilios\CoreBundle\Entity\DTO\SessionDTO;
 use Ilios\CoreBundle\Entity\SessionInterface;
 
 /**
@@ -24,12 +25,38 @@ interface SessionManagerInterface extends ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
+     *
+     * @return SessionDTO|bool a session object or FALSE if none were found.
+     */
+    public function findSessionDTOBy(
+        array $criteria,
+        array $orderBy = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return SessionInterface[]
      */
     public function findSessionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return SessionDTO[]
+     */
+    public function findSessionDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,

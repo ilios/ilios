@@ -54,7 +54,11 @@ class SessionController extends FOSRestController
      */
     public function getAction($id)
     {
-        $session = $this->getOr404($id);
+        $session = $this->getSessionHandler()->findSessionDTOBy(['id' => $id]);
+
+        if (! $session) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $session)) {
@@ -129,7 +133,7 @@ class SessionController extends FOSRestController
         }
 
         $result = $this->getSessionHandler()
-            ->findSessionsBy(
+            ->findSessionDTOsBy(
                 $criteria,
                 $orderBy,
                 $limit,
