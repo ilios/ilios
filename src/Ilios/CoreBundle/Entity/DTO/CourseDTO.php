@@ -109,13 +109,6 @@ class CourseDTO
     public $cohorts;
 
     /**
-     * @deprecated
-     * @var int[]
-     * @JMS\Type("array<string>")
-     */
-    public $topics;
-
-    /**
      * @var int[]
      * @JMS\Type("array<string>")
      */
@@ -174,7 +167,6 @@ class CourseDTO
 
         $this->directors = [];
         $this->cohorts = [];
-        $this->topics = [];
         $this->terms = [];
         $this->objectives = [];
         $this->meshDescriptors = [];

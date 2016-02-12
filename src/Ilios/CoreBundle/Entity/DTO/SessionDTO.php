@@ -84,12 +84,6 @@ class SessionDTO
      */
     public $ilmSession;
 
-    /**
-     * @deprecated
-     * @var int[]
-     * @JMS\Type("array<string>")
-     */
-    public $topics;
 
     /**
      * @var int[]
@@ -151,7 +145,6 @@ class SessionDTO
         $this->published = $published;
         $this->updatedAt = $updatedAt;
 
-        $this->topics = [];
         $this->terms = [];
         $this->objectives = [];
         $this->meshDescriptors = [];
