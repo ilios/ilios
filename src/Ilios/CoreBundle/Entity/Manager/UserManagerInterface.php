@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\CoreBundle\Entity\DTO\UserDTO;
 
 /**
  * Interface UserManagerInterface
@@ -27,12 +28,38 @@ interface UserManagerInterface extends ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
+     *
+     * @return UserDTO|bool a user object or FALSE if none were found.
+     */
+    public function findUserDTOBy(
+        array $criteria,
+        array $orderBy = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return ArrayCollection|UserInterface[]
      */
     public function findUsersBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return UserDTO[]
+     */
+    public function findUserDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,

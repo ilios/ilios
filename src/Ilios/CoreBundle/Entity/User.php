@@ -140,8 +140,6 @@ class User implements UserInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
-     *
-     * @JMS\SerializedName("addedViaIlios")
      */
     protected $addedViaIlios;
 
@@ -496,6 +494,7 @@ class User implements UserInterface
         $this->pendingUserUpdates       = new ArrayCollection();
         $this->auditLogs                = new ArrayCollection();
         $this->permissions              = new ArrayCollection();
+        $this->learnerIlmSessions       = new ArrayCollection();
         $this->addedViaIlios            = false;
         $this->enabled                  = true;
         $this->examined                 = false;

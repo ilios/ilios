@@ -39,7 +39,7 @@ class UserController extends FOSRestController
      *        "description"="User identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\User",
+     *   output="Ilios\CoreBundle\Entity\DTO\UserDTO",
      *   statusCodes={
      *     200 = "User.",
      *     404 = "Not Found."
@@ -54,7 +54,10 @@ class UserController extends FOSRestController
      */
     public function getAction($id)
     {
-        $user = $this->getOr404($id);
+        $user = $this->getUserHandler()->findUserDTOBy(['id' => $id]);
+        if (! $user) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $user)) {
@@ -73,7 +76,7 @@ class UserController extends FOSRestController
      *   section = "User",
      *   description = "Get all User.",
      *   resource = true,
-     *   output="Ilios\CoreBundle\Entity\User",
+     *   output="Ilios\CoreBundle\Entity\DTO\UserDTO",
      *   statusCodes = {
      *     200 = "List of all User",
      *     204 = "No content. Nothing to list."
@@ -140,7 +143,7 @@ class UserController extends FOSRestController
                 $criteria
             );
         } else {
-            $result = $this->getUserHandler()->findUsersBy(
+            $result = $this->getUserHandler()->findUserDTOsBy(
                 $criteria,
                 $orderBy,
                 $limit,

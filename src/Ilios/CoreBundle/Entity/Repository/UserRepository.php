@@ -2,10 +2,13 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\DBAL\Types\Type as DoctrineType;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\CoreBundle\Entity\DTO\UserDTO;
 
 /**
  * Class UserRepository
@@ -19,179 +22,8 @@ class UserRepository extends EntityRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-
         $qb->select('DISTINCT u')->from('IliosCoreBundle:User', 'u');
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('u.' . $sort, $order);
-            }
-        }
-
-        if (array_key_exists('instructedCourses', $criteria)) {
-            $ids = is_array($criteria['instructedCourses'])
-                ? $criteria['instructedCourses'] : [$criteria['instructedCourses']];
-            $qb->leftJoin('u.instructedOfferings', 'ic_offering');
-            $qb->leftJoin('u.instructorIlmSessions', 'ic_ilm');
-            $qb->leftJoin('u.instructorGroups', 'ic_iGroup');
-            $qb->leftJoin('ic_iGroup.offerings', 'ic_offering2');
-            $qb->leftJoin('ic_iGroup.ilmSessions', 'ic_ilm2');
-            $qb->leftJoin('ic_offering.session', 'ic_session');
-            $qb->leftJoin('ic_ilm.session', 'ic_session2');
-            $qb->leftJoin('ic_offering2.session', 'ic_session3');
-            $qb->leftJoin('ic_ilm2.session', 'ic_session4');
-            $qb->leftJoin('ic_session.course', 'ic_course');
-            $qb->leftJoin('ic_session2.course', 'ic_course2');
-            $qb->leftJoin('ic_session3.course', 'ic_course3');
-            $qb->leftJoin('ic_session4.course', 'ic_course4');
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('ic_course.id', ':courses'),
-                $qb->expr()->in('ic_course2.id', ':courses'),
-                $qb->expr()->in('ic_course3.id', ':courses'),
-                $qb->expr()->in('ic_course4.id', ':courses')
-            ));
-            $qb->setParameter(':courses', $ids);
-        }
-
-        if (array_key_exists('instructedSessions', $criteria)) {
-            $ids = is_array($criteria['instructedSessions'])
-                ? $criteria['instructedSessions'] : [$criteria['instructedSessions']];
-            $qb->leftJoin('u.instructedOfferings', 'is_offering');
-            $qb->leftJoin('u.instructorIlmSessions', 'is_ilm');
-            $qb->leftJoin('u.instructorGroups', 'is_iGroup');
-            $qb->leftJoin('is_iGroup.offerings', 'is_offering2');
-            $qb->leftJoin('is_iGroup.ilmSessions', 'is_ilm2');
-            $qb->leftJoin('is_offering.session', 'is_session');
-            $qb->leftJoin('is_ilm.session', 'is_session2');
-            $qb->leftJoin('is_offering2.session', 'is_session3');
-            $qb->leftJoin('is_ilm2.session', 'is_session4');
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('is_session.id', ':sessions'),
-                $qb->expr()->in('is_session.id', ':sessions'),
-                $qb->expr()->in('is_session.id', ':sessions'),
-                $qb->expr()->in('is_session.id', ':sessions')
-            ));
-            $qb->setParameter(':sessions', $ids);
-        }
-
-        if (array_key_exists('instructedLearningMaterials', $criteria)) {
-            $ids = is_array($criteria['instructedLearningMaterials']) ?
-                $criteria['instructedLearningMaterials'] : [$criteria['instructedLearningMaterials']];
-            $qb->leftJoin('u.instructedOfferings', 'ilm_offering');
-            $qb->leftJoin('u.instructorIlmSessions', 'ilm_ilm');
-            $qb->leftJoin('u.instructorGroups', 'ilm_iGroup');
-            $qb->leftJoin('ilm_iGroup.offerings', 'ilm_offering2');
-            $qb->leftJoin('ilm_iGroup.ilmSessions', 'ilm_ilm2');
-            $qb->leftJoin('ilm_offering.session', 'ilm_session');
-            $qb->leftJoin('ilm_ilm.session', 'ilm_session2');
-            $qb->leftJoin('ilm_offering2.session', 'ilm_session3');
-            $qb->leftJoin('ilm_ilm2.session', 'ilm_session4');
-            $qb->leftJoin('ilm_session.learningMaterials', 'ilm_slm');
-            $qb->leftJoin('ilm_session2.learningMaterials', 'ilm_slm2');
-            $qb->leftJoin('ilm_session3.learningMaterials', 'ilm_slm3');
-            $qb->leftJoin('ilm_session4.learningMaterials', 'ilm_slm4');
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('ilm_slm.id', ':learningMaterials'),
-                $qb->expr()->in('ilm_slm2.id', ':learningMaterials'),
-                $qb->expr()->in('ilm_slm3.id', ':learningMaterials'),
-                $qb->expr()->in('ilm_slm4.id', ':learningMaterials')
-            ));
-            $qb->setParameter(':learningMaterials', $ids);
-        }
-
-        if (array_key_exists('instructedTopics', $criteria)) {
-            $ids = is_array($criteria['instructedTopics'])
-                ? $criteria['instructedTopics'] : [$criteria['instructedTopics']];
-            $qb->leftJoin('u.instructedOfferings', 'it_offering');
-            $qb->leftJoin('u.instructorIlmSessions', 'it_ilm');
-            $qb->leftJoin('u.instructorGroups', 'it_iGroup');
-            $qb->leftJoin('it_iGroup.offerings', 'it_offering2');
-            $qb->leftJoin('it_iGroup.ilmSessions', 'it_ilm2');
-            $qb->leftJoin('it_offering.session', 'it_session');
-            $qb->leftJoin('it_ilm.session', 'it_session2');
-            $qb->leftJoin('it_offering2.session', 'it_session3');
-            $qb->leftJoin('it_ilm2.session', 'it_session4');
-            $qb->leftJoin('it_session.topics', 'it_topic');
-            $qb->leftJoin('it_session2.topics', 'it_topic2');
-            $qb->leftJoin('it_session3.topics', 'it_topic3');
-            $qb->leftJoin('it_session4.topics', 'it_topic4');
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('it_topic.id', ':topics'),
-                $qb->expr()->in('it_topic2.id', ':topics'),
-                $qb->expr()->in('it_topic3.id', ':topics'),
-                $qb->expr()->in('it_topic4.id', ':topics')
-            ));
-            $qb->setParameter(':topics', $ids);
-        }
-
-        if (array_key_exists('instructedSessionTypes', $criteria)) {
-            $ids = is_array($criteria['instructedSessionTypes']) ?
-                $criteria['instructedSessionTypes'] : [$criteria['instructedSessionTypes']];
-            $qb->leftJoin('u.instructedOfferings', 'ist_offering');
-            $qb->leftJoin('u.instructorIlmSessions', 'ist_ilm');
-            $qb->leftJoin('u.instructorGroups', 'ist_iGroup');
-            $qb->leftJoin('ist_iGroup.offerings', 'ist_offering2');
-            $qb->leftJoin('ist_iGroup.ilmSessions', 'ist_ilm2');
-            $qb->leftJoin('ist_offering.session', 'ist_session');
-            $qb->leftJoin('ist_ilm.session', 'ist_session2');
-            $qb->leftJoin('ist_offering2.session', 'ist_session3');
-            $qb->leftJoin('ist_ilm2.session', 'ist_session4');
-            $qb->leftJoin('ist_session.sessionType', 'ist_sessionType');
-            $qb->leftJoin('ist_session2.sessionType', 'ist_sessionType2');
-            $qb->leftJoin('ist_session3.sessionType', 'ist_sessionType3');
-            $qb->leftJoin('ist_session4.sessionType', 'ist_sessionType4');
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('ist_sessionType.id', ':sessionTypes'),
-                $qb->expr()->in('ist_sessionType2.id', ':sessionTypes'),
-                $qb->expr()->in('ist_sessionType3.id', ':sessionTypes'),
-                $qb->expr()->in('ist_sessionType4.id', ':sessionTypes')
-            ));
-            $qb->setParameter(':sessionTypes', $ids);
-        }
-
-        if (array_key_exists('instructorGroups', $criteria)) {
-            $ids = is_array($criteria['instructorGroups'])
-                ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
-            $qb->join('u.instructorGroups', 'ig_iGroup');
-            $qb->andWhere($qb->expr()->in('ig_iGroup.id', ':instructorGroups'));
-            $qb->setParameter(':instructorGroups', $ids);
-        }
-
-        if (array_key_exists('schools', $criteria)) {
-            $ids = is_array($criteria['schools'])
-                ? $criteria['schools'] : [$criteria['schools']];
-            $qb->join('u.school', 'sc_school');
-            $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
-            $qb->setParameter(':schools', $ids);
-        }
-
-        //cleanup all the possible relationship filters
-        unset($criteria['schools']);
-        unset($criteria['instructedCourses']);
-        unset($criteria['instructedSessions']);
-        unset($criteria['instructedLearningMaterials']);
-        unset($criteria['instructedTopics']);
-        unset($criteria['instructedSessionTypes']);
-        unset($criteria['instructorGroups']);
-
-        if (count($criteria)) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("u.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $qb->getQuery()->getResult();
     }
@@ -255,6 +87,88 @@ class UserRepository extends EntityRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return UserDTO[]
+     */
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('u')->from('IliosCoreBundle:User', 'u');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $userDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $userDTOs[$arr['id']] = new UserDTO(
+                $arr['id'],
+                $arr['firstName'],
+                $arr['lastName'],
+                $arr['middleName'],
+                $arr['phone'],
+                $arr['email'],
+                $arr['enabled'],
+                $arr['campusId'],
+                $arr['otherId'],
+                $arr['userSyncIgnore'],
+                $arr['icsFeedKey']
+            );
+        }
+
+        $userIds = array_keys($userDTOs);
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select('u.id AS userId, c.id AS primaryCohortId, s.id AS schoolId')
+            ->from('IliosCoreBundle:User', 'u')
+            ->join('u.school', 's')
+            ->leftJoin('u.primaryCohort', 'c')
+            ->where($qb->expr()->in('u.id', ':userIds'))
+            ->setParameter('userIds', $userIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $userDTOs[$arr['userId']]->primaryCohort = $arr['primaryCohortId'] ? $arr['primaryCohortId'] : null;
+            $userDTOs[$arr['userId']]->school = $arr['schoolId'];
+        }
+
+        $related = [
+            'reminders',
+            'directedCourses',
+            'learnerGroups',
+            'instructedLearnerGroups',
+            'instructorGroups',
+            'offerings',
+            'instructedOfferings',
+            'instructorIlmSessions',
+            'programYears',
+            'roles',
+            'reports',
+            'cohorts',
+            'pendingUserUpdates',
+            'auditLogs',
+            'permissions',
+            'learnerIlmSessions'
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id as relId, u.id AS userId')->from('IliosCoreBundle:User', 'u')
+                ->join("u.{$rel}", 'r')
+                ->where($qb->expr()->in('u.id', ':ids'))
+                ->orderBy('relId')
+                ->setParameter('ids', $userIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $userDTOs[$arr['userId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        return array_values($userDTOs);
     }
 
     /**
@@ -668,5 +582,192 @@ class UserRepository extends EntityRepository
         }
     }
         return $events;
+    }
+
+    /**
+     * Custom findBy so we can filter by related entities
+     *
+     * @param QueryBuilder $qb
+     * @param array $criteria
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return QueryBuilder
+     */
+    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
+    {
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('u.' . $sort, $order);
+            }
+        }
+
+        if (array_key_exists('instructedCourses', $criteria)) {
+            $ids = is_array($criteria['instructedCourses'])
+                ? $criteria['instructedCourses'] : [$criteria['instructedCourses']];
+            $qb->leftJoin('u.instructedOfferings', 'ic_offering');
+            $qb->leftJoin('u.instructorIlmSessions', 'ic_ilm');
+            $qb->leftJoin('u.instructorGroups', 'ic_iGroup');
+            $qb->leftJoin('ic_iGroup.offerings', 'ic_offering2');
+            $qb->leftJoin('ic_iGroup.ilmSessions', 'ic_ilm2');
+            $qb->leftJoin('ic_offering.session', 'ic_session');
+            $qb->leftJoin('ic_ilm.session', 'ic_session2');
+            $qb->leftJoin('ic_offering2.session', 'ic_session3');
+            $qb->leftJoin('ic_ilm2.session', 'ic_session4');
+            $qb->leftJoin('ic_session.course', 'ic_course');
+            $qb->leftJoin('ic_session2.course', 'ic_course2');
+            $qb->leftJoin('ic_session3.course', 'ic_course3');
+            $qb->leftJoin('ic_session4.course', 'ic_course4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('ic_course.id', ':courses'),
+                $qb->expr()->in('ic_course2.id', ':courses'),
+                $qb->expr()->in('ic_course3.id', ':courses'),
+                $qb->expr()->in('ic_course4.id', ':courses')
+            ));
+            $qb->setParameter(':courses', $ids);
+        }
+
+        if (array_key_exists('instructedSessions', $criteria)) {
+            $ids = is_array($criteria['instructedSessions'])
+                ? $criteria['instructedSessions'] : [$criteria['instructedSessions']];
+            $qb->leftJoin('u.instructedOfferings', 'is_offering');
+            $qb->leftJoin('u.instructorIlmSessions', 'is_ilm');
+            $qb->leftJoin('u.instructorGroups', 'is_iGroup');
+            $qb->leftJoin('is_iGroup.offerings', 'is_offering2');
+            $qb->leftJoin('is_iGroup.ilmSessions', 'is_ilm2');
+            $qb->leftJoin('is_offering.session', 'is_session');
+            $qb->leftJoin('is_ilm.session', 'is_session2');
+            $qb->leftJoin('is_offering2.session', 'is_session3');
+            $qb->leftJoin('is_ilm2.session', 'is_session4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('is_session.id', ':sessions'),
+                $qb->expr()->in('is_session.id', ':sessions'),
+                $qb->expr()->in('is_session.id', ':sessions'),
+                $qb->expr()->in('is_session.id', ':sessions')
+            ));
+            $qb->setParameter(':sessions', $ids);
+        }
+
+        if (array_key_exists('instructedLearningMaterials', $criteria)) {
+            $ids = is_array($criteria['instructedLearningMaterials']) ?
+                $criteria['instructedLearningMaterials'] : [$criteria['instructedLearningMaterials']];
+            $qb->leftJoin('u.instructedOfferings', 'ilm_offering');
+            $qb->leftJoin('u.instructorIlmSessions', 'ilm_ilm');
+            $qb->leftJoin('u.instructorGroups', 'ilm_iGroup');
+            $qb->leftJoin('ilm_iGroup.offerings', 'ilm_offering2');
+            $qb->leftJoin('ilm_iGroup.ilmSessions', 'ilm_ilm2');
+            $qb->leftJoin('ilm_offering.session', 'ilm_session');
+            $qb->leftJoin('ilm_ilm.session', 'ilm_session2');
+            $qb->leftJoin('ilm_offering2.session', 'ilm_session3');
+            $qb->leftJoin('ilm_ilm2.session', 'ilm_session4');
+            $qb->leftJoin('ilm_session.learningMaterials', 'ilm_slm');
+            $qb->leftJoin('ilm_session2.learningMaterials', 'ilm_slm2');
+            $qb->leftJoin('ilm_session3.learningMaterials', 'ilm_slm3');
+            $qb->leftJoin('ilm_session4.learningMaterials', 'ilm_slm4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('ilm_slm.id', ':learningMaterials'),
+                $qb->expr()->in('ilm_slm2.id', ':learningMaterials'),
+                $qb->expr()->in('ilm_slm3.id', ':learningMaterials'),
+                $qb->expr()->in('ilm_slm4.id', ':learningMaterials')
+            ));
+            $qb->setParameter(':learningMaterials', $ids);
+        }
+
+        if (array_key_exists('instructedTopics', $criteria)) {
+            $ids = is_array($criteria['instructedTopics'])
+                ? $criteria['instructedTopics'] : [$criteria['instructedTopics']];
+            $qb->leftJoin('u.instructedOfferings', 'it_offering');
+            $qb->leftJoin('u.instructorIlmSessions', 'it_ilm');
+            $qb->leftJoin('u.instructorGroups', 'it_iGroup');
+            $qb->leftJoin('it_iGroup.offerings', 'it_offering2');
+            $qb->leftJoin('it_iGroup.ilmSessions', 'it_ilm2');
+            $qb->leftJoin('it_offering.session', 'it_session');
+            $qb->leftJoin('it_ilm.session', 'it_session2');
+            $qb->leftJoin('it_offering2.session', 'it_session3');
+            $qb->leftJoin('it_ilm2.session', 'it_session4');
+            $qb->leftJoin('it_session.topics', 'it_topic');
+            $qb->leftJoin('it_session2.topics', 'it_topic2');
+            $qb->leftJoin('it_session3.topics', 'it_topic3');
+            $qb->leftJoin('it_session4.topics', 'it_topic4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('it_topic.id', ':topics'),
+                $qb->expr()->in('it_topic2.id', ':topics'),
+                $qb->expr()->in('it_topic3.id', ':topics'),
+                $qb->expr()->in('it_topic4.id', ':topics')
+            ));
+            $qb->setParameter(':topics', $ids);
+        }
+
+        if (array_key_exists('instructedSessionTypes', $criteria)) {
+            $ids = is_array($criteria['instructedSessionTypes']) ?
+                $criteria['instructedSessionTypes'] : [$criteria['instructedSessionTypes']];
+            $qb->leftJoin('u.instructedOfferings', 'ist_offering');
+            $qb->leftJoin('u.instructorIlmSessions', 'ist_ilm');
+            $qb->leftJoin('u.instructorGroups', 'ist_iGroup');
+            $qb->leftJoin('ist_iGroup.offerings', 'ist_offering2');
+            $qb->leftJoin('ist_iGroup.ilmSessions', 'ist_ilm2');
+            $qb->leftJoin('ist_offering.session', 'ist_session');
+            $qb->leftJoin('ist_ilm.session', 'ist_session2');
+            $qb->leftJoin('ist_offering2.session', 'ist_session3');
+            $qb->leftJoin('ist_ilm2.session', 'ist_session4');
+            $qb->leftJoin('ist_session.sessionType', 'ist_sessionType');
+            $qb->leftJoin('ist_session2.sessionType', 'ist_sessionType2');
+            $qb->leftJoin('ist_session3.sessionType', 'ist_sessionType3');
+            $qb->leftJoin('ist_session4.sessionType', 'ist_sessionType4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('ist_sessionType.id', ':sessionTypes'),
+                $qb->expr()->in('ist_sessionType2.id', ':sessionTypes'),
+                $qb->expr()->in('ist_sessionType3.id', ':sessionTypes'),
+                $qb->expr()->in('ist_sessionType4.id', ':sessionTypes')
+            ));
+            $qb->setParameter(':sessionTypes', $ids);
+        }
+
+        if (array_key_exists('instructorGroups', $criteria)) {
+            $ids = is_array($criteria['instructorGroups'])
+                ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
+            $qb->join('u.instructorGroups', 'ig_iGroup');
+            $qb->andWhere($qb->expr()->in('ig_iGroup.id', ':instructorGroups'));
+            $qb->setParameter(':instructorGroups', $ids);
+        }
+
+        if (array_key_exists('schools', $criteria)) {
+            $ids = is_array($criteria['schools'])
+                ? $criteria['schools'] : [$criteria['schools']];
+            $qb->join('u.school', 'sc_school');
+            $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
+            $qb->setParameter(':schools', $ids);
+        }
+
+        //cleanup all the possible relationship filters
+        unset($criteria['schools']);
+        unset($criteria['instructedCourses']);
+        unset($criteria['instructedSessions']);
+        unset($criteria['instructedLearningMaterials']);
+        unset($criteria['instructedTopics']);
+        unset($criteria['instructedSessionTypes']);
+        unset($criteria['instructorGroups']);
+
+        if (count($criteria)) {
+            foreach ($criteria as $key => $value) {
+                $values = is_array($value) ? $value : [$value];
+                $qb->andWhere($qb->expr()->in("u.{$key}", ":{$key}"));
+                $qb->setParameter(":{$key}", $values);
+            }
+        }
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb;
     }
 }
