@@ -84,11 +84,13 @@ class LdapAuthentication implements AuthenticationInterface
             $authEntity = $this->authManager->findAuthenticationByUsername($username);
             if ($authEntity) {
                 $user = $authEntity->getUser();
-                $passwordValid = $this->checkLdapPassword($username, $password);
-                if ($passwordValid) {
-                    $jwt = $this->jwtManager->createJwtFromUser($user);
-                    
-                    return $this->createSuccessResponseFromJWT($jwt);
+                if ($user->isEnabled()) {
+                    $passwordValid = $this->checkLdapPassword($username, $password);
+                    if ($passwordValid) {
+                        $jwt = $this->jwtManager->createJwtFromUser($user);
+
+                        return $this->createSuccessResponseFromJWT($jwt);
+                    }
                 }
             }
             $errors[] = 'badCredentials';

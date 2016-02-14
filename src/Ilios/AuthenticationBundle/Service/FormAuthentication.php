@@ -77,13 +77,16 @@ class FormAuthentication implements AuthenticationInterface
             $authEntity = $this->authManager->findAuthenticationByUsername($username);
             if ($authEntity) {
                 $user = $authEntity->getUser();
-                $passwordValid = $this->encoder->isPasswordValid($user, $password);
-                if ($passwordValid) {
-                    $this->updateLegacyPassword($authEntity, $password);
-                    $jwt = $this->jwtManager->createJwtFromUser($user);
-                    
-                    return $this->createSuccessResponseFromJWT($jwt);
+                if ($user->isEnabled()) {
+                    $passwordValid = $this->encoder->isPasswordValid($user, $password);
+                    if ($passwordValid) {
+                        $this->updateLegacyPassword($authEntity, $password);
+                        $jwt = $this->jwtManager->createJwtFromUser($user);
+
+                        return $this->createSuccessResponseFromJWT($jwt);
+                    }
                 }
+
             }
             $errors[] = 'badCredentials';
         }

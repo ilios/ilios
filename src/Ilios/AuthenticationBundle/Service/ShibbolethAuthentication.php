@@ -74,17 +74,22 @@ class ShibbolethAuthentication implements AuthenticationInterface
             throw new \Exception($msg);
         }
         $authEntity = $this->authManager->findAuthenticationBy(array('username' => $eppn));
-        if (!$authEntity) {
-            return new JsonResponse(array(
-                'status' => 'noAccountExists',
-                'eppn' => $eppn,
-                'errors' => [],
-                'jwt' => null,
-            ), JsonResponse::HTTP_OK);
+        if ($authEntity) {
+            $user = $authEntity->getUser();
+            if ($user->isEnabled()) {
+                $jwt = $this->jwtManager->createJwtFromUser($user);
+
+                return $this->createSuccessResponseFromJWT($jwt);
+            }
         }
-        $jwt = $this->jwtManager->createJwtFromUser($authEntity->getUser());
-        
-        return $this->createSuccessResponseFromJWT($jwt);
+
+        return new JsonResponse(array(
+            'status' => 'noAccountExists',
+            'eppn' => $eppn,
+            'errors' => [],
+            'jwt' => null,
+        ), JsonResponse::HTTP_OK);
+
     }
 
     /**

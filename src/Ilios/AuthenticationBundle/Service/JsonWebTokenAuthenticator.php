@@ -81,6 +81,11 @@ class JsonWebTokenAuthenticator implements SimplePreAuthenticatorInterface, Auth
         }
         
         $user = $userProvider->loadUserByUsername($username);
+        if (!$user->isEnabled()) {
+            throw new BadCredentialsException(
+                'Invalid JSON Web Token: user is disabled'
+            );
+        }
         $authentication = $user->getAuthentication();
         if ($authentication) {
             $tokenNotValidBefore = $authentication->getInvalidateTokenIssuedBefore();
