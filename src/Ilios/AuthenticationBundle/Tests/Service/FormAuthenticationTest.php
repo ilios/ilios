@@ -110,7 +110,8 @@ class FormAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->request = $parameterBag;
         
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface');
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $authManager->shouldReceive('findAuthenticationByUsername')
@@ -118,6 +119,41 @@ class FormAuthenticationTest extends TestCase
         $encoder->shouldReceive('isPasswordValid')->with($user, '123')->andReturn(false);
         $result = $obj->login($request);
         
+        $this->assertTrue($result instanceof JsonResponse);
+        $content = $result->getContent();
+        $data = json_decode($content);
+        $this->assertSame($data->status, 'error');
+        $this->assertTrue(in_array('badCredentials', $data->errors));
+    }
+
+    public function testDisabledUser()
+    {
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
+        $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
+        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
+        $obj = new FormAuthentication(
+            $authManager,
+            $encoder,
+            $tokenStorage,
+            $jwtManager
+        );
+
+        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
+            ->shouldReceive('get')->with('username')->andReturn('abc')
+            ->shouldReceive('get')->with('password')->andReturn('123')
+            ->mock();
+        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request->request = $parameterBag;
+
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('isEnabled')->andReturn(false)->mock();
+        $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+            ->shouldReceive('getUser')->andReturn($user)->mock();
+        $authManager->shouldReceive('findAuthenticationByUsername')
+            ->with('abc')->andReturn($authenticationEntity);
+        $result = $obj->login($request);
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
@@ -145,7 +181,8 @@ class FormAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->request = $parameterBag;
         
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface');
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)
             ->shouldReceive('isLegacyAccount')->andReturn(false)->mock();

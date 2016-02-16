@@ -1,6 +1,7 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Traits;
 
+use FOS\RestBundle\Util\Codes;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
 
@@ -60,6 +61,7 @@ trait JsonControllerTest
                 )
             );
             $response = $client->getResponse();
+            $this->assertJsonResponse($response, Codes::HTTP_OK);
             $response = json_decode($response->getContent(), true);
             $token = $response['jwt'];
         }

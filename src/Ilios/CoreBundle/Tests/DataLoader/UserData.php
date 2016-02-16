@@ -47,7 +47,7 @@ class UserData extends AbstractDataLoader
             'firstName' => 'first',
             'email' => 'first@example.com',
             'phone' => $this->faker->phoneNumber,
-            'enabled' => false,
+            'enabled' => true,
             'campusId' => '2222@school.edu',
             'userSyncIgnore' => true,
             'icsFeedKey' => hash('sha256', '2'),
