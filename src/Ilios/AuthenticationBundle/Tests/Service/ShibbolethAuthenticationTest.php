@@ -105,7 +105,7 @@ class ShibbolethAuthenticationTest extends TestCase
         $this->assertSame($data->eppn, 'userid1');
     }
     
-    public function testSuccess()
+    public function testDisabledUser()
     {
         $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
@@ -123,7 +123,8 @@ class ShibbolethAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->server = $serverBag;
         
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface');
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
         $authManager->shouldReceive('findAuthenticationBy')
@@ -133,6 +134,43 @@ class ShibbolethAuthenticationTest extends TestCase
         
         $result = $obj->login($request);
         
+        $this->assertTrue($result instanceof JsonResponse);
+        $content = $result->getContent();
+        $data = json_decode($content);
+        $this->assertSame($data->status, 'success');
+        $this->assertSame($data->jwt, 'jwt123Test');
+    }
+
+    public function testSuccess()
+    {
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
+        $logger = m::mock('Psr\Log\LoggerInterface');
+        $obj = new ShibbolethAuthentication(
+            $authManager,
+            $jwtManager,
+            $logger
+        );
+
+        $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')
+            ->shouldReceive('get')->with('Shib-Application-ID')->andReturn(true)
+            ->shouldReceive('get')->with('eppn')->andReturn('userid1')
+            ->mock();
+        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request->server = $serverBag;
+
+        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+            ->shouldReceive('isEnabled')->andReturn(true)->mock();
+
+        $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
+            ->shouldReceive('getUser')->andReturn($user)->mock();
+        $authManager->shouldReceive('findAuthenticationBy')
+            ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
+        $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
+
+
+        $result = $obj->login($request);
+
         $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
