@@ -9,10 +9,12 @@ class IndexController extends Controller
 {
     public function indexAction()
     {
-        $file = $this->get('iliosweb.assets')->getIndex();
+
+        $file = $this->get('iliosweb.redisindex')->getIndex('current-content');
         if (!$file) {
             throw new \Exception('Unable to retrieve the index file');
         }
+
         $response = new Response($file);
         $response->headers->set('Content-Type', 'text/html');
 
