@@ -38,15 +38,29 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
      * @var string
      */
     protected $cacheDir;
+
+    /**
+     * @var string
+     */
+    protected $releaseVersion;
+
+    /**
+     * @var boolean
+     */
+    protected $keepFrontendUpdated;
     
     public function __construct(
         WebIndexFromJson $builder,
         Filesystem $fs,
-        $kernelCacheDir
+        $kernelCacheDir,
+        $releaseVersion,
+        $keepFrontendUpdated
     ) {
         $this->builder = $builder;
         $this->fs = $fs;
         $this->cacheDir = $kernelCacheDir;
+        $this->releaseVersion = $releaseVersion;
+        $this->keepFrontendUpdated = $keepFrontendUpdated;
 
         parent::__construct();
     }
@@ -136,6 +150,10 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
      */
     protected function writeIndexFile($cacheDir, $environment, $version)
     {
+        if (!$this->keepFrontendUpdated) {
+            $version = $this->releaseVersion;
+        }
+
         $contents = $this->builder->getIndex($environment, $version);
         if (!$contents) {
             throw new \Exception('Unable to build the index file');
