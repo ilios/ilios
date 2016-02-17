@@ -4,4 +4,4 @@ services:
         arguments:    [%ilios_web.environment%, %ilios_web.version%, %ilios_web.bucket_url%, %kernel.cache_dir%]
     iliosweb.jsonindex:
         class: Ilios\WebBundle\Service\WebIndexFromJson
-        arguments:    ['@ilioscore.symfonyfilesystem', '@templating', %kernel.cache_dir%]
+        arguments:    ['@templating']

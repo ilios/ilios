@@ -18,15 +18,6 @@ class WebIndexFromJson
     const STAGING = 'stage';
     const DEVELOPMENT = 'dev';
 
-    /**
-     * @var string
-     */
-    protected $cacheDir;
-
-    /**
-     * @var Filesystem
-     */
-    protected $fs;
 
     /**
      * @var EngineInterface
@@ -39,11 +30,9 @@ class WebIndexFromJson
      * @param string $kernelCacheDir
      *
      */
-    public function __construct(Filesystem $fs, EngineInterface $templatingEngine, $kernelCacheDir)
+    public function __construct(EngineInterface $templatingEngine)
     {
-        $this->fs = $fs;
         $this->templatingEngine = $templatingEngine;
-        $this->cacheDir = $kernelCacheDir;
     }
 
 
@@ -130,12 +119,6 @@ class WebIndexFromJson
      */
     protected function getIndexFromAWS($fileName)
     {
-        $cacheLocation = $this->cacheDir . '/ilios/' . $fileName;
-
-        if ($this->fs->exists($cacheLocation)) {
-            return $this->fs->readFile($cacheLocation);
-        }
-
         $opts = array(
             'http'=>array(
                 'method'=>"GET"
@@ -144,12 +127,9 @@ class WebIndexFromJson
         $context = stream_context_create($opts);
         $url = self::AWS_BUCKER . $fileName;
         $fileContents = file_get_contents($url, false, $context);
-        if (false === $fileContents or empty($fileContents)) {
+        if (empty($fileContents)) {
             throw new \Exception('Failed to web asset from ' . $url);
         }
-
-        $this->fs->dumpFile($cacheLocation, $fileContents);
-
 
         return $fileContents;
     }
