@@ -9,7 +9,14 @@ use Ilios\WebBundle\Service\WebIndexFromJson;
 
 class WebIndexFromJsonTest extends TestCase
 {
-    protected $sampleJson = '{"base":[{"href":"/something/something"}],"meta":[{"name":"ilios/config/environment","content":"test-config"}],"link":[{"rel":"stylesheet","href":"first.css"},{"rel":"stylesheet","href":"second.css"}],"script":[{"src":"first.js"},{"src":"second.js"},{"src":"third.js"}]}';
+    protected $sampleJson;
+
+    public function setup()
+    {
+        $this->sampleJson = '{"base":[{"href":"/something/something"}],"meta":[{"name":"ilios/config/environment",' .
+            '"content":"test-config"}],"link":[{"rel":"stylesheet","href":"first.css"},{"rel":"stylesheet",' .
+            '"href":"second.css"}],"script":[{"src":"first.js"},{"src":"second.js"},{"src":"third.js"}]}';
+    }
 
     public function tearDown()
     {

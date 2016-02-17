@@ -51,7 +51,7 @@ class UpdateFrontendCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->builder->shouldReceive('getIndex')->once()->with('prod', null)->andReturn('index-string-thing');
         $this->fs->shouldReceive('dumpFile')->once()
-            ->with($this->fakeTestFileDir . '/ilios/index.html',  'index-string-thing');
+            ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
         
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -68,7 +68,7 @@ class UpdateFrontendCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->builder->shouldReceive('getIndex')->once()->with('stage', null)->andReturn('index-string-thing');
         $this->fs->shouldReceive('dumpFile')->once()
-            ->with($this->fakeTestFileDir . '/ilios/index.html',  'index-string-thing');
+            ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -87,7 +87,7 @@ class UpdateFrontendCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->builder->shouldReceive('getIndex')->once()->with('dev', null)->andReturn('index-string-thing');
         $this->fs->shouldReceive('dumpFile')->once()
-            ->with($this->fakeTestFileDir . '/ilios/index.html',  'index-string-thing');
+            ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -106,7 +106,7 @@ class UpdateFrontendCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->builder->shouldReceive('getIndex')->once()->with('prod', 'foo.bar')->andReturn('index-string-thing');
         $this->fs->shouldReceive('dumpFile')->once()
-            ->with($this->fakeTestFileDir . '/ilios/index.html',  'index-string-thing');
+            ->with($this->fakeTestFileDir . '/ilios/index.html', 'index-string-thing');
 
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,

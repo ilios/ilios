@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Classes;
 
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use \IOError;
+
 /**
  * Class Filesystem
  *

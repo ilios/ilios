@@ -55,21 +55,21 @@ class WebIndexFromJson
 
         $json = json_decode($content);
 
-        $metas = array_map(function($obj){
+        $metas = array_map(function ($obj) {
             return [
                 'name' => $obj->name,
                 'content' => $obj->content
             ];
         }, $json->meta);
 
-        $links = array_map(function($obj){
+        $links = array_map(function ($obj) {
             return [
                 'rel' => $obj->rel,
                 'href' => $obj->href
             ];
         }, $json->link);
 
-        $scripts = array_map(function($obj){
+        $scripts = array_map(function ($obj) {
             return $obj->src;
         }, $json->script);
 
