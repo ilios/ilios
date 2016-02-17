@@ -23,7 +23,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('frontend_release_version')->end()
+                ->scalarNode('frontend_release_version')->defaultValue('')->end()
                 ->booleanNode('keep_frontend_updated')->defaultValue(true)->end()
             ->end();
 

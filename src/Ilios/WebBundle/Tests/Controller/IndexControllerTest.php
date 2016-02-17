@@ -14,10 +14,8 @@ class IndexControllerTest extends WebTestCase
         $content = $response->getContent();
 
         $container = $client->getContainer();
-        $version = $container->getParameter('ilios_web.version');
-        $url = $container->getParameter('ilios_web.bucket_url');
-        $fileName = $version?'index.html:' . $version:'index.html';
-        $text = file_get_contents($url . $fileName, false);
+        $builder = $container->get('iliosweb.jsonindex');
+        $text = $builder->getIndex('prod');
 
         $this->assertSame($text, $content);
 
