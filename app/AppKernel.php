@@ -45,7 +45,6 @@ class AppKernel extends Kernel
             new Ilios\WebBundle\IliosWebBundle(),
             new Ilios\AuthenticationBundle\IliosAuthenticationBundle(),
             new Ilios\CliBundle\IliosCliBundle(),
-            new Snc\RedisBundle\SncRedisBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
