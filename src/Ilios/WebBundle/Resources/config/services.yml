@@ -2,3 +2,6 @@ services:
     iliosweb.assets:
         class: Ilios\WebBundle\Service\WebAssets
         arguments:    [%ilios_web.environment%, %ilios_web.version%, %ilios_web.bucket_url%, %kernel.cache_dir%]
+    iliosweb.redisindex:
+        class: Ilios\WebBundle\Service\WebIndexFromRedis
+        arguments:    ['@snc_redis.default', '@templating', %kernel.cache_dir%]

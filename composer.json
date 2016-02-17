@@ -31,7 +31,9 @@
         "matthiasnoback/symfony-console-form": "^1.2",
         "dreamscapes/ldap-core": "^3.1",
         "eluceo/ical": "0.8.0",
-        "exercise/htmlpurifier-bundle": "@stable"
+        "exercise/htmlpurifier-bundle": "@stable",
+        "snc/redis-bundle": "^1.1",
+        "predis/predis": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",
