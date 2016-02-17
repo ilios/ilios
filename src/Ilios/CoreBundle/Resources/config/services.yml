@@ -29,6 +29,8 @@ services:
     ilioscore.filesystem:
         class: Ilios\CoreBundle\Classes\IliosFileSystem
         arguments: ['@filesystem', "%ilios_core.file_store_path%"]
+    ilioscore.symfonyfilesystem:
+        class: Ilios\CoreBundle\Classes\Filesystem
     ilioscore.logger:
         class: Ilios\CoreBundle\Service\Logger
         arguments: ['@security.token_storage', '@ilioscore.auditlog.manager']
