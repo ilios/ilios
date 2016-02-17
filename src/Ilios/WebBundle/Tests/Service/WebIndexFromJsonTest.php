@@ -5,9 +5,9 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Mockery as m;
 
-use Ilios\WebBundle\Service\WebIndexFromRedis;
+use Ilios\WebBundle\Service\WebIndexFromJson;
 
-class WebIndexFromRedisTest extends TestCase
+class WebIndexFromJsonTest extends TestCase
 {
 
     protected $fakeTestFileDir;
@@ -20,7 +20,7 @@ class WebIndexFromRedisTest extends TestCase
     /**
      * @var Mockery/MockInterface
      */
-    protected $mockRedis;
+    protected $mockFileSystem;
 
     /**
      * @var Mockery/MockInterface
@@ -37,10 +37,10 @@ class WebIndexFromRedisTest extends TestCase
             $fs->mkdir($this->fakeTestFileDir);
         }
 
-        $this->mockRedis = m::mock('Predis\Client');
+        $this->mockFileSystem = m::mock('Ilios\CoreBundle\Classes\Filesystem');
         $this->mockTemplating = m::mock('Symfony\Component\Templating\EngineInterface');
 
-        $this->obj = new WebIndexFromRedis($this->mockRedis, $this->mockTemplating, $this->fakeTestFileDir);
+        $this->obj = new WebIndexFromJson($this->mockFileSystem, $this->mockTemplating, $this->fakeTestFileDir);
     }
 
     public function tearDown()
@@ -49,6 +49,8 @@ class WebIndexFromRedisTest extends TestCase
         $fs->remove($this->fakeTestFileDir);
 
         unset($this->obj);
+        unset($this->mockFileSystem);
+        unset($this->mockTemplating);
 
         m::close();
     }
@@ -58,14 +60,20 @@ class WebIndexFromRedisTest extends TestCase
      */
     public function testConstructor()
     {
-        $this->assertTrue($this->obj instanceof WebIndexFromRedis);
+        $this->assertTrue($this->obj instanceof WebIndexFromJson);
     }
 
     public function testGetIndex()
     {
-        $this->mockRedis->shouldReceive('get')->with('ilios:index:current-content')->once()
+        $this->mockFileSystem->shouldReceive('exists')
+            ->with($this->fakeTestFileDir . '/ilios/dev-v1.1/index.json')
+            ->andReturn(true);
+        $this->mockFileSystem->shouldReceive('readFile')
+            ->with($this->fakeTestFileDir . '/ilios/dev-v1.1/index.json')
             ->andReturn($this->sampleJson);
-
+        $this->mockFileSystem->shouldReceive('exists')
+            ->with($this->fakeTestFileDir . '/ilios/dev-v1.1/index.json')
+            ->andReturn($this->sampleJson);
         $this->mockTemplating->shouldReceive('exists')
             ->with('@custom_webindex_templates/webindex.html.twig')->andReturn(false);
         $this->mockTemplating->shouldReceive('exists')
@@ -95,33 +103,8 @@ class WebIndexFromRedisTest extends TestCase
                 'third.js',
             ],
         ])->once()->andReturn('compiledtemplatestring');
-        $result = $this->obj->getIndex('current-content');
+        $result = $this->obj->getIndex(WebIndexFromJson::DEVELOPMENT);
 
         $this->assertEquals('compiledtemplatestring', $result);
-    }
-
-    public function testClearCache()
-    {
-
-        $this->mockRedis->shouldReceive('get')->once()->andReturn($this->sampleJson);
-
-        $this->mockTemplating->shouldReceive('exists')->andReturn(true);
-        $this->mockTemplating->shouldReceive('render')->andReturn('compiledtemplatestring');
-        $this->obj->getIndex('current-content');
-        $fs = new SymfonyFileSystem();
-        $this->assertTrue($fs->exists($this->fakeTestFileDir), 'dir exists');
-        $this->assertTrue($fs->exists($this->fakeTestFileDir . '/ilios/ilios:index:current-content'), 'cached file exists');
-        $this->obj->clearCache('current-content');
-        $this->assertNotTrue($fs->exists($this->fakeTestFileDir . '/ilios/ilios:index:current-content'), 'cached file removed');
-    }
-
-
-
-    public function testGetIndexWithBadVersion()
-    {
-        $this->mockRedis->shouldReceive('get')->with('ilios:index:bad')->once()->andReturn('');
-        $this->setExpectedException(\Exception::class, 'Failed to get contents from redis for version bad');
-        $result = $this->obj->getIndex('bad');
-
     }
 }

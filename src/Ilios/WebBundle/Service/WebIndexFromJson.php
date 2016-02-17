@@ -1,27 +1,32 @@
 <?php
 namespace Ilios\WebBundle\Service;
 
-use Symfony\Component\Filesystem\Filesystem;
+use Ilios\CoreBundle\Classes\Filesystem;
 use Symfony\Component\Templating\EngineInterface;
-use Predis\Client;
 use Exception;
 
-class WebIndexFromRedis
+class WebIndexFromJson
 {
     /**
      * @var string
      */
     const DEFAULT_TEMPLATE_NAME = 'webindex.html.twig';
+    const API_VERSION = 'v1.1';
+    const AWS_BUCKER = 'https://s3-us-west-2.amazonaws.com/frontend-json-config/';
 
-    /**
-     * @var Client
-     */
-    protected $redis;
+    const PRODUCTION = 'prod';
+    const STAGING = 'stage';
+    const DEVELOPMENT = 'dev';
 
     /**
      * @var string
      */
     protected $cacheDir;
+
+    /**
+     * @var Filesystem
+     */
+    protected $fs;
 
     /**
      * @var EngineInterface
@@ -30,14 +35,13 @@ class WebIndexFromRedis
 
     /**
      * Construct
-     * @param Client $redis
      * @param EngineInterface $templatingEngine
      * @param string $kernelCacheDir
      *
      */
-    public function __construct(Client $redis, EngineInterface $templatingEngine, $kernelCacheDir)
+    public function __construct(Filesystem $fs, EngineInterface $templatingEngine, $kernelCacheDir)
     {
-        $this->redis = $redis;
+        $this->fs = $fs;
         $this->templatingEngine = $templatingEngine;
         $this->cacheDir = $kernelCacheDir;
     }
@@ -51,20 +55,14 @@ class WebIndexFromRedis
      *
      * @throws \Exception when unable to access the version
      */
-    public function getIndex($version)
+    public function getIndex($environment, $version = null)
     {
-        $fileName = 'ilios:index:' . $version;
-        $fs = new Filesystem();
-        $cacheLocation = $this->cacheDir . '/ilios/' . $fileName;
-
-        if ($fs->exists($cacheLocation)) {
-            return file_get_contents($cacheLocation);
+        $fileName = $environment . '-' . self::API_VERSION . '/index.json';
+        if ($version) {
+            $fileName .= ':' . $version;
         }
 
-        $content = $this->redis->get('ilios:index:' . $version);
-        if (!$content) {
-            throw new Exception('Failed to get contents from redis for version ' . $version);
-        }
+        $content = $this->getIndexFromAWS($fileName);
 
         $json = json_decode($content);
 
@@ -100,29 +98,8 @@ class WebIndexFromRedis
         if (!$body) {
             throw new Exception('Failed to create index file for version ' . $version);
         }
-        $fs->dumpFile($cacheLocation, $body);
 
         return $body;
-    }
-
-
-    /**
-     * Get the index file as a string
-     *
-     * @param string $version
-     * @return string
-     *
-     * @throws \Exception when unable to access the version
-     */
-    public function clearCache($version)
-    {
-        $fileName = 'ilios:index:' . $version;
-        $fs = new Filesystem();
-        $cacheLocation = $this->cacheDir . '/ilios/' . $fileName;
-
-        if ($fs->exists($cacheLocation)) {
-            $fs->remove($cacheLocation);
-        }
     }
 
 
@@ -141,5 +118,39 @@ class WebIndexFromRedis
             }
         }
         return 'IliosWebBundle:WebIndex:' .self::DEFAULT_TEMPLATE_NAME;
+    }
+
+    /**
+     * Get the string contents of a remote file
+     * @param  string $fileName the file we are fetching
+     *
+     * @return string
+     *
+     * @throws Exception when the file cannot be pulled from the server
+     */
+    protected function getIndexFromAWS($fileName)
+    {
+        $cacheLocation = $this->cacheDir . '/ilios/' . $fileName;
+
+        if ($this->fs->exists($cacheLocation)) {
+            return $this->fs->readFile($cacheLocation);
+        }
+
+        $opts = array(
+            'http'=>array(
+                'method'=>"GET"
+            )
+        );
+        $context = stream_context_create($opts);
+        $url = self::AWS_BUCKER . $fileName;
+        $fileContents = file_get_contents($url, false, $context);
+        if (false === $fileContents or empty($fileContents)) {
+            throw new \Exception('Failed to web asset from ' . $url);
+        }
+
+        $this->fs->dumpFile($cacheLocation, $fileContents);
+
+
+        return $fileContents;
     }
 }
