@@ -126,9 +126,9 @@ class WebIndexFromJson
         );
         $context = stream_context_create($opts);
         $url = self::AWS_BUCKER . $fileName;
-        $fileContents = file_get_contents($url, false, $context);
+        $fileContents = @file_get_contents($url, false, $context);
         if (empty($fileContents)) {
-            throw new \Exception('Failed to web asset from ' . $url);
+            throw new \Exception('Failed to load index configuration from ' . $url);
         }
 
         return $fileContents;

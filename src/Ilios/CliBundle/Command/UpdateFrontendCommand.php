@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 use Ilios\WebBundle\Service\WebIndexFromJson;
 use Ilios\CoreBundle\Classes\Filesystem;
@@ -16,7 +17,7 @@ use Ilios\CoreBundle\Classes\Filesystem;
  * Class UpdateFrontendCommand
  * @package Ilios\CliBUndle\Command
  */
-class UpdateFrontendCommand extends Command
+class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 {
     /**
      * @var string
@@ -95,14 +96,8 @@ class UpdateFrontendCommand extends Command
             $environment = WebIndexFromJson::DEVELOPMENT;
         }
         $version = $versionOverride?$versionOverride:null;
+        $this->writeIndexFile($this->cacheDir, $environment, $version);
 
-
-        $contents = $this->builder->getIndex($environment, $version);
-        if (!$contents) {
-            throw new \Exception('Unable to build the index file');
-        }
-
-        $this->fs->dumpFile($this->cacheDir . '/' . self::CACHE_FILE_NAME, $contents);
         $message = 'Frontend updated successfully';
         if ($stagingBuild) {
             $message .= ' from staging build';
@@ -115,5 +110,37 @@ class UpdateFrontendCommand extends Command
         }
         $output->writeln("<info>{$message}!</info>");
 
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function warmUp($cacheDir)
+    {
+        $this->writeIndexFile($cacheDir, WebIndexFromJson::PRODUCTION, null);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isOptional()
+    {
+        return false;
+    }
+
+    /**
+     * @param string $environment
+     * @param string $version
+     *
+     * @throws \Exception
+     */
+    protected function writeIndexFile($cacheDir, $environment, $version)
+    {
+        $contents = $this->builder->getIndex($environment, $version);
+        if (!$contents) {
+            throw new \Exception('Unable to build the index file');
+        }
+
+        $this->fs->dumpFile($cacheDir . '/' . self::CACHE_FILE_NAME, $contents);
     }
 }

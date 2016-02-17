@@ -74,3 +74,4 @@ services:
         arguments: ["@iliosweb.jsonindex", '@ilioscore.symfonyfilesystem', %kernel.cache_dir%]
         tags:
             -  { name: console.command }
+            -  { name: kernel.cache_warmer }
