@@ -36,7 +36,7 @@ class UserData extends AbstractDataLoader
             'roles' => ['1'],
             'cohorts' => ['1'],
             'reminders' => [],
-            'pendingUserUpdates' => ['1', '2'],
+            'pendingUserUpdates' => ['1'],
             'permissions' => [],
         );
 
@@ -129,7 +129,7 @@ class UserData extends AbstractDataLoader
             'roles' => [],
             'cohorts' => [],
             'reminders' => [],
-            'pendingUserUpdates' => [],
+            'pendingUserUpdates' => ['2'],
             'permissions' => [],
         );
 
