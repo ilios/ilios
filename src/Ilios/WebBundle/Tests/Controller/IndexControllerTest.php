@@ -17,6 +17,8 @@ class IndexControllerTest extends WebTestCase
         $builder = $container->get('iliosweb.jsonindex');
         $text = $builder->getIndex('prod');
 
+        $text = preg_replace('/\s+/', '', $text);
+        $content = preg_replace('/\s+/', '', $content);
         $this->assertSame($text, $content);
 
         //ensure we have a 60 second max age
