@@ -17,7 +17,7 @@ class IndexController extends Controller
 
         if (!$fs->exists($path)) {
             throw new \Exception(
-                'Unable to load the index file.  Run ilios:maintenance:update-frontend to create it.'
+                "Unable to load the index file at {$path}.  Run ilios:maintenance:update-frontend to create it."
             );
         }
         $contents = $fs->readFile($path);
