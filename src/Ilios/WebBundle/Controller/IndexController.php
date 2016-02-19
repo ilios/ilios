@@ -6,8 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Ilios\CliBundle\Command\UpdateFrontendCommand;
 
-use Ilios\WebBundle\Service\WebIndexFromJson;
-
 class IndexController extends Controller
 {
     public function indexAction()
