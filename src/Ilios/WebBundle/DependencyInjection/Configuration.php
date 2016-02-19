@@ -23,17 +23,8 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->enumNode('environment')
-                  ->values(array('production', 'staging'))
-                  ->defaultValue('production')
-                ->end()
-                ->scalarNode('version')->defaultValue(false)->end()
-                ->scalarNode('production_bucket_path')
-                  ->defaultValue('https://s3-us-west-2.amazonaws.com/frontend-apiv1.0-index-prod/')
-                ->end()
-                ->scalarNode('staging_bucket_path')
-                  ->defaultValue('https://s3-us-west-2.amazonaws.com/frontend-apiv1.0-index-stage/')
-                ->end()
+                ->scalarNode('frontend_release_version')->defaultValue('')->end()
+                ->booleanNode('keep_frontend_updated')->defaultValue(true)->end()
             ->end();
 
         return $treeBuilder;

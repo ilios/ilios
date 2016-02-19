@@ -1,0 +1,44 @@
+{#
+/**
+ * @file
+ * Default template web index.html file
+ *
+ * Available variables:
+ * - $base_url: The Ilios base URL.
+ * - $metas:    Array of meta tags to create
+ * - $links:    Array of link tags to create
+ * - $scripts:  Array of script tags to create
+ */
+#}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ilios</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <base href="{{ base_url }}" />
+    {% for m in metas %}
+        <meta name="{{ m.name }}" content="{{ m.content }}" />
+    {% endfor %}
+    <meta name='iliosconfig-api-name-space'content='api/v1'>
+    <meta name='iliosconfig-api-host'content=''>
+
+    {% for l in links %}
+        <link rel="{{ l.rel }}" href="{{ l.href }}">
+    {% endfor %}
+
+</head>
+<body>
+<noscript><p>For full functionality of this site it is necessary to enable JavaScript.Here are the <a href='http://www.enable-javascript.com/' target='_blank'>instructions how to enable JavaScript in your web browser</a>.</p></noscript>
+<div id='initialpageloader' class='ember-load-indicator'><header class='main'><div class='logo'><span class='image'></span></div></header><div id='site-container'><h1><i class='fa fa-spinner fa-pulse fa-3x'></i></h1><p id='browsererrormessage' class='hidden'>It is possible that your browser is not supported by Ilios.  Please refresh this page or try a different browser.</p></div></div></div>
+
+{% for s in scripts %}
+    <script src="{{ s }}"></script>
+{% endfor %}
+
+</body>
+</html>
