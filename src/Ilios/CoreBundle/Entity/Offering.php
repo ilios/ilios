@@ -322,7 +322,9 @@ class Offering implements OfferingInterface
      */
     public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
     {
-        $this->instructorGroups->add($instructorGroup);
+        if (! $this->instructorGroups->contains($instructorGroup)) {
+            $this->instructorGroups->add($instructorGroup);
+        }
     }
 
     /**
@@ -350,7 +352,9 @@ class Offering implements OfferingInterface
      */
     public function addLearner(UserInterface $learner)
     {
-        $this->learners->add($learner);
+        if (! $this->learners->contains($learner)) {
+            $this->learners->add($learner);
+        }
     }
 
     /**

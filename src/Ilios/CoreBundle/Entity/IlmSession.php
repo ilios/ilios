@@ -255,7 +255,9 @@ class IlmSession implements IlmSessionInterface
      */
     public function addInstructor(UserInterface $instructor)
     {
-        $this->instructors->add($instructor);
+        if (!$this->instructors->contains($instructor)) {
+            $this->instructors->add($instructor);
+        }
     }
 
     /**
@@ -283,7 +285,9 @@ class IlmSession implements IlmSessionInterface
      */
     public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
     {
-        $this->instructorGroups->add($instructorGroup);
+        if (! $this->instructorGroups->contains($instructorGroup)) {
+            $this->instructorGroups->add($instructorGroup);
+        }
     }
 
     /**
@@ -324,7 +328,9 @@ class IlmSession implements IlmSessionInterface
      */
     public function addLearner(UserInterface $learner)
     {
-        $this->learners->add($learner);
+        if (! $this->learners->contains($learner)) {
+            $this->learners->add($learner);
+        }
     }
 
     /**
