@@ -22,7 +22,7 @@ class PendingUserUpdateData extends AbstractDataLoader
             'type' => $this->faker->text(15),
             'property' => $this->faker->text(5),
             'value' => $this->faker->text(25),
-            'user' => '1',
+            'user' => '4',
         );
 
         return $arr;

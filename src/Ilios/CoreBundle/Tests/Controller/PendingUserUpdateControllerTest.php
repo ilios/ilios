@@ -213,4 +213,62 @@ class PendingUserUpdateControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByUsers()
+    {
+        $pendingUserUpdates = $this->container
+            ->get('ilioscore.dataloader.pendinguserupdate')
+            ->getAll()
+        ;
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_pendinguserupdates', ['filters[users]' => [1]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['pendingUserUpdates'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $pendingUserUpdates[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterBySchools()
+    {
+        $pendingUserUpdates = $this->container
+            ->get('ilioscore.dataloader.pendinguserupdate')
+            ->getAll()
+        ;
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_pendinguserupdates', ['filters[schools]' => [2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['pendingUserUpdates'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $pendingUserUpdates[1]
+            ),
+            $data[0]
+        );
+    }
 }
