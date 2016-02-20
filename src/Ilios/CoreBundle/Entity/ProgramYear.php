@@ -308,7 +308,9 @@ class ProgramYear implements ProgramYearInterface
      */
     public function addDirector(UserInterface $director)
     {
-        $this->directors->add($director);
+        if (! $this->directors->contains($director)) {
+            $this->directors->add($director);
+        }
     }
 
     /**

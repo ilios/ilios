@@ -719,12 +719,53 @@ class UserControllerTest extends AbstractControllerTest
     /**
      * @group controllers_b
      */
-    public function testPutUser()
+    public function testPutUser1()
     {
         $data = $this->container
             ->get('ilioscore.dataloader.user')
             ->getOne();
 
+        $data['userSyncIgnore'] = true;
+        $data['firstName'] = 'Omar';
+        $data['lastName'] = 'Vizquel';
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        unset($postData['alerts']);
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_users',
+                ['id' => $data['id']]
+            ),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertEquals(
+            $this->mockSerialize($data),
+            json_decode($response->getContent(), true)['user']
+        );
+    }
+
+    /**
+     * PUT the second user because it contains many relationships that user 1 does not
+     * @group controllers_b
+     */
+    public function testPutUser2()
+    {
+        $datas = $this->container
+            ->get('ilioscore.dataloader.user')
+            ->getAll();
+        $data = $datas[1];
         $data['userSyncIgnore'] = true;
         $data['firstName'] = 'Omar';
         $data['lastName'] = 'Vizquel';

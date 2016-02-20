@@ -22,7 +22,7 @@ class CourseData extends AbstractDataLoader
             'published' => true,
             'school' => "1",
             'clerkshipType' => "1",
-            'directors' => [],
+            'directors' => ['1'],
             'cohorts' => ['1'],
             'topics' => [],
             'terms' => [],

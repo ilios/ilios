@@ -499,7 +499,9 @@ class Course implements CourseInterface
      */
     public function addDirector(UserInterface $director = null)
     {
-        $this->directors->add($director);
+        if (!$this->directors->contains($director)) {
+            $this->directors->add($director);
+        }
     }
 
     /**
