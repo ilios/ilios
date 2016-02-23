@@ -36,6 +36,23 @@ class DirectoryController extends Controller
         $limit = $request->query->has('limit')?$request->query->get('limit'):count($results);
         $results = array_slice($results, $offset, $limit);
 
+        $campusIds = array_map(function ($arr) {
+            return $arr['campusId'];
+        }, $results);
+        $userManager = $this->get('ilioscore.user.manager');
+        $dtos = $userManager->findAllMatchingDTOsByCampusIds($campusIds);
+
+        $usersIdsByCampusId = [];
+        foreach ($dtos as $dto) {
+            $usersIdsByCampusId[$dto->campusId] = $dto->id;
+        }
+
+        $results = array_map(function ($arr) use ($usersIdsByCampusId) {
+            $arr['user'] = !empty($usersIdsByCampusId[$arr['campusId']])?$usersIdsByCampusId[$arr['campusId']]:null;
+
+            return $arr;
+        }, $results);
+
         return new JsonResponse(array('results' => $results));
     }
 }

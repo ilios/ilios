@@ -67,6 +67,15 @@ interface UserManagerInterface extends ManagerInterface
     );
 
     /**
+     * @param array $campusIds
+     *
+     * @return UserDTO[]
+     */
+    public function findAllMatchingDTOsByCampusIds(
+        array $criteria
+    );
+
+    /**
      * @param UserInterface $user
      * @param bool $andFlush
      * @param bool $forceId

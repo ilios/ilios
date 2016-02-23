@@ -59,6 +59,15 @@ class UserManager extends AbstractManager implements UserManagerInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function findAllMatchingDTOsByCampusIds(
+        array $campusIds
+    ) {
+        return $this->getRepository()->findAllMatchingDTOsByCampusIds($campusIds);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function updateUser(

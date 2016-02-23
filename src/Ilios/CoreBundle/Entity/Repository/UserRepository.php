@@ -104,71 +104,25 @@ class UserRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder()->select('u')->from('IliosCoreBundle:User', 'u');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        $userDTOs = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $userDTOs[$arr['id']] = new UserDTO(
-                $arr['id'],
-                $arr['firstName'],
-                $arr['lastName'],
-                $arr['middleName'],
-                $arr['phone'],
-                $arr['email'],
-                $arr['enabled'],
-                $arr['campusId'],
-                $arr['otherId'],
-                $arr['userSyncIgnore'],
-                $arr['icsFeedKey']
-            );
-        }
+        return $this->createUserDTOs($qb->getQuery());
+    }
 
-        $userIds = array_keys($userDTOs);
-
-        $qb = $this->_em->createQueryBuilder()
-            ->select('u.id AS userId, c.id AS primaryCohortId, s.id AS schoolId')
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $campusIds
+     *
+     * @return UserDTO[]
+     */
+    public function findAllMatchingDTOsByCampusIds(array $campusIds)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('u')
             ->from('IliosCoreBundle:User', 'u')
-            ->join('u.school', 's')
-            ->leftJoin('u.primaryCohort', 'c')
-            ->where($qb->expr()->in('u.id', ':userIds'))
-            ->setParameter('userIds', $userIds);
+            ->where($qb->expr()->in('u.campusId', ':campusIds'));
+        $qb->setParameter(':campusIds', $campusIds);
 
-        foreach ($qb->getQuery()->getResult() as $arr) {
-            $userDTOs[$arr['userId']]->primaryCohort = $arr['primaryCohortId'] ? $arr['primaryCohortId'] : null;
-            $userDTOs[$arr['userId']]->school = $arr['schoolId'];
-        }
-
-        $related = [
-            'reminders',
-            'directedCourses',
-            'learnerGroups',
-            'instructedLearnerGroups',
-            'instructorGroups',
-            'offerings',
-            'instructedOfferings',
-            'instructorIlmSessions',
-            'programYears',
-            'roles',
-            'reports',
-            'cohorts',
-            'pendingUserUpdates',
-            'auditLogs',
-            'permissions',
-            'learnerIlmSessions'
-        ];
-
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, u.id AS userId')->from('IliosCoreBundle:User', 'u')
-                ->join("u.{$rel}", 'r')
-                ->where($qb->expr()->in('u.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $userIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $userDTOs[$arr['userId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        return array_values($userDTOs);
+        return $this->createUserDTOs($qb->getQuery());
     }
 
     /**
@@ -769,5 +723,78 @@ class UserRepository extends EntityRepository
         }
 
         return $qb;
+    }
+
+    /**
+     * @param AbstractQuery $query
+     * @return UserDTO[]
+     */
+    protected function createUserDTOs(AbstractQuery $query)
+    {
+        $userDTOs = [];
+        foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $userDTOs[$arr['id']] = new UserDTO(
+                $arr['id'],
+                $arr['firstName'],
+                $arr['lastName'],
+                $arr['middleName'],
+                $arr['phone'],
+                $arr['email'],
+                $arr['enabled'],
+                $arr['campusId'],
+                $arr['otherId'],
+                $arr['userSyncIgnore'],
+                $arr['icsFeedKey']
+            );
+        }
+
+        $userIds = array_keys($userDTOs);
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('u.id AS userId, c.id AS primaryCohortId, s.id AS schoolId')
+            ->from('IliosCoreBundle:User', 'u')
+            ->join('u.school', 's')
+            ->leftJoin('u.primaryCohort', 'c')
+            ->where($qb->expr()->in('u.id', ':userIds'))
+            ->setParameter('userIds', $userIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $userDTOs[$arr['userId']]->primaryCohort = $arr['primaryCohortId'] ? $arr['primaryCohortId'] : null;
+            $userDTOs[$arr['userId']]->school = $arr['schoolId'];
+        }
+
+        $related = [
+            'reminders',
+            'directedCourses',
+            'learnerGroups',
+            'instructedLearnerGroups',
+            'instructorGroups',
+            'offerings',
+            'instructedOfferings',
+            'instructorIlmSessions',
+            'programYears',
+            'roles',
+            'reports',
+            'cohorts',
+            'pendingUserUpdates',
+            'auditLogs',
+            'permissions',
+            'learnerIlmSessions'
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder();
+            $qb->select('r.id as relId, u.id AS userId')->from('IliosCoreBundle:User', 'u')
+                ->join("u.{$rel}", 'r')
+                ->where($qb->expr()->in('u.id', ':ids'))
+                ->orderBy('relId')
+                ->setParameter('ids', $userIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $userDTOs[$arr['userId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        return array_values($userDTOs);
     }
 }
