@@ -32,6 +32,9 @@ class DirectoryController extends Controller
             }
 
         }
+        $offset = $request->query->has('offset')?$request->query->get('offset'):0;
+        $limit = $request->query->has('limit')?$request->query->get('limit'):count($results);
+        $results = array_slice($results, $offset, $limit);
 
         return new JsonResponse(array('results' => $results));
     }
