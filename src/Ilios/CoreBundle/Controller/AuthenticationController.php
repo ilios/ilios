@@ -59,10 +59,11 @@ class AuthenticationController extends FOSRestController
                     $encoder = $this->container->get('security.password_encoder');
                     $encodedPassword = $encoder->encodePassword($user, $data['password']);
                     $data['passwordBcrypt'] = $encodedPassword;
-                    unset($data['password']);
                 }
 
             }
+            //unset the password here in case it is NULL and didn't satisy the above condition
+            unset($data['password']);
 
             $authentication = $handler->post($data);
 

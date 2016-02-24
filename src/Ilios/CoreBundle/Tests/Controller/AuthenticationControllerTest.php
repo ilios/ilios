@@ -53,6 +53,27 @@ class AuthenticationControllerTest extends AbstractControllerTest
     /**
      * @group controllers_a
      */
+    public function testPostAuthenticationWithEmptyPassword()
+    {
+        $data = $this->container->get('ilioscore.dataloader.authentication')
+            ->create();
+        $data['password'] = null;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_authentications'),
+            json_encode(['authentication' => $data]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+    }
+
+    /**
+     * @group controllers_a
+     */
     public function testPostBadAuthentication()
     {
         $invalidAuthentication = $this->container
