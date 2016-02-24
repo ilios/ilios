@@ -25,6 +25,7 @@ class LearningMaterialData extends AbstractDataLoader
             'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => ['1', '3'],
             'citation' => $this->faker->text,
+            'mimetype' => 'citation',
         );
 
         $arr[] = array(
@@ -40,6 +41,7 @@ class LearningMaterialData extends AbstractDataLoader
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [2],
             'link' => $this->faker->url,
+            'mimetype' => 'link',
         );
 
         $arr[] = array(
@@ -79,6 +81,7 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightRationale' => $this->faker->text,
             'copyrightPermission' => true,
             'citation' => $this->faker->text,
+            'mimetype' => 'citation',
         );
     }
 
@@ -97,6 +100,7 @@ class LearningMaterialData extends AbstractDataLoader
             'status' => "1",
             'owningUser' => "1",
             'citation' => $this->faker->text,
+            'mimetype' => 'citation',
         );
     }
 
@@ -115,6 +119,7 @@ class LearningMaterialData extends AbstractDataLoader
             'status' => "1",
             'owningUser' => "1",
             'link' => $this->faker->url,
+            'mimetype' => 'link',
         );
     }
 
