@@ -52,10 +52,10 @@ class LoadLearningMaterialData extends AbstractFixture implements
             $entity->setStatus($this->getReference('learningMaterialStatus' . $arr['status']));
             $entity->setOwningUser($this->getReference('users' . $arr['owningUser']));
             $optional = [
+                'mimetype',
                 'link',
                 'citation',
                 'filename',
-                'mimetype',
                 'filesize',
                 'token',
             ];

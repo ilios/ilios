@@ -110,8 +110,10 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\ManyToOne(targetEntity="LearningMaterialUserRole", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="learning_material_user_role_id", referencedColumnName="learning_material_user_role_id",
-           nullable=false)
+     *   @ORM\JoinColumn(
+     *     name="learning_material_user_role_id",
+     *     referencedColumnName="learning_material_user_role_id",
+     *     nullable=false)
      * })
      */
     protected $userRole;
@@ -121,8 +123,10 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\ManyToOne(targetEntity="LearningMaterialStatus", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="learning_material_status_id", referencedColumnName="learning_material_status_id",
-           nullable=false)
+     *   @ORM\JoinColumn(
+     *     name="learning_material_status_id",
+     *     referencedColumnName="learning_material_status_id",
+     *     nullable=false)
      * })
      */
     protected $status;
@@ -361,10 +365,11 @@ class LearningMaterial implements LearningMaterialInterface
 
 
     /**
-     * @param string $text
+     * @param string $citation
      */
     public function setCitation($citation)
     {
+        $this->mimetype = 'citation';
         $this->citation = $citation;
     }
 
@@ -473,26 +478,11 @@ class LearningMaterial implements LearningMaterialInterface
     }
 
     /**
-     * @return string
-     */
-    public function getAbsolutePath()
-    {
-        return ($this->getResource() === null) ? null : $this->getUploadRootDir() . DIRECTORY_SEPARATOR;
-    }
-
-    /**
-     * @return string
-     */
-    public function getWebPath()
-    {
-        return ($this->getResource() === null) ? null : $this->getUploadDir() . DIRECTORY_SEPARATOR;
-    }
-
-    /**
      * @param string $link
      */
     public function setLink($link)
     {
+        $this->mimetype = 'link';
         $this->link = $link;
     }
 

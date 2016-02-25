@@ -285,7 +285,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostLearningMaterialCitation()
     {
@@ -312,6 +312,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         unset($responseData['id']);
         unset($responseData['uploadDate']);
         unset($responseData['copyrightPermission']);
+        unset($postData['mimetype']);
         $this->assertEquals(
             $data,
             $responseData,
@@ -323,7 +324,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostLearningMaterialLink()
     {
@@ -334,6 +335,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['courseLearningMaterials']);
         unset($postData['sessionLearningMaterials']);
+        unset($postData['mimetype']);
 
         $this->createJsonRequest(
             'POST',
@@ -361,7 +363,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostLearningMaterialFile()
     {
@@ -443,7 +445,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadLearningMaterial()
     {
@@ -464,7 +466,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadLearningMaterialCitation()
     {
@@ -485,7 +487,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadLearningMaterialLink()
     {
@@ -506,7 +508,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutLearningMaterial()
     {
@@ -547,7 +549,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testDeleteLearningMaterial()
     {
@@ -583,7 +585,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testLearningMaterialNotFound()
     {
@@ -599,7 +601,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterByMimeType()
     {
@@ -629,7 +631,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterByIds()
     {
@@ -665,7 +667,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterByRole()
     {
@@ -701,7 +703,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterByMimeTypeAndRole()
     {
@@ -731,7 +733,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterByCourse()
     {
@@ -767,7 +769,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterBySession()
     {
@@ -799,7 +801,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
 
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterByInstructor()
     {
@@ -835,7 +837,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterByInstructorGroup()
     {
@@ -865,7 +867,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterByTopic()
     {
@@ -901,7 +903,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterByMeshDescriptor()
     {
@@ -943,7 +945,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testFilterBySessionType()
     {
