@@ -68,7 +68,7 @@ class Objective implements ObjectiveInterface
      *
      * @ORM\ManyToOne(targetEntity="Competency", inversedBy="objectives")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="competency_id", referencedColumnName="competency_id")
+     *   @ORM\JoinColumn(name="competency_id", referencedColumnName="competency_id", onDelete="SET NULL")
      * })
      *
      * @JMS\Expose
