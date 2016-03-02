@@ -1,15 +1,40 @@
 # Change Log
 
-## [v3.6.0](https://github.com/ilios/ilios/tree/v3.6.0)
+## [v3.7.0](https://github.com/ilios/ilios/tree/v3.7.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.6.0...v3.7.0)
+
+**Implemented enhancements:**
+
+- Default dashboard to primary school for user [\#1321](https://github.com/ilios/ilios/issues/1321)
+
+**Closed issues:**
+
+- New citation learning materials should get the mime-type citation [\#1339](https://github.com/ilios/ilios/issues/1339)
+- Disabled users are allowed to login [\#1332](https://github.com/ilios/ilios/issues/1332)
+- How shall we handle frontend updates [\#1062](https://github.com/ilios/ilios/issues/1062)
+
+**Merged pull requests:**
+
+- Update composer libraries [\#1341](https://github.com/ilios/ilios/pull/1341) ([jrjohnson](https://github.com/jrjohnson))
+- Link and Citation learning materials get a corresponding mimetype [\#1340](https://github.com/ilios/ilios/pull/1340) ([jrjohnson](https://github.com/jrjohnson))
+- Allow an empty password to be passed to authentication POST [\#1338](https://github.com/ilios/ilios/pull/1338) ([jrjohnson](https://github.com/jrjohnson))
+- Improve directory [\#1337](https://github.com/ilios/ilios/pull/1337) ([jrjohnson](https://github.com/jrjohnson))
+- Add duplicate protection to entities [\#1336](https://github.com/ilios/ilios/pull/1336) ([jrjohnson](https://github.com/jrjohnson))
+- New PendingUsers filters [\#1335](https://github.com/ilios/ilios/pull/1335) ([jrjohnson](https://github.com/jrjohnson))
+- Update the frontend automatically [\#1334](https://github.com/ilios/ilios/pull/1334) ([jrjohnson](https://github.com/jrjohnson))
+- Prevent disabled users from logging in [\#1333](https://github.com/ilios/ilios/pull/1333) ([jrjohnson](https://github.com/jrjohnson))
+- Add UserDTO [\#1331](https://github.com/ilios/ilios/pull/1331) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.6.0](https://github.com/ilios/ilios/tree/v3.6.0) (2016-02-12)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.5.0...v3.6.0)
 
 **Closed issues:**
 
 - 403/access denied error when requesting instructor groups from the dashboard calendar. [\#1322](https://github.com/ilios/ilios/issues/1322)
 - Loading all sessions is too memory intensive [\#1313](https://github.com/ilios/ilios/issues/1313)
-- Loading all courses is too memory intensive [\#1312](https://github.com/ilios/ilios/issues/1312)
 - Learner Groups with Learners From Multiple Schools Not Displaying [\#1307](https://github.com/ilios/ilios/issues/1307)
+- Loading all courses is too memory intensive [\#1312](https://github.com/ilios/ilios/issues/1312)
 
 **Merged pull requests:**
 
