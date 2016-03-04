@@ -19,7 +19,6 @@ class ProgramYearData extends AbstractDataLoader
             'cohort' => "1",
             'directors' => ['1'],
             'competencies' => ['1', '3'],
-            'topics' => [],
             'terms' => [],
             'objectives' => ['1'],
             'stewards' => ['1', '2']
@@ -35,7 +34,6 @@ class ProgramYearData extends AbstractDataLoader
             'cohort' => "2",
             'directors' => [],
             'competencies' => [],
-            'topics' => ["1"],
             'terms' => ['1', '4'],
             'objectives' => [],
             'stewards' => []
@@ -51,7 +49,6 @@ class ProgramYearData extends AbstractDataLoader
             'cohort' => "3",
             'directors' => [],
             'competencies' => [],
-            'topics' => [],
             'terms' => [],
             'objectives' => [],
             'stewards' => []
@@ -69,7 +66,6 @@ class ProgramYearData extends AbstractDataLoader
             'program' => "1",
             'directors' => [],
             'competencies' => [],
-            'topics' => [],
             'terms' => [],
             'objectives' => [],
             'locked' => false,

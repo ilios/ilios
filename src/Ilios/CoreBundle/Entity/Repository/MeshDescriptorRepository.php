@@ -183,51 +183,51 @@ class MeshDescriptorRepository extends EntityRepository
             $qb->setParameter(':lm', $ids);
         }
 
-        if (array_key_exists('topics', $criteria)) {
-            $ids = is_array($criteria['topics']) ?
-                $criteria['topics'] : [$criteria['topics']];
+        if (array_key_exists('terms', $criteria)) {
+            $ids = is_array($criteria['terms']) ?
+                $criteria['terms'] : [$criteria['terms']];
             $qb->leftJoin('m.courses', 'course');
             $qb->leftJoin('m.objectives', 'objective');
             $qb->leftJoin('m.sessions', 'session');
             $qb->leftJoin('m.courseLearningMaterials', 'clm');
-            $qb->leftJoin('course.topics', 'topics');
+            $qb->leftJoin('course.terms', 'terms');
             $qb->leftJoin('objective.courses', 'course2');
-            $qb->leftJoin('course2.topics', 'topics2');
+            $qb->leftJoin('course2.terms', 'terms2');
             $qb->leftJoin('clm.course', 'course3');
-            $qb->leftJoin('course3.topics', 'topics3');
+            $qb->leftJoin('course3.terms', 'terms3');
             $qb->leftJoin('session.course', 'course4');
-            $qb->leftJoin('session.topics', 'topics4');
-            $qb->leftJoin('course4.topics', 'topics5');
+            $qb->leftJoin('session.terms', 'terms4');
+            $qb->leftJoin('course4.terms', 'terms5');
             $qb->leftJoin('objective.sessions', 'session2');
             $qb->leftJoin('session2.course', 'course5');
-            $qb->leftJoin('session2.topics', 'topics6');
-            $qb->leftJoin('course5.topics', 'topics7');
+            $qb->leftJoin('session2.terms', 'terms6');
+            $qb->leftJoin('course5.terms', 'terms7');
             $qb->leftJoin('m.sessionLearningMaterials', 'slm');
             $qb->leftJoin('slm.session', 'session3');
             $qb->leftJoin('session3.course', 'course6');
-            $qb->leftJoin('session3.topics', 'topics8');
-            $qb->leftJoin('course6.topics', 'topics9');
+            $qb->leftJoin('session3.terms', 'terms8');
+            $qb->leftJoin('course6.terms', 'terms9');
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->in('topics.id', ':topics'),
-                    $qb->expr()->in('topics2.id', ':topics'),
-                    $qb->expr()->in('topics3.id', ':topics'),
-                    $qb->expr()->in('topics4.id', ':topics'),
-                    $qb->expr()->in('topics5.id', ':topics'),
-                    $qb->expr()->in('topics6.id', ':topics'),
-                    $qb->expr()->in('topics7.id', ':topics'),
-                    $qb->expr()->in('topics8.id', ':topics'),
-                    $qb->expr()->in('topics9.id', ':topics')
+                    $qb->expr()->in('terms.id', ':terms'),
+                    $qb->expr()->in('terms2.id', ':terms'),
+                    $qb->expr()->in('terms3.id', ':terms'),
+                    $qb->expr()->in('terms4.id', ':terms'),
+                    $qb->expr()->in('terms5.id', ':terms'),
+                    $qb->expr()->in('terms6.id', ':terms'),
+                    $qb->expr()->in('terms7.id', ':terms'),
+                    $qb->expr()->in('terms8.id', ':terms'),
+                    $qb->expr()->in('terms9.id', ':terms')
                 )
             );
-            $qb->setParameter(':topics', $ids);
+            $qb->setParameter(':terms', $ids);
         }
 
         unset($criteria['courses']);
         unset($criteria['sessions']);
         unset($criteria['sessionTypes']);
         unset($criteria['learningMaterials']);
-        unset($criteria['topics']);
+        unset($criteria['terms']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {

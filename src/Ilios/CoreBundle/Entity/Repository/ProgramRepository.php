@@ -51,12 +51,12 @@ class ProgramRepository extends EntityRepository
             $qb->setParameter(':sessions', $ids);
         }
 
-        if (array_key_exists('topics', $criteria)) {
-            $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
+        if (array_key_exists('terms', $criteria)) {
+            $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
             $qb->join('p.programYears', 't_programYear');
-            $qb->join('t_programYear.topics', 't_topic');
-            $qb->andWhere($qb->expr()->in('t_topic.id', ':topics'));
-            $qb->setParameter(':topics', $ids);
+            $qb->join('t_programYear.terms', 't_term');
+            $qb->andWhere($qb->expr()->in('t_term.id', ':terms'));
+            $qb->setParameter(':terms', $ids);
         }
 
         if (array_key_exists('schools', $criteria)) {
@@ -69,7 +69,7 @@ class ProgramRepository extends EntityRepository
         unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
-        unset($criteria['topics']);
+        unset($criteria['terms']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {

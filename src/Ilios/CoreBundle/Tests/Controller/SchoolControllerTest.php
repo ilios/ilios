@@ -20,7 +20,6 @@ class SchoolControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
@@ -105,7 +104,6 @@ class SchoolControllerTest extends AbstractControllerTest
         //unset any parameters which should not be POSTed
         unset($postData['id']);
         unset($postData['courses']);
-        unset($postData['topics']);
         unset($postData['vocabularies']);
         unset($postData['departments']);
         unset($postData['programs']);
@@ -166,7 +164,6 @@ class SchoolControllerTest extends AbstractControllerTest
         unset($postData['id']);
         unset($postData['courses']);
         unset($postData['programs']);
-        unset($postData['topics']);
         unset($postData['vocabularies']);
         unset($postData['departments']);
         unset($postData['competencies']);

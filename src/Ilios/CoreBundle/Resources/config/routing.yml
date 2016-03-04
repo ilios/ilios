@@ -335,12 +335,6 @@ api_term_v1:
     prefix:   /v1
     defaults: {_format:json}
 
-api_topic_v1:
-    resource: "@IliosCoreBundle/Controller/TopicController.php"
-    type:     rest
-    prefix:   /v1
-    defaults: {_format:json}
-
 api_usermadereminder_v1:
     resource: "@IliosCoreBundle/Controller/UserMadeReminderController.php"
     type:     rest

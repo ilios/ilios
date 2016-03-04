@@ -197,25 +197,6 @@ class Session implements SessionInterface
     protected $ilmSession;
 
     /**
-     * @deprecated
-     * @var ArrayCollection|TopicInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Topic", inversedBy="sessions")
-     * @ORM\JoinTable(name="session_x_discipline",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="discipline_id", referencedColumnName="discipline_id", onDelete="CASCADE")
-     *   }
-     * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     */
-    protected $topics;
-
-    /**
      * @var ArrayCollection|TermInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Term", inversedBy="sessions")
@@ -315,7 +296,6 @@ class Session implements SessionInterface
         $this->supplemental = false;
         $this->publishedAsTbd = false;
         $this->published = false;
-        $this->topics = new ArrayCollection();
         $this->terms = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
@@ -419,36 +399,6 @@ class Session implements SessionInterface
     public function getIlmSession()
     {
         return $this->ilmSession;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setTopics(Collection $topics)
-    {
-        $this->topics = new ArrayCollection();
-
-        foreach ($topics as $topic) {
-            $this->addTopic($topic);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addTopic(TopicInterface $topic)
-    {
-        if (!$this->topics->contains($topic)) {
-            $this->topics->add($topic);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTopics()
-    {
-        return $this->topics;
     }
 
     /**

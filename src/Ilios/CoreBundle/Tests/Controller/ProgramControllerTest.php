@@ -18,6 +18,7 @@ class ProgramControllerTest extends AbstractControllerTest
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
@@ -447,13 +448,13 @@ class ProgramControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testFilterByTopic()
+    public function testFilterByTerm()
     {
         $programs = $this->container->get('ilioscore.dataloader.program')->getAll();
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_programs', ['filters[topics][]' => 1]),
+            $this->getUrl('cget_programs', ['filters[terms][]' => 1]),
             null,
             $this->getAuthenticatedUserToken()
         );

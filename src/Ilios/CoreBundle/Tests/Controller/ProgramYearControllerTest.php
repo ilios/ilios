@@ -22,7 +22,7 @@ class ProgramYearControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadTopicData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearStewardData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
@@ -281,13 +281,13 @@ class ProgramYearControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testFilterByTopic()
+    public function testFilterByTerms()
     {
         $programYears = $this->container->get('ilioscore.dataloader.programyear')->getAll();
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_programyears', ['filters[topics][]' => 1]),
+            $this->getUrl('cget_programyears', ['filters[terms][]' => 1]),
             null,
             $this->getAuthenticatedUserToken()
         );

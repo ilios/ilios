@@ -936,38 +936,6 @@ class UserControllerTest extends AbstractControllerTest
     /**
      * @group controllers_b
      */
-    public function testFilterByInstructedTopic()
-    {
-        $instructors = $this->container->get('ilioscore.dataloader.user')->getAll();
-
-        $this->createJsonRequest(
-            'GET',
-            $this->getUrl('cget_users', ['filters[instructedTopics]' => [1, 2, 3]]),
-            null,
-            $this->getAuthenticatedUserToken()
-        );
-        $response = $this->client->getResponse();
-
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
-        $data = json_decode($response->getContent(), true)['users'];
-        $this->assertEquals(2, count($data), var_export($data, true));
-        $this->assertEquals(
-            $this->mockSerialize(
-                $instructors[0]
-            ),
-            $data[0]
-        );
-        $this->assertEquals(
-            $this->mockSerialize(
-                $instructors[1]
-            ),
-            $data[1]
-        );
-    }
-
-    /**
-     * @group controllers_b
-     */
     public function testFilterByInstructedLearningMaterial()
     {
         $instructors = $this->container->get('ilioscore.dataloader.user')->getAll();

@@ -126,24 +126,6 @@ interface CourseInterface extends
     public function getCohorts();
 
     /**
-     * @deprecated
-     * @param TopicInterface $topic
-     */
-    public function addTopic(TopicInterface $topic);
-
-    /**
-     * @deprecated
-     * @return ArrayCollection|TopicInterface[]
-     */
-    public function getTopics();
-
-    /**
-     * @deprecated
-     * @param Collection|TopicInterface[] $topics
-     */
-    public function setTopics(Collection $topics = null);
-
-    /**
      * @param Collection|MeshDescriptorInterface[] $meshDescriptors
      */
     public function setMeshDescriptors(Collection $meshDescriptors);

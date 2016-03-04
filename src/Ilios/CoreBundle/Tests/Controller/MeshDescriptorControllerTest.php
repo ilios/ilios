@@ -744,13 +744,13 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testFilterByTopic()
+    public function testFilterByTerm()
     {
         $meshDescriptors = $this->container->get('ilioscore.dataloader.meshdescriptor')->getAll();
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_meshdescriptors', ['filters[topics]' => [1, 2, 3]]),
+            $this->getUrl('cget_meshdescriptors', ['filters[terms]' => [1, 2, 3]]),
             null,
             $this->getAuthenticatedUserToken()
         );

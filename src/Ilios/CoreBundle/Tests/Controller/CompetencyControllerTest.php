@@ -18,6 +18,7 @@ class CompetencyControllerTest extends AbstractControllerTest
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
@@ -259,13 +260,13 @@ class CompetencyControllerTest extends AbstractControllerTest
     /**
      * @group controllers
      */
-    public function testFilterByTopic()
+    public function testFilterByTerm()
     {
         $competencies = $this->container->get('ilioscore.dataloader.competency')->getAll();
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_competencies', ['filters[topics]' => [1, 2, 3]]),
+            $this->getUrl('cget_competencies', ['filters[terms]' => [1, 2, 3]]),
             null,
             $this->getAuthenticatedUserToken()
         );

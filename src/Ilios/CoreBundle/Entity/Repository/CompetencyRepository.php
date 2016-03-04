@@ -88,32 +88,32 @@ class CompetencyRepository extends EntityRepository
             $qb->setParameter(':courses', $ids);
         }
 
-        if (array_key_exists('topics', $criteria)) {
-            $ids = is_array($criteria['topics']) ? $criteria['topics'] : [$criteria['topics']];
+        if (array_key_exists('terms', $criteria)) {
+            $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
             $qb->leftJoin('c.children', 't_subcompetency');
             $qb->leftJoin('c.objectives', 't_py_objective');
             $qb->leftJoin('t_py_objective.children', 't_course_objective');
             $qb->leftJoin('t_course_objective.courses', 't_course');
-            $qb->leftJoin('t_course.topics', 't_topic');
+            $qb->leftJoin('t_course.terms', 't_term');
             $qb->leftJoin('t_course_objective.children', 't_session_objective');
             $qb->leftJoin('t_session_objective.sessions', 't_session');
-            $qb->leftJoin('t_session.topics', 't_topic2');
+            $qb->leftJoin('t_session.terms', 't_term2');
             $qb->leftJoin('t_subcompetency.objectives', 't_py_objective2');
             $qb->leftJoin('t_py_objective2.children', 't_course_objective2');
             $qb->leftJoin('t_course_objective2.courses', 't_course2');
-            $qb->leftJoin('t_course2.topics', 't_topic3');
+            $qb->leftJoin('t_course2.terms', 't_term3');
             $qb->leftJoin('t_course_objective2.children', 't_session_objective2');
             $qb->leftJoin('t_session_objective2.sessions', 't_session2');
-            $qb->leftJoin('t_session2.topics', 't_topic4');
+            $qb->leftJoin('t_session2.terms', 't_term4');
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->in('t_topic.id', ':topics'),
-                    $qb->expr()->in('t_topic2.id', ':topics'),
-                    $qb->expr()->in('t_topic3.id', ':topics'),
-                    $qb->expr()->in('t_topic4.id', ':topics')
+                    $qb->expr()->in('t_term.id', ':terms'),
+                    $qb->expr()->in('t_term2.id', ':terms'),
+                    $qb->expr()->in('t_term3.id', ':terms'),
+                    $qb->expr()->in('t_term4.id', ':terms')
                 )
             );
-            $qb->setParameter(':topics', $ids);
+            $qb->setParameter(':terms', $ids);
         }
 
         if (array_key_exists('schools', $criteria)) {
@@ -128,7 +128,7 @@ class CompetencyRepository extends EntityRepository
         unset($criteria['courses']);
         unset($criteria['sessions']);
         unset($criteria['sessionTypes']);
-        unset($criteria['topics']);
+        unset($criteria['terms']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
