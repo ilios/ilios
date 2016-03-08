@@ -15,7 +15,7 @@ use \Eluceo\iCal\Component as ICS;
 
 class IcsController extends Controller
 {
-    const LOOK_BACK = '-1 months';
+    const LOOK_BACK = '-4 months';
     const LOOK_FORWARD = '+2 months';
 
     public function indexAction(Request $request, $key)
@@ -113,9 +113,6 @@ class IcsController extends Controller
                     return $this->getTextForLearningMaterial(($learningMaterial->getLearningMaterial()));
                 })->toArray();
 
-        $courseObjectives = $session->getCourse()->getObjectives()->map(function (ObjectiveInterface $objective) {
-            return $this->purify($objective->getTitle());
-        })->toArray();
         $courseMaterials =
             $session->getCourse()->getLearningMaterials()
                 ->map(function (CourseLearningMaterialInterface $learningMaterial) {
@@ -132,8 +129,6 @@ class IcsController extends Controller
             implode($sessionObjectives, "\n"),
             "\nSession Learning Materials",
             implode("\n", $sessionMaterials),
-            "\nCourse Objectives",
-            implode($courseObjectives, "\n"),
             "\nCourse Learning Materials",
             implode("\n", $courseMaterials),
         ];
