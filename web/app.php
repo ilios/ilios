@@ -8,7 +8,7 @@ $loader = require_once __DIR__.'/../var/bootstrap.php.cache';
 // Use APC for autoloading to improve performance.
 // Change 'sf2' to a unique prefix in order to prevent cache key conflicts
 // with other applications also using APC.
-$apcLoader = new ApcClassLoader('ilios', $loader);
+$apcLoader = new ApcClassLoader(sha1(__FILE__), $loader);
 $loader->unregister();
 $apcLoader->register(true);
 
