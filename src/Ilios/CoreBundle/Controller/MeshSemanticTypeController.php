@@ -21,6 +21,7 @@ use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
  * Class MeshSemanticTypeController
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("MeshSemanticTypes")
+ * @deprecated
  */
 class MeshSemanticTypeController extends FOSRestController
 {
@@ -43,7 +44,8 @@ class MeshSemanticTypeController extends FOSRestController
      *   statusCodes={
      *     200 = "MeshSemanticType.",
      *     404 = "Not Found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
@@ -77,7 +79,8 @@ class MeshSemanticTypeController extends FOSRestController
      *   statusCodes = {
      *     200 = "List of all MeshSemanticType",
      *     204 = "No content. Nothing to list."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @QueryParam(
@@ -173,7 +176,8 @@ class MeshSemanticTypeController extends FOSRestController
      *     201 = "Created MeshSemanticType.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
@@ -220,7 +224,8 @@ class MeshSemanticTypeController extends FOSRestController
      *     201 = "Created MeshSemanticType.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
@@ -287,7 +292,8 @@ class MeshSemanticTypeController extends FOSRestController
      *     204 = "No content. Successfully deleted MeshSemanticType.",
      *     400 = "Bad Request.",
      *     404 = "Not found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(statusCode=204)

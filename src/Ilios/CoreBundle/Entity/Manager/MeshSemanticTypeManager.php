@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 /**
  * Class MeshSemanticTypeManager
  * @package Ilios\CoreBundle\Entity\Manager
+ * @deprecated
  */
 class MeshSemanticTypeManager extends AbstractManager implements MeshSemanticTypeManagerInterface
 {

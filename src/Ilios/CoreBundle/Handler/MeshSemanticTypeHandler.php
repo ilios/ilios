@@ -12,6 +12,7 @@ use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 /**
  * Class MeshSemanticTypeHandler
  * @package Ilios\CoreBundle\Handler
+ * @deprecated
  */
 class MeshSemanticTypeHandler extends MeshSemanticTypeManager
 {
