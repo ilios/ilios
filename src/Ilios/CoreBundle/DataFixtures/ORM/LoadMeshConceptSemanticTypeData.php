@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 /**
  * Class LoadMeshConceptSemanticTypeData
  * @package Ilios\CoreBundle\DataFixtures\ORM
+ * @deprecated
  */
 class LoadMeshConceptSemanticTypeData extends AbstractMeshFixture implements DependentFixtureInterface
 {
