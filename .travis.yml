@@ -4,7 +4,7 @@ services: mysql
 sudo: false
 matrix:
   fast_finish: true
-  allow_failures: 
+  allow_failures:
   exclude:
   - php: '7'
   - php: '7.1'
