@@ -1,89 +1,82 @@
 language: php
 services: mysql
 sudo: false
-
 matrix:
   fast_finish: true
-  allow_failures:
+  allow_failures: 
   exclude:
-    - php: "5.5"
-    - php: "5.6"
+  - php: '5.5'
+  - php: '5.6'
   include:
-    - php: "5.5"
-      env: TEST_PHPUNIT_OTHERS=true
-    - php: "5.6"
-      env: TEST_PHPUNIT_OTHERS=true
-    - php: "5.5"
-      env: TEST_PHPUNIT_CONTROLLERSA=true
-    - php: "5.6"
-      env: TEST_PHPUNIT_CONTROLLERSA=true
-    - php: "5.5"
-      env: TEST_PHPUNIT_CONTROLLERSB=true
-    - php: "5.6"
-      env: TEST_PHPUNIT_CONTROLLERSB=true
-    - php: "5.5"
-      env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
-    - php: "5.6"
-      env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
-    - php: "5.5"
-      env: VALIDATE_SCHEMA=true
-    - php: "5.6"
-      env: VALIDATE_SCHEMA=true
-    - php: "5.5"
-      env: CHECK_CODING_STANDARDS=true
-    - php: "5.6"
-      env: CHECK_CODING_STANDARDS=true
+  - php: '5.5'
+    env: TEST_PHPUNIT_OTHERS=true
+  - php: '5.6'
+    env: TEST_PHPUNIT_OTHERS=true
+  - php: '5.5'
+    env: TEST_PHPUNIT_CONTROLLERSA=true
+  - php: '5.6'
+    env: TEST_PHPUNIT_CONTROLLERSA=true
+  - php: '5.5'
+    env: TEST_PHPUNIT_CONTROLLERSB=true
+  - php: '5.6'
+    env: TEST_PHPUNIT_CONTROLLERSB=true
+  - php: '5.5'
+    env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
+  - php: '5.6'
+    env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
+  - php: '5.5'
+    env: VALIDATE_SCHEMA=true
+  - php: '5.6'
+    env: VALIDATE_SCHEMA=true
+  - php: '5.5'
+    env: CHECK_CODING_STANDARDS=true
+  - php: '5.6'
+    env: CHECK_CODING_STANDARDS=true
 php:
-  - "5.5"
-  - "5.6"
-
+- '5.5'
+- '5.6'
 env:
   matrix:
-    - TEST_PHPUNIT_CONTROLLERSA=true
-    - TEST_PHPUNIT_CONTROLLERSB=true
-    - TEST_PHPUNIT_OTHERS=true
-    - TEST_PHPUNIT_MESH_DATA_IMPORT=true
-    - VALIDATE_SCHEMA=true
-    - CHECK_CODING_STANDARDS=true
+  - TEST_PHPUNIT_CONTROLLERSA=true
+  - TEST_PHPUNIT_CONTROLLERSB=true
+  - TEST_PHPUNIT_OTHERS=true
+  - TEST_PHPUNIT_MESH_DATA_IMPORT=true
+  - VALIDATE_SCHEMA=true
+  - CHECK_CODING_STANDARDS=true
 cache:
   directories:
-    - $HOME/.composer/cache
-
+  - "$HOME/.composer/cache"
 before_install:
-  - mysql -e "create database IF NOT EXISTS ilios;" -uroot
-#install apc extension so composer production install will run
-  - echo yes | pecl install apcu-4.0.10;
-#increase our PHP memory limit so test coverage will work
-  - echo "memory_limit=2048M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-#install ldap extension so composer install will run
-  - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
-#install the symfony security checker
-  - if [ "$CHECK_CODING_STANDARDS" ]; then wget http://get.sensiolabs.org/security-checker.phar -O security-checker.phar; fi
-
+- mysql -e "create database IF NOT EXISTS ilios;" -uroot
+- echo yes | pecl install apcu-4.0.10;
+- echo "memory_limit=2048M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+- echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+- cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
+- if [ "$CHECK_CODING_STANDARDS" ]; then wget http://get.sensiolabs.org/security-checker.phar
+  -O security-checker.phar; fi
 install:
-    #Install production first this will fail if production dependencies are messed up
-  - SYMFONY_ENV=prod composer install --no-interaction --no-dev --prefer-dist
-    #Next do a real composer install to fill out our testing dependencies
-  - composer install --no-interaction --prefer-dist -d ${TRAVIS_BUILD_DIR}
-
+- SYMFONY_ENV=prod composer install --no-interaction --no-dev --prefer-dist
+- composer install --no-interaction --prefer-dist -d ${TRAVIS_BUILD_DIR}
 before_script:
-#initialize symfony mysql db
-  - bin/console doctrine:database:drop --force --env=dev
-  - bin/console doctrine:database:create --env=dev
-  - bin/console doctrine:migrations:migrate  --env=dev --no-interaction
-  - bin/console cache:clear --env=test --no-interaction
-
+- bin/console doctrine:database:drop --force --env=dev
+- bin/console doctrine:database:create --env=dev
+- bin/console doctrine:migrations:migrate  --env=dev --no-interaction
+- bin/console cache:clear --env=test --no-interaction
 script:
-  - if [ "$VALIDATE_SCHEMA" = true ]; then (bin/console doctrine:schema:validate --env=dev); fi
-  - if [ "$CHECK_CODING_STANDARDS" = true ]; then (bin/phpcs --standard=app/phpcs.xml src); fi
-  - if [ "$CHECK_CODING_STANDARDS" = true ]; then (php security-checker.phar security:check); fi
-  - if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ]; then (bin/phpunit -c phpunit.xml.dist --group mesh_data_import); fi
-  - if [ "$TEST_PHPUNIT_CONTROLLERSA" = true ]; then (bin/phpunit -c phpunit.xml.dist --group controllers_a); fi
-  - if [ "$TEST_PHPUNIT_CONTROLLERSB" = true ]; then (bin/phpunit -c phpunit.xml.dist --group controllers_b); fi
-  - if [ "$TEST_PHPUNIT_OTHERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers_a,controllers_b); fi
-
-#encrypted the IRC room chat.freenode.net##ilios so that it doesn't run on pull requests
+- if [ "$VALIDATE_SCHEMA" = true ]; then (bin/console doctrine:schema:validate --env=dev);
+  fi
+- if [ "$CHECK_CODING_STANDARDS" = true ]; then (bin/phpcs --standard=app/phpcs.xml
+  src); fi
+- if [ "$CHECK_CODING_STANDARDS" = true ]; then (php security-checker.phar security:check);
+  fi
+- if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ]; then (bin/phpunit -c phpunit.xml.dist
+  --group mesh_data_import); fi
+- if [ "$TEST_PHPUNIT_CONTROLLERSA" = true ]; then (bin/phpunit -c phpunit.xml.dist
+  --group controllers_a); fi
+- if [ "$TEST_PHPUNIT_CONTROLLERSB" = true ]; then (bin/phpunit -c phpunit.xml.dist
+  --group controllers_b); fi
+- if [ "$TEST_PHPUNIT_OTHERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --exclude-group
+  mesh_data_import,controllers_a,controllers_b); fi
 notifications:
-  irc:
-    secure: "LN3o6qWNjtQepmrtRTEpFUoa9jFar6l5CDw1pwYzLSJOWc+q59tzbXyoKUlGat9/z+s79euUz2Pcg8XF0fotBwNKArPUOHH2Ti74JbZXNkEstPxgNe5CVqRkwvjlDvMeCJPOqxoc1xD6Ss/XNc5Tu414aIym2Zd4mJ0utmyBOUA="
+  slack:
+    secure: Aw/KYBBltksyk0cPOyB9ZGjtmtYWkcns5AgsZmv1FiTUT2BYVc06yQ0LGQGQDHeNs7Zi8l0BtxhJv0gtwdnYydvwiUckR3ZRjTV7//1ni8XzzyO612ArwVKA1LHTVKm8zy3PcW3XobKtI0QlQZ/jPJ2yk8nbcXJ7XnCXyFq7OyI=
