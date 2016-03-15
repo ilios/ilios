@@ -20,13 +20,9 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
-
-    <groups>
-        <exclude>
-            <group>mesh_data_import</group>
-        </exclude>
-    </groups>
-
+    <php>
+        <server name="KERNEL_DIR" value="app/" />
+    </php>
     <filter>
         <whitelist>
             <directory>src</directory>
