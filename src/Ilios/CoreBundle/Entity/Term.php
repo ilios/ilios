@@ -59,8 +59,8 @@ class Term implements TermInterface
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="terms")
      *
-     * Don't put courses in the terms API it takes forever to load them all
-     * @JMS\Exclude
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
     protected $courses;
 
@@ -109,8 +109,9 @@ class Term implements TermInterface
      *
      * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="terms")
      *
-     * Don't put programYears in the terms API it takes forever to load them all
-     * @JMS\Exclude
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("programYears")
      */
     protected $programYears;
 
@@ -119,8 +120,8 @@ class Term implements TermInterface
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="terms")
      *
-     * Don't put sessions in the terms API it takes forever to load them all
-     * @JMS\Exclude
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
     protected $sessions;
 
