@@ -22,6 +22,17 @@ class TermManager extends AbstractManager implements TermManagerInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function findTermDTOBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
+        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
+        return empty($results) ? false : $results[0];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function findTermsBy(
@@ -31,6 +42,18 @@ class TermManager extends AbstractManager implements TermManagerInterface
         $offset = null
     ) {
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function findTermDTOsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

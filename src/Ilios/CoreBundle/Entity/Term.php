@@ -142,7 +142,7 @@ class Term implements TermInterface
     protected $title;
 
     /**
-     * @var SchoolInterface
+     * @var VocabularyInterface
      *
      * @ORM\ManyToOne(targetEntity="Vocabulary", inversedBy="terms")
      * @ORM\JoinColumns({
