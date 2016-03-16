@@ -38,11 +38,7 @@ class TermControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-            'courses',
-            'sessions',
-            'programYears'
-        ];
+        return [];
     }
 
     /**
@@ -100,9 +96,6 @@ class TermControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.term')
             ->create();
-        unset($data['courses']);
-        unset($data['sessions']);
-        unset($data['programYears']);
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
@@ -158,10 +151,6 @@ class TermControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-        unset($postData['courses']);
-        unset($postData['sessions']);
-        unset($postData['programYears']);
-        unset($postData['children']);
 
         $this->createJsonRequest(
             'PUT',

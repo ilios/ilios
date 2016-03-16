@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
 use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,6 +31,22 @@ class TermType extends AbstractType
             ->add('parent', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Term"
+            ])
+            ->add('children', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Term"
+            ])
+            ->add('courses', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('programYears', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ProgramYear"
+            ])
+            ->add('sessions', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
             ])
         ;
 

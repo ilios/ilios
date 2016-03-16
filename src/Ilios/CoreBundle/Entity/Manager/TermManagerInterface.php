@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\TermInterface;
+use Ilios\CoreBundle\Entity\DTO\TermDTO;
 
 /**
  * Interface TermManagerInterface
@@ -24,12 +25,38 @@ interface TermManagerInterface extends ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
+     *
+     * @return TermDTO|bool a session object or FALSE if none were found.
+     */
+    public function findTermDTOBy(
+        array $criteria,
+        array $orderBy = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return TermInterface[]
      */
     public function findTermsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return TermDTO[]
+     */
+    public function findTermDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,

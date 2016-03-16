@@ -54,7 +54,11 @@ class TermController extends FOSRestController
      */
     public function getAction($id)
     {
-        $term = $this->getOr404($id);
+        $term = $this->getTermHandler()->findTermDTOBy(['id' => $id]);
+
+        if (! $term) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $term)) {
@@ -126,7 +130,7 @@ class TermController extends FOSRestController
         }, $criteria);
 
         $result = $this->getTermHandler()
-            ->findTermsBy(
+            ->findTermDTOsBy(
                 $criteria,
                 $orderBy,
                 $limit,

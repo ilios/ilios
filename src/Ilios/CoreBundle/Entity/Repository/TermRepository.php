@@ -1,7 +1,11 @@
 <?php
 namespace Ilios\CoreBundle\Entity\Repository;
 
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Ilios\CoreBundle\Entity\TermInterface;
+use Ilios\CoreBundle\Entity\DTO\TermDTO;
 
 /**
  * Class TermRepository
@@ -10,25 +14,100 @@ use Doctrine\ORM\EntityRepository;
 class TermRepository extends EntityRepository
 {
     /**
-     * @inheritdoc
+     * Custom findBy so we can filter by related entities
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return TermInterface[]
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
 
-
         $qb->select('DISTINCT t')->from('IliosCoreBundle:Term', 't');
 
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return TermDTO[]
+     */
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('t')->from('IliosCoreBundle:Term', 't');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $termDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $termDTOs[$arr['id']] = new TermDTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['description']
+            );
+        }
+        $termIds = array_keys($termDTOs);
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select('t.id AS termId, v.id AS vocabularyId, p.id AS parentId')
+            ->from('IliosCoreBundle:Term', 't')
+            ->join('t.vocabulary', 'v')
+            ->leftJoin('t.parent', 'p')
+            ->where($qb->expr()->in('t.id', ':termIds'))
+            ->setParameter('termIds', $termIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $termDTOs[$arr['termId']]->vocabulary = $arr['vocabularyId'];
+            $termDTOs[$arr['termId']]->parent = $arr['parentId'] ? $arr['parentId'] : null;
         }
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('t.'.$sort, $order);
+        $related = [
+            'children',
+            'courses',
+            'programYears',
+            'sessions'
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id as relId, t.id AS termId')->from('IliosCoreBundle:Term', 't')
+                ->join("t.{$rel}", 'r')
+                ->where($qb->expr()->in('t.id', ':termIds'))
+                ->orderBy('relId')
+                ->setParameter('termIds', $termIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $termDTOs[$arr['termId']]->{$rel}[] = $arr['relId'];
             }
         }
 
+        return array_values($termDTOs);
+    }
+
+    /**
+     * Custom findBy so we can filter by related entities
+     *
+     * @param QueryBuilder $qb
+     * @param array $criteria
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return QueryBuilder
+     */
+    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
+    {
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
             $qb->leftJoin('t.courses', 'cr_course');
@@ -207,6 +286,17 @@ class TermRepository extends EntityRepository
                 $qb->setParameter(":{$key}", $values);
             }
         }
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('t.' . $sort, $order);
+            }
+        }
+
         if ($offset) {
             $qb->setFirstResult($offset);
         }
@@ -215,6 +305,6 @@ class TermRepository extends EntityRepository
             $qb->setMaxResults($limit);
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }
