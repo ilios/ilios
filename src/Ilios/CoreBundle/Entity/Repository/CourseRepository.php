@@ -398,6 +398,7 @@ EOL;
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
             $qb->leftJoin('c.sessions', 'i_session');
+            $qb->leftJoin('c.directors', 'i_director');
             $qb->leftJoin('i_session.offerings', 'i_offering');
             $qb->leftJoin('i_offering.instructors', 'i_user');
             $qb->leftJoin('i_offering.instructorGroups', 'i_insGroup');
@@ -407,6 +408,7 @@ EOL;
             $qb->leftJoin('i_ilmSession.instructorGroups', 'i_ilmInsGroup');
             $qb->leftJoin('i_ilmInsGroup.users', 'i_ilmInsGroupUser');
             $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('i_director.id', ':users'),
                 $qb->expr()->in('i_user.id', ':users'),
                 $qb->expr()->in('i_groupUser.id', ':users'),
                 $qb->expr()->in('i_ilmInstructor.id', ':users'),
