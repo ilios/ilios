@@ -151,6 +151,7 @@ class TermControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['children']);
 
         $this->createJsonRequest(
             'PUT',
