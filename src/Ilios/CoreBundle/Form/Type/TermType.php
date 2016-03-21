@@ -32,10 +32,6 @@ class TermType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Term"
             ])
-            ->add('children', ManyRelatedType::class, [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Term"
-            ])
             ->add('courses', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
