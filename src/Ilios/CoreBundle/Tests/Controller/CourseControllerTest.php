@@ -686,7 +686,7 @@ class CourseControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['courses'];
-        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(3, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $courses[0]
@@ -698,6 +698,12 @@ class CourseControllerTest extends AbstractControllerTest
                 $courses[1]
             ),
             $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[3]
+            ),
+            $data[2]
         );
     }
 
