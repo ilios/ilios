@@ -1,7 +1,35 @@
 # Change Log
 
-## [v3.7.0](https://github.com/ilios/ilios/tree/v3.7.0)
+## [v3.8.0](https://github.com/ilios/ilios/tree/v3.8.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.7.0...v3.8.0)
+
+**Implemented enhancements:**
+
+- migrate topics to terms/vocab and purge topics from code and schema [\#1280](https://github.com/ilios/ilios/issues/1280)
+- change ICS feed size window [\#1230](https://github.com/ilios/ilios/issues/1230)
+
+**Closed issues:**
+
+- When filtering courses by instructors include directors [\#1356](https://github.com/ilios/ilios/issues/1356)
+- deprecate MeSH Semantic Type components [\#1350](https://github.com/ilios/ilios/issues/1350)
+- Enable APC loader in app.php [\#1347](https://github.com/ilios/ilios/issues/1347)
+
+**Merged pull requests:**
+
+- include directors when filtering courses by instructors. [\#1358](https://github.com/ilios/ilios/pull/1358) ([stopfstedt](https://github.com/stopfstedt))
+- Term children should not be saved with the term [\#1357](https://github.com/ilios/ilios/pull/1357) ([jrjohnson](https://github.com/jrjohnson))
+- Save and Load terms completly [\#1355](https://github.com/ilios/ilios/pull/1355) ([jrjohnson](https://github.com/jrjohnson))
+- replaced IRC with Slack token. [\#1353](https://github.com/ilios/ilios/pull/1353) ([stopfstedt](https://github.com/stopfstedt))
+- flagged semantic type components as deprecated. [\#1351](https://github.com/ilios/ilios/pull/1351) ([stopfstedt](https://github.com/stopfstedt))
+- enabled APC loader. [\#1349](https://github.com/ilios/ilios/pull/1349) ([stopfstedt](https://github.com/stopfstedt))
+- Allow access to app\_dev.php by proxies [\#1348](https://github.com/ilios/ilios/pull/1348) ([jrjohnson](https://github.com/jrjohnson))
+- Remove topic reports which are no longer valid [\#1346](https://github.com/ilios/ilios/pull/1346) ([jrjohnson](https://github.com/jrjohnson))
+- Increase the ICS feed window by removing course objectives [\#1345](https://github.com/ilios/ilios/pull/1345) ([jrjohnson](https://github.com/jrjohnson))
+- Bump the api version to 1.2 [\#1344](https://github.com/ilios/ilios/pull/1344) ([jrjohnson](https://github.com/jrjohnson))
+- migrate topics to terms and vocabs, rm topics [\#1281](https://github.com/ilios/ilios/pull/1281) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.7.0](https://github.com/ilios/ilios/tree/v3.7.0) (2016-03-02)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.6.0...v3.7.0)
 
 **Implemented enhancements:**
@@ -16,6 +44,7 @@
 
 **Merged pull requests:**
 
+- adding CHANGELOG for v3.7.0 release [\#1343](https://github.com/ilios/ilios/pull/1343) ([thecoolestguy](https://github.com/thecoolestguy))
 - Update composer libraries [\#1341](https://github.com/ilios/ilios/pull/1341) ([jrjohnson](https://github.com/jrjohnson))
 - Link and Citation learning materials get a corresponding mimetype [\#1340](https://github.com/ilios/ilios/pull/1340) ([jrjohnson](https://github.com/jrjohnson))
 - Allow an empty password to be passed to authentication POST [\#1338](https://github.com/ilios/ilios/pull/1338) ([jrjohnson](https://github.com/jrjohnson))
@@ -29,11 +58,16 @@
 ## [v3.6.0](https://github.com/ilios/ilios/tree/v3.6.0) (2016-02-12)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.5.0...v3.6.0)
 
+**Implemented enhancements:**
+
+- Extend/exchange topics tagging model with robust taxonomies [\#1257](https://github.com/ilios/ilios/issues/1257)
+
 **Closed issues:**
 
 - 403/access denied error when requesting instructor groups from the dashboard calendar. [\#1322](https://github.com/ilios/ilios/issues/1322)
 - Loading all sessions is too memory intensive [\#1313](https://github.com/ilios/ilios/issues/1313)
 - Learner Groups with Learners From Multiple Schools Not Displaying [\#1307](https://github.com/ilios/ilios/issues/1307)
+- When saving terms allow realtionships to be saved as well [\#1354](https://github.com/ilios/ilios/issues/1354)
 - Loading all courses is too memory intensive [\#1312](https://github.com/ilios/ilios/issues/1312)
 
 **Merged pull requests:**
