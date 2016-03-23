@@ -15,8 +15,9 @@ class ErrorController extends Controller
             $logger = $this->get('logger');
             $data = $request->request->get('data');
             $user = $this->get('security.token_storage')->getToken()->getUser();
-            $data['userId'] = $user->getId();
-            $logger->error(json_encode($data));
+            $error = json_decode($data);
+            $error->userId = $user->getId();
+            $logger->error(json_encode($error));
         }
 
         return new Response('', Codes::HTTP_NO_CONTENT);
