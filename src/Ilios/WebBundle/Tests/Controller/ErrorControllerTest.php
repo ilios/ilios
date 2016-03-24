@@ -31,7 +31,7 @@ class ErrorControllerTest extends WebTestCase
             $client,
             'POST',
             '/errors',
-            json_encode(['data' => $data]),
+            json_encode(['data' => json_encode($data)]),
             $this->getAuthenticatedUserToken()
         );
 
