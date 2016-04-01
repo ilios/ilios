@@ -5,6 +5,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.entity.mesh_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\MeshEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.session_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\SessionEntityVoter
         parent: security.access.course_voter
