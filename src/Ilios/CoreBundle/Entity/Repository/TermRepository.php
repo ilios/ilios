@@ -46,7 +46,7 @@ class TermRepository extends EntityRepository
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('t')->from('IliosCoreBundle:Term', 't');
+        $qb = $this->_em->createQueryBuilder()->select('t')->distinct()->from('IliosCoreBundle:Term', 't');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $termDTOs = [];

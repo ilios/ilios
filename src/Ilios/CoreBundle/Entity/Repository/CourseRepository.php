@@ -43,7 +43,7 @@ class CourseRepository extends EntityRepository
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('c')->from('IliosCoreBundle:Course', 'c');
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('IliosCoreBundle:Course', 'c');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $courseDTOs = [];

@@ -41,7 +41,7 @@ class SessionRepository extends EntityRepository
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('s')->from('IliosCoreBundle:Session', 's');
+        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('IliosCoreBundle:Session', 's');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $sessionDTOs = [];

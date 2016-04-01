@@ -101,7 +101,7 @@ class UserRepository extends EntityRepository
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('u')->from('IliosCoreBundle:User', 'u');
+        $qb = $this->_em->createQueryBuilder()->select('u')->distinct()->from('IliosCoreBundle:User', 'u');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $this->createUserDTOs($qb->getQuery());
