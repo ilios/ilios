@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 
 /**
@@ -24,12 +25,38 @@ interface MeshDescriptorManagerInterface extends ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
+     *
+     * @return MeshDescriptorDTO
+     */
+    public function findMeshDescriptorDTOBy(
+        array $criteria,
+        array $orderBy = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return MeshDescriptorInterface[]
      */
     public function findMeshDescriptorsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return MeshDescriptorDTO[]
+     */
+    public function findMeshDescriptorDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,

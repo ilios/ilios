@@ -26,6 +26,18 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
     /**
      * {@inheritdoc}
      */
+    public function findMeshDescriptorDTOBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
+        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
+
+        return empty($results)?false:$results[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findMeshDescriptorsBy(
         array $criteria,
         array $orderBy = null,
@@ -33,6 +45,18 @@ class MeshDescriptorManager extends AbstractManager implements MeshDescriptorMan
         $offset = null
     ) {
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findMeshDescriptorDTOsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
