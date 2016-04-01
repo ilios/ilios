@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter\DTO;
 
-use Ilios\AuthenticationBundle\Voter\Entity\TermEntityVoter;
+use Ilios\AuthenticationBundle\Voter\Entity\MeshEntityVoter;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * Class MeshDescriptorDTOVoter
  * @package Ilios\AuthenticationBundle\Voter\DTO
  */
-class MeshDescriptorDTOVoter extends TermEntityVoter
+class MeshDescriptorDTOVoter extends MeshEntityVoter
 {
     /**
      * @inheritdoc
