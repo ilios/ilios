@@ -144,9 +144,5 @@ class MeshDescriptorDTO
         $this->trees = [];
         $this->sessionLearningMaterials = [];
         $this->courseLearningMaterials = [];
-
-        $this->courses = [];
-        $this->programYears = [];
-        $this->sessions = [];
     }
 }
