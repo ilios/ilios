@@ -17,21 +17,21 @@ class MeshDescriptorDTO
      * @JMS\Expose
      * @JMS\Type("string")
      */
-    protected $id;
+    public $id;
 
     /**
      * @var string
      * @JMS\Expose
      * @JMS\Type("string")
      */
-    protected $name;
+    public $name;
 
     /**
      * @var string
      * @JMS\Expose
      * @JMS\Type("string")
      */
-    protected $annotation;
+    public $annotation;
 
     /**
      * @var \DateTime
@@ -39,7 +39,7 @@ class MeshDescriptorDTO
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("createdAt")
      */
-    protected $createdAt;
+    public $createdAt;
 
     /**
      * @var \DateTime
@@ -47,49 +47,49 @@ class MeshDescriptorDTO
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("updatedAt")
      */
-    protected $updatedAt;
+    public $updatedAt;
 
     /**
      * @var int[]
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $courses;
+    public $courses;
 
     /**
      * @var int[]
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $objectives;
+    public $objectives;
 
     /**
      * @var int[]
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $sessions;
+    public $sessions;
 
     /**
      * @var string[]
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $concepts;
+    public $concepts;
 
     /**
      * @var string[]
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $qualifiers;
+    public $qualifiers;
 
     /**
      * @var int[]
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $trees;
+    public $trees;
 
     /**
      * @var int[]
@@ -97,7 +97,7 @@ class MeshDescriptorDTO
      * @JMS\Type("array<string>")
      * @JMS\SerializedName("sessionLearningMaterials")
      */
-    protected $sessionLearningMaterials;
+    public $sessionLearningMaterials;
 
     /**
      * @var int[]
@@ -105,7 +105,7 @@ class MeshDescriptorDTO
      * @JMS\Type("array<string>")
      * @JMS\SerializedName("courseLearningMaterials")
      */
-    protected $courseLearningMaterials;
+    public $courseLearningMaterials;
 
     /**
      * @var int
@@ -113,7 +113,7 @@ class MeshDescriptorDTO
      * @JMS\Type("string")
      * @JMS\SerializedName("previousIndexing")
      */
-    protected $previousIndexing;
+    public $previousIndexing;
 
     /**
      * MeshDescriptorDTO constructor.
@@ -131,7 +131,7 @@ class MeshDescriptorDTO
         $updatedAt
     ) {
         $this->id = $id;
-        $this->title = $name;
+        $this->name = $name;
         $this->annotation = $annotation;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;

@@ -109,12 +109,12 @@ class MeshDescriptorRepository extends EntityRepository
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('d')->from('IliosCoreBundle:MeshDescriptor', 'd');
+        $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from('IliosCoreBundle:MeshDescriptor', 'm');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         $descriptorDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $courseDTOs[$arr['id']] = new MeshDescriptorDTO(
+            $descriptorDTOs[$arr['id']] = new MeshDescriptorDTO(
                 $arr['id'],
                 $arr['name'],
                 $arr['annotation'],
@@ -125,10 +125,10 @@ class MeshDescriptorRepository extends EntityRepository
         $descriptorIds = array_keys($descriptorDTOs);
 
         $qb = $this->_em->createQueryBuilder()
-            ->select('p.id AS prevId, d.id AS descriptorId')
+            ->select('p.id AS prevId, m.id AS descriptorId')
             ->from('IliosCoreBundle:MeshPreviousIndexing', 'p')
-            ->join('p.descriptor', 'd')
-            ->where($qb->expr()->in('d.id', ':descriptorIds'))
+            ->join('p.descriptor', 'm')
+            ->where($qb->expr()->in('m.id', ':descriptorIds'))
             ->setParameter('descriptorIds', $descriptorIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
@@ -148,9 +148,9 @@ class MeshDescriptorRepository extends EntityRepository
 
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('d.id AS relId, d.id AS descriptorId')->from('IliosCoreBundle:MeshDescriptor', 'd')
-                ->join("d.{$rel}", 'r')
-                ->where($qb->expr()->in('d.id', ':descriptorIds'))
+                ->select('r.id AS relId, m.id AS descriptorId')->from('IliosCoreBundle:MeshDescriptor', 'm')
+                ->join("m.{$rel}", 'r')
+                ->where($qb->expr()->in('m.id', ':descriptorIds'))
                 ->orderBy('relId')
                 ->setParameter('descriptorIds', $descriptorIds);
 
