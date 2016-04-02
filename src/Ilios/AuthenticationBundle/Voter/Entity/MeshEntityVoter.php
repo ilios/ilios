@@ -1,7 +1,8 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\MeshConceptInterface;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
@@ -13,10 +14,10 @@ use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class MeshVoter
+ * Class MeshEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class MeshVoter extends AbstractVoter
+class MeshEntityVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}

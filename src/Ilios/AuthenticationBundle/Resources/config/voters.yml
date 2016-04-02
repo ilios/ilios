@@ -152,11 +152,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.mesh_voter:
-        class: Ilios\AuthenticationBundle\Voter\MeshVoter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.objective_voter:
         class: Ilios\AuthenticationBundle\Voter\ObjectiveVoter
         arguments: [ @ilioscore.permission.manager, @ilioscore.programyearsteward.manager ]

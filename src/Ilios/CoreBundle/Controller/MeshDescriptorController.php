@@ -39,7 +39,7 @@ class MeshDescriptorController extends FOSRestController
      *        "description"="MeshDescriptor identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\MeshDescriptor",
+     *   output="Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO",
      *   statusCodes={
      *     200 = "MeshDescriptor.",
      *     404 = "Not Found."
@@ -54,7 +54,11 @@ class MeshDescriptorController extends FOSRestController
      */
     public function getAction($id)
     {
-        $meshDescriptor = $this->getOr404($id);
+        $meshDescriptor = $this->getMeshDescriptorHandler()->findMeshDescriptorDTOBy(['id' => $id]);
+
+        if (!$meshDescriptor) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $meshDescriptor)) {
@@ -73,7 +77,7 @@ class MeshDescriptorController extends FOSRestController
      *   section = "MeshDescriptor",
      *   description = "Get all MeshDescriptor.",
      *   resource = true,
-     *   output="Ilios\CoreBundle\Entity\MeshDescriptor",
+     *   output="Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO",
      *   statusCodes = {
      *     200 = "List of all MeshDescriptor",
      *     204 = "No content. Nothing to list."
@@ -140,7 +144,7 @@ class MeshDescriptorController extends FOSRestController
                 );
         } else {
             $result = $this->getMeshDescriptorHandler()
-                ->findMeshDescriptorsBy(
+                ->findMeshDescriptorDTOsBy(
                     $criteria,
                     $orderBy,
                     $limit,
