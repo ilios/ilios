@@ -61,10 +61,17 @@ class ProgramYearRepository extends EntityRepository
             $qb->setParameter(':schools', $ids);
         }
 
+        if (array_key_exists('startYears', $criteria)) {
+            $startYears = is_array($criteria['startYears']) ? $criteria['startYears'] : [$criteria['startYears']];
+            $qb->andWhere($qb->expr()->in('p.startYear', ':startYears'));
+            $qb->setParameter(':startYears', $startYears);
+        }
+
         unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
         unset($criteria['terms']);
+        unset($criteria['startYears']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
