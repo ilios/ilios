@@ -1,6 +1,8 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
+
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 
 use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
@@ -9,10 +11,10 @@ use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class ProgramYearVoter
+ * Class ProgramYearEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class ProgramYearVoter extends AbstractVoter
+class ProgramYearEntityVoter extends AbstractVoter
 {
     /**
      * @var PermissionManagerInterface
@@ -89,7 +91,7 @@ class ProgramYearVoter extends AbstractVoter
      * @param UserInterface $user
      * @return bool
      */
-    protected function isWriteGranted($programYear, $user)
+    protected function isWriteGranted(ProgramYearInterface $programYear, $user)
     {
         // the given user is granted CREATE/EDIT/DELETE permissions on the given program year
         // when at least one of the following statements is true

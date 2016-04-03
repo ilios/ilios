@@ -11,6 +11,12 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.dto.program_year_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\ProgramYearDTOVoter
+        parent: security.access.entity.program_year_voter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.dto.session_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\SessionDTOVoter
         parent: security.access.course_voter

@@ -20,6 +20,17 @@ interface ProgramYearManagerInterface extends ManagerInterface
         array $criteria,
         array $orderBy = null
     );
+    
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     *
+     * @return ProgramYearDTO
+     */
+    public function findProgramYearDTOBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,6 +41,21 @@ interface ProgramYearManagerInterface extends ManagerInterface
      * @return ProgramYearInterface[]
      */
     public function findProgramYearsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+    
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return ProgramYearDTO[]
+     */
+    public function findProgramYearDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
