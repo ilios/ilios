@@ -36,7 +36,7 @@ services:
             - { name: security.voter }
     security.access.cohort_voter:
         class: Ilios\AuthenticationBundle\Voter\CohortVoter
-        parent: security.access.program_year_voter
+        parent: security.access.entity.program_year_voter
         public: false
         tags:
             - { name: security.voter }
@@ -184,12 +184,6 @@ services:
     security.access.program_year_steward_voter:
         class: Ilios\AuthenticationBundle\Voter\ProgramYearStewardVoter
         arguments: [ @ilioscore.permission.manager ]
-        public: false
-        tags:
-            - { name: security.voter }
-    security.access.program_year_voter:
-        class: Ilios\AuthenticationBundle\Voter\ProgramYearVoter
-        arguments: [ @ilioscore.permission.manager, @ilioscore.programyearsteward.manager ]
         public: false
         tags:
             - { name: security.voter }

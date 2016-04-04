@@ -341,4 +341,62 @@ class ProgramYearControllerTest extends AbstractControllerTest
             $data[2]
         );
     }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByStartYear()
+    {
+        $programYears = $this->container->get('ilioscore.dataloader.programyear')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_programyears', ['filters[startYear]' => '2014']),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['programYears'];
+        $this->assertEquals(1, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programYears[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByStartYears()
+    {
+        $programYears = $this->container->get('ilioscore.dataloader.programyear')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_programyears', ['filters[startYears][]' => ['2014', '2015']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['programYears'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programYears[1]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $programYears[2]
+            ),
+            $data[1]
+        );
+    }
 }

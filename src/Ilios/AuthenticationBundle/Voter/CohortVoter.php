@@ -3,13 +3,15 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CohortInterface;
+use Ilios\AuthenticationBundle\Voter\Entity\ProgramYearEntityVoter;
+use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CohortVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class CohortVoter extends ProgramYearVoter
+class CohortVoter extends ProgramYearEntityVoter
 {
     /**
      * {@inheritdoc}
@@ -40,7 +42,7 @@ class CohortVoter extends ProgramYearVoter
     /**
      * {@inheritdoc}
      */
-    protected function isWriteGranted($programYear, $user)
+    protected function isWriteGranted(ProgramYearInterface $programYear, $user)
     {
         // prevent modifications and deletions of locked or archived program years
         if ($programYear->isLocked() || $programYear->isArchived()) {

@@ -54,7 +54,11 @@ class ProgramYearController extends FOSRestController
      */
     public function getAction($id)
     {
-        $programYear = $this->getOr404($id);
+        $programYear = $this->getProgramYearHandler()->findProgramYearDTOBy(['id' => $id]);
+
+        if (!$programYear) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $programYear)) {
@@ -126,7 +130,7 @@ class ProgramYearController extends FOSRestController
         }, $criteria);
 
         $result = $this->getProgramYearHandler()
-            ->findProgramYearsBy(
+            ->findProgramYearDTOsBy(
                 $criteria,
                 $orderBy,
                 $limit,

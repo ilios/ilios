@@ -20,6 +20,17 @@ class ProgramYearManager extends AbstractManager implements ProgramYearManagerIn
     ) {
         return $this->getRepository()->findOneBy($criteria, $orderBy);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function findProgramYearDTOBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
+        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
+        return empty($results)?false:$results[0];
+    }
 
     /**
      * {@inheritdoc}
@@ -31,6 +42,18 @@ class ProgramYearManager extends AbstractManager implements ProgramYearManagerIn
         $offset = null
     ) {
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function findProgramYearDTOsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
