@@ -22,6 +22,12 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.entity.school_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\SchoolEntityVoter
+        arguments: [ @ilioscore.permission.manager ]
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.session_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\SessionEntityVoter
         parent: security.access.course_voter

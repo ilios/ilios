@@ -24,6 +24,17 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function findSchoolDTOBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
+        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
+        return empty($results)?false:$results[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findSchoolsBy(
         array $criteria,
         array $orderBy = null,
@@ -31,6 +42,18 @@ class SchoolManager extends AbstractManager implements SchoolManagerInterface
         $offset = null
     ) {
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findSchoolDTOsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
