@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 
 /**
  * Interface SchoolManagerInterface
@@ -25,12 +26,38 @@ interface SchoolManagerInterface extends ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
+     *
+     * @return SchoolDTO
+     */
+    public function findSchoolDTOBy(
+        array $criteria,
+        array $orderBy = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return SchoolInterface[]
      */
     public function findSchoolsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return SchoolDTO[]
+     */
+    public function findSchoolDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,

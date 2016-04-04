@@ -3,8 +3,11 @@ namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
 use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Classes\UserEvent;
+use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 
 /**
  * Class SchoolRepository
@@ -12,6 +15,91 @@ use Ilios\CoreBundle\Classes\UserEvent;
  */
 class SchoolRepository extends EntityRepository
 {
+    /**
+     * Custom findBy so we can filter by related entities
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('DISTINCT p')->from('IliosCoreBundle:School', 's');
+
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('IliosCoreBundle:School', 's');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $schoolDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $schoolDTOs[$arr['id']] = new SchoolDTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['iliosAdministratorEmail'],
+                $arr['changeAlertRecipients']
+            );
+        }
+        $schoolIds = array_keys($schoolDTOs);
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select('s.id as schoolId, c.id as curriculumInventoryInstitutionId')
+            ->from('IliosCoreBundle:School', 's')
+            ->leftJoin('s.curriculumInventoryInstitution', 'c')
+            ->where($qb->expr()->in('s.id', ':ids'))
+            ->setParameter('ids', $schoolIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $schoolDTOs[$arr['schoolId']]->curriculumInventoryInstitution =
+                $arr['curriculumInventoryInstitutionId'] ? $arr['curriculumInventoryInstitutionId'] : null;
+        }
+
+        $related = [
+            'competencies',
+            'courses',
+            'programs',
+            'departments',
+            'vocabularies',
+            'instructorGroups',
+            'sessionTypes',
+            'stewards',
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, s.id AS schoolId')->from('IliosCoreBundle:School', 's')
+                ->join("s.{$rel}", 'r')
+                ->where($qb->expr()->in('s.id', ':schoolIds'))
+                ->orderBy('relId')
+                ->setParameter('schoolIds', $schoolIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $schoolDTOs[$arr['schoolId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        return array_values($schoolDTOs);
+    }
+
     /**
      * Find all of the events for a user id between two dates.
      *
@@ -194,5 +282,45 @@ class SchoolRepository extends EntityRepository
             $event->courseTitle = $arr['courseTitle'];
             return $event;
         }, $results);
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param array $criteria
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return QueryBuilder
+     */
+    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
+    {
+        if (count($criteria)) {
+            foreach ($criteria as $key => $value) {
+                $values = is_array($value) ? $value : [$value];
+                $qb->andWhere($qb->expr()->in("s.{$key}", ":{$key}"));
+                $qb->setParameter(":{$key}", $values);
+            }
+        }
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('s.'.$sort, $order);
+            }
+        }
+
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb;
     }
 }

@@ -54,7 +54,11 @@ class SchoolController extends FOSRestController
      */
     public function getAction($id)
     {
-        $school = $this->getOr404($id);
+        $school = $this->getSchoolHandler()->findSchoolDTOBy(['id' => $id]);
+
+        if (!$school) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $school)) {
@@ -126,7 +130,7 @@ class SchoolController extends FOSRestController
         }, $criteria);
 
         $result = $this->getSchoolHandler()
-            ->findSchoolsBy(
+            ->findSchoolDTOsBy(
                 $criteria,
                 $orderBy,
                 $limit,
