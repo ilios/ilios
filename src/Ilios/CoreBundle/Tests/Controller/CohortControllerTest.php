@@ -486,7 +486,7 @@ class CohortControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['cohorts'];
-        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(2, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $cohorts[1]
@@ -495,15 +495,9 @@ class CohortControllerTest extends AbstractControllerTest
         );
         $this->assertEquals(
             $this->mockSerialize(
-                $cohorts[2]
-            ),
-            $data[1]
-        );
-        $this->assertEquals(
-            $this->mockSerialize(
                 $cohorts[3]
             ),
-            $data[2]
+            $data[1]
         );
     }
 }

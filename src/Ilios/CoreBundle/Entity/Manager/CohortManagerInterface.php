@@ -24,12 +24,38 @@ interface CohortManagerInterface extends ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
+     *
+     * @return CohortDTO
+     */
+    public function findCohortDTOBy(
+        array $criteria,
+        array $orderBy = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return CohortInterface[]
      */
     public function findCohortsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return CohortDTO[]
+     */
+    public function findCohortDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,

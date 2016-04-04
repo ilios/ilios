@@ -34,12 +34,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.cohort_voter:
-        class: Ilios\AuthenticationBundle\Voter\CohortVoter
-        parent: security.access.entity.program_year_voter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.competency_voter:
         class: Ilios\AuthenticationBundle\Voter\CompetencyVoter
         arguments: [ @ilioscore.permission.manager ]
