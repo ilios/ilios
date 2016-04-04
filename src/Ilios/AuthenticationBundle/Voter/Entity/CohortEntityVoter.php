@@ -1,17 +1,16 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\CohortInterface;
-use Ilios\AuthenticationBundle\Voter\Entity\ProgramYearEntityVoter;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class CohortVoter
+ * Class CohortEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class CohortVoter extends ProgramYearEntityVoter
+class CohortEntityVoter extends ProgramYearEntityVoter
 {
     /**
      * {@inheritdoc}

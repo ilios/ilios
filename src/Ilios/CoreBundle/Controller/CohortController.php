@@ -54,7 +54,11 @@ class CohortController extends FOSRestController
      */
     public function getAction($id)
     {
-        $cohort = $this->getOr404($id);
+        $cohort = $this->getCohortHandler()->findCohortDTOBy(['id' => $id]);
+
+        if (!$cohort) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $cohort)) {
@@ -126,7 +130,7 @@ class CohortController extends FOSRestController
         }, $criteria);
 
         $result = $this->getCohortHandler()
-            ->findCohortsBy(
+            ->findCohortDTOsBy(
                 $criteria,
                 $orderBy,
                 $limit,

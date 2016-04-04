@@ -3,6 +3,8 @@ namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\AbstractQuery;
+use Ilios\CoreBundle\Entity\DTO\CohortDTO;
 
 /**
  * Class CohortRepository
@@ -21,6 +23,63 @@ class CohortRepository extends EntityRepository
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('IliosCoreBundle:Cohort', 'c');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $cohortDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $cohortDTOs[$arr['id']] = new CohortDTO(
+                $arr['id'],
+                $arr['title']
+            );
+        }
+        $cohortIds = array_keys($cohortDTOs);
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select('c.id as cohortId, p.id as programYearId')
+            ->from('IliosCoreBundle:Cohort', 'c')
+            ->join('c.programYear', 'p')
+            ->where($qb->expr()->in('c.id', ':ids'))
+            ->setParameter('ids', $cohortIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $cohortDTOs[$arr['cohortId']]->programYear = (int) $arr['programYearId'];
+        }
+
+        $related = [
+            'courses',
+            'learnerGroups',
+            'users'
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, c.id AS cohortId')->from('IliosCoreBundle:Cohort', 'c')
+                ->join("c.{$rel}", 'r')
+                ->where($qb->expr()->in('c.id', ':cohortIds'))
+                ->orderBy('relId')
+                ->setParameter('cohortIds', $cohortIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $cohortDTOs[$arr['cohortId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+
+        return array_values($cohortDTOs);
     }
 
     /**
