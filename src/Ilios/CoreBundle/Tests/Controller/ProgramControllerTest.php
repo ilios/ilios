@@ -174,7 +174,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testDeleteProgram()
     {
@@ -210,7 +210,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testProgramNotFound()
     {
@@ -226,7 +226,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByDuration()
     {
@@ -258,7 +258,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByScheduled()
     {
@@ -284,7 +284,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByIds()
     {
@@ -316,7 +316,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByDurationAndScheduled()
     {
@@ -342,7 +342,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterBySchool()
     {
@@ -368,7 +368,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByDurationAndSchool()
     {
@@ -394,7 +394,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByCourses()
     {
@@ -420,7 +420,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterBySession()
     {
@@ -446,7 +446,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b
      */
     public function testFilterByTerm()
     {
@@ -472,7 +472,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_b_a
      */
     public function testFilterBySchools()
     {

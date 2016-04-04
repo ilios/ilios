@@ -236,7 +236,7 @@ class CohortControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadCohort()
     {
@@ -257,7 +257,7 @@ class CohortControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutCohort()
     {
@@ -288,7 +288,7 @@ class CohortControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testDeleteCohort()
     {
@@ -324,7 +324,7 @@ class CohortControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testCohortNotFound()
     {
@@ -337,5 +337,173 @@ class CohortControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByProgramYear()
+    {
+        $cohorts = $this->container->get('ilioscore.dataloader.cohort')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_cohorts', ['filters[programYear]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['cohorts'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $cohorts[1]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByCourse()
+    {
+        $cohorts = $this->container->get('ilioscore.dataloader.cohort')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_cohorts', ['filters[courses]' => 4]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['cohorts'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $cohorts[2]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByLearnerGroups()
+    {
+        $cohorts = $this->container->get('ilioscore.dataloader.cohort')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_cohorts', ['filters[learnerGroups]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['cohorts'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $cohorts[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByUsers()
+    {
+        $cohorts = $this->container->get('ilioscore.dataloader.cohort')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_cohorts', ['filters[users]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['cohorts'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $cohorts[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterBySchools()
+    {
+        $cohorts = $this->container->get('ilioscore.dataloader.cohort')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_cohorts', ['filters[schools]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['cohorts'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $cohorts[3]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByStartYears()
+    {
+        $cohorts = $this->container->get('ilioscore.dataloader.cohort')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_cohorts', ['filters[startYears]' => ['2014', '2016']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['cohorts'];
+        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $cohorts[1]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $cohorts[2]
+            ),
+            $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $cohorts[3]
+            ),
+            $data[2]
+        );
     }
 }
