@@ -17,7 +17,7 @@ use Ilios\CoreBundle\Traits\CoursesEntity;
  * Class Cohort
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CohortRepository")
  * @ORM\Table(
  *  name="cohort",
  *  indexes={

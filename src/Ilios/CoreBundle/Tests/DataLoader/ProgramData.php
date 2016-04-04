@@ -40,7 +40,7 @@ class ProgramData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'published' => false,
             'school' => "2",
-            'programYears' => [],
+            'programYears' => ["4"],
             'curriculumInventoryReports' => []
         );
 
