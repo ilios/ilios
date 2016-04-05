@@ -126,13 +126,17 @@ class UserController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $q = !is_null($paramFetcher->get('q')) ? $paramFetcher->get('q') : false;
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
-        $criteria = array_map(function ($item) {
-            $item = $item == 'null' ? null : $item;
-            $item = $item == 'false' ? false : $item;
-            $item = $item == 'true' ? true : $item;
-
+        $deepTranspose = function ($item) use (&$deepTranspose) {
+            if (is_array($item)) {
+                $item = array_map($deepTranspose, $item);
+            } else {
+                $item = $item == 'null' ? null : $item;
+                $item = $item == 'false' ? false : $item;
+                $item = $item == 'true' ? true : $item;
+            }
             return $item;
-        }, $criteria);
+        };
+        $criteria = array_map($deepTranspose, $criteria);
 
         if ($q) {
             $result = $this->getUserHandler()->findUsersByQ(
