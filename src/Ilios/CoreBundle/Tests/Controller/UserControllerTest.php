@@ -1054,4 +1054,68 @@ class UserControllerTest extends AbstractControllerTest
             $data[0]
         );
     }
+
+    /**
+     * @group controllers_b
+     */
+    public function testFilterByCohort()
+    {
+        $users = $this->container->get('ilioscore.dataloader.user')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', ['filters[cohorts]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['users'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $users[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $users[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers_b
+     */
+    public function testFilterByNullCohort()
+    {
+        $users = $this->container->get('ilioscore.dataloader.user')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', ['filters[cohorts]' => 'null']),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['users'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $users[2]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $users[3]
+            ),
+            $data[1]
+        );
+    }
 }

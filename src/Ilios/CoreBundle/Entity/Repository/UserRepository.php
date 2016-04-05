@@ -706,7 +706,22 @@ class UserRepository extends EntityRepository
             $qb->setParameter(':roles', $ids);
         }
 
+        if (array_key_exists('cohorts', $criteria)) {
+            $ids = is_array($criteria['cohorts'])
+                ? $criteria['cohorts'] : [$criteria['cohorts']];
+            if (in_array(null, $ids)) {
+                $ids = array_diff($ids, [null]);
+                $qb->andWhere('u.cohorts IS EMPTY');
+            }
+            if (count($ids)) {
+                $qb->join('u.cohorts', 'c_cohorts');
+                $qb->andWhere($qb->expr()->in('c_cohorts.id', ':cohorts'));
+                $qb->setParameter(':cohorts', $ids);
+            }
+        }
+
         //cleanup all the possible relationship filters
+        unset($criteria['cohorts']);
         unset($criteria['roles']);
         unset($criteria['schools']);
         unset($criteria['instructedCourses']);
