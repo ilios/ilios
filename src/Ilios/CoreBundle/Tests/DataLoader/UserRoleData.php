@@ -29,7 +29,7 @@ class UserRoleData extends AbstractDataLoader
         $arr = array();
 
         $arr[] = array(
-            'id' => 2,
+            'id' => 3,
             'title' => $this->faker->text(10)
         );
 
