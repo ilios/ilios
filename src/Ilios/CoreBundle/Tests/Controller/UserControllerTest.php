@@ -1028,4 +1028,30 @@ class UserControllerTest extends AbstractControllerTest
             $data[2]
         );
     }
+
+    /**
+     * @group controllers_b
+     */
+    public function testFilterByRole()
+    {
+        $users = $this->container->get('ilioscore.dataloader.user')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', ['filters[roles]' => [2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['users'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $users[2]
+            ),
+            $data[0]
+        );
+    }
 }

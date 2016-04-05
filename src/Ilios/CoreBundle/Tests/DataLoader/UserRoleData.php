@@ -14,6 +14,12 @@ class UserRoleData extends AbstractDataLoader
             'users' => ['1','2'],
         );
 
+        $arr[] = array(
+            'id' => 2,
+            'title' => 'Something Else',
+            'users' => ['3'],
+        );
+
 
         return $arr;
     }
