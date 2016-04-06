@@ -51,12 +51,13 @@ class RolloverCourseCommand extends ContainerAwareCommand
                 InputArgument::REQUIRED,
                 'The academic start year of the new course formatted as \'YYYY\''
             )
-            ->addArgument(
-                'newStartDate',
-                InputArgument::REQUIRED,
+            //optional flags
+            ->addOption(
+                'new-start-date',
+                null,
+                InputOption::VALUE_REQUIRED,
                 'The start date of the new course formatted as \'YYYY-MM-DD\''
             )
-            //optional flags
             ->addOption(
                 'skip-course-learning-materials',
                 null,
@@ -140,7 +141,7 @@ class RolloverCourseCommand extends ContainerAwareCommand
         //set the values from the input arguments
         $originalCourseId = $input->getArgument('courseId');
         $newCourseAcademicYear = $input->getArgument('newAcademicYear');
-        $newStartDate = $input->getArgument('newStartDate');
+        $newStartDate = $input->getOption('new-start-date');
 
         //get the course object by its course id
         $originalCourse = $courses->find($originalCourseId);
@@ -150,6 +151,13 @@ class RolloverCourseCommand extends ContainerAwareCommand
         $originalCourseAcademicYear = $originalCourse->getYear();
         $originalCourseStartDate = $originalCourse->getStartDate()->format('Y-m-d');
 
+        //get the week number of the original start date and the new one
+        $originalStartWeekOrdinal = date('W',strtotime($originalCourseStartDate));
+        $newStartWeekOrdinal = (!empty($newStartDate)) ? date('W',strtotime($newStartDate)) : null;
+
+        $academicYearDifference = ($newCourseAcademicYear - $originalCourseAcademicYear);
+        $offsetInWeeks = $this->calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal,$newStartWeekOrdinal);
+
 
         //check to see if the title and the new course year already exist
         $dql = 'SELECT c.id FROM IliosCoreBundle:Course c WHERE c.year = ?1 AND c.title = ?2';
@@ -158,6 +166,8 @@ class RolloverCourseCommand extends ContainerAwareCommand
         $query->setParameter(2, $originalCourseTitle);
         $results = $query->getResult();
 
+
+        /***** UNCOMMENT THIS FOR PRODUCTION *****/
         //if the title and requested year already exist, warn and exit
         /*if(!empty($results)) {
 
@@ -177,11 +187,14 @@ class RolloverCourseCommand extends ContainerAwareCommand
         $newCourse->setTitle($originalCourseTitle);
         $newCourse->setYear($newCourseAcademicYear);
         $newCourse->setLevel($originalCourse->getLevel());
-        $newCourse->setStartDate($originalCourse->getStartDate());
+        $newCourseStartDate = date_create(strtotime('+' . $offsetInWeeks . ' weeks', strtotime($originalCourseStartDate)));
+        $newCourse->setStartDate($newCourseStartDate);
         $newCourse->setEndDate($originalCourse->getEndDate());
 
         $em->persist($newCourse);
         $em->flush($newCourse);
+
+
 
         //while creating the course, loop through and get the original course session info
         $dql = 'SELECT s FROM IliosCoreBundle:Session s JOIN IliosCoreBundle:Course c WITH s.course = c.id WHERE s.course = ?1';
@@ -215,6 +228,41 @@ class RolloverCourseCommand extends ContainerAwareCommand
         //\Doctrine\Common\Util\Debug::dump($results);
 
     }
+
+    protected function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null){
+
+        //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
+        if(empty($newStartWeekOrdinal)) {
+            $weeksToAdd = ($academicYearDifference * 52);
+        } else {
+            //get the remaining number of weeks remaining in the year from the orig start date
+            $weeksUntilNewYear = (52 - $originalStartWeekOrdinal);
+
+            //get the number of weeks between two dates within one year cycle
+            $weeksBetweenTwoDates = ($weeksUntilNewYear + $newStartWeekOrdinal);
+
+            switch($academicYearDifference) {
+                //if the year diff is 0, it is the same year,
+                //so just take the difference between the two weeks
+                case 0:
+                    $weeksToAdd = ($newStartWeekOrdinal - $originalStartWeekOrdinal);
+                    break;
+                //if there is only 1 year difference, get the weeks left of the first year
+                //and add them to the week ordinal of the new start date
+                case 1:
+                    $weeksToAdd = $weeksBetweenTwoDates;
+                    break;
+                //if the difference is greater than 1 year, multiply each ADDITIONAL year (after the 1st year)
+                //by 52 weeks, and add this to the total weeks between the two dates
+                default:
+                    $weekYearMultiplier = (52 * ($academicYearDifference - 1));
+                    $weeksToAdd = $weeksBetweenTwoDates + $weekYearMultiplier;
+            }
+        }
+
+        return $weeksToAdd;
+    }
+
 }
 
 
