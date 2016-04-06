@@ -135,7 +135,6 @@ class RolloverCourseCommand extends ContainerAwareCommand
     {
 
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        //$cm = $this->getContainer()->get('ilioscore.course.manager');
         $courses = $em->getRepository('IliosCoreBundle:Course');
 
         //set the values from the input arguments
@@ -153,14 +152,14 @@ class RolloverCourseCommand extends ContainerAwareCommand
 
 
         //check to see if the title and the new course year already exist
-        $dql = 'SELECT DISTINCT c.id FROM IliosCoreBundle:Course c WHERE c.year = ?1 AND c.title = ?2';
+        $dql = 'SELECT c.id FROM IliosCoreBundle:Course c WHERE c.year = ?1 AND c.title = ?2';
         $query = $em->createQuery($dql);
         $query->setParameter(1, $newCourseAcademicYear);
         $query->setParameter(2, $originalCourseTitle);
         $results = $query->getResult();
 
         //if the title and requested year already exist, warn and exit
-        if(!empty($results)) {
+        /*if(!empty($results)) {
 
             $totalResults = count($results);
             $existingCourseIdArray = array();
@@ -170,18 +169,50 @@ class RolloverCourseCommand extends ContainerAwareCommand
             $existingCourseIdString = implode(',',$existingCourseIdArray);
             $error_string = ($totalResults > 1) ? ' courses already exist' : ' course already exists';
             exit('Please check your requirements: ' . $totalResults  . $error_string . ' with that year and title (' . $existingCourseIdString . ').' . "\n");
-        }
+        }*/
 
+        //create the Course
         //if there are not any duplicates, create a new course with the relevant info
         $newCourse = new Course();
         $newCourse->setTitle($originalCourseTitle);
         $newCourse->setYear($newCourseAcademicYear);
+        $newCourse->setLevel($originalCourse->getLevel());
+        $newCourse->setStartDate($originalCourse->getStartDate());
+        $newCourse->setEndDate($originalCourse->getEndDate());
+
+        $em->persist($newCourse);
+        $em->flush($newCourse);
+
+        //while creating the course, loop through and get the original course session info
+        $dql = 'SELECT s FROM IliosCoreBundle:Session s JOIN IliosCoreBundle:Course c WITH s.course = c.id WHERE s.course = ?1';
+        $query = $em->createQuery($dql);
+        $query->setParameter(1, $originalCourseId);
+        $sessions = $query->getResult();
+
+        //create new sessions for all
+        foreach ($sessions as $session) {
+            $newSession = new Session();
+            $newSession->setTitle($session->getTitle());
+            $newSession->setCourse($newCourse);
+            $newSession->setSessionType($session->getSessionType());
+            //\Doctrine\Common\Util\Debug::dump($newSession);
+            $em->persist($newSession);
+            $em->flush($newSession);
+        }
+
+
+
+
+        //$newSession = new Session();
+        //$newSession->setTitle('test');
+        //$newCourse->addSession($newSession);
 
         //output for debug
-        \Doctrine\Common\Util\Debug::dump($newStartDate);
-        \Doctrine\Common\Util\Debug::dump($originalCourse);
-        \Doctrine\Common\Util\Debug::dump($originalCourseStartDate);
-        \Doctrine\Common\Util\Debug::dump($newCourse);
+        //\Doctrine\Common\Util\Debug::dump($newStartDate);
+        //\Doctrine\Common\Util\Debug::dump($originalCourse);
+        //\Doctrine\Common\Util\Debug::dump($originalCourseStartDate);
+        //\Doctrine\Common\Util\Debug::dump($newCourse);
+        //\Doctrine\Common\Util\Debug::dump($results);
 
     }
 }
