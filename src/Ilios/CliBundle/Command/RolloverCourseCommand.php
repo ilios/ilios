@@ -47,7 +47,7 @@ class RolloverCourseCommand extends ContainerAwareCommand
                 'The course_id value of the course to rollover'
             )
             ->addArgument(
-                'newStartYear',
+                'newAcademicYear',
                 InputArgument::REQUIRED,
                 'The academic start year of the new course formatted as \'YYYY\''
             )
@@ -140,7 +140,7 @@ class RolloverCourseCommand extends ContainerAwareCommand
 
         //set the values from the input arguments
         $originalCourseId = $input->getArgument('courseId');
-        $newCourseAcademicYear = $input->getArgument('newStartYear');
+        $newCourseAcademicYear = $input->getArgument('newAcademicYear');
         $newStartDate = $input->getArgument('newStartDate');
 
         //get the course object by its course id
