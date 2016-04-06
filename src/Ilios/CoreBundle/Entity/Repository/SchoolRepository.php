@@ -28,7 +28,7 @@ class SchoolRepository extends EntityRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT p')->from('IliosCoreBundle:School', 's');
+        $qb->select('DISTINCT s')->from('IliosCoreBundle:School', 's');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
