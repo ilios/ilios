@@ -596,7 +596,7 @@ class Course implements CourseInterface
      * @param int $originalStartWeekOrdinal
      * @param int $newStartWeekOrdinal
      */
-    protected function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null){
+    public function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null){
 
         //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
         if(empty($newStartWeekOrdinal)) {

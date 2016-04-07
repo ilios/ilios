@@ -158,7 +158,7 @@ class RolloverCourseCommand extends ContainerAwareCommand
         $newStartWeekOrdinal = (!empty($newStartDate)) ? date('W',strtotime($newStartDate)) : null;
 
         $academicYearDifference = ($newCourseAcademicYear - $originalCourseAcademicYear);
-        $offsetInWeeks = $this->calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal);
+        $offsetInWeeks = $originalCourse->calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal);
 
         //check to see if the title and the new course year already exist
         $qb = $em->createQueryBuilder();
@@ -239,7 +239,7 @@ class RolloverCourseCommand extends ContainerAwareCommand
                 //$em->persist($newSessionOffering);
                 //$em->flush($newSessionOffering);
             }
-            
+
         }
 
         //output for debug
@@ -247,6 +247,7 @@ class RolloverCourseCommand extends ContainerAwareCommand
 
     }
 
+    /*
     protected function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null){
 
         //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
@@ -279,6 +280,6 @@ class RolloverCourseCommand extends ContainerAwareCommand
         }
 
         return $weeksToAdd;
-    }
+    }*/
 
 }
