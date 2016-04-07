@@ -15,6 +15,7 @@ use Ilios\CoreBundle\Entity\CourseLearningMaterial;
 
 //sessions
 use Ilios\CoreBundle\Entity\Session;
+use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterial;
 
 //offerings
@@ -143,29 +144,34 @@ class RolloverCourseCommand extends ContainerAwareCommand
         $newCourseAcademicYear = $input->getArgument('newAcademicYear');
         $newStartDate = $input->getOption('new-start-date');
 
-        //get the course object by its course id
+        //get the original course object by its course id
         $originalCourse = $courses->find($originalCourseId);
 
         //get the necessary attributes
         $originalCourseTitle = $originalCourse->getTitle();
         $originalCourseAcademicYear = $originalCourse->getYear();
-        $originalCourseStartDate = $originalCourse->getStartDate()->format('Y-m-d');
+        $originalCourseStartDate = $originalCourse->getStartDate();
+        $originalCourseEndDate = $originalCourse->getEndDate();
 
         //get the week number of the original start date and the new one
-        $originalStartWeekOrdinal = date('W',strtotime($originalCourseStartDate));
+        $originalStartWeekOrdinal = $originalCourseStartDate->format("W");
         $newStartWeekOrdinal = (!empty($newStartDate)) ? date('W',strtotime($newStartDate)) : null;
 
         $academicYearDifference = ($newCourseAcademicYear - $originalCourseAcademicYear);
-        $offsetInWeeks = $this->calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal,$newStartWeekOrdinal);
-
+        $offsetInWeeks = $this->calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal);
 
         //check to see if the title and the new course year already exist
-        $dql = 'SELECT c.id FROM IliosCoreBundle:Course c WHERE c.year = ?1 AND c.title = ?2';
-        $query = $em->createQuery($dql);
-        $query->setParameter(1, $newCourseAcademicYear);
-        $query->setParameter(2, $originalCourseTitle);
+        $qb = $em->createQueryBuilder();
+        $qb->select('c.id')
+            ->from('IliosCoreBundle:Course', 'c')
+            ->where($qb->expr()->andX(
+                $qb->expr()->eq('c.year', '?1'),
+                $qb->expr()->eq('c.title', '?2')
+            ))
+            ->setParameter(1, $newCourseAcademicYear)
+            ->setParameter(2, $originalCourseTitle);
+        $query = $qb->getQuery();
         $results = $query->getResult();
-
 
         /***** UNCOMMENT THIS FOR PRODUCTION *****/
         //if the title and requested year already exist, warn and exit
@@ -187,45 +193,57 @@ class RolloverCourseCommand extends ContainerAwareCommand
         $newCourse->setTitle($originalCourseTitle);
         $newCourse->setYear($newCourseAcademicYear);
         $newCourse->setLevel($originalCourse->getLevel());
-        $newCourseStartDate = date_create(strtotime('+' . $offsetInWeeks . ' weeks', strtotime($originalCourseStartDate)));
+        $newCourseStartDate = date_create($originalCourseStartDate->format('Y-m-d'));
+        $newCourseStartDate->modify('+ ' . $offsetInWeeks . ' weeks');
         $newCourse->setStartDate($newCourseStartDate);
-        $newCourse->setEndDate($originalCourse->getEndDate());
-
+        $newCourseEndDate = date_create($originalCourseEndDate->format('Y-m-d'));
+        $newCourseEndDate->modify('+ ' . $offsetInWeeks . ' weeks');
+        $newCourse->setEndDate($newCourseEndDate);
+        $newCourse->setPublishedAsTbd($originalCourse->isPublishedAsTbd());
+        $newCourse->setLocked(0);
+        $newCourse->setArchived(0);
+        $newCourse->setSchool($originalCourse->getSchool());
+        $newCourse->setClerkshipType($originalCourse->getClerkshipType());
+        $newCourse->setLearningMaterials($originalCourse->setLearningMaterials());
+        $newCourse->setDirectors($originalCourse->getDirectors());
+        $newCourse->setTerms($originalCourse->getTerms());
+        $newCourse->setObjectives($originalCourse->getObjectives());
+        $newCourse->setMeshDescriptors($originalCourse->getMeshDescriptors());
         $em->persist($newCourse);
         $em->flush($newCourse);
 
+        //Now, operate on the course sessions
+        $sessions = $originalCourse->getSessions();
 
-
-        //while creating the course, loop through and get the original course session info
-        $dql = 'SELECT s FROM IliosCoreBundle:Session s JOIN IliosCoreBundle:Course c WITH s.course = c.id WHERE s.course = ?1';
-        $query = $em->createQuery($dql);
-        $query->setParameter(1, $originalCourseId);
-        $sessions = $query->getResult();
-
-        //create new sessions for all
-        foreach ($sessions as $session) {
+        foreach($sessions as $session) {
             $newSession = new Session();
-            $newSession->setTitle($session->getTitle());
             $newSession->setCourse($newCourse);
+            $newSession->setTitle($session->getTitle());
             $newSession->setSessionType($session->getSessionType());
-            //\Doctrine\Common\Util\Debug::dump($newSession);
-            $em->persist($newSession);
-            $em->flush($newSession);
+            $newSession->setLearningMaterials($session->getLearningMaterials());
+            $newSession->setAttireRequired($session->isAttireRequired());
+
+            //TODO: find out why this says 'must implement interface...'
+            //$newSessionDescription = new SessionDescriptionInterface();
+            //$newSession->setSessionDescription($session->getSessionDescription());
+
+            //$em->persist($newSession);
+            //$em->flush($newSession);
+
+            $sessionOfferings = $session->getOfferings();
+
+            foreach($sessionOfferings as $sessionOffering) {
+                $newSessionOffering = new Offering();
+                $newSessionOffering->setStartDate();
+
+                //$em->persist($newSessionOffering);
+                //$em->flush($newSessionOffering);
+            }
+            
         }
-
-
-
-
-        //$newSession = new Session();
-        //$newSession->setTitle('test');
-        //$newCourse->addSession($newSession);
 
         //output for debug
         //\Doctrine\Common\Util\Debug::dump($newStartDate);
-        //\Doctrine\Common\Util\Debug::dump($originalCourse);
-        //\Doctrine\Common\Util\Debug::dump($originalCourseStartDate);
-        //\Doctrine\Common\Util\Debug::dump($newCourse);
-        //\Doctrine\Common\Util\Debug::dump($results);
 
     }
 
@@ -233,36 +251,34 @@ class RolloverCourseCommand extends ContainerAwareCommand
 
         //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
         if(empty($newStartWeekOrdinal)) {
-            $weeksToAdd = ($academicYearDifference * 52);
-        } else {
-            //get the remaining number of weeks remaining in the year from the orig start date
-            $weeksUntilNewYear = (52 - $originalStartWeekOrdinal);
+            return ($academicYearDifference * 52);
+        }
 
-            //get the number of weeks between two dates within one year cycle
-            $weeksBetweenTwoDates = ($weeksUntilNewYear + $newStartWeekOrdinal);
+        //get the remaining number of weeks remaining in the year from the orig start date
+        $weeksUntilNewYear = (52 - $originalStartWeekOrdinal);
 
-            switch($academicYearDifference) {
-                //if the year diff is 0, it is the same year,
-                //so just take the difference between the two weeks
-                case 0:
-                    $weeksToAdd = ($newStartWeekOrdinal - $originalStartWeekOrdinal);
-                    break;
-                //if there is only 1 year difference, get the weeks left of the first year
-                //and add them to the week ordinal of the new start date
-                case 1:
-                    $weeksToAdd = $weeksBetweenTwoDates;
-                    break;
-                //if the difference is greater than 1 year, multiply each ADDITIONAL year (after the 1st year)
-                //by 52 weeks, and add this to the total weeks between the two dates
-                default:
-                    $weekYearMultiplier = (52 * ($academicYearDifference - 1));
-                    $weeksToAdd = $weeksBetweenTwoDates + $weekYearMultiplier;
-            }
+        //get the number of weeks between two dates within one year cycle
+        $weeksBetweenTwoDates = ($weeksUntilNewYear + $newStartWeekOrdinal);
+
+        switch($academicYearDifference) {
+            //if the year diff is 0, it is the same year,
+            //so just take the difference between the two weeks
+            case 0:
+                $weeksToAdd = ($newStartWeekOrdinal - $originalStartWeekOrdinal);
+                break;
+            //if there is only 1 year difference, get the weeks left of the first year
+            //and add them to the week ordinal of the new start date
+            case 1:
+                $weeksToAdd = $weeksBetweenTwoDates;
+                break;
+            //if the difference is greater than 1 year, multiply each ADDITIONAL year (after the 1st year)
+            //by 52 weeks, and add this to the total weeks between the two dates
+            default:
+                $weekYearMultiplier = (52 * ($academicYearDifference - 1));
+                $weeksToAdd = ($weeksBetweenTwoDates + $weekYearMultiplier);
         }
 
         return $weeksToAdd;
     }
 
 }
-
-

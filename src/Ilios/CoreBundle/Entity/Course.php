@@ -590,4 +590,44 @@ class Course implements CourseInterface
     {
         return $this->learningMaterials;
     }
+
+    /**
+     * @param int $academicYearDifference
+     * @param int $originalStartWeekOrdinal
+     * @param int $newStartWeekOrdinal
+     */
+    protected function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null){
+
+        //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
+        if(empty($newStartWeekOrdinal)) {
+            return ($academicYearDifference * 52);
+        }
+
+        //get the remaining number of weeks remaining in the year from the orig start date
+        $weeksUntilNewYear = (52 - $originalStartWeekOrdinal);
+
+        //get the number of weeks between two dates within one year cycle
+        $weeksBetweenTwoDates = ($weeksUntilNewYear + $newStartWeekOrdinal);
+
+        switch($academicYearDifference) {
+            //if the year diff is 0, it is the same year,
+            //so just take the difference between the two weeks
+            case 0:
+                $weeksToAdd = ($newStartWeekOrdinal - $originalStartWeekOrdinal);
+                break;
+            //if there is only 1 year difference, get the weeks left of the first year
+            //and add them to the week ordinal of the new start date
+            case 1:
+                $weeksToAdd = $weeksBetweenTwoDates;
+                break;
+            //if the difference is greater than 1 year, multiply each ADDITIONAL year (after the 1st year)
+            //by 52 weeks, and add this to the total weeks between the two dates
+            default:
+                $weekYearMultiplier = (52 * ($academicYearDifference - 1));
+                $weeksToAdd = ($weeksBetweenTwoDates + $weekYearMultiplier);
+        }
+
+        return $weeksToAdd;
+    }
 }
+
