@@ -592,11 +592,88 @@ class Course implements CourseInterface
     }
 
     /**
+     * @param entitymanager $em
+     * @param int $newCourseAcademicYear
+     * @param string $newCourseStartDate
+     */
+    public function rolloverCourse($em, $newCourseAcademicYear, $newCourseStartDate = null)
+    {
+        //get the necessary attributes
+        $originalCourseTitle = $this->getTitle();
+        $originalCourseAcademicYear = $this->getYear();
+        $originalCourseStartDate = $this->getStartDate();
+        $originalCourseEndDate = $this->getEndDate();
+
+        //get the week number of the original start date and the new one
+        $originalStartWeekOrdinal = $originalCourseStartDate->format("W");
+        $newStartWeekOrdinal = (!empty($newCourseStartDate)) ? date('W',strtotime($newCourseStartDate)) : null;
+
+        $academicYearDifference = ($newCourseAcademicYear - $originalCourseAcademicYear);
+        $offsetInWeeks = $this->calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal);
+
+        //create the Course
+        //if there are not any duplicates, create a new course with the relevant info
+        $newCourse = new Course();
+        $newCourse->setTitle($originalCourseTitle);
+        $newCourse->setYear($newCourseAcademicYear);
+        $newCourse->setLevel($this->getLevel());
+        $newCourseStartDate = date_create($originalCourseStartDate->format('Y-m-d'));
+        $newCourseStartDate->modify('+ ' . $offsetInWeeks . ' weeks');
+        $newCourse->setStartDate($newCourseStartDate);
+        $newCourseEndDate = date_create($originalCourseEndDate->format('Y-m-d'));
+        $newCourseEndDate->modify('+ ' . $offsetInWeeks . ' weeks');
+        $newCourse->setEndDate($newCourseEndDate);
+        $newCourse->setPublishedAsTbd($this->isPublishedAsTbd());
+        $newCourse->setLocked(0);
+        $newCourse->setArchived(0);
+        $newCourse->setSchool($this->getSchool());
+        $newCourse->setClerkshipType($this->getClerkshipType());
+        $newCourse->setLearningMaterials($this->getLearningMaterials());
+        $newCourse->setDirectors($this->getDirectors());
+        $newCourse->setTerms($this->getTerms());
+        $newCourse->setObjectives($this->getObjectives());
+        $newCourse->setMeshDescriptors($this->getMeshDescriptors());
+        $em->persist($newCourse);
+        $em->flush($newCourse);
+
+        //Now, operate on the course sessions
+        $sessions = $this->getSessions();
+
+        foreach($sessions as $session) {
+            $newSession = new Session();
+            $newSession->setCourse($newCourse);
+            $newSession->setTitle($session->getTitle());
+            $newSession->setSessionType($session->getSessionType());
+            $newSession->setLearningMaterials($session->getLearningMaterials());
+            $newSession->setAttireRequired($session->isAttireRequired());
+
+            //TODO: find out why this says 'must implement interface...'
+            //$newSessionDescription = new SessionDescriptionInterface();
+            //$newSession->setSessionDescription($session->getSessionDescription());
+
+            //$em->persist($newSession);
+            //$em->flush($newSession);
+
+            $sessionOfferings = $session->getOfferings();
+
+            foreach($sessionOfferings as $sessionOffering) {
+                $newSessionOffering = new Offering();
+                $newSessionOffering->setStartDate();
+
+                //$em->persist($newSessionOffering);
+                //$em->flush($newSessionOffering);
+            }
+
+        }
+
+    }
+
+    /**
      * @param int $academicYearDifference
      * @param int $originalStartWeekOrdinal
      * @param int $newStartWeekOrdinal
      */
-    public function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null){
+    protected function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null){
 
         //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
         if(empty($newStartWeekOrdinal)) {

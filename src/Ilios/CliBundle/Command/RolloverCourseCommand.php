@@ -147,19 +147,6 @@ class RolloverCourseCommand extends ContainerAwareCommand
         //get the original course object by its course id
         $originalCourse = $courses->find($originalCourseId);
 
-        //get the necessary attributes
-        $originalCourseTitle = $originalCourse->getTitle();
-        $originalCourseAcademicYear = $originalCourse->getYear();
-        $originalCourseStartDate = $originalCourse->getStartDate();
-        $originalCourseEndDate = $originalCourse->getEndDate();
-
-        //get the week number of the original start date and the new one
-        $originalStartWeekOrdinal = $originalCourseStartDate->format("W");
-        $newStartWeekOrdinal = (!empty($newStartDate)) ? date('W',strtotime($newStartDate)) : null;
-
-        $academicYearDifference = ($newCourseAcademicYear - $originalCourseAcademicYear);
-        $offsetInWeeks = $originalCourse->calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal);
-
         //check to see if the title and the new course year already exist
         $qb = $em->createQueryBuilder();
         $qb->select('c.id')
@@ -169,7 +156,7 @@ class RolloverCourseCommand extends ContainerAwareCommand
                 $qb->expr()->eq('c.title', '?2')
             ))
             ->setParameter(1, $newCourseAcademicYear)
-            ->setParameter(2, $originalCourseTitle);
+            ->setParameter(2, $originalCourse->getTitle());
         $query = $qb->getQuery();
         $results = $query->getResult();
 
@@ -187,60 +174,8 @@ class RolloverCourseCommand extends ContainerAwareCommand
             exit('Please check your requirements: ' . $totalResults  . $error_string . ' with that year and title (' . $existingCourseIdString . ').' . "\n");
         }*/
 
-        //create the Course
-        //if there are not any duplicates, create a new course with the relevant info
-        $newCourse = new Course();
-        $newCourse->setTitle($originalCourseTitle);
-        $newCourse->setYear($newCourseAcademicYear);
-        $newCourse->setLevel($originalCourse->getLevel());
-        $newCourseStartDate = date_create($originalCourseStartDate->format('Y-m-d'));
-        $newCourseStartDate->modify('+ ' . $offsetInWeeks . ' weeks');
-        $newCourse->setStartDate($newCourseStartDate);
-        $newCourseEndDate = date_create($originalCourseEndDate->format('Y-m-d'));
-        $newCourseEndDate->modify('+ ' . $offsetInWeeks . ' weeks');
-        $newCourse->setEndDate($newCourseEndDate);
-        $newCourse->setPublishedAsTbd($originalCourse->isPublishedAsTbd());
-        $newCourse->setLocked(0);
-        $newCourse->setArchived(0);
-        $newCourse->setSchool($originalCourse->getSchool());
-        $newCourse->setClerkshipType($originalCourse->getClerkshipType());
-        $newCourse->setLearningMaterials($originalCourse->setLearningMaterials());
-        $newCourse->setDirectors($originalCourse->getDirectors());
-        $newCourse->setTerms($originalCourse->getTerms());
-        $newCourse->setObjectives($originalCourse->getObjectives());
-        $newCourse->setMeshDescriptors($originalCourse->getMeshDescriptors());
-        $em->persist($newCourse);
-        $em->flush($newCourse);
-
-        //Now, operate on the course sessions
-        $sessions = $originalCourse->getSessions();
-
-        foreach($sessions as $session) {
-            $newSession = new Session();
-            $newSession->setCourse($newCourse);
-            $newSession->setTitle($session->getTitle());
-            $newSession->setSessionType($session->getSessionType());
-            $newSession->setLearningMaterials($session->getLearningMaterials());
-            $newSession->setAttireRequired($session->isAttireRequired());
-
-            //TODO: find out why this says 'must implement interface...'
-            //$newSessionDescription = new SessionDescriptionInterface();
-            //$newSession->setSessionDescription($session->getSessionDescription());
-
-            //$em->persist($newSession);
-            //$em->flush($newSession);
-
-            $sessionOfferings = $session->getOfferings();
-
-            foreach($sessionOfferings as $sessionOffering) {
-                $newSessionOffering = new Offering();
-                $newSessionOffering->setStartDate();
-
-                //$em->persist($newSessionOffering);
-                //$em->flush($newSessionOffering);
-            }
-
-        }
+        //create the rollover
+        $originalCourse->rolloverCourse($em, $newCourseAcademicYear, $newStartDate);
 
         //output for debug
         //\Doctrine\Common\Util\Debug::dump($newStartDate);
