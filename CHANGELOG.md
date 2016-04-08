@@ -1,7 +1,32 @@
 # Change Log
 
-## [v3.8.0](https://github.com/ilios/ilios/tree/v3.8.0)
+## [v3.9.0](https://github.com/ilios/ilios/tree/v3.9.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.8.0...v3.9.0)
+
+**Implemented enhancements:**
+
+- MeSH Descriptor DTOs [\#1362](https://github.com/ilios/ilios/issues/1362)
+
+**Closed issues:**
+
+- Error when adding new students without a --schoolId [\#1373](https://github.com/ilios/ilios/issues/1373)
+- add DISTINCT clause in DTO queries? [\#1363](https://github.com/ilios/ilios/issues/1363)
+
+**Merged pull requests:**
+
+- Fix typo in select query from SchoolRepository:findBy [\#1374](https://github.com/ilios/ilios/pull/1374) ([jrjohnson](https://github.com/jrjohnson))
+- Filter users by role and cohort [\#1371](https://github.com/ilios/ilios/pull/1371) ([jrjohnson](https://github.com/jrjohnson))
+- Bump the API version to v1.3 [\#1370](https://github.com/ilios/ilios/pull/1370) ([jrjohnson](https://github.com/jrjohnson))
+- Use DTO pattern for Cohorts API [\#1369](https://github.com/ilios/ilios/pull/1369) ([jrjohnson](https://github.com/jrjohnson))
+- Convert School to DTO for GET requests [\#1368](https://github.com/ilios/ilios/pull/1368) ([jrjohnson](https://github.com/jrjohnson))
+- Added filtering by relationships for cohorts API [\#1367](https://github.com/ilios/ilios/pull/1367) ([jrjohnson](https://github.com/jrjohnson))
+- Program Years as DTOs [\#1366](https://github.com/ilios/ilios/pull/1366) ([jrjohnson](https://github.com/jrjohnson))
+- use DTOs for MeSH descriptor queries [\#1365](https://github.com/ilios/ilios/pull/1365) ([stopfstedt](https://github.com/stopfstedt))
+- added distinct clause to queries. [\#1364](https://github.com/ilios/ilios/pull/1364) ([stopfstedt](https://github.com/stopfstedt))
+- Fix error handling [\#1360](https://github.com/ilios/ilios/pull/1360) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.8.0](https://github.com/ilios/ilios/tree/v3.8.0) (2016-03-22)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.7.0...v3.8.0)
 
 **Implemented enhancements:**
@@ -17,6 +42,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for the v3.8.0 release [\#1359](https://github.com/ilios/ilios/pull/1359) ([thecoolestguy](https://github.com/thecoolestguy))
 - include directors when filtering courses by instructors. [\#1358](https://github.com/ilios/ilios/pull/1358) ([stopfstedt](https://github.com/stopfstedt))
 - Term children should not be saved with the term [\#1357](https://github.com/ilios/ilios/pull/1357) ([jrjohnson](https://github.com/jrjohnson))
 - Save and Load terms completly [\#1355](https://github.com/ilios/ilios/pull/1355) ([jrjohnson](https://github.com/jrjohnson))
