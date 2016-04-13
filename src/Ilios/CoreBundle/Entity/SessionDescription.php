@@ -45,8 +45,13 @@ class SessionDescription implements SessionDescriptionInterface
      *
      * @ORM\OneToOne(targetEntity="Session", inversedBy="sessionDescription")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", unique=true, nullable=false,
-           onDelete="CASCADE")
+     *   @ORM\JoinColumn(
+     *     name="session_id",
+     *     referencedColumnName="session_id",
+     *     unique=true,
+     *     nullable=false,
+     *     onDelete="CASCADE"
+     *   )
      * })
      *
      * @JMS\Expose
