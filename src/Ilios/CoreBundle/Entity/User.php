@@ -285,6 +285,8 @@ class User implements UserInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
      *
+     * @Assert\NotBlank()
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("school")

@@ -139,7 +139,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
      */
     public function isOptional()
     {
-        return true;
+        return false;
     }
 
     /**
