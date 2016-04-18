@@ -107,7 +107,7 @@ if ($stmt = mysqli_prepare($link, $query)) {
 }
 
 //COURSE TOPICS
-$query = sprintf("INSERT INTO course_x_discipline SELECT %d, discipline_id FROM course_x_discipline WHERE course_id = %d", $new_course_id, $orig_course_id);
+$query = sprintf("INSERT INTO course_x_term SELECT %d, term_id FROM course_x_term WHERE course_id = %d", $new_course_id, $orig_course_id);
 print $query . ";\n";
 if ($stmt = mysqli_prepare($link, $query)) {
     if (mysqli_stmt_execute($stmt)){
@@ -204,9 +204,9 @@ foreach ($orig_and_new_session_id_array as $old => $new){
     };
 }
 
-//Session topics (disciplines)
+//Session topics (term)
 foreach ($orig_and_new_session_id_array as $old => $new){
-    $query = sprintf("INSERT INTO session_x_discipline SELECT %d, discipline_id FROM session_x_discipline WHERE session_id = %d", $new, $old);
+    $query = sprintf("INSERT INTO session_x_term SELECT %d, term_id FROM session_x_term WHERE session_id = %d", $new, $old);
     print $query . ";\n";
     if($stmt = mysqli_prepare($link, $query)) {
         /* execute statement */
