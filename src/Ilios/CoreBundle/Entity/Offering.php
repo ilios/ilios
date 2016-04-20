@@ -50,13 +50,13 @@ class Offering implements OfferingInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="room", type="string", length=60)
+     * @ORM\Column(name="room", type="string", length=255)
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 60
+     *      max = 255
      * )
      *
      * @JMS\Expose
