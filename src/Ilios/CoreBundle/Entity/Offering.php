@@ -65,6 +65,22 @@ class Offering implements OfferingInterface
     protected $room;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="site", type="string", length=255, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $site;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="start_date", type="datetime")
@@ -217,6 +233,22 @@ class Offering implements OfferingInterface
     public function getRoom()
     {
         return $this->room;
+    }
+
+    /**
+     * @param string $site
+     */
+    public function setSite($site)
+    {
+        $this->site = $site;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSite()
+    {
+        return $this->site;
     }
 
     /**
