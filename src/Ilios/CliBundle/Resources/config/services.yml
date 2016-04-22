@@ -31,7 +31,7 @@ services:
             -  { name: console.command }
     ilioscli.command.add_new_students_to_school:
         class: Ilios\CliBundle\Command\AddNewStudentsToSchoolCommand
-        arguments: ["@ilioscore.user.manager", "@ilioscore.school.manager", , "@ilioscore.authentication.manager", "@ilioscore.userrole.manager", "@ilioscore.directory"]
+        arguments: ["@ilioscore.user.manager", "@ilioscore.school.manager", "@ilioscore.authentication.manager", "@ilioscore.userrole.manager", "@ilioscore.directory"]
         tags:
             -  { name: console.command }
     ilioscli.command.sync_all_users:
@@ -51,7 +51,7 @@ services:
             -  { name: console.command }
     ilioscli.command.send_change_alerts:
         class: Ilios\CliBundle\Command\SendChangeAlertsCommand
-        arguments: ["@ilioscore.alert.manager", "@ilioscore.auditlog.manager", "@ilioscore.offering.manager", "@templating", "@mailer", , "%ilios_core.timezone%"]
+        arguments: ["@ilioscore.alert.manager", "@ilioscore.auditlog.manager", "@ilioscore.offering.manager", "@templating", "@mailer", "%ilios_core.timezone%"]
         tags:
             -  { name: console.command }
     ilioscli.command.cleanup_strings:
