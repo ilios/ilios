@@ -237,10 +237,10 @@ class Course implements CourseInterface
      * @ORM\ManyToMany(targetEntity="User", inversedBy="directedCourses"))
      * @ORM\JoinTable(name="course_director",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id")
+     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
      *   }
      * )
      *

@@ -177,7 +177,7 @@ class Session implements SessionInterface
      *
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="sessions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", nullable=false)
+     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", nullable=false, onDelete="CASCADE")
      * })
      *
      * @JMS\Expose

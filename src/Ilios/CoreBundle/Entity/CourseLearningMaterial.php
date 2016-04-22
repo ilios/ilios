@@ -90,7 +90,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id")
+     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
      * })
      *
      * @JMS\Expose
@@ -119,10 +119,14 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="courseLearningMaterials")
      * @ORM\JoinTable(name="course_learning_material_x_mesh",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="course_learning_material_id", referencedColumnName="course_learning_material_id")
+     *     @ORM\JoinColumn(
+     *       name="course_learning_material_id",
+     *       referencedColumnName="course_learning_material_id",
+     *       onDelete="CASCADE"
+     *     )
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
      *   }
      * )
      *
