@@ -1,17 +1,18 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 
 /**
- * Class LearnerGroupVoter
+ * Class LearnerGroupEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class LearnerGroupVoter extends AbstractVoter
+class LearnerGroupEntityVoter extends AbstractVoter
 {
     /**
      * @var PermissionManagerInterface

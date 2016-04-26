@@ -11,6 +11,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.dto.learner_group_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\LearnerGroupDTOVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.dto.mesh_descriptor_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\MeshDescriptorDTOVoter
         parent: security.access.entity.mesh_voter
