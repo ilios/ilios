@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Traits\OfferingsEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="`group`")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\LearnerGroupRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")

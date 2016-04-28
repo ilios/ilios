@@ -24,6 +24,17 @@ class LearnerGroupManager extends AbstractManager implements LearnerGroupManager
     /**
      * {@inheritdoc}
      */
+    public function findLearnerGroupDTOBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
+        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
+        return empty($results)?false:$results[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findLearnerGroupsBy(
         array $criteria,
         array $orderBy = null,
@@ -31,6 +42,18 @@ class LearnerGroupManager extends AbstractManager implements LearnerGroupManager
         $offset = null
     ) {
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findLearnerGroupDTOsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

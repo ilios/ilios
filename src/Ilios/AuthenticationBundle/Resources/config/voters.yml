@@ -120,12 +120,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.learner_group_voter:
-        class: Ilios\AuthenticationBundle\Voter\LearnerGroupVoter
-        arguments: [ @ilioscore.permission.manager ]
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.learning_material_status_voter:
         class: Ilios\AuthenticationBundle\Voter\LearningMaterialStatusVoter
         public: false

@@ -24,12 +24,38 @@ interface LearnerGroupManagerInterface extends ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
+     *
+     * @return LearnerGroupInterface
+     */
+    public function findLearnerGroupDTOBy(
+        array $criteria,
+        array $orderBy = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return LearnerGroupInterface[]
      */
     public function findLearnerGroupsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return LearnerGroupInterface[]
+     */
+    public function findLearnerGroupDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,

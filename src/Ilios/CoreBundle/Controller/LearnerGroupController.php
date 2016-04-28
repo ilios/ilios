@@ -54,7 +54,11 @@ class LearnerGroupController extends FOSRestController
      */
     public function getAction($id)
     {
-        $learnerGroup = $this->getOr404($id);
+        $learnerGroup = $this->getLearnerGroupHandler()->findLearnerGroupDTOBy(['id' => $id]);
+
+        if (!$learnerGroup) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $learnerGroup)) {
@@ -126,7 +130,7 @@ class LearnerGroupController extends FOSRestController
         }, $criteria);
 
         $result = $this->getLearnerGroupHandler()
-            ->findLearnerGroupsBy(
+            ->findLearnerGroupDTOsBy(
                 $criteria,
                 $orderBy,
                 $limit,
