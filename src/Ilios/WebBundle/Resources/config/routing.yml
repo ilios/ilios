@@ -19,6 +19,11 @@ ilios_web_directory_search:
     defaults:
         _controller: IliosWebBundle:Directory:search
     methods: [GET]
+ilios_web_bulk_user_creation:
+    path:     /application/bulkusercreation
+    defaults:
+        _controller: IliosWebBundle:BulkUserCreation:upload
+    methods: [POST]
 ilios_web_homepage:
     pattern:     /{url}
     defaults:
