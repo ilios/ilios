@@ -23,6 +23,7 @@ class OfferingType extends AbstractType
     {
         $builder
             ->add('room', null, ['empty_data' => null])
+            ->add('site', null, ['required' => false, 'empty_data' => null])
             ->add('startDate', 'datetime', array(
                 'widget' => 'single_text',
             ))
@@ -50,7 +51,10 @@ class OfferingType extends AbstractType
                 'entityName' => "IliosCoreBundle:User"
             ])
         ;
-        $builder->get('room')->addViewTransformer(new RemoveMarkupTransformer());
+        $transformer = new RemoveMarkupTransformer();
+        foreach (['room', 'site'] as $element) {
+            $builder->get($element)->addViewTransformer($transformer);
+        }
     }
 
     /**

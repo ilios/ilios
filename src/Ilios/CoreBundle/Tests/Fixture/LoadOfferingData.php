@@ -32,6 +32,7 @@ class LoadOfferingData extends AbstractFixture implements
             $entity = new Offering();
             $entity->setId($arr['id']);
             $entity->setRoom($arr['room']);
+            $entity->setSite($arr['site']);
             $entity->setStartDate(new \DateTime($arr['startDate']));
             $entity->setEndDate(new \DateTime($arr['endDate']));
             $entity->setSession($this->getReference('sessions' . $arr['session']));

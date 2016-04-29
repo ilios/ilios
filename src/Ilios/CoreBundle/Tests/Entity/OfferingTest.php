@@ -61,6 +61,15 @@ class OfferingTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Offering::setSite
+     * @covers Ilios\CoreBundle\Entity\Offering::getSite
+     */
+    public function testSetSite()
+    {
+        $this->basicSetTest('site', 'string');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Offering::setStartDate
      * @covers Ilios\CoreBundle\Entity\Offering::getStartDate
      */

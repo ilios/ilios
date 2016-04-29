@@ -30,6 +30,16 @@ interface OfferingInterface extends
     public function getRoom();
 
     /**
+     * @param string $site
+     */
+    public function setSite($site);
+
+    /**
+     * @return string
+     */
+    public function getSite();
+
+    /**
      * @param \DateTime $startDate
      */
     public function setStartDate(\DateTime $startDate);
