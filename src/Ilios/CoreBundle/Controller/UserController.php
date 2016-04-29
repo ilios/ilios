@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
@@ -172,13 +173,13 @@ class UserController extends FOSRestController
      *
      * @ApiDoc(
      *   section = "User",
-     *   description = "Create a User.",
+     *   description = "Create a User or multiple users (max 500).",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\UserType",
      *   output="Ilios\CoreBundle\Entity\User",
      *   statusCodes={
      *     201 = "Created User.",
-     *     400 = "Bad Request.",
+     *     400 = "Bad Request or too many users submitted",
      *     404 = "Not Found."
      *   }
      * )
@@ -194,9 +195,12 @@ class UserController extends FOSRestController
         try {
             $handler = $this->getUserHandler();
             $arr = $this->getPostData($request);
-            $userIds = [];
+            $count = count($arr);
+            if ($count > 500) {
+                throw new BadRequestHttpException("Maximum of 500 users can be created.  You sent " . $count);
+            }
+
             $unsavedUsers = [];
-            $count = 0;
             foreach ($arr as $data) {
                 if (empty($data['icsFeedKey'])) {
                     //create an icsFeedKey for the new user
@@ -215,15 +219,6 @@ class UserController extends FOSRestController
                 $this->getUserHandler()->updateUser($user, false, false);
 
                 $unsavedUsers[] = $user;
-                $count++;
-                if ($count %50 === 0) {
-                    $this->getUserHandler()->flush();
-                    $ids = array_map(function (UserInterface $user) {
-                        return $user->getId();
-                    }, $unsavedUsers);
-                    $unsavedUsers = [];
-                    $userIds = array_merge($userIds, $ids);
-                }
             }
 
             $this->getUserHandler()->flush();
@@ -231,9 +226,8 @@ class UserController extends FOSRestController
                 return $user->getId();
             }, $unsavedUsers);
             unset($unsavedUsers);
-            $userIds = array_merge($userIds, $ids);
 
-            $newUsers = $this->getUserHandler()->findUserDTOsBy(['id' => $userIds]);
+            $newUsers = $this->getUserHandler()->findUserDTOsBy(['id' => $ids]);
 
             $answer['users'] = $newUsers;
 
