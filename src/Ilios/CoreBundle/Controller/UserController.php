@@ -193,25 +193,49 @@ class UserController extends FOSRestController
     {
         try {
             $handler = $this->getUserHandler();
-            $data = $this->getPostData($request);
+            $arr = $this->getPostData($request);
+            $userIds = [];
+            $unsavedUsers = [];
+            $count = 0;
+            foreach ($arr as $data) {
+                if (empty($data['icsFeedKey'])) {
+                    //create an icsFeedKey for the new user
+                    $random = random_bytes(128);
+                    $key = microtime() . '_' . $random;
+                    $data['icsFeedKey'] = hash('sha256', $key);
+                }
 
-            if (empty($data['icsFeedKey'])) {
-                //create an icsFeedKey for the new user
-                $random = random_bytes(128);
-                $key = microtime() . '_' . $random;
-                $data['icsFeedKey'] = hash('sha256', $key);
+                $user = $handler->post($data);
+
+                $authChecker = $this->get('security.authorization_checker');
+                if (! $authChecker->isGranted('create', $user)) {
+                    throw $this->createAccessDeniedException('Unauthorized access!');
+                }
+
+                $this->getUserHandler()->updateUser($user, false, false);
+
+                $unsavedUsers[] = $user;
+                $count++;
+                if ($count %50 === 0) {
+                    $this->getUserHandler()->flush();
+                    $ids = array_map(function (UserInterface $user) {
+                        return $user->getId();
+                    }, $unsavedUsers);
+                    $unsavedUsers = [];
+                    $userIds = array_merge($userIds, $ids);
+                }
             }
 
-            $user = $handler->post($data);
+            $this->getUserHandler()->flush();
+            $ids = array_map(function (UserInterface $user) {
+                return $user->getId();
+            }, $unsavedUsers);
+            unset($unsavedUsers);
+            $userIds = array_merge($userIds, $ids);
 
-            $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted('create', $user)) {
-                throw $this->createAccessDeniedException('Unauthorized access!');
-            }
+            $newUsers = $this->getUserHandler()->findUserDTOsBy(['id' => $userIds]);
 
-            $this->getUserHandler()->updateUser($user, true, false);
-
-            $answer['users'] = [$user];
+            $answer['users'] = $newUsers;
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -262,7 +286,7 @@ class UserController extends FOSRestController
 
             $user = $handler->put(
                 $user,
-                $this->getPostData($request)
+                $this->getPostData($request)[0]
             );
 
             $authChecker = $this->get('security.authorization_checker');
@@ -352,15 +376,19 @@ class UserController extends FOSRestController
      * Parse the request for the form data
      *
      * @param Request $request
-     * @return array
+     * @return array of user form data
      */
     protected function getPostData(Request $request)
     {
         if ($request->request->has('user')) {
-            return $request->request->get('user');
+            return [$request->request->get('user')];
+        }
+        //multiple users can be created in the same request
+        if ($request->request->has('users')) {
+            return $request->request->get('users');
         }
 
-        return $request->request->all();
+        return [$request->request->all()];
     }
 
     /**

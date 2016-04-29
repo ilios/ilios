@@ -148,7 +148,7 @@ class UserData extends AbstractDataLoader
             'enabled' => true,
             'campusId' => '5555@school.edu',
             'userSyncIgnore' => false,
-            'icsFeedKey' => hash('sha256', '5'),
+            'icsFeedKey' => hash('sha256', microtime()),
             'reports' => [],
             'school' => "1",
             'directedCourses' => ['1'],

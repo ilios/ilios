@@ -287,6 +287,47 @@ class UserControllerTest extends AbstractControllerTest
     /**
      * @group controllers_b
      */
+    public function testPostMultipleUsers()
+    {
+        $data = [];
+        for ($i = 0; $i < 101; $i++) {
+            $data[] = $this->container->get('ilioscore.dataloader.user')->create();
+        }
+        $postData = array_map(function ($arr) {
+            unset($arr['id']);
+            unset($arr['reminders']);
+            unset($arr['learningMaterials']);
+            unset($arr['reports']);
+            unset($arr['pendingUserUpdates']);
+            unset($arr['permissions']);
+
+            return $arr;
+        }, $data);
+        $firstId = $data[0]['id'];
+        for ($i=0; $i < count($data); $i++) {
+            $data[$i]['id'] = $firstId + $i;
+        }
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['users' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $this->assertEquals(
+            $data,
+            json_decode($response->getContent(), true)['users'],
+            $response->getContent()
+        );
+    }
+
+    /**
+     * @group controllers_b
+     */
     public function testPostUserCourse()
     {
         $data = $this->container->get('ilioscore.dataloader.user')->create();
