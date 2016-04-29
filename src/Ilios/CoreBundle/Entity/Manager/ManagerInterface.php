@@ -17,4 +17,9 @@ interface ManagerInterface
      * Flush and clear the entity manager when doing bulk updates
      */
     public function flushAndClear();
+
+    /**
+     * Flush the entity manager when doing bulk updates
+     */
+    public function flush();
 }

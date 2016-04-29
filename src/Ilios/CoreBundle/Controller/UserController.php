@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
@@ -172,13 +173,13 @@ class UserController extends FOSRestController
      *
      * @ApiDoc(
      *   section = "User",
-     *   description = "Create a User.",
+     *   description = "Create a User or multiple users (max 500).",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\UserType",
      *   output="Ilios\CoreBundle\Entity\User",
      *   statusCodes={
      *     201 = "Created User.",
-     *     400 = "Bad Request.",
+     *     400 = "Bad Request or too many users submitted",
      *     404 = "Not Found."
      *   }
      * )
@@ -193,25 +194,42 @@ class UserController extends FOSRestController
     {
         try {
             $handler = $this->getUserHandler();
-            $data = $this->getPostData($request);
-
-            if (empty($data['icsFeedKey'])) {
-                //create an icsFeedKey for the new user
-                $random = random_bytes(128);
-                $key = microtime() . '_' . $random;
-                $data['icsFeedKey'] = hash('sha256', $key);
+            $arr = $this->getPostData($request);
+            $count = count($arr);
+            if ($count > 500) {
+                throw new BadRequestHttpException("Maximum of 500 users can be created.  You sent " . $count);
             }
 
-            $user = $handler->post($data);
+            $unsavedUsers = [];
+            foreach ($arr as $data) {
+                if (empty($data['icsFeedKey'])) {
+                    //create an icsFeedKey for the new user
+                    $random = random_bytes(128);
+                    $key = microtime() . '_' . $random;
+                    $data['icsFeedKey'] = hash('sha256', $key);
+                }
 
-            $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted('create', $user)) {
-                throw $this->createAccessDeniedException('Unauthorized access!');
+                $user = $handler->post($data);
+
+                $authChecker = $this->get('security.authorization_checker');
+                if (! $authChecker->isGranted('create', $user)) {
+                    throw $this->createAccessDeniedException('Unauthorized access!');
+                }
+
+                $this->getUserHandler()->updateUser($user, false, false);
+
+                $unsavedUsers[] = $user;
             }
 
-            $this->getUserHandler()->updateUser($user, true, false);
+            $this->getUserHandler()->flush();
+            $ids = array_map(function (UserInterface $user) {
+                return $user->getId();
+            }, $unsavedUsers);
+            unset($unsavedUsers);
 
-            $answer['users'] = [$user];
+            $newUsers = $this->getUserHandler()->findUserDTOsBy(['id' => $ids]);
+
+            $answer['users'] = $newUsers;
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -262,7 +280,7 @@ class UserController extends FOSRestController
 
             $user = $handler->put(
                 $user,
-                $this->getPostData($request)
+                $this->getPostData($request)[0]
             );
 
             $authChecker = $this->get('security.authorization_checker');
@@ -352,15 +370,19 @@ class UserController extends FOSRestController
      * Parse the request for the form data
      *
      * @param Request $request
-     * @return array
+     * @return array of user form data
      */
     protected function getPostData(Request $request)
     {
         if ($request->request->has('user')) {
-            return $request->request->get('user');
+            return [$request->request->get('user')];
+        }
+        //multiple users can be created in the same request
+        if ($request->request->has('users')) {
+            return $request->request->get('users');
         }
 
-        return $request->request->all();
+        return [$request->request->all()];
     }
 
     /**
