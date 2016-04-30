@@ -1,7 +1,34 @@
 # Change Log
 
-## [v3.9.0](https://github.com/ilios/ilios/tree/v3.9.0)
+## [v3.10.0](https://github.com/ilios/ilios/tree/v3.10.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.9.0...v3.10.0)
+
+**Implemented enhancements:**
+
+- Learner Groups DTO [\#1392](https://github.com/ilios/ilios/issues/1392)
+- Increase `offering.room` from VARCHAR\(60\) to VARCHAR\(255\) [\#1383](https://github.com/ilios/ilios/issues/1383)
+- Add /application/bulkUserCreation endpoint [\#1375](https://github.com/ilios/ilios/issues/1375)
+
+**Closed issues:**
+
+- args list has redundant commas [\#1388](https://github.com/ilios/ilios/issues/1388)
+- ensure that course deletion cascades [\#1386](https://github.com/ilios/ilios/issues/1386)
+- Add value of `site` to offering table [\#1384](https://github.com/ilios/ilios/issues/1384)
+- What PHP Versions should we support and how often should we change it? [\#1207](https://github.com/ilios/ilios/issues/1207)
+
+**Merged pull requests:**
+
+- Allow multiple users to be added simultaneously [\#1396](https://github.com/ilios/ilios/pull/1396) ([jrjohnson](https://github.com/jrjohnson))
+- Convert LearnerGroups endpoint to use DTOs [\#1393](https://github.com/ilios/ilios/pull/1393) ([jrjohnson](https://github.com/jrjohnson))
+- add 'site' attribute to 'offering' entity. [\#1390](https://github.com/ilios/ilios/pull/1390) ([stopfstedt](https://github.com/stopfstedt))
+- rm redundant commas in args list. [\#1389](https://github.com/ilios/ilios/pull/1389) ([stopfstedt](https://github.com/stopfstedt))
+- updated foreign key constraints to allow for cascading deletes. [\#1387](https://github.com/ilios/ilios/pull/1387) ([stopfstedt](https://github.com/stopfstedt))
+- bumped up size of offering::room column. [\#1385](https://github.com/ilios/ilios/pull/1385) ([stopfstedt](https://github.com/stopfstedt))
+- Fix annotation for SessionDescription [\#1381](https://github.com/ilios/ilios/pull/1381) ([jrjohnson](https://github.com/jrjohnson))
+- Require a frontend when starting up [\#1379](https://github.com/ilios/ilios/pull/1379) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.9.0](https://github.com/ilios/ilios/tree/v3.9.0) (2016-04-08)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.8.0...v3.9.0)
 
 **Implemented enhancements:**
@@ -15,6 +42,7 @@
 
 **Merged pull requests:**
 
+- updated CHANGELOG.md for v3.9.0 release \[skip-ci\] [\#1377](https://github.com/ilios/ilios/pull/1377) ([thecoolestguy](https://github.com/thecoolestguy))
 - Fix typo in select query from SchoolRepository:findBy [\#1374](https://github.com/ilios/ilios/pull/1374) ([jrjohnson](https://github.com/jrjohnson))
 - Filter users by role and cohort [\#1371](https://github.com/ilios/ilios/pull/1371) ([jrjohnson](https://github.com/jrjohnson))
 - Bump the API version to v1.3 [\#1370](https://github.com/ilios/ilios/pull/1370) ([jrjohnson](https://github.com/jrjohnson))
