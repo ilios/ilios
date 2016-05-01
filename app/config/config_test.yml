@@ -7,7 +7,7 @@ framework:
     session:
         storage_id: session.storage.mock_file
     profiler:
-        enabled: true
+        collect: false
 
 web_profiler:
     toolbar: false
@@ -15,6 +15,7 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+#    delivery_address: me@example.com
 
 doctrine:
     dbal:
@@ -22,7 +23,7 @@ doctrine:
         connections:
             default:
                 driver:   pdo_sqlite
-                path:     %kernel.cache_dir%/test.db
+                path:     "%kernel.cache_dir%/test.db"
                 logging: false
                 profiling: false
 monolog:
@@ -37,10 +38,6 @@ monolog:
 
 liip_functional_test:
     cache_sqlite_db: true
-
-swiftmailer:
-    disable_delivery: true
-#    delivery_address: me@example.com
 
 ilios_core:
     ldap_directory_url: null
