@@ -14,19 +14,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class UsereventVoter extends AbstractVoter
 {
     /**
-     * @var UserManagerInterface
-     */
-    protected $userManager;
-
-    /**
-     * @param UserManagerInterface $userManager
-     */
-    public function __construct(UserManagerInterface $userManager)
-    {
-        $this->userManager = $userManager;
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
@@ -49,15 +36,19 @@ class UsereventVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                // Check if the event-owning user is the given user.
-                // In addition, if the given user has NOT elevated privileges,
-                // then do not grant access to view un-published events.
-                if ($this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])) {
-                    return $user->getId() === $event->user;
-                } else {
-                    return ($user->getId() == $event->user && $event->isPublished);
+                // users with developer roles can see their own events, regardless of publication status.
+                // and any other published events that are not theirs.
+                if ($this->userHasRole($user, ['Developer'])) {
+                    return ($user->getId() === $event->user || $event->isPublished);
                 }
-                break;
+
+                // faculty and course directors can see their own events, regardless of publication status.
+                if ($this->userHasRole($user, ['Faculty', 'Course Director'])) {
+                    return $user->getId() === $event->user;
+                }
+
+                // everyone else gets to see their own, published events.
+                return ($user->getId() === $event->user && $event->isPublished);
         }
         return false;
     }
