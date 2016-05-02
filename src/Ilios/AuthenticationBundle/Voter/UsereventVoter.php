@@ -37,7 +37,7 @@ class UsereventVoter extends AbstractVoter
         switch ($attribute) {
             case self::VIEW:
                 // users with developer roles can see their own events, regardless of publication status.
-                // and any other published events that are no theirs.
+                // and any other published events that are not theirs.
                 if ($this->userHasRole($user, ['Developer'])) {
                     return ($user->getId() === $event->user || $event->isPublished);
                 }
