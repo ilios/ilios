@@ -12,7 +12,7 @@ class IlmSessionData extends AbstractDataLoader
         $dt->setDate(2016, 1, 1);
         $arr[] = array(
             'id' => 1,
-            'hours' => $this->faker->randomDigitNotNull,
+            'hours' => $this->faker->randomFloat,
             'dueDate' => $dt->format('c'),
             'learnerGroups' => ['3'],
             'instructorGroups' => [],
@@ -23,7 +23,7 @@ class IlmSessionData extends AbstractDataLoader
         $dt->modify('+1 month');
         $arr[] = array(
             'id' => 2,
-            'hours' => $this->faker->randomDigitNotNull,
+            'hours' => $this->faker->randomFloat,
             'dueDate' => $dt->format('c'),
             'learnerGroups' => [],
             'instructorGroups' => ['3'],
@@ -35,7 +35,7 @@ class IlmSessionData extends AbstractDataLoader
         $dt->modify('+1 month');
         $arr[] = array(
             'id' => 3,
-            'hours' => $this->faker->randomDigitNotNull,
+            'hours' => $this->faker->randomFloat,
             'dueDate' => $dt->format('c'),
             'learnerGroups' => [],
             'instructorGroups' => [],
@@ -47,7 +47,7 @@ class IlmSessionData extends AbstractDataLoader
         $dt->modify('+1 month');
         $arr[] = array(
             'id' => 4,
-            'hours' => $this->faker->randomDigitNotNull,
+            'hours' => $this->faker->randomFloat,
             'dueDate' => $dt->format('c'),
             'learnerGroups' => [],
             'instructorGroups' => [],
@@ -65,7 +65,7 @@ class IlmSessionData extends AbstractDataLoader
         $dt->setTime(0, 0, 0);
         return array(
             'id' => 5,
-            'hours' => $this->faker->randomDigitNotNull,
+            'hours' => $this->faker->randomFloat,
             'dueDate' => $dt->format('c'),
             'learnerGroups' => ['1', '2'],
             'instructorGroups' => ['1', '2'],
