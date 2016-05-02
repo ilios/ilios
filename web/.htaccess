@@ -1,9 +1,21 @@
-# Use the front controller as index file. It serves as fallback solution when
+# Use the front controller as index file. It serves as a fallback solution when
 # every other rewrite/redirect fails (e.g. in an aliased environment without
 # mod_rewrite). Additionally, this reduces the matching process for the
-# startpage (path "/") because otherwise Apache will apply the rewritting rules
+# start page (path "/") because otherwise Apache will apply the rewriting rules
 # to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
 DirectoryIndex app.php
+
+# By default, Apache does not evaluate symbolic links if you did not enable this
+# feature in your server configuration. Uncomment the following line if you
+# install assets as symlinks or if you experience problems related to symlinks
+# when compiling LESS/Sass/CoffeScript assets.
+# Options FollowSymlinks
+
+# Disabling MultiViews prevents unwanted negotiation, e.g. "/app" should not resolve
+# to the front controller "/app.php" but be rewritten to "/app.php/app".
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -18,13 +30,17 @@ DirectoryIndex app.php
     RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
     RewriteRule ^(.*) - [E=BASE:%1]
 
+    # Sets the HTTP_AUTHORIZATION header removed by apache
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
     # Redirect to URI without front controller to prevent duplicate content
     # (with and without `/app.php`). Only do this redirect on the initial
     # rewrite by Apache and not on subsequent cycles. Otherwise we would get an
     # endless redirect loop (request -> rewrite to front controller ->
     # redirect -> request -> ...).
     # So in case you get a "too many redirects" error or you always get redirected
-    # to the startpage because your Apache does not expose the REDIRECT_STATUS
+    # to the start page because your Apache does not expose the REDIRECT_STATUS
     # environment variable, you have 2 choices:
     # - disable this feature by commenting the following 2 lines or
     # - use Apache >= 2.3.9 and replace all L flags by END flags and remove the
@@ -44,7 +60,7 @@ DirectoryIndex app.php
 <IfModule !mod_rewrite.c>
     <IfModule mod_alias.c>
         # When mod_rewrite is not available, we instruct a temporary redirect of
-        # the startpage to the front controller explicitly so that the website
+        # the start page to the front controller explicitly so that the website
         # and the generated links can still be used.
         RedirectMatch 302 ^/$ /app.php/
         # RedirectTemp cannot be used instead
