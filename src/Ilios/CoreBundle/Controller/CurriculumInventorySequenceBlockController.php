@@ -251,7 +251,6 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
             );
 
             $answer['curriculumInventorySequenceBlock'] = $curriculumInventorySequenceBlock;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

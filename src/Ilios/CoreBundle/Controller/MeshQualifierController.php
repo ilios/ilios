@@ -242,7 +242,6 @@ class MeshQualifierController extends FOSRestController
             $this->getMeshQualifierHandler()->updateMeshQualifier($meshQualifier, true, true);
 
             $answer['meshQualifier'] = $meshQualifier;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

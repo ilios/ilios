@@ -98,7 +98,6 @@ abstract class AbstractFixture extends DataFixture implements
                 if (($i % self::BATCH_SIZE) === 0) {
                     $manager->flush();
                     $manager->clear();
-
                 }
 
                 if ($this->storeReference) {

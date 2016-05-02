@@ -243,7 +243,6 @@ class AssessmentOptionController extends FOSRestController
             $this->getAssessmentOptionHandler()->updateAssessmentOption($assessmentOption, true, true);
 
             $answer['assessmentOption'] = $assessmentOption;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

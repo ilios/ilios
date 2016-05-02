@@ -243,7 +243,6 @@ class ProgramYearStewardController extends FOSRestController
             $this->getProgramYearStewardHandler()->updateProgramYearSteward($programYearSteward, true, true);
 
             $answer['programYearSteward'] = $programYearSteward;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

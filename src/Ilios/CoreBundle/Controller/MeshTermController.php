@@ -242,7 +242,6 @@ class MeshTermController extends FOSRestController
             $this->getMeshTermHandler()->updateMeshTerm($meshTerm, true, true);
 
             $answer['meshTerm'] = $meshTerm;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

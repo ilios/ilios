@@ -251,7 +251,6 @@ class LearningMaterialStatusController extends FOSRestController
             );
 
             $answer['learningMaterialStatus'] = $learningMaterialStatus;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

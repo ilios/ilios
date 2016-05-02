@@ -262,7 +262,6 @@ class MeshDescriptorController extends FOSRestController
             $this->getMeshDescriptorHandler()->updateMeshDescriptor($meshDescriptor, true, true);
 
             $answer['meshDescriptor'] = $meshDescriptor;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

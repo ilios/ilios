@@ -243,7 +243,6 @@ class CourseClerkshipTypeController extends FOSRestController
             $this->getCourseClerkshipTypeHandler()->updateCourseClerkshipType($courseClerkshipType, true, true);
 
             $answer['courseClerkshipType'] = $courseClerkshipType;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

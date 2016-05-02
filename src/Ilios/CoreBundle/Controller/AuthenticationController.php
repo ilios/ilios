@@ -60,7 +60,6 @@ class AuthenticationController extends FOSRestController
                     $encodedPassword = $encoder->encodePassword($user, $data['password']);
                     $data['passwordBcrypt'] = $encodedPassword;
                 }
-
             }
             //unset the password here in case it is NULL and didn't satisy the above condition
             unset($data['password']);
@@ -135,7 +134,6 @@ class AuthenticationController extends FOSRestController
                     $data['passwordBcrypt'] = $encodedPassword;
                     unset($data['password']);
                 }
-
             }
 
             $authentication = $handler->put(
@@ -151,7 +149,6 @@ class AuthenticationController extends FOSRestController
             $handler->updateAuthentication($authentication, true, true);
 
             $answer['authentication'] = $authentication;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

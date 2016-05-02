@@ -252,7 +252,6 @@ class ProgramYearController extends FOSRestController
             $this->getProgramYearHandler()->updateProgramYear($programYear, true, true);
 
             $answer['programYear'] = $programYear;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

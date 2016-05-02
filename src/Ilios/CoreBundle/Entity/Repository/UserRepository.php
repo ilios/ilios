@@ -50,7 +50,6 @@ class UserRepository extends EntityRepository
         }
 
         foreach ($terms as $key => $term) {
-
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->like('u.firstName', "?{$key}"),
                 $qb->expr()->like('u.lastName', "?{$key}"),

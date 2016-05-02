@@ -243,7 +243,6 @@ class PermissionController extends FOSRestController
             $this->getPermissionHandler()->updatePermission($permission, true, true);
 
             $answer['permissions'] = $permission;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

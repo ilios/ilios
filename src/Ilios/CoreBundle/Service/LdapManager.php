@@ -184,7 +184,6 @@ class LdapManager
                     return strcmp($arr1['lastName'], $arr2['lastName']);
                 });
             }
-            
         } catch (\UserException $e) {
             throw new \Exception("Failed to search external user source: {$e->getMessage()}");
         }

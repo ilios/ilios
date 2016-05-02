@@ -243,7 +243,6 @@ class SessionTypeController extends FOSRestController
             $this->getSessionTypeHandler()->updateSessionType($sessionType, true, true);
 
             $answer['sessionType'] = $sessionType;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

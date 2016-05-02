@@ -251,7 +251,6 @@ class CourseLearningMaterialController extends FOSRestController
             );
 
             $answer['courseLearningMaterial'] = $courseLearningMaterial;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

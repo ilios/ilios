@@ -247,7 +247,6 @@ class LearnerGroupController extends FOSRestController
             $this->getLearnerGroupHandler()->updateLearnerGroup($learnerGroup, true, true);
 
             $answer['learnerGroup'] = $learnerGroup;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

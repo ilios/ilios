@@ -249,7 +249,6 @@ class UserMadeReminderController extends FOSRestController
             $this->getUserMadeReminderHandler()->updateUserMadeReminder($userMadeReminder, true, true);
 
             $answer['userMadeReminder'] = $userMadeReminder;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

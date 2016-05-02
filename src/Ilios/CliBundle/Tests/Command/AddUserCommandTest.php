@@ -284,7 +284,6 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
         $stream = fopen('php://memory', 'r+', false);
         foreach ($input as $value) {
             fputs($stream, $value . "\n");
-
         }
         rewind($stream);
 

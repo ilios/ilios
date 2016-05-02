@@ -246,7 +246,6 @@ class ReportController extends FOSRestController
             $this->getReportHandler()->updateReport($report, true, true);
 
             $answer['report'] = $report;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

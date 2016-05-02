@@ -243,7 +243,6 @@ class ProgramController extends FOSRestController
             $this->getProgramHandler()->updateProgram($program, true, true);
 
             $answer['program'] = $program;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

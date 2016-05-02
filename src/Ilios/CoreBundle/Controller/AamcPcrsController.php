@@ -243,7 +243,6 @@ class AamcPcrsController extends FOSRestController
             $this->getAamcPcrsHandler()->updateAamcPcrs($aamcPcrs, true, true);
 
             $answer['aamcPcrses'] = $aamcPcrs;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

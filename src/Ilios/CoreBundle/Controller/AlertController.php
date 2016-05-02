@@ -243,7 +243,6 @@ class AlertController extends FOSRestController
             $this->getAlertHandler()->updateAlert($alert, true, true);
 
             $answer['alert'] = $alert;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

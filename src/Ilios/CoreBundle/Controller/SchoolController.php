@@ -247,7 +247,6 @@ class SchoolController extends FOSRestController
             $this->getSchoolHandler()->updateSchool($school, true, true);
 
             $answer['school'] = $school;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

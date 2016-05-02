@@ -355,7 +355,6 @@ EOL;
                 && ! in_array($row['program_objective_id'], $rhett[$sequenceBlockId]['program_objectives'])) {
                 $rhett[$sequenceBlockId]['program_objectives'][] = $row['program_objective_id'];
             }
-
         }
         $stmt->closeCursor();
         return $rhett;

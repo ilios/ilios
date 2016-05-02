@@ -273,7 +273,6 @@ class OfferingController extends FOSRestController
             }
 
             $answer['offering'] = $offering;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

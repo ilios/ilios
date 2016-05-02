@@ -243,7 +243,6 @@ class VocabularyController extends FOSRestController
             $this->getVocabularyHandler()->updateVocabulary($vocabulary, true, true);
 
             $answer['vocabulary'] = $vocabulary;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
