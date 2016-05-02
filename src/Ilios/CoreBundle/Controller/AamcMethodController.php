@@ -243,7 +243,6 @@ class AamcMethodController extends FOSRestController
             $this->getAamcMethodHandler()->updateAamcMethod($aamcMethod, true, true);
 
             $answer['aamcMethod'] = $aamcMethod;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -243,7 +243,6 @@ class AlertChangeTypeController extends FOSRestController
             $this->getAlertChangeTypeHandler()->updateAlertChangeType($alertChangeType, true, true);
 
             $answer['alertChangeType'] = $alertChangeType;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -11,7 +11,7 @@
     processIsolation            = "false"
     stopOnFailure               = "false"
     syntaxCheck                 = "false"
-    bootstrap                   = "var/bootstrap.php.cache" >
+    bootstrap                   = "app/autoload.php" >
 
     <testsuites>
         <testsuite name="Ilios Test Suite">

@@ -247,7 +247,6 @@ class CohortController extends FOSRestController
             $this->getCohortHandler()->updateCohort($cohort, true, true);
 
             $answer['cohort'] = $cohort;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

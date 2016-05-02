@@ -291,7 +291,6 @@ class UserController extends FOSRestController
             $this->getUserHandler()->updateUser($user, true, true);
 
             $answer['user'] = $user;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

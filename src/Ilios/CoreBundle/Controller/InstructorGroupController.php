@@ -243,7 +243,6 @@ class InstructorGroupController extends FOSRestController
             $this->getInstructorGroupHandler()->updateInstructorGroup($instructorGroup, true, true);
 
             $answer['instructorGroup'] = $instructorGroup;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

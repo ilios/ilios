@@ -243,7 +243,6 @@ class ObjectiveController extends FOSRestController
             $this->getObjectiveHandler()->updateObjective($objective, true, true);
 
             $answer['objective'] = $objective;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

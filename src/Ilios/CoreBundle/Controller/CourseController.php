@@ -271,7 +271,6 @@ class CourseController extends FOSRestController
             $this->getCourseHandler()->updateCourse($course, true, true);
 
             $answer['course'] = $course;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -30,7 +30,6 @@ class DirectoryController extends Controller
             if (is_array($searchResults)) {
                 $results = $searchResults;
             }
-
         }
         $offset = $request->query->has('offset')?$request->query->get('offset'):0;
         $limit = $request->query->has('limit')?$request->query->get('limit'):count($results);

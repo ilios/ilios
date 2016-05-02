@@ -242,7 +242,6 @@ class MeshPreviousIndexingController extends FOSRestController
             $this->getMeshPreviousIndexingHandler()->updateMeshPreviousIndexing($meshPreviousIndexing, true, true);
 
             $answer['meshPreviousIndexing'] = $meshPreviousIndexing;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

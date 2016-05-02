@@ -243,7 +243,6 @@ class IlmSessionController extends FOSRestController
             $this->getIlmSessionHandler()->updateIlmSession($ilmSession, true, true);
 
             $answer['ilmSession'] = $ilmSession;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

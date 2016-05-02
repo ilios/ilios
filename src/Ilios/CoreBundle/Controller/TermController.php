@@ -247,7 +247,6 @@ class TermController extends FOSRestController
             $this->getTermHandler()->updateTerm($term, true, true);
 
             $answer['term'] = $term;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -86,7 +86,6 @@ class FormAuthentication implements AuthenticationInterface
                         return $this->createSuccessResponseFromJWT($jwt);
                     }
                 }
-
             }
             $errors[] = 'badCredentials';
         }

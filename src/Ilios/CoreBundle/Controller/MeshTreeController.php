@@ -242,7 +242,6 @@ class MeshTreeController extends FOSRestController
             $this->getMeshTreeHandler()->updateMeshTree($meshTree, true, true);
 
             $answer['meshTree'] = $meshTree;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

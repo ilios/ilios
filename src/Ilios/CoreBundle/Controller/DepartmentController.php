@@ -243,7 +243,6 @@ class DepartmentController extends FOSRestController
             $this->getDepartmentHandler()->updateDepartment($department, true, true);
 
             $answer['department'] = $department;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

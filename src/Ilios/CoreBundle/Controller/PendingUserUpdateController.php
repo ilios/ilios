@@ -242,7 +242,6 @@ class PendingUserUpdateController extends FOSRestController
             $this->getPendingUserUpdateHandler()->updatePendingUserUpdate($pendingUserUpdate, true, true);
 
             $answer['pendingUserUpdate'] = $pendingUserUpdate;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -251,7 +251,6 @@ class CurriculumInventoryReportController extends FOSRestController
             );
 
             $answer['curriculumInventoryReport'] = $curriculumInventoryReport;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

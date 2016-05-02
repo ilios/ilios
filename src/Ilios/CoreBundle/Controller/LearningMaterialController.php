@@ -306,7 +306,6 @@ class LearningMaterialController extends FOSRestController
 
             $factory = $this->get('ilioscore.learningmaterial_decorator.factory');
             $answer['learningMaterial'] = $factory->create($learningMaterial);
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

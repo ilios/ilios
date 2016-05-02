@@ -243,7 +243,6 @@ class UserRoleController extends FOSRestController
             $this->getUserRoleHandler()->updateUserRole($userRole, true, true);
 
             $answer['userRole'] = $userRole;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

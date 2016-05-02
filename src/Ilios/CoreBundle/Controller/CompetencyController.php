@@ -243,7 +243,6 @@ class CompetencyController extends FOSRestController
             $this->getCompetencyHandler()->updateCompetency($competency, true, true);
 
             $answer['competency'] = $competency;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -86,7 +86,6 @@ class MigrateIlios2LearningMaterialsCommand extends Command
         );
         
         if ($helper->ask($input, $output, $question)) {
-
             $progress = new ProgressBar($output, $totalLearningMaterialsCount);
             $progress->setRedrawFrequency(208);
             $output->writeln("<info>Starting migration of learning materials...</info>");

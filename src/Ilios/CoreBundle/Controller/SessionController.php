@@ -250,7 +250,6 @@ class SessionController extends FOSRestController
             $this->getSessionHandler()->updateSession($session, true, true);
 
             $answer['session'] = $session;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

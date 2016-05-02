@@ -243,7 +243,6 @@ class SessionDescriptionController extends FOSRestController
             $this->getSessionDescriptionHandler()->updateSessionDescription($sessionDescription, true, true);
 
             $answer['sessionDescription'] = $sessionDescription;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

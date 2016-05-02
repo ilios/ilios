@@ -242,7 +242,6 @@ class MeshConceptController extends FOSRestController
             $this->getMeshConceptHandler()->updateMeshConcept($meshConcept, true, true);
 
             $answer['meshConcept'] = $meshConcept;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

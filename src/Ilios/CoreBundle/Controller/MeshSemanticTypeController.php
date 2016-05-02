@@ -263,7 +263,6 @@ class MeshSemanticTypeController extends FOSRestController
             $this->getMeshSemanticTypeHandler()->updateMeshSemanticType($meshSemanticType, true, true);
 
             $answer['meshSemanticType'] = $meshSemanticType;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

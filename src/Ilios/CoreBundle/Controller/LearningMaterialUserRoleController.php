@@ -251,7 +251,6 @@ class LearningMaterialUserRoleController extends FOSRestController
             );
 
             $answer['learningMaterialUserRole'] = $learningMaterialUserRole;
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

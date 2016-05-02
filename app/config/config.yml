@@ -3,7 +3,7 @@ imports:
 
 framework:
     #esi:             ~
-    translator:      { fallback: "%locale%" }
+    #translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -24,9 +24,6 @@ framework:
     http_method_override: true
     serializer:
         enabled: false
-    profiler:
-        enabled: false
-        collect: false
 
 # Twig Configuration
 twig:
