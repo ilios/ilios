@@ -369,7 +369,7 @@ api_vocabulary_v1:
     defaults: {_format:json}
 
 api_bad_request:
-    pattern:     /{url}
+    path:     /{url}
     defaults:
         url: null
         _controller: IliosCoreBundle:BadRequest:index

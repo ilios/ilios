@@ -1,5 +1,5 @@
 ilios_web_ics:
-    pattern:     /ics/{key}
+    path:     /ics/{key}
     defaults:
         _controller: IliosWebBundle:Ics:index
     requirements:
@@ -10,7 +10,7 @@ ilios_web_config:
         _controller: IliosWebBundle:Config:index
     methods: [GET]
 ilios_web_errors:
-    pattern:     /errors
+    path:     /errors
     defaults:
         _controller: IliosWebBundle:Error:error
     methods:  [POST]
@@ -20,7 +20,7 @@ ilios_web_directory_search:
         _controller: IliosWebBundle:Directory:search
     methods: [GET]
 ilios_web_homepage:
-    pattern:     /{url}
+    path:     /{url}
     defaults:
         url: null
         _controller: IliosWebBundle:Index:index
