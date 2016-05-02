@@ -16,6 +16,7 @@ class TermData extends AbstractDataLoader
             'courses' => ['2'],
             'programYears' => ["2"],
             'sessions' => ['2'],
+            'aamcResourceTypes' => ['1'],
         );
         $arr[] = array(
             'id' => 2,
@@ -26,7 +27,8 @@ class TermData extends AbstractDataLoader
             'children' => [],
             'courses' => [],
             'programYears' => [],
-            'sessions' => ['1']
+            'sessions' => ['1'],
+            'aamcResourceTypes' => ['1', '2'],
         );
         $arr[] = array(
             'id' => 3,
@@ -37,7 +39,8 @@ class TermData extends AbstractDataLoader
             'children' => [],
             'courses' => ['4'],
             'programYears' => [],
-            'sessions' => ['3']
+            'sessions' => ['3'],
+            'aamcResourceTypes' => ['2'],
         );
 
         $arr[] = array(
@@ -49,6 +52,7 @@ class TermData extends AbstractDataLoader
             'courses' => ['2'],
             'programYears' => ["2"],
             'sessions' => ['2'],
+            'aamcResourceTypes' => [],
         );
         $arr[] = array(
             'id' => 5,
@@ -58,7 +62,8 @@ class TermData extends AbstractDataLoader
             'children' => [],
             'courses' => [],
             'programYears' => [],
-            'sessions' => ['1']
+            'sessions' => ['1'],
+            'aamcResourceTypes' => [],
         );
         $arr[] = array(
             'id' => 6,
@@ -68,7 +73,8 @@ class TermData extends AbstractDataLoader
             'children' => [],
             'courses' => ['4'],
             'programYears' => [],
-            'sessions' => ['3']
+            'sessions' => ['3'],
+            'aamcResourceTypes' => [],
         );
 
         return $arr;
@@ -84,7 +90,8 @@ class TermData extends AbstractDataLoader
             'children' => [],
             'courses' => ['4'],
             'programYears' => [],
-            'sessions' => ['3']
+            'sessions' => ['3'],
+            'aamcResourceTypes' => [],
         ];
     }
 

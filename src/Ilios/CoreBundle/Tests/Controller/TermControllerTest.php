@@ -17,6 +17,7 @@ class TermControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
+            'Ilios\CoreBundle\Tests\Fixture\LoadAamcResourceTypeData',
             'Ilios\CoreBundle\Tests\Fixture\LoadVocabularyData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
@@ -408,6 +409,38 @@ class TermControllerTest extends AbstractControllerTest
                 $terms[4]
             ),
             $data[3]
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByAamcResourceType()
+    {
+        $terms = $this->container->get('ilioscore.dataloader.term')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_terms', ['filters[aamcResourceTypes][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['terms'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $terms[1]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $terms[2]
+            ),
+            $data[1]
         );
     }
 

@@ -1,6 +1,7 @@
 parameters:
     ilioscore.aamcmethod.handler.class: Ilios\CoreBundle\Handler\AamcMethodHandler
     ilioscore.aamcpcrs.handler.class: Ilios\CoreBundle\Handler\AamcPcrsHandler
+    ilioscore.aamcresourcetype.handler.class: Ilios\CoreBundle\Handler\AamcResourceTypeHandler
     ilioscore.alertchangetype.handler.class: Ilios\CoreBundle\Handler\AlertChangeTypeHandler
     ilioscore.alert.handler.class: Ilios\CoreBundle\Handler\AlertHandler
     ilioscore.assessmentoption.handler.class: Ilios\CoreBundle\Handler\AssessmentOptionHandler
@@ -58,6 +59,9 @@ services:
     ilioscore.aamcpcrs.handler:
         class: "%ilioscore.aamcpcrs.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AamcPcrs, '@form.factory']
+    ilioscore.aamcresourcetype.handler:
+        class: "%ilioscore.aamcresourcetype.handler.class%"
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\AamcResourceType, '@form.factory']
     ilioscore.alertchangetype.handler:
         class: "%ilioscore.alertchangetype.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AlertChangeType, '@form.factory']

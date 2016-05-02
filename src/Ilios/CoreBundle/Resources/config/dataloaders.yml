@@ -1,6 +1,7 @@
 parameters:
     ilioscore.dataloader.aamcmethod.class: Ilios\CoreBundle\Tests\DataLoader\AamcMethodData
     ilioscore.dataloader.aamcpcrs.class: Ilios\CoreBundle\Tests\DataLoader\AamcPcrsData
+    ilioscore.dataloader.aamcresourcetype.class: Ilios\CoreBundle\Tests\DataLoader\AamcResourceTypeData
     ilioscore.dataloader.alertchangetype.class: Ilios\CoreBundle\Tests\DataLoader\AlertChangeTypeData
     ilioscore.dataloader.alert.class: Ilios\CoreBundle\Tests\DataLoader\AlertData
     ilioscore.dataloader.assessmentoption.class: Ilios\CoreBundle\Tests\DataLoader\AssessmentOptionData
@@ -56,6 +57,8 @@ services:
         class: "%ilioscore.dataloader.aamcmethod.class%"
     ilioscore.dataloader.aamcpcrs:
         class: "%ilioscore.dataloader.aamcpcrs.class%"
+    ilioscore.dataloader.aamcresourcetype:
+        class: "%ilioscore.dataloader.aamcresourcetype.class%"
     ilioscore.dataloader.alertchangetype:
         class: "%ilioscore.dataloader.alertchangetype.class%"
     ilioscore.dataloader.alert:

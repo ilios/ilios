@@ -9,6 +9,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.aamc_resource_type_voter:
+        class: Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.alert_change_type_voter:
         class: Ilios\AuthenticationBundle\Voter\AlertChangeTypeVoter
         public: false

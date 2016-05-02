@@ -18,6 +18,12 @@ api_aamcpcrs_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+api_aamcresourcetype_v1:
+    resource: "@IliosCoreBundle/Controller/AamcResourceTypeController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
 api_academicyear_v1:
     resource: "@IliosCoreBundle/Controller/AcademicYearController.php"
     type:     rest

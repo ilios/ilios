@@ -1,11 +1,11 @@
 <?php
 namespace Ilios\CoreBundle\Entity\Repository;
 
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Entity\TermInterface;
+use Doctrine\ORM\QueryBuilder;
 use Ilios\CoreBundle\Entity\DTO\TermDTO;
+use Ilios\CoreBundle\Entity\TermInterface;
 
 /**
  * Class TermRepository
@@ -76,7 +76,8 @@ class TermRepository extends EntityRepository
             'children',
             'courses',
             'programYears',
-            'sessions'
+            'sessions',
+            'aamcResourceTypes',
         ];
 
         foreach ($related as $rel) {
@@ -213,12 +214,14 @@ class TermRepository extends EntityRepository
             $qb->leftJoin('cm_course_objective2.parents', 'cm_program_year_objective2');
             $qb->leftJoin('cm_program_year_objective2.competency', 'cm_competency3');
             $qb->leftJoin('cm_competency3.parent', 'cm_competency4');
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('cm_competency.id', ':competencies'),
-                $qb->expr()->in('cm_competency2.id', ':competencies'),
-                $qb->expr()->in('cm_competency3.id', ':competencies'),
-                $qb->expr()->in('cm_competency4.id', ':competencies')
-            ));
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('cm_competency.id', ':competencies'),
+                    $qb->expr()->in('cm_competency2.id', ':competencies'),
+                    $qb->expr()->in('cm_competency3.id', ':competencies'),
+                    $qb->expr()->in('cm_competency4.id', ':competencies')
+                )
+            );
             $qb->setParameter(':competencies', $ids);
         }
 
@@ -268,6 +271,15 @@ class TermRepository extends EntityRepository
             $qb->setParameter(':schools', $ids);
         }
 
+        if (array_key_exists('aamcResourceTypes', $criteria)) {
+            $ids = is_array(
+                $criteria['aamcResourceTypes']
+            ) ? $criteria['aamcResourceTypes'] : [$criteria['aamcResourceTypes']];
+            $qb->join('t.aamcResourceTypes', 'art_resourceTypes');
+            $qb->andWhere($qb->expr()->in('art_resourceTypes.id', ':aamcResourceTypes'));
+            $qb->setParameter(':aamcResourceTypes', $ids);
+        }
+
         unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
@@ -278,6 +290,7 @@ class TermRepository extends EntityRepository
         unset($criteria['learningMaterials']);
         unset($criteria['competencies']);
         unset($criteria['meshDescriptors']);
+        unset($criteria['aamcResourceTypes']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
@@ -293,7 +306,7 @@ class TermRepository extends EntityRepository
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('t.' . $sort, $order);
+                $qb->addOrderBy('t.'.$sort, $order);
             }
         }
 

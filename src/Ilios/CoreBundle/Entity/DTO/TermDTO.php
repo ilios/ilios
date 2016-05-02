@@ -70,6 +70,13 @@ class TermDTO
      */
     public $vocabulary;
 
+    /**
+     * @var int[]
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("aamcResourceTypes")
+     */
+    public $aamcResourceTypes;
+
     public function __construct(
         $id,
         $title,
@@ -83,5 +90,6 @@ class TermDTO
         $this->courses = [];
         $this->programYears = [];
         $this->sessions = [];
+        $this->aamcResourceTypes = [];
     }
 }

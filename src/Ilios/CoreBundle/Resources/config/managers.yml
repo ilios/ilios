@@ -1,6 +1,7 @@
 parameters:
     ilioscore.aamcmethod.manager.class: Ilios\CoreBundle\Entity\Manager\AamcMethodManager
     ilioscore.aamcpcrs.manager.class: Ilios\CoreBundle\Entity\Manager\AamcPcrsManager
+    ilioscore.aamcresourcetype.manager.class: Ilios\CoreBundle\Entity\Manager\AamcResourceTypeManager
     ilioscore.alertchangetype.manager.class: Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager
     ilioscore.alert.manager.class: Ilios\CoreBundle\Entity\Manager\AlertManager
     ilioscore.assessmentoption.manager.class: Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager
@@ -60,6 +61,9 @@ services:
     ilioscore.aamcpcrs.manager:
         class: "%ilioscore.aamcpcrs.manager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AamcPcrs]
+    ilioscore.aamcresourcetype.manager:
+        class: "%ilioscore.aamcresourcetype.manager.class%"
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\AamcResourceType]
     ilioscore.alertchangetype.manager:
         class: "%ilioscore.alertchangetype.manager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AlertChangeType]
