@@ -36,7 +36,7 @@ services:
             - { name: security.voter }
     security.access.competency_voter:
         class: Ilios\AuthenticationBundle\Voter\CompetencyVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -53,7 +53,7 @@ services:
             - { name: security.voter }
     security.access.course_voter:
         class: Ilios\AuthenticationBundle\Voter\CourseVoter
-        arguments: [ @ilioscore.course.manager, @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.course.manager", "@ilioscore.permission.manager" ]
         public: false
     security.access.curriculum_inventory_academic_level_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryAcademicLevelVoter
@@ -63,19 +63,19 @@ services:
             - { name: security.voter }
     security.access.curriculum_inventory_export_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryExportVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
     security.access.curriculum_inventory_institution_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryInstitutionVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
     security.access.curriculum_inventory_report_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryReportVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -99,7 +99,7 @@ services:
             - { name: security.voter }
     security.access.department_voter:
         class: Ilios\AuthenticationBundle\Voter\DepartmentVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -116,7 +116,7 @@ services:
             - { name: security.voter }
     security.access.instructor_group_voter:
         class: Ilios\AuthenticationBundle\Voter\InstructorGroupVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -142,7 +142,7 @@ services:
             - { name: security.voter }
     security.access.objective_voter:
         class: Ilios\AuthenticationBundle\Voter\ObjectiveVoter
-        arguments: [ @ilioscore.permission.manager, @ilioscore.programyearsteward.manager ]
+        arguments: [ "@ilioscore.permission.manager", "@ilioscore.programyearsteward.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -154,7 +154,7 @@ services:
             - { name: security.voter }
     security.access.pending_user_update_voter:
         class: Ilios\AuthenticationBundle\Voter\PendingUserUpdateVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -165,13 +165,13 @@ services:
             - { name: security.voter }
     security.access.program_voter:
         class: Ilios\AuthenticationBundle\Voter\ProgramVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
     security.access.program_year_steward_voter:
         class: Ilios\AuthenticationBundle\Voter\ProgramYearStewardVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -182,7 +182,7 @@ services:
             - { name: security.voter }
     security.access.school_event_voter:
         class: Ilios\AuthenticationBundle\Voter\SchooleventVoter
-        arguments: [ @ilioscore.permission.manager, @ilioscore.school.manager ]
+        arguments: [ "@ilioscore.permission.manager", "@ilioscore.school.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -200,19 +200,19 @@ services:
             - { name: security.voter }
     security.access.session_type_voter:
         class: Ilios\AuthenticationBundle\Voter\SessionTypeVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
     security.access.temporary_filesystem_voter:
         class: Ilios\AuthenticationBundle\Voter\TemporaryFileSystemVoter
-        arguments: [ @ilioscore.permission.manager ]
+        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
     security.access.userevent_voter:
         class: Ilios\AuthenticationBundle\Voter\UsereventVoter
-        arguments: [ @ilioscore.user.manager ]
+        arguments: [ "@ilioscore.user.manager" ]
         public: false
         tags:
             - { name: security.voter }
