@@ -24,9 +24,6 @@ framework:
     http_method_override: true
     serializer:
         enabled: false
-    profiler:
-        enabled: false
-        collect: false
 
 # Twig Configuration
 twig:
