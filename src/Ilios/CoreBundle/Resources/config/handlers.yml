@@ -53,155 +53,155 @@ parameters:
 
 services:
     ilioscore.aamcmethod.handler:
-        class: %ilioscore.aamcmethod.handler.class%
+        class: "%ilioscore.aamcmethod.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AamcMethod, '@form.factory']
     ilioscore.aamcpcrs.handler:
-        class: %ilioscore.aamcpcrs.handler.class%
+        class: "%ilioscore.aamcpcrs.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AamcPcrs, '@form.factory']
     ilioscore.alertchangetype.handler:
-        class: %ilioscore.alertchangetype.handler.class%
+        class: "%ilioscore.alertchangetype.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AlertChangeType, '@form.factory']
     ilioscore.alert.handler:
-        class: %ilioscore.alert.handler.class%
+        class: "%ilioscore.alert.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Alert, '@form.factory']
     ilioscore.assessmentoption.handler:
-        class: %ilioscore.assessmentoption.handler.class%
+        class: "%ilioscore.assessmentoption.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AssessmentOption, '@form.factory']
     ilioscore.authentication.handler:
-        class: %ilioscore.authentication.handler.class%
+        class: "%ilioscore.authentication.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Authentication, '@form.factory']
     ilioscore.cohort.handler:
-        class: %ilioscore.cohort.handler.class%
+        class: "%ilioscore.cohort.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Cohort, '@form.factory']
     ilioscore.competency.handler:
-        class: %ilioscore.competency.handler.class%
+        class: "%ilioscore.competency.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Competency, '@form.factory']
     ilioscore.courseclerkshiptype.handler:
-        class: %ilioscore.courseclerkshiptype.handler.class%
+        class: "%ilioscore.courseclerkshiptype.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CourseClerkshipType, '@form.factory']
     ilioscore.courselearningmaterial.handler:
-        class: %ilioscore.courselearningmaterial.handler.class%
+        class: "%ilioscore.courselearningmaterial.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CourseLearningMaterial, '@form.factory']
     ilioscore.course.handler:
-        class: %ilioscore.course.handler.class%
+        class: "%ilioscore.course.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Course, '@form.factory']
     ilioscore.curriculuminventoryacademiclevel.handler:
-        class: %ilioscore.curriculuminventoryacademiclevel.handler.class%
+        class: "%ilioscore.curriculuminventoryacademiclevel.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel, '@form.factory']
     ilioscore.curriculuminventoryexport.handler:
-        class: %ilioscore.curriculuminventoryexport.handler.class%
+        class: "%ilioscore.curriculuminventoryexport.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventoryExport, '@form.factory']
     ilioscore.curriculuminventoryinstitution.handler:
-        class: %ilioscore.curriculuminventoryinstitution.handler.class%
+        class: "%ilioscore.curriculuminventoryinstitution.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventoryInstitution, '@form.factory']
     ilioscore.curriculuminventoryreport.handler:
-        class: %ilioscore.curriculuminventoryreport.handler.class%
+        class: "%ilioscore.curriculuminventoryreport.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventoryReport, '@form.factory']
     ilioscore.curriculuminventorysequenceblock.handler:
-        class: %ilioscore.curriculuminventorysequenceblock.handler.class%
+        class: "%ilioscore.curriculuminventorysequenceblock.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock, '@form.factory']
     ilioscore.curriculuminventorysequenceblocksession.handler:
-        class: %ilioscore.curriculuminventorysequenceblocksession.handler.class%
+        class: "%ilioscore.curriculuminventorysequenceblocksession.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession, '@form.factory']
     ilioscore.curriculuminventorysequence.handler:
-        class: %ilioscore.curriculuminventorysequence.handler.class%
+        class: "%ilioscore.curriculuminventorysequence.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventorySequence, '@form.factory']
     ilioscore.department.handler:
-        class: %ilioscore.department.handler.class%
+        class: "%ilioscore.department.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Department, '@form.factory']
     ilioscore.ilmsession.handler:
-        class: %ilioscore.ilmsession.handler.class%
+        class: "%ilioscore.ilmsession.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IlmSession, '@form.factory']
     ilioscore.ingestionexception.handler:
-        class: %ilioscore.ingestionexception.handler.class%
+        class: "%ilioscore.ingestionexception.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IngestionException, '@form.factory']
     ilioscore.instructorgroup.handler:
-        class: %ilioscore.instructorgroup.handler.class%
+        class: "%ilioscore.instructorgroup.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\InstructorGroup, '@form.factory']
     ilioscore.learnergroup.handler:
-        class: %ilioscore.learnergroup.handler.class%
+        class: "%ilioscore.learnergroup.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearnerGroup, '@form.factory']
     ilioscore.learningmaterial.handler:
-        class: %ilioscore.learningmaterial.handler.class%
+        class: "%ilioscore.learningmaterial.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterial, '@form.factory']
     ilioscore.learningmaterialstatus.handler:
-        class: %ilioscore.learningmaterialstatus.handler.class%
+        class: "%ilioscore.learningmaterialstatus.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterialStatus, '@form.factory']
     ilioscore.learningmaterialuserrole.handler:
-        class: %ilioscore.learningmaterialuserrole.handler.class%
+        class: "%ilioscore.learningmaterialuserrole.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\LearningMaterialUserRole, '@form.factory']
     ilioscore.meshconcept.handler:
-        class: %ilioscore.meshconcept.handler.class%
+        class: "%ilioscore.meshconcept.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshConcept, '@form.factory']
     ilioscore.meshdescriptor.handler:
-        class: %ilioscore.meshdescriptor.handler.class%
+        class: "%ilioscore.meshdescriptor.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshDescriptor, '@form.factory']
     ilioscore.meshpreviousindexing.handler:
-        class: %ilioscore.meshpreviousindexing.handler.class%
+        class: "%ilioscore.meshpreviousindexing.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshPreviousIndexing, '@form.factory']
     ilioscore.meshqualifier.handler:
-        class: %ilioscore.meshqualifier.handler.class%
+        class: "%ilioscore.meshqualifier.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshQualifier, '@form.factory']
     ilioscore.meshsemantictype.handler:
-        class: %ilioscore.meshsemantictype.handler.class%
+        class: "%ilioscore.meshsemantictype.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshSemanticType, '@form.factory']
     ilioscore.meshterm.handler:
-        class: %ilioscore.meshterm.handler.class%
+        class: "%ilioscore.meshterm.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshTerm, '@form.factory']
     ilioscore.meshtree.handler:
-        class: %ilioscore.meshtree.handler.class%
+        class: "%ilioscore.meshtree.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\MeshTree, '@form.factory']
     ilioscore.objective.handler:
-        class: %ilioscore.objective.handler.class%
+        class: "%ilioscore.objective.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Objective, '@form.factory']
     ilioscore.offering.handler:
-        class: %ilioscore.offering.handler.class%
+        class: "%ilioscore.offering.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Offering, '@form.factory']
     ilioscore.permission.handler:
-        class: %ilioscore.permission.handler.class%
+        class: "%ilioscore.permission.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Permission, '@form.factory']
     ilioscore.pendinguserupdate.handler:
-        class: %ilioscore.pendinguserupdate.handler.class%
+        class: "%ilioscore.pendinguserupdate.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\PendingUserUpdate, '@form.factory']
     ilioscore.program.handler:
-        class: %ilioscore.program.handler.class%
+        class: "%ilioscore.program.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Program, '@form.factory']
     ilioscore.programyear.handler:
-        class: %ilioscore.programyear.handler.class%
+        class: "%ilioscore.programyear.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\ProgramYear, '@form.factory']
     ilioscore.programyearsteward.handler:
-        class: %ilioscore.programyearsteward.handler.class%
+        class: "%ilioscore.programyearsteward.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\ProgramYearSteward, '@form.factory']
     ilioscore.report.handler:
-        class: %ilioscore.report.handler.class%
+        class: "%ilioscore.report.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Report, '@form.factory']
     ilioscore.school.handler:
-        class: %ilioscore.school.handler.class%
+        class: "%ilioscore.school.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\School, '@form.factory']
     ilioscore.sessiondescription.handler:
-        class: %ilioscore.sessiondescription.handler.class%
+        class: "%ilioscore.sessiondescription.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\SessionDescription, '@form.factory']
     ilioscore.sessionlearningmaterial.handler:
-        class: %ilioscore.sessionlearningmaterial.handler.class%
+        class: "%ilioscore.sessionlearningmaterial.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\SessionLearningMaterial, '@form.factory']
     ilioscore.session.handler:
-        class: %ilioscore.session.handler.class%
+        class: "%ilioscore.session.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Session, '@form.factory']
     ilioscore.sessiontype.handler:
-        class: %ilioscore.sessiontype.handler.class%
+        class: "%ilioscore.sessiontype.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\SessionType, '@form.factory']
     ilioscore.term.handler:
-        class: %ilioscore.term.handler.class%
+        class: "%ilioscore.term.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Term, '@form.factory']
     ilioscore.usermadereminder.handler:
-        class: %ilioscore.usermadereminder.handler.class%
+        class: "%ilioscore.usermadereminder.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\UserMadeReminder, '@form.factory']
     ilioscore.user.handler:
-        class: %ilioscore.user.handler.class%
+        class: "%ilioscore.user.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\User, '@form.factory']
     ilioscore.userrole.handler:
-        class: %ilioscore.userrole.handler.class%
+        class: "%ilioscore.userrole.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\UserRole, '@form.factory']
     ilioscore.vocabulary.handler:
-        class: %ilioscore.vocabulary.handler.class%
+        class: "%ilioscore.vocabulary.handler.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Vocabulary, '@form.factory']

@@ -53,104 +53,104 @@ parameters:
 
 services:
     ilioscore.dataloader.aamcmethod:
-        class: %ilioscore.dataloader.aamcmethod.class%
+        class: "%ilioscore.dataloader.aamcmethod.class%"
     ilioscore.dataloader.aamcpcrs:
-        class: %ilioscore.dataloader.aamcpcrs.class%
+        class: "%ilioscore.dataloader.aamcpcrs.class%"
     ilioscore.dataloader.alertchangetype:
-        class: %ilioscore.dataloader.alertchangetype.class%
+        class: "%ilioscore.dataloader.alertchangetype.class%"
     ilioscore.dataloader.alert:
-        class: %ilioscore.dataloader.alert.class%
+        class: "%ilioscore.dataloader.alert.class%"
     ilioscore.dataloader.assessmentoption:
-        class: %ilioscore.dataloader.assessmentoption.class%
+        class: "%ilioscore.dataloader.assessmentoption.class%"
     ilioscore.dataloader.authentication:
-        class: %ilioscore.dataloader.authentication.class%
+        class: "%ilioscore.dataloader.authentication.class%"
     ilioscore.dataloader.cohort:
-        class: %ilioscore.dataloader.cohort.class%
+        class: "%ilioscore.dataloader.cohort.class%"
     ilioscore.dataloader.competency:
-        class: %ilioscore.dataloader.competency.class%
+        class: "%ilioscore.dataloader.competency.class%"
     ilioscore.dataloader.courselearningmaterial:
-        class: %ilioscore.dataloader.courselearningmaterial.class%
+        class: "%ilioscore.dataloader.courselearningmaterial.class%"
     ilioscore.dataloader.course:
-        class: %ilioscore.dataloader.course.class%
+        class: "%ilioscore.dataloader.course.class%"
     ilioscore.dataloader.courseclerkshiptype:
-        class: %ilioscore.dataloader.courseclerkshiptype.class%
+        class: "%ilioscore.dataloader.courseclerkshiptype.class%"
     ilioscore.dataloader.curriculuminventoryacademiclevel:
-        class: %ilioscore.dataloader.curriculuminventoryacademiclevel.class%
+        class: "%ilioscore.dataloader.curriculuminventoryacademiclevel.class%"
     ilioscore.dataloader.curriculuminventoryexport:
-        class: %ilioscore.dataloader.curriculuminventoryexport.class%
+        class: "%ilioscore.dataloader.curriculuminventoryexport.class%"
     ilioscore.dataloader.curriculuminventoryinstitution:
-        class: %ilioscore.dataloader.curriculuminventoryinstitution.class%
+        class: "%ilioscore.dataloader.curriculuminventoryinstitution.class%"
     ilioscore.dataloader.curriculuminventoryreport:
-        class: %ilioscore.dataloader.curriculuminventoryreport.class%
+        class: "%ilioscore.dataloader.curriculuminventoryreport.class%"
     ilioscore.dataloader.curriculuminventorysequenceblock:
-        class: %ilioscore.dataloader.curriculuminventorysequenceblock.class%
+        class: "%ilioscore.dataloader.curriculuminventorysequenceblock.class%"
     ilioscore.dataloader.curriculuminventorysequenceblocksession:
-        class: %ilioscore.dataloader.curriculuminventorysequenceblocksession.class%
+        class: "%ilioscore.dataloader.curriculuminventorysequenceblocksession.class%"
     ilioscore.dataloader.curriculuminventorysequence:
-        class: %ilioscore.dataloader.curriculuminventorysequence.class%
+        class: "%ilioscore.dataloader.curriculuminventorysequence.class%"
     ilioscore.dataloader.department:
-        class: %ilioscore.dataloader.department.class%
+        class: "%ilioscore.dataloader.department.class%"
     ilioscore.dataloader.ilmsession:
-        class: %ilioscore.dataloader.ilmsession.class%
+        class: "%ilioscore.dataloader.ilmsession.class%"
     ilioscore.dataloader.ingestionexception:
-        class: %ilioscore.dataloader.ingestionexception.class%
+        class: "%ilioscore.dataloader.ingestionexception.class%"
     ilioscore.dataloader.instructorgroup:
-        class: %ilioscore.dataloader.instructorgroup.class%
+        class: "%ilioscore.dataloader.instructorgroup.class%"
     ilioscore.dataloader.learnergroup:
-        class: %ilioscore.dataloader.learnergroup.class%
+        class: "%ilioscore.dataloader.learnergroup.class%"
     ilioscore.dataloader.learningmaterialstatus:
-        class: %ilioscore.dataloader.learningmaterialstatus.class%
+        class: "%ilioscore.dataloader.learningmaterialstatus.class%"
     ilioscore.dataloader.learningmaterialuserrole:
-        class: %ilioscore.dataloader.learningmaterialuserrole.class%
+        class: "%ilioscore.dataloader.learningmaterialuserrole.class%"
     ilioscore.dataloader.learningmaterial:
-        class: %ilioscore.dataloader.learningmaterial.class%
+        class: "%ilioscore.dataloader.learningmaterial.class%"
     ilioscore.dataloader.meshdescriptor:
-        class: %ilioscore.dataloader.meshdescriptor.class%
+        class: "%ilioscore.dataloader.meshdescriptor.class%"
     ilioscore.dataloader.meshpreviousindexing:
-        class: %ilioscore.dataloader.meshpreviousindexing.class%
+        class: "%ilioscore.dataloader.meshpreviousindexing.class%"
     ilioscore.dataloader.meshconcept:
-        class: %ilioscore.dataloader.meshconcept.class%
+        class: "%ilioscore.dataloader.meshconcept.class%"
     ilioscore.dataloader.meshqualifier:
-        class: %ilioscore.dataloader.meshqualifier.class%
+        class: "%ilioscore.dataloader.meshqualifier.class%"
     ilioscore.dataloader.meshsemantictype:
-        class: %ilioscore.dataloader.meshsemantictype.class%
+        class: "%ilioscore.dataloader.meshsemantictype.class%"
     ilioscore.dataloader.meshterm:
-        class: %ilioscore.dataloader.meshterm.class%
+        class: "%ilioscore.dataloader.meshterm.class%"
     ilioscore.dataloader.meshtree:
-        class: %ilioscore.dataloader.meshtree.class%
+        class: "%ilioscore.dataloader.meshtree.class%"
     ilioscore.dataloader.objective:
-        class: %ilioscore.dataloader.objective.class%
+        class: "%ilioscore.dataloader.objective.class%"
     ilioscore.dataloader.offering:
-        class: %ilioscore.dataloader.offering.class%
+        class: "%ilioscore.dataloader.offering.class%"
     ilioscore.dataloader.pendinguserupdate:
-        class: %ilioscore.dataloader.pendinguserupdate.class%
+        class: "%ilioscore.dataloader.pendinguserupdate.class%"
     ilioscore.dataloader.permission:
-        class: %ilioscore.dataloader.permission.class%
+        class: "%ilioscore.dataloader.permission.class%"
     ilioscore.dataloader.programyear:
-        class: %ilioscore.dataloader.programyear.class%
+        class: "%ilioscore.dataloader.programyear.class%"
     ilioscore.dataloader.programyearsteward:
-        class: %ilioscore.dataloader.programyearsteward.class%
+        class: "%ilioscore.dataloader.programyearsteward.class%"
     ilioscore.dataloader.program:
-        class: %ilioscore.dataloader.program.class%
+        class: "%ilioscore.dataloader.program.class%"
     ilioscore.dataloader.report:
-        class: %ilioscore.dataloader.report.class%
+        class: "%ilioscore.dataloader.report.class%"
     ilioscore.dataloader.school:
-        class: %ilioscore.dataloader.school.class%
+        class: "%ilioscore.dataloader.school.class%"
     ilioscore.dataloader.sessiondescription:
-        class: %ilioscore.dataloader.sessiondescription.class%
+        class: "%ilioscore.dataloader.sessiondescription.class%"
     ilioscore.dataloader.sessionlearningmaterial:
-        class: %ilioscore.dataloader.sessionlearningmaterial.class%
+        class: "%ilioscore.dataloader.sessionlearningmaterial.class%"
     ilioscore.dataloader.sessiontype:
-        class: %ilioscore.dataloader.sessiontype.class%
+        class: "%ilioscore.dataloader.sessiontype.class%"
     ilioscore.dataloader.session:
-        class: %ilioscore.dataloader.session.class%
+        class: "%ilioscore.dataloader.session.class%"
     ilioscore.dataloader.term:
-        class: %ilioscore.dataloader.term.class%
+        class: "%ilioscore.dataloader.term.class%"
     ilioscore.dataloader.usermadereminder:
-        class: %ilioscore.dataloader.usermadereminder.class%
+        class: "%ilioscore.dataloader.usermadereminder.class%"
     ilioscore.dataloader.userrole:
-        class: %ilioscore.dataloader.userrole.class%
+        class: "%ilioscore.dataloader.userrole.class%"
     ilioscore.dataloader.user:
-        class: %ilioscore.dataloader.user.class%
+        class: "%ilioscore.dataloader.user.class%"
     ilioscore.dataloader.vocabulary:
-        class: %ilioscore.dataloader.vocabulary.class%
+        class: "%ilioscore.dataloader.vocabulary.class%"

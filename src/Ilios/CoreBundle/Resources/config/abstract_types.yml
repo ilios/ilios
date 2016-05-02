@@ -5,22 +5,22 @@ parameters:
   ilioscore.type.purified_textarea.class: Ilios\CoreBundle\Form\Type\AbstractType\PurifiedTextareaType
 services:
   tdn.type.tdn_entity:
-    class: %tdn.type.tdn_entity.class%
+    class: "%tdn.type.tdn_entity.class%"
     arguments: ['@doctrine']
     tags:
         - { name: 'form.type' }
   tdn.type.tdn_many_related:
-    class: %tdn.type.tdn_many_related.class%
+    class: "%tdn.type.tdn_many_related.class%"
     arguments: ['@doctrine']
     tags:
         - { name: 'form.type' }
   tdn.type.tdn_single_related:
-    class: %tdn.type.tdn_single_related.class%
+    class: "%tdn.type.tdn_single_related.class%"
     arguments: ['@doctrine']
     tags:
         - { name: 'form.type' }
   ilioscore.form.type.purified_textarea:
-    class: %ilioscore.type.purified_textarea.class%
+    class: "%ilioscore.type.purified_textarea.class%"
     arguments: ['@ilioscore.form.transformer.html_purifier']
     tags:
         - { name: 'form.type' }
