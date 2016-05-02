@@ -29,7 +29,7 @@
         "doctrine/doctrine-fixtures-bundle": "~2.3",
         "friendsofsymfony/rest-bundle": "~1.7",
         "tdn/php-types": "1.*",
-        "matthiasnoback/symfony-console-form": "^1.2",
+        "matthiasnoback/symfony-console-form": "^2.0",
         "dreamscapes/ldap-core": "^3.1",
         "eluceo/ical": "0.8.0",
         "exercise/htmlpurifier-bundle": "@stable"
