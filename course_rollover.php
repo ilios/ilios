@@ -9,22 +9,64 @@ error_reporting(E_ALL & ~(E_STRICT|E_NOTICE));
  */
 
 //database connection settings
-$db_name = 'ilios_prod';
-$db_user = 'ilios';
-$db_pass = 'tr0yt0y';
-$db_host = '64.54.142.204';
-$db_port = 3306;
+$db_name = 'ilios3_stage';
+$db_user = 'ilios3_user';
+$db_pass = 'XXXXXXXXXXXXXX';
+$db_host = '64.54.142.202';
+
+/**
+ * @param int $academicYearDifference
+ * @param int $originalStartWeekOrdinal
+ * @param int $newStartWeekOrdinal
+ */
+function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null){
+
+    //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
+    if(empty($newStartWeekOrdinal)) {
+        return ($academicYearDifference * 52);
+    }
+
+    //get the remaining number of weeks remaining in the year from the orig start date
+    $weeksUntilNewYear = (52 - $originalStartWeekOrdinal);
+
+    //get the number of weeks between two dates within one year cycle
+    $weeksBetweenTwoDates = ($weeksUntilNewYear + $newStartWeekOrdinal);
+
+    switch($academicYearDifference) {
+        //if the year diff is 0, it is the same year,
+        //so just take the difference between the two weeks
+        case 0:
+            $weeksToAdd = ($newStartWeekOrdinal - $originalStartWeekOrdinal);
+            break;
+        //if there is only 1 year difference, get the weeks left of the first year
+        //and add them to the week ordinal of the new start date
+        case 1:
+            $weeksToAdd = $weeksBetweenTwoDates;
+            break;
+        //if the difference is greater than 1 year, multiply each ADDITIONAL year (after the 1st year)
+        //by 52 weeks, and add this to the total weeks between the two dates
+        default:
+            $weekYearMultiplier = (52 * ($academicYearDifference - 1));
+            $weeksToAdd = ($weeksBetweenTwoDates + $weekYearMultiplier);
+    }
+
+    return $weeksToAdd;
+}
 
 
+
+// set up for the database connection
 $link = new mysqli($db_host, $db_user, $db_pass, $db_name, $db_port);
 if ($link->connect_errno) {
     echo "Failed to connect to MySQL: (" . $link->connect_errno . ") " . $link->connect_error;
 }
 
 //course id of the original course to rollover
-$courseId = 851;
+$courseId = 790;
 //start year of the new course
 $startYear = 2016;
+$new_start_date = '2016-10-24';
+$new_start_date_year = date('Y', strtotime($new_start_date));
 
 //GET ORIGINAL COURSE INFO
 $query = sprintf("SELECT course_id, course_level, year, start_date, end_date, locked, archived, school_id, clerkship_type_id, title, external_id, published FROM course WHERE course_id = %d", $courseId);
@@ -40,9 +82,8 @@ if ($stmt = mysqli_prepare($link, $query)) {
     while (mysqli_stmt_fetch($stmt)) {
         $orig_course_id  = $course_id;
         $orig_year = $year;
-        $year_diff = $startYear - $orig_year;
         //To make sure we end up on the same day, even on leap years, let's use '52 weeks' to represent a year.
-        $interval_in_weeks = ($year_diff * 52);
+        //$interval_in_weeks = ($year_diff * 52);
         $orig_start_date = $start_date;
         $orig_start_date_year = date('Y', strtotime($start_date));
         $orig_end_date   = $end_date;
@@ -52,6 +93,17 @@ if ($stmt = mysqli_prepare($link, $query)) {
     /* close statement */
     mysqli_stmt_close($stmt);
 }
+
+
+//if the new start date year and the orig start date year are during the same year, than set year_diff to zero
+$year_diff = ($new_start_date_year - $orig_start_date_year === 0) ? 0 : ($startYear - $orig_year);
+
+$originalStartWeekOrdinal = date('W', strtotime($orig_start_date));
+$newStartWeekOrdinal = date('W', strtotime($new_start_date));
+
+//$interval_in_weeks = calculateRolloverOffsetInWeeks($year_diff, $originalStartWeekOrdinal, $newStartWeekOrdinal);
+$interval_in_weeks = ($year_diff * 52);
+
 
 //debugging output...
 echo "-- Original Course Id =>" . $orig_course_id . "\n";
