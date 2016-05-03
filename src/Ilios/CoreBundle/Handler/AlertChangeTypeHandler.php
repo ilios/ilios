@@ -91,7 +91,7 @@ class AlertChangeTypeHandler extends AlertChangeTypeManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new AlertChangeTypeType(),
+            AlertChangeTypeType::class,
             $alertChangeType,
             array('method' => $method)
         );

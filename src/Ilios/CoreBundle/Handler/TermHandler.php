@@ -91,7 +91,7 @@ class TermHandler extends TermManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new TermType(),
+            TermType::class,
             $term,
             array('method' => $method)
         );

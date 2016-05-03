@@ -91,7 +91,7 @@ class CurriculumInventoryAcademicLevelHandler extends CurriculumInventoryAcademi
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CurriculumInventoryAcademicLevelType(),
+            CurriculumInventoryAcademicLevelType::class,
             $curriculumInventoryAcademicLevel,
             array('method' => $method)
         );

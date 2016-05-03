@@ -91,7 +91,7 @@ class LearningMaterialUserRoleHandler extends LearningMaterialUserRoleManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new LearningMaterialUserRoleType(),
+            LearningMaterialUserRoleType::class,
             $learningMaterialUserRole,
             array('method' => $method)
         );

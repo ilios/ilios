@@ -91,7 +91,7 @@ class MeshQualifierHandler extends MeshQualifierManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new MeshQualifierType(),
+            MeshQualifierType::class,
             $meshQualifier,
             array('method' => $method)
         );

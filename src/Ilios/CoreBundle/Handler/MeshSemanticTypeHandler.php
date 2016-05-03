@@ -92,7 +92,7 @@ class MeshSemanticTypeHandler extends MeshSemanticTypeManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new MeshSemanticTypeType(),
+            MeshSemanticTypeType::class,
             $meshSemanticType,
             array('method' => $method)
         );

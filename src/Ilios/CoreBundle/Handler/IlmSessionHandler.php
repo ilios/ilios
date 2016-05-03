@@ -91,7 +91,7 @@ class IlmSessionHandler extends IlmSessionManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new IlmSessionType(),
+            IlmSessionType::class,
             $ilmSession,
             array('method' => $method)
         );

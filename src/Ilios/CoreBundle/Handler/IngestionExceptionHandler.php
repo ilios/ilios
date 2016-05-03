@@ -91,7 +91,7 @@ class IngestionExceptionHandler extends IngestionExceptionManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new IngestionExceptionType(),
+            IngestionExceptionType::class,
             $ingestionException,
             array('method' => $method)
         );

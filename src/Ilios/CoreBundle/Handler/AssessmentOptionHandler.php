@@ -91,7 +91,7 @@ class AssessmentOptionHandler extends AssessmentOptionManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new AssessmentOptionType(),
+            AssessmentOptionType::class,
             $assessmentOption,
             array('method' => $method)
         );

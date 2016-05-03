@@ -91,7 +91,7 @@ class ProgramYearStewardHandler extends ProgramYearStewardManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new ProgramYearStewardType(),
+            ProgramYearStewardType::class,
             $programYearSteward,
             array('method' => $method)
         );

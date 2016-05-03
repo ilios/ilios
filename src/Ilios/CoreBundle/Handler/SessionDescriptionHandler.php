@@ -91,7 +91,7 @@ class SessionDescriptionHandler extends SessionDescriptionManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new SessionDescriptionType(),
+            SessionDescriptionType::class,
             $sessionDescription,
             array('method' => $method)
         );

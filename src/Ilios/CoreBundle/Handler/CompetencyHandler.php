@@ -91,7 +91,7 @@ class CompetencyHandler extends CompetencyManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CompetencyType(),
+            CompetencyType::class,
             $competency,
             array('method' => $method)
         );

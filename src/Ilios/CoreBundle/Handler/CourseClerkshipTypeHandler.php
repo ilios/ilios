@@ -91,7 +91,7 @@ class CourseClerkshipTypeHandler extends CourseClerkshipTypeManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CourseClerkshipTypeType(),
+            CourseClerkshipTypeType::class,
             $courseClerkshipType,
             array('method' => $method)
         );

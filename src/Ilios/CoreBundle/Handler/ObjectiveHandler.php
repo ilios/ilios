@@ -91,7 +91,7 @@ class ObjectiveHandler extends ObjectiveManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new ObjectiveType(),
+            ObjectiveType::class,
             $objective,
             array('method' => $method)
         );

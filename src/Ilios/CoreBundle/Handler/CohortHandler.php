@@ -91,7 +91,7 @@ class CohortHandler extends CohortManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CohortType(),
+            CohortType::class,
             $cohort,
             array('method' => $method)
         );

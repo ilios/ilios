@@ -91,7 +91,7 @@ class MeshTermHandler extends MeshTermManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new MeshTermType(),
+            MeshTermType::class,
             $meshTerm,
             array('method' => $method)
         );

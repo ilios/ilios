@@ -91,7 +91,7 @@ class PendingUserUpdateHandler extends PendingUserUpdateManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new PendingUserUpdateType(),
+            PendingUserUpdateType::class,
             $pendingUserUpdate,
             array('method' => $method)
         );
