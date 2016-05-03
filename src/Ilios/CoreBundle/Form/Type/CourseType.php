@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 /**
  * Class CourseType
@@ -25,10 +26,10 @@ class CourseType extends AbstractType
             ->add('title', null, ['required' => false, 'empty_data' => null])
             ->add('level')
             ->add('year')
-            ->add('startDate', 'datetime', array(
+            ->add('startDate', DateTimeType::class, array(
                 'widget' => 'single_text',
             ))
-            ->add('endDate', 'datetime', array(
+            ->add('endDate', DateTimeType::class, array(
                 'widget' => 'single_text',
             ))
             ->add('externalId', null, ['required' => false, 'empty_data' => null])

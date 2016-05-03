@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
 use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,10 +25,10 @@ class OfferingType extends AbstractType
         $builder
             ->add('room', null, ['empty_data' => null])
             ->add('site', null, ['required' => false, 'empty_data' => null])
-            ->add('startDate', 'datetime', array(
+            ->add('startDate', DateTimeType::class, array(
                 'widget' => 'single_text',
             ))
-            ->add('endDate', 'datetime', array(
+            ->add('endDate', DateTimeType::class, array(
                 'widget' => 'single_text',
             ))
             ->add('session', SingleRelatedType::class, [
