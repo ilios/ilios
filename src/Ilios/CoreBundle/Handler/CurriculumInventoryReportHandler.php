@@ -91,7 +91,7 @@ class CurriculumInventoryReportHandler extends CurriculumInventoryReportManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CurriculumInventoryReportType(),
+            CurriculumInventoryReportType::class,
             $curriculumInventoryReport,
             array('method' => $method)
         );

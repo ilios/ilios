@@ -91,7 +91,7 @@ class InstructorGroupHandler extends InstructorGroupManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new InstructorGroupType(),
+            InstructorGroupType::class,
             $instructorGroup,
             array('method' => $method)
         );

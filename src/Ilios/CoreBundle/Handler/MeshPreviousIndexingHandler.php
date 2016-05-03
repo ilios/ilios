@@ -91,7 +91,7 @@ class MeshPreviousIndexingHandler extends MeshPreviousIndexingManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new MeshPreviousIndexingType(),
+            MeshPreviousIndexingType::class,
             $meshPreviousIndexing,
             array('method' => $method)
         );

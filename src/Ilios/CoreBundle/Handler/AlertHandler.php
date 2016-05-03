@@ -91,7 +91,7 @@ class AlertHandler extends AlertManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new AlertType(),
+            AlertType::class,
             $alert,
             array('method' => $method)
         );

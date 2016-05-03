@@ -91,7 +91,7 @@ class SessionTypeHandler extends SessionTypeManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new SessionTypeType(),
+            SessionTypeType::class,
             $sessionType,
             array('method' => $method)
         );

@@ -91,7 +91,7 @@ class LearningMaterialStatusHandler extends LearningMaterialStatusManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new LearningMaterialStatusType(),
+            LearningMaterialStatusType::class,
             $learningMaterialStatus,
             array('method' => $method)
         );

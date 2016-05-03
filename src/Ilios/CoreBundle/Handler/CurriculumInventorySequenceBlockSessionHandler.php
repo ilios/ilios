@@ -91,7 +91,7 @@ class CurriculumInventorySequenceBlockSessionHandler extends CurriculumInventory
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CurriculumInventorySequenceBlockSessionType(),
+            CurriculumInventorySequenceBlockSessionType::class,
             $curriculumInventorySequenceBlockSession,
             array('method' => $method)
         );

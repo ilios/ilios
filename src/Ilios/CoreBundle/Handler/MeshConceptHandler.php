@@ -91,7 +91,7 @@ class MeshConceptHandler extends MeshConceptManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new MeshConceptType(),
+            MeshConceptType::class,
             $meshConcept,
             array('method' => $method)
         );

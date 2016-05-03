@@ -91,7 +91,7 @@ class CurriculumInventorySequenceHandler extends CurriculumInventorySequenceMana
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CurriculumInventorySequenceType(),
+            CurriculumInventorySequenceType::class,
             $curriculumInventorySequence,
             array('method' => $method)
         );

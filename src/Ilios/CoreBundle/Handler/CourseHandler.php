@@ -91,7 +91,7 @@ class CourseHandler extends CourseManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CourseType(),
+            CourseType::class,
             $course,
             array('method' => $method)
         );

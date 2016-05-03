@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Form\Type;
 use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
 use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,7 +23,7 @@ class IlmSessionType extends AbstractType
     {
         $builder
             ->add('hours')
-            ->add('dueDate', 'datetime', array(
+            ->add('dueDate', DateTimeType::class, array(
                 'widget' => 'single_text',
             ))
             ->add('learnerGroups', ManyRelatedType::class, [

@@ -91,7 +91,7 @@ class ReportHandler extends ReportManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new ReportType(),
+            ReportType::class,
             $report,
             array('method' => $method)
         );

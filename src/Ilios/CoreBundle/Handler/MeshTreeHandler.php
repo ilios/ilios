@@ -91,7 +91,7 @@ class MeshTreeHandler extends MeshTreeManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new MeshTreeType(),
+            MeshTreeType::class,
             $meshTree,
             array('method' => $method)
         );

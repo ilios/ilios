@@ -91,7 +91,7 @@ class AuthenticationHandler extends AuthenticationManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new AuthenticationType(),
+            AuthenticationType::class,
             $authentication,
             array('method' => $method)
         );

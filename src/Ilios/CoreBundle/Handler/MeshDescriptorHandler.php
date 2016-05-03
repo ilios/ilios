@@ -91,7 +91,7 @@ class MeshDescriptorHandler extends MeshDescriptorManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new MeshDescriptorType(),
+            MeshDescriptorType::class,
             $meshDescriptor,
             array('method' => $method)
         );

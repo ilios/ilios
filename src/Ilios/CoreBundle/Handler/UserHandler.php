@@ -91,7 +91,7 @@ class UserHandler extends UserManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new UserType(),
+            UserType::class,
             $user,
             array('method' => $method)
         );

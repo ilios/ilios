@@ -91,7 +91,7 @@ class ProgramYearHandler extends ProgramYearManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new ProgramYearType(),
+            ProgramYearType::class,
             $programYear,
             array('method' => $method)
         );

@@ -91,7 +91,7 @@ class VocabularyHandler extends VocabularyManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new VocabularyType(),
+            VocabularyType::class,
             $vocabulary,
             array('method' => $method)
         );

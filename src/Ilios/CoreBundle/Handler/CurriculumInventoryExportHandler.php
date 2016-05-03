@@ -91,7 +91,7 @@ class CurriculumInventoryExportHandler extends CurriculumInventoryExportManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CurriculumInventoryExportType(),
+            CurriculumInventoryExportType::class,
             $curriculumInventoryExport,
             array('method' => $method)
         );

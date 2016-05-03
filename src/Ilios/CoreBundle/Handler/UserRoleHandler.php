@@ -91,7 +91,7 @@ class UserRoleHandler extends UserRoleManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new UserRoleType(),
+            UserRoleType::class,
             $userRole,
             array('method' => $method)
         );

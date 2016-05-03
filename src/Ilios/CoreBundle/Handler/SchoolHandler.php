@@ -91,7 +91,7 @@ class SchoolHandler extends SchoolManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new SchoolType(),
+            SchoolType::class,
             $school,
             array('method' => $method)
         );

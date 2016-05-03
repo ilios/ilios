@@ -91,7 +91,7 @@ class LearnerGroupHandler extends LearnerGroupManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new LearnerGroupType(),
+            LearnerGroupType::class,
             $learnerGroup,
             array('method' => $method)
         );

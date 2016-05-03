@@ -91,7 +91,7 @@ class AamcMethodHandler extends AamcMethodManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new AamcMethodType(),
+            AamcMethodType::class,
             $aamcMethod,
             array('method' => $method)
         );

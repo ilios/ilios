@@ -91,7 +91,7 @@ class AamcPcrsHandler extends AamcPcrsManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new AamcPcrsType(),
+            AamcPcrsType::class,
             $aamcPcrs,
             array('method' => $method)
         );

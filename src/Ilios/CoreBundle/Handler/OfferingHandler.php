@@ -91,7 +91,7 @@ class OfferingHandler extends OfferingManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new OfferingType(),
+            OfferingType::class,
             $offering,
             array('method' => $method)
         );

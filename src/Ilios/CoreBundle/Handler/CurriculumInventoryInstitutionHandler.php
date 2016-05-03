@@ -91,7 +91,7 @@ class CurriculumInventoryInstitutionHandler extends CurriculumInventoryInstituti
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CurriculumInventoryInstitutionType(),
+            CurriculumInventoryInstitutionType::class,
             $curriculumInventoryInstitution,
             array('method' => $method)
         );

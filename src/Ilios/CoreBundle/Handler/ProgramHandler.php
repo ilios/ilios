@@ -91,7 +91,7 @@ class ProgramHandler extends ProgramManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new ProgramType(),
+            ProgramType::class,
             $program,
             array('method' => $method)
         );

@@ -91,7 +91,7 @@ class UserMadeReminderHandler extends UserMadeReminderManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new UserMadeReminderType(),
+            UserMadeReminderType::class,
             $userMadeReminder,
             array('method' => $method)
         );

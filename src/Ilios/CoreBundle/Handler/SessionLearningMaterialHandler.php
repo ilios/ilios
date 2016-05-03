@@ -91,7 +91,7 @@ class SessionLearningMaterialHandler extends SessionLearningMaterialManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new SessionLearningMaterialType(),
+            SessionLearningMaterialType::class,
             $sessionLearningMaterial,
             array('method' => $method)
         );

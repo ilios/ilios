@@ -91,7 +91,7 @@ class DepartmentHandler extends DepartmentManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new DepartmentType(),
+            DepartmentType::class,
             $department,
             array('method' => $method)
         );

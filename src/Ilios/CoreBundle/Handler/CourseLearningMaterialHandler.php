@@ -91,7 +91,7 @@ class CourseLearningMaterialHandler extends CourseLearningMaterialManager
         $method = "PUT"
     ) {
         $form = $this->formFactory->create(
-            new CourseLearningMaterialType(),
+            CourseLearningMaterialType::class,
             $courseLearningMaterial,
             array('method' => $method)
         );
