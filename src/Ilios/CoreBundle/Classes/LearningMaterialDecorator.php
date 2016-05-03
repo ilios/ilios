@@ -8,6 +8,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 /**
  * Class UserEvent
@@ -184,7 +185,7 @@ class LearningMaterialDecorator
             $link = $router->generate(
                 'ilios_core_downloadlearningmaterial',
                 ['token' => $learningMaterial->getToken()],
-                true
+                UrlGenerator::ABSOLUTE_URL
             );
             $this->absoluteFileUri = $link;
         }
