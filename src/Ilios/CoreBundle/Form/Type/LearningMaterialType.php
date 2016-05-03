@@ -7,6 +7,7 @@ use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Ilios\CoreBundle\Form\Type\AbstractType\PurifiedTextareaType;
 use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormInterface;
@@ -44,8 +45,8 @@ class LearningMaterialType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('citation', 'text', ['required' => false, 'empty_data' => null])
-            ->add('link', 'text', ['required' => false, 'empty_data' => null])
+            ->add('citation', TextType::class, ['required' => false, 'empty_data' => null])
+            ->add('link', TextType::class, ['required' => false, 'empty_data' => null])
         ;
         $transformer = new RemoveMarkupTransformer();
         $elements = [
