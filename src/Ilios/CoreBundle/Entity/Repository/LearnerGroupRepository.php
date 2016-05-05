@@ -95,6 +95,39 @@ class LearnerGroupRepository extends EntityRepository
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
     {
+        if (array_key_exists('cohort', $criteria)) {
+            $criteria['cohorts'][] = $criteria['cohort'];
+            unset($criteria['cohort']);
+        }
+        if (array_key_exists('cohorts', $criteria)) {
+            $ids = is_array($criteria['cohorts']) ? $criteria['cohorts'] : [$criteria['cohorts']];
+            $qb->join('l.cohort', 'l_cohort');
+            $qb->andWhere($qb->expr()->in('l_cohort.id', ':cohorts'));
+            $qb->setParameter(':cohorts', $ids);
+        }
+
+        if (array_key_exists('parent', $criteria)) {
+            $criteria['parents'][] = $criteria['parent'];
+            unset($criteria['parent']);
+        }
+        if (array_key_exists('parents', $criteria)) {
+            $ids = is_array($criteria['parents'])
+                ? $criteria['parents'] : [$criteria['parents']];
+            if (in_array(null, $ids)) {
+                $ids = array_diff($ids, [null]);
+                $qb->andWhere('l.parent IS NULL');
+            }
+            if (count($ids)) {
+                $qb->join('l.parent', 'l_parent');
+                $qb->andWhere($qb->expr()->in('l_parent.id', ':parents'));
+                $qb->setParameter(':parents', $ids);
+            }
+        }
+
+        //cleanup all the possible relationship filters
+        unset($criteria['cohorts']);
+        unset($criteria['parents']);
+
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];

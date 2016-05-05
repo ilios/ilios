@@ -411,7 +411,7 @@ class CohortControllerTest extends AbstractControllerTest
         $this->assertEquals(1, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
-                $cohorts[0]
+                $cohorts[1]
             ),
             $data[0]
         );
