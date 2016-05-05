@@ -13,7 +13,7 @@ class CohortData extends AbstractDataLoader
             'title' => "Class of 2017",
             'programYear' => '1',
             'courses' => ['1', '2'],
-            'learnerGroups' => ['1', '2', '3'],
+            'learnerGroups' => ['1', '3', '4'],
             'users' => ['1', '2']
         );
 
@@ -22,7 +22,7 @@ class CohortData extends AbstractDataLoader
             'title' => "Class of 2018",
             'programYear' => '2',
             'courses' => ["3"],
-            'learnerGroups' => [],
+            'learnerGroups' => ['2'],
             'users' => []
         );
 
