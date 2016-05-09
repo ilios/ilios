@@ -306,7 +306,7 @@ class TermRepository extends EntityRepository
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('t.'.$sort, $order);
+                $qb->addOrderBy('t.' . $sort, $order);
             }
         }
 
