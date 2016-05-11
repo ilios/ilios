@@ -1939,16 +1939,16 @@
         },
         {
             "name": "matthiasnoback/symfony-console-form",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matthiasnoback/symfony-console-form.git",
-                "reference": "536c2a3cd973fd3354c892289b69432a9f64655d"
+                "reference": "ecf8a8a2910f8e3ddbde7fd93f6ebabccd9fbd98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthiasnoback/symfony-console-form/zipball/536c2a3cd973fd3354c892289b69432a9f64655d",
-                "reference": "536c2a3cd973fd3354c892289b69432a9f64655d",
+                "url": "https://api.github.com/repos/matthiasnoback/symfony-console-form/zipball/ecf8a8a2910f8e3ddbde7fd93f6ebabccd9fbd98",
+                "reference": "ecf8a8a2910f8e3ddbde7fd93f6ebabccd9fbd98",
                 "shasum": ""
             },
             "require": {
@@ -1991,7 +1991,7 @@
                 "form",
                 "symfony"
             ],
-            "time": "2016-04-22 11:57:05"
+            "time": "2016-05-06 08:52:47"
         },
         {
             "name": "michelf/php-markdown",
@@ -3402,16 +3402,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.8.5",
+            "version": "v2.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "39ddd2383f4113cf67f8b28cde2c9d3fa340c3c2"
+                "reference": "8408816780215fae055599d100b5385d9a247151"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/39ddd2383f4113cf67f8b28cde2c9d3fa340c3c2",
-                "reference": "39ddd2383f4113cf67f8b28cde2c9d3fa340c3c2",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/8408816780215fae055599d100b5385d9a247151",
+                "reference": "8408816780215fae055599d100b5385d9a247151",
                 "shasum": ""
             },
             "require": {
@@ -3532,7 +3532,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-04-29 15:34:08"
+            "time": "2016-05-09 21:45:54"
         },
         {
             "name": "tdn/php-types",
@@ -4030,16 +4030,16 @@
         },
         {
             "name": "liip/functional-test-bundle",
-            "version": "1.6.2",
+            "version": "1.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "7401da84b3da42cbde1fab51f26503ae9d6b8f02"
+                "reference": "f3606bff7fcf7208a482f88d4cd216ebf4af194e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/7401da84b3da42cbde1fab51f26503ae9d6b8f02",
-                "reference": "7401da84b3da42cbde1fab51f26503ae9d6b8f02",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/f3606bff7fcf7208a482f88d4cd216ebf4af194e",
+                "reference": "f3606bff7fcf7208a482f88d4cd216ebf4af194e",
                 "shasum": ""
             },
             "require": {
@@ -4101,7 +4101,7 @@
             "keywords": [
                 "Symfony2"
             ],
-            "time": "2016-04-15 09:58:44"
+            "time": "2016-05-10 22:04:27"
         },
         {
             "name": "matthiasnoback/symfony-config-test",
@@ -4974,16 +4974,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "1.3.5",
+            "version": "1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf"
+                "reference": "2292b116f43c272ff4328083096114f84ea46a56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf",
-                "reference": "dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/2292b116f43c272ff4328083096114f84ea46a56",
+                "reference": "2292b116f43c272ff4328083096114f84ea46a56",
                 "shasum": ""
             },
             "require": {
@@ -5020,7 +5020,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2016-02-26 18:40:46"
+            "time": "2016-05-04 07:59:13"
         },
         {
             "name": "sebastian/exporter",
@@ -5359,7 +5359,7 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v2.8.5",
+            "version": "v2.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
