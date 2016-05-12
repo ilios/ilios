@@ -54,7 +54,11 @@ class ProgramController extends FOSRestController
      */
     public function getAction($id)
     {
-        $program = $this->getOr404($id);
+        $program = $this->getProgramHandler()->findProgramDTOBy(['id' => $id]);
+
+        if (!$program) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $program)) {
@@ -126,7 +130,7 @@ class ProgramController extends FOSRestController
         }, $criteria);
 
         $result = $this->getProgramHandler()
-            ->findProgramsBy(
+            ->findProgramDTOsBy(
                 $criteria,
                 $orderBy,
                 $limit,

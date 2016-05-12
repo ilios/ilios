@@ -24,6 +24,17 @@ class ProgramManager extends AbstractManager implements ProgramManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function findProgramDTOBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
+        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
+        return empty($results)?false:$results[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findProgramsBy(
         array $criteria,
         array $orderBy = null,
@@ -32,6 +43,19 @@ class ProgramManager extends AbstractManager implements ProgramManagerInterface
     ) {
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findProgramDTOsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
+    }
+
 
     /**
      * {@inheritdoc}

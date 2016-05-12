@@ -1,17 +1,18 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class ProgramVoter
+ * Class ProgramEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class ProgramVoter extends AbstractVoter
+class ProgramEntityVoter extends AbstractVoter
 {
     /**
      * @var PermissionManagerInterface
@@ -57,7 +58,7 @@ class ProgramVoter extends AbstractVoter
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
-                // the given user is grantedC CREATE, EDIT and DELETE permissions on the given program
+                // the given user is granted CREATE, EDIT and DELETE permissions on the given program
                 // when at least one of the following statements is true
                 // 1. The user's primary school is the same as the program's owning school
                 //    and the user has at least one of 'Course Director' and 'Developer' role.

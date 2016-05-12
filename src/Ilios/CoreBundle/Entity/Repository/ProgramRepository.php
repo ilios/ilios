@@ -2,6 +2,9 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\AbstractQuery;
+use Ilios\CoreBundle\Entity\DTO\ProgramDTO;
 
 class ProgramRepository extends EntityRepository
 {
@@ -18,20 +21,79 @@ class ProgramRepository extends EntityRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-
-
         $qb->select('DISTINCT p')->from('IliosCoreBundle:Program', 'p');
 
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('p.'.$sort, $order);
+        return $qb->getQuery()->getResult();
+    }
+
+
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from('IliosCoreBundle:Program', 'p');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $programDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $programDTOs[$arr['id']] = new ProgramDTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['shortTitle'],
+                $arr['duration'],
+                $arr['publishedAsTbd'],
+                $arr['published']
+            );
+        }
+        $programIds = array_keys($programDTOs);
+        $qb = $this->_em->createQueryBuilder()
+            ->select('p.id as programId, s.id as schoolId')
+            ->from('IliosCoreBundle:Program', 'p')
+            ->join('p.school', 's')
+            ->where($qb->expr()->in('p.id', ':ids'))
+            ->setParameter('ids', $programIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $programDTOs[$arr['programId']]->school = (int) $arr['schoolId'];
+        }
+        $related = [
+            'programYears',
+            'curriculumInventoryReports'
+        ];
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, p.id AS programId')->from('IliosCoreBundle:Program', 'p')
+                ->join("p.{$rel}", 'r')
+                ->where($qb->expr()->in('p.id', ':programIds'))
+                ->orderBy('relId')
+                ->setParameter('programIds', $programIds);
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $programDTOs[$arr['programId']]->{$rel}[] = $arr['relId'];
             }
         }
+        return array_values($programDTOs);
+    }
 
+
+    /**
+     * @param QueryBuilder $qb
+     * @param array $criteria
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return QueryBuilder
+     */
+    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
+    {
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
             $qb->join('p.programYears', 'c_programYear');
@@ -78,6 +140,17 @@ class ProgramRepository extends EntityRepository
                 $qb->setParameter(":{$key}", $values);
             }
         }
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('p.'.$sort, $order);
+            }
+        }
+
         if ($offset) {
             $qb->setFirstResult($offset);
         }
@@ -86,6 +159,6 @@ class ProgramRepository extends EntityRepository
             $qb->setMaxResults($limit);
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }
