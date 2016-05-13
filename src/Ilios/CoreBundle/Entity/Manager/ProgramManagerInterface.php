@@ -24,12 +24,38 @@ interface ProgramManagerInterface extends ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
+     *
+     * @return ProgramDTO
+     */
+    public function findProgramDTOBy(
+        array $criteria,
+        array $orderBy = null
+    );
+    
+    /**
+     * @param array $criteria
+     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return ProgramInterface[]
      */
     public function findProgramsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
+
+    /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return ProgramDTO[]
+     */
+    public function findProgramDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
