@@ -768,11 +768,15 @@ class Exporter
                 break;
         }
 
-        //
-        // min/max are currently not supported.
-        //
-        //$sequenceBlockNode->setAttribute('minimum', $block->getMinimum());
-        //$sequenceBlockNode->setAttribute('maximum', $block->getMaximum());
+        $min = $block->getMinimum();
+        if ($min) {
+            $sequenceBlockNode->setAttribute('minimum', $min);
+        }
+
+        $max = $block->getMaximum();
+        if ($max) {
+            $sequenceBlockNode->setAttribute('maximum', $max);
+        }
 
         if ($block->hasTrack()) {
             $sequenceBlockNode->setAttribute('track', 'true');
