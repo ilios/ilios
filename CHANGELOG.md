@@ -1,14 +1,46 @@
 # Change Log
 
-## [v3.10.0](https://github.com/ilios/ilios/tree/v3.10.0)
+## [v3.11.0](https://github.com/ilios/ilios/tree/v3.11.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.10.0...v3.11.0)
+
+**Implemented enhancements:**
+
+- Provide UI method for managing PCRS/Competency/Objective Mappings [\#486](https://github.com/ilios/ilios/issues/486)
+
+**Closed issues:**
+
+- Program DTO [\#1415](https://github.com/ilios/ilios/issues/1415)
+- Upgrade to Symfony 2.8.6 [\#1413](https://github.com/ilios/ilios/issues/1413)
+- Filtering parent=null does not work on learnergroups API anymore. [\#1409](https://github.com/ilios/ilios/issues/1409)
+- UrlGenerator reference type deprecation [\#1406](https://github.com/ilios/ilios/issues/1406)
+- Fix form type deprecation [\#1403](https://github.com/ilios/ilios/issues/1403)
+- Quotes in yaml config [\#1401](https://github.com/ilios/ilios/issues/1401)
+- fix deprecation notices [\#1400](https://github.com/ilios/ilios/issues/1400)
+- Developers should be able to retrieve another users events [\#1391](https://github.com/ilios/ilios/issues/1391)
+
+**Merged pull requests:**
+
+- Use DTO pattern for Programs API [\#1416](https://github.com/ilios/ilios/pull/1416) ([jrjohnson](https://github.com/jrjohnson))
+- updated to symfony 2.8.6 [\#1414](https://github.com/ilios/ilios/pull/1414) ([stopfstedt](https://github.com/stopfstedt))
+- fixed path to cached bootstrap file. [\#1412](https://github.com/ilios/ilios/pull/1412) ([stopfstedt](https://github.com/stopfstedt))
+- Filter learner groups by parent and cohort [\#1410](https://github.com/ilios/ilios/pull/1410) ([jrjohnson](https://github.com/jrjohnson))
+- Stop allowing deprecations in travis builds [\#1408](https://github.com/ilios/ilios/pull/1408) ([jrjohnson](https://github.com/jrjohnson))
+- fixed deprecation. [\#1407](https://github.com/ilios/ilios/pull/1407) ([stopfstedt](https://github.com/stopfstedt))
+- Clear form deprecations [\#1405](https://github.com/ilios/ilios/pull/1405) ([jrjohnson](https://github.com/jrjohnson))
+- quoted scalar values to get rid of deprecation warnings. [\#1404](https://github.com/ilios/ilios/pull/1404) ([stopfstedt](https://github.com/stopfstedt))
+- Clear YAML deprecations [\#1402](https://github.com/ilios/ilios/pull/1402) ([jrjohnson](https://github.com/jrjohnson))
+- grant view privileges to developers on all published user events [\#1398](https://github.com/ilios/ilios/pull/1398) ([stopfstedt](https://github.com/stopfstedt))
+- Latest updates to dependencies [\#1397](https://github.com/ilios/ilios/pull/1397) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.10.0](https://github.com/ilios/ilios/tree/v3.10.0) (2016-04-30)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.9.0...v3.10.0)
 
 **Implemented enhancements:**
 
 - Learner Groups DTO [\#1392](https://github.com/ilios/ilios/issues/1392)
 - Increase `offering.room` from VARCHAR\(60\) to VARCHAR\(255\) [\#1383](https://github.com/ilios/ilios/issues/1383)
-- Add /application/bulkUserCreation endpoint [\#1375](https://github.com/ilios/ilios/issues/1375)
+- Add bulk user creation to /users endpoint [\#1375](https://github.com/ilios/ilios/issues/1375)
 
 **Closed issues:**
 
