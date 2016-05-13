@@ -115,6 +115,7 @@ class Exporter
 
         $events = $this->reportManager->getEvents($invReport);
         $keywords = $this->reportManager->getEventKeywords($invReport);
+        $resourceTypes = $this->reportManager->getEventResourceTypes($invReport);
 
         $eventRefsForSeqBlocks = $this->reportManager->getEventReferencesForSequenceBlocks($invReport);
 
@@ -193,11 +194,11 @@ class Exporter
             'relations' => $relations,
         ];
 
-         //
+        //
         // transmogrify inventory data for reporting and fill in the blanks
         //
-        // add keywords to event
         $events = $this->addKeywordsToEvents($events, $keywords);
+        $events = $this->addResourceTypesToEvents($events, $resourceTypes);
         $events = $this->addCompetencyObjectReferencesToEvents($events, $compRefsForEvents);
 
         //
@@ -395,7 +396,15 @@ class Exporter
                 }
             }
 
-            // resource types are not implemented.
+            // resource types
+            if (array_key_exists('resource_types', $event)) {
+                foreach ($event['resource_types'] as $resourceType) {
+                    $resourceTypeNode = $dom->createElement('ResourceType');
+                    $eventNode->appendChild($resourceTypeNode);
+                    $resourceTypeNode->setAttribute('sourceID', $resourceType['resource_type_id']);
+                    $resourceTypeNode->appendChild($dom->createTextNode($resourceType['resource_type_title']));
+                }
+            }
 
             // instructional- or assessment-method
             //
@@ -582,6 +591,27 @@ class Exporter
                 $events[$eventId]['keywords'] =[];
             }
             $events[$eventId]['keywords'][] = $keyword;
+        }
+        return $events;
+    }
+
+    /**
+     * Adds AAMC resource types to events.
+     * @param array $events A list of events.
+     * @param array $resourceTypes A list of resource types.
+     * @return array The events with their resource types added.
+     */
+    protected function addResourceTypesToEvents(array $events, array $resourceTypes)
+    {
+        foreach ($resourceTypes as $resourceType) {
+            $eventId = $resourceType['event_id'];
+            if (! array_key_exists($eventId, $events)) {
+                continue;
+            }
+            if (! array_key_exists('resource_types', $events[$eventId])) {
+                $events[$eventId]['resource_types'] =[];
+            }
+            $events[$eventId]['resource_types'][] = $resourceType;
         }
         return $events;
     }

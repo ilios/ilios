@@ -34,6 +34,39 @@ class CurriculumInventoryReportRepository extends EntityRepository
     }
 
     /**
+     * Retrieves AAMC resource types associated with events (sessions) in a given curriculum inventory report.
+     *
+     * @param CurriculumInventoryReportInterface $report
+     * @return array An array of assoc. arrays, each sub-array representing a resource type.
+     */
+    public function getEventResourceTypes(CurriculumInventoryReportInterface $report)
+    {
+        $sql =<<< EOL
+SELECT DISTINCT
+s.session_id AS 'event_id',
+txart.resource_type_id AS 'resource_type_id',
+art.title AS 'resource_type_title'
+FROM
+  `session` s
+  JOIN course c ON c.course_id = s.course_id
+  JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
+  JOIN session_x_term sxt ON sxt.session_id = s.session_id
+  JOIN term_x_aamc_resource_type txart ON txart.term_id = sxt.term_id
+  JOIN aamc_resource_type art ON art.resource_type_id = txart.resource_type_id
+WHERE
+  s.published
+  AND sb.report_id = :report_id
+EOL;
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue("report_id", $report->getId());
+        $stmt->execute();
+        $rhett = $stmt->fetchAll();
+        $stmt->closeCursor();
+        return $rhett;
+    }
+
+    /**
      * Retrieves keywords (MeSH descriptors) associated with events (sessions)
      * in a given curriculum inventory report.
      *
