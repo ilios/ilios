@@ -90,12 +90,13 @@ The Learning Material migration *copies* learning materials, it does not *move* 
 
 To find out how much space your learning materials are currently taking, login to your Ilios server and change directories to the folder that contains your learning materials and then run this command:
 
-```bash
+ ```bash
 df -h . 
 ```
 
 This is will output something like the following:
-```bash
+
+ ```bash
 Filesystem   Size   Used  Avail Capacity  iused    ifree %iused  Mounted on
 /dev/disk1  465Gi  209Gi  255Gi    46% 54901683 66942027   45%   /
 ```
@@ -111,7 +112,7 @@ If you have plenty of space and believe you are able to migrate your learning ma
 
 Now, while still in your Ilios application's root directory, run this command:
 
-```bash
+ ```bash
 sudo -u apache bin/console ilios:setup:migrate-learning-materials /web/ilios2/htdocs --env=prod
 ```
 
@@ -121,7 +122,7 @@ This process can take a while to complete, depending on the number/size of the L
 
 If you would like to verify that your new learning materials are correctly stored, you can run the following command when the migration is complete:
 
-```bash
+ ```bash
 sudo -u apache bin/console ilios:maintenance:validate-learning-materials /web/ilios2/htdocs --env=prod
 ```
 
@@ -131,9 +132,9 @@ One of the biggest complaints of users of Ilios 2.x, regarding the application, 
 
 We have provided a solution to this problem with a fix that will allow you to quickly remove all but only the allowed characters from your item title and description text.  To apply this fix and reformat all your text to only use the proper formatting native to Ilios 3, do the following:
 
-* Navigate to your Ilios application root directory ('/web/ilios3/ilios' for example) and run the following command for each respective text-type:
+Navigate to your Ilios application root directory (`/web/ilios3/ilios`, for example) and run the following command for each respective text-type:
 
-```bash
+ ```bash
 #for Objective Titles
 sudo -u apache bin/console ilios:maintenance:cleanup-strings --objective-title --env=prod
 #for Learning Material Descriptions
