@@ -51,18 +51,18 @@ To upgrade from an already-existing Ilios 2.4.8 installation, perform the follow
 1. Backup all of your learning materials or move them to a location where they will be accessible by the new Ilios 3 installation. *WARNING:* If your learning materials are stored in the default location, be careful to not accidentally delete them when you change your codebase.
 2. Backup your current database completely, and do not forget to add the '-R' or'--routines' flags to ensure that your stored procedures and triggers are included in the back up. The command would probably look something like this:
 
-```bash
+ ```bash
 mysqldump -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_HOSTNAME -R -p YOUR_ILIOS_DATABASE_NAME -r YOUR_DATABASE_BACKUP_FILENAME.sql
 ```
 
-1. Backup your current database completely! (Yes, this was just mentioned, but it's extremely important that you do not run this update on your production database without a backup!) 
-2. Check your current Ilios installation's 'version.php' file to verify that you are currently running version 2.4.8 of the Ilios software.  If you are not running version *2.4.8* specifically , you will need to upgrade to 2.4.8 *BEFORE* continuing with these steps!
-3. Checkout the most current release of the Ilios 3 codebase from https://github.com/ilios/ilios/releases (using '/web/ilios3/ilios' for this example)
-4. In the newly-checked out directory, navigate to the 'app/Resources' folder where you will find the [updateSchemaFromIlios2toIlios3.sql](https://github.com/ilios/ilios/blob/master/app/Resources/updateSchemaFromIlios2toIlios3.sql) file.
-5. Backup your current database completely! (<= That's the 3rd time we've said it! It's probably pretty important!)
-6. Apply the sql changes from updateSchemaFromIlios2toIlios3.sql to your database by using the mysql command line client as follows:
+3. Backup your current database completely! (Yes, this was just mentioned, but it's extremely important that you do not run this update on your production database without a backup!) 
+4. Check your current Ilios installation's 'version.php' file to verify that you are currently running version 2.4.8 of the Ilios software.  If you are not running version *2.4.8* specifically , you will need to upgrade to 2.4.8 *BEFORE* continuing with these steps!
+5. Checkout the most current release of the Ilios 3 codebase from https://github.com/ilios/ilios/releases (using '/web/ilios3/ilios' for this example)
+6. In the newly-checked out directory, navigate to the 'app/Resources' folder where you will find the [updateSchemaFromIlios2toIlios3.sql](https://github.com/ilios/ilios/blob/master/app/Resources/updateSchemaFromIlios2toIlios3.sql) file.
+7. Backup your current database completely! (<= That's the 3rd time we've said it! It's probably pretty important!)
+8. Apply the sql changes from updateSchemaFromIlios2toIlios3.sql to your database by using the mysql command line client as follows:
 
-```bash
+ ```bash
 mysql -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_DATABASE_HOSTNAME -p YOUR_ILIOS_DATABASE_NAME < updateSchemaFromIlios2toIlios3.sql
 ```
 
@@ -71,6 +71,7 @@ mysql -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_DATABASE_HOSTNAME -p YOUR_IL
 When the above steps are completed, there is one final step to the database migration that must be run from the Symfony console *AFTER* you have completed setting up the Ilios 3 backend.  When you have completed installing the Ilios 3 backend, run the following command from the 'bin/' directory of the new installation's codebase:
 
 The command will look like this:
+
 ```bash
 ./console doctrine:migrations:migrate --env=prod
 ```
