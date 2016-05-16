@@ -73,7 +73,7 @@ When the above steps are completed, there is one final step to the database migr
 The command will look like this:
 
 ```bash
-./console doctrine:migrations:migrate --env=prod
+sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interaction
 ```
 This will apply the final migrations to your database.  All future database updates to Ilios 3 will be take place via this method and this command should be run any time you update your codebase to a later version of Ilios.
 
