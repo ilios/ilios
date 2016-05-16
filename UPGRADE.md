@@ -1,3 +1,39 @@
+# Ilios 3 Upgrade Notes
+
+## General steps
+
+1. Back up your database. _Always._
+
+2. Upgrade you codebase via composer.
+
+ ```bash
+cd YOUR_ILIOS_APPLICATION_ROOT
+sudo -u apache composer install
+```
+
+3. Execute any pending database migrations.
+
+ ```bash
+cd YOUR_ILIOS_APPLICATION_ROOT
+sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interaction
+```
+
+4. Clear your application cache.
+
+ ```bash
+cd YOUR_ILIOS_APPLICATION_ROOT
+# clear out the cache dir
+sudo rm -rf var/cache/*
+# restart your web-server
+sudo service apache2 restart
+# use the symfony console to clear caches
+sudo apache bin/console cache:clear --env=prod
+```
+
+## Version-specific steps
+
+_to be done_
+
 # Upgrading Ilios 2.x to Ilios 3
 
 As Ilios 3 uses an entirely different codebase from Ilios 2.x, only the database needs to be updated when upgrading to version 3 from version 2.x.  With the exception of the folder that contains your Ilios learning materials, which should be backed-up before performing this process, the new Ilios 3 codebase entirely replaces the Ilios 2.x codebase, so you should follow the instructions in [INSTALL.md](https://github.com/ilios/ilios/blob/master/INSTALL.md) to bring the codebase up-to-date.
