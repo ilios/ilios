@@ -22,11 +22,6 @@ sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interacti
 
  ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
-# clear out the cache dir
-sudo rm -rf var/cache/*
-# restart your web-server
-sudo service apache2 restart
-# use the symfony console to clear caches
 sudo apache bin/console cache:clear --env=prod
 ```
 
