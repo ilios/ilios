@@ -2,6 +2,11 @@
 
 ## General steps
 
+_NOTE:_ The steps below assume that file ownership of the deployed codebase belongs to the user account that
+ runs your web server. Therefore, commands that affect the file system should also be performed as this user.
+ In this example, this account is `apache`, but it could also be `www`, `www-data`, or something else - depending on the
+ flavour of Linux (or alternate operating system) running on your server.
+
 1. Back up your database. _Always._
 
 2. Upgrade you codebase via composer.
@@ -22,7 +27,7 @@ sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interacti
 
  ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
-sudo apache bin/console cache:clear --env=prod
+sudo -u apache bin/console cache:clear --env=prod
 ```
 
 ## Version-specific steps
