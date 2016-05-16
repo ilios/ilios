@@ -1,5 +1,9 @@
 # Ilios 3 Upgrade Notes
 
+These instructions pertain to upgrades within the "Version 3"-branch of Ilios.
+
+For upgrade instructions from Ilios 2 see the "Upgrading Ilios 2.x to Ilios 3" section below.
+
 ## General steps
 
 _NOTE:_ The steps below assume that file ownership of the deployed codebase belongs to the user account that
