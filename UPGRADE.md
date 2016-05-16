@@ -8,7 +8,7 @@
 
  ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
-sudo -u apache composer install
+sudo -u apache composer install --no-dev
 ```
 
 3. Execute any pending database migrations.
