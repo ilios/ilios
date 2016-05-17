@@ -2,8 +2,6 @@
 
 namespace Ilios\AuthenticationBundle\Voter\DTO;
 
-use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -15,18 +13,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class SchoolDTOVoter extends AbstractVoter
 {
-
-    /**
-     * @param PermissionManagerInterface $permissionManager
-     * @param ProgramYearStewardManagerInterface $stewardManager
-     */
-    public function __construct(
-        PermissionManagerInterface $permissionManager,
-        SchoolManagerInterface $schoolManager
-    ) {
-        $this->permissionManager = $permissionManager;
-        $this->schoolManager = $schoolManager;
-    }
 
     /**
      * @inheritdoc
@@ -42,7 +28,7 @@ class SchoolDTOVoter extends AbstractVoter
      * @param TokenInterface $token
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $schoolDTO, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $school, TokenInterface $token)
     {
         $user = $token->getUser();
         if (!$user instanceof UserInterface) {

@@ -35,7 +35,6 @@ services:
             - { name: security.voter }
     security.access.dto.school_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\SchoolDTOVoter
-        arguments: [ "@ilioscore.permission.manager", "@ilioscore.school.manager" ]
         public: false
         tags:
             - { name: security.voter }
