@@ -1,3 +1,43 @@
+# Ilios 3 Upgrade Notes
+
+These instructions pertain to upgrades within the "Version 3"-branch of Ilios.
+
+For upgrade instructions from Ilios 2 see the "Upgrading Ilios 2.x to Ilios 3" section below.
+
+## General steps
+
+_NOTE:_ The steps below assume that file ownership of the deployed codebase belongs to the user account that
+ runs your web server. Therefore, commands that affect the file system should also be performed as this user.
+ In this example, this account is `apache`, but it could also be `www`, `www-data`, or something else - depending on the
+ flavour of Linux (or alternate operating system) running on your server.
+
+1. Back up your database. _Always._
+
+2. Upgrade you codebase via composer.
+
+ ```bash
+cd YOUR_ILIOS_APPLICATION_ROOT
+sudo -u apache composer install --no-dev
+```
+
+3. Execute any pending database migrations.
+
+ ```bash
+cd YOUR_ILIOS_APPLICATION_ROOT
+sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interaction
+```
+
+4. Clear your application cache.
+
+ ```bash
+cd YOUR_ILIOS_APPLICATION_ROOT
+sudo -u apache bin/console cache:clear --env=prod
+```
+
+## Version-specific steps
+
+_to be done_
+
 # Upgrading Ilios 2.x to Ilios 3
 
 As Ilios 3 uses an entirely different codebase from Ilios 2.x, only the database needs to be updated when upgrading to version 3 from version 2.x.  With the exception of the folder that contains your Ilios learning materials, which should be backed-up before performing this process, the new Ilios 3 codebase entirely replaces the Ilios 2.x codebase, so you should follow the instructions in [INSTALL.md](https://github.com/ilios/ilios/blob/master/INSTALL.md) to bring the codebase up-to-date.
@@ -15,18 +55,18 @@ To upgrade from an already-existing Ilios 2.4.8 installation, perform the follow
 1. Backup all of your learning materials or move them to a location where they will be accessible by the new Ilios 3 installation. *WARNING:* If your learning materials are stored in the default location, be careful to not accidentally delete them when you change your codebase.
 2. Backup your current database completely, and do not forget to add the '-R' or'--routines' flags to ensure that your stored procedures and triggers are included in the back up. The command would probably look something like this:
 
-```bash
+ ```bash
 mysqldump -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_HOSTNAME -R -p YOUR_ILIOS_DATABASE_NAME -r YOUR_DATABASE_BACKUP_FILENAME.sql
 ```
 
-1. Backup your current database completely! (Yes, this was just mentioned, but it's extremely important that you do not run this update on your production database without a backup!) 
-2. Check your current Ilios installation's 'version.php' file to verify that you are currently running version 2.4.8 of the Ilios software.  If you are not running version *2.4.8* specifically , you will need to upgrade to 2.4.8 *BEFORE* continuing with these steps!
-3. Checkout the most current release of the Ilios 3 codebase from https://github.com/ilios/ilios/releases (using '/web/ilios3/ilios' for this example)
-4. In the newly-checked out directory, navigate to the 'app/Resources' folder where you will find the [updateSchemaFromIlios2toIlios3.sql](https://github.com/ilios/ilios/blob/master/app/Resources/updateSchemaFromIlios2toIlios3.sql) file.
-5. Backup your current database completely! (<= That's the 3rd time we've said it! It's probably pretty important!)
-6. Apply the sql changes from updateSchemaFromIlios2toIlios3.sql to your database by using the mysql command line client as follows:
+3. Backup your current database completely! (Yes, this was just mentioned, but it's extremely important that you do not run this update on your production database without a backup!) 
+4. Check your current Ilios installation's 'version.php' file to verify that you are currently running version 2.4.8 of the Ilios software.  If you are not running version *2.4.8* specifically , you will need to upgrade to 2.4.8 *BEFORE* continuing with these steps!
+5. Checkout the most current release of the Ilios 3 codebase from https://github.com/ilios/ilios/releases (using '/web/ilios3/ilios' for this example)
+6. In the newly-checked out directory, navigate to the 'app/Resources' folder where you will find the [updateSchemaFromIlios2toIlios3.sql](https://github.com/ilios/ilios/blob/master/app/Resources/updateSchemaFromIlios2toIlios3.sql) file.
+7. Backup your current database completely! (<= That's the 3rd time we've said it! It's probably pretty important!)
+8. Apply the sql changes from updateSchemaFromIlios2toIlios3.sql to your database by using the mysql command line client as follows:
 
-```bash
+ ```bash
 mysql -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_DATABASE_HOSTNAME -p YOUR_ILIOS_DATABASE_NAME < updateSchemaFromIlios2toIlios3.sql
 ```
 
@@ -35,8 +75,9 @@ mysql -u YOUR_ILIOS_DATABASE_USERNAME -h YOUR_ILIOS_DATABASE_HOSTNAME -p YOUR_IL
 When the above steps are completed, there is one final step to the database migration that must be run from the Symfony console *AFTER* you have completed setting up the Ilios 3 backend.  When you have completed installing the Ilios 3 backend, run the following command from the 'bin/' directory of the new installation's codebase:
 
 The command will look like this:
+
 ```bash
-./console doctrine:migrations:migrate --env=prod
+sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interaction
 ```
 This will apply the final migrations to your database.  All future database updates to Ilios 3 will be take place via this method and this command should be run any time you update your codebase to a later version of Ilios.
 
@@ -53,12 +94,13 @@ The Learning Material migration *copies* learning materials, it does not *move* 
 
 To find out how much space your learning materials are currently taking, login to your Ilios server and change directories to the folder that contains your learning materials and then run this command:
 
-```bash
+ ```bash
 df -h . 
 ```
 
 This is will output something like the following:
-```bash
+
+ ```bash
 Filesystem   Size   Used  Avail Capacity  iused    ifree %iused  Mounted on
 /dev/disk1  465Gi  209Gi  255Gi    46% 54901683 66942027   45%   /
 ```
@@ -74,7 +116,7 @@ If you have plenty of space and believe you are able to migrate your learning ma
 
 Now, while still in your Ilios application's root directory, run this command:
 
-```bash
+ ```bash
 sudo -u apache bin/console ilios:setup:migrate-learning-materials /web/ilios2/htdocs --env=prod
 ```
 
@@ -84,7 +126,7 @@ This process can take a while to complete, depending on the number/size of the L
 
 If you would like to verify that your new learning materials are correctly stored, you can run the following command when the migration is complete:
 
-```bash
+ ```bash
 sudo -u apache bin/console ilios:maintenance:validate-learning-materials /web/ilios2/htdocs --env=prod
 ```
 
@@ -94,9 +136,9 @@ One of the biggest complaints of users of Ilios 2.x, regarding the application, 
 
 We have provided a solution to this problem with a fix that will allow you to quickly remove all but only the allowed characters from your item title and description text.  To apply this fix and reformat all your text to only use the proper formatting native to Ilios 3, do the following:
 
-* Navigate to your Ilios application root directory ('/web/ilios3/ilios' for example) and run the following command for each respective text-type:
+Navigate to your Ilios application root directory (`/web/ilios3/ilios`, for example) and run the following command for each respective text-type:
 
-```bash
+ ```bash
 #for Objective Titles
 sudo -u apache bin/console ilios:maintenance:cleanup-strings --objective-title --env=prod
 #for Learning Material Descriptions
