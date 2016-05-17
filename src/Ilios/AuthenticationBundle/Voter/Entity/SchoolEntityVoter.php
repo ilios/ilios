@@ -52,17 +52,8 @@ class SchoolEntityVoter extends AbstractVoter
 
         switch ($attribute) {
             case self::VIEW:
-                // at least one of these must be true.
-                // 1. the given user has developer role
-                // 2. the given user has explicit read permissions to the given school
-                // 3. the given user has explicit read permissions to at least one course in the given school.
-                // 4. the given user is a learner,instructor or director in courses of the given school.
-                return (
-                    $this->userHasRole($user, ['Developer'])
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $school->getId())
-                    || $this->permissionManager->userHasReadPermissionToCoursesInSchool($user, $school)
-                    || $user->getAllSchools()->contains($school)
-                );
+                // grant view access on schools to all authn. users.
+                return true;
                 break;
             case self::CREATE:
                 // only developers can create schools.
