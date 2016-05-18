@@ -2,6 +2,7 @@
 namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\Course;
+use Ilios\CoreBundle\Entity\School;
 use Mockery as m;
 
 /**
@@ -29,8 +30,9 @@ class CourseTest extends EntityBase
             'level',
             'year',
             'startDate',
-            'endDate'
+            'endDate',
         );
+        $this->object->setSchool(new School());
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
@@ -38,6 +40,22 @@ class CourseTest extends EntityBase
         $this->object->setYear(2004);
         $this->object->setStartDate(new \DateTime());
         $this->object->setEndDate(new \DateTime());
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation()
+    {
+        $notNull = array(
+            'school',
+        );
+        $this->object->setTitle('test');
+        $this->object->setLevel(3);
+        $this->object->setYear(2004);
+        $this->object->setStartDate(new \DateTime());
+        $this->object->setEndDate(new \DateTime());
+        $this->validateNotNulls($notNull);
+
+        $this->object->setSchool(new School());
         $this->validate(0);
     }
 
