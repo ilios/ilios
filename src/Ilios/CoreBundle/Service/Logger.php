@@ -1,11 +1,14 @@
 <?php
 namespace Ilios\CoreBundle\Service;
 
+use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Entity\Manager\AuditLogManagerInterface;
-
+/**
+ * Class Logger
+ * @package Ilios\CoreBundle\Service
+ */
 class Logger
 {
     /**
@@ -14,18 +17,18 @@ class Logger
     protected $user;
     
     /**
-     * @var AuditLogManagerInterface
+     * @var AuditLogManager
      */
     protected $manager;
 
     /**
      * Set the username from injected security context
      * @param TokenStorageInterface $securityTokenStorage
-     * @param AuditLogManagerInterface $auditLogManager
+     * @param AuditLogManager $auditLogManager
      */
     public function __construct(
         TokenStorageInterface $securityTokenStorage,
-        AuditLogManagerInterface $auditLogManager
+        AuditLogManager $auditLogManager
     ) {
         if (null !== $securityTokenStorage &&
             null !== $securityTokenStorage->getToken()

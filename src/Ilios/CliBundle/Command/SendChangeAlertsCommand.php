@@ -4,7 +4,7 @@ namespace Ilios\CliBundle\Command;
 
 use Ilios\CoreBundle\Entity\AuditLogInterface;
 use Ilios\CoreBundle\Entity\Manager\AlertManager;
-use Ilios\CoreBundle\Entity\Manager\AuditLogManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
 use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
@@ -32,7 +32,7 @@ class SendChangeAlertsCommand extends Command
     protected $alertManager;
 
     /**
-     * @var AuditLogManagerInterface
+     * @var AuditLogManager
      */
     protected $auditLogManager;
 
@@ -58,7 +58,7 @@ class SendChangeAlertsCommand extends Command
 
     /**
      * @param AlertManager $alertManager
-     * @param AuditLogManagerInterface $auditLogManager
+     * @param AuditLogManager $auditLogManager
      * @param OfferingManagerInterface $offeringManager
      * @param EngineInterface $templatingEngine
      * @param \Swift_Mailer $mailer
@@ -66,7 +66,7 @@ class SendChangeAlertsCommand extends Command
      */
     public function __construct(
         AlertManager $alertManager,
-        AuditLogManagerInterface $auditLogManager,
+        AuditLogManager $auditLogManager,
         OfferingManagerInterface $offeringManager,
         EngineInterface $templatingEngine,
         $mailer,

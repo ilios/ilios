@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshConceptInterface;
 
 /**
  * Class MeshConceptManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class MeshConceptManager extends BaseManager implements MeshConceptManagerInterface
+class MeshConceptManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshConceptBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshConceptsBy(
         array $criteria,
@@ -30,45 +29,34 @@ class MeshConceptManager extends BaseManager implements MeshConceptManagerInterf
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateMeshConcept(
         MeshConceptInterface $meshConcept,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($meshConcept);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($meshConcept));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($meshConcept, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteMeshConcept(
         MeshConceptInterface $meshConcept
     ) {
-        $this->em->remove($meshConcept);
-        $this->em->flush();
+        $this->delete($meshConcept);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createMeshConcept()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

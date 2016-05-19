@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
 
 /**
  * Class AssessmentOptionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AssessmentOptionManager extends BaseManager implements AssessmentOptionManagerInterface
+class AssessmentOptionManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findAssessmentOptionBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findAssessmentOptionsBy(
         array $criteria,
@@ -30,45 +29,34 @@ class AssessmentOptionManager extends BaseManager implements AssessmentOptionMan
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateAssessmentOption(
         AssessmentOptionInterface $assessmentOption,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($assessmentOption);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($assessmentOption));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($assessmentOption, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteAssessmentOption(
         AssessmentOptionInterface $assessmentOption
     ) {
-        $this->em->remove($assessmentOption);
-        $this->em->flush();
+        $this->delete($assessmentOption);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createAssessmentOption()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

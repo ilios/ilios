@@ -25,7 +25,7 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
         $this->objectiveManager = m::mock('Ilios\CoreBundle\Entity\Manager\ObjectiveManagerInterface');
         $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface');
         $this->courseLearningMaterialManager = m::mock(
-            'Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManagerInterface'
+            'Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager'
         );
         $this->sessionLearningMaterialManager = m::mock(
             'Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManagerInterface'

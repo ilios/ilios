@@ -11,7 +11,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
@@ -28,7 +28,7 @@ class SyncUserCommand extends Command
     protected $userManager;
 
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
     
@@ -39,7 +39,7 @@ class SyncUserCommand extends Command
     
     public function __construct(
         UserManagerInterface $userManager,
-        AuthenticationManagerInterface $authenticationManager,
+        AuthenticationManager $authenticationManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;

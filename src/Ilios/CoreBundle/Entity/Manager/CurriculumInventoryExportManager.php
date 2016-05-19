@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 
 /**
  * Class CurriculumInventoryExportManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CurriculumInventoryExportManager extends BaseManager implements CurriculumInventoryExportManagerInterface
+class CurriculumInventoryExportManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCurriculumInventoryExportBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCurriculumInventoryExportsBy(
         array $criteria,
@@ -30,45 +29,34 @@ class CurriculumInventoryExportManager extends BaseManager implements Curriculum
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateCurriculumInventoryExport(
         CurriculumInventoryExportInterface $curriculumInventoryExport,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($curriculumInventoryExport);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($curriculumInventoryExport));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($curriculumInventoryExport, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteCurriculumInventoryExport(
         CurriculumInventoryExportInterface $curriculumInventoryExport
     ) {
-        $this->em->remove($curriculumInventoryExport);
-        $this->em->flush();
+        $this->delete($curriculumInventoryExport);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createCurriculumInventoryExport()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

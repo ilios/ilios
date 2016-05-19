@@ -5,14 +5,13 @@ namespace Ilios\CliBundle\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
 use Ilios\CoreBundle\Service\Directory;
 
@@ -35,7 +34,7 @@ class AddNewStudentsToSchoolCommand extends Command
     protected $schoolManager;
 
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
     
@@ -52,7 +51,7 @@ class AddNewStudentsToSchoolCommand extends Command
     public function __construct(
         UserManagerInterface $userManager,
         SchoolManagerInterface $schoolManager,
-        AuthenticationManagerInterface $authenticationManager,
+        AuthenticationManager $authenticationManager,
         UserRoleManagerInterface $userRoleManager,
         Directory $directory
     ) {

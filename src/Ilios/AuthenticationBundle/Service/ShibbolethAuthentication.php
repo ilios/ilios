@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -16,7 +16,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
     use AuthenticationService;
 
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authManager;
     
@@ -32,12 +32,12 @@ class ShibbolethAuthentication implements AuthenticationInterface
 
     /**
      * Constructor
-     * @param AuthenticationManagerInterface $authManager
-     * @param JsonWebTokenManager            $jwtManager
-     * @param LoggerInterface                $logger
+     * @param AuthenticationManager $authManager
+     * @param JsonWebTokenManager $jwtManager
+     * @param LoggerInterface $logger
      */
     public function __construct(
-        AuthenticationManagerInterface $authManager,
+        AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger
     ) {

@@ -10,9 +10,9 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Entity\Manager\ObjectiveManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager;
 use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManagerInterface;
 
 /**
@@ -24,7 +24,7 @@ use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManagerInterface;
 class CleanupStringsCommand extends Command
 {
     /**
-     * @var HTMLPurifier
+     * @var \HTMLPurifier
      */
     protected $purifier;
 
@@ -39,19 +39,19 @@ class CleanupStringsCommand extends Command
     protected $objectiveManager;
 
     /**
-     * @var LearningMaterialManagerInterface
+     * @var LearningMaterialManager
      */
     protected $learningMaterialManager;
 
 
     /**
-     * @var CourseLearningMaterialManagerInterface
+     * @var CourseLearningMaterialManager
      */
     protected $courseLearningMaterialManager;
 
 
     /**
-     * @var SessionLearningMaterialManagerInterface
+     * @var SessionLearningMaterialManager
      */
     protected $sessionLearningMaterialManager;
 
@@ -70,9 +70,9 @@ class CleanupStringsCommand extends Command
         \HTMLPurifier $purifier,
         EntityManager $em,
         ObjectiveManagerInterface $objectiveManager,
-        LearningMaterialManagerInterface $learningMaterialManager,
-        CourseLearningMaterialManagerInterface $courseLearningMaterialManager,
-        SessionLearningMaterialManagerInterface $sessionLearningMaterialManager,
+        LearningMaterialManager $learningMaterialManager,
+        CourseLearningMaterialManager $courseLearningMaterialManager,
+        SessionLearningMaterialManager $sessionLearningMaterialManager,
         SessionDescriptionManagerInterface $sessionDescriptionManager
     ) {
         $this->purifier = $purifier;

@@ -4,13 +4,11 @@ namespace Ilios\CliBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManagerInterface;
 use Ilios\CoreBundle\Service\Directory;
 
@@ -28,7 +26,7 @@ class SyncAllUsersCommand extends Command
     protected $userManager;
 
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
 
@@ -49,7 +47,7 @@ class SyncAllUsersCommand extends Command
     
     public function __construct(
         UserManagerInterface $userManager,
-        AuthenticationManagerInterface $authenticationManager,
+        AuthenticationManager $authenticationManager,
         PendingUserUpdateManagerInterface $pendingUserUpdateManager,
         Directory $directory,
         EntityManager $em

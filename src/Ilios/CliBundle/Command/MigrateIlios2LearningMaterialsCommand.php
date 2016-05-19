@@ -10,7 +10,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
 use Ilios\CoreBundle\Classes\IliosFileSystem;
 
 /**
@@ -32,14 +32,14 @@ class MigrateIlios2LearningMaterialsCommand extends Command
     protected $iliosFileSystem;
     
     /**
-     * @var LearningMaterialManagerInterface
+     * @var LearningMaterialManager
      */
     protected $learningMaterialManager;
     
     public function __construct(
         SymfonyFileSystem $symfonyFileSystem,
         IliosFileSystem $iliosFileSystem,
-        LearningMaterialManagerInterface $learningMaterialManager
+        LearningMaterialManager $learningMaterialManager
     ) {
         $this->symfonyFileSystem = $symfonyFileSystem;
         $this->iliosFileSystem = $iliosFileSystem;

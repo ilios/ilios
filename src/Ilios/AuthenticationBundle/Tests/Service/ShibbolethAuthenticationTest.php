@@ -16,7 +16,7 @@ class ShibbolethAuthenticationTest extends TestCase
 
     public function testConstructor()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
         $obj = new ShibbolethAuthentication(
@@ -29,7 +29,7 @@ class ShibbolethAuthenticationTest extends TestCase
     
     public function testNotAuthenticated()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
 
@@ -55,7 +55,7 @@ class ShibbolethAuthenticationTest extends TestCase
     
     public function testNoEppn()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
 
@@ -77,7 +77,7 @@ class ShibbolethAuthenticationTest extends TestCase
     
     public function testNoUserWithEppn()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
 
@@ -107,7 +107,7 @@ class ShibbolethAuthenticationTest extends TestCase
     
     public function testDisabledUser()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
         $obj = new ShibbolethAuthentication(
@@ -143,7 +143,7 @@ class ShibbolethAuthenticationTest extends TestCase
 
     public function testSuccess()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
         $obj = new ShibbolethAuthentication(

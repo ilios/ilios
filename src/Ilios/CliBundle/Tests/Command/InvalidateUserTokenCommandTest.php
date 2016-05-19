@@ -8,6 +8,10 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use \DateTime;
 
+/**
+ * Class InvalidateUserTokenCommandTest
+ * @package Ilios\CliBundle\Tests\Command
+ */
 class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
 {
     const COMMAND_NAME = 'ilios:maintenance:invalidate-user-tokens';
@@ -19,7 +23,7 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         
         $command = new InvalidateUserTokenCommand($this->userManager, $this->authenticationManager);
         $application = new Application();

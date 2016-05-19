@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**
  * Class CompetencyManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CompetencyManager extends BaseManager implements CompetencyManagerInterface
+class CompetencyManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCompetencyBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCompetenciesBy(
         array $criteria,
@@ -30,45 +29,34 @@ class CompetencyManager extends BaseManager implements CompetencyManagerInterfac
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateCompetency(
         CompetencyInterface $competency,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($competency);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($competency));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($competency, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteCompetency(
         CompetencyInterface $competency
     ) {
-        $this->em->remove($competency);
-        $this->em->flush();
+        $this->delete($competency);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createCompetency()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

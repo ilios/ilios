@@ -2,18 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManagerInterface as BaseInterface;
 
 /**
  * Class CurriculumInventorySequenceBlockManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CurriculumInventorySequenceBlockManager extends BaseManager implements BaseInterface
+class CurriculumInventorySequenceBlockManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCurriculumInventorySequenceBlockBy(
         array $criteria,
@@ -23,7 +21,7 @@ class CurriculumInventorySequenceBlockManager extends BaseManager implements Bas
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCurriculumInventorySequenceBlocksBy(
         array $criteria,
@@ -31,45 +29,34 @@ class CurriculumInventorySequenceBlockManager extends BaseManager implements Bas
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateCurriculumInventorySequenceBlock(
         CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($curriculumInventorySequenceBlock);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($curriculumInventorySequenceBlock));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        return $this->update($curriculumInventorySequenceBlock, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteCurriculumInventorySequenceBlock(
         CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
     ) {
-        $this->em->remove($curriculumInventorySequenceBlock);
-        $this->em->flush();
+        $this->delete($curriculumInventorySequenceBlock);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createCurriculumInventorySequenceBlock()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

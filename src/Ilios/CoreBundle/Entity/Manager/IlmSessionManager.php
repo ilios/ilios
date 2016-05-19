@@ -2,17 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
  * Class IlmSessionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class IlmSessionManager extends BaseManager implements IlmSessionManagerInterface
+class IlmSessionManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findIlmSessionBy(
         array $criteria,
@@ -22,7 +21,7 @@ class IlmSessionManager extends BaseManager implements IlmSessionManagerInterfac
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findIlmSessionsBy(
         array $criteria,
@@ -34,7 +33,7 @@ class IlmSessionManager extends BaseManager implements IlmSessionManagerInterfac
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateIlmSession(
         IlmSessionInterface $ilmSession,
@@ -54,7 +53,7 @@ class IlmSessionManager extends BaseManager implements IlmSessionManagerInterfac
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteIlmSession(
         IlmSessionInterface $ilmSession
@@ -64,7 +63,7 @@ class IlmSessionManager extends BaseManager implements IlmSessionManagerInterfac
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createIlmSession()
     {

@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 
 /**
  * Class CourseClerkshipTypeManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CourseClerkshipTypeManager extends BaseManager implements CourseClerkshipTypeManagerInterface
+class CourseClerkshipTypeManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCourseClerkshipTypeBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCourseClerkshipTypesBy(
         array $criteria,
@@ -30,45 +29,34 @@ class CourseClerkshipTypeManager extends BaseManager implements CourseClerkshipT
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateCourseClerkshipType(
         CourseClerkshipTypeInterface $courseClerkshipType,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($courseClerkshipType);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($courseClerkshipType));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($courseClerkshipType, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteCourseClerkshipType(
         CourseClerkshipTypeInterface $courseClerkshipType
     ) {
-        $this->em->remove($courseClerkshipType);
-        $this->em->flush();
+        $this->delete($courseClerkshipType);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createCourseClerkshipType()
     {
-        $class = $this->getClass();
-        return new $class();
+       return $this->create();
     }
 }

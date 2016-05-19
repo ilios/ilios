@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\InstructorGroupInterface;
 
 /**
  * Class InstructorGroupManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class InstructorGroupManager extends BaseManager implements InstructorGroupManagerInterface
+class InstructorGroupManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findInstructorGroupBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findInstructorGroupsBy(
         array $criteria,
@@ -30,45 +29,34 @@ class InstructorGroupManager extends BaseManager implements InstructorGroupManag
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateInstructorGroup(
         InstructorGroupInterface $instructorGroup,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($instructorGroup);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($instructorGroup));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($instructorGroup, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteInstructorGroup(
         InstructorGroupInterface $instructorGroup
     ) {
-        $this->em->remove($instructorGroup);
-        $this->em->flush();
+        $this->delete($instructorGroup);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createInstructorGroup()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

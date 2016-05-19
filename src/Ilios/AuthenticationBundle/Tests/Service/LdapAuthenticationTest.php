@@ -16,7 +16,7 @@ class LdapAuthenticationTest extends TestCase
     
     public function testConstructor()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new LdapAuthentication(
             $authManager,
@@ -30,7 +30,7 @@ class LdapAuthenticationTest extends TestCase
     
     public function testMissingValues()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new LdapAuthentication(
             $authManager,
@@ -59,7 +59,7 @@ class LdapAuthenticationTest extends TestCase
     
     public function testBadUserName()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $obj = new LdapAuthentication(
             $authManager,
@@ -89,7 +89,7 @@ class LdapAuthenticationTest extends TestCase
     
     public function testBadPassword()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         //partially mock so we can override checkLdapPassword
         //and not deal with php global ldap functions
@@ -130,7 +130,7 @@ class LdapAuthenticationTest extends TestCase
 
     public function testDisabledUser()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         //partially mock so we can override checkLdapPassword
         //and not deal with php global ldap functions
@@ -170,7 +170,7 @@ class LdapAuthenticationTest extends TestCase
     
     public function testSuccess()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         //partially mock so we can override checkLdapPassword
         //and not deal with php global ldap functions

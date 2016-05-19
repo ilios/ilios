@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceInterface;
 
 /**
  * Class CurriculumInventorySequenceManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CurriculumInventorySequenceManager extends BaseManager implements CurriculumInventorySequenceManagerInterface
+class CurriculumInventorySequenceManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCurriculumInventorySequenceBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCurriculumInventorySequencesBy(
         array $criteria,
@@ -30,45 +29,34 @@ class CurriculumInventorySequenceManager extends BaseManager implements Curricul
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateCurriculumInventorySequence(
         CurriculumInventorySequenceInterface $curriculumInventorySequence,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($curriculumInventorySequence);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($curriculumInventorySequence));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($curriculumInventorySequence, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteCurriculumInventorySequence(
         CurriculumInventorySequenceInterface $curriculumInventorySequence
     ) {
-        $this->em->remove($curriculumInventorySequence);
-        $this->em->flush();
+        $this->delete($curriculumInventorySequence);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createCurriculumInventorySequence()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

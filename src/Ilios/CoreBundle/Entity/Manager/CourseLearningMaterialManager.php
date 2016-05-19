@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 
 /**
  * Class CourseLearningMaterialManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CourseLearningMaterialManager extends BaseManager implements CourseLearningMaterialManagerInterface
+class CourseLearningMaterialManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCourseLearningMaterialBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCourseLearningMaterialsBy(
         array $criteria,
@@ -30,50 +29,39 @@ class CourseLearningMaterialManager extends BaseManager implements CourseLearnin
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateCourseLearningMaterial(
         CourseLearningMaterialInterface $courseLearningMaterial,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($courseLearningMaterial);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($courseLearningMaterial));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($courseLearningMaterial, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteCourseLearningMaterial(
         CourseLearningMaterialInterface $courseLearningMaterial
     ) {
-        $this->em->remove($courseLearningMaterial);
-        $this->em->flush();
+        $this->delete($courseLearningMaterial);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createCourseLearningMaterial()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 
     /**
-     * {@inheritdoc}
+     * @return integer
      */
     public function getTotalCourseLearningMaterialCount()
     {

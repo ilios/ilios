@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 
 /**
  * Class AuthenticationManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AuthenticationManager extends BaseManager implements AuthenticationManagerInterface
+class AuthenticationManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated 
      */
     public function findAuthenticationBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated 
      */
     public function findAuthenticationsBy(
         array $criteria,
@@ -30,11 +29,12 @@ class AuthenticationManager extends BaseManager implements AuthenticationManager
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $username
+     * @return AuthenticationInterface
      */
     public function findAuthenticationByUsername($username)
     {
@@ -43,33 +43,23 @@ class AuthenticationManager extends BaseManager implements AuthenticationManager
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateAuthentication(
         AuthenticationInterface $authentication,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($authentication);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($authentication));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($authentication, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteAuthentication(
         AuthenticationInterface $authentication
     ) {
-        $this->em->remove($authentication);
-        $this->em->flush();
+        $this->delete($authentication);
     }
 
     /**
@@ -77,7 +67,6 @@ class AuthenticationManager extends BaseManager implements AuthenticationManager
      */
     public function createAuthentication()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

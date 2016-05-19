@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use \DateTime;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 
 /**
@@ -25,13 +25,13 @@ class InvalidateUserTokenCommand extends Command
     protected $userManager;
     
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
     
     public function __construct(
         UserManagerInterface $userManager,
-        AuthenticationManagerInterface $authenticationManager
+        AuthenticationManager $authenticationManager
     ) {
         $this->userManager = $userManager;
         $this->authenticationManager = $authenticationManager;

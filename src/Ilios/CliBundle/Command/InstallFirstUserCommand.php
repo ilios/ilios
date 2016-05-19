@@ -3,7 +3,7 @@
 namespace Ilios\CliBundle\Command;
 
 use Ilios\CliBundle\Form\InstallFirstUserType;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
@@ -125,7 +125,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
         $userManager->updateUser($user);
 
         /**
-         * @var AuthenticationManagerInterface $authenticationManager
+         * @var AuthenticationManager $authenticationManager
          */
         $authenticationManager = $this->getContainer()->get('ilioscore.authentication.manager');
         $authentication = $authenticationManager->createAuthentication();

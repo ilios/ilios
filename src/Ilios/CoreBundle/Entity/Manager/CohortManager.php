@@ -2,27 +2,30 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CohortInterface;
+use Ilios\CoreBundle\Entity\DTO\CohortDTO;
 
 /**
  * Class CohortManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CohortManager extends BaseManager implements CohortManagerInterface
+class CohortManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCohortBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $criteria
+     * @param array $orderBy
+     *
+     * @return CohortDTO
      */
     public function findCohortDTOBy(
         array $criteria,
@@ -33,7 +36,7 @@ class CohortManager extends BaseManager implements CohortManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCohortsBy(
         array $criteria,
@@ -41,11 +44,16 @@ class CohortManager extends BaseManager implements CohortManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return CohortDTO[]
      */
     public function findCohortDTOsBy(
         array $criteria,
@@ -57,43 +65,30 @@ class CohortManager extends BaseManager implements CohortManagerInterface
     }
 
     /**
-     * @param CohortInterface $cohort
-     * @param bool $andFlush
-     * @param bool $forceId
+     * @deprecated
      */
     public function updateCohort(
         CohortInterface $cohort,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($cohort);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($cohort));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($cohort, $andFlush, $forceId);
     }
 
     /**
-     * @param CohortInterface $cohort
+     * @deprecated
      */
     public function deleteCohort(
         CohortInterface $cohort
     ) {
-        $this->em->remove($cohort);
-        $this->em->flush();
+        $this->delete($cohort);
     }
 
     /**
-     * @return CohortInterface
+     * @deprecated
      */
     public function createCohort()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

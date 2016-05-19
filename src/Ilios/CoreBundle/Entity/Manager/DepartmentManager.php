@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\DepartmentInterface;
 
 /**
  * Class DepartmentManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class DepartmentManager extends BaseManager implements DepartmentManagerInterface
+class DepartmentManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findDepartmentBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findDepartmentsBy(
         array $criteria,
@@ -30,45 +29,34 @@ class DepartmentManager extends BaseManager implements DepartmentManagerInterfac
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateDepartment(
         DepartmentInterface $department,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($department);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($department));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($department, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteDepartment(
         DepartmentInterface $department
     ) {
-        $this->em->remove($department);
-        $this->em->flush();
+        $this->delete($department);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createDepartment()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

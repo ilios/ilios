@@ -6,6 +6,10 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class AddDirectoryUserCommandTest
+ * @package Ilios\CliBundle\Tests\Command
+ */
 class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
 {
     const COMMAND_NAME = 'ilios:directory:add-user';
@@ -20,7 +24,7 @@ class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
 

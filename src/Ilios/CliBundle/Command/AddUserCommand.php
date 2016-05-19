@@ -2,7 +2,6 @@
 
 namespace Ilios\CliBundle\Command;
 
-use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,7 +12,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 
@@ -31,7 +30,7 @@ class AddUserCommand extends Command
     protected $userManager;
     
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
     
@@ -47,7 +46,7 @@ class AddUserCommand extends Command
     
     public function __construct(
         UserManagerInterface $userManager,
-        AuthenticationManagerInterface $authenticationManager,
+        AuthenticationManager $authenticationManager,
         SchoolManagerInterface $schoolManager,
         UserPasswordEncoderInterface $encoder
     ) {

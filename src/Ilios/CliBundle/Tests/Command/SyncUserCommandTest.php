@@ -6,6 +6,10 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class SyncUserCommandTest
+ * @package Ilios\CliBundle\Tests\Command
+ */
 class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
 {
     const COMMAND_NAME = 'ilios:directory:sync-user';
@@ -19,7 +23,7 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
         
         $command = new SyncUserCommand($this->userManager, $this->authenticationManager, $this->directory);

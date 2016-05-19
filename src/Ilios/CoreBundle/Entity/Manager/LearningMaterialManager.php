@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 
 /**
  * Class LearningMaterialManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class LearningMaterialManager extends BaseManager implements LearningMaterialManagerInterface
+class LearningMaterialManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findLearningMaterialBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findLearningMaterialsBy(
         array $criteria,
@@ -30,11 +29,18 @@ class LearningMaterialManager extends BaseManager implements LearningMaterialMan
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * Use a query term to find learning materials
+     *
+     * @param string $q
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return LearningMaterialInterface[]
      */
     public function findLearningMaterialsByQ(
         $q,
@@ -46,46 +52,39 @@ class LearningMaterialManager extends BaseManager implements LearningMaterialMan
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateLearningMaterial(
         LearningMaterialInterface $learningMaterial,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($learningMaterial);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($learningMaterial));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($learningMaterial, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteLearningMaterial(
         LearningMaterialInterface $learningMaterial
     ) {
-        $this->em->remove($learningMaterial);
-        $this->em->flush();
+        $this->delete($learningMaterial);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createLearningMaterial()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 
     /**
-     * {@inheritdoc}
+     * Find all the File type learning materials
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return LearningMaterialInterface[]
      */
     public function findFileLearningMaterials($limit, $offset)
     {
@@ -93,7 +92,7 @@ class LearningMaterialManager extends BaseManager implements LearningMaterialMan
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function getTotalFileLearningMaterialCount()
     {
@@ -103,7 +102,7 @@ class LearningMaterialManager extends BaseManager implements LearningMaterialMan
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function getTotalLearningMaterialCount()
     {

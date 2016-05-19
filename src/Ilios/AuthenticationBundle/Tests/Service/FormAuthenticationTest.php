@@ -16,7 +16,7 @@ class FormAuthenticationTest extends TestCase
 
     public function testConstructor()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
@@ -31,7 +31,7 @@ class FormAuthenticationTest extends TestCase
     
     public function testMissingValues()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
@@ -61,7 +61,7 @@ class FormAuthenticationTest extends TestCase
     
     public function testBadUserName()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
@@ -92,7 +92,7 @@ class FormAuthenticationTest extends TestCase
     
     public function testBadPassword()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
@@ -128,7 +128,7 @@ class FormAuthenticationTest extends TestCase
 
     public function testDisabledUser()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
@@ -163,7 +163,7 @@ class FormAuthenticationTest extends TestCase
     
     public function testSuccess()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
         $tokenStorage = m::mock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');

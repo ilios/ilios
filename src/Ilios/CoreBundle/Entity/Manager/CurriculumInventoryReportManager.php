@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
  * Class CurriculumInventoryReportManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CurriculumInventoryReportManager extends BaseManager implements CurriculumInventoryReportManagerInterface
+class CurriculumInventoryReportManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCurriculumInventoryReportBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findCurriculumInventoryReportsBy(
         array $criteria,
@@ -30,50 +29,40 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateCurriculumInventoryReport(
         CurriculumInventoryReportInterface $curriculumInventoryReport,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($curriculumInventoryReport);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($curriculumInventoryReport));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($curriculumInventoryReport, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteCurriculumInventoryReport(
         CurriculumInventoryReportInterface $curriculumInventoryReport
     ) {
-        $this->em->remove($curriculumInventoryReport);
-        $this->em->flush();
+        $this->delete($curriculumInventoryReport);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createCurriculumInventoryReport()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 
     /**
-     * {@inheritdoc}
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
     public function getEvents(CurriculumInventoryReportInterface $report)
     {
@@ -81,7 +70,8 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
     public function getEventResourceTypes(CurriculumInventoryReportInterface $report)
     {
@@ -97,7 +87,8 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
     public function getEventReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
@@ -105,7 +96,8 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
     public function getProgramObjectives(CurriculumInventoryReportInterface $report)
     {
@@ -113,7 +105,8 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
     public function getSessionObjectives(CurriculumInventoryReportInterface $report)
     {
@@ -121,7 +114,8 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
     public function getCourseObjectives(CurriculumInventoryReportInterface $report)
     {
@@ -129,7 +123,8 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
     public function getPcrs(CurriculumInventoryReportInterface $report)
     {
@@ -137,7 +132,8 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
     public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
     {
@@ -145,7 +141,8 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
      */
     public function getCompetencyObjectReferencesForEvents(CurriculumInventoryReportInterface $report)
     {
@@ -153,7 +150,9 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $sessionObjectiveIds
+     * @param array $courseObjectiveIds
+     * @return array
      */
     public function getSessionObjectivesToCourseObjectivesRelations(
         array $sessionObjectiveIds,
@@ -166,7 +165,9 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $courseObjectiveIds
+     * @param array $programObjectiveIds
+     * @return array
      */
     public function getCourseObjectivesToProgramObjectivesRelations(
         array $courseObjectiveIds,
@@ -179,7 +180,9 @@ class CurriculumInventoryReportManager extends BaseManager implements Curriculum
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $programObjectiveIds
+     * @param array $pcrsIds
+     * @return array
      */
     public function getProgramObjectivesToPcrsRelations(array $programObjectiveIds, array $pcrsIds)
     {

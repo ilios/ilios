@@ -2,29 +2,31 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
+use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
-use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class MeshDescriptorManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class MeshDescriptorManager extends BaseManager implements MeshDescriptorManagerInterface
+class MeshDescriptorManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshDescriptorBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $criteria
+     * @param array $orderBy
+     *
+     * @return MeshDescriptorDTO|bool
      */
     public function findMeshDescriptorDTOBy(
         array $criteria,
@@ -36,7 +38,7 @@ class MeshDescriptorManager extends BaseManager implements MeshDescriptorManager
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshDescriptorsBy(
         array $criteria,
@@ -44,11 +46,16 @@ class MeshDescriptorManager extends BaseManager implements MeshDescriptorManager
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $criteria
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return MeshDescriptorDTO[]
      */
     public function findMeshDescriptorDTOsBy(
         array $criteria,
@@ -60,7 +67,12 @@ class MeshDescriptorManager extends BaseManager implements MeshDescriptorManager
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $q
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return MeshDescriptorInterface[]
      */
     public function findMeshDescriptorsByQ(
         $q,
@@ -72,46 +84,39 @@ class MeshDescriptorManager extends BaseManager implements MeshDescriptorManager
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateMeshDescriptor(
         MeshDescriptorInterface $meshDescriptor,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($meshDescriptor);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($meshDescriptor));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($meshDescriptor, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteMeshDescriptor(
         MeshDescriptorInterface $meshDescriptor
     ) {
-        $this->em->remove($meshDescriptor);
-        $this->em->flush();
+        $this->delete($meshDescriptor);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createMeshDescriptor()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 
     /**
-     * {@inheritdoc}
+     * Single entry point for importing a given MeSH record into its corresponding database table.
+     *
+     * @param array $data An associative array containing a MeSH record.
+     * @param string $type The type of MeSH data that's being imported.
+     * @throws \Exception on unsupported type.
      */
     public function import(array $data, $type)
     {

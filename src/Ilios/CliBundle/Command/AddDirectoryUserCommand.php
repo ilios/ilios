@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Ilios\CoreBundle\Service\Directory;
@@ -28,7 +28,7 @@ class AddDirectoryUserCommand extends Command
     protected $userManager;
     
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
     
@@ -44,7 +44,7 @@ class AddDirectoryUserCommand extends Command
     
     public function __construct(
         UserManagerInterface $userManager,
-        AuthenticationManagerInterface $authenticationManager,
+        AuthenticationManager $authenticationManager,
         SchoolManagerInterface $schoolManager,
         Directory $directory
     ) {

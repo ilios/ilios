@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 
 /**
  * Class LearningMaterialUserRoleManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class LearningMaterialUserRoleManager extends BaseManager implements LearningMaterialUserRoleManagerInterface
+class LearningMaterialUserRoleManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findLearningMaterialUserRoleBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findLearningMaterialUserRolesBy(
         array $criteria,
@@ -30,45 +29,34 @@ class LearningMaterialUserRoleManager extends BaseManager implements LearningMat
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateLearningMaterialUserRole(
         LearningMaterialUserRoleInterface $learningMaterialUserRole,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($learningMaterialUserRole);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($learningMaterialUserRole));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($learningMaterialUserRole, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteLearningMaterialUserRole(
         LearningMaterialUserRoleInterface $learningMaterialUserRole
     ) {
-        $this->em->remove($learningMaterialUserRole);
-        $this->em->flush();
+        $this->delete($learningMaterialUserRole);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createLearningMaterialUserRole()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }
