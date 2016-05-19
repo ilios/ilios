@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 
 /**
  * Class AlertChangeTypeManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AlertChangeTypeManager extends BaseManager implements AlertChangeTypeManagerInterface
+class AlertChangeTypeManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findAlertChangeTypeBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findAlertChangeTypesBy(
         array $criteria,
@@ -30,45 +29,34 @@ class AlertChangeTypeManager extends BaseManager implements AlertChangeTypeManag
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateAlertChangeType(
         AlertChangeTypeInterface $alertChangeType,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($alertChangeType);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($alertChangeType));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($alertChangeType, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteAlertChangeType(
         AlertChangeTypeInterface $alertChangeType
     ) {
-        $this->em->remove($alertChangeType);
-        $this->em->flush();
+        $this->delete($alertChangeType);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createAlertChangeType()
     {
-        $class = $this->getClass();
-        return new $class();
+       return $this->create();
     }
 }

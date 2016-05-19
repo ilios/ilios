@@ -57,7 +57,6 @@ class AamcMethodManager extends BaseManager
      */
     public function createAamcMethod()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

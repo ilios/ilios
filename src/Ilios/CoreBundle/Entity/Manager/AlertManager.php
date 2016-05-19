@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AlertInterface;
 
 /**
  * Class AlertManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AlertManager extends BaseManager implements AlertManagerInterface
+class AlertManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findAlertBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findAlertsBy(
         array $criteria,
@@ -30,45 +29,34 @@ class AlertManager extends BaseManager implements AlertManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateAlert(
         AlertInterface $alert,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($alert);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($alert));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($alert, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteAlert(
         AlertInterface $alert
     ) {
-        $this->em->remove($alert);
-        $this->em->flush();
+        $this->delete($alert);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createAlert()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

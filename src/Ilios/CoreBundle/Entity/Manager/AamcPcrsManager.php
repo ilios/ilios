@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 
 /**
  * Class AamcPcrsManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AamcPcrsManager extends BaseManager implements AamcPcrsManagerInterface
+class AamcPcrsManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findAamcPcrsBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findAamcPcrsesBy(
         array $criteria,
@@ -30,45 +29,34 @@ class AamcPcrsManager extends BaseManager implements AamcPcrsManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateAamcPcrs(
         AamcPcrsInterface $aamcPcrs,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($aamcPcrs);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($aamcPcrs));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($aamcPcrs, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteAamcPcrs(
         AamcPcrsInterface $aamcPcrs
     ) {
-        $this->em->remove($aamcPcrs);
-        $this->em->flush();
+        $this->delete($aamcPcrs);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createAamcPcrs()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }
