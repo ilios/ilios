@@ -52,18 +52,4 @@ class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
         })->first();
         $this->assertNotEmpty($pcrs);
     }
-
-    /**
-     * @param array $data
-     * @return CompetencyInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var CompetencyManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findCompetencyBy(['id' => $data[0]]);
-    }
 }

@@ -54,18 +54,4 @@ class LoadMeshConceptTermDataTest extends AbstractDataFixtureTest
         })->first();
         $this->assertNotEmpty($term);
     }
-
-    /**
-     * @param array $data
-     * @return MeshConceptInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var MeshConceptManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshConceptBy(['id' => $data[0]]);
-    }
 }

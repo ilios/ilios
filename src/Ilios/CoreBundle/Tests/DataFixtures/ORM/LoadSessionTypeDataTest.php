@@ -55,18 +55,4 @@ class LoadSessionTypeDataTest extends AbstractDataFixtureTest
             $this->assertEquals($data[5], $entity->getAssessmentOption());
         }
     }
-
-    /**
-     * @param array $data
-     * @return SessionTypeInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var SessionTypeManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findSessionTypeBy(['id' => $data[0]]);
-    }
 }

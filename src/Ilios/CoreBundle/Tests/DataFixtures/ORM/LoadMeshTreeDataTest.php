@@ -51,16 +51,10 @@ class LoadMeshTreeDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @param array $data
-     * @return MeshTreeInterface
-     * @override
+     * @inheritdoc
      */
     protected function getEntity(array $data)
     {
-        /**
-         * @var MeshTreeManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshTreeBy(['id' => $data[2]]);
+        return $this->em->findOneBy(['id' => $data[2]]);
     }
 }

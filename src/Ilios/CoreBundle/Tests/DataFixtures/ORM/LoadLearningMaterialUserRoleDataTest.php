@@ -47,18 +47,4 @@ class LoadLearningMaterialUserRoleDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
     }
-
-    /**
-     * @param array $data
-     * @return LearningMaterialUserRoleInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var LearningMaterialUserRoleManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findLearningMaterialUserRoleBy(['id' => $data[0]]);
-    }
 }

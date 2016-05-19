@@ -48,18 +48,4 @@ class LoadDepartmentDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[1], $entity->getTitle());
         $this->assertEquals($data[2], $entity->getSchool()->getId());
     }
-
-    /**
-     * @param array $data
-     * @return DepartmentInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var DepartmentManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findDepartmentBy(['id' => $data[0]]);
-    }
 }

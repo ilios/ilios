@@ -50,18 +50,4 @@ class LoadMeshSemanticTypeDataTest extends AbstractDataFixtureTest
         $this->assertEquals(new \DateTime($data[2], new \DateTimeZone('UTC')), $entity->getCreatedAt());
         $this->assertEquals(new \DateTime($data[3], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
     }
-
-    /**
-     * @param array $data
-     * @return MeshSemanticTypeInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var MeshSemanticTypeManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshSemanticTypeBy(['id' => $data[0]]);
-    }
 }

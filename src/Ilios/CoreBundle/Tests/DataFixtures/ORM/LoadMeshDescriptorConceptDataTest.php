@@ -56,16 +56,11 @@ class LoadMeshDescriptorConceptDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @param array $data
-     * @return MeshDescriptorInterface
-     * @override
+     * @inheritdoc
      */
     protected function getEntity(array $data)
     {
-        /**
-         * @var MeshDescriptorManagerInterface $em
-         */
         $em = $this->em;
-        return $em->findMeshDescriptorBy(['id' => $data[1]]);
+        return $em->findOneBy(['id' => $data[1]]);
     }
 }

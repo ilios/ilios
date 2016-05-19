@@ -50,18 +50,4 @@ class LoadSchoolDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[3], $entity->getIliosAdministratorEmail());
         $this->assertEquals($data[4], $entity->getChangeAlertRecipients());
     }
-
-    /**
-     * @param array $data
-     * @return SchoolInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var SchoolManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findSchoolBy(['id' => $data[0]]);
-    }
 }

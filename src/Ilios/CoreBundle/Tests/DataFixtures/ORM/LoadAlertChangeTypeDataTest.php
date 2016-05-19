@@ -48,18 +48,4 @@ class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[1], $entity->getTitle());
 
     }
-
-    /**
-     * @param array $data
-     * @return AlertChangeTypeInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var AlertChangeTypeManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findAlertChangeTypeBy(['id' => $data[0]]);
-    }
 }

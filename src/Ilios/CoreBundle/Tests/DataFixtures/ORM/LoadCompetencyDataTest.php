@@ -53,18 +53,4 @@ class LoadCompetencyDataTest extends AbstractDataFixtureTest
         }
         $this->assertEquals($data[3], $entity->getSchool()->getId());
     }
-
-    /**
-     * @param array $data
-     * @return CompetencyInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var CompetencyManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findCompetencyBy(['id' => $data[0]]);
-    }
 }

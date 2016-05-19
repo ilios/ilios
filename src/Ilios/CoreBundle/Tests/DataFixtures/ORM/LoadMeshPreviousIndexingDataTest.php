@@ -51,16 +51,11 @@ class LoadMeshPreviousIndexingDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @param array $data
-     * @return MeshPreviousIndexingInterface
-     * @override
+     * @inheritdoc
      */
     protected function getEntity(array $data)
     {
-        /**
-         * @var MeshPreviousIndexingManagerInterface $em
-         */
         $em = $this->em;
-        return $em->findMeshPreviousIndexingBy(['id' => $data[2]]);
+        return $em->findOneBy(['id' => $data[2]]);
     }
 }

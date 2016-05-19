@@ -47,18 +47,4 @@ class LoadAssessmentOptionDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getName());
     }
-
-    /**
-     * @param array $data
-     * @return AssessmentOptionInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var AssessmentOptionManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findAssessmentOptionBy(['id' => $data[0]]);
-    }
 }

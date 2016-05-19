@@ -54,18 +54,4 @@ class LoadMeshDescriptorQualifierDataTest extends AbstractDataFixtureTest
         })->first();
         $this->assertNotEmpty($qualifier);
     }
-
-    /**
-     * @param array $data
-     * @return MeshDescriptorInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var MeshDescriptorManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshDescriptorBy(['id' => $data[0]]);
-    }
 }

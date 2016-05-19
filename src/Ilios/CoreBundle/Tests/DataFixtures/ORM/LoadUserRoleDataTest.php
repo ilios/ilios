@@ -48,18 +48,4 @@ class LoadUserRoleDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[1], $entity->getTitle());
 
     }
-
-    /**
-     * @param array $data
-     * @return UserRoleInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var UserRoleManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findUserRoleBy(['id' => $data[0]]);
-    }
 }

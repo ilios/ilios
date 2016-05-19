@@ -50,18 +50,4 @@ class LoadMeshQualifierDataTest extends AbstractDataFixtureTest
         $this->assertEquals(new \DateTime($data[2], new \DateTimeZone('UTC')), $entity->getCreatedAt());
         $this->assertEquals(new \DateTime($data[3], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
     }
-
-    /**
-     * @param array $data
-     * @return MeshQualifierInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var MeshQualifierManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshQualifierBy(['id' => $data[0]]);
-    }
 }

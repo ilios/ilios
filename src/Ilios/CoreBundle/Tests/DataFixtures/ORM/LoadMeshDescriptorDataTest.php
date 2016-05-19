@@ -51,18 +51,4 @@ class LoadMeshDescriptorDataTest extends AbstractDataFixtureTest
         $this->assertEquals(new \DateTime($data[3], new \DateTimeZone('UTC')), $entity->getCreatedAt());
         $this->assertEquals(new \DateTime($data[4], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
     }
-
-    /**
-     * @param array $data
-     * @return MeshDescriptorInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var MeshDescriptorManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshDescriptorBy(['id' => $data[0]]);
-    }
 }

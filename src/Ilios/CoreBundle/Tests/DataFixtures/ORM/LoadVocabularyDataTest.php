@@ -48,18 +48,4 @@ class LoadVocabularyDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[1], $entity->getTitle());
         $this->assertEquals($data[2], $entity->getSchool()->getId());
     }
-
-    /**
-     * @param array $data
-     * @return VocabularyInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var VocabularyManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findVocabularyBy(['id' => $data[0]]);
-    }
 }

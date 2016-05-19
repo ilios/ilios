@@ -47,18 +47,4 @@ class LoadAamcPcrsDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getDescription());
     }
-
-    /**
-     * @param array $data
-     * @return AamcPcrsInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var AamcPcrsManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findAamcPcrsBy(['id' => $data[0]]);
-    }
 }
