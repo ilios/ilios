@@ -3,7 +3,6 @@
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
-use Ilios\CoreBundle\Entity\Manager\CompetencyManagerInterface;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**

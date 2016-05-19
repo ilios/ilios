@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManagerInterface;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 
 /**

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\DepartmentManagerInterface;
 use Ilios\CoreBundle\Entity\DepartmentInterface;
 
 /**

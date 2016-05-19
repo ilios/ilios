@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshQualifierManagerInterface;
 use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
 /**

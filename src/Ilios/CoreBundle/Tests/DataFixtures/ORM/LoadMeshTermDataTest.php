@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshTermManagerInterface;
 use Ilios\CoreBundle\Entity\MeshTermInterface;
 
 /**
