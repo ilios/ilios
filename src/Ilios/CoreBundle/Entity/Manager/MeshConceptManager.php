@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\MeshConceptInterface;
  * Class MeshConceptManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class MeshConceptManager extends AbstractManager implements MeshConceptManagerInterface
+class MeshConceptManager extends BaseManager implements MeshConceptManagerInterface
 {
     /**
      * {@inheritdoc}

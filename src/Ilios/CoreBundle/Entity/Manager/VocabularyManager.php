@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\VocabularyInterface;
  * Class VocabularyManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class VocabularyManager extends AbstractManager implements VocabularyManagerInterface
+class VocabularyManager extends BaseManager implements VocabularyManagerInterface
 {
     /**
      * {@inheritdoc}

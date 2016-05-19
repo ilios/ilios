@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockSessionManag
  * Class CurriculumInventorySequenceBlockSessionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CurriculumInventorySequenceBlockSessionManager extends AbstractManager implements BaseInterface
+class CurriculumInventorySequenceBlockSessionManager extends BaseManager implements BaseInterface
 {
     /**
      * @param array $criteria

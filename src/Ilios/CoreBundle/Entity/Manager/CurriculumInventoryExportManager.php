@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
  * Class CurriculumInventoryExportManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CurriculumInventoryExportManager extends AbstractManager implements CurriculumInventoryExportManagerInterface
+class CurriculumInventoryExportManager extends BaseManager implements CurriculumInventoryExportManagerInterface
 {
     /**
      * {@inheritdoc}

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
  * Class SessionDescriptionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class SessionDescriptionManager extends AbstractManager implements SessionDescriptionManagerInterface
+class SessionDescriptionManager extends BaseManager implements SessionDescriptionManagerInterface
 {
     /**
      * {@inheritdoc}

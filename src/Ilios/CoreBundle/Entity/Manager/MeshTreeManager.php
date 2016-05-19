@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Entity\MeshTreeInterface;
  * Class MeshTreeManager
  * @package Ilios\CoreBundle\Manager
  */
-class MeshTreeManager extends AbstractManager implements MeshTreeManagerInterface
+class MeshTreeManager extends BaseManager implements MeshTreeManagerInterface
 {
     /**
      * {@inheritdoc}

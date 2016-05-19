@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\DepartmentInterface;
  * Class DepartmentManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class DepartmentManager extends AbstractManager implements DepartmentManagerInterface
+class DepartmentManager extends BaseManager implements DepartmentManagerInterface
 {
     /**
      * {@inheritdoc}

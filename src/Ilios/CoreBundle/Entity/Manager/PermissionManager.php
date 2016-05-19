@@ -13,7 +13,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
  * Class PermissionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class PermissionManager extends AbstractManager implements PermissionManagerInterface
+class PermissionManager extends BaseManager implements PermissionManagerInterface
 {
     /**
      * @var string

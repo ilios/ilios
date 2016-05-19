@@ -12,7 +12,7 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
  * Class ProgramYearStewardManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class ProgramYearStewardManager extends AbstractManager implements ProgramYearStewardManagerInterface
+class ProgramYearStewardManager extends BaseManager implements ProgramYearStewardManagerInterface
 {
     /**
      * {@inheritdoc}

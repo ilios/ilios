@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManagerInter
  * Class CurriculumInventorySequenceBlockManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CurriculumInventorySequenceBlockManager extends AbstractManager implements BaseInterface
+class CurriculumInventorySequenceBlockManager extends BaseManager implements BaseInterface
 {
     /**
      * {@inheritdoc}

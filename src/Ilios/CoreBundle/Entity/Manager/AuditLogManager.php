@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AuditLogInterface;
  * Class AuditLogManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AuditLogManager extends AbstractManager implements AuditLogManagerInterface
+class AuditLogManager extends BaseManager implements AuditLogManagerInterface
 {
 
     /**

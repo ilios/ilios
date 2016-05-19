@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\InstructorGroupInterface;
  * Class InstructorGroupManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class InstructorGroupManager extends AbstractManager implements InstructorGroupManagerInterface
+class InstructorGroupManager extends BaseManager implements InstructorGroupManagerInterface
 {
     /**
      * {@inheritdoc}

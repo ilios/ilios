@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
  * Class AssessmentOptionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AssessmentOptionManager extends AbstractManager implements AssessmentOptionManagerInterface
+class AssessmentOptionManager extends BaseManager implements AssessmentOptionManagerInterface
 {
     /**
      * {@inheritdoc}

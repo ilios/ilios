@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\ProgramYearInterface;
  * Class ProgramYearManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class ProgramYearManager extends AbstractManager implements ProgramYearManagerInterface
+class ProgramYearManager extends BaseManager implements ProgramYearManagerInterface
 {
     /**
      * {@inheritdoc}

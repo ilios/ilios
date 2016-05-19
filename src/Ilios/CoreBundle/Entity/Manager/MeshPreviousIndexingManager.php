@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
  * Class MeshPreviousIndexingManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class MeshPreviousIndexingManager extends AbstractManager implements MeshPreviousIndexingManagerInterface
+class MeshPreviousIndexingManager extends BaseManager implements MeshPreviousIndexingManagerInterface
 {
     /**
      * {@inheritdoc}

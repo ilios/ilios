@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\UserMadeReminderInterface;
  * Class UserMadeReminderManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class UserMadeReminderManager extends AbstractManager implements UserMadeReminderManagerInterface
+class UserMadeReminderManager extends BaseManager implements UserMadeReminderManagerInterface
 {
     /**
      * {@inheritdoc}

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\IngestionExceptionInterface;
  * Class IngestionExceptionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class IngestionExceptionManager extends AbstractManager implements IngestionExceptionManagerInterface
+class IngestionExceptionManager extends BaseManager implements IngestionExceptionManagerInterface
 {
     /**
      * {@inheritdoc}

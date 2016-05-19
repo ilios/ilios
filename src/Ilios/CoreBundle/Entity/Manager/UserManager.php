@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Entity\DTO\UserDTO;
  * Class UserManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class UserManager extends AbstractManager implements UserManagerInterface
+class UserManager extends BaseManager implements UserManagerInterface
 {
     /**
      * {@inheritdoc}

@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
  * Class OfferingManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class OfferingManager extends AbstractManager implements OfferingManagerInterface
+class OfferingManager extends BaseManager implements OfferingManagerInterface
 {
     /**
      * {@inheritdoc}

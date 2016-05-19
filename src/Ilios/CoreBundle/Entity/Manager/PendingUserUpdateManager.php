@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\PendingUserUpdateInterface;
  * Class PendingUserUpdateManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class PendingUserUpdateManager extends AbstractManager implements PendingUserUpdateManagerInterface
+class PendingUserUpdateManager extends BaseManager implements PendingUserUpdateManagerInterface
 {
     /**
      * {@inheritdoc}

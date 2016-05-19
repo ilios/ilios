@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Entity\UserRoleInterface;
  * Class UserRoleManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class UserRoleManager extends AbstractManager implements UserRoleManagerInterface
+class UserRoleManager extends BaseManager implements UserRoleManagerInterface
 {
     /**
      * {@inheritdoc}

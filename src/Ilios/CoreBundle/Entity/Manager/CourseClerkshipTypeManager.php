@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
  * Class CourseClerkshipTypeManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CourseClerkshipTypeManager extends AbstractManager implements CourseClerkshipTypeManagerInterface
+class CourseClerkshipTypeManager extends BaseManager implements CourseClerkshipTypeManagerInterface
 {
     /**
      * {@inheritdoc}

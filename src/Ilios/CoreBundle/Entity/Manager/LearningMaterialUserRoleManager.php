@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
  * Class LearningMaterialUserRoleManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class LearningMaterialUserRoleManager extends AbstractManager implements LearningMaterialUserRoleManagerInterface
+class LearningMaterialUserRoleManager extends BaseManager implements LearningMaterialUserRoleManagerInterface
 {
     /**
      * {@inheritdoc}

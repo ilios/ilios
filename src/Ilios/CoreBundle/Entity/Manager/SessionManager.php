@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\SessionInterface;
  * Class SessionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class SessionManager extends AbstractManager implements SessionManagerInterface
+class SessionManager extends BaseManager implements SessionManagerInterface
 {
     /**
      * {@inheritdoc}

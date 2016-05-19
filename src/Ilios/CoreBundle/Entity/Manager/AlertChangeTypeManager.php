@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
  * Class AlertChangeTypeManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AlertChangeTypeManager extends AbstractManager implements AlertChangeTypeManagerInterface
+class AlertChangeTypeManager extends BaseManager implements AlertChangeTypeManagerInterface
 {
     /**
      * {@inheritdoc}

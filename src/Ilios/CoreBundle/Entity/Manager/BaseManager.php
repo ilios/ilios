@@ -8,10 +8,10 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Id\AssignedGenerator;
 
 /**
- * Class AbstractManager
+ * Class BaseManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-abstract class AbstractManager implements ManagerInterface
+class BaseManager implements ManagerInterface
 {
     /**
      * @var EntityManager
@@ -43,7 +43,7 @@ abstract class AbstractManager implements ManagerInterface
         $this->em         = $registry->getManagerForClass($class);
         $this->class      = $class;
     }
-    
+
     /**
      * Get the repository from the registry
      * We have to do this here because the call to registry::getRepository
@@ -56,7 +56,7 @@ abstract class AbstractManager implements ManagerInterface
         if (!$this->repository) {
             $this->repository = $this->registry->getRepository($this->class);
         }
-        
+
         return $this->repository;
     }
 
@@ -67,7 +67,7 @@ abstract class AbstractManager implements ManagerInterface
     {
         return $this->class;
     }
-    
+
     /**
      * @inheritdoc
      */

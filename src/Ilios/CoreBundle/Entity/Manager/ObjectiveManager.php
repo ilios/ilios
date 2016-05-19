@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\ObjectiveInterface;
  * Class ObjectiveManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class ObjectiveManager extends AbstractManager implements ObjectiveManagerInterface
+class ObjectiveManager extends BaseManager implements ObjectiveManagerInterface
 {
     /**
      * {@inheritdoc}

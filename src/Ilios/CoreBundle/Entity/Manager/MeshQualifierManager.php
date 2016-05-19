@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\MeshQualifierInterface;
  * Class MeshQualifierManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class MeshQualifierManager extends AbstractManager implements MeshQualifierManagerInterface
+class MeshQualifierManager extends BaseManager implements MeshQualifierManagerInterface
 {
     /**
      * {@inheritdoc}

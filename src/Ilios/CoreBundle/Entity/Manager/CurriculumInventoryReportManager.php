@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  * Class CurriculumInventoryReportManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CurriculumInventoryReportManager extends AbstractManager implements CurriculumInventoryReportManagerInterface
+class CurriculumInventoryReportManager extends BaseManager implements CurriculumInventoryReportManagerInterface
 {
     /**
      * {@inheritdoc}

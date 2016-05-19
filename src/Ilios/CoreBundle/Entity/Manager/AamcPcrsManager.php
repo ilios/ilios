@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AamcPcrsInterface;
  * Class AamcPcrsManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AamcPcrsManager extends AbstractManager implements AamcPcrsManagerInterface
+class AamcPcrsManager extends BaseManager implements AamcPcrsManagerInterface
 {
     /**
      * {@inheritdoc}

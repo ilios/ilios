@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManagerInter
  * Class CurriculumInventoryAcademicLevelManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CurriculumInventoryAcademicLevelManager extends AbstractManager implements BaseInterface
+class CurriculumInventoryAcademicLevelManager extends BaseManager implements BaseInterface
 {
     /**
      * {@inheritdoc}

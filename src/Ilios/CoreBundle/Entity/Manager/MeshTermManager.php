@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Entity\MeshTermInterface;
  * Class MeshTermManager
  * @package Ilios\CoreBundle\Manager
  */
-class MeshTermManager extends AbstractManager implements MeshTermManagerInterface
+class MeshTermManager extends BaseManager implements MeshTermManagerInterface
 {
     /**
      * {@inheritdoc}

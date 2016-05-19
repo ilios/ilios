@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
  * Class CourseLearningMaterialManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CourseLearningMaterialManager extends AbstractManager implements CourseLearningMaterialManagerInterface
+class CourseLearningMaterialManager extends BaseManager implements CourseLearningMaterialManagerInterface
 {
     /**
      * {@inheritdoc}

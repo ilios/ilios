@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
  * Class CompetencyManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CompetencyManager extends AbstractManager implements CompetencyManagerInterface
+class CompetencyManager extends BaseManager implements CompetencyManagerInterface
 {
     /**
      * {@inheritdoc}

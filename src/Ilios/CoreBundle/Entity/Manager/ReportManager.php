@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\ReportInterface;
  * Class ReportManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class ReportManager extends AbstractManager implements ReportManagerInterface
+class ReportManager extends BaseManager implements ReportManagerInterface
 {
     /**
      * {@inheritdoc}

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AlertInterface;
  * Class AlertManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AlertManager extends AbstractManager implements AlertManagerInterface
+class AlertManager extends BaseManager implements AlertManagerInterface
 {
     /**
      * {@inheritdoc}

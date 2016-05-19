@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\ProgramInterface;
  * Class ProgramManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class ProgramManager extends AbstractManager implements ProgramManagerInterface
+class ProgramManager extends BaseManager implements ProgramManagerInterface
 {
     /**
      * {@inheritdoc}

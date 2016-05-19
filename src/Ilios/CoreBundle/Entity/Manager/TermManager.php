@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\TermInterface;
  * Class TermManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class TermManager extends AbstractManager implements TermManagerInterface
+class TermManager extends BaseManager implements TermManagerInterface
 {
     /**
      * {@inheritdoc}

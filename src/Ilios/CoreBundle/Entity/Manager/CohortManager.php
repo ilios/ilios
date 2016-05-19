@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\CohortInterface;
  * Class CohortManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CohortManager extends AbstractManager implements CohortManagerInterface
+class CohortManager extends BaseManager implements CohortManagerInterface
 {
     /**
      * {@inheritdoc}

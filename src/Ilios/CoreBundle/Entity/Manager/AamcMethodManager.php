@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AamcMethodInterface;
  * Class AamcMethodManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AamcMethodManager extends AbstractManager implements AamcMethodManagerInterface
+class AamcMethodManager extends BaseManager implements AamcMethodManagerInterface
 {
     /**
      * {@inheritdoc}

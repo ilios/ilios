@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
  * Class SessionLearningMaterialManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class SessionLearningMaterialManager extends AbstractManager implements SessionLearningMaterialManagerInterface
+class SessionLearningMaterialManager extends BaseManager implements SessionLearningMaterialManagerInterface
 {
     /**
      * {@inheritdoc}

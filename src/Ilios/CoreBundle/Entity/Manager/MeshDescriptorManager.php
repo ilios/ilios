@@ -11,7 +11,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
  * Class MeshDescriptorManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class MeshDescriptorManager extends AbstractManager implements MeshDescriptorManagerInterface
+class MeshDescriptorManager extends BaseManager implements MeshDescriptorManagerInterface
 {
     /**
      * {@inheritdoc}

@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\SchoolInterface;
  * Class SchoolManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class SchoolManager extends AbstractManager implements SchoolManagerInterface
+class SchoolManager extends BaseManager implements SchoolManagerInterface
 {
     /**
      * {@inheritdoc}

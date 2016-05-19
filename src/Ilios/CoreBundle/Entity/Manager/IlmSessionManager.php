@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\IlmSessionInterface;
  * Class IlmSessionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class IlmSessionManager extends AbstractManager implements IlmSessionManagerInterface
+class IlmSessionManager extends BaseManager implements IlmSessionManagerInterface
 {
     /**
      * {@inheritdoc}

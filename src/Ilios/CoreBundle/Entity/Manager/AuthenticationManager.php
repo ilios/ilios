@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Entity\AuthenticationInterface;
  * Class AuthenticationManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AuthenticationManager extends AbstractManager implements AuthenticationManagerInterface
+class AuthenticationManager extends BaseManager implements AuthenticationManagerInterface
 {
     /**
      * {@inheritdoc}
