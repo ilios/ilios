@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
 
 /**
  * Class AamcMethodManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AamcMethodManager extends BaseManager implements AamcMethodManagerInterface
+class AamcMethodManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findAamcMethodBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findAamcMethodsBy(
         array $criteria,
@@ -30,41 +29,31 @@ class AamcMethodManager extends BaseManager implements AamcMethodManagerInterfac
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateAamcMethod(
         AamcMethodInterface $aamcMethod,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($aamcMethod);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($aamcMethod));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($aamcMethod, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteAamcMethod(
         AamcMethodInterface $aamcMethod
     ) {
-        $this->em->remove($aamcMethod);
-        $this->em->flush();
+        $this->delete($aamcMethod);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createAamcMethod()
     {
