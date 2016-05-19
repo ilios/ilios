@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Id\AssignedGenerator;
 
 /**
  * Class AbstractManager
@@ -45,7 +46,7 @@ abstract class AbstractManager implements ManagerInterface
     
     /**
      * Get the repository from the registry
-     * We have to do this here becuase the call to registry::getRepository
+     * We have to do this here because the call to registry::getRepository
      * requires the database to be setup which is a problem for using managers in console commands
      *
      * @return EntityRepository
@@ -82,5 +83,66 @@ abstract class AbstractManager implements ManagerInterface
     public function flush()
     {
         $this->em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOneBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
+        return $this->getRepository()->findOneBy($criteria, $orderBy);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(
+        $entity,
+        $andFlush = true,
+        $forceId = false
+    ) {
+        $this->em->persist($entity);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($entity));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
+        if ($andFlush) {
+            $this->em->flush();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(
+        $entity
+    ) {
+        $this->em->remove($entity);
+        $this->em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create()
+    {
+        $class = $this->getClass();
+        return new $class();
     }
 }
