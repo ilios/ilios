@@ -3,12 +3,11 @@
 namespace Ilios\CliBundle\Command;
 
 use Ilios\CoreBundle\Entity\AuditLogInterface;
-use Ilios\CoreBundle\Entity\Manager\AlertManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AlertManager;
 use Ilios\CoreBundle\Entity\Manager\AuditLogManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,7 +27,7 @@ class SendChangeAlertsCommand extends Command
     const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
 
     /**
-     * @var AlertManagerInterface
+     * @var AlertManager
      */
     protected $alertManager;
 
@@ -58,7 +57,7 @@ class SendChangeAlertsCommand extends Command
     protected $timezone;
 
     /**
-     * @param AlertManagerInterface $alertManager
+     * @param AlertManager $alertManager
      * @param AuditLogManagerInterface $auditLogManager
      * @param OfferingManagerInterface $offeringManager
      * @param EngineInterface $templatingEngine
@@ -66,7 +65,7 @@ class SendChangeAlertsCommand extends Command
      * @param string $timezone
      */
     public function __construct(
-        AlertManagerInterface $alertManager,
+        AlertManager $alertManager,
         AuditLogManagerInterface $auditLogManager,
         OfferingManagerInterface $offeringManager,
         EngineInterface $templatingEngine,
