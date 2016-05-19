@@ -59,11 +59,6 @@ interface AuditLogManagerInterface
     );
 
     /**
-     * @return string
-     */
-    public function getClass();
-
-    /**
      * @return AuditLogInterface
      */
     public function createAuditLog();

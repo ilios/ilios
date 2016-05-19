@@ -67,14 +67,6 @@ class AuditLogManager extends AbstractManager implements AuditLogManagerInterfac
     /**
      * {@inheritdoc}
      */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function createAuditLog()
     {
         $class = $this->getClass();
