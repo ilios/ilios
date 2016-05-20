@@ -11,7 +11,7 @@ use Ilios\CoreBundle\Entity\AuthenticationInterface;
 class AuthenticationManager extends BaseManager
 {
     /**
-     * @deprecated 
+     * @deprecated
      */
     public function findAuthenticationBy(
         array $criteria,
@@ -21,7 +21,7 @@ class AuthenticationManager extends BaseManager
     }
 
     /**
-     * @deprecated 
+     * @deprecated
      */
     public function findAuthenticationsBy(
         array $criteria,

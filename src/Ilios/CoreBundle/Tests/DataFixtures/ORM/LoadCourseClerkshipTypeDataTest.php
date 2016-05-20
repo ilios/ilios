@@ -47,4 +47,3 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[1], $entity->getTitle());
     }
 }
-

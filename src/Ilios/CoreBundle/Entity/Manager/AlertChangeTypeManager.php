@@ -57,6 +57,6 @@ class AlertChangeTypeManager extends BaseManager
      */
     public function createAlertChangeType()
     {
-       return $this->create();
+        return $this->create();
     }
 }

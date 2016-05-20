@@ -61,6 +61,6 @@ class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
      */
     protected function getEntity(array $data)
     {
-       return $this->em->findOneBy(['id' => $data[8]]);
+        return $this->em->findOneBy(['id' => $data[8]]);
     }
 }

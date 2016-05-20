@@ -57,6 +57,6 @@ class CourseClerkshipTypeManager extends BaseManager
      */
     public function createCourseClerkshipType()
     {
-       return $this->create();
+        return $this->create();
     }
 }
