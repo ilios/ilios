@@ -36,7 +36,7 @@ sudo -u apache bin/console cache:clear --env=prod
 
 ## Version-specific steps
 
-### Upgrading to Ilios 3.11.0
+### Upgrading to Ilios 3.12.0
 
 This version adds the "AAMC Resource Type" as a new entity to the application.
 
