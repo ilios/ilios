@@ -5,18 +5,17 @@ namespace Ilios\CliBundle\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
- * Syncs former students from the directory
+ * Syncs former students from the directory.
  *
  * Class SyncFormerStudentsCommand
  * @package Ilios\CliBUndle\Command
@@ -24,12 +23,12 @@ use Ilios\CoreBundle\Service\Directory;
 class SyncFormerStudentsCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
     
     /**
-     * @var UserRoleManagerInterface
+     * @var UserRoleManager
      */
     protected $userRoleManager;
     
@@ -39,8 +38,8 @@ class SyncFormerStudentsCommand extends Command
     protected $directory;
     
     public function __construct(
-        UserManagerInterface $userManager,
-        UserRoleManagerInterface $userRoleManager,
+        UserManager $userManager,
+        UserRoleManager $userRoleManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;

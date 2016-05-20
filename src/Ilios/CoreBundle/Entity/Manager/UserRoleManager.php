@@ -2,28 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
 
 /**
  * Class UserRoleManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class UserRoleManager extends BaseManager implements UserRoleManagerInterface
+class UserRoleManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findUserRoleBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findUserRolesBy(
         array $criteria,
@@ -31,45 +29,34 @@ class UserRoleManager extends BaseManager implements UserRoleManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateUserRole(
         UserRoleInterface $userRole,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($userRole);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($userRole));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($userRole, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteUserRole(
         UserRoleInterface $userRole
     ) {
-        $this->em->remove($userRole);
-        $this->em->flush();
+        $this->delete($userRole);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createUserRole()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

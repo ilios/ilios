@@ -3,7 +3,7 @@
 namespace Ilios\CliBundle\Command;
 
 use Ilios\CoreBundle\Entity\InstructorGroupInterface;
-use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -33,7 +33,7 @@ class SendTeachingRemindersCommand extends Command
     const DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
 
     /**
-     * @var OfferingManagerInterface
+     * @var OfferingManager
      */
     protected $offeringManager;
 
@@ -53,13 +53,13 @@ class SendTeachingRemindersCommand extends Command
     protected $timezone;
 
     /**
-     * @param \Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface $offeringManager
+     * @param \Ilios\CoreBundle\Entity\Manager\OfferingManager $offeringManager
      * @param \Symfony\Component\Templating\EngineInterface
      * @param \Swift_Mailer $mailer
      * @param string $timezone
      */
     public function __construct(
-        OfferingManagerInterface $offeringManager,
+        OfferingManager $offeringManager,
         EngineInterface $templatingEngine,
         $mailer,
         $timezone

@@ -2,27 +2,27 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
 /**
  * Class ObjectiveManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class ObjectiveManager extends BaseManager implements ObjectiveManagerInterface
+
+class ObjectiveManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findObjectiveBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findObjectivesBy(
         array $criteria,
@@ -30,50 +30,39 @@ class ObjectiveManager extends BaseManager implements ObjectiveManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateObjective(
         ObjectiveInterface $objective,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($objective);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($objective));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($objective, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteObjective(
         ObjectiveInterface $objective
     ) {
-        $this->em->remove($objective);
-        $this->em->flush();
+        $this->delete($objective);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createObjective()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function getTotalObjectiveCount()
     {

@@ -13,8 +13,8 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 
 /**
  * Add a user by looking them up in the directory
@@ -25,7 +25,7 @@ use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 class AddUserCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
     
@@ -35,7 +35,7 @@ class AddUserCommand extends Command
     protected $authenticationManager;
     
     /**
-     * @var SchoolManagerInterface
+     * @var SchoolManager
      */
     protected $schoolManager;
 
@@ -45,9 +45,9 @@ class AddUserCommand extends Command
     protected $encoder;
     
     public function __construct(
-        UserManagerInterface $userManager,
+        UserManager $userManager,
         AuthenticationManager $authenticationManager,
-        SchoolManagerInterface $schoolManager,
+        SchoolManager $schoolManager,
         UserPasswordEncoderInterface $encoder
     ) {
         $this->userManager = $userManager;

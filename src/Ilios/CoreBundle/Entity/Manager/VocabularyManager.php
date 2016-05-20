@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\VocabularyInterface;
 
 /**
  * Class VocabularyManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class VocabularyManager extends BaseManager implements VocabularyManagerInterface
+class VocabularyManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findVocabularyBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findVocabulariesBy(
         array $criteria,
@@ -30,45 +29,34 @@ class VocabularyManager extends BaseManager implements VocabularyManagerInterfac
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateVocabulary(
         VocabularyInterface $vocabulary,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($vocabulary);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($vocabulary));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($vocabulary, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteVocabulary(
         VocabularyInterface $vocabulary
     ) {
-        $this->em->remove($vocabulary);
-        $this->em->flush();
+        $this->delete($vocabulary);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createVocabulary()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

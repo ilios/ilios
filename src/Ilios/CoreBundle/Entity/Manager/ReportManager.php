@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ReportInterface;
 
 /**
  * Class ReportManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class ReportManager extends BaseManager implements ReportManagerInterface
+class ReportManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findReportBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findReportsBy(
         array $criteria,
@@ -30,45 +29,34 @@ class ReportManager extends BaseManager implements ReportManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateReport(
         ReportInterface $report,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($report);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($report));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($report, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteReport(
         ReportInterface $report
     ) {
-        $this->em->remove($report);
-        $this->em->flush();
+        $this->delete($report);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createReport()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

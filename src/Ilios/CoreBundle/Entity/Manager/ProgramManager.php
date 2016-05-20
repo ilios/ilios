@@ -2,38 +2,37 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 
 /**
  * Class ProgramManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class ProgramManager extends BaseManager implements ProgramManagerInterface
+class ProgramManager extends DTOManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findProgramBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findProgramDTOBy(
         array $criteria,
         array $orderBy = null
     ) {
-        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
-        return empty($results)?false:$results[0];
+        return $this->findDTOBy($criteria, $orderBy);
+
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findProgramsBy(
         array $criteria,
@@ -41,11 +40,11 @@ class ProgramManager extends BaseManager implements ProgramManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findProgramDTOsBy(
         array $criteria,
@@ -53,46 +52,35 @@ class ProgramManager extends BaseManager implements ProgramManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
+        return $this->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateProgram(
         ProgramInterface $program,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($program);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($program));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($program, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteProgram(
         ProgramInterface $program
     ) {
-        $this->em->remove($program);
-        $this->em->flush();
+        $this->delete($program);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createProgram()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

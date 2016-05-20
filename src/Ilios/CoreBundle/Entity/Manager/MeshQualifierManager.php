@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
 /**
  * Class MeshQualifierManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class MeshQualifierManager extends BaseManager implements MeshQualifierManagerInterface
+class MeshQualifierManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshQualifierBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshQualifiersBy(
         array $criteria,
@@ -30,45 +29,34 @@ class MeshQualifierManager extends BaseManager implements MeshQualifierManagerIn
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateMeshQualifier(
         MeshQualifierInterface $meshQualifier,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($meshQualifier);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($meshQualifier));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($meshQualifier, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteMeshQualifier(
         MeshQualifierInterface $meshQualifier
     ) {
-        $this->em->remove($meshQualifier);
-        $this->em->flush();
+        $this->delete($meshQualifier);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createMeshQualifier()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

@@ -5,12 +5,11 @@ namespace Ilios\CliBundle\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Service\Directory;
 
@@ -23,7 +22,7 @@ use Ilios\CoreBundle\Service\Directory;
 class SyncUserCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
 
@@ -38,7 +37,7 @@ class SyncUserCommand extends Command
     protected $directory;
     
     public function __construct(
-        UserManagerInterface $userManager,
+        UserManager $userManager,
         AuthenticationManager $authenticationManager,
         Directory $directory
     ) {

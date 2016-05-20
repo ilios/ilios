@@ -3,13 +3,12 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\CohortInterface;
-use Ilios\CoreBundle\Entity\DTO\CohortDTO;
 
 /**
  * Class CohortManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CohortManager extends BaseManager
+class CohortManager extends DTOManager
 {
     /**
      * @deprecated
@@ -22,17 +21,13 @@ class CohortManager extends BaseManager
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CohortDTO
+     * @deprecated
      */
     public function findCohortDTOBy(
         array $criteria,
         array $orderBy = null
     ) {
-        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
-        return empty($results)?false:$results[0];
+        return $this->findDTOBy($criteria, $orderBy);
     }
 
     /**
@@ -48,12 +43,7 @@ class CohortManager extends BaseManager
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return CohortDTO[]
+     * @deprecated
      */
     public function findCohortDTOsBy(
         array $criteria,
@@ -61,7 +51,7 @@ class CohortManager extends BaseManager
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
+        return $this->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

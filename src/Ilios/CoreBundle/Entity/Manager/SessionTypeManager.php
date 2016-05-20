@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
 /**
  * Class SessionTypeManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class SessionTypeManager extends BaseManager implements SessionTypeManagerInterface
+class SessionTypeManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findSessionTypeBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findSessionTypesBy(
         array $criteria,
@@ -30,45 +29,34 @@ class SessionTypeManager extends BaseManager implements SessionTypeManagerInterf
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateSessionType(
         SessionTypeInterface $sessionType,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($sessionType);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($sessionType));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($sessionType, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteSessionType(
         SessionTypeInterface $sessionType
     ) {
-        $this->em->remove($sessionType);
-        $this->em->flush();
+        $this->delete($sessionType);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createSessionType()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshTermInterface;
 
 /**
@@ -10,56 +9,45 @@ use Ilios\CoreBundle\Entity\MeshTermInterface;
  * Class MeshTermManager
  * @package Ilios\CoreBundle\Manager
  */
-class MeshTermManager extends BaseManager implements MeshTermManagerInterface
+class MeshTermManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshTermBy(array $criteria, array $orderBy = null)
     {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshTermsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateMeshTerm(MeshTermInterface $meshTerm, $andFlush = true, $forceId = false)
     {
-        $this->em->persist($meshTerm);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($meshTerm));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($meshTerm, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteMeshTerm(MeshTermInterface $meshTerm)
     {
-        $this->em->remove($meshTerm);
-        $this->em->flush();
+        $this->delete($meshTerm);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createMeshTerm()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

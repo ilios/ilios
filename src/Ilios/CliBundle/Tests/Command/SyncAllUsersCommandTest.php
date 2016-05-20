@@ -25,9 +25,9 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
+        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
         $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $this->pendingUserUpdateManager = m::mock('Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManagerInterface');
+        $this->pendingUserUpdateManager = m::mock('Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
         $this->em = m::mock('Doctrine\Orm\EntityManager');
         

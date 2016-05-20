@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use \DateTime;
 
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 
 /**
  * Invalidate all user tokens issued before now
@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 class InvalidateUserTokenCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
     
@@ -30,7 +30,7 @@ class InvalidateUserTokenCommand extends Command
     protected $authenticationManager;
     
     public function __construct(
-        UserManagerInterface $userManager,
+        UserManager $userManager,
         AuthenticationManager $authenticationManager
     ) {
         $this->userManager = $userManager;

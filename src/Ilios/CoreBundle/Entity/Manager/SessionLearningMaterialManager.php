@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 
 /**
  * Class SessionLearningMaterialManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class SessionLearningMaterialManager extends BaseManager implements SessionLearningMaterialManagerInterface
+class SessionLearningMaterialManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findSessionLearningMaterialBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findSessionLearningMaterialsBy(
         array $criteria,
@@ -30,50 +29,39 @@ class SessionLearningMaterialManager extends BaseManager implements SessionLearn
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateSessionLearningMaterial(
         SessionLearningMaterialInterface $sessionLearningMaterial,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($sessionLearningMaterial);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($sessionLearningMaterial));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($sessionLearningMaterial, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteSessionLearningMaterial(
         SessionLearningMaterialInterface $sessionLearningMaterial
     ) {
-        $this->em->remove($sessionLearningMaterial);
-        $this->em->flush();
+        $this->delete($sessionLearningMaterial);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createSessionLearningMaterial()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function getTotalSessionLearningMaterialCount()
     {

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
@@ -12,20 +11,20 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
  * Class ProgramYearStewardManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class ProgramYearStewardManager extends BaseManager implements ProgramYearStewardManagerInterface
+class ProgramYearStewardManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findProgramYearStewardBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findProgramYearStewardsBy(
         array $criteria,
@@ -33,50 +32,43 @@ class ProgramYearStewardManager extends BaseManager implements ProgramYearStewar
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateProgramYearSteward(
         ProgramYearStewardInterface $programYearSteward,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($programYearSteward);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($programYearSteward));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($programYearSteward, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteProgramYearSteward(
         ProgramYearStewardInterface $programYearSteward
     ) {
-        $this->em->remove($programYearSteward);
-        $this->em->flush();
+        $this->delete($programYearSteward);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createProgramYearSteward()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if a given entity's school (co-)stewards a given program year.
+     *
+     * @param SchoolEntityInterface $schoolEntity the entity with a school
+     * @param ProgramYearInterface $programYear
+     * @return bool
      */
     public function schoolIsStewardingProgramYear(
         SchoolEntityInterface $schoolEntity,

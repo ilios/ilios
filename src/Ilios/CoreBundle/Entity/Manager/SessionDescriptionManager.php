@@ -2,27 +2,26 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
 
 /**
  * Class SessionDescriptionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class SessionDescriptionManager extends BaseManager implements SessionDescriptionManagerInterface
+class SessionDescriptionManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findSessionDescriptionBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findSessionDescriptionsBy(
         array $criteria,
@@ -30,50 +29,39 @@ class SessionDescriptionManager extends BaseManager implements SessionDescriptio
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateSessionDescription(
         SessionDescriptionInterface $sessionDescription,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($sessionDescription);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($sessionDescription));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($sessionDescription, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteSessionDescription(
         SessionDescriptionInterface $sessionDescription
     ) {
-        $this->em->remove($sessionDescription);
-        $this->em->flush();
+        $this->delete($sessionDescription);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createSessionDescription()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function getTotalSessionDescriptionCount()
     {

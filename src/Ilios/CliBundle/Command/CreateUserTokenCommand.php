@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
 /**
@@ -20,7 +20,7 @@ use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 class CreateUserTokenCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
     
@@ -30,7 +30,7 @@ class CreateUserTokenCommand extends Command
     protected $jwtManager;
     
     public function __construct(
-        UserManagerInterface $userManager,
+        UserManager $userManager,
         JsonWebTokenManager $jwtManager
     ) {
         $this->userManager = $userManager;

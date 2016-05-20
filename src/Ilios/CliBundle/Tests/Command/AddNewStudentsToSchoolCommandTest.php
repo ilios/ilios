@@ -25,9 +25,9 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
-        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface');
-        $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface');
+        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
+        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserRoleManager');
+        $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManager');
         $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
         

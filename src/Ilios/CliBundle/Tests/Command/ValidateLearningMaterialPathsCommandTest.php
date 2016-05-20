@@ -16,7 +16,7 @@ class ValidateLearningMaterialPathsCommandTest extends \PHPUnit_Framework_TestCa
     public function setUp()
     {
         $this->iliosFileSystem = m::mock('Ilios\CoreBundle\Classes\IliosFileSystem');
-        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface');
+        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManager');
 
         $command = new ValidateLearningMaterialPathsCommand(
             $this->iliosFileSystem,

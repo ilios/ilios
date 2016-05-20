@@ -15,7 +15,7 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
+        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
         $this->jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         
         $command = new CreateUserTokenCommand($this->userManager, $this->jwtManager);

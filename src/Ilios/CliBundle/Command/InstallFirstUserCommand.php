@@ -4,9 +4,9 @@ namespace Ilios\CliBundle\Command;
 
 use Ilios\CliBundle\Form\InstallFirstUserType;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 
 use Matthias\SymfonyConsoleForm\Console\Helper\FormHelper;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -70,7 +70,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /**
-         * @var UserManagerInterface $userManager
+         * @var UserManager $userManager
          */
         $userManager = $this->getContainer()->get('ilioscore.user.manager');
 
@@ -83,7 +83,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
         }
 
         /**
-         * @var SchoolManagerInterface $schoolManager
+         * @var SchoolManager $schoolManager
          */
         $schoolManager = $this->getContainer()->get('ilioscore.school.manager');
         $schoolEntities = $schoolManager->findSchoolsBy([]);
@@ -117,7 +117,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
         $user->setEnabled(true);
         $user->setUserSyncIgnore(false);
         /**
-         * @var UserRoleManagerInterface $userRoleManager
+         * @var UserRoleManager $userRoleManager
          */
         $userRoleManager = $this->getContainer()->get('ilioscore.userrole.manager');
         $user->addRole($userRoleManager->findUserRoleBy(['title' => 'Course Director']));

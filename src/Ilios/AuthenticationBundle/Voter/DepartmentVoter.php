@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\DepartmentInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -14,14 +14,14 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class DepartmentVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManagerInterface
+     * @var PermissionManager
      */
     protected $permissionManager;
 
     /**
-     * @param PermissionManagerInterface $permissionManager
+     * @param PermissionManager $permissionManager
      */
-    public function __construct(PermissionManagerInterface $permissionManager)
+    public function __construct(PermissionManager $permissionManager)
     {
         $this->permissionManager = $permissionManager;
     }

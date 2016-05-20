@@ -2,7 +2,6 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

@@ -7,9 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManager;
 
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Service\Directory;
 class SyncAllUsersCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
 
@@ -31,7 +31,7 @@ class SyncAllUsersCommand extends Command
     protected $authenticationManager;
 
     /**
-     * @var PendingUserUpdateManagerInterface
+     * @var PendingUserUpdateManager
      */
     protected $pendingUserUpdateManager;
     
@@ -46,9 +46,9 @@ class SyncAllUsersCommand extends Command
     protected $em;
     
     public function __construct(
-        UserManagerInterface $userManager,
+        UserManager $userManager,
         AuthenticationManager $authenticationManager,
-        PendingUserUpdateManagerInterface $pendingUserUpdateManager,
+        PendingUserUpdateManager $pendingUserUpdateManager,
         Directory $directory,
         EntityManager $em
     ) {

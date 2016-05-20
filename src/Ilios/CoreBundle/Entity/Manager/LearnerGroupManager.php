@@ -2,14 +2,13 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Ilios\CoreBundle\Entity\DTO\LearnerGroupDTO;
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 
 /**
  * Class LearnerGroupManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class LearnerGroupManager extends BaseManager
+class LearnerGroupManager extends DTOManager
 {
     /**
      * @deprecated
@@ -22,16 +21,13 @@ class LearnerGroupManager extends BaseManager
     }
 
     /**
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @return LearnerGroupDTO|bool
+     * @deprecated
      */
     public function findLearnerGroupDTOBy(
         array $criteria,
         array $orderBy = null
     ) {
-        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
-        return empty($results)?false:$results[0];
+        return $this->findDTOBy($criteria, $orderBy);
     }
 
     /**
@@ -47,11 +43,7 @@ class LearnerGroupManager extends BaseManager
     }
 
     /**
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     * @return LearnerGroupDTO[]
+     * @deprecated
      */
     public function findLearnerGroupDTOsBy(
         array $criteria,
@@ -59,7 +51,7 @@ class LearnerGroupManager extends BaseManager
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
+        return $this->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

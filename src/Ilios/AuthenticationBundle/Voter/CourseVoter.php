@@ -2,11 +2,9 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
-use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\UserInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CourseVoter
@@ -15,7 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 abstract class CourseVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManagerInterface
+     * @var PermissionManager
      */
     protected $permissionManager;
 
@@ -26,9 +24,9 @@ abstract class CourseVoter extends AbstractVoter
 
     /**
      * @param CourseManager $courseManager
-     * @param PermissionManagerInterface $permissionManager
+     * @param PermissionManager $permissionManager
      */
-    public function __construct(CourseManager $courseManager, PermissionManagerInterface $permissionManager)
+    public function __construct(CourseManager $courseManager, PermissionManager $permissionManager)
     {
         $this->courseManager = $courseManager;
         $this->permissionManager = $permissionManager;

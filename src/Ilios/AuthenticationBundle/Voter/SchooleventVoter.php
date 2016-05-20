@@ -3,8 +3,8 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Classes\SchoolEvent;
-use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\PermissionManager;
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -15,20 +15,20 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class SchooleventVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManagerInterface
+     * @var PermissionManager
      */
     protected $permissionManager;
 
     /**
-     * @var SchoolManagerInterface
+     * @var SchoolManager
      */
     protected $schoolManager;
 
     /**
-     * @param PermissionManagerInterface $permissionManager
-     * @param SchoolManagerInterface $schoolManager
+     * @param PermissionManager $permissionManager
+     * @param SchoolManager $schoolManager
      */
-    public function __construct(PermissionManagerInterface $permissionManager, SchoolManagerInterface $schoolManager)
+    public function __construct(PermissionManager $permissionManager, SchoolManager $schoolManager)
     {
         $this->permissionManager = $permissionManager;
         $this->schoolManager = $schoolManager;

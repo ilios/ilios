@@ -22,16 +22,16 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->purifier = m::mock('HTMLPurifier');
-        $this->objectiveManager = m::mock('Ilios\CoreBundle\Entity\Manager\ObjectiveManagerInterface');
-        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface');
+        $this->objectiveManager = m::mock('Ilios\CoreBundle\Entity\Manager\ObjectiveManager');
+        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManager');
         $this->courseLearningMaterialManager = m::mock(
             'Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager'
         );
         $this->sessionLearningMaterialManager = m::mock(
-            'Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManagerInterface'
+            'Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager'
         );
         $this->sessionDescriptionManager = m::mock(
-            'Ilios\CoreBundle\Entity\Manager\SessionDescriptionManagerInterface'
+            'Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager'
         );
         $this->em = m::mock('Doctrine\Orm\EntityManager');
 

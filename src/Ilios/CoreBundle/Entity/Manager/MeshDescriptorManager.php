@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
 
@@ -10,7 +9,7 @@ use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
  * Class MeshDescriptorManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class MeshDescriptorManager extends BaseManager
+class MeshDescriptorManager extends DTOManager
 {
     /**
      * @deprecated
@@ -23,18 +22,13 @@ class MeshDescriptorManager extends BaseManager
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return MeshDescriptorDTO|bool
+     * @deprecated
      */
     public function findMeshDescriptorDTOBy(
         array $criteria,
         array $orderBy = null
     ) {
-        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
-
-        return empty($results)?false:$results[0];
+        return $this->findDTOBy($criteria, $orderBy);
     }
 
     /**
@@ -50,12 +44,7 @@ class MeshDescriptorManager extends BaseManager
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return MeshDescriptorDTO[]
+     * @deprecated
      */
     public function findMeshDescriptorDTOsBy(
         array $criteria,
@@ -63,7 +52,7 @@ class MeshDescriptorManager extends BaseManager
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
+        return $this->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

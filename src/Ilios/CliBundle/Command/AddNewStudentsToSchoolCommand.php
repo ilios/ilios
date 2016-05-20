@@ -9,10 +9,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
@@ -24,12 +24,12 @@ use Ilios\CoreBundle\Service\Directory;
 class AddNewStudentsToSchoolCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
 
     /**
-     * @var SchoolManagerInterface
+     * @var SchoolManager
      */
     protected $schoolManager;
 
@@ -39,7 +39,7 @@ class AddNewStudentsToSchoolCommand extends Command
     protected $authenticationManager;
     
     /**
-     * @var UserRoleManagerInterface
+     * @var UserRoleManager
      */
     protected $userRoleManager;
     
@@ -49,10 +49,10 @@ class AddNewStudentsToSchoolCommand extends Command
     protected $directory;
     
     public function __construct(
-        UserManagerInterface $userManager,
-        SchoolManagerInterface $schoolManager,
+        UserManager $userManager,
+        SchoolManager $schoolManager,
         AuthenticationManager $authenticationManager,
-        UserRoleManagerInterface $userRoleManager,
+        UserRoleManager $userRoleManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;

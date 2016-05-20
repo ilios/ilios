@@ -3,14 +3,13 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\DTO\CourseDTO;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class CourseManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CourseManager extends BaseManager
+class CourseManager extends DTOManager
 {
     /**
      * @deprecated
@@ -23,18 +22,13 @@ class CourseManager extends BaseManager
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     *
-     * @return CourseDTO
+     * @deprecated
      */
     public function findCourseDTOBy(
         array $criteria,
         array $orderBy = null
     ) {
-        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
-
-        return empty($results)?false:$results[0];
+        return $this->findDTOBy($criteria, $orderBy);
     }
 
     /**
@@ -50,12 +44,7 @@ class CourseManager extends BaseManager
     }
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return CourseDTO[]
+     * @deprecated
      */
     public function findCourseDTOsBy(
         array $criteria,
@@ -63,7 +52,7 @@ class CourseManager extends BaseManager
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
+        return $this->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

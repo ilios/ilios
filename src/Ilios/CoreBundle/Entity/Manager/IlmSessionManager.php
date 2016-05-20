@@ -17,7 +17,7 @@ class IlmSessionManager extends BaseManager
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -29,7 +29,7 @@ class IlmSessionManager extends BaseManager
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -40,16 +40,7 @@ class IlmSessionManager extends BaseManager
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($ilmSession);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($ilmSession));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($ilmSession, $andFlush, $forceId);
     }
 
     /**
@@ -58,8 +49,7 @@ class IlmSessionManager extends BaseManager
     public function deleteIlmSession(
         IlmSessionInterface $ilmSession
     ) {
-        $this->em->remove($ilmSession);
-        $this->em->flush();
+        $this->delete($ilmSession);
     }
 
     /**
@@ -67,7 +57,6 @@ class IlmSessionManager extends BaseManager
      */
     public function createIlmSession()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

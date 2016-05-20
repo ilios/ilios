@@ -2,38 +2,36 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
  * Class SchoolManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class SchoolManager extends BaseManager implements SchoolManagerInterface
+class SchoolManager extends DTOManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findSchoolBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findSchoolDTOBy(
         array $criteria,
         array $orderBy = null
     ) {
-        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
-        return empty($results)?false:$results[0];
+        return $this->findDTOBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findSchoolsBy(
         array $criteria,
@@ -41,11 +39,11 @@ class SchoolManager extends BaseManager implements SchoolManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findSchoolDTOsBy(
         array $criteria,
@@ -53,50 +51,42 @@ class SchoolManager extends BaseManager implements SchoolManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
+        return $this->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateSchool(
         SchoolInterface $school,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($school);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($school));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($school, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteSchool(
         SchoolInterface $school
     ) {
-        $this->em->remove($school);
-        $this->em->flush();
+        $this->delete($school);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createSchool()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 
     /**
-     * {@inheritdoc}
+     * @param int $schoolId
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @return SchoolEvent[]
      */
     public function findEventsForSchool($schoolId, \DateTime $from, \DateTime $to)
     {

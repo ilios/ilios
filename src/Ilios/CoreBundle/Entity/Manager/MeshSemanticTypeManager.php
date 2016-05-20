@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 
 /**
@@ -10,20 +9,20 @@ use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
  * @package Ilios\CoreBundle\Entity\Manager
  * @deprecated
  */
-class MeshSemanticTypeManager extends BaseManager implements MeshSemanticTypeManagerInterface
+class MeshSemanticTypeManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshSemanticTypeBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshSemanticTypesBy(
         array $criteria,
@@ -31,45 +30,34 @@ class MeshSemanticTypeManager extends BaseManager implements MeshSemanticTypeMan
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateMeshSemanticType(
         MeshSemanticTypeInterface $meshSemanticType,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($meshSemanticType);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($meshSemanticType));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($meshSemanticType, $andFlush, $forceId);
     }
 
     /**
-     * @param MeshSemanticTypeInterface $meshSemanticType
+     * @deprecated
      */
     public function deleteMeshSemanticType(
         MeshSemanticTypeInterface $meshSemanticType
     ) {
-        $this->em->remove($meshSemanticType);
-        $this->em->flush();
+        $this->delete($meshSemanticType);
     }
 
     /**
-     * @return MeshSemanticTypeInterface
+     * @deprecated
      */
     public function createMeshSemanticType()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

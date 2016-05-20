@@ -2,7 +2,9 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
+use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Classes\CalendarEvent;
+use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\DTO\UserDTO;
 
@@ -10,31 +12,32 @@ use Ilios\CoreBundle\Entity\DTO\UserDTO;
  * Class UserManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class UserManager extends BaseManager implements UserManagerInterface
+class UserManager extends DTOManager
 {
+    use Manageable;
+
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findUserBy(
         array $criteria,
         array $orderBy = null
     ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * @inheritdoc
+     * @deprecated
      */
     public function findUserDTOBy(
         array $criteria,
         array $orderBy = null
     ) {
-        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
-        return empty($results) ? false : $results[0];
+        return $this->findDTOBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findUsersBy(
         array $criteria,
@@ -42,11 +45,15 @@ class UserManager extends BaseManager implements UserManagerInterface
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @inheritdoc
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     * @return UserDTO[]
      */
     public function findUserDTOsBy(
         array $criteria,
@@ -55,11 +62,13 @@ class UserManager extends BaseManager implements UserManagerInterface
         $offset = null
     ) {
     
-        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
+        return $this->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @inheritdoc
+     * @param array $campusIds
+     *
+     * @return UserDTO[]
      */
     public function findAllMatchingDTOsByCampusIds(
         array $campusIds
@@ -68,46 +77,41 @@ class UserManager extends BaseManager implements UserManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateUser(
         UserInterface $user,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($user);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($user));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($user, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteUser(
         UserInterface $user
     ) {
-        $this->em->remove($user);
-        $this->em->flush();
+        $this->delete($user);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createUser()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $q
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     * @param array $criteria
+     *
+     * @return UserInterface[]
      */
     public function findUsersByQ(
         $q,
@@ -120,7 +124,12 @@ class UserManager extends BaseManager implements UserManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Find all of the events for a user id between two dates.
+     *
+     * @param integer $userId
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @return UserEvent[]
      */
     public function findEventsForUser($userId, \DateTime $from, \DateTime $to)
     {
@@ -128,7 +137,10 @@ class UserManager extends BaseManager implements UserManagerInterface
     }
 
     /**
-     * @inheritdoc
+     * Finds and adds instructors to a given list of calendar events.
+     *
+     * @param CalendarEvent[] $events
+     * @return CalendarEvent[]
      */
     public function addInstructorsToEvents(array $events)
     {
@@ -136,7 +148,9 @@ class UserManager extends BaseManager implements UserManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $campusIdFilter an array of the campusIDs to include in our search if empty then all users
+     *
+     * @return ArrayCollection
      */
     public function findUsersWhoAreNotFormerStudents(array $campusIdFilter = array())
     {
@@ -144,7 +158,11 @@ class UserManager extends BaseManager implements UserManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get all the campus IDs for every user
+     * @param $includeDisabled
+     * @param $includeSyncIgnore
+     *
+     * @return array
      */
     public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true)
     {
@@ -153,7 +171,7 @@ class UserManager extends BaseManager implements UserManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Reset the examined flags on every user
      */
     public function resetExaminedFlagForAllUsers()
     {

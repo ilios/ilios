@@ -20,8 +20,8 @@ class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
-        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface');
+        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
+        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserRoleManager');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
         
         $command = new SyncFormerStudentsCommand($this->userManager, $this->userRoleManager, $this->directory);

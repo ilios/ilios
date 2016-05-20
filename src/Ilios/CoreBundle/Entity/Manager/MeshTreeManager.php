@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshTreeInterface;
 
 /**
@@ -10,56 +9,45 @@ use Ilios\CoreBundle\Entity\MeshTreeInterface;
  * Class MeshTreeManager
  * @package Ilios\CoreBundle\Manager
  */
-class MeshTreeManager extends BaseManager implements MeshTreeManagerInterface
+class MeshTreeManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshTreeBy(array $criteria, array $orderBy = null)
     {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria, $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function findMeshTreesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function updateMeshTree(MeshTreeInterface $meshTree, $andFlush = true, $forceId = false)
     {
-        $this->em->persist($meshTree);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($meshTree));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
+        $this->update($meshTree, $andFlush, $forceId);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function deleteMeshTree(MeshTreeInterface $meshTree)
     {
-        $this->em->remove($meshTree);
-        $this->em->flush();
+        $this->delete($meshTree);
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated
      */
     public function createMeshTree()
     {
-        $class = $this->getClass();
-        return new $class();
+        return $this->create();
     }
 }

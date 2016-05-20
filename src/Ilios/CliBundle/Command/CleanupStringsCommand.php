@@ -9,11 +9,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Doctrine\ORM\EntityManager;
 
-use Ilios\CoreBundle\Entity\Manager\ObjectiveManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\ObjectiveManager;
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
 use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
 use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager;
-use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager;
 
 /**
  * Cleans up all the strings in the database
@@ -34,7 +34,7 @@ class CleanupStringsCommand extends Command
     protected $em;
 
     /**
-     * @var ObjectiveManagerInterface
+     * @var ObjectiveManager
      */
     protected $objectiveManager;
 
@@ -57,7 +57,7 @@ class CleanupStringsCommand extends Command
 
 
     /**
-     * @var SessionDescriptionManagerInterface
+     * @var SessionDescriptionManager
      */
     protected $sessionDescriptionManager;
 
@@ -69,11 +69,11 @@ class CleanupStringsCommand extends Command
     public function __construct(
         \HTMLPurifier $purifier,
         EntityManager $em,
-        ObjectiveManagerInterface $objectiveManager,
+        ObjectiveManager $objectiveManager,
         LearningMaterialManager $learningMaterialManager,
         CourseLearningMaterialManager $courseLearningMaterialManager,
         SessionLearningMaterialManager $sessionLearningMaterialManager,
-        SessionDescriptionManagerInterface $sessionDescriptionManager
+        SessionDescriptionManager $sessionDescriptionManager
     ) {
         $this->purifier = $purifier;
         $this->em = $em;
