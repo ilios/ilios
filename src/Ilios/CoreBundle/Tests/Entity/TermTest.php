@@ -32,6 +32,7 @@ class TermTest extends EntityBase
         $this->assertEmpty($this->object->getProgramYears());
         $this->assertEmpty($this->object->getSessions());
         $this->assertEmpty($this->object->getChildren());
+        $this->assertEmpty($this->object->getAamcResourceTypes());
     }
 
     /**
@@ -116,5 +117,21 @@ class TermTest extends EntityBase
     public function testGetSessions()
     {
         $this->entityCollectionSetTest('session', 'Session', false, false, 'addTerm');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Term::addAamcResourceType
+     */
+    public function testAddAamcResourceTypes()
+    {
+        $this->entityCollectionAddTest('aamcResourceType', 'AamcResourceType');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Term::getAamcResourceTypes
+     */
+    public function testGetAamcResourceTypes()
+    {
+        $this->entityCollectionSetTest('aamcResourceType', 'AamcResourceType');
     }
 }

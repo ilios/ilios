@@ -65,4 +65,19 @@ interface TermInterface extends
      * @return boolean
      */
     public function hasChildren();
+
+    /**
+     * @param Collection $aamcResourceTypes
+     */
+    public function setAamcResourceTypes(Collection $aamcResourceTypes);
+
+    /**
+     * @param AamcResourceTypeInterface $aamcResourceType
+     */
+    public function addAamcResourceType(AamcResourceTypeInterface $aamcResourceType);
+
+    /**
+     * @return ArrayCollection|AamcResourceTypeInterface[]
+     */
+    public function getAamcResourceTypes();
 }

@@ -73,6 +73,12 @@ interface CurriculumInventoryReportManagerInterface extends ManagerInterface
      * @param CurriculumInventoryReportInterface $report
      * @return array
      */
+    public function getEventResourceTypes(CurriculumInventoryReportInterface $report);
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     * @return array
+     */
     public function getEventKeywords(CurriculumInventoryReportInterface $report);
 
     /**

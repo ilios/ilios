@@ -83,6 +83,14 @@ class CurriculumInventoryReportManager extends AbstractManager implements Curric
     /**
      * {@inheritdoc}
      */
+    public function getEventResourceTypes(CurriculumInventoryReportInterface $report)
+    {
+        return $this->getRepository()->getEventResourceTypes($report);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getEventKeywords(CurriculumInventoryReportInterface $report)
     {
         return $this->getRepository()->getEventKeywords($report);

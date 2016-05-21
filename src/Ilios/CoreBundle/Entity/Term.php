@@ -156,10 +156,31 @@ class Term implements TermInterface
     protected $vocabulary;
 
     /**
+     * @var ArrayCollection|AamcResourceTypeInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="AamcResourceType", inversedBy="terms")
+     * @ORM\JoinTable(name="term_x_aamc_resource_type",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="resource_type_id", referencedColumnName="resource_type_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("aamcResourceTypes")
+     */
+    protected $aamcResourceTypes;
+
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->aamcResourceTypes = new ArrayCollection();
         $this->courses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->sessions = new ArrayCollection();
@@ -265,5 +286,35 @@ class Term implements TermInterface
     public function hasChildren()
     {
         return (!$this->children->isEmpty()) ? true : false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setAamcResourceTypes(Collection $aamcResourceTypes)
+    {
+        $this->aamcResourceTypes = new ArrayCollection();
+
+        foreach ($aamcResourceTypes as $aamcResourceType) {
+            $this->addAamcResourceType($aamcResourceType);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addAamcResourceType(AamcResourceTypeInterface $aamcResourceType)
+    {
+        if (!$this->aamcResourceTypes->contains($aamcResourceType)) {
+            $this->aamcResourceTypes->add($aamcResourceType);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAamcResourceTypes()
+    {
+        return $this->aamcResourceTypes;
     }
 }

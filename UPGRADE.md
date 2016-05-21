@@ -36,7 +36,17 @@ sudo -u apache bin/console cache:clear --env=prod
 
 ## Version-specific steps
 
-_to be done_
+### Upgrading to Ilios 3.12.0
+
+This version adds the "AAMC Resource Type" as a new entity to the application.
+
+Please execute the following console command _after_ running migrations 
+in order to load the default resource-types data set.
+
+```bash
+cd YOUR_ILIOS_APPLICATION_ROOT
+sudo -u apache bin/console doctrine:fixtures:load --env=prod --fixtures=src/Ilios/CoreBundle/DataFixtures/ORM/LoadAamcResourceTypeData.php
+```
 
 # Upgrading Ilios 2.x to Ilios 3
 
@@ -148,4 +158,3 @@ sudo -u apache bin/console ilios:maintenance:cleanup-strings --learningmaterial-
 #for Session Descriptions
 sudo -u apache bin/console ilios:maintenance:cleanup-strings --session-description --env=prod
 ```
-

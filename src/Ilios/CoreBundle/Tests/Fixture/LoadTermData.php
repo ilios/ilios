@@ -37,6 +37,9 @@ class LoadTermData extends AbstractFixture implements
             if (isset($arr['parent'])) {
                 $entity->setParent($this->getReference('terms' . $arr['parent']));
             }
+            foreach ($arr['aamcResourceTypes'] as $id) {
+                $entity->addAamcResourceType($this->getReference('aamcResourceTypes' . $id));
+            }
             $manager->persist($entity);
             $this->addReference('terms' . $arr['id'], $entity);
         }
@@ -48,6 +51,7 @@ class LoadTermData extends AbstractFixture implements
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadVocabularyData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadAamcResourceTypeData',
         );
     }
 }
