@@ -220,6 +220,8 @@ class Course implements CourseInterface
     /**
      * @var SchoolInterface
      *
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="courses")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")

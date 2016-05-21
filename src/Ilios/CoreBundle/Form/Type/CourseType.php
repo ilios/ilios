@@ -42,7 +42,7 @@ class CourseType extends AbstractType
                 'entityName' => "IliosCoreBundle:CourseClerkshipType"
             ])
             ->add('school', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:School"
             ])
             ->add('directors', ManyRelatedType::class, [
