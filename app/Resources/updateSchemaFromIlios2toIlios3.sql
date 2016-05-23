@@ -296,6 +296,7 @@ CALL drop_index_if_exists('session_learning_material_x_mesh', 'slm_id_k');
 CALL drop_index_if_exists('session_type_x_aamc_method', 'aamc_method_id_fkey');
 CALL drop_index_if_exists('session_x_objective', 'fkey_session_x_objective_objective_id');
 CALL drop_index_if_exists('session_x_discipline', 'fkey_session_x_discipline_discipline_id');
+CALL drop_index_if_exists('user', 'fkey_user_primary_school');
 CALL drop_index_if_exists('user_x_cohort', 'fkey_user_x_cohort_cohort');
 CALL drop_index_if_exists('user_x_user_role', 'user_x_user_role_user_id');
 CALL drop_index_if_exists('user_x_user_role', 'user_x_user_role_user_role_id');
