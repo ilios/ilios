@@ -2,6 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,7 +13,6 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
@@ -39,7 +39,7 @@ class AddNewStudentsToSchoolCommand extends Command
     protected $authenticationManager;
     
     /**
-     * @var UserRoleManager
+     * @var ManagerInterface
      */
     protected $userRoleManager;
     
@@ -52,7 +52,7 @@ class AddNewStudentsToSchoolCommand extends Command
         UserManager $userManager,
         SchoolManager $schoolManager,
         AuthenticationManager $authenticationManager,
-        UserRoleManager $userRoleManager,
+        ManagerInterface $userRoleManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;
@@ -91,7 +91,7 @@ class AddNewStudentsToSchoolCommand extends Command
     {
         $filter = $input->getArgument('filter');
         $schoolId = $input->getArgument('schoolId');
-        $school = $this->schoolManager->findSchoolBy(['id' => $schoolId]);
+        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new \Exception(
                 "School with id {$schoolId} could not be found."
@@ -144,7 +144,7 @@ class AddNewStudentsToSchoolCommand extends Command
         );
         
         if ($helper->ask($input, $output, $question)) {
-            $studentRole = $this->userRoleManager->findUserRoleBy(array('title' => 'Student'));
+            $studentRole = $this->userRoleManager->findOneBy(array('title' => 'Student'));
             foreach ($newStudents as $userRecord) {
                 if (empty($userRecord['email'])) {
                     $output->writeln(
@@ -170,7 +170,7 @@ class AddNewStudentsToSchoolCommand extends Command
                     );
                     continue;
                 }
-                $user = $this->userManager->createUser();
+                $user = $this->userManager->create();
                 $user->setFirstName($userRecord['firstName']);
                 $user->setLastName($userRecord['lastName']);
                 $user->setEmail($userRecord['email']);
@@ -180,15 +180,15 @@ class AddNewStudentsToSchoolCommand extends Command
                 $user->setSchool($school);
                 $user->setUserSyncIgnore(false);
                 $user->addRole($studentRole);
-                $this->userManager->updateUser($user);
+                $this->userManager->update($user);
                 
-                $authentication = $this->authenticationManager->createAuthentication();
+                $authentication = $this->authenticationManager->create();
                 $authentication->setUser($user);
                 $authentication->setUsername($userRecord['username']);
-                $this->authenticationManager->updateAuthentication($authentication, false);
+                $this->authenticationManager->update($authentication, false);
                 
                 $studentRole->addUser($user);
-                $this->userRoleManager->updateUserRole($studentRole);
+                $this->userRoleManager->update($studentRole);
                 
                 $output->writeln(
                     '<info>Success! New student #' .

@@ -75,9 +75,9 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setTitle')->with('<h1>html title</h1>')
             ->mock();
-        $this->objectiveManager->shouldReceive('findObjectivesBy')->with(array(), array('id' => 'ASC'), 500, 1)
+        $this->objectiveManager->shouldReceive('findBy')->with(array(), array('id' => 'ASC'), 500, 1)
             ->andReturn(array($cleanObjective, $dirtyObjective));
-        $this->objectiveManager->shouldReceive('updateObjective')->with($dirtyObjective, false);
+        $this->objectiveManager->shouldReceive('update')->with($dirtyObjective, false);
         $this->objectiveManager->shouldReceive('getTotalObjectiveCount')->andReturn(2);
 
         $this->purifier->shouldReceive('purify')->with('clean title')->andReturn('clean title');
@@ -108,10 +108,10 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getDescription')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setDescription')->with('<h1>html title</h1>')
             ->mock();
-        $this->learningMaterialManager->shouldReceive('findLearningMaterialsBy')
+        $this->learningMaterialManager->shouldReceive('findBy')
             ->with(array(), array('id' => 'ASC'), 500, 1)
             ->andReturn(array($clean, $dirty));
-        $this->learningMaterialManager->shouldReceive('updateLearningMaterial')->with($dirty, false);
+        $this->learningMaterialManager->shouldReceive('update')->with($dirty, false);
         $this->learningMaterialManager->shouldReceive('getTotalLearningMaterialCount')->andReturn(2);
 
         $this->purifier->shouldReceive('purify')->with('clean title')->andReturn('clean title');
@@ -142,10 +142,10 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getNotes')->andReturn('<script>alert();</script><h1>html course note</h1>')
             ->shouldReceive('setNotes')->with('<h1>html course note</h1>')
             ->mock();
-        $this->courseLearningMaterialManager->shouldReceive('findCourseLearningMaterialsBy')
+        $this->courseLearningMaterialManager->shouldReceive('findBy')
             ->with(array(), array('id' => 'ASC'), 500, 1)
             ->andReturn(array($cleanCourse, $dirtyCourse));
-        $this->courseLearningMaterialManager->shouldReceive('updateCourseLearningMaterial')->with($dirtyCourse, false);
+        $this->courseLearningMaterialManager->shouldReceive('update')->with($dirtyCourse, false);
         $this->courseLearningMaterialManager->shouldReceive('getTotalCourseLearningMaterialCount')->andReturn(2);
 
         $this->purifier->shouldReceive('purify')->with('clean course note')->andReturn('clean course note');
@@ -161,10 +161,10 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getNotes')->andReturn('<script>alert();</script><h1>html session note</h1>')
             ->shouldReceive('setNotes')->with('<h1>html session note</h1>')
             ->mock();
-        $this->sessionLearningMaterialManager->shouldReceive('findSessionLearningMaterialsBy')
+        $this->sessionLearningMaterialManager->shouldReceive('findBy')
             ->with(array(), array('id' => 'ASC'), 500, 1)
             ->andReturn(array($cleanSession, $dirtySession));
-        $this->sessionLearningMaterialManager->shouldReceive('updateSessionLearningMaterial')
+        $this->sessionLearningMaterialManager->shouldReceive('update')
             ->with($dirtySession, false);
         $this->sessionLearningMaterialManager->shouldReceive('getTotalSessionLearningMaterialCount')->andReturn(2);
 
@@ -204,10 +204,10 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getDescription')->andReturn('<script>alert();</script><h1>html title</h1>')
             ->shouldReceive('setDescription')->with('<h1>html title</h1>')
             ->mock();
-        $this->sessionDescriptionManager->shouldReceive('findSessionDescriptionsBy')
+        $this->sessionDescriptionManager->shouldReceive('findBy')
             ->with(array(), array('id' => 'ASC'), 500, 1)
             ->andReturn(array($clean, $dirty));
-        $this->sessionDescriptionManager->shouldReceive('updateSessionDescription')->with($dirty, false);
+        $this->sessionDescriptionManager->shouldReceive('update')->with($dirty, false);
         $this->sessionDescriptionManager->shouldReceive('getTotalSessionDescriptionCount')->andReturn(2);
 
         $this->purifier->shouldReceive('purify')->with('clean title')->andReturn('clean title');

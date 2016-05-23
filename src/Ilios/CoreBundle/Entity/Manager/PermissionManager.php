@@ -25,56 +25,6 @@ class PermissionManager extends BaseManager
     const CAN_WRITE = 'canWrite';
 
     /**
-     * {@inheritdoc}
-     */
-    public function findPermissionBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findPermissionsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function updatePermission(
-        PermissionInterface $permission,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->update($permission, $andFlush, $forceId);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function deletePermission(
-        PermissionInterface $permission
-    ) {
-        $this->delete($permission);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createPermission()
-    {
-        return $this->create();
-    }
-
-    /**
      * Checks if a given user has "read" permissions for a given course.
      * @param UserInterface $user
      * @param null|$courseId
@@ -198,7 +148,7 @@ class PermissionManager extends BaseManager
             'user' => $user,
         ];
 
-        $permission = $this->findPermissionBy($criteria);
+        $permission = $this->findOneBy($criteria);
         return ! empty($permission);
     }
 
@@ -216,7 +166,7 @@ class PermissionManager extends BaseManager
             'user' => $user,
         ];
 
-        $permissions = $this->findPermissionsBy($criteria);
+        $permissions = $this->findBy($criteria);
 
         $permittedSchoolIds = array_map(function (PermissionInterface $permission) {
             return $permission->getTableRowId();

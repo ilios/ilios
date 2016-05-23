@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\MeshConceptHandler;
 use Ilios\CoreBundle\Entity\MeshConceptInterface;
 
 /**
@@ -124,13 +122,9 @@ class MeshConceptController extends FOSRestController
 
             return $item;
         }, $criteria);
-        $result = $this->getMeshConceptHandler()
-            ->findMeshConceptsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+
+        $manager = $this->container->get('ilioscore.meshconcept.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -169,7 +163,7 @@ class MeshConceptController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getMeshConceptHandler();
+            $handler = $this->container->get('ilioscore.meshconcept.handler');
 
             $meshConcept = $handler->post($this->getPostData($request));
 
@@ -178,7 +172,8 @@ class MeshConceptController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshConceptHandler()->updateMeshConcept($meshConcept, true, false);
+            $manager = $this->container->get('ilioscore.meshconcept.manager');
+            $manager->update($meshConcept, true, false);
 
             $answer['meshConcepts'] = [$meshConcept];
 
@@ -217,29 +212,25 @@ class MeshConceptController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $meshConcept = $this->getMeshConceptHandler()
-                ->findMeshConceptBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.meshconcept.manager');
+            $meshConcept = $manager->findOneBy(['id'=> $id]);
             if ($meshConcept) {
                 $code = Codes::HTTP_OK;
             } else {
-                $meshConcept = $this->getMeshConceptHandler()
-                    ->createMeshConcept();
+                $meshConcept = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getMeshConceptHandler();
+            $handler = $this->container->get('ilioscore.meshconcept.handler');
 
-            $meshConcept = $handler->put(
-                $meshConcept,
-                $this->getPostData($request)
-            );
+            $meshConcept = $handler->put($meshConcept, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $meshConcept)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshConceptHandler()->updateMeshConcept($meshConcept, true, true);
+            $manager->update($meshConcept, true, true);
 
             $answer['meshConcept'] = $meshConcept;
         } catch (InvalidFormException $exception) {
@@ -290,8 +281,8 @@ class MeshConceptController extends FOSRestController
         }
 
         try {
-            $this->getMeshConceptHandler()
-                ->deleteMeshConcept($meshConcept);
+            $manager = $this->container->get('ilioscore.meshconcept.manager');
+            $manager->delete($meshConcept);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -307,8 +298,8 @@ class MeshConceptController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $meshConcept = $this->getMeshConceptHandler()
-            ->findMeshConceptBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.meshconcept.manager');
+        $meshConcept = $manager->findOneBy(['id' => $id]);
         if (!$meshConcept) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -329,13 +320,5 @@ class MeshConceptController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return MeshConceptHandler
-     */
-    protected function getMeshConceptHandler()
-    {
-        return $this->container->get('ilioscore.meshconcept.handler');
     }
 }

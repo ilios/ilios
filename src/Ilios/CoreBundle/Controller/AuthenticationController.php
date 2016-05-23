@@ -5,16 +5,13 @@ namespace Ilios\CoreBundle\Controller;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\AuthenticationHandler;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 
 /**
@@ -49,12 +46,12 @@ class AuthenticationController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getAuthenticationHandler();
+            $handler = $this->container->get('ilioscore.authentication.handler');
             $data = $this->getPostData($request);
 
             if (!empty($data['password']) && !empty($data['user'])) {
                 $userManager = $this->container->get('ilioscore.user.manager');
-                $user = $userManager->findUserBy(['id' => $data['user']]);
+                $user = $userManager->findOneBy(['id' => $data['user']]);
                 if ($user) {
                     $encoder = $this->container->get('security.password_encoder');
                     $encodedPassword = $encoder->encodePassword($user, $data['password']);
@@ -71,7 +68,8 @@ class AuthenticationController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAuthenticationHandler()->updateAuthentication($authentication, true, false);
+            $manager = $this->container->get('ilioscore.authentication.manager');
+            $manager->update($authentication, true, false);
 
             $answer['authentications'] = [$authentication];
 
@@ -110,23 +108,21 @@ class AuthenticationController extends FOSRestController
     public function putAction(Request $request, $userId)
     {
         try {
-            $authentication = $this->getAuthenticationHandler()
-                ->findAuthenticationBy(['user'=> $userId]);
+            $manager = $this->container->get('ilioscore.authentication.manager');
+            $authentication = $manager->findOneBy(['user'=> $userId]);
             if ($authentication) {
                 $code = Codes::HTTP_OK;
             } else {
-                $authentication = $this->getAuthenticationHandler()
-                    ->createAuthentication();
+                $authentication = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getAuthenticationHandler();
-
+            $handler = $this->container->get('ilioscore.authentication.handler');
             $data = $this->getPostData($request);
 
             if (!empty($data['password']) && !empty($data['user'])) {
                 $userManager = $this->container->get('ilioscore.user.manager');
-                $user = $userManager->findUserBy(['id' => $data['user']]);
+                $user = $userManager->findOneBy(['id' => $data['user']]);
                 if ($user) {
                     $authentication->setPasswordSha256(null);
                     $encoder = $this->container->get('security.password_encoder');
@@ -136,17 +132,14 @@ class AuthenticationController extends FOSRestController
                 }
             }
 
-            $authentication = $handler->put(
-                $authentication,
-                $data
-            );
+            $authentication = $handler->put($authentication, $data);
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $authentication)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $handler->updateAuthentication($authentication, true, true);
+            $manager->update($authentication, true, true);
 
             $answer['authentication'] = $authentication;
         } catch (InvalidFormException $exception) {
@@ -167,8 +160,8 @@ class AuthenticationController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $authentication = $this->getAuthenticationHandler()
-            ->findAuthenticationBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.authentication.manager');
+        $authentication = $manager->findOneBy(['id' => $id]);
         if (!$authentication) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -189,13 +182,5 @@ class AuthenticationController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return AuthenticationHandler
-     */
-    protected function getAuthenticationHandler()
-    {
-        return $this->container->get('ilioscore.authentication.handler');
     }
 }

@@ -64,9 +64,9 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('setEmail')->with('email')
             ->shouldReceive('setPhone')->with('phone')
             ->mock();
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn($user);
-        $this->userManager->shouldReceive('updateUser')->with($user);
-        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication, false);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('update')->with($user);
+        $this->authenticationManager->shouldReceive('update')->with($authentication, false);
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',
@@ -97,11 +97,11 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
         $this->setExpectedException('Exception', 'No user with id #1');
         $this->commandTester->execute(array(
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'command' => self::COMMAND_NAME,
+            'userId' => '1'
         ));
         
     }

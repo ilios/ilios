@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CohortHandler;
 use Ilios\CoreBundle\Entity\CohortInterface;
 
 /**
@@ -54,7 +52,8 @@ class CohortController extends FOSRestController
      */
     public function getAction($id)
     {
-        $cohort = $this->getCohortHandler()->findCohortDTOBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.cohort.manager');
+        $cohort = $manager->findDTOBy(['id' => $id]);
 
         if (!$cohort) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -129,13 +128,8 @@ class CohortController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getCohortHandler()
-            ->findCohortDTOsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.cohort.manager');
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -174,8 +168,7 @@ class CohortController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getCohortHandler();
-
+            $handler = $this->container->get('ilioscore.cohort.handler');
             $cohort = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -183,7 +176,8 @@ class CohortController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCohortHandler()->updateCohort($cohort, true, false);
+            $manager = $this->container->get('ilioscore.cohort.manager');
+            $manager->update($cohort, true, false);
 
             $answer['cohorts'] = [$cohort];
 
@@ -222,29 +216,24 @@ class CohortController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $cohort = $this->getCohortHandler()
-                ->findCohortBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.cohort.manager');
+            $cohort = $manager->findOneBy(['id'=> $id]);
             if ($cohort) {
                 $code = Codes::HTTP_OK;
             } else {
-                $cohort = $this->getCohortHandler()
-                    ->createCohort();
+                $cohort = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getCohortHandler();
-
-            $cohort = $handler->put(
-                $cohort,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.cohort.handler');
+            $cohort = $handler->put($cohort, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $cohort)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCohortHandler()->updateCohort($cohort, true, true);
+            $manager->update($cohort, true, true);
 
             $answer['cohort'] = $cohort;
         } catch (InvalidFormException $exception) {
@@ -295,8 +284,8 @@ class CohortController extends FOSRestController
         }
 
         try {
-            $this->getCohortHandler()
-                ->deleteCohort($cohort);
+            $manager = $this->container->get('ilioscore.cohort.manager');
+            $manager->delete($cohort);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -312,8 +301,8 @@ class CohortController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $cohort = $this->getCohortHandler()
-            ->findCohortBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.cohort.manager');
+        $cohort = $manager->findOneBy(['id' => $id]);
         if (!$cohort) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -334,13 +323,5 @@ class CohortController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return CohortHandler
-     */
-    protected function getCohortHandler()
-    {
-        return $this->container->get('ilioscore.cohort.handler');
     }
 }

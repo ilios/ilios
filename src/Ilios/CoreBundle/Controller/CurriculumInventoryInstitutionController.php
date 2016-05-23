@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CurriculumInventoryInstitutionHandler;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 
 /**
@@ -125,13 +123,8 @@ class CurriculumInventoryInstitutionController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getCurriculumInventoryInstitutionHandler()
-            ->findCurriculumInventoryInstitutionsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.curriculuminventoryinstitution.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,7 +163,7 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getCurriculumInventoryInstitutionHandler();
+            $handler = $this->container->get('ilioscore.curriculuminventoryinstitution.handler');
 
             $curriculumInventoryInstitution = $handler->post($this->getPostData($request));
 
@@ -179,11 +172,8 @@ class CurriculumInventoryInstitutionController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryInstitutionHandler()->updateCurriculumInventoryInstitution(
-                $curriculumInventoryInstitution,
-                true,
-                false
-            );
+            $manager = $this->container->get('ilioscore.instructorgroup.manager');
+            $manager->update($curriculumInventoryInstitution, true, false);
 
             $answer['curriculumInventoryInstitutions'] = [$curriculumInventoryInstitution];
 
@@ -222,18 +212,16 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $curriculumInventoryInstitution = $this->getCurriculumInventoryInstitutionHandler()
-                ->findCurriculumInventoryInstitutionBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.curriculuminventoryinstitution.manager');
+            $curriculumInventoryInstitution = $manager->findOneBy(['id'=> $id]);
             if ($curriculumInventoryInstitution) {
                 $code = Codes::HTTP_OK;
             } else {
-                $curriculumInventoryInstitution = $this->getCurriculumInventoryInstitutionHandler()
-                    ->createCurriculumInventoryInstitution();
+                $curriculumInventoryInstitution = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getCurriculumInventoryInstitutionHandler();
-
+            $handler = $this->container->get('ilioscore.curriculuminventoryinstitution.handler');
             $curriculumInventoryInstitution = $handler->put(
                 $curriculumInventoryInstitution,
                 $this->getPostData($request)
@@ -244,11 +232,7 @@ class CurriculumInventoryInstitutionController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryInstitutionHandler()->updateCurriculumInventoryInstitution(
-                $curriculumInventoryInstitution,
-                true,
-                true
-            );
+            $manager->update($curriculumInventoryInstitution, true, true);
 
             $answer['curriculumInventoryInstitution'] = $curriculumInventoryInstitution;
         } catch (InvalidFormException $exception) {
@@ -299,8 +283,8 @@ class CurriculumInventoryInstitutionController extends FOSRestController
         }
 
         try {
-            $this->getCurriculumInventoryInstitutionHandler()
-                ->deleteCurriculumInventoryInstitution($curriculumInventoryInstitution);
+            $manager = $this->container->get('ilioscore.curriculuminventoryinstitution.manager');
+            $manager->delete($curriculumInventoryInstitution);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -316,8 +300,8 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $curriculumInventoryInstitution = $this->getCurriculumInventoryInstitutionHandler()
-            ->findCurriculumInventoryInstitutionBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.curriculuminventoryinstitution.manager');
+        $curriculumInventoryInstitution = $manager->findOneBy(['id' => $id]);
         if (!$curriculumInventoryInstitution) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -338,13 +322,5 @@ class CurriculumInventoryInstitutionController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return CurriculumInventoryInstitutionHandler
-     */
-    protected function getCurriculumInventoryInstitutionHandler()
-    {
-        return $this->container->get('ilioscore.curriculuminventoryinstitution.handler');
     }
 }

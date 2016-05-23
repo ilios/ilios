@@ -61,7 +61,7 @@ class InvalidateUserTokenCommand extends Command
     {
         $now = new DateTime();
         $userId = $input->getArgument('userId');
-        $user = $this->userManager->findUserBy(['id' => $userId]);
+        $user = $this->userManager->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(
                 "No user with id #{$userId} was found."
@@ -70,12 +70,12 @@ class InvalidateUserTokenCommand extends Command
         
         $authentication = $user->getAuthentication();
         if (!$authentication) {
-            $authentication = $this->authenticationManager->createAuthentication();
+            $authentication = $this->authenticationManager->create();
             $authentication->setUser($user);
         }
         
         $authentication->setInvalidateTokenIssuedBefore($now);
-        $this->authenticationManager->updateAuthentication($authentication);
+        $this->authenticationManager->update($authentication);
 
         $output->writeln('Success!');
         $output->writeln(

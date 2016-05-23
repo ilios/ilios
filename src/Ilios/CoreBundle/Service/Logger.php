@@ -37,7 +37,15 @@ class Logger
         }
         $this->manager = $auditLogManager;
     }
-    
+
+    /**
+     * @param $action
+     * @param $objectId
+     * @param $objectClass
+     * @param $valuesChanged
+     * @param bool $andFlush
+     * @return mixed|object
+     */
     public function log(
         $action,
         $objectId,
@@ -45,14 +53,14 @@ class Logger
         $valuesChanged,
         $andFlush = true
     ) {
-        $log = $this->manager->createAuditLog();
+        $log = $this->manager->create();
         $log->setAction($action);
         $log->setObjectId($objectId);
         $log->setObjectClass($objectClass);
         $log->setValuesChanged($valuesChanged);
         $log->setUser($this->user);
 
-        $this->manager->updateAuditLog($log, $andFlush);
+        $this->manager->update($log, $andFlush);
         
         return $log;
     }

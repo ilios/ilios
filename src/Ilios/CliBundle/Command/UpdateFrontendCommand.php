@@ -143,6 +143,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     }
 
     /**
+     * @param string $cacheDir
      * @param string $environment
      * @param string $version
      *

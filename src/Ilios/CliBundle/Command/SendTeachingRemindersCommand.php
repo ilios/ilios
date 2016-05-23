@@ -2,7 +2,6 @@
 
 namespace Ilios\CliBundle\Command;
 
-use Ilios\CoreBundle\Entity\InstructorGroupInterface;
 use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;

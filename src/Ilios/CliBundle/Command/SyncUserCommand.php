@@ -69,7 +69,7 @@ class SyncUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $userId = $input->getArgument('userId');
-        $user = $this->userManager->findUserBy(['id' => $userId]);
+        $user = $this->userManager->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(
                 "No user with id #{$userId} was found."
@@ -122,14 +122,14 @@ class SyncUserCommand extends Command
             $user->setPhone($userRecord['telephoneNumber']);
             $authentication = $user->getAuthentication();
             if (!$authentication) {
-                $authentication = $this->authenticationManager->createAuthentication();
+                $authentication = $this->authenticationManager->create();
                 $authentication->setUser($user);
             }
 
             $authentication->setUsername($userRecord['username']);
-            $this->authenticationManager->updateAuthentication($authentication, false);
+            $this->authenticationManager->update($authentication, false);
             
-            $this->userManager->updateUser($user);
+            $this->userManager->update($user);
             
             $output->writeln('<info>User updated successfully!</info>');
         } else {

@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\LearningMaterialUserRoleHandler;
 use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 
 /**
@@ -125,13 +123,8 @@ class LearningMaterialUserRoleController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getLearningMaterialUserRoleHandler()
-            ->findLearningMaterialUserRolesBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.learningmaterialuserrole.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,7 +163,7 @@ class LearningMaterialUserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getLearningMaterialUserRoleHandler();
+            $handler = $this->container->get('ilioscore.learningmaterialuserrole.handler');
 
             $learningMaterialUserRole = $handler->post($this->getPostData($request));
 
@@ -179,11 +172,8 @@ class LearningMaterialUserRoleController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getLearningMaterialUserRoleHandler()->updateLearningMaterialUserRole(
-                $learningMaterialUserRole,
-                true,
-                false
-            );
+            $manager = $this->container->get('ilioscore.learningmaterialuserrole.manager');
+            $manager->update($learningMaterialUserRole, true, false);
 
             $answer['learningMaterialUserRoles'] = [$learningMaterialUserRole];
 
@@ -222,33 +212,25 @@ class LearningMaterialUserRoleController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $learningMaterialUserRole = $this->getLearningMaterialUserRoleHandler()
-                ->findLearningMaterialUserRoleBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.learningmaterialuserrole.manager');
+            $learningMaterialUserRole = $manager->findOneBy(['id'=> $id]);
             if ($learningMaterialUserRole) {
                 $code = Codes::HTTP_OK;
             } else {
-                $learningMaterialUserRole = $this->getLearningMaterialUserRoleHandler()
-                    ->createLearningMaterialUserRole();
+                $learningMaterialUserRole = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getLearningMaterialUserRoleHandler();
+            $handler = $this->container->get('ilioscore.learningmaterialuserrole.handler');
 
-            $learningMaterialUserRole = $handler->put(
-                $learningMaterialUserRole,
-                $this->getPostData($request)
-            );
+            $learningMaterialUserRole = $handler->put($learningMaterialUserRole, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $learningMaterialUserRole)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getLearningMaterialUserRoleHandler()->updateLearningMaterialUserRole(
-                $learningMaterialUserRole,
-                true,
-                true
-            );
+            $manager->update($learningMaterialUserRole, true, true);
 
             $answer['learningMaterialUserRole'] = $learningMaterialUserRole;
         } catch (InvalidFormException $exception) {
@@ -299,8 +281,8 @@ class LearningMaterialUserRoleController extends FOSRestController
         }
 
         try {
-            $this->getLearningMaterialUserRoleHandler()
-                ->deleteLearningMaterialUserRole($learningMaterialUserRole);
+            $manager = $this->container->get('ilioscore.learningmaterialuserrole.manager');
+            $manager->delete($learningMaterialUserRole);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -316,8 +298,8 @@ class LearningMaterialUserRoleController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $learningMaterialUserRole = $this->getLearningMaterialUserRoleHandler()
-            ->findLearningMaterialUserRoleBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.learningmaterialuserrole.manager');
+        $learningMaterialUserRole = $manager->findOneBy(['id' => $id]);
         if (!$learningMaterialUserRole) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -338,13 +320,5 @@ class LearningMaterialUserRoleController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return LearningMaterialUserRoleHandler
-     */
-    protected function getLearningMaterialUserRoleHandler()
-    {
-        return $this->container->get('ilioscore.learningmaterialuserrole.handler');
     }
 }

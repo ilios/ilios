@@ -34,8 +34,6 @@ class UserDTOVoter extends UserEntityVoter
             return false;
         }
 
-
-
         switch ($attribute) {
             case self::VIEW:
                 return (

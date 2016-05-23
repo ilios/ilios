@@ -1,11 +1,8 @@
 <?php
 namespace Ilios\CoreBundle\Controller;
 
-use Ilios\CoreBundle\Classes\FileSystem;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Exception;
@@ -20,7 +17,7 @@ class DownloadController extends Controller
     public function learningMaterialAction($token)
     {
         $learningMaterial = $this->container->get('ilioscore.learningmaterial.manager')
-            ->findLearningMaterialBy(['token' => $token]);
+            ->findOneBy(['token' => $token]);
         
         if (!$learningMaterial) {
             throw new NotFoundHttpException();

@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CourseLearningMaterialHandler;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 
 /**
@@ -124,14 +122,8 @@ class CourseLearningMaterialController extends FOSRestController
 
             return $item;
         }, $criteria);
-
-        $result = $this->getCourseLearningMaterialHandler()
-            ->findCourseLearningMaterialsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.courselearningmaterial.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,7 +162,7 @@ class CourseLearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getCourseLearningMaterialHandler();
+            $handler = $this->container->get('ilioscore.courselearningmaterial.handler');
 
             $courseLearningMaterial = $handler->post($this->getPostData($request));
 
@@ -179,11 +171,8 @@ class CourseLearningMaterialController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCourseLearningMaterialHandler()->updateCourseLearningMaterial(
-                $courseLearningMaterial,
-                true,
-                false
-            );
+            $manager = $this->container->get('ilioscore.courselearningmaterial.manager');
+            $manager->update($courseLearningMaterial, true, false);
 
             $answer['courseLearningMaterials'] = [$courseLearningMaterial];
 
@@ -222,33 +211,25 @@ class CourseLearningMaterialController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $courseLearningMaterial = $this->getCourseLearningMaterialHandler()
-                ->findCourseLearningMaterialBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.courselearningmaterial.manager');
+            $courseLearningMaterial = $manager->findOneBy(['id'=> $id]);
             if ($courseLearningMaterial) {
                 $code = Codes::HTTP_OK;
             } else {
-                $courseLearningMaterial = $this->getCourseLearningMaterialHandler()
-                    ->createCourseLearningMaterial();
+                $courseLearningMaterial = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getCourseLearningMaterialHandler();
+            $handler = $this->container->get('ilioscore.courselearningmaterial.handler');
 
-            $courseLearningMaterial = $handler->put(
-                $courseLearningMaterial,
-                $this->getPostData($request)
-            );
+            $courseLearningMaterial = $handler->put($courseLearningMaterial, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $courseLearningMaterial)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCourseLearningMaterialHandler()->updateCourseLearningMaterial(
-                $courseLearningMaterial,
-                true,
-                true
-            );
+            $manager->update($courseLearningMaterial, true, true);
 
             $answer['courseLearningMaterial'] = $courseLearningMaterial;
         } catch (InvalidFormException $exception) {
@@ -299,8 +280,8 @@ class CourseLearningMaterialController extends FOSRestController
         }
 
         try {
-            $this->getCourseLearningMaterialHandler()
-                ->deleteCourseLearningMaterial($courseLearningMaterial);
+            $manager = $this->container->get('ilioscore.courselearningmaterial.manager');
+            $manager->delete($courseLearningMaterial);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -316,8 +297,8 @@ class CourseLearningMaterialController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $courseLearningMaterial = $this->getCourseLearningMaterialHandler()
-            ->findCourseLearningMaterialBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.courselearningmaterial.manager');
+        $courseLearningMaterial = $manager->findOneBy(['id' => $id]);
         if (!$courseLearningMaterial) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -338,13 +319,5 @@ class CourseLearningMaterialController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return CourseLearningMaterialHandler
-     */
-    protected function getCourseLearningMaterialHandler()
-    {
-        return $this->container->get('ilioscore.courselearningmaterial.handler');
     }
 }

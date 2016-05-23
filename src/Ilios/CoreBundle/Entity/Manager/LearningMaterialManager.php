@@ -11,28 +11,6 @@ use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 class LearningMaterialManager extends BaseManager
 {
     /**
-     * @deprecated
-     */
-    public function findLearningMaterialBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findLearningMaterialsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
      * Use a query term to find learning materials
      *
      * @param string $q
@@ -49,34 +27,6 @@ class LearningMaterialManager extends BaseManager
         $offset = null
     ) {
         return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function updateLearningMaterial(
-        LearningMaterialInterface $learningMaterial,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->update($learningMaterial, $andFlush, $forceId);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function deleteLearningMaterial(
-        LearningMaterialInterface $learningMaterial
-    ) {
-        $this->delete($learningMaterial);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function createLearningMaterial()
-    {
-        return $this->create();
     }
 
     /**

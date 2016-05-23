@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\AamcPcrsHandler;
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 
 /**
@@ -125,13 +123,8 @@ class AamcPcrsController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getAamcPcrsHandler()
-            ->findAamcPcrsesBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.aamcpcrs.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,8 +163,7 @@ class AamcPcrsController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getAamcPcrsHandler();
-
+            $handler = $this->container->get('ilioscore.aamcpcrs.handler');
             $aamcPcrs = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +171,8 @@ class AamcPcrsController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAamcPcrsHandler()->updateAamcPcrs($aamcPcrs, true, false);
+            $manager = $this->container->get('ilioscore.aamcpcrs.manager');
+            $manager->update($aamcPcrs, true, false);
 
             $answer['aamcPcrses'] = [$aamcPcrs];
 
@@ -218,29 +211,24 @@ class AamcPcrsController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $aamcPcrs = $this->getAamcPcrsHandler()
-                ->findAamcPcrsBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.aamcpcrs.manager');
+            $aamcPcrs = $manager->findOneBy(['id'=> $id]);
             if ($aamcPcrs) {
                 $code = Codes::HTTP_OK;
             } else {
-                $aamcPcrs = $this->getAamcPcrsHandler()
-                    ->createAamcPcrs();
+                $aamcPcrs = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getAamcPcrsHandler();
-
-            $aamcPcrs = $handler->put(
-                $aamcPcrs,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.aamcpcrs.handler');
+            $aamcPcrs = $handler->put($aamcPcrs, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $aamcPcrs)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAamcPcrsHandler()->updateAamcPcrs($aamcPcrs, true, true);
+            $manager->update($aamcPcrs, true, true);
 
             $answer['aamcPcrses'] = $aamcPcrs;
         } catch (InvalidFormException $exception) {
@@ -291,8 +279,8 @@ class AamcPcrsController extends FOSRestController
         }
 
         try {
-            $this->getAamcPcrsHandler()
-                ->deleteAamcPcrs($aamcPcrs);
+            $manager = $this->container->get('ilioscore.aamcpcrs.manager');
+            $manager->delete($aamcPcrs);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +296,8 @@ class AamcPcrsController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $aamcPcrs = $this->getAamcPcrsHandler()
-            ->findAamcPcrsBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.aamcpcrs.manager');
+        $aamcPcrs = $manager->findOneBy(['id' => $id]);
         if (!$aamcPcrs) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +318,5 @@ class AamcPcrsController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return AamcPcrsHandler
-     */
-    protected function getAamcPcrsHandler()
-    {
-        return $this->container->get('ilioscore.aamcpcrs.handler');
     }
 }

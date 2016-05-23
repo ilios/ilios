@@ -14,57 +14,6 @@ use Ilios\CoreBundle\Entity\DTO\UserDTO;
  */
 class UserManager extends DTOManager
 {
-    use Manageable;
-
-    /**
-     * @deprecated
-     */
-    public function findUserBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findUserDTOBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findDTOBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findUsersBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     * @return UserDTO[]
-     */
-    public function findUserDTOsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-    
-        return $this->findDTOsBy($criteria, $orderBy, $limit, $offset);
-    }
-
     /**
      * @param array $campusIds
      *
@@ -74,34 +23,6 @@ class UserManager extends DTOManager
         array $campusIds
     ) {
         return $this->getRepository()->findAllMatchingDTOsByCampusIds($campusIds);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function updateUser(
-        UserInterface $user,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->update($user, $andFlush, $forceId);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function deleteUser(
-        UserInterface $user
-    ) {
-        $this->delete($user);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function createUser()
-    {
-        return $this->create();
     }
 
     /**

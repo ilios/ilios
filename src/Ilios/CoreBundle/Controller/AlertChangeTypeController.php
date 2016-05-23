@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\AlertChangeTypeHandler;
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 
 /**
@@ -125,13 +123,8 @@ class AlertChangeTypeController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getAlertChangeTypeHandler()
-            ->findAlertChangeTypesBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.alertchangetype.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,7 +163,7 @@ class AlertChangeTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getAlertChangeTypeHandler();
+            $handler = $this->container->get('ilioscore.alertchangetype.handler');
 
             $alertChangeType = $handler->post($this->getPostData($request));
 
@@ -179,7 +172,8 @@ class AlertChangeTypeController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAlertChangeTypeHandler()->updateAlertChangeType($alertChangeType, true, false);
+            $manager = $this->container->get('ilioscore.alertchangetype.manager');
+            $manager->update($alertChangeType, true, false);
 
             $answer['alertChangeTypes'] = [$alertChangeType];
 
@@ -218,29 +212,24 @@ class AlertChangeTypeController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $alertChangeType = $this->getAlertChangeTypeHandler()
-                ->findAlertChangeTypeBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.alertchangetype.manager');
+            $alertChangeType = $manager->findOneBy(['id'=> $id]);
             if ($alertChangeType) {
                 $code = Codes::HTTP_OK;
             } else {
-                $alertChangeType = $this->getAlertChangeTypeHandler()
-                    ->createAlertChangeType();
+                $alertChangeType = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getAlertChangeTypeHandler();
-
-            $alertChangeType = $handler->put(
-                $alertChangeType,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.alertchangetype.handler');
+            $alertChangeType = $handler->put($alertChangeType, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $alertChangeType)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAlertChangeTypeHandler()->updateAlertChangeType($alertChangeType, true, true);
+            $manager->update($alertChangeType, true, true);
 
             $answer['alertChangeType'] = $alertChangeType;
         } catch (InvalidFormException $exception) {
@@ -291,8 +280,8 @@ class AlertChangeTypeController extends FOSRestController
         }
 
         try {
-            $this->getAlertChangeTypeHandler()
-                ->deleteAlertChangeType($alertChangeType);
+            $manager = $this->container->get('ilioscore.alertchangetype.manager');
+            $manager->delete($alertChangeType);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +297,8 @@ class AlertChangeTypeController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $alertChangeType = $this->getAlertChangeTypeHandler()
-            ->findAlertChangeTypeBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.alertchangetype.manager');
+        $alertChangeType = $manager->findOneBy(['id' => $id]);
         if (!$alertChangeType) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +319,5 @@ class AlertChangeTypeController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return AlertChangeTypeHandler
-     */
-    protected function getAlertChangeTypeHandler()
-    {
-        return $this->container->get('ilioscore.alertchangetype.handler');
     }
 }

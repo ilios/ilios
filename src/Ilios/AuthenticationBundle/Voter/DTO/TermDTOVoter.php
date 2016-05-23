@@ -34,8 +34,6 @@ class TermDTOVoter extends TermEntityVoter
             return false;
         }
 
-
-
         switch ($attribute) {
             case self::VIEW:
                 return true;

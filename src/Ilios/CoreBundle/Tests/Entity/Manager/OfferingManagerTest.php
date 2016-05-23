@@ -23,7 +23,7 @@ class OfferingManagerTest extends TestCase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\OfferingManager::deleteOffering
+     * @covers Ilios\CoreBundle\Entity\Manager\OfferingManager::delete
      */
     public function testDeleteOffering()
     {
@@ -40,7 +40,7 @@ class OfferingManagerTest extends TestCase
         
         $entity = m::mock($class);
         $manager = new OfferingManager($registry, $class);
-        $manager->deleteOffering($entity);
+        $manager->delete($entity);
     }
 
     /**

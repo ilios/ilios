@@ -3,8 +3,11 @@
 namespace Ilios\AuthenticationBundle\Form;
 
 use Symfony\Component\Security\Core\Encoder\BasePasswordEncoder;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
+/**
+ * Class Encoder
+ * @package Ilios\AuthenticationBundle\Form
+ */
 class Encoder extends BasePasswordEncoder
 {
     /**

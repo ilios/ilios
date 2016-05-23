@@ -106,7 +106,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
                         $file = $this->iliosFileSystem->getSymfonyFileForPath($fullPath);
                         $newPath = $this->iliosFileSystem->storeLearningMaterialFile($file);
                         $lm->setRelativePath($newPath);
-                        $this->learningMaterialManager->updateLearningMaterial($lm, false);
+                        $this->learningMaterialManager->update($lm, false);
                         $migrated ++;
                     }
                     $progress->advance();

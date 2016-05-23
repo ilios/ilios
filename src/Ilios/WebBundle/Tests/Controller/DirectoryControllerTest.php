@@ -6,11 +6,15 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
 use FOS\RestBundle\Util\Codes;
 use Mockery as m;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 class DirectoryControllerTest extends WebTestCase
 {
     use JsonControllerTest;
 
+    /**
+     * @var Client
+     */
     protected $client;
 
     public function setUp()

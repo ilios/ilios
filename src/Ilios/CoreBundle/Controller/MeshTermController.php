@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\MeshTermHandler;
 use Ilios\CoreBundle\Entity\MeshTermInterface;
 
 /**
@@ -124,13 +122,9 @@ class MeshTermController extends FOSRestController
 
             return $item;
         }, $criteria);
-        $result = $this->getMeshTermHandler()
-            ->findMeshTermsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+
+        $manager = $this->container->get('ilioscore.meshterm.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -169,7 +163,7 @@ class MeshTermController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getMeshTermHandler();
+            $handler = $this->container->get('ilioscore.meshterm.handler');
 
             $meshTerm = $handler->post($this->getPostData($request));
 
@@ -178,7 +172,8 @@ class MeshTermController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshTermHandler()->updateMeshTerm($meshTerm, true, false);
+            $manager = $this->container->get('ilioscore.meshterm.manager');
+            $manager->update($meshTerm, true, false);
 
             $answer['meshTerms'] = [$meshTerm];
 
@@ -217,29 +212,25 @@ class MeshTermController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $meshTerm = $this->getMeshTermHandler()
-                ->findMeshTermBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.meshterm.manager');
+            $meshTerm = $manager->findOneBy(['id'=> $id]);
             if ($meshTerm) {
                 $code = Codes::HTTP_OK;
             } else {
-                $meshTerm = $this->getMeshTermHandler()
-                    ->createMeshTerm();
+                $meshTerm = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getMeshTermHandler();
+            $handler = $this->container->get('ilioscore.meshterm.handler');
 
-            $meshTerm = $handler->put(
-                $meshTerm,
-                $this->getPostData($request)
-            );
+            $meshTerm = $handler->put($meshTerm, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $meshTerm)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshTermHandler()->updateMeshTerm($meshTerm, true, true);
+            $manager->update($meshTerm, true, true);
 
             $answer['meshTerm'] = $meshTerm;
         } catch (InvalidFormException $exception) {
@@ -290,8 +281,8 @@ class MeshTermController extends FOSRestController
         }
 
         try {
-            $this->getMeshTermHandler()
-                ->deleteMeshTerm($meshTerm);
+            $manager = $this->container->get('ilioscore.meshterm.manager');
+            $manager->delete($meshTerm);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -307,8 +298,8 @@ class MeshTermController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $meshTerm = $this->getMeshTermHandler()
-            ->findMeshTermBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.meshterm.manager');
+        $meshTerm = $manager->findOneBy(['id' => $id]);
         if (!$meshTerm) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -329,13 +320,5 @@ class MeshTermController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return MeshTermHandler
-     */
-    protected function getMeshTermHandler()
-    {
-        return $this->container->get('ilioscore.meshterm.handler');
     }
 }

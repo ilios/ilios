@@ -12,6 +12,7 @@ class ValidateLearningMaterialPathsCommandTest extends \PHPUnit_Framework_TestCa
     
     protected $iliosFileSystem;
     protected $learningMaterialManager;
+    protected $commandTester;
     
     public function setUp()
     {

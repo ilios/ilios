@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
+use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -53,10 +54,10 @@ class SchooleventsController extends FOSRestController
    */
     public function getAction($id, ParamFetcherInterface $paramFetcher)
     {
-        $schoolHandler = $this->container->get('ilioscore.school.handler');
-        $userHandler = $this->container->get('ilioscore.user.handler');
+        $schoolManager = $this->container->get('ilioscore.school.manager');
+        $userManager = $this->container->get('ilioscore.user.manager');
 
-        $school = $schoolHandler->findSchoolBy(['id' => $id]);
+        $school = $schoolManager->findOneBy(['id' => $id]);
 
         if (!$school) {
             throw new NotFoundHttpException(sprintf('The school \'%s\' was not found.', $id));
@@ -72,7 +73,7 @@ class SchooleventsController extends FOSRestController
         if (!$to) {
             throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
         }
-        $events = $schoolHandler->findEventsForSchool($school->getId(), $from, $to);
+        $events = $schoolManager->findEventsForSchool($school->getId(), $from, $to);
 
         $authChecker = $this->get('security.authorization_checker');
         $events = array_filter($events, function ($entity) use ($authChecker) {
@@ -82,12 +83,13 @@ class SchooleventsController extends FOSRestController
         $user = $this->get('security.token_storage')->getToken()->getUser();
         //Un-privileged users get less data
         if (!$user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+            /** @var SchoolEvent $event */
             foreach ($events as $event) {
                 $event->clearDataForScheduledEvent();
             }
         }
 
-        $result = $userHandler->addInstructorsToEvents($events);
+        $result = $userManager->addInstructorsToEvents($events);
 
         //If there are no matches return an empty array
         $answer['events'] = $result ? array_values($result) : [];

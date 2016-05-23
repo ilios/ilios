@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\MeshDescriptorHandler;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 
 /**
@@ -54,7 +52,8 @@ class MeshDescriptorController extends FOSRestController
      */
     public function getAction($id)
     {
-        $meshDescriptor = $this->getMeshDescriptorHandler()->findMeshDescriptorDTOBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.meshdescriptor.manager');
+        $meshDescriptor = $manager->findDTOBy(['id' => $id]);
 
         if (!$meshDescriptor) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -134,22 +133,12 @@ class MeshDescriptorController extends FOSRestController
 
             return $item;
         }, $criteria);
+
+        $manager = $this->container->get('ilioscore.meshdescriptor.manager');
         if ($q) {
-            $result = $this->getMeshDescriptorHandler()
-                ->findMeshDescriptorsByQ(
-                    $q,
-                    $orderBy,
-                    $limit,
-                    $offset
-                );
+            $result = $manager->findMeshDescriptorsByQ($q, $orderBy, $limit, $offset);
         } else {
-            $result = $this->getMeshDescriptorHandler()
-                ->findMeshDescriptorDTOsBy(
-                    $criteria,
-                    $orderBy,
-                    $limit,
-                    $offset
-                );
+            $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
         }
 
         $authChecker = $this->get('security.authorization_checker');
@@ -189,7 +178,7 @@ class MeshDescriptorController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getMeshDescriptorHandler();
+            $handler = $this->container->get('ilioscore.meshdescriptor.handler');
 
             $meshDescriptor = $handler->post($this->getPostData($request));
 
@@ -198,7 +187,8 @@ class MeshDescriptorController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshDescriptorHandler()->updateMeshDescriptor($meshDescriptor, true, false);
+            $manager = $this->container->get('ilioscore.meshdescriptor.manager');
+            $manager->update($meshDescriptor, true, false);
 
             $answer['meshDescriptors'] = [$meshDescriptor];
 
@@ -237,29 +227,25 @@ class MeshDescriptorController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $meshDescriptor = $this->getMeshDescriptorHandler()
-                ->findMeshDescriptorBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.meshdescriptor.manager');
+            $meshDescriptor = $manager->findOneBy(['id'=> $id]);
             if ($meshDescriptor) {
                 $code = Codes::HTTP_OK;
             } else {
-                $meshDescriptor = $this->getMeshDescriptorHandler()
-                    ->createMeshDescriptor();
+                $meshDescriptor = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getMeshDescriptorHandler();
+            $handler = $this->container->get('ilioscore.meshdescriptor.handler');
 
-            $meshDescriptor = $handler->put(
-                $meshDescriptor,
-                $this->getPostData($request)
-            );
+            $meshDescriptor = $handler->put($meshDescriptor, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $meshDescriptor)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshDescriptorHandler()->updateMeshDescriptor($meshDescriptor, true, true);
+            $manager->update($meshDescriptor, true, true);
 
             $answer['meshDescriptor'] = $meshDescriptor;
         } catch (InvalidFormException $exception) {
@@ -310,8 +296,8 @@ class MeshDescriptorController extends FOSRestController
         }
 
         try {
-            $this->getMeshDescriptorHandler()
-                ->deleteMeshDescriptor($meshDescriptor);
+            $manager = $this->container->get('ilioscore.meshdescriptor.manager');
+            $manager->delete($meshDescriptor);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -327,8 +313,8 @@ class MeshDescriptorController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $meshDescriptor = $this->getMeshDescriptorHandler()
-            ->findMeshDescriptorBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.meshdescriptor.manager');
+        $meshDescriptor = $manager->findOneBy(['id' => $id]);
         if (!$meshDescriptor) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -349,13 +335,5 @@ class MeshDescriptorController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return MeshDescriptorHandler
-     */
-    protected function getMeshDescriptorHandler()
-    {
-        return $this->container->get('ilioscore.meshdescriptor.handler');
     }
 }

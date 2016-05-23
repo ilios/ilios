@@ -38,67 +38,27 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
         ));
         $parameters = array(
             'ilioscore.form.handler.class' => 'Ilios\CoreBundle\Form\Handler',
-            'ilioscore.aamcmethod.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AamcMethodManager',
-            'ilioscore.aamcpcrs.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AamcPcrsManager',
-            'ilioscore.alert.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AlertManager',
-            'ilioscore.alertchangetype.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager',
-            'ilioscore.assessmentoption.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager',
-            'ilioscore.cohort.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CohortManager',
-            'ilioscore.competency.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CompetencyManager',
-            'ilioscore.course.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CourseManager',
-            'ilioscore.courseclerkshiptype.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManager',
+            'ilioscore.basemanager.class' => 'Ilios\CoreBundle\Entity\Manager\BaseManager',
+            'ilioscore.dtomanager.class' => 'Ilios\CoreBundle\Entity\Manager\DTOManager',
+            'ilioscore.auditlog.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AuditLogManager',
+            'ilioscore.authentication.manager.class' => 'Ilios\CoreBundle\Entity\Manager\AuthenticationManager',
             'ilioscore.courselearningmaterial.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager',
-            'ilioscore.curriculuminventoryacademiclevel.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager',
-            'ilioscore.curriculuminventoryexport.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryExportManager',
-            'ilioscore.curriculuminventoryinstitution.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager',
+                'Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager',
+            'ilioscore.course.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CourseManager',
             'ilioscore.curriculuminventoryreport.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager',
-            'ilioscore.curriculuminventorysequence.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager',
-            'ilioscore.curriculuminventorysequenceblock.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManager',
-            'ilioscore.curriculuminventorysequenceblocksession.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockSessionManager',
-            'ilioscore.department.manager.class' => 'Ilios\CoreBundle\Entity\Manager\DepartmentManager',
-            'ilioscore.ilmsession.manager.class' => 'Ilios\CoreBundle\Entity\Manager\IlmSessionManager',
-            'ilioscore.ingestionexception.manager.class' => 'Ilios\CoreBundle\Entity\Manager\IngestionExceptionManager',
-            'ilioscore.instructorgroup.manager.class' => 'Ilios\CoreBundle\Entity\Manager\InstructorGroupManager',
-            'ilioscore.learnergroup.manager.class' => 'Ilios\CoreBundle\Entity\Manager\LearnerGroupManager',
+                'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager',
             'ilioscore.learningmaterial.manager.class' => 'Ilios\CoreBundle\Entity\Manager\LearningMaterialManager',
-            'ilioscore.learningmaterialstatus.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager',
-            'ilioscore.learningmaterialuserrole.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager',
-            'ilioscore.meshconcept.manager.class' => 'Ilios\CoreBundle\Entity\Manager\MeshConceptManager',
             'ilioscore.meshdescriptor.manager.class' => 'Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager',
-            'ilioscore.meshpreviousindexing.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\MeshPreviousIndexingManager',
-            'ilioscore.meshqualifier.manager.class' => 'Ilios\CoreBundle\Entity\Manager\MeshQualifierManager',
-            'ilioscore.meshsemantictype.manager.class' => 'Ilios\CoreBundle\Entity\Manager\MeshSemanticTypeManager',
-            'ilioscore.meshterm.manager.class' => 'Ilios\CoreBundle\Entity\Manager\MeshTermManager',
             'ilioscore.objective.manager.class' => 'Ilios\CoreBundle\Entity\Manager\ObjectiveManager',
             'ilioscore.offering.manager.class' => 'Ilios\CoreBundle\Entity\Manager\OfferingManager',
             'ilioscore.permission.manager.class' => 'Ilios\CoreBundle\Entity\Manager\PermissionManager',
-            'ilioscore.program.manager.class' => 'Ilios\CoreBundle\Entity\Manager\ProgramManager',
-            'ilioscore.programyear.manager.class' => 'Ilios\CoreBundle\Entity\Manager\ProgramYearManager',
+            'ilioscore.pendinguserupdate.manager.class' => 'Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager',
             'ilioscore.programyearsteward.manager.class' => 'Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager',
-            'ilioscore.report.manager.class' => 'Ilios\CoreBundle\Entity\Manager\ReportManager',
             'ilioscore.school.manager.class' => 'Ilios\CoreBundle\Entity\Manager\SchoolManager',
-            'ilioscore.session.manager.class' => 'Ilios\CoreBundle\Entity\Manager\SessionManager',
             'ilioscore.sessiondescription.manager.class' => 'Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager',
             'ilioscore.sessionlearningmaterial.manager.class' =>
-            'Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager',
-            'ilioscore.sessiontype.manager.class' => 'Ilios\CoreBundle\Entity\Manager\SessionTypeManager',
-            'ilioscore.term.manager.class' => 'Ilios\CoreBundle\Entity\Manager\TermManager',
+                'Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager',
             'ilioscore.user.manager.class' => 'Ilios\CoreBundle\Entity\Manager\UserManager',
-            'ilioscore.usermadereminder.manager.class' => 'Ilios\CoreBundle\Entity\Manager\UserMadeReminderManager',
-            'ilioscore.userrole.manager.class' => 'Ilios\CoreBundle\Entity\Manager\UserRoleManager',
-            'ilioscore.vocabulary.manager.class' => 'Ilios\CoreBundle\Entity\Manager\VocabularyManager',
             'ilioscore.dataloader.aamcmethod.class' => 'Ilios\CoreBundle\Tests\DataLoader\AamcMethodData',
             'ilioscore.dataloader.aamcpcrs.class' => 'Ilios\CoreBundle\Tests\DataLoader\AamcPcrsData',
             'ilioscore.dataloader.alertchangetype.class' => 'Ilios\CoreBundle\Tests\DataLoader\AlertChangeTypeData',

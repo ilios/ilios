@@ -12,50 +12,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
 class CourseManager extends DTOManager
 {
     /**
-     * @deprecated
-     */
-    public function findCourseBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findCourseDTOBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findDTOBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findCoursesBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findCourseDTOsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findDTOsBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
      * Retrieves all courses associated with the given user.
      *
      * @param UserInterface $user
@@ -78,39 +34,11 @@ class CourseManager extends DTOManager
     }
 
     /**
-     * @deprecated
-     */
-    public function updateCourse(
-        CourseInterface $course,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->update($course, $andFlush, $forceId);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function deleteCourse(
-        CourseInterface $course
-    ) {
-        $this->delete($course);
-    }
-
-    /**
      * @return string[]
      */
     public function getYears()
     {
         return $this->getRepository()->getYears();
-    }
-
-    /**
-     * @deprecated
-     */
-    public function createCourse()
-    {
-        return $this->create();
     }
 
     /**

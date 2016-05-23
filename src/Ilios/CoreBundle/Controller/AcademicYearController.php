@@ -10,6 +10,7 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -104,11 +105,6 @@ class AcademicYearController extends FOSRestController
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
-        $offset = $paramFetcher->get('offset');
-        $limit = $paramFetcher->get('limit');
-        $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
         $courseManager = $this->container->get('ilioscore.course.manager');
         $years = [];
         foreach ($courseManager->getYears() as $id) {

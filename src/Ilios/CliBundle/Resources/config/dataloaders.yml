@@ -3,4 +3,4 @@ parameters:
 
 services:
     ilioscli.dataloader.auditlog:
-        class: %ilioscli.dataloader.auditlog.class%
+        class: "%ilioscli.dataloader.auditlog.class%"

@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Tests\Entity;
 
+use Faker\Factory;
 use IC\Bundle\Base\TestBundle\Test\TestCase;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
@@ -342,7 +343,7 @@ class EntityBase extends TestCase
      */
     protected function getValueForType($type)
     {
-        $faker = \Faker\Factory::create();
+        $faker = Factory::create();
         switch ($type) {
             case 'integer':
                 return $faker->randomNumber();

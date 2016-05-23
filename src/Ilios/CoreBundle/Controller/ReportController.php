@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\ReportHandler;
 use Ilios\CoreBundle\Entity\ReportInterface;
 
 /**
@@ -128,13 +126,8 @@ class ReportController extends FOSRestController
             $criteria['createdAt'] = new \DateTime($criteria['createdAt']);
         }
 
-        $result = $this->getReportHandler()
-            ->findReportsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.report.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -142,8 +135,7 @@ class ReportController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['reports'] =
-            $result ? array_values($result) : [];
+        $answer['reports'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -173,8 +165,7 @@ class ReportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getReportHandler();
-
+            $handler = $this->container->get('ilioscore.report.handler');
             $report = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -182,7 +173,8 @@ class ReportController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getReportHandler()->updateReport($report, true, false);
+            $manager = $this->container->get('ilioscore.report.manager');
+            $manager->update($report, true, false);
 
             $answer['reports'] = [$report];
 
@@ -221,29 +213,24 @@ class ReportController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $report = $this->getReportHandler()
-                ->findReportBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.report.manager');
+            $report = $manager->findOneBy(['id'=> $id]);
             if ($report) {
                 $code = Codes::HTTP_OK;
             } else {
-                $report = $this->getReportHandler()
-                    ->createReport();
+                $report = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getReportHandler();
-
-            $report = $handler->put(
-                $report,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.report.handler');
+            $report = $handler->put($report, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $report)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getReportHandler()->updateReport($report, true, true);
+            $manager->update($report, true, true);
 
             $answer['report'] = $report;
         } catch (InvalidFormException $exception) {
@@ -294,8 +281,8 @@ class ReportController extends FOSRestController
         }
 
         try {
-            $this->getReportHandler()
-                ->deleteReport($report);
+            $manager = $this->container->get('ilioscore.report.manager');
+            $manager->delete($report);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -311,8 +298,8 @@ class ReportController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $report = $this->getReportHandler()
-            ->findReportBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.report.manager');
+        $report = $manager->findOneBy(['id' => $id]);
         if (!$report) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -333,13 +320,5 @@ class ReportController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return ReportHandler
-     */
-    protected function getReportHandler()
-    {
-        return $this->container->get('ilioscore.report.handler');
     }
 }

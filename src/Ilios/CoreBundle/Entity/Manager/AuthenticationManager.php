@@ -11,28 +11,6 @@ use Ilios\CoreBundle\Entity\AuthenticationInterface;
 class AuthenticationManager extends BaseManager
 {
     /**
-     * @deprecated
-     */
-    public function findAuthenticationBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findAuthenticationsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
      * @param string $username
      * @return AuthenticationInterface
      */
@@ -40,33 +18,5 @@ class AuthenticationManager extends BaseManager
     {
         $username = strtolower($username);
         return $this->getRepository()->findOneByUsername($username);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function updateAuthentication(
-        AuthenticationInterface $authentication,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->update($authentication, $andFlush, $forceId);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function deleteAuthentication(
-        AuthenticationInterface $authentication
-    ) {
-        $this->delete($authentication);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createAuthentication()
-    {
-        return $this->create();
     }
 }

@@ -93,7 +93,7 @@ class ShibbolethAuthenticationTest extends TestCase
             ->mock();
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->server = $serverBag;
-        $authManager->shouldReceive('findAuthenticationBy')
+        $authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn(null);
 
         $result = $obj->login($request);
@@ -127,7 +127,7 @@ class ShibbolethAuthenticationTest extends TestCase
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $authManager->shouldReceive('findAuthenticationBy')
+        $authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
         $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
         
@@ -164,7 +164,7 @@ class ShibbolethAuthenticationTest extends TestCase
 
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $authManager->shouldReceive('findAuthenticationBy')
+        $authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
         $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
 

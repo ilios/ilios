@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\ProgramHandler;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 
 /**
@@ -54,7 +52,8 @@ class ProgramController extends FOSRestController
      */
     public function getAction($id)
     {
-        $program = $this->getProgramHandler()->findProgramDTOBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.program.manager');
+        $program = $manager->findDTOBy(['id' => $id]);
 
         if (!$program) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -129,13 +128,8 @@ class ProgramController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getProgramHandler()
-            ->findProgramDTOsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.program.manager');
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -143,8 +137,7 @@ class ProgramController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['programs'] =
-            $result ? array_values($result) : [];
+        $answer['programs'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -174,8 +167,7 @@ class ProgramController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getProgramHandler();
-
+            $handler = $this->container->get('ilioscore.program.handler');
             $program = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -183,7 +175,8 @@ class ProgramController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getProgramHandler()->updateProgram($program, true, false);
+            $manager = $this->container->get('ilioscore.program.manager');
+            $manager->update($program, true, false);
 
             $answer['programs'] = [$program];
 
@@ -222,29 +215,24 @@ class ProgramController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $program = $this->getProgramHandler()
-                ->findProgramBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.program.manager');
+            $program = $manager->findOneBy(['id'=> $id]);
             if ($program) {
                 $code = Codes::HTTP_OK;
             } else {
-                $program = $this->getProgramHandler()
-                    ->createProgram();
+                $program = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getProgramHandler();
-
-            $program = $handler->put(
-                $program,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.program.handler');
+            $program = $handler->put($program, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $program)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getProgramHandler()->updateProgram($program, true, true);
+            $manager->update($program, true, true);
 
             $answer['program'] = $program;
         } catch (InvalidFormException $exception) {
@@ -295,8 +283,8 @@ class ProgramController extends FOSRestController
         }
 
         try {
-            $this->getProgramHandler()
-                ->deleteProgram($program);
+            $manager = $this->container->get('ilioscore.program.manager');
+            $manager->delete($program);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -312,8 +300,8 @@ class ProgramController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $program = $this->getProgramHandler()
-            ->findProgramBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.program.manager');
+        $program = $manager->findOneBy(['id' => $id]);
         if (!$program) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -334,13 +322,5 @@ class ProgramController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return ProgramHandler
-     */
-    protected function getProgramHandler()
-    {
-        return $this->container->get('ilioscore.program.handler');
     }
 }

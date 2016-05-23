@@ -57,7 +57,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
         $this->learningMaterialManager
             ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once()
             ->shouldReceive('findFileLearningMaterials')->andReturn([$lm])->once()
-            ->shouldReceive('updateLearningMaterial')->with($lm, false)->once()
+            ->shouldReceive('update')->with($lm, false)->once()
             ->shouldReceive('flushAndClear')->once()
         ;
         $file = m::mock('Symfony\Component\HttpFoundation\File\File');

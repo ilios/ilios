@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\SchoolHandler;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
@@ -54,7 +52,8 @@ class SchoolController extends FOSRestController
      */
     public function getAction($id)
     {
-        $school = $this->getSchoolHandler()->findSchoolDTOBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.school.manager');
+        $school = $manager->findDTOBy(['id' => $id]);
 
         if (!$school) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -125,17 +124,11 @@ class SchoolController extends FOSRestController
             $item = $item == 'null' ? null : $item;
             $item = $item == 'false' ? false : $item;
             $item = $item == 'true' ? true : $item;
-
             return $item;
         }, $criteria);
 
-        $result = $this->getSchoolHandler()
-            ->findSchoolDTOsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.school.manager');
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -143,8 +136,7 @@ class SchoolController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['schools'] =
-            $result ? array_values($result) : [];
+        $answer['schools'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -174,8 +166,7 @@ class SchoolController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getSchoolHandler();
-
+            $handler = $this->container->get('ilioscore.school.handler');
             $school = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -183,7 +174,8 @@ class SchoolController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getSchoolHandler()->updateSchool($school, true, false);
+            $manager = $this->container->get('ilioscore.school.manager');
+            $manager->update($school, true, false);
 
             $answer['schools'] = [$school];
 
@@ -222,29 +214,25 @@ class SchoolController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $school = $this->getSchoolHandler()
-                ->findSchoolBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.school.manager');
+            $school = $manager->findOneBy(['id'=> $id]);
             if ($school) {
                 $code = Codes::HTTP_OK;
             } else {
-                $school = $this->getSchoolHandler()
-                    ->createSchool();
+                $school = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getSchoolHandler();
+            $handler = $this->container->get('ilioscore.school.handler');
 
-            $school = $handler->put(
-                $school,
-                $this->getPostData($request)
-            );
+            $school = $handler->put($school, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $school)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getSchoolHandler()->updateSchool($school, true, true);
+            $manager->update($school, true, true);
 
             $answer['school'] = $school;
         } catch (InvalidFormException $exception) {
@@ -295,8 +283,8 @@ class SchoolController extends FOSRestController
         }
 
         try {
-            $this->getSchoolHandler()
-                ->deleteSchool($school);
+            $manager = $this->container->get('ilioscore.school.manager');
+            $manager->delete($school);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -312,8 +300,8 @@ class SchoolController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $school = $this->getSchoolHandler()
-            ->findSchoolBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.school.manager');
+        $school = $manager->findOneBy(['id' => $id]);
         if (!$school) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -334,13 +322,5 @@ class SchoolController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return SchoolHandler
-     */
-    protected function getSchoolHandler()
-    {
-        return $this->container->get('ilioscore.school.handler');
     }
 }

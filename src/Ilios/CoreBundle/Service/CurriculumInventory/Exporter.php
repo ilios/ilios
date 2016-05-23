@@ -7,8 +7,8 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
+use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 
 /**
@@ -30,7 +30,7 @@ class Exporter
     protected $reportManager;
 
     /**
-     * @var CurriculumInventoryInstitutionManager
+     * @var ManagerInterface
      */
     protected $institutionManager;
 
@@ -42,13 +42,13 @@ class Exporter
 
     /**
      * @param CurriculumInventoryReportManager $reportManager
-     * @param CurriculumInventoryInstitutionManager $institutionManager
+     * @param ManagerInterface $institutionManager
      * @param string $institutionDomain
      * @param string $supportingLink
      */
     public function __construct(
         CurriculumInventoryReportManager $reportManager,
-        CurriculumInventoryInstitutionManager $institutionManager,
+        ManagerInterface $institutionManager,
         $institutionDomain,
         $supportingLink = ''
     ) {
@@ -106,7 +106,7 @@ class Exporter
         }
 
         /** @var CurriculumInventoryInstitutionInterface $institution */
-        $institution = $this->institutionManager->findCurriculumInventoryInstitutionBy(['school' => $school->getId()]);
+        $institution = $this->institutionManager->findOneBy(['school' => $school->getId()]);
         if (! $institution) {
             throw new \Exception(
                 'No curriculum inventory institution found for school with id = ' . $school->getId() . '.'
@@ -299,7 +299,7 @@ class Exporter
         $zipcodeNode = $dom->createElementNS(
             'http://ns.medbiq.org/address/v1/',
             'a:PostalCode',
-            $institution->getAddressZipCode()
+            $institution->getAddressZipcode()
         );
         $addressNode->appendChild($zipcodeNode);
         $countryNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:Country');
@@ -637,15 +637,15 @@ class Exporter
     /**
      * Creates the competency framework node and child-nodes, and adds them to a given parent node (<Expectations>).
      *
-     * @param \DomDocument $dom
-     * @param \DomElement $parentNode
+     * @param \DOMDocument $dom
+     * @param \DOMElement $parentNode
      * @param CurriculumInventoryReportInterface $report
      * @param string $reportId
      * @param array $expectations
      */
     protected function createCompetencyFrameworkNode(
-        \DomDocument $dom,
-        \DomElement $parentNode,
+        \DOMDocument $dom,
+        \DOMElement $parentNode,
         CurriculumInventoryReportInterface $report,
         $reportId,
         array $expectations
@@ -746,21 +746,21 @@ class Exporter
     /**
      * Recursively creates and appends sequence block nodes to the XML document.
      *
-     * @param \DomDocument $dom the document object
-     * @param \DomElement $sequenceNode the sequence DOM node to append to
+     * @param \DOMDocument $dom the document object
+     * @param \DOMElement $sequenceNode the sequence DOM node to append to
      * @param CurriculumInventorySequenceBlockInterface $block the current sequence block
      * @param array $eventReferences A reference map of sequence blocks to events.
      * @param array $competencyObjectReferences A reference map of sequence blocks to competency objects.
-     * @param \DomElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block.
+     * @param \DOMElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block.
      * @param int $order of this sequence block in relation to other nested sequence blocks. '0' if n/a.
      */
     protected function createSequenceBlockNode(
-        \DomDocument $dom,
-        \DomElement $sequenceNode,
+        \DOMDocument $dom,
+        \DOMElement $sequenceNode,
         CurriculumInventorySequenceBlockInterface $block,
         array $eventReferences,
         array $competencyObjectReferences,
-        \DomElement $parentSequenceBlockNode = null,
+        \DOMElement $parentSequenceBlockNode = null,
         $order = 0
     ) {
         $sequenceBlockNode = $dom->createElement('SequenceBlock');
@@ -947,13 +947,13 @@ class Exporter
      * Creates a "CompetencyObject" DOM node and populates it with given values,
      * then appends it to the given parent node.
      *
-     * @param \DomDocument $dom The document object.
-     * @param \DomElement $parentNode The parent node.
+     * @param \DOMDocument $dom The document object.
+     * @param \DOMElement $parentNode The parent node.
      * @param string $title The competency object's title.
      * @param string $uri An URI that uniquely identifies the competency object.
      * @param string $category 'program-level-competency', 'sequence-block-level-competency or 'event-level-competency'.
      */
-    protected function createCompetencyObjectNode(\DomDocument $dom, \DomElement $parentNode, $title, $uri, $category)
+    protected function createCompetencyObjectNode(\DOMDocument $dom, \DOMElement $parentNode, $title, $uri, $category)
     {
         $competencyObjectNode = $dom->createElement('CompetencyObject');
         $parentNode->appendChild($competencyObjectNode);
@@ -982,12 +982,12 @@ class Exporter
      * Creates a "CompetencyObjectReference" DOM node and populates it with given values,
      * then appends it to the given parent node.
      *
-     * @param \DomDocument $dom The document object.
-     * @param \DomElement $parentNode The parent node.
+     * @param \DOMDocument $dom The document object.
+     * @param \DOMElement $parentNode The parent node.
      * @param string $uri An URI that uniquely identifies the competency object.
      * @see Ilios_CurriculumInventory_Exporter::_createCompetencyObjectUri
      */
-    protected function createCompetencyObjectReferenceNode(\DomDocument $dom, \DomElement $parentNode, $uri)
+    protected function createCompetencyObjectReferenceNode(\DOMDocument $dom, \DOMElement $parentNode, $uri)
     {
         $ref =
             "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry='{$uri}']";
@@ -996,11 +996,11 @@ class Exporter
     }
 
     /**
-     * @param \DomDocument $dom
-     * @param \DomElement $parentNode
+     * @param \DOMDocument $dom
+     * @param \DOMElement $parentNode
      * @param string $uri
      */
-    protected function createCompetencyFrameworkIncludesNode(\DomDocument $dom, \DomElement $parentNode, $uri)
+    protected function createCompetencyFrameworkIncludesNode(\DOMDocument $dom, \DOMElement $parentNode, $uri)
     {
         $includesNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Includes');
         $parentNode->appendChild($includesNode);
@@ -1011,15 +1011,15 @@ class Exporter
     }
 
     /**
-     * @param \DomDocument $dom
-     * @param \DomElement $parentNode
+     * @param \DOMDocument $dom
+     * @param \DOMElement $parentNode
      * @param string $relUri1
      * @param string $relUri2
      * @param string $relationshipUri
      */
     protected function createCompetencyFrameworkRelationNode(
-        \DomDocument $dom,
-        \DomElement $parentNode,
+        \DOMDocument $dom,
+        \DOMElement $parentNode,
         $relUri1,
         $relUri2,
         $relationshipUri

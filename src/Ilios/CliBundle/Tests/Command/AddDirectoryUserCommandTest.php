@@ -77,12 +77,12 @@ class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
             ->mock();
         $authentication->shouldReceive('setUser')->with($user);
         
-        $this->userManager->shouldReceive('findUserBy')->with(array('campusId' => 'abc'))->andReturn(false);
-        $this->schoolManager->shouldReceive('findSchoolBy')->with(array('id' => 1))->andReturn($school);
-        $this->userManager->shouldReceive('createUser')->andReturn($user);
-        $this->userManager->shouldReceive('updateUser')->with($user);
-        $this->authenticationManager->shouldReceive('createAuthentication')->andReturn($authentication);
-        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication);
+        $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 'abc'))->andReturn(false);
+        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($school);
+        $this->userManager->shouldReceive('create')->andReturn($user);
+        $this->userManager->shouldReceive('update')->with($user);
+        $this->authenticationManager->shouldReceive('create')->andReturn($authentication);
+        $this->authenticationManager->shouldReceive('update')->with($authentication);
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',
@@ -118,7 +118,7 @@ class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('getId')->andReturn(1)
             ->mock();
-        $this->userManager->shouldReceive('findUserBy')->with(array('campusId' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn($user);
         $this->setExpectedException('Exception', 'User #1 with campus id 1 already exists.');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -130,8 +130,8 @@ class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testBadSchoolId()
     {
-        $this->userManager->shouldReceive('findUserBy')->with(array('campusId' => 1))->andReturn(null);
-        $this->schoolManager->shouldReceive('findSchoolBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn(null);
+        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
         $this->setExpectedException('Exception', 'School with id 1 could not be found.');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,

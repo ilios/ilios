@@ -130,9 +130,9 @@ class IliosFileSystem
     }
     
     /**
-     * Turn a relative path into an ilios file store path
-     * @param  [string] $relativePath
-     * @return [string]               [the full path]
+     * Turns a relative path into an Ilios file store path.
+     * @param  string $relativePath
+     * @return string
      */
     protected function getPath($relativePath)
     {

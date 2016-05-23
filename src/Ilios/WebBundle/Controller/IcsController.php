@@ -20,8 +20,8 @@ class IcsController extends Controller
 
     public function indexAction(Request $request, $key)
     {
-        $userHandler = $this->container->get('ilioscore.user.handler');
-        $user = $userHandler->findUserBy(array('icsFeedKey' => $key));
+        $manager = $this->container->get('ilioscore.user.manager');
+        $user = $manager->findOneBy(array('icsFeedKey' => $key));
 
         if (!$user) {
             throw new NotFoundHttpException();
@@ -33,18 +33,18 @@ class IcsController extends Controller
         $from = new \DateTime(self::LOOK_BACK);
         $to =  new \DateTime(self::LOOK_FORWARD);
 
-        $events = $userHandler->findEventsForUser($user->getId(), $from, $to);
+        $events = $manager->findEventsForUser($user->getId(), $from, $to);
 
         $publishedEvents = array_filter($events, function (UserEvent $event) {
             return $event->isPublished && !$event->isScheduled;
         });
-        $publishedEvents = $userHandler->addInstructorsToEvents($publishedEvents);
+        $publishedEvents = $manager->addInstructorsToEvents($publishedEvents);
 
         $scheduledEvents = array_filter($events, function (UserEvent $event) {
             return $event->isPublished && $event->isScheduled;
         });
 
-
+        /* @var UserEvent $event */
         foreach ($publishedEvents as $event) {
             $vEvent = new ICS\Event();
             $vEvent
@@ -85,12 +85,12 @@ class IcsController extends Controller
     {
         if ($event->offering) {
             $offeringManager = $this->container->get('ilioscore.offering.manager');
-            $offering = $offeringManager->findOfferingBy(['id' => $event->offering]);
+            $offering = $offeringManager->findOneBy(['id' => $event->offering]);
             $session = $offering->getSession();
         }
         if ($event->ilmSession) {
-            $ilmSessionManager = $this->container->get('ilioscore.ilmSession.manager');
-            $ilmSession = $ilmSessionManager->findIlmSessionBy(['id' => $event->ilmSession]);
+            $ilmSessionManager = $this->container->get('ilioscore.ilmsession.manager');
+            $ilmSession = $ilmSessionManager->findOneBy(['id' => $event->ilmSession]);
             $session = $ilmSession->getSession();
         }
 
@@ -141,7 +141,6 @@ class IcsController extends Controller
 
     /**
      * @param LearningMaterialInterface $learningMaterial
-     *
      * @return string
      */
     protected function getTextForLearningMaterial(LearningMaterialInterface $learningMaterial)
@@ -153,7 +152,7 @@ class IcsController extends Controller
             $text .= $this->purify($link);
         } else {
             $uri = $this->generateUrl('ilios_core_downloadlearningmaterial', array(
-                'token' => $learningMaterial->getToken()
+                'token' => $learningMaterial->getToken(),
             ), true);
             $text .= $uri;
         }
@@ -163,7 +162,6 @@ class IcsController extends Controller
 
     /**
      * @param $string
-     *
      * @return string
      */
     protected function purify($string)

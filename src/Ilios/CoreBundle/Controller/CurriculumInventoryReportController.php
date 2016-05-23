@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CurriculumInventoryReportHandler;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
@@ -125,13 +123,8 @@ class CurriculumInventoryReportController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getCurriculumInventoryReportHandler()
-            ->findCurriculumInventoryReportsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.curriculuminventoryreport.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,7 +163,7 @@ class CurriculumInventoryReportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getCurriculumInventoryReportHandler();
+            $handler = $this->container->get('ilioscore.curriculuminventoryreport.handler');
 
             $curriculumInventoryReport = $handler->post($this->getPostData($request));
 
@@ -179,11 +172,8 @@ class CurriculumInventoryReportController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryReportHandler()->updateCurriculumInventoryReport(
-                $curriculumInventoryReport,
-                true,
-                false
-            );
+            $manager = $this->container->get('ilioscore.curriculuminventoryreport.manager');
+            $manager->update($curriculumInventoryReport, true, false);
 
             $answer['curriculumInventoryReports'] = [$curriculumInventoryReport];
 
@@ -222,33 +212,24 @@ class CurriculumInventoryReportController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $curriculumInventoryReport = $this->getCurriculumInventoryReportHandler()
-                ->findCurriculumInventoryReportBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.curriculuminventoryreport.manager');
+            $curriculumInventoryReport = $manager->findOneBy(['id'=> $id]);
             if ($curriculumInventoryReport) {
                 $code = Codes::HTTP_OK;
             } else {
-                $curriculumInventoryReport = $this->getCurriculumInventoryReportHandler()
-                    ->createCurriculumInventoryReport();
+                $curriculumInventoryReport = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getCurriculumInventoryReportHandler();
-
-            $curriculumInventoryReport = $handler->put(
-                $curriculumInventoryReport,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.curriculuminventoryreport.handler');
+            $curriculumInventoryReport = $handler->put($curriculumInventoryReport, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $curriculumInventoryReport)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryReportHandler()->updateCurriculumInventoryReport(
-                $curriculumInventoryReport,
-                true,
-                true
-            );
+            $manager->update($curriculumInventoryReport, true, true);
 
             $answer['curriculumInventoryReport'] = $curriculumInventoryReport;
         } catch (InvalidFormException $exception) {
@@ -299,8 +280,8 @@ class CurriculumInventoryReportController extends FOSRestController
         }
 
         try {
-            $this->getCurriculumInventoryReportHandler()
-                ->deleteCurriculumInventoryReport($curriculumInventoryReport);
+            $manager = $this->container->get('ilioscore.curriculuminventoryreport.manager');
+            $manager->delete($curriculumInventoryReport);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -316,8 +297,8 @@ class CurriculumInventoryReportController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $curriculumInventoryReport = $this->getCurriculumInventoryReportHandler()
-            ->findCurriculumInventoryReportBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.curriculuminventoryreport.manager');
+        $curriculumInventoryReport = $manager->findOneBy(['id' => $id]);
         if (!$curriculumInventoryReport) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -338,13 +319,5 @@ class CurriculumInventoryReportController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return CurriculumInventoryReportHandler
-     */
-    protected function getCurriculumInventoryReportHandler()
-    {
-        return $this->container->get('ilioscore.curriculuminventoryreport.handler');
     }
 }

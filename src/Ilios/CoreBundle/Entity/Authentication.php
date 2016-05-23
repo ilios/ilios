@@ -84,7 +84,7 @@ class Authentication implements AuthenticationInterface
     protected $invalidateTokenIssuedBefore;
 
     /**
-     * @param string $username
+     * @inheritdoc
      */
     public function setUsername($username)
     {
@@ -92,7 +92,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getUsername()
     {
@@ -100,7 +100,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * @param string $passwordSha256
+     * @inheritdoc
      */
     public function setPasswordSha256($passwordSha256)
     {
@@ -108,7 +108,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getPasswordSha256()
     {
@@ -116,7 +116,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * @param string $passwordBcrypt
+     * @inheritdoc
      */
     public function setPasswordBcrypt($passwordBcrypt)
     {
@@ -127,7 +127,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getPasswordBcrypt()
     {
@@ -135,7 +135,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * @param UserInterface $user
+     * @inheritdoc
      */
     public function setUser(UserInterface $user)
     {
@@ -143,7 +143,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * @return UserInterface
+     * @inheritdoc
      */
     public function getUser()
     {
@@ -151,7 +151,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isLegacyAccount()
     {
@@ -159,7 +159,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * @param \DateTime $invalidateTokenIssuedBefore
+     * @inheritdoc
      */
     public function setInvalidateTokenIssuedBefore(\DateTime $invalidateTokenIssuedBefore = null)
     {
@@ -167,7 +167,7 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
-     * @return \DateTime
+     * @inheritdoc
      */
     public function getInvalidateTokenIssuedBefore()
     {
@@ -175,11 +175,10 @@ class Authentication implements AuthenticationInterface
     }
     
     /**
-    * @return string
+    * @inheritdoc
     */
     public function __toString()
     {
         return (string) $this->user;
-
     }
 }

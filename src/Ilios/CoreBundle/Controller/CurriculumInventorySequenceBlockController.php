@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CurriculumInventorySequenceBlockHandler;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 
 /**
@@ -125,13 +123,8 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getCurriculumInventorySequenceBlockHandler()
-            ->findCurriculumInventorySequenceBlocksBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.curriculuminventorysequenceblock.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,7 +163,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getCurriculumInventorySequenceBlockHandler();
+            $handler = $this->container->get('ilioscore.curriculuminventorysequenceblock.handler');
 
             $curriculumInventorySequenceBlock = $handler->post($this->getPostData($request));
 
@@ -179,11 +172,8 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventorySequenceBlockHandler()->updateCurriculumInventorySequenceBlock(
-                $curriculumInventorySequenceBlock,
-                true,
-                false
-            );
+            $manager = $this->container->get('ilioscore.curriculuminventorysequenceblock.manager');
+            $manager->update($curriculumInventorySequenceBlock, true, false);
 
             $answer['curriculumInventorySequenceBlocks'] = [$curriculumInventorySequenceBlock];
 
@@ -222,17 +212,16 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $curriculumInventorySequenceBlock = $this->getCurriculumInventorySequenceBlockHandler()
-                ->findCurriculumInventorySequenceBlockBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.curriculuminventorysequenceblock.manager');
+            $curriculumInventorySequenceBlock = $manager->findOneBy(['id'=> $id]);
             if ($curriculumInventorySequenceBlock) {
                 $code = Codes::HTTP_OK;
             } else {
-                $curriculumInventorySequenceBlock = $this->getCurriculumInventorySequenceBlockHandler()
-                    ->createCurriculumInventorySequenceBlock();
+                $curriculumInventorySequenceBlock = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getCurriculumInventorySequenceBlockHandler();
+            $handler = $this->container->get('ilioscore.curriculuminventorysequenceblock.handler');
 
             $curriculumInventorySequenceBlock = $handler->put(
                 $curriculumInventorySequenceBlock,
@@ -244,11 +233,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventorySequenceBlockHandler()->updateCurriculumInventorySequenceBlock(
-                $curriculumInventorySequenceBlock,
-                true,
-                true
-            );
+            $manager->update($curriculumInventorySequenceBlock, true, true);
 
             $answer['curriculumInventorySequenceBlock'] = $curriculumInventorySequenceBlock;
         } catch (InvalidFormException $exception) {
@@ -299,8 +284,8 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
         }
 
         try {
-            $this->getCurriculumInventorySequenceBlockHandler()
-                ->deleteCurriculumInventorySequenceBlock($curriculumInventorySequenceBlock);
+            $manager = $this->container->get('ilioscore.curriculuminventorysequenceblock.manager');
+            $manager->delete($curriculumInventorySequenceBlock);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -316,8 +301,8 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $curriculumInventorySequenceBlock = $this->getCurriculumInventorySequenceBlockHandler()
-            ->findCurriculumInventorySequenceBlockBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.curriculuminventorysequenceblock.manager');
+        $curriculumInventorySequenceBlock = $manager->findOneBy(['id' => $id]);
         if (!$curriculumInventorySequenceBlock) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -338,13 +323,5 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return CurriculumInventorySequenceBlockHandler
-     */
-    protected function getCurriculumInventorySequenceBlockHandler()
-    {
-        return $this->container->get('ilioscore.curriculuminventorysequenceblock.handler');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -97,10 +98,10 @@ class SyncAllUsersCommand extends Command
         $chunks = array_chunk($allUserRecords, 500);
         foreach ($chunks as $userRecords) {
             foreach ($userRecords as $recordArray) {
-                $users = $this->userManager->findUsersBy([
+                $users = $this->userManager->findBy([
                     'campusId' => $recordArray['campusId'],
                     'enabled' => true,
-                    'userSyncIgnore' => false
+                    'userSyncIgnore' => false,
                 ]);
                 if (count($users) == 0) {
                     //this shouldn't happen unless the user gets updated between
@@ -118,9 +119,10 @@ class SyncAllUsersCommand extends Command
                         'campus ID (' . $recordArray['campusId'] . ').  ' .
                         'None of them will be updated.</error>'
                     );
+                    /* @var UserInterface $user */
                     foreach ($users as $user) {
                         $user->setExamined(true);
-                        $this->userManager->updateUser($user, false);
+                        $this->userManager->update($user, false);
                     }
                     continue;
                 }
@@ -135,7 +137,7 @@ class SyncAllUsersCommand extends Command
                 );
                 if (!$this->validateDirectoryRecord($recordArray, $output)) {
                     $user->setExamined(true);
-                    $this->userManager->updateUser($user, false);
+                    $this->userManager->update($user, false);
                     //don't do anything else with invalid directory data
                     continue;
                 }
@@ -153,12 +155,12 @@ class SyncAllUsersCommand extends Command
                             '  <comment>[I] Email address "' . $user->getEmail() .
                             '" differs from "' . $recordArray['email'] . '" logging for further action.</comment>'
                         );
-                        $pendingUpdate = $this->pendingUserUpdateManager->createPendingUserUpdate();
+                        $pendingUpdate = $this->pendingUserUpdateManager->create();
                         $pendingUpdate->setUser($user);
                         $pendingUpdate->setProperty('email');
                         $pendingUpdate->setValue($recordArray['email']);
                         $pendingUpdate->setType('emailMismatch');
-                        $this->pendingUserUpdateManager->updatePendingUserUpdate($pendingUpdate, false);
+                        $this->pendingUserUpdateManager->update($pendingUpdate, false);
                     }
                 }
                 
@@ -191,7 +193,7 @@ class SyncAllUsersCommand extends Command
                     $output->writeln(
                         '  <comment>[I] User had no authentication data, creating it now.</comment>'
                     );
-                    $authentication = $this->authenticationManager->createAuthentication();
+                    $authentication = $this->authenticationManager->create();
                     $authentication->setUser($user);
                 }
                 if ($fixSmallThings && $authentication->getUsername() != $recordArray['username']) {
@@ -201,21 +203,21 @@ class SyncAllUsersCommand extends Command
                         '" to "' . $recordArray['username'] . '".</comment>'
                     );
                     $authentication->setUsername($recordArray['username']);
-                    $this->authenticationManager->updateAuthentication($authentication, false);
+                    $this->authenticationManager->update($authentication, false);
                 }
                 
                 if ($update) {
                     $updated++;
                 }
                 $user->setExamined(true);
-                $this->userManager->updateUser($user, false);
+                $this->userManager->update($user, false);
             }
             $this->em->flush();
             $this->em->clear();
         }
         $output->writeln('<info>Searching for users who were not examined during the sync process.</info>');
         
-        $unsyncedUsers = $this->userManager->findUsersBy(
+        $unsyncedUsers = $this->userManager->findBy(
             ['examined' => false, 'enabled' => true, 'userSyncIgnore' => false],
             ['lastName' => ' ASC', 'firstName' => 'ASC']
         );
@@ -226,10 +228,10 @@ class SyncAllUsersCommand extends Command
                 '<comment>[I] User #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' ' .
                 $user->getEmail() . ' not found in the directory.  Logged for further study.</comment>'
             );
-            $update = $this->pendingUserUpdateManager->createPendingUserUpdate();
+            $update = $this->pendingUserUpdateManager->create();
             $update->setUser($user);
             $update->setType('missingFromDirectory');
-            $this->pendingUserUpdateManager->updatePendingUserUpdate($update, false);
+            $this->pendingUserUpdateManager->update($update, false);
         }
         $this->em->flush();
 

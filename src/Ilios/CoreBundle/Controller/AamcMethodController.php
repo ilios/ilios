@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\AamcMethodHandler;
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
 
 /**
@@ -125,13 +123,8 @@ class AamcMethodController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getAamcMethodHandler()
-            ->findAamcMethodsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.aamcmethod.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,7 +163,7 @@ class AamcMethodController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getAamcMethodHandler();
+            $handler = $this->container->get('ilioscore.aamcmethod.handler');
 
             $aamcMethod = $handler->post($this->getPostData($request));
 
@@ -179,7 +172,8 @@ class AamcMethodController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAamcMethodHandler()->updateAamcMethod($aamcMethod, true, false);
+            $manager = $this->container->get('ilioscore.aamcmethod.manager');
+            $manager->update($aamcMethod, true, false);
 
             $answer['aamcMethods'] = [$aamcMethod];
 
@@ -218,29 +212,24 @@ class AamcMethodController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $aamcMethod = $this->getAamcMethodHandler()
-                ->findAamcMethodBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.aamcmethod.manager');
+            $aamcMethod = $manager->findOneBy(['id'=> $id]);
             if ($aamcMethod) {
                 $code = Codes::HTTP_OK;
             } else {
-                $aamcMethod = $this->getAamcMethodHandler()
-                    ->createAamcMethod();
+                $aamcMethod = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getAamcMethodHandler();
-
-            $aamcMethod = $handler->put(
-                $aamcMethod,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.aamcmethod.handler');
+            $aamcMethod = $handler->put($aamcMethod, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $aamcMethod)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAamcMethodHandler()->updateAamcMethod($aamcMethod, true, true);
+            $manager->update($aamcMethod, true, true);
 
             $answer['aamcMethod'] = $aamcMethod;
         } catch (InvalidFormException $exception) {
@@ -291,8 +280,8 @@ class AamcMethodController extends FOSRestController
         }
 
         try {
-            $this->getAamcMethodHandler()
-                ->deleteAamcMethod($aamcMethod);
+            $manager = $this->container->get('ilioscore.aamcmethod.manager');
+            $manager->delete($aamcMethod);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +297,8 @@ class AamcMethodController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $aamcMethod = $this->getAamcMethodHandler()
-            ->findAamcMethodBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.aamcmethod.manager');
+        $aamcMethod = $manager->findOneBy(['id' => $id]);
         if (!$aamcMethod) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +319,5 @@ class AamcMethodController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return AamcMethodHandler
-     */
-    protected function getAamcMethodHandler()
-    {
-        return $this->container->get('ilioscore.aamcmethod.handler');
     }
 }

@@ -12,50 +12,6 @@ use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
 class MeshDescriptorManager extends DTOManager
 {
     /**
-     * @deprecated
-     */
-    public function findMeshDescriptorBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findMeshDescriptorDTOBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findDTOBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findMeshDescriptorsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findMeshDescriptorDTOsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findDTOsBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
      * @param string $q
      * @param array $orderBy
      * @param integer $limit
@@ -70,34 +26,6 @@ class MeshDescriptorManager extends DTOManager
         $offset = null
     ) {
         return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function updateMeshDescriptor(
-        MeshDescriptorInterface $meshDescriptor,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->update($meshDescriptor, $andFlush, $forceId);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function deleteMeshDescriptor(
-        MeshDescriptorInterface $meshDescriptor
-    ) {
-        $this->delete($meshDescriptor);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function createMeshDescriptor()
-    {
-        return $this->create();
     }
 
     /**

@@ -39,6 +39,7 @@ class WebIndexFromJson
     /**
      * Get the index file as a string
      *
+     * @param string $environment
      * @param string $version
      * @return string
      *

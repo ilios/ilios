@@ -11,56 +11,6 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 class CurriculumInventoryReportManager extends BaseManager
 {
     /**
-     * @deprecated
-     */
-    public function findCurriculumInventoryReportBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findCurriculumInventoryReportsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function updateCurriculumInventoryReport(
-        CurriculumInventoryReportInterface $curriculumInventoryReport,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->update($curriculumInventoryReport, $andFlush, $forceId);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function deleteCurriculumInventoryReport(
-        CurriculumInventoryReportInterface $curriculumInventoryReport
-    ) {
-        $this->delete($curriculumInventoryReport);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function createCurriculumInventoryReport()
-    {
-        return $this->create();
-    }
-
-    /**
      * @param CurriculumInventoryReportInterface $report
      * @return array
      */

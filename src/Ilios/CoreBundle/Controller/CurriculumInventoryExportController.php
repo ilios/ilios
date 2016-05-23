@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CurriculumInventoryExportHandler;
 
 /**
  * Class CurriculumInventoryExportController
@@ -50,7 +49,7 @@ class CurriculumInventoryExportController extends FOSRestController
             $data = $this->getPostData($request);
             $data['document'] = 'lorem ipsum'; // fake the data document, we'll generate/set the real one further down.
 
-            $handler = $this->getCurriculumInventoryExportHandler();
+            $handler = $this->container->get('ilioscore.curriculuminventoryexport.handler');
             /** @var CurriculumInventoryExportInterface $curriculumInventoryExport */
             $curriculumInventoryExport = $handler->post($data);
 
@@ -67,11 +66,8 @@ class CurriculumInventoryExportController extends FOSRestController
             $document = $exporter->getXmlReport($curriculumInventoryExport->getReport());
             $curriculumInventoryExport->setDocument($document->saveXML());
 
-            $handler->updateCurriculumInventoryExport(
-                $curriculumInventoryExport,
-                true,
-                false
-            );
+            $manager = $this->container->get('ilioscore.curriculuminventoryexport.manager');
+            $manager->update($curriculumInventoryExport, true, false);
 
             // OF NOTE:
             // We remove the document before returning the export to keep the payload at a reasonable size.
@@ -101,13 +97,5 @@ class CurriculumInventoryExportController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return CurriculumInventoryExportHandler
-     */
-    protected function getCurriculumInventoryExportHandler()
-    {
-        return $this->container->get('ilioscore.curriculuminventoryexport.handler');
     }
 }

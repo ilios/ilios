@@ -13,56 +13,6 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
 class OfferingManager extends BaseManager
 {
     /**
-     * @deprecated
-     */
-    public function findOfferingBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findOfferingsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function updateOffering(
-        OfferingInterface $offering,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->update($offering, $andFlush, $forceId);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function deleteOffering(
-        OfferingInterface $offering
-    ) {
-        $this->delete($offering);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function createOffering()
-    {
-        return $this->create();
-    }
-
-    /**
      * Retrieves offerings starting X days from now.
      *
      * @param int $daysInAdvance Days in advance from now.

@@ -14,9 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-use Ilios\CoreBundle\Handler\CurriculumInventoryExportHandler;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
-use Ilios\CoreBundle\Handler\CurriculumInventoryReportHandler;
 
 /**
  * Class CurriculumInventoryDownloadController
@@ -55,8 +53,9 @@ class CurriculumInventoryDownloadController extends FOSRestController
      */
     public function getAction($id)
     {
-        $curriculumInventoryReport = $this->getCurriculumInventoryReportHandler()
-            ->findCurriculumInventoryReportBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.curriculuminventoryreport.manager');
+        /* @var CurriculumInventoryReportInterface $curriculumInventoryReport */
+        $curriculumInventoryReport = $manager->findOneBy(['id' => $id]);
 
         if (! $curriculumInventoryReport) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -86,30 +85,14 @@ class CurriculumInventoryDownloadController extends FOSRestController
     {
         // check if the report has been exported.
         // if so, pull the document from the database.
-        $export = $this->getCurriculumInventoryExportHandler()->findCurriculumInventoryExportBy([
-            'report' => $report->getId()
-        ]);
+        $manager = $this->container->get('ilioscore.curriculuminventoryexport.manager');
+        $export = $manager->findOneBy(['report' => $report->getId()]);
         if ($export) {
             return $export->getDocument();
         }
 
         // otherwise, generate a document on the fly.
         return $this->generateReportDocument($report);
-    }
-    /**
-     * @return CurriculumInventoryExportHandler
-     */
-    protected function getCurriculumInventoryExportHandler()
-    {
-        return $this->container->get('ilioscore.curriculuminventoryexport.handler');
-    }
-
-    /**
-     * @return CurriculumInventoryReportHandler
-     */
-    protected function getCurriculumInventoryReportHandler()
-    {
-        return $this->container->get('ilioscore.curriculuminventoryreport.handler');
     }
 
     /**

@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\DepartmentHandler;
 use Ilios\CoreBundle\Entity\DepartmentInterface;
 
 /**
@@ -125,13 +123,8 @@ class DepartmentController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getDepartmentHandler()
-            ->findDepartmentsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.department.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,7 +163,7 @@ class DepartmentController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getDepartmentHandler();
+            $handler = $this->container->get('ilioscore.department.handler');
 
             $department = $handler->post($this->getPostData($request));
 
@@ -179,7 +172,8 @@ class DepartmentController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getDepartmentHandler()->updateDepartment($department, true, false);
+            $manager = $this->container->get('ilioscore.department.manager');
+            $manager->update($department, true, false);
 
             $answer['departments'] = [$department];
 
@@ -218,29 +212,25 @@ class DepartmentController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $department = $this->getDepartmentHandler()
-                ->findDepartmentBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.department.manager');
+            $department = $manager->findOneBy(['id'=> $id]);
             if ($department) {
                 $code = Codes::HTTP_OK;
             } else {
-                $department = $this->getDepartmentHandler()
-                    ->createDepartment();
+                $department = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getDepartmentHandler();
+            $handler = $this->container->get('ilioscore.department.handler');
 
-            $department = $handler->put(
-                $department,
-                $this->getPostData($request)
-            );
+            $department = $handler->put($department, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $department)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getDepartmentHandler()->updateDepartment($department, true, true);
+            $manager->update($department, true, true);
 
             $answer['department'] = $department;
         } catch (InvalidFormException $exception) {
@@ -291,8 +281,8 @@ class DepartmentController extends FOSRestController
         }
 
         try {
-            $this->getDepartmentHandler()
-                ->deleteDepartment($department);
+            $manager = $this->container->get('ilioscore.department.manager');
+            $manager->delete($department);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +298,8 @@ class DepartmentController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $department = $this->getDepartmentHandler()
-            ->findDepartmentBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.department.manager');
+        $department = $manager->findOneBy(['id' => $id]);
         if (!$department) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +320,5 @@ class DepartmentController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return DepartmentHandler
-     */
-    protected function getDepartmentHandler()
-    {
-        return $this->container->get('ilioscore.department.handler');
     }
 }

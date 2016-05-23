@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CourseClerkshipTypeHandler;
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 
 /**
@@ -125,13 +123,8 @@ class CourseClerkshipTypeController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getCourseClerkshipTypeHandler()
-            ->findCourseClerkshipTypesBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.courseclerkshiptype.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,8 +163,7 @@ class CourseClerkshipTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getCourseClerkshipTypeHandler();
-
+            $handler = $this->container->get('ilioscore.courseclerkshiptype.handler');
             $courseClerkshipType = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +171,8 @@ class CourseClerkshipTypeController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCourseClerkshipTypeHandler()->updateCourseClerkshipType($courseClerkshipType, true, false);
+            $manager = $this->container->get('ilioscore.courseclerkshiptype.manager');
+            $manager->update($courseClerkshipType, true, false);
 
             $answer['courseClerkshipTypes'] = [$courseClerkshipType];
 
@@ -218,29 +211,24 @@ class CourseClerkshipTypeController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $courseClerkshipType = $this->getCourseClerkshipTypeHandler()
-                ->findCourseClerkshipTypeBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.courseclerkshiptype.manager');
+            $courseClerkshipType = $manager->findOneBy(['id'=> $id]);
             if ($courseClerkshipType) {
                 $code = Codes::HTTP_OK;
             } else {
-                $courseClerkshipType = $this->getCourseClerkshipTypeHandler()
-                    ->createCourseClerkshipType();
+                $courseClerkshipType = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getCourseClerkshipTypeHandler();
-
-            $courseClerkshipType = $handler->put(
-                $courseClerkshipType,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.courseclerkshiptype.handler');
+            $courseClerkshipType = $handler->put($courseClerkshipType, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $courseClerkshipType)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCourseClerkshipTypeHandler()->updateCourseClerkshipType($courseClerkshipType, true, true);
+            $manager->update($courseClerkshipType, true, true);
 
             $answer['courseClerkshipType'] = $courseClerkshipType;
         } catch (InvalidFormException $exception) {
@@ -291,8 +279,8 @@ class CourseClerkshipTypeController extends FOSRestController
         }
 
         try {
-            $this->getCourseClerkshipTypeHandler()
-                ->deleteCourseClerkshipType($courseClerkshipType);
+            $manager = $this->container->get('ilioscore.courseclerkshiptype.manager');
+            $manager->delete($courseClerkshipType);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +296,8 @@ class CourseClerkshipTypeController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $courseClerkshipType = $this->getCourseClerkshipTypeHandler()
-            ->findCourseClerkshipTypeBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.courseclerkshiptype.manager');
+        $courseClerkshipType = $manager->findOneBy(['id' => $id]);
         if (!$courseClerkshipType) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +318,5 @@ class CourseClerkshipTypeController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return CourseClerkshipTypeHandler
-     */
-    protected function getCourseClerkshipTypeHandler()
-    {
-        return $this->container->get('ilioscore.courseclerkshiptype.handler');
     }
 }

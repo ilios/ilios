@@ -94,7 +94,7 @@ class AddUserCommand extends Command
         $schoolId = $input->getOption('schoolId');
         if (!$schoolId) {
             $schoolTitles = [];
-            foreach ($this->schoolManager->findSchoolsBy([], ['title' => 'ASC']) as $school) {
+            foreach ($this->schoolManager->findBy([], ['title' => 'ASC']) as $school) {
                 $schoolTitles[$school->getTitle()] = $school->getId();
             }
             $helper = $this->getHelper('question');
@@ -107,7 +107,7 @@ class AddUserCommand extends Command
             $schoolTitle = $helper->ask($input, $output, $question);
             $schoolId = $schoolTitles[$schoolTitle];
         }
-        $school = $this->schoolManager->findSchoolBy(['id' => $schoolId]);
+        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new \Exception(
                 "School with id {$schoolId} could not be found."
@@ -125,13 +125,13 @@ class AddUserCommand extends Command
 
         $userRecord = $this->fillUserRecord($userRecord, $input, $output);
 
-        $user = $this->userManager->findUserBy(['campusId' => $userRecord['campusId']]);
+        $user = $this->userManager->findOneBy(['campusId' => $userRecord['campusId']]);
         if ($user) {
             throw new \Exception(
                 'User #' . $user->getId() . " with campus id {$userRecord['campusId']} already exists."
             );
         }
-        $user = $this->userManager->findUserBy(['email' => $userRecord['email']]);
+        $user = $this->userManager->findOneBy(['email' => $userRecord['email']]);
         if ($user) {
             throw new \Exception(
                 'User #' . $user->getId() . " with email address {$userRecord['email']} already exists."
@@ -162,7 +162,7 @@ class AddUserCommand extends Command
         );
         
         if ($helper->ask($input, $output, $question)) {
-            $user = $this->userManager->createUser();
+            $user = $this->userManager->create();
             $user->setFirstName($userRecord['firstName']);
             $user->setLastName($userRecord['lastName']);
             $user->setEmail($userRecord['email']);
@@ -171,9 +171,9 @@ class AddUserCommand extends Command
             $user->setEnabled(true);
             $user->setSchool($school);
             $user->setUserSyncIgnore(false);
-            $this->userManager->updateUser($user);
+            $this->userManager->update($user);
 
-            $authentication = $this->authenticationManager->createAuthentication();
+            $authentication = $this->authenticationManager->create();
             $authentication->setUsername($userRecord['username']);
 
             $user->setAuthentication($authentication);
@@ -181,7 +181,7 @@ class AddUserCommand extends Command
             $encodedPassword = $this->encoder->encodePassword($user, $userRecord['password']);
             $authentication->setPasswordBcrypt($encodedPassword);
 
-            $this->authenticationManager->updateAuthentication($authentication);
+            $this->authenticationManager->update($authentication);
 
             $output->writeln(
                 '<info>Success! New user #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' created.</info>'

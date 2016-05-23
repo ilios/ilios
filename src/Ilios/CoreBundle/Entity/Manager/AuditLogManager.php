@@ -2,65 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Ilios\CoreBundle\Entity\AuditLogInterface;
-
 /**
  * Class AuditLogManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
 class AuditLogManager extends BaseManager
 {
-
-    /**
-     * @deprecated
-     */
-    public function findAuditLogBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function findAuditLogsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function updateAuditLog(
-        AuditLogInterface $auditLog,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->update($auditLog, $andFlush, $forceId);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function deleteAuditLog(
-        AuditLogInterface $auditLog
-    ) {
-        $this->delete($auditLog);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function createAuditLog()
-    {
-        return $this->create();
-    }
-
     /**
      * Returns all audit log entries in a given date/time range.
      *

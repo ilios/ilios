@@ -2,6 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\UserRoleInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -9,8 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
+use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Service\Directory;
 
@@ -28,7 +29,7 @@ class SyncFormerStudentsCommand extends Command
     protected $userManager;
     
     /**
-     * @var UserRoleManager
+     * @var ManagerInterface
      */
     protected $userRoleManager;
     
@@ -39,7 +40,7 @@ class SyncFormerStudentsCommand extends Command
     
     public function __construct(
         UserManager $userManager,
-        UserRoleManager $userRoleManager,
+        ManagerInterface $userRoleManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;
@@ -102,7 +103,7 @@ class SyncFormerStudentsCommand extends Command
                 $user->getCampusId(),
                 $user->getFirstName(),
                 $user->getLastName(),
-                $user->getEmail()
+                $user->getEmail(),
             ];
         })->toArray();
         $table = new Table($output);
@@ -117,13 +118,15 @@ class SyncFormerStudentsCommand extends Command
         );
         
         if ($helper->ask($input, $output, $question)) {
-            $formerStudentRole = $this->userRoleManager->findUserRoleBy(array('title' => 'Former Student'));
+            /* @var UserRoleInterface $formerStudentRole */
+            $formerStudentRole = $this->userRoleManager->findOneBy(array('title' => 'Former Student'));
+            /* @var UserInterface $user */
             foreach ($usersToUpdate as $user) {
                 $formerStudentRole->addUser($user);
                 $user->addRole($formerStudentRole);
-                $this->userManager->updateUser($user, false);
+                $this->userManager->update($user, false);
             }
-            $this->userRoleManager->updateUserRole($formerStudentRole);
+            $this->userRoleManager->update($formerStudentRole);
             
             $output->writeln('<info>Former students updated successfully!</info>');
         } else {

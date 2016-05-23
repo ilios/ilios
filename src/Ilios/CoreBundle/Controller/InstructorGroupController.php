@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\InstructorGroupHandler;
 use Ilios\CoreBundle\Entity\InstructorGroupInterface;
 
 /**
@@ -125,13 +123,8 @@ class InstructorGroupController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getInstructorGroupHandler()
-            ->findInstructorGroupsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.instructorgroup.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,8 +163,7 @@ class InstructorGroupController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getInstructorGroupHandler();
-
+            $handler = $this->container->get('ilioscore.instructorgroup.handler');
             $instructorGroup = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +171,8 @@ class InstructorGroupController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getInstructorGroupHandler()->updateInstructorGroup($instructorGroup, true, false);
+            $manager = $this->container->get('ilioscore.instructorgroup.manager');
+            $manager->update($instructorGroup, true, false);
 
             $answer['instructorGroups'] = [$instructorGroup];
 
@@ -218,29 +211,25 @@ class InstructorGroupController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $instructorGroup = $this->getInstructorGroupHandler()
-                ->findInstructorGroupBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.instructorgroup.manager');
+            $instructorGroup = $manager->findOneBy(['id'=> $id]);
             if ($instructorGroup) {
                 $code = Codes::HTTP_OK;
             } else {
-                $instructorGroup = $this->getInstructorGroupHandler()
-                    ->createInstructorGroup();
+                $instructorGroup = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getInstructorGroupHandler();
+            $handler = $this->container->get('ilioscore.instructorgroup.handler');
 
-            $instructorGroup = $handler->put(
-                $instructorGroup,
-                $this->getPostData($request)
-            );
+            $instructorGroup = $handler->put($instructorGroup, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $instructorGroup)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getInstructorGroupHandler()->updateInstructorGroup($instructorGroup, true, true);
+            $manager->update($instructorGroup, true, true);
 
             $answer['instructorGroup'] = $instructorGroup;
         } catch (InvalidFormException $exception) {
@@ -291,8 +280,8 @@ class InstructorGroupController extends FOSRestController
         }
 
         try {
-            $this->getInstructorGroupHandler()
-                ->deleteInstructorGroup($instructorGroup);
+            $manager = $this->container->get('ilioscore.instructorgroup.manager');
+            $manager->delete($instructorGroup);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +297,8 @@ class InstructorGroupController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $instructorGroup = $this->getInstructorGroupHandler()
-            ->findInstructorGroupBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.instructorgroup.manager');
+        $instructorGroup = $manager->findOneBy(['id' => $id]);
         if (!$instructorGroup) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +319,5 @@ class InstructorGroupController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return InstructorGroupHandler
-     */
-    protected function getInstructorGroupHandler()
-    {
-        return $this->container->get('ilioscore.instructorgroup.handler');
     }
 }

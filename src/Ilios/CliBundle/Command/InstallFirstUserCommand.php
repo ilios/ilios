@@ -6,8 +6,8 @@ use Ilios\CliBundle\Form\InstallFirstUserType;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 
+use Ilios\CoreBundle\Entity\SchoolInterface;
 use Matthias\SymfonyConsoleForm\Console\Helper\FormHelper;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -75,7 +75,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
         $userManager = $this->getContainer()->get('ilioscore.user.manager');
 
         // prevent this command to run on a non-empty user store.
-        $existingUser = $userManager->findUserBy([]);
+        $existingUser = $userManager->findOneBy([]);
         if (! empty($existingUser)) {
             throw new \Exception(
                 'Sorry, at least one user record already exists. Cannot create a "first" user account.'
@@ -86,7 +86,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
          * @var SchoolManager $schoolManager
          */
         $schoolManager = $this->getContainer()->get('ilioscore.school.manager');
-        $schoolEntities = $schoolManager->findSchoolsBy([]);
+        $schoolEntities = $schoolManager->findBy([]);
 
         // check if any school data is present before invoking the form helper
         // to prevent the form from breaking on missing school data further downstream.
@@ -96,6 +96,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
 
         // transform school data into a format that can be processed by the form.
         $schools = [];
+        /* @var SchoolInterface $entity */
         foreach ($schoolEntities as $entity) {
             $schools[$entity->getId()] = $entity->getTitle();
         }
@@ -108,7 +109,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
             $output
         );
 
-        $user = $userManager->createUser();
+        $user = $userManager->create();
         $user->setFirstName(self::FIRST_NAME);
         $user->setMiddleName(date('Y-m-d_h.i.s'));
         $user->setLastName(self::LAST_NAME);
@@ -116,19 +117,17 @@ class InstallFirstUserCommand extends ContainerAwareCommand
         $user->setAddedViaIlios(true);
         $user->setEnabled(true);
         $user->setUserSyncIgnore(false);
-        /**
-         * @var UserRoleManager $userRoleManager
-         */
+
         $userRoleManager = $this->getContainer()->get('ilioscore.userrole.manager');
-        $user->addRole($userRoleManager->findUserRoleBy(['title' => 'Course Director']));
-        $user->setSchool($schoolManager->findSchoolBy(['id' => $formData['school']]));
-        $userManager->updateUser($user);
+        $user->addRole($userRoleManager->findOneBy(['title' => 'Course Director']));
+        $user->setSchool($schoolManager->findOneBy(['id' => $formData['school']]));
+        $userManager->update($user);
 
         /**
          * @var AuthenticationManager $authenticationManager
          */
         $authenticationManager = $this->getContainer()->get('ilioscore.authentication.manager');
-        $authentication = $authenticationManager->createAuthentication();
+        $authentication = $authenticationManager->create();
 
         $authentication->setUser($user);
         $user->setAuthentication($authentication); // circular reference needed here. 123 BLEAH! [ST 2015/08/31]
@@ -138,7 +137,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
 
         $authentication->setUsername(self::USERNAME);
         $authentication->setPasswordBcrypt($encodedPassword);
-        $authenticationManager->updateAuthentication($authentication);
+        $authenticationManager->update($authentication);
 
         $output->writeln('Success!');
         $output->writeln('A user account has been created.');

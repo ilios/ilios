@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\UserRoleHandler;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
 
 /**
@@ -125,13 +123,8 @@ class UserRoleController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getUserRoleHandler()
-            ->findUserRolesBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.userrole.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -139,8 +132,7 @@ class UserRoleController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['userRoles'] =
-            $result ? array_values($result) : [];
+        $answer['userRoles'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -170,8 +162,7 @@ class UserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getUserRoleHandler();
-
+            $handler = $this->container->get('ilioscore.userrole.handler');
             $userRole = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +170,8 @@ class UserRoleController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getUserRoleHandler()->updateUserRole($userRole, true, false);
+            $manager = $this->container->get('ilioscore.userrole.manager');
+            $manager->update($userRole, true, false);
 
             $answer['userRoles'] = [$userRole];
 
@@ -218,29 +210,24 @@ class UserRoleController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $userRole = $this->getUserRoleHandler()
-                ->findUserRoleBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.userrole.manager');
+            $userRole = $manager->findOneBy(['id'=> $id]);
             if ($userRole) {
                 $code = Codes::HTTP_OK;
             } else {
-                $userRole = $this->getUserRoleHandler()
-                    ->createUserRole();
+                $userRole = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getUserRoleHandler();
-
-            $userRole = $handler->put(
-                $userRole,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.userrole.handler');
+            $userRole = $handler->put($userRole, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $userRole)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getUserRoleHandler()->updateUserRole($userRole, true, true);
+            $manager->update($userRole, true, true);
 
             $answer['userRole'] = $userRole;
         } catch (InvalidFormException $exception) {
@@ -291,8 +278,8 @@ class UserRoleController extends FOSRestController
         }
 
         try {
-            $this->getUserRoleHandler()
-                ->deleteUserRole($userRole);
+            $manager = $this->container->get('ilioscore.userrole.manager');
+            $manager->delete($userRole);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +295,8 @@ class UserRoleController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $userRole = $this->getUserRoleHandler()
-            ->findUserRoleBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.userrole.manager');
+        $userRole = $manager->findOneBy(['id' => $id]);
         if (!$userRole) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +317,5 @@ class UserRoleController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return UserRoleHandler
-     */
-    protected function getUserRoleHandler()
-    {
-        return $this->container->get('ilioscore.userrole.handler');
     }
 }

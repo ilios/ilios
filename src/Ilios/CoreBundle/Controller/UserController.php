@@ -7,7 +7,6 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -15,7 +14,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\UserHandler;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -55,7 +53,8 @@ class UserController extends FOSRestController
      */
     public function getAction($id)
     {
-        $user = $this->getUserHandler()->findUserDTOBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.user.manager');
+        $user = $manager->findDTOBy(['id' => $id]);
         if (! $user) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -139,21 +138,12 @@ class UserController extends FOSRestController
         };
         $criteria = array_map($deepTranspose, $criteria);
 
+        $manager = $this->container->get('ilioscore.user.manager');
+
         if ($q) {
-            $result = $this->getUserHandler()->findUsersByQ(
-                $q,
-                $orderBy,
-                $limit,
-                $offset,
-                $criteria
-            );
+            $result = $manager->findUsersByQ($q, $orderBy, $limit, $offset, $criteria);
         } else {
-            $result = $this->getUserHandler()->findUserDTOsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+            $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
         }
 
         $authChecker = $this->get('security.authorization_checker');
@@ -193,7 +183,7 @@ class UserController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getUserHandler();
+            $handler = $this->container->get('ilioscore.user.handler');
             $arr = $this->getPostData($request);
             $count = count($arr);
             if ($count > 500) {
@@ -201,6 +191,9 @@ class UserController extends FOSRestController
             }
 
             $unsavedUsers = [];
+
+            $manager = $this->container->get('ilioscore.user.manager');
+
             foreach ($arr as $data) {
                 if (empty($data['icsFeedKey'])) {
                     //create an icsFeedKey for the new user
@@ -216,18 +209,19 @@ class UserController extends FOSRestController
                     throw $this->createAccessDeniedException('Unauthorized access!');
                 }
 
-                $this->getUserHandler()->updateUser($user, false, false);
+                $manager->update($user, false, false);
 
                 $unsavedUsers[] = $user;
             }
 
-            $this->getUserHandler()->flush();
+            $manager->flush();
+
             $ids = array_map(function (UserInterface $user) {
                 return $user->getId();
             }, $unsavedUsers);
             unset($unsavedUsers);
 
-            $newUsers = $this->getUserHandler()->findUserDTOsBy(['id' => $ids]);
+            $newUsers = $manager->findDTOsBy(['id' => $ids]);
 
             $answer['users'] = $newUsers;
 
@@ -266,29 +260,25 @@ class UserController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $user = $this->getUserHandler()
-                ->findUserBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.user.manager');
+            $user = $manager->findOneBy(['id'=> $id]);
             if ($user) {
                 $code = Codes::HTTP_OK;
             } else {
-                $user = $this->getUserHandler()
-                    ->createUser();
+                $user = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getUserHandler();
-
-            $user = $handler->put(
-                $user,
-                $this->getPostData($request)[0]
-            );
+            $handler = $this->container->get('ilioscore.user.handler');
+            $user = $handler->put($user, $this->getPostData($request)[0]);
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $user)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getUserHandler()->updateUser($user, true, true);
+            $manager = $this->container->get('ilioscore.user.manager');
+            $manager->update($user, true, true);
 
             $answer['user'] = $user;
         } catch (InvalidFormException $exception) {
@@ -339,8 +329,8 @@ class UserController extends FOSRestController
         }
 
         try {
-            $this->getUserHandler()
-                ->deleteUser($user);
+            $manager = $this->container->get('ilioscore.user.manager');
+            $manager->delete($user);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -356,8 +346,8 @@ class UserController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $user = $this->getUserHandler()
-            ->findUserBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.user.manager');
+        $user = $manager->findOneBy(['id' => $id]);
         if (!$user) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -382,13 +372,5 @@ class UserController extends FOSRestController
         }
 
         return [$request->request->all()];
-    }
-
-    /**
-     * @return UserHandler
-     */
-    protected function getUserHandler()
-    {
-        return $this->container->get('ilioscore.user.handler');
     }
 }

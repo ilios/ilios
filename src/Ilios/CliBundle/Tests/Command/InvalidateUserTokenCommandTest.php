@@ -53,8 +53,8 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getAuthentication')->andReturn($authentication)
             ->shouldReceive('getFirstAndLastName')->andReturn('somebody great')
             ->mock();
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn($user);
-        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->authenticationManager->shouldReceive('update')->with($authentication);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -85,10 +85,10 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getAuthentication')->andReturn(null)
             ->shouldReceive('getFirstAndLastName')->andReturn('somebody great')
             ->mock();
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->authenticationManager
-            ->shouldReceive('createAuthentication')->andReturn($authentication)
-            ->shouldReceive('updateAuthentication')->with($authentication);
+            ->shouldReceive('create')->andReturn($authentication)
+            ->shouldReceive('update')->with($authentication);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -103,7 +103,7 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
         $this->setExpectedException('Exception', 'No user with id #1');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
