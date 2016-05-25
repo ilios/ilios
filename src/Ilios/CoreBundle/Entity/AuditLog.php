@@ -163,7 +163,7 @@ class AuditLog implements AuditLogInterface
      */
     public function setObjectId($objectId)
     {
-        $this->objectId = $objectId;
+        $this->objectId = (int) $objectId;
     }
 
     /**
