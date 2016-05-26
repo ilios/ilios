@@ -25,7 +25,7 @@ class PendingUserUpdateType extends AbstractType
             ->add('property', null, ['empty_data' => null])
             ->add('value', null, ['empty_data' => null])
             ->add('user', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:User"
             ])
         ;

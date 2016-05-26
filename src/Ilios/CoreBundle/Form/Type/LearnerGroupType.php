@@ -25,7 +25,7 @@ class LearnerGroupType extends AbstractType
             ->add('title', null, ['empty_data' => null])
             ->add('location', null, ['required' => false, 'empty_data' => null])
             ->add('cohort', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:Cohort"
             ])
             ->add('parent', SingleRelatedType::class, [

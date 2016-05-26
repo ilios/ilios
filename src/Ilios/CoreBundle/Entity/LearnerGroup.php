@@ -79,6 +79,7 @@ class LearnerGroup implements LearnerGroupInterface
 
     /**
      * @var CohortInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="Cohort", inversedBy="learnerGroups")
      * @ORM\JoinColumns({

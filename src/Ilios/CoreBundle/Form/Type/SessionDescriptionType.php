@@ -23,7 +23,7 @@ class SessionDescriptionType extends AbstractType
         $builder
             ->add('description', PurifiedTextareaType::class, ['required' => false])
             ->add('session', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:Session"
             ])
         ;

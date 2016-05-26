@@ -27,7 +27,7 @@ class ProgramType extends AbstractType
             ->add('publishedAsTbd', null, ['required' => false])
             ->add('published', null, ['required' => false])
             ->add('school', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:School"
             ])
         ;

@@ -23,7 +23,7 @@ class CourseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, ['required' => false, 'empty_data' => null])
+            ->add('title')
             ->add('level')
             ->add('year')
             ->add('startDate', DateTimeType::class, array(

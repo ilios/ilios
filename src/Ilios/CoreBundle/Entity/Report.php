@@ -139,6 +139,8 @@ class Report implements ReportInterface
     /**
      * @var UserInterface $user
      *
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="cascade", nullable=false)

@@ -31,7 +31,6 @@ class Competency implements CompetencyInterface
     use SchoolEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Column(name="competency_id", type="integer")
@@ -47,7 +46,6 @@ class Competency implements CompetencyInterface
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
-     * @todo should be on the TitledEntity Trait
      * @var string
      *
      * @Assert\Type(type="string")
@@ -68,6 +66,8 @@ class Competency implements CompetencyInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
+     *
+     * @Assert\NotNull()
      *
      * @JMS\Expose
      * @JMS\Type("string")

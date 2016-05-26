@@ -43,6 +43,8 @@ class SessionDescription implements SessionDescriptionInterface
     /**
      * @var SessionInterface
      *
+     * @Assert\NotNull()
+     *
      * @ORM\OneToOne(targetEntity="Session", inversedBy="sessionDescription")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(

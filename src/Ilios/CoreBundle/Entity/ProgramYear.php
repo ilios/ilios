@@ -120,6 +120,8 @@ class ProgramYear implements ProgramYearInterface
     /**
      * @var ProgramInterface
      *
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="Program", inversedBy="programYears")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")

@@ -41,6 +41,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
 
     /**
      * @var CurriculumInventoryReportInterface
+     * @Assert\NotNull()
      *
      * @ORM\OneToOne(targetEntity="CurriculumInventoryReport", inversedBy="sequence")
      * @ORM\JoinColumns({

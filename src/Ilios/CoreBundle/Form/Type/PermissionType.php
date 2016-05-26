@@ -27,7 +27,7 @@ class PermissionType extends AbstractType
             ->add('tableRowId', null)
             ->add('tableName', null)
             ->add('user', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:User"
             ]);
     }

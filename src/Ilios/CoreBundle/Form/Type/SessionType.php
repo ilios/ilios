@@ -29,11 +29,11 @@ class SessionType extends AbstractType
             ->add('publishedAsTbd', null, ['required' => false])
             ->add('published', null, ['required' => false])
             ->add('sessionType', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:SessionType"
             ])
             ->add('course', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:Course"
             ])
             ->add(

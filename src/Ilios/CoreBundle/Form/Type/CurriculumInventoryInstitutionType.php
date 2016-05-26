@@ -36,7 +36,7 @@ class CurriculumInventoryInstitutionType extends AbstractType
         }
         $builder
             ->add('school', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:School"
             ])
         ;

@@ -36,7 +36,6 @@ class Program implements ProgramInterface
     use PublishableEntity;
 
     /**
-     * @deprecated Replace with trait in 3.x
      * @var int
      *
      * @ORM\Column(name="program_id", type="integer")
@@ -124,17 +123,19 @@ class Program implements ProgramInterface
     protected $published;
 
     /**
-    * @var SchoolInterface
-    *
-    * @ORM\ManyToOne(targetEntity="School", inversedBy="programs")
-    * @ORM\JoinColumns({
-    *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
-    * })
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
-    * @JMS\SerializedName("school")
-    */
+     * @var SchoolInterface
+     *
+     * @Assert\NotNull()
+     *
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="programs")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("school")
+     */
     protected $school;
 
     /**

@@ -27,7 +27,7 @@ class ProgramYearType extends AbstractType
             ->add('publishedAsTbd', null, ['required' => false])
             ->add('published', null, ['required' => false])
             ->add('program', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:Program"
             ])
             ->add('cohort', SingleRelatedType::class, [

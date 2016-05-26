@@ -24,7 +24,7 @@ class InstructorGroupType extends AbstractType
         $builder
             ->add('title', null, ['empty_data' => null])
             ->add('school', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:School"
             ])
             ->add('learnerGroups', ManyRelatedType::class, [

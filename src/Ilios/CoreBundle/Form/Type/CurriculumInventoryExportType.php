@@ -21,7 +21,7 @@ class CurriculumInventoryExportType extends AbstractType
     {
         $builder
             ->add('report', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])
             ->add('document', null, [ 'required' => false ]);

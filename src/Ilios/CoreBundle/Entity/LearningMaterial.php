@@ -107,6 +107,7 @@ class LearningMaterial implements LearningMaterialInterface
 
     /**
      * @var LearningMaterialUserRoleInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="LearningMaterialUserRole", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
@@ -120,6 +121,7 @@ class LearningMaterial implements LearningMaterialInterface
 
     /**
      * @var LearningMaterialStatusInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="LearningMaterialStatus", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
@@ -133,6 +135,7 @@ class LearningMaterial implements LearningMaterialInterface
 
     /**
      * @var UserInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="learningMaterials")
      * @ORM\JoinColumns({

@@ -22,11 +22,11 @@ class CurriculumInventorySequenceBlockSessionType extends AbstractType
         $builder
             ->add('countOfferingsOnce', null, ['required' => false])
             ->add('sequenceBlock', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
             ])
             ->add('session', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:Session"
             ])
         ;

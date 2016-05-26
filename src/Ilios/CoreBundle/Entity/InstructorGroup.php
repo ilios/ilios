@@ -63,8 +63,8 @@ class InstructorGroup implements InstructorGroupInterface
     protected $title;
 
     /**
-     * original annotation: ORM\Column(name="school_id", type="integer")
      * @var SchoolInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="instructorGroups")
      * @ORM\JoinColumns({

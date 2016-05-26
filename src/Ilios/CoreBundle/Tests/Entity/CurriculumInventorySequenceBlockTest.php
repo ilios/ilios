@@ -9,7 +9,8 @@ use Mockery as m;
 /**
  * Tests for Entity CurriculumInventorySequenceBlock
  */
-class CurriculumInventorySequenceBlockTest extends EntityBase
+class
+CurriculumInventorySequenceBlockTest extends EntityBase
 {
     /**
      * @var CurriculumInventorySequenceBlock

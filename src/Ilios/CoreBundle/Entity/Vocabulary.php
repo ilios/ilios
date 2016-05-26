@@ -69,6 +69,8 @@ class Vocabulary implements VocabularyInterface
     /**
      * @var SchoolInterface
      *
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="vocabularies")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
