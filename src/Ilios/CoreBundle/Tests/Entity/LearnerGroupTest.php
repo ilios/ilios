@@ -31,9 +31,24 @@ class LearnerGroupTest extends EntityBase
         $notBlank = array(
             'title'
         );
+        $this->object->setCohort(m::mock('Ilios\CoreBundle\Entity\CohortInterface'));
+
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation()
+    {
+        $notNulls = array(
+            'cohort'
+        );
+        $this->object->setTitle('test');
+        $this->validateNotNulls($notNulls);
+
+        $this->object->setCohort(m::mock('Ilios\CoreBundle\Entity\CohortInterface'));
+
         $this->validate(0);
     }
 

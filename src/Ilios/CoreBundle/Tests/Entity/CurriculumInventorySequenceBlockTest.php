@@ -9,8 +9,7 @@ use Mockery as m;
 /**
  * Tests for Entity CurriculumInventorySequenceBlock
  */
-class
-CurriculumInventorySequenceBlockTest extends EntityBase
+class CurriculumInventorySequenceBlockTest extends EntityBase
 {
     /**
      * @var CurriculumInventorySequenceBlock
@@ -37,6 +36,7 @@ CurriculumInventorySequenceBlockTest extends EntityBase
             'endDate',
             'duration'
         );
+        $this->object->setReport(m::mock('Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface'));
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test title for the block max 200');
@@ -47,6 +47,25 @@ CurriculumInventorySequenceBlockTest extends EntityBase
         $this->object->setStartDate(new \DateTime());
         $this->object->setEndDate(new \DateTime());
         $this->object->setDuration(60);
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation()
+    {
+        $notNulls = array(
+            'report'
+        );
+        $this->object->setTitle('test title for the block max 200');
+        $this->object->setChildSequenceOrder(1);
+        $this->object->setOrderInSequence(2);
+        $this->object->setMinimum(1);
+        $this->object->setMaximum(521);
+        $this->object->setStartDate(new \DateTime());
+        $this->object->setEndDate(new \DateTime());
+        $this->object->setDuration(60);
+        $this->validateNotNulls($notNulls);
+
+        $this->object->setReport(m::mock('Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface'));
         $this->validate(0);
     }
 

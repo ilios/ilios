@@ -27,9 +27,24 @@ class UserMadeReminderTest extends EntityBase
         $notBlank = array(
             'dueDate'
         );
+        $this->object->setUser(m::mock('Ilios\CoreBundle\Entity\UserInterface'));
+
         $this->validateNotBlanks($notBlank);
 
         $this->object->setDueDate(new \DateTime());
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation()
+    {
+        $notNulls = array(
+            'user'
+        );
+        $this->object->setDueDate(new \DateTime());
+
+        $this->validateNotNulls($notNulls);
+
+        $this->object->setUser(m::mock('Ilios\CoreBundle\Entity\UserInterface'));
         $this->validate(0);
     }
     

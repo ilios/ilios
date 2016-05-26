@@ -27,9 +27,26 @@ class SessionTypeTest extends EntityBase
         $notBlank = array(
             'title'
         );
+        $this->object->setSchool(m::mock('Ilios\CoreBundle\Entity\SchoolInterface'));
+
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation()
+    {
+        $notNull = array(
+            'school'
+        );
+        $this->object->setTitle('test');
+
+        $this->validateNotNulls($notNull);
+
+        $this->object->setSchool(m::mock('Ilios\CoreBundle\Entity\SchoolInterface'));
+
+
         $this->validate(0);
     }
     /**
