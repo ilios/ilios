@@ -50,7 +50,7 @@ class CurriculumInventorySequenceBlockType extends AbstractType
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
             ])
             ->add('report', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])
         ;

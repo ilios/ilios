@@ -33,6 +33,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
             'addressZipCode',
             'addressCountryCode'
         );
+        $this->object->setSchool(m::mock('Ilios\CoreBundle\Entity\SchoolInterface'));
         $this->validateNotBlanks($notBlank);
 
         $this->object->setName('10lenMAX');
@@ -42,6 +43,24 @@ class CurriculumInventoryInstitutionTest extends EntityBase
         $this->object->setAddressStateOrProvince('CA');
         $this->object->setAddressZipcode('99999');
         $this->object->setAddressCountryCode('US');
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation()
+    {
+        $notNull = array(
+            'school'
+        );
+        $this->object->setName('10lenMAX');
+        $this->object->setAamcCode('ddd');
+        $this->object->setAddressStreet('1123 A');
+        $this->object->setAddressCity('Irvine');
+        $this->object->setAddressStateOrProvince('CA');
+        $this->object->setAddressZipcode('99999');
+        $this->object->setAddressCountryCode('US');
+        $this->validateNotNulls($notNull);
+
+        $this->object->setSchool(m::mock('Ilios\CoreBundle\Entity\SchoolInterface'));
         $this->validate(0);
     }
 

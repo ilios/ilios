@@ -28,7 +28,7 @@ class UserMadeReminderType extends AbstractType
             ))
             ->add('closed', null, ['required' => false])
             ->add('user', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:User"
             ])
         ;

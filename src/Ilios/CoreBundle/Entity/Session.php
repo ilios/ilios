@@ -161,6 +161,8 @@ class Session implements SessionInterface
     /**
      * @var SessionTypeInterface
      *
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="SessionType", inversedBy="sessions")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="session_type_id", referencedColumnName="session_type_id", nullable=false)
@@ -174,6 +176,8 @@ class Session implements SessionInterface
 
     /**
      * @var CourseInterface
+     *
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="sessions")
      * @ORM\JoinColumns({

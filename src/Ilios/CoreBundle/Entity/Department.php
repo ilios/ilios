@@ -47,7 +47,6 @@ class Department implements DepartmentInterface
 
     /**
      * @ORM\Column(type="string", length=90)
-     * @todo should be on the TitledEntity Trait
      * @var string
      *
      * @Assert\NotBlank()
@@ -64,6 +63,7 @@ class Department implements DepartmentInterface
 
     /**
      * @var SchoolInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="departments")
      * @ORM\JoinColumns({

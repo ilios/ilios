@@ -32,7 +32,7 @@ class OfferingType extends AbstractType
                 'widget' => 'single_text',
             ))
             ->add('session', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:Session"
             ])
             ->add('learnerGroups', ManyRelatedType::class, [

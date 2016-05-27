@@ -91,6 +91,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
 
     /**
      * @var UserInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="pendingUserUpdates")
      * @ORM\JoinColumns({

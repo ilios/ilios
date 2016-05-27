@@ -62,6 +62,7 @@ class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequ
 
     /**
      * @var CurriculumInventorySequenceBlockInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="CurriculumInventorySequenceBlock", inversedBy="sessions")
      * @ORM\JoinColumns({
@@ -76,6 +77,7 @@ class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequ
 
     /**
      * @var SessionInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="Session")
      * @ORM\JoinColumns({

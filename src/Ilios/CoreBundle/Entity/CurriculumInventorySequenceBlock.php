@@ -250,6 +250,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * @var CurriculumInventoryReportInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="CurriculumInventoryReport", inversedBy="sequenceBlocks")
      * @ORM\JoinColumns({

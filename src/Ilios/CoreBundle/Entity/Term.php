@@ -144,6 +144,8 @@ class Term implements TermInterface
     /**
      * @var VocabularyInterface
      *
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="Vocabulary", inversedBy="terms")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="vocabulary_id", referencedColumnName="vocabulary_id", nullable=false)

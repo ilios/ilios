@@ -34,15 +34,15 @@ class LearningMaterialType extends AbstractType
             ->add('filesize')
             ->add('mimetype', null, ['empty_data' => null])
             ->add('userRole', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:LearningMaterialUserRole"
             ])
             ->add('status', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:LearningMaterialStatus"
             ])
             ->add('owningUser', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:User"
             ])
             ->add('citation', TextType::class, ['required' => false, 'empty_data' => null])

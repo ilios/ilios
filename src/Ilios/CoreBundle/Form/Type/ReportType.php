@@ -26,7 +26,7 @@ class ReportType extends AbstractType
             ->add('prepositionalObject', null, ['required' => false, 'empty_data' => null])
             ->add('prepositionalObjectTableRowId', null, ['required' => false, 'empty_data' => null])
             ->add('user', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:User"
             ])
             ->add('school', SingleRelatedType::class, [

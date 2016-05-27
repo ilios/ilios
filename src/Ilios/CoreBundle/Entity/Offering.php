@@ -122,6 +122,7 @@ class Offering implements OfferingInterface
 
     /**
      * @var Session
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="Session", inversedBy="offerings")
      * @ORM\JoinColumns({

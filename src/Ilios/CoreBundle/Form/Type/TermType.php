@@ -25,7 +25,7 @@ class TermType extends AbstractType
         $builder
             ->add('title', null, ['required' => false, 'empty_data' => null])
             ->add('vocabulary', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:Vocabulary"
             ])
             ->add('description', TextareaType::class, ['required' => false])

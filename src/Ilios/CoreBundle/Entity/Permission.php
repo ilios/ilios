@@ -44,6 +44,7 @@ class Permission implements PermissionInterface
 
     /**
      * @var UserInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="permissions")
      * @ORM\JoinColumns({

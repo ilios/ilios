@@ -28,10 +28,27 @@ class ProgramTest extends EntityBase
             'title',
             'duration'
         );
+        $this->object->setSchool(m::mock('Ilios\CoreBundle\Entity\SchoolInterface'));
+
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('DVc');
         $this->object->setDuration(30);
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation()
+    {
+        $notNull = array(
+            'school'
+        );
+        $this->object->setTitle('DVc');
+        $this->object->setDuration(30);
+
+        $this->validateNotNulls($notNull);
+
+        $this->object->setSchool(m::mock('Ilios\CoreBundle\Entity\SchoolInterface'));
+
         $this->validate(0);
     }
 

@@ -25,11 +25,11 @@ class ProgramYearStewardType extends AbstractType
                 'entityName' => "IliosCoreBundle:Department"
             ])
             ->add('programYear', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
             ->add('school', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:School"
             ])
         ;

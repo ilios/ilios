@@ -26,11 +26,11 @@ class SessionLearningMaterialType extends AbstractType
             ->add('required', null, ['required' => false])
             ->add('publicNotes', null, ['required' => false])
             ->add('session', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:Session"
             ])
             ->add('learningMaterial', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:LearningMaterial"
             ])
             ->add('meshDescriptors', ManyRelatedType::class, [

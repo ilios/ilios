@@ -23,7 +23,7 @@ class CurriculumInventorySequenceType extends AbstractType
         $builder
             ->add('description', null, ['required' => false, 'empty_data' => null])
             ->add('report', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])
         ;

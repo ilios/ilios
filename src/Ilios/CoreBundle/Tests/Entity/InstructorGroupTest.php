@@ -27,11 +27,27 @@ class InstructorGroupTest extends EntityBase
         $notBlank = array(
             'title'
         );
+        $this->object->setSchool(m::mock('Ilios\CoreBundle\Entity\SchoolInterface'));
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
         $this->validate(0);
     }
+
+    public function testNotNullValidation()
+    {
+        $notNulls = array(
+            'school'
+        );
+        $this->object->setTitle('test');
+
+        $this->validateNotNulls($notNulls);
+        $this->object->setSchool(m::mock('Ilios\CoreBundle\Entity\SchoolInterface'));
+
+
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\InstructorGroup::__construct
      */

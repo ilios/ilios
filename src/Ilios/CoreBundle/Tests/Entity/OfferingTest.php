@@ -32,6 +32,8 @@ class OfferingTest extends EntityBase
             'startDate',
             'endDate'
         );
+        $this->object->setSession(m::mock('Ilios\CoreBundle\Entity\SessionInterface'));
+
         $this->validateNotBlanks($notBlank);
 
         $this->object->setRoom('RCF 112');
@@ -39,6 +41,23 @@ class OfferingTest extends EntityBase
         $this->object->setEndDate(new \DateTime());
         $this->validate(0);
     }
+
+    public function testNotNullValidation()
+    {
+        $notNulls = array(
+            'session'
+        );
+
+        $this->object->setRoom('RCF 112');
+        $this->object->setStartDate(new \DateTime());
+        $this->object->setEndDate(new \DateTime());
+
+        $this->validateNotNulls($notNulls);
+        $this->object->setSession(m::mock('Ilios\CoreBundle\Entity\SessionInterface'));
+
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\Offering::__construct
      */

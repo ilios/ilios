@@ -89,6 +89,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     /**
      * @var SessionInterface
      *
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="Session", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
@@ -101,6 +103,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
 
     /**
      * @var LearningMaterialInterface
+     *
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="LearningMaterial", inversedBy="sessionLearningMaterials")
      * @ORM\JoinColumns({

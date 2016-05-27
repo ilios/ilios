@@ -25,7 +25,7 @@ class CurriculumInventoryAcademicLevelType extends AbstractType
             ->add('description', null, ['required' => false, 'empty_data' => null])
             ->add('level')
             ->add('report', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])
         ;

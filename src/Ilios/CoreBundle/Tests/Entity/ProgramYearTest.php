@@ -29,9 +29,25 @@ class ProgramYearTest extends EntityBase
         $notBlank = array(
             'startYear',
         );
+        $this->object->setProgram(m::mock('Ilios\CoreBundle\Entity\ProgramInterface'));
+
         $this->validateNotBlanks($notBlank);
 
         $this->object->setStartYear(3);
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation()
+    {
+        $notNull = array(
+            'program',
+        );
+        $this->object->setStartYear(3);
+
+        $this->validateNotNulls($notNull);
+        $this->object->setProgram(m::mock('Ilios\CoreBundle\Entity\ProgramInterface'));
+
+
         $this->validate(0);
     }
 

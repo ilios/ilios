@@ -171,6 +171,8 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     /**
      * @var SchoolInterface
      *
+     * @Assert\NotNull()
+     *
      * @ORM\OneToOne(targetEntity="School", inversedBy="curriculumInventoryInstitution")
      * @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", unique=true, nullable=false)
      *

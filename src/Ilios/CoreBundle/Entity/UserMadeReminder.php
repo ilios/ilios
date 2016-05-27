@@ -101,6 +101,8 @@ class UserMadeReminder implements UserMadeReminderInterface
     /**
      * @var UserInterface
      *
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="reminders")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=false)

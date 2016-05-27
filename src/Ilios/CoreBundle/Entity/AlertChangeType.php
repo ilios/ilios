@@ -46,7 +46,6 @@ class AlertChangeType implements AlertChangeTypeInterface
 
     /**
     * @ORM\Column(type="string", length=60)
-    * @todo should be on the TitledEntity Trait
     * @var string
     *
     * @Assert\NotBlank()

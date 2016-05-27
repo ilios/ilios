@@ -30,9 +30,31 @@ class LearningMaterialTest extends EntityBase
         $notBlank = array(
             'title'
         );
+        $this->object->setUserRole(m::mock('Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface'));
+        $this->object->setStatus(m::mock('Ilios\CoreBundle\Entity\LearningMaterialStatusInterface'));
+        $this->object->setOwningUser(m::mock('Ilios\CoreBundle\Entity\UserInterface'));
+
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation()
+    {
+        $notNulls = array(
+            'userRole',
+            'status',
+            'owningUser'
+        );
+        $this->object->setTitle('test');
+
+        $this->validateNotNulls($notNulls);
+
+        $this->object->setUserRole(m::mock('Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface'));
+        $this->object->setStatus(m::mock('Ilios\CoreBundle\Entity\LearningMaterialStatusInterface'));
+        $this->object->setOwningUser(m::mock('Ilios\CoreBundle\Entity\UserInterface'));
+
         $this->validate(0);
     }
 

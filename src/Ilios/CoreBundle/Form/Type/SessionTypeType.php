@@ -30,7 +30,7 @@ class SessionTypeType extends AbstractType
                 'entityName' => "IliosCoreBundle:AssessmentOption"
             ])
             ->add('school', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:School"
             ])
             ->add('aamcMethods', ManyRelatedType::class, [

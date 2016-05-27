@@ -26,11 +26,11 @@ class CourseLearningMaterialType extends AbstractType
             ->add('required', null, ['required' => false])
             ->add('publicNotes', null, ['required' => false])
             ->add('course', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:Course"
             ])
             ->add('learningMaterial', SingleRelatedType::class, [
-                'required' => false,
+                'required' => true,
                 'entityName' => "IliosCoreBundle:LearningMaterial"
             ])
             ->add('meshDescriptors', ManyRelatedType::class, [

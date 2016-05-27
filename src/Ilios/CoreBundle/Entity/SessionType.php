@@ -104,6 +104,8 @@ class SessionType implements SessionTypeInterface
     /**
      * @var SchoolInterface
      *
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="School", inversedBy="sessionTypes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
