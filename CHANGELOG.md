@@ -1,7 +1,32 @@
 # Change Log
 
-## [v3.11.0](https://github.com/ilios/ilios/tree/v3.11.0)
+## [v3.12.0](https://github.com/ilios/ilios/tree/v3.12.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.11.0...v3.12.0)
+
+**Implemented enhancements:**
+
+- Add the ability to track learning resources, per MedBiquitous spec/standards [\#566](https://github.com/ilios/ilios/issues/566)
+
+**Closed issues:**
+
+- Audit required for API docs [\#1433](https://github.com/ilios/ilios/issues/1433)
+- Error when creating offerings [\#1431](https://github.com/ilios/ilios/issues/1431)
+- School not required in course API [\#1424](https://github.com/ilios/ilios/issues/1424)
+
+**Merged pull requests:**
+
+- Align API docs with expectations [\#1436](https://github.com/ilios/ilios/pull/1436) ([jrjohnson](https://github.com/jrjohnson))
+- Fix problem with AuditLog [\#1432](https://github.com/ilios/ilios/pull/1432) ([jrjohnson](https://github.com/jrjohnson))
+- added call to remove 'fkey\_user\_primary\_school' index [\#1429](https://github.com/ilios/ilios/pull/1429) ([thecoolestguy](https://github.com/thecoolestguy))
+- Data correction for v2 to v3 update [\#1427](https://github.com/ilios/ilios/pull/1427) ([jrjohnson](https://github.com/jrjohnson))
+- reject course input without school. [\#1425](https://github.com/ilios/ilios/pull/1425) ([stopfstedt](https://github.com/stopfstedt))
+- loosen up restrictions on READ access to schools. [\#1423](https://github.com/ilios/ilios/pull/1423) ([stopfstedt](https://github.com/stopfstedt))
+- provided general upgrade notes for ilios3. [\#1421](https://github.com/ilios/ilios/pull/1421) ([stopfstedt](https://github.com/stopfstedt))
+- added min and max attributes on sequence blocks to ci export. [\#1418](https://github.com/ilios/ilios/pull/1418) ([stopfstedt](https://github.com/stopfstedt))
+- added aamc resource type and rigged it up to terms. [\#1399](https://github.com/ilios/ilios/pull/1399) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.11.0](https://github.com/ilios/ilios/tree/v3.11.0) (2016-05-13)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.10.0...v3.11.0)
 
 **Implemented enhancements:**
@@ -21,6 +46,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for the v3.11.0 release [\#1419](https://github.com/ilios/ilios/pull/1419) ([thecoolestguy](https://github.com/thecoolestguy))
 - Use DTO pattern for Programs API [\#1416](https://github.com/ilios/ilios/pull/1416) ([jrjohnson](https://github.com/jrjohnson))
 - updated to symfony 2.8.6 [\#1414](https://github.com/ilios/ilios/pull/1414) ([stopfstedt](https://github.com/stopfstedt))
 - fixed path to cached bootstrap file. [\#1412](https://github.com/ilios/ilios/pull/1412) ([stopfstedt](https://github.com/stopfstedt))
