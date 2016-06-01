@@ -2,7 +2,6 @@
 
 namespace Ilios\CliBundle\Command;
 
-use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,9 +12,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 
 /**
  * Add a user by looking them up in the directory
@@ -26,17 +25,17 @@ use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 class AddUserCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
     
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
     
     /**
-     * @var SchoolManagerInterface
+     * @var SchoolManager
      */
     protected $schoolManager;
 
@@ -46,9 +45,9 @@ class AddUserCommand extends Command
     protected $encoder;
     
     public function __construct(
-        UserManagerInterface $userManager,
-        AuthenticationManagerInterface $authenticationManager,
-        SchoolManagerInterface $schoolManager,
+        UserManager $userManager,
+        AuthenticationManager $authenticationManager,
+        SchoolManager $schoolManager,
         UserPasswordEncoderInterface $encoder
     ) {
         $this->userManager = $userManager;
@@ -95,7 +94,7 @@ class AddUserCommand extends Command
         $schoolId = $input->getOption('schoolId');
         if (!$schoolId) {
             $schoolTitles = [];
-            foreach ($this->schoolManager->findSchoolsBy([], ['title' => 'ASC']) as $school) {
+            foreach ($this->schoolManager->findBy([], ['title' => 'ASC']) as $school) {
                 $schoolTitles[$school->getTitle()] = $school->getId();
             }
             $helper = $this->getHelper('question');
@@ -108,7 +107,7 @@ class AddUserCommand extends Command
             $schoolTitle = $helper->ask($input, $output, $question);
             $schoolId = $schoolTitles[$schoolTitle];
         }
-        $school = $this->schoolManager->findSchoolBy(['id' => $schoolId]);
+        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new \Exception(
                 "School with id {$schoolId} could not be found."
@@ -126,13 +125,13 @@ class AddUserCommand extends Command
 
         $userRecord = $this->fillUserRecord($userRecord, $input, $output);
 
-        $user = $this->userManager->findUserBy(['campusId' => $userRecord['campusId']]);
+        $user = $this->userManager->findOneBy(['campusId' => $userRecord['campusId']]);
         if ($user) {
             throw new \Exception(
                 'User #' . $user->getId() . " with campus id {$userRecord['campusId']} already exists."
             );
         }
-        $user = $this->userManager->findUserBy(['email' => $userRecord['email']]);
+        $user = $this->userManager->findOneBy(['email' => $userRecord['email']]);
         if ($user) {
             throw new \Exception(
                 'User #' . $user->getId() . " with email address {$userRecord['email']} already exists."
@@ -163,7 +162,7 @@ class AddUserCommand extends Command
         );
         
         if ($helper->ask($input, $output, $question)) {
-            $user = $this->userManager->createUser();
+            $user = $this->userManager->create();
             $user->setFirstName($userRecord['firstName']);
             $user->setLastName($userRecord['lastName']);
             $user->setEmail($userRecord['email']);
@@ -172,9 +171,9 @@ class AddUserCommand extends Command
             $user->setEnabled(true);
             $user->setSchool($school);
             $user->setUserSyncIgnore(false);
-            $this->userManager->updateUser($user);
+            $this->userManager->update($user);
 
-            $authentication = $this->authenticationManager->createAuthentication();
+            $authentication = $this->authenticationManager->create();
             $authentication->setUsername($userRecord['username']);
 
             $user->setAuthentication($authentication);
@@ -182,7 +181,7 @@ class AddUserCommand extends Command
             $encodedPassword = $this->encoder->encodePassword($user, $userRecord['password']);
             $authentication->setPasswordBcrypt($encodedPassword);
 
-            $this->authenticationManager->updateAuthentication($authentication);
+            $this->authenticationManager->update($authentication);
 
             $output->writeln(
                 '<info>Success! New user #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' created.</info>'

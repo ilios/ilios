@@ -109,5 +109,8 @@ abstract class AbstractDataFixtureTest extends WebTestCase
      * @param array $data
      * @return mixed the entity
      */
-    abstract protected function getEntity(array $data);
+    protected function getEntity(array $data)
+    {
+        return $this->em->findOneBy(['id' => $data[0]]);
+    }
 }

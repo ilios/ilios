@@ -8,6 +8,10 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use \DateTime;
 
+/**
+ * Class InvalidateUserTokenCommandTest
+ * @package Ilios\CliBundle\Tests\Command
+ */
 class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
 {
     const COMMAND_NAME = 'ilios:maintenance:invalidate-user-tokens';
@@ -18,8 +22,8 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
+        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         
         $command = new InvalidateUserTokenCommand($this->userManager, $this->authenticationManager);
         $application = new Application();
@@ -49,8 +53,8 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getAuthentication')->andReturn($authentication)
             ->shouldReceive('getFirstAndLastName')->andReturn('somebody great')
             ->mock();
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn($user);
-        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
+        $this->authenticationManager->shouldReceive('update')->with($authentication);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -81,10 +85,10 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getAuthentication')->andReturn(null)
             ->shouldReceive('getFirstAndLastName')->andReturn('somebody great')
             ->mock();
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->authenticationManager
-            ->shouldReceive('createAuthentication')->andReturn($authentication)
-            ->shouldReceive('updateAuthentication')->with($authentication);
+            ->shouldReceive('create')->andReturn($authentication)
+            ->shouldReceive('update')->with($authentication);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -99,7 +103,7 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
         $this->setExpectedException('Exception', 'No user with id #1');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,

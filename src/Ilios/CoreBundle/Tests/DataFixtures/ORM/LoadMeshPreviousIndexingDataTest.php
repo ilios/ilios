@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshPreviousIndexingManagerInterface;
 use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
 
 /**
@@ -51,16 +50,11 @@ class LoadMeshPreviousIndexingDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @param array $data
-     * @return MeshPreviousIndexingInterface
-     * @override
+     * @inheritdoc
      */
     protected function getEntity(array $data)
     {
-        /**
-         * @var MeshPreviousIndexingManagerInterface $em
-         */
         $em = $this->em;
-        return $em->findMeshPreviousIndexingBy(['id' => $data[2]]);
+        return $em->findOneBy(['id' => $data[2]]);
     }
 }

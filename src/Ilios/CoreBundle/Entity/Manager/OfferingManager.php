@@ -2,79 +2,21 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 
 /**
  * Class OfferingManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class OfferingManager extends AbstractManager implements OfferingManagerInterface
+class OfferingManager extends BaseManager
 {
     /**
-     * {@inheritdoc}
-     */
-    public function findOfferingBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findOfferingsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function updateOffering(
-        OfferingInterface $offering,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->em->persist($offering);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($offering));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteOffering(
-        OfferingInterface $offering
-    ) {
-        $this->em->remove($offering);
-        $this->em->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createOffering()
-    {
-        $class = $this->getClass();
-        return new $class();
-    }
-
-    /**
-     * {@inheritdoc}
+     * Retrieves offerings starting X days from now.
+     *
+     * @param int $daysInAdvance Days in advance from now.
+     * @return Collection|OfferingInterface[]
      */
     public function getOfferingsForTeachingReminders($daysInAdvance)
     {

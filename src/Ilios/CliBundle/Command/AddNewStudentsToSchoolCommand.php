@@ -2,18 +2,17 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
@@ -25,22 +24,22 @@ use Ilios\CoreBundle\Service\Directory;
 class AddNewStudentsToSchoolCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
 
     /**
-     * @var SchoolManagerInterface
+     * @var SchoolManager
      */
     protected $schoolManager;
 
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
     
     /**
-     * @var UserRoleManagerInterface
+     * @var ManagerInterface
      */
     protected $userRoleManager;
     
@@ -50,10 +49,10 @@ class AddNewStudentsToSchoolCommand extends Command
     protected $directory;
     
     public function __construct(
-        UserManagerInterface $userManager,
-        SchoolManagerInterface $schoolManager,
-        AuthenticationManagerInterface $authenticationManager,
-        UserRoleManagerInterface $userRoleManager,
+        UserManager $userManager,
+        SchoolManager $schoolManager,
+        AuthenticationManager $authenticationManager,
+        ManagerInterface $userRoleManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;
@@ -92,7 +91,7 @@ class AddNewStudentsToSchoolCommand extends Command
     {
         $filter = $input->getArgument('filter');
         $schoolId = $input->getArgument('schoolId');
-        $school = $this->schoolManager->findSchoolBy(['id' => $schoolId]);
+        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new \Exception(
                 "School with id {$schoolId} could not be found."
@@ -145,7 +144,7 @@ class AddNewStudentsToSchoolCommand extends Command
         );
         
         if ($helper->ask($input, $output, $question)) {
-            $studentRole = $this->userRoleManager->findUserRoleBy(array('title' => 'Student'));
+            $studentRole = $this->userRoleManager->findOneBy(array('title' => 'Student'));
             foreach ($newStudents as $userRecord) {
                 if (empty($userRecord['email'])) {
                     $output->writeln(
@@ -171,7 +170,7 @@ class AddNewStudentsToSchoolCommand extends Command
                     );
                     continue;
                 }
-                $user = $this->userManager->createUser();
+                $user = $this->userManager->create();
                 $user->setFirstName($userRecord['firstName']);
                 $user->setLastName($userRecord['lastName']);
                 $user->setEmail($userRecord['email']);
@@ -181,15 +180,15 @@ class AddNewStudentsToSchoolCommand extends Command
                 $user->setSchool($school);
                 $user->setUserSyncIgnore(false);
                 $user->addRole($studentRole);
-                $this->userManager->updateUser($user);
+                $this->userManager->update($user);
                 
-                $authentication = $this->authenticationManager->createAuthentication();
+                $authentication = $this->authenticationManager->create();
                 $authentication->setUser($user);
                 $authentication->setUsername($userRecord['username']);
-                $this->authenticationManager->updateAuthentication($authentication, false);
+                $this->authenticationManager->update($authentication, false);
                 
                 $studentRole->addUser($user);
-                $this->userRoleManager->updateUserRole($studentRole);
+                $this->userRoleManager->update($studentRole);
                 
                 $output->writeln(
                     '<info>Success! New student #' .

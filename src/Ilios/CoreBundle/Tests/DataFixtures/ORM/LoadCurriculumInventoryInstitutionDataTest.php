@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManagerInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 
 /**
@@ -58,16 +57,10 @@ class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @param array $data
-     * @return CurriculumInventoryInstitutionInterface
-     * @override
+     * @inheritdoc
      */
     protected function getEntity(array $data)
     {
-        /**
-         * @var CurriculumInventoryInstitutionManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findCurriculumInventoryInstitutionBy(['id' => $data[8]]);
+        return $this->em->findOneBy(['id' => $data[8]]);
     }
 }

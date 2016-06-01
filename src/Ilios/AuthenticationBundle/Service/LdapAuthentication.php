@@ -3,19 +3,17 @@
 namespace Ilios\AuthenticationBundle\Service;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
-use Ilios\CoreBundle\Entity\UserInterface;
 
 class LdapAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authManager;
     
@@ -41,14 +39,14 @@ class LdapAuthentication implements AuthenticationInterface
     
     /**
      * Constructor
-     * @param AuthenticationManagerInterface $authManager
+     * @param AuthenticationManager $authManager
      * @param JsonWebTokenManager            $jwtManager
      * @param string                         $ldapHost         injected from configuration
      * @param string                         $ldapPort         injected from configuration
      * @param string                         $ldapBindTemplate injected from configuration
      */
     public function __construct(
-        AuthenticationManagerInterface $authManager,
+        AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
         $ldapHost,
         $ldapPort,

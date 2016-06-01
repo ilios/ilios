@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\VocabularyHandler;
 use Ilios\CoreBundle\Entity\VocabularyInterface;
 
 /**
@@ -125,13 +123,8 @@ class VocabularyController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getVocabularyHandler()
-            ->findVocabulariesBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.vocabulary.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -139,8 +132,7 @@ class VocabularyController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['vocabularies'] =
-            $result ? array_values($result) : [];
+        $answer['vocabularies'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -170,8 +162,7 @@ class VocabularyController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getVocabularyHandler();
-
+            $handler = $this->container->get('ilioscore.vocabulary.handler');
             $vocabulary = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +170,8 @@ class VocabularyController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getVocabularyHandler()->updateVocabulary($vocabulary, true, false);
+            $manager = $this->container->get('ilioscore.vocabulary.manager');
+            $manager->update($vocabulary, true, false);
 
             $answer['vocabularies'] = [$vocabulary];
 
@@ -218,29 +210,24 @@ class VocabularyController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $vocabulary = $this->getVocabularyHandler()
-                ->findVocabularyBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.vocabulary.manager');
+            $vocabulary = $manager->findOneBy(['id'=> $id]);
             if ($vocabulary) {
                 $code = Codes::HTTP_OK;
             } else {
-                $vocabulary = $this->getVocabularyHandler()
-                    ->createVocabulary();
+                $vocabulary = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getVocabularyHandler();
-
-            $vocabulary = $handler->put(
-                $vocabulary,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.vocabulary.handler');
+            $vocabulary = $handler->put($vocabulary, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $vocabulary)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getVocabularyHandler()->updateVocabulary($vocabulary, true, true);
+            $manager->update($vocabulary, true, true);
 
             $answer['vocabulary'] = $vocabulary;
         } catch (InvalidFormException $exception) {
@@ -291,8 +278,8 @@ class VocabularyController extends FOSRestController
         }
 
         try {
-            $this->getVocabularyHandler()
-                ->deleteVocabulary($vocabulary);
+            $manager = $this->container->get('ilioscore.vocabulary.manager');
+            $manager->delete($vocabulary);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +295,8 @@ class VocabularyController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $vocabulary = $this->getVocabularyHandler()
-            ->findVocabularyBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.vocabulary.manager');
+        $vocabulary = $manager->findOneBy(['id' => $id]);
         if (!$vocabulary) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +317,5 @@ class VocabularyController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return VocabularyHandler
-     */
-    protected function getVocabularyHandler()
-    {
-        return $this->container->get('ilioscore.vocabulary.handler');
     }
 }

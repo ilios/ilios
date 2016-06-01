@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\MeshPreviousIndexingHandler;
 use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
 
 /**
@@ -124,13 +122,9 @@ class MeshPreviousIndexingController extends FOSRestController
 
             return $item;
         }, $criteria);
-        $result = $this->getMeshPreviousIndexingHandler()
-            ->findMeshPreviousIndexingsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        
+        $manager = $this->container->get('ilioscore.meshpreviousindexing.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -138,8 +132,7 @@ class MeshPreviousIndexingController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['meshPreviousIndexings'] =
-            $result ? array_values($result) : [];
+        $answer['meshPreviousIndexings'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -169,7 +162,7 @@ class MeshPreviousIndexingController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getMeshPreviousIndexingHandler();
+            $handler = $this->container->get('ilioscore.meshpreviousindexing.handler');
 
             $meshPreviousIndexing = $handler->post($this->getPostData($request));
 
@@ -178,7 +171,8 @@ class MeshPreviousIndexingController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshPreviousIndexingHandler()->updateMeshPreviousIndexing($meshPreviousIndexing, true, false);
+            $manager = $this->container->get('ilioscore.meshpreviousindexing.manager');
+            $manager->update($meshPreviousIndexing, true, false);
 
             $answer['meshPreviousIndexings'] = [$meshPreviousIndexing];
 
@@ -217,29 +211,25 @@ class MeshPreviousIndexingController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()
-                ->findMeshPreviousIndexingBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.meshpreviousindexing.manager');
+            $meshPreviousIndexing = $manager->findOneBy(['id'=> $id]);
             if ($meshPreviousIndexing) {
                 $code = Codes::HTTP_OK;
             } else {
-                $meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()
-                    ->createMeshPreviousIndexing();
+                $meshPreviousIndexing = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getMeshPreviousIndexingHandler();
+            $handler = $this->container->get('ilioscore.meshpreviousindexing.handler');
 
-            $meshPreviousIndexing = $handler->put(
-                $meshPreviousIndexing,
-                $this->getPostData($request)
-            );
+            $meshPreviousIndexing = $handler->put($meshPreviousIndexing, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $meshPreviousIndexing)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshPreviousIndexingHandler()->updateMeshPreviousIndexing($meshPreviousIndexing, true, true);
+            $manager->update($meshPreviousIndexing, true, true);
 
             $answer['meshPreviousIndexing'] = $meshPreviousIndexing;
         } catch (InvalidFormException $exception) {
@@ -290,8 +280,8 @@ class MeshPreviousIndexingController extends FOSRestController
         }
 
         try {
-            $this->getMeshPreviousIndexingHandler()
-                ->deleteMeshPreviousIndexing($meshPreviousIndexing);
+            $manager = $this->container->get('ilioscore.meshpreviousindexing.manager');
+            $manager->delete($meshPreviousIndexing);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -307,8 +297,8 @@ class MeshPreviousIndexingController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()
-            ->findMeshPreviousIndexingBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.meshpreviousindexing.manager');
+        $meshPreviousIndexing = $manager->findOneBy(['id' => $id]);
         if (!$meshPreviousIndexing) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -329,13 +319,5 @@ class MeshPreviousIndexingController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return MeshPreviousIndexingHandler
-     */
-    protected function getMeshPreviousIndexingHandler()
-    {
-        return $this->container->get('ilioscore.meshpreviousIndexing.handler');
     }
 }

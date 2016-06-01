@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\CompetencyManagerInterface;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**
@@ -52,19 +51,5 @@ class LoadCompetencyDataTest extends AbstractDataFixtureTest
             $this->assertEquals($data[2], $entity->getParent()->getId());
         }
         $this->assertEquals($data[3], $entity->getSchool()->getId());
-    }
-
-    /**
-     * @param array $data
-     * @return CompetencyInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var CompetencyManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findCompetencyBy(['id' => $data[0]]);
     }
 }

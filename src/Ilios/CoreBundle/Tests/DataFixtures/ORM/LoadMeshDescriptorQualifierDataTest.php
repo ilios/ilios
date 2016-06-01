@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManagerInterface;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
@@ -53,19 +52,5 @@ class LoadMeshDescriptorQualifierDataTest extends AbstractDataFixtureTest
             return $qualifier->getId() === $qualifierId;
         })->first();
         $this->assertNotEmpty($qualifier);
-    }
-
-    /**
-     * @param array $data
-     * @return MeshDescriptorInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var MeshDescriptorManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshDescriptorBy(['id' => $data[0]]);
     }
 }

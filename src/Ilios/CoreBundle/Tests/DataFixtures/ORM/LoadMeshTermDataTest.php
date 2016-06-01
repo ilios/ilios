@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshTermManagerInterface;
 use Ilios\CoreBundle\Entity\MeshTermInterface;
 
 /**
@@ -59,16 +58,10 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @param array $data
-     * @return MeshTermInterface
-     * @override
+     * @inheritdoc
      */
     protected function getEntity(array $data)
     {
-        /**
-         * @var MeshTermManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshTermBy(['id' => $data[9]]);
+        return $this->em->findOneBy(['id' => $data[9]]);
     }
 }

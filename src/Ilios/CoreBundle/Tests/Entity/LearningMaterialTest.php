@@ -1,7 +1,6 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity;
 
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Ilios\CoreBundle\Entity\LearningMaterial;
 use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Entity\User;

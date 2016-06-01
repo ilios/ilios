@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\SessionTypeHandler;
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
 /**
@@ -125,13 +123,8 @@ class SessionTypeController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getSessionTypeHandler()
-            ->findSessionTypesBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.sessiontype.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -139,8 +132,7 @@ class SessionTypeController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['sessionTypes'] =
-            $result ? array_values($result) : [];
+        $answer['sessionTypes'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -170,8 +162,7 @@ class SessionTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getSessionTypeHandler();
-
+            $handler = $this->container->get('ilioscore.sessiontype.handler');
             $sessionType = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +170,8 @@ class SessionTypeController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getSessionTypeHandler()->updateSessionType($sessionType, true, false);
+            $manager = $this->container->get('ilioscore.sessiontype.manager');
+            $manager->update($sessionType, true, false);
 
             $answer['sessionTypes'] = [$sessionType];
 
@@ -218,29 +210,24 @@ class SessionTypeController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $sessionType = $this->getSessionTypeHandler()
-                ->findSessionTypeBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.sessiontype.manager');
+            $sessionType = $manager->findOneBy(['id'=> $id]);
             if ($sessionType) {
                 $code = Codes::HTTP_OK;
             } else {
-                $sessionType = $this->getSessionTypeHandler()
-                    ->createSessionType();
+                $sessionType = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getSessionTypeHandler();
-
-            $sessionType = $handler->put(
-                $sessionType,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.sessiontype.handler');
+            $sessionType = $handler->put($sessionType, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $sessionType)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getSessionTypeHandler()->updateSessionType($sessionType, true, true);
+            $manager->update($sessionType, true, true);
 
             $answer['sessionType'] = $sessionType;
         } catch (InvalidFormException $exception) {
@@ -291,8 +278,8 @@ class SessionTypeController extends FOSRestController
         }
 
         try {
-            $this->getSessionTypeHandler()
-                ->deleteSessionType($sessionType);
+            $manager = $this->container->get('ilioscore.sessiontype.manager');
+            $manager->delete($sessionType);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +295,8 @@ class SessionTypeController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $sessionType = $this->getSessionTypeHandler()
-            ->findSessionTypeBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.sessiontype.manager');
+        $sessionType = $manager->findOneBy(['id' => $id]);
         if (!$sessionType) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +317,5 @@ class SessionTypeController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return SessionTypeHandler
-     */
-    protected function getSessionTypeHandler()
-    {
-        return $this->container->get('ilioscore.sessiontype.handler');
     }
 }

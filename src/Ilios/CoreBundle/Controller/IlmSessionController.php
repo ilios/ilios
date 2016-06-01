@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\IlmSessionHandler;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
@@ -125,13 +123,13 @@ class IlmSessionController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getIlmSessionHandler()
-            ->findIlmSessionsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.ilmsession.manager');
+        $result = $manager->findBy(
+            $criteria,
+            $orderBy,
+            $limit,
+            $offset
+        );
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,8 +168,7 @@ class IlmSessionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getIlmSessionHandler();
-
+            $handler = $this->container->get('ilioscore.ilmsession.handler');
             $ilmSession = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +176,8 @@ class IlmSessionController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getIlmSessionHandler()->updateIlmSession($ilmSession, true, false);
+            $manager = $this->container->get('ilioscore.ilmsession.manager');
+            $manager->update($ilmSession, true, false);
 
             $answer['ilmSessions'] = [$ilmSession];
 
@@ -218,29 +216,25 @@ class IlmSessionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $ilmSession = $this->getIlmSessionHandler()
-                ->findIlmSessionBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.ilmsession.manager');
+            $ilmSession = $manager->findOneBy(['id'=> $id]);
             if ($ilmSession) {
                 $code = Codes::HTTP_OK;
             } else {
-                $ilmSession = $this->getIlmSessionHandler()
-                    ->createIlmSession();
+                $ilmSession = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getIlmSessionHandler();
+            $handler = $this->container->get('ilioscore.ilmsession.handler');
 
-            $ilmSession = $handler->put(
-                $ilmSession,
-                $this->getPostData($request)
-            );
+            $ilmSession = $handler->put($ilmSession, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $ilmSession)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getIlmSessionHandler()->updateIlmSession($ilmSession, true, true);
+            $manager->update($ilmSession, true, true);
 
             $answer['ilmSession'] = $ilmSession;
         } catch (InvalidFormException $exception) {
@@ -291,8 +285,8 @@ class IlmSessionController extends FOSRestController
         }
 
         try {
-            $this->getIlmSessionHandler()
-                ->deleteIlmSession($ilmSession);
+            $manager = $this->container->get('ilioscore.ilmsession.manager');
+            $manager->delete($ilmSession);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +302,8 @@ class IlmSessionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $ilmSession = $this->getIlmSessionHandler()
-            ->findIlmSessionBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.ilmsession.manager');
+        $ilmSession = $manager->findOneBy(['id' => $id]);
         if (!$ilmSession) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +324,5 @@ class IlmSessionController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return IlmSessionHandler
-     */
-    protected function getIlmSessionHandler()
-    {
-        return $this->container->get('ilioscore.ilmsession.handler');
     }
 }

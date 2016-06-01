@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\AamcMethodManagerInterface;
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
 
 /**
@@ -46,19 +45,5 @@ class LoadAamcMethodDataTest extends AbstractDataFixtureTest
         // `method_id`,`description`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getDescription());
-    }
-
-    /**
-     * @param array $data
-     * @return AamcMethodInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var AamcMethodManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findAamcMethodBy(['id' => $data[0]]);
     }
 }

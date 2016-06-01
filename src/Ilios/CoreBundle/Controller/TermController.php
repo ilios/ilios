@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\TermHandler;
 use Ilios\CoreBundle\Entity\TermInterface;
 
 /**
@@ -54,7 +52,8 @@ class TermController extends FOSRestController
      */
     public function getAction($id)
     {
-        $term = $this->getTermHandler()->findTermDTOBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.term.manager');
+        $term = $manager->findDTOBy(['id' => $id]);
 
         if (! $term) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -129,13 +128,8 @@ class TermController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getTermHandler()
-            ->findTermDTOsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.term.manager');
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -143,8 +137,7 @@ class TermController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['terms'] =
-            $result ? array_values($result) : [];
+        $answer['terms'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -174,8 +167,7 @@ class TermController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getTermHandler();
-
+            $handler = $this->container->get('ilioscore.term.handler');
             $term = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -183,7 +175,8 @@ class TermController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getTermHandler()->updateTerm($term, true, false);
+            $manager = $this->container->get('ilioscore.term.manager');
+            $manager->update($term, true, false);
 
             $answer['terms'] = [$term];
 
@@ -222,29 +215,25 @@ class TermController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $term = $this->getTermHandler()
-                ->findTermBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.term.manager');
+            $term = $manager->findOneBy(['id'=> $id]);
+
             if ($term) {
                 $code = Codes::HTTP_OK;
             } else {
-                $term = $this->getTermHandler()
-                    ->createTerm();
+                $term = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getTermHandler();
-
-            $term = $handler->put(
-                $term,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.term.handler');
+            $term = $handler->put($term, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $term)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getTermHandler()->updateTerm($term, true, true);
+            $manager->update($term, true, true);
 
             $answer['term'] = $term;
         } catch (InvalidFormException $exception) {
@@ -295,8 +284,8 @@ class TermController extends FOSRestController
         }
 
         try {
-            $this->getTermHandler()
-                ->deleteTerm($term);
+            $manager = $this->container->get('ilioscore.term.manager');
+            $manager->delete($term);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -312,8 +301,8 @@ class TermController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $term = $this->getTermHandler()
-            ->findTermBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.term.manager');
+        $term = $manager->findOneBy(['id' => $id]);
         if (!$term) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -334,13 +323,5 @@ class TermController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return TermHandler
-     */
-    protected function getTermHandler()
-    {
-        return $this->container->get('ilioscore.term.handler');
     }
 }

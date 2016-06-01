@@ -3,7 +3,6 @@ namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\Objective;
 use Mockery as m;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity Objective

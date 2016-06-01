@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\MeshQualifierHandler;
 use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
 /**
@@ -124,13 +122,9 @@ class MeshQualifierController extends FOSRestController
 
             return $item;
         }, $criteria);
-        $result = $this->getMeshQualifierHandler()
-            ->findMeshQualifiersBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+
+        $manager = $this->container->get('ilioscore.meshqualifier.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -169,7 +163,7 @@ class MeshQualifierController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getMeshQualifierHandler();
+            $handler = $this->container->get('ilioscore.meshqualifier.handler');
 
             $meshQualifier = $handler->post($this->getPostData($request));
 
@@ -178,7 +172,8 @@ class MeshQualifierController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshQualifierHandler()->updateMeshQualifier($meshQualifier, true, false);
+            $manager = $this->container->get('ilioscore.meshqualifier.manager');
+            $manager->update($meshQualifier, true, false);
 
             $answer['meshQualifiers'] = [$meshQualifier];
 
@@ -217,29 +212,25 @@ class MeshQualifierController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $meshQualifier = $this->getMeshQualifierHandler()
-                ->findMeshQualifierBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.meshqualifier.manager');
+            $meshQualifier = $manager->findOneBy(['id'=> $id]);
             if ($meshQualifier) {
                 $code = Codes::HTTP_OK;
             } else {
-                $meshQualifier = $this->getMeshQualifierHandler()
-                    ->createMeshQualifier();
+                $meshQualifier = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getMeshQualifierHandler();
+            $handler = $this->container->get('ilioscore.meshqualifier.handler');
 
-            $meshQualifier = $handler->put(
-                $meshQualifier,
-                $this->getPostData($request)
-            );
+            $meshQualifier = $handler->put($meshQualifier, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $meshQualifier)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshQualifierHandler()->updateMeshQualifier($meshQualifier, true, true);
+            $manager->update($meshQualifier, true, true);
 
             $answer['meshQualifier'] = $meshQualifier;
         } catch (InvalidFormException $exception) {
@@ -290,8 +281,8 @@ class MeshQualifierController extends FOSRestController
         }
 
         try {
-            $this->getMeshQualifierHandler()
-                ->deleteMeshQualifier($meshQualifier);
+            $manager = $this->container->get('ilioscore.meshqualifier.manager');
+            $manager->delete($meshQualifier);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -307,8 +298,8 @@ class MeshQualifierController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $meshQualifier = $this->getMeshQualifierHandler()
-            ->findMeshQualifierBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.meshqualifier.manager');
+        $meshQualifier = $manager->findOneBy(['id' => $id]);
         if (!$meshQualifier) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -329,13 +320,5 @@ class MeshQualifierController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return MeshQualifierHandler
-     */
-    protected function getMeshQualifierHandler()
-    {
-        return $this->container->get('ilioscore.meshqualifier.handler');
     }
 }

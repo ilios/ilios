@@ -3,8 +3,8 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\PermissionManager;
+use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
@@ -18,22 +18,22 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class ObjectiveVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManagerInterface
+     * @var PermissionManager
      */
     protected $permissionManager;
 
     /**
-     * @var ProgramYearStewardManagerInterface
+     * @var ProgramYearStewardManager
      */
     protected $stewardManager;
 
     /**
-     * @param PermissionManagerInterface $permissionManager
-     * @param ProgramYearStewardManagerInterface $stewardManager
+     * @param PermissionManager $permissionManager
+     * @param ProgramYearStewardManager $stewardManager
      */
     public function __construct(
-        PermissionManagerInterface $permissionManager,
-        ProgramYearStewardManagerInterface $stewardManager
+        PermissionManager $permissionManager,
+        ProgramYearStewardManager $stewardManager
     ) {
         $this->permissionManager = $permissionManager;
         $this->stewardManager = $stewardManager;

@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\SessionLearningMaterialHandler;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 
 /**
@@ -125,13 +123,8 @@ class SessionLearningMaterialController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getSessionLearningMaterialHandler()
-            ->findSessionLearningMaterialsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.sessionlearningmaterial.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -139,8 +132,7 @@ class SessionLearningMaterialController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['sessionLearningMaterials'] =
-            $result ? array_values($result) : [];
+        $answer['sessionLearningMaterials'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -170,8 +162,7 @@ class SessionLearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getSessionLearningMaterialHandler();
-
+            $handler = $this->container->get('ilioscore.sessionlearningmaterial.handler');
             $sessionLearningMaterial = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,11 +170,8 @@ class SessionLearningMaterialController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getSessionLearningMaterialHandler()->updateSessionLearningMaterial(
-                $sessionLearningMaterial,
-                true,
-                false
-            );
+            $manager = $this->container->get('ilioscore.sessionlearningmaterial.manager');
+            $manager->update($sessionLearningMaterial, true, false);
 
             $answer['sessionLearningMaterials'] = [$sessionLearningMaterial];
 
@@ -222,33 +210,24 @@ class SessionLearningMaterialController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $sessionLearningMaterial = $this->getSessionLearningMaterialHandler()
-                ->findSessionLearningMaterialBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.sessionlearningmaterial.manager');
+            $sessionLearningMaterial = $manager->findOneBy(['id'=> $id]);
             if ($sessionLearningMaterial) {
                 $code = Codes::HTTP_OK;
             } else {
-                $sessionLearningMaterial = $this->getSessionLearningMaterialHandler()
-                    ->createSessionLearningMaterial();
+                $sessionLearningMaterial = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getSessionLearningMaterialHandler();
-
-            $sessionLearningMaterial = $handler->put(
-                $sessionLearningMaterial,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.sessionlearningmaterial.handler');
+            $sessionLearningMaterial = $handler->put($sessionLearningMaterial, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $sessionLearningMaterial)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getSessionLearningMaterialHandler()->updateSessionLearningMaterial(
-                $sessionLearningMaterial,
-                true,
-                true
-            );
+            $manager->update($sessionLearningMaterial, true, true);
 
             $answer['sessionLearningMaterial'] = $sessionLearningMaterial;
         } catch (InvalidFormException $exception) {
@@ -299,8 +278,8 @@ class SessionLearningMaterialController extends FOSRestController
         }
 
         try {
-            $this->getSessionLearningMaterialHandler()
-                ->deleteSessionLearningMaterial($sessionLearningMaterial);
+            $manager = $this->container->get('ilioscore.sessionlearningmaterial.manager');
+            $manager->delete($sessionLearningMaterial);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -316,8 +295,8 @@ class SessionLearningMaterialController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $sessionLearningMaterial = $this->getSessionLearningMaterialHandler()
-            ->findSessionLearningMaterialBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.sessionlearningmaterial.manager');
+        $sessionLearningMaterial = $manager->findOneBy(['id' => $id]);
         if (!$sessionLearningMaterial) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -338,13 +317,5 @@ class SessionLearningMaterialController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return SessionLearningMaterialHandler
-     */
-    protected function getSessionLearningMaterialHandler()
-    {
-        return $this->container->get('ilioscore.sessionlearningmaterial.handler');
     }
 }

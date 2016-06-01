@@ -1,11 +1,14 @@
 <?php
 namespace Ilios\CoreBundle\Service;
 
+use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Entity\Manager\AuditLogManagerInterface;
-
+/**
+ * Class Logger
+ * @package Ilios\CoreBundle\Service
+ */
 class Logger
 {
     /**
@@ -14,18 +17,18 @@ class Logger
     protected $user;
     
     /**
-     * @var AuditLogManagerInterface
+     * @var AuditLogManager
      */
     protected $manager;
 
     /**
      * Set the username from injected security context
      * @param TokenStorageInterface $securityTokenStorage
-     * @param AuditLogManagerInterface $auditLogManager
+     * @param AuditLogManager $auditLogManager
      */
     public function __construct(
         TokenStorageInterface $securityTokenStorage,
-        AuditLogManagerInterface $auditLogManager
+        AuditLogManager $auditLogManager
     ) {
         if (null !== $securityTokenStorage &&
             null !== $securityTokenStorage->getToken()
@@ -34,7 +37,15 @@ class Logger
         }
         $this->manager = $auditLogManager;
     }
-    
+
+    /**
+     * @param $action
+     * @param $objectId
+     * @param $objectClass
+     * @param $valuesChanged
+     * @param bool $andFlush
+     * @return mixed|object
+     */
     public function log(
         $action,
         $objectId,
@@ -42,14 +53,14 @@ class Logger
         $valuesChanged,
         $andFlush = true
     ) {
-        $log = $this->manager->createAuditLog();
+        $log = $this->manager->create();
         $log->setAction($action);
         $log->setObjectId($objectId);
         $log->setObjectClass($objectClass);
         $log->setValuesChanged($valuesChanged);
         $log->setUser($this->user);
 
-        $this->manager->updateAuditLog($log, $andFlush);
+        $this->manager->update($log, $andFlush);
         
         return $log;
     }

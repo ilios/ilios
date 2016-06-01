@@ -3,7 +3,6 @@
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
-use Ilios\CoreBundle\Entity\Manager\SessionTypeManagerInterface;
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
 /**
@@ -52,19 +51,5 @@ class LoadSessionTypeAamcMethodDataTest extends AbstractDataFixtureTest
             return $method->getId() === $methodId;
         })->first();
         $this->assertNotEmpty($method);
-    }
-
-    /**
-     * @param array $data
-     * @return SessionTypeInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var SessionTypeManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findSessionTypeBy(['id' => $data[0]]);
     }
 }

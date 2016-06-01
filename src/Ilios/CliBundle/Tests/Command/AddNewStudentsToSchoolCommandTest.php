@@ -7,6 +7,10 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
 
+/**
+ * Class AddNewStudentsToSchoolCommandTest
+ * @package Ilios\CliBundle\Tests\Command
+ */
 class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
 {
     const COMMAND_NAME = 'ilios:directory:add-students';
@@ -21,10 +25,10 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
-        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface');
-        $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
+        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
+        $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManager');
+        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
         
         $command = new AddNewStudentsToSchoolCommand(
@@ -105,25 +109,25 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
         $this->userManager->shouldReceive('getAllCampusIds')
             ->andReturn(['abc2']);
             
-        $this->userManager->shouldReceive('createUser')->andReturn($user);
+        $this->userManager->shouldReceive('create')->andReturn($user);
         $this->userManager
-            ->shouldReceive('updateUser')
+            ->shouldReceive('update')
             ->with($user)->once();
-        $this->schoolManager->shouldReceive('findSchoolBy')->with(array('id' => 1))->andReturn($school);
+        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($school);
         $role = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)
             ->mock();
         $user->shouldReceive('addRole')->with($role);
         $this->userRoleManager
-            ->shouldReceive('findUserRoleBy')
+            ->shouldReceive('findOneBy')
             ->with(array('title' => 'Student'))
             ->andReturn($role);
         $this->userRoleManager
-            ->shouldReceive('updateUserRole')
+            ->shouldReceive('update')
             ->with($role);
 
-        $this->authenticationManager->shouldReceive('createAuthentication')->andReturn($authentication);
-        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication, false);
+        $this->authenticationManager->shouldReceive('create')->andReturn($authentication);
+        $this->authenticationManager->shouldReceive('update')->with($authentication, false);
         
         $this->sayYesWhenAsked();
         $this->commandTester->execute(array(
@@ -158,7 +162,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testBadSchoolId()
     {
-        $this->schoolManager->shouldReceive('findSchoolBy')->with(array('id' => 1))->andReturn(null);
+        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
         $this->setExpectedException('Exception', 'School with id 1 could not be found.');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,

@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CurriculumInventoryAcademicLevelHandler;
 use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 
 /**
@@ -125,13 +123,8 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getCurriculumInventoryAcademicLevelHandler()
-            ->findCurriculumInventoryAcademicLevelsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.curriculuminventoryacademiclevel.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,7 +163,7 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getCurriculumInventoryAcademicLevelHandler();
+            $handler = $this->container->get('ilioscore.curriculuminventoryacademiclevel.handler');
 
             $curriculumInventoryAcademicLevel = $handler->post($this->getPostData($request));
 
@@ -179,11 +172,8 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryAcademicLevelHandler()->updateCurriculumInventoryAcademicLevel(
-                $curriculumInventoryAcademicLevel,
-                true,
-                false
-            );
+            $manager = $this->container->get('ilioscore.curriculuminventoryacademiclevel.manager');
+            $manager->update($curriculumInventoryAcademicLevel, true, false);
 
             $answer['curriculumInventoryAcademicLevels'] = [$curriculumInventoryAcademicLevel];
 
@@ -222,18 +212,16 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $curriculumInventoryAcademicLevel = $this->getCurriculumInventoryAcademicLevelHandler()
-                ->findCurriculumInventoryAcademicLevelBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.curriculuminventoryacademiclevel.manager');
+            $curriculumInventoryAcademicLevel = $manager->findOneBy(['id'=> $id]);
             if ($curriculumInventoryAcademicLevel) {
                 $code = Codes::HTTP_OK;
             } else {
-                $curriculumInventoryAcademicLevel = $this->getCurriculumInventoryAcademicLevelHandler()
-                    ->createCurriculumInventoryAcademicLevel();
+                $curriculumInventoryAcademicLevel = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getCurriculumInventoryAcademicLevelHandler();
-
+            $handler = $this->container->get('ilioscore.curriculuminventoryacademiclevel.handler');
             $curriculumInventoryAcademicLevel = $handler->put(
                 $curriculumInventoryAcademicLevel,
                 $this->getPostData($request)
@@ -244,11 +232,7 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCurriculumInventoryAcademicLevelHandler()->updateCurriculumInventoryAcademicLevel(
-                $curriculumInventoryAcademicLevel,
-                true,
-                true
-            );
+            $manager->update($curriculumInventoryAcademicLevel, true, true);
 
             $answer['curriculumInventoryAcademicLevel'] = $curriculumInventoryAcademicLevel;
         } catch (InvalidFormException $exception) {
@@ -299,8 +283,8 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
         }
 
         try {
-            $this->getCurriculumInventoryAcademicLevelHandler()
-                ->deleteCurriculumInventoryAcademicLevel($curriculumInventoryAcademicLevel);
+            $manager = $this->container->get('ilioscore.curriculuminventoryacademiclevel.manager');
+            $manager->delete($curriculumInventoryAcademicLevel);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -316,8 +300,8 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $curriculumInventoryAcademicLevel = $this->getCurriculumInventoryAcademicLevelHandler()
-            ->findCurriculumInventoryAcademicLevelBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.curriculuminventoryacademiclevel.manager');
+        $curriculumInventoryAcademicLevel = $manager->findOneBy(['id' => $id]);
         if (!$curriculumInventoryAcademicLevel) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -338,13 +322,5 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return CurriculumInventoryAcademicLevelHandler
-     */
-    protected function getCurriculumInventoryAcademicLevelHandler()
-    {
-        return $this->container->get('ilioscore.curriculuminventoryacademiclevel.handler');
     }
 }

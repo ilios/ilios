@@ -5,10 +5,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CliBundle\Command\SendTeachingRemindersCommand;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\InstructorGroup;
-use Ilios\CoreBundle\Entity\InstructorGroupInterface;
 use Ilios\CoreBundle\Entity\LearnerGroup;
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
-use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\Objective;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 use Ilios\CoreBundle\Entity\Offering;
@@ -34,7 +33,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     const COMMAND_NAME = 'ilios:messaging:send-teaching-reminders';
 
     /**
-     * @var OfferingManagerInterface
+     * @var OfferingManager
      */
     protected $fakeOfferingManager;
 

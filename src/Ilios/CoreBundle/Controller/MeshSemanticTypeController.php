@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\MeshSemanticTypeHandler;
 use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 
 /**
@@ -124,7 +122,6 @@ class MeshSemanticTypeController extends FOSRestController
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $q = !is_null($paramFetcher->get('q')) ? $paramFetcher->get('q') : false;
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
             $item = $item == 'null' ? null : $item;
@@ -133,24 +130,10 @@ class MeshSemanticTypeController extends FOSRestController
 
             return $item;
         }, $criteria);
-        if ($q) {
-            $result = $this->getMeshSemanticTypeHandler()
-                ->findMeshSemanticTypesByQ(
-                    $q,
-                    $orderBy,
-                    $limit,
-                    $offset
-                );
-        } else {
-            $result = $this->getMeshSemanticTypeHandler()
-                ->findMeshSemanticTypesBy(
-                    $criteria,
-                    $orderBy,
-                    $limit,
-                    $offset
-                );
-        }
 
+        $manager = $this->container->get('ilioscore.meshsemantictype.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
+        
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
             return $authChecker->isGranted('view', $entity);
@@ -189,7 +172,7 @@ class MeshSemanticTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getMeshSemanticTypeHandler();
+            $handler = $this->container->get('ilioscore.meshsemantictype.handler');
 
             $meshSemanticType = $handler->post($this->getPostData($request));
 
@@ -198,7 +181,8 @@ class MeshSemanticTypeController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshSemanticTypeHandler()->updateMeshSemanticType($meshSemanticType, true, false);
+            $manager = $this->container->get('ilioscore.meshsemantictype.manager');
+            $manager->update($meshSemanticType, true, false);
 
             $answer['meshSemanticTypes'] = [$meshSemanticType];
 
@@ -238,29 +222,26 @@ class MeshSemanticTypeController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $meshSemanticType = $this->getMeshSemanticTypeHandler()
-                ->findMeshSemanticTypeBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.meshsemantictype.manager');
+            $meshSemanticType = $manager->findOneBy(['id'=> $id]);
             if ($meshSemanticType) {
                 $code = Codes::HTTP_OK;
             } else {
-                $meshSemanticType = $this->getMeshSemanticTypeHandler()
-                    ->createMeshSemanticType();
+                $meshSemanticType = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getMeshSemanticTypeHandler();
+            $handler = $this->container->get('ilioscore.meshsemantictype.handler');
 
-            $meshSemanticType = $handler->put(
-                $meshSemanticType,
-                $this->getPostData($request)
-            );
+            $meshSemanticType = $handler->put($meshSemanticType, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $meshSemanticType)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshSemanticTypeHandler()->updateMeshSemanticType($meshSemanticType, true, true);
+            $manager = $this->container->get('ilioscore.meshsemantictype.manager');
+            $manager->update($meshSemanticType, true, true);
 
             $answer['meshSemanticType'] = $meshSemanticType;
         } catch (InvalidFormException $exception) {
@@ -312,8 +293,8 @@ class MeshSemanticTypeController extends FOSRestController
         }
 
         try {
-            $this->getMeshSemanticTypeHandler()
-                ->deleteMeshSemanticType($meshSemanticType);
+            $manager = $this->container->get('ilioscore.meshsemantictype.manager');
+            $manager->delete($meshSemanticType);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -329,8 +310,8 @@ class MeshSemanticTypeController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $meshSemanticType = $this->getMeshSemanticTypeHandler()
-            ->findMeshSemanticTypeBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.meshsemantictype.manager');
+        $meshSemanticType = $manager->findOneBy(['id' => $id]);
         if (!$meshSemanticType) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -351,13 +332,5 @@ class MeshSemanticTypeController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return MeshSemanticTypeHandler
-     */
-    protected function getMeshSemanticTypeHandler()
-    {
-        return $this->container->get('ilioscore.meshsemanticType.handler');
     }
 }

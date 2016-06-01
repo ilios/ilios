@@ -53,4 +53,16 @@ interface AuthenticationInterface extends LoggableEntityInterface
      * @return boolean
      */
     public function isLegacyAccount();
+
+
+    /**
+     * @param \DateTime $invalidateTokenIssuedBefore
+     */
+    public function setInvalidateTokenIssuedBefore(\DateTime $invalidateTokenIssuedBefore = null);
+
+
+    /**
+     * @return \DateTime
+     */
+    public function getInvalidateTokenIssuedBefore();
 }

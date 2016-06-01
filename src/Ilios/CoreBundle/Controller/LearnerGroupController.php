@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\LearnerGroupHandler;
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 
 /**
@@ -54,7 +52,8 @@ class LearnerGroupController extends FOSRestController
      */
     public function getAction($id)
     {
-        $learnerGroup = $this->getLearnerGroupHandler()->findLearnerGroupDTOBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.learnergroup.manager');
+        $learnerGroup = $manager->findDTOBy(['id' => $id]);
 
         if (!$learnerGroup) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -129,13 +128,8 @@ class LearnerGroupController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getLearnerGroupHandler()
-            ->findLearnerGroupDTOsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.learnergroup.manager');
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -174,8 +168,7 @@ class LearnerGroupController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getLearnerGroupHandler();
-
+            $handler = $this->container->get('ilioscore.learnergroup.handler');
             $learnerGroup = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -183,7 +176,8 @@ class LearnerGroupController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getLearnerGroupHandler()->updateLearnerGroup($learnerGroup, true, false);
+            $manager = $this->container->get('ilioscore.learnergroup.manager');
+            $manager->update($learnerGroup, true, false);
 
             $answer['learnerGroups'] = [$learnerGroup];
 
@@ -222,29 +216,25 @@ class LearnerGroupController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $learnerGroup = $this->getLearnerGroupHandler()
-                ->findLearnerGroupBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.learnergroup.manager');
+            $learnerGroup = $manager->findOneBy(['id'=> $id]);
             if ($learnerGroup) {
                 $code = Codes::HTTP_OK;
             } else {
-                $learnerGroup = $this->getLearnerGroupHandler()
-                    ->createLearnerGroup();
+                $learnerGroup = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getLearnerGroupHandler();
+            $handler = $this->container->get('ilioscore.learnergroup.handler');
 
-            $learnerGroup = $handler->put(
-                $learnerGroup,
-                $this->getPostData($request)
-            );
+            $learnerGroup = $handler->put($learnerGroup, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $learnerGroup)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getLearnerGroupHandler()->updateLearnerGroup($learnerGroup, true, true);
+            $manager->update($learnerGroup, true, true);
 
             $answer['learnerGroup'] = $learnerGroup;
         } catch (InvalidFormException $exception) {
@@ -295,8 +285,8 @@ class LearnerGroupController extends FOSRestController
         }
 
         try {
-            $this->getLearnerGroupHandler()
-                ->deleteLearnerGroup($learnerGroup);
+            $manager = $this->container->get('ilioscore.learnergroup.manager');
+            $manager->delete($learnerGroup);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -312,8 +302,8 @@ class LearnerGroupController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $learnerGroup = $this->getLearnerGroupHandler()
-            ->findLearnerGroupBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.learnergroup.manager');
+        $learnerGroup = $manager->findOneBy(['id' => $id]);
         if (!$learnerGroup) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -334,13 +324,5 @@ class LearnerGroupController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return LearnerGroupHandler
-     */
-    protected function getLearnerGroupHandler()
-    {
-        return $this->container->get('ilioscore.learnergroup.handler');
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\SessionTypeManagerInterface;
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
 /**
@@ -54,19 +53,5 @@ class LoadSessionTypeDataTest extends AbstractDataFixtureTest
         } else {
             $this->assertEquals($data[5], $entity->getAssessmentOption());
         }
-    }
-
-    /**
-     * @param array $data
-     * @return SessionTypeInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var SessionTypeManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findSessionTypeBy(['id' => $data[0]]);
     }
 }

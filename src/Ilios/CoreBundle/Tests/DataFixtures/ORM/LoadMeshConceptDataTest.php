@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshConceptManagerInterface;
 use Ilios\CoreBundle\Entity\MeshConceptInterface;
 
 /**
@@ -55,19 +54,5 @@ class LoadMeshConceptDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[6], $entity->getRegistryNumber());
         $this->assertEquals(new \DateTime($data[7], new \DateTimeZone('UTC')), $entity->getCreatedAt());
         $this->assertEquals(new \DateTime($data[8], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
-    }
-
-    /**
-     * @param array $data
-     * @return MeshConceptInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var MeshConceptManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshConceptBy(['id' => $data[0]]);
     }
 }

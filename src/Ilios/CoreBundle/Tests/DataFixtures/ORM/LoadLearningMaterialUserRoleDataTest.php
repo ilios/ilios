@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManagerInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 
 /**
@@ -46,19 +45,5 @@ class LoadLearningMaterialUserRoleDataTest extends AbstractDataFixtureTest
         // `learning_material_user_role_id`,`title`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
-    }
-
-    /**
-     * @param array $data
-     * @return LearningMaterialUserRoleInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var LearningMaterialUserRoleManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findLearningMaterialUserRoleBy(['id' => $data[0]]);
     }
 }

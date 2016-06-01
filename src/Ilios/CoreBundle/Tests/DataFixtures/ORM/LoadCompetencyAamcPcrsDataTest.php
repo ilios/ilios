@@ -3,7 +3,6 @@
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
-use Ilios\CoreBundle\Entity\Manager\CompetencyManagerInterface;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**
@@ -51,19 +50,5 @@ class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
             return $pcrs->getId() === $pcrsId;
         })->first();
         $this->assertNotEmpty($pcrs);
-    }
-
-    /**
-     * @param array $data
-     * @return CompetencyInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var CompetencyManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findCompetencyBy(['id' => $data[0]]);
     }
 }

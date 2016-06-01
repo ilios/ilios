@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\PermissionHandler;
 use Ilios\CoreBundle\Entity\PermissionInterface;
 
 /**
@@ -125,13 +123,8 @@ class PermissionController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getPermissionHandler()
-            ->findPermissionsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.permission.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -139,8 +132,7 @@ class PermissionController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['permissions'] =
-            $result ? array_values($result) : [];
+        $answer['permissions'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -170,8 +162,7 @@ class PermissionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getPermissionHandler();
-
+            $handler = $this->container->get('ilioscore.permission.handler');
             $permission = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +170,8 @@ class PermissionController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getPermissionHandler()->updatePermission($permission, true, false);
+            $manager = $this->container->get('ilioscore.permission.manager');
+            $manager->update($permission, true, false);
 
             $answer['permissions'] = [$permission];
 
@@ -218,29 +210,24 @@ class PermissionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $permission = $this->getPermissionHandler()
-                ->findPermissionBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.permission.manager');
+            $permission = $manager->findOneBy(['id'=> $id]);
             if ($permission) {
                 $code = Codes::HTTP_OK;
             } else {
-                $permission = $this->getPermissionHandler()
-                    ->createPermission();
+                $permission = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getPermissionHandler();
-
-            $permission = $handler->put(
-                $permission,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.permission.handler');
+            $permission = $handler->put($permission, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $permission)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getPermissionHandler()->updatePermission($permission, true, true);
+            $manager->update($permission, true, true);
 
             $answer['permissions'] = $permission;
         } catch (InvalidFormException $exception) {
@@ -291,8 +278,8 @@ class PermissionController extends FOSRestController
         }
 
         try {
-            $this->getPermissionHandler()
-                ->deletePermission($permission);
+            $manager = $this->container->get('ilioscore.permission.manager');
+            $manager->delete($permission);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +295,8 @@ class PermissionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $permission = $this->getPermissionHandler()
-            ->findPermissionBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.permission.manager');
+        $permission = $manager->findOneBy(['id' => $id]);
         if (!$permission) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +317,5 @@ class PermissionController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return PermissionHandler
-     */
-    protected function getPermissionHandler()
-    {
-        return $this->container->get('ilioscore.permission.handler');
     }
 }

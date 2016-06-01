@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\MeshTreeHandler;
 use Ilios\CoreBundle\Entity\MeshTreeInterface;
 
 /**
@@ -124,13 +122,9 @@ class MeshTreeController extends FOSRestController
 
             return $item;
         }, $criteria);
-        $result = $this->getMeshTreeHandler()
-            ->findMeshTreesBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+
+        $manager = $this->container->get('ilioscore.meshtree.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -169,7 +163,7 @@ class MeshTreeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getMeshTreeHandler();
+            $handler = $this->container->get('ilioscore.meshtree.handler');
 
             $meshTree = $handler->post($this->getPostData($request));
 
@@ -178,7 +172,8 @@ class MeshTreeController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshTreeHandler()->updateMeshTree($meshTree, true, false);
+            $manager = $this->container->get('ilioscore.meshtree.manager');
+            $manager->update($meshTree, true, false);
 
             $answer['meshTrees'] = [$meshTree];
 
@@ -217,29 +212,25 @@ class MeshTreeController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $meshTree = $this->getMeshTreeHandler()
-                ->findMeshTreeBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.meshtree.manager');
+            $meshTree = $manager->findOneBy(['id'=> $id]);
+
             if ($meshTree) {
                 $code = Codes::HTTP_OK;
             } else {
-                $meshTree = $this->getMeshTreeHandler()
-                    ->createMeshTree();
+                $meshTree = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getMeshTreeHandler();
-
-            $meshTree = $handler->put(
-                $meshTree,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.meshtree.handler');
+            $meshTree = $handler->put($meshTree, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $meshTree)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getMeshTreeHandler()->updateMeshTree($meshTree, true, true);
+            $manager->update($meshTree, true, true);
 
             $answer['meshTree'] = $meshTree;
         } catch (InvalidFormException $exception) {
@@ -290,8 +281,8 @@ class MeshTreeController extends FOSRestController
         }
 
         try {
-            $this->getMeshTreeHandler()
-                ->deleteMeshTree($meshTree);
+            $manager = $this->container->get('ilioscore.meshtree.manager');
+            $manager->delete($meshTree);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -307,8 +298,8 @@ class MeshTreeController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $meshTree = $this->getMeshTreeHandler()
-            ->findMeshTreeBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.meshtree.manager');
+        $meshTree = $manager->findOneBy(['id' => $id]);
         if (!$meshTree) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -329,13 +320,5 @@ class MeshTreeController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return MeshTreeHandler
-     */
-    protected function getMeshTreeHandler()
-    {
-        return $this->container->get('ilioscore.meshtree.handler');
     }
 }

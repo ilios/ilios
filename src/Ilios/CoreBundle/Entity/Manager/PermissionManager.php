@@ -3,7 +3,6 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\PermissionInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
@@ -13,7 +12,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
  * Class PermissionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class PermissionManager extends AbstractManager implements PermissionManagerInterface
+class PermissionManager extends BaseManager
 {
     /**
      * @var string
@@ -26,69 +25,10 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     const CAN_WRITE = 'canWrite';
 
     /**
-     * {@inheritdoc}
-     */
-    public function findPermissionBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findPermissionsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function updatePermission(
-        PermissionInterface $permission,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->em->persist($permission);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($permission));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function deletePermission(
-        PermissionInterface $permission
-    ) {
-        $this->em->remove($permission);
-        $this->em->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createPermission()
-    {
-        $class = $this->getClass();
-
-        return new $class();
-    }
-
-    /**
-     * {@inheritdoc}
+     * Checks if a given user has "read" permissions for a given course.
+     * @param UserInterface $user
+     * @param null|$courseId
+     * @return bool
      */
     public function userHasReadPermissionToCourse(UserInterface $user, $courseId = null)
     {
@@ -96,7 +36,10 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if a given user has "read" permissions for a given program.
+     * @param UserInterface $user
+     * @param ProgramInterface|null $program
+     * @return bool
      */
     public function userHasReadPermissionToProgram(UserInterface $user, ProgramInterface $program = null)
     {
@@ -104,7 +47,10 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if a given user has "read" permissions for a given school.
+     * @param UserInterface $user
+     * @param int|null $schoolId
+     * @return bool
      */
     public function userHasReadPermissionToSchool(UserInterface $user, $schoolId = null)
     {
@@ -112,7 +58,10 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if a given user has "read" permissions for and in an array of schools.
+     * @param UserInterface $user
+     * @param ArrayCollection $schools
+     * @return bool
      */
     public function userHasReadPermissionToSchools(UserInterface $user, ArrayCollection $schools)
     {
@@ -120,7 +69,10 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if a given user has "write" permissions for a list of schools
+     * @param UserInterface $user
+     * @param ArrayCollection $schools
+     * @return bool
      */
     public function userHasWritePermissionToSchools(UserInterface $user, ArrayCollection $schools)
     {
@@ -128,7 +80,10 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if a given user has "write" permissions for a given course.
+     * @param UserInterface $user
+     * @param int|null $courseId
+     * @return bool
      */
     public function userHasWritePermissionToCourse(UserInterface $user, $courseId = null)
     {
@@ -136,7 +91,10 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if a given user has "write" permissions for a given program.
+     * @param UserInterface $user
+     * @param ProgramInterface|null $program
+     * @return bool
      */
     public function userHasWritePermissionToProgram(UserInterface $user, ProgramInterface $program = null)
     {
@@ -144,7 +102,10 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if a given user has "write" permissions for a given school.
+     * @param UserInterface $user
+     * @param int|null $schoolId
+     * @return bool
      */
     public function userHasWritePermissionToSchool(UserInterface $user, $schoolId = null)
     {
@@ -152,7 +113,10 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     }
 
     /**
-     * @inheritdoc
+     * Checks if a given user has "read" permissions to any courses in a given school.
+     * @param UserInterface $user
+     * @param SchoolInterface|null $school
+     * @return bool
      */
     public function userHasReadPermissionToCoursesInSchool(UserInterface $user, SchoolInterface $school = null)
     {
@@ -184,7 +148,7 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
             'user' => $user,
         ];
 
-        $permission = $this->findPermissionBy($criteria);
+        $permission = $this->findOneBy($criteria);
         return ! empty($permission);
     }
 
@@ -197,12 +161,12 @@ class PermissionManager extends AbstractManager implements PermissionManagerInte
     protected function userHasPermissionToSchools(UserInterface $user, $permission, ArrayCollection $schools)
     {
         $criteria = [
-            'tableName'     => 'school',
+            'tableName' => 'school',
             $permission => true,
-            'user'          => $user,
+            'user' => $user,
         ];
 
-        $permissions = $this->findPermissionsBy($criteria);
+        $permissions = $this->findBy($criteria);
 
         $permittedSchoolIds = array_map(function (PermissionInterface $permission) {
             return $permission->getTableRowId();

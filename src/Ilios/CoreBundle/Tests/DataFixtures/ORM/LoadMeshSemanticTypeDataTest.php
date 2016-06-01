@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshSemanticTypeManagerInterface;
 use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 
 /**
@@ -49,19 +48,5 @@ class LoadMeshSemanticTypeDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[1], $entity->getName());
         $this->assertEquals(new \DateTime($data[2], new \DateTimeZone('UTC')), $entity->getCreatedAt());
         $this->assertEquals(new \DateTime($data[3], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
-    }
-
-    /**
-     * @param array $data
-     * @return MeshSemanticTypeInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var MeshSemanticTypeManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshSemanticTypeBy(['id' => $data[0]]);
     }
 }

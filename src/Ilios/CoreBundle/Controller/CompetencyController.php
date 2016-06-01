@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CompetencyHandler;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**
@@ -125,13 +123,8 @@ class CompetencyController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getCompetencyHandler()
-            ->findCompetenciesBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.competency.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,8 +163,7 @@ class CompetencyController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getCompetencyHandler();
-
+            $handler = $this->container->get('ilioscore.competency.handler');
             $competency = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +171,8 @@ class CompetencyController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCompetencyHandler()->updateCompetency($competency, true, false);
+            $manager = $this->container->get('ilioscore.competency.manager');
+            $manager->update($competency, true, false);
 
             $answer['competencies'] = [$competency];
 
@@ -218,29 +211,24 @@ class CompetencyController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $competency = $this->getCompetencyHandler()
-                ->findCompetencyBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.competency.manager');
+            $competency = $manager->findOneBy(['id'=> $id]);
             if ($competency) {
                 $code = Codes::HTTP_OK;
             } else {
-                $competency = $this->getCompetencyHandler()
-                    ->createCompetency();
+                $competency = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getCompetencyHandler();
-
-            $competency = $handler->put(
-                $competency,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.competency.handler');
+            $competency = $handler->put($competency, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $competency)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCompetencyHandler()->updateCompetency($competency, true, true);
+            $manager->update($competency, true, true);
 
             $answer['competency'] = $competency;
         } catch (InvalidFormException $exception) {
@@ -291,8 +279,8 @@ class CompetencyController extends FOSRestController
         }
 
         try {
-            $this->getCompetencyHandler()
-                ->deleteCompetency($competency);
+            $manager = $this->container->get('ilioscore.competency.manager');
+            $manager->delete($competency);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +296,8 @@ class CompetencyController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $competency = $this->getCompetencyHandler()
-            ->findCompetencyBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.competency.manager');
+        $competency = $manager->findOneBy(['id' => $id]);
         if (!$competency) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +318,5 @@ class CompetencyController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return CompetencyHandler
-     */
-    protected function getCompetencyHandler()
-    {
-        return $this->container->get('ilioscore.competency.handler');
     }
 }

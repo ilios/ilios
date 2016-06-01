@@ -6,6 +6,10 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+/**
+ * Class AddUserCommandTest
+ * @package Ilios\CliBundle\Tests\Command
+ */
 class AddUserCommandTest extends \PHPUnit_Framework_TestCase
 {
     const COMMAND_NAME = 'ilios:maintenance:add-user';
@@ -19,9 +23,9 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
-        $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface');
+        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
+        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
+        $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManager');
         $this->encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
 
 
@@ -74,8 +78,8 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testBadSchoolId()
     {
-        $this->userManager->shouldReceive('findUserBy')->with(array('campusId' => 1))->andReturn(null);
-        $this->schoolManager->shouldReceive('findSchoolBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn(null);
+        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
         $this->setExpectedException('Exception', 'School with id 1 could not be found.');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -257,13 +261,13 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
             ->mock();
         $this->encoder->shouldReceive('encodePassword')->with($user, 'abc123pass')->andReturn('hashBlurb');
 
-        $this->userManager->shouldReceive('findUserBy')->with(array('campusId' => 'abc'))->andReturn(false);
-        $this->userManager->shouldReceive('findUserBy')->with(array('email' => 'email@example.com'))->andReturn(false);
-        $this->schoolManager->shouldReceive('findSchoolBy')->with(array('id' => 1))->andReturn($school);
-        $this->userManager->shouldReceive('createUser')->andReturn($user);
-        $this->userManager->shouldReceive('updateUser')->with($user);
-        $this->authenticationManager->shouldReceive('createAuthentication')->andReturn($authentication);
-        $this->authenticationManager->shouldReceive('updateAuthentication')->with($authentication);
+        $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 'abc'))->andReturn(false);
+        $this->userManager->shouldReceive('findOneBy')->with(array('email' => 'email@example.com'))->andReturn(false);
+        $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($school);
+        $this->userManager->shouldReceive('create')->andReturn($user);
+        $this->userManager->shouldReceive('update')->with($user);
+        $this->authenticationManager->shouldReceive('create')->andReturn($authentication);
+        $this->authenticationManager->shouldReceive('update')->with($authentication);
     }
 
     protected function checkOuput()

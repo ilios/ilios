@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
 /**
@@ -20,7 +20,7 @@ use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 class CreateUserTokenCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
     
@@ -30,7 +30,7 @@ class CreateUserTokenCommand extends Command
     protected $jwtManager;
     
     public function __construct(
-        UserManagerInterface $userManager,
+        UserManager $userManager,
         JsonWebTokenManager $jwtManager
     ) {
         $this->userManager = $userManager;
@@ -67,7 +67,7 @@ class CreateUserTokenCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $userId = $input->getArgument('userId');
-        $user = $this->userManager->findUserBy(['id' => $userId]);
+        $user = $this->userManager->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(
                 "No user with id #{$userId} was found."

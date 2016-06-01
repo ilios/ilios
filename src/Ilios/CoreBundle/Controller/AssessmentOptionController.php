@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\AssessmentOptionHandler;
 use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
 
 /**
@@ -125,13 +123,8 @@ class AssessmentOptionController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getAssessmentOptionHandler()
-            ->findAssessmentOptionsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.assessmentoption.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,8 +163,7 @@ class AssessmentOptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getAssessmentOptionHandler();
-
+            $handler = $this->container->get('ilioscore.assessmentoption.handler');
             $assessmentOption = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +171,8 @@ class AssessmentOptionController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAssessmentOptionHandler()->updateAssessmentOption($assessmentOption, true, false);
+            $manager = $this->container->get('ilioscore.assessmentoption.manager');
+            $manager->update($assessmentOption, true, false);
 
             $answer['assessmentOptions'] = [$assessmentOption];
 
@@ -218,29 +211,24 @@ class AssessmentOptionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $assessmentOption = $this->getAssessmentOptionHandler()
-                ->findAssessmentOptionBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.assessmentoption.manager');
+            $assessmentOption = $manager->findOneBy(['id'=> $id]);
             if ($assessmentOption) {
                 $code = Codes::HTTP_OK;
             } else {
-                $assessmentOption = $this->getAssessmentOptionHandler()
-                    ->createAssessmentOption();
+                $assessmentOption = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getAssessmentOptionHandler();
-
-            $assessmentOption = $handler->put(
-                $assessmentOption,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.assessmentoption.handler');
+            $assessmentOption = $handler->put($assessmentOption, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $assessmentOption)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAssessmentOptionHandler()->updateAssessmentOption($assessmentOption, true, true);
+            $manager->update($assessmentOption, true, true);
 
             $answer['assessmentOption'] = $assessmentOption;
         } catch (InvalidFormException $exception) {
@@ -291,8 +279,8 @@ class AssessmentOptionController extends FOSRestController
         }
 
         try {
-            $this->getAssessmentOptionHandler()
-                ->deleteAssessmentOption($assessmentOption);
+            $manager = $this->container->get('ilioscore.assessmentoption.manager');
+            $manager->delete($assessmentOption);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +296,8 @@ class AssessmentOptionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $assessmentOption = $this->getAssessmentOptionHandler()
-            ->findAssessmentOptionBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.assessmentoption.manager');
+        $assessmentOption = $manager->findOneBy(['id' => $id]);
         if (!$assessmentOption) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +318,5 @@ class AssessmentOptionController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return AssessmentOptionHandler
-     */
-    protected function getAssessmentOptionHandler()
-    {
-        return $this->container->get('ilioscore.assessmentoption.handler');
     }
 }

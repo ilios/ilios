@@ -4,13 +4,11 @@ namespace Ilios\CliBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
 use Ilios\CoreBundle\Classes\IliosFileSystem;
 
 /**
@@ -28,13 +26,13 @@ class ValidateLearningMaterialPathsCommand extends Command
     protected $iliosFileSystem;
     
     /**
-     * @var LearningMaterialManagerInterface
+     * @var LearningMaterialManager
      */
     protected $learningMaterialManager;
     
     public function __construct(
         IliosFileSystem $iliosFileSystem,
-        LearningMaterialManagerInterface $learningMaterialManager
+        LearningMaterialManager $learningMaterialManager
     ) {
         $this->iliosFileSystem = $iliosFileSystem;
         $this->learningMaterialManager = $learningMaterialManager;

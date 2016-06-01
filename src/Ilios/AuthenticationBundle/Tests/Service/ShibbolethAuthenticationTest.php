@@ -16,7 +16,7 @@ class ShibbolethAuthenticationTest extends TestCase
 
     public function testConstructor()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
         $obj = new ShibbolethAuthentication(
@@ -29,7 +29,7 @@ class ShibbolethAuthenticationTest extends TestCase
     
     public function testNotAuthenticated()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
 
@@ -55,7 +55,7 @@ class ShibbolethAuthenticationTest extends TestCase
     
     public function testNoEppn()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
 
@@ -77,7 +77,7 @@ class ShibbolethAuthenticationTest extends TestCase
     
     public function testNoUserWithEppn()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
 
@@ -93,7 +93,7 @@ class ShibbolethAuthenticationTest extends TestCase
             ->mock();
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->server = $serverBag;
-        $authManager->shouldReceive('findAuthenticationBy')
+        $authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn(null);
 
         $result = $obj->login($request);
@@ -107,7 +107,7 @@ class ShibbolethAuthenticationTest extends TestCase
     
     public function testDisabledUser()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
         $obj = new ShibbolethAuthentication(
@@ -127,7 +127,7 @@ class ShibbolethAuthenticationTest extends TestCase
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $authManager->shouldReceive('findAuthenticationBy')
+        $authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
         $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
         
@@ -143,7 +143,7 @@ class ShibbolethAuthenticationTest extends TestCase
 
     public function testSuccess()
     {
-        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface');
+        $authManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
         $jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         $logger = m::mock('Psr\Log\LoggerInterface');
         $obj = new ShibbolethAuthentication(
@@ -164,7 +164,7 @@ class ShibbolethAuthenticationTest extends TestCase
 
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $authManager->shouldReceive('findAuthenticationBy')
+        $authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
         $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
 

@@ -1,12 +1,9 @@
 <?php
 namespace Ilios\CoreBundle\Controller;
 
-use Ilios\CoreBundle\Classes\FileSystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
-use Exception;
 
 /**
  * Class UploadController

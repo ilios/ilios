@@ -34,7 +34,7 @@ class SessionDTOVoter extends CourseVoter
             return false;
         }
 
-        $course = $this->courseManager->findCourseBy(['id' => $session->course]);
+        $course = $this->courseManager->findOneBy(['id' => $session->course]);
 
         switch ($attribute) {
             case self::VIEW:

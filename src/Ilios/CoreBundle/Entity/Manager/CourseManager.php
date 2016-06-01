@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 
@@ -10,56 +9,19 @@ use Ilios\CoreBundle\Entity\UserInterface;
  * Class CourseManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CourseManager extends AbstractManager implements CourseManagerInterface
+class CourseManager extends DTOManager
 {
     /**
-     * {@inheritdoc}
-     */
-    public function findCourseBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findCourseDTOBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        $results = $this->getRepository()->findDTOsBy($criteria, $orderBy, 1);
-
-        return empty($results)?false:$results[0];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findCoursesBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findCourseDTOsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->getRepository()->findDTOsBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * {@inheritdoc}
+     * Retrieves all courses associated with the given user.
+     *
+     * @param UserInterface $user
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     * @return CourseInterface[]
+     *
+     * @see Ilios\CoreBundle\Entity\Repository\CourseRepository::findByUser()
      */
     public function findCoursesByUser(
         UserInterface $user,
@@ -72,37 +34,7 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function updateCourse(
-        CourseInterface $course,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->em->persist($course);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($course));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteCourse(
-        CourseInterface $course
-    ) {
-        $this->em->remove($course);
-        $this->em->flush();
-    }
-
-    /**
-     * {@inheritdoc}
+     * @return string[]
      */
     public function getYears()
     {
@@ -110,16 +42,11 @@ class CourseManager extends AbstractManager implements CourseManagerInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function createCourse()
-    {
-        $class = $this->getClass();
-        return new $class();
-    }
-
-    /**
-     * @inheritdoc
+     * Checks if a given user is assigned as instructor to ILMs or offerings in a given course.
+     *
+     * @param UserInterface $user
+     * @param int $courseId
+     * @return boolean TRUE if the user instructs at least one offering or ILM, FALSE otherwise.
      */
     public function isUserInstructingInCourse(UserInterface $user, $courseId)
     {

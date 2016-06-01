@@ -30,7 +30,7 @@ class AamcMethodTest extends EntityBase
         );
         $this->validateNotBlanks($notBlank);
 
-        $this->object->setID('strtest');
+        $this->object->setId('strtest');
         $this->object->setDescription('my car is great');
         $this->validate(0);
     }

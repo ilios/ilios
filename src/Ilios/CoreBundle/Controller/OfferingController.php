@@ -14,7 +14,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\OfferingHandler;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 
 /**
@@ -134,14 +133,9 @@ class OfferingController extends FOSRestController
         if (array_key_exists('updatedAt', $criteria)) {
             $criteria['updatedAt'] = new \DateTime($criteria['updatedAt']);
         }
-        
-        $result = $this->getOfferingHandler()
-            ->findOfferingsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+
+        $manager = $this->container->get('ilioscore.offering.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -149,8 +143,7 @@ class OfferingController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['offerings'] =
-            $result ? array_values($result) : [];
+        $answer['offerings'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -180,8 +173,9 @@ class OfferingController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getOfferingHandler();
+            $handler = $this->container->get('ilioscore.offering.handler');
 
+            /* @var OfferingInterface $offering */
             $offering = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -189,7 +183,8 @@ class OfferingController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getOfferingHandler()->updateOffering($offering, true, false);
+            $manager = $this->container->get('ilioscore.offering.manager');
+            $manager->update($offering, true, false);
 
             $session = $offering->getSession();
             if ($session && $session->isPublished()) {
@@ -233,32 +228,30 @@ class OfferingController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $offering = $this->getOfferingHandler()
-                ->findOfferingBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.offering.manager');
+            /* @var OfferingInterface $offering */
+            $offering = $manager->findOneBy(['id'=> $id]);
             if ($offering) {
                 $code = Codes::HTTP_OK;
             } else {
-                $offering = $this->getOfferingHandler()
-                    ->createOffering();
+                $offering = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
             // capture the values of offering properties pre-update
             $alertProperties = $offering->getAlertProperties();
 
-            $handler = $this->getOfferingHandler();
+            $handler = $this->container->get('ilioscore.offering.handler');
 
-            $offering = $handler->put(
-                $offering,
-                $this->getPostData($request)
-            );
+            $offering = $handler->put($offering, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $offering)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getOfferingHandler()->updateOffering($offering, true, true);
+            $manager = $this->container->get('ilioscore.offering.manager');
+            $manager->update($offering, true, true);
 
             $session = $offering->getSession();
             if ($session && $session->isPublished()) {
@@ -321,9 +314,8 @@ class OfferingController extends FOSRestController
         }
 
         try {
-            $this->getOfferingHandler()
-                ->deleteOffering($offering);
-
+            $manager = $this->container->get('ilioscore.offering.manager');
+            $manager->delete($offering);
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
             throw new \RuntimeException("Deletion not allowed: " . $exception->getMessage());
@@ -338,8 +330,8 @@ class OfferingController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $offering = $this->getOfferingHandler()
-            ->findOfferingBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.offering.manager');
+        $offering = $manager->findOneBy(['id' => $id]);
         if (!$offering) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -363,14 +355,6 @@ class OfferingController extends FOSRestController
     }
 
     /**
-     * @return OfferingHandler
-     */
-    protected function getOfferingHandler()
-    {
-        return $this->container->get('ilioscore.offering.handler');
-    }
-
-    /**
      * @param OfferingInterface $offering
      */
     protected function createAlertForNewOffering(OfferingInterface $offering)
@@ -378,14 +362,14 @@ class OfferingController extends FOSRestController
         // create new alert for this offering
         $alertManager = $this->container->get('ilioscore.alert.manager');
         $alertChangeTypeManager = $this->container->get('ilioscore.alertchangetype.manager');
-        $alert = $alertManager->createAlert();
-        $alert->addChangeType($alertChangeTypeManager->findAlertChangeTypeBy([
+        $alert = $alertManager->create();
+        $alert->addChangeType($alertChangeTypeManager->findOneBy([
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING]));
         $alert->addInstigator($this->getUser());
         $alert->addRecipient($offering->getSession()->getCourse()->getSchool());
         $alert->setTableName('offering');
         $alert->setTableRowId($offering->getId());
-        $alertManager->updateAlert($alert, true, false);
+        $alertManager->update($alert, true, false);
     }
 
     /**
@@ -445,7 +429,7 @@ class OfferingController extends FOSRestController
         $alertManager = $this->container->get('ilioscore.alert.manager');
         $alertChangeTypeManager = $this->container->get('ilioscore.alertchangetype.manager');
 
-        $alert = $alertManager->findAlertBy([
+        $alert = $alertManager->findOneBy([
             'dispatched' => false,
             'tableName' => 'offering',
             'tableRowId' => $offering->getId()
@@ -456,7 +440,7 @@ class OfferingController extends FOSRestController
             if (! $recipient) {
                 return; // SOL.
             }
-            $alert = $alertManager->createAlert();
+            $alert = $alertManager->create();
             $alert->addRecipient($recipient);
             $alert->setTableName('offering');
             $alert->setTableRowId($offering->getId());
@@ -464,12 +448,12 @@ class OfferingController extends FOSRestController
         }
 
         foreach ($changeTypes as $type) {
-            $changeType = $alertChangeTypeManager->findAlertChangeTypeBy(['id' => $type]);
+            $changeType = $alertChangeTypeManager->findOneBy(['id' => $type]);
             if ($changeType && ! $alert->getChangeTypes()->contains($changeType)) {
                 $alert->addChangeType($changeType);
             }
         }
 
-        $alertManager->updateAlert($alert, true, (boolean) $alert->getId());
+        $alertManager->update($alert, true, (boolean) $alert->getId());
     }
 }

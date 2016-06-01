@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\ProgramYearHandler;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 
 /**
@@ -54,7 +52,8 @@ class ProgramYearController extends FOSRestController
      */
     public function getAction($id)
     {
-        $programYear = $this->getProgramYearHandler()->findProgramYearDTOBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.programyear.manager');
+        $programYear = $manager->findDTOBy(['id' => $id]);
 
         if (!$programYear) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -129,13 +128,8 @@ class ProgramYearController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getProgramYearHandler()
-            ->findProgramYearDTOsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.programyear.manager');
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -143,8 +137,7 @@ class ProgramYearController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['programYears'] =
-            $result ? array_values($result) : [];
+        $answer['programYears'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -174,8 +167,7 @@ class ProgramYearController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getProgramYearHandler();
-
+            $handler = $this->container->get('ilioscore.programyear.handler');
             $programYear = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -183,7 +175,8 @@ class ProgramYearController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getProgramYearHandler()->updateProgramYear($programYear, true, false);
+            $manager = $this->container->get('ilioscore.programyear.manager');
+            $manager->update($programYear, true, false);
 
             $answer['programYears'] = [$programYear];
 
@@ -222,8 +215,8 @@ class ProgramYearController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $programYear = $this->getProgramYearHandler()
-                ->findProgramYearBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.programyear.manager');
+            $programYear = $manager->findOneBy(['id'=> $id]);
             $authChecker = $this->get('security.authorization_checker');
 
             if ($programYear) {
@@ -233,23 +226,18 @@ class ProgramYearController extends FOSRestController
                     throw $this->createAccessDeniedException('Unauthorized access!');
                 }
             } else {
-                $programYear = $this->getProgramYearHandler()
-                    ->createProgramYear();
+                $programYear = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getProgramYearHandler();
-
-            $programYear = $handler->put(
-                $programYear,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.programyear.handler');
+            $programYear = $handler->put($programYear, $this->getPostData($request));
 
             if (! $authChecker->isGranted('edit', $programYear)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getProgramYearHandler()->updateProgramYear($programYear, true, true);
+            $manager->update($programYear, true, true);
 
             $answer['programYear'] = $programYear;
         } catch (InvalidFormException $exception) {
@@ -300,8 +288,8 @@ class ProgramYearController extends FOSRestController
         }
 
         try {
-            $this->getProgramYearHandler()
-                ->deleteProgramYear($programYear);
+            $manager = $this->container->get('ilioscore.programyear.manager');
+            $manager->delete($programYear);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -317,8 +305,8 @@ class ProgramYearController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $programYear = $this->getProgramYearHandler()
-            ->findProgramYearBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.programyear.manager');
+        $programYear = $manager->findOneBy(['id' => $id]);
         if (!$programYear) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -339,13 +327,5 @@ class ProgramYearController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return ProgramYearHandler
-     */
-    protected function getProgramYearHandler()
-    {
-        return $this->container->get('ilioscore.programyear.handler');
     }
 }

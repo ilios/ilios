@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshQualifierManagerInterface;
 use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
 /**
@@ -49,19 +48,5 @@ class LoadMeshQualifierDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[1], $entity->getName());
         $this->assertEquals(new \DateTime($data[2], new \DateTimeZone('UTC')), $entity->getCreatedAt());
         $this->assertEquals(new \DateTime($data[3], new \DateTimeZone('UTC')), $entity->getUpdatedAt());
-    }
-
-    /**
-     * @param array $data
-     * @return MeshQualifierInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var MeshQualifierManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshQualifierBy(['id' => $data[0]]);
     }
 }

@@ -8,8 +8,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use \DateTime;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 
 /**
  * Invalidate all user tokens issued before now
@@ -20,18 +20,18 @@ use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
 class InvalidateUserTokenCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
     
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
     
     public function __construct(
-        UserManagerInterface $userManager,
-        AuthenticationManagerInterface $authenticationManager
+        UserManager $userManager,
+        AuthenticationManager $authenticationManager
     ) {
         $this->userManager = $userManager;
         $this->authenticationManager = $authenticationManager;
@@ -61,7 +61,7 @@ class InvalidateUserTokenCommand extends Command
     {
         $now = new DateTime();
         $userId = $input->getArgument('userId');
-        $user = $this->userManager->findUserBy(['id' => $userId]);
+        $user = $this->userManager->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(
                 "No user with id #{$userId} was found."
@@ -70,12 +70,12 @@ class InvalidateUserTokenCommand extends Command
         
         $authentication = $user->getAuthentication();
         if (!$authentication) {
-            $authentication = $this->authenticationManager->createAuthentication();
+            $authentication = $this->authenticationManager->create();
             $authentication->setUser($user);
         }
         
         $authentication->setInvalidateTokenIssuedBefore($now);
-        $this->authenticationManager->updateAuthentication($authentication);
+        $this->authenticationManager->update($authentication);
 
         $output->writeln('Success!');
         $output->writeln(

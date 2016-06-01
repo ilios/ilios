@@ -1,10 +1,10 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Service\CurriculumInventory;
 
+use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 use Ilios\CoreBundle\Service\CurriculumInventory\Exporter;
-use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
 
 /**
@@ -25,9 +25,9 @@ class ExporterTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var CurriculumInventoryInstitutionManager $institutionManager */
+        /** @var ManagerInterface $institutionManager */
         $institutionManager = $this
-            ->getMockBuilder('Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager')
+            ->getMockBuilder('Ilios\CoreBundle\Entity\Manager\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
 

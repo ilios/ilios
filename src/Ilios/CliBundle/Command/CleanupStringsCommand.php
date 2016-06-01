@@ -9,11 +9,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Doctrine\ORM\EntityManager;
 
-use Ilios\CoreBundle\Entity\Manager\ObjectiveManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\ObjectiveManager;
+use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager;
 
 /**
  * Cleans up all the strings in the database
@@ -24,7 +24,7 @@ use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManagerInterface;
 class CleanupStringsCommand extends Command
 {
     /**
-     * @var HTMLPurifier
+     * @var \HTMLPurifier
      */
     protected $purifier;
 
@@ -34,30 +34,30 @@ class CleanupStringsCommand extends Command
     protected $em;
 
     /**
-     * @var ObjectiveManagerInterface
+     * @var ObjectiveManager
      */
     protected $objectiveManager;
 
     /**
-     * @var LearningMaterialManagerInterface
+     * @var LearningMaterialManager
      */
     protected $learningMaterialManager;
 
 
     /**
-     * @var CourseLearningMaterialManagerInterface
+     * @var CourseLearningMaterialManager
      */
     protected $courseLearningMaterialManager;
 
 
     /**
-     * @var SessionLearningMaterialManagerInterface
+     * @var SessionLearningMaterialManager
      */
     protected $sessionLearningMaterialManager;
 
 
     /**
-     * @var SessionDescriptionManagerInterface
+     * @var SessionDescriptionManager
      */
     protected $sessionDescriptionManager;
 
@@ -69,11 +69,11 @@ class CleanupStringsCommand extends Command
     public function __construct(
         \HTMLPurifier $purifier,
         EntityManager $em,
-        ObjectiveManagerInterface $objectiveManager,
-        LearningMaterialManagerInterface $learningMaterialManager,
-        CourseLearningMaterialManagerInterface $courseLearningMaterialManager,
-        SessionLearningMaterialManagerInterface $sessionLearningMaterialManager,
-        SessionDescriptionManagerInterface $sessionDescriptionManager
+        ObjectiveManager $objectiveManager,
+        LearningMaterialManager $learningMaterialManager,
+        CourseLearningMaterialManager $courseLearningMaterialManager,
+        SessionLearningMaterialManager $sessionLearningMaterialManager,
+        SessionDescriptionManager $sessionDescriptionManager
     ) {
         $this->purifier = $purifier;
         $this->em = $em;
@@ -157,14 +157,14 @@ class CleanupStringsCommand extends Command
         $output->writeln("<info>Starting cleanup of objective titles...</info>");
         $progress->start();
         do {
-            $objectives = $this->objectiveManager->findObjectivesBy(array(), array('id' => 'ASC'), $limit, $offset);
+            $objectives = $this->objectiveManager->findBy(array(), array('id' => 'ASC'), $limit, $offset);
             foreach ($objectives as $objective) {
                 $originalTitle = $objective->getTitle();
                 $cleanTitle = $this->purifier->purify($originalTitle);
                 if ($originalTitle != $cleanTitle) {
                     $cleanedTitles++;
                     $objective->setTitle($cleanTitle);
-                    $this->objectiveManager->updateObjective($objective, false);
+                    $this->objectiveManager->update($objective, false);
                 }
                 $progress->advance();
             }
@@ -194,14 +194,14 @@ class CleanupStringsCommand extends Command
         $progress->start();
         do {
             $materials = $this->learningMaterialManager
-                ->findLearningMaterialsBy(array(), array('id' => 'ASC'), $limit, $offset);
+                ->findBy(array(), array('id' => 'ASC'), $limit, $offset);
             foreach ($materials as $material) {
                 $original = $material->getDescription();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
                     $cleaned++;
                     $material->setDescription($clean);
-                    $this->learningMaterialManager->updateLearningMaterial($material, false);
+                    $this->learningMaterialManager->update($material, false);
                 }
                 $progress->advance();
             }
@@ -230,15 +230,14 @@ class CleanupStringsCommand extends Command
         $output->writeln("<info>Starting cleanup of course learning material notes...</info>");
         $progress->start();
         do {
-            $materials = $this->courseLearningMaterialManager
-                ->findCourseLearningMaterialsBy(array(), array('id' => 'ASC'), $limit, $offset);
+            $materials = $this->courseLearningMaterialManager->findBy(array(), array('id' => 'ASC'), $limit, $offset);
             foreach ($materials as $material) {
                 $original = $material->getNotes();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
                     $cleaned++;
                     $material->setNotes($clean);
-                    $this->courseLearningMaterialManager->updateCourseLearningMaterial($material, false);
+                    $this->courseLearningMaterialManager->update($material, false);
                 }
                 $progress->advance();
             }
@@ -267,15 +266,14 @@ class CleanupStringsCommand extends Command
         $output->writeln("<info>Starting cleanup of session learning material notes...</info>");
         $progress->start();
         do {
-            $materials = $this->sessionLearningMaterialManager
-                ->findSessionLearningMaterialsBy(array(), array('id' => 'ASC'), $limit, $offset);
+            $materials = $this->sessionLearningMaterialManager->findBy(array(), array('id' => 'ASC'), $limit, $offset);
             foreach ($materials as $material) {
                 $original = $material->getNotes();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
                     $cleaned++;
                     $material->setNotes($clean);
-                    $this->sessionLearningMaterialManager->updateSessionLearningMaterial($material, false);
+                    $this->sessionLearningMaterialManager->update($material, false);
                 }
                 $progress->advance();
             }
@@ -304,15 +302,14 @@ class CleanupStringsCommand extends Command
         $output->writeln("<info>Starting cleanup of session descriptions...</info>");
         $progress->start();
         do {
-            $descriptions = $this->sessionDescriptionManager
-                ->findSessionDescriptionsBy(array(), array('id' => 'ASC'), $limit, $offset);
+            $descriptions = $this->sessionDescriptionManager->findBy(array(), array('id' => 'ASC'), $limit, $offset);
             foreach ($descriptions as $description) {
                 $original = $description->getDescription();
                 $clean = $this->purifier->purify($original);
                 if ($original != $clean) {
                     $cleaned++;
                     $description->setDescription($clean);
-                    $this->sessionDescriptionManager->updateSessionDescription($description, false);
+                    $this->sessionDescriptionManager->update($description, false);
                 }
                 $progress->advance();
             }

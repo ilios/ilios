@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshTreeManagerInterface;
 use Ilios\CoreBundle\Entity\MeshTreeInterface;
 
 /**
@@ -51,16 +50,10 @@ class LoadMeshTreeDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @param array $data
-     * @return MeshTreeInterface
-     * @override
+     * @inheritdoc
      */
     protected function getEntity(array $data)
     {
-        /**
-         * @var MeshTreeManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshTreeBy(['id' => $data[2]]);
+        return $this->em->findOneBy(['id' => $data[2]]);
     }
 }

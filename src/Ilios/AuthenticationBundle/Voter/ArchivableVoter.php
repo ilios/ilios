@@ -2,7 +2,6 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;

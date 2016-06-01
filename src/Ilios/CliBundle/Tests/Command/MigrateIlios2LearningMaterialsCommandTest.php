@@ -18,7 +18,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
     {
         $this->symfonyFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
         $this->iliosFileSystem = m::mock('Ilios\CoreBundle\Classes\IliosFileSystem');
-        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface');
+        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManager');
 
         $command = new MigrateIlios2LearningMaterialsCommand(
             $this->symfonyFileSystem,
@@ -57,7 +57,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
         $this->learningMaterialManager
             ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once()
             ->shouldReceive('findFileLearningMaterials')->andReturn([$lm])->once()
-            ->shouldReceive('updateLearningMaterial')->with($lm, false)->once()
+            ->shouldReceive('update')->with($lm, false)->once()
             ->shouldReceive('flushAndClear')->once()
         ;
         $file = m::mock('Symfony\Component\HttpFoundation\File\File');

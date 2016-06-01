@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
@@ -49,19 +48,5 @@ class LoadSchoolDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[2], $entity->getTitle());
         $this->assertEquals($data[3], $entity->getIliosAdministratorEmail());
         $this->assertEquals($data[4], $entity->getChangeAlertRecipients());
-    }
-
-    /**
-     * @param array $data
-     * @return SchoolInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var SchoolManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findSchoolBy(['id' => $data[0]]);
     }
 }

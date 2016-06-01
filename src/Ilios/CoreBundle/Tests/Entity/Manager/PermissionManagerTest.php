@@ -2,8 +2,6 @@
 namespace Ilios\CoreBundle\Tests\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Classes\SchoolEvent;
-use Ilios\CoreBundle\Entity\Cohort;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use IC\Bundle\Base\TestBundle\Test\TestCase;

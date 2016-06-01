@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CourseHandler;
 use Ilios\CoreBundle\Entity\CourseInterface;
 
 /**
@@ -54,7 +52,8 @@ class CourseController extends FOSRestController
      */
     public function getAction($id)
     {
-        $course = $this->getCourseHandler()->findCourseDTOBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.course.manager');
+        $course = $manager->findDTOBy(['id' => $id]);
 
         if (!$course) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -137,23 +136,22 @@ class CourseController extends FOSRestController
 
         $currentUser = $this->get('security.token_storage')->getToken()->getUser();
 
+        $manager = $this->container->get('ilioscore.course.manager');
         if (isset($my)) {
-            $result = $this->getCourseHandler()
-                ->findCoursesByUser(
-                    $currentUser,
-                    $criteria,
-                    $orderBy,
-                    $limit,
-                    $offset
-                );
+            $result = $manager->findCoursesByUser(
+                $currentUser,
+                $criteria,
+                $orderBy,
+                $limit,
+                $offset
+            );
         } else {
-            $result = $this->getCourseHandler()
-                ->findCourseDTOsBy(
-                    $criteria,
-                    $orderBy,
-                    $limit,
-                    $offset
-                );
+            $result = $manager->findDTOsBy(
+                $criteria,
+                $orderBy,
+                $limit,
+                $offset
+            );
         }
 
         $authChecker = $this->get('security.authorization_checker');
@@ -193,7 +191,7 @@ class CourseController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getCourseHandler();
+            $handler = $this->container->get('ilioscore.course.handler');
 
             $course = $handler->post($this->getPostData($request));
 
@@ -202,7 +200,8 @@ class CourseController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCourseHandler()->updateCourse($course, true, false);
+            $manager = $this->container->get('ilioscore.course.manager');
+            $manager->update($course, true, false);
 
             $answer['courses'] = [$course];
 
@@ -241,8 +240,8 @@ class CourseController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $course = $this->getCourseHandler()
-                ->findCourseBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.course.manager');
+            $course = $manager->findOneBy(['id'=> $id]);
             $authChecker = $this->get('security.authorization_checker');
 
             if ($course) {
@@ -252,23 +251,18 @@ class CourseController extends FOSRestController
                     throw $this->createAccessDeniedException('Unauthorized access!');
                 }
             } else {
-                $course = $this->getCourseHandler()
-                    ->createCourse();
+                $course = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getCourseHandler();
-
-            $course = $handler->put(
-                $course,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.course.handler');
+            $course = $handler->put($course, $this->getPostData($request));
 
             if (! $authChecker->isGranted('edit', $course)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getCourseHandler()->updateCourse($course, true, true);
+            $manager->update($course, true, true);
 
             $answer['course'] = $course;
         } catch (InvalidFormException $exception) {
@@ -320,8 +314,8 @@ class CourseController extends FOSRestController
         }
 
         try {
-            $this->getCourseHandler()
-                ->deleteCourse($course);
+            $manager = $this->container->get('ilioscore.course.manager');
+            $manager->delete($course);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -337,8 +331,8 @@ class CourseController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $course = $this->getCourseHandler()
-            ->findCourseBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.course.manager');
+        $course = $manager->findOneBy(['id' => $id]);
         if (!$course) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -359,13 +353,5 @@ class CourseController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return CourseHandler
-     */
-    protected function getCourseHandler()
-    {
-        return $this->container->get('ilioscore.course.handler');
     }
 }

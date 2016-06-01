@@ -30,7 +30,7 @@ class AamcPcrsTest extends EntityBase
         );
         $this->validateNotBlanks($notBlank);
 
-        $this->object->setID('test');
+        $this->object->setId('test');
         $this->object->setDescription('lots of stuff');
         $this->validate(0);
     }

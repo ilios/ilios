@@ -6,7 +6,8 @@ use IC\Bundle\Base\TestBundle\Test\TestCase;
 use Mockery as m;
 
 /**
- * Tests for Entity AamcMethod
+ * Class SchoolManagerTest
+ * @package Ilios\CoreBundle\Tests\Entity\Manager
  */
 class SchoolManagerTest extends TestCase
 {
@@ -36,6 +37,6 @@ class SchoolManagerTest extends TestCase
         
         $entity = m::mock($class);
         $manager = new SchoolManager($registry, $class);
-        $manager->deleteSchool($entity);
+        $manager->delete($entity);
     }
 }

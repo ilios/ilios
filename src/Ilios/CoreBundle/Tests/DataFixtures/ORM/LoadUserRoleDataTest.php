@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
 
 /**
@@ -47,19 +46,5 @@ class LoadUserRoleDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
 
-    }
-
-    /**
-     * @param array $data
-     * @return UserRoleInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var UserRoleManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findUserRoleBy(['id' => $data[0]]);
     }
 }

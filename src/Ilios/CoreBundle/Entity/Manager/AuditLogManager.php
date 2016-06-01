@@ -2,87 +2,18 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\AuditLogInterface;
-
 /**
  * Class AuditLogManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class AuditLogManager extends AbstractManager implements AuditLogManagerInterface
+class AuditLogManager extends BaseManager
 {
-
     /**
-     * {@inheritdoc}
-     */
-    public function findAuditLogBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        return $this->getRepository()->findOneBy($criteria, $orderBy);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findAuditLogsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function updateAuditLog(
-        AuditLogInterface $auditLog,
-        $andFlush = true,
-        $forceId = false
-    ) {
-        $this->em->persist($auditLog);
-
-        if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($auditLog));
-            $metadata->setIdGenerator(new AssignedGenerator());
-        }
-
-        if ($andFlush) {
-            $this->em->flush();
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteAuditLog(
-        AuditLogInterface $auditLog
-    ) {
-        $this->em->remove($auditLog);
-        $this->em->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createAuditLog()
-    {
-        $class = $this->getClass();
-        return new $class();
-    }
-
-    /**
-     * {@inheritdoc}
+     * Returns all audit log entries in a given date/time range.
+     *
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @return array
      */
     public function findInRange(\DateTime $from, \DateTime $to)
     {
@@ -90,16 +21,22 @@ class AuditLogManager extends AbstractManager implements AuditLogManagerInterfac
     }
 
     /**
-     * {@inheritdoc}
+     * Deletes all audit log entries in a given date/time range.
+     * @param \DateTime $from
+     * @param \DateTime $to
      */
-    public function deleteInRange(\Datetime $from, \DateTime $to)
+    public function deleteInRange(\DateTime $from, \DateTime $to)
     {
         $this->getRepository()->deleteInRange($from, $to);
     }
 
 
     /**
-     * {@inheritdoc}
+     * Returns a list of field names of the corresponding entity.
+     *
+     * @return array
+     *
+     * @todo Refactor this out into a trait or stick it somewhere else. [ST 2015/09/02]
      */
     public function getFieldNames()
     {

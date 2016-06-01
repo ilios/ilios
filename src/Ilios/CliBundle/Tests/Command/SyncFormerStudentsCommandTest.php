@@ -20,8 +20,8 @@ class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
-        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserRoleManagerInterface');
+        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
+        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\BaseManager');
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
         
         $command = new SyncFormerStudentsCommand($this->userManager, $this->userRoleManager, $this->directory);
@@ -75,18 +75,18 @@ class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
         $this->userManager->shouldReceive('findUsersWhoAreNotFormerStudents')
             ->with(array('abc', 'abc2'))
             ->andReturn(new ArrayCollection([$user]));
-        $this->userManager->shouldReceive('updateUser')
+        $this->userManager->shouldReceive('update')
             ->with($user, false);
         $role = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface')
             ->shouldReceive('addUser')->with($user)
             ->mock();
         $user->shouldReceive('addRole')->with($role);
         $this->userRoleManager
-            ->shouldReceive('findUserRoleBy')
+            ->shouldReceive('findOneBy')
             ->with(array('title' => 'Former Student'))
             ->andReturn($role);
         $this->userRoleManager
-            ->shouldReceive('updateUserRole')
+            ->shouldReceive('update')
             ->with($role);
         
         $this->sayYesWhenAsked();

@@ -2,7 +2,6 @@
 namespace Ilios\WebBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Util\Codes;
 use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
 

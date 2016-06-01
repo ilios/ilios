@@ -5,13 +5,12 @@ namespace Ilios\CliBundle\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
@@ -23,12 +22,12 @@ use Ilios\CoreBundle\Service\Directory;
 class SyncUserCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
 
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
     
@@ -38,8 +37,8 @@ class SyncUserCommand extends Command
     protected $directory;
     
     public function __construct(
-        UserManagerInterface $userManager,
-        AuthenticationManagerInterface $authenticationManager,
+        UserManager $userManager,
+        AuthenticationManager $authenticationManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;
@@ -70,7 +69,7 @@ class SyncUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $userId = $input->getArgument('userId');
-        $user = $this->userManager->findUserBy(['id' => $userId]);
+        $user = $this->userManager->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(
                 "No user with id #{$userId} was found."
@@ -123,14 +122,14 @@ class SyncUserCommand extends Command
             $user->setPhone($userRecord['telephoneNumber']);
             $authentication = $user->getAuthentication();
             if (!$authentication) {
-                $authentication = $this->authenticationManager->createAuthentication();
+                $authentication = $this->authenticationManager->create();
                 $authentication->setUser($user);
             }
 
             $authentication->setUsername($userRecord['username']);
-            $this->authenticationManager->updateAuthentication($authentication, false);
+            $this->authenticationManager->update($authentication, false);
             
-            $this->userManager->updateUser($user);
+            $this->userManager->update($user);
             
             $output->writeln('<info>User updated successfully!</info>');
         } else {

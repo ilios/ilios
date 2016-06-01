@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\AlertHandler;
 use Ilios\CoreBundle\Entity\AlertInterface;
 
 /**
@@ -125,13 +123,8 @@ class AlertController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getAlertHandler()
-            ->findAlertsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.alert.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -170,8 +163,7 @@ class AlertController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getAlertHandler();
-
+            $handler = $this->container->get('ilioscore.alert.handler');
             $alert = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -179,7 +171,8 @@ class AlertController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAlertHandler()->updateAlert($alert, true, false);
+            $manager = $this->container->get('ilioscore.alert.manager');
+            $manager->update($alert, true, false);
 
             $answer['alerts'] = [$alert];
 
@@ -218,29 +211,24 @@ class AlertController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $alert = $this->getAlertHandler()
-                ->findAlertBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.alert.manager');
+            $alert = $manager->findOneBy(['id'=> $id]);
             if ($alert) {
                 $code = Codes::HTTP_OK;
             } else {
-                $alert = $this->getAlertHandler()
-                    ->createAlert();
+                $alert = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getAlertHandler();
-
-            $alert = $handler->put(
-                $alert,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.alert.handler');
+            $alert = $handler->put($alert, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $alert)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getAlertHandler()->updateAlert($alert, true, true);
+            $manager->update($alert, true, true);
 
             $answer['alert'] = $alert;
         } catch (InvalidFormException $exception) {
@@ -291,8 +279,8 @@ class AlertController extends FOSRestController
         }
 
         try {
-            $this->getAlertHandler()
-                ->deleteAlert($alert);
+            $manager = $this->container->get('ilioscore.alert.manager');
+            $manager->delete($alert);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +296,8 @@ class AlertController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $alert = $this->getAlertHandler()
-            ->findAlertBy(['id' => $id]);
+        $manager =$this->container->get('ilioscore.alert.manager');
+        $alert = $manager->findOneBy(['id' => $id]);
         if (!$alert) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +318,5 @@ class AlertController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return AlertHandler
-     */
-    protected function getAlertHandler()
-    {
-        return $this->container->get('ilioscore.alert.handler');
     }
 }

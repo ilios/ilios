@@ -27,7 +27,7 @@ class TemporaryFileSystem
     {
         $tmpPath = realpath($kernelRootDirectory . '/../var/tmp');
         $this->fileSystem = $fs;
-        $this->temporaryFileStorePath = $tmpPath .= '/uploads';
+        $this->temporaryFileStorePath = $tmpPath . '/uploads';
         if (!$this->fileSystem->exists($this->temporaryFileStorePath)) {
             $this->fileSystem->mkdir($this->temporaryFileStorePath);
         }
@@ -55,7 +55,7 @@ class TemporaryFileSystem
     
     /**
      * Remove a file from the file system by hash
-     * @param  [string] $hash
+     * @param string $hash
      */
     public function removeFile($hash)
     {
@@ -64,7 +64,7 @@ class TemporaryFileSystem
     
     /**
      * Get a File from a hash
-     * @param  [string] $hash
+     * @param string $hash
      * @return File
      */
     public function getFile($hash)
@@ -78,8 +78,8 @@ class TemporaryFileSystem
     
     /**
      * Turn a relative path into an ilios file store path
-     * @param  [string] $hash
-     * @return [string]
+     * @param  string $hash
+     * @return string
      */
     protected function getPath($hash)
     {

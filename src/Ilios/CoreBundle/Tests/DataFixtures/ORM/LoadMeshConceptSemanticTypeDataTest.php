@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\MeshConceptManagerInterface;
 use Ilios\CoreBundle\Entity\MeshConceptInterface;
 use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 
@@ -55,19 +54,5 @@ class LoadMeshConceptSemanticTypeDataTest extends AbstractDataFixtureTest
             }
         )->first();
         $this->assertNotEmpty($semanticType);
-    }
-
-    /**
-     * @param array $data
-     * @return MeshConceptInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var MeshConceptManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findMeshConceptBy(['id' => $data[0]]);
     }
 }

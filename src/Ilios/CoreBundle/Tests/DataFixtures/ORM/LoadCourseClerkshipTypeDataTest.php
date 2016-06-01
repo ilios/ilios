@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManagerInterface;
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 
 /**
@@ -46,19 +45,5 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
         // `course_clerkship_type_id`,`title`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
-    }
-
-    /**
-     * @param array $data
-     * @return CourseClerkshipTypeInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var CourseClerkshipTypeManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findCourseClerkshipTypeBy(['id' => $data[0]]);
     }
 }

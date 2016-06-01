@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\TermManagerInterface;
 use Ilios\CoreBundle\Entity\TermInterface;
 
 /**
@@ -53,19 +52,5 @@ class LoadTermDataTest extends AbstractDataFixtureTest
         }
         $this->assertEquals($data[3], $entity->getDescription());
         $this->assertEquals($data[4], $entity->getVocabulary()->getId());
-    }
-
-    /**
-     * @param array $data
-     * @return TermInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var TermManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findTermBy(['id' => $data[0]]);
     }
 }

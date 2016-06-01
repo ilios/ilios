@@ -4,19 +4,17 @@ namespace Ilios\AuthenticationBundle\Service;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
-use Ilios\CoreBundle\Entity\UserInterface;
 
 class ShibbolethAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authManager;
     
@@ -32,12 +30,12 @@ class ShibbolethAuthentication implements AuthenticationInterface
 
     /**
      * Constructor
-     * @param AuthenticationManagerInterface $authManager
-     * @param JsonWebTokenManager            $jwtManager
-     * @param LoggerInterface                $logger
+     * @param AuthenticationManager $authManager
+     * @param JsonWebTokenManager $jwtManager
+     * @param LoggerInterface $logger
      */
     public function __construct(
-        AuthenticationManagerInterface $authManager,
+        AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger
     ) {
@@ -73,7 +71,8 @@ class ShibbolethAuthentication implements AuthenticationInterface
             $this->logger->error($msg, ['server vars' => var_export($_SERVER, true)]);
             throw new \Exception($msg);
         }
-        $authEntity = $this->authManager->findAuthenticationBy(array('username' => $eppn));
+        /* @var \Ilios\CoreBundle\Entity\AuthenticationInterface $authEntity */
+        $authEntity = $this->authManager->findOneBy(array('username' => $eppn));
         if ($authEntity) {
             $user = $authEntity->getUser();
             if ($user->isEnabled()) {

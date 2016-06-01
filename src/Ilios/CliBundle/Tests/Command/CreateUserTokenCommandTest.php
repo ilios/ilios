@@ -15,7 +15,7 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManagerInterface');
+        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
         $this->jwtManager = m::mock('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
         
         $command = new CreateUserTokenCommand($this->userManager, $this->jwtManager);
@@ -38,7 +38,7 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     public function testNewDefaultToken()
     {
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface');
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, 'PT8H')->andReturn('123JWT');
         
         $this->commandTester->execute(array(
@@ -57,7 +57,7 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     public function testNewTTLToken()
     {
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface');
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn($user);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, '108Franks')->andReturn('123JWT');
         
         $this->commandTester->execute(array(
@@ -76,7 +76,7 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testBadUserId()
     {
-        $this->userManager->shouldReceive('findUserBy')->with(array('id' => 1))->andReturn(null);
+        $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
         $this->setExpectedException('Exception', 'No user with id #1');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,

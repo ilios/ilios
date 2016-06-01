@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\SessionHandler;
 use Ilios\CoreBundle\Entity\SessionInterface;
 
 /**
@@ -54,7 +52,8 @@ class SessionController extends FOSRestController
      */
     public function getAction($id)
     {
-        $session = $this->getSessionHandler()->findSessionDTOBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.session.manager');
+        $session = $manager->findDTOBy(['id' => $id]);
 
         if (! $session) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
@@ -132,13 +131,8 @@ class SessionController extends FOSRestController
             $criteria['updatedAt'] = new \DateTime($criteria['updatedAt']);
         }
 
-        $result = $this->getSessionHandler()
-            ->findSessionDTOsBy(
-                $criteria,
-                $orderBy,
-                $limit,
-                $offset
-            );
+        $manager = $this->container->get('ilioscore.session.manager');
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -146,8 +140,7 @@ class SessionController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['sessions'] =
-            $result ? array_values($result) : [];
+        $answer['sessions'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -177,8 +170,7 @@ class SessionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getSessionHandler();
-
+            $handler = $this->container->get('ilioscore.session.handler');
             $session = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -186,7 +178,8 @@ class SessionController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getSessionHandler()->updateSession($session, true, false);
+            $manager = $this->container->get('ilioscore.session.manager');
+            $manager->update($session, true, false);
 
             $answer['sessions'] = [$session];
 
@@ -225,29 +218,24 @@ class SessionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $session = $this->getSessionHandler()
-                ->findSessionBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.session.manager');
+            $session = $manager->findOneBy(['id'=> $id]);
             if ($session) {
                 $code = Codes::HTTP_OK;
             } else {
-                $session = $this->getSessionHandler()
-                    ->createSession();
+                $session = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getSessionHandler();
-
-            $session = $handler->put(
-                $session,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.session.handler');
+            $session = $handler->put($session, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $session)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getSessionHandler()->updateSession($session, true, true);
+            $manager->update($session, true, true);
 
             $answer['session'] = $session;
         } catch (InvalidFormException $exception) {
@@ -298,8 +286,8 @@ class SessionController extends FOSRestController
         }
 
         try {
-            $this->getSessionHandler()
-                ->deleteSession($session);
+            $manager = $this->container->get('ilioscore.session.manager');
+            $manager->delete($session);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -315,8 +303,8 @@ class SessionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $session = $this->getSessionHandler()
-            ->findSessionBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.session.manager');
+        $session = $manager->findOneBy(['id' => $id]);
         if (!$session) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -337,13 +325,5 @@ class SessionController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return SessionHandler
-     */
-    protected function getSessionHandler()
-    {
-        return $this->container->get('ilioscore.session.handler');
     }
 }

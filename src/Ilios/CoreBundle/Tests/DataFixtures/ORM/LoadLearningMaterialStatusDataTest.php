@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManagerInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
 /**
@@ -46,19 +45,5 @@ class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
         // `learning_material_status_id`,`title`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
-    }
-
-    /**
-     * @param array $data
-     * @return LearningMaterialStatusInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var LearningMaterialStatusManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findLearningMaterialStatusBy(['id' => $data[0]]);
     }
 }

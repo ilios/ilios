@@ -2,13 +2,13 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\AlertInterface;
 use Ilios\CoreBundle\Entity\AuditLogInterface;
-use Ilios\CoreBundle\Entity\Manager\AlertManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\AuditLogManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
+use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,17 +28,17 @@ class SendChangeAlertsCommand extends Command
     const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
 
     /**
-     * @var AlertManagerInterface
+     * @var ManagerInterface
      */
     protected $alertManager;
 
     /**
-     * @var AuditLogManagerInterface
+     * @var AuditLogManager
      */
     protected $auditLogManager;
 
     /**
-     * @var OfferingManagerInterface
+     * @var OfferingManager
      */
     protected $offeringManager;
 
@@ -58,17 +58,17 @@ class SendChangeAlertsCommand extends Command
     protected $timezone;
 
     /**
-     * @param AlertManagerInterface $alertManager
-     * @param AuditLogManagerInterface $auditLogManager
-     * @param OfferingManagerInterface $offeringManager
+     * @param ManagerInterface $alertManager
+     * @param AuditLogManager $auditLogManager
+     * @param OfferingManager $offeringManager
      * @param EngineInterface $templatingEngine
      * @param \Swift_Mailer $mailer
      * @param string $timezone
      */
     public function __construct(
-        AlertManagerInterface $alertManager,
-        AuditLogManagerInterface $auditLogManager,
-        OfferingManagerInterface $offeringManager,
+        ManagerInterface $alertManager,
+        AuditLogManager $auditLogManager,
+        OfferingManager $offeringManager,
         EngineInterface $templatingEngine,
         $mailer,
         $timezone
@@ -105,7 +105,7 @@ class SendChangeAlertsCommand extends Command
     {
         $isDryRun = $input->getOption('dry-run');
 
-        $alerts = $this->alertManager->findAlertsBy(['dispatched' => false, 'tableName' => 'offering']);
+        $alerts = $this->alertManager->findBy(['dispatched' => false, 'tableName' => 'offering']);
         if (! count($alerts)) {
             $output->writeln("<info>No undispatched offering alerts found.</info>");
             return;
@@ -115,10 +115,11 @@ class SendChangeAlertsCommand extends Command
 
         $sent = 0;
         // email out change alerts
+        /* @var AlertInterface $alert */
         foreach ($alerts as $alert) {
             $output->writeln("<info>Processing offering change alert {$alert->getId()}.</info>");
 
-            $offering = $this->offeringManager->findOfferingBy(['id' => $alert->getTableRowId()]);
+            $offering = $this->offeringManager->findOneBy(['id' => $alert->getTableRowId()]);
             if (! $offering) {
                 $output->writeln(
                     "<warning>No offering with id {$alert->getTableRowId()},"
@@ -145,7 +146,7 @@ class SendChangeAlertsCommand extends Command
             // In practice, there is really only ever one school recipient.
             // So take the first one and run with it for determining recipients/rendering the email template.
             // [ST 2015/10/05]
-            /** @var SchoolInterface $school */
+            /* @var SchoolInterface $school */
             $school = $schools->first();
 
             $recipients = trim($school->getChangeAlertRecipients());
@@ -158,7 +159,7 @@ class SendChangeAlertsCommand extends Command
             $recipients = array_map('trim', explode(',', $recipients));
 
             // get change alert history from audit logs
-            $history = $this->auditLogManager->findAuditLogsBy([
+            $history = $this->auditLogManager->findBy([
                 'objectId' => $alert->getId(),
                 'objectClass' => 'alert',
             ], [ 'createdAt' => 'asc' ]);
@@ -179,7 +180,7 @@ class SendChangeAlertsCommand extends Command
                 'alert' => $alert,
                 'history' => $history,
                 'offering' => $offering,
-                'timezone' => $this->timezone
+                'timezone' => $this->timezone,
             ]);
 
             $message = \Swift_Message::newInstance()
@@ -205,7 +206,7 @@ class SendChangeAlertsCommand extends Command
             // @todo Reassess the validity of this step. [ST 2015/10/01]
             foreach ($alerts as $alert) {
                 $alert->setDispatched(true);
-                $this->alertManager->updateAlert($alert);
+                $this->alertManager->update($alert);
             }
 
             $dispatched = count($alerts);

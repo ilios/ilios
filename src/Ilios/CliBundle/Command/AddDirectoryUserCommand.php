@@ -9,9 +9,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
-use Ilios\CoreBundle\Entity\Manager\SchoolManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Service\Directory;
 
 /**
@@ -23,17 +23,17 @@ use Ilios\CoreBundle\Service\Directory;
 class AddDirectoryUserCommand extends Command
 {
     /**
-     * @var UserManagerInterface
+     * @var UserManager
      */
     protected $userManager;
     
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authenticationManager;
     
     /**
-     * @var SchoolManagerInterface
+     * @var SchoolManager
      */
     protected $schoolManager;
     
@@ -43,9 +43,9 @@ class AddDirectoryUserCommand extends Command
     protected $directory;
     
     public function __construct(
-        UserManagerInterface $userManager,
-        AuthenticationManagerInterface $authenticationManager,
-        SchoolManagerInterface $schoolManager,
+        UserManager $userManager,
+        AuthenticationManager $authenticationManager,
+        SchoolManager $schoolManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;
@@ -82,27 +82,27 @@ class AddDirectoryUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $campusId = $input->getArgument('campusId');
-        $user = $this->userManager->findUserBy(['campusId' => $campusId]);
+        $user = $this->userManager->findOneBy(['campusId' => $campusId]);
         if ($user) {
             throw new \Exception(
                 'User #' . $user->getId() . " with campus id {$campusId} already exists."
             );
         }
         $schoolId = $input->getArgument('schoolId');
-        $school = $this->schoolManager->findSchoolBy(['id' => $schoolId]);
+        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new \Exception(
                 "School with id {$schoolId} could not be found."
             );
         }
-        
+
         $userRecord = $this->directory->findByCampusId($campusId);
-        
+
         if (!$userRecord) {
             $output->writeln("<error>Unable to find campus ID {$campusId} in the directory.</error>");
             return;
         }
-        
+
         $table = new Table($output);
         $table
             ->setHeaders(array('Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number'))
@@ -127,7 +127,7 @@ class AddDirectoryUserCommand extends Command
         );
         
         if ($helper->ask($input, $output, $question)) {
-            $user = $this->userManager->createUser();
+            $user = $this->userManager->create();
             $user->setFirstName($userRecord['firstName']);
             $user->setLastName($userRecord['lastName']);
             $user->setEmail($userRecord['email']);
@@ -136,12 +136,12 @@ class AddDirectoryUserCommand extends Command
             $user->setEnabled(true);
             $user->setSchool($school);
             $user->setUserSyncIgnore(false);
-            $this->userManager->updateUser($user);
+            $this->userManager->update($user);
             
-            $authentication = $this->authenticationManager->createAuthentication();
+            $authentication = $this->authenticationManager->create();
             $authentication->setUser($user);
             $authentication->setUsername($userRecord['username']);
-            $this->authenticationManager->updateAuthentication($authentication);
+            $this->authenticationManager->update($authentication);
 
             $output->writeln(
                 '<info>Success! New user #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' created.</info>'
@@ -149,7 +149,5 @@ class AddDirectoryUserCommand extends Command
         } else {
             $output->writeln('<comment>Canceled.</comment>');
         }
-        
-        
     }
 }

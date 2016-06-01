@@ -7,14 +7,12 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\PendingUserUpdateHandler;
 use Ilios\CoreBundle\Entity\PendingUserUpdateInterface;
 
 /**
@@ -125,12 +123,8 @@ class PendingUserUpdateController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getPendingUserUpdateHandler()->findPendingUserUpdatesBy(
-            $criteria,
-            $orderBy,
-            $limit,
-            $offset
-        );
+        $manager = $this->container->get('ilioscore.pendinguserupdate.manager');
+        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
@@ -169,8 +163,7 @@ class PendingUserUpdateController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $handler = $this->getPendingUserUpdateHandler();
-
+            $handler = $this->container->get('ilioscore.pendinguserupdate.handler');
             $pendingUserUpdate = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -178,7 +171,8 @@ class PendingUserUpdateController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getPendingUserUpdateHandler()->updatePendingUserUpdate($pendingUserUpdate, true, false);
+            $manager = $this->container->get('ilioscore.pendinguserupdate.manager');
+            $manager->update($pendingUserUpdate, true, false);
 
             $answer['pendingUserUpdates'] = [$pendingUserUpdate];
 
@@ -217,29 +211,25 @@ class PendingUserUpdateController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $pendingUserUpdate = $this->getPendingUserUpdateHandler()
-                ->findPendingUserUpdateBy(['id'=> $id]);
+            $manager = $this->container->get('ilioscore.pendinguserupdate.manager');
+            $pendingUserUpdate = $manager->findOneBy(['id'=> $id]);
+
             if ($pendingUserUpdate) {
                 $code = Codes::HTTP_OK;
             } else {
-                $pendingUserUpdate = $this->getPendingUserUpdateHandler()
-                    ->createPendingUserUpdate();
+                $pendingUserUpdate = $manager->create();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $handler = $this->getPendingUserUpdateHandler();
-
-            $pendingUserUpdate = $handler->put(
-                $pendingUserUpdate,
-                $this->getPostData($request)
-            );
+            $handler = $this->container->get('ilioscore.pendinguserupdate.handler');
+            $pendingUserUpdate = $handler->put($pendingUserUpdate, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $pendingUserUpdate)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $this->getPendingUserUpdateHandler()->updatePendingUserUpdate($pendingUserUpdate, true, true);
+            $manager->update($pendingUserUpdate, true, true);
 
             $answer['pendingUserUpdate'] = $pendingUserUpdate;
         } catch (InvalidFormException $exception) {
@@ -291,8 +281,8 @@ class PendingUserUpdateController extends FOSRestController
         }
 
         try {
-            $this->getPendingUserUpdateHandler()
-                ->deletePendingUserUpdate($pendingUserUpdate);
+            $manager = $this->container->get('ilioscore.pendinguserupdate.manager');
+            $manager->delete($pendingUserUpdate);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,8 +298,8 @@ class PendingUserUpdateController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        $pendingUserUpdate = $this->getPendingUserUpdateHandler()
-            ->findPendingUserUpdateBy(['id' => $id]);
+        $manager = $this->container->get('ilioscore.pendinguserupdate.manager');
+        $pendingUserUpdate = $manager->findOneBy(['id' => $id]);
         if (!$pendingUserUpdate) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
@@ -330,13 +320,5 @@ class PendingUserUpdateController extends FOSRestController
         }
 
         return $request->request->all();
-    }
-
-    /**
-     * @return PendingUserUpdateHandler
-     */
-    protected function getPendingUserUpdateHandler()
-    {
-        return $this->container->get('ilioscore.pendingUserUpdate.handler');
     }
 }

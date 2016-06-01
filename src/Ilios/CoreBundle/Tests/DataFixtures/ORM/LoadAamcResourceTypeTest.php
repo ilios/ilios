@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\DataFixtures\ORM;
 
-use Ilios\CoreBundle\Entity\Manager\AamcResourceTypeManagerInterface;
 use Ilios\CoreBundle\Entity\AamcResourceTypeInterface;
 
 /**
@@ -47,19 +46,5 @@ class LoadAamcResourceTypeDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
         $this->assertEquals($data[2], $entity->getDescription());
-    }
-
-    /**
-     * @param array $data
-     * @return AamcResourceTypeInterface
-     * @override
-     */
-    protected function getEntity(array $data)
-    {
-        /**
-         * @var AamcResourceTypeManagerInterface $em
-         */
-        $em = $this->em;
-        return $em->findAamcResourceTypeBy(['id' => $data[0]]);
     }
 }

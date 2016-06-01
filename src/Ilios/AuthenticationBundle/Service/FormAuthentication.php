@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 
 use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
@@ -18,7 +18,7 @@ class FormAuthentication implements AuthenticationInterface
     use AuthenticationService;
 
     /**
-     * @var AuthenticationManagerInterface
+     * @var AuthenticationManager
      */
     protected $authManager;
     
@@ -38,13 +38,13 @@ class FormAuthentication implements AuthenticationInterface
     
     /**
     * Constructor
-    * @param AuthenticationManagerInterface $authManager
+    * @param AuthenticationManager $authManager
     * @param UserPasswordEncoderInterface   $encoder
     * @param TokenStorageInterface          $tokenStorage
     * @param JsonWebTokenManager            $jwtManager
     */
     public function __construct(
-        AuthenticationManagerInterface $authManager,
+        AuthenticationManager $authManager,
         UserPasswordEncoderInterface $encoder,
         TokenStorageInterface $tokenStorage,
         JsonWebTokenManager $jwtManager
@@ -132,7 +132,7 @@ class FormAuthentication implements AuthenticationInterface
             $authEntity->setPasswordSha256(null);
             $encodedPassword = $this->encoder->encodePassword($authEntity->getUser(), $password);
             $authEntity->setPasswordBcrypt($encodedPassword);
-            $this->authManager->updateAuthentication($authEntity);
+            $this->authManager->update($authEntity);
         }
     }
 }

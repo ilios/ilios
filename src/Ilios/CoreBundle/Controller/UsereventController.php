@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
+use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -52,13 +53,13 @@ class UsereventController extends FOSRestController
    *   description="Time stamp for last event from time"
    * )
    *
-   * @throws Exception
+   * @throws \Exception
    */
     public function getAction($id, ParamFetcherInterface $paramFetcher)
     {
-        $userHandler = $this->container->get('ilioscore.user.handler');
+        $manager = $this->container->get('ilioscore.user.manager');
 
-        $user = $userHandler->findUserBy(['id' => $id]);
+        $user = $manager->findOneBy(['id' => $id]);
 
         if (!$user) {
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
@@ -80,7 +81,7 @@ class UsereventController extends FOSRestController
         if (!$to) {
             throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
         }
-        $events = $userHandler->findEventsForUser($user->getId(), $from, $to);
+        $events = $manager->findEventsForUser($user->getId(), $from, $to);
 
         $authChecker = $this->get('security.authorization_checker');
         $events = array_filter($events, function ($entity) use ($authChecker) {
@@ -89,12 +90,13 @@ class UsereventController extends FOSRestController
 
         //Un-privileged users get less data
         if (!$user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+            /* @var UserEvent $event */
             foreach ($events as $event) {
                 $event->clearDataForScheduledEvent();
             }
         }
 
-        $result = $userHandler->addInstructorsToEvents($events);
+        $result = $manager->addInstructorsToEvents($events);
 
         //If there are no matches return an empty array
         $answer['userEvents'] = $result ? array_values($result) : [];

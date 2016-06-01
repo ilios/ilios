@@ -42,7 +42,7 @@ class JsonWebTokenManager
     {
         $arr = $this->decode($jwt);
         $datetime = new DateTime();
-        $datetime->setTimeStamp($arr['iat']);
+        $datetime->setTimestamp($arr['iat']);
         
         return $datetime;
     }
@@ -51,7 +51,7 @@ class JsonWebTokenManager
     {
         $arr = $this->decode($jwt);
         $datetime = new DateTime();
-        $datetime->setTimeStamp($arr['exp']);
+        $datetime->setTimestamp($arr['exp']);
         
         return $datetime;
     }
