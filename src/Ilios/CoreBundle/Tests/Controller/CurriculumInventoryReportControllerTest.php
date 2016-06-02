@@ -99,6 +99,7 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['sequence']);
         unset($postData['sequenceBlocks']);
         unset($postData['academicLevels']);
 
@@ -110,13 +111,14 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-
+        $responseData = json_decode($response->getContent(), true)['curriculumInventoryReports'][0];
+        $this->assertEquals(10, count($responseData['academicLevels']), 'There should be 10 academic levels ids.');
+        $this->assertNotEmpty($responseData['sequence'], 'A sequence id should be present.');
+        // don't compare sequence and academic level ids.
+        $responseData['sequence'] = $data['sequence'];
+        $responseData['academicLevels'] = $data['academicLevels'];
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
-        $this->assertEquals(
-            $data,
-            json_decode($response->getContent(), true)['curriculumInventoryReports'][0],
-            $response->getContent()
-        );
+        $this->assertEquals($data, $responseData, $response->getContent());
     }
 
     /**

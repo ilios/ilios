@@ -59,6 +59,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         return array(
             'id' => 4,
             'program' => '2',
+            'sequence' => null,
             'year' => (int) $this->faker->date('Y'),
             'name' => $this->faker->text(100),
             'description' => $this->faker->text(200),
@@ -66,6 +67,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => [],
             'academicLevels' => [],
+
         );
     }
 
