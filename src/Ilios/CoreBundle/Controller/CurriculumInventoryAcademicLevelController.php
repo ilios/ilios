@@ -151,7 +151,8 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      *     201 = "Created CurriculumInventoryAcademicLevel.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
@@ -199,7 +200,8 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      *     201 = "Created CurriculumInventoryAcademicLevel.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
@@ -263,7 +265,8 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      *     204 = "No content. Successfully deleted CurriculumInventoryAcademicLevel.",
      *     400 = "Bad Request.",
      *     404 = "Not found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(statusCode=204)
