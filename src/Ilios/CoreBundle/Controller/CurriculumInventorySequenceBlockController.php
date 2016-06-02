@@ -151,7 +151,8 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      *     201 = "Created CurriculumInventorySequenceBlock.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
@@ -264,7 +265,8 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      *     204 = "No content. Successfully deleted CurriculumInventorySequenceBlock.",
      *     400 = "Bad Request.",
      *     404 = "Not found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(statusCode=204)
