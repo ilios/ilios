@@ -3,6 +3,7 @@
 namespace Ilios\CliBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+//use Doctrine\ORM\EntityManager;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -124,54 +125,21 @@ class RolloverCourseCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
+        $args = $input->getArguments();
+        $options = $input->getOptions();
+
+        //access the CourseRollover class as a service
         $service = $this->getContainer()->get('ilioscore.courserollover');
-        $service->foo();
-        exit;
+        $newCourse = $service->rolloverCourse($args, $options);
 
+        //initialize the entity manager to manage the new course and commit it to the db...
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $em->persist($newCourse);
+        $em->flush($newCourse);
 
-        //$em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        //$courses = $em->getRepository('IliosCoreBundle:Course');
+        $output->writeln("This course has been rolled over.  The new course id is ->" . $newCourse->getId());
 
-        //set the values from the input arguments
-        $originalCourseId = $input->getArgument('courseId');
-        $newCourseAcademicYear = $input->getArgument('newAcademicYear');
-        $newStartDate = $input->getOption('new-start-date');
-
-        //get the original course object by its course id
-        $originalCourse = $this->courseManager->findCourseBy(['id' => $originalCourseId]);
-
-        $originalCourse->rolloverCourse($this,$newCourseAcademicYear,$newStartDate);
-
-
-        \Doctrine\Common\Util\Debug::dump($originalCourse);
-
-        //check to see if the title and the new course year already exist
-        //$qb = $em->createQueryBuilder();
-        /*$qb->select('c.id')
-            ->from('IliosCoreBundle:Course', 'c')
-            ->where($qb->expr()->andX(
-                $qb->expr()->eq('c.year', '?1'),
-                $qb->expr()->eq('c.title', '?2')
-            ))
-            ->setParameter(1, $newCourseAcademicYear)
-            ->setParameter(2, $originalCourse->getTitle());
-        $query = $qb->getQuery();
-        $results = $query->getResult();*/
-
-        /***** UNCOMMENT THIS FOR PRODUCTION *****/
-        //if the title and requested year already exist, warn and exit
-        /*if(!empty($results)) {
-
-            $totalResults = count($results);
-            $existingCourseIdArray = array();
-            foreach ($results as $result) {
-                $existingCourseIdArray[] = $result['id'];
-            }
-            $existingCourseIdString = implode(',',$existingCourseIdArray);
-            $error_string = ($totalResults > 1) ? ' courses already exist' : ' course already exists';
-            exit('Please check your requirements: ' . $totalResults  . $error_string . ' with that year and title (' . $existingCourseIdString . ').' . "\n");
-        }*/
-
+        
         //create the rollover
         //$originalCourse->rolloverCourse($em, $newCourseAcademicYear, $newStartDate);
 
