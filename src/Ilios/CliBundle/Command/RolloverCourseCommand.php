@@ -125,23 +125,22 @@ class RolloverCourseCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $args = $input->getArguments();
-        $options = $input->getOptions();
-
         //access the CourseRollover class as a service
         $service = $this->getContainer()->get('ilioscore.courserollover');
-        $newCourse = $service->rolloverCourse($args, $options);
+
+        //roll it over to build the newCourse object
+        $newCourse = $service->rolloverCourse($input->getArguments(), $input->getOptions());
 
         //initialize the entity manager to manage the new course and commit it to the db...
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $em->persist($newCourse);
-        $em->flush($newCourse);
+        try {
+            $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+            $em->persist($newCourse);
+            $em->flush($newCourse);
 
-        $output->writeln("This course has been rolled over.  The new course id is ->" . $newCourse->getId());
-
-        
-        //create the rollover
-        //$originalCourse->rolloverCourse($em, $newCourseAcademicYear, $newStartDate);
+            $output->writeln("This course has been rolled over.  The new course id is ->" . $newCourse->getId());
+        } catch (Exception $e) {
+            $output->writeln("This course could not be rolled over: " . $e->getMessage());
+        }
 
         //output for debug
         //\Doctrine\Common\Util\Debug::dump($newStartDate);

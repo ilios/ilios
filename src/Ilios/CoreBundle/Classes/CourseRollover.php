@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Entity\Offering;
 
 
 class CourseRollover {
+
     /**
      * @var CourseManagerInterface
      */
@@ -45,43 +46,44 @@ class CourseRollover {
     }
 
     /**
-     * @param int $courseId
-     * @param int $newCourseAcademicYear
-     * @param string $newCourseStartDate
-     *
-     * @return string $newCourseId
+     * @param $args
+     * @param $options
+     * @return Course
+     * @throws \Exception
      */
     public function rolloverCourse($args, $options)
     {
 
-        //echo 'This is the course id->' . $courseId . '\n';
-        //echo 'This is the new academic year->' . $newCourseAcademicYear . '\n';
-        $originalCourse = $this->courseManager->findCourseBy(['id'=>$args['courseId']]);
+        //get/set the required values from the provided arguments
+        $newAcademicYear = $args['newAcademicYear'];
+        $originalCourseId = $args['courseId'];
 
-        if($this->checkForDuplicateRollover($originalCourse->getTitle(), $args['newAcademicYear'])) {
-            $output->writeln("A course with the title '" . $originalCourseTitle . "' already exists for academic year '" . $newAcademicYear);
-            exit;
-        }
+        //make sure that the new course's academic year is not in the past
+        $this->confirmYearIsNotInPast($newAcademicYear);
 
-        //get the original course's start date and academic year for calculation of weeks offset
-        $originalCourseAcademicYear = $originalCourse->getYear();
+        //get the original course object
+        $originalCourse = $this->courseManager->findCourseBy(['id'=>$originalCourseId]);
+
+        //get/set the original course's start date and year for use in calculation of offset
         $originalCourseStartDate = $originalCourse->getStartDate();
+
+        //before creating the course object, check for courses with same title and year, so rollover is not run twice
+        $this->checkForDuplicateRollover($originalCourse->getTitle(), $args['newAcademicYear']);
 
         //$offsetInWeeks = calculateRolloverOffsetInWeeks($originalCourseAcademicYear, $originalCourseStartDate, $newCourseAcademicYear, $newCourseStartDate);
         $offsetInWeeks = 52;
 
-        //set up the values that need some preprocessing
+        //set up the $newCourse values that need some pre-processing
         $newCourseStartDate = date_create($originalCourseStartDate->format('Y-m-d'));
         $newCourseStartDate->modify('+ ' . $offsetInWeeks . ' weeks');
         $newCourseEndDate = date_create($originalCourse->getEndDate()->format('Y-m-d'));
         $newCourseEndDate->modify('+ ' . $offsetInWeeks . ' weeks');
 
-
         //create the Course
         //if there are not any duplicates, create a new course with the relevant info
         $newCourse = new Course();
         $newCourse->setTitle($originalCourse->getTitle());
-        $newCourse->setYear($options['newAcademicYear']);
+        $newCourse->setYear($args['newAcademicYear']);
         $newCourse->setLevel($originalCourse->getLevel());
         $newCourse->setStartDate($newCourseStartDate);
         $newCourse->setEndDate($newCourseEndDate);
@@ -98,52 +100,7 @@ class CourseRollover {
 
         return $newCourse;
 
-
-
-        $courseManager = $this->container->get('ilioscore.course.manager');
-        $sessionManager = $this->container->get('ilioscore.session.manager');
-        $offeringManager = $this->container->get('ilioscore.offering.manager');
-
-
-        //get the necessary attributes
-        $originalCourseTitle = $this->getTitle();
-        $originalCourseAcademicYear = $this->getYear();
-        $originalCourseStartDate = $this->getStartDate();
-        $originalCourseEndDate = $this->getEndDate();
-
-        //get the week number of the original start date and the new one
-        $originalStartWeekOrdinal = $originalCourseStartDate->format("W");
-        $newStartWeekOrdinal = (!empty($newCourseStartDate)) ? date('W',strtotime($newCourseStartDate)) : null;
-
-        $academicYearDifference = ($newCourseAcademicYear - $originalCourseAcademicYear);
-        //$offsetInWeeks = $this->calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal);
-
-
-        //create the Course
-        //if there are not any duplicates, create a new course with the relevant info
-        $newCourse = new Course();
-        $newCourse->setTitle($originalCourseTitle);
-        $newCourse->setYear($newAcademicYear);
-        $newCourse->setLevel($this->getLevel());
-        $newCourseStartDate = date_create($originalCourseStartDate->format('Y-m-d'));
-        $newCourseStartDate->modify('+ ' . $offsetInWeeks . ' weeks');
-        $newCourse->setStartDate($newCourseStartDate);
-        $newCourseEndDate = date_create($originalCourseEndDate->format('Y-m-d'));
-        $newCourseEndDate->modify('+ ' . $offsetInWeeks . ' weeks');
-        $newCourse->setEndDate($newCourseEndDate);
-        $newCourse->setPublishedAsTbd($this->isPublishedAsTbd());
-        $newCourse->setLocked(0);
-        $newCourse->setArchived(0);
-        $newCourse->setSchool($this->getSchool());
-        $newCourse->setClerkshipType($this->getClerkshipType());
-        //$newCourse->setLearningMaterials($this->getLearningMaterials());
-        $newCourse->setDirectors($this->getDirectors());
-        $newCourse->setTerms($this->getTerms());
-        $newCourse->setObjectives($this->getObjectives());
-        $newCourse->setMeshDescriptors($this->getMeshDescriptors());
-        //$em->persist($newCourse);
-        //$em->flush($newCourse);
-
+        /********* TESTING *********/
         //Now, operate on the course sessions
         $sessions = $this->getSessions();
 
@@ -177,12 +134,12 @@ class CourseRollover {
     }
 
     /**
-     * @param int $academicYearDifference
-     * @param int $originalStartWeekOrdinal
-     * @param int $newStartWeekOrdinal
-     * @return int $weeksToAdd
+     * @param $academicYearDifference
+     * @param $originalStartWeekOrdinal
+     * @param null $newStartWeekOrdinal
+     * @return int|null
      */
-    protected function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null){
+    private function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null) {
 
         //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
         if(empty($newStartWeekOrdinal)) {
@@ -216,8 +173,26 @@ class CourseRollover {
         return $weeksToAdd;
     }
 
+    /**
+     * @param $newAcademicYear
+     * @throws \Exception
+     */
+    private function confirmYearIsNotInPast($newAcademicYear) {
 
-    protected function checkForDuplicateRollover($title, $newAcademicYear){
+        $currentYear = date('Y');
+        if ($newAcademicYear < $currentYear) {
+            throw new \Exception(
+                "You cannot rollover a course to a year that is already in the past."
+            );
+        }
+    }
+
+    /**
+     * @param $title
+     * @param $newAcademicYear
+     * @throws \Exception
+     */
+    private function checkForDuplicateRollover($title, $newAcademicYear) {
 
         $duplicateCourses = $this->courseManager->findCoursesBy(['title'=>$title, 'year'=>$newAcademicYear]);
         if (count($duplicateCourses) > 0) {
@@ -225,21 +200,6 @@ class CourseRollover {
                 "Another course with the title and year already exists."
             );
         }
-        
-
-        //if the title and requested year already exist, warn and exit
-        /*if(!empty($results)) {
-
-            $totalResults = count($results);
-            $existingCourseIdArray = array();
-            foreach ($results as $result) {
-                $existingCourseIdArray[] = $result['id'];
-            }
-            $existingCourseIdString = implode(',',$existingCourseIdArray);
-            $error_string = ($totalResults > 1) ? ' courses already exist' : ' course already exists';
-            exit('Please check your requirements: ' . $totalResults  . $error_string . ' with that year and title (' . $existingCourseIdString . ').' . "\n");
-        }*/
     }
-
 
 }
