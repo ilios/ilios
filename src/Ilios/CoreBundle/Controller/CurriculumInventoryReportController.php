@@ -182,7 +182,7 @@ class CurriculumInventoryReportController extends FOSRestController
             $manager->update($curriculumInventoryReport, false, false);
 
             // create academic years and sequence while at it.
-            for($i = 1, $n = 10; $i <= $n; $i++) {
+            for ($i = 1, $n = 10; $i <= $n; $i++) {
                 $level = new CurriculumInventoryAcademicLevel();
                 $level->setLevel($i);
                 $level->setName('Year ' . $i); // @todo i18n 'Year'. [ST 2016/06/02]
