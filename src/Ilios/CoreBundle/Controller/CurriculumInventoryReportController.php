@@ -7,6 +7,8 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
+use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel;
+use Ilios\CoreBundle\Entity\CurriculumInventorySequence;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -139,11 +141,11 @@ class CurriculumInventoryReportController extends FOSRestController
     }
 
     /**
-     * Create a CurriculumInventoryReport.
+     * Create a CurriculumInventoryReport and its associated Academic Levels and Sequence.
      *
      * @ApiDoc(
      *   section = "CurriculumInventoryReport",
-     *   description = "Create a CurriculumInventoryReport.",
+     *   description = "Create a CurriculumInventoryReport and its associated Academic Levels and Sequence.",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryReportType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryReport",
@@ -165,6 +167,7 @@ class CurriculumInventoryReportController extends FOSRestController
         try {
             $handler = $this->container->get('ilioscore.curriculuminventoryreport.handler');
 
+            /* @var CurriculumInventoryReportInterface $curriculumInventoryReport */
             $curriculumInventoryReport = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -173,7 +176,24 @@ class CurriculumInventoryReportController extends FOSRestController
             }
 
             $manager = $this->container->get('ilioscore.curriculuminventoryreport.manager');
-            $manager->update($curriculumInventoryReport, true, false);
+            $levelManager = $this->container->get('ilioscore.curriculuminventoryacademiclevel.manager');
+            $sequenceManager = $this->container->get('ilioscore.curriculuminventorysequence.manager');
+
+            $manager->update($curriculumInventoryReport, false, false);
+
+            // create academic years and sequence while at it.
+            for ($i = 1, $n = 10; $i <= $n; $i++) {
+                $level = new CurriculumInventoryAcademicLevel();
+                $level->setLevel($i);
+                $level->setName('Year ' . $i); // @todo i18n 'Year'. [ST 2016/06/02]
+                $curriculumInventoryReport->addAcademicLevel($level);
+                $level->setReport($curriculumInventoryReport);
+                $levelManager->update($level, false, false);
+            }
+            $sequence = new CurriculumInventorySequence();
+            $curriculumInventoryReport->setSequence($sequence);
+            $sequence->setReport($curriculumInventoryReport);
+            $sequenceManager->update($sequence, true, false); // flush here.
 
             $answer['curriculumInventoryReports'] = [$curriculumInventoryReport];
 
