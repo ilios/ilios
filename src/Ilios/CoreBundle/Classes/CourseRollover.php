@@ -55,8 +55,9 @@ class CourseRollover {
     {
 
         //get/set the required values from the provided arguments
-        $newAcademicYear = $args['newAcademicYear'];
         $originalCourseId = $args['courseId'];
+        $newAcademicYear = $args['newAcademicYear'];
+        $newStartDate = (!empty($args['new-start-date'])) ? new DateTime($args['new-start-date']) : null;
 
         //make sure that the new course's academic year is not in the past
         $this->confirmYearIsNotInPast($newAcademicYear);
@@ -71,7 +72,7 @@ class CourseRollover {
         $this->checkForDuplicateRollover($originalCourse->getTitle(), $args['newAcademicYear']);
 
         //$offsetInWeeks = calculateRolloverOffsetInWeeks($originalCourseAcademicYear, $originalCourseStartDate, $newCourseAcademicYear, $newCourseStartDate);
-        $offsetInWeeks = 52;
+        $offsetInWeeks = $this->calculateRolloverOffsetInWeeks($originalCourse, $newAcademicYear);
 
         //set up the $newCourse values that need some pre-processing
         $newCourseStartDate = date_create($originalCourseStartDate->format('Y-m-d'));
@@ -134,12 +135,20 @@ class CourseRollover {
     }
 
     /**
-     * @param $academicYearDifference
-     * @param $originalStartWeekOrdinal
-     * @param null $newStartWeekOrdinal
+     * @param $originalYear
+     * @param $newYear
+     * @param null $newStartDate
      * @return int|null
      */
-    private function calculateRolloverOffsetInWeeks($academicYearDifference, $originalStartWeekOrdinal, $newStartWeekOrdinal = null) {
+    private function calculateRolloverOffsetInWeeks ($originalCourse, $newAcademicYear, $newStartDate = null) {
+
+
+        //get the difference between the academic years of each course.
+        $academicYearDifference = ($newAcademicYear - $originalCourse->getYear());
+        $originalStartWeekOrdinal = $originalCourse->getStartDate()->format('W');
+        $newStartWeekOrdinal = (!empty($newStartDate)) ? $newStartDate->format('W') : null;
+
+
 
         //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
         if(empty($newStartWeekOrdinal)) {
