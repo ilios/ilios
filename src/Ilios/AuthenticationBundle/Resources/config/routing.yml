@@ -10,3 +10,6 @@ ilios_authentication.whoami:
 ilios_authentication.token:
     path:     /token
     defaults: { _controller: IliosAuthenticationBundle:Authentication:token }
+ilios_authentication.invalidate_tokens:
+    path:     /invalidatetokens
+    defaults: { _controller: IliosAuthenticationBundle:Authentication:invalidateTokens }

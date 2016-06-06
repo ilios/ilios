@@ -3,7 +3,6 @@
 namespace Ilios\AuthenticationBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Util\Codes;
 use Firebase\JWT\JWT;
 use DateTime;
@@ -306,5 +305,37 @@ class AuthenticationControllerTest extends WebTestCase
         $expiresAt->setTimeStamp($token['exp']);
         
         $this->assertTrue($now->diff($expiresAt)->d > 5);
+    }
+
+    public function testInvalidateToken()
+    {
+        $client = static::createClient();
+        $jwt = $this->getAuthenticatedUserToken();
+        sleep(1);
+
+        $this->makeJsonRequest(
+            $client,
+            'get',
+            $this->getUrl('ilios_authentication.invalidate_tokens'),
+            null,
+            $jwt
+        );
+        $response = $client->getResponse();
+        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode());
+
+        $client = static::createClient();
+        $this->makeJsonRequest(
+            $client,
+            'GET',
+            $this->getUrl(
+                'get_users',
+                ['id' => 1]
+            ),
+            null,
+            $jwt
+        );
+        $response2 = $client->getResponse();
+        $this->assertEquals(Codes::HTTP_UNAUTHORIZED, $response2->getStatusCode());
+        $this->assertRegExp('/Invalid JSON Web Token: Not issued after/', $response2->getContent());
     }
 }

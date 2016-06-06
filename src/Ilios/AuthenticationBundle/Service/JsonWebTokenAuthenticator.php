@@ -96,7 +96,8 @@ class JsonWebTokenAuthenticator implements SimplePreAuthenticatorInterface, Auth
             if ($tokenNotValidBefore) {
                 if ($tokenNotValidBefore > $issuedAt) {
                     throw new BadCredentialsException(
-                        'Invalid JSON Web Token: Not issued before ' . $tokenNotValidBefore->format('c')
+                        'Invalid JSON Web Token: Not issued after ' . $tokenNotValidBefore->format('c') .
+                        ' issued on ' . $issuedAt->format('c')
                     );
                 }
             }

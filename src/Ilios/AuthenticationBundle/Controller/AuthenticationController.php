@@ -87,4 +87,38 @@ class AuthenticationController extends Controller
         return $authenticator->logout($request);
 
     }
+
+    /**
+     * Invalidate all tokens issued before now
+     * Resets authentication in case a token is compromised
+     *
+     * @return JsonResponse
+     */
+    public function invalidateTokensAction()
+    {
+        $now = new \DateTime();
+        $token = $this->get('security.token_storage')->getToken();
+        if ($token->isAuthenticated()) {
+            $user = $token->getUser();
+            if ($user instanceof UserInterface) {
+                $authentication = $user->getAuthentication();
+                if (!$authentication) {
+                    $authentication = $this->authenticationManager->create();
+                    $authentication->setUser($user);
+                }
+                $authenticationManager = $this->container->get('ilioscore.authentication.manager');
+
+                $authentication->setInvalidateTokenIssuedBefore($now);
+                $authenticationManager->update($authentication);
+
+                sleep(1);
+                $jwtManager = $this->container->get('ilios_authentication.jwt.manager');
+                $jwt = $jwtManager->createJwtFromUser($user);
+
+                return new JsonResponse(array('jwt' => $jwt), JsonResponse::HTTP_OK);
+            }
+        }
+
+        throw new \Exception('Attempted to invalidate token with no valid user');
+    }
 }
