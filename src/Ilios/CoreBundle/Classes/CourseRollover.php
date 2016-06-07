@@ -368,7 +368,7 @@ class CourseRollover {
         $duplicateCourses = $this->courseManager->findCoursesBy(['title'=>$title, 'year'=>$newAcademicYear]);
         if (count($duplicateCourses) > 0) {
             throw new \Exception(
-                "Another course with the same title and academic year already exists. If the year is correcct, consider setting a new course title with '--new-course-title' option."
+                "Another course with the same title and academic year already exists. If the year is correct, consider setting a new course title with '--new-course-title' option."
             );
         }
     }
