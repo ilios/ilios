@@ -79,7 +79,6 @@ class CourseRollover {
         $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
         $this->offeringManager = $offeringManager;
 
-
     }
 
     /**
@@ -106,6 +105,9 @@ class CourseRollover {
 
         //get the original course object
         $originalCourse = $this->courseManager->findCourseBy(['id'=>$originalCourseId]);
+
+        //if a new title is to be used, update before checking for duplicates
+        if(!empty($this->options['new-course-title'])) $originalCourse->setTitle($this->options['new-course-title']);
 
         //before creating the newCourse object, check for courses with same title & year, so a rollover is not run 2x
         $this->checkForDuplicateRollover($originalCourse->getTitle(), $args['newAcademicYear']);
@@ -366,7 +368,7 @@ class CourseRollover {
         $duplicateCourses = $this->courseManager->findCoursesBy(['title'=>$title, 'year'=>$newAcademicYear]);
         if (count($duplicateCourses) > 0) {
             throw new \Exception(
-                "Another course with the same title and academic year already exists."
+                "Another course with the same title and academic year already exists. If the year is correcct, consider setting a new course title with '--new-course-title' option."
             );
         }
     }

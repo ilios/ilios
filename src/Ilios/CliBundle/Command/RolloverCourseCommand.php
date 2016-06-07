@@ -115,6 +115,12 @@ class RolloverCourseCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_NONE,
                 'Do not copy instructor group associations, (default if --skip-offerings or --skip-instructors are set)'
+            )
+            ->AddOption(
+                'new-course-title',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Optionally enter a new title for the course. (useful for ILM courses being rolled-over to same year)'
             );
     }
 
