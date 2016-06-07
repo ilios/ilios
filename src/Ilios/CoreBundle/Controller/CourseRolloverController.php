@@ -7,12 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CourseRolloverController extends Controller
 {
+    /**
+     * @param $args
+     * @param $options
+     */
+    public function indexAction($args, $options) {
 
-    public function indexAction($courseId, $newCourseAcademicYear, $newCourseStartDate = null)
-    {
         $service = $this->getContainer()->get('ilioscore.courserollover');
-        $service->rolloverCourse($courseId, $newCourseAcademicYear, $newCourseStartDate);
+        $service->rolloverCourse($args, $options);
 
     }
-
 }

@@ -18,7 +18,6 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class RolloverCourseCommand extends ContainerAwareCommand
 {
-
     /**
      * {@inheritdoc}
      */
@@ -119,14 +118,12 @@ class RolloverCourseCommand extends ContainerAwareCommand
             );
     }
 
-
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         //access the CourseRollover class as a service
         $service = $this->getContainer()->get('ilioscore.courserollover');
 
@@ -135,7 +132,5 @@ class RolloverCourseCommand extends ContainerAwareCommand
 
         //output message with the new courseId on success
         $output->writeln("This course has been rolled over.  The new course url is -> https://curriculum.ucsf.edu/courses/" . $newCourse);
-
     }
-
 }
