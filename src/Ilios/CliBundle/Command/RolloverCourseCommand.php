@@ -103,13 +103,13 @@ class RolloverCourseCommand extends ContainerAwareCommand
                 'skip-offerings',
                 null,
                 InputOption::VALUE_NONE,
-                'Do not copy/recreate the offerings'
+                'Do not copy/recreate the offerings, (default if --skip-sessions is set)'
             )
             ->AddOption(
                 'skip-instructors',
                 null,
                 InputOption::VALUE_NONE,
-                'Do not copy instructor associations (default if --skip-offerings is set)'
+                'Do not copy instructor associations (default if --skip-offerings or --skip-sessions is set)'
             )
             ->AddOption(
                 'skip-instructor-groups',

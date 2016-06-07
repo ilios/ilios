@@ -10,8 +10,6 @@ use Ilios\CoreBundle\Entity\Manager\SessionManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
 
-//use Ilios\CoreBundle\Entity\Course;
-
 /**
  * Class CourseRollover
  * @package Ilios\CoreBundle\Classes
@@ -116,11 +114,12 @@ class CourseRollover {
         $originalCourseStartDate = $originalCourse->getStartDate();
         $originalCourseEndDate = $originalCourse->getEndDate();
 
-        $offsetInWeeks = $this->calculateRolloverOffsetInWeeks($originalCourse, $newAcademicYear, $newStartDate);
+        //get/set the week offset and make it globally-accessible in the class
+        $this->offsetInWeeks = $this->calculateRolloverOffsetInWeeks($originalCourse, $newAcademicYear, $newStartDate);
 
         //set up the $newCourse values that need some pre-processing
-        $newCourseStartDate = $originalCourseStartDate->modify('+ ' . $offsetInWeeks . ' weeks');
-        $newCourseEndDate = $originalCourseEndDate->modify('+ ' . $offsetInWeeks . ' weeks');
+        $newCourseStartDate = $originalCourseStartDate->modify('+ ' . $this->offsetInWeeks . ' weeks');
+        $newCourseEndDate = $originalCourseEndDate->modify('+ ' . $this->offsetInWeeks . ' weeks');
 
         //create the Course
         //if there are not any duplicates, create a new course with the relevant info
@@ -227,6 +226,11 @@ class CourseRollover {
                 $newSession->setMeshDescriptors($originalCourseSession->getMeshDescriptors());
             }
 
+            //Offerings
+            if(empty($this->options['skip-offerings'])) {
+                $this->rolloverOfferings($newSession, $originalCourseSession);
+            }
+
             $this->em->persist($newSession);
         }
     }
@@ -251,6 +255,42 @@ class CourseRollover {
             $newSessionLearningMaterial->setMeshDescriptors($originalSessionLearningMaterial->getMeshDescriptors());
 
             $this->em->persist($newSessionLearningMaterial);
+        }
+    }
+
+
+    /**
+     * @param $newSession
+     * @param $originalCourseSession
+     */
+    protected function rolloverOfferings($newSession, $originalCourseSession) {
+
+        $originalSessionOfferings = $this->offeringManager->findOfferingsBy(['session'=>$originalCourseSession]);
+
+        foreach($originalSessionOfferings as $originalSessionOffering) {
+
+            //preprocess the offering start/end dates
+            $newOfferingStartDate = ($originalSessionOffering->getStartDate()->modify('+ ' . $this->offsetInWeeks . ' weeks'));
+            $newOfferingEndDate = ($originalSessionOffering->getEndDate()->modify('+ ' . $this->offsetInWeeks . ' weeks'));
+
+            $newOffering = $this->offeringManager->createOffering();
+            $newOffering->setRoom($originalSessionOffering->getRoom());
+            $newOffering->setStartDate($newOfferingStartDate);
+            $newOffering->setEndDate($newOfferingEndDate);
+            $newOffering->setUpdatedAt(new \DateTime);
+            $newOffering->setSession($newSession);
+
+            //Instructors
+            if(empty($this->options['skip-instructors'])) {
+                $newOffering->setInstructors($originalSessionOffering->getInstructors());
+            }
+
+            //Instructor Groups
+            if(empty($this->options['skip-instructor-groups'])) {
+                $newOffering->setInstructorGroups($originalSessionOffering->getInstructorGroups());
+            }
+
+            $this->em->persist($newOffering);
         }
     }
 
