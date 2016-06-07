@@ -590,6 +590,4 @@ class Course implements CourseInterface
     {
         return $this->learningMaterials;
     }
-    
 }
-
