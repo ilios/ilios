@@ -203,7 +203,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\ManyToOne(targetEntity="CurriculumInventoryAcademicLevel", inversedBy="sequenceBlocks")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="academic_level_id", referencedColumnName="academic_level_id", nullable=false)
+     *   @ORM\JoinColumn(
+     *     name="academic_level_id",
+     *     referencedColumnName="academic_level_id",
+     *     nullable=false,
+     *     onDelete="cascade"
+     *   )
      * })
      *
      * @JMS\Expose
@@ -230,7 +235,11 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\ManyToOne(targetEntity="CurriculumInventorySequenceBlock", inversedBy="children")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="parent_sequence_block_id", referencedColumnName="sequence_block_id")
+     *   @ORM\JoinColumn(
+     *     name="parent_sequence_block_id",
+     *     referencedColumnName="sequence_block_id",
+     *     onDelete="cascade"
+     *   )
      * })
      *
      * @JMS\Expose
@@ -254,7 +263,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\ManyToOne(targetEntity="CurriculumInventoryReport", inversedBy="sequenceBlocks")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id")
+     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", onDelete="cascade")
      * })
      *
      * @JMS\Expose

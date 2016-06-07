@@ -66,7 +66,12 @@ class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequ
      *
      * @ORM\ManyToOne(targetEntity="CurriculumInventorySequenceBlock", inversedBy="sessions")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sequence_block_id", referencedColumnName="sequence_block_id", nullable=false)
+     *   @ORM\JoinColumn(
+     *     name="sequence_block_id",
+     *     referencedColumnName="sequence_block_id",
+     *     nullable=false,
+     *     onDelete="cascade"
+     *   )
      * })
      *
      * @JMS\Expose
