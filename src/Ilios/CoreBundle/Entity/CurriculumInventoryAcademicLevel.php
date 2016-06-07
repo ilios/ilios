@@ -105,7 +105,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *
      * @ORM\ManyToOne(targetEntity="CurriculumInventoryReport", inversedBy="academicLevels")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id")
+     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", onDelete="cascade")
      * })
      *
      * @JMS\Expose
