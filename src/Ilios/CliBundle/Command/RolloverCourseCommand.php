@@ -3,7 +3,6 @@
 namespace Ilios\CliBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-//use Doctrine\ORM\EntityManager;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -120,8 +119,11 @@ class RolloverCourseCommand extends ContainerAwareCommand
             );
     }
 
-    
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
@@ -131,19 +133,8 @@ class RolloverCourseCommand extends ContainerAwareCommand
         //roll it over to build the newCourse object
         $newCourse = $service->rolloverCourse($input->getArguments(), $input->getOptions());
 
-        //initialize the entity manager to manage the new course and commit it to the db...
-        try {
-            $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-            $em->persist($newCourse);
-            $em->flush($newCourse);
-
-            $output->writeln("This course has been rolled over.  The new course id is ->" . $newCourse->getId());
-        } catch (Exception $e) {
-            $output->writeln("This course could not be rolled over: " . $e->getMessage());
-        }
-
-        //output for debug
-        //\Doctrine\Common\Util\Debug::dump($newStartDate);
+        //output message with the new courseId on success
+        $output->writeln("This course has been rolled over.  The new course url is -> https://curriculum.ucsf.edu/courses/" . $newCourse);
 
     }
 
