@@ -261,7 +261,7 @@ class Exporter
         //
         // ReportID
         //
-        $reportId = $report->getYear() . 'x' . $report->getProgram()->getId() . 'x' . time();
+        $reportId = $report->getYear() . 'x' . $report->getProgram()->getId() . 'x' . $report->getId() . 'x' . time();
         $reportIdNode = $dom->createElement('ReportID', $reportId);
         $reportIdNode->setAttribute('domain', "idd:{$this->institutionDomain}:cireport");
         $rootNode->appendChild($reportIdNode);

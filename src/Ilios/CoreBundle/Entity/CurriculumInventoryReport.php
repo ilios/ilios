@@ -18,9 +18,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="curriculum_inventory_report",
- *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="program_id_year", columns={"program_id", "year"})
- *   },
  *   indexes={
  *     @ORM\Index(name="IDX_6E31899E3EB8070A", columns={"program_id"})
  *   }
