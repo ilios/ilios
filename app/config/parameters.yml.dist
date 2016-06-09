@@ -37,6 +37,9 @@ parameters:
     ldap_directory_search_base: null
     ldap_directory_campus_id_property: null
     ldap_directory_username_property: null
+    shibboleth_authentication_login_path: "/Shibboleth.sso/Login"
+    shibboleth_authentication_logout_path: "/Shibboleth.sso/Logout"
+    shibboleth_authentication_user_id_attribute: "eppn"
     timezone: 'America/Los_Angeles'
     forceProtocol: https
     keep_frontend_updated: true

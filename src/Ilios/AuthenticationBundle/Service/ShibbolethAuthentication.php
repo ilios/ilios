@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
+/**
+ * Class ShibbolethAuthentication
+ * @package Ilios\AuthenticationBundle\Service
+ */
 class ShibbolethAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
@@ -29,19 +33,35 @@ class ShibbolethAuthentication implements AuthenticationInterface
     protected $logger;
 
     /**
+     * @var String
+     */
+    protected $logoutPath;
+
+    /**
+     * @var String
+     */
+    protected $userIdAttribute;
+
+    /**
      * Constructor
      * @param AuthenticationManager $authManager
      * @param JsonWebTokenManager $jwtManager
      * @param LoggerInterface $logger
+     * @param String $logoutPath
+     * @param String $userIdAttribute
      */
     public function __construct(
         AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        $logoutPath,
+        $userIdAttribute
     ) {
         $this->authManager = $authManager;
         $this->jwtManager = $jwtManager;
         $this->logger = $logger;
+        $this->logoutPath = $logoutPath;
+        $this->userIdAttribute = $userIdAttribute;
     }
     
     /**
@@ -52,7 +72,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
      * If the user is authenticated send a JWT
      * @param Request $request
      *
-     * @throws \Exception when the shibboleth attributes do not contain an eppn
+     * @throws \Exception when the shibboleth attributes do not contain a value for the configured user id attribute
      * @return JsonResponse
      */
     public function login(Request $request)
@@ -65,14 +85,14 @@ class ShibbolethAuthentication implements AuthenticationInterface
                 'jwt' => null,
             ), JsonResponse::HTTP_OK);
         }
-        $eppn = $request->server->get('eppn');
-        if (!$eppn) {
-            $msg =  "No 'eppn' found for authenticated user.";
+        $userId = $request->server->get($this->userIdAttribute);
+        if (!$userId) {
+            $msg =  "No '{$this->userIdAttribute}' found for authenticated user.";
             $this->logger->error($msg, ['server vars' => var_export($_SERVER, true)]);
             throw new \Exception($msg);
         }
         /* @var \Ilios\CoreBundle\Entity\AuthenticationInterface $authEntity */
-        $authEntity = $this->authManager->findOneBy(array('username' => $eppn));
+        $authEntity = $this->authManager->findOneBy(array('username' => $userId));
         if ($authEntity) {
             $user = $authEntity->getUser();
             if ($user->isEnabled()) {
@@ -84,7 +104,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
 
         return new JsonResponse(array(
             'status' => 'noAccountExists',
-            'eppn' => $eppn,
+            'userId' => $userId,
             'errors' => [],
             'jwt' => null,
         ), JsonResponse::HTTP_OK);
@@ -100,7 +120,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
     public function logout(Request $request)
     {
         $url = $request->getSchemeAndHttpHost();
-        $logoutUrl = $url . '/Shibboleth.sso/Logout';
+        $logoutUrl = $url . $this->logoutPath;
         return new JsonResponse(array(
             'status' => 'redirect',
             'logoutUrl' => $logoutUrl

@@ -22,7 +22,9 @@ class ShibbolethAuthenticationTest extends TestCase
         $obj = new ShibbolethAuthentication(
             $authManager,
             $jwtManager,
-            $logger
+            $logger,
+            '/Shibboleth.sso/Logout',
+            'eppn'
         );
         $this->assertTrue($obj instanceof ShibbolethAuthentication);
     }
@@ -36,7 +38,9 @@ class ShibbolethAuthenticationTest extends TestCase
         $obj = new ShibbolethAuthentication(
             $authManager,
             $jwtManager,
-            $logger
+            $logger,
+            '/Shibboleth.sso/Logout',
+            'eppn'
         );
         
         $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')
@@ -62,7 +66,9 @@ class ShibbolethAuthenticationTest extends TestCase
         $obj = new ShibbolethAuthentication(
             $authManager,
             $jwtManager,
-            $logger
+            $logger,
+            '/Shibboleth.sso/Logout',
+            'eppn'
         );
 
         $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')
@@ -84,7 +90,9 @@ class ShibbolethAuthenticationTest extends TestCase
         $obj = new ShibbolethAuthentication(
             $authManager,
             $jwtManager,
-            $logger
+            $logger,
+            '/Shibboleth.sso/Logout',
+            'eppn'
         );
 
         $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')
@@ -102,7 +110,7 @@ class ShibbolethAuthenticationTest extends TestCase
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'noAccountExists');
-        $this->assertSame($data->eppn, 'userid1');
+        $this->assertSame($data->userId, 'userid1');
     }
     
     public function testDisabledUser()
@@ -113,7 +121,9 @@ class ShibbolethAuthenticationTest extends TestCase
         $obj = new ShibbolethAuthentication(
             $authManager,
             $jwtManager,
-            $logger
+            $logger,
+            '/Shibboleth.sso/Logout',
+            'eppn'
         );
         
         $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')
@@ -149,7 +159,9 @@ class ShibbolethAuthenticationTest extends TestCase
         $obj = new ShibbolethAuthentication(
             $authManager,
             $jwtManager,
-            $logger
+            $logger,
+            '/Shibboleth.sso/Logout',
+            'eppn'
         );
 
         $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')

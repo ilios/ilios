@@ -21,7 +21,18 @@ class IliosAuthenticationExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-
+        $container->setParameter(
+            'ilios_authentication.shibboleth.login_path',
+            $config['shibboleth_authentication_login_path']
+        );
+        $container->setParameter(
+            'ilios_authentication.shibboleth.logout_path',
+            $config['shibboleth_authentication_logout_path']
+        );
+        $container->setParameter(
+            'ilios_authentication.shibboleth.user_id_attribute',
+            $config['shibboleth_authentication_user_id_attribute']
+        );
         $container->setParameter('ilios_authentication.legacy_salt', $config['legacy_salt']);
         $container->setParameter('ilios_authentication.type', $config['type']);
         $container->setParameter('ilios_authentication.ldap.host', $config['ldap_authentication_host']);

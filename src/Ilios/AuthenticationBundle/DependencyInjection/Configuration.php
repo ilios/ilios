@@ -27,6 +27,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('ldap_authentication_host')->defaultValue(null)->end()
                 ->scalarNode('ldap_authentication_port')->defaultValue(null)->end()
                 ->scalarNode('ldap_authentication_bind_template')->defaultValue(null)->end()
+                ->scalarNode('shibboleth_authentication_login_path')->defaultValue(null)->end()
+                ->scalarNode('shibboleth_authentication_logout_path')->defaultValue(null)->end()
+                ->scalarNode('shibboleth_authentication_user_id_attribute')->defaultValue(null)->end()
             ->end();
 
         return $treeBuilder;
