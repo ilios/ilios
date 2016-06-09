@@ -120,9 +120,11 @@ class CourseRollover {
         $weeksOffsetModifier = gmp_sign($weeksOffset);
         $this->offsetInWeeks = (($weeksOffsetModifier < 0) ? '-' : '+') . ' ' . abs($weeksOffset) . ' weeks';
 
-        //adjust the newCourse start and end dates based on the original dates and the offset in weeks
-        $newCourseStartDate = $originalCourseStartDate->modify($this->offsetInWeeks);
-        $newCourseEndDate = $originalCourseEndDate->modify($this->offsetInWeeks);
+        //create/modify the newCourse start and end dates based on the original dates and the offset in weeks
+        $newCourseStartDate = clone $originalCourseStartDate;
+        $newCourseStartDate->modify($this->offsetInWeeks);
+        $newCourseEndDate = clone $originalCourseEndDate;
+        $newCourseEndDate->modify($this->offsetInWeeks);
 
         //create the Course
         //if there are not any duplicates, create a new course with the relevant info
