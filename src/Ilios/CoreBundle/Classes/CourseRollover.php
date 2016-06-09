@@ -100,13 +100,17 @@ class CourseRollover {
 
         //make sure that the new course's academic year or new start date year is not in the past
         $this->confirmYearIsNotInPast($newAcademicYear);
-        if(!empty($newStartDate)) $this->confirmYearIsNotInPast($newStartDate->format('Y'));
+        if(!empty($newStartDate)){
+            $this->confirmYearIsNotInPast($newStartDate->format('Y'));
+        }
 
         //get the original course object
         $originalCourse = $this->getOriginalCourse($originalCourseId);
 
         //if a new title is to be used, update before checking for duplicates
-        if(!empty($this->options['new-course-title'])) $originalCourse->setTitle($this->options['new-course-title']);
+        if(!empty($this->options['new-course-title'])){
+            $originalCourse->setTitle($this->options['new-course-title']);
+        }
 
         //before creating the newCourse object, check for courses with same title & year, so a rollover is not run 2x
         $this->checkForDuplicateRollover($originalCourse->getTitle(), $args['newAcademicYear']);
