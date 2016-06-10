@@ -160,3 +160,6 @@ ilios_authentication:
     ldap_authentication_host: "%ldap_authentication_host%"
     ldap_authentication_port: "%ldap_authentication_port%"
     ldap_authentication_bind_template: "%ldap_authentication_bind_template%"
+    shibboleth_authentication_login_path: "%shibboleth_authentication_login_path%"
+    shibboleth_authentication_logout_path: "%shibboleth_authentication_logout_path%"
+    shibboleth_authentication_user_id_attribute: "%shibboleth_authentication_user_id_attribute%"

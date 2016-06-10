@@ -19,7 +19,7 @@ services:
         arguments: ["@ilioscore.authentication.manager", "@security.password_encoder", "@security.token_storage", "@ilios_authentication.jwt.manager"]
     ilios_authentication.shibboleth.authentication:
         class: Ilios\AuthenticationBundle\Service\ShibbolethAuthentication
-        arguments: ["@ilioscore.authentication.manager","@ilios_authentication.jwt.manager", "@logger"]
+        arguments: ["@ilioscore.authentication.manager","@ilios_authentication.jwt.manager", "@logger", "%ilios_authentication.shibboleth.logout_path%", "%ilios_authentication.shibboleth.user_id_attribute%"]
     ilios_authentication.ldap.authentication:
         class: Ilios\AuthenticationBundle\Service\LdapAuthentication
         arguments: ["@ilioscore.authentication.manager", "@ilios_authentication.jwt.manager", '%ilios_authentication.ldap.host%', '%ilios_authentication.ldap.port%', '%ilios_authentication.ldap.bind_template%']
