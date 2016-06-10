@@ -1,7 +1,33 @@
 # Change Log
 
-## [v3.12.0](https://github.com/ilios/ilios/tree/v3.12.0)
+## [v3.13.0](https://github.com/ilios/ilios/tree/v3.13.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.12.0...v3.13.0)
+
+**Implemented enhancements:**
+
+- Add configuration options for Shibboleth auth [\#1447](https://github.com/ilios/ilios/issues/1447)
+- Allow token to be invalidated [\#1439](https://github.com/ilios/ilios/issues/1439)
+
+**Closed issues:**
+
+- Foreign key error when running DB schema update script [\#1452](https://github.com/ilios/ilios/issues/1452)
+- Update Wiki page on Shibboleth authn [\#1450](https://github.com/ilios/ilios/issues/1450)
+- allow for cascading deletes from curriculum inventory [\#1441](https://github.com/ilios/ilios/issues/1441)
+
+**Merged pull requests:**
+
+- Move drop tables further up in update script [\#1453](https://github.com/ilios/ilios/pull/1453) ([jrjohnson](https://github.com/jrjohnson))
+- made shibb login/logout path and asserted user id attr configurable. [\#1448](https://github.com/ilios/ilios/pull/1448) ([stopfstedt](https://github.com/stopfstedt))
+- rm unique constraint from ci reports. [\#1444](https://github.com/ilios/ilios/pull/1444) ([stopfstedt](https://github.com/stopfstedt))
+- enable cascading deletes from curriculum inventory reports. [\#1443](https://github.com/ilios/ilios/pull/1443) ([stopfstedt](https://github.com/stopfstedt))
+- Update dependencies and remove dead packages [\#1442](https://github.com/ilios/ilios/pull/1442) ([jrjohnson](https://github.com/jrjohnson))
+- Allow tokens to be invalidated at /auth/invalidatetokens [\#1440](https://github.com/ilios/ilios/pull/1440) ([jrjohnson](https://github.com/jrjohnson))
+- "atomic" ci report creation [\#1438](https://github.com/ilios/ilios/pull/1438) ([stopfstedt](https://github.com/stopfstedt))
+- Update API to v1.5 [\#1434](https://github.com/ilios/ilios/pull/1434) ([jrjohnson](https://github.com/jrjohnson))
+- refactor managers and handlers. [\#1426](https://github.com/ilios/ilios/pull/1426) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.12.0](https://github.com/ilios/ilios/tree/v3.12.0) (2016-05-27)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.11.0...v3.12.0)
 
 **Implemented enhancements:**
@@ -16,6 +42,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for v3.12.0 release [\#1437](https://github.com/ilios/ilios/pull/1437) ([thecoolestguy](https://github.com/thecoolestguy))
 - Align API docs with expectations [\#1436](https://github.com/ilios/ilios/pull/1436) ([jrjohnson](https://github.com/jrjohnson))
 - Fix problem with AuditLog [\#1432](https://github.com/ilios/ilios/pull/1432) ([jrjohnson](https://github.com/jrjohnson))
 - added call to remove 'fkey\_user\_primary\_school' index [\#1429](https://github.com/ilios/ilios/pull/1429) ([thecoolestguy](https://github.com/thecoolestguy))
