@@ -29,6 +29,13 @@ DROP FUNCTION IF EXISTS course_has_cohort_stewarded_or_owned_by_school;
 DROP FUNCTION IF EXISTS group_is_child_of_group;
 DROP FUNCTION IF EXISTS program_has_year_stewarded_by_school;
 DROP FUNCTION IF EXISTS user_can_be_assigned;
+DROP TABLE IF EXISTS `group_default_instructor`;
+DROP TABLE IF EXISTS `curriculum_inventory_program`;
+DROP TABLE IF EXISTS `ilm_session_facet_learner`;
+DROP TABLE IF EXISTS `ilm_session_facet_instructor`;
+DROP TABLE IF EXISTS `offering_instructor`;
+DROP TABLE IF EXISTS `offering_learner`;
+DROP TABLE IF EXISTS `group_x_group`;
 delimiter //
 CREATE PROCEDURE drop_index_if_exists(theTable VARCHAR(128), theIndexName VARCHAR(128))
 BEGIN
@@ -645,14 +652,7 @@ ALTER TABLE `user_x_cohort` CHANGE `user_id` `user_id` INT NOT NULL;
 ALTER TABLE `user_x_cohort` CHANGE `cohort_id` `cohort_id` INT NOT NULL;
 ALTER TABLE `user_x_user_role` CHANGE `user_id` `user_id` INT NOT NULL;
 ALTER TABLE `user_x_user_role` CHANGE `user_role_id` `user_role_id` INT NOT NULL;
-DROP TABLE IF EXISTS `group_default_instructor`;
-DROP TABLE IF EXISTS `curriculum_inventory_program`;
-DROP TABLE IF EXISTS `ilm_session_facet_learner`;
-DROP TABLE IF EXISTS `ilm_session_facet_instructor`;
-DROP TABLE IF EXISTS `offering_instructor`;
-DROP TABLE IF EXISTS `offering_learner`;
 DROP TABLE IF EXISTS `report_po_value`;
-DROP TABLE IF EXISTS `group_x_group`;
 ALTER TABLE `user_x_cohort` DROP COLUMN `is_primary`;
 ALTER TABLE `program_year_x_objective` ADD PRIMARY KEY (program_year_id, objective_id);
 ALTER TABLE `program_year_x_discipline` ADD PRIMARY KEY (program_year_id, discipline_id);

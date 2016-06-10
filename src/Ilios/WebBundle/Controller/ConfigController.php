@@ -15,10 +15,12 @@ class ConfigController extends Controller
     {
         $configuration = [];
         $authenticationType = $this->container->getParameter('ilios_authentication.type');
+
         $configuration['type'] = $authenticationType;
         if ($authenticationType == 'shibboleth') {
+            $loginPath = $this->container->getParameter('ilios_authentication.shibboleth.login_path');
             $url = $this->get('request')->getSchemeAndHttpHost();
-            $configuration['loginUrl'] = $url . '/Shibboleth.sso/Login';
+            $configuration['loginUrl'] = $url . $loginPath;
         }
         $configuration['locale'] = $this->container->getParameter('locale');
 
