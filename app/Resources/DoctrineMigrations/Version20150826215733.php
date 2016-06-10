@@ -17,6 +17,7 @@ class Version20150826215733 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('SET FOREIGN_KEY_CHECKS=0');
         $this->addSql('ALTER TABLE ilm_session_facet ADD session_id INT DEFAULT NULL');
         $this->addSql(
             'ALTER TABLE ilm_session_facet ADD CONSTRAINT FK_8C070D9613FECDF FOREIGN KEY (session_id) ' .
@@ -34,6 +35,7 @@ class Version20150826215733 extends AbstractMigration
         $this->addSql('DROP INDEX UNIQ_D044D5D4504270C1 ON session');
         $this->addSql('DROP INDEX session_ibfk_3 ON session');
         $this->addSql('ALTER TABLE session DROP ilm_session_facet_id');
+        $this->addSql('SET FOREIGN_KEY_CHECKS=1');
     }
 
     /**

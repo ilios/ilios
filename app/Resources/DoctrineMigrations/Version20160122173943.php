@@ -18,6 +18,7 @@ class Version20160122173943 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('SET FOREIGN_KEY_CHECKS=0');
         $this->addSql('ALTER TABLE user CHANGE school_id school_id INT NOT NULL');
         $this->addSql('ALTER TABLE learning_material CHANGE owning_user_id owning_user_id INT NOT NULL, CHANGE learning_material_user_role_id learning_material_user_role_id INT NOT NULL, CHANGE learning_material_status_id learning_material_status_id INT NOT NULL');
         $this->addSql('ALTER TABLE user_made_reminder CHANGE user_id user_id INT NOT NULL');
@@ -32,6 +33,7 @@ class Version20160122173943 extends AbstractMigration
         $this->addSql('ALTER TABLE program CHANGE school_id school_id INT NOT NULL');
         $this->addSql('ALTER TABLE discipline CHANGE school_id school_id INT NOT NULL');
         $this->addSql('ALTER TABLE department CHANGE school_id school_id INT NOT NULL');
+        $this->addSql('SET FOREIGN_KEY_CHECKS=1');
     }
 
     /**
