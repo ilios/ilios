@@ -38,14 +38,19 @@ class LogEntityChanges
         
         $auditLogMetaData = $entityManager->getClassMetadata('IliosCoreBundle:AuditLog');
         $logger = $this->container->get('ilioscore.logger');
+        $queue = $this->container->get('ilioscore.logger.queue');
         foreach ($actions as $action => $entities) {
             foreach ($entities as $entity) {
                 if ($entity instanceof LoggableEntityInterface) {
                     $changeset = $uow->getEntityChangeSet($entity);
                     $valuesChanged = implode(array_keys($changeset), ',');
-                    $id = (string) $entity;
-                    $auditLog = $logger->log($action, $id, get_class($entity), $valuesChanged, false);
-                    $uow->computeChangeSet($auditLogMetaData, $auditLog);
+                    if ('create' === $action) {
+                        $queue->add($action, $entity, $valuesChanged);
+                    } else {
+                        $id = (string) $entity;
+                        $auditLog = $logger->log($action, $id, get_class($entity), $valuesChanged, false);
+                        $uow->computeChangeSet($auditLogMetaData, $auditLog);
+                    }
                 }
             }
         }

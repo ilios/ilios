@@ -15,11 +15,17 @@ services:
             - { name: doctrine.event_listener, event: onFlush }
     ilioscore.listener.logentitychanges:
         class: Ilios\CoreBundle\EventListener\LogEntityChanges
-        arguments: ['@ilioscore.logger']
+        arguments: ['@ilioscore.logger', '@ilioscore.logger.queue']
         tags:
-            - { name: doctrine.event_listener, event: onFlush } 
+            - { name: doctrine.event_listener, event: onFlush }
         calls:
         - [ setContainer, ['@service_container'] ]
+    ilioscore.listener.loggerqueue:
+        class: Ilios\CoreBundle\EventListener\LoggerQueueListener
+        arguments: ['@ilioscore.logger.queue']
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: flushQueue }
+            - { name: kernel.event_listener, event: console.terminate, method: flushQueue }
     ilioscore.dataimport_filelocator:
         class: Ilios\CoreBundle\Classes\DataimportFileLocator
         arguments: [ '@file_locator' ]
@@ -34,6 +40,9 @@ services:
     ilioscore.logger:
         class: Ilios\CoreBundle\Service\Logger
         arguments: ['@security.token_storage', '@ilioscore.auditlog.manager']
+    ilioscore.logger.queue:
+        class: Ilios\CoreBundle\Classes\LoggerQueue
+        arguments: ['@ilioscore.logger']
     ilioscore.ldapmanager:
         class: Ilios\CoreBundle\Service\LdapManager
         arguments: ['%ilios_core.ldap.url%', '%ilios_core.ldap.user%', '%ilios_core.ldap.password%', '%ilios_core.ldap.search_base%', '%ilios_core.ldap.campus_id_property%', '%ilios_core.ldap.username_property%']
@@ -49,3 +58,4 @@ services:
     ilioscore.form.transformer.html_purifier:
         class: Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer
         arguments: ["@exercise_html_purifier.default"]
+
