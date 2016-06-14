@@ -2,6 +2,7 @@
 namespace Ilios\CoreBundle\Service;
 
 use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
+use Ilios\CoreBundle\Entity\Manager\BaseManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -63,5 +64,13 @@ class Logger
         $this->manager->update($log, $andFlush);
         
         return $log;
+    }
+
+    /**
+     * @see BaseManager::flush()
+     */
+    public function flush()
+    {
+        $this->manager->flush();
     }
 }
