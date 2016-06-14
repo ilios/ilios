@@ -95,6 +95,6 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      */
     public function __toString()
     {
-        return (string) $this->report;
+        return (string) $this->id;
     }
 }
