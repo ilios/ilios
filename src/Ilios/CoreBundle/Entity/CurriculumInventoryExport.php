@@ -68,8 +68,6 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *      min = 1,
      *      max = 16000000
      * )
-     *
-     * @JMS\Expose
      * @JMS\Type("string")
      */
     protected $document;
@@ -94,6 +92,9 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      * @ORM\Column(name="created_on", type="datetime")
      *
      * @Assert\NotBlank()
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
     

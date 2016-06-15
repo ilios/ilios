@@ -56,6 +56,7 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals($responseData['report'], $postData['report']);
         $this->assertNotEmpty($responseData['createdBy']);
-        $this->assertEmpty($responseData['document'], ''); // yes, we expect an empty string here.
+        $this->assertNotEmpty($responseData['createdAt']);
+        $this->assertFalse(array_key_exists('document', $responseData), 'Document is not part of payload.');
     }
 }
