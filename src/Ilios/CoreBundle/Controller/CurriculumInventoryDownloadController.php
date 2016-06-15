@@ -32,15 +32,15 @@ class CurriculumInventoryDownloadController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *        "name"="id",
-     *        "dataType"="integer",
-     *        "requirement"="\d+",
-     *        "description"="The curriculum inventory report identifier."
+     *        "name"="token",
+     *        "dataType"="string",
+     *        "description"="The curriculum inventory report's download token."
      *     }
      *   },
      *   statusCodes={
      *     200 = "OK",
      *     401 = "Unauthorized.",
+     *     403 = "Access denied.",
      *     404 = "Not Found."
      *   }
      * )
@@ -51,14 +51,14 @@ class CurriculumInventoryDownloadController extends FOSRestController
      *
      * @return Response
      */
-    public function getAction($id)
+    public function getAction($token)
     {
         $manager = $this->container->get('ilioscore.curriculuminventoryreport.manager');
         /* @var CurriculumInventoryReportInterface $curriculumInventoryReport */
-        $curriculumInventoryReport = $manager->findOneBy(['id' => $id]);
+        $curriculumInventoryReport = $manager->findOneBy(['token' => $token]);
 
         if (! $curriculumInventoryReport) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $token));
         }
 
         $authChecker = $this->get('security.authorization_checker');
