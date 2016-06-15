@@ -47,7 +47,7 @@ class CurriculumInventoryDownloadController extends FOSRestController
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param $id
+     * @param $token
      *
      * @return Response
      */
@@ -59,11 +59,6 @@ class CurriculumInventoryDownloadController extends FOSRestController
 
         if (! $curriculumInventoryReport) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $token));
-        }
-
-        $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('view', $curriculumInventoryReport)) {
-            throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
         $document = $this->getExportedDocument($curriculumInventoryReport);
