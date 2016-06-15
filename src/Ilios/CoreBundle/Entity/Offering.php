@@ -488,12 +488,4 @@ class Offering implements OfferingInterface
         }
         return null;
     }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->id;
-    }
 }

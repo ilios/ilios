@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -35,6 +36,7 @@ class ProgramYear implements ProgramYearInterface
     use ObjectivesEntity;
     use PublishableEntity;
     use CategorizableEntity;
+    use StringableIdEntity;
 
     /**
     * @var int
@@ -358,13 +360,5 @@ class ProgramYear implements ProgramYearInterface
             return $program->getSchool();
         }
         return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }

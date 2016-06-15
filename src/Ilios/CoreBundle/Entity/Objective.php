@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,6 +32,7 @@ class Objective implements ObjectiveInterface
     use CoursesEntity;
     use SessionsEntity;
     use ProgramYearsEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -296,13 +298,5 @@ class Objective implements ObjectiveInterface
             $this->programYears->add($programYear);
             $programYear->addObjective($this);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }

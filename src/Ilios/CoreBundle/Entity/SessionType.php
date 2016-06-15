@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,6 +34,7 @@ class SessionType implements SessionTypeInterface
     use TitledEntity;
     use SessionsEntity;
     use SchoolEntity;
+    use StringableIdEntity;
 
     /**
      * @var integer
@@ -235,13 +237,5 @@ class SessionType implements SessionTypeInterface
     public function getAamcMethods()
     {
         return $this->aamcMethods;
-    }
-
-    /**
-    * @return string
-    */
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }
