@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -36,6 +37,7 @@ class School implements SchoolInterface
     use CoursesEntity;
     use ProgramsEntity;
     use StewardedEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -469,13 +471,5 @@ class School implements SchoolInterface
     public function getSessionTypes()
     {
         return $this->sessionTypes;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }

@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,6 +30,7 @@ class Competency implements CompetencyInterface
     use TitledEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -270,13 +272,5 @@ class Competency implements CompetencyInterface
             $this->programYears->add($programYear);
             $programYear->addCompetency($this);
         }
-    }
-
-    /**
-    * @return string
-    */
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }
