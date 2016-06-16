@@ -260,7 +260,6 @@ class CurriculumInventoryReportController extends FOSRestController
 
             $factory = $this->get('ilioscore.curriculum_inventory_report_decorator.factory');
             $answer['curriculumInventoryReport'] = $factory->create($curriculumInventoryReport);
-
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

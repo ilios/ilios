@@ -10,7 +10,6 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
-
 /**
  * Class CurriculumInventoryReportDecorator
  * @package Ilios\CoreBundle\Classes
@@ -43,6 +42,14 @@ class CurriculumInventoryReportDecorator
      * @JMS\Type("string")
      */
     protected $description;
+
+    /**
+     * @var string
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $sequence;
 
     /**
      * @var string
