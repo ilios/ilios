@@ -39,7 +39,7 @@ class CurriculumInventoryReportController extends FOSRestController
      *        "description"="CurriculumInventoryReport identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\CurriculumInventoryReport",
+     *   output="Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator",
      *   statusCodes={
      *     200 = "CurriculumInventoryReport.",
      *     404 = "Not Found."
@@ -61,7 +61,8 @@ class CurriculumInventoryReportController extends FOSRestController
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        $answer['curriculumInventoryReports'][] = $curriculumInventoryReport;
+        $factory = $this->get('ilioscore.curriculum_inventory_report_decorator.factory');
+        $answer['curriculumInventoryReports'][] = $factory->create($curriculumInventoryReport);
 
         return $answer;
     }
@@ -73,7 +74,7 @@ class CurriculumInventoryReportController extends FOSRestController
      *   section = "CurriculumInventoryReport",
      *   description = "Get all CurriculumInventoryReport.",
      *   resource = true,
-     *   output="Ilios\CoreBundle\Entity\CurriculumInventoryReport",
+     *   output="Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator",
      *   statusCodes = {
      *     200 = "List of all CurriculumInventoryReport",
      *     204 = "No content. Nothing to list."
@@ -133,9 +134,13 @@ class CurriculumInventoryReportController extends FOSRestController
             return $authChecker->isGranted('view', $entity);
         });
 
+        $factory = $this->get('ilioscore.curriculum_inventory_report_decorator.factory');
+        $result = array_map(function (CurriculumInventoryReportInterface $report) use ($factory) {
+            return $factory->create($report);
+        }, array_values($result));
+
         //If there are no matches return an empty array
-        $answer['curriculumInventoryReports'] =
-            $result ? array_values($result) : [];
+        $answer['curriculumInventoryReports'] = $result ? $result : [];
 
         return $answer;
     }
@@ -148,7 +153,7 @@ class CurriculumInventoryReportController extends FOSRestController
      *   description = "Create a CurriculumInventoryReport and its associated Academic Levels and Sequence.",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryReportType",
-     *   output="Ilios\CoreBundle\Entity\CurriculumInventoryReport",
+     *   output="Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator",
      *   statusCodes={
      *     201 = "Created CurriculumInventoryReport.",
      *     400 = "Bad Request.",
@@ -195,7 +200,8 @@ class CurriculumInventoryReportController extends FOSRestController
             $sequence->setReport($curriculumInventoryReport);
             $sequenceManager->update($sequence, true, false); // flush here.
 
-            $answer['curriculumInventoryReports'] = [$curriculumInventoryReport];
+            $factory = $this->get('ilioscore.curriculum_inventory_report_decorator.factory');
+            $answer['curriculumInventoryReports'] = [$factory->create($curriculumInventoryReport)];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -213,7 +219,7 @@ class CurriculumInventoryReportController extends FOSRestController
      *   description = "Update a CurriculumInventoryReport entity.",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryReportType",
-     *   output="Ilios\CoreBundle\Entity\CurriculumInventoryReport",
+     *   output="Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator",
      *   statusCodes={
      *     200 = "Updated CurriculumInventoryReport.",
      *     201 = "Created CurriculumInventoryReport.",
@@ -242,6 +248,7 @@ class CurriculumInventoryReportController extends FOSRestController
             }
 
             $handler = $this->container->get('ilioscore.curriculuminventoryreport.handler');
+            /** @var CurriculumInventoryReportInterface $curriculumInventoryReport */
             $curriculumInventoryReport = $handler->put($curriculumInventoryReport, $this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -251,7 +258,9 @@ class CurriculumInventoryReportController extends FOSRestController
 
             $manager->update($curriculumInventoryReport, true, true);
 
-            $answer['curriculumInventoryReport'] = $curriculumInventoryReport;
+            $factory = $this->get('ilioscore.curriculum_inventory_report_decorator.factory');
+            $answer['curriculumInventoryReport'] = $factory->create($curriculumInventoryReport);
+
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

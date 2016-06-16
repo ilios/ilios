@@ -188,9 +188,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *      min = 1,
      *      max = 64
      * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("string")
      */
     protected $token;
 
