@@ -127,14 +127,19 @@ class RolloverCourseCommand extends ContainerAwareCommand
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         //access the CourseRollover class as a service
         $service = $this->getContainer()->get('ilioscore.courserollover');
 
+        //get/set the courseId and newAcademicYear arguments
+        $courseId = $input->getArgument('courseId');
+        $newAcademicYear = $input->getArgument('newAcademicYear');
+
         //roll it over to build the newCourse object
-        $newCourse = $service->rolloverCourse($input->getArguments(), $input->getOptions());
+        $newCourse = $service->rolloverCourse($courseId, $newAcademicYear, $input->getOptions());
 
         //output message with the new courseId on success
         $output->writeln("This course has been rolled over.  The new course url is -> https://curriculum.ucsf.edu/courses/" . $newCourse);
