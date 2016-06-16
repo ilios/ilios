@@ -76,7 +76,7 @@ class CourseRollover {
      * @param int $courseId
      * @param int $newAcademicYear
      * @param array $options
-     * @return mixed
+     * @return CourseInterface the new, rolled-over course.
      * @throws \Exception
      */
     public function rolloverCourse($courseId, $newAcademicYear, $options)
@@ -155,8 +155,8 @@ class CourseRollover {
         //commit EVERYTHING to the database
         $this->courseManager->flushAndClear();
 
-        //return the new courseId
-        return $newCourse->getId();
+        //return the course
+        return $newCourse;
     }
 
     /**
