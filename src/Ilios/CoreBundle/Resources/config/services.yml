@@ -63,4 +63,4 @@ services:
         arguments: ["@exercise_html_purifier.default"]
     ilioscore.courserollover:
         class: Ilios\CoreBundle\Classes\CourseRollover
-        arguments: ["@doctrine.orm.entity_manager","@ilioscore.course.manager","@ilioscore.learningmaterial.manager","@ilioscore.courselearningmaterial.manager","@ilioscore.session.manager","@ilioscore.sessionlearningmaterial.manager","@ilioscore.offering.manager"]
+        arguments: ["@ilioscore.course.manager","@ilioscore.learningmaterial.manager","@ilioscore.courselearningmaterial.manager","@ilioscore.session.manager","@ilioscore.sessionlearningmaterial.manager","@ilioscore.offering.manager"]

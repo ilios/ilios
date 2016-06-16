@@ -2,24 +2,20 @@
 
 namespace Ilios\CoreBundle\Classes;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SessionManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManagerInterface;
 use Ilios\CoreBundle\Entity\Manager\OfferingManagerInterface;
+use Ilios\CoreBundle\Entity\SessionInterface;
 
 /**
  * Class CourseRollover
  * @package Ilios\CoreBundle\Classes
  */
 class CourseRollover {
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
 
     /**
      * @var CourseManagerInterface
@@ -53,7 +49,6 @@ class CourseRollover {
 
     /**
      * CourseRollover constructor.
-     * @param EntityManagerInterface $entityManager
      * @param CourseManagerInterface $courseManager
      * @param LearningMaterialManagerInterface $learningMaterialManager
      * @param CourseLearningMaterialManagerInterface $courseLearningMaterialManager
@@ -62,7 +57,6 @@ class CourseRollover {
      * @param OfferingManagerInterface $offeringManager
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
         CourseManagerInterface $courseManager,
         LearningMaterialManagerInterface $learningMaterialManager,
         CourseLearningMaterialManagerInterface $courseLearningMaterialManager,
@@ -71,7 +65,6 @@ class CourseRollover {
         OfferingManagerInterface $offeringManager
 
     ) {
-        $this->em = $entityManager;
         $this->courseManager = $courseManager;
         $this->learningMaterialManager = $learningMaterialManager;
         $this->courseLearningMaterialManager = $courseLearningMaterialManager;
@@ -82,9 +75,9 @@ class CourseRollover {
     }
 
     /**
-     * @param $courseId
-     * @param $newAcademicYear
-     * @param $options
+     * @param int $courseId
+     * @param int $newAcademicYear
+     * @param array $options
      * @return mixed
      * @throws \Exception
      */
@@ -147,7 +140,7 @@ class CourseRollover {
         $newCourse->setMeshDescriptors($originalCourse->getMeshDescriptors());
 
         //persist the newCourse entity
-        $this->em->persist($newCourse);
+        $this->courseManager->updateCourse($newCourse, false, false);
 
         //now run each of the subcomponents, starting with the course-specific ones
         //COURSE LEARNING MATERIALS
@@ -157,25 +150,26 @@ class CourseRollover {
 
         //SESSIONS
         if(empty($options['skip-sessions'])) {
-            $this->rolloverSessions($newCourse, $originalCourse);
+            $this->rolloverSessions($newCourse, $originalCourse, $options, $offsetInWeeks);
         }
 
         //commit EVERYTHING to the database
-        $this->em->flush($newCourse);
+        $this->courseManager->flushAndClear();
 
         //return the new courseId
         return $newCourse->getId();
     }
 
     /**
-     * @param Course $newCourse
-     * @param Course $originalCourse
+     * @param CourseInterface $newCourse
+     * @param CourseInterface $originalCourse
      */
-    protected function rolloverCourseLearningMaterials($newCourse, $originalCourse)
+    protected function rolloverCourseLearningMaterials(CourseInterface $newCourse, CourseInterface $originalCourse)
     {
-        $originalCourseLearningMaterials = $this->courseLearningMaterialManager->findCourseLearningMaterialsBy(['course'=>$originalCourse]);
-        foreach($originalCourseLearningMaterials as $originalCourseLearningMaterial) {
+        $originalCourseLearningMaterials
+            = $this->courseLearningMaterialManager->findCourseLearningMaterialsBy(['course'=>$originalCourse]);
 
+        foreach($originalCourseLearningMaterials as $originalCourseLearningMaterial) {
             $newCourseLearningMaterial = $this->courseLearningMaterialManager->createCourseLearningMaterial();
             $newCourseLearningMaterial->setNotes($originalCourseLearningMaterial->getNotes());
             $newCourseLearningMaterial->setRequired($originalCourseLearningMaterial->isRequired());
@@ -184,16 +178,22 @@ class CourseRollover {
             $newCourseLearningMaterial->setLearningMaterial($originalCourseLearningMaterial->getLearningMaterial());
             $newCourseLearningMaterial->setMeshDescriptors($originalCourseLearningMaterial->getMeshDescriptors());
             
-            $this->em->persist($newCourseLearningMaterial);
+            $this->courseLearningMaterialManager->updateCourseLearningMaterial($newCourseLearningMaterial, false, false);
         }
     }
 
     /**
-     * @param $newCourse
-     * @param $originalCourse
+     * @param CourseInterface $newCourse
+     * @param CourseInterface $originalCourse
+     * @param array $options
+     * @param int $offsetInWeeks
      */
-    protected function rolloverSessions($newCourse, $originalCourse)
-    {
+    protected function rolloverSessions(
+        CourseInterface $newCourse,
+        CourseInterface $originalCourse,
+        $options,
+        $offsetInWeeks
+    ) {
         $originalCourseSessions = $this->sessionManager->findSessionsBy(['course'=>$originalCourse]);
 
         foreach ($originalCourseSessions as $originalCourseSession) {
@@ -230,10 +230,10 @@ class CourseRollover {
 
             //Offerings
             if(empty($options['skip-offerings'])) {
-                $this->rolloverOfferings($newSession, $originalCourseSession);
+                $this->rolloverOfferings($newSession, $originalCourseSession, $options, $offsetInWeeks);
             }
 
-            $this->em->persist($newSession);
+            $this->sessionManager->updateSession($newSession, false, false);
         }
     }
 
@@ -257,17 +257,26 @@ class CourseRollover {
             $newSessionLearningMaterial->setLearningMaterial($originalSessionLearningMaterial->getLearningMaterial());
             $newSessionLearningMaterial->setMeshDescriptors($originalSessionLearningMaterial->getMeshDescriptors());
 
-            $this->em->persist($newSessionLearningMaterial);
+            $this->sessionLearningMaterialManager->updateSessionLearningMaterial(
+                $newSessionLearningMaterial,
+                false,
+                false
+            );
         }
     }
 
     /**
-     * @param $newSession
-     * @param $originalCourseSession
-     * @param $options
+     * @param SessionInterface $newSession
+     * @param SessionInterface $originalCourseSession
+     * @param array $options
+     * @param int $offsetInWeeks
      */
-    protected function rolloverOfferings($newSession, $originalCourseSession, $options, $offsetInWeeks)
-    {
+    protected function rolloverOfferings(
+        SessionInterface $newSession,
+        SessionInterface $originalCourseSession,
+        $options,
+        $offsetInWeeks
+    ) {
         $originalSessionOfferings = $this->offeringManager->findOfferingsBy(['session'=>$originalCourseSession]);
 
         foreach($originalSessionOfferings as $originalSessionOffering) {
@@ -292,18 +301,21 @@ class CourseRollover {
             if(empty($options['skip-instructor-groups'])) {
                 $newOffering->setInstructorGroups($originalSessionOffering->getInstructorGroups());
             }
-            $this->em->persist($newOffering);
+            $this->offeringManager->updateOffering($newOffering, false, false);
         }
     }
 
     /**
-     * @param Course $originalCourse
-     * @param \DateTime $newAcademicYear
+     * @param CourseInterface $originalCourse
+     * @param int $newAcademicYear
      * @param \DateTime|null $newStartDate
      * @return int|null
      */
-    private function calculateRolloverOffsetInWeeks($originalCourse, $newAcademicYear, $newStartDate = null)
-    {
+    private function calculateRolloverOffsetInWeeks(
+        CourseInterface $originalCourse,
+        $newAcademicYear,
+        $newStartDate = null
+    ) {
         //get the difference between the academic years of each course.
         $academicYearDifference = ($newAcademicYear - $originalCourse->getYear());
         $originalStartWeekOrdinal = $originalCourse->getStartDate()->format('W');
@@ -341,7 +353,7 @@ class CourseRollover {
     }
 
     /**
-     * @param $newAcademicYear
+     * @param int $newAcademicYear
      * @throws \Exception
      */
     private function confirmYearIsNotInPast($newAcademicYear)
@@ -355,8 +367,8 @@ class CourseRollover {
     }
 
     /**
-     * @param $title
-     * @param $newAcademicYear
+     * @param string $title
+     * @param int $newAcademicYear
      * @throws \Exception
      */
     private function checkForDuplicateRollover($title, $newAcademicYear)
@@ -364,13 +376,14 @@ class CourseRollover {
         $duplicateCourses = $this->courseManager->findCoursesBy(['title'=>$title, 'year'=>$newAcademicYear]);
         if (!empty($duplicateCourses)) {
             throw new \Exception(
-                "Another course with the same title and academic year already exists. If the year is correct, consider setting a new course title with '--new-course-title' option."
+                "Another course with the same title and academic year already exists."
+                . " If the year is correct, consider setting a new course title with '--new-course-title' option."
             );
         }
     }
 
     /**
-     * @param $originalCourseId
+     * @param int $originalCourseId
      * @return \Ilios\CoreBundle\Entity\CourseInterface
      * @throws \Exception
      */
