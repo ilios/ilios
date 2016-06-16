@@ -20,15 +20,19 @@ use Ilios\CoreBundle\Entity\UserInterface;
 class Authentication implements AuthenticationInterface
 {
     /**
-    * @var UserInterface
-    *
-    * @ORM\Id
-    * @ORM\OneToOne(targetEntity="User", inversedBy="authentication")
-    * @ORM\JoinColumns({
-    *   @ORM\JoinColumn(name="person_id", referencedColumnName="user_id", unique=true, onDelete="CASCADE")
-    * })
-    *
-    * @Assert\NotBlank()
+     * @var UserInterface
+     *
+     * @ORM\Id
+     * @ORM\OneToOne(targetEntity="User", inversedBy="authentication")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="person_id", referencedColumnName="user_id", unique=true, onDelete="CASCADE")
+     * })
+     *
+     * @Assert\NotBlank()
+     *
+     * @JMS\Type("string")
+     * @JMS\ReadOnly
+     * @JMS\Expose
     */
     protected $user;
 
