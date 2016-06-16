@@ -200,6 +200,10 @@ class CurriculumInventoryReportController extends FOSRestController
             $sequence->setReport($curriculumInventoryReport);
             $sequenceManager->update($sequence, true, false); // flush here.
 
+            // generate token after the fact, since it needs to include the report id.
+            $curriculumInventoryReport->generateToken();
+            $manager->update($curriculumInventoryReport, true, true);
+
             $factory = $this->get('ilioscore.curriculum_inventory_report_decorator.factory');
             $answer['curriculumInventoryReports'] = [$factory->create($curriculumInventoryReport)];
 

@@ -198,8 +198,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->academicLevels = new ArrayCollection();
         $this->sequenceBlocks = new ArrayCollection();
-
-        $this->generateToken();
     }
 
     /**
