@@ -226,6 +226,10 @@ class LearningMaterialController extends FOSRestController
             $manager = $this->container->get('ilioscore.learningmaterial.manager');
             $manager->update($learningMaterial, true, false);
 
+            // now generate the token and save again.
+            $learningMaterial->generateToken();
+            $manager->update($learningMaterial, true, true);
+
             $factory = $this->get('ilioscore.learningmaterial_decorator.factory');
 
             $answer['learningMaterials'] = [$factory->create($learningMaterial)];
