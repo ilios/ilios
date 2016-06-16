@@ -50,7 +50,7 @@ class RolloverCourseCommand extends ContainerAwareCommand
                 InputOption::VALUE_NONE,
                 'Do not associate course learning materials'
             )
-            ->AddOption(
+            ->addOption(
                 'skip-course-objectives',
                 null,
                 InputOption::VALUE_NONE,
@@ -68,7 +68,7 @@ class RolloverCourseCommand extends ContainerAwareCommand
                 InputOption::VALUE_NONE,
                 'Do not copy course mesh terms'
             )
-            ->AddOption(
+            ->addOption(
                 'skip-sessions',
                 null,
                 InputOption::VALUE_NONE,
@@ -80,7 +80,7 @@ class RolloverCourseCommand extends ContainerAwareCommand
                 InputOption::VALUE_NONE,
                 'Do not associate session learning materials'
             )
-            ->AddOption(
+            ->addOption(
                 'skip-session-objectives',
                 null,
                 InputOption::VALUE_NONE,
@@ -98,25 +98,25 @@ class RolloverCourseCommand extends ContainerAwareCommand
                 InputOption::VALUE_NONE,
                 'Do not copy session mesh terms'
             )
-            ->AddOption(
+            ->addOption(
                 'skip-offerings',
                 null,
                 InputOption::VALUE_NONE,
                 'Do not copy/recreate the offerings, (default if --skip-sessions is set)'
             )
-            ->AddOption(
+            ->addOption(
                 'skip-instructors',
                 null,
                 InputOption::VALUE_NONE,
                 'Do not copy instructor associations (default if --skip-offerings or --skip-sessions is set)'
             )
-            ->AddOption(
+            ->addOption(
                 'skip-instructor-groups',
                 null,
                 InputOption::VALUE_NONE,
                 'Do not copy instructor group associations, (default if --skip-offerings or --skip-instructors are set)'
             )
-            ->AddOption(
+            ->addOption(
                 'new-course-title',
                 null,
                 InputOption::VALUE_REQUIRED,
