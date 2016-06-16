@@ -95,12 +95,9 @@ class CourseRollover {
         $originalCourse = $this->getOriginalCourse($originalCourseId);
 
         //if a new title is to be used, update before checking for duplicates
-        if(!empty($options['new-course-title'])){
-            $originalCourse->setTitle($options['new-course-title']);
-        }
-
+        $newTitle = !empty($options['new-course-title']) ? $options['new-course-title'] : $originalCourse->getTitle();
         //before creating the newCourse object, check for courses with same title & year, so a rollover is not run 2x
-        $this->checkForDuplicateRollover($originalCourse->getTitle(), $newAcademicYear);
+        $this->checkForDuplicateRollover($newTitle, $newAcademicYear);
 
         //get/set the original course's start/end dates for use in calculation of offset
         $originalCourseStartDate = $originalCourse->getStartDate();
@@ -121,7 +118,7 @@ class CourseRollover {
         //if there are not any duplicates, create a new course with the relevant info
         /* @var CourseInterface $newCourse */
         $newCourse = $this->courseManager->create();
-        $newCourse->setTitle($originalCourse->getTitle());
+        $newCourse->setTitle($newTitle);
         $newCourse->setLevel($originalCourse->getLevel());
         $newCourse->setYear($newAcademicYear);
         $newCourse->setStartDate($newCourseStartDate);
