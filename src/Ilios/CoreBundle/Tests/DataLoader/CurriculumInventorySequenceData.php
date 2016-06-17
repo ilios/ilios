@@ -20,7 +20,6 @@ class CurriculumInventorySequenceData extends AbstractDataLoader
             'description' => $this->faker->text(100),
         );
 
-
         return $arr;
     }
 

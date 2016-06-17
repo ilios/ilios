@@ -108,17 +108,11 @@ api_curriculuminventoryexport_v1:
     prefix:   /v1
     defaults: {_format:json}
 
-api_curriculuminventorydownload_v1:
-    resource: "@IliosCoreBundle/Controller/CurriculumInventoryDownloadController.php"
-    type:     rest
-    prefix:   /v1
-
 api_curriculuminventoryinstitution_v1:
     resource: "@IliosCoreBundle/Controller/CurriculumInventoryInstitutionController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
-
 
 api_curriculuminventoryreport_v1:
     resource: "@IliosCoreBundle/Controller/CurriculumInventoryReportController.php"

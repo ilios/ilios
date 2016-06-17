@@ -55,6 +55,9 @@ services:
     ilioscore.learningmaterial_decorator.factory:
         class: Ilios\CoreBundle\Service\LearningMaterialDecoratorFactory
         arguments: [ "@router", Ilios\CoreBundle\Classes\LearningMaterialDecorator ]
+    ilioscore.curriculum_inventory_report_decorator.factory:
+            class: Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory
+            arguments: [ "@router", Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator ]
     ilioscore.form.transformer.html_purifier:
         class: Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer
         arguments: ["@exercise_html_purifier.default"]
