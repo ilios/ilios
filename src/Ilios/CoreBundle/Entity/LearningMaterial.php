@@ -267,8 +267,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->uploadDate = new \DateTime();
         $this->sessionLearningMaterials = new ArrayCollection();
         $this->courseLearningMaterials = new ArrayCollection();
-        
-        $this->generateToken();
     }
 
     /**
