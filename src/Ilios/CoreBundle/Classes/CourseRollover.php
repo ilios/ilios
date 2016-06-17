@@ -13,7 +13,8 @@ use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
  * Class CourseRollover
  * @package Ilios\CoreBundle\Classes
  */
-class CourseRollover {
+class CourseRollover
+{
 
     /**
      * @var ManagerInterface
@@ -61,7 +62,6 @@ class CourseRollover {
         ManagerInterface $sessionManager,
         ManagerInterface $sessionLearningMaterialManager,
         ManagerInterface $offeringManager
-
     ) {
         $this->courseManager = $courseManager;
         $this->learningMaterialManager = $learningMaterialManager;
@@ -87,7 +87,7 @@ class CourseRollover {
 
         //make sure that the new course's academic year or new start date year is not in the past
         $this->confirmYearIsNotInPast($newAcademicYear);
-        if(!empty($newStartDate)){
+        if (!empty($newStartDate)) {
             $this->confirmYearIsNotInPast($newStartDate->format('Y'));
         }
 
@@ -140,12 +140,12 @@ class CourseRollover {
 
         //now run each of the subcomponents, starting with the course-specific ones
         //COURSE LEARNING MATERIALS
-        if(empty($options['skip-course-learning-materials'])) {
+        if (empty($options['skip-course-learning-materials'])) {
             $this->rolloverCourseLearningMaterials($newCourse, $originalCourse);
         }
 
         //SESSIONS
-        if(empty($options['skip-sessions'])) {
+        if (empty($options['skip-sessions'])) {
             $this->rolloverSessions($newCourse, $originalCourse, $options, $offsetInWeeks);
         }
 
@@ -166,7 +166,7 @@ class CourseRollover {
         $originalCourseLearningMaterials
             = $this->courseLearningMaterialManager->findBy(['course'=>$originalCourse]);
 
-        foreach($originalCourseLearningMaterials as $originalCourseLearningMaterial) {
+        foreach ($originalCourseLearningMaterials as $originalCourseLearningMaterial) {
             /* @var CourseLearningMaterialInterface $newCourseLearningMaterial */
             $newCourseLearningMaterial = $this->courseLearningMaterialManager->create();
             $newCourseLearningMaterial->setNotes($originalCourseLearningMaterial->getNotes());
@@ -208,27 +208,27 @@ class CourseRollover {
             $newSession->setPublished(0);
 
             //SESSION LEARNING MATERIALS
-            if(empty($options['skip-session-learning-materials'])) {
+            if (empty($options['skip-session-learning-materials'])) {
                 $this->rolloverSessionLearningMaterials($newSession, $originalCourseSession);
             }
 
             //SESSION OBJECTIVES
-            if(empty($options['skip-session-objectives'])) {
+            if (empty($options['skip-session-objectives'])) {
                 $newSession->setObjectives($originalCourseSession->getObjectives());
             }
 
             //SESSION TOPICS
-            if(empty($options['skip-session-topics'])) {
+            if (empty($options['skip-session-topics'])) {
                 $newSession->setTerms($originalCourseSession->getTerms());
             }
 
             //SESSION MESH TERMS
-            if(empty($options['skip-session-mesh'])) {
+            if (empty($options['skip-session-mesh'])) {
                 $newSession->setMeshDescriptors($originalCourseSession->getMeshDescriptors());
             }
 
             //Offerings
-            if(empty($options['skip-offerings'])) {
+            if (empty($options['skip-offerings'])) {
                 $this->rolloverOfferings($newSession, $originalCourseSession, $options, $offsetInWeeks);
             }
 
@@ -249,7 +249,7 @@ class CourseRollover {
         $originalSessionLearningMaterials
             = $this->sessionLearningMaterialManager->findBy(['session'=>$originalCourseSession]);
 
-        foreach($originalSessionLearningMaterials as $originalSessionLearningMaterial) {
+        foreach ($originalSessionLearningMaterials as $originalSessionLearningMaterial) {
             /* @var SessionLearningMaterialInterface $newSessionLearningMaterial */
             $newSessionLearningMaterial = $this->sessionLearningMaterialManager->create();
             $newSessionLearningMaterial->setNotes($originalSessionLearningMaterial->getNotes());
@@ -278,8 +278,7 @@ class CourseRollover {
         /* @var OfferingInterface[]  $originalSessionOfferings */
         $originalSessionOfferings = $this->offeringManager->findBy(['session'=>$originalCourseSession]);
 
-        foreach($originalSessionOfferings as $originalSessionOffering) {
-
+        foreach ($originalSessionOfferings as $originalSessionOffering) {
             //preprocess the offering start/end dates
             $newOfferingStartDate = ($originalSessionOffering->getStartDate()->modify($offsetInWeeks));
             $newOfferingEndDate = ($originalSessionOffering->getEndDate()->modify($offsetInWeeks));
@@ -293,12 +292,12 @@ class CourseRollover {
             $newOffering->setSession($newSession);
 
             //Instructors
-            if(empty($options['skip-instructors'])) {
+            if (empty($options['skip-instructors'])) {
                 $newOffering->setInstructors($originalSessionOffering->getInstructors());
             }
 
             //Instructor Groups
-            if(empty($options['skip-instructor-groups'])) {
+            if (empty($options['skip-instructor-groups'])) {
                 $newOffering->setInstructorGroups($originalSessionOffering->getInstructorGroups());
             }
             $this->offeringManager->update($newOffering, false, false);
@@ -322,7 +321,7 @@ class CourseRollover {
         $newStartWeekOrdinal = (!empty($newStartDate)) ? $newStartDate->format('W') : null;
 
         //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
-        if(empty($newStartWeekOrdinal)) {
+        if (empty($newStartWeekOrdinal)) {
             return ($academicYearDifference * 52);
         }
 
@@ -331,7 +330,7 @@ class CourseRollover {
 
         //get the number of weeks between two dates within one year cycle
         //if year diff is 0, but the two dates are in same calendar year, don't factor in a year change
-        if($originalCourse->getStartDate()->format('Y') === $newStartDate->format('Y')) {
+        if ($originalCourse->getStartDate()->format('Y') === $newStartDate->format('Y')) {
             $weeksBetweenTwoDates = ($newStartWeekOrdinal - $originalStartWeekOrdinal);
         } else {
             //if the academic year is the same, but calendar years are different, calculate for year change
@@ -339,7 +338,7 @@ class CourseRollover {
         }
 
         //if the difference in Academic years is greater than 1, calculate for multiple years
-        if($academicYearDifference > 1) {
+        if ($academicYearDifference > 1) {
             //don't count the current year for the weekYear multiplication
             $weekYearMultiplier = (52 * ($academicYearDifference - 1));
             //instead, calculate the proper shift between the dates and then add the additional weekYears
@@ -390,12 +389,11 @@ class CourseRollover {
     private function getOriginalCourse($originalCourseId)
     {
         $originalCourse = $this->courseManager->findOneBy(['id'=>$originalCourseId]);
-        if(empty($originalCourse)) {
+        if (empty($originalCourse)) {
             throw new \Exception(
                 'There are no courses with courseId ' . $originalCourseId . '.'
             );
         }
         return $originalCourse;
     }
-
 }
