@@ -2,8 +2,8 @@
 
 namespace Ilios\CliBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-
+use Ilios\CoreBundle\Classes\CourseRollover;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,8 +16,23 @@ use Symfony\Component\Console\Input\InputArgument;
  * Class RolloverCourseCommand
  * @package Ilios\CoreBundle\Command
  */
-class RolloverCourseCommand extends ContainerAwareCommand
+class RolloverCourseCommand extends Command
 {
+    /**
+     * @var CourseRollover
+     */
+    protected $service;
+
+    /**
+     * RolloverCourseCommand constructor.
+     * @param CourseRollover $service
+     */
+    public function __construct(CourseRollover $service)
+    {
+        $this->service = $service;
+        parent::__construct();
+    }
+
     /**
      * @inheritdoc
      */
@@ -129,15 +144,12 @@ class RolloverCourseCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //access the CourseRollover class as a service
-        $service = $this->getContainer()->get('ilioscore.courserollover');
-
         //get/set the courseId and newAcademicYear arguments
         $courseId = $input->getArgument('courseId');
         $newAcademicYear = $input->getArgument('newAcademicYear');
 
         //roll it over to build the newCourse object
-        $newCourse = $service->rolloverCourse($courseId, $newAcademicYear, $input->getOptions());
+        $newCourse = $this->service->rolloverCourse($courseId, $newAcademicYear, $input->getOptions());
 
         //output message with the new courseId on success
         $output->writeln("This course has been rolled over.  The new course id is {$newCourse->getId()}.");
