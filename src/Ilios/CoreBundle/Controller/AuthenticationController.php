@@ -15,6 +15,7 @@ use Ilios\CoreBundle\Exception\InvalidFormException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use FOS\RestBundle\Request\ParamFetcherInterface;
 
 /**
  * Class AuthenticationController
@@ -23,6 +24,126 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class AuthenticationController extends FOSRestController
 {
+    /**
+     * Get a Authentication
+     *
+     * @ApiDoc(
+     *   section = "Authentication",
+     *   description = "Get an Authentication.",
+     *   resource = true,
+     *   requirements={
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="\d+",
+     *        "description"="Authentication identifier."
+     *     }
+     *   },
+     *   output="Ilios\CoreBundle\Entity\Authentication",
+     *   statusCodes={
+     *     200 = "Authentication.",
+     *     404 = "Not Found."
+     *   }
+     * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param $id
+     *
+     * @return Response
+     */
+    public function getAction($user)
+    {
+        $manager = $this->container->get('ilioscore.authentication.manager');
+        $authentication = $manager->findDTOBy(['user' => $user]);
+
+        if (!$authentication) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $user));
+        }
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('view', $authentication)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $answer['authentications'][] = $authentication;
+
+        return $answer;
+    }
+
+    /**
+     * Get all Authentication.
+     *
+     * @ApiDoc(
+     *   section = "Authentication",
+     *   description = "Get all Authentication.",
+     *   resource = true,
+     *   output="Ilios\CoreBundle\Entity\Authentication",
+     *   statusCodes = {
+     *     200 = "List of all Authentication",
+     *     204 = "No content. Nothing to list."
+     *   }
+     * )
+     *
+     * @QueryParam(
+     *   name="offset",
+     *   requirements="\d+",
+     *   nullable=true,
+     *   description="Offset from which to start listing notes."
+     * )
+     * @QueryParam(
+     *   name="limit",
+     *   requirements="\d+",
+     *   default="20",
+     *   description="How many notes to return."
+     * )
+     * @QueryParam(
+     *   name="order_by",
+     *   nullable=true,
+     *   array=true,
+     *   description="Order by fields. Must be an array ie. &order_by[name]=ASC&order_by[description]=DESC"
+     * )
+     * @QueryParam(
+     *   name="filters",
+     *   nullable=true,
+     *   array=true,
+     *   description="Filter by fields. Must be an array ie. &filters[id]=3"
+     * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
+     */
+    public function cgetAction(ParamFetcherInterface $paramFetcher)
+    {
+        $offset = $paramFetcher->get('offset');
+        $limit = $paramFetcher->get('limit');
+        $orderBy = $paramFetcher->get('order_by');
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
+            return $item;
+        }, $criteria);
+
+        $manager = $this->container->get('ilioscore.authentication.manager');
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
+
+        $authChecker = $this->get('security.authorization_checker');
+        $result = array_filter($result, function ($entity) use ($authChecker) {
+            return $authChecker->isGranted('view', $entity);
+        });
+
+        //If there are no matches return an empty array
+        $answer['authentications'] = $result ? array_values($result) : [];
+
+        return $answer;
+    }
+    
     /**
      * Create a Authentication.
      *
@@ -102,7 +223,7 @@ class AuthenticationController extends FOSRestController
             }, $unsavedItems);
             unset($unsavedUsers);
 
-            $newItems = $manager->findBy(['user' => $ids]);
+            $newItems = $manager->findDTOsBy(['user' => $ids]);
 
             $answer['authentications'] = $newItems;
 

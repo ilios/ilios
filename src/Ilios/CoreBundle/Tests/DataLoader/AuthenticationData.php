@@ -9,7 +9,7 @@ class AuthenticationData extends AbstractDataLoader
         $arr = array();
 
         $arr[] = array(
-            'user' => 1,
+            'user' => '1',
             'username' => 'legacyuser',
             //legacyuserpass
             'passwordSha256' => '4e11be1dc9443935c7b452729ab681294b7cec9276d80dc72782221d68edb786',
@@ -17,7 +17,7 @@ class AuthenticationData extends AbstractDataLoader
         );
 
         $arr[] = array(
-            'user' => 2,
+            'user' => '2',
             'username' => 'newuser',
             'passwordSha256' => null,
             //newuserpass
@@ -29,7 +29,7 @@ class AuthenticationData extends AbstractDataLoader
     public function create()
     {
         return [
-            'user' => 3,
+            'user' => '3',
             'username' => 'createduser',
             'password' => 'newpass'
         ];

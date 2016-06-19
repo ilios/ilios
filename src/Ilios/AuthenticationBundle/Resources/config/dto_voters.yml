@@ -1,4 +1,9 @@
 services:
+    security.access.dto.authentication_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\AuthenticationDTOVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.dto.cohort_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\CohortDTOVoter
         parent: security.access.course_voter

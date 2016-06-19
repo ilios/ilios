@@ -40,7 +40,62 @@ class AuthenticationControllerTest extends AbstractControllerTest
     protected function getPrivateFields()
     {
         return [
+            'passwordSha256',
+            'passwordBcrypt'
         ];
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testGetAuthentication()
+    {
+        $authentication = $this->container
+            ->get('ilioscore.dataloader.authentication')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_authentications',
+                ['user' => $authentication['user']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertEquals(
+            $this->mockSerialize($authentication),
+            json_decode($response->getContent(), true)['authentications'][0]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testGetAllAuthentications()
+    {
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_authentications'),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertEquals(
+            $this->mockSerialize(
+                $this->container
+                    ->get('ilioscore.dataloader.authentication')
+                    ->getAll()
+            ),
+            json_decode($response->getContent(), true)['authentications']
+        );
     }
 
     /**
@@ -70,7 +125,7 @@ class AuthenticationControllerTest extends AbstractControllerTest
     {
         //We have to create a set of users to work with first.
         $userData = [];
-        for ($i = 0; $i < 101; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $userData[] = $this->container->get('ilioscore.dataloader.user')->create();
         }
         $userData = array_map(function ($arr) {

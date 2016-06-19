@@ -1,4 +1,9 @@
 services:
+    security.access.entity.authentication_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\AuthenticationEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.cohort_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\CohortEntityVoter
         parent: security.access.entity.program_year_voter
