@@ -170,16 +170,55 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
     public function testRolloverFailsOnDuplicate()
     {
-        $this->markTestIncomplete();
+        $course = new Course();
+        $course->setId(10);
+        $course->setTitle('lorem ipsum');
+        $courseId = 10;
+        $futureDate = new \DateTime();
+        $futureDate->add(\DateInterval::createFromDateString('+2 year'));
+        $year = $futureDate->format('Y');
+        $this->courseManager->shouldReceive('findOneBy')->withArgs([['id' => $course->getId()]])->andReturn($course);
+        $this->courseManager
+            ->shouldReceive('findBy')
+            ->withArgs([['title' => $course->getTitle(), 'year' => $year]])
+            ->andReturn(new Course());
+
+        $this->setExpectedException(
+            \Exception::class,
+            "Another course with the same title and academic year already exists."
+            . " If the year is correct, consider setting a new course title with '--new-course-title' option."
+        );
+
+        $this->service->rolloverCourse($courseId, $year, ['']);
+
     }
 
     public function testRolloverFailsOnYearPast()
     {
-        $this->markTestIncomplete();
+        $courseId = 10;
+        $pastDate = new \DateTime();
+        $pastDate->add(\DateInterval::createFromDateString('-2 year'));
+        $year = $pastDate->format('Y');
+
+        $this->setExpectedException(
+            \Exception::class,
+            "You cannot rollover a course to a new year or start date that is already in the past."
+        );
+
+        $this->service->rolloverCourse($courseId, $year, []);
     }
 
     public function testRolloverFailsOnMissingCourse()
     {
-        $this->markTestIncomplete();
+        $courseId = -1;
+        $futureDate = new \DateTime();
+        $futureDate->add(\DateInterval::createFromDateString('+2 year'));
+        $year = $futureDate->format('Y');
+        $this->courseManager->shouldReceive('findOneBy')->withArgs([['id' => $courseId]])->andReturn(false);
+
+        $this->setExpectedException(\Exception::class, "There are no courses with courseId {$courseId}.");
+
+        $this->service->rolloverCourse($courseId, $year, []);
+
     }
 }
