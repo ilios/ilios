@@ -12,7 +12,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="authentication")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AuthenticationRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
@@ -20,28 +20,33 @@ use Ilios\CoreBundle\Entity\UserInterface;
 class Authentication implements AuthenticationInterface
 {
     /**
-    * @var UserInterface
-    *
-    * @ORM\Id
-    * @ORM\OneToOne(targetEntity="User", inversedBy="authentication")
-    * @ORM\JoinColumns({
-    *   @ORM\JoinColumn(name="person_id", referencedColumnName="user_id", unique=true, onDelete="CASCADE")
-    * })
-    *
-    * @Assert\NotBlank()
+     * @var UserInterface
+     *
+     * @ORM\Id
+     * @ORM\OneToOne(targetEntity="User", inversedBy="authentication")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="person_id", referencedColumnName="user_id", unique=true, onDelete="CASCADE")
+     * })
+     *
+     * @Assert\NotBlank()
+     *
+     * @JMS\Type("string")
+     * @JMS\ReadOnly
+     * @JMS\Expose
     */
     protected $user;
 
     /**
-    * @ORM\Column(name="username", type="string", unique=true, length=100, nullable=true)
-    * @var string
-    *
-    * @Assert\Type(type="string")
-    * @Assert\Length(
-    *      min = 1,
-    *      max = 100
-    * )
-    *
+     * @ORM\Column(name="username", type="string", unique=true, length=100, nullable=true)
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100
+     * )
+     *
+     * @JMS\Expose
     */
     private $username;
 
