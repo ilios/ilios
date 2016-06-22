@@ -124,10 +124,6 @@ class CourseRollover
         $newCourse->setStartDate($newCourseStartDate);
         $newCourse->setEndDate($newCourseEndDate);
         $newCourse->setExternalId($originalCourse->getExternalId());
-        $newCourse->setLocked(0);
-        $newCourse->setArchived(0);
-        $newCourse->setPublishedAsTbd(0);
-        $newCourse->setPublished(0);
         $newCourse->setClerkshipType($originalCourse->getClerkshipType());
         $newCourse->setSchool($originalCourse->getSchool());
         $newCourse->setDirectors($originalCourse->getDirectors());
