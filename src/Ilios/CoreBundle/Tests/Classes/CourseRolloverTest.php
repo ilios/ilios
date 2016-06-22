@@ -106,70 +106,67 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
     {
         $course = $this->createTestCourse();
         $newYear = $course->getYear() + 1;
-        $this->courseManager->shouldReceive('findOneBy')->withArgs([['id' => $course->getId()]])->andReturn($course);
+        $this->courseManager->shouldReceive('findOneBy')
+            ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
         $this->courseManager
             ->shouldReceive('findBy')
             ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
-            ->andReturn(false);
+            ->andReturn(false)->once();
 
         $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
-        $newCourse->shouldReceive('setTitle')->with($course->getTitle());
-        $newCourse->shouldReceive('setYear')->with($newYear);
-        $newCourse->shouldReceive('setLevel')->with($course->getLevel());
-        $newCourse->shouldReceive('setExternalId')->with($course->getExternalId());
-        $newCourse->shouldReceive('setLocked')->with(false);
-        $newCourse->shouldReceive('setArchived')->with(false);
-        $newCourse->shouldReceive('setPublished')->with(false);
-        $newCourse->shouldReceive('setPublishedAsTbd')->with(false);
+        $newCourse->shouldReceive('setTitle')->with($course->getTitle())->once();
+        $newCourse->shouldReceive('setYear')->with($newYear)->once();
+        $newCourse->shouldReceive('setLevel')->with($course->getLevel())->once();
+        $newCourse->shouldReceive('setExternalId')->with($course->getExternalId())->once();
 
         //@todo better comparison of startDate and newStartDate
         $newCourse->shouldReceive('setStartDate')->with(m::on(function(DateTime $newStartDate) use ($course) {
             return $newStartDate > $course->getStartDate();
-        }));
+        }))->once();
 
         //@todo better comparison of endDate and newEndDate
         $newCourse->shouldReceive('setEndDate')->with(m::on(function(DateTime $newEndDate) use ($course) {
             return $newEndDate > $course->getEndDate();
-        }));
-        $newCourse->shouldReceive('setClerkshipType')->with($course->getClerkshipType());
-        $newCourse->shouldReceive('setSchool')->with($course->getSchool());
-        $newCourse->shouldReceive('setDirectors')->with($course->getDirectors());
-        $newCourse->shouldReceive('setTerms')->with($course->getTerms());
-        $newCourse->shouldReceive('setMeshDescriptors')->with($course->getMeshDescriptors());
+        }))->once();
+        $newCourse->shouldReceive('setClerkshipType')->with($course->getClerkshipType())->once();
+        $newCourse->shouldReceive('setSchool')->with($course->getSchool())->once();
+        $newCourse->shouldReceive('setDirectors')->with($course->getDirectors())->once();
+        $newCourse->shouldReceive('setTerms')->with($course->getTerms())->once();
+        $newCourse->shouldReceive('setMeshDescriptors')->with($course->getMeshDescriptors())->once();
 
         foreach ($course->getObjectives() as $objective) {
             $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
-            $newObjective->shouldReceive('setTitle')->with($objective->getTitle());
-            $newObjective->shouldReceive('addCourse')->with($newCourse);
-            $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors());
+            $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
+            $newObjective->shouldReceive('addCourse')->with($newCourse)->once();
+            $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
             $this->objectiveManager
                 ->shouldReceive('create')->once()
                 ->andReturn($newObjective);
-            $this->objectiveManager->shouldReceive('update')->withArgs([$newObjective, false, false]);
+            $this->objectiveManager->shouldReceive('update')->once()->withArgs([$newObjective, false, false]);
         }
 
         foreach ($course->getSessions() as $session) {
             $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
-            $newSession->shouldReceive('setTitle')->with($session->getTitle());
-            $newSession->shouldReceive('setCourse')->with($newCourse);
-            $newSession->shouldReceive('setAttireRequired')->with($session->isAttireRequired());
-            $newSession->shouldReceive('setEquipmentRequired')->with($session->isEquipmentRequired());
-            $newSession->shouldReceive('setSessionType')->with($session->getSessionType());
-            $newSession->shouldReceive('setSupplemental')->with($session->isSupplemental());
-            $newSession->shouldReceive('setPublished')->with(false);
-            $newSession->shouldReceive('setPublishedAsTbd')->with(false);
-            $newSession->shouldReceive('setMeshDescriptors')->with($session->getMeshDescriptors());
-            $newSession->shouldReceive('setTerms')->with($session->getTerms());
+            $newSession->shouldReceive('setTitle')->with($session->getTitle())->once();
+            $newSession->shouldReceive('setCourse')->with($newCourse)->once();
+            $newSession->shouldReceive('setAttireRequired')->with($session->isAttireRequired())->once();
+            $newSession->shouldReceive('setEquipmentRequired')->with($session->isEquipmentRequired())->once();
+            $newSession->shouldReceive('setSessionType')->with($session->getSessionType())->once();
+            $newSession->shouldReceive('setSupplemental')->with($session->isSupplemental())->once();
+            $newSession->shouldReceive('setPublished')->with(false)->once();
+            $newSession->shouldReceive('setPublishedAsTbd')->with(false)->once();
+            $newSession->shouldReceive('setMeshDescriptors')->with($session->getMeshDescriptors())->once();
+            $newSession->shouldReceive('setTerms')->with($session->getTerms())->once();
             $this->sessionManager
-                ->shouldReceive('create')
+                ->shouldReceive('create')->once()
                 ->andReturn($newSession);
-            $this->sessionManager->shouldReceive('update')->withArgs([$newSession, false, false]);
+            $this->sessionManager->shouldReceive('update')->withArgs([$newSession, false, false])->once();
 
             foreach ($session->getObjectives() as $objective) {
                 $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
-                $newObjective->shouldReceive('setTitle')->with($objective->getTitle());
-                $newObjective->shouldReceive('addSession')->with($newSession);
-                $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors());
+                $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
+                $newObjective->shouldReceive('addSession')->with($newSession)->once();
+                $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
                 $newObjective->shouldReceive('setParents')->with(m::on(function(Collection $collection) use ($objective) {
                     return count($collection) === count($objective->getParents());
                 }));
@@ -181,10 +178,10 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         }
 
 
-        $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false]);
+        $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
 
         $this->courseManager
-            ->shouldReceive('create')
+            ->shouldReceive('create')->once()
             ->andReturn($newCourse);
 
         $this->courseManager->shouldReceive('flushAndClear')->once();

@@ -114,7 +114,11 @@ class CourseRollover
 
         //get/set the offset in weeks and its +/- sign and set it as globally-accessible string in the class
         $weeksOffset = $this->calculateRolloverOffsetInWeeks($originalCourse, $newAcademicYear, $newStartDate);
-        $weeksOffsetModifier = gmp_sign($weeksOffset);
+        if ($weeksOffset === 0) {
+            $weeksOffsetModifier = 0;
+        } else {
+            $weeksOffsetModifier = $weeksOffset < 0?-1:+1;
+        }
         $offsetInWeeks = (($weeksOffsetModifier < 0) ? '-' : '+') . ' ' . abs($weeksOffset) . ' weeks';
 
         //create/modify the newCourse start and end dates based on the original dates and the offset in weeks
@@ -136,7 +140,6 @@ class CourseRollover
         $newCourse->setClerkshipType($originalCourse->getClerkshipType());
         $newCourse->setSchool($originalCourse->getSchool());
         $newCourse->setDirectors($originalCourse->getDirectors());
-        $newCourse->setMeshDescriptors($originalCourse->getMeshDescriptors());
 
         if (empty($options['skip-course-terms'])) {
             $newCourse->setTerms($originalCourse->getTerms());
