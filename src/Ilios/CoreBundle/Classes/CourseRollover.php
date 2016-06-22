@@ -135,7 +135,9 @@ class CourseRollover
         $newCourse->setStartDate($newCourseStartDate);
         $newCourse->setEndDate($newCourseEndDate);
         $newCourse->setExternalId($originalCourse->getExternalId());
-        $newCourse->setClerkshipType($originalCourse->getClerkshipType());
+        if ($clerkshipType = $originalCourse->getClerkshipType()) {
+            $newCourse->setClerkshipType($clerkshipType);
+        }
         $newCourse->setSchool($originalCourse->getSchool());
         $newCourse->setDirectors($originalCourse->getDirectors());
 

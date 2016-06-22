@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Entity\SessionType;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 use \DateTime;
 
@@ -104,7 +105,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
     public function testRolloverWithEverything()
     {
-        $course = $this->createTestCourse();
+        $course = $this->createTestCourseWithAssications();
         $newYear = $course->getYear() + 1;
         $this->courseManager->shouldReceive('findOneBy')
             ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
@@ -189,6 +190,28 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['']);
         $this->assertSame($newCourse, $rhett);
+    }
+
+    public function testRolloverWithEmptyClerkshipType()
+    {
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+
+        $newYear = $course->getYear() + 1;
+        $this->courseManager->shouldReceive('findOneBy')
+            ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
+        $this->courseManager
+            ->shouldReceive('findBy')
+            ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
+            ->andReturn(false)->once();
+
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse->shouldIgnoreMissing();
+        $newCourse->shouldNotReceive('setClerkshipType');
+        $this->courseManager->shouldIgnoreMissing();
+        $this->courseManager->shouldReceive('create')->once()->andReturn($newCourse);
+
+        $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['']);
     }
 
     public function testRolloverWithNewStartDate()
@@ -336,8 +359,16 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $course->setPublished(true);
         $course->setPublishedAsTbd(true);
 
+        return $course;
+    }
+
+    protected function createTestCourseWithAssications()
+    {
+        $course = $this->createTestCourse();
+
         $course->setClerkshipType(new CourseClerkshipType());
         $course->setSchool(new School());
+        
         $courseObjective1 = new Objective();
         $courseObjective1->setId(808);
         $courseObjective1->setTitle('test course objective1');
