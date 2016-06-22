@@ -163,8 +163,7 @@ class CourseRollover
     protected function rolloverCourseLearningMaterials(CourseInterface $newCourse, CourseInterface $originalCourse)
     {
         /* @var CourseLearningMaterialInterface[] $originalCourseLearningMaterials */
-        $originalCourseLearningMaterials
-            = $this->courseLearningMaterialManager->findBy(['course'=>$originalCourse]);
+        $originalCourseLearningMaterials = $originalCourse->getLearningMaterials();
 
         foreach ($originalCourseLearningMaterials as $originalCourseLearningMaterial) {
             /* @var CourseLearningMaterialInterface $newCourseLearningMaterial */
@@ -246,8 +245,7 @@ class CourseRollover
         SessionInterface $originalCourseSession
     ) {
         /* @var SessionLearningMaterialInterface[] $originalSessionLearningMaterials */
-        $originalSessionLearningMaterials
-            = $this->sessionLearningMaterialManager->findBy(['session'=>$originalCourseSession]);
+        $originalSessionLearningMaterials = $originalCourseSession->getLearningMaterials();
 
         foreach ($originalSessionLearningMaterials as $originalSessionLearningMaterial) {
             /* @var SessionLearningMaterialInterface $newSessionLearningMaterial */
