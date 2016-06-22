@@ -128,7 +128,7 @@ class CourseRollover
         $newCourse->setSchool($originalCourse->getSchool());
         $newCourse->setDirectors($originalCourse->getDirectors());
         $newCourse->setObjectives($originalCourse->getObjectives());
-        if (empty($options['skip-course-topics'])) {
+        if (empty($options['skip-course-terms'])) {
             $newCourse->setTerms($originalCourse->getTerms());
         }
         if (empty($options['skip-course-mesh'])) {
@@ -217,8 +217,8 @@ class CourseRollover
                 $newSession->setObjectives($originalCourseSession->getObjectives());
             }
 
-            //SESSION TOPICS
-            if (empty($options['skip-session-topics'])) {
+            //SESSION TERMS
+            if (empty($options['skip-session-terms'])) {
                 $newSession->setTerms($originalCourseSession->getTerms());
             }
 
