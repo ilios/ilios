@@ -114,11 +114,9 @@ class CourseRollover
 
         //get/set the offset in weeks and its +/- sign and set it as globally-accessible string in the class
         $weeksOffset = $this->calculateRolloverOffsetInWeeks($originalCourse, $newAcademicYear, $newStartDate);
-        if ($weeksOffset === 0) {
-            $weeksOffsetModifier = 0;
-        } else {
-            $weeksOffsetModifier = $weeksOffset < 0?-1:+1;
-        }
+
+        //taken with gratitude from http://php.net/manual/en/function.gmp-sign.php#106246
+        $weeksOffsetModifier = ( $weeksOffset > 0 ) ? 1 : ( ( $weeksOffset < 0 ) ? -1 : 0 );
         $offsetInWeeks = (($weeksOffsetModifier < 0) ? '-' : '+') . ' ' . abs($weeksOffset) . ' weeks';
 
         //create/modify the newCourse start and end dates based on the original dates and the offset in weeks
