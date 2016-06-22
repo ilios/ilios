@@ -8,8 +8,11 @@ use Ilios\CoreBundle\Entity\CourseClerkshipType;
 use Ilios\CoreBundle\Entity\MeshDescriptor;
 use Ilios\CoreBundle\Entity\Objective;
 use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Entity\Session;
+use Ilios\CoreBundle\Entity\SessionType;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Doctrine\Common\Collections\Collection;
 use Mockery as m;
 use \DateTime;
 
@@ -134,17 +137,47 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $newCourse->shouldReceive('setTerms')->with($course->getTerms());
         $newCourse->shouldReceive('setMeshDescriptors')->with($course->getMeshDescriptors());
 
-        $courseObjectives = $course->getObjectives();
-        foreach ($courseObjectives as $objective) {
+        foreach ($course->getObjectives() as $objective) {
             $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
             $newObjective->shouldReceive('setTitle')->with($objective->getTitle());
             $newObjective->shouldReceive('addCourse')->with($newCourse);
             $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors());
             $this->objectiveManager
-                ->shouldReceive('create')
+                ->shouldReceive('create')->once()
                 ->andReturn($newObjective);
             $this->objectiveManager->shouldReceive('update')->withArgs([$newObjective, false, false]);
+        }
 
+        foreach ($course->getSessions() as $session) {
+            $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+            $newSession->shouldReceive('setTitle')->with($session->getTitle());
+            $newSession->shouldReceive('setCourse')->with($newCourse);
+            $newSession->shouldReceive('setAttireRequired')->with($session->isAttireRequired());
+            $newSession->shouldReceive('setEquipmentRequired')->with($session->isEquipmentRequired());
+            $newSession->shouldReceive('setSessionType')->with($session->getSessionType());
+            $newSession->shouldReceive('setSupplemental')->with($session->isSupplemental());
+            $newSession->shouldReceive('setPublished')->with(false);
+            $newSession->shouldReceive('setPublishedAsTbd')->with(false);
+            $newSession->shouldReceive('setMeshDescriptors')->with($session->getMeshDescriptors());
+            $newSession->shouldReceive('setTerms')->with($session->getTerms());
+            $this->sessionManager
+                ->shouldReceive('create')
+                ->andReturn($newSession);
+            $this->sessionManager->shouldReceive('update')->withArgs([$newSession, false, false]);
+
+            foreach ($session->getObjectives() as $objective) {
+                $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+                $newObjective->shouldReceive('setTitle')->with($objective->getTitle());
+                $newObjective->shouldReceive('addSession')->with($newSession);
+                $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors());
+                $newObjective->shouldReceive('setParents')->with(m::on(function(Collection $collection) use ($objective) {
+                    return count($collection) === count($objective->getParents());
+                }));
+                $this->objectiveManager
+                    ->shouldReceive('create')->once()
+                    ->andReturn($newObjective);
+                $this->objectiveManager->shouldReceive('update')->withArgs([$newObjective, false, false]);
+            }
         }
 
 
@@ -309,9 +342,25 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $course->setSchool(new School());
         $courseObjective1 = new Objective();
         $courseObjective1->setId(808);
-        $courseObjective1->setTitle('test course objective');
+        $courseObjective1->setTitle('test course objective1');
         $courseObjective1->addMeshDescriptor(new MeshDescriptor());
         $course->addObjective($courseObjective1);
+        $courseObjective2 = new Objective();
+        $courseObjective2->setId(42);
+        $courseObjective2->setTitle('test course objective2');
+        $course->addObjective($courseObjective2);
+
+        $session1 = new Session();
+        $session1->setSessionType(new SessionType());
+        $sessionObjective1 = new Objective();
+        $sessionObjective1->setId(99);
+        $sessionObjective1->setTitle('test session objective');
+        $sessionObjective1->addMeshDescriptor(new MeshDescriptor());
+        $sessionObjective1->addParent($courseObjective1);
+        $sessionObjective1->addParent($courseObjective2);
+        $session1->addObjective($sessionObjective1);
+
+        $course->addSession($session1);
 
         return $course;
     }

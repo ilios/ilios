@@ -290,7 +290,7 @@ class CourseRollover
         $offsetInWeeks
     ) {
         /* @var OfferingInterface[]  $originalSessionOfferings */
-        $originalSessionOfferings = $this->offeringManager->findBy(['session'=>$originalCourseSession]);
+        $originalSessionOfferings = $originalCourseSession->getOfferings();
 
         foreach ($originalSessionOfferings as $originalSessionOffering) {
             //preprocess the offering start/end dates
@@ -450,7 +450,6 @@ class CourseRollover
             /* @var ObjectiveInterface $newObjective */
             $newObjective = $this->objectiveManager->create();
             $newObjective->setTitle($objective->getTitle());
-            $newObjective->setCompetency($objective->getCompetency());
             $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
             $newObjective->addSession($newSession);
             $newParents = $objective->getParents()->map(function(ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective){
