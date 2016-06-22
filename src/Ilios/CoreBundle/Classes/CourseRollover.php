@@ -449,22 +449,27 @@ class CourseRollover
         SessionInterface $originalSession,
         array $newCourseObjectives
     ) {
-        $originalSession->getObjectives()->map(function(ObjectiveInterface $objective) use ($newSession, $newCourseObjectives) {
-            /* @var ObjectiveInterface $newObjective */
-            $newObjective = $this->objectiveManager->create();
-            $newObjective->setTitle($objective->getTitle());
-            $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
-            $newObjective->addSession($newSession);
-            $newParents = $objective->getParents()->map(function(ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective){
-                if (!array_key_exists($oldParent->getId(), $newCourseObjectives)) {
-                    throw new \Exception("Unable to re-link session objectives to course objectives for session objective id: " . $objective->getId());
-                }
+        $originalSession->getObjectives()
+            ->map(function (ObjectiveInterface $objective) use ($newSession, $newCourseObjectives) {
+                /* @var ObjectiveInterface $newObjective */
+                $newObjective = $this->objectiveManager->create();
+                $newObjective->setTitle($objective->getTitle());
+                $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
+                $newObjective->addSession($newSession);
+                $newParents = $objective->getParents()
+                    ->map(function (ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective) {
+                        if (!array_key_exists($oldParent->getId(), $newCourseObjectives)) {
+                            throw new \Exception(
+                                "Unable to re-link session objectives to course objectives for session objective id: " .
+                                $objective->getId()
+                            );
+                        }
 
-                return $newCourseObjectives[$oldParent->getId()];
+                        return $newCourseObjectives[$oldParent->getId()];
+                    });
+                $newObjective->setParents($newParents);
+                $this->objectiveManager->update($newObjective, false, false);
             });
-            $newObjective->setParents($newParents);
-            $this->objectiveManager->update($newObjective, false, false);
-        });
 
     }
 }

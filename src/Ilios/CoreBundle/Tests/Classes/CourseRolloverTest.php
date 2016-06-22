@@ -120,12 +120,12 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $newCourse->shouldReceive('setExternalId')->with($course->getExternalId())->once();
 
         //@todo better comparison of startDate and newStartDate
-        $newCourse->shouldReceive('setStartDate')->with(m::on(function(DateTime $newStartDate) use ($course) {
+        $newCourse->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStartDate) use ($course) {
             return $newStartDate > $course->getStartDate();
         }))->once();
 
         //@todo better comparison of endDate and newEndDate
-        $newCourse->shouldReceive('setEndDate')->with(m::on(function(DateTime $newEndDate) use ($course) {
+        $newCourse->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEndDate) use ($course) {
             return $newEndDate > $course->getEndDate();
         }))->once();
         $newCourse->shouldReceive('setClerkshipType')->with($course->getClerkshipType())->once();
@@ -167,9 +167,10 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                 $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
                 $newObjective->shouldReceive('addSession')->with($newSession)->once();
                 $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
-                $newObjective->shouldReceive('setParents')->with(m::on(function(Collection $collection) use ($objective) {
-                    return count($collection) === count($objective->getParents());
-                }));
+                $newObjective->shouldReceive('setParents')
+                    ->with(m::on(function (Collection $collection) use ($objective) {
+                        return count($collection) === count($objective->getParents());
+                    }));
                 $this->objectiveManager
                     ->shouldReceive('create')->once()
                     ->andReturn($newObjective);
