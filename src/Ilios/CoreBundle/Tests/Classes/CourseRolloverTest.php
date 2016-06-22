@@ -4,10 +4,12 @@ namespace Ilios\CliBundle\Tests\Command;
 use Ilios\CliBundle\Command\RolloverCourseCommand;
 use Ilios\CoreBundle\Classes\CourseRollover;
 use Ilios\CoreBundle\Entity\Course;
+use Ilios\CoreBundle\Entity\CourseClerkshipType;
+use Ilios\CoreBundle\Entity\School;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-
 use Mockery as m;
+use \DateTime;
 
 /**
  * Class CourseRolloverTest
@@ -62,13 +64,15 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->sessionManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
         $this->sessionLearningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
         $this->offeringManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
+        $this->objectiveManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
         $this->service = new CourseRollover(
             $this->courseManager,
             $this->learningMaterialManager,
             $this->courseLearningMaterialManager,
             $this->sessionManager,
             $this->sessionLearningMaterialManager,
-            $this->offeringManager
+            $this->offeringManager,
+            $this->objectiveManager
         );
     }
 
@@ -83,13 +87,56 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         unset($this->sessionManager);
         unset($this->sessionLearningMaterialManager);
         unset($this->offeringManager);
+        unset($this->objectiveManager);
         unset($this->service);
         m::close();
     }
 
     public function testRolloverWithEverything()
     {
-        $this->markTestIncomplete();
+        $course = $this->createTestCourse();
+        $newYear = $course->getYear() + 1;
+        $this->courseManager->shouldReceive('findOneBy')->withArgs([['id' => $course->getId()]])->andReturn($course);
+        $this->courseManager
+            ->shouldReceive('findBy')
+            ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
+            ->andReturn(false);
+
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse->shouldReceive('setTitle')->with($course->getTitle());
+        $newCourse->shouldReceive('setYear')->with($newYear);
+        $newCourse->shouldReceive('setLevel')->with($course->getLevel());
+        $newCourse->shouldReceive('setExternalId')->with($course->getExternalId());
+        $newCourse->shouldReceive('setLocked')->with(false);
+        $newCourse->shouldReceive('setArchived')->with(false);
+        $newCourse->shouldReceive('setPublished')->with(false);
+        $newCourse->shouldReceive('setPublishedAsTbd')->with(false);
+
+        //@todo better comparison of startDate and newStartDate
+        $newCourse->shouldReceive('setStartDate')->with(m::on(function(DateTime $newStartDate) use ($course) {
+            return $newStartDate > $course->getStartDate();
+        }));
+
+        //@todo better comparison of endDate and newEndDate
+        $newCourse->shouldReceive('setEndDate')->with(m::on(function(DateTime $newEndDate) use ($course) {
+            return $newEndDate > $course->getEndDate();
+        }));
+        $newCourse->shouldReceive('setClerkshipType')->with($course->getClerkshipType());
+        $newCourse->shouldReceive('setSchool')->with($course->getSchool());
+        $newCourse->shouldReceive('setDirectors')->with($course->getDirectors());
+        $newCourse->shouldReceive('setTerms')->with($course->getTerms());
+        $newCourse->shouldReceive('setMeshDescriptors')->with($course->getMeshDescriptors());
+
+        $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false]);
+
+        $this->courseManager
+            ->shouldReceive('create')
+            ->andReturn($newCourse);
+
+        $this->courseManager->shouldReceive('flushAndClear')->once();
+
+        $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['']);
+        $this->assertSame($newCourse, $rhett);
     }
 
     public function testRolloverWithNewStartDate()
@@ -170,17 +217,12 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
     public function testRolloverFailsOnDuplicate()
     {
-        $course = new Course();
-        $course->setId(10);
-        $course->setTitle('lorem ipsum');
-        $courseId = 10;
-        $futureDate = new \DateTime();
-        $futureDate->add(\DateInterval::createFromDateString('+2 year'));
-        $year = $futureDate->format('Y');
+        $course = $this->createTestCourse();
+        $newYear = $course->getYear() + 1;
         $this->courseManager->shouldReceive('findOneBy')->withArgs([['id' => $course->getId()]])->andReturn($course);
         $this->courseManager
             ->shouldReceive('findBy')
-            ->withArgs([['title' => $course->getTitle(), 'year' => $year]])
+            ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
             ->andReturn(new Course());
 
         $this->setExpectedException(
@@ -189,7 +231,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
             . " If the year is correct, consider setting a new course title with '--new-course-title' option."
         );
 
-        $this->service->rolloverCourse($courseId, $year, ['']);
+        $this->service->rolloverCourse($course->getId(), $newYear, ['']);
 
     }
 
@@ -220,5 +262,32 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
         $this->service->rolloverCourse($courseId, $year, []);
 
+    }
+
+    public function testRolloverOfCourseObjectives()
+    {
+        $this->markTestIncomplete();
+    }
+
+    protected function createTestCourse()
+    {
+        $course = new Course();
+        $course->setId(10);
+        $course->setTitle('test course');
+        $course->setLevel(1);
+        $course->setYear(2015);
+        $course->setStartDate(new DateTime('yesterday'));
+        $course->setEndDate(new DateTime('tomorrow'));
+        $course->setExternalId('I45');
+        $course->setLocked(true);
+        $course->setArchived(true);
+        $course->setPublished(true);
+        $course->setPublishedAsTbd(true);
+
+        $course->setClerkshipType(new CourseClerkshipType());
+        $course->setSchool(new School());
+
+
+        return $course;
     }
 }
