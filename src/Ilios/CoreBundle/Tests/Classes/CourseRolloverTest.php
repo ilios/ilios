@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Entity\Session;
 use Ilios\CoreBundle\Entity\SessionLearningMaterial;
 use Ilios\CoreBundle\Entity\SessionType;
+use Ilios\CoreBundle\Entity\Term;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Doctrine\Common\Collections\Collection;
@@ -417,6 +418,10 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $courseObjective2->setTitle('test course objective2');
         $course->addObjective($courseObjective2);
 
+        $courseTerm1 = new Term();
+        $courseTerm1->setId(808);
+        $course->addTerm($courseTerm1);
+
         $lm = new LearningMaterial();
 
         $courseLearningMaterial1 = new CourseLearningMaterial();
@@ -446,6 +451,10 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $sessionLearningMaterial1->setPublicNotes(true);
         $sessionLearningMaterial1->setRequired(false);
         $session1->addLearningMaterial($sessionLearningMaterial1);
+
+        $sessionTerm1 = new Term();
+        $sessionTerm1->setId(808);
+        $session1->addTerm($sessionTerm1);
 
         $course->addSession($session1);
 
