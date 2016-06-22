@@ -327,7 +327,7 @@ class CourseRollover
      * @param CourseInterface $originalCourse
      * @param int $newAcademicYear
      * @param \DateTime|null $newStartDate
-     * @return int|null
+     * @return int
      */
     private function calculateRolloverOffsetInWeeks(
         CourseInterface $originalCourse,
@@ -361,13 +361,10 @@ class CourseRollover
             //don't count the current year for the weekYear multiplication
             $weekYearMultiplier = (52 * ($academicYearDifference - 1));
             //instead, calculate the proper shift between the dates and then add the additional weekYears
-            $weeksOffset = ($weeksBetweenTwoDates + $weekYearMultiplier);
-        } else {
-            //if the difference is 0 years or 1 year, just use the $weeksBetweenTwoDates result from above
-            $weeksOffset = $weeksBetweenTwoDates;
+            return $weeksBetweenTwoDates + $weekYearMultiplier;
         }
-
-        return $weeksOffset;
+        
+        return $weeksBetweenTwoDates;
     }
 
     /**
