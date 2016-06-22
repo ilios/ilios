@@ -151,6 +151,6 @@ class RolloverCourseCommand extends Command
         $newCourse = $this->service->rolloverCourse($courseId, $newAcademicYear, $input->getOptions());
 
         //output message with the new courseId on success
-        $output->writeln("This course has been rolled over.  The new course id is {$newCourse->getId()}.");
+        $output->writeln("This course has been rolled over. The new course id is {$newCourse->getId()}.");
     }
 }

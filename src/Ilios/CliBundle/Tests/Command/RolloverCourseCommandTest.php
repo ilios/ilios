@@ -181,7 +181,7 @@ class RolloverCourseCommandTest extends \PHPUnit_Framework_TestCase
 
         $output = $this->commandTester->getDisplay();
         $this->assertEquals(
-            "This course has been rolled over.  The new course id is {$newCourseId}.",
+            "This course has been rolled over. The new course id is {$newCourseId}.",
             trim($output)
         );
     }
