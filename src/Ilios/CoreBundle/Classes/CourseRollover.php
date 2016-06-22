@@ -112,18 +112,20 @@ class CourseRollover
         $originalCourseStartDate = $originalCourse->getStartDate();
         $originalCourseEndDate = $originalCourse->getEndDate();
 
-        //get/set the offset in weeks and its +/- sign and set it as globally-accessible string in the class
+        // copy the original start/end dates
+        $newCourseStartDate = clone $originalCourseStartDate;
+        $newCourseEndDate = clone $originalCourseEndDate;
+
+        //get/set the offset in weeks
         $weeksOffset = $this->calculateRolloverOffsetInWeeks($originalCourse, $newAcademicYear, $newStartDate);
 
-        //taken with gratitude from http://php.net/manual/en/function.gmp-sign.php#106246
-        $weeksOffsetModifier = ( $weeksOffset > 0 ) ? 1 : ( ( $weeksOffset < 0 ) ? -1 : 0 );
-        $offsetInWeeks = (($weeksOffsetModifier < 0) ? '-' : '+') . ' ' . abs($weeksOffset) . ' weeks';
+        if ($weeksOffset !== 0) {
+            $offsetInWeeks = ($weeksOffset > 0 ? '+' : '-') . ' ' . abs($weeksOffset) . ' weeks';
 
-        //create/modify the newCourse start and end dates based on the original dates and the offset in weeks
-        $newCourseStartDate = clone $originalCourseStartDate;
-        $newCourseStartDate->modify($offsetInWeeks);
-        $newCourseEndDate = clone $originalCourseEndDate;
-        $newCourseEndDate->modify($offsetInWeeks);
+            //modify the newCourse start and end dates with the calculated offset in weeks
+            $newCourseStartDate->modify($offsetInWeeks);
+            $newCourseEndDate->modify($offsetInWeeks);
+        }
 
         //create the Course
         //if there are not any duplicates, create a new course with the relevant info
@@ -363,7 +365,7 @@ class CourseRollover
             //instead, calculate the proper shift between the dates and then add the additional weekYears
             return $weeksBetweenTwoDates + $weekYearMultiplier;
         }
-        
+
         return $weeksBetweenTwoDates;
     }
 
