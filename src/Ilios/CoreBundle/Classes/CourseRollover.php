@@ -127,9 +127,13 @@ class CourseRollover
         $newCourse->setClerkshipType($originalCourse->getClerkshipType());
         $newCourse->setSchool($originalCourse->getSchool());
         $newCourse->setDirectors($originalCourse->getDirectors());
-        $newCourse->setTerms($originalCourse->getTerms());
         $newCourse->setObjectives($originalCourse->getObjectives());
-        $newCourse->setMeshDescriptors($originalCourse->getMeshDescriptors());
+        if (empty($options['skip-course-topics'])) {
+            $newCourse->setTerms($originalCourse->getTerms());
+        }
+        if (empty($options['skip-course-mesh'])) {
+            $newCourse->setMeshDescriptors($originalCourse->getMeshDescriptors());
+        }
 
         //persist the newCourse entity
         $this->courseManager->update($newCourse, false, false);
