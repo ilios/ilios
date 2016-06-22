@@ -7,14 +7,17 @@ use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CourseClerkshipType;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterial;
+use Ilios\CoreBundle\Entity\InstructorGroup;
 use Ilios\CoreBundle\Entity\LearningMaterial;
 use Ilios\CoreBundle\Entity\MeshDescriptor;
 use Ilios\CoreBundle\Entity\Objective;
+use Ilios\CoreBundle\Entity\Offering;
 use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Entity\Session;
 use Ilios\CoreBundle\Entity\SessionLearningMaterial;
 use Ilios\CoreBundle\Entity\SessionType;
 use Ilios\CoreBundle\Entity\Term;
+use Ilios\CoreBundle\Entity\User;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Doctrine\Common\Collections\Collection;
@@ -210,6 +213,24 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                     ->andReturn($newLearningMaterial);
                 $this->sessionLearningMaterialManager->shouldReceive('update')->once()
                     ->withArgs([$newLearningMaterial, false, false]);
+            }
+
+            foreach ($session->getOfferings() as $offering) {
+                $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
+                $newOffering->shouldReceive('setRoom')->once()->with($offering->getRoom());
+                $newOffering->shouldReceive('setSite')->once()->with($offering->getSite());
+                //@todo validate we're getting the right start date
+                $newOffering->shouldReceive('setStartDate')->once();
+                //@todo validate we're getting the right start date
+                $newOffering->shouldReceive('setEndDate')->once();
+                $newOffering->shouldReceive('setSession')->once()->with($newSession);
+                $newOffering->shouldReceive('setInstructors')->once()->with($offering->getInstructors());
+                $newOffering->shouldReceive('setInstructorGroups')->once()->with($offering->getInstructorGroups());
+                $newOffering->shouldNotReceive('setLearnerGroups');
+                $newOffering->shouldNotReceive('setLearners');
+
+                $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
+                $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
             }
         }
 
@@ -440,6 +461,21 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $sessionTerm1 = new Term();
         $sessionTerm1->setId(808);
         $session1->addTerm($sessionTerm1);
+
+        $user = new User();
+
+        $offering1 = new Offering();
+        $offering1->setRoom('111b');
+        $offering1->setSite('Off Campus');
+        $offering1->setStartDate(new DateTime('8am'));
+        $offering1->setEndDate(new DateTime('9am'));
+        $offering1->addInstructor($user);
+
+        $instructorGroup = new InstructorGroup();
+        $instructorGroup->addUser($user);
+        $offering1->addInstructorGroup($instructorGroup);
+
+        $session1->addOffering($offering1);
 
         $course->addSession($session1);
 

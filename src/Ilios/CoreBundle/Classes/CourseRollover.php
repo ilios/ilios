@@ -305,9 +305,9 @@ class CourseRollover
             /* @var OfferingInterface $newOffering */
             $newOffering = $this->offeringManager->create();
             $newOffering->setRoom($originalSessionOffering->getRoom());
+            $newOffering->setSite($originalSessionOffering->getSite());
             $newOffering->setStartDate($newOfferingStartDate);
             $newOffering->setEndDate($newOfferingEndDate);
-            $newOffering->setUpdatedAt(new \DateTime);
             $newOffering->setSession($newSession);
 
             //Instructors
