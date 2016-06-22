@@ -262,22 +262,56 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
     public function testRolloverWithoutCourseLearningMaterials()
     {
-        $this->markTestIncomplete();
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+        $course->addLearningMaterial(new CourseLearningMaterial());
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse->shouldIgnoreMissing();
+        $newCourse->shouldNotReceive('addLearningMaterial');
+        $this->courseLearningMaterialManager->shouldNotReceive('create');
+        $newYear = $this->setupCourseManager($course, $newCourse);
+
+        $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-learning-materials' => true]);
     }
 
     public function testRolloverWithoutCourseObjectives()
     {
-        $this->markTestIncomplete();
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+        $course->addObjective(new Objective());
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse->shouldIgnoreMissing();
+        $newCourse->shouldNotReceive('addObjective');
+        $this->objectiveManager->shouldNotReceive('create');
+        $newYear = $this->setupCourseManager($course, $newCourse);
+
+        $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-objectives' => true]);
     }
 
     public function testRolloverWithoutCourseTerms()
     {
-        $this->markTestIncomplete();
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+        $course->addTerm(new Term());
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse->shouldIgnoreMissing();
+        $newCourse->shouldNotReceive('setTerms');
+        $newYear = $this->setupCourseManager($course, $newCourse);
+
+        $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-terms' => true]);
     }
 
     public function testRolloverWithoutCourseMesh()
     {
-        $this->markTestIncomplete();
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+        $course->addMeshDescriptor(new MeshDescriptor());
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse->shouldIgnoreMissing();
+        $newCourse->shouldNotReceive('setMeshDescriptors');
+        $newYear = $this->setupCourseManager($course, $newCourse);
+
+        $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-mesh' => true]);
     }
 
     public function testRolloverWithoutSessionLearningMaterials()
