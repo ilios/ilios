@@ -5,6 +5,8 @@ use Ilios\CliBundle\Command\RolloverCourseCommand;
 use Ilios\CoreBundle\Classes\CourseRollover;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CourseClerkshipType;
+use Ilios\CoreBundle\Entity\MeshDescriptor;
+use Ilios\CoreBundle\Entity\Objective;
 use Ilios\CoreBundle\Entity\School;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -46,6 +48,11 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
      * @var m\MockInterface
      */
     protected $offeringManager;
+
+    /**
+     * @var m\MockInterface
+     */
+    protected $objectiveManager;
 
     /**
      * @var CourseRollover
@@ -126,6 +133,20 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $newCourse->shouldReceive('setDirectors')->with($course->getDirectors());
         $newCourse->shouldReceive('setTerms')->with($course->getTerms());
         $newCourse->shouldReceive('setMeshDescriptors')->with($course->getMeshDescriptors());
+
+        $courseObjectives = $course->getObjectives();
+        foreach ($courseObjectives as $objective) {
+            $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+            $newObjective->shouldReceive('setTitle')->with($objective->getTitle());
+            $newObjective->shouldReceive('addCourse')->with($newCourse);
+            $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors());
+            $this->objectiveManager
+                ->shouldReceive('create')
+                ->andReturn($newObjective);
+            $this->objectiveManager->shouldReceive('update')->withArgs([$newObjective, false, false]);
+
+        }
+
 
         $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false]);
 
@@ -286,7 +307,11 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
         $course->setClerkshipType(new CourseClerkshipType());
         $course->setSchool(new School());
-
+        $courseObjective1 = new Objective();
+        $courseObjective1->setId(808);
+        $courseObjective1->setTitle('test course objective');
+        $courseObjective1->addMeshDescriptor(new MeshDescriptor());
+        $course->addObjective($courseObjective1);
 
         return $course;
     }

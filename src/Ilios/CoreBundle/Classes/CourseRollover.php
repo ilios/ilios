@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
+use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
 /**
  * Class CourseRollover
@@ -47,6 +48,11 @@ class CourseRollover
     protected $offeringManager;
 
     /**
+     * @var ManagerInterface
+     */
+    protected $objectiveManager;
+
+    /**
      * CourseRollover constructor.
      * @param ManagerInterface $courseManager
      * @param ManagerInterface $learningMaterialManager
@@ -54,6 +60,7 @@ class CourseRollover
      * @param ManagerInterface $sessionManager
      * @param ManagerInterface $sessionLearningMaterialManager
      * @param ManagerInterface $offeringManager
+     * @param ManagerInterface $objectiveManager
      */
     public function __construct(
         ManagerInterface $courseManager,
@@ -61,7 +68,8 @@ class CourseRollover
         ManagerInterface $courseLearningMaterialManager,
         ManagerInterface $sessionManager,
         ManagerInterface $sessionLearningMaterialManager,
-        ManagerInterface $offeringManager
+        ManagerInterface $offeringManager,
+        ManagerInterface $objectiveManager
     ) {
         $this->courseManager = $courseManager;
         $this->learningMaterialManager = $learningMaterialManager;
@@ -69,6 +77,7 @@ class CourseRollover
         $this->sessionManager = $sessionManager;
         $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
         $this->offeringManager = $offeringManager;
+        $this->objectiveManager = $objectiveManager;
 
     }
 
@@ -132,8 +141,13 @@ class CourseRollover
         $newCourse->setSchool($originalCourse->getSchool());
         $newCourse->setDirectors($originalCourse->getDirectors());
         $newCourse->setTerms($originalCourse->getTerms());
-        $newCourse->setObjectives($originalCourse->getObjectives());
         $newCourse->setMeshDescriptors($originalCourse->getMeshDescriptors());
+
+        //COURSE OBJECTIVES
+        $newCourseObjectives = [];
+        if (empty($options['skip-course-objectives'])) {
+            $newCourseObjectives = $this->rolloverCourseObjectives($newCourse, $originalCourse);
+        }
 
         //persist the newCourse entity
         $this->courseManager->update($newCourse, false, false);
@@ -146,7 +160,7 @@ class CourseRollover
 
         //SESSIONS
         if (empty($options['skip-sessions'])) {
-            $this->rolloverSessions($newCourse, $originalCourse, $options, $offsetInWeeks);
+            $this->rolloverSessions($newCourse, $originalCourse, $options, $offsetInWeeks, $newCourseObjectives);
         }
 
         //commit EVERYTHING to the database
@@ -184,15 +198,17 @@ class CourseRollover
      * @param CourseInterface $originalCourse
      * @param array $options
      * @param int $offsetInWeeks
+     * @param ObjectiveInterface[] $newCourseObjectives
      */
     protected function rolloverSessions(
         CourseInterface $newCourse,
         CourseInterface $originalCourse,
         $options,
-        $offsetInWeeks
+        $offsetInWeeks,
+        array $newCourseObjectives
     ) {
         /* @var SessionInterface[] $originalCourseSessions */
-        $originalCourseSessions = $this->sessionManager->findBy(['course'=>$originalCourse]);
+        $originalCourseSessions = $originalCourse->getSessions();
 
         foreach ($originalCourseSessions as $originalCourseSession) {
             /* @var SessionInterface $newSession */
@@ -213,7 +229,7 @@ class CourseRollover
 
             //SESSION OBJECTIVES
             if (empty($options['skip-session-objectives'])) {
-                $newSession->setObjectives($originalCourseSession->getObjectives());
+                $this->rolloverSessionObjectives($newSession, $originalCourseSession, $newCourseObjectives);
             }
 
             //SESSION TOPICS
@@ -393,5 +409,60 @@ class CourseRollover
             );
         }
         return $originalCourse;
+    }
+
+    /**
+     * @param CourseInterface $newCourse
+     * @param CourseInterface $originalCourse
+     *
+     * @return array
+     */
+    protected function rolloverCourseObjectives(
+        CourseInterface $newCourse,
+        CourseInterface $originalCourse
+    ) {
+        $newCourseObjectives = [];
+        foreach ($originalCourse->getObjectives() as $objective) {
+            /* @var ObjectiveInterface $newObjective */
+            $newObjective = $this->objectiveManager->create();
+            $newObjective->setTitle($objective->getTitle());
+            $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
+            $newObjective->addCourse($newCourse);
+            $this->objectiveManager->update($newObjective, false, false);
+            $newCourseObjectives[$objective->getId()] = $newObjective;
+        }
+
+        return $newCourseObjectives;
+
+    }
+
+    /**
+     * @param SessionInterface $newSession
+     * @param SessionInterface $originalSession
+     * @param ObjectiveInterface[] $newCourseObjectives
+     */
+    protected function rolloverSessionObjectives(
+        SessionInterface $newSession,
+        SessionInterface $originalSession,
+        array $newCourseObjectives
+    ) {
+        $originalSession->getObjectives()->map(function(ObjectiveInterface $objective) use ($newSession, $newCourseObjectives) {
+            /* @var ObjectiveInterface $newObjective */
+            $newObjective = $this->objectiveManager->create();
+            $newObjective->setTitle($objective->getTitle());
+            $newObjective->setCompetency($objective->getCompetency());
+            $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
+            $newObjective->addSession($newSession);
+            $newParents = $objective->getParents()->map(function(ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective){
+                if (!array_key_exists($oldParent->getId(), $newCourseObjectives)) {
+                    throw new \Exception("Unable to re-link session objectives to course objectives for session objective id: " . $objective->getId());
+                }
+
+                return $newCourseObjectives[$oldParent->getId()];
+            });
+            $newObjective->setParents($newParents);
+            $this->objectiveManager->update($newObjective, false, false);
+        });
+
     }
 }
