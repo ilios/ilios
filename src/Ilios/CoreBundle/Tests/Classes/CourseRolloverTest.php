@@ -5,6 +5,7 @@ use Ilios\CliBundle\Command\RolloverCourseCommand;
 use Ilios\CoreBundle\Classes\CourseRollover;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CourseClerkshipType;
+use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterial;
 use Ilios\CoreBundle\Entity\LearningMaterial;
 use Ilios\CoreBundle\Entity\MeshDescriptor;
@@ -110,15 +111,9 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
     public function testRolloverWithEverything()
     {
         $course = $this->createTestCourseWithAssications();
-        $newYear = $course->getYear() + 1;
-        $this->courseManager->shouldReceive('findOneBy')
-            ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
-        $this->courseManager
-            ->shouldReceive('findBy')
-            ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
-            ->andReturn(false)->once();
-
         $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newYear = $this->setupCourseManager($course, $newCourse);
+
         $newCourse->shouldReceive('setTitle')->with($course->getTitle())->once();
         $newCourse->shouldReceive('setYear')->with($newYear)->once();
         $newCourse->shouldReceive('setLevel')->with($course->getLevel())->once();
@@ -218,15 +213,6 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-
-        $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
-
-        $this->courseManager
-            ->shouldReceive('create')->once()
-            ->andReturn($newCourse);
-
-        $this->courseManager->shouldReceive('flushAndClear')->once();
-
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['']);
         $this->assertSame($newCourse, $rhett);
     }
@@ -235,22 +221,12 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
-
-        $newYear = $course->getYear() + 1;
-        $this->courseManager->shouldReceive('findOneBy')
-            ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
-        $this->courseManager
-            ->shouldReceive('findBy')
-            ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
-            ->andReturn(false)->once();
-
         $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
         $newCourse->shouldIgnoreMissing();
         $newCourse->shouldNotReceive('setClerkshipType');
-        $this->courseManager->shouldIgnoreMissing();
-        $this->courseManager->shouldReceive('create')->once()->andReturn($newCourse);
+        $newYear = $this->setupCourseManager($course, $newCourse);
 
-        $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['']);
+        $this->service->rolloverCourse($course->getId(), $newYear, ['']);
     }
 
     public function testRolloverWithNewStartDate()
@@ -383,6 +359,11 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->markTestIncomplete();
     }
 
+    /**
+     * Gets a basic filled out course
+     *
+     * @return Course
+     */
     protected function createTestCourse()
     {
         $course = new Course();
@@ -401,6 +382,10 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         return $course;
     }
 
+    /**
+     * Gets a course with a bunch of relationsips attached
+     * @return Course
+     */
     protected function createTestCourseWithAssications()
     {
         $course = $this->createTestCourse();
@@ -459,5 +444,33 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $course->addSession($session1);
 
         return $course;
+    }
+
+    /**
+     * Setup the course manager mock to do basic stuff we need in most tests
+     *
+     * @param CourseInterface $course
+     * @param CourseInterface $newCourse
+     *
+     * @return int
+     */
+    protected function setupCourseManager(CourseInterface $course, CourseInterface $newCourse)
+    {
+        $newYear = $course->getYear() + 1;
+        $this->courseManager->shouldReceive('findOneBy')
+            ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
+        $this->courseManager
+            ->shouldReceive('findBy')
+            ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
+            ->andReturn(false)->once();
+        $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
+
+        $this->courseManager
+            ->shouldReceive('create')->once()
+            ->andReturn($newCourse);
+
+        $this->courseManager->shouldReceive('flushAndClear')->once();
+
+        return $newYear;
     }
 }
