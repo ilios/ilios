@@ -5,10 +5,13 @@ use Ilios\CliBundle\Command\RolloverCourseCommand;
 use Ilios\CoreBundle\Classes\CourseRollover;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CourseClerkshipType;
+use Ilios\CoreBundle\Entity\CourseLearningMaterial;
+use Ilios\CoreBundle\Entity\LearningMaterial;
 use Ilios\CoreBundle\Entity\MeshDescriptor;
 use Ilios\CoreBundle\Entity\Objective;
 use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Entity\Session;
+use Ilios\CoreBundle\Entity\SessionLearningMaterial;
 use Ilios\CoreBundle\Entity\SessionType;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -146,6 +149,23 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
             $this->objectiveManager->shouldReceive('update')->once()->withArgs([$newObjective, false, false]);
         }
 
+        foreach ($course->getLearningMaterials() as $learningMaterial) {
+            $newLearningMaterial = m::mock('Ilios\CoreBundle\Entity\CourseLearningMaterial');
+            $newLearningMaterial->shouldReceive('setLearningMaterial')
+                ->with($learningMaterial->getLearningMaterial())->once();
+            $newLearningMaterial->shouldReceive('setCourse')->with($newCourse)->once();
+            $newLearningMaterial->shouldReceive('setNotes')->with($learningMaterial->getNotes())->once();
+            $newLearningMaterial->shouldReceive('setPublicNotes')->with($learningMaterial->hasPublicNotes())->once();
+            $newLearningMaterial->shouldReceive('setRequired')->with($learningMaterial->isRequired())->once();
+            $newLearningMaterial->shouldReceive('setMeshDescriptors')
+                ->with($learningMaterial->getMeshDescriptors())->once();
+            $this->courseLearningMaterialManager
+                ->shouldReceive('create')->once()
+                ->andReturn($newLearningMaterial);
+            $this->courseLearningMaterialManager->shouldReceive('update')->once()
+                ->withArgs([$newLearningMaterial, false, false]);
+        }
+
         foreach ($course->getSessions() as $session) {
             $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
             $newSession->shouldReceive('setTitle')->with($session->getTitle())->once();
@@ -176,6 +196,24 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                     ->shouldReceive('create')->once()
                     ->andReturn($newObjective);
                 $this->objectiveManager->shouldReceive('update')->withArgs([$newObjective, false, false]);
+            }
+
+            foreach ($session->getLearningMaterials() as $learningMaterial) {
+                $newLearningMaterial = m::mock('Ilios\CoreBundle\Entity\SessionLearningMaterial');
+                $newLearningMaterial->shouldReceive('setLearningMaterial')
+                    ->with($learningMaterial->getLearningMaterial())->once();
+                $newLearningMaterial->shouldReceive('setSession')->with($newSession)->once();
+                $newLearningMaterial->shouldReceive('setNotes')->with($learningMaterial->getNotes())->once();
+                $newLearningMaterial->shouldReceive('setPublicNotes')
+                    ->with($learningMaterial->hasPublicNotes())->once();
+                $newLearningMaterial->shouldReceive('setRequired')->with($learningMaterial->isRequired())->once();
+                $newLearningMaterial->shouldReceive('setMeshDescriptors')
+                    ->with($learningMaterial->getMeshDescriptors())->once();
+                $this->sessionLearningMaterialManager
+                    ->shouldReceive('create')->once()
+                    ->andReturn($newLearningMaterial);
+                $this->sessionLearningMaterialManager->shouldReceive('update')->once()
+                    ->withArgs([$newLearningMaterial, false, false]);
             }
         }
 
@@ -368,7 +406,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
         $course->setClerkshipType(new CourseClerkshipType());
         $course->setSchool(new School());
-        
+
         $courseObjective1 = new Objective();
         $courseObjective1->setId(808);
         $courseObjective1->setTitle('test course objective1');
@@ -379,15 +417,35 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $courseObjective2->setTitle('test course objective2');
         $course->addObjective($courseObjective2);
 
+        $lm = new LearningMaterial();
+
+        $courseLearningMaterial1 = new CourseLearningMaterial();
+        $courseLearningMaterial1->setLearningMaterial($lm);
+        $courseLearningMaterial1->setId(808);
+        $courseLearningMaterial1->addMeshDescriptor(new MeshDescriptor());
+        $courseLearningMaterial1->setNotes('notes');
+        $courseLearningMaterial1->setPublicNotes(true);
+        $courseLearningMaterial1->setRequired(false);
+        $course->addLearningMaterial($courseLearningMaterial1);
+
         $session1 = new Session();
         $session1->setSessionType(new SessionType());
         $sessionObjective1 = new Objective();
         $sessionObjective1->setId(99);
-        $sessionObjective1->setTitle('test session objective');
+        $sessionObjective1->setTitle('test session learning material');
         $sessionObjective1->addMeshDescriptor(new MeshDescriptor());
         $sessionObjective1->addParent($courseObjective1);
         $sessionObjective1->addParent($courseObjective2);
         $session1->addObjective($sessionObjective1);
+
+        $sessionLearningMaterial1 = new SessionLearningMaterial();
+        $sessionLearningMaterial1->setLearningMaterial($lm);
+        $sessionLearningMaterial1->setId(808);
+        $sessionLearningMaterial1->addMeshDescriptor(new MeshDescriptor());
+        $sessionLearningMaterial1->setNotes('notes');
+        $sessionLearningMaterial1->setPublicNotes(true);
+        $sessionLearningMaterial1->setRequired(false);
+        $session1->addLearningMaterial($sessionLearningMaterial1);
 
         $course->addSession($session1);
 
