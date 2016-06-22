@@ -75,3 +75,8 @@ services:
         tags:
             -  { name: console.command }
             -  { name: kernel.cache_warmer }
+    ilioscli.command.rollover_course:
+        class: Ilios\CliBundle\Command\RolloverCourseCommand
+        arguments: ["@ilioscore.courserollover"]
+        tags:
+            -  { name: console.command }
