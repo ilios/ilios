@@ -213,7 +213,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithoutCourseTopics()
+    public function testRolloverWithoutCourseTerms()
     {
         $this->markTestIncomplete();
     }
@@ -233,7 +233,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithoutSessionTopics()
+    public function testRolloverWithoutSessionTerms()
     {
         $this->markTestIncomplete();
     }

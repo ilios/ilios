@@ -133,15 +133,17 @@ class CourseRollover
         $newCourse->setStartDate($newCourseStartDate);
         $newCourse->setEndDate($newCourseEndDate);
         $newCourse->setExternalId($originalCourse->getExternalId());
-        $newCourse->setLocked(0);
-        $newCourse->setArchived(0);
-        $newCourse->setPublishedAsTbd(0);
-        $newCourse->setPublished(0);
         $newCourse->setClerkshipType($originalCourse->getClerkshipType());
         $newCourse->setSchool($originalCourse->getSchool());
         $newCourse->setDirectors($originalCourse->getDirectors());
-        $newCourse->setTerms($originalCourse->getTerms());
         $newCourse->setMeshDescriptors($originalCourse->getMeshDescriptors());
+
+        if (empty($options['skip-course-terms'])) {
+            $newCourse->setTerms($originalCourse->getTerms());
+        }
+        if (empty($options['skip-course-mesh'])) {
+            $newCourse->setMeshDescriptors($originalCourse->getMeshDescriptors());
+        }
 
         //COURSE OBJECTIVES
         $newCourseObjectives = [];
@@ -232,8 +234,8 @@ class CourseRollover
                 $this->rolloverSessionObjectives($newSession, $originalCourseSession, $newCourseObjectives);
             }
 
-            //SESSION TOPICS
-            if (empty($options['skip-session-topics'])) {
+            //SESSION TERMS
+            if (empty($options['skip-session-terms'])) {
                 $newSession->setTerms($originalCourseSession->getTerms());
             }
 

@@ -71,10 +71,10 @@ class RolloverCourseCommand extends Command
                 'Do not copy/recreate course objectives'
             )
             ->addOption(
-                'skip-course-topics',
+                'skip-course-terms',
                 null,
                 InputOption::VALUE_NONE,
-                'Do not copy course topics'
+                'Do not copy course terms'
             )
             ->addOption(
                 'skip-course-mesh',
@@ -101,10 +101,10 @@ class RolloverCourseCommand extends Command
                 'Do not copy/recreate session objectives'
             )
             ->addOption(
-                'skip-session-topics',
+                'skip-session-terms',
                 null,
                 InputOption::VALUE_NONE,
-                'Do not copy session topics'
+                'Do not copy session terms'
             )
             ->addOption(
                 'skip-session-mesh',
