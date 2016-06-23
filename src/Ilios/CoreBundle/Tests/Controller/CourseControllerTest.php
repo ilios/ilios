@@ -910,4 +910,54 @@ class CourseControllerTest extends AbstractControllerTest
             $data[1]
         );
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testRolloverCourse()
+    {
+        $course = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'api_course_rollover_v1',
+                [
+                    'id' => $course['id'],
+                    'year' => 2030
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_CREATED);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $newCourse = $data[0];
+        $this->assertSame($course['title'], $newCourse['title']);
+        $this->assertSame($course['level'], $newCourse['level']);
+        $this->assertSame($course['externalId'], $newCourse['externalId']);
+        $this->assertSame(2030, $newCourse['year']);
+        $this->assertSame('2030-08-11T00:00:00+00:00', $newCourse['startDate']);
+        $this->assertSame('2030-11-23T00:00:00+00:00', $newCourse['endDate']);
+        $this->assertFalse($newCourse['locked']);
+        $this->assertFalse($newCourse['archived']);
+        $this->assertFalse($newCourse['published']);
+        $this->assertFalse($newCourse['publishedAsTbd']);
+
+        $this->assertEquals($course['clerkshipType'], $newCourse['clerkshipType']);
+        $this->assertEquals($course['school'], $newCourse['school']);
+        $this->assertEquals($course['directors'], $newCourse['directors']);
+        $this->assertEmpty($newCourse['cohorts']);
+        $this->assertEquals($course['terms'], $newCourse['terms']);
+        $this->assertSame(count($course['objectives']), count($newCourse['objectives']));
+        $this->assertEquals($course['meshDescriptors'], $newCourse['meshDescriptors']);
+        $this->assertSame(count($course['learningMaterials']), count($newCourse['learningMaterials']));
+        $this->assertSame(count($course['sessions']), count($newCourse['sessions']));
+
+    }
 }

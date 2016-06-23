@@ -195,7 +195,7 @@ class CourseRollover
             $newCourseLearningMaterial->setCourse($newCourse);
             $newCourseLearningMaterial->setLearningMaterial($originalCourseLearningMaterial->getLearningMaterial());
             $newCourseLearningMaterial->setMeshDescriptors($originalCourseLearningMaterial->getMeshDescriptors());
-            
+
             $this->courseLearningMaterialManager->update($newCourseLearningMaterial, false, false);
         }
     }
