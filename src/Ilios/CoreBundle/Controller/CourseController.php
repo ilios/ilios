@@ -334,7 +334,13 @@ class CourseController extends FOSRestController
      *   method = "POST",
      *   parameters={
      *     {"name"="year", "dataType"="integer", "required"=true, "description"="new course year"},
-     *     {"name"="newStartDate", "dataType"="string (yyyy-mm-dd)", "required"=false, "description"="new course custom start date"},
+     *     {
+     *       "name"="newStartDate",
+     *       "dataType"="string (yyyy-mm-dd)",
+     *       "required"=false,
+     *       "description"="new course custom start date"
+     *     },
+     *     {"name"="skipOfferings", "dataType"="bool", "required"=false, "description"="skip offering rollover"},
      *   },
      *   tags = {
      *     "beta"
@@ -369,9 +375,8 @@ class CourseController extends FOSRestController
             throw new InvalidInputWithSafeUserMessageException("year is missing");
         }
         $options = [];
-        if ($newStartDate = $request->get('newStartDate')) {
-            $options['new-start-date'] = $newStartDate;
-        }
+        $options['new-start-date'] = $request->get('newStartDate');
+        $options['skip-offerings'] = $request->get('skipOfferings');
 
         $rolloverCourse = $this->container->get('ilioscore.courserollover');
         $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, $options);
