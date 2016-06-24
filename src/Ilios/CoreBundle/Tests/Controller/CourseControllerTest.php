@@ -247,7 +247,7 @@ class CourseControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['courses'];
-        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(1, count($data), var_export($data, true));
 
         $this->createJsonRequest(
             'GET',
@@ -259,7 +259,7 @@ class CourseControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['courses'];
-        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(2, count($data), var_export($data, true));
     }
 
     /**
@@ -909,5 +909,173 @@ class CourseControllerTest extends AbstractControllerTest
             ),
             $data[1]
         );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testRolloverCourse()
+    {
+        $course = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'api_course_rollover_v1',
+                [
+                    'id' => $course['id'],
+                    'year' => 2019
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_CREATED);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $newCourse = $data[0];
+        $this->assertSame($course['title'], $newCourse['title']);
+        $this->assertSame($course['level'], $newCourse['level']);
+        $this->assertSame($course['externalId'], $newCourse['externalId']);
+        $this->assertSame(2019, $newCourse['year']);
+        $this->assertSame('2019-09-01T00:00:00+00:00', $newCourse['startDate']);
+        $this->assertSame('2019-12-28T00:00:00+00:00', $newCourse['endDate']);
+        $this->assertFalse($newCourse['locked']);
+        $this->assertFalse($newCourse['archived']);
+        $this->assertFalse($newCourse['published']);
+        $this->assertFalse($newCourse['publishedAsTbd']);
+
+        $this->assertEquals($course['clerkshipType'], $newCourse['clerkshipType']);
+        $this->assertEquals($course['school'], $newCourse['school']);
+        $this->assertEquals($course['directors'], $newCourse['directors']);
+        $this->assertEmpty($newCourse['cohorts']);
+        $this->assertEquals($course['terms'], $newCourse['terms']);
+        $this->assertSame(count($course['objectives']), count($newCourse['objectives']));
+        $this->assertEquals($course['meshDescriptors'], $newCourse['meshDescriptors']);
+        $this->assertSame(count($course['learningMaterials']), count($newCourse['learningMaterials']));
+
+        $newSessions = $newCourse['sessions'];
+        $this->assertEquals(count($newSessions), 2);
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+        $lastSessionId = array_pop($sessions)['id'];
+
+        $this->assertEquals($lastSessionId + 1, $newSessions[0], 'incremented session id 1');
+        $this->assertEquals($lastSessionId + 2, $newSessions[1], 'incremented session id 2');
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_sessions',
+                ['filters[id]' => $newSessions]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessions'];
+        $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
+        $lastOfferingId = array_pop($offerings)['id'];
+
+        $firstSessionOfferings = array_map('strval', [$lastOfferingId + 1, $lastOfferingId + 2]);
+        $secondSessionOfferings = array_map('strval', [$lastOfferingId + 3, $lastOfferingId + 4, $lastOfferingId + 5]);
+
+        $this->assertEquals($firstSessionOfferings, $data[0]['offerings']);
+        $this->assertEquals($secondSessionOfferings, $data[1]['offerings']);
+
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testRolloverCourseWithStartDate()
+    {
+        $course = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'api_course_rollover_v1',
+                [
+                    'id' => $course['id'],
+                    'year' => 2019,
+                    'newStartDate' => '2019-09-01'
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_CREATED);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $newCourse = $data[0];
+        $this->assertSame(2019, $newCourse['year']);
+        $this->assertSame('2019-09-01T00:00:00+00:00', $newCourse['startDate']);
+        $this->assertSame('2019-12-28T00:00:00+00:00', $newCourse['endDate']);
+
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testRolloverCourseWithNoOfferings()
+    {
+        $course = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'api_course_rollover_v1',
+                [
+                    'id' => $course['id'],
+                    'year' => 2030,
+                    'skipOfferings' => true
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_CREATED);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $newCourse = $data[0];
+        $this->assertSame(2030, $newCourse['year']);
+        $newSessions = $newCourse['sessions'];
+        $this->assertEquals(count($newSessions), 2);
+        $sessions = $this->container->get('ilioscore.dataloader.session')->getAll();
+        $lastSessionId = array_pop($sessions)['id'];
+
+        $this->assertEquals($lastSessionId + 1, $newSessions[0], 'incremented session id 1');
+        $this->assertEquals($lastSessionId + 2, $newSessions[1], 'incremented session id 2');
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_sessions',
+                ['filters[id]' => $newSessions]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessions'];
+        $this->assertEmpty($data[0]['offerings']);
+        $this->assertEmpty($data[1]['offerings']);
+
     }
 }

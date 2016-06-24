@@ -14,6 +14,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Entity\CourseInterface;
+use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
 
 /**
  * Class CourseController
@@ -321,6 +322,74 @@ class CourseController extends FOSRestController
         } catch (\Exception $exception) {
             throw new \RuntimeException("Deletion not allowed: " . $exception->getMessage());
         }
+    }
+
+    /**
+     * Rollover a Course.
+     *
+     * @ApiDoc(
+     *   section = "Course",
+     *   description = "Rollover Course to a new academic year, copying all of its attributes.",
+     *   resource = true,
+     *   method = "POST",
+     *   parameters={
+     *     {"name"="year", "dataType"="integer", "required"=true, "description"="new course year"},
+     *     {
+     *       "name"="newStartDate",
+     *       "dataType"="string (yyyy-mm-dd)",
+     *       "required"=false,
+     *       "description"="new course custom start date"
+     *     },
+     *     {"name"="skipOfferings", "dataType"="bool", "required"=false, "description"="skip offering rollover"},
+     *   },
+     *   tags = {
+     *     "beta"
+     *   },
+     *   output="Ilios\CoreBundle\Entity\Course",
+     *   statusCodes={
+     *     201 = "Created Course.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param $id
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function rolloverAction($id, Request $request)
+    {
+        $course = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+
+        if (! $authChecker->isGranted(['modify'], $course)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $year = $request->get('year');
+        if (!$year) {
+            throw new InvalidInputWithSafeUserMessageException("year is missing");
+        }
+        $options = [];
+        $options['new-start-date'] = $request->get('newStartDate');
+        $options['skip-offerings'] = $request->get('skipOfferings');
+
+        $rolloverCourse = $this->container->get('ilioscore.courserollover');
+        $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, $options);
+
+        $manager = $this->container->get('ilioscore.course.manager');
+        //pulling the DTO ensures we get all the new relationships
+        $newCourseDTO = $manager->findDTOBy(['id' => $newCourse->getId()]);
+
+        $answer['courses'] = [$newCourseDTO];
+
+        $view = $this->view($answer, Codes::HTTP_CREATED);
+
+        return $this->handleView($view);
     }
 
     /**
