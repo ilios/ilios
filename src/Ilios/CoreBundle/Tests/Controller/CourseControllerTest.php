@@ -247,7 +247,7 @@ class CourseControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['courses'];
-        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(1, count($data), var_export($data, true));
 
         $this->createJsonRequest(
             'GET',
@@ -259,7 +259,7 @@ class CourseControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['courses'];
-        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(2, count($data), var_export($data, true));
     }
 
     /**
@@ -927,7 +927,7 @@ class CourseControllerTest extends AbstractControllerTest
                 'api_course_rollover_v1',
                 [
                     'id' => $course['id'],
-                    'year' => 2030
+                    'year' => 2019
                 ]
             ),
             null,
@@ -941,9 +941,9 @@ class CourseControllerTest extends AbstractControllerTest
         $this->assertSame($course['title'], $newCourse['title']);
         $this->assertSame($course['level'], $newCourse['level']);
         $this->assertSame($course['externalId'], $newCourse['externalId']);
-        $this->assertSame(2030, $newCourse['year']);
-        $this->assertSame('2030-08-11T00:00:00+00:00', $newCourse['startDate']);
-        $this->assertSame('2030-11-23T00:00:00+00:00', $newCourse['endDate']);
+        $this->assertSame(2019, $newCourse['year']);
+        $this->assertSame('2019-09-01T00:00:00+00:00', $newCourse['startDate']);
+        $this->assertSame('2019-12-28T00:00:00+00:00', $newCourse['endDate']);
         $this->assertFalse($newCourse['locked']);
         $this->assertFalse($newCourse['archived']);
         $this->assertFalse($newCourse['published']);
@@ -1006,8 +1006,8 @@ class CourseControllerTest extends AbstractControllerTest
                 'api_course_rollover_v1',
                 [
                     'id' => $course['id'],
-                    'year' => 2030,
-                    'newStartDate' => '2030-06-01'
+                    'year' => 2019,
+                    'newStartDate' => '2019-09-01'
                 ]
             ),
             null,
@@ -1018,9 +1018,9 @@ class CourseControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_CREATED);
         $data = json_decode($response->getContent(), true)['courses'];
         $newCourse = $data[0];
-        $this->assertSame(2030, $newCourse['year']);
-        $this->assertSame('2030-06-01T00:00:00+00:00', $newCourse['startDate']);
-        $this->assertSame('2030-11-23T00:00:00+00:00', $newCourse['endDate']);
+        $this->assertSame(2019, $newCourse['year']);
+        $this->assertSame('2019-09-01T00:00:00+00:00', $newCourse['startDate']);
+        $this->assertSame('2019-12-28T00:00:00+00:00', $newCourse['endDate']);
 
     }
 
