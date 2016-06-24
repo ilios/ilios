@@ -459,15 +459,16 @@ class CourseRollover
                 $newObjective->addSession($newSession);
                 $newParents = $objective->getParents()
                     ->map(function (ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective) {
-                        if (!array_key_exists($oldParent->getId(), $newCourseObjectives)) {
-                            throw new \Exception(
-                                "Unable to re-link session objectives to course objectives for session objective id: " .
-                                $objective->getId()
-                            );
+                        if (array_key_exists($oldParent->getId(), $newCourseObjectives)) {
+                            return $newCourseObjectives[$oldParent->getId()];
                         }
 
-                        return $newCourseObjectives[$oldParent->getId()];
+                        return null;
+
+                    })->filter(function ($value) {
+                        return !empty($value);
                     });
+
                 $newObjective->setParents($newParents);
                 $this->objectiveManager->update($newObjective, false, false);
             });

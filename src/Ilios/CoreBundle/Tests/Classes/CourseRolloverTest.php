@@ -234,6 +234,52 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
             }
         }
 
+        $rhett = $this->service->rolloverCourse($course->getId(), $newYear, []);
+        $this->assertSame($newCourse, $rhett);
+    }
+
+    public function testRolloverSessionObjectiveWithOrphanedParents()
+    {
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+
+        $courseObjective = new Objective();
+        $courseObjective->setId(13);
+        $courseObjective->setTitle('test');
+        $course->addObjective($courseObjective);
+        $this->objectiveManager->shouldReceive('create')->once()->andReturn(new Objective());
+
+        $session = new Session();
+        $session->setSessionType(new SessionType());
+        $sessionObjective = new Objective();
+        $sessionObjective->addParent(new Objective());
+        $sessionObjective->addParent($courseObjective);
+        $session->addObjective($sessionObjective);
+        $course->addSession($session);
+
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse->shouldIgnoreMissing();
+        $newYear = $this->setupCourseManager($course, $newCourse);
+
+        $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+        $newSession->shouldIgnoreMissing();
+        $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+        $newObjective->shouldIgnoreMissing();
+
+        $self = $this;
+        //We should end up with 1 parent since the other one is an orphan
+        $newObjective->shouldReceive('setParents')
+            ->with(m::on(function (Collection $collection) use ($self) {
+                $this->assertEquals($collection->count(), 1);
+                $this->assertEquals('test', $collection->first()->getTitle());
+                return count($collection) === 1;
+            }));
+        $this->objectiveManager->shouldReceive('create')->once()->andReturn($newObjective);
+        $this->sessionManager->shouldReceive('create')->once()->andReturn($newSession);
+
+        $this->sessionManager->shouldIgnoreMissing();
+        $this->objectiveManager->shouldIgnoreMissing();
+
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['']);
         $this->assertSame($newCourse, $rhett);
     }
