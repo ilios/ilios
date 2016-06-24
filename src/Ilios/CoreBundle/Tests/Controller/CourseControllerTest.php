@@ -960,4 +960,38 @@ class CourseControllerTest extends AbstractControllerTest
         $this->assertSame(count($course['sessions']), count($newCourse['sessions']));
 
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testRolloverCourseWithStartDate()
+    {
+        $course = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'api_course_rollover_v1',
+                [
+                    'id' => $course['id'],
+                    'year' => 2030,
+                    'newStartDate' => '2030-06-01'
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_CREATED);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $newCourse = $data[0];
+        $this->assertSame(2030, $newCourse['year']);
+        $this->assertSame('2030-06-01T00:00:00+00:00', $newCourse['startDate']);
+        $this->assertSame('2030-11-23T00:00:00+00:00', $newCourse['endDate']);
+
+    }
 }

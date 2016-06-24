@@ -334,6 +334,7 @@ class CourseController extends FOSRestController
      *   method = "POST",
      *   parameters={
      *     {"name"="year", "dataType"="integer", "required"=true, "description"="new course year"},
+     *     {"name"="newStartDate", "dataType"="string (yyyy-mm-dd)", "required"=false, "description"="new course custom start date"},
      *   },
      *   tags = {
      *     "beta"
@@ -367,10 +368,14 @@ class CourseController extends FOSRestController
         if (!$year) {
             throw new InvalidInputWithSafeUserMessageException("year is missing");
         }
+        $options = [];
+        if ($newStartDate = $request->get('newStartDate')) {
+            $options['new-start-date'] = $newStartDate;
+        }
 
         $rolloverCourse = $this->container->get('ilioscore.courserollover');
-        $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, []);
-        
+        $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, $options);
+
         $manager = $this->container->get('ilioscore.course.manager');
         //pulling the DTO ensures we get all the new relationships
         $newCourseDTO = $manager->findDTOBy(['id' => $newCourse->getId()]);

@@ -190,7 +190,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                 $newObjective->shouldReceive('setParents')
                     ->with(m::on(function (Collection $collection) use ($objective) {
                         return count($collection) === count($objective->getParents());
-                    }));
+                    }))->once();
                 $this->objectiveManager
                     ->shouldReceive('create')->once()
                     ->andReturn($newObjective);
@@ -477,7 +477,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $session1->setSessionType(new SessionType());
         $sessionObjective1 = new Objective();
         $sessionObjective1->setId(99);
-        $sessionObjective1->setTitle('test session learning material');
+        $sessionObjective1->setTitle('test session objective 1');
         $sessionObjective1->addMeshDescriptor(new MeshDescriptor());
         $sessionObjective1->addParent($courseObjective1);
         $sessionObjective1->addParent($courseObjective2);
