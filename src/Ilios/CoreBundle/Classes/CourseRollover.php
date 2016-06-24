@@ -119,6 +119,7 @@ class CourseRollover
         //get/set the offset in weeks
         $weeksOffset = $this->calculateRolloverOffsetInWeeks($originalCourse, $newAcademicYear, $newStartDate);
 
+        $offsetInWeeks = false;
         if ($weeksOffset !== 0) {
             $offsetInWeeks = ($weeksOffset > 0 ? '+' : '-') . ' ' . abs($weeksOffset) . ' weeks';
 
@@ -204,7 +205,7 @@ class CourseRollover
      * @param CourseInterface $newCourse
      * @param CourseInterface $originalCourse
      * @param array $options
-     * @param int $offsetInWeeks
+     * @param string|bool $offsetInWeeks a date modifier string, or FALSE if n/a
      * @param ObjectiveInterface[] $newCourseObjectives
      */
     protected function rolloverSessions(
@@ -288,7 +289,7 @@ class CourseRollover
      * @param SessionInterface $newSession
      * @param SessionInterface $originalCourseSession
      * @param array $options
-     * @param int $offsetInWeeks
+     * @param string|bool $offsetInWeeks a date modifier string, or FALSE if n/a
      */
     protected function rolloverOfferings(
         SessionInterface $newSession,
@@ -300,9 +301,14 @@ class CourseRollover
         $originalSessionOfferings = $originalCourseSession->getOfferings();
 
         foreach ($originalSessionOfferings as $originalSessionOffering) {
-            //preprocess the offering start/end dates
-            $newOfferingStartDate = ($originalSessionOffering->getStartDate()->modify($offsetInWeeks));
-            $newOfferingEndDate = ($originalSessionOffering->getEndDate()->modify($offsetInWeeks));
+            $newOfferingStartDate = clone $originalSessionOffering->getStartDate();
+            $newOfferingEndDate = clone $originalSessionOffering->getEndDate();
+
+            if ($offsetInWeeks) {
+                //preprocess the offering start/end dates
+                $newOfferingStartDate->modify($offsetInWeeks);
+                $newOfferingEndDate->modify($offsetInWeeks);
+            }
 
             /* @var OfferingInterface $newOffering */
             $newOffering = $this->offeringManager->create();
