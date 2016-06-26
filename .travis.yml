@@ -33,16 +33,16 @@ matrix:
   - php: '7'
     env: CHECK_CODING_STANDARDS=true
 php:
-- '5.5'
+- '5.6'
 - '7'
 env:
   matrix:
-  - TEST_PHPUNIT_CONTROLLERSA=true
-  - TEST_PHPUNIT_CONTROLLERSB=true
-  - TEST_PHPUNIT_OTHERS=true
-  - TEST_PHPUNIT_MESH_DATA_IMPORT=true
-  - VALIDATE_SCHEMA=true
-  - CHECK_CODING_STANDARDS=true
+  - TEST_PHPUNIT_CONTROLLERSA=false
+  - TEST_PHPUNIT_CONTROLLERSB=false
+  - TEST_PHPUNIT_OTHERS=false
+  - TEST_PHPUNIT_MESH_DATA_IMPORT=false
+  - VALIDATE_SCHEMA=false
+  - CHECK_CODING_STANDARDS=false
 cache:
   directories:
   - "$HOME/.composer/cache"
