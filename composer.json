@@ -32,7 +32,8 @@
         "matthiasnoback/symfony-console-form": "^2.0",
         "dreamscapes/ldap-core": "^3.1",
         "eluceo/ical": "0.8.0",
-        "exercise/htmlpurifier-bundle": "@stable"
+        "exercise/htmlpurifier-bundle": "@stable",
+        "ocramius/proxy-manager": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
