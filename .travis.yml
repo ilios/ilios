@@ -52,8 +52,9 @@ before_install:
 - echo "memory_limit=2048M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 - cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
-- if [ "$CHECK_CODING_STANDARDS" ]; then wget http://get.sensiolabs.org/security-checker.phar
-  -O security-checker.phar; fi
+- if [ "$CHECK_CODING_STANDARDS" ];
+  then wget http://get.sensiolabs.org/security-checker.phar -O security-checker.phar;
+  fi
 install:
 - SYMFONY_ENV=prod composer install --no-interaction --no-dev --prefer-dist
 - composer install --no-interaction --prefer-dist -d ${TRAVIS_BUILD_DIR}
@@ -63,20 +64,27 @@ before_script:
 - bin/console doctrine:migrations:migrate  --env=dev --no-interaction
 - bin/console cache:clear --env=test --no-interaction
 script:
-- if [ "$VALIDATE_SCHEMA" = true ]; then (bin/console doctrine:schema:validate --env=dev);
+- if [ "$VALIDATE_SCHEMA" = true ];
+  then (bin/console doctrine:schema:validate --env=dev);
   fi
-- if [ "$CHECK_CODING_STANDARDS" = true ]; then (bin/phpcs --standard=app/phpcs.xml
-  src); fi
-- if [ "$CHECK_CODING_STANDARDS" = true ]; then (php security-checker.phar security:check);
+- if [ "$CHECK_CODING_STANDARDS" = true ];
+  then (bin/phpcs --standard=app/phpcs.xml src);
   fi
-- if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ]; then (bin/phpunit -c phpunit.xml.dist
-  --group mesh_data_import); fi
-- if [ "$TEST_PHPUNIT_CONTROLLERSA" = true ]; then (bin/phpunit -c phpunit.xml.dist
-  --group controllers_a); fi
-- if [ "$TEST_PHPUNIT_CONTROLLERSB" = true ]; then (bin/phpunit -c phpunit.xml.dist
-  --group controllers_b); fi
-- if [ "$TEST_PHPUNIT_OTHERS" = true ]; then (bin/phpunit -c phpunit.xml.dist --exclude-group
-  mesh_data_import,controllers_a,controllers_b); fi
+- if [ "$CHECK_CODING_STANDARDS" = true ];
+  then (php security-checker.phar security:check);
+  fi
+- if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ];
+  then (bin/phpunit -c phpunit.xml.dist --group mesh_data_import);
+  fi
+- if [ "$TEST_PHPUNIT_CONTROLLERSA" = true ];
+  then (bin/phpunit -c phpunit.xml.dist --group controllers_a);
+  fi
+- if [ "$TEST_PHPUNIT_CONTROLLERSB" = true ];
+  then (bin/phpunit -c phpunit.xml.dist --group controllers_b);
+  fi
+- if [ "$TEST_PHPUNIT_OTHERS" = true ];
+  then (bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers_a,controllers_b);
+  fi
 notifications:
   slack:
     secure: Aw/KYBBltksyk0cPOyB9ZGjtmtYWkcns5AgsZmv1FiTUT2BYVc06yQ0LGQGQDHeNs7Zi8l0BtxhJv0gtwdnYydvwiUckR3ZRjTV7//1ni8XzzyO612ArwVKA1LHTVKm8zy3PcW3XobKtI0QlQZ/jPJ2yk8nbcXJ7XnCXyFq7OyI=
