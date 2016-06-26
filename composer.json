@@ -28,7 +28,7 @@
         "doctrine/doctrine-migrations-bundle": "^1.0",
         "doctrine/doctrine-fixtures-bundle": "~2.3",
         "friendsofsymfony/rest-bundle": "~1.7",
-        "tdn/php-types": "1.*",
+        "danielstjules/stringy": "~2.3",
         "matthiasnoback/symfony-console-form": "^2.0",
         "dreamscapes/ldap-core": "^3.1",
         "eluceo/ical": "0.8.0",

@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Tdn\PhpTypes\Type\String;
+use Stringy\Stringy as S;
 use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
 
 /**
@@ -87,7 +87,7 @@ abstract class AbstractControllerTest extends WebTestCase
         foreach ($array as $k => $v) {
             if (is_array($v)) {
                 unset($array[$k]);
-                $k = ($underscore) ? (string) String::create($k)->underscored() : $k;
+                $k = ($underscore) ? (string) S::create($k)->underscored() : $k;
                 $array[$k] = $this->mockSerialize($v);
             }
         }
