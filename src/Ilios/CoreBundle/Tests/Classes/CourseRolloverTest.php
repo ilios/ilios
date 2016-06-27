@@ -122,14 +122,24 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $newCourse->shouldReceive('setLevel')->with($course->getLevel())->once();
         $newCourse->shouldReceive('setExternalId')->with($course->getExternalId())->once();
 
-        //@todo better comparison of startDate and newStartDate
-        $newCourse->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStartDate) use ($course) {
-            return $newStartDate > $course->getStartDate();
+        $newCourse->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($course) {
+            $oldStart = $course->getStartDate();
+            return (
+                //day of the week is the same
+                $oldStart->format('w') === $newStart->format('w') &&
+                //Week of the year is the same
+                $oldStart->format('W') === $newStart->format('W')
+            );
         }))->once();
 
-        //@todo better comparison of endDate and newEndDate
-        $newCourse->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEndDate) use ($course) {
-            return $newEndDate > $course->getEndDate();
+        $newCourse->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($course) {
+            $oldEnd = $course->getEndDate();
+            return (
+                //day of the week is the same
+                $oldEnd->format('w') === $newEnd->format('w') &&
+                //Week of the year is the same
+                $oldEnd->format('W') === $newEnd->format('W')
+            );
         }))->once();
         $newCourse->shouldReceive('setClerkshipType')->with($course->getClerkshipType())->once();
         $newCourse->shouldReceive('setSchool')->with($course->getSchool())->once();
