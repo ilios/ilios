@@ -3,11 +3,13 @@ namespace Ilios\CliBundle\Tests\Command;
 
 use Ilios\CliBundle\Command\RolloverCourseCommand;
 use Ilios\CoreBundle\Classes\CourseRollover;
+use Ilios\CoreBundle\Entity\Cohort;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CourseClerkshipType;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterial;
 use Ilios\CoreBundle\Entity\InstructorGroup;
+use Ilios\CoreBundle\Entity\LearnerGroup;
 use Ilios\CoreBundle\Entity\LearningMaterial;
 use Ilios\CoreBundle\Entity\MeshDescriptor;
 use Ilios\CoreBundle\Entity\Objective;
@@ -423,16 +425,17 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $newStartDate = clone $course->getStartDate();
         //start the new course two weeks later
         $newStartDate->add(new \DateInterval('P15Y2W'));
-        $newCourse->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($course, $newStartDate) {
-            $oldStart = $course->getStartDate();
-            return (
-                $newStart->format('c') === $newStartDate->format('c') &&
-                //day of the week is the same
-                $oldStart->format('w') === $newStart->format('w') &&
-                //Week of the year is two weeks later
-                (int) $oldStart->format('W') + 2 ===  (int) $newStart->format('W')
-            );
-        }))->once();
+        $newCourse
+            ->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($course, $newStartDate) {
+                $oldStart = $course->getStartDate();
+                return (
+                    $newStart->format('c') === $newStartDate->format('c') &&
+                    //day of the week is the same
+                    $oldStart->format('w') === $newStart->format('w') &&
+                    //Week of the year is two weeks later
+                    (int) $oldStart->format('W') + 2 ===  (int) $newStart->format('W')
+                );
+            }))->once();
 
         $newCourse->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($course) {
             $oldEnd = $course->getEndDate();
@@ -611,6 +614,109 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->objectiveManager->shouldIgnoreMissing();
 
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['']);
+        $this->assertSame($newCourse, $rhett);
+    }
+
+    public function testRolloverInSameYearKeepsRelationships()
+    {
+        $this->markTestSkipped(
+            'Fails without fixes to service to keep relationships when the year is the same.'
+        );
+        $course = $this->createTestCourseWithAssications();
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newYear = $course->getYear();
+        $newTitle = $course->getTitle() . ' again';
+        $this->courseManager->shouldReceive('findOneBy')
+            ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
+        $this->courseManager
+            ->shouldReceive('findBy')
+            ->withArgs([['title' => $newTitle, 'year' => $newYear]])
+            ->andReturn(false)->once();
+        $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
+
+        $this->courseManager
+            ->shouldReceive('create')->once()
+            ->andReturn($newCourse);
+
+        $this->courseManager->shouldReceive('flushAndClear')->once();
+        $newCourse->shouldReceive()->setCohorts()->with($course->getCohorts());
+        $newCourse->shouldIgnoreMissing();
+
+        foreach ($course->getObjectives() as $objective) {
+            $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+            $newObjective->shouldReceive('setTitle')->with($objective->getTitle())->once();
+            $newObjective->shouldReceive('addCourse')->with($newCourse)->once();
+            $newObjective->shouldReceive('setMeshDescriptors')->with($objective->getMeshDescriptors())->once();
+            $newObjective->shouldReceive('setParents')->with($objective->getParents());
+            $this->objectiveManager->shouldReceive('create')->once()->andReturn($newObjective);
+            $this->objectiveManager->shouldReceive('update')->once()->withArgs([$newObjective, false, false]);
+        }
+
+        foreach ($course->getLearningMaterials() as $learningMaterial) {
+            $newLearningMaterial = m::mock('Ilios\CoreBundle\Entity\CourseLearningMaterial');
+            $newLearningMaterial->shouldIgnoreMissing();
+            $this->courseLearningMaterialManager->shouldReceive('create')->once()->andReturn($newLearningMaterial);
+            $this->courseLearningMaterialManager->shouldIgnoreMissing();
+        }
+
+        foreach ($course->getSessions() as $session) {
+            $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+            $newSession->shouldIgnoreMissing();
+            $this->sessionManager
+                ->shouldReceive('create')->once()
+                ->andReturn($newSession);
+            $this->sessionManager->shouldReceive('update')->withArgs([$newSession, false, false])->once();
+
+            foreach ($session->getObjectives() as $objective) {
+                $newObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+                $newObjective->shouldIgnoreMissing();
+                $this->objectiveManager->shouldReceive('create')->once()->andReturn($newObjective);
+                $this->objectiveManager->shouldIgnoreMissing();
+            }
+
+            foreach ($session->getLearningMaterials() as $learningMaterial) {
+                $newLearningMaterial = m::mock('Ilios\CoreBundle\Entity\SessionLearningMaterial');
+                $newLearningMaterial->shouldIgnoreMissing();
+                $this->sessionLearningMaterialManager->shouldReceive('create')->once()->andReturn($newLearningMaterial);
+                $this->sessionLearningMaterialManager->shouldIgnoreMissing();
+            }
+
+            foreach ($session->getOfferings() as $offering) {
+                $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
+                $newOffering->shouldReceive('setRoom')->once()->with($offering->getRoom());
+                $newOffering->shouldReceive('setSite')->once()->with($offering->getSite());
+                $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
+                    $oldStart = $offering->getStartDate();
+                    return (
+                        //day of the week is the same
+                        $oldStart->format('w') === $newStart->format('w') &&
+                        //Week of the year is the same
+                        $oldStart->format('W') === $newStart->format('W')
+                    );
+                }))->once();
+                $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
+                    $oldEnd = $offering->getEndDate();
+                    return (
+                        //day of the week is the same
+                        $oldEnd->format('w') === $newEnd->format('w') &&
+                        //Week of the year is the same
+                        $oldEnd->format('W') === $newEnd->format('W')
+                    );
+                }))->once();
+
+                $newOffering->shouldReceive('setSession')->once()->with($newSession);
+                $newOffering->shouldReceive('setInstructors')->once()->with($offering->getInstructors());
+                $newOffering->shouldReceive('setInstructorGroups')->once()->with($offering->getInstructorGroups());
+                $newOffering->shouldReceive('setLearnerGroups')->once()->with($offering->getLearnerGroups());
+                $newOffering->shouldReceive('setLearners')->once()->with($offering->getLearners());
+                $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
+                $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
+            }
+        }
+        $this->objectiveManager->shouldIgnoreMissing();
+
+        $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['new-course-title' => $newTitle]);
+
         $this->assertSame($newCourse, $rhett);
     }
 
@@ -845,6 +951,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $courseObjective1->setId(808);
         $courseObjective1->setTitle('test course objective1');
         $courseObjective1->addMeshDescriptor(new MeshDescriptor());
+        $courseObjective1->addParent(new Objective());
         $course->addObjective($courseObjective1);
         $courseObjective2 = new Objective();
         $courseObjective2->setId(42);
@@ -865,6 +972,8 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $courseLearningMaterial1->setPublicNotes(true);
         $courseLearningMaterial1->setRequired(false);
         $course->addLearningMaterial($courseLearningMaterial1);
+
+        $course->addCohort(new Cohort());
 
         $session1 = new Session();
         $session1->setSessionType(new SessionType());
@@ -897,10 +1006,15 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $offering1->setStartDate(new DateTime('8am'));
         $offering1->setEndDate(new DateTime('9am'));
         $offering1->addInstructor($user);
+        $offering1->addLearner($user);
 
         $instructorGroup = new InstructorGroup();
         $instructorGroup->addUser($user);
         $offering1->addInstructorGroup($instructorGroup);
+
+        $learnerGroup = new LearnerGroup();
+        $learnerGroup->addUser($user);
+        $offering1->addLearnerGroup($learnerGroup);
 
         $session1->addOffering($offering1);
 
