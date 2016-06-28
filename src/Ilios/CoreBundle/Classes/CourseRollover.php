@@ -163,7 +163,7 @@ class CourseRollover
 
         //SESSIONS
         if (empty($options['skip-sessions'])) {
-            $this->rolloverSessions($newCourse, $originalCourse, $options, $offsetInWeeks, $newCourseObjectives);
+            $this->rolloverSessions($newCourse, $originalCourse, $newAcademicYear, $newStartDate, $options, $newCourseObjectives);
         }
 
         //commit EVERYTHING to the database
@@ -206,8 +206,9 @@ class CourseRollover
     protected function rolloverSessions(
         CourseInterface $newCourse,
         CourseInterface $originalCourse,
+        $newAcademicYear,
+        $newStartDate,
         $options,
-        $offsetInWeeks,
         array $newCourseObjectives
     )
     {
@@ -248,7 +249,7 @@ class CourseRollover
 
             //Offerings
             if (empty($options['skip-offerings'])) {
-                $this->rolloverOfferings($newSession, $originalCourseSession, $options, $offsetInWeeks);
+                $this->rolloverOfferings($newSession, $originalCourseSession, $newAcademicYear, $newStartDate, $options);
             }
 
             $this->sessionManager->update($newSession, false, false);
@@ -291,22 +292,18 @@ class CourseRollover
     protected function rolloverOfferings(
         SessionInterface $newSession,
         SessionInterface $originalCourseSession,
-        $options,
-        $offsetInWeeks
+        $newAcademicYear,
+        $newStartDate,
+        $options
     )
     {
+
         /* @var OfferingInterface[] $originalSessionOfferings */
         $originalSessionOfferings = $originalCourseSession->getOfferings();
 
         foreach ($originalSessionOfferings as $originalSessionOffering) {
-            $newOfferingStartDate = clone $originalSessionOffering->getStartDate();
-            $newOfferingEndDate = clone $originalSessionOffering->getEndDate();
-
-            if ($offsetInWeeks) {
-                //preprocess the offering start/end dates
-                $newOfferingStartDate->modify($offsetInWeeks);
-                $newOfferingEndDate->modify($offsetInWeeks);
-            }
+            $newOfferingStartDate = $this->getAdjustedDate($originalSessionOffering->getStartDate(), $newAcademicYear, $newStartDate);
+            $newOfferingEndDate = $this->getAdjustedDate($originalSessionOffering->getEndDate(), $newAcademicYear, $newStartDate);
 
             /* @var OfferingInterface $newOffering */
             $newOffering = $this->offeringManager->create();
@@ -473,7 +470,7 @@ class CourseRollover
     {
         if ($originalCourseStartDate->format('w') !== $newStartDate->format('w')) {
             throw new \Exception(
-                "The new start date must take place on the same day of the week as the original course start date "
+                "The new start date must take place on the same day of the week as the original course start date"
                 . " ({$originalCourseStartDate->format('l')})."
             );
         }
