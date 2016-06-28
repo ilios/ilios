@@ -16,7 +16,7 @@ class TermData extends AbstractDataLoader
             'courses' => ['2'],
             'programYears' => ["2"],
             'sessions' => ['2'],
-            'aamcResourceTypes' => ['1'],
+            'aamcResourceTypes' => ['RE01'],
         );
         $arr[] = array(
             'id' => 2,
@@ -28,7 +28,7 @@ class TermData extends AbstractDataLoader
             'courses' => [],
             'programYears' => [],
             'sessions' => ['1'],
-            'aamcResourceTypes' => ['1', '2'],
+            'aamcResourceTypes' => ['RE01', 'RE02'],
         );
         $arr[] = array(
             'id' => 3,
@@ -40,7 +40,7 @@ class TermData extends AbstractDataLoader
             'courses' => ['4'],
             'programYears' => [],
             'sessions' => ['3'],
-            'aamcResourceTypes' => ['2'],
+            'aamcResourceTypes' => ['RE02'],
         );
 
         $arr[] = array(
