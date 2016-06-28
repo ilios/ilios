@@ -707,8 +707,8 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                 $newOffering->shouldReceive('setSession')->once()->with($newSession);
                 $newOffering->shouldReceive('setInstructors')->once()->with($offering->getInstructors());
                 $newOffering->shouldReceive('setInstructorGroups')->once()->with($offering->getInstructorGroups());
-                $newOffering->shouldReceive('setLearnerGroups')->once()->with($offering->getLearnerGroups());
-                $newOffering->shouldReceive('setLearners')->once()->with($offering->getLearners());
+                $newOffering->shouldNotReceive('setLearnerGroups');
+                $newOffering->shouldNotReceive('setLearners');
                 $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
                 $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
             }
