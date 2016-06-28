@@ -379,6 +379,14 @@ class CourseController extends FOSRestController
         $options['skip-offerings'] = $request->get('skipOfferings');
         $options['new-course-title'] = $request->get('newCourseTitle');
 
+        $options = array_map(function ($item) {
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
+            return $item;
+        }, $options);
+
         $rolloverCourse = $this->container->get('ilioscore.courserollover');
         $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, $options);
 

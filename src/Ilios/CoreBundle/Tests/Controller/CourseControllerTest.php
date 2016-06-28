@@ -927,7 +927,9 @@ class CourseControllerTest extends AbstractControllerTest
                 'api_course_rollover_v1',
                 [
                     'id' => $course['id'],
-                    'year' => 2019
+                    'year' => 2019,
+                    'newStartDate' => 'false',
+                    'skipOfferings' => 'false',
                 ]
             ),
             null,
