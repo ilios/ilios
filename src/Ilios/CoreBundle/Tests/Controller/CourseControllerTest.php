@@ -1078,4 +1078,37 @@ class CourseControllerTest extends AbstractControllerTest
         $this->assertEmpty($data[1]['offerings']);
 
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testRolloverCourseWithNewTitle()
+    {
+        $course = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getOne()
+        ;
+        $newCourseTitle = 'New (very cool) course title';
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'api_course_rollover_v1',
+                [
+                    'id' => $course['id'],
+                    'year' => $course['year'],
+                    'newCourseTitle' => $newCourseTitle
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_CREATED);
+        $data = json_decode($response->getContent(), true)['courses'];
+        $newCourse = $data[0];
+        $this->assertSame($course['year'], $newCourse['year']);
+        $this->assertSame($newCourseTitle, $newCourse['title']);
+    }
 }
