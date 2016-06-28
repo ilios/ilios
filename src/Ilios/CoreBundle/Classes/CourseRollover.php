@@ -118,9 +118,12 @@ class CourseRollover
             $this->compareStartDateDayOfWeek($originalCourseStartDate, $newStartDate);
         }
 
+        //get the difference between the week ordinals the new date and the old
+        $weekOrdinalDifference = $this->calculateWeeksOffset($originalCourseStartDate, $newStartDate);
+
         //get/set the offset in weeks
-        $newCourseStartDate = $this->getAdjustedDate($originalCourseStartDate, $newAcademicYear, $newStartDate);
-        $newCourseEndDate = $this->getAdjustedDate($originalCourseEndDate, $newAcademicYear, $newStartDate);
+        $newCourseStartDate = $this->getAdjustedDate($originalCourseStartDate, $newAcademicYear, $weekOrdinalDifference);
+        $newCourseEndDate = $this->getAdjustedDate($originalCourseEndDate, $newAcademicYear, $weekOrdinalDifference);
 
 
         //create the Course
@@ -163,7 +166,7 @@ class CourseRollover
 
         //SESSIONS
         if (empty($options['skip-sessions'])) {
-            $this->rolloverSessions($newCourse, $originalCourse, $newAcademicYear, $newStartDate, $options, $newCourseObjectives);
+            $this->rolloverSessions($newCourse, $originalCourse, $newAcademicYear, $weekOrdinalDifference, $options, $newCourseObjectives);
         }
 
         //commit EVERYTHING to the database
@@ -207,7 +210,7 @@ class CourseRollover
         CourseInterface $newCourse,
         CourseInterface $originalCourse,
         $newAcademicYear,
-        $newStartDate,
+        $weekOrdinalDifference,
         $options,
         array $newCourseObjectives
     )
@@ -249,7 +252,7 @@ class CourseRollover
 
             //Offerings
             if (empty($options['skip-offerings'])) {
-                $this->rolloverOfferings($newSession, $originalCourseSession, $newAcademicYear, $newStartDate, $options);
+                $this->rolloverOfferings($newSession, $originalCourseSession, $newAcademicYear, $weekOrdinalDifference, $options);
             }
 
             $this->sessionManager->update($newSession, false, false);
@@ -293,7 +296,7 @@ class CourseRollover
         SessionInterface $newSession,
         SessionInterface $originalCourseSession,
         $newAcademicYear,
-        $newStartDate,
+        $weeKOrdinalDifference,
         $options
     )
     {
@@ -302,8 +305,9 @@ class CourseRollover
         $originalSessionOfferings = $originalCourseSession->getOfferings();
 
         foreach ($originalSessionOfferings as $originalSessionOffering) {
-            $newOfferingStartDate = $this->getAdjustedDate($originalSessionOffering->getStartDate(), $newAcademicYear, $newStartDate);
-            $newOfferingEndDate = $this->getAdjustedDate($originalSessionOffering->getEndDate(), $newAcademicYear, $newStartDate);
+
+            $newOfferingStartDate = $this->getAdjustedDate($originalSessionOffering->getStartDate(), $newAcademicYear, $weeKOrdinalDifference);
+            $newOfferingEndDate = $this->getAdjustedDate($originalSessionOffering->getEndDate(), $newAcademicYear, $weeKOrdinalDifference);
 
             /* @var OfferingInterface $newOffering */
             $newOffering = $this->offeringManager->create();
@@ -328,29 +332,20 @@ class CourseRollover
 
     /**
      * @param $originalDate
-     * @param $newYear
      * @param null $newDate
      * @return mixed
      */
-    private function getAdjustedDate(
+    private function calculateWeeksOffset(
         $originalDate,
-        $newYear,
         $newDate = null
     )
     {
-        //get the difference between the academic years of each course.
-        $academicYearDifference = ($newYear - $originalDate->format('Y'));
-        $originalStartWeekOrdinal = $originalDate->format('W');
-        //get the actual year that the new date will be in
-        $adjustedDateYear = ($originalDate->format('Y') + $academicYearDifference);
+        //get the original and new week ordinals
+        $originalWeekOrdinal = $originalDate->format('W');
+        $newWeekOrdinal = (!empty($newDate)) ? $newDate->format('W') : $originalWeekOrdinal;
+        $weekOrdinalDiff = ($originalWeekOrdinal - $newWeekOrdinal);
 
-        $dateToAdjust = (empty($newDate)) ? new \DateTime() : $newDate;
-
-        //create a new date during the same week ordinal as the original
-        $dateToAdjust->setISODate($adjustedDateYear, $originalStartWeekOrdinal);
-        //then keep adding until it matches
-        $adjustedDate = $this->addDaysUntilMatching($originalDate, $dateToAdjust);
-        return $adjustedDate;
+        return $weekOrdinalDiff;
     }
 
     /**
@@ -478,11 +473,46 @@ class CourseRollover
 
     protected function addDaysUntilMatching($date1, $date2)
     {
-        if($date1->format('w') !== $date2->format('w')) {
+        if ($date1->format('w') !== $date2->format('w')) {
             $date2->modify('+ 1 days');
             $this->addDaysUntilMatching($date1, $date2);
         }
 
         return $date2;
     }
+
+    protected function getAdjustedDate
+    (
+        $originalDate,
+        $newYear,
+        $weekOrdinalDifference
+    )
+    {
+        //get the difference between the academic years of each course.
+        $yearDifference = ($newYear - $originalDate->format('Y'));
+        //get the actual year that the new date will be in
+        $adjustedDateYear = ($originalDate->format('Y') + $yearDifference);
+
+        $dateToAdjust = new \DateTime();
+
+        $newWeekOrdinal = ($originalDate->format('W') - $weekOrdinalDifference);
+
+        //create a new date during the same week ordinal as the original
+        $dateToAdjust->setISODate($adjustedDateYear, $newWeekOrdinal);
+
+        //so we don't operate on an already-existing object, clone the original $newDate object
+        $newTimeHour = $originalDate->format('H');
+        $newTimeMinutes = $originalDate->format('i');
+        $newTimeSeconds = $originalDate->format('s');
+
+        //then keep adding until it matches
+        $adjustedDateTime = $this->addDaysUntilMatching($originalDate, $dateToAdjust);
+
+        //now set the time (this is pretty much just for offerings)
+        $adjustedDateTime->setTime($newTimeHour, $newTimeMinutes, $newTimeSeconds);
+
+        return $adjustedDateTime;
+    }
+
 }
+
