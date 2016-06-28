@@ -32,8 +32,8 @@ class AamcResourceTypeController extends FOSRestController
      *   requirements={
      *     {
      *        "name"="id",
-     *        "dataType"="integer",
-     *        "requirement"="\d+",
+     *        "dataType"="string",
+     *        "requirement"="\w+",
      *        "description"="AAMC resource type identifier."
      *     }
      *   },
@@ -249,10 +249,10 @@ class AamcResourceTypeController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "id",
-     *         "dataType" = "integer",
-     *         "requirement" = "\d+",
-     *         "description" = "AAMC resource type identifier"
+     *        "name" = "id",
+     *        "dataType"="string",
+     *        "requirement"="\w+",
+     *        "description" = "AAMC resource type identifier"
      *     }
      *   },
      *   statusCodes={
