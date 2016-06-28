@@ -6,7 +6,7 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Replace AAMC resource type identifiers with the officially provided codes.
  */
 class Version20160627210338 extends AbstractMigration
 {
