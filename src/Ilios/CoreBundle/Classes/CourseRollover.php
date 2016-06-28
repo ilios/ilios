@@ -70,7 +70,8 @@ class CourseRollover
         ManagerInterface $sessionLearningMaterialManager,
         ManagerInterface $offeringManager,
         ManagerInterface $objectiveManager
-    ) {
+    )
+    {
         $this->courseManager = $courseManager;
         $this->learningMaterialManager = $learningMaterialManager;
         $this->courseLearningMaterialManager = $courseLearningMaterialManager;
@@ -112,21 +113,15 @@ class CourseRollover
         $originalCourseStartDate = $originalCourse->getStartDate();
         $originalCourseEndDate = $originalCourse->getEndDate();
 
-        // copy the original start/end dates
-        $newCourseStartDate = clone $originalCourseStartDate;
-        $newCourseEndDate = clone $originalCourseEndDate;
+        //if the new start date is not empty, set it as the $newCourseStartDate
+        if (!empty($newStartDate)) {
+            $this->compareStartDateDayOfWeek($originalCourseStartDate, $newStartDate);
+        }
 
         //get/set the offset in weeks
-        $weeksOffset = $this->calculateRolloverOffsetInWeeks($originalCourse, $newAcademicYear, $newStartDate);
+        $newCourseStartDate = $this->getAdjustedDate($originalCourseStartDate, $newAcademicYear, $newStartDate);
+        $newCourseEndDate = $this->getAdjustedDate($originalCourseEndDate, $newAcademicYear, $newStartDate);
 
-        $offsetInWeeks = false;
-        if ($weeksOffset !== 0) {
-            $offsetInWeeks = ($weeksOffset > 0 ? '+' : '-') . ' ' . abs($weeksOffset) . ' weeks';
-
-            //modify the newCourse start and end dates with the calculated offset in weeks
-            $newCourseStartDate->modify($offsetInWeeks);
-            $newCourseEndDate->modify($offsetInWeeks);
-        }
 
         //create the Course
         //if there are not any duplicates, create a new course with the relevant info
@@ -214,7 +209,8 @@ class CourseRollover
         $options,
         $offsetInWeeks,
         array $newCourseObjectives
-    ) {
+    )
+    {
         /* @var SessionInterface[] $originalCourseSessions */
         $originalCourseSessions = $originalCourse->getSessions();
 
@@ -267,7 +263,8 @@ class CourseRollover
     protected function rolloverSessionLearningMaterials(
         SessionInterface $newSession,
         SessionInterface $originalCourseSession
-    ) {
+    )
+    {
         /* @var SessionLearningMaterialInterface[] $originalSessionLearningMaterials */
         $originalSessionLearningMaterials = $originalCourseSession->getLearningMaterials();
 
@@ -296,8 +293,9 @@ class CourseRollover
         SessionInterface $originalCourseSession,
         $options,
         $offsetInWeeks
-    ) {
-        /* @var OfferingInterface[]  $originalSessionOfferings */
+    )
+    {
+        /* @var OfferingInterface[] $originalSessionOfferings */
         $originalSessionOfferings = $originalCourseSession->getOfferings();
 
         foreach ($originalSessionOfferings as $originalSessionOffering) {
@@ -332,47 +330,30 @@ class CourseRollover
     }
 
     /**
-     * @param CourseInterface $originalCourse
-     * @param int $newAcademicYear
-     * @param \DateTime|null $newStartDate
-     * @return int
+     * @param $originalDate
+     * @param $newYear
+     * @param null $newDate
+     * @return mixed
      */
-    private function calculateRolloverOffsetInWeeks(
-        CourseInterface $originalCourse,
-        $newAcademicYear,
-        $newStartDate = null
-    ) {
+    private function getAdjustedDate(
+        $originalDate,
+        $newYear,
+        $newDate = null
+    )
+    {
         //get the difference between the academic years of each course.
-        $academicYearDifference = ($newAcademicYear - $originalCourse->getYear());
-        $originalStartWeekOrdinal = $originalCourse->getStartDate()->format('W');
-        $newStartWeekOrdinal = (!empty($newStartDate)) ? $newStartDate->format('W') : null;
+        $academicYearDifference = ($newYear - $originalDate->format('Y'));
+        $originalStartWeekOrdinal = $originalDate->format('W');
+        //get the actual year that the new date will be in
+        $adjustedDateYear = ($originalDate->format('Y') + $academicYearDifference);
 
-        //if no start week is given, then multiply the academicYearDifference by 52 weeks for each year
-        if (empty($newStartWeekOrdinal)) {
-            return ($academicYearDifference * 52);
-        }
+        $dateToAdjust = (empty($newDate)) ? new \DateTime() : $newDate;
 
-        //get the remaining number of weeks remaining in the year from the orig start date
-        $weeksUntilNewYear = (52 - $originalStartWeekOrdinal);
-
-        //get the number of weeks between two dates within one year cycle
-        //if year diff is 0, but the two dates are in same calendar year, don't factor in a year change
-        if ($originalCourse->getStartDate()->format('Y') === $newStartDate->format('Y')) {
-            $weeksBetweenTwoDates = ($newStartWeekOrdinal - $originalStartWeekOrdinal);
-        } else {
-            //if the academic year is the same, but calendar years are different, calculate for year change
-            $weeksBetweenTwoDates = ($weeksUntilNewYear + $newStartWeekOrdinal);
-        }
-
-        //if the difference in Academic years is greater than 1, calculate for multiple years
-        if ($academicYearDifference > 1) {
-            //don't count the current year for the weekYear multiplication
-            $weekYearMultiplier = (52 * ($academicYearDifference - 1));
-            //instead, calculate the proper shift between the dates and then add the additional weekYears
-            return $weeksBetweenTwoDates + $weekYearMultiplier;
-        }
-
-        return $weeksBetweenTwoDates;
+        //create a new date during the same week ordinal as the original
+        $dateToAdjust->setISODate($adjustedDateYear, $originalStartWeekOrdinal);
+        //then keep adding until it matches
+        $adjustedDate = $this->addDaysUntilMatching($originalDate, $dateToAdjust);
+        return $adjustedDate;
     }
 
     /**
@@ -396,7 +377,7 @@ class CourseRollover
      */
     private function checkForDuplicateRollover($title, $newAcademicYear)
     {
-        $duplicateCourses = $this->courseManager->findBy(['title'=>$title, 'year'=>$newAcademicYear]);
+        $duplicateCourses = $this->courseManager->findBy(['title' => $title, 'year' => $newAcademicYear]);
         if (!empty($duplicateCourses)) {
             throw new \Exception(
                 "Another course with the same title and academic year already exists."
@@ -412,7 +393,7 @@ class CourseRollover
      */
     private function getOriginalCourse($originalCourseId)
     {
-        $originalCourse = $this->courseManager->findOneBy(['id'=>$originalCourseId]);
+        $originalCourse = $this->courseManager->findOneBy(['id' => $originalCourseId]);
         if (empty($originalCourse)) {
             throw new \Exception(
                 'There are no courses with courseId ' . $originalCourseId . '.'
@@ -430,7 +411,8 @@ class CourseRollover
     protected function rolloverCourseObjectives(
         CourseInterface $newCourse,
         CourseInterface $originalCourse
-    ) {
+    )
+    {
         $newCourseObjectives = [];
         foreach ($originalCourse->getObjectives() as $objective) {
             /* @var ObjectiveInterface $newObjective */
@@ -455,7 +437,8 @@ class CourseRollover
         SessionInterface $newSession,
         SessionInterface $originalSession,
         array $newCourseObjectives
-    ) {
+    )
+    {
         $originalSession->getObjectives()
             ->map(function (ObjectiveInterface $objective) use ($newSession, $newCourseObjectives) {
                 /* @var ObjectiveInterface $newObjective */
@@ -479,5 +462,30 @@ class CourseRollover
                 $this->objectiveManager->update($newObjective, false, false);
             });
 
+    }
+
+    /**
+     * @param $originalCourseStartDate
+     * @param $newStartDate
+     * @throws \Exception
+     */
+    protected function compareStartDateDayOfWeek($originalCourseStartDate, $newStartDate)
+    {
+        if ($originalCourseStartDate->format('w') !== $newStartDate->format('w')) {
+            throw new \Exception(
+                "The new start date must take place on the same day of the week as the original course start date "
+                . " ({$originalCourseStartDate->format('l')})."
+            );
+        }
+    }
+
+    protected function addDaysUntilMatching($date1, $date2)
+    {
+        if($date1->format('w') !== $date2->format('w')) {
+            $date2->modify('+ 1 days');
+            $this->addDaysUntilMatching($date1, $date2);
+        }
+
+        return $date2;
     }
 }
