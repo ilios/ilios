@@ -229,10 +229,25 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                 $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
                 $newOffering->shouldReceive('setRoom')->once()->with($offering->getRoom());
                 $newOffering->shouldReceive('setSite')->once()->with($offering->getSite());
-                //@todo validate we're getting the right start date
-                $newOffering->shouldReceive('setStartDate')->once();
-                //@todo validate we're getting the right start date
-                $newOffering->shouldReceive('setEndDate')->once();
+                $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
+                    $oldStart = $offering->getStartDate();
+                    return (
+                        //day of the week is the same
+                        $oldStart->format('w') === $newStart->format('w') &&
+                        //Week of the year is the same
+                        $oldStart->format('W') === $newStart->format('W')
+                    );
+                }))->once();
+                $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
+                    $oldEnd = $offering->getEndDate();
+                    return (
+                        //day of the week is the same
+                        $oldEnd->format('w') === $newEnd->format('w') &&
+                        //Week of the year is the same
+                        $oldEnd->format('W') === $newEnd->format('W')
+                    );
+                }))->once();
+
                 $newOffering->shouldReceive('setSession')->once()->with($newSession);
                 $newOffering->shouldReceive('setInstructors')->once()->with($offering->getInstructors());
                 $newOffering->shouldReceive('setInstructorGroups')->once()->with($offering->getInstructorGroups());
@@ -246,6 +261,89 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
         $rhett = $this->service->rolloverCourse($course->getId(), $newYear, []);
         $this->assertSame($newCourse, $rhett);
+    }
+
+    public function testRolloverWithStartDateFarInTheFuture()
+    {
+        $this->markTestSkipped(
+            'Fails without fixes to service.'
+        );
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+        $session = new Session();
+        $session->setSessionType(new SessionType());
+        $offering1 = new Offering();
+        $offering1->setStartDate(new DateTime('8am'));
+        $offering1->setEndDate(new DateTime('9am'));
+        $session->addOffering($offering1);
+
+        $offering2 = new Offering();
+        $offering2->setStartDate(new DateTime('1pm tomorrow'));
+        $offering2->setEndDate(new DateTime('10am next week'));
+        $session->addOffering($offering2);
+
+        $course->addSession($session);
+
+
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse->shouldIgnoreMissing();
+        $newYear = $this->setupCourseManager($course, $newCourse, 15);
+        $newCourse->shouldReceive('setYear')->with($newYear)->once();
+
+        $newCourse->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($course) {
+            $oldStart = $course->getStartDate();
+            return (
+                //day of the week is the same
+                $oldStart->format('w') === $newStart->format('w') &&
+                //Week of the year is the same
+                $oldStart->format('W') === $newStart->format('W')
+            );
+        }))->once();
+
+        $newCourse->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($course) {
+            $oldEnd = $course->getEndDate();
+            return (
+                //day of the week is the same
+                $oldEnd->format('w') === $newEnd->format('w') &&
+                //Week of the year is the same
+                $oldEnd->format('W') === $newEnd->format('W')
+            );
+        }))->once();
+
+        foreach ($course->getSessions() as $session) {
+            $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+            $newSession->shouldIgnoreMissing();
+
+            foreach ($session->getOfferings() as $offering) {
+                $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
+                $newOffering->shouldIgnoreMissing();
+                $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
+                    $oldStart = $offering->getStartDate();
+                    return (
+                        //day of the week is the same
+                        $oldStart->format('w') === $newStart->format('w') &&
+                        //Week of the year is the same
+                        $oldStart->format('W') === $newStart->format('W')
+                    );
+                }))->once();
+                $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
+                    $oldEnd = $offering->getEndDate();
+                    return (
+                        //day of the week is the same
+                        $oldEnd->format('w') === $newEnd->format('w') &&
+                        //Week of the year is the same
+                        $oldEnd->format('W') === $newEnd->format('W')
+                    );
+                }))->once();
+
+                $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
+                $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
+            }
+
+            $this->sessionManager->shouldReceive('create')->once()->andReturn($newSession);
+            $this->sessionManager->shouldReceive('update')->once()->withArgs([$newSession, false, false]);
+        }
+        $this->service->rolloverCourse($course->getId(), $newYear, []);
     }
 
     public function testRolloverSessionObjectiveWithOrphanedParents()
@@ -465,9 +563,25 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testRolloverOfCourseObjectives()
+    public function testRolloverFailsOnStartDateOnDifferentDay()
     {
-        $this->markTestIncomplete();
+        $this->markTestSkipped(
+            'Fails without fixes to service.'
+        );
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse->shouldIgnoreMissing();
+        $newYear = $this->setupCourseManager($course, $newCourse);
+        $newStartDate = clone $course->getStartDate();
+        $newStartDate->add(new \DateInterval('P1Y2D'));
+
+        $this->setExpectedException(
+            \Exception::class,
+            "New start date must be on the same day of the week as current start date."
+        );
+        $this->service->rolloverCourse($course->getId(), $newYear, ['new-start-date' => $newStartDate->format('c')]);
     }
 
     /**
@@ -577,12 +691,13 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
      *
      * @param CourseInterface $course
      * @param CourseInterface $newCourse
+     * @param integer $interval the length of time in the future for the new academic year
      *
      * @return int
      */
-    protected function setupCourseManager(CourseInterface $course, CourseInterface $newCourse)
+    protected function setupCourseManager(CourseInterface $course, CourseInterface $newCourse, $interval = 1)
     {
-        $newYear = $course->getYear() + 1;
+        $newYear = $course->getYear() + $interval;
         $this->courseManager->shouldReceive('findOneBy')
             ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
         $this->courseManager
