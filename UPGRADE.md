@@ -24,7 +24,7 @@ sudo -u apache composer install --no-dev
 
  ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
-sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interaction
+sudo -u apache bin/console doctrine:migrations:migrate --env=prod --append --no-interaction
 ```
 
 4. Clear your application cache.
