@@ -268,21 +268,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped(
             'Fails without fixes to service.'
         );
-        $course = $this->createTestCourse();
-        $course->setSchool(new School());
-        $session = new Session();
-        $session->setSessionType(new SessionType());
-        $offering1 = new Offering();
-        $offering1->setStartDate(new DateTime('8am'));
-        $offering1->setEndDate(new DateTime('9am'));
-        $session->addOffering($offering1);
-
-        $offering2 = new Offering();
-        $offering2->setStartDate(new DateTime('1pm tomorrow'));
-        $offering2->setEndDate(new DateTime('10am next week'));
-        $session->addOffering($offering2);
-
-        $course->addSession($session);
+        $course = $this->createTestCourseWithOfferings();
 
 
         $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
@@ -351,21 +337,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped(
             'Fails without fixes to service.'
         );
-        $course = $this->createTestCourse();
-        $course->setSchool(new School());
-        $session = new Session();
-        $session->setSessionType(new SessionType());
-        $offering1 = new Offering();
-        $offering1->setStartDate(new DateTime('8am'));
-        $offering1->setEndDate(new DateTime('9am'));
-        $session->addOffering($offering1);
-
-        $offering2 = new Offering();
-        $offering2->setStartDate(new DateTime('1pm tomorrow'));
-        $offering2->setEndDate(new DateTime('10am next week'));
-        $session->addOffering($offering2);
-
-        $course->addSession($session);
+        $course = $this->createTestCourseWithOfferings();
 
         $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
         $newCourse->shouldIgnoreMissing();
@@ -440,21 +412,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped(
             'Fails without fixes to service.'
         );
-        $course = $this->createTestCourse();
-        $course->setSchool(new School());
-        $session = new Session();
-        $session->setSessionType(new SessionType());
-        $offering1 = new Offering();
-        $offering1->setStartDate(new DateTime('8am'));
-        $offering1->setEndDate(new DateTime('9am'));
-        $session->addOffering($offering1);
-
-        $offering2 = new Offering();
-        $offering2->setStartDate(new DateTime('1pm tomorrow'));
-        $offering2->setEndDate(new DateTime('10am next week'));
-        $session->addOffering($offering2);
-
-        $course->addSession($session);
+        $course = $this->createTestCourseWithOfferings();
 
         $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
         $newCourse->shouldIgnoreMissing();
@@ -509,6 +467,94 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                         $oldEnd->format('w') === $newEnd->format('w') &&
                         //Week of the year is the same
                         (int) $oldEnd->format('W') + 2 ===  (int) $newEnd->format('W')
+                    );
+                }))->once();
+
+                $this->offeringManager->shouldReceive('create')->once()->andReturn($newOffering);
+                $this->offeringManager->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
+            }
+
+            $this->sessionManager->shouldReceive('create')->once()->andReturn($newSession);
+            $this->sessionManager->shouldReceive('update')->once()->withArgs([$newSession, false, false]);
+        }
+        $this->service->rolloverCourse($course->getId(), $newYear, ['new-start-date' => $newStartDate->format('c')]);
+    }
+
+
+    public function testRolloverWithInSameYearWithNewStartDate()
+    {
+        $course = $this->createTestCourseWithOfferings();
+
+        $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
+        $newCourse->shouldIgnoreMissing();
+
+        $newYear = $course->getYear();
+        $newTitle = $course->getTitle() + 'again';
+
+        $this->courseManager->shouldReceive('findOneBy')
+            ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
+        $this->courseManager
+            ->shouldReceive('findBy')
+            ->withArgs([['title' => $newTitle, 'year' => $newYear]])
+            ->andReturn(false)->once();
+        $this->courseManager->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
+        $this->courseManager
+            ->shouldReceive('create')->once()
+            ->andReturn($newCourse);
+        $this->courseManager->shouldReceive('flushAndClear')->once();
+
+        $newCourse->shouldReceive('setYear')->with($newYear)->once();
+        $newCourse->shouldReceive('setTitle')->with($newTitle)->once();
+
+        $newStartDate = clone $course->getStartDate();
+        //start the new course 16 weeks (112 days) later
+        $newStartDate->add(new \DateInterval('P112D'));
+
+        $newCourse
+            ->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($course, $newStartDate) {
+                $oldStart = $course->getStartDate();
+                return (
+                    $newStart->format('c') === $newStartDate->format('c') &&
+                    //day of the week is the same
+                    $oldStart->format('w') === $newStart->format('w') &&
+                    //Week of the year is two weeks later
+                    (int) $oldStart->format('W') + 16 ===  (int) $newStart->format('W')
+                );
+            }))->once();
+
+        $newCourse->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($course) {
+            $oldEnd = $course->getEndDate();
+            return (
+                //day of the week is the same
+                $oldEnd->format('w') === $newEnd->format('w') &&
+                //Week of the year is two weeks laters
+                (int) $oldEnd->format('W') + 16 ===  (int) $newEnd->format('W')
+            );
+        }))->once();
+
+        foreach ($course->getSessions() as $session) {
+            $newSession = m::mock('Ilios\CoreBundle\Entity\Session');
+            $newSession->shouldIgnoreMissing();
+
+            foreach ($session->getOfferings() as $offering) {
+                $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
+                $newOffering->shouldIgnoreMissing();
+                $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
+                    $oldStart = $offering->getStartDate();
+                    return (
+                        //day of the week is the same
+                        $oldStart->format('w') === $newStart->format('w') &&
+                        //Week of the year is the same
+                        (int) $oldStart->format('W') + 16 ===  (int) $newStart->format('W')
+                    );
+                }))->once();
+                $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
+                    $oldEnd = $offering->getEndDate();
+                    return (
+                        //day of the week is the same
+                        $oldEnd->format('w') === $newEnd->format('w') &&
+                        //Week of the year is the same
+                        (int) $oldEnd->format('W') + 16 ===  (int) $newEnd->format('W')
                     );
                 }))->once();
 
@@ -771,7 +817,8 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $course->setId(10);
         $course->setTitle('test course');
         $course->setLevel(1);
-        $course->setYear(2015);
+        $now = new DateTime();
+        $course->setYear((int) $now->format('Y'));
         $course->setStartDate(new DateTime('yesterday'));
         $course->setEndDate(new DateTime('tomorrow'));
         $course->setExternalId('I45');
@@ -858,6 +905,32 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $session1->addOffering($offering1);
 
         $course->addSession($session1);
+
+        return $course;
+    }
+
+    /**
+     * Gets a course with a few offerings to use in date testing
+     *
+     * @return Course
+     */
+    protected function createTestCourseWithOfferings()
+    {
+        $course = $this->createTestCourse();
+        $course->setSchool(new School());
+        $session = new Session();
+        $session->setSessionType(new SessionType());
+        $offering1 = new Offering();
+        $offering1->setStartDate(new DateTime('8am'));
+        $offering1->setEndDate(new DateTime('9am'));
+        $session->addOffering($offering1);
+
+        $offering2 = new Offering();
+        $offering2->setStartDate(new DateTime('1pm tomorrow'));
+        $offering2->setEndDate(new DateTime('10am next week'));
+        $session->addOffering($offering2);
+
+        $course->addSession($session);
 
         return $course;
     }
