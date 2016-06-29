@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Classes;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
-use Ilios\CoreBundle\Entity\IlmSession;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
 use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Ilios\CoreBundle\Entity\OfferingInterface;
@@ -47,11 +46,6 @@ class CourseRollover
      * @var SessionDescriptionManager
      */
     protected $sessionDescriptionManager;
-
-    /**
-     * @var SessionDescriptionInterface
-     */
-    protected $sessionDescriptionInterface;
 
     /**
      * @var ManagerInterface;
@@ -266,10 +260,11 @@ class CourseRollover
             $origSessionDescription = $origCourseSession->getSessionDescription();
 
             if (!empty($origSessionDescription)) {
-                $newSessionDescriptionText = $origSessionDescription->getDescription();
+                /* @var SessionDescriptionInterface $newSessionDescription */
                 $newSessionDescription = $this->sessionDescriptionManager->create();
+
+                $newSessionDescriptionText = $origSessionDescription->getDescription();
                 $newSessionDescription->setDescription($newSessionDescriptionText);
-                $newSessionDescription->setSession($newSession);
                 $newSession->setSessionDescription($newSessionDescription);
                 $this->sessionDescriptionManager->update($newSessionDescription, false, false);
             }
@@ -591,7 +586,7 @@ class CourseRollover
         $yearDifference = ($newYear - $origDate->format('Y'));
 
         //get the actual calendar year in which the new date will take place
-        $adjustedDateYear = ($origDate->format('Y') + $yearDifference);
+        $adjustedDateYear = ( (int) $origDate->format('Y') + $yearDifference);
 
         //get the new course's week ordinal by subtracting it from the original
         $newWeekOrdinal = ($origDate->format('W') - $weekOrdinalDiff);

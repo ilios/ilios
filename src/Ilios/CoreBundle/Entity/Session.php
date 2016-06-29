@@ -439,6 +439,7 @@ class Session implements SessionInterface
     public function setSessionDescription(SessionDescriptionInterface $sessionDescription)
     {
         $this->sessionDescription = $sessionDescription;
+        $sessionDescription->setSession($this);
     }
 
     /**
