@@ -12,6 +12,7 @@ use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
 /**
  * Class CourseRollover
+ *
  * @package Ilios\CoreBundle\Classes
  */
 class CourseRollover
@@ -54,6 +55,7 @@ class CourseRollover
 
     /**
      * CourseRollover constructor.
+     *
      * @param ManagerInterface $courseManager
      * @param ManagerInterface $learningMaterialManager
      * @param ManagerInterface $courseLearningMaterialManager
@@ -70,8 +72,7 @@ class CourseRollover
         ManagerInterface $sessionLearningMaterialManager,
         ManagerInterface $offeringManager,
         ManagerInterface $objectiveManager
-    )
-    {
+    ) {
         $this->courseManager = $courseManager;
         $this->learningMaterialManager = $learningMaterialManager;
         $this->courseLearningMaterialManager = $courseLearningMaterialManager;
@@ -83,8 +84,8 @@ class CourseRollover
     }
 
     /**
-     * @param int $courseId
-     * @param int $newAcademicYear
+     * @param int   $courseId
+     * @param int   $newAcademicYear
      * @param array $options
      * @return CourseInterface the new, rolled-over course.
      * @throws \Exception
@@ -199,10 +200,10 @@ class CourseRollover
     }
 
     /**
-     * @param CourseInterface $newCourse
-     * @param CourseInterface $originalCourse
-     * @param array $options
-     * @param string|bool $offsetInWeeks a date modifier string, or FALSE if n/a
+     * @param CourseInterface      $newCourse
+     * @param CourseInterface      $originalCourse
+     * @param array                $options
+     * @param string|bool          $offsetInWeeks       a date modifier string, or FALSE if n/a
      * @param ObjectiveInterface[] $newCourseObjectives
      */
     protected function rolloverSessions(
@@ -212,8 +213,7 @@ class CourseRollover
         $weekOrdinalDifference,
         $options,
         array $newCourseObjectives
-    )
-    {
+    ) {
         /* @var SessionInterface[] $originalCourseSessions */
         $originalCourseSessions = $originalCourse->getSessions();
 
@@ -266,8 +266,7 @@ class CourseRollover
     protected function rolloverSessionLearningMaterials(
         SessionInterface $newSession,
         SessionInterface $originalCourseSession
-    )
-    {
+    ) {
         /* @var SessionLearningMaterialInterface[] $originalSessionLearningMaterials */
         $originalSessionLearningMaterials = $originalCourseSession->getLearningMaterials();
 
@@ -288,8 +287,8 @@ class CourseRollover
     /**
      * @param SessionInterface $newSession
      * @param SessionInterface $originalCourseSession
-     * @param array $options
-     * @param string|bool $offsetInWeeks a date modifier string, or FALSE if n/a
+     * @param array            $options
+     * @param string|bool      $offsetInWeeks         a date modifier string, or FALSE if n/a
      */
     protected function rolloverOfferings(
         SessionInterface $newSession,
@@ -297,8 +296,7 @@ class CourseRollover
         $newAcademicYear,
         $weeKOrdinalDifference,
         $options
-    )
-    {
+    ) {
 
         /* @var OfferingInterface[] $originalSessionOfferings */
         $originalSessionOfferings = $originalCourseSession->getOfferings();
@@ -330,15 +328,14 @@ class CourseRollover
     }
 
     /**
-     * @param \DateTime $originalDate
+     * @param \DateTime      $originalDate
      * @param \DateTime|null $newDate
      * @return int
      */
     private function calculateWeeksOffset(
         $originalDate,
         $newDate = null
-    )
-    {
+    ) {
         //get the original and new week ordinals
         $originalWeekOrdinal = $originalDate->format('W');
         $newWeekOrdinal = (!empty($newDate)) ? $newDate->format('W') : $originalWeekOrdinal;
@@ -363,7 +360,7 @@ class CourseRollover
 
     /**
      * @param string $title
-     * @param int $newAcademicYear
+     * @param int    $newAcademicYear
      * @throws \Exception
      */
     private function checkForDuplicateRollover($title, $newAcademicYear)
@@ -402,8 +399,7 @@ class CourseRollover
     protected function rolloverCourseObjectives(
         CourseInterface $newCourse,
         CourseInterface $originalCourse
-    )
-    {
+    ) {
         $newCourseObjectives = [];
         foreach ($originalCourse->getObjectives() as $objective) {
             /* @var ObjectiveInterface $newObjective */
@@ -420,38 +416,43 @@ class CourseRollover
     }
 
     /**
-     * @param SessionInterface $newSession
-     * @param SessionInterface $originalSession
+     * @param SessionInterface     $newSession
+     * @param SessionInterface     $originalSession
      * @param ObjectiveInterface[] $newCourseObjectives
      */
     protected function rolloverSessionObjectives(
         SessionInterface $newSession,
         SessionInterface $originalSession,
         array $newCourseObjectives
-    )
-    {
+    ) {
         $originalSession->getObjectives()
-            ->map(function (ObjectiveInterface $objective) use ($newSession, $newCourseObjectives) {
-                /* @var ObjectiveInterface $newObjective */
-                $newObjective = $this->objectiveManager->create();
-                $newObjective->setTitle($objective->getTitle());
-                $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
-                $newObjective->addSession($newSession);
-                $newParents = $objective->getParents()
-                    ->map(function (ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective) {
-                        if (array_key_exists($oldParent->getId(), $newCourseObjectives)) {
-                            return $newCourseObjectives[$oldParent->getId()];
-                        }
+            ->map(
+                function (ObjectiveInterface $objective) use ($newSession, $newCourseObjectives) {
+                    /* @var ObjectiveInterface $newObjective */
+                    $newObjective = $this->objectiveManager->create();
+                    $newObjective->setTitle($objective->getTitle());
+                    $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
+                    $newObjective->addSession($newSession);
+                    $newParents = $objective->getParents()
+                        ->map(
+                            function (ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective) {
+                                if (array_key_exists($oldParent->getId(), $newCourseObjectives)) {
+                                    return $newCourseObjectives[$oldParent->getId()];
+                                }
 
-                        return null;
+                                return null;
 
-                    })->filter(function ($value) {
-                        return !empty($value);
-                    });
+                            }
+                        )->filter(
+                            function ($value) {
+                                return !empty($value);
+                            }
+                        );
 
-                $newObjective->setParents($newParents);
-                $this->objectiveManager->update($newObjective, false, false);
-            });
+                    $newObjective->setParents($newParents);
+                    $this->objectiveManager->update($newObjective, false, false);
+                }
+            );
 
     }
 
@@ -491,17 +492,15 @@ class CourseRollover
 
     /**
      * @param \DateTime $originalDate
-     * @param int $newYear
-     * @param int $weekOrdinalDifference
+     * @param int       $newYear
+     * @param int       $weekOrdinalDifference
      * @return \DateTime
      */
-    protected function getAdjustedDate
-    (
+    protected function getAdjustedDate(
         $originalDate,
         $newYear,
         $weekOrdinalDifference
-    )
-    {
+    ) {
         //get the difference between the academic years of original course and the desired year for the new course
         $yearDifference = ($newYear - $originalDate->format('Y'));
 
