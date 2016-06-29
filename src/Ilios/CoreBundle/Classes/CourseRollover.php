@@ -113,18 +113,17 @@ class CourseRollover
         $originalCourseStartDate = $originalCourse->getStartDate();
         $originalCourseEndDate = $originalCourse->getEndDate();
 
-        //if the new start date is not empty, set it as the $newCourseStartDate
+        //if the new start date is not empty, ensure sure the day of the week matches the original day-of-week
         if (!empty($newStartDate)) {
             $this->compareStartDateDayOfWeek($originalCourseStartDate, $newStartDate);
         }
 
-        //get the difference between the week ordinals the new date and the old
+        //get the difference between the week ordinals the new start date and the original, year is arbitrary here
         $weekOrdinalDifference = $this->calculateWeeksOffset($originalCourseStartDate, $newStartDate);
 
-        //get/set the offset in weeks
+        //set the offset in weeks using the week ordinal difference
         $newCourseStartDate = $this->getAdjustedDate($originalCourseStartDate, $newAcademicYear, $weekOrdinalDifference);
         $newCourseEndDate = $this->getAdjustedDate($originalCourseEndDate, $newAcademicYear, $weekOrdinalDifference);
-
 
         //create the Course
         //if there are not any duplicates, create a new course with the relevant info
@@ -331,9 +330,9 @@ class CourseRollover
     }
 
     /**
-     * @param $originalDate
-     * @param null $newDate
-     * @return mixed
+     * @param \DateTime $originalDate
+     * @param \DateTime|null $newDate
+     * @return int
      */
     private function calculateWeeksOffset(
         $originalDate,
@@ -457,8 +456,8 @@ class CourseRollover
     }
 
     /**
-     * @param $originalCourseStartDate
-     * @param $newStartDate
+     * @param \DateTime $originalCourseStartDate
+     * @param \DateTime $newStartDate
      * @throws \Exception
      */
     protected function compareStartDateDayOfWeek($originalCourseStartDate, $newStartDate)
@@ -471,16 +470,31 @@ class CourseRollover
         }
     }
 
-    protected function addDaysUntilMatching($date1, $date2)
+    /**
+     * @param \DateTime $dateToMatch
+     * @param \DateTime $dateToAdjust
+     * @return \DateTime
+     */
+    protected function addDaysUntilMatching($dateToMatch, $dateToAdjust)
     {
-        if ($date1->format('w') !== $date2->format('w')) {
-            $date2->modify('+ 1 days');
-            $this->addDaysUntilMatching($date1, $date2);
+        //compare the weekdays to make sure they match
+        if ($dateToMatch->format('w') !== $dateToAdjust->format('w')) {
+            //if they do not match, add another day and check again
+            $dateToAdjust->modify('+ 1 days');
+            //recursively loop through this function again, adding days until the weekday ordinals match
+            $this->addDaysUntilMatching($dateToMatch, $dateToAdjust);
         }
 
-        return $date2;
+        //when it finally matches, return the new date
+        return $dateToAdjust;
     }
 
+    /**
+     * @param \DateTime $originalDate
+     * @param int $newYear
+     * @param int $weekOrdinalDifference
+     * @return \DateTime
+     */
     protected function getAdjustedDate
     (
         $originalDate,
@@ -488,27 +502,30 @@ class CourseRollover
         $weekOrdinalDifference
     )
     {
-        //get the difference between the academic years of each course.
+        //get the difference between the academic years of original course and the desired year for the new course
         $yearDifference = ($newYear - $originalDate->format('Y'));
-        //get the actual year that the new date will be in
+
+        //get the actual calendar year in which the new date will take place
         $adjustedDateYear = ($originalDate->format('Y') + $yearDifference);
 
-        $dateToAdjust = new \DateTime();
-
+        //get the new course's week ordinal by subtracting it from the original
         $newWeekOrdinal = ($originalDate->format('W') - $weekOrdinalDifference);
+
+        //create a new date object to operate on
+        $dateToAdjust = new \DateTime();
 
         //create a new date during the same week ordinal as the original
         $dateToAdjust->setISODate($adjustedDateYear, $newWeekOrdinal);
 
-        //so we don't operate on an already-existing object, clone the original $newDate object
+        //make sure the new date's day-of-week matches the original
+        $adjustedDateTime = $this->addDaysUntilMatching($originalDate, $dateToAdjust);
+
+        //get the times of the original dateTime object for use in the offering timeslots
         $newTimeHour = $originalDate->format('H');
         $newTimeMinutes = $originalDate->format('i');
         $newTimeSeconds = $originalDate->format('s');
 
-        //then keep adding until it matches
-        $adjustedDateTime = $this->addDaysUntilMatching($originalDate, $dateToAdjust);
-
-        //now set the time (this is pretty much just for offerings)
+        //now set the time on the new object
         $adjustedDateTime->setTime($newTimeHour, $newTimeMinutes, $newTimeSeconds);
 
         return $adjustedDateTime;
