@@ -4,6 +4,8 @@ namespace Ilios\CoreBundle\Classes;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
+use Ilios\CoreBundle\Entity\IlmSession;
+use Ilios\CoreBundle\Entity\IlmSessionInterface;
 use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
@@ -67,6 +69,11 @@ class CourseRollover
     protected $objectiveManager;
 
     /**
+     * @var ManagerInterface
+     */
+    protected $ilmSessionManager;
+
+    /**
      * CourseRollover constructor.
      * @param ManagerInterface $courseManager
      * @param ManagerInterface $learningMaterialManager
@@ -76,6 +83,7 @@ class CourseRollover
      * @param ManagerInterface $sessionLearningMaterialManager
      * @param ManagerInterface $offeringManager
      * @param ManagerInterface $objectiveManager
+     * @param ManagerInterface $ilmSessionManager
      */
     public function __construct(
         ManagerInterface $courseManager,
@@ -85,7 +93,8 @@ class CourseRollover
         SessionDescriptionManager $sessionDescriptionManager,
         ManagerInterface $sessionLearningMaterialManager,
         ManagerInterface $offeringManager,
-        ManagerInterface $objectiveManager
+        ManagerInterface $objectiveManager,
+        ManagerInterface $ilmSessionManager
     ) {
         $this->courseManager = $courseManager;
         $this->learningMaterialManager = $learningMaterialManager;
@@ -95,6 +104,7 @@ class CourseRollover
         $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
         $this->offeringManager = $offeringManager;
         $this->objectiveManager = $objectiveManager;
+        $this->ilmSessionManager = $ilmSessionManager;
 
     }
 
@@ -288,6 +298,9 @@ class CourseRollover
             if (empty($options['skip-offerings'])) {
                 $this->rolloverOfferings($newSession, $origCourseSession, $newAcademicYear, $weekOrdinalDiff, $options);
             }
+
+            //ILMSessions
+            $this->rolloverIlmSession($newSession, $origCourseSession, $newAcademicYear, $weekOrdinalDiff);
 
             $this->sessionManager->update($newSession, false, false);
         }
@@ -496,6 +509,36 @@ class CourseRollover
                     $this->objectiveManager->update($newObjective, false, false);
                 }
             );
+
+    }
+
+    /**
+     * @param SessionInterface     $newSession
+     * @param SessionInterface     $origSession
+     * @param $newAcademicYear
+     * @param $weekOrdinalDiff
+     */
+    protected function rolloverIlmSession(
+        SessionInterface $newSession,
+        SessionInterface $origSession,
+        $newAcademicYear,
+        $weekOrdinalDiff
+    ) {
+        /* @var IlmSessionInterface $origIlmSession */
+        if ($origIlmSession = $origSession->getIlmSession()) {
+            /* @var IlmSessionInterface $newIlmSession */
+            $newIlmSession = $this->ilmSessionManager->create();
+            $newIlmSession->setHours($origIlmSession->getHours());
+            $newSession->setIlmSession($newIlmSession);
+            $newDueDate = $this->getAdjustedDate(
+                $origIlmSession->getDueDate(),
+                $newAcademicYear,
+                $weekOrdinalDiff
+            );
+            $newIlmSession->setDueDate($newDueDate);
+
+            $this->ilmSessionManager->update($newIlmSession, false, false);
+        }
 
     }
 

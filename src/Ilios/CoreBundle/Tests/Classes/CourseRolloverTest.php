@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CourseClerkshipType;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterial;
+use Ilios\CoreBundle\Entity\IlmSession;
 use Ilios\CoreBundle\Entity\InstructorGroup;
 use Ilios\CoreBundle\Entity\LearnerGroup;
 use Ilios\CoreBundle\Entity\LearningMaterial;
@@ -75,6 +76,11 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
     protected $sessionDescriptionManager;
 
     /**
+     * @var m\MockInterface
+     */
+    protected $ilmSessionManager;
+
+    /**
      * @var CourseRollover
      */
     protected $service;
@@ -93,6 +99,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->sessionLearningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
         $this->offeringManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
         $this->objectiveManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
+        $this->ilmSessionManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
         $this->service = new CourseRollover(
             $this->courseManager,
             $this->learningMaterialManager,
@@ -101,7 +108,8 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
             $this->sessionDescriptionManager,
             $this->sessionLearningMaterialManager,
             $this->offeringManager,
-            $this->objectiveManager
+            $this->objectiveManager,
+            $this->ilmSessionManager
         );
     }
 
@@ -118,6 +126,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         unset($this->sessionLearningMaterialManager);
         unset($this->offeringManager);
         unset($this->objectiveManager);
+        unset($this->ilmSessionManager);
         unset($this->service);
         m::close();
     }
@@ -245,6 +254,28 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                     ->andReturn($newDescription);
                 $this->sessionDescriptionManager->shouldReceive('update')->once()
                     ->withArgs([$newDescription, false, false]);
+            }
+
+            if ($oldIlmSession = $session->getIlmSession()) {
+                $newIlmSession = m::mock('Ilios\CoreBundle\Entity\IlmSessionInterface');
+                $newIlmSession->shouldReceive('setHours')->with($oldIlmSession->getHours())->once();
+                $newIlmSession->shouldReceive('setDueDate')->with(m::on(function (DateTime $newDueDate) use ($oldIlmSession) {
+                    $oldDueDate = $oldIlmSession->getDueDate();
+                    return (
+                        //day of the week is the same
+                        $oldDueDate->format('w') === $newDueDate->format('w') &&
+                        //Week of the year is the same
+                        $oldDueDate->format('W') === $newDueDate->format('W')
+                    );
+                }))->once();
+                $newSession->shouldReceive('setIlmSession')->with($newIlmSession)->once();
+                $this->ilmSessionManager
+                    ->shouldReceive('create')->once()
+                    ->andReturn($newIlmSession);
+                $this->ilmSessionManager->shouldReceive('update')->once()
+                    ->withArgs([$newIlmSession, false, false]);
+
+
             }
 
             foreach ($session->getOfferings() as $offering) {
@@ -630,6 +661,28 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                     ->withArgs([$newDescription, false, false]);
             }
 
+            if ($oldIlmSession = $session->getIlmSession()) {
+                $newIlmSession = m::mock('Ilios\CoreBundle\Entity\IlmSessionInterface');
+                $newIlmSession->shouldReceive('setHours')->with($oldIlmSession->getHours())->once();
+                $newIlmSession->shouldReceive('setDueDate')->with(m::on(function (DateTime $newDueDate) use ($oldIlmSession) {
+                    $oldDueDate = $oldIlmSession->getDueDate();
+                    return (
+                        //day of the week is the same
+                        $oldDueDate->format('w') === $newDueDate->format('w') &&
+                        //Week of the year is the same
+                        $oldDueDate->format('W') === $newDueDate->format('W')
+                    );
+                }))->once();
+                $newSession->shouldReceive('setIlmSession')->with($newIlmSession)->once();
+                $this->ilmSessionManager
+                    ->shouldReceive('create')->once()
+                    ->andReturn($newIlmSession);
+                $this->ilmSessionManager->shouldReceive('update')->once()
+                    ->withArgs([$newIlmSession, false, false]);
+
+
+            }
+
             foreach ($session->getOfferings() as $offering) {
                 $newOffering = m::mock('Ilios\CoreBundle\Entity\Offering');
                 $newOffering->shouldReceive('setRoom')->once()->with($offering->getRoom());
@@ -976,6 +1029,19 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $session1->addOffering($offering1);
 
         $course->addSession($session1);
+
+        $session2 = new Session();
+        $session2->setSessionType(new SessionType());
+        $ilm = new IlmSession();
+        $ilm->setHours(4.3);
+        $ilm->setDueDate(new DateTime());
+        $ilm->addInstructorGroup($instructorGroup);
+        $ilm->addLearnerGroup($learnerGroup);
+        $ilm->addInstructor($user);
+        $ilm->addLearner($user);
+        $session2->setIlmSession($ilm);
+
+        $course->addSession($session2);
 
         return $course;
     }
