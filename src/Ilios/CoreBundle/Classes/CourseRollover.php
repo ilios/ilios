@@ -11,8 +11,9 @@ use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
 /**
- * Class CourseRollover
+ * Class CourseRollover Rolls over an existing course and its components to a new Academic Year
  *
+ * @category Class
  * @package Ilios\CoreBundle\Classes
  */
 class CourseRollover
@@ -93,7 +94,7 @@ class CourseRollover
     public function rolloverCourse($courseId, $newAcademicYear, $options)
     {
         //now, get/set the required values from the provided arguments
-        $originalCourseId = $courseId;
+        $origCourseId = $courseId;
         $newStartDate = (!empty($options['new-start-date'])) ? new \DateTime($options['new-start-date']) : null;
 
         //make sure that the new course's academic year or new start date year is not in the past
@@ -103,56 +104,56 @@ class CourseRollover
         }
 
         //get the original course object
-        $originalCourse = $this->getOriginalCourse($originalCourseId);
+        $origCourse = $this->getOriginalCourse($origCourseId);
 
         //if a new title is to be used, update before checking for duplicates
-        $newTitle = !empty($options['new-course-title']) ? $options['new-course-title'] : $originalCourse->getTitle();
+        $newTitle = !empty($options['new-course-title']) ? $options['new-course-title'] : $origCourse->getTitle();
         //before creating the newCourse object, check for courses with same title & year, so a rollover is not run 2x
         $this->checkForDuplicateRollover($newTitle, $newAcademicYear);
 
         //get/set the original course's start/end dates for use in calculation of offset
-        $originalCourseStartDate = $originalCourse->getStartDate();
-        $originalCourseEndDate = $originalCourse->getEndDate();
+        $origCourseStartDate = $origCourse->getStartDate();
+        $origCourseEndDate = $origCourse->getEndDate();
 
         //if the new start date is not empty, ensure sure the day of the week matches the original day-of-week
         if (!empty($newStartDate)) {
-            $this->compareStartDateDayOfWeek($originalCourseStartDate, $newStartDate);
+            $this->compareStartDateDayOfWeek($origCourseStartDate, $newStartDate);
         }
 
         //get the difference between the week ordinals the new start date and the original, year is arbitrary here
-        $weekOrdinalDifference = $this->calculateWeeksOffset($originalCourseStartDate, $newStartDate);
+        $weekOrdinalDiff = $this->calculateWeeksOffset($origCourseStartDate, $newStartDate);
 
         //set the offset in weeks using the week ordinal difference
-        $newCourseStartDate = $this->getAdjustedDate($originalCourseStartDate, $newAcademicYear, $weekOrdinalDifference);
-        $newCourseEndDate = $this->getAdjustedDate($originalCourseEndDate, $newAcademicYear, $weekOrdinalDifference);
+        $newCourseStartDate = $this->getAdjustedDate($origCourseStartDate, $newAcademicYear, $weekOrdinalDiff);
+        $newCourseEndDate = $this->getAdjustedDate($origCourseEndDate, $newAcademicYear, $weekOrdinalDiff);
 
         //create the Course
         //if there are not any duplicates, create a new course with the relevant info
         /* @var CourseInterface $newCourse */
         $newCourse = $this->courseManager->create();
         $newCourse->setTitle($newTitle);
-        $newCourse->setLevel($originalCourse->getLevel());
+        $newCourse->setLevel($origCourse->getLevel());
         $newCourse->setYear($newAcademicYear);
         $newCourse->setStartDate($newCourseStartDate);
         $newCourse->setEndDate($newCourseEndDate);
-        $newCourse->setExternalId($originalCourse->getExternalId());
-        if ($clerkshipType = $originalCourse->getClerkshipType()) {
+        $newCourse->setExternalId($origCourse->getExternalId());
+        if ($clerkshipType = $origCourse->getClerkshipType()) {
             $newCourse->setClerkshipType($clerkshipType);
         }
-        $newCourse->setSchool($originalCourse->getSchool());
-        $newCourse->setDirectors($originalCourse->getDirectors());
+        $newCourse->setSchool($origCourse->getSchool());
+        $newCourse->setDirectors($origCourse->getDirectors());
 
         if (empty($options['skip-course-terms'])) {
-            $newCourse->setTerms($originalCourse->getTerms());
+            $newCourse->setTerms($origCourse->getTerms());
         }
         if (empty($options['skip-course-mesh'])) {
-            $newCourse->setMeshDescriptors($originalCourse->getMeshDescriptors());
+            $newCourse->setMeshDescriptors($origCourse->getMeshDescriptors());
         }
 
         //COURSE OBJECTIVES
         $newCourseObjectives = [];
         if (empty($options['skip-course-objectives'])) {
-            $newCourseObjectives = $this->rolloverCourseObjectives($newCourse, $originalCourse);
+            $newCourseObjectives = $this->rolloverCourseObjectives($newCourse, $origCourse);
         }
 
         //persist the newCourse entity
@@ -161,12 +162,12 @@ class CourseRollover
         //now run each of the subcomponents, starting with the course-specific ones
         //COURSE LEARNING MATERIALS
         if (empty($options['skip-course-learning-materials'])) {
-            $this->rolloverCourseLearningMaterials($newCourse, $originalCourse);
+            $this->rolloverCourseLearningMaterials($newCourse, $origCourse);
         }
 
         //SESSIONS
         if (empty($options['skip-sessions'])) {
-            $this->rolloverSessions($newCourse, $originalCourse, $newAcademicYear, $weekOrdinalDifference, $options, $newCourseObjectives);
+            $this->rolloverSessions($newCourse, $origCourse, $newAcademicYear, $weekOrdinalDiff, $options, $newCourseObjectives);
         }
 
         //commit EVERYTHING to the database
@@ -178,22 +179,22 @@ class CourseRollover
 
     /**
      * @param CourseInterface $newCourse
-     * @param CourseInterface $originalCourse
+     * @param CourseInterface $origCourse
      */
-    protected function rolloverCourseLearningMaterials(CourseInterface $newCourse, CourseInterface $originalCourse)
+    protected function rolloverCourseLearningMaterials(CourseInterface $newCourse, CourseInterface $origCourse)
     {
-        /* @var CourseLearningMaterialInterface[] $originalCourseLearningMaterials */
-        $originalCourseLearningMaterials = $originalCourse->getLearningMaterials();
+        /* @var CourseLearningMaterialInterface[] $origCourseLearningMaterials */
+        $origCourseLearningMaterials = $origCourse->getLearningMaterials();
 
-        foreach ($originalCourseLearningMaterials as $originalCourseLearningMaterial) {
+        foreach ($origCourseLearningMaterials as $origCourseLearningMaterial) {
             /* @var CourseLearningMaterialInterface $newCourseLearningMaterial */
             $newCourseLearningMaterial = $this->courseLearningMaterialManager->create();
-            $newCourseLearningMaterial->setNotes($originalCourseLearningMaterial->getNotes());
-            $newCourseLearningMaterial->setRequired($originalCourseLearningMaterial->isRequired());
-            $newCourseLearningMaterial->setPublicNotes($originalCourseLearningMaterial->hasPublicNotes());
+            $newCourseLearningMaterial->setNotes($origCourseLearningMaterial->getNotes());
+            $newCourseLearningMaterial->setRequired($origCourseLearningMaterial->isRequired());
+            $newCourseLearningMaterial->setPublicNotes($origCourseLearningMaterial->hasPublicNotes());
             $newCourseLearningMaterial->setCourse($newCourse);
-            $newCourseLearningMaterial->setLearningMaterial($originalCourseLearningMaterial->getLearningMaterial());
-            $newCourseLearningMaterial->setMeshDescriptors($originalCourseLearningMaterial->getMeshDescriptors());
+            $newCourseLearningMaterial->setLearningMaterial($origCourseLearningMaterial->getLearningMaterial());
+            $newCourseLearningMaterial->setMeshDescriptors($origCourseLearningMaterial->getMeshDescriptors());
 
             $this->courseLearningMaterialManager->update($newCourseLearningMaterial, false, false);
         }
@@ -201,57 +202,57 @@ class CourseRollover
 
     /**
      * @param CourseInterface      $newCourse
-     * @param CourseInterface      $originalCourse
+     * @param CourseInterface      $origCourse
      * @param array                $options
      * @param string|bool          $offsetInWeeks       a date modifier string, or FALSE if n/a
      * @param ObjectiveInterface[] $newCourseObjectives
      */
     protected function rolloverSessions(
         CourseInterface $newCourse,
-        CourseInterface $originalCourse,
+        CourseInterface $origCourse,
         $newAcademicYear,
-        $weekOrdinalDifference,
+        $weekOrdinalDiff,
         $options,
         array $newCourseObjectives
     ) {
-        /* @var SessionInterface[] $originalCourseSessions */
-        $originalCourseSessions = $originalCourse->getSessions();
+        /* @var SessionInterface[] $origCourseSessions */
+        $origCourseSessions = $origCourse->getSessions();
 
-        foreach ($originalCourseSessions as $originalCourseSession) {
+        foreach ($origCourseSessions as $origCourseSession) {
             /* @var SessionInterface $newSession */
             $newSession = $this->sessionManager->create();
             $newSession->setCourse($newCourse);
-            $newSession->setTitle($originalCourseSession->getTitle());
-            $newSession->setAttireRequired($originalCourseSession->isAttireRequired());
-            $newSession->setEquipmentRequired($originalCourseSession->isEquipmentRequired());
-            $newSession->setSessionType($originalCourseSession->getSessionType());
-            $newSession->setSupplemental($originalCourseSession->isSupplemental());
+            $newSession->setTitle($origCourseSession->getTitle());
+            $newSession->setAttireRequired($origCourseSession->isAttireRequired());
+            $newSession->setEquipmentRequired($origCourseSession->isEquipmentRequired());
+            $newSession->setSessionType($origCourseSession->getSessionType());
+            $newSession->setSupplemental($origCourseSession->isSupplemental());
             $newSession->setPublishedAsTbd(0);
             $newSession->setPublished(0);
 
             //SESSION LEARNING MATERIALS
             if (empty($options['skip-session-learning-materials'])) {
-                $this->rolloverSessionLearningMaterials($newSession, $originalCourseSession);
+                $this->rolloverSessionLearningMaterials($newSession, $origCourseSession);
             }
 
             //SESSION OBJECTIVES
             if (empty($options['skip-session-objectives'])) {
-                $this->rolloverSessionObjectives($newSession, $originalCourseSession, $newCourseObjectives);
+                $this->rolloverSessionObjectives($newSession, $origCourseSession, $newCourseObjectives);
             }
 
             //SESSION TERMS
             if (empty($options['skip-session-terms'])) {
-                $newSession->setTerms($originalCourseSession->getTerms());
+                $newSession->setTerms($origCourseSession->getTerms());
             }
 
             //SESSION MESH TERMS
             if (empty($options['skip-session-mesh'])) {
-                $newSession->setMeshDescriptors($originalCourseSession->getMeshDescriptors());
+                $newSession->setMeshDescriptors($origCourseSession->getMeshDescriptors());
             }
 
             //Offerings
             if (empty($options['skip-offerings'])) {
-                $this->rolloverOfferings($newSession, $originalCourseSession, $newAcademicYear, $weekOrdinalDifference, $options);
+                $this->rolloverOfferings($newSession, $origCourseSession, $newAcademicYear, $weekOrdinalDiff, $options);
             }
 
             $this->sessionManager->update($newSession, false, false);
@@ -261,24 +262,24 @@ class CourseRollover
 
     /**
      * @param SessionInterface $newSession
-     * @param SessionInterface $originalCourseSession
+     * @param SessionInterface $origCourseSession
      */
     protected function rolloverSessionLearningMaterials(
         SessionInterface $newSession,
-        SessionInterface $originalCourseSession
+        SessionInterface $origCourseSession
     ) {
-        /* @var SessionLearningMaterialInterface[] $originalSessionLearningMaterials */
-        $originalSessionLearningMaterials = $originalCourseSession->getLearningMaterials();
+        /* @var SessionLearningMaterialInterface[] $origSessionLearningMaterials */
+        $origSessionLearningMaterials = $origCourseSession->getLearningMaterials();
 
-        foreach ($originalSessionLearningMaterials as $originalSessionLearningMaterial) {
+        foreach ($origSessionLearningMaterials as $origSessionLearningMaterial) {
             /* @var SessionLearningMaterialInterface $newSessionLearningMaterial */
             $newSessionLearningMaterial = $this->sessionLearningMaterialManager->create();
-            $newSessionLearningMaterial->setNotes($originalSessionLearningMaterial->getNotes());
-            $newSessionLearningMaterial->setRequired($originalSessionLearningMaterial->isRequired());
+            $newSessionLearningMaterial->setNotes($origSessionLearningMaterial->getNotes());
+            $newSessionLearningMaterial->setRequired($origSessionLearningMaterial->isRequired());
             $newSessionLearningMaterial->setSession($newSession);
-            $newSessionLearningMaterial->setPublicNotes($originalSessionLearningMaterial->hasPublicNotes());
-            $newSessionLearningMaterial->setLearningMaterial($originalSessionLearningMaterial->getLearningMaterial());
-            $newSessionLearningMaterial->setMeshDescriptors($originalSessionLearningMaterial->getMeshDescriptors());
+            $newSessionLearningMaterial->setPublicNotes($origSessionLearningMaterial->hasPublicNotes());
+            $newSessionLearningMaterial->setLearningMaterial($origSessionLearningMaterial->getLearningMaterial());
+            $newSessionLearningMaterial->setMeshDescriptors($origSessionLearningMaterial->getMeshDescriptors());
 
             $this->sessionLearningMaterialManager->update($newSessionLearningMaterial, false, false);
         }
@@ -286,60 +287,60 @@ class CourseRollover
 
     /**
      * @param SessionInterface $newSession
-     * @param SessionInterface $originalCourseSession
-     * @param array            $options
-     * @param string|bool      $offsetInWeeks         a date modifier string, or FALSE if n/a
+     * @param SessionInterface $origCourseSession
+     * @param $newAcademicYear
+     * @param $weekOrdinalDiff
+     * @param $options
      */
     protected function rolloverOfferings(
         SessionInterface $newSession,
-        SessionInterface $originalCourseSession,
+        SessionInterface $origCourseSession,
         $newAcademicYear,
-        $weeKOrdinalDifference,
+        $weekOrdinalDiff,
         $options
     ) {
 
-        /* @var OfferingInterface[] $originalSessionOfferings */
-        $originalSessionOfferings = $originalCourseSession->getOfferings();
+        /* @var OfferingInterface[] $origSessionOfferings */
+        $origSessionOfferings = $origCourseSession->getOfferings();
 
-        foreach ($originalSessionOfferings as $originalSessionOffering) {
-
-            $newOfferingStartDate = $this->getAdjustedDate($originalSessionOffering->getStartDate(), $newAcademicYear, $weeKOrdinalDifference);
-            $newOfferingEndDate = $this->getAdjustedDate($originalSessionOffering->getEndDate(), $newAcademicYear, $weeKOrdinalDifference);
+        foreach ($origSessionOfferings as $origSessionOffering) {
+            $newOfferingStartDate = $this->getAdjustedDate($origSessionOffering->getStartDate(), $newAcademicYear, $weekOrdinalDiff);
+            $newOfferingEndDate = $this->getAdjustedDate($origSessionOffering->getEndDate(), $newAcademicYear, $weekOrdinalDiff);
 
             /* @var OfferingInterface $newOffering */
             $newOffering = $this->offeringManager->create();
-            $newOffering->setRoom($originalSessionOffering->getRoom());
-            $newOffering->setSite($originalSessionOffering->getSite());
+            $newOffering->setRoom($origSessionOffering->getRoom());
+            $newOffering->setSite($origSessionOffering->getSite());
             $newOffering->setStartDate($newOfferingStartDate);
             $newOffering->setEndDate($newOfferingEndDate);
             $newOffering->setSession($newSession);
 
             //Instructors
             if (empty($options['skip-instructors'])) {
-                $newOffering->setInstructors($originalSessionOffering->getInstructors());
+                $newOffering->setInstructors($origSessionOffering->getInstructors());
             }
 
             //Instructor Groups
             if (empty($options['skip-instructor-groups'])) {
-                $newOffering->setInstructorGroups($originalSessionOffering->getInstructorGroups());
+                $newOffering->setInstructorGroups($origSessionOffering->getInstructorGroups());
             }
             $this->offeringManager->update($newOffering, false, false);
         }
     }
 
     /**
-     * @param \DateTime      $originalDate
+     * @param \DateTime      $origDate
      * @param \DateTime|null $newDate
      * @return int
      */
     private function calculateWeeksOffset(
-        $originalDate,
+        $origDate,
         $newDate = null
     ) {
         //get the original and new week ordinals
-        $originalWeekOrdinal = $originalDate->format('W');
-        $newWeekOrdinal = (!empty($newDate)) ? $newDate->format('W') : $originalWeekOrdinal;
-        $weekOrdinalDiff = ($originalWeekOrdinal - $newWeekOrdinal);
+        $origWeekOrdinal = $origDate->format('W');
+        $newWeekOrdinal = (!empty($newDate)) ? $newDate->format('W') : $origWeekOrdinal;
+        $weekOrdinalDiff = ($origWeekOrdinal - $newWeekOrdinal);
 
         return $weekOrdinalDiff;
     }
@@ -375,33 +376,33 @@ class CourseRollover
     }
 
     /**
-     * @param int $originalCourseId
+     * @param int $origCourseId
      * @return CourseInterface
      * @throws \Exception
      */
-    private function getOriginalCourse($originalCourseId)
+    private function getOriginalCourse($origCourseId)
     {
-        $originalCourse = $this->courseManager->findOneBy(['id' => $originalCourseId]);
-        if (empty($originalCourse)) {
+        $origCourse = $this->courseManager->findOneBy(['id' => $origCourseId]);
+        if (empty($origCourse)) {
             throw new \Exception(
-                'There are no courses with courseId ' . $originalCourseId . '.'
+                'There are no courses with courseId ' . $origCourseId . '.'
             );
         }
-        return $originalCourse;
+        return $origCourse;
     }
 
     /**
      * @param CourseInterface $newCourse
-     * @param CourseInterface $originalCourse
+     * @param CourseInterface $origCourse
      *
      * @return array
      */
     protected function rolloverCourseObjectives(
         CourseInterface $newCourse,
-        CourseInterface $originalCourse
+        CourseInterface $origCourse
     ) {
         $newCourseObjectives = [];
-        foreach ($originalCourse->getObjectives() as $objective) {
+        foreach ($origCourse->getObjectives() as $objective) {
             /* @var ObjectiveInterface $newObjective */
             $newObjective = $this->objectiveManager->create();
             $newObjective->setTitle($objective->getTitle());
@@ -417,15 +418,15 @@ class CourseRollover
 
     /**
      * @param SessionInterface     $newSession
-     * @param SessionInterface     $originalSession
+     * @param SessionInterface     $origSession
      * @param ObjectiveInterface[] $newCourseObjectives
      */
     protected function rolloverSessionObjectives(
         SessionInterface $newSession,
-        SessionInterface $originalSession,
+        SessionInterface $origSession,
         array $newCourseObjectives
     ) {
-        $originalSession->getObjectives()
+        $origSession->getObjectives()
             ->map(
                 function (ObjectiveInterface $objective) use ($newSession, $newCourseObjectives) {
                     /* @var ObjectiveInterface $newObjective */
@@ -457,16 +458,16 @@ class CourseRollover
     }
 
     /**
-     * @param \DateTime $originalCourseStartDate
+     * @param \DateTime $origCourseStartDate
      * @param \DateTime $newStartDate
      * @throws \Exception
      */
-    protected function compareStartDateDayOfWeek($originalCourseStartDate, $newStartDate)
+    protected function compareStartDateDayOfWeek($origCourseStartDate, $newStartDate)
     {
-        if ($originalCourseStartDate->format('w') !== $newStartDate->format('w')) {
+        if ($origCourseStartDate->format('w') !== $newStartDate->format('w')) {
             throw new \Exception(
                 "The new start date must take place on the same day of the week as the original course start date"
-                . " ({$originalCourseStartDate->format('l')})."
+                . " ({$origCourseStartDate->format('l')})."
             );
         }
     }
@@ -491,24 +492,24 @@ class CourseRollover
     }
 
     /**
-     * @param \DateTime $originalDate
+     * @param \DateTime $origDate
      * @param int       $newYear
-     * @param int       $weekOrdinalDifference
+     * @param int       $weekOrdinalDiff
      * @return \DateTime
      */
     protected function getAdjustedDate(
-        $originalDate,
+        $origDate,
         $newYear,
-        $weekOrdinalDifference
+        $weekOrdinalDiff
     ) {
         //get the difference between the academic years of original course and the desired year for the new course
-        $yearDifference = ($newYear - $originalDate->format('Y'));
+        $yearDifference = ($newYear - $origDate->format('Y'));
 
         //get the actual calendar year in which the new date will take place
-        $adjustedDateYear = ($originalDate->format('Y') + $yearDifference);
+        $adjustedDateYear = ($origDate->format('Y') + $yearDifference);
 
         //get the new course's week ordinal by subtracting it from the original
-        $newWeekOrdinal = ($originalDate->format('W') - $weekOrdinalDifference);
+        $newWeekOrdinal = ($origDate->format('W') - $weekOrdinalDiff);
 
         //create a new date object to operate on
         $dateToAdjust = new \DateTime();
@@ -517,18 +518,16 @@ class CourseRollover
         $dateToAdjust->setISODate($adjustedDateYear, $newWeekOrdinal);
 
         //make sure the new date's day-of-week matches the original
-        $adjustedDateTime = $this->addDaysUntilMatching($originalDate, $dateToAdjust);
+        $adjustedDateTime = $this->addDaysUntilMatching($origDate, $dateToAdjust);
 
         //get the times of the original dateTime object for use in the offering timeslots
-        $newTimeHour = $originalDate->format('H');
-        $newTimeMinutes = $originalDate->format('i');
-        $newTimeSeconds = $originalDate->format('s');
+        $newTimeHour = $origDate->format('H');
+        $newTimeMinutes = $origDate->format('i');
+        $newTimeSeconds = $origDate->format('s');
 
         //now set the time on the new object
         $adjustedDateTime->setTime($newTimeHour, $newTimeMinutes, $newTimeSeconds);
 
         return $adjustedDateTime;
     }
-
 }
-
