@@ -7,6 +7,7 @@ use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
+use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
@@ -40,6 +41,11 @@ class CourseRollover
     protected $sessionManager;
 
     /**
+     * @var ManagerInterface
+     */
+    protected $sessionDescriptionManager;
+
+    /**
      * @var ManagerInterface;
      */
     protected $sessionLearningMaterialManager;
@@ -61,6 +67,7 @@ class CourseRollover
      * @param ManagerInterface $learningMaterialManager
      * @param ManagerInterface $courseLearningMaterialManager
      * @param ManagerInterface $sessionManager
+     * @param ManagerInterface $sessionDescriptionManager
      * @param ManagerInterface $sessionLearningMaterialManager
      * @param ManagerInterface $offeringManager
      * @param ManagerInterface $objectiveManager
@@ -70,6 +77,7 @@ class CourseRollover
         ManagerInterface $learningMaterialManager,
         ManagerInterface $courseLearningMaterialManager,
         ManagerInterface $sessionManager,
+        ManagerInterface $sessionDescriptionManager,
         ManagerInterface $sessionLearningMaterialManager,
         ManagerInterface $offeringManager,
         ManagerInterface $objectiveManager
@@ -78,6 +86,7 @@ class CourseRollover
         $this->learningMaterialManager = $learningMaterialManager;
         $this->courseLearningMaterialManager = $courseLearningMaterialManager;
         $this->sessionManager = $sessionManager;
+        $this->sessionDescriptionManager = $sessionDescriptionManager;
         $this->sessionLearningMaterialManager = $sessionLearningMaterialManager;
         $this->offeringManager = $offeringManager;
         $this->objectiveManager = $objectiveManager;
@@ -229,6 +238,7 @@ class CourseRollover
             /* @var SessionInterface $newSession */
             $newSession = $this->sessionManager->create();
             $newSession->setCourse($newCourse);
+            $newSession->setSessionDescription($origCourseSession->getSessionDescription());
             $newSession->setTitle($origCourseSession->getTitle());
             $newSession->setAttireRequired($origCourseSession->isAttireRequired());
             $newSession->setEquipmentRequired($origCourseSession->isEquipmentRequired());
