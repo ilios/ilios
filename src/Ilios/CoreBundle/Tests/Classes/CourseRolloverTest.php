@@ -16,6 +16,7 @@ use Ilios\CoreBundle\Entity\Objective;
 use Ilios\CoreBundle\Entity\Offering;
 use Ilios\CoreBundle\Entity\School;
 use Ilios\CoreBundle\Entity\Session;
+use Ilios\CoreBundle\Entity\SessionDescription;
 use Ilios\CoreBundle\Entity\SessionLearningMaterial;
 use Ilios\CoreBundle\Entity\SessionType;
 use Ilios\CoreBundle\Entity\Term;
@@ -69,6 +70,11 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
     protected $objectiveManager;
 
     /**
+     * @var m\MockInterface
+     */
+    protected $sessionDescriptionManager;
+
+    /**
      * @var CourseRollover
      */
     protected $service;
@@ -83,6 +89,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
         $this->courseLearningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
         $this->sessionManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
+        $this->sessionDescriptionManager = m::mock('Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager');
         $this->sessionLearningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
         $this->offeringManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
         $this->objectiveManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
@@ -91,6 +98,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
             $this->learningMaterialManager,
             $this->courseLearningMaterialManager,
             $this->sessionManager,
+            $this->sessionDescriptionManager,
             $this->sessionLearningMaterialManager,
             $this->offeringManager,
             $this->objectiveManager
@@ -106,6 +114,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         unset($this->learningMaterialManager);
         unset($this->courseLearningMaterialManager);
         unset($this->sessionManager);
+        unset($this->sessionDescriptionManager);
         unset($this->sessionLearningMaterialManager);
         unset($this->offeringManager);
         unset($this->objectiveManager);
@@ -115,7 +124,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
     public function testRolloverWithEverything()
     {
-        $course = $this->createTestCourseWithAssications();
+        $course = $this->createTestCourseWithAssociations();
         $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
         $newYear = $this->setupCourseManager($course, $newCourse);
 
@@ -225,6 +234,17 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                     ->andReturn($newLearningMaterial);
                 $this->sessionLearningMaterialManager->shouldReceive('update')->once()
                     ->withArgs([$newLearningMaterial, false, false]);
+            }
+
+            if ($oldDescription = $session->getSessionDescription()) {
+                $newDescription = m::mock('Ilios\CoreBundle\Entity\SessionDescriptionInterface');
+                $newDescription->shouldReceive('setDescription')->with($oldDescription->getDescription())->once();
+                $newSession->shouldReceive('setSessionDescription')->with($newDescription)->once();
+                $this->sessionDescriptionManager
+                    ->shouldReceive('create')->once()
+                    ->andReturn($newDescription);
+                $this->sessionDescriptionManager->shouldReceive('update')->once()
+                    ->withArgs([$newDescription, false, false]);
             }
 
             foreach ($session->getOfferings() as $offering) {
@@ -540,7 +560,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
     public function testRolloverInSameYearKeepsRelationships()
     {
-        $course = $this->createTestCourseWithAssications();
+        $course = $this->createTestCourseWithAssociations();
         $newCourse = m::mock('Ilios\CoreBundle\Entity\CourseInterface');
         $newYear = $course->getYear();
         $newTitle = $course->getTitle() . ' again';
@@ -597,6 +617,17 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                 $newLearningMaterial->shouldIgnoreMissing();
                 $this->sessionLearningMaterialManager->shouldReceive('create')->once()->andReturn($newLearningMaterial);
                 $this->sessionLearningMaterialManager->shouldIgnoreMissing();
+            }
+
+            if ($oldDescription = $session->getSessionDescription()) {
+                $newDescription = m::mock('Ilios\CoreBundle\Entity\SessionDescriptionInterface');
+                $newDescription->shouldReceive('setDescription')->with($oldDescription->getDescription())->once();
+                $newSession->shouldReceive('setSessionDescription')->with($newDescription)->once();
+                $this->sessionDescriptionManager
+                    ->shouldReceive('create')->once()
+                    ->andReturn($newDescription);
+                $this->sessionDescriptionManager->shouldReceive('update')->once()
+                    ->withArgs([$newDescription, false, false]);
             }
 
             foreach ($session->getOfferings() as $offering) {
@@ -862,7 +893,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
      * Gets a course with a bunch of relationsips attached
      * @return Course
      */
-    protected function createTestCourseWithAssications()
+    protected function createTestCourseWithAssociations()
     {
         $course = $this->createTestCourse();
 
@@ -919,6 +950,10 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $sessionTerm1 = new Term();
         $sessionTerm1->setId(808);
         $session1->addTerm($sessionTerm1);
+
+        $description = new SessionDescription();
+        $description->setDescription('test description');
+        $session1->setSessionDescription($description);
 
         $user = new User();
 
