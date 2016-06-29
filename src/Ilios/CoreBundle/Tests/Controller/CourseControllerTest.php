@@ -30,6 +30,7 @@ class CourseControllerTest extends AbstractControllerTest
             'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
             'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
         ]);
     }
 
@@ -1141,5 +1142,90 @@ class CourseControllerTest extends AbstractControllerTest
         $newCourse = $data[0];
         $this->assertSame($course['year'], $newCourse['year']);
         $this->assertSame($newCourseTitle, $newCourse['title']);
+    }
+
+
+
+    /**
+     * @group controllers_a
+     */
+    public function testRolloverIlmSessions()
+    {
+        $courses = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getAll()
+        ;
+        $course = $courses[1];
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'api_course_rollover_v1',
+                [
+                    'id' => $course['id'],
+                    'year' => 2019,
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_CREATED);
+        $newCourse = json_decode($response->getContent(), true)['courses'][0];
+
+        $newSessionIds = $newCourse['sessions'];
+        $this->assertEquals(count($newSessionIds), 5);
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_sessions',
+                ['filters[id]' => $newSessionIds]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $newSessionData = json_decode($response->getContent(), true)['sessions'];
+
+
+        $newSessionsWithILMs = array_filter($newSessionData, function (array $session) {
+            return !empty($session['ilmSession']);
+        });
+        $this->assertEquals(4, count($newSessionsWithILMs));
+
+        $newIlmIds = array_map(function (array $session) {
+            return $session['ilmSession'];
+        }, $newSessionsWithILMs);
+        $newIlmIds = array_values($newIlmIds);
+
+        $ilms = $this->container->get('ilioscore.dataloader.ilmsession')->getAll();
+        $lastIlmId = $ilms[key(array_slice($ilms, -1, 1, true))]['id'];
+
+        $this->assertEquals($lastIlmId + 1, $newIlmIds[0], 'incremented ilm id 1');
+        $this->assertEquals($lastIlmId + 2, $newIlmIds[1], 'incremented ilm id 2');
+        $this->assertEquals($lastIlmId + 3, $newIlmIds[2], 'incremented ilm id 3');
+        $this->assertEquals($lastIlmId + 4, $newIlmIds[3], 'incremented ilm id 4');
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_ilmsessions',
+                ['filters[id]' => $newIlmIds]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $newIlmData = json_decode($response->getContent(), true)['ilmSessions'];
+        $this->assertEquals($newIlmData[0]['hours'], $ilms[0]['hours']);
+        $this->assertEquals($newIlmData[1]['hours'], $ilms[1]['hours']);
+
+
+
     }
 }
