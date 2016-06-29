@@ -138,7 +138,12 @@ class SessionTest extends EntityBase
      */
     public function testSetIlmSession()
     {
-        $this->entitySetTest('ilmSession', "IlmSession");
+        $this->assertTrue(method_exists($this->object, 'getIlmSession'), "Method getIlmSession missing");
+        $this->assertTrue(method_exists($this->object, 'setIlmSession'), "Method setIlmSession missing");
+        $obj = m::mock('Ilios\CoreBundle\Entity\IlmSession');
+        $obj->shouldReceive('setSession')->with($this->object)->once();
+        $this->object->setIlmSession($obj);
+        $this->assertSame($obj, $this->object->getIlmSession());
     }
 
     /**
@@ -208,5 +213,19 @@ class SessionTest extends EntityBase
     public function testSetTerms()
     {
         $this->entityCollectionSetTest('term', 'Term');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::setSessionDescription
+     * @covers Ilios\CoreBundle\Entity\Session::getSessionDescription
+     */
+    public function testSetSessionDescription()
+    {
+        $this->assertTrue(method_exists($this->object, 'getSessionDescription'), "Method missing");
+        $this->assertTrue(method_exists($this->object, 'setSessionDescription'), "Method missing");
+        $obj = m::mock('Ilios\CoreBundle\Entity\SessionDescription');
+        $obj->shouldReceive('setSession')->with($this->object)->once();
+        $this->object->setSessionDescription($obj);
+        $this->assertSame($obj, $this->object->getSessionDescription());
     }
 }

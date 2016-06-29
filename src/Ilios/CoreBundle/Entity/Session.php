@@ -395,6 +395,7 @@ class Session implements SessionInterface
     public function setIlmSession(IlmSessionInterface $ilmSession = null)
     {
         $this->ilmSession = $ilmSession;
+        $ilmSession->setSession($this);
     }
 
     /**
@@ -439,6 +440,7 @@ class Session implements SessionInterface
     public function setSessionDescription(SessionDescriptionInterface $sessionDescription)
     {
         $this->sessionDescription = $sessionDescription;
+        $sessionDescription->setSession($this);
     }
 
     /**

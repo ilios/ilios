@@ -63,4 +63,4 @@ services:
         arguments: ["@exercise_html_purifier.default"]
     ilioscore.courserollover:
         class: Ilios\CoreBundle\Classes\CourseRollover
-        arguments: ["@ilioscore.course.manager","@ilioscore.learningmaterial.manager","@ilioscore.courselearningmaterial.manager","@ilioscore.session.manager","@ilioscore.sessionlearningmaterial.manager","@ilioscore.offering.manager", "@ilioscore.objective.manager"]
+        arguments: ["@ilioscore.course.manager","@ilioscore.learningmaterial.manager","@ilioscore.courselearningmaterial.manager","@ilioscore.session.manager","@ilioscore.sessiondescription.manager","@ilioscore.sessionlearningmaterial.manager","@ilioscore.offering.manager", "@ilioscore.objective.manager", "@ilioscore.ilmsession.manager"]
