@@ -7,6 +7,7 @@ use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
+use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager;
 use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
@@ -41,9 +42,14 @@ class CourseRollover
     protected $sessionManager;
 
     /**
-     * @var ManagerInterface
+     * @var SessionDescriptionManager
      */
     protected $sessionDescriptionManager;
+
+    /**
+     * @var SessionDescriptionInterface
+     */
+    protected $sessionDescriptionInterface;
 
     /**
      * @var ManagerInterface;
@@ -62,12 +68,11 @@ class CourseRollover
 
     /**
      * CourseRollover constructor.
-     *
      * @param ManagerInterface $courseManager
      * @param ManagerInterface $learningMaterialManager
      * @param ManagerInterface $courseLearningMaterialManager
      * @param ManagerInterface $sessionManager
-     * @param ManagerInterface $sessionDescriptionManager
+     * @param SessionDescriptionManager $sessionDescriptionManager
      * @param ManagerInterface $sessionLearningMaterialManager
      * @param ManagerInterface $offeringManager
      * @param ManagerInterface $objectiveManager
@@ -77,7 +82,7 @@ class CourseRollover
         ManagerInterface $learningMaterialManager,
         ManagerInterface $courseLearningMaterialManager,
         ManagerInterface $sessionManager,
-        ManagerInterface $sessionDescriptionManager,
+        SessionDescriptionManager $sessionDescriptionManager,
         ManagerInterface $sessionLearningMaterialManager,
         ManagerInterface $offeringManager,
         ManagerInterface $objectiveManager
@@ -217,11 +222,12 @@ class CourseRollover
     }
 
     /**
-     * @param CourseInterface      $newCourse
-     * @param CourseInterface      $origCourse
-     * @param array                $options
-     * @param string|bool          $offsetInWeeks       a date modifier string, or FALSE if n/a
-     * @param ObjectiveInterface[] $newCourseObjectives
+     * @param CourseInterface $newCourse
+     * @param CourseInterface $origCourse
+     * @param int $newAcademicYear
+     * @param int $weekOrdinalDiff
+     * @param array $options
+     * @param array $newCourseObjectives
      */
     protected function rolloverSessions(
         CourseInterface $newCourse,
@@ -238,7 +244,6 @@ class CourseRollover
             /* @var SessionInterface $newSession */
             $newSession = $this->sessionManager->create();
             $newSession->setCourse($newCourse);
-            $newSession->setSessionDescription($origCourseSession->getSessionDescription());
             $newSession->setTitle($origCourseSession->getTitle());
             $newSession->setAttireRequired($origCourseSession->isAttireRequired());
             $newSession->setEquipmentRequired($origCourseSession->isEquipmentRequired());
@@ -246,6 +251,18 @@ class CourseRollover
             $newSession->setSupplemental($origCourseSession->isSupplemental());
             $newSession->setPublishedAsTbd(0);
             $newSession->setPublished(0);
+
+            //now check for a session description and, if there is one, set it...
+            $origSessionDescription = $origCourseSession->getSessionDescription();
+
+            if (!empty($origSessionDescription)) {
+                $newSessionDescriptionText = $origSessionDescription->getDescription();
+                $newSessionDescription = $this->sessionDescriptionManager->create();
+                $newSessionDescription->setDescription($newSessionDescriptionText);
+                $newSessionDescription->setSession($newSession);
+                $newSession->setSessionDescription($newSessionDescription);
+                $this->sessionDescriptionManager->update($newSessionDescription, false, false);
+            }
 
             //SESSION LEARNING MATERIALS
             if (empty($options['skip-session-learning-materials'])) {
