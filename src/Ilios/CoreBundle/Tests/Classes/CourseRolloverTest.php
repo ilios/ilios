@@ -259,23 +259,22 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
             if ($oldIlmSession = $session->getIlmSession()) {
                 $newIlmSession = m::mock('Ilios\CoreBundle\Entity\IlmSessionInterface');
                 $newIlmSession->shouldReceive('setHours')->with($oldIlmSession->getHours())->once();
-                $newIlmSession->shouldReceive('setDueDate')->with(m::on(function (DateTime $newDueDate) use ($oldIlmSession) {
-                    $oldDueDate = $oldIlmSession->getDueDate();
-                    return (
-                        //day of the week is the same
-                        $oldDueDate->format('w') === $newDueDate->format('w') &&
-                        //Week of the year is the same
-                        $oldDueDate->format('W') === $newDueDate->format('W')
-                    );
-                }))->once();
+                $newIlmSession->shouldReceive('setDueDate')
+                    ->with(m::on(function (DateTime $newDueDate) use ($oldIlmSession) {
+                        $oldDueDate = $oldIlmSession->getDueDate();
+                        return (
+                            //day of the week is the same
+                            $oldDueDate->format('w') === $newDueDate->format('w') &&
+                            //Week of the year is the same
+                            $oldDueDate->format('W') === $newDueDate->format('W')
+                        );
+                    }))->once();
                 $newSession->shouldReceive('setIlmSession')->with($newIlmSession)->once();
                 $this->ilmSessionManager
                     ->shouldReceive('create')->once()
                     ->andReturn($newIlmSession);
                 $this->ilmSessionManager->shouldReceive('update')->once()
                     ->withArgs([$newIlmSession, false, false]);
-
-
             }
 
             foreach ($session->getOfferings() as $offering) {
@@ -664,23 +663,22 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
             if ($oldIlmSession = $session->getIlmSession()) {
                 $newIlmSession = m::mock('Ilios\CoreBundle\Entity\IlmSessionInterface');
                 $newIlmSession->shouldReceive('setHours')->with($oldIlmSession->getHours())->once();
-                $newIlmSession->shouldReceive('setDueDate')->with(m::on(function (DateTime $newDueDate) use ($oldIlmSession) {
-                    $oldDueDate = $oldIlmSession->getDueDate();
-                    return (
-                        //day of the week is the same
-                        $oldDueDate->format('w') === $newDueDate->format('w') &&
-                        //Week of the year is the same
-                        $oldDueDate->format('W') === $newDueDate->format('W')
-                    );
-                }))->once();
+                $newIlmSession->shouldReceive('setDueDate')
+                    ->with(m::on(function (DateTime $newDueDate) use ($oldIlmSession) {
+                        $oldDueDate = $oldIlmSession->getDueDate();
+                        return (
+                            //day of the week is the same
+                            $oldDueDate->format('w') === $newDueDate->format('w') &&
+                            //Week of the year is the same
+                            $oldDueDate->format('W') === $newDueDate->format('W')
+                        );
+                    }))->once();
                 $newSession->shouldReceive('setIlmSession')->with($newIlmSession)->once();
                 $this->ilmSessionManager
                     ->shouldReceive('create')->once()
                     ->andReturn($newIlmSession);
                 $this->ilmSessionManager->shouldReceive('update')->once()
                     ->withArgs([$newIlmSession, false, false]);
-
-
             }
 
             foreach ($session->getOfferings() as $offering) {

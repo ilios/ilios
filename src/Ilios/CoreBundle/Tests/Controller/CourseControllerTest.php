@@ -1224,8 +1224,5 @@ class CourseControllerTest extends AbstractControllerTest
         $newIlmData = json_decode($response->getContent(), true)['ilmSessions'];
         $this->assertEquals($newIlmData[0]['hours'], $ilms[0]['hours']);
         $this->assertEquals($newIlmData[1]['hours'], $ilms[1]['hours']);
-
-
-
     }
 }
