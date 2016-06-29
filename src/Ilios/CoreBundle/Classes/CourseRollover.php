@@ -167,7 +167,14 @@ class CourseRollover
 
         //SESSIONS
         if (empty($options['skip-sessions'])) {
-            $this->rolloverSessions($newCourse, $origCourse, $newAcademicYear, $weekOrdinalDiff, $options, $newCourseObjectives);
+            $this->rolloverSessions(
+                $newCourse,
+                $origCourse,
+                $newAcademicYear,
+                $weekOrdinalDiff,
+                $options,
+                $newCourseObjectives
+            );
         }
 
         //commit EVERYTHING to the database
@@ -304,8 +311,16 @@ class CourseRollover
         $origSessionOfferings = $origCourseSession->getOfferings();
 
         foreach ($origSessionOfferings as $origSessionOffering) {
-            $newOfferingStartDate = $this->getAdjustedDate($origSessionOffering->getStartDate(), $newAcademicYear, $weekOrdinalDiff);
-            $newOfferingEndDate = $this->getAdjustedDate($origSessionOffering->getEndDate(), $newAcademicYear, $weekOrdinalDiff);
+            $newOfferingStartDate = $this->getAdjustedDate(
+                $origSessionOffering->getStartDate(),
+                $newAcademicYear,
+                $weekOrdinalDiff
+            );
+            $newOfferingEndDate = $this->getAdjustedDate(
+                $origSessionOffering->getEndDate(),
+                $newAcademicYear,
+                $weekOrdinalDiff
+            );
 
             /* @var OfferingInterface $newOffering */
             $newOffering = $this->offeringManager->create();
