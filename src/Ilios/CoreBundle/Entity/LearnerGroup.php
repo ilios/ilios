@@ -17,7 +17,7 @@ use Ilios\CoreBundle\Traits\OfferingsEntity;
  * Class LearnerGroup
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Table(name="`group`")
+ * @ORM\Table(name="learner_group")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\LearnerGroupRepository")
  *
  * @JMS\ExclusionPolicy("all")
@@ -33,7 +33,7 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="group_id", type="integer")
+     * @ORM\Column(name="learner_group_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
@@ -96,7 +96,7 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @ORM\ManyToOne(targetEntity="LearnerGroup", inversedBy="children")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="parent_group_id", referencedColumnName="group_id")
+     *   @ORM\JoinColumn(name="parent_group_id", referencedColumnName="learner_group_id")
      * })
      *
      * @JMS\Expose
@@ -139,9 +139,9 @@ class LearnerGroup implements LearnerGroupInterface
      * @var ArrayCollection|InstructorGroupInterface[]
      *
      * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="learnerGroups")
-     * @ORM\JoinTable(name="group_x_instructor_group",
+     * @ORM\JoinTable(name="learner_group_x_instructor_group",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id", onDelete="CASCADE")
+     *     @ORM\JoinColumn(name="learner_group_id", referencedColumnName="learner_group_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id", onDelete="CASCADE")
@@ -158,9 +158,9 @@ class LearnerGroup implements LearnerGroupInterface
      * @var ArrayCollection|UserInterface[]
      *
      * @ORM\ManyToMany(targetEntity="User", inversedBy="learnerGroups", fetch="EXTRA_LAZY")
-     * @ORM\JoinTable(name="group_x_user",
+     * @ORM\JoinTable(name="learner_group_x_user",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id")
+     *     @ORM\JoinColumn(name="learner_group_id", referencedColumnName="learner_group_id")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
@@ -176,9 +176,9 @@ class LearnerGroup implements LearnerGroupInterface
      * @var UserInterface
      *
      * @ORM\ManyToMany(targetEntity="User", inversedBy="instructedLearnerGroups", fetch="EXTRA_LAZY")
-     * @ORM\JoinTable(name="group_x_instructor",
+     * @ORM\JoinTable(name="learner_group_x_instructor",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id", onDelete="CASCADE")
+     *     @ORM\JoinColumn(name="learner_group_id", referencedColumnName="learner_group_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")

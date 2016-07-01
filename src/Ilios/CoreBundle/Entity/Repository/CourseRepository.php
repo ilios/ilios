@@ -235,9 +235,9 @@ SELECT * FROM (
   SELECT c.* FROM course c
     JOIN `session` s ON s.course_id = c.course_id
     JOIN offering o ON o.session_id = s.session_id
-    JOIN offering_x_group oxg ON oxg.offering_id = o.offering_id
-    JOIN `group` g ON g.group_id = oxg.group_id
-    JOIN group_x_user gxu ON gxu.group_id = g.group_id
+    JOIN offering_x_learner_group oxg ON oxg.offering_id = o.offering_id
+    JOIN learner_group g ON g.learner_group_id = oxg.learner_group_id
+    JOIN learner_group_x_user gxu ON gxu.learner_group_id = g.learner_group_id
     JOIN user u ON u.user_id = gxu.user_id
     WHERE u.user_id = :user_id
   UNION
@@ -251,9 +251,9 @@ SELECT * FROM (
   SELECT c.* FROM course c
     JOIN `session` s ON s.course_id = c.course_id
     JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
-    JOIN ilm_session_facet_x_group ilmxg ON ilmxg.ilm_session_facet_id = ilm.ilm_session_facet_id
-    JOIN `group` g ON g.group_id = ilmxg.group_id
-    JOIN group_x_user gxu ON gxu.group_id = g.group_id
+    JOIN ilm_session_facet_x_learner_group ilmxg ON ilmxg.ilm_session_facet_id = ilm.ilm_session_facet_id
+    JOIN learner_group g ON g.learner_group_id = ilmxg.learner_group_id
+    JOIN learner_group_x_user gxu ON gxu.learner_group_id = g.learner_group_id
     JOIN user u ON u.user_id = gxu.user_id
     WHERE u.user_id = :user_id
   UNION

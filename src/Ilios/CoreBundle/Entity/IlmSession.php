@@ -95,12 +95,12 @@ class IlmSession implements IlmSessionInterface
      * @var ArrayCollection|LearnerGroupInterface[]
      *
      * @ORM\ManyToMany(targetEntity="LearnerGroup", inversedBy="ilmSessions")
-     * @ORM\JoinTable(name="ilm_session_facet_x_group",
+     * @ORM\JoinTable(name="ilm_session_facet_x_learner_group",
      *   joinColumns={
      *     @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id", onDelete="CASCADE")
+     *     @ORM\JoinColumn(name="learner_group_id", referencedColumnName="learner_group_id", onDelete="CASCADE")
      *   }
      * )
      *

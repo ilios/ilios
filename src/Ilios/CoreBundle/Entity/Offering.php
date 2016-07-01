@@ -138,12 +138,12 @@ class Offering implements OfferingInterface
      * @var ArrayCollection|LearnerGroupInterface[]
      *
      * @ORM\ManyToMany(targetEntity="LearnerGroup", inversedBy="offerings")
-     * @ORM\JoinTable(name="offering_x_group",
+     * @ORM\JoinTable(name="offering_x_learner_group",
      *   joinColumns={
      *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id")
+     *     @ORM\JoinColumn(name="learner_group_id", referencedColumnName="learner_group_id")
      *   }
      * )
      *
