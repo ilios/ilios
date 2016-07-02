@@ -268,9 +268,9 @@ SELECT * FROM (
     JOIN `session` s ON s.course_id = c.course_id
     JOIN offering o ON o.session_id = s.session_id
     JOIN offering_x_instructor_group oxig ON oxig.offering_id = o.offering_id
-    JOIN `group` g ON g.group_id = oxig.instructor_group_id
-    JOIN group_x_user gxu ON gxu.group_id = g.group_id
-    JOIN user u ON u.user_id = gxu.user_id
+    JOIN instructor_group ig ON ig.instructor_group_id = oxig.instructor_group_id
+    JOIN instructor_group_x_user igxu ON igxu.instructor_group_id = ig.instructor_group_id
+    JOIN user u ON u.user_id = igxu.user_id
     WHERE u.user_id = :user_id
   UNION
   SELECT c.* FROM course c
@@ -284,9 +284,9 @@ SELECT * FROM (
     JOIN `session` s ON s.course_id = c.course_id
     JOIN ilm_session_facet ilm ON ilm.session_id = s.session_id
     JOIN ilm_session_facet_x_instructor_group ilmxig ON ilmxig.ilm_session_facet_id = ilm.ilm_session_facet_id
-    JOIN `group` g ON g.group_id = ilmxig.instructor_group_id
-    JOIN group_x_user gxu ON gxu.group_id = g.group_id
-    JOIN user u ON u.user_id = gxu.user_id
+    JOIN instructor_group ig ON ig.instructor_group_id = ilmxig.instructor_group_id
+    JOIN instructor_group_x_user igxu ON igxu.instructor_group_id = ig.instructor_group_id
+    JOIN user u ON u.user_id = igxu.user_id
     WHERE u.user_id = :user_id
 ) AS my_courses
 EOL;
