@@ -76,6 +76,6 @@ class CreateUserTokenCommand extends Command
         $jwt = $this->jwtManager->createJwtFromUser($user, $input->getOption('ttl'));
         
         $output->writeln('Success!');
-        $output->writeln('Token: ' . $jwt);
+        $output->writeln('Token ' . $jwt);
     }
 }

@@ -49,7 +49,7 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Token: 123JWT/',
+            '/Token 123JWT/',
             $output
         );
     }
@@ -69,7 +69,7 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Token: 123JWT/',
+            '/Token 123JWT/',
             $output
         );
     }
