@@ -126,6 +126,7 @@ class Version20160701175444 extends AbstractMigration
         $this->addSql('ALTER TABLE group_x_instructor_group CHANGE learner_group_id group_id INT(11) NOT NULL');
         $this->addSql('ALTER TABLE group_x_user CHANGE learner_group_id group_id INT(11) NOT NULL');
         $this->addSql('ALTER TABLE group_x_instructor CHANGE learner_group_id group_id INT(11) NOT NULL');
+
         $this->addSql('CREATE INDEX IDX_B43B41DC504270C1 ON ilm_session_facet_x_group (ilm_session_facet_id)');
         $this->addSql('CREATE INDEX IDX_B43B41DCFE54D947 ON ilm_session_facet_x_group (group_id)');
         $this->addSql('ALTER TABLE ilm_session_facet_x_group ADD CONSTRAINT FK_B43B41DC504270C1 FOREIGN KEY (ilm_session_facet_id) REFERENCES ilm_session_facet (ilm_session_facet_id) ON DELETE CASCADE');
