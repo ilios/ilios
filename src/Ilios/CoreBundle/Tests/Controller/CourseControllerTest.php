@@ -947,7 +947,7 @@ class CourseControllerTest extends AbstractControllerTest
         $this->assertSame($course['externalId'], $newCourse['externalId']);
         $this->assertSame(2019, $newCourse['year']);
         $this->assertSame('2019-09-01T00:00:00+00:00', $newCourse['startDate']);
-        $this->assertSame('2019-12-28T00:00:00+00:00', $newCourse['endDate']);
+        $this->assertSame('2019-12-29T00:00:00+00:00', $newCourse['endDate']);
         $this->assertFalse($newCourse['locked']);
         $this->assertFalse($newCourse['archived']);
         $this->assertFalse($newCourse['published']);
@@ -1038,8 +1038,8 @@ class CourseControllerTest extends AbstractControllerTest
                 'api_course_rollover_v1',
                 [
                     'id' => $course['id'],
-                    'year' => 2019,
-                    'newStartDate' => '2019-09-01'
+                    'year' => 2017,
+                    'newStartDate' => '2017-02-05'
                 ]
             ),
             null,
@@ -1050,9 +1050,44 @@ class CourseControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_CREATED);
         $data = json_decode($response->getContent(), true)['courses'];
         $newCourse = $data[0];
-        $this->assertSame(2019, $newCourse['year']);
-        $this->assertSame('2019-09-01T00:00:00+00:00', $newCourse['startDate']);
-        $this->assertSame('2019-12-28T00:00:00+00:00', $newCourse['endDate']);
+        $this->assertSame(2017, $newCourse['year']);
+        $this->assertSame('2017-02-05T00:00:00+00:00', $newCourse['startDate'], 'start date is correct');
+        $this->assertSame('2017-06-04T00:00:00+00:00', $newCourse['endDate'], 'end date is correct');
+
+        $newSessions = $newCourse['sessions'];
+        $this->assertEquals(count($newSessions), 2);
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_sessions',
+                ['filters[id]' => $newSessions]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $newSessionsData = json_decode($response->getContent(), true)['sessions'];
+
+        $session1Offerings = $newSessionsData[0]['offerings'];
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_offerings',
+                ['filters[id]' => $session1Offerings]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $session1fferingData = json_decode($response->getContent(), true)['offerings'];
+
+        $this->assertEquals('2017-02-17T15:00:00+00:00', $session1fferingData[0]['startDate']);
+        $this->assertEquals('2017-02-16T17:00:00+00:00', $session1fferingData[1]['startDate']);
 
     }
 

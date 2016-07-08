@@ -14,7 +14,7 @@ class CourseData extends AbstractDataLoader
             'level' => 1,
             'year' => 2016,
             'startDate' => "2016-09-04T00:00:00+00:00",
-            'endDate' => "2016-12-31T00:00:00+00:00",
+            'endDate' => "2017-01-01T00:00:00+00:00",
             'externalId' => $this->faker->text(10),
             'locked' => false,
             'archived' => false,
