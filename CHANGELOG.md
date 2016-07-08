@@ -1,8 +1,8 @@
 # Change Log
 
-## [v3.14.1](https://github.com/ilios/ilios/tree/v3.14.1)
+## [v3.15.0](https://github.com/ilios/ilios/tree/v3.15.0)
 
-[Full Changelog](https://github.com/ilios/ilios/compare/v3.14.0...v3.14.1)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.14.0...v3.15.0)
 
 **Implemented enhancements:**
 
