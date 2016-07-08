@@ -1,7 +1,26 @@
 # Change Log
 
-## [v3.14.0](https://github.com/ilios/ilios/tree/v3.14.0)
+## [v3.14.1](https://github.com/ilios/ilios/tree/v3.14.1)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.14.0...v3.14.1)
+
+**Implemented enhancements:**
+
+- Remove colon in token output [\#1506](https://github.com/ilios/ilios/issues/1506)
+
+**Closed issues:**
+
+- Drop support for PHP 5.5 [\#1480](https://github.com/ilios/ilios/issues/1480)
+
+**Merged pull requests:**
+
+- Simplify rollover by counting days [\#1508](https://github.com/ilios/ilios/pull/1508) ([jrjohnson](https://github.com/jrjohnson))
+- Remove superfluous colon from token output [\#1507](https://github.com/ilios/ilios/pull/1507) ([jrjohnson](https://github.com/jrjohnson))
+- Update dependencies [\#1504](https://github.com/ilios/ilios/pull/1504) ([jrjohnson](https://github.com/jrjohnson))
+- corrected table joins in query. [\#1502](https://github.com/ilios/ilios/pull/1502) ([stopfstedt](https://github.com/stopfstedt))
+- Add PHP7 support, remove 5.6 [\#1481](https://github.com/ilios/ilios/pull/1481) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.14.0](https://github.com/ilios/ilios/tree/v3.14.0) (2016-06-30)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.13.0...v3.14.0)
 
 **Implemented enhancements:**
@@ -30,6 +49,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for the v3.14.0 release [\#1500](https://github.com/ilios/ilios/pull/1500) ([thecoolestguy](https://github.com/thecoolestguy))
 - Course rollover sessions and ilm bugfix [\#1499](https://github.com/ilios/ilios/pull/1499) ([jrjohnson](https://github.com/jrjohnson))
 - Functional changes to original course rollover to account for date drifting over years [\#1498](https://github.com/ilios/ilios/pull/1498) ([thecoolestguy](https://github.com/thecoolestguy))
 - moved the --append flag to the right place. [\#1494](https://github.com/ilios/ilios/pull/1494) ([stopfstedt](https://github.com/stopfstedt))
