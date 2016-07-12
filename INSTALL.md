@@ -143,9 +143,9 @@ If you are already running a 2.x version of Ilios, you can upgrade your current 
 If you are NOT upgrading from a previous version of Ilios, you can create a new, empty database schema by using the following Symfony console command:
 
 ```bash
-bin/console doctrine:database:create
-bin/console doctrine:migrations:migrate
-bin/console doctrine:fixtures:load
+bin/console doctrine:database:create --env=prod
+bin/console doctrine:migrations:migrate --env=prod
+bin/console doctrine:fixtures:load --env=prod
 ```
 
 This will your database schema, with all tables and constraints, and will also load in all the default lookup table data, like competencies and topics --- which you can modify once you're done with setup --- but it won't have any course data or any other unique data about your specific school or curriculum until you log in and add some.
