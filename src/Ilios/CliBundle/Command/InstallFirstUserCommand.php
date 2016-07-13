@@ -2,15 +2,15 @@
 
 namespace Ilios\CliBundle\Command;
 
-use Ilios\CliBundle\Form\InstallFirstUserType;
 use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 
 use Ilios\CoreBundle\Entity\SchoolInterface;
-use Matthias\SymfonyConsoleForm\Console\Helper\FormHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -124,46 +124,69 @@ class InstallFirstUserCommand extends Command
             );
         }
 
-        $schoolEntities = $this->schoolManager->findBy([]);
+        $schools = $this->schoolManager->findBy([], ['title' => 'ASC']);
 
         // check if any school data is present before invoking the form helper
         // to prevent the form from breaking on missing school data further downstream.
-        if (empty($schoolEntities)) {
+        if (empty($schools)) {
             throw new \Exception('No schools found. Please load schools into this Ilios instance first.');
         }
 
-        // transform school data into a format that can be processed by the form.
-        $schools = [];
-        /* @var SchoolInterface $entity */
-        foreach ($schoolEntities as $entity) {
-            $schools[$entity->getId()] = $entity->getTitle();
+        $schoolId = $input->getOption('school');
+        if (!$schoolId) {
+            $schoolTitles = [];
+            /* @var SchoolInterface $school */
+            foreach ($schools as $school) {
+                $schoolTitles[$school->getTitle()] = $school->getId();
+            }
+            $helper = $this->getHelper('question');
+            $question = new ChoiceQuestion(
+                "What is this user's primary school?",
+                array_keys($schoolTitles)
+            );
+            $question->setErrorMessage('School %s is invalid.');
+
+            $schoolTitle = $helper->ask($input, $output, $question);
+            $schoolId = $schoolTitles[$schoolTitle];
+        }
+        $school = $this->schoolManager->findOneBy(['id' => $schoolId]);
+        if (!$school) {
+            throw new \Exception(
+                "School with id {$schoolId} could not be found."
+            );
         }
 
-        /** @var FormHelper $formHelper */
-        $formHelper = $this->getHelper('form');
-        $formData = $formHelper->interactUsingForm(
-            new InstallFirstUserType($schools),
-            $input,
-            $output
-        );
+        $email = $input->getOption('email');
+        if (! $email) {
+            $question = new Question("What is the user's Email Address? ");
+            $question->setValidator(function ($answer) {
+                if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
+                    throw new \RuntimeException(
+                        "Email is not valid"
+                    );
+                }
+                return $answer;
+            });
+            $email = $this->getHelper('question')->ask($input, $output, $question);
+        }
 
         $user = $this->userManager->create();
         $user->setFirstName(self::FIRST_NAME);
         $user->setMiddleName(date('Y-m-d_h.i.s'));
         $user->setLastName(self::LAST_NAME);
-        $user->setEmail($formData['email']);
+        $user->setEmail($email);
         $user->setAddedViaIlios(true);
         $user->setEnabled(true);
         $user->setUserSyncIgnore(false);
 
         $user->addRole($this->userRoleManager->findOneBy(['title' => 'Developer']));
-        $user->setSchool($this->schoolManager->findOneBy(['id' => $formData['school']]));
+        $user->setSchool($school);
         $this->userManager->update($user);
 
         $authentication = $this->authenticationManager->create();
 
         $authentication->setUser($user);
-        $user->setAuthentication($authentication); // circular reference needed here. 123 BLEAH! [ST 2015/08/31]
+        $user->setAuthentication($authentication);
 
         $encodedPassword = $this->passwordEncoder->encodePassword($user, self::PASSWORD);
 
