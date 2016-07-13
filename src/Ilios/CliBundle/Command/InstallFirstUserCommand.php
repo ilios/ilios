@@ -3,16 +3,15 @@
 namespace Ilios\CliBundle\Command;
 
 use Ilios\CliBundle\Form\InstallFirstUserType;
-use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
-use Ilios\CoreBundle\Entity\Manager\SchoolManager;
-use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Matthias\SymfonyConsoleForm\Console\Helper\FormHelper;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Creates a first user account with Course Director privileges.
@@ -20,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class InstallFirstUserCommand
  * @package Ilios\CoreBundle\Command
  */
-class InstallFirstUserCommand extends ContainerAwareCommand
+class InstallFirstUserCommand extends Command
 {
     /**
      * @var string
@@ -41,6 +40,54 @@ class InstallFirstUserCommand extends ContainerAwareCommand
      * @var string
      */
     const LAST_NAME = 'User';
+
+    /**
+     * @var ManagerInterface
+     */
+    protected $userManager;
+
+    /**
+     * @var ManagerInterface
+     */
+    protected $schoolManager;
+
+    /**
+     * @var ManagerInterface
+     */
+    protected $userRoleManager;
+
+    /**
+     * @var  ManagerInterface
+     */
+    protected $authenticationManager;
+
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    protected $passwordEncoder;
+
+    /**
+     * Constructor.
+     * @param ManagerInterface $userManager
+     * @param ManagerInterface $schoolManager
+     * @param ManagerInterface $userRoleManager
+     * @param ManagerInterface $authenticationManager
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     */
+    public function __construct(
+        ManagerInterface $userManager,
+        ManagerInterface $schoolManager,
+        ManagerInterface $userRoleManager,
+        ManagerInterface $authenticationManager,
+        UserPasswordEncoderInterface $passwordEncoder
+    ) {
+        $this->userManager = $userManager;
+        $this->schoolManager = $schoolManager;
+        $this->userRoleManager = $userRoleManager;
+        $this->authenticationManager = $authenticationManager;
+        $this->passwordEncoder = $passwordEncoder;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -69,24 +116,15 @@ class InstallFirstUserCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /**
-         * @var UserManager $userManager
-         */
-        $userManager = $this->getContainer()->get('ilioscore.user.manager');
-
         // prevent this command to run on a non-empty user store.
-        $existingUser = $userManager->findOneBy([]);
+        $existingUser = $this->userManager->findOneBy([]);
         if (! empty($existingUser)) {
             throw new \Exception(
                 'Sorry, at least one user record already exists. Cannot create a "first" user account.'
             );
         }
 
-        /**
-         * @var SchoolManager $schoolManager
-         */
-        $schoolManager = $this->getContainer()->get('ilioscore.school.manager');
-        $schoolEntities = $schoolManager->findBy([]);
+        $schoolEntities = $this->schoolManager->findBy([]);
 
         // check if any school data is present before invoking the form helper
         // to prevent the form from breaking on missing school data further downstream.
@@ -109,7 +147,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
             $output
         );
 
-        $user = $userManager->create();
+        $user = $this->userManager->create();
         $user->setFirstName(self::FIRST_NAME);
         $user->setMiddleName(date('Y-m-d_h.i.s'));
         $user->setLastName(self::LAST_NAME);
@@ -118,26 +156,20 @@ class InstallFirstUserCommand extends ContainerAwareCommand
         $user->setEnabled(true);
         $user->setUserSyncIgnore(false);
 
-        $userRoleManager = $this->getContainer()->get('ilioscore.userrole.manager');
-        $user->addRole($userRoleManager->findOneBy(['title' => 'Developer']));
-        $user->setSchool($schoolManager->findOneBy(['id' => $formData['school']]));
-        $userManager->update($user);
+        $user->addRole($this->userRoleManager->findOneBy(['title' => 'Developer']));
+        $user->setSchool($this->schoolManager->findOneBy(['id' => $formData['school']]));
+        $this->userManager->update($user);
 
-        /**
-         * @var AuthenticationManager $authenticationManager
-         */
-        $authenticationManager = $this->getContainer()->get('ilioscore.authentication.manager');
-        $authentication = $authenticationManager->create();
+        $authentication = $this->authenticationManager->create();
 
         $authentication->setUser($user);
         $user->setAuthentication($authentication); // circular reference needed here. 123 BLEAH! [ST 2015/08/31]
 
-        $encoder = $this->getContainer()->get('security.password_encoder');
-        $encodedPassword = $encoder->encodePassword($user, self::PASSWORD);
+        $encodedPassword = $this->passwordEncoder->encodePassword($user, self::PASSWORD);
 
         $authentication->setUsername(self::USERNAME);
         $authentication->setPasswordBcrypt($encodedPassword);
-        $authenticationManager->update($authentication);
+        $this->authenticationManager->update($authentication);
 
         $output->writeln('Success!');
         $output->writeln('A user account has been created.');
