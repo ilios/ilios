@@ -119,7 +119,7 @@ class InstallFirstUserCommand extends ContainerAwareCommand
         $user->setUserSyncIgnore(false);
 
         $userRoleManager = $this->getContainer()->get('ilioscore.userrole.manager');
-        $user->addRole($userRoleManager->findOneBy(['title' => 'Course Director']));
+        $user->addRole($userRoleManager->findOneBy(['title' => 'Developer']));
         $user->setSchool($schoolManager->findOneBy(['id' => $formData['school']]));
         $userManager->update($user);
 
