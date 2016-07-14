@@ -46,7 +46,6 @@ class MeshTermTest extends EntityBase
         $this->assertTrue($createdAt instanceof \DateTime);
         $diff = $now->diff($createdAt);
         $this->assertTrue($diff->s < 2);
-
     }
 
     /**
@@ -114,6 +113,5 @@ class MeshTermTest extends EntityBase
         $this->assertTrue($updatedAt instanceof \DateTime);
         $diff = $now->diff($updatedAt);
         $this->assertTrue($diff->s < 2);
-
     }
 }

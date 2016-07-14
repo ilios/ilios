@@ -30,7 +30,6 @@ class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
         $this->questionHelper = $command->getHelper('question');
-        
     }
 
     /**

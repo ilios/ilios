@@ -37,6 +37,5 @@ class ErrorControllerTest extends WebTestCase
 
         $response = $client->getResponse();
         $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode(), $response->getContent());
-
     }
 }

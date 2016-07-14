@@ -132,6 +132,5 @@ class SyncFormerStudentsCommand extends Command
         } else {
             $output->writeln('<comment>Update canceled,</comment>');
         }
-        
     }
 }

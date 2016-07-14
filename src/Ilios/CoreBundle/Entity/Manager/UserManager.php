@@ -88,7 +88,6 @@ class UserManager extends DTOManager
     public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true)
     {
         return $this->getRepository()->getAllCampusIds($includeDisabled, $includeSyncIgnore);
-        
     }
 
     /**

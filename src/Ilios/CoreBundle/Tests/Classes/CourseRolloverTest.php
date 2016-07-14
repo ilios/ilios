@@ -859,7 +859,6 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->service->rolloverCourse($course->getId(), $newYear, ['']);
-
     }
 
     public function testRolloverFailsOnYearPast()
@@ -888,7 +887,6 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(\Exception::class, "There are no courses with courseId {$courseId}.");
 
         $this->service->rolloverCourse($courseId, $year, []);
-
     }
 
     public function testRolloverFailsOnStartDateOnDifferentDay()

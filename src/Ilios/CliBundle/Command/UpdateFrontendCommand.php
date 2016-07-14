@@ -123,7 +123,6 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             $message .= ' to version ' . $versionOverride;
         }
         $output->writeln("<info>{$message}!</info>");
-
     }
 
     /**

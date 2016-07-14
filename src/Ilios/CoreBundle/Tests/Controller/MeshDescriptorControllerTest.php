@@ -175,7 +175,6 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             return $arr['id'] == $descriptor['previousIndexing'];
         });
         $this->queryForDescriptorsTest($previousIndexing[0]['previousIndexing'], $descriptor['id']);
-
     }
 
     /**
@@ -193,7 +192,6 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             return in_array($arr['id'], $concept['semanticTypes']);
         })[0];
         $this->queryForDescriptorsTest($semanticType['name'], $descriptor['id']);
-
     }
 
     /**
@@ -211,7 +209,6 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             return in_array($arr['id'], $concept['terms']);
         })[0];
         $this->queryForDescriptorsTest($term['name'], $descriptor['id']);
-
     }
 
     /**
@@ -225,7 +222,6 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             return in_array($arr['id'], $descriptor['concepts']);
         })[0];
         $this->queryForDescriptorsTest($concept['name'], $descriptor['id']);
-
     }
 
     /**
@@ -239,7 +235,6 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             return in_array($arr['id'], $descriptor['concepts']);
         })[0];
         $this->queryForDescriptorsTest($concept['scopeNote'], $descriptor['id']);
-
     }
 
     /**
@@ -253,7 +248,6 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             return in_array($arr['id'], $descriptor['concepts']);
         })[0];
         $this->queryForDescriptorsTest($concept['casn1Name'], $descriptor['id']);
-
     }
 
     /**
@@ -293,7 +287,6 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
         $diffC = $now->diff($createdAt);
         $this->assertTrue($diffU->y < 1, 'The updatedAt timestamp is within the last year');
         $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
-
     }
 
     /**

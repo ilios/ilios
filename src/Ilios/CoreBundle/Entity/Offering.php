@@ -475,7 +475,6 @@ class Offering implements OfferingInterface
             'endDate' => $endDate,
             'room' => $room,
         ];
-
     }
 
     /**

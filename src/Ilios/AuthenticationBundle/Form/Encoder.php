@@ -26,7 +26,6 @@ class Encoder extends BasePasswordEncoder
     public function encodePassword($raw, $salt)
     {
         throw new \Exception("Do not use this legacy encoder to encode new passwords");
-
     }
 
     public function isPasswordValid($encoded, $raw, $salt)

@@ -172,6 +172,5 @@ class CourseDTO
         $this->meshDescriptors = [];
         $this->learningMaterials = [];
         $this->sessions = [];
-
     }
 }

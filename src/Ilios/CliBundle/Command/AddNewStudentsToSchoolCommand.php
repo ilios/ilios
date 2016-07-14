@@ -200,6 +200,5 @@ class AddNewStudentsToSchoolCommand extends Command
         } else {
             $output->writeln('<comment>Update canceled.</comment>');
         }
-        
     }
 }

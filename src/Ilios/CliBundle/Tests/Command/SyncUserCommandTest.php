@@ -32,7 +32,6 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
         $this->questionHelper = $command->getHelper('question');
-        
     }
 
     /**
@@ -103,7 +102,6 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
             'command' => self::COMMAND_NAME,
             'userId' => '1'
         ));
-        
     }
     
     public function testUserRequired()

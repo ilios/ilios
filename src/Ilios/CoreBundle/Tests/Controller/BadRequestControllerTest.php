@@ -41,6 +41,5 @@ class BadRequestControllerTest extends WebTestCase
             404,
             $response->getStatusCode()
         );
-
     }
 }

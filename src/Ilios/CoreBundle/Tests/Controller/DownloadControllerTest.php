@@ -64,7 +64,6 @@ class DownloadControllerTest extends WebTestCase
         $this->assertEquals(CODES::HTTP_OK, $response->getStatusCode(), $response->getContent());
         $learningMaterialLoaderPath = realpath(__DIR__ . '/../Fixture/LoadLearningMaterialData.php');
         $this->assertEquals(file_get_contents($learningMaterialLoaderPath), $response->getContent());
-        
     }
 
     /**

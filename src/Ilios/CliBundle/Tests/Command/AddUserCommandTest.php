@@ -85,7 +85,6 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
             'command'      => self::COMMAND_NAME,
             '--schoolId'         => '1'
         ));
-        
     }
 
     public function testAskForMissingFirstName()

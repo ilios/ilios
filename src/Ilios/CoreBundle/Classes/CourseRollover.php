@@ -99,7 +99,6 @@ class CourseRollover
         $this->offeringManager = $offeringManager;
         $this->objectiveManager = $objectiveManager;
         $this->ilmSessionManager = $ilmSessionManager;
-
     }
 
     /**
@@ -468,7 +467,6 @@ class CourseRollover
         }
 
         return $newCourseObjectives;
-
     }
 
     /**
@@ -497,7 +495,6 @@ class CourseRollover
                                 }
 
                                 return null;
-
                             }
                         )->filter(
                             function ($value) {
@@ -509,7 +506,6 @@ class CourseRollover
                     $this->objectiveManager->update($newObjective, false, false);
                 }
             );
-
     }
 
     /**
@@ -536,7 +532,6 @@ class CourseRollover
 
             $this->ilmSessionManager->update($newIlmSession, false, false);
         }
-
     }
 
     /**

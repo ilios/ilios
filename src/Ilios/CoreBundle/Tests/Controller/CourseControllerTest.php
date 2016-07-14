@@ -1017,9 +1017,6 @@ class CourseControllerTest extends AbstractControllerTest
         $newDescriptionData = json_decode($response->getContent(), true)['sessionDescriptions'];
         $this->assertEquals($newDescriptionData[0]['description'], $descriptions[0]['description']);
         $this->assertEquals($newDescriptionData[1]['description'], $descriptions[1]['description']);
-
-
-
     }
 
     /**
@@ -1088,7 +1085,6 @@ class CourseControllerTest extends AbstractControllerTest
 
         $this->assertEquals('2017-02-17T15:00:00+00:00', $session1fferingData[0]['startDate']);
         $this->assertEquals('2017-02-16T17:00:00+00:00', $session1fferingData[1]['startDate']);
-
     }
 
     /**
@@ -1143,7 +1139,6 @@ class CourseControllerTest extends AbstractControllerTest
         $data = json_decode($response->getContent(), true)['sessions'];
         $this->assertEmpty($data[0]['offerings']);
         $this->assertEmpty($data[1]['offerings']);
-
     }
 
     /**

@@ -80,3 +80,8 @@ services:
         arguments: ["@ilioscore.courserollover"]
         tags:
             -  { name: console.command }
+    ilioscli.command.install_first_uer:
+        class: Ilios\CliBundle\Command\InstallFirstUserCommand
+        arguments: ["@ilioscore.user.manager", "@ilioscore.school.manager", "@ilioscore.userrole.manager", "@ilioscore.authentication.manager", "@security.password_encoder"]
+        tags:
+            -  { name: console.command }

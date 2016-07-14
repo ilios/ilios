@@ -189,8 +189,6 @@ class AddUserCommand extends Command
         } else {
             $output->writeln('<comment>Canceled.</comment>');
         }
-        
-        
     }
 
     protected function fillUserRecord(array $userRecord, $input, $output)
