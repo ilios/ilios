@@ -26,7 +26,6 @@ class AuthenticationController extends Controller
         $authenticator = $this->container->get('ilios_authentication.authenticator');
         
         return $authenticator->login($request);
-
     }
     
     /**
@@ -85,7 +84,6 @@ class AuthenticationController extends Controller
         $authenticator = $this->container->get('ilios_authentication.authenticator');
 
         return $authenticator->logout($request);
-
     }
 
     /**

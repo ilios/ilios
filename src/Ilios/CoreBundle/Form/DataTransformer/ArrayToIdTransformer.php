@@ -61,7 +61,6 @@ class ArrayToIdTransformer implements DataTransformerInterface
         }
 
         return null;
-
     }
 
 

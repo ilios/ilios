@@ -239,7 +239,6 @@ class ProgramYear implements ProgramYearInterface
         $this->terms = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->stewards = new ArrayCollection();
-
     }
 
     /**

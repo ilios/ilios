@@ -174,7 +174,6 @@ class SessionTest extends EntityBase
         $this->assertTrue($updatedAt instanceof \DateTime);
         $diff = $now->diff($updatedAt);
         $this->assertTrue($diff->s < 2);
-
     }
 
     /**

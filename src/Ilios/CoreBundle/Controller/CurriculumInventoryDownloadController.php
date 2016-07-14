@@ -67,7 +67,6 @@ class CurriculumInventoryDownloadController extends FOSRestController
         $response->headers->set('Content-Type', 'application/xml; charset="utf-8"');
         $response->headers->set('Content-disposition', 'attachment; filename="report.xml"');
         return $response;
-
     }
 
     /**

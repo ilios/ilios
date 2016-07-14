@@ -442,6 +442,5 @@ class LearnerGroupControllerTest extends AbstractControllerTest
             ),
             $data[2]
         );
-
     }
 }

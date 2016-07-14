@@ -116,6 +116,5 @@ class ProgramYearDTO
         $this->terms = [];
         $this->objectives = [];
         $this->stewards = [];
-
     }
 }

@@ -523,17 +523,17 @@ class UserRepository extends EntityRepository
         $offeringInstructors = $this->getInstructorsForOfferings($offeringIds);
         $ilmInstructors = $this->getInstructorsForIlmSessions($ilmIds);
 
-    for ($i = 0, $n = count($events); $i < $n; $i++) {
-        if ($events[$i]->offering) { // event maps to offering
-            if (array_key_exists($events[$i]->offering, $offeringInstructors)) {
-                $events[$i]->instructors = array_values($offeringInstructors[$events[$i]->offering]);
-            }
-        } elseif ($events[$i]->ilmSession) { // event maps to ILM session
-            if (array_key_exists($events[$i]->ilmSession, $ilmInstructors)) {
-                $events[$i]->instructors = array_values($ilmInstructors[$events[$i]->ilmSession]);
+        for ($i = 0, $n = count($events); $i < $n; $i++) {
+            if ($events[$i]->offering) { // event maps to offering
+                if (array_key_exists($events[$i]->offering, $offeringInstructors)) {
+                    $events[$i]->instructors = array_values($offeringInstructors[$events[$i]->offering]);
+                }
+            } elseif ($events[$i]->ilmSession) { // event maps to ILM session
+                if (array_key_exists($events[$i]->ilmSession, $ilmInstructors)) {
+                    $events[$i]->instructors = array_values($ilmInstructors[$events[$i]->ilmSession]);
+                }
             }
         }
-    }
         return $events;
     }
 

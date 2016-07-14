@@ -76,7 +76,6 @@ class DirectoryControllerTest extends WebTestCase
             json_decode($content, true),
             var_export($content, true)
         );
-
     }
 
     public function testSearchReturnsCurrentUserId()
@@ -135,6 +134,5 @@ class DirectoryControllerTest extends WebTestCase
             $results[1],
             var_export($results, true)
         );
-
     }
 }

@@ -341,7 +341,6 @@ class School implements SchoolInterface
         foreach ($competencies as $competency) {
             $this->addCompetency($competency);
         }
-
     }
 
     /**
@@ -370,7 +369,6 @@ class School implements SchoolInterface
         foreach ($departments as $department) {
             $this->addDepartment($department);
         }
-
     }
 
     /**

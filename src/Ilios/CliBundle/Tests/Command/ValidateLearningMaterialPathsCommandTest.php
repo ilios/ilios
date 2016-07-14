@@ -27,7 +27,6 @@ class ValidateLearningMaterialPathsCommandTest extends \PHPUnit_Framework_TestCa
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
-        
     }
 
     /**

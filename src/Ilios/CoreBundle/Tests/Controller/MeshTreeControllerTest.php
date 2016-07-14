@@ -111,7 +111,6 @@ class MeshTreeControllerTest extends AbstractControllerTest
             $this->mockSerialize($data),
             $data
         );
-
     }
 
     /**

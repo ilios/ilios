@@ -139,7 +139,6 @@ class CleanupStringsCommand extends Command
         if ($input->getOption('session-description')) {
             $this->purifySessionDescription($output);
         }
-        
     }
 
     /**

@@ -126,7 +126,6 @@ class IliosFileSystem
         $fullPath = $this->getPath($relativePath);
 
         return $this->fileSystem->exists($fullPath);
-
     }
     
     /**

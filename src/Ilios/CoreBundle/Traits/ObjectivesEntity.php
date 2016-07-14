@@ -41,6 +41,5 @@ trait ObjectivesEntity
     public function getObjectives()
     {
         return $this->objectives;
-
     }
 }

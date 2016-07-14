@@ -125,7 +125,6 @@ class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
             'campusId'         => '1',
             'schoolId'         => '1'
         ));
-        
     }
     
     public function testBadSchoolId()
@@ -138,7 +137,6 @@ class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
             'campusId'         => '1',
             'schoolId'         => '1'
         ));
-        
     }
     
     public function testUserRequired()
