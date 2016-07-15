@@ -49,6 +49,7 @@ class TermType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AamcResourceType"
             ])
+            ->add('active', null, ['required' => true])
         ;
 
         $transformer = new RemoveMarkupTransformer();

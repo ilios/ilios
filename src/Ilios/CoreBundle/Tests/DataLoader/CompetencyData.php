@@ -11,6 +11,7 @@ class CompetencyData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => $this->faker->text,
+            'active' => true,
             'school' => "1",
             'objectives' => [],
             'children' => ['3'],
@@ -21,6 +22,7 @@ class CompetencyData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'title' => $this->faker->text,
+            'active' => false,
             'school' => "1",
             'objectives' => [],
             'children' => [],
@@ -31,6 +33,7 @@ class CompetencyData extends AbstractDataLoader
         $arr[] = array(
             'id' => 3,
             'title' => $this->faker->text,
+            'active' => true,
             'school' => "1",
             'objectives' => ['1'],
             'parent' => "1",
@@ -47,6 +50,7 @@ class CompetencyData extends AbstractDataLoader
         return [
             'id' => 4,
             'title' => $this->faker->text,
+            'active' => true,
             'school' => "1",
             'objectives' => [],
             'parent' => "1",

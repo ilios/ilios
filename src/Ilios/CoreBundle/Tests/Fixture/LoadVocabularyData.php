@@ -32,6 +32,7 @@ class LoadVocabularyData extends AbstractFixture implements
             $entity = new Vocabulary();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
+            $entity->setActive($arr['active']);
             $entity->setSchool($this->getReference('schools' . $arr['school']));
             $manager->persist($entity);
             $this->addReference('vocabularies' . $arr['id'], $entity);

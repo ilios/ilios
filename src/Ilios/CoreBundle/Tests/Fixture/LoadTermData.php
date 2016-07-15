@@ -33,6 +33,7 @@ class LoadTermData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
             $entity->setDescription($arr['description']);
+            $entity->setActive($arr['active']);
             $entity->setVocabulary($this->getReference('vocabularies' . $arr['vocabulary']));
             if (isset($arr['parent'])) {
                 $entity->setParent($this->getReference('terms' . $arr['parent']));

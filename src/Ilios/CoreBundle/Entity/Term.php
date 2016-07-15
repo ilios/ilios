@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\ActivatableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\CoursesEntity;
@@ -38,6 +39,7 @@ class Term implements TermInterface
     use SessionsEntity;
     use StringableIdEntity;
     use TitledEntity;
+    use ActivatableEntity;
 
     /**
      * @var int
@@ -176,6 +178,18 @@ class Term implements TermInterface
      */
     protected $aamcResourceTypes;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     */
+    protected $active;
 
     /**
      * Constructor
@@ -187,6 +201,7 @@ class Term implements TermInterface
         $this->programYears = new ArrayCollection();
         $this->sessions = new ArrayCollection();
         $this->children = new ArrayCollection();
+        $this->active = true;
     }
 
     /**

@@ -39,6 +39,7 @@ class CompetencyType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
+            ->add('active', null, ['required' => true])
         ;
         $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
     }
