@@ -47,10 +47,11 @@ class LoadVocabularyData extends AbstractFixture implements DependentFixtureInte
      */
     protected function populateEntity($entity, array $data)
     {
-        // `vocabulary_id`,`title`,`school_id`
+        // `vocabulary_id`,`title`,`school_id`, `active`
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
         $entity->setSchool($this->getReference('school' . $data[2]));
+        $entity->setActive((boolean) $data[3]);
         return $entity;
     }
 }
