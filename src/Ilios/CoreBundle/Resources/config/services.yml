@@ -13,11 +13,6 @@ services:
         class: Ilios\CoreBundle\EventListener\UpdateOfferingTimestamp
         tags:
             - { name: doctrine.event_listener, event: onFlush }
-    ilioscore.listener.updatesequenceblock:
-        class: Ilios\CoreBundle\EventListener\CurriculumInventorySequenceBlockSubscriber
-        tags:
-            - { name: doctrine.event_subscriber, event: preUpdate }
-            - { name: doctrine.event_subscriber, event: preRemove }
     ilioscore.listener.logentitychanges:
         class: Ilios\CoreBundle\EventListener\LogEntityChanges
         arguments: ['@ilioscore.logger', '@ilioscore.logger.queue']

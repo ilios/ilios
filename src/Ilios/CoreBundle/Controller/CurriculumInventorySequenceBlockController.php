@@ -7,6 +7,8 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
+use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock;
+use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -214,6 +216,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
     {
         try {
             $manager = $this->container->get('ilioscore.curriculuminventorysequenceblock.manager');
+            /* @var CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock */
             $curriculumInventorySequenceBlock = $manager->findOneBy(['id'=> $id]);
             if ($curriculumInventorySequenceBlock) {
                 $code = Codes::HTTP_OK;
@@ -223,6 +226,8 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
             }
 
             $handler = $this->container->get('ilioscore.curriculuminventorysequenceblock.handler');
+
+            $oldChildSequenceOrder = $curriculumInventorySequenceBlock->getChildSequenceOrder();
 
             $curriculumInventorySequenceBlock = $handler->put(
                 $curriculumInventorySequenceBlock,
@@ -234,6 +239,11 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
+            $this->reorderChildrenOnChildSequenceOrderChange(
+                $oldChildSequenceOrder,
+                $curriculumInventorySequenceBlock,
+                $manager
+            );
             $manager->update($curriculumInventorySequenceBlock, true, true);
 
             $answer['curriculumInventorySequenceBlock'] = $curriculumInventorySequenceBlock;
@@ -325,5 +335,77 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
         }
 
         return $request->request->all();
+    }
+
+    /**
+     * Reorders siblings of the sequence block being deleted.
+     * @param CurriculumInventorySequenceBlockInterface $block
+     * @param ManagerInterface $manager
+     */
+    protected function reorderSiblingsOnDeletion(
+        CurriculumInventorySequenceBlockInterface $block,
+        ManagerInterface $manager
+    ) {
+        $parent = $block->getParent();
+        if (! $parent || $parent->getChildSequenceOrder() !== CurriculumInventorySequenceBlockInterface::ORDERED) {
+            return;
+        }
+
+        $siblings = $parent->getChildren()->toArray();
+        /* @var CurriculumInventorySequenceBlockInterface[] $siblingsWithHigherSortOrder */
+        $siblingsWithHigherSortOrder = array_filter($siblings, function($sibling) use ($block) {
+            /* @var CurriculumInventorySequenceBlockInterface $sibling */
+            return ($sibling->getOrderInSequence() > $block->getOrderInSequence());
+        });
+        for ($i = 0, $n = count($siblingsWithHigherSortOrder); $i < $n; $i++) {
+            $orderInSequence = $siblingsWithHigherSortOrder[$i]->getOrderInSequence();
+            $siblingsWithHigherSortOrder[$i]->setOrderInSequence($orderInSequence - 1);
+            $manager->update($block, false, false);
+        }
+    }
+
+    /**
+     * Reorders child sequence blocks if the parent's child sequence order changes.
+     * @param int $oldValue
+     * @param CurriculumInventorySequenceBlockInterface $block
+     * @param ManagerInterface $manager
+     */
+    protected function reorderChildrenOnChildSequenceOrderChange(
+        $oldValue,
+        CurriculumInventorySequenceBlockInterface $block,
+        ManagerInterface $manager
+    ) {
+        /* @var CurriculumInventorySequenceBlockInterface[] $children */
+        $children = $block->getChildren()->toArray();
+        if (empty($children)) {
+            return;
+        }
+
+        $newValue = $block->getChildSequenceOrder();
+
+        if ($newValue === $oldValue) {
+            return;
+        }
+
+        switch ($newValue) {
+            case CurriculumInventorySequenceBlockInterface::ORDERED:
+                usort($children, [CurriculumInventorySequenceBlock::class, 'compareSequenceBlocksWithOrderedStrategy']);
+                for ($i = 0, $n = count($children); $i < $n; $i++) {
+                    $children[$i]->setOrderInSequence($i + 1);
+                    $manager->update($children[$i]);
+                }
+                break;
+            case CurriculumInventorySequenceBlockInterface::UNORDERED:
+            case CurriculumInventorySequenceBlockInterface::PARALLEL:
+                if ($oldValue === CurriculumInventorySequenceBlockInterface::ORDERED) {
+                    for ($i = 0, $n = count($children); $i < $n; $i++) {
+                        $children[$i]->setOrderInSequence(0);
+                        $manager->update($children[$i]);
+                    }
+                }
+                break;
+            default:
+                // do nothing
+        }
     }
 }
