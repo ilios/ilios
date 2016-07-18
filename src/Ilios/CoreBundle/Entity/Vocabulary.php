@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\ActivatableEntity;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -34,6 +35,7 @@ class Vocabulary implements VocabularyInterface
     use StringableIdEntity;
     use TitledEntity;
     use CategorizableEntity;
+    use ActivatableEntity;
 
     /**
      * @var int
@@ -94,10 +96,24 @@ class Vocabulary implements VocabularyInterface
     protected $terms;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     */
+    protected $active;
+
+    /**
      * Constructor.
      */
     public function __construct()
     {
         $this->terms = new ArrayCollection();
+        $this->active = true;
     }
 }

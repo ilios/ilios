@@ -77,14 +77,22 @@ class TermDTO
      */
     public $aamcResourceTypes;
 
+    /**
+     * @var boolean
+     * @JMS\Type("boolean")
+     */
+    public $active;
+
     public function __construct(
         $id,
         $title,
-        $description
+        $description,
+        $active
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
+        $this->active = $active;
 
         $this->children = [];
         $this->courses = [];
