@@ -47,7 +47,7 @@ class LoadTermData extends AbstractFixture implements DependentFixtureInterface
      */
     protected function populateEntity($entity, array $data)
     {
-        // `term_id`,`title`,`parent_term_id`, `description`, `vocabulary_id`
+        // `term_id`,`title`,`parent_term_id`, `description`, `vocabulary_id`, `active`
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
         if (! empty($data[2])) {
@@ -55,6 +55,7 @@ class LoadTermData extends AbstractFixture implements DependentFixtureInterface
         }
         $entity->setDescription($data[3]);
         $entity->setVocabulary($this->getReference('vocabulary' . $data[4]));
+        $entity->setActive((boolean) $data[5]);
         return $entity;
     }
 }
