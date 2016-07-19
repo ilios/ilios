@@ -176,6 +176,13 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
             }
 
             $manager = $this->container->get('ilioscore.curriculuminventorysequenceblock.manager');
+
+            $this->reorderBlocksInSequenceOnOrderChange(
+                0,
+                $curriculumInventorySequenceBlock,
+                $manager
+            );
+
             $manager->update($curriculumInventorySequenceBlock, true, false);
 
             $answer['curriculumInventorySequenceBlocks'] = [$curriculumInventorySequenceBlock];
@@ -228,6 +235,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
             $handler = $this->container->get('ilioscore.curriculuminventorysequenceblock.handler');
 
             $oldChildSequenceOrder = $curriculumInventorySequenceBlock->getChildSequenceOrder();
+            $oldOrderInSequence = $curriculumInventorySequenceBlock->getOrderInSequence();
 
             $curriculumInventorySequenceBlock = $handler->put(
                 $curriculumInventorySequenceBlock,
@@ -241,6 +249,11 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
 
             $this->reorderChildrenOnChildSequenceOrderChange(
                 $oldChildSequenceOrder,
+                $curriculumInventorySequenceBlock,
+                $manager
+            );
+            $this->reorderBlocksInSequenceOnOrderChange(
+                $oldOrderInSequence,
                 $curriculumInventorySequenceBlock,
                 $manager
             );
@@ -407,5 +420,59 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
             default:
                 // do nothing
         }
+    }
+
+    /**
+     * Reorder the entire sequence if on of the blocks changes position.
+     * @param int $oldValue
+     * @param CurriculumInventorySequenceBlockInterface $block
+     * @param ManagerInterface $manager
+     * @throws \OutOfRangeException
+     */
+    protected function reorderBlocksInSequenceOnOrderChange(
+        $oldValue,
+        CurriculumInventorySequenceBlockInterface $block,
+        ManagerInterface $manager
+    ) {
+        $parent = $block->getParent();
+        if (! $parent) {
+            return;
+        }
+        if ($parent->getChildSequenceOrder() !== CurriculumInventorySequenceBlockInterface::ORDERED) {
+            return;
+        }
+
+        $newValue = $block->getOrderInSequence();
+
+        if ($oldValue === $newValue) {
+            return;
+        }
+
+        $blocks = $parent->getChildrenAsSortedList();
+        $blocks = array_filter($blocks, function($sibling) use ($block) {
+            return $sibling->getId() !== $block->getId();
+        });
+        $blocks = array_values($blocks);
+
+        $minRange = 1;
+        $maxRange = count($blocks) + 1;
+        if ($newValue < $minRange || $newValue > $maxRange) {
+            throw new \OutOfRangeException(
+                "The given order-in-sequence value {$newValue} falls outside the range {$minRange} - {$maxRange}."
+            );
+        }
+
+        array_splice($blocks, $block->getOrderInSequence() - 1, 0, [$block]);
+        for($i = 0, $n = count($blocks); $i < $n; $i++) {
+            /* @var CurriculumInventorySequenceBlockInterface $current */
+            $current = $blocks[$i];
+            $j = $i + 1;
+            if ($current->getId() !== $block && $current->getOrderInSequence() !== $j) {
+                $current->setOrderInSequence($j);
+                $manager->update($current, false, false);
+            }
+        }
+
+
     }
 }
