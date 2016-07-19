@@ -219,11 +219,189 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
     }
 
-    public function testDeleteBlockFromOrderedSequence()
+    public function testDeleteBlockFromOrderedSequenceFromStartOfSequence()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+
+        $parent = $this->container
+            ->get('ilioscore.dataloader.curriculuminventorysequenceblock')
+            ->getOne();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks', ['filters[parent]' => $parent['id']]),
+            null,
+            $this->getAuthenticatedUserToken()
         );
+
+        $response = $this->client->getResponse();
+        $childrenBeforeDeletion = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        usort($childrenBeforeDeletion, function ($a, $b) {
+            return ((int) $a > (int) $b) ? 1 : -1;
+        });
+        $firstBlockInSequence = $childrenBeforeDeletion[0];
+
+        $blockMap = [];
+        foreach ($childrenBeforeDeletion as $block) {
+            $blockMap[$block['id']] = $block;
+        }
+
+        $this->createJsonRequest(
+            'DELETE',
+            $this->getUrl(
+                'delete_curriculuminventorysequenceblocks',
+                ['id' => $firstBlockInSequence['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks', ['filters[parent]' => $parent['id']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $childrenAfterDeletion = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        $this->assertEquals(
+            count($childrenBeforeDeletion) - 1,
+            count($childrenAfterDeletion),
+            'Sequence contains one less block after deletion.'
+        );
+        foreach ($childrenAfterDeletion as $block) {
+            $this->assertEquals(
+                $block['orderInSequence'],
+                $blockMap[$block['id']]['orderInSequence'] - 1,
+                'Remaining blocks have shifted one position down in sequence.'
+            );
+        }
+    }
+
+    public function testDeleteBlockFromOrderedSequenceFromEndOfSequence()
+    {
+
+        $parent = $this->container
+            ->get('ilioscore.dataloader.curriculuminventorysequenceblock')
+            ->getOne();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks', ['filters[parent]' => $parent['id']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $childrenBeforeDeletion = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        usort($childrenBeforeDeletion, function ($a, $b) {
+            return ((int) $a > (int) $b) ? 1 : -1;
+        });
+        $lastBlockInSequence = $childrenBeforeDeletion[count($childrenBeforeDeletion) - 1];
+
+        $blockMap = [];
+        foreach ($childrenBeforeDeletion as $block) {
+            $blockMap[$block['id']] = $block;
+        }
+
+        $this->createJsonRequest(
+            'DELETE',
+            $this->getUrl(
+                'delete_curriculuminventorysequenceblocks',
+                ['id' => $lastBlockInSequence['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks', ['filters[parent]' => $parent['id']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $childrenAfterDeletion = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        $this->assertEquals(
+            count($childrenBeforeDeletion) - 1,
+            count($childrenAfterDeletion),
+            'Sequence contains one less block after deletion.'
+        );
+        foreach ($childrenAfterDeletion as $block) {
+            $this->assertEquals(
+                $block['orderInSequence'],
+                $blockMap[$block['id']]['orderInSequence'],
+                'Remaining blocks maintained their position in sequence.'
+            );
+        }
+    }
+
+    public function testDeleteBlockFromOrderedSequenceFromMiddleOfSequence()
+    {
+        $parent = $this->container
+            ->get('ilioscore.dataloader.curriculuminventorysequenceblock')
+            ->getOne();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks', ['filters[parent]' => $parent['id']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $childrenBeforeDeletion = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        usort($childrenBeforeDeletion, function ($a, $b) {
+            return ((int) $a > (int) $b) ? 1 : -1;
+        });
+        $blockInSequence = $childrenBeforeDeletion[2];
+
+        $blockMap = [];
+        foreach ($childrenBeforeDeletion as $block) {
+            $blockMap[$block['id']] = $block;
+        }
+
+        $this->createJsonRequest(
+            'DELETE',
+            $this->getUrl(
+                'delete_curriculuminventorysequenceblocks',
+                ['id' => $blockInSequence['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks', ['filters[parent]' => $parent['id']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $childrenAfterDeletion = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        $this->assertEquals(
+            count($childrenBeforeDeletion) - 1,
+            count($childrenAfterDeletion),
+            'Sequence contains one less block after deletion.'
+        );
+        foreach ($childrenAfterDeletion as $block) {
+            $oldOrderInSequence = $blockMap[$block['id']]['orderInSequence'];
+            if ($oldOrderInSequence < $blockInSequence['orderInSequence']) {
+                $this->assertEquals(
+                    $block['orderInSequence'],
+                    $oldOrderInSequence,
+                    'Blocks with a lower sort order than deleted block maintained their position in sequence.'
+                );
+            } else {
+                $this->assertEquals(
+                    $block['orderInSequence'],
+                    $oldOrderInSequence - 1,
+                    'Blocks with a higher sort order than deleted block have shifted one position down in sequence.'
+                );
+            }
+        }
     }
 
     public function testAddBlockToOrderedSequence()

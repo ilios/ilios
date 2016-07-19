@@ -310,6 +310,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
 
         try {
             $manager = $this->container->get('ilioscore.curriculuminventorysequenceblock.manager');
+            $this->reorderSiblingsOnDeletion($curriculumInventorySequenceBlock, $manager);
             $manager->delete($curriculumInventorySequenceBlock);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
@@ -366,10 +367,10 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
 
         $siblings = $parent->getChildren()->toArray();
         /* @var CurriculumInventorySequenceBlockInterface[] $siblingsWithHigherSortOrder */
-        $siblingsWithHigherSortOrder = array_filter($siblings, function($sibling) use ($block) {
+        $siblingsWithHigherSortOrder = array_values(array_filter($siblings, function ($sibling) use ($block) {
             /* @var CurriculumInventorySequenceBlockInterface $sibling */
             return ($sibling->getOrderInSequence() > $block->getOrderInSequence());
-        });
+        }));
         for ($i = 0, $n = count($siblingsWithHigherSortOrder); $i < $n; $i++) {
             $orderInSequence = $siblingsWithHigherSortOrder[$i]->getOrderInSequence();
             $siblingsWithHigherSortOrder[$i]->setOrderInSequence($orderInSequence - 1);
@@ -449,7 +450,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
         }
 
         $blocks = $parent->getChildrenAsSortedList();
-        $blocks = array_filter($blocks, function($sibling) use ($block) {
+        $blocks = array_filter($blocks, function ($sibling) use ($block) {
             return $sibling->getId() !== $block->getId();
         });
         $blocks = array_values($blocks);
@@ -463,7 +464,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
         }
 
         array_splice($blocks, $block->getOrderInSequence() - 1, 0, [$block]);
-        for($i = 0, $n = count($blocks); $i < $n; $i++) {
+        for ($i = 0, $n = count($blocks); $i < $n; $i++) {
             /* @var CurriculumInventorySequenceBlockInterface $current */
             $current = $blocks[$i];
             $j = $i + 1;
@@ -472,7 +473,5 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
                 $manager->update($current, false, false);
             }
         }
-
-
     }
 }
