@@ -144,7 +144,6 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
             ->getOne();
 
         $postData = $data;
-        $postData['title'] = 'foooosaaf';
         //unset any parameters which should not be POSTed
         unset($postData['id']);
         unset($postData['sessions']);
