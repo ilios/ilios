@@ -253,4 +253,11 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
             'This test has not been implemented yet.'
         );
     }
+
+    public function testChangeChildSequenceOrder()
+    {
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+    }
 }
