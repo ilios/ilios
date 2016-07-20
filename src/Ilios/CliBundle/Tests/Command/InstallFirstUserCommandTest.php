@@ -138,7 +138,8 @@ class InstallFirstUserCommandTest extends KernelTestCase
             ->shouldReceive('setPasswordBcrypt')->with('hashBlurb')
             ->shouldReceive('setUser')
             ->mock();
-        $userRole = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface');
+        $developerRole = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface');
+        $courseDirectorRole = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface');
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('setFirstName')->with('First')
             ->shouldReceive('setLastName')->with('User')
@@ -149,11 +150,19 @@ class InstallFirstUserCommandTest extends KernelTestCase
             ->shouldReceive('setUserSyncIgnore')->with(false)
             ->shouldReceive('setSchool')->with($school)
             ->shouldReceive('setAuthentication')->with($authentication)
-            ->shouldReceive('addRole')->with($userRole)
+            ->shouldReceive('addRole')->with($developerRole)
+            ->shouldReceive('addRole')->with($courseDirectorRole)
             ->mock();
         $this->schoolManager->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($school);
         $this->schoolManager->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([$school]);
-        $this->userRoleManager->shouldReceive('findOneBy')->with(['title' => 'Developer'])->andReturn($userRole);
+        $this->userRoleManager
+            ->shouldReceive('findOneBy')
+            ->with(['title' => 'Developer'])
+            ->andReturn($developerRole);
+        $this->userRoleManager
+            ->shouldReceive('findOneBy')
+            ->with(['title' => 'Course Director'])
+            ->andReturn($courseDirectorRole);
         $this->userManager->shouldReceive('findOneBy')->with([])->andReturn([]);
         $this->userManager->shouldReceive('create')->andReturn($user);
         $this->userManager->shouldReceive('update')->with($user);
