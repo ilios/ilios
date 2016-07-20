@@ -180,6 +180,7 @@ class InstallFirstUserCommand extends Command
         $user->setUserSyncIgnore(false);
 
         $user->addRole($this->userRoleManager->findOneBy(['title' => 'Developer']));
+        $user->addRole($this->userRoleManager->findOneBy(['title' => 'Course Director']));
         $user->setSchool($school);
         $this->userManager->update($user);
 
