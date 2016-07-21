@@ -30,17 +30,21 @@ class AamcResourceType implements AamcResourceTypeInterface
     use StringableIdEntity;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="resource_type_id", type="integer")
+     * @ORM\Column(name="resource_type_id", type="string", length=21)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
      *
-     * @Assert\Type(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 21
+     * )
      *
      * @JMS\Expose
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("id")
+     * @JMS\Type("string")
      */
     protected $id;
 

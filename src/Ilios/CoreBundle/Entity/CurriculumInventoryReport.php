@@ -17,9 +17,13 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * Class CurriculumInventoryReport
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Table(name="curriculum_inventory_report",
+ * @ORM\Table(
+ *   name="curriculum_inventory_report",
  *   indexes={
  *     @ORM\Index(name="IDX_6E31899E3EB8070A", columns={"program_id"})
+ *   },
+ *   uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="idx_ci_report_token_unique", columns={"token"})
  *   }
  * )
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CurriculumInventoryReportRepository")
@@ -173,6 +177,19 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     * @JMS\SerializedName("academicLevels")
     */
     protected $academicLevels;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="token", type="string", length=64, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 64
+     * )
+     */
+    protected $token;
 
     /**
      * Constructor
@@ -348,5 +365,28 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
             return $program->getSchool();
         }
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function generateToken()
+    {
+        $random = random_bytes(128);
+
+        // prepend id to avoid a conflict
+        // and current time to prevent a conflict with regeneration
+        $key = $this->getId() . microtime() . $random;
+
+        // hash the string to give consistent length and URL safe characters
+        $this->token = hash('sha256', $key);
     }
 }

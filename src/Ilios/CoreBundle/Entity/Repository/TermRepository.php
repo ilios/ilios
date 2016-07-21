@@ -54,7 +54,8 @@ class TermRepository extends EntityRepository
             $termDTOs[$arr['id']] = new TermDTO(
                 $arr['id'],
                 $arr['title'],
-                $arr['description']
+                $arr['description'],
+                $arr['active']
             );
         }
         $termIds = array_keys($termDTOs);

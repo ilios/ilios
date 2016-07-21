@@ -69,11 +69,6 @@ class CurriculumInventoryExportController extends FOSRestController
             $manager = $this->container->get('ilioscore.curriculuminventoryexport.manager');
             $manager->update($curriculumInventoryExport, true, false);
 
-            // OF NOTE:
-            // We remove the document before returning the export to keep the payload at a reasonable size.
-            // The exported report document can be retrieved via the curriculum inventory download controller.
-            // [ST 2015/09/21]
-            $curriculumInventoryExport->setDocument('');
             $answer['curriculumInventoryExports'] = [$curriculumInventoryExport];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);

@@ -45,7 +45,7 @@ in order to load the default resource-types data set.
 
 ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
-sudo -u apache bin/console doctrine:fixtures:load --env=prod --fixtures=src/Ilios/CoreBundle/DataFixtures/ORM/LoadAamcResourceTypeData.php
+sudo -u apache bin/console doctrine:fixtures:load --env=prod --append --fixtures=src/Ilios/CoreBundle/DataFixtures/ORM/LoadAamcResourceTypeData.php
 ```
 
 # Upgrading Ilios 2.x to Ilios 3

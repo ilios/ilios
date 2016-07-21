@@ -56,10 +56,13 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
 
+        $returnedReport = json_decode($response->getContent(), true)['curriculumInventoryReports'][0];
+        $this->assertNotEmpty($returnedReport['absoluteFileUri']);
+        unset($returnedReport['absoluteFileUri']);
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($curriculumInventoryReport),
-            json_decode($response->getContent(), true)['curriculumInventoryReports'][0]
+            $returnedReport
         );
     }
 
@@ -83,6 +86,13 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
                 ->getAll()
         );
         $actual = json_decode($response->getContent(), true)['curriculumInventoryReports'];
+        foreach ($actual as $returnedReport) {
+            $this->assertNotEmpty($returnedReport['absoluteFileUri']);
+        }
+        array_walk($actual, function (&$returnedReport) {
+            unset($returnedReport['absoluteFileUri']);
+        });
+
         $this->assertEquals(
             $expected,
             $actual
@@ -112,6 +122,8 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $responseData = json_decode($response->getContent(), true)['curriculumInventoryReports'][0];
+        $this->assertNotEmpty($responseData['absoluteFileUri']);
+        unset($responseData['absoluteFileUri']);
         $this->assertEquals(10, count($responseData['academicLevels']), 'There should be 10 academic levels ids.');
         $this->assertNotEmpty($responseData['sequence'], 'A sequence id should be present.');
         // don't compare sequence and academic level ids.
@@ -169,9 +181,12 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $returnedReport = json_decode($response->getContent(), true)['curriculumInventoryReport'];
+        $this->assertNotEmpty($returnedReport['absoluteFileUri']);
+        unset($returnedReport['absoluteFileUri']);
         $this->assertEquals(
             $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['curriculumInventoryReport']
+            $returnedReport
         );
     }
 

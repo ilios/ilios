@@ -99,7 +99,7 @@ class AddUserCommand extends Command
             }
             $helper = $this->getHelper('question');
             $question = new ChoiceQuestion(
-                'What is this users primary school?',
+                "What is this user's primary school?",
                 array_keys($schoolTitles)
             );
             $question->setErrorMessage('School %s is invalid.');
@@ -189,8 +189,6 @@ class AddUserCommand extends Command
         } else {
             $output->writeln('<comment>Canceled.</comment>');
         }
-        
-        
     }
 
     protected function fillUserRecord(array $userRecord, $input, $output)
@@ -211,7 +209,7 @@ class AddUserCommand extends Command
             $userRecord['username'] = $this->askForString('Username', 1, 100, $input, $output);
         }
         if (empty($userRecord['password'])) {
-            $question = new Question("What is the users password? ");
+            $question = new Question("What is the user's password? ");
             $question->setValidator(function ($answer) {
                 if (strlen($answer) < 7) {
                     throw new \RuntimeException(
@@ -225,7 +223,7 @@ class AddUserCommand extends Command
             $userRecord['password'] = $this->getHelper('question')->ask($input, $output, $question);
         }
         if (empty($userRecord['email'])) {
-            $question = new Question("What is the users Email Address? ");
+            $question = new Question("What is the user's Email Address? ");
             $question->setValidator(function ($answer) {
                 if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
                     throw new \RuntimeException(
@@ -245,7 +243,7 @@ class AddUserCommand extends Command
 
     protected function askForString($what, $min, $max, $input, $output)
     {
-        $question = new Question("What is the users {$what}? ");
+        $question = new Question("What is the user's {$what}? ");
         $question->setValidator(function ($answer) use ($what, $min, $max) {
             if (strlen($answer) < $min) {
                 throw new \RuntimeException(

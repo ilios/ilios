@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -23,7 +24,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
 {
     use IdentifiableEntity;
     use DescribableEntity;
-
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -88,13 +89,5 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     public function getReport()
     {
         return $this->report;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->report;
     }
 }

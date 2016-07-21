@@ -45,6 +45,5 @@ class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
         // `alert_change_type_id`,`title`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
-
     }
 }

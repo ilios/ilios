@@ -1,7 +1,104 @@
 # Change Log
 
-## [v3.12.0](https://github.com/ilios/ilios/tree/v3.12.0)
+## [v3.15.0](https://github.com/ilios/ilios/tree/v3.15.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.14.0...v3.15.0)
+
+**Implemented enhancements:**
+
+- Remove colon in token output [\#1506](https://github.com/ilios/ilios/issues/1506)
+
+**Closed issues:**
+
+- Drop support for PHP 5.5 [\#1480](https://github.com/ilios/ilios/issues/1480)
+
+**Merged pull requests:**
+
+- Simplify rollover by counting days [\#1508](https://github.com/ilios/ilios/pull/1508) ([jrjohnson](https://github.com/jrjohnson))
+- Remove superfluous colon from token output [\#1507](https://github.com/ilios/ilios/pull/1507) ([jrjohnson](https://github.com/jrjohnson))
+- Update dependencies [\#1504](https://github.com/ilios/ilios/pull/1504) ([jrjohnson](https://github.com/jrjohnson))
+- corrected table joins in query. [\#1502](https://github.com/ilios/ilios/pull/1502) ([stopfstedt](https://github.com/stopfstedt))
+- Add PHP7 support, remove 5.6 [\#1481](https://github.com/ilios/ilios/pull/1481) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.14.0](https://github.com/ilios/ilios/tree/v3.14.0) (2016-06-30)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.13.0...v3.14.0)
+
+**Implemented enhancements:**
+
+- Take newCourseTitle for rollovers [\#1487](https://github.com/ilios/ilios/issues/1487)
+- update identifiers for AAMC Resource Types [\#1484](https://github.com/ilios/ilios/issues/1484)
+- Allow sessions to be filtered by multiple courses [\#1466](https://github.com/ilios/ilios/issues/1466)
+- Add bulk creation to authentication endpoint [\#1461](https://github.com/ilios/ilios/issues/1461)
+- apply additional padding on numeric part of AAMC resource type ids. [\#1495](https://github.com/ilios/ilios/pull/1495) ([stopfstedt](https://github.com/stopfstedt))
+
+**Closed issues:**
+
+- ILMs not rolling over correctly [\#1497](https://github.com/ilios/ilios/issues/1497)
+- Session Description not rolling over [\#1496](https://github.com/ilios/ilios/issues/1496)
+- Course rollover not accounting for string 'false' [\#1485](https://github.com/ilios/ilios/issues/1485)
+- Add tests for course rollover [\#1483](https://github.com/ilios/ilios/issues/1483)
+- Configuration settings for change alerts and teaching notifications [\#1482](https://github.com/ilios/ilios/issues/1482)
+- Rollover startDate creeps backward [\#1478](https://github.com/ilios/ilios/issues/1478)
+- Unable to rollover session linked to orphan course objectives [\#1476](https://github.com/ilios/ilios/issues/1476)
+- Add course rollover controller [\#1473](https://github.com/ilios/ilios/issues/1473)
+- add d/l token to ci reports [\#1463](https://github.com/ilios/ilios/issues/1463)
+- code consolidation [\#1459](https://github.com/ilios/ilios/issues/1459)
+- Audit Log Table Not Capturing Create ID's  [\#1445](https://github.com/ilios/ilios/issues/1445)
+- getId fails on competency voter [\#1428](https://github.com/ilios/ilios/issues/1428)
+- Create course rollover console command [\#1286](https://github.com/ilios/ilios/issues/1286)
+
+**Merged pull requests:**
+
+- updating changelog for the v3.14.0 release [\#1500](https://github.com/ilios/ilios/pull/1500) ([thecoolestguy](https://github.com/thecoolestguy))
+- Course rollover sessions and ilm bugfix [\#1499](https://github.com/ilios/ilios/pull/1499) ([jrjohnson](https://github.com/jrjohnson))
+- Functional changes to original course rollover to account for date drifting over years [\#1498](https://github.com/ilios/ilios/pull/1498) ([thecoolestguy](https://github.com/thecoolestguy))
+- moved the --append flag to the right place. [\#1494](https://github.com/ilios/ilios/pull/1494) ([stopfstedt](https://github.com/stopfstedt))
+- replaced hokey dash with default dash. [\#1493](https://github.com/ilios/ilios/pull/1493) ([stopfstedt](https://github.com/stopfstedt))
+- Add newCourseTitle parameter to rollover [\#1492](https://github.com/ilios/ilios/pull/1492) ([jrjohnson](https://github.com/jrjohnson))
+- converted AAMC resource type identifiers to text [\#1491](https://github.com/ilios/ilios/pull/1491) ([stopfstedt](https://github.com/stopfstedt))
+- fixed update instructions. [\#1490](https://github.com/ilios/ilios/pull/1490) ([stopfstedt](https://github.com/stopfstedt))
+- More rollover tests [\#1486](https://github.com/ilios/ilios/pull/1486) ([jrjohnson](https://github.com/jrjohnson))
+- fixed rollover offset bug. [\#1479](https://github.com/ilios/ilios/pull/1479) ([stopfstedt](https://github.com/stopfstedt))
+- Allow rollover for sessions with orphaned parent objectives [\#1477](https://github.com/ilios/ilios/pull/1477) ([jrjohnson](https://github.com/jrjohnson))
+- Rollover a course [\#1475](https://github.com/ilios/ilios/pull/1475) ([jrjohnson](https://github.com/jrjohnson))
+- course rollover command [\#1469](https://github.com/ilios/ilios/pull/1469) ([stopfstedt](https://github.com/stopfstedt))
+- Allow sessions to be filtered by multiple courses [\#1467](https://github.com/ilios/ilios/pull/1467) ([jrjohnson](https://github.com/jrjohnson))
+- generate LM d/l token explicitly. [\#1465](https://github.com/ilios/ilios/pull/1465) ([stopfstedt](https://github.com/stopfstedt))
+- Ci report dl token [\#1464](https://github.com/ilios/ilios/pull/1464) ([stopfstedt](https://github.com/stopfstedt))
+- Bulk add authentication [\#1462](https://github.com/ilios/ilios/pull/1462) ([jrjohnson](https://github.com/jrjohnson))
+- replaced \_\_toString method with trait. [\#1460](https://github.com/ilios/ilios/pull/1460) ([stopfstedt](https://github.com/stopfstedt))
+- exclude document in payload of curriculum inventory export [\#1458](https://github.com/ilios/ilios/pull/1458) ([stopfstedt](https://github.com/stopfstedt))
+- fixed toString magic method. [\#1457](https://github.com/ilios/ilios/pull/1457) ([stopfstedt](https://github.com/stopfstedt))
+- log auditable entity creation with record ids. [\#1454](https://github.com/ilios/ilios/pull/1454) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.13.0](https://github.com/ilios/ilios/tree/v3.13.0) (2016-06-10)
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.12.0...v3.13.0)
+
+**Implemented enhancements:**
+
+- Add configuration options for Shibboleth auth [\#1447](https://github.com/ilios/ilios/issues/1447)
+- Allow token to be invalidated [\#1439](https://github.com/ilios/ilios/issues/1439)
+
+**Closed issues:**
+
+- Foreign key error when running DB schema update script [\#1452](https://github.com/ilios/ilios/issues/1452)
+- Update Wiki page on Shibboleth authn [\#1450](https://github.com/ilios/ilios/issues/1450)
+- allow for cascading deletes from curriculum inventory [\#1441](https://github.com/ilios/ilios/issues/1441)
+
+**Merged pull requests:**
+
+- updating changelog for the v3.13.0 release [\#1455](https://github.com/ilios/ilios/pull/1455) ([thecoolestguy](https://github.com/thecoolestguy))
+- Move drop tables further up in update script [\#1453](https://github.com/ilios/ilios/pull/1453) ([jrjohnson](https://github.com/jrjohnson))
+- made shibb login/logout path and asserted user id attr configurable. [\#1448](https://github.com/ilios/ilios/pull/1448) ([stopfstedt](https://github.com/stopfstedt))
+- rm unique constraint from ci reports. [\#1444](https://github.com/ilios/ilios/pull/1444) ([stopfstedt](https://github.com/stopfstedt))
+- enable cascading deletes from curriculum inventory reports. [\#1443](https://github.com/ilios/ilios/pull/1443) ([stopfstedt](https://github.com/stopfstedt))
+- Update dependencies and remove dead packages [\#1442](https://github.com/ilios/ilios/pull/1442) ([jrjohnson](https://github.com/jrjohnson))
+- Allow tokens to be invalidated at /auth/invalidatetokens [\#1440](https://github.com/ilios/ilios/pull/1440) ([jrjohnson](https://github.com/jrjohnson))
+- "atomic" ci report creation [\#1438](https://github.com/ilios/ilios/pull/1438) ([stopfstedt](https://github.com/stopfstedt))
+- Update API to v1.5 [\#1434](https://github.com/ilios/ilios/pull/1434) ([jrjohnson](https://github.com/jrjohnson))
+- refactor managers and handlers. [\#1426](https://github.com/ilios/ilios/pull/1426) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.12.0](https://github.com/ilios/ilios/tree/v3.12.0) (2016-05-27)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.11.0...v3.12.0)
 
 **Implemented enhancements:**
@@ -16,6 +113,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for v3.12.0 release [\#1437](https://github.com/ilios/ilios/pull/1437) ([thecoolestguy](https://github.com/thecoolestguy))
 - Align API docs with expectations [\#1436](https://github.com/ilios/ilios/pull/1436) ([jrjohnson](https://github.com/jrjohnson))
 - Fix problem with AuditLog [\#1432](https://github.com/ilios/ilios/pull/1432) ([jrjohnson](https://github.com/jrjohnson))
 - added call to remove 'fkey\_user\_primary\_school' index [\#1429](https://github.com/ilios/ilios/pull/1429) ([thecoolestguy](https://github.com/thecoolestguy))

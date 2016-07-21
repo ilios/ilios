@@ -47,7 +47,6 @@ class ReportData extends AbstractDataLoader
             'prepositionalObjectTableRowId' => $this->faker->randomDigitNotNull(),
             'user' => '2'
         );
-
     }
 
     public function createInvalid()

@@ -42,7 +42,7 @@ class LoadTermDataTest extends AbstractDataFixtureTest
      */
     protected function assertDataEquals(array $data, $entity)
     {
-        // `term_id`,`title`,`term_parent_id`, `description`, `vocabulary_id`
+        // `term_id`,`title`,`term_parent_id`, `description`, `vocabulary_id`, `active`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
         if (empty($data[2])) {
@@ -52,5 +52,6 @@ class LoadTermDataTest extends AbstractDataFixtureTest
         }
         $this->assertEquals($data[3], $entity->getDescription());
         $this->assertEquals($data[4], $entity->getVocabulary()->getId());
+        $this->assertEquals((boolean) $data[4], $entity->isActive());
     }
 }

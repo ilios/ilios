@@ -421,7 +421,7 @@ class TermControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_terms', ['filters[aamcResourceTypes][]' => 2]),
+            $this->getUrl('cget_terms', ['filters[aamcResourceTypes][]' => 'RE002']),
             null,
             $this->getAuthenticatedUserToken()
         );

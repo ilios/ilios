@@ -26,6 +26,5 @@ class ApiDocsControllerTest extends WebTestCase
         $this->assertEquals('Ilios API', $crawler->filter('title')->text());
         
         $this->assertGreaterThan(40, $crawler->filter('.section')->count(), 'API Endpoints loaded');
-
     }
 }

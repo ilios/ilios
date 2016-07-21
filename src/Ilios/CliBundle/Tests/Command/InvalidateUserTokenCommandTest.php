@@ -109,7 +109,6 @@ class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
         ));
-        
     }
     
     public function testUserRequired()

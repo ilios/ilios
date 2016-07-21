@@ -115,4 +115,14 @@ interface CurriculumInventoryReportInterface extends
      * @return SchoolInterface|null
      */
     public function getSchool();
+
+    /**
+     * @return string
+     */
+    public function getToken();
+
+    /**
+     * Generate a random token for use in downloading
+     */
+    public function generateToken();
 }

@@ -189,6 +189,5 @@ class LdapManager
         }
     
         return $rhett;
-        
     }
 }

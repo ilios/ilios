@@ -1251,7 +1251,6 @@ class User implements UserInterface
     public function addPendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate)
     {
         $this->pendingUserUpdates->add($pendingUserUpdate);
-
     }
 
     /**
@@ -1294,7 +1293,6 @@ class User implements UserInterface
                 $this->campusId,
                 $this->email
             ));
-
     }
 
     /**
@@ -1314,7 +1312,6 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
-
     }
 
     /**

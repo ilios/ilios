@@ -475,7 +475,6 @@ class Offering implements OfferingInterface
             'endDate' => $endDate,
             'room' => $room,
         ];
-
     }
 
     /**
@@ -487,13 +486,5 @@ class Offering implements OfferingInterface
             return $session->getSchool();
         }
         return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }

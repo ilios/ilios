@@ -48,13 +48,14 @@ class LoadCompetencyData extends AbstractFixture implements DependentFixtureInte
      */
     protected function populateEntity($entity, array $data)
     {
-        // `competency_id`,`title`,`parent_competency_id`,`school_id`
+        // `competency_id`,`title`,`parent_competency_id`,`school_id`, `active`
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
         if (! empty($data[2])) {
             $entity->setParent($this->getReference($this->getKey() . $data[2]));
         }
         $entity->setSchool($this->getReference('school' . $data[3]));
+        $entity->setActive((boolean) $data[4]);
         return $entity;
     }
 }

@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\ActivatableEntityInterface;
 use Ilios\CoreBundle\Traits\CoursesEntityInterface;
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
@@ -24,7 +25,8 @@ interface TermInterface extends
     LoggableEntityInterface,
     ProgramYearsEntityInterface,
     SessionsEntityInterface,
-    CoursesEntityInterface
+    CoursesEntityInterface,
+    ActivatableEntityInterface
 {
     /**
      * @param VocabularyInterface $vocabulary

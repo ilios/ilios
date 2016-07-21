@@ -141,7 +141,6 @@ class MeshTermControllerTest extends AbstractControllerTest
         $diffC = $now->diff($createdAt);
         $this->assertTrue($diffU->y < 1, 'The updatedAt timestamp is within the last year');
         $this->assertTrue($diffC->y < 1, 'The createdAt timestamp is within the last year');
-
     }
 
     /**

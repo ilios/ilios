@@ -57,23 +57,53 @@ class UsereventControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $events = json_decode($response->getContent(), true)['userEvents'];
         $this->assertEquals(11, count($events), 'Expected events returned');
-        $this->assertEquals($events[0]['startDate'], $offerings[1]['startDate']);
-        $this->assertEquals($events[0]['endDate'], $offerings[1]['endDate']);
-        $this->assertEquals($events[1]['startDate'], $offerings[0]['startDate']);
-        $this->assertEquals($events[1]['endDate'], $offerings[0]['endDate']);
-        for ($i = 2; $i <=6; $i++) {
-            $this->assertEquals($events[$i]['offering'], $i+1);
-            $this->assertEquals($events[$i]['startDate'], $offerings[$i]['startDate']);
-            $this->assertEquals($events[$i]['endDate'], $offerings[$i]['endDate']);
-            $courseTitle  = $courses[$sessions[$offerings[$i]['session']-1]['course']-1]['title'];
-            $this->assertEquals($events[$i]['courseTitle'], $courseTitle);
-        }
-        for ($i = 7; $i <=10; $i++) {
-            $this->assertEquals($events[$i]['ilmSession'], $i-7+1);
-            $this->assertEquals($events[$i]['startDate'], $ilmSessions[$i-7]['dueDate']);
-            $courseTitle  = $courses[$sessions[$ilmSessions[$i-7]['session']-1]['course']-1]['title'];
-            $this->assertEquals($events[$i]['courseTitle'], $courseTitle);
-        }
+        $this->assertEquals($events[0]['offering'], 3);
+        $this->assertEquals($events[0]['startDate'], $offerings[2]['startDate']);
+        $this->assertEquals($events[0]['endDate'], $offerings[2]['endDate']);
+        $this->assertEquals($events[0]['courseTitle'], $courses[0]['title']);
+
+        $this->assertEquals($events[1]['offering'], 4);
+        $this->assertEquals($events[1]['startDate'], $offerings[3]['startDate']);
+        $this->assertEquals($events[1]['endDate'], $offerings[3]['endDate']);
+        $this->assertEquals($events[1]['courseTitle'], $courses[0]['title']);
+
+        $this->assertEquals($events[2]['offering'], 5);
+        $this->assertEquals($events[2]['startDate'], $offerings[4]['startDate']);
+        $this->assertEquals($events[2]['endDate'], $offerings[4]['endDate']);
+        $this->assertEquals($events[2]['courseTitle'], $courses[0]['title']);
+
+        $this->assertEquals($events[3]['offering'], 6);
+        $this->assertEquals($events[3]['startDate'], $offerings[5]['startDate']);
+        $this->assertEquals($events[3]['endDate'], $offerings[5]['endDate']);
+        $this->assertEquals($events[3]['courseTitle'], $courses[1]['title']);
+
+        $this->assertEquals($events[4]['offering'], 7);
+        $this->assertEquals($events[4]['startDate'], $offerings[6]['startDate']);
+        $this->assertEquals($events[4]['endDate'], $offerings[6]['endDate']);
+        $this->assertEquals($events[4]['courseTitle'], $courses[1]['title']);
+
+        $this->assertEquals($events[5]['ilmSession'], 1);
+        $this->assertEquals($events[5]['startDate'], $ilmSessions[0]['dueDate']);
+        $this->assertEquals($events[5]['courseTitle'], $courses[1]['title']);
+
+        $this->assertEquals($events[6]['ilmSession'], 2);
+        $this->assertEquals($events[6]['startDate'], $ilmSessions[1]['dueDate']);
+        $this->assertEquals($events[6]['courseTitle'], $courses[1]['title']);
+
+        $this->assertEquals($events[7]['ilmSession'], 3);
+        $this->assertEquals($events[7]['startDate'], $ilmSessions[2]['dueDate']);
+        $this->assertEquals($events[7]['courseTitle'], $courses[1]['title']);
+
+        $this->assertEquals($events[8]['ilmSession'], 4);
+        $this->assertEquals($events[8]['startDate'], $ilmSessions[3]['dueDate']);
+        $this->assertEquals($events[8]['courseTitle'], $courses[1]['title']);
+
+        $this->assertEquals($events[9]['startDate'], $offerings[1]['startDate']);
+        $this->assertEquals($events[9]['endDate'], $offerings[1]['endDate']);
+        $this->assertEquals($events[10]['startDate'], $offerings[0]['startDate']);
+        $this->assertEquals($events[10]['endDate'], $offerings[0]['endDate']);
+
+
         foreach ($events as $event) {
             $this->assertEquals($userId, $event['user']);
         }

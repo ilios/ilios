@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\ActivatableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
@@ -23,7 +24,8 @@ interface CompetencyInterface extends
     TitledEntityInterface,
     ProgramYearsEntityInterface,
     SchoolEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    ActivatableEntityInterface
 {
     /**
      * @param CompetencyInterface $parent

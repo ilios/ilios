@@ -30,7 +30,6 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
         $this->questionHelper = $command->getHelper('question');
-        
     }
 
     /**
@@ -115,7 +114,6 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
             '/Skipped 1 learning materials because they could not be located or were already migrated./',
             $output
         );
-        
     }
     
     public function testBadIlios2Path()

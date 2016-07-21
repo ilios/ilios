@@ -238,6 +238,5 @@ class UserDTO
         $this->auditLogs                = [];
         $this->permissions              = [];
         $this->learnerIlmSessions       = [];
-
     }
 }

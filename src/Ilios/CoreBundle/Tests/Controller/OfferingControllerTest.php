@@ -176,7 +176,6 @@ class OfferingControllerTest extends AbstractControllerTest
         // [ST 2015/10/08]
         $this->assertEquals(count($responseData['instigators'][0]), 1);
         $this->assertEquals(count($responseData['recipients'][0]), 1);
-
     }
 
     /**
@@ -338,7 +337,6 @@ class OfferingControllerTest extends AbstractControllerTest
         $this->assertTrue(in_array(AlertChangeTypeInterface::CHANGE_TYPE_TIME, $alert['changeTypes']));
         $this->assertTrue(in_array(AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR, $alert['changeTypes']));
         $this->assertTrue(in_array(AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP, $alert['changeTypes']));
-
     }
 
     /**

@@ -40,9 +40,7 @@ class LoadLearningMaterialData extends AbstractFixture implements
 
         foreach ($data as $arr) {
             $entity = new LearningMaterial();
-            if (array_key_exists('id', $arr)) {
-                $entity->setId($arr['id']);
-            }
+            $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
             $entity->setDescription($arr['description']);
             $entity->setOriginalAuthor($arr['originalAuthor']);
@@ -71,7 +69,7 @@ class LoadLearningMaterialData extends AbstractFixture implements
                 $entity->setRelativePath('fakefile' . $arr['id']);
                 $fs->copy(__FILE__, $path);
             }
-
+            $entity->generateToken();
             $manager->persist($entity);
             $this->addReference('learningMaterials' . $arr['id'], $entity);
         }

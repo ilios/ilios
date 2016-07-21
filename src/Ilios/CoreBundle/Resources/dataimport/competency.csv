@@ -1,36 +1,36 @@
-`competency_id`,`title`,`parent_competency_id`,`school_id`
-1,Patient Care,,1
-2,Medical Knowledge,,1
-3,Practice-Based Learning & Improvement,,1
-4,Interpersonal & Communication skills,,1
-5,Professionalism,,1
-6,Systems-Based Practice,,1
-7,History Taking,1,1
-8,Physical Exam,1,1
-9,Oral Case Presentation,1,1
-10,Medical Notes,1,1
-11,Procedures and Skills,1,1
-12,Patient Management,1,1
-13,Problem-Solving and Diagnosis,2,1
-14,Knowledge for Practice,2,1
-15,Information Management,3,1
-16,Evidence-Based Medicine,3,1
-17,Reflection and Self-Improvement,3,1
-18,Doctor-Patient Relationship,4,1
-19,Communication and Information Sharing with Patients and Families,4,1
-20,Communication with the Medical Team,4,1
-21,Professional Relationships,5,1
-22,Boundaries and Priorities,5,1
-23,"Work Habits, Appearance, and Etiquette",5,1
-24,Ethical Principles,5,1
-25,"Institutional, Regulatory, and Professional Society Standards",5,1
-26,Healthcare Delivery Systems,6,1
-27,Interpersonal and Communication Skills,,3
-28,Patient and Population-based Care,,3
-29,Practice-based Learning and Improvement,,3
-30,Professionalism,,3
-31,Scientific and Clinical Foundations,,3
-32,Systems-based Practice,,3
-50,Systems Improvement,6,1
-51,Treatment,2,1
-52,Inquiry and Discovery,2,1
+`competency_id`,`title`,`parent_competency_id`,`school_id`,`active`
+1,Patient Care,,1,1
+2,Medical Knowledge,,1,1
+3,Practice-Based Learning & Improvement,,1,1
+4,Interpersonal & Communication skills,,1,1
+5,Professionalism,,1,1
+6,Systems-Based Practice,,1,1
+7,History Taking,1,1,1
+8,Physical Exam,1,1,1
+9,Oral Case Presentation,1,1,1
+10,Medical Notes,1,1,1
+11,Procedures and Skills,1,1,1
+12,Patient Management,1,1,1
+13,Problem-Solving and Diagnosis,2,1,1
+14,Knowledge for Practice,2,1,1
+15,Information Management,3,1,1
+16,Evidence-Based Medicine,3,1,1
+17,Reflection and Self-Improvement,3,1,1
+18,Doctor-Patient Relationship,4,1,1
+19,Communication and Information Sharing with Patients and Families,4,1,1
+20,Communication with the Medical Team,4,1,1
+21,Professional Relationships,5,1,1
+22,Boundaries and Priorities,5,1,1
+23,"Work Habits, Appearance, and Etiquette",5,1,1
+24,Ethical Principles,5,1,1
+25,"Institutional, Regulatory, and Professional Society Standards",5,1,1
+26,Healthcare Delivery Systems,6,1,1
+27,Interpersonal and Communication Skills,,3,1
+28,Patient and Population-based Care,,3,1
+29,Practice-based Learning and Improvement,,3,1
+30,Professionalism,,3,1
+31,Scientific and Clinical Foundations,,3,1
+32,Systems-based Practice,,3,1
+50,Systems Improvement,6,1,1
+51,Treatment,2,1,1
+52,Inquiry and Discovery,2,1,1

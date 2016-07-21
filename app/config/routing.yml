@@ -26,6 +26,14 @@ ilios_core_downloadlearningmaterial:
         token: "^[a-zA-Z0-9]{64}$"
     schemes:  ["%forceProtocol%"]
 
+ilios_core_downloadcurriculuminventoryreport:
+    path:     /ci-report-dl/{token}
+    defaults:
+        _controller: IliosCoreBundle:CurriculumInventoryDownload:get
+    requirements:
+        token: "^[a-zA-Z0-9]{64}$"
+    schemes:  ["%forceProtocol%"]
+
 ilios_web:
     resource: "@IliosWebBundle/Resources/config/routing.yml"
     prefix:   /

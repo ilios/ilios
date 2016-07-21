@@ -5,6 +5,8 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\ActivatableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,6 +31,8 @@ class Competency implements CompetencyInterface
     use TitledEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
+    use StringableIdEntity;
+    use ActivatableEntity;
 
     /**
      * @var int
@@ -138,6 +142,19 @@ class Competency implements CompetencyInterface
     protected $programYears;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     */
+    protected $active;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -146,6 +163,7 @@ class Competency implements CompetencyInterface
         $this->programYears = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->objectives = new ArrayCollection();
+        $this->active = true;
     }
 
     /**
@@ -270,13 +288,5 @@ class Competency implements CompetencyInterface
             $this->programYears->add($programYear);
             $programYear->addCompetency($this);
         }
-    }
-
-    /**
-    * @return string
-    */
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }

@@ -108,7 +108,6 @@ class ShibbolethAuthentication implements AuthenticationInterface
             'errors' => [],
             'jwt' => null,
         ), JsonResponse::HTTP_OK);
-
     }
 
     /**

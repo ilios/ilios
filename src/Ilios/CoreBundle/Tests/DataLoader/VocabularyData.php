@@ -10,12 +10,14 @@ class VocabularyData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => $this->faker->text(100),
+            'active' => true,
             'school' => '1',
             'terms' => ['1', '2', '3']
         );
         $arr[] = array(
             'id' => 2,
             'title' => $this->faker->text(100),
+            'active' => false,
             'school' => '2',
             'terms' => ['4', '5', '6']
         );
@@ -27,6 +29,7 @@ class VocabularyData extends AbstractDataLoader
         return [
             'id' => 3,
             'title' => $this->faker->text(100),
+            'active' => true,
             'school' => '2',
             'terms' => []
         ];
