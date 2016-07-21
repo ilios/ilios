@@ -19,7 +19,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'description' => $this->faker->text(200),
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
-            'sequenceBlocks' => ['1', '2'],
+            'sequenceBlocks' => ['1', '2', '3', '4', '5'],
             'academicLevels' => ['1'],
             'export' => ''
         );
