@@ -53,13 +53,9 @@ class Version20160122173943 extends AbstractMigration
         $this->addSql('ALTER TABLE session_type ADD CONSTRAINT FK_4AAF5703C32A47EE FOREIGN KEY (school_id) REFERENCES school (school_id)');
         $this->addSql('ALTER TABLE curriculum_inventory_sequence_block DROP FOREIGN KEY FK_22E6B6806081C3B0');
         $this->addSql('ALTER TABLE curriculum_inventory_sequence_block DROP FOREIGN KEY FK_22E6B680591CC992');
-        //$this->addSql('ALTER TABLE curriculum_inventory_sequence_block DROP FOREIGN KEY FK_22E6B680DEB52F47');
-        //$this->addSql('ALTER TABLE curriculum_inventory_sequence_block DROP FOREIGN KEY FK_22E6B6804BD2A4C0');
         $this->addSql('ALTER TABLE curriculum_inventory_sequence_block CHANGE academic_level_id academic_level_id INT NOT NULL');
         $this->addSql('ALTER TABLE curriculum_inventory_sequence_block ADD CONSTRAINT FK_22E6B6806081C3B0 FOREIGN KEY (academic_level_id) REFERENCES curriculum_inventory_academic_level (academic_level_id)');
         $this->addSql('ALTER TABLE curriculum_inventory_sequence_block ADD CONSTRAINT FK_22E6B680591CC992 FOREIGN KEY (course_id) REFERENCES course (course_id)');
-        //$this->addSql('ALTER TABLE curriculum_inventory_sequence_block ADD CONSTRAINT FK_22E6B680DEB52F47 FOREIGN KEY (parent_sequence_block_id) REFERENCES curriculum_inventory_sequence_block (sequence_block_id)');
-        //$this->addSql('ALTER TABLE curriculum_inventory_sequence_block ADD CONSTRAINT FK_22E6B6804BD2A4C0 FOREIGN KEY (report_id) REFERENCES curriculum_inventory_report (report_id)');
         $this->addSql('ALTER TABLE session DROP FOREIGN KEY FK_D044D5D4591CC992');
         $this->addSql('ALTER TABLE session DROP FOREIGN KEY FK_D044D5D4D7940EC9');
         $this->addSql('ALTER TABLE session CHANGE course_id course_id INT NOT NULL, CHANGE session_type_id session_type_id INT NOT NULL');
