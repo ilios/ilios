@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Tests\Controller;
 
 use FOS\RestBundle\Util\Codes;
+use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 
 /**
  * CurriculumInventorySequenceBlock controller Test.
@@ -235,9 +236,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
 
         $response = $this->client->getResponse();
         $childrenBeforeDeletion = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
-        usort($childrenBeforeDeletion, function ($a, $b) {
-            return ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1;
-        });
+        $childrenBeforeDeletion = $this->sortOrderedSequence($childrenBeforeDeletion);
         $firstBlockInSequence = $childrenBeforeDeletion[0];
 
         $blockMap = [];
@@ -294,9 +293,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
 
         $response = $this->client->getResponse();
         $childrenBeforeDeletion = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
-        usort($childrenBeforeDeletion, function ($a, $b) {
-            return ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1;
-        });
+        $childrenBeforeDeletion = $this->sortOrderedSequence($childrenBeforeDeletion);
         $lastBlockInSequence = $childrenBeforeDeletion[count($childrenBeforeDeletion) - 1];
 
         $blockMap = [];
@@ -352,9 +349,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
 
         $response = $this->client->getResponse();
         $childrenBeforeDeletion = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
-        usort($childrenBeforeDeletion, function ($a, $b) {
-            return ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1;
-        });
+        $childrenBeforeDeletion = $this->sortOrderedSequence($childrenBeforeDeletion);
         $blockInSequence = $childrenBeforeDeletion[2];
 
         $blockMap = [];
@@ -418,9 +413,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
 
         $response = $this->client->getResponse();
         $childrenBeforeAddition = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
-        usort($childrenBeforeAddition, function ($a, $b) {
-            return ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1;
-        });
+        $childrenBeforeAddition = $this->sortOrderedSequence($childrenBeforeAddition);
 
         $blockMap = [];
         foreach ($childrenBeforeAddition as $block) {
@@ -491,9 +484,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
 
         $response = $this->client->getResponse();
         $childrenBeforeAddition = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
-        usort($childrenBeforeAddition, function ($a, $b) {
-            return ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1;
-        });
+        $childrenBeforeAddition = $this->sortOrderedSequence($childrenBeforeAddition);
 
         $blockMap = [];
         foreach ($childrenBeforeAddition as $block) {
@@ -562,9 +553,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
 
         $response = $this->client->getResponse();
         $childrenBeforeAddition = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
-        usort($childrenBeforeAddition, function ($a, $b) {
-            return ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1;
-        });
+        $childrenBeforeAddition = $this->sortOrderedSequence($childrenBeforeAddition);
 
         $blockMap = [];
         foreach ($childrenBeforeAddition as $block) {
@@ -641,9 +630,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
 
         $response = $this->client->getResponse();
         $childrenBeforeMove = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
-        usort($childrenBeforeMove, function ($a, $b) {
-            return ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1;
-        });
+        $childrenBeforeMove = $this->sortOrderedSequence($childrenBeforeMove);
 
         $blockMap = [];
         foreach ($childrenBeforeMove as $block) {
@@ -693,9 +680,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
             'Sequence contains the same number of blocks as before.'
         );
 
-        usort($childrenAfterMove, function ($a, $b) {
-            return ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1;
-        });
+        $childrenAfterMove = $this->sortOrderedSequence($childrenAfterMove);
 
         for ($i = 0, $n = count($childrenAfterMove); $i < $n; $i++) {
             $this->assertEquals(
@@ -723,22 +708,202 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
 
     public function testPostBlockWithInvalidOrderInSequence()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $dataLoader = $this->container->get('ilioscore.dataloader.curriculuminventorysequenceblock');
+        $parent = $dataLoader->getOne();
+
+        $block = $dataLoader->create();
+        $block['parent'] = $parent['id'];
+        unset($block['id']);
+        unset($block['sessions']);
+        unset($block['children']);
+
+        $block['orderInSequence'] = 0; // out of bounds on lower boundary
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_curriculuminventorysequenceblocks'),
+            json_encode(['curriculumInventorySequenceBlock' => $block]),
+            $this->getAuthenticatedUserToken()
         );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode(), 'Fails on lower boundary.');
+
+        $block['orderInSequence'] = count($parent['children']) + 2; // out of bounds on upper boundary
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_curriculuminventorysequenceblocks'),
+            json_encode(['curriculumInventorySequenceBlock' => $block]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode(), 'Fails on upper boundary.');
+
+        $block['orderInSequence'] = count($parent['children']) + 1; // ok
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_curriculuminventorysequenceblocks'),
+            json_encode(['curriculumInventorySequenceBlock' => $block]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
     }
 
     public function testPutBlockWithInvalidOrderInSequence()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $dataLoader = $this->container->get('ilioscore.dataloader.curriculuminventorysequenceblock');
+        $parent = $dataLoader->getOne();
+
+        $block = $dataLoader->create();
+        $block['parent'] = $parent['id'];
+        $blockId = $block['id'];
+        unset($block['id']);
+        unset($block['sessions']);
+        unset($block['children']);
+
+        $block['orderInSequence'] = 0; // out of bounds on lower boundary
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_curriculuminventorysequenceblocks',
+                ['id' =>$blockId]
+            ),
+            json_encode(['curriculumInventorySequenceBlock' => $block]),
+            $this->getAuthenticatedUserToken()
         );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode(), 'Fails on lower boundary.');
+
+        $block['orderInSequence'] = count($parent['children']) + 2; // out of bounds on upper boundary
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_curriculuminventorysequenceblocks',
+                ['id' =>$blockId]
+            ),
+            json_encode(['curriculumInventorySequenceBlock' => $block]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode(), 'Fails on upper boundary.');
+
+        $block['orderInSequence'] = count($parent['children']) + 1; // ok
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_curriculuminventorysequenceblocks',
+                ['id' =>$blockId]
+            ),
+            json_encode(['curriculumInventorySequenceBlock' => $block]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
     }
 
     public function testChangeChildSequenceOrder()
     {
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $dataLoader = $this->container->get('ilioscore.dataloader.curriculuminventorysequenceblock');
+        $parent = $dataLoader->getOne();
+        $this->assertEquals($parent['childSequenceOrder'], CurriculumInventorySequenceBlockInterface::ORDERED);
+
+        $parentId = $parent['id'];
+        unset($parent['id']);
+        unset($parent['sessions']);
+        unset($parent['children']);
+
+        $parent['childSequenceOrder'] = CurriculumInventorySequenceBlockInterface::UNORDERED;
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_curriculuminventorysequenceblocks',
+                ['id' =>$parentId]
+            ),
+            json_encode(['curriculumInventorySequenceBlock' => $parent]),
+            $this->getAuthenticatedUserToken()
         );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks', ['filters[parent]' => $parentId]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $unorderedSequence = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        foreach ($unorderedSequence as $block) {
+            $this->assertEquals(0, $block['orderInSequence'], 'Blocks in an unordered sequence hold a 0 position.');
+        }
+
+        $parent['childSequenceOrder'] = CurriculumInventorySequenceBlockInterface::ORDERED;
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_curriculuminventorysequenceblocks',
+                ['id' =>$parentId]
+            ),
+            json_encode(['curriculumInventorySequenceBlock' => $parent]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks', ['filters[parent]' => $parentId]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $orderedSequence = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        $orderedSequence = $this->sortOrderedSequence($orderedSequence);
+        for ($i = 0, $n = count($orderedSequence); $i < $n; $i++) {
+            $block = $orderedSequence[$i];
+            $this->assertEquals(
+                $i + 1,
+                $block['orderInSequence'],
+                'Blocks in an ordered sequence are sorted sequentially.'
+            );
+        }
+
+        $parent['childSequenceOrder'] = CurriculumInventorySequenceBlockInterface::PARALLEL;
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_curriculuminventorysequenceblocks',
+                ['id' =>$parentId]
+            ),
+            json_encode(['curriculumInventorySequenceBlock' => $parent]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks', ['filters[parent]' => $parentId]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $unorderedSequence = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        foreach ($unorderedSequence as $block) {
+            $this->assertEquals(0, $block['orderInSequence'], 'Blocks in a parallel sequence hold a 0 position.');
+        }
+    }
+
+    /**
+     * Sorts the blocks in a given sequence by their 'order in sequence' values.
+     * @param CurriculumInventorySequenceBlockInterface[] $sequence The unsorted sequence.
+     * @return CurriculumInventorySequenceBlockInterface[] The sorted sequence.
+     */
+    protected function sortOrderedSequence(array $sequence)
+    {
+        $sortedSequence = array_values($sequence); // cheap-o way of copying the array
+        usort($sortedSequence, function ($a, $b) {
+            return ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1;
+        });
+        return $sortedSequence;
     }
 }

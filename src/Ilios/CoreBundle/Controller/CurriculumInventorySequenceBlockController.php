@@ -445,10 +445,6 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
 
         $newValue = $block->getOrderInSequence();
 
-        if ($oldValue === $newValue) {
-            return;
-        }
-
         $blocks = $parent->getChildrenAsSortedList();
         $blocks = array_filter($blocks, function ($sibling) use ($block) {
             return $sibling->getId() !== $block->getId();
@@ -461,6 +457,10 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
             throw new \OutOfRangeException(
                 "The given order-in-sequence value {$newValue} falls outside the range {$minRange} - {$maxRange}."
             );
+        }
+
+        if ($oldValue === $newValue) {
+            return;
         }
 
         array_splice($blocks, $block->getOrderInSequence() - 1, 0, [$block]);
