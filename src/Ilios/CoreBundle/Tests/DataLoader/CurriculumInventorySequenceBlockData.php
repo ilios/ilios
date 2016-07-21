@@ -59,7 +59,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'title' => $this->faker->text(10),
             'report' => '1',
             'childSequenceOrder' => 1,
-            'orderInSequence' => 0,
+            'orderInSequence' => 1,
             'academicLevel' => 2,
             'minimum' => 1,
             'maximum' => 1,
