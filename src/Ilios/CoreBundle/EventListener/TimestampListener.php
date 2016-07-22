@@ -2,22 +2,14 @@
 
 namespace Ilios\CoreBundle\EventListener;
 
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 
-class TimestampListener implements EventSubscriber
+class TimestampListener
 {
-    public function getSubscribedEvents()
-    {
-        return [
-            'onFlush'
-        ];
-    }
-
-    public function onFlush(OnFlushEventArgs $eventArgs)
-    {
+     public function onFlush(OnFlushEventArgs $eventArgs)
+     {
         $entityManager = $eventArgs->getEntityManager();
         $uow = $entityManager->getUnitOfWork();
         $entities = array_merge(
