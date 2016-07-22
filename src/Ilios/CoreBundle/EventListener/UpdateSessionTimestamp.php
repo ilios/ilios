@@ -1,7 +1,6 @@
 <?php
 namespace Ilios\CoreBundle\EventListener;
 
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 
 use Ilios\CoreBundle\Entity\Session;
