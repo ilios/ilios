@@ -638,6 +638,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
         }
 
         $postData = $childrenBeforeMove[1];
+        $oldPosition = $postData['orderInSequence'];
         $newPosition = $childrenBeforeMove[count($childrenBeforeMove) - 2]['orderInSequence'];
         $blockId = $postData['id'];
 
@@ -660,7 +661,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
         $updatedBlock = json_decode($response->getContent(), true)['curriculumInventorySequenceBlock'];
 
         $this->assertEquals(
-            $newPosition,
+            $postData['orderInSequence'],
             $updatedBlock['orderInSequence'],
             'Block has been moved into the proper position.'
         );
@@ -702,6 +703,56 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
                 $filteredOldSequence[$i]['id'],
                 $filteredNewSequence[$i]['id'],
                 'All blocks except the moved one remain their order in sequence.'
+            );
+        }
+
+        // move block back into its original position
+        $postData['orderInSequence'] = $oldPosition;
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_curriculuminventorysequenceblocks',
+                ['id' => $blockId]
+            ),
+            json_encode(['curriculumInventorySequenceBlock' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $updatedBlock = json_decode($response->getContent(), true)['curriculumInventorySequenceBlock'];
+
+        $this->assertEquals(
+            $postData['orderInSequence'],
+            $updatedBlock['orderInSequence'],
+            'Block has been moved back into its original position.'
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_curriculuminventorysequenceblocks', ['filters[parent]' => $parent['id']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $childrenAfterMove = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+
+        $childrenAfterMove = $this->sortOrderedSequence($childrenAfterMove);
+
+        for ($i = 0, $n = count($childrenAfterMove); $i < $n; $i++) {
+            $this->assertEquals(
+                $i + 1,
+                $childrenAfterMove[$i]['orderInSequence'],
+                'Sequence is sorted incrementally, without gaps.'
+            );
+        }
+
+        for ($i = 0, $n = count($childrenAfterMove); $i < $n; $i++) {
+            $this->assertEquals(
+                $childrenBeforeMove[$i]['id'],
+                $childrenAfterMove[$i]['id'],
+                'All blocks are back in their original positions.'
             );
         }
     }
