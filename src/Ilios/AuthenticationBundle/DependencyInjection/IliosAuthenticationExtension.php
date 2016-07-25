@@ -41,7 +41,9 @@ class IliosAuthenticationExtension extends Extension
             'ilios_authentication.ldap.bind_template',
             $config['ldap_authentication_bind_template']
         );
-        
+        $container->setParameter('ilios_authentication.cas.server', rtrim($config['cas_authentication_server'], '/'));
+        $container->setParameter('ilios_authentication.cas.version', $config['cas_authentication_version']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('voters.yml');
@@ -65,6 +67,12 @@ class IliosAuthenticationExtension extends Extension
                 $container->setParameter(
                     'ilios_authentication.authenticatorservice',
                     'ilios_authentication.ldap.authentication'
+                );
+                break;
+            case 'cas':
+                $container->setParameter(
+                    'ilios_authentication.authenticatorservice',
+                    'ilios_authentication.cas.authentication'
                 );
                 break;
         }

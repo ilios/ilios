@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Service;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -10,10 +11,10 @@ use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
 /**
- * Class ShibbolethAuthentication
+ * Class CasAuthentication
  * @package Ilios\AuthenticationBundle\Service
  */
-class ShibbolethAuthentication implements AuthenticationInterface
+class CasAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
@@ -33,35 +34,34 @@ class ShibbolethAuthentication implements AuthenticationInterface
     protected $logger;
 
     /**
-     * @var String
+     * @var Router
      */
-    protected $logoutPath;
+    protected $router;
 
     /**
-     * @var String
+     * @var CasManager
      */
-    protected $userIdAttribute;
+    protected $casManager;
 
     /**
      * Constructor
      * @param AuthenticationManager $authManager
      * @param JsonWebTokenManager $jwtManager
      * @param LoggerInterface $logger
-     * @param String $logoutPath
-     * @param String $userIdAttribute
+     * @param CasManager $casManager
      */
     public function __construct(
         AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger,
-        $logoutPath,
-        $userIdAttribute
+        Router $router,
+        $casManager
     ) {
         $this->authManager = $authManager;
         $this->jwtManager = $jwtManager;
         $this->logger = $logger;
-        $this->logoutPath = $logoutPath;
-        $this->userIdAttribute = $userIdAttribute;
+        $this->router = $router;
+        $this->casManager = $casManager;
     }
     
     /**
@@ -77,17 +77,20 @@ class ShibbolethAuthentication implements AuthenticationInterface
      */
     public function login(Request $request)
     {
-        $applicationId = $request->server->get('Shib-Application-ID');
-        if (!$applicationId) {
+        $service = $request->query->get('service');
+        $ticket = $request->query->get('ticket');
+
+        if (!$ticket) {
             return new JsonResponse(array(
                 'status' => 'redirect',
                 'errors' => [],
                 'jwt' => null,
             ), JsonResponse::HTTP_OK);
         }
-        $userId = $request->server->get($this->userIdAttribute);
+
+        $userId = $this->casManager->getUserId($service, $ticket);
         if (!$userId) {
-            $msg =  "No '{$this->userIdAttribute}' found for authenticated user.";
+            $msg =  "No user found for authenticated user.";
             $this->logger->error($msg, ['server vars' => var_export($_SERVER, true)]);
             throw new \Exception($msg);
         }
@@ -118,14 +121,10 @@ class ShibbolethAuthentication implements AuthenticationInterface
      */
     public function logout(Request $request)
     {
-        $url = $request->getSchemeAndHttpHost();
-        $logoutUrl = $url . $this->logoutPath;
-        session_unset();
-        session_destroy();
+        $logoutUrl = $this->casManager->getLogoutUrl();
         return new JsonResponse(array(
             'status' => 'redirect',
             'logoutUrl' => $logoutUrl
-
         ), JsonResponse::HTTP_OK);
     }
 }
