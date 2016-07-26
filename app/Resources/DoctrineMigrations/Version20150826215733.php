@@ -27,7 +27,12 @@ class Version20150826215733 extends AbstractMigration
             '(SELECT session_id FROM session s WHERE s.ilm_session_facet_id = f.ilm_session_facet_id)'
         );
         $this->addSql('DELETE FROM ilm_session_facet WHERE session_id IS NULL');
+        $this->addSql('ALTER TABLE ilm_session_facet DROP FOREIGN KEY FK_8C070D9613FECDF');
         $this->addSql('ALTER TABLE ilm_session_facet MODIFY session_id INT NOT NULL');
+        $this->addSql(
+            'ALTER TABLE ilm_session_facet ADD CONSTRAINT FK_8C070D9613FECDF FOREIGN KEY (session_id) ' .
+            'REFERENCES session (session_id) ON DELETE CASCADE'
+        );
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8C070D9613FECDF ON ilm_session_facet (session_id)');
         
         $this->addSql('ALTER TABLE session DROP FOREIGN KEY FK_D044D5D4504270C1');
