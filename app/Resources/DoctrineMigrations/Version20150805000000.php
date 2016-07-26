@@ -261,6 +261,6 @@ class Version20150805000000 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        $this->abort('This is the initial schema, you can not go down from here');
+        $this->throwIrreversibleMigrationException('This is the initial schema, you can not go down from here');
     }
 }
