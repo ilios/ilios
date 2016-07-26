@@ -33,7 +33,9 @@ class Version20150826201107 extends AbstractMigration
         $this->addSql('ALTER TABLE mesh_previous_indexing MODIFY mesh_previous_indexing_id INT NOT NULL');
         $this->addSql('DROP INDEX descriptor_previous ON mesh_previous_indexing');
         $this->addSql('ALTER TABLE mesh_previous_indexing DROP PRIMARY KEY');
+        $this->addSql('ALTER TABLE mesh_previous_indexing DROP FOREIGN KEY FK_32B6E2F4CDB3C93B');
         $this->addSql('ALTER TABLE mesh_previous_indexing DROP mesh_previous_indexing_id, CHANGE mesh_descriptor_uid mesh_descriptor_uid VARCHAR(9) NOT NULL COLLATE utf8_unicode_ci');
         $this->addSql('ALTER TABLE mesh_previous_indexing ADD PRIMARY KEY (mesh_descriptor_uid)');
+        $this->addSql('ALTER TABLE mesh_previous_indexing ADD CONSTRAINT FK_32B6E2F4CDB3C93B FOREIGN KEY (mesh_descriptor_uid) REFERENCES mesh_descriptor (mesh_descriptor_uid)');
     }
 }
