@@ -34,5 +34,5 @@ services:
         factory: ["@ilios_authentication.authenticator_factory", createAuthenticationService]
     ilios_authentication.cas.manager:
             class: Ilios\AuthenticationBundle\Service\CasManager
-            arguments: ['%ilios_authentication.cas.server%', '%ilios_authentication.cas.version%']
+            arguments: ['%ilios_authentication.cas.server%', '%ilios_authentication.cas.version%', '%ilios_authentication.cas.verifySSL%', '%ilios_authentication.cas.certificatepath%']
 

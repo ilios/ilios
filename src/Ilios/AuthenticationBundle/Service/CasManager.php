@@ -19,17 +19,33 @@ class CasManager
     protected $casVersion;
 
     /**
+     * @var boolean
+     */
+    protected $casVerifySSL;
+
+    /**
+     * @var string
+     */
+    protected $casCertificatePath;
+
+    /**
      * Constructor
      *
      * @param string $casServer
      * @param string $casVersion
+     * @param boolean $casVerifySSL
+     * @param string $casCertificatePath
      */
     public function __construct(
         $casServer,
-        $casVersion
+        $casVersion,
+        $casVerifySSL,
+        $casCertificatePath
     ) {
         $this->casServer = $casServer;
         $this->casVersion = $casVersion;
+        $this->casVerifySSL = $casVerifySSL;
+        $this->casCertificatePath = $casCertificatePath;
     }
 
     public function getLoginUrl()
@@ -51,6 +67,7 @@ class CasManager
      * @param string $ticket
      *
      * @return string $userId
+     * @throws \Exception
      */
     public function getUserId($service, $ticket)
     {
@@ -63,6 +80,10 @@ class CasManager
             if ($elements->item(0)->getElementsByTagName("user")->length > 0) {
                 return $elements->item(0)->getElementsByTagName("user")->item(0)->nodeValue;
             }
+        } elseif ($root->getElementsByTagName("authenticationFailure")->length != 0) {
+            $elements = $root->getElementsByTagName("authenticationFailure");
+            $reason = $elements->item(0)->getAttribute('code');
+            throw new \Exception("CAS Authentication Failed: {$reason}");
         }
 
         return false;
@@ -111,12 +132,16 @@ class CasManager
     {
         $ch = curl_init($url);
 
-        //@todo Setup SSL validation for CURL at this point
-        //if this code is still here this is a MAJOR flaw and should
-        //be called out or not merged or fixed IMMEDIATLY
-        //JRJ is an idiot if you are reading this message.
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        if ($this->casVerifySSL) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+
+            if ($this->casCertificatePath) {
+                curl_setopt($ch, CURLOPT_CAINFO, $this->casCertificatePath);
+            }
+        } else {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        }
 
         // return the CURL output into a variable
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

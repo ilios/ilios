@@ -34,6 +34,14 @@ class Configuration implements ConfigurationInterface
                 ->enumNode('cas_authentication_version')
                     ->values(array(null, 1, 2, 3))
                 ->end()
+                ->booleanNode('cas_authentication_verify_ssl')->defaultValue(true)->end()
+                ->scalarNode('cas_authentication_certificate_path')
+                    ->defaultValue(null)
+                    ->validate()
+                    ->ifTrue(function ($value) {
+                        return !is_null($value) && !\is_readable($value);
+                    })->thenInvalid('Unable to find certificate at %s or it is not readable')->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

@@ -165,3 +165,5 @@ ilios_authentication:
     shibboleth_authentication_user_id_attribute: "%shibboleth_authentication_user_id_attribute%"
     cas_authentication_server: "%cas_authentication_server%"
     cas_authentication_version: "%cas_authentication_version%"
+    cas_authentication_verify_ssl: "%cas_authentication_verify_ssl%"
+    cas_authentication_certificate_path: "%cas_authentication_certificate_path%"

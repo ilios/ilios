@@ -39,4 +39,33 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'type'
         );
     }
+
+    public function testInvalidCasCertificatePath()
+    {
+        $this->assertConfigurationIsInvalid(
+            array(
+                array('type' => 'form', 'cas_authentication_certificate_path' => '')
+            ),
+            'Unable to find certificate at'
+        );
+    }
+
+    public function testValidCasCertificatePath()
+    {
+        $this->assertConfigurationIsValid(
+            array(
+                array('type' => 'form', 'cas_authentication_certificate_path' => __FILE__)
+            )
+        );
+    }
+
+    public function testInvalidCasVersion()
+    {
+        $this->assertConfigurationIsInvalid(
+            array(
+                array('type' => 'form', 'cas_authentication_version' => '99')
+            ),
+            'cas_authentication_version'
+        );
+    }
 }
