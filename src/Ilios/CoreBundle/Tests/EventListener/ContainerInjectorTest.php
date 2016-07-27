@@ -1,5 +1,5 @@
 <?php
-namespace Ilios\CoreBundle\Tests\EventListner;
+namespace Ilios\CoreBundle\Tests\EventListener;
 
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;

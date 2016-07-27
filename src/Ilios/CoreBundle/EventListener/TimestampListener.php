@@ -2,20 +2,17 @@
 
 namespace Ilios\CoreBundle\EventListener;
 
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 
-class TimestampListener implements EventSubscriber
+/**
+ * Doctrine event listener that updates timestamp-properties of eligible entities during insertion/update.
+ *
+ * Class TimestampListener
+ * @package Ilios\CoreBundle\EventListener
+ */
+class TimestampListener
 {
-    public function getSubscribedEvents()
-    {
-        return [
-            'onFlush'
-        ];
-    }
-
     public function onFlush(OnFlushEventArgs $eventArgs)
     {
         $entityManager = $eventArgs->getEntityManager();

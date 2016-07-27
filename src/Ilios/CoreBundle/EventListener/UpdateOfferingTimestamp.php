@@ -1,34 +1,30 @@
 <?php
 namespace Ilios\CoreBundle\EventListener;
 
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 
 use Ilios\CoreBundle\Entity\Offering;
 
 /**
- * UpdateOfferingTimestamp event listener
+ * Doctrine event listener.
+ *
  * To correctly set the offering last_updated timestamp we have to listen for updates to the offering as well as
- * all the related entities
+ * all the related entities.
  *
  * The Doctrine built in LifeCycle Callbacks were not able to handle this correctly,
- * or else I was never able to write them correctly
- * */
+ * or else I was never able to write them correctly.
+ *
+ * Class UpdateOfferingTimestamp
+ * @package Ilios\CoreBundle\EventListener
+ */
 class UpdateOfferingTimestamp
 {
-    public function getSubscribedEvents()
-    {
-        return [
-            'onFlush'
-        ];
-    }
-
     /**
     * Grab all of the entities that have a relationship with offering and update the offering
-    * they are associated with
+    * they are associated with.
     *
-    * We have to do this operation usign onFlush so we can catch inserts, updated
-    * and deletes for all associations
+    * We have to do this operation using onFlush so we can catch inserts, updated
+    * and deletes for all associations.
     *
     * @param OnFlushEventArgs $eventArgs
     */

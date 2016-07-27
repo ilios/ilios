@@ -7,19 +7,15 @@ use Ilios\CoreBundle\Entity\LoggableEntityInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
- * LogEntityChanges event listener
- * Listen for every change to an entity and log it
+ * Doctrine event listener.
+ * Listen for every change to an entity and log it.
+ *
+ * Class LogEntityChanges
+ * @package Ilios\CoreBundle\EventListener
  */
 class LogEntityChanges
 {
     use ContainerAwareTrait;
-
-    public function getSubscribedEvents()
-    {
-        return [
-            'onFlush'
-        ];
-    }
 
     /**
     * Get all the entities that have changed and create log entries for them
