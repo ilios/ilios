@@ -4,7 +4,6 @@ namespace Ilios\Migrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
-use Symfony\Component\Security\Core\Util\SecureRandom;
 
 /**
  * Add icsf_feed_key to user table to use in calendar feed
@@ -26,10 +25,8 @@ class Version20150916173024 extends AbstractMigration
         $sql = 'SELECT user_id FROM `user`';
         $rows = $this->connection->executeQuery($sql)->fetchAll();
         if (count($rows)) {
-            $generator = new SecureRandom();
-            
-            $updates = array_map(function ($arr) use ($generator) {
-                $random = $generator->nextBytes(128);
+            $updates = array_map(function ($arr) {
+                $random = random_bytes(128);
                 $key = $arr['user_id'] . microtime() . '_' . $random;
                 $key = hash('sha256', $key);
 
