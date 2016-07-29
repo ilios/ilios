@@ -36,3 +36,8 @@ parameters:
     shibboleth_authentication_user_id_attribute: null
     forceProtocol: http
     keep_frontend_updated: true
+    cas_authentication_server: null
+    cas_authentication_version: null
+    cas_authentication_certificate_path: null
+    cas_authentication_certificate_path: null
+

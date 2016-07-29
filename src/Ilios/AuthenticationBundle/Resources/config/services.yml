@@ -23,9 +23,16 @@ services:
     ilios_authentication.ldap.authentication:
         class: Ilios\AuthenticationBundle\Service\LdapAuthentication
         arguments: ["@ilioscore.authentication.manager", "@ilios_authentication.jwt.manager", '%ilios_authentication.ldap.host%', '%ilios_authentication.ldap.port%', '%ilios_authentication.ldap.bind_template%']
+    ilios_authentication.cas.authentication:
+        class: Ilios\AuthenticationBundle\Service\CasAuthentication
+        arguments: ["@ilioscore.authentication.manager", "@ilios_authentication.jwt.manager", "@logger", "@router", '@ilios_authentication.cas.manager']
     ilios_authentication.authenticator_factory:
         class: Ilios\AuthenticationBundle\Service\AuthenticationFactory
         arguments: ['@service_container', '%ilios_authentication.authenticatorservice%']
     ilios_authentication.authenticator:
         class:   Ilios\AuthenticationBundle\Service\AuthenticationInterface
         factory: ["@ilios_authentication.authenticator_factory", createAuthenticationService]
+    ilios_authentication.cas.manager:
+            class: Ilios\AuthenticationBundle\Service\CasManager
+            arguments: ['%ilios_authentication.cas.server%', '%ilios_authentication.cas.version%', '%ilios_authentication.cas.verifySSL%', '%ilios_authentication.cas.certificatepath%']
+
