@@ -1,7 +1,41 @@
 # Change Log
 
-## [v3.15.0](https://github.com/ilios/ilios/tree/v3.15.0)
+## [v3.16.0](https://github.com/ilios/ilios/tree/v3.16.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.15.0...v3.16.0)
+
+**Implemented enhancements:**
+
+- Add CAS as an Authentication service [\#1522](https://github.com/ilios/ilios/issues/1522)
+- Provide "active" status to terms, competencies and vocabularies [\#1519](https://github.com/ilios/ilios/issues/1519)
+
+**Closed issues:**
+
+- Remove deprecated SecureRandom calls [\#1530](https://github.com/ilios/ilios/issues/1530)
+- grant course director role to "user zero" in addition to dev role [\#1524](https://github.com/ilios/ilios/issues/1524)
+- Session "supplemental" flag always set to "true" [\#1523](https://github.com/ilios/ilios/issues/1523)
+- provide test coverage for first user command [\#1516](https://github.com/ilios/ilios/issues/1516)
+- First user does not have access to the Admin menu [\#1514](https://github.com/ilios/ilios/issues/1514)
+- update info on offering::room in data dictionary [\#1395](https://github.com/ilios/ilios/issues/1395)
+- document offering::site in data dictionary [\#1394](https://github.com/ilios/ilios/issues/1394)
+
+**Merged pull requests:**
+
+- fixed coding standards violation. [\#1534](https://github.com/ilios/ilios/pull/1534) ([stopfstedt](https://github.com/stopfstedt))
+- Replace SecureRandom with random\_bytes [\#1532](https://github.com/ilios/ilios/pull/1532) ([jrjohnson](https://github.com/jrjohnson))
+- replaced call to non-existent method with one of the same intent that works. [\#1529](https://github.com/ilios/ilios/pull/1529) ([stopfstedt](https://github.com/stopfstedt))
+- Add CAS as an auth provider [\#1528](https://github.com/ilios/ilios/pull/1528) ([jrjohnson](https://github.com/jrjohnson))
+- Doctrine event listener cleanup [\#1527](https://github.com/ilios/ilios/pull/1527) ([stopfstedt](https://github.com/stopfstedt))
+- Resorting sequence blocks [\#1526](https://github.com/ilios/ilios/pull/1526) ([stopfstedt](https://github.com/stopfstedt))
+- make "user zero" a course director again. [\#1525](https://github.com/ilios/ilios/pull/1525) ([stopfstedt](https://github.com/stopfstedt))
+- added active flag to competency/vocab/term initial data set. [\#1521](https://github.com/ilios/ilios/pull/1521) ([stopfstedt](https://github.com/stopfstedt))
+- Add active to competency, term, and vocabulary [\#1520](https://github.com/ilios/ilios/pull/1520) ([jrjohnson](https://github.com/jrjohnson))
+- user's, not users. [\#1518](https://github.com/ilios/ilios/pull/1518) ([stopfstedt](https://github.com/stopfstedt))
+- Test coverage install first user command [\#1517](https://github.com/ilios/ilios/pull/1517) ([stopfstedt](https://github.com/stopfstedt))
+- grant dev role to first user instead of course director. [\#1515](https://github.com/ilios/ilios/pull/1515) ([stopfstedt](https://github.com/stopfstedt))
+- Disabled/re-enabled foreign key checks on several migrations to get them to work with MySQL 5.6+ [\#1451](https://github.com/ilios/ilios/pull/1451) ([thecoolestguy](https://github.com/thecoolestguy))
+
+## [v3.15.0](https://github.com/ilios/ilios/tree/v3.15.0) (2016-07-08)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.14.0...v3.15.0)
 
 **Implemented enhancements:**
@@ -14,11 +48,13 @@
 
 **Merged pull requests:**
 
+- updating changelog for the v3.15.0 release [\#1510](https://github.com/ilios/ilios/pull/1510) ([thecoolestguy](https://github.com/thecoolestguy))
+- updating changelog for the v3.14.1 release [\#1509](https://github.com/ilios/ilios/pull/1509) ([thecoolestguy](https://github.com/thecoolestguy))
 - Simplify rollover by counting days [\#1508](https://github.com/ilios/ilios/pull/1508) ([jrjohnson](https://github.com/jrjohnson))
 - Remove superfluous colon from token output [\#1507](https://github.com/ilios/ilios/pull/1507) ([jrjohnson](https://github.com/jrjohnson))
 - Update dependencies [\#1504](https://github.com/ilios/ilios/pull/1504) ([jrjohnson](https://github.com/jrjohnson))
 - corrected table joins in query. [\#1502](https://github.com/ilios/ilios/pull/1502) ([stopfstedt](https://github.com/stopfstedt))
-- Add PHP7 support, remove 5.6 [\#1481](https://github.com/ilios/ilios/pull/1481) ([jrjohnson](https://github.com/jrjohnson))
+- Add PHP7 support, remove 5.5 [\#1481](https://github.com/ilios/ilios/pull/1481) ([jrjohnson](https://github.com/jrjohnson))
 
 ## [v3.14.0](https://github.com/ilios/ilios/tree/v3.14.0) (2016-06-30)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.13.0...v3.14.0)
