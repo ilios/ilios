@@ -32,8 +32,6 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
             'orderInSequence',
             'minimum',
             'maximum',
-            'startDate',
-            'endDate',
             'duration'
         );
         $this->object->setReport(m::mock('Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface'));
