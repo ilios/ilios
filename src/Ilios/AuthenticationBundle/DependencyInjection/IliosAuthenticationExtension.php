@@ -44,7 +44,11 @@ class IliosAuthenticationExtension extends Extension
         $container->setParameter('ilios_authentication.cas.server', rtrim($config['cas_authentication_server'], '/'));
         $container->setParameter('ilios_authentication.cas.version', $config['cas_authentication_version']);
         $container->setParameter('ilios_authentication.cas.verifySSL', $config['cas_authentication_verify_ssl']);
-        $container->setParameter('ilios_authentication.cas.certificatePath', $config['cas_authentication_certificate_path']);
+        $container->setParameter(
+            'ilios_authentication.cas.certificatePath',
+            $config['cas_authentication_certificate_path']
+        );
+
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
