@@ -164,8 +164,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\Column(name="start_date", type="date", nullable=true)
      *
-     * @Assert\NotBlank()
-     *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("startDate")
@@ -176,8 +174,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @var \DateTime
      *
      * @ORM\Column(name="end_date", type="date", nullable=true)
-     *
-     * @Assert\NotBlank()
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")

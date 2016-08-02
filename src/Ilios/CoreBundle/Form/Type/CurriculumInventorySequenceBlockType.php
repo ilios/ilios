@@ -31,9 +31,11 @@ class CurriculumInventorySequenceBlockType extends AbstractType
             ->add('maximum')
             ->add('track', null, ['required' => false])
             ->add('startDate', DateTimeType::class, array(
+                'required' => false,
                 'widget' => 'single_text',
             ))
             ->add('endDate', DateTimeType::class, array(
+                'required' => false,
                 'widget' => 'single_text',
             ))
             ->add('duration')
