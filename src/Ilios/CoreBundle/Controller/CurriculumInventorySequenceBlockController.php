@@ -403,7 +403,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
 
         switch ($newValue) {
             case CurriculumInventorySequenceBlockInterface::ORDERED:
-                usort($children, [CurriculumInventorySequenceBlock::class, 'compareSequenceBlocksWithOrderedStrategy']);
+                usort($children, [CurriculumInventorySequenceBlock::class, 'compareSequenceBlocksWithDefaultStrategy']);
                 for ($i = 0, $n = count($children); $i < $n; $i++) {
                     $children[$i]->setOrderInSequence($i + 1);
                     $manager->update($children[$i]);
