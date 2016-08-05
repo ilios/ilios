@@ -155,6 +155,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     *
      * this field is currently tinyint data type in the db but used like a boolean
      */
     protected $track;
