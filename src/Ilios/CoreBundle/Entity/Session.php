@@ -290,6 +290,14 @@ class Session implements SessionInterface
     */
     protected $offerings;
 
+
+    /**
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="sessions")
+     */
+    protected $sequenceBlocks;
+
     /**
      * Constructor
      */

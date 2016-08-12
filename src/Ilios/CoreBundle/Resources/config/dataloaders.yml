@@ -16,7 +16,6 @@ parameters:
     ilioscore.dataloader.curriculuminventoryinstitution.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryInstitutionData
     ilioscore.dataloader.curriculuminventoryreport.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryReportData
     ilioscore.dataloader.curriculuminventorysequenceblock.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockData
-    ilioscore.dataloader.curriculuminventorysequenceblocksession.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData
     ilioscore.dataloader.curriculuminventorysequence.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceData
     ilioscore.dataloader.department.class: Ilios\CoreBundle\Tests\DataLoader\DepartmentData
     ilioscore.dataloader.ilmsession.class: Ilios\CoreBundle\Tests\DataLoader\IlmSessionData
@@ -87,8 +86,6 @@ services:
         class: "%ilioscore.dataloader.curriculuminventoryreport.class%"
     ilioscore.dataloader.curriculuminventorysequenceblock:
         class: "%ilioscore.dataloader.curriculuminventorysequenceblock.class%"
-    ilioscore.dataloader.curriculuminventorysequenceblocksession:
-        class: "%ilioscore.dataloader.curriculuminventorysequenceblocksession.class%"
     ilioscore.dataloader.curriculuminventorysequence:
         class: "%ilioscore.dataloader.curriculuminventorysequence.class%"
     ilioscore.dataloader.department:

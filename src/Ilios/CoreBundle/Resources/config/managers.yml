@@ -73,9 +73,6 @@ services:
     ilioscore.curriculuminventorysequenceblock.manager:
         class: "%ilioscore.basemanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock]
-    ilioscore.curriculuminventorysequenceblocksession.manager:
-        class: "%ilioscore.basemanager.class%"
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession]
     ilioscore.curriculuminventorysequence.manager:
         class: "%ilioscore.basemanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventorySequence]

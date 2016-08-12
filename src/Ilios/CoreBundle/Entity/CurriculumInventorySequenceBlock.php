@@ -271,16 +271,21 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     protected $report;
 
     /**
-    * @var ArrayCollection|CurriculumInventorySequenceBlockSessionInterface[]
-    *
-    * @ORM\OneToMany(
-    *   targetEntity="CurriculumInventorySequenceBlockSession",
-    *   mappedBy="sequenceBlock"
-    * )
-    *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    */
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Session", inversedBy="sequenceBlocks")
+     * @ORM\JoinTable("curriculum_inventory_sequence_block_x_session",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="sequence_block_id", referencedColumnName="sequence_block_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
     protected $sessions;
 
     public function __construct()
@@ -542,15 +547,15 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param CurriculumInventorySequenceBlockSessionInterface $session
+     * @param SessionInterface $session
      */
-    public function addSession(CurriculumInventorySequenceBlockSessionInterface $session)
+    public function addSession(SessionInterface $session)
     {
         $this->sessions->add($session);
     }
 
     /**
-     * @return ArrayCollection|CurriculumInventorySequenceBlockSessionInterface[]
+     * @return ArrayCollection|SessionInterface[]
      */
     public function getSessions()
     {

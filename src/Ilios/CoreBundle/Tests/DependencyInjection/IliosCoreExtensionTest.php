@@ -81,8 +81,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
                 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryReportData',
             'ilioscore.dataloader.curriculuminventorysequenceblock.class' =>
                 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockData',
-            'ilioscore.dataloader.curriculuminventorysequenceblocksession.class' =>
-                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData',
             'ilioscore.dataloader.curriculuminventorysequence.class' =>
                 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceData',
             'ilioscore.dataloader.department.class' => 'Ilios\CoreBundle\Tests\DataLoader\DepartmentData',
@@ -163,8 +161,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.curriculuminventorysequence.manager',
             'ilioscore.curriculuminventorysequenceblock.handler',
             'ilioscore.curriculuminventorysequenceblock.manager',
-            'ilioscore.curriculuminventorysequenceblocksession.handler',
-            'ilioscore.curriculuminventorysequenceblocksession.manager',
             'ilioscore.department.handler',
             'ilioscore.department.manager',
             'ilioscore.ilmsession.handler',
@@ -241,7 +237,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.curriculuminventoryinstitution',
             'ilioscore.dataloader.curriculuminventoryreport',
             'ilioscore.dataloader.curriculuminventorysequenceblock',
-            'ilioscore.dataloader.curriculuminventorysequenceblocksession',
             'ilioscore.dataloader.curriculuminventorysequence',
             'ilioscore.dataloader.department',
             'ilioscore.dataloader.ilmsession',

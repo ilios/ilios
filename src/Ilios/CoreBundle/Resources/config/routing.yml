@@ -133,13 +133,6 @@ api_curriculuminventorysequenceblock_v1:
     defaults: {_format:json}
 
 
-api_curriculuminventorysequenceblocksession_v1:
-    resource: "@IliosCoreBundle/Controller/CurriculumInventorySequenceBlockSessionController.php"
-    type:     rest
-    prefix:   /v1
-    defaults: {_format:json}
-
-
 api_curriculuminventorysequence_v1:
     resource: "@IliosCoreBundle/Controller/CurriculumInventorySequenceController.php"
     type:     rest

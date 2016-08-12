@@ -53,9 +53,6 @@ services:
     ilioscore.curriculuminventorysequenceblock.handler:
         class: "%ilioscore.form.handler.class%"
         arguments: ["@ilioscore.curriculuminventorysequenceblock.manager", '@form.factory', Ilios\CoreBundle\Form\Type\CurriculumInventorySequenceBlockType]
-    ilioscore.curriculuminventorysequenceblocksession.handler:
-        class: "%ilioscore.form.handler.class%"
-        arguments: ["@ilioscore.curriculuminventorysequenceblocksession.manager", '@form.factory', Ilios\CoreBundle\Form\Type\CurriculumInventorySequenceBlockSessionType]
     ilioscore.curriculuminventorysequence.handler:
         class: "%ilioscore.form.handler.class%"
         arguments: ["@ilioscore.curriculuminventorysequence.manager", '@form.factory', Ilios\CoreBundle\Form\Type\CurriculumInventorySequenceType]
