@@ -137,10 +137,10 @@ interface SessionInterface extends
     /**
      * @param CurriculumInventorySequenceBlockInterface $block
      */
-    public function addCurriculumInventorySequenceBlock(CurriculumInventorySequenceBlockInterface $block);
+    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $block);
 
     /**
      * @return CurriculumInventorySequenceBlockInterface
      */
-    public function getCurriculumInventorySequenceBlocks();
+    public function getSequenceBlocks();
 }

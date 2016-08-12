@@ -505,7 +505,7 @@ class Session implements SessionInterface
     /**
      * @inheritdoc
      */
-    public function addCurriculumInventorySequenceBlock(CurriculumInventorySequenceBlockInterface $block)
+    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $block)
     {
         $this->sequenceBlocks->add($block);
     }
@@ -513,7 +513,7 @@ class Session implements SessionInterface
     /**
      * @inheritdoc
      */
-    public function getCurriculumInventorySequenceBlocks()
+    public function getSequenceBlocks()
     {
         return $this->sequenceBlocks;
     }
