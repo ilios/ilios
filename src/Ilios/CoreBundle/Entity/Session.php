@@ -313,6 +313,7 @@ class Session implements SessionInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->offerings = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
+        $this->sequenceBlocks = new ArrayCollection();
         
         $this->updatedAt = new \DateTime();
     }
@@ -499,5 +500,21 @@ class Session implements SessionInterface
             return $course->getSchool();
         }
         return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addCurriculumInventorySequenceBlock(CurriculumInventorySequenceBlockInterface $block)
+    {
+        $this->sequenceBlocks->add($block);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCurriculumInventorySequenceBlocks()
+    {
+        return $this->sequenceBlocks;
     }
 }

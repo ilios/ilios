@@ -133,4 +133,14 @@ interface SessionInterface extends
      * @return SchoolInterface|null
      */
     public function getSchool();
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $block
+     */
+    public function addCurriculumInventorySequenceBlock(CurriculumInventorySequenceBlockInterface $block);
+
+    /**
+     * @return CurriculumInventorySequenceBlockInterface
+     */
+    public function getCurriculumInventorySequenceBlocks();
 }
