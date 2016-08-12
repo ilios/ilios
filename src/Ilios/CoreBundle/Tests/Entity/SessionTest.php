@@ -58,6 +58,7 @@ class SessionTest extends EntityBase
         $this->assertEmpty($this->object->getObjectives());
         $this->assertEmpty($this->object->getOfferings());
         $this->assertEmpty($this->object->getTerms());
+        $this->assertEmpty($this->object->getSequenceBlocks());
     }
 
     /**
@@ -155,10 +156,27 @@ class SessionTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Session::addSequenceBlock
+     */
+    public function testAddSequenceBlock()
+    {
+        $this->entityCollectionAddTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Session::setLearningMaterials
      * @covers Ilios\CoreBundle\Entity\Session::getLearningMaterials
      */
     public function testGetLearningMaterials()
+    {
+        $this->entityCollectionSetTest('learningMaterial', 'SessionLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::setLearningMaterials
+     * @covers Ilios\CoreBundle\Entity\Session::getLearningMaterials
+     */
+    public function testGetSequenceBlocks()
     {
         $this->entityCollectionSetTest('learningMaterial', 'SessionLearningMaterial');
     }
