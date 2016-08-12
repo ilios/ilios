@@ -143,4 +143,9 @@ interface SessionInterface extends
      * @return CurriculumInventorySequenceBlockInterface
      */
     public function getSequenceBlocks();
+
+    /**
+     * @param Collection $sequenceBlocks
+     */
+    public function setSequenceBlocks(Collection $sequenceBlocks = null);
 }

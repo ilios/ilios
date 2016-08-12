@@ -517,4 +517,19 @@ class Session implements SessionInterface
     {
         return $this->sequenceBlocks;
     }
+
+    /**
+     * @param Collection $sequenceBlocks
+     */
+    public function setSequenceBlocks(Collection $sequenceBlocks = null)
+    {
+        $this->sequenceBlocks = new ArrayCollection();
+        if (is_null($sequenceBlocks)) {
+            return;
+        }
+
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addSequenceBlock($sequenceBlock);
+        }
+    }
 }

@@ -156,27 +156,10 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::addSequenceBlock
-     */
-    public function testAddSequenceBlock()
-    {
-        $this->entityCollectionAddTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\Session::setLearningMaterials
      * @covers Ilios\CoreBundle\Entity\Session::getLearningMaterials
      */
     public function testGetLearningMaterials()
-    {
-        $this->entityCollectionSetTest('learningMaterial', 'SessionLearningMaterial');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\Session::setLearningMaterials
-     * @covers Ilios\CoreBundle\Entity\Session::getLearningMaterials
-     */
-    public function testGetSequenceBlocks()
     {
         $this->entityCollectionSetTest('learningMaterial', 'SessionLearningMaterial');
     }
@@ -244,5 +227,22 @@ class SessionTest extends EntityBase
         $obj->shouldReceive('setSession')->with($this->object)->once();
         $this->object->setSessionDescription($obj);
         $this->assertSame($obj, $this->object->getSessionDescription());
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::addSequenceBlock
+     */
+    public function testAddSequenceBlock()
+    {
+        $this->entityCollectionAddTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::setSequenceBlocks
+     * @covers Ilios\CoreBundle\Entity\Session::getSequenceBlocks
+     */
+    public function testGetSequenceBlocks()
+    {
+        $this->entityCollectionSetTest('sequenceBlocks', 'CurriculumInventorySequenceBlock');
     }
 }
