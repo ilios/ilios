@@ -46,7 +46,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
             if (!empty($arr['parent'])) {
                 $entity->setParent($this->getReference('curriculumInventorySequenceBlocks' . $arr['parent']));
             }
-            foreach($arr['sessions'] as $sessionId) {
+            foreach ($arr['sessions'] as $sessionId) {
                 $entity->addSession($this->getReference('sessions'. $sessionId));
             }
             $manager->persist($entity);
