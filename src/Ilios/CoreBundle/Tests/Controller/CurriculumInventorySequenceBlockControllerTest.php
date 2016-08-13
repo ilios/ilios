@@ -147,7 +147,6 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-        unset($postData['sessions']);
         unset($postData['children']);
 
         $this->createJsonRequest(
