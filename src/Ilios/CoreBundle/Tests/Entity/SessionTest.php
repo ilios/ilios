@@ -243,6 +243,6 @@ class SessionTest extends EntityBase
      */
     public function testGetSequenceBlocks()
     {
-        $this->entityCollectionSetTest('sequenceBlocks', 'CurriculumInventorySequenceBlock');
+        $this->entityCollectionSetTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
 }
