@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
 use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -54,6 +55,10 @@ class CurriculumInventorySequenceBlockType extends AbstractType
             ->add('report', SingleRelatedType::class, [
                 'required' => true,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
+            ])
+            ->add('sessions', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
             ])
         ;
         $transformer = new RemoveMarkupTransformer();

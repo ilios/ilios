@@ -698,7 +698,7 @@ SELECT
   stxam.method_id,
   st.assessment AS is_assessment_method,
   ao.name AS assessment_option_name,
-  sbs.count_offerings_once,
+  sbxs.session_id AS count_offerings_once,
   o.start_date,
   o.end_date
 FROM
@@ -711,7 +711,8 @@ FROM
   LEFT JOIN session_type_x_aamc_method stxam ON stxam.session_type_id = st.session_type_id
   LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
   LEFT JOIN ilm_session_facet sf ON sf.session_id = s.session_id
-  LEFT JOIN curriculum_inventory_sequence_block_session sbs ON sbs.session_id = s.session_id
+  LEFT JOIN curriculum_inventory_sequence_block_x_session sbxs 
+    ON sbxs.session_id = s.session_id AND sbxs.sequence_block_id = sb.sequence_block_id 
 WHERE
   s.published
   AND sf.ilm_session_facet_id IS NULL

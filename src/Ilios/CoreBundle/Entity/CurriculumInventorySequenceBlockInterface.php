@@ -181,10 +181,10 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function getReport();
     
-    public function addSession(CurriculumInventorySequenceBlockSessionInterface $session);
+    public function addSession(SessionInterface $session);
 
     /**
-     * @return ArrayCollection|CurriculumInventorySequenceBlockSessionInterface[]
+     * @return ArrayCollection|SessionInterface[]
      */
     public function getSessions();
 

@@ -25,8 +25,8 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
             'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData',
         ]);
     }

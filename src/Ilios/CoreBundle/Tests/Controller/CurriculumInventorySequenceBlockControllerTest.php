@@ -19,7 +19,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
             'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockSessionData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
         ]);
     }
 
@@ -147,7 +147,6 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-        unset($postData['sessions']);
         unset($postData['children']);
 
         $this->createJsonRequest(

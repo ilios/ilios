@@ -290,6 +290,14 @@ class Session implements SessionInterface
     */
     protected $offerings;
 
+
+    /**
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="sessions")
+     */
+    protected $sequenceBlocks;
+
     /**
      * Constructor
      */
@@ -305,6 +313,7 @@ class Session implements SessionInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->offerings = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
+        $this->sequenceBlocks = new ArrayCollection();
         
         $this->updatedAt = new \DateTime();
     }
@@ -491,5 +500,36 @@ class Session implements SessionInterface
             return $course->getSchool();
         }
         return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $block)
+    {
+        $this->sequenceBlocks->add($block);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSequenceBlocks()
+    {
+        return $this->sequenceBlocks;
+    }
+
+    /**
+     * @param Collection $sequenceBlocks
+     */
+    public function setSequenceBlocks(Collection $sequenceBlocks = null)
+    {
+        $this->sequenceBlocks = new ArrayCollection();
+        if (is_null($sequenceBlocks)) {
+            return;
+        }
+
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addSequenceBlock($sequenceBlock);
+        }
     }
 }
