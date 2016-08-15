@@ -457,9 +457,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param CourseInterface $course
+     * @inheritdoc
      */
-    public function setCourse(CourseInterface $course)
+    public function setCourse(CourseInterface $course = null)
     {
         $this->course = $course;
     }

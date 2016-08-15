@@ -147,9 +147,9 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function getAcademicLevel();
 
     /**
-     * @param CourseInterface $course
+     * @param CourseInterface $course|null
      */
-    public function setCourse(CourseInterface $course);
+    public function setCourse(CourseInterface $course = null);
 
     /**
      * @return CourseInterface|null
