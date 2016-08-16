@@ -305,4 +305,26 @@ class AuthenticationControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testPostAuthenticationForUserWithNonPrimarySchool()
+    {
+        $data = $this->container->get('ilioscore.dataloader.authentication')
+            ->create();
+        //user4 is in school 2
+        $data['user'] = 4;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_authentications'),
+            json_encode(['authentication' => $data]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+    }
 }
