@@ -39,5 +39,4 @@ parameters:
     cas_authentication_server: null
     cas_authentication_version: null
     cas_authentication_certificate_path: null
-    cas_authentication_certificate_path: null
 
