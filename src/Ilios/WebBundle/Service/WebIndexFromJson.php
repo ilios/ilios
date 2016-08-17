@@ -11,7 +11,7 @@ class WebIndexFromJson
      * @var string
      */
     const DEFAULT_TEMPLATE_NAME = 'webindex.html.twig';
-    const API_VERSION = 'v1.7';
+    const API_VERSION = 'v1.8';
     const AWS_BUCKER = 'https://s3-us-west-2.amazonaws.com/frontend-json-config/';
 
     const PRODUCTION = 'prod';
@@ -75,7 +75,6 @@ class WebIndexFromJson
         }, $json->script);
 
         $options = [
-            'base_url' => $json->base[0]->href,
             'metas' => $metas,
             'links' => $links,
             'scripts' => $scripts,
