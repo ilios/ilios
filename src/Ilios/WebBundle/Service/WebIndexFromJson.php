@@ -75,7 +75,6 @@ class WebIndexFromJson
         }, $json->script);
 
         $options = [
-            'base_url' => $json->base[0]->href,
             'metas' => $metas,
             'links' => $links,
             'scripts' => $scripts,

@@ -13,7 +13,7 @@ class WebIndexFromJsonTest extends TestCase
 
     public function setup()
     {
-        $this->sampleJson = '{"base":[{"href":"/something/something"}],"meta":[{"name":"ilios/config/environment",' .
+        $this->sampleJson = '{"meta":[{"name":"ilios/config/environment",' .
             '"content":"test-config"}],"link":[{"rel":"stylesheet","href":"first.css"},{"rel":"stylesheet",' .
             '"href":"second.css"}],"script":[{"src":"first.js"},{"src":"second.js"},{"src":"third.js"}]}';
     }
@@ -37,7 +37,6 @@ class WebIndexFromJsonTest extends TestCase
         $mockTemplating->shouldReceive('exists')
             ->with('IliosWebBundle:WebIndex:webindex.html.twig')->andReturn(true);
         $mockTemplating->shouldReceive('render')->with('IliosWebBundle:WebIndex:webindex.html.twig', [
-            'base_url' => '/something/something',
             'metas' => [
                 [
                     'name' => 'ilios/config/environment',
