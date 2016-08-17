@@ -60,7 +60,7 @@ sudo -u apache git checkout tags/v3.0.0
 ```   
 5. Run the following command to build the packages and its dependencies.  This step assumes you have PHP 5.6+ and Composer installed on your system:
 ```bash
-sudo -u apache composer install
+sudo -u apache SYMFONY_ENV=prod composer install --no-dev --optimize-autoloader
 ```  
 This will install the required PHP Symfony packages and their dependencies.  When the process nears completion, you will be prompted with the following configuration setting options.  You should set them as noted:
 ```bash

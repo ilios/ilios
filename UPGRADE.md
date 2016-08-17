@@ -17,7 +17,7 @@ _NOTE:_ The steps below assume that file ownership of the deployed codebase belo
 
  ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
-sudo -u apache composer install --no-dev
+sudo -u apache SYMFONY_ENV=prod composer install --no-dev --optimize-autoloader
 ```
 
 3. Execute any pending database migrations.
