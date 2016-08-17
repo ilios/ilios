@@ -1,7 +1,29 @@
 # Change Log
 
-## [v3.16.0](https://github.com/ilios/ilios/tree/v3.16.0)
+## [v3.17.0](https://github.com/ilios/ilios/tree/v3.17.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.16.0...v3.17.0)
+
+**Implemented enhancements:**
+
+- streamline sequence block to session association [\#1541](https://github.com/ilios/ilios/issues/1541)
+
+**Closed issues:**
+
+- Unable to add user to my non-primary school [\#1546](https://github.com/ilios/ilios/issues/1546)
+- updating sequence block after un-selecting course throws error. [\#1543](https://github.com/ilios/ilios/issues/1543)
+
+**Merged pull requests:**
+
+- Bump the API version for new CI stuff [\#1548](https://github.com/ilios/ilios/pull/1548) ([jrjohnson](https://github.com/jrjohnson))
+- Add authentication for users with different schools [\#1547](https://github.com/ilios/ilios/pull/1547) ([jrjohnson](https://github.com/jrjohnson))
+- Update dependencies to latest versions [\#1545](https://github.com/ilios/ilios/pull/1545) ([jrjohnson](https://github.com/jrjohnson))
+- allow course prop to be set to null. [\#1544](https://github.com/ilios/ilios/pull/1544) ([stopfstedt](https://github.com/stopfstedt))
+- re-defined sequence-block/session relationship. [\#1542](https://github.com/ilios/ilios/pull/1542) ([stopfstedt](https://github.com/stopfstedt))
+- apply correct strategy when changing sequence sort order [\#1537](https://github.com/ilios/ilios/pull/1537) ([stopfstedt](https://github.com/stopfstedt))
+- annotate the track property as exposed. [\#1536](https://github.com/ilios/ilios/pull/1536) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.16.0](https://github.com/ilios/ilios/tree/v3.16.0) (2016-07-29)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.15.0...v3.16.0)
 
 **Implemented enhancements:**
@@ -21,7 +43,9 @@
 
 **Merged pull requests:**
 
+- updating changelog for v3.16.0 release [\#1535](https://github.com/ilios/ilios/pull/1535) ([thecoolestguy](https://github.com/thecoolestguy))
 - fixed coding standards violation. [\#1534](https://github.com/ilios/ilios/pull/1534) ([stopfstedt](https://github.com/stopfstedt))
+- make sequence block start/end date optional [\#1533](https://github.com/ilios/ilios/pull/1533) ([stopfstedt](https://github.com/stopfstedt))
 - Replace SecureRandom with random\_bytes [\#1532](https://github.com/ilios/ilios/pull/1532) ([jrjohnson](https://github.com/jrjohnson))
 - replaced call to non-existent method with one of the same intent that works. [\#1529](https://github.com/ilios/ilios/pull/1529) ([stopfstedt](https://github.com/stopfstedt))
 - Add CAS as an auth provider [\#1528](https://github.com/ilios/ilios/pull/1528) ([jrjohnson](https://github.com/jrjohnson))
