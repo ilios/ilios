@@ -72,22 +72,22 @@ script:
   then (bin/console doctrine:schema:validate --env=dev);
   fi
 - if [ "$CHECK_CODING_STANDARDS" = true ];
-  then (bin/phpcs --standard=app/phpcs.xml src);
+  then (vendor/bin/phpcs --standard=app/phpcs.xml src);
   fi
 - if [ "$CHECK_CODING_STANDARDS" = true ];
   then (php security-checker.phar security:check);
   fi
 - if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ];
-  then (bin/phpunit -c phpunit.xml.dist --group mesh_data_import);
+  then (vendor/bin/phpunit -c phpunit.xml.dist --group mesh_data_import);
   fi
 - if [ "$TEST_PHPUNIT_CONTROLLERSA" = true ];
-  then (bin/phpunit -c phpunit.xml.dist --group controllers_a);
+  then (vendor/bin/phpunit -c phpunit.xml.dist --group controllers_a);
   fi
 - if [ "$TEST_PHPUNIT_CONTROLLERSB" = true ];
-  then (bin/phpunit -c phpunit.xml.dist --group controllers_b);
+  then (vendor/bin/phpunit -c phpunit.xml.dist --group controllers_b);
   fi
 - if [ "$TEST_PHPUNIT_OTHERS" = true ];
-  then (bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers_a,controllers_b);
+  then (vendor/bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers_a,controllers_b);
   fi
 notifications:
   slack:
