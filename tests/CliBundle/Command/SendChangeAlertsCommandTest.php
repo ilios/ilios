@@ -29,7 +29,7 @@ use Mockery as m;
  * Send Change Alerts command test.
  *
  * Class SendChangeAlertsCommandTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  */
 class SendChangeAlertsCommandTest extends KernelTestCase
 {

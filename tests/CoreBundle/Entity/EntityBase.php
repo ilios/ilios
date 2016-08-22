@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Validation;
 
 /**
  * Class EntityBase
- * @package Ilios\CoreBundle\Tests\Entity
+ * @package Tests\CoreBundle\\Entity
  */
 class EntityBase extends \PHPUnit_Framework_TestCase
 {

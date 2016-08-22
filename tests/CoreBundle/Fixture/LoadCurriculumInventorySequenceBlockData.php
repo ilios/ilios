@@ -61,9 +61,9 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
         );
     }
 }

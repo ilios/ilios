@@ -8,7 +8,7 @@ use Mockery as m;
 
 /**
  * Class AddUserCommandTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  */
 class AddUserCommandTest extends \PHPUnit_Framework_TestCase
 {

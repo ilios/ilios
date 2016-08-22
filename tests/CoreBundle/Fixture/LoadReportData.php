@@ -56,7 +56,7 @@ class LoadReportData extends AbstractFixture implements
      */
     public function getDependencies()
     {
-        return array('Ilios\CoreBundle\Tests\Fixture\LoadUserData');
-        return array('Ilios\CoreBundle\Tests\Fixture\LoadSchoolData');
+        return array('Tests\CoreBundle\Fixture\LoadUserData');
+        return array('Tests\CoreBundle\Fixture\LoadSchoolData');
     }
 }

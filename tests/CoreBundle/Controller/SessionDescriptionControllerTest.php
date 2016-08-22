@@ -17,8 +17,8 @@ class SessionDescriptionControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionDescriptionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
+            'Tests\CoreBundle\Fixture\LoadSessionDescriptionData',
+            'Tests\CoreBundle\Fixture\LoadSessionData'
         ]);
     }
 

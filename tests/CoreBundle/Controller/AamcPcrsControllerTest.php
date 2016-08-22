@@ -17,8 +17,8 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadAamcPcrsData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData'
+            'Tests\CoreBundle\Fixture\LoadAamcPcrsData',
+            'Tests\CoreBundle\Fixture\LoadCompetencyData'
         ]);
     }
 

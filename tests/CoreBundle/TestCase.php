@@ -1,5 +1,5 @@
 <?php
-namespace Ilios\CoreBundle\Tests;
+namespace Tests\CoreBundle;
 
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase as BaseTestCase;
 use Mockery as m;

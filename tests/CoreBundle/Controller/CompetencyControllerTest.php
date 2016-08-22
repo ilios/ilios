@@ -17,15 +17,15 @@ class CompetencyControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAamcPcrsData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData'
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadTermData',
+            'Tests\CoreBundle\Fixture\LoadObjectiveData',
+            'Tests\CoreBundle\Fixture\LoadCompetencyData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\CoreBundle\Fixture\LoadSessionTypeData',
+            'Tests\CoreBundle\Fixture\LoadCourseData',
+            'Tests\CoreBundle\Fixture\LoadAamcPcrsData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearData'
         ]);
     }
 

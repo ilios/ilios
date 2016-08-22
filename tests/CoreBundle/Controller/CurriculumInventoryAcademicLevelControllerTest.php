@@ -17,11 +17,11 @@ class CurriculumInventoryAcademicLevelControllerTest extends AbstractControllerT
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryExportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryExportData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'Tests\CoreBundle\Fixture\LoadProgramData',
         ]);
     }
 

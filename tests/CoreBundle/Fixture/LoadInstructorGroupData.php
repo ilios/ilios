@@ -48,8 +48,8 @@ class LoadInstructorGroupData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
         );
     }
 }

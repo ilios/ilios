@@ -17,8 +17,8 @@ class LearningMaterialUserRoleControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialUserRoleData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData'
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialUserRoleData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialData'
         ]);
     }
 

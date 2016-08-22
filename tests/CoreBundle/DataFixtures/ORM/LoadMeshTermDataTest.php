@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Entity\MeshTermInterface;
 
 /**
  * Class LoadMeshTermDataTest
- * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
+ * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadMeshTermDataTest extends AbstractDataFixtureTest
 {

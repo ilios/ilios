@@ -9,7 +9,7 @@ use Mockery as m;
 
 /**
  * Class SyncAllUsersCommandTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  */
 class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
 {

@@ -80,9 +80,9 @@ class LoadLearningMaterialData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialUserRoleData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialStatusData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialUserRoleData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialStatusData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
         );
     }
 }

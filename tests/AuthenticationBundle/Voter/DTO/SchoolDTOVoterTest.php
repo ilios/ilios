@@ -1,7 +1,7 @@
 <?php
 namespace Tests\AuthenticationBundle\Voter\DTO;
 
-use Ilios\AuthenticationBundle\Tests\Voter\AbstractVoterTestCase;
+use Tests\AuthenticationBundle\Voter\AbstractVoterTestCase;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\AuthenticationBundle\Voter\DTO\SchoolDTOVoter;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class SchoolDTOVoterTest
- * @package Ilios\AuthenticationBundle\Tests\Voter\DTO
+ * @package Tests\AuthenticationBundle\\Voter\DTO
  */
 class SchoolDTOVoterTest extends AbstractVoterTestCase
 {

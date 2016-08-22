@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 
 /**
  * Class RemoveMarkupTransformerTest
- * @package Ilios\CoreBundle\Tests\Form\DataTransformer
+ * @package Tests\CoreBundle\\Form\DataTransformer
  */
 class RemoveMarkupTransformerTest extends \PHPUnit_Framework_TestCase
 {

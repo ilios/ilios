@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class AamcResourceTypeVoterTest
- * @package Ilios\AuthenticationBundle\Tests\Voter
+ * @package Tests\AuthenticationBundle\\Voter
  */
 class AamcResourceTypeVoterTest extends AbstractVoterTestCase
 {

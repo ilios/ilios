@@ -63,9 +63,9 @@ class LoadUserData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserRoleData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearData',
+            'Tests\CoreBundle\Fixture\LoadCohortData',
+            'Tests\CoreBundle\Fixture\LoadUserRoleData',
         );
     }
 }

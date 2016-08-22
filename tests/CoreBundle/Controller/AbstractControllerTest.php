@@ -8,11 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Stringy\Stringy as S;
-use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
+use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
  * Class AbstractControllerTest
- * @package Ilios\CoreBundle\Tests\Controller
+ * @package Tests\CoreBundle\\Controller
  */
 abstract class AbstractControllerTest extends WebTestCase
 {
@@ -33,8 +33,8 @@ abstract class AbstractControllerTest extends WebTestCase
     protected function getFixtures()
     {
         return [
-            'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPermissionData',
+            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
+            'Tests\CoreBundle\Fixture\LoadPermissionData',
         ];
     }
 

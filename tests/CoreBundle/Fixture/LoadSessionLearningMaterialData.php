@@ -52,9 +52,9 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
         );
     }
 }

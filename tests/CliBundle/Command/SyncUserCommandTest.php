@@ -8,7 +8,7 @@ use Mockery as m;
 
 /**
  * Class SyncUserCommandTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  */
 class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
 {

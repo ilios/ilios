@@ -17,8 +17,8 @@ class CurriculumInventorySequenceControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData'
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventorySequenceData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryReportData'
         ]);
     }
 

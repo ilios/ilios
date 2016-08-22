@@ -3,7 +3,7 @@
 namespace Tests\WebBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
+use Tests\CoreBundle\Traits\JsonControllerTest;
 use FOS\RestBundle\Util\Codes;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\Client;
@@ -21,8 +21,8 @@ class DirectoryControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->loadFixtures([
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
         ]);
     }
 

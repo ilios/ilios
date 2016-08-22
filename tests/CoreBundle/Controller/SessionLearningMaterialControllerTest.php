@@ -17,10 +17,10 @@ class SessionLearningMaterialControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
+            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
         ]);
     }
 

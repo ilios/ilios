@@ -20,10 +20,10 @@ class OfferingControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertChangeTypeData'
+            'Tests\CoreBundle\Fixture\LoadOfferingData',
+            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
+            'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
+            'Tests\CoreBundle\Fixture\LoadAlertChangeTypeData'
         ]);
     }
 

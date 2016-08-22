@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**
  * Class LoadCompetencyDataTest
- * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
+ * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadCompetencyDataTest extends AbstractDataFixtureTest
 {

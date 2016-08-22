@@ -18,9 +18,9 @@ class UsereventControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
+            'Tests\CoreBundle\Fixture\LoadOfferingData',
+            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
+            'Tests\CoreBundle\Fixture\LoadUserData'
         ]);
     }
 

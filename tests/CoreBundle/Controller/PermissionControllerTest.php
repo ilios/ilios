@@ -17,8 +17,8 @@ class PermissionControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPermissionData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadPermissionData',
         ]);
     }
 

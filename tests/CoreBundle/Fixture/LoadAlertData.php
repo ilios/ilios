@@ -53,9 +53,9 @@ class LoadAlertData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertChangeTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
+            'Tests\CoreBundle\Fixture\LoadAlertChangeTypeData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadUserData'
         );
     }
 }

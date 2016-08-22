@@ -44,7 +44,7 @@ class LoadVocabularyData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
         );
     }
 }

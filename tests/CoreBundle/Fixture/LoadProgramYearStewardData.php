@@ -45,9 +45,9 @@ class LoadProgramYearStewardData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearData',
+            'Tests\CoreBundle\Fixture\LoadDepartmentData',
         );
     }
 }

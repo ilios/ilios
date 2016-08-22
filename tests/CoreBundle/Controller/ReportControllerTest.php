@@ -18,8 +18,8 @@ class ReportControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadReportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
+            'Tests\CoreBundle\Fixture\LoadReportData',
+            'Tests\CoreBundle\Fixture\LoadUserData'
         ]);
     }
 

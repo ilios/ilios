@@ -17,8 +17,8 @@ class IlmSessionControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
+            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
+            'Tests\CoreBundle\Fixture\LoadSessionData'
         ]);
     }
 

@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Entity\DepartmentInterface;
 
 /**
  * Class LoadDepartmentDataTest
- * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
+ * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadDepartmentDataTest extends AbstractDataFixtureTest
 {

@@ -12,7 +12,7 @@ use Mockery as m;
 
 /**
  * Class PermissionManagerTest
- * @package Ilios\CoreBundle\Tests\Entity\Manager
+ * @package Tests\CoreBundle\\Entity\Manager
  */
 class PermissionManagerTest extends \PHPUnit_Framework_TestCase
 {

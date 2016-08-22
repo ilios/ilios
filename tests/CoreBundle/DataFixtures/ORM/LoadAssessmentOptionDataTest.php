@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
 
 /**
  * Class LoadAssessmentOptionDataTest
- * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
+ * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadAssessmentOptionDataTest extends AbstractDataFixtureTest
 {

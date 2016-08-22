@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class AuditLogExportCommandTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  *
  * @link http://symfony.com/doc/current/components/console/introduction.html#testing-commands
  * @link http://symfony.com/doc/current/cookbook/console/console_command.html#testing-commands
@@ -35,7 +35,7 @@ class AuditLogExportCommandTest extends WebTestCase
     {
         $this->container = static::createClient()->getContainer();
         $this->loadFixtures([
-            'Ilios\CliBundle\Tests\Fixture\LoadAuditLogData',
+            'Tests\CliBundle\Fixture\LoadAuditLogData',
         ]);
 
         $application = new Application(static::$kernel);

@@ -18,18 +18,18 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshConceptData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshTreeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshPreviousIndexingData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshQualifierData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshSemanticTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshTermData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\CoreBundle\Fixture\LoadCourseData',
+            'Tests\CoreBundle\Fixture\LoadObjectiveData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\CoreBundle\Fixture\LoadMeshConceptData',
+            'Tests\CoreBundle\Fixture\LoadMeshTreeData',
+            'Tests\CoreBundle\Fixture\LoadMeshPreviousIndexingData',
+            'Tests\CoreBundle\Fixture\LoadMeshQualifierData',
+            'Tests\CoreBundle\Fixture\LoadMeshSemanticTypeData',
+            'Tests\CoreBundle\Fixture\LoadMeshTermData',
+            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
         ]);
     }
 

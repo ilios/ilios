@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Client;
 
 /**
  * Class JsonControllerTest
- * @package Ilios\CoreBundle\Tests\Traits
+ * @package Tests\CoreBundle\\Traits
  */
 trait JsonControllerTest
 {

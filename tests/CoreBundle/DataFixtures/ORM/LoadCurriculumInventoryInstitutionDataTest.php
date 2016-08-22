@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 
 /**
  * Class LoadCurriculumInventoryInstitutionDataTest
- * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
+ * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
 {

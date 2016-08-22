@@ -51,8 +51,8 @@ class LoadTermData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadVocabularyData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAamcResourceTypeData',
+            'Tests\CoreBundle\Fixture\LoadVocabularyData',
+            'Tests\CoreBundle\Fixture\LoadAamcResourceTypeData',
         );
     }
 }

@@ -8,7 +8,7 @@ use Mockery as m;
 
 /**
  * Class AddDirectoryUserCommandTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  */
 class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
 {

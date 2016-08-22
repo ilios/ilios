@@ -4,7 +4,7 @@ namespace Tests\CoreBundle\DataLoader;
 
 /**
  * Class PermissionData
- * @package Ilios\CoreBundle\Tests\DataLoader
+ * @package Tests\CoreBundle\\DataLoader
  */
 class PermissionData extends AbstractDataLoader
 {

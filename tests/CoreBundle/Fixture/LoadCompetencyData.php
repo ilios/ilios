@@ -52,8 +52,8 @@ class LoadCompetencyData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadAamcPcrsData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadAamcPcrsData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
         );
     }
 }

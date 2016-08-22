@@ -17,15 +17,15 @@ class SchoolControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearStewardData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadReportData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadAlertData',
+            'Tests\CoreBundle\Fixture\LoadCompetencyData',
+            'Tests\CoreBundle\Fixture\LoadSessionTypeData',
+            'Tests\CoreBundle\Fixture\LoadDepartmentData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
+            'Tests\CoreBundle\Fixture\LoadCourseData',
+            'Tests\CoreBundle\Fixture\LoadReportData',
         ]);
     }
 

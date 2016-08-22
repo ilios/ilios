@@ -17,8 +17,8 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData'
+            'Tests\CoreBundle\Fixture\LoadAssessmentOptionData',
+            'Tests\CoreBundle\Fixture\LoadSessionTypeData'
         ]);
     }
 

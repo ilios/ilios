@@ -17,7 +17,7 @@ class AcademicYearControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData'
+            'Tests\CoreBundle\Fixture\LoadCourseData'
         ]);
     }
 

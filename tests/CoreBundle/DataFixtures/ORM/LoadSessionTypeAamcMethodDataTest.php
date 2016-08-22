@@ -7,7 +7,7 @@ use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
 /**
  * Class LoadSessionTypeAamcMethodDataTest
- * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
+ * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadSessionTypeAamcMethodDataTest extends AbstractDataFixtureTest
 {

@@ -50,9 +50,9 @@ class LoadSessionTypeData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadAamcMethodData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadAamcMethodData',
+            'Tests\CoreBundle\Fixture\LoadAssessmentOptionData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
         );
     }
 }

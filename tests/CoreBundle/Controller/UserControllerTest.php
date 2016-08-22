@@ -17,19 +17,19 @@ class UserControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserMadeReminderData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadIlmSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadOfferingData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPendingUserUpdateData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadPermissionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadReportData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadAlertData',
+            'Tests\CoreBundle\Fixture\LoadCourseData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
+            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
+            'Tests\CoreBundle\Fixture\LoadUserMadeReminderData',
+            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
+            'Tests\CoreBundle\Fixture\LoadOfferingData',
+            'Tests\CoreBundle\Fixture\LoadPendingUserUpdateData',
+            'Tests\CoreBundle\Fixture\LoadPermissionData',
+            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadReportData',
         ]);
     }
 

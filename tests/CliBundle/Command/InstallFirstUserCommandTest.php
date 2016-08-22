@@ -11,7 +11,7 @@ use Mockery as m;
 
 /**
  * Class InstallFirstUserCommandTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  */
 class InstallFirstUserCommandTest extends KernelTestCase
 {

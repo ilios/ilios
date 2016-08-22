@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Base class for data loader tests.
  *
  * Class AbstractDataFixtureTest
- * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
+ * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 abstract class AbstractDataFixtureTest extends WebTestCase
 {

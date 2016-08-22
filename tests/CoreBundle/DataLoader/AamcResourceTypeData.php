@@ -4,7 +4,7 @@ namespace Tests\CoreBundle\DataLoader;
 
 /**
  * Class AamcResourceTypeData
- * @package Ilios\CoreBundle\Tests\DataLoader
+ * @package Tests\CoreBundle\\DataLoader
  */
 class AamcResourceTypeData extends AbstractDataLoader
 {

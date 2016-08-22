@@ -2,11 +2,11 @@
 
 namespace Tests\CliBundle\DataLoader;
 
-use Ilios\CoreBundle\Tests\DataLoader\AbstractDataLoader;
+use Tests\CoreBundle\DataLoader\AbstractDataLoader;
 
 /**
  * Class AuditLogData
- * @package Ilios\CliBundle\Tests\DataLoader
+ * @package Tests\CliBundle\\DataLoader
  */
 class AuditLogData extends AbstractDataLoader
 {

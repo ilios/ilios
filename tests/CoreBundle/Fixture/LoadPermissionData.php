@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class LoadProgramData
- * @package Ilios\CoreBundle\Tests\Fixture
+ * @package Tests\CoreBundle\\Fixture
  */
 class LoadPermissionData extends AbstractFixture implements
     FixtureInterface,
@@ -50,7 +50,7 @@ class LoadPermissionData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
         );
     }
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class UsereventVoterTest
- * @package Ilios\AuthenticationBundle\Tests\Voter
+ * @package Tests\AuthenticationBundle\\Voter
  */
 class UsereventVoterTest extends AbstractVoterTestCase
 {

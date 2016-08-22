@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 
 /**
  * Class LoadCourseClerkshipTypeDataTest
- * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
+ * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
 {

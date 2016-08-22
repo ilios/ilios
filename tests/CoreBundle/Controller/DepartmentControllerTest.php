@@ -17,9 +17,9 @@ class DepartmentControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearStewardData'
+            'Tests\CoreBundle\Fixture\LoadDepartmentData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearStewardData'
         ]);
     }
 

@@ -43,7 +43,7 @@ class LoadMeshPreviousIndexingData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
+            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
         );
     }
 }

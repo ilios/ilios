@@ -17,16 +17,16 @@ class ProgramYearControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearStewardData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData'
+            'Tests\CoreBundle\Fixture\LoadProgramYearData',
+            'Tests\CoreBundle\Fixture\LoadProgramData',
+            'Tests\CoreBundle\Fixture\LoadCohortData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadCompetencyData',
+            'Tests\CoreBundle\Fixture\LoadTermData',
+            'Tests\CoreBundle\Fixture\LoadObjectiveData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\CoreBundle\Fixture\LoadCourseData'
         ]);
     }
 

@@ -17,8 +17,8 @@ class LearningMaterialStatusControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialStatusData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData'
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialStatusData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialData'
         ]);
     }
 

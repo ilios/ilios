@@ -9,7 +9,7 @@ class BadRequestControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData'
+            'Tests\CoreBundle\Fixture\LoadAuthenticationData'
         ]);
     }
 

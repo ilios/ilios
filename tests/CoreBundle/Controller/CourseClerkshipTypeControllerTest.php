@@ -17,8 +17,8 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseClerkshipTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseData'
+            'Tests\CoreBundle\Fixture\LoadCourseClerkshipTypeData',
+            'Tests\CoreBundle\Fixture\LoadCourseData'
         ]);
     }
 

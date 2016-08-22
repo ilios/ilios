@@ -6,7 +6,7 @@ use Ilios\AuthenticationBundle\DependencyInjection\Configuration;
 
 /**
  * Class ConfigurationTest
- * @package Ilios\AuthenticationBundle\Tests\DependencyInjection
+ * @package Tests\AuthenticationBundle\\DependencyInjection
  */
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {

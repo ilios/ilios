@@ -17,10 +17,10 @@ class ProgramYearStewardControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearStewardData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadDepartmentData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData'
+            'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
+            'Tests\CoreBundle\Fixture\LoadDepartmentData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData'
         ]);
     }
 

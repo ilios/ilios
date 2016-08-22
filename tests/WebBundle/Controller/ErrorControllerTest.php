@@ -3,7 +3,7 @@
 namespace Tests\WebBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
+use Tests\CoreBundle\Traits\JsonControllerTest;
 use Faker\Factory as FakerFactory;
 use FOS\RestBundle\Util\Codes;
 
@@ -14,7 +14,7 @@ class ErrorControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData',
+            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
         ]);
     }
 

@@ -3,12 +3,12 @@
 namespace Tests\CoreBundle\Controller;
 
 use FOS\RestBundle\Util\Codes;
-use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
+use Tests\CoreBundle\Traits\JsonControllerTest;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**
  * Class CurriculumInventoryDownloadControllerTest
- * @package Ilios\CoreBundle\Tests\Controller
+ * @package Tests\CoreBundle\\Controller
  */
 class CurriculumInventoryDownloadControllerTest extends WebTestCase
 {
@@ -20,14 +20,14 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryExportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceBlockData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryExportData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventorySequenceData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
         ]);
     }
 

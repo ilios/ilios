@@ -71,13 +71,13 @@ class LoadCourseData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCourseClerkshipTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
+            'Tests\CoreBundle\Fixture\LoadCohortData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadTermData',
+            'Tests\CoreBundle\Fixture\LoadObjectiveData',
+            'Tests\CoreBundle\Fixture\LoadCourseClerkshipTypeData',
+            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
         );
     }
 }

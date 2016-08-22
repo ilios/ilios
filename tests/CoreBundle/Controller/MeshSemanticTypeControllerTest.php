@@ -18,8 +18,8 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshSemanticTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshConceptData',
+            'Tests\CoreBundle\Fixture\LoadMeshSemanticTypeData',
+            'Tests\CoreBundle\Fixture\LoadMeshConceptData',
         ]);
     }
 

@@ -45,7 +45,7 @@ class LoadUserMadeReminderData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
+            'Tests\CoreBundle\Fixture\LoadUserData'
         );
     }
 }

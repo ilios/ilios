@@ -53,8 +53,8 @@ class LoadMeshConceptData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshDescriptorData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshSemanticTypeData',
+            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\CoreBundle\Fixture\LoadMeshSemanticTypeData',
         );
     }
 }

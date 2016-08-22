@@ -15,7 +15,7 @@
 
     <testsuites>
         <testsuite name="Ilios Test Suite">
-            <directory>src/*/*Bundle/Tests</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 
@@ -33,8 +33,7 @@
         <whitelist>
             <directory>src</directory>
             <exclude>
-                <directory>src/*/*Bundle/Resources</directory>
-                <directory>src/*/*Bundle/Tests</directory>
+                <directory>tests/*Bundle/Tests</directory>
             </exclude>
         </whitelist>
     </filter>

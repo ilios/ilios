@@ -17,8 +17,8 @@ class AamcMethodControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadAamcMethodData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionTypeData'
+            'Tests\CoreBundle\Fixture\LoadAamcMethodData',
+            'Tests\CoreBundle\Fixture\LoadSessionTypeData'
         ]);
     }
 

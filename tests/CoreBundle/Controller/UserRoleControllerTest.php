@@ -17,8 +17,8 @@ class UserRoleControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserRoleData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
+            'Tests\CoreBundle\Fixture\LoadUserRoleData',
+            'Tests\CoreBundle\Fixture\LoadUserData'
         ]);
     }
 

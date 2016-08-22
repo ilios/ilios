@@ -4,7 +4,7 @@ namespace Tests\CoreBundle\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 
-use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
+use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
  * Download controller Test.
@@ -17,8 +17,8 @@ class DownloadControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearningMaterialData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData'
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadAuthenticationData'
         ]);
     }
 

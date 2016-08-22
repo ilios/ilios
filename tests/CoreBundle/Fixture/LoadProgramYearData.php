@@ -57,10 +57,10 @@ class LoadProgramYearData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadTermData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData',
+            'Tests\CoreBundle\Fixture\LoadProgramData',
+            'Tests\CoreBundle\Fixture\LoadTermData',
+            'Tests\CoreBundle\Fixture\LoadObjectiveData',
+            'Tests\CoreBundle\Fixture\LoadCompetencyData',
         );
     }
 }

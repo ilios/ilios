@@ -8,7 +8,7 @@ use Mockery as m;
 
 /**
  * Class LoggerQueueTest
- * @package Ilios\CoreBundle\Tests\Classes
+ * @package Tests\CoreBundle\\Classes
  */
 class LoggerQueueTest extends TestCase
 {

@@ -7,7 +7,7 @@ use Mockery as m;
 
 /**
  * Class AbstractVoterTestCase
- * @package Ilios\AuthenticationBundle\Tests\Voter
+ * @package Tests\AuthenticationBundle\\Voter
  */
 abstract class AbstractVoterTestCase extends \PHPUnit_Framework_TestCase
 {

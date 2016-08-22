@@ -1,5 +1,5 @@
 parameters:
-    ilioscli.dataloader.auditlog.class: Ilios\CliBundle\Tests\DataLoader\AuditLogData
+    ilioscli.dataloader.auditlog.class: Tests\CliBundle\DataLoader\AuditLogData
 
 services:
     ilioscli.dataloader.auditlog:

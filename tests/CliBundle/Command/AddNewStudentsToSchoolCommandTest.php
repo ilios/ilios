@@ -9,7 +9,7 @@ use Mockery as m;
 
 /**
  * Class AddNewStudentsToSchoolCommandTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  */
 class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
 {

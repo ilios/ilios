@@ -31,7 +31,7 @@ use \DateTime;
 
 /**
  * Class CourseRolloverTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  */
 class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 {

@@ -61,10 +61,10 @@ class LoadOfferingData extends AbstractFixture implements
     public function getDependencies()
     {
         return [
-            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadInstructorGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
+            'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
         ];
     }
 }

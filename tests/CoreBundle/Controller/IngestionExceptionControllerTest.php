@@ -17,7 +17,7 @@ class IngestionExceptionControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadIngestionExceptionData',
+            'Tests\CoreBundle\Fixture\LoadIngestionExceptionData',
         ]);
     }
 

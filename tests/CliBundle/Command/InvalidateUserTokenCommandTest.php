@@ -10,7 +10,7 @@ use \DateTime;
 
 /**
  * Class InvalidateUserTokenCommandTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  */
 class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
 {

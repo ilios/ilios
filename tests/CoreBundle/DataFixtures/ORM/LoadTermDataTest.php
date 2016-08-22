@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Entity\TermInterface;
 
 /**
  * Class LoadTermDataTest
- * @package Ilios\CoreBundle\Tests\DataFixtures\ORM
+ * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadTermDataTest extends AbstractDataFixtureTest
 {

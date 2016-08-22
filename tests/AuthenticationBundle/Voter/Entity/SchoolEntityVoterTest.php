@@ -1,7 +1,7 @@
 <?php
 namespace Tests\AuthenticationBundle\Voter\Entity;
 
-use Ilios\AuthenticationBundle\Tests\Voter\AbstractVoterTestCase;
+use Tests\AuthenticationBundle\Voter\AbstractVoterTestCase;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\AuthenticationBundle\Voter\Entity\SchoolEntityVoter;
 use Ilios\CoreBundle\Entity\School;
@@ -11,7 +11,7 @@ use Mockery as m;
 
 /**
  * Class SchoolEntityVoterTest
- * @package Ilios\AuthenticationBundle\Tests\Voter\Entity
+ * @package Tests\AuthenticationBundle\\Voter\Entity
  * @todo Test voting on create, edit and delete operations. [ST 2016/05/17]
  */
 class SchoolEntityVoterTest extends AbstractVoterTestCase

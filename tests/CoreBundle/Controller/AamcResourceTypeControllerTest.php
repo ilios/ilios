@@ -17,8 +17,8 @@ class AamcResourceTypeControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadAamcResourceTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadTermData'
+            'Tests\CoreBundle\Fixture\LoadAamcResourceTypeData',
+            'Tests\CoreBundle\Fixture\LoadTermData'
         ]);
     }
 

@@ -10,7 +10,7 @@ use Mockery as m;
 
 /**
  * Class RolloverCourseCommandTest
- * @package Ilios\CliBundle\Tests\Command
+ * @package Tests\CliBundle\\Command
  */
 class RolloverCourseCommandTest extends \PHPUnit_Framework_TestCase
 {

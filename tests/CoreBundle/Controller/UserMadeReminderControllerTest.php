@@ -18,8 +18,8 @@ class UserMadeReminderControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserMadeReminderData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
+            'Tests\CoreBundle\Fixture\LoadUserMadeReminderData',
+            'Tests\CoreBundle\Fixture\LoadUserData'
         ]);
     }
 

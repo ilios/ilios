@@ -18,8 +18,8 @@ class MeshConceptControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshConceptData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshTermData',
+            'Tests\CoreBundle\Fixture\LoadMeshConceptData',
+            'Tests\CoreBundle\Fixture\LoadMeshTermData',
         ]);
     }
 

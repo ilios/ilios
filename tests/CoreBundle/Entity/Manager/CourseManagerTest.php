@@ -6,7 +6,7 @@ use Mockery as m;
 
 /**
  * Class CourseManagerTest
- * @package Ilios\CoreBundle\Tests\Entity\Manager
+ * @package Tests\CoreBundle\\Entity\Manager
  */
 class CourseManagerTest extends \PHPUnit_Framework_TestCase
 {

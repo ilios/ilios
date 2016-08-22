@@ -7,7 +7,7 @@ use FOS\RestBundle\Util\Codes;
 use Firebase\JWT\JWT;
 use DateTime;
 
-use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
+use Tests\CoreBundle\Traits\JsonControllerTest;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
 class AuthenticationControllerTest extends WebTestCase
@@ -25,7 +25,7 @@ class AuthenticationControllerTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures([
-            'Ilios\CoreBundle\Tests\Fixture\LoadAuthenticationData'
+            'Tests\CoreBundle\Fixture\LoadAuthenticationData'
         ]);
 
         $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $this->getContainer()->getParameter('kernel.secret');

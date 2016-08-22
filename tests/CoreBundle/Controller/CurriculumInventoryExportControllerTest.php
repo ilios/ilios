@@ -6,7 +6,7 @@ use FOS\RestBundle\Util\Codes;
 
 /**
  * Class CurriculumInventoryExportControllerTest
- * @package Ilios\CoreBundle\Tests\Controller
+ * @package Tests\CoreBundle\\Controller
  */
 class CurriculumInventoryExportControllerTest extends AbstractControllerTest
 {
@@ -17,11 +17,11 @@ class CurriculumInventoryExportControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryExportData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryInstitutionData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventorySequenceData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryExportData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryInstitutionData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventorySequenceData',
         ]);
     }
 

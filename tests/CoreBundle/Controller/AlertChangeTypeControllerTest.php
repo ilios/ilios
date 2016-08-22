@@ -17,8 +17,8 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertChangeTypeData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadAlertData'
+            'Tests\CoreBundle\Fixture\LoadAlertChangeTypeData',
+            'Tests\CoreBundle\Fixture\LoadAlertData'
         ]);
     }
 

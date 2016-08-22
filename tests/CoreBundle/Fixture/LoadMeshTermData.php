@@ -51,7 +51,7 @@ class LoadMeshTermData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshConceptData',
+            'Tests\CoreBundle\Fixture\LoadMeshConceptData',
         );
     }
 }

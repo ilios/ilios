@@ -3,11 +3,11 @@ namespace Tests\WebBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
-use Ilios\CoreBundle\Tests\Traits\JsonControllerTest;
+use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
  * Class ConfigControllerTest
- * @package Ilios\WebBundle\Tests\Controller
+ * @package Tests\WebBundle\\Controller
  */
 class ConfigControllerTest extends WebTestCase
 {

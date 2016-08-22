@@ -45,7 +45,7 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryReportData',
         );
     }
 }

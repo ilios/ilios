@@ -18,7 +18,7 @@ class MeshQualifierControllerTest extends AbstractControllerTest
     {
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
-            'Ilios\CoreBundle\Tests\Fixture\LoadMeshQualifierData',
+            'Tests\CoreBundle\Fixture\LoadMeshQualifierData',
         ]);
     }
 

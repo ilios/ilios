@@ -7,6 +7,9 @@
         "psr-0": { "": "src/" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
+    "autoload-dev": {
+        "psr-4": { "Tests\\": "tests/" }
+    },
     "require": {
         "php": "~5.6|~7.0",
         "symfony/symfony": "3.1.*",
