@@ -14,5 +14,6 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+.vagrant
 sauce_connect.log
 FakeTestFiles
