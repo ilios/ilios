@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Tests\Entity\Manager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\Manager\OfferingManager;
-use IC\Bundle\Base\TestBundle\Test\TestCase;
 use Ilios\CoreBundle\Entity\Offering;
 use Ilios\CoreBundle\Entity\Session;
 use Mockery as m;
@@ -12,7 +11,7 @@ use Mockery as m;
 /**
  * Tests for Entity AamcMethod
  */
-class OfferingManagerTest extends TestCase
+class OfferingManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Remove all mock objects

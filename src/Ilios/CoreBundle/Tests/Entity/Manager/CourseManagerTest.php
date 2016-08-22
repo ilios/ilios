@@ -2,14 +2,13 @@
 namespace Ilios\CoreBundle\Tests\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
-use IC\Bundle\Base\TestBundle\Test\TestCase;
 use Mockery as m;
 
 /**
  * Class CourseManagerTest
  * @package Ilios\CoreBundle\Tests\Entity\Manager
  */
-class CourseManagerTest extends TestCase
+class CourseManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Remove all mock objects

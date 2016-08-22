@@ -3,7 +3,6 @@
 namespace Ilios\CoreBundle\Tests\Entity;
 
 use Faker\Factory;
-use IC\Bundle\Base\TestBundle\Test\TestCase;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
 use Symfony\Component\Validator\Validation;
@@ -12,7 +11,7 @@ use Symfony\Component\Validator\Validation;
  * Class EntityBase
  * @package Ilios\CoreBundle\Tests\Entity
  */
-class EntityBase extends TestCase
+class EntityBase extends \PHPUnit_Framework_TestCase
 {
 
     /**

@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Tests\Entity\Manager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
-use IC\Bundle\Base\TestBundle\Test\TestCase;
 use Ilios\CoreBundle\Entity\Permission;
 use Ilios\CoreBundle\Entity\Program;
 use Ilios\CoreBundle\Entity\School;
@@ -15,7 +14,7 @@ use Mockery as m;
  * Class PermissionManagerTest
  * @package Ilios\CoreBundle\Tests\Entity\Manager
  */
-class PermissionManagerTest extends TestCase
+class PermissionManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @inheritdoc
