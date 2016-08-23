@@ -37,7 +37,8 @@
         "eluceo/ical": "0.8.0",
         "exercise/htmlpurifier-bundle": "@stable",
         "ocramius/proxy-manager": "^1.0",
-        "paragonie/random_compat": "^2.0"
+        "paragonie/random_compat": "^2.0",
+        "easycorp/easy-log-handler": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
