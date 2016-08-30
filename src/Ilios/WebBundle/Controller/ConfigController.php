@@ -4,6 +4,7 @@ namespace Ilios\WebBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use phpCAS;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class ConfigController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $configuration = [];
         $authenticationType = $this->container->getParameter('ilios_authentication.type');
@@ -21,7 +22,7 @@ class ConfigController extends Controller
         $configuration['type'] = $authenticationType;
         if ($authenticationType == 'shibboleth') {
             $loginPath = $this->container->getParameter('ilios_authentication.shibboleth.login_path');
-            $url = $this->get('request')->getSchemeAndHttpHost();
+            $url = $request->getSchemeAndHttpHost();
             $configuration['loginUrl'] = $url . $loginPath;
         }
         if ($authenticationType === 'cas') {
