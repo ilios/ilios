@@ -135,4 +135,53 @@ class DirectoryControllerTest extends WebTestCase
             var_export($results, true)
         );
     }
+
+    public function testFind()
+    {
+        $container = $this->client->getContainer();
+
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+        ];
+
+        $mockUser = m::mock('Ilios\CoreBundle\Entity\User')
+            ->shouldReceive('getCampusId')->once()->andReturn('abc')->mock();
+
+        $container->mock('ilioscore.directory', 'Ilios\CoreBundle\Service\Directory')
+            ->shouldReceive('findByCampusId')
+            ->with('abc')
+            ->once()
+            ->andReturn($fakeDirectoryUser);
+
+        $container->mock('ilioscore.user.manager', 'Ilios\CoreBundle\Entity\Manager\User')
+            ->shouldReceive('findOneBy')
+            ->with(['id' => 1])
+            ->once()
+            ->andReturn($mockUser);
+
+        $this->makeJsonRequest(
+            $this->client,
+            'GET',
+            $this->getUrl(
+                'ilios_web_directory_find',
+                ['id' => '1']
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+
+        $this->assertEquals(
+            array('result' => $fakeDirectoryUser),
+            json_decode($content, true),
+            var_export($content, true)
+        );
+    }
 }

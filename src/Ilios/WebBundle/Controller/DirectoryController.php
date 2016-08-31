@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class DirectoryController
@@ -53,5 +54,27 @@ class DirectoryController extends Controller
         }, $results);
 
         return new JsonResponse(array('results' => $results));
+    }
+
+    public function findAction($id)
+    {
+        $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+        if (!$currentUser->hasRole(['Developer'])) {
+            throw new AccessDeniedException();
+        }
+
+        $userManager = $this->container->get('ilioscore.user.manager');
+        $user = $userManager->findOneBy(['id' => $id]);
+        if (! $user) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
+
+        $directory = $this->container->get('ilioscore.directory');
+        $userRecord = $directory->findByCampusId($user->getCampusId());
+        if (!$userRecord) {
+            throw new \Exception('Unable to find ' . $user->getCampusId() . ' in the directory.');
+        }
+
+        return new JsonResponse(array('result' => $userRecord));
     }
 }

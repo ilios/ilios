@@ -19,6 +19,13 @@ ilios_web_directory_search:
     defaults:
         _controller: IliosWebBundle:Directory:search
     methods: [GET]
+ilios_web_directory_find:
+    path:     /application/directory/find/{id}
+    defaults:
+        _controller: IliosWebBundle:Directory:find
+    methods: [GET]
+    requirements:
+        key: '\d+'
 ilios_web_homepage:
     path:     /{url}
     defaults:
