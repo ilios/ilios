@@ -1,7 +1,29 @@
 # Change Log
 
-## [v3.17.0](https://github.com/ilios/ilios/tree/v3.17.0)
+## [v3.18.0](https://github.com/ilios/ilios/tree/v3.18.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.17.0...v3.18.0)
+
+**Implemented enhancements:**
+
+- Add a /find path to the directory controller [\#1556](https://github.com/ilios/ilios/issues/1556)
+
+**Closed issues:**
+
+- Shibboleth config will not load [\#1557](https://github.com/ilios/ilios/issues/1557)
+- Improve developer logging [\#1551](https://github.com/ilios/ilios/issues/1551)
+- Improve composer instructions [\#1549](https://github.com/ilios/ilios/issues/1549)
+
+**Merged pull requests:**
+
+- Bump the supplied API version to v1.9 [\#1560](https://github.com/ilios/ilios/pull/1560) ([jrjohnson](https://github.com/jrjohnson))
+- Add find to directory lookup [\#1559](https://github.com/ilios/ilios/pull/1559) ([jrjohnson](https://github.com/jrjohnson))
+- User Request param instead of a service [\#1558](https://github.com/ilios/ilios/pull/1558) ([jrjohnson](https://github.com/jrjohnson))
+- Update Symfony to 3.1 [\#1553](https://github.com/ilios/ilios/pull/1553) ([jrjohnson](https://github.com/jrjohnson))
+- Add EasyLog logger [\#1552](https://github.com/ilios/ilios/pull/1552) ([jrjohnson](https://github.com/jrjohnson))
+- Improved composer install instructions [\#1550](https://github.com/ilios/ilios/pull/1550) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.17.0](https://github.com/ilios/ilios/tree/v3.17.0) (2016-08-17)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.16.0...v3.17.0)
 
 **Implemented enhancements:**
