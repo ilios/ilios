@@ -1,5 +1,5 @@
 <?php
-namespace Tests\CliBundle\Command;
+namespace Tests\CoreBundle\Classes;
 
 use Ilios\CliBundle\Command\RolloverCourseCommand;
 use Ilios\CoreBundle\Classes\CourseRollover;
@@ -524,11 +524,15 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                 }))->once();
                 $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
                     $oldEnd = $offering->getEndDate();
+                    $expectedEndWeek = (int) $oldEnd->format('W') + 16;
+                    if ($expectedEndWeek > 52) {
+                        $expectedEndWeek = $expectedEndWeek - 52;
+                    }
                     return (
                         //day of the week is the same
                         $oldEnd->format('w') === $newEnd->format('w') &&
                         //Week of the year is the same
-                        (int) $oldEnd->format('W') + 16 ===  (int) $newEnd->format('W')
+                        $expectedEndWeek ===  (int) $newEnd->format('W')
                     );
                 }))->once();
 
