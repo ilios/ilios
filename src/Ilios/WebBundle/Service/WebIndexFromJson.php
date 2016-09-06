@@ -12,7 +12,7 @@ class WebIndexFromJson
      */
     const DEFAULT_TEMPLATE_NAME = 'webindex.html.twig';
     const API_VERSION = 'v1.9';
-    const AWS_BUCKER = 'https://s3-us-west-2.amazonaws.com/frontend-json-config/';
+    const AWS_BUCKET = 'https://s3-us-west-2.amazonaws.com/frontend-json-config/';
 
     const PRODUCTION = 'prod';
     const STAGING = 'stage';
@@ -125,7 +125,7 @@ class WebIndexFromJson
             )
         );
         $context = stream_context_create($opts);
-        $url = self::AWS_BUCKER . $fileName;
+        $url = self::AWS_BUCKET . $fileName;
         $fileContents = @file_get_contents($url, false, $context);
         if (empty($fileContents)) {
             throw new \Exception('Failed to load index configuration from ' . $url);
