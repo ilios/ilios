@@ -68,11 +68,23 @@ class AuditLogExportCommand extends ContainerAwareCommand
 
         $em = $this->getContainer()->get('ilioscore.auditlog.manager');
 
-        $headers = $em->getFieldNames();
+        $headers = ['id', 'userId', 'action', 'createdAt', 'objectId', 'objectClass', 'valuesChanged'];
 
         $logger->info('Starting Audit Log Export.');
 
-        $rows = $em->findInRange($from, $to);
+        $rows = array_map(function (array $arr) {
+            /** @var \DateTime $dt */
+            $dt = $arr['createdAt'];
+            return [
+                $arr['id'],
+                $arr['userId'],
+                $arr['action'],
+                $dt->format('c'),
+                $arr['objectId'],
+                $arr['objectClass'],
+                $arr['valuesChanged']
+            ];
+        }, $em->findInRange($from, $to));
 
         $logger->info(
             sprintf(
@@ -82,12 +94,6 @@ class AuditLogExportCommand extends ContainerAwareCommand
                 $to->format('c')
             )
         );
-
-        array_walk($rows, function (&$row) {
-            /** @var \DateTime $dt */
-            $dt = $row['createdAt'];
-            $row['createdAt'] = $dt->format('c');
-        });
 
         $table = new Table($output);
         $table->setHeaders($headers);

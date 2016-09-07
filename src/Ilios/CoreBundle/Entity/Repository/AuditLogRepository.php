@@ -19,10 +19,10 @@ class AuditLogRepository extends EntityRepository
     public function findInRange(\DateTime $from, \DateTime $to)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'a')
+        $qb->select('a as log', 'u.id as userId')
             ->from('IliosCoreBundle:AuditLog', 'a')
-            ->add(
-                'where',
+            ->leftJoin('a.user', 'u')
+            ->where(
                 $qb->expr()->between(
                     'a.createdAt',
                     ':from',
@@ -36,7 +36,16 @@ class AuditLogRepository extends EntityRepository
                 ]
             );
 
-        return $qb->getQuery()->getArrayResult();
+        $results = $qb->getQuery()->getArrayResult();
+        $rhett = [];
+        foreach ($results as $arr) {
+            $combined = $arr['log'];
+            $combined['userId'] = $arr['userId'];
+
+            $rhett[] = $combined;
+        }
+
+        return $rhett;
     }
 
     /**
