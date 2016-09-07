@@ -120,8 +120,9 @@ class ShibbolethAuthentication implements AuthenticationInterface
     {
         $url = $request->getSchemeAndHttpHost();
         $logoutUrl = $url . $this->logoutPath;
-        session_unset();
-        session_destroy();
+        if (session_status() !== PHP_SESSION_NONE) {
+            session_destroy();
+        }
         return new JsonResponse(array(
             'status' => 'redirect',
             'logoutUrl' => $logoutUrl
