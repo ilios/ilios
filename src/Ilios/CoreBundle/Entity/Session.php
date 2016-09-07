@@ -404,7 +404,9 @@ class Session implements SessionInterface
     public function setIlmSession(IlmSessionInterface $ilmSession = null)
     {
         $this->ilmSession = $ilmSession;
-        $ilmSession->setSession($this);
+        if ($ilmSession) {
+            $ilmSession->setSession($this);
+        }
     }
 
     /**
