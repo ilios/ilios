@@ -70,7 +70,7 @@ class Cohort implements CohortInterface
     /**
      * @var ProgramYearInterface
      *
-     * @ORM\OneToOne(targetEntity="ProgramYear", fetch="EXTRA_LAZY", inversedBy="cohort")
+     * @ORM\OneToOne(targetEntity="ProgramYear", inversedBy="cohort")
      * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", unique=true, onDelete="cascade")
      *
      * @JMS\Expose
@@ -82,7 +82,7 @@ class Cohort implements CohortInterface
     /**
     * @var ArrayCollection|CourseInterface[]
     *
-    * @ORM\ManyToMany(targetEntity="Course", mappedBy="cohorts", fetch="EXTRA_LAZY")
+    * @ORM\ManyToMany(targetEntity="Course", mappedBy="cohorts")
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
@@ -92,7 +92,7 @@ class Cohort implements CohortInterface
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
      *
-     * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="cohort", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="cohort")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
