@@ -2,18 +2,21 @@
 
 namespace Tests\CoreBundle\DataLoader;
 
+use DateTime;
+
 class OfferingData extends AbstractDataLoader
 {
     protected function getData()
     {
+        $today = new \DateTime();
         $arr = array();
 
         $arr[] = array(
             'id' => 1,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
-            'startDate' => "2016-09-16T15:00:00+00:00",
-            'endDate' => "2016-09-16T17:00:00+00:00",
+            'startDate' => "2016-09-08T15:00:00+00:00",
+            'endDate' => "2016-09-08T17:00:00+00:00",
             'session' => '1',
             'learnerGroups' => ['1'],
             'instructorGroups' => ['1'],
@@ -25,8 +28,8 @@ class OfferingData extends AbstractDataLoader
             'id' => 2,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
-            'startDate' => "2016-09-15T17:00:00+00:00",
-            'endDate' => "2016-09-15T18:00:00+00:00",
+            'startDate' => "2016-09-07T17:00:00+00:00",
+            'endDate' => "2016-09-07T18:00:00+00:00",
             'session' => '1',
             'learnerGroups' => ['2'],
             'instructorGroups' => [],
@@ -99,6 +102,20 @@ class OfferingData extends AbstractDataLoader
             'instructors' => [],
         );
 
+        $halfHourFromNow = new DateTime('+30 minutes');
+        $arr[] = array(
+            'id' => 8,
+            'room' => $this->faker->text(10),
+            'site' => $this->faker->text(10),
+            'startDate' => $today->format('c'),
+            'endDate' => $halfHourFromNow->format('c'),
+            'session' => '3',
+            'learnerGroups' => [],
+            'instructorGroups' => [],
+            'learners' => [],
+            'instructors' => ['1'],
+        );
+
 
         return $arr;
     }
@@ -106,7 +123,7 @@ class OfferingData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 8,
+            'id' => 9,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
             'startDate' => "2014-09-15T15:00:00+00:00",

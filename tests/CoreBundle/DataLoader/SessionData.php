@@ -58,7 +58,7 @@ class SessionData extends AbstractDataLoader
             'objectives' => [],
             'meshDescriptors' => ["abc2"],
             'learningMaterials' => ['2'],
-            'offerings' => ['6', '7']
+            'offerings' => ['6', '7', '8']
         );
 
         $arr[] = array(

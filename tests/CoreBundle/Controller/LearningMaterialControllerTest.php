@@ -753,7 +753,7 @@ class LearningMaterialControllerTest extends AbstractControllerTest
             unset($arr['absoluteFileUri']);
             return $arr;
         }, json_decode($response->getContent(), true)['learningMaterials']);
-        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(3, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $learningMaterials[0]
@@ -765,6 +765,12 @@ class LearningMaterialControllerTest extends AbstractControllerTest
                 $learningMaterials[1]
             ),
             $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learningMaterials[2]
+            ),
+            $data[2]
         );
     }
 

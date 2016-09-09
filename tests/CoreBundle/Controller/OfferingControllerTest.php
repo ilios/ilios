@@ -112,7 +112,16 @@ class OfferingControllerTest extends AbstractControllerTest
             return $found;
         });
 
-        $this->assertEquals($this->mockSerialize(array_values($filteredOfferings)), $data);
+        //Some of the offering time stamps are dynamic so we can't really test them
+        $removeStartAndEndDate = function (array $arr) {
+            unset($arr['startDate']);
+            unset($arr['endDate']);
+            return $arr;
+        };
+        $mappedData = array_map($removeStartAndEndDate, $data);
+        $mappedOfferings = array_map($removeStartAndEndDate, $filteredOfferings);
+
+        $this->assertEquals($this->mockSerialize(array_values($mappedOfferings)), $mappedData);
     }
 
     /**
