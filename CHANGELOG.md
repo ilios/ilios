@@ -1,7 +1,31 @@
 # Change Log
 
-## [v3.18.0](https://github.com/ilios/ilios/tree/v3.18.0)
+## [v3.18.1](https://github.com/ilios/ilios/tree/v3.18.1)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.18.0...v3.18.1)
+
+**Closed issues:**
+
+- Delete Permissions not checked for Archivable and Lockable entities [\#1576](https://github.com/ilios/ilios/issues/1576)
+- Base URL Is Being Cut From Learning Material URL's on Calendar Feed [\#1574](https://github.com/ilios/ilios/issues/1574)
+- UserID is not being exported as part of the audit log  [\#1570](https://github.com/ilios/ilios/issues/1570)
+- Tests fail for offering rollovers that cross the new year [\#1568](https://github.com/ilios/ilios/issues/1568)
+- Call to a member function setSession\(\) on null [\#1564](https://github.com/ilios/ilios/issues/1564)
+- Session destroy in shibboleth logout [\#1563](https://github.com/ilios/ilios/issues/1563)
+- Correct typo in WebIndexFromJson.php [\#1561](https://github.com/ilios/ilios/issues/1561)
+
+**Merged pull requests:**
+
+- Enforce permission for archivable and lockable entities [\#1577](https://github.com/ilios/ilios/pull/1577) ([jrjohnson](https://github.com/jrjohnson))
+- Fix Learning Material absolute path [\#1575](https://github.com/ilios/ilios/pull/1575) ([jrjohnson](https://github.com/jrjohnson))
+- Remove EXTRA\_LAZY annotations [\#1573](https://github.com/ilios/ilios/pull/1573) ([jrjohnson](https://github.com/jrjohnson))
+- Add userId to exported audit log [\#1571](https://github.com/ilios/ilios/pull/1571) ([jrjohnson](https://github.com/jrjohnson))
+- Adjust expected end week [\#1569](https://github.com/ilios/ilios/pull/1569) ([jrjohnson](https://github.com/jrjohnson))
+- Correct typo for AWS\_BUCKET [\#1567](https://github.com/ilios/ilios/pull/1567) ([jrjohnson](https://github.com/jrjohnson))
+- Don't set the session if we are unsetting the ILM session [\#1566](https://github.com/ilios/ilios/pull/1566) ([jrjohnson](https://github.com/jrjohnson))
+- Detect if a session exists before attempting to destroy it [\#1565](https://github.com/ilios/ilios/pull/1565) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.18.0](https://github.com/ilios/ilios/tree/v3.18.0) (2016-09-02)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.17.0...v3.18.0)
 
 **Implemented enhancements:**
@@ -16,6 +40,7 @@
 
 **Merged pull requests:**
 
+- updating CHANGELOG.md file for v3.18.0 release [\#1562](https://github.com/ilios/ilios/pull/1562) ([thecoolestguy](https://github.com/thecoolestguy))
 - Bump the supplied API version to v1.9 [\#1560](https://github.com/ilios/ilios/pull/1560) ([jrjohnson](https://github.com/jrjohnson))
 - Add find to directory lookup [\#1559](https://github.com/ilios/ilios/pull/1559) ([jrjohnson](https://github.com/jrjohnson))
 - User Request param instead of a service [\#1558](https://github.com/ilios/ilios/pull/1558) ([jrjohnson](https://github.com/jrjohnson))
