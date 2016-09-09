@@ -472,7 +472,7 @@ class ProgramControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers_b_a
+     * @group controllers_b
      */
     public function testFilterBySchools()
     {
@@ -501,5 +501,27 @@ class ProgramControllerTest extends AbstractControllerTest
             ),
             $data[1]
         );
+    }
+
+    /**
+     * @group controllers_b
+     */
+    public function testRejectUnpriviledged()
+    {
+        $subject = $this->container
+            ->get('ilioscore.dataloader.program')
+            ->getOne()
+        ;
+        //unset any parameters which should not be POSTed
+        $id = $subject['id'];
+        unset($subject['id']);
+        unset($subject['programYears']);
+        unset($subject['curriculumInventoryReports']);
+        $userId = 3;
+
+        $this->canNot($userId, 'POST', $this->getUrl('post_programs'), json_encode(['program' => $subject]));
+        $this->canNot($userId, 'PUT', $this->getUrl('put_programs', ['id' => $id]), json_encode(['program' => $subject]));
+        $this->canNot($userId, 'PUT', $this->getUrl('put_programs', ['id' => $id * 10000]), json_encode(['program' => $subject]));
+        $this->canNot($userId, 'DELETE', $this->getUrl('delete_programs', ['id' => $id]));
     }
 }

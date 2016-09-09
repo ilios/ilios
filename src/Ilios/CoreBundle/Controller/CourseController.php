@@ -366,7 +366,7 @@ class CourseController extends FOSRestController
 
         $authChecker = $this->get('security.authorization_checker');
 
-        if (! $authChecker->isGranted(['modify'], $course)) {
+        if (! $authChecker->isGranted(['edit'], $course)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
