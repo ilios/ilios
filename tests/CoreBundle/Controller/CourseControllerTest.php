@@ -1255,4 +1255,33 @@ class CourseControllerTest extends AbstractControllerTest
         $this->assertEquals($newIlmData[0]['hours'], $ilms[0]['hours']);
         $this->assertEquals($newIlmData[1]['hours'], $ilms[1]['hours']);
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testRejectUnpriviledged()
+    {
+        $subject = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getOne()
+        ;
+        //unset any parameters which should not be POSTed
+        $id = $subject['id'];
+        unset($subject['id']);
+        unset($subject['learningMaterials']);
+        unset($subject['sessions']);
+        $userId = 3;
+
+        $this->canNot($userId, 'POST', $this->getUrl('post_courses'), json_encode(['course' => $subject]));
+        $this->canNot($userId, 'PUT', $this->getUrl('put_courses', ['id' => $id]), json_encode(['course' => $subject]));
+        $this->canNot($userId, 'PUT', $this->getUrl('put_courses', ['id' => $id * 10000]), json_encode(['course' => $subject]));
+        $this->canNot($userId, 'DELETE', $this->getUrl('delete_courses', ['id' => $id]));
+        $rolloverData = [
+            'id' => $id,
+            'year' => 2019,
+            'newStartDate' => 'false',
+            'skipOfferings' => 'false',
+        ];
+        $this->canNot($userId, 'POST', $this->getUrl('api_course_rollover_v1', $rolloverData));
+    }
 }

@@ -70,6 +70,18 @@ class JsonWebTokenManager
      */
     public function createJwtFromUser(UserInterface $user, $timeToLive = 'PT8H')
     {
+        return $this->createJwtFromUserId($user->getId(), $timeToLive);
+    }
+
+    /**
+     * Build a token from a userId
+     * @param  integer $userId
+     * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
+     *
+     * @return string
+     */
+    public function createJwtFromUserId($userId, $timeToLive = 'PT8H')
+    {
         $requestedInterval = new \DateInterval($timeToLive);
         $maximumInterval = new \DateInterval('P364D');
         $interval = $requestedInterval > $maximumInterval?$maximumInterval:$requestedInterval;
@@ -82,7 +94,7 @@ class JsonWebTokenManager
             'aud' => self::TOKEN_AUD,
             'iat' => $now->format('U'),
             'exp' => $expires->format('U'),
-            'user_id' => $user->getId()
+            'user_id' => $userId
         );
 
         return JWT::encode($arr, $this->jwtKey);

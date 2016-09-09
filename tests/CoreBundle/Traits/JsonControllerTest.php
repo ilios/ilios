@@ -4,6 +4,8 @@ namespace Tests\CoreBundle\Traits;
 use FOS\RestBundle\Util\Codes;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
 /**
  * Class JsonControllerTest
@@ -44,29 +46,42 @@ trait JsonControllerTest
     /**
      * Logs the 'newuser' user in and returns the user's JSON Web Token (JWT).
      * @return string the JWT
-     * @todo obviously, this needs expanded in order to allow other user log-ins. [ST 2015/08/06]
      */
     protected function getAuthenticatedUserToken()
     {
-        static $token;
+        return $this->getTokenForUser(2);
+    }
 
-        if (! $token) {
+
+    /**
+     * Logs in a specific user and returns the token for them
+     *
+     * @param string $userId
+     * @return string the JWT
+     */
+    protected function getTokenForUser($userId)
+    {
+        static $tokens;
+
+        if (!is_array($tokens)) {
+            $tokens = [];
+        }
+        $userId = (int) $userId;
+
+        if (!array_key_exists($userId, $tokens)) {
             $client = $this->createClient();
-            $client->request(
-                'POST',
-                '/auth/login',
-                array(
-                    'username' => 'newuser',
-                    'password' => 'newuserpass',
-                )
-            );
-            $response = $client->getResponse();
-            $this->assertJsonResponse($response, Codes::HTTP_OK);
-            $response = json_decode($response->getContent(), true);
-            $token = $response['jwt'];
+
+            /** @var ContainerInterface $container **/
+            $container = $client->getContainer();
+
+            /** @var JsonWebTokenManager $jwtManager **/
+            $jwtManager = $container->get('ilios_authentication.jwt.manager');
+            $token = $jwtManager->createJwtFromUserId($userId);
+
+            $tokens[$userId] = $token;
         }
 
-        return $token;
+        return $tokens[$userId];
     }
 
     /**
@@ -96,6 +111,33 @@ trait JsonControllerTest
             $files,
             $headers,
             $content
+        );
+    }
+
+    /**
+     * Tests to ensure that a user cannot access a certain function
+     *
+     * @param string $userId
+     * @param string $method
+     * @param string $url
+     * @param string $data
+     */
+    protected function canNot($userId, $method, $url, $data = null)
+    {
+        $client = $this->createClient();
+        $this->makeJsonRequest(
+            $client,
+            $method,
+            $url,
+            $data,
+            $this->getTokenForUser($userId)
+        );
+
+        $response = $client->getResponse();
+        $this->assertEquals(
+            Codes::HTTP_FORBIDDEN,
+            $response->getStatusCode(),
+            "User #{$userId} should be prevented from {$method} at {$url}" . var_export($response->getContent(), true)
         );
     }
 }
