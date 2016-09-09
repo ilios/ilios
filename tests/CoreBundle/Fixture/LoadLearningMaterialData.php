@@ -55,7 +55,6 @@ class LoadLearningMaterialData extends AbstractFixture implements
                 'citation',
                 'filename',
                 'filesize',
-                'token',
             ];
             foreach ($optional as $key) {
                 if (array_key_exists($key, $arr)) {

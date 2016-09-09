@@ -46,7 +46,7 @@ class LearningMaterialData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 3,
-            'title' => 'thirdlm' . $this->faker->text(30),
+            'title' => 'thirdlm',
             'description' => 'desc3' . $this->faker->text,
             'originalAuthor' => $this->faker->name,
             'userRole' => "2",
@@ -55,7 +55,7 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightRationale' => $this->faker->text,
             'copyrightPermission' => true,
             'sessionLearningMaterials' => ['2'],
-            'courseLearningMaterials' => [],
+            'courseLearningMaterials' => ['4'],
             'filename' => 'testfile.txt',
             'mimetype' => 'text/plain',
             'filesize' => 1000

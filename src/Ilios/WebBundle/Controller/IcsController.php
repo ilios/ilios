@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use \Eluceo\iCal\Component as ICS;
 
 class IcsController extends Controller
@@ -153,7 +154,7 @@ class IcsController extends Controller
         } else {
             $uri = $this->generateUrl('ilios_core_downloadlearningmaterial', array(
                 'token' => $learningMaterial->getToken(),
-            ), true);
+            ), UrlGeneratorInterface::ABSOLUTE_URL);
             $text .= $uri;
         }
 
