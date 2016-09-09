@@ -157,7 +157,7 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @var ArrayCollection|UserInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="learnerGroups", fetch="EXTRA_LAZY")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="learnerGroups")
      * @ORM\JoinTable(name="group_x_user",
      *   joinColumns={
      *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id")
@@ -175,7 +175,7 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @var UserInterface
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="instructedLearnerGroups", fetch="EXTRA_LAZY")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="instructedLearnerGroups")
      * @ORM\JoinTable(name="group_x_instructor",
      *   joinColumns={
      *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id", onDelete="CASCADE")
