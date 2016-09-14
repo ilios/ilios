@@ -216,14 +216,19 @@ class ProgramYearController extends FOSRestController
     {
         try {
             $manager = $this->container->get('ilioscore.programyear.manager');
+
+            /** @var ProgramYearInterface $course */
             $programYear = $manager->findOneBy(['id'=> $id]);
             $authChecker = $this->get('security.authorization_checker');
+            $postData = $this->getPostData($request);
 
             if ($programYear) {
                 $code = Codes::HTTP_OK;
-                // check if the existing program year can be modified, e.g. if it is not locked or archived etc.
-                if (! $authChecker->isGranted('modify', $programYear)) {
-                    throw $this->createAccessDeniedException('Unauthorized access!');
+                if ($programYear->isLocked() && !$postData['locked']) {
+                    //check if the programYear can be unlocked and unlock it
+                    if ($authChecker->isGranted('unlock', $programYear)) {
+                        $programYear->setLocked(false);
+                    }
                 }
             } else {
                 $programYear = $manager->create();

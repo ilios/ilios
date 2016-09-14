@@ -1284,4 +1284,57 @@ class CourseControllerTest extends AbstractControllerTest
         ];
         $this->canNot($userId, 'POST', $this->getUrl('api_course_rollover_v1', $rolloverData));
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testCourseCanBeUnlocked()
+    {
+        $data = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getOne();
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['learningMaterials']);
+        unset($postData['sessions']);
+
+        //lock course
+        $postData['locked'] = true;
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_courses',
+                ['id' => $data['id']]
+            ),
+            json_encode(['course' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertTrue(
+            json_decode($response->getContent(), true)['course']['locked']
+        );
+
+        //unlock course
+        $postData['locked'] = false;
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_courses',
+                ['id' => $data['id']]
+            ),
+            json_encode(['course' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertFalse(
+            json_decode($response->getContent(), true)['course']['locked']
+        );
+    }
 }
