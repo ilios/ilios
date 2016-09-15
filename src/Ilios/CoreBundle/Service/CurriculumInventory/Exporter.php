@@ -494,7 +494,10 @@ class Exporter
         //
         // Academic Levels
         //
-        $levels = $report->getAcademicLevels();
+        $levels = $report->getAcademicLevels()->filter(function (CurriculumInventoryAcademicLevelInterface $level) {
+            return $level->getSequenceBlocks()->count() > 0;
+        });
+
         $academicLevelsNode = $dom->createElement('AcademicLevels');
         $rootNode->appendChild($academicLevelsNode);
         $levelsInProgramNode = $dom->createElement('LevelsInProgram', $levels->count());
