@@ -51,6 +51,14 @@ class ObjectiveType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
+            ->add('ancestor', SingleRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Objective"
+            ])
+            ->add('descendants', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Objective"
+            ])
         ;
     }
 

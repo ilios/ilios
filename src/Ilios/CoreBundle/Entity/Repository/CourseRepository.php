@@ -65,16 +65,18 @@ class CourseRepository extends EntityRepository
         $courseIds = array_keys($courseDTOs);
 
         $qb = $this->_em->createQueryBuilder()
-            ->select('s.id as schoolId, cl.id as clerkshipTypeId, c.id as courseId')
+            ->select('s.id as schoolId, cl.id as clerkshipTypeId, a.id as ancestorId, c.id as courseId')
             ->from('IliosCoreBundle:Course', 'c')
             ->join('c.school', 's')
             ->leftJoin('c.clerkshipType', 'cl')
+            ->leftJoin('c.ancestor', 'a')
             ->where($qb->expr()->in('c.id', ':courseIds'))
             ->setParameter('courseIds', $courseIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $courseDTOs[$arr['courseId']]->school = (int) $arr['schoolId'];
             $courseDTOs[$arr['courseId']]->clerkshipType = $arr['clerkshipTypeId']?(int)$arr['clerkshipTypeId']:null;
+            $courseDTOs[$arr['courseId']]->ancestor = $arr['ancestorId']?(int)$arr['ancestorId']:null;
         }
 
         $related = [
@@ -84,7 +86,8 @@ class CourseRepository extends EntityRepository
             'objectives',
             'meshDescriptors',
             'learningMaterials',
-            'sessions'
+            'sessions',
+            'descendants',
         ];
 
         foreach ($related as $rel) {
@@ -488,6 +491,13 @@ EOL;
             $qb->setParameter(':schools', $ids);
         }
 
+        if (array_key_exists('ancestors', $criteria)) {
+            $ids = is_array($criteria['ancestors']) ? $criteria['ancestors'] : [$criteria['ancestors']];
+            $qb->join('c.ancestor', 'anc_course');
+            $qb->andWhere($qb->expr()->in('anc_course.id', ':ancestors'));
+            $qb->setParameter(':ancestors', $ids);
+        }
+
         //cleanup all the possible relationship filters
         unset($criteria['schools']);
         unset($criteria['sessions']);
@@ -499,6 +509,7 @@ EOL;
         unset($criteria['learningMaterials']);
         unset($criteria['competencies']);
         unset($criteria['meshDescriptors']);
+        unset($criteria['ancestors']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {

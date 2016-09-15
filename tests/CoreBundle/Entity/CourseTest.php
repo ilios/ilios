@@ -71,6 +71,7 @@ class CourseTest extends EntityBase
         $this->assertEmpty($this->object->getLearningMaterials());
         $this->assertEmpty($this->object->getSessions());
         $this->assertEmpty($this->object->getTerms());
+        $this->assertEmpty($this->object->getDescendants());
     }
 
     /**
@@ -221,5 +222,31 @@ class CourseTest extends EntityBase
     public function testSetTerms()
     {
         $this->entityCollectionSetTest('term', 'Term');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::setAncestor
+     * @covers Ilios\CoreBundle\Entity\Course::getAncestor
+     */
+    public function testSetAncestor()
+    {
+        $this->entitySetTest('ancestor', 'Course');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::addDescendant
+     */
+    public function testAddDescendant()
+    {
+        $this->entityCollectionAddTest('descendant', 'Course');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::getDescendants
+     * @covers Ilios\CoreBundle\Entity\Course::setDescendants
+     */
+    public function testGetDescendants()
+    {
+        $this->entityCollectionSetTest('descendant', 'Course');
     }
 }

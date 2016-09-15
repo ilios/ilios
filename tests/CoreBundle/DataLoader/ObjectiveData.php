@@ -17,7 +17,8 @@ class ObjectiveData extends AbstractDataLoader
             'sessions' => [],
             'parents' => [],
             'children' => ['2'],
-            'meshDescriptors' => []
+            'meshDescriptors' => [],
+            'descendants' => []
         );
 
         $arr[] = array(
@@ -28,7 +29,8 @@ class ObjectiveData extends AbstractDataLoader
             'sessions' => [],
             'parents' => ['1'],
             'children' => ['3'],
-            'meshDescriptors' => []
+            'meshDescriptors' => [],
+            'descendants' => []
         );
 
         $arr[] = array(
@@ -39,7 +41,8 @@ class ObjectiveData extends AbstractDataLoader
             'sessions' => ['1'],
             'parents' => ['2'],
             'children' => [],
-            'meshDescriptors' => []
+            'meshDescriptors' => [],
+            'descendants' => []
         );
 
         $arr[] = array(
@@ -50,7 +53,8 @@ class ObjectiveData extends AbstractDataLoader
             'sessions' => [],
             'parents' => [],
             'children' => [],
-            'meshDescriptors' => []
+            'meshDescriptors' => [],
+            'descendants' => []
         );
 
         $arr[] = array(
@@ -61,7 +65,8 @@ class ObjectiveData extends AbstractDataLoader
             'sessions' => [],
             'parents' => [],
             'children' => [],
-            'meshDescriptors' => ["abc1"]
+            'meshDescriptors' => ["abc1"],
+            'descendants' => []
         );
 
         $arr[] = array(
@@ -72,7 +77,8 @@ class ObjectiveData extends AbstractDataLoader
             'sessions' => ["4"],
             'parents' => [],
             'children' => [],
-            'meshDescriptors' => ["abc1"]
+            'meshDescriptors' => ["abc1"],
+            'descendants' => ['7']
         );
 
         $arr[] = array(
@@ -83,7 +89,9 @@ class ObjectiveData extends AbstractDataLoader
             'sessions' => ["4"],
             'parents' => [],
             'children' => [],
-            'meshDescriptors' => ["abc3"]
+            'meshDescriptors' => ["abc3"],
+            'ancestor' => '6',
+            'descendants' => []
         );
 
         return $arr;
@@ -101,6 +109,7 @@ class ObjectiveData extends AbstractDataLoader
             'parents' => ['1'],
             'children' => [],
             'meshDescriptors' => [],
+            'descendants' => []
 
         );
     }
