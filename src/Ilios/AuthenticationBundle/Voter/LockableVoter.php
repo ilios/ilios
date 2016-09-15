@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -18,11 +19,16 @@ class LockableVoter extends Voter
     const MODIFY = 'modify';
 
     /**
+     * @var string
+     */
+    const UNLOCK = 'unlock';
+
+    /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof LockableEntityInterface && in_array($attribute, array(self::MODIFY));
+        return $subject instanceof LockableEntityInterface && in_array($attribute, [self::MODIFY, self::UNLOCK]);
     }
 
     /**
@@ -33,6 +39,15 @@ class LockableVoter extends Voter
      */
     protected function voteOnAttribute($attribute, $lockable, TokenInterface $token)
     {
+        if (self::UNLOCK === $attribute) {
+            $user = $token->getUser();
+            if (!$user instanceof UserInterface) {
+                return false;
+            }
+
+            return $user->hasRole(['Developer']);
+        }
+
         if (self::MODIFY === $attribute) {
             return ! $lockable->isLocked();
         }

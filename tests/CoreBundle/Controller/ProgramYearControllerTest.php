@@ -420,4 +420,56 @@ class ProgramYearControllerTest extends AbstractControllerTest
         $this->canNot($userId, 'PUT', $this->getUrl('put_programyears', ['id' => $id * 10000]), json_encode(['programYear' => $subject]));
         $this->canNot($userId, 'DELETE', $this->getUrl('delete_programyears', ['id' => $id]));
     }
+
+    /**
+     * @group controllers_b
+     */
+    public function testProgramYearCanBeUnlocked()
+    {
+        $data = $this->container
+            ->get('ilioscore.dataloader.programyear')
+            ->getOne();
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['stewards']);
+
+        //lock course
+        $postData['locked'] = true;
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_programyears',
+                ['id' => $data['id']]
+            ),
+            json_encode(['programYear' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertTrue(
+            json_decode($response->getContent(), true)['programYear']['locked']
+        );
+
+        //unlock course
+        $postData['locked'] = false;
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_programyears',
+                ['id' => $data['id']]
+            ),
+            json_encode(['programYear' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertFalse(
+            json_decode($response->getContent(), true)['programYear']['locked']
+        );
+    }
 }

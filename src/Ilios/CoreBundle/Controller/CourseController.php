@@ -242,11 +242,20 @@ class CourseController extends FOSRestController
     {
         try {
             $manager = $this->container->get('ilioscore.course.manager');
+
+            /** @var CourseInterface $course */
             $course = $manager->findOneBy(['id'=> $id]);
             $authChecker = $this->get('security.authorization_checker');
+            $postData = $this->getPostData($request);
 
             if ($course) {
                 $code = Codes::HTTP_OK;
+                if ($course->isLocked() && !$postData['locked']) {
+                    //check if the course can be unlocked and unlock it
+                    if ($authChecker->isGranted('unlock', $course)) {
+                        $course->setLocked(false);
+                    }
+                }
                 // check if the existing course can be modified, e.g. if it is not locked or archived etc.
                 if (! $authChecker->isGranted('modify', $course)) {
                     throw $this->createAccessDeniedException('Unauthorized access!');
@@ -257,7 +266,7 @@ class CourseController extends FOSRestController
             }
 
             $handler = $this->container->get('ilioscore.course.handler');
-            $course = $handler->put($course, $this->getPostData($request));
+            $course = $handler->put($course, $postData);
 
             if (! $authChecker->isGranted('edit', $course)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
