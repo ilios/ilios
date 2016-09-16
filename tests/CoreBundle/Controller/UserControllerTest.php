@@ -30,6 +30,7 @@ class UserControllerTest extends AbstractControllerTest
             'Tests\CoreBundle\Fixture\LoadPermissionData',
             'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadReportData',
+            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
         ]);
     }
 

@@ -104,6 +104,12 @@ class UserDTO
     public $school;
 
     /**
+     * @var int
+     * @JMS\Type("string")
+     */
+    public $authentication;
+
+    /**
      * @var array
      * @JMS\Type("array<string>")
      * @JMS\SerializedName("directedCourses")

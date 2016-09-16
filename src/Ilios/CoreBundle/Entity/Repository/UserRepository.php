@@ -774,16 +774,19 @@ class UserRepository extends EntityRepository
         $userIds = array_keys($userDTOs);
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('u.id AS userId, c.id AS primaryCohortId, s.id AS schoolId')
+        $qb->select('u.id AS userId, c.id AS primaryCohortId, s.id AS schoolId, auser.id as authenticationId')
             ->from('IliosCoreBundle:User', 'u')
             ->join('u.school', 's')
             ->leftJoin('u.primaryCohort', 'c')
+            ->leftJoin('u.authentication', 'a')
+            ->leftJoin('a.user', 'auser')
             ->where($qb->expr()->in('u.id', ':userIds'))
             ->setParameter('userIds', $userIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $userDTOs[$arr['userId']]->primaryCohort = $arr['primaryCohortId'] ? $arr['primaryCohortId'] : null;
             $userDTOs[$arr['userId']]->school = $arr['schoolId'];
+            $userDTOs[$arr['userId']]->authentication = $arr['authenticationId'] ? $arr['authenticationId'] : null;
         }
 
         $related = [
