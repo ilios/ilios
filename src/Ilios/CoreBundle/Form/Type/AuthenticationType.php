@@ -7,6 +7,7 @@ use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class AuthenticationType
@@ -24,7 +25,9 @@ class AuthenticationType extends AbstractType
             ->add('user', SingleRelatedType::class, [
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('username')
+            ->add('username', TextType::class, [
+                'empty_data'  => null
+            ])
             ->add('passwordBcrypt')
         ;
         $transformer = new RemoveMarkupTransformer();

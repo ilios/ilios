@@ -327,4 +327,28 @@ class AuthenticationControllerTest extends AbstractControllerTest
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testPutAuthenticationWithNoUsernameOrPassword()
+    {
+        $data = $this->container->get('ilioscore.dataloader.authentication')
+            ->create();
+        unset($data['username']);
+        unset($data['password']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_authentications'),
+            json_encode(['authentication' => $data]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $this->assertSame(
+            ['user' => $data['user']],
+            json_decode($response->getContent(), true)['authentications'][0]
+        );
+    }
 }
