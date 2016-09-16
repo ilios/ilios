@@ -154,4 +154,29 @@ interface CourseInterface extends
      * @return ArrayCollection|CourseLearningMaterialInterface[]
      */
     public function getLearningMaterials();
+
+    /**
+     * @param CourseInterface $ancestor
+     */
+    public function setAncestor(CourseInterface $ancestor);
+
+    /**
+     * @return CourseInterface
+     */
+    public function getAncestor();
+
+    /**
+     * @param Collection $children
+     */
+    public function setDescendants(Collection $children);
+
+    /**
+     * @param CourseInterface $child
+     */
+    public function addDescendant(CourseInterface $child);
+
+    /**
+     * @return ArrayCollection|CourseInterface[]
+     */
+    public function getDescendants();
 }

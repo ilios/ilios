@@ -346,6 +346,29 @@ class Course implements CourseInterface
     protected $sessions;
 
     /**
+     * @var CourseInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="descendants")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ancestor_id", referencedColumnName="course_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $ancestor;
+
+    /**
+     * @var CourseInterface
+     *
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="ancestor")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $descendants;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -357,6 +380,7 @@ class Course implements CourseInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
         $this->sessions = new ArrayCollection();
+        $this->descendants = new ArrayCollection();
         $this->publishedAsTbd = false;
         $this->published = false;
         $this->archived = false;
@@ -589,5 +613,49 @@ class Course implements CourseInterface
     public function getLearningMaterials()
     {
         return $this->learningMaterials;
+    }
+
+    /**
+     * @param CourseInterface $parent
+     */
+    public function setAncestor(CourseInterface $ancestor = null)
+    {
+        $this->ancestor = $ancestor;
+    }
+
+    /**
+     * @return CourseInterface
+     */
+    public function getAncestor()
+    {
+        return $this->ancestor;
+    }
+
+    /**
+     * @param Collection $descendants
+     */
+    public function setDescendants(Collection $descendants)
+    {
+        $this->descendants = new ArrayCollection();
+
+        foreach ($descendants as $descendant) {
+            $this->addDescendant($descendant);
+        }
+    }
+
+    /**
+     * @param CourseInterface $descendant
+     */
+    public function addDescendant(CourseInterface $descendant)
+    {
+        $this->descendants->add($descendant);
+    }
+
+    /**
+     * @return ArrayCollection|CourseInterface[]
+     */
+    public function getDescendants()
+    {
+        return $this->descendants;
     }
 }

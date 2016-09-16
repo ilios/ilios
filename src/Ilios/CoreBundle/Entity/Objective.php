@@ -153,6 +153,29 @@ class Objective implements ObjectiveInterface
     protected $meshDescriptors;
 
     /**
+     * @var ObjectiveInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Objective", inversedBy="descendants")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ancestor_id", referencedColumnName="objective_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $ancestor;
+
+    /**
+     * @var ObjectiveInterface
+     *
+     * @ORM\OneToMany(targetEntity="Objective", mappedBy="ancestor")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $descendants;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -163,6 +186,7 @@ class Objective implements ObjectiveInterface
         $this->parents = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
+        $this->descendants = new ArrayCollection();
     }
 
     /**
@@ -298,5 +322,49 @@ class Objective implements ObjectiveInterface
             $this->programYears->add($programYear);
             $programYear->addObjective($this);
         }
+    }
+
+    /**
+     * @param ObjectiveInterface $parent
+     */
+    public function setAncestor(ObjectiveInterface $ancestor = null)
+    {
+        $this->ancestor = $ancestor;
+    }
+
+    /**
+     * @return ObjectiveInterface
+     */
+    public function getAncestor()
+    {
+        return $this->ancestor;
+    }
+
+    /**
+     * @param Collection $descendants
+     */
+    public function setDescendants(Collection $descendants)
+    {
+        $this->descendants = new ArrayCollection();
+
+        foreach ($descendants as $descendant) {
+            $this->addDescendant($descendant);
+        }
+    }
+
+    /**
+     * @param ObjectiveInterface $descendant
+     */
+    public function addDescendant(ObjectiveInterface $descendant)
+    {
+        $this->descendants->add($descendant);
+    }
+
+    /**
+     * @return ArrayCollection|ObjectiveInterface[]
+     */
+    public function getDescendants()
+    {
+        return $this->descendants;
     }
 }

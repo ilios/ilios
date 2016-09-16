@@ -32,6 +32,21 @@ class ObjectiveTest extends EntityBase
         $this->object->setTitle('test');
         $this->validate(0);
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::__construct
+     */
+    public function testConstructor()
+    {
+        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertEmpty($this->object->getSessions());
+        $this->assertEmpty($this->object->getCourses());
+        $this->assertEmpty($this->object->getProgramYears());
+        $this->assertEmpty($this->object->getDescendants());
+        $this->assertEmpty($this->object->getParents());
+        $this->assertEmpty($this->object->getChildren());
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\Objective::setTitle
      * @covers Ilios\CoreBundle\Entity\Objective::getTitle
@@ -144,5 +159,31 @@ class ObjectiveTest extends EntityBase
     public function testGetParents()
     {
         $this->entityCollectionSetTest('parent', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Objective::setAncestor
+     * @covers Ilios\CoreBundle\Entity\Objective::getAncestor
+     */
+    public function testSetAncestor()
+    {
+        $this->entitySetTest('ancestor', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Objective::addDescendant
+     */
+    public function testAddDescendant()
+    {
+        $this->entityCollectionAddTest('descendant', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Objective::getDescendants
+     * @covers Ilios\CoreBundle\Entity\Objective::setDescendants
+     */
+    public function testGetDescendants()
+    {
+        $this->entityCollectionSetTest('descendant', 'Objective');
     }
 }

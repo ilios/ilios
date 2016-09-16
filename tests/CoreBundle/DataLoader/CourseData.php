@@ -28,7 +28,8 @@ class CourseData extends AbstractDataLoader
             'objectives' => ['2'],
             'meshDescriptors' => ["abc1"],
             'learningMaterials' => ['1', '2', '4'],
-            'sessions' => ['1', '2']
+            'sessions' => ['1', '2'],
+            'descendants' => []
         );
 
         $arr[] = array(
@@ -51,7 +52,8 @@ class CourseData extends AbstractDataLoader
             'objectives' => ['2', '4'],
             'meshDescriptors' => [],
             'learningMaterials' => [],
-            'sessions' => ['3', '5', '6', '7', '8']
+            'sessions' => ['3', '5', '6', '7', '8'],
+            'descendants' => []
         );
 
         $arr[] = array(
@@ -73,7 +75,8 @@ class CourseData extends AbstractDataLoader
             'objectives' => ['5'],
             'meshDescriptors' => [],
             'learningMaterials' => [],
-            'sessions' => []
+            'sessions' => [],
+            'descendants' => ['4']
         );
 
         $arr[] = array(
@@ -95,7 +98,9 @@ class CourseData extends AbstractDataLoader
             'objectives' => ['2'],
             'meshDescriptors' => [],
             'learningMaterials' => ["3"],
-            'sessions' => ["4"]
+            'sessions' => ["4"],
+            'ancestor' => '3',
+            'descendants' => []
         );
 
         return $arr;
@@ -123,7 +128,8 @@ class CourseData extends AbstractDataLoader
             'objectives' => [1],
             'meshDescriptors' => [],
             'learningMaterials' => [],
-            'sessions' => []
+            'sessions' => [],
+            'descendants' => []
         ];
     }
 

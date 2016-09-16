@@ -76,4 +76,29 @@ interface ObjectiveInterface extends
      * @return ArrayCollection|MeshDescriptorInterface[]
      */
     public function getMeshDescriptors();
+
+    /**
+     * @param ObjectiveInterface $ancestor
+     */
+    public function setAncestor(ObjectiveInterface $ancestor);
+
+    /**
+     * @return ObjectiveInterface
+     */
+    public function getAncestor();
+
+    /**
+     * @param Collection $children
+     */
+    public function setDescendants(Collection $children);
+
+    /**
+     * @param ObjectiveInterface $child
+     */
+    public function addDescendant(ObjectiveInterface $child);
+
+    /**
+     * @return ArrayCollection|ObjectiveInterface[]
+     */
+    public function getDescendants();
 }

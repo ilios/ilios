@@ -140,6 +140,18 @@ class CourseDTO
      */
     public $sessions;
 
+    /**
+     * @var int
+     * @JMS\Type("string")
+     */
+    public $ancestor;
+
+    /**
+     * @var int[]
+     * @JMS\Type("array<string>")
+     */
+    public $descendants;
+
     public function __construct(
         $id,
         $title,
@@ -172,5 +184,6 @@ class CourseDTO
         $this->meshDescriptors = [];
         $this->learningMaterials = [];
         $this->sessions = [];
+        $this->descendants = [];
     }
 }

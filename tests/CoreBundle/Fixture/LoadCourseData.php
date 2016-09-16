@@ -42,6 +42,9 @@ class LoadCourseData extends AbstractFixture implements
             $entity->setPublishedAsTbd($arr['publishedAsTbd']);
             $entity->setPublished($arr['published']);
             $entity->setSchool($this->getReference('schools' . $arr['school']));
+            if (array_key_exists('ancestor', $arr)) {
+                $entity->setAncestor($this->getReference('courses' . $arr['ancestor']));
+            }
             if (isset($arr['clerkshipType'])) {
                 $entity->setClerkshipType($this->getReference('courseClerkshipTypes' . $arr['clerkshipType']));
             }

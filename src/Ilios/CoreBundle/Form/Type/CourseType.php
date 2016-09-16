@@ -65,6 +65,14 @@ class CourseType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
+            ->add('ancestor', SingleRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('descendants', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
         ;
         $transformer = new RemoveMarkupTransformer();
         foreach (['title', 'externalId'] as $element) {
