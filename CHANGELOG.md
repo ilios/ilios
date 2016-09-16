@@ -1,7 +1,29 @@
 # Change Log
 
-## [v3.18.1](https://github.com/ilios/ilios/tree/v3.18.1)
+## [v3.19.0](https://github.com/ilios/ilios/tree/v3.19.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.18.1...v3.19.0)
+
+**Implemented enhancements:**
+
+- Authentication should be part of the user record [\#1589](https://github.com/ilios/ilios/issues/1589)
+- Allow unlocking locked items [\#1582](https://github.com/ilios/ilios/issues/1582)
+
+**Closed issues:**
+
+- Allow Authentication to be saved with no username [\#1590](https://github.com/ilios/ilios/issues/1590)
+- Curriculum Inventory collects all available academic levels, rather than those referenced in the report [\#1584](https://github.com/ilios/ilios/issues/1584)
+
+**Merged pull requests:**
+
+- Show authentication data in user response [\#1592](https://github.com/ilios/ilios/pull/1592) ([jrjohnson](https://github.com/jrjohnson))
+- When nd empty username is sent store it as null [\#1591](https://github.com/ilios/ilios/pull/1591) ([jrjohnson](https://github.com/jrjohnson))
+- Only include used levels in CI export [\#1587](https://github.com/ilios/ilios/pull/1587) ([jrjohnson](https://github.com/jrjohnson))
+- Fix flakey end of the year tests [\#1586](https://github.com/ilios/ilios/pull/1586) ([jrjohnson](https://github.com/jrjohnson))
+- Add ancestry to courses and objectives [\#1585](https://github.com/ilios/ilios/pull/1585) ([jrjohnson](https://github.com/jrjohnson))
+- Allow lockable entities to be unlocked [\#1583](https://github.com/ilios/ilios/pull/1583) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.18.1](https://github.com/ilios/ilios/tree/v3.18.1) (2016-09-09)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.18.0...v3.18.1)
 
 **Closed issues:**
@@ -16,6 +38,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for the v3.18.1 release [\#1578](https://github.com/ilios/ilios/pull/1578) ([thecoolestguy](https://github.com/thecoolestguy))
 - Enforce permission for archivable and lockable entities [\#1577](https://github.com/ilios/ilios/pull/1577) ([jrjohnson](https://github.com/jrjohnson))
 - Fix Learning Material absolute path [\#1575](https://github.com/ilios/ilios/pull/1575) ([jrjohnson](https://github.com/jrjohnson))
 - Remove EXTRA\_LAZY annotations [\#1573](https://github.com/ilios/ilios/pull/1573) ([jrjohnson](https://github.com/jrjohnson))
