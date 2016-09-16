@@ -235,6 +235,8 @@ class User implements UserInterface
      * @var AuthenticationInterface
      *
      * @ORM\OneToOne(targetEntity="Authentication", mappedBy="user")
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $authentication;
 
