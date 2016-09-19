@@ -96,7 +96,7 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @ORM\ManyToOne(targetEntity="LearnerGroup", inversedBy="children")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="parent_group_id", referencedColumnName="group_id")
+     *   @ORM\JoinColumn(name="parent_group_id", referencedColumnName="group_id", onDelete="CASCADE")
      * })
      *
      * @JMS\Expose
