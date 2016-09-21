@@ -136,12 +136,12 @@ class Course implements CourseInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=18, name="external_id", nullable=true)
+     * @ORM\Column(type="string", length=255, name="external_id", nullable=true)
      *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 18
+     *      max = 255
      * )
      *
      * @JMS\Expose
