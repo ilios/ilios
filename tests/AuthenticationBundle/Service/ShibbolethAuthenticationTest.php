@@ -73,10 +73,17 @@ class ShibbolethAuthenticationTest extends TestCase
 
         $serverBag = m::mock('Symfony\Component\HttpFoundation\ServerBag')
             ->shouldReceive('get')->with('Shib-Application-ID')->andReturn(true)
+            ->shouldReceive('get')->with('Shib-Session-ID')->andReturn(true)
+            ->shouldReceive('get')->with('Shib-Authentication-Instant')->andReturn(true)
+            ->shouldReceive('get')->with('Shib-Authentication-Method')->andReturn(true)
+            ->shouldReceive('get')->with('Shib-Session-Index')->andReturn(true)
+            ->shouldReceive('get')->with('HTTP_REFERER')->andReturn(true)
+            ->shouldReceive('get')->with('REMOTE_ADDR')->andReturn(true)
             ->shouldReceive('get')->with('eppn')->andReturn(false)
             ->mock();
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->server = $serverBag;
+        $logger->shouldReceive('error')->once();
         $this->setExpectedException('Exception');
         $obj->login($request);
     }

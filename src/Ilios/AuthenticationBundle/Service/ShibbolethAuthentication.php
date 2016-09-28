@@ -88,7 +88,22 @@ class ShibbolethAuthentication implements AuthenticationInterface
         $userId = $request->server->get($this->userIdAttribute);
         if (!$userId) {
             $msg =  "No '{$this->userIdAttribute}' found for authenticated user.";
-            $this->logger->error($msg, ['server vars' => var_export($_SERVER, true)]);
+            $logVars = [];
+
+            $shibProperties = [
+                'Shib-Session-ID',
+                'Shib-Authentication-Instant',
+                'Shib-Authentication-Method',
+                'Shib-Session-Index'
+            ];
+            foreach ($shibProperties as $key) {
+                $logVars[$key] = $request->server->get($key);
+            }
+
+            $logVars['HTTP_REFERER'] = $request->server->get('HTTP_REFERER');
+            $logVars['REMOTE_ADDR'] = $request->server->get('REMOTE_ADDR');
+
+            $this->logger->error($msg, ['server variables' => var_export($logVars, true)]);
             throw new \Exception($msg);
         }
         /* @var \Ilios\CoreBundle\Entity\AuthenticationInterface $authEntity */
