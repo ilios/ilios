@@ -65,12 +65,15 @@ class FormAuthentication implements AuthenticationInterface
     {
         $username = $request->request->get('username');
         $password = $request->request->get('password');
+        $code = JsonResponse::HTTP_OK;
         $errors = [];
         if (!$username) {
             $errors[] = 'missingUsername';
+            $code = JsonResponse::HTTP_BAD_REQUEST;
         }
         if (!$password) {
             $errors[] = 'missingPassword';
+            $code = JsonResponse::HTTP_BAD_REQUEST;
         }
         
         if ($username && $password) {
@@ -88,15 +91,14 @@ class FormAuthentication implements AuthenticationInterface
                 }
             }
             $errors[] = 'badCredentials';
+            $code = JsonResponse::HTTP_UNAUTHORIZED;
         }
-        
-        
 
         return new JsonResponse(array(
             'status' => 'error',
             'errors' => $errors,
             'jwt' => null,
-        ), JsonResponse::HTTP_UNAUTHORIZED);
+        ), $code);
     }
 
     /**
