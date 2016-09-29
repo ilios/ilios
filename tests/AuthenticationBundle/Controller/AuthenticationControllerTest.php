@@ -146,7 +146,7 @@ class AuthenticationControllerTest extends WebTestCase
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_BAD_REQUEST);
+        $this->assertJsonResponse($response, Codes::HTTP_UNAUTHORIZED);
         
         $content = $response->getContent();
         $data = json_decode($content);
@@ -165,7 +165,7 @@ class AuthenticationControllerTest extends WebTestCase
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_BAD_REQUEST);
+        $this->assertJsonResponse($response, Codes::HTTP_UNAUTHORIZED);
         
         $content = $response->getContent();
         $data = json_decode($content);
