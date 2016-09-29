@@ -98,7 +98,7 @@ class LdapAuthentication implements AuthenticationInterface
             'status' => 'error',
             'errors' => $errors,
             'jwt' => null,
-        ), JsonResponse::HTTP_BAD_REQUEST);
+        ), JsonResponse::HTTP_UNAUTHORIZED);
     }
 
     /**
