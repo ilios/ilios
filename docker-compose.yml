@@ -1,0 +1,25 @@
+version: '2'
+services:
+    db:
+        image: iamjrjohnson/docker-ilios-mysql
+        ports:
+            - "3306:3306"
+    php:
+        image: iamjrjohnson/docker-ilios-php
+        expose:
+            - "9000"
+        volumes:
+            - ./:/var/www/ilios
+            - ./var/logs/:/var/www/ilios/logs
+        links:
+            - db
+    nginx:
+        build: ./containers/nginx
+        ports:
+            - "80:80"
+        links:
+            - php
+        volumes_from:
+            - php
+        volumes:
+            - ./var/logs/nginx/:/var/log/nginx
