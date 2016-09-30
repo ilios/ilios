@@ -17,7 +17,8 @@ interface OfferingInterface extends
     IdentifiableEntityInterface,
     StringableEntityInterface,
     TimestampableEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    SessionStampableInterface
 {
     /**
      * @param string $room

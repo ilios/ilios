@@ -262,8 +262,6 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.userrole',
             'ilioscore.dataloader.user',
             'ilioscore.dataloader.vocabulary',
-            'ilioscore.listener.timestamp',
-            'ilioscore.listener.updatesession',
             'ilioscore.temporary_filesystem',
             'ilioscore.filesystem',
             'ilioscore.logger',
