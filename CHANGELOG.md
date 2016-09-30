@@ -1,7 +1,31 @@
 # Change Log
 
-## [v3.19.0](https://github.com/ilios/ilios/tree/v3.19.0)
+## [v3.20.0](https://github.com/ilios/ilios/tree/v3.20.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.19.0...v3.20.0)
+
+**Implemented enhancements:**
+
+- Increase limit for external id on course [\#1598](https://github.com/ilios/ilios/issues/1598)
+- Cascade deletes for learner groups [\#1594](https://github.com/ilios/ilios/issues/1594)
+
+**Closed issues:**
+
+- Reorganize timestamp updates [\#1605](https://github.com/ilios/ilios/issues/1605)
+- default login fails with internal server error on invalid credentials [\#1603](https://github.com/ilios/ilios/issues/1603)
+- 'UCSF'-specific reference in template body text should be removed [\#1596](https://github.com/ilios/ilios/issues/1596)
+- Better log entry for missing EPPN [\#1471](https://github.com/ilios/ilios/issues/1471)
+
+**Merged pull requests:**
+
+- Replace Listeners for time stamping [\#1608](https://github.com/ilios/ilios/pull/1608) ([jrjohnson](https://github.com/jrjohnson))
+- issue correct HTTP response on authn failure [\#1604](https://github.com/ilios/ilios/pull/1604) ([stopfstedt](https://github.com/stopfstedt))
+- Log less information when there is a missing ship parameter [\#1602](https://github.com/ilios/ilios/pull/1602) ([jrjohnson](https://github.com/jrjohnson))
+- removed the line referencing 'UCSF' from the email template [\#1600](https://github.com/ilios/ilios/pull/1600) ([dartajax](https://github.com/dartajax))
+- Expand Course externalId to 255 characters [\#1599](https://github.com/ilios/ilios/pull/1599) ([jrjohnson](https://github.com/jrjohnson))
+- Cascade learner group deletes to sub groups [\#1595](https://github.com/ilios/ilios/pull/1595) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.19.0](https://github.com/ilios/ilios/tree/v3.19.0) (2016-09-16)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.18.1...v3.19.0)
 
 **Implemented enhancements:**
@@ -16,6 +40,7 @@
 
 **Merged pull requests:**
 
+- Updating the CHANGELOG.md file v3.19.0 release [\#1593](https://github.com/ilios/ilios/pull/1593) ([thecoolestguy](https://github.com/thecoolestguy))
 - Show authentication data in user response [\#1592](https://github.com/ilios/ilios/pull/1592) ([jrjohnson](https://github.com/jrjohnson))
 - When nd empty username is sent store it as null [\#1591](https://github.com/ilios/ilios/pull/1591) ([jrjohnson](https://github.com/jrjohnson))
 - Only include used levels in CI export [\#1587](https://github.com/ilios/ilios/pull/1587) ([jrjohnson](https://github.com/jrjohnson))
