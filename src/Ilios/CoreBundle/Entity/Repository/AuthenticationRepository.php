@@ -2,6 +2,8 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 
@@ -11,9 +13,9 @@ use Ilios\CoreBundle\Entity\DTO\AuthenticationDTO;
 class AuthenticationRepository extends EntityRepository
 {
     /**
-     * Get an authentication entity by case insensitve user name
+     * Get an authentication entity by case insensitive user name.
      * @param  string $username
-     * @return AuthenticationInterface
+     * @return AuthenticationInterface|null an auth record, or NULL if none/no-unique could be found.
      */
     public function findOneByUsername($username)
     {
@@ -21,8 +23,15 @@ class AuthenticationRepository extends EntityRepository
         $qb->add('select', 'a')->from('IliosCoreBundle:Authentication', 'a');
         $qb->where($qb->expr()->like('a.username', "?1"));
         $qb->setParameter(1, '%' . $username . '%');
-
-        return $qb->getQuery()->getSingleResult();
+        $result = null;
+        try {
+            $result = $qb->getQuery()->getSingleResult();
+        } catch (NoResultException $e) {
+            // do nothing.
+        } catch (NonUniqueResultException $e) {
+            // do nothing.
+        }
+        return $result;
     }
 
     /**
