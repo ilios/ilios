@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,6 +26,7 @@ class IlmSession implements IlmSessionInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+    use SessionConsolidationEntity;
 
     /**
      * @var int

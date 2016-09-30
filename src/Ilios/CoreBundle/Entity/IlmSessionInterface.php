@@ -13,7 +13,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
  */
 interface IlmSessionInterface extends
     IdentifiableEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    SessionStampableInterface
 {
     /**
      * @param float $hours

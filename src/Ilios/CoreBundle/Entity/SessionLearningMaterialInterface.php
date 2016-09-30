@@ -12,7 +12,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
  */
 interface SessionLearningMaterialInterface extends
     IdentifiableEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    SessionStampableInterface
 {
     /**
      * @param string $notes

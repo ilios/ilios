@@ -17,7 +17,8 @@ interface LearningMaterialInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     DescribableEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    SessionStampableInterface
 {
 
     /**

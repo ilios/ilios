@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,6 +26,7 @@ class SessionDescription implements SessionDescriptionInterface
     use IdentifiableEntity;
     use DescribableEntity;
     use StringableIdEntity;
+    use SessionConsolidationEntity;
 
     /**
      * @var int

@@ -567,4 +567,18 @@ class LearningMaterial implements LearningMaterialInterface
         }
         return null;
     }
+
+    /**
+     * @return SessionInterface[]|ArrayCollection
+     */
+    public function getSessions()
+    {
+        $sessions = [];
+        foreach ($this->getSessionLearningMaterials() as $sessionLearningMaterial) {
+            $sessions = array_merge($sessions, $sessionLearningMaterial->getSessions());
+        }
+        $sessions = array_unique($sessions);
+
+        return $sessions;
+    }
 }
