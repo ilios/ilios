@@ -510,9 +510,7 @@ class Course implements CourseInterface
      */
     public function removeDirector(UserInterface $director)
     {
-        if ($this->directors->contains($director)) {
-            $this->directors->removeElement($director);
-        }
+        $this->directors->removeElement($director);
     }
 
     /**
@@ -546,9 +544,7 @@ class Course implements CourseInterface
      */
     public function removeCohort(CohortInterface $cohort)
     {
-        if ($this->cohorts->contains($cohort)) {
-            $this->cohorts->removeElement($cohort);
-        }
+        $this->cohorts->removeElement($cohort);
     }
 
     /**
@@ -582,9 +578,7 @@ class Course implements CourseInterface
      */
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
-        if ($this->meshDescriptors->contains($meshDescriptor)) {
-            $this->meshDescriptors->removeElement($meshDescriptor);
-        }
+        $this->meshDescriptors->removeElement($meshDescriptor);
     }
 
     /**
@@ -623,9 +617,7 @@ class Course implements CourseInterface
      */
     public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
     {
-        if ($this->learningMaterials->contains($learningMaterial)) {
-            $this->learningMaterials->removeElement($learningMaterial);
-        }
+        $this->learningMaterials->removeElement($learningMaterial);
     }
 
     /**
@@ -675,9 +667,7 @@ class Course implements CourseInterface
      */
     public function removeDescendant(CourseInterface $descendant)
     {
-        if ($this->descendants->contains($descendant)) {
-            $this->descendants->removeElement($descendant);
-        }
+        $this->descendants->removeElement($descendant);
     }
 
     /**
