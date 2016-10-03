@@ -32,3 +32,15 @@ Box 0840 *
 San Francisco, CA 94143  
 
 Email: info@iliosproject.org
+
+# Development of Ilios
+
+You can build a run a local version of Ilios easily using [docker](https://www.docker.com/).
+There are convenient clients for Mac and Windows and instructions Linux.
+
+After you have installed docker on your machine you can startup a local version by changing into the Ilios directory and running:
+```bash
+docker-compose up
+```
+
+You will now be able to access ilios at http://localhost:8000
