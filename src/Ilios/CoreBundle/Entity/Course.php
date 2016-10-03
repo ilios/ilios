@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
+use Ilios\CoreBundle\Traits\CollectionTools;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use JMS\Serializer\Annotation as JMS;
@@ -45,6 +46,7 @@ class Course implements CourseInterface
     use ObjectivesEntity;
     use PublishableEntity;
     use CategorizableEntity;
+    use CollectionTools;
 
     /**
      * @var int
@@ -490,24 +492,25 @@ class Course implements CourseInterface
      */
     public function setDirectors(Collection $directors = null)
     {
-        $this->directors = new ArrayCollection();
-        if (is_null($directors)) {
-            return;
-        }
+        $this->setRelationship('directors', 'addDirector', 'removeDirector', $directors);
+    }
 
-        foreach ($directors as $director) {
-            $this->addDirector($director);
+    /**
+     * @param UserInterface $director
+     */
+    public function addDirector(UserInterface $director)
+    {
+        if (!$this->directors->contains($director)) {
+            $this->directors->add($director);
         }
     }
 
     /**
      * @param UserInterface $director
      */
-    public function addDirector(UserInterface $director = null)
+    public function removeDirector(UserInterface $director)
     {
-        if (!$this->directors->contains($director)) {
-            $this->directors->add($director);
-        }
+        $this->directors->removeElement($director);
     }
 
     /**
@@ -523,14 +526,7 @@ class Course implements CourseInterface
      */
     public function setCohorts(Collection $cohorts = null)
     {
-        $this->cohorts = new ArrayCollection();
-        if (is_null($cohorts)) {
-            return;
-        }
-
-        foreach ($cohorts as $cohort) {
-            $this->addCohort($cohort);
-        }
+        $this->setRelationship('cohorts', 'addCohort', 'removeCohort', $cohorts);
     }
 
     /**
@@ -541,6 +537,14 @@ class Course implements CourseInterface
         if (!$this->cohorts->contains($cohort)) {
             $this->cohorts->add($cohort);
         }
+    }
+
+    /**
+     * @param CohortInterface $cohort
+     */
+    public function removeCohort(CohortInterface $cohort)
+    {
+        $this->cohorts->removeElement($cohort);
     }
 
     /**
@@ -556,14 +560,7 @@ class Course implements CourseInterface
      */
     public function setMeshDescriptors(Collection $meshDescriptors = null)
     {
-        $this->meshDescriptors = new ArrayCollection();
-        if (is_null($meshDescriptors)) {
-            return;
-        }
-
-        foreach ($meshDescriptors as $meshDescriptor) {
-            $this->addMeshDescriptor($meshDescriptor);
-        }
+        $this->setRelationship('meshDescriptors', 'addMeshDescriptor', 'removeMeshDescriptor', $meshDescriptors);
     }
 
     /**
@@ -574,6 +571,14 @@ class Course implements CourseInterface
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
             $this->meshDescriptors->add($meshDescriptor);
         }
+    }
+
+    /**
+     * @param MeshDescriptorInterface $meshDescriptor
+     */
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    {
+        $this->meshDescriptors->removeElement($meshDescriptor);
     }
 
     /**
@@ -589,14 +594,12 @@ class Course implements CourseInterface
      */
     public function setLearningMaterials(Collection $learningMaterials = null)
     {
-        $this->learningMaterials = new ArrayCollection();
-        if (is_null($learningMaterials)) {
-            return;
-        }
-
-        foreach ($learningMaterials as $learningMaterial) {
-            $this->addLearningMaterial($learningMaterial);
-        }
+        $this->setRelationship(
+            'learningMaterials',
+            'addLearningMaterial',
+            'removeLearningMaterial',
+            $learningMaterials
+        );
     }
 
     /**
@@ -604,7 +607,17 @@ class Course implements CourseInterface
      */
     public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
     {
-        $this->learningMaterials->add($learningMaterial);
+        if (!$this->learningMaterials->contains($learningMaterial)) {
+            $this->learningMaterials->add($learningMaterial);
+        }
+    }
+
+    /**
+     * @param CourseLearningMaterialInterface $learningMaterial
+     */
+    public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
+    {
+        $this->learningMaterials->removeElement($learningMaterial);
     }
 
     /**
@@ -636,11 +649,7 @@ class Course implements CourseInterface
      */
     public function setDescendants(Collection $descendants)
     {
-        $this->descendants = new ArrayCollection();
-
-        foreach ($descendants as $descendant) {
-            $this->addDescendant($descendant);
-        }
+        $this->setRelationship('descendants', 'addDescendant', 'removeDescendant', $descendants);
     }
 
     /**
@@ -648,7 +657,17 @@ class Course implements CourseInterface
      */
     public function addDescendant(CourseInterface $descendant)
     {
-        $this->descendants->add($descendant);
+        if (!$this->descendants->contains($descendant)) {
+            $this->descendants->add($descendant);
+        }
+    }
+
+    /**
+     * @param CourseInterface $descendant
+     */
+    public function removeDescendant(CourseInterface $descendant)
+    {
+        $this->descendants->removeElement($descendant);
     }
 
     /**

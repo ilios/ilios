@@ -120,16 +120,16 @@ class CourseData extends AbstractDataLoader
             'archived' => false,
             'publishedAsTbd' => false,
             'published' => false,
-            'school' => "1",
-            'clerkshipType' => "1",
-            'directors' => [],
-            'cohorts' => [],
-            'terms' => [],
+            'school' => '1',
+            'clerkshipType' => '1',
+            'directors' => ['1'],
+            'cohorts' => ['1'],
+            'terms' => ['1'],
             'objectives' => [1],
-            'meshDescriptors' => [],
+            'meshDescriptors' => ['abc1'],
             'learningMaterials' => [],
             'sessions' => [],
-            'descendants' => []
+            'descendants' => ['2']
         ];
     }
 
