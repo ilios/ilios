@@ -32,13 +32,13 @@ trait CollectionTools
     }
 
     /**
-     * Handle the minutia of dealting with related entities
-     * @param $property
-     * @param $newValues
-     * @param $addMethod
-     * @param $removeMethod
+     * Handle the minutia of dealing with related entities
+     * @param string $property the name of the property we are working with
+     * @param string $addMethod the name of the method we will call to add new elements to the property
+     * @param string $removeMethod the name of the method we will call to remove old elements from the property
+     * @param Collection | null $newValues the collection that represents the new state for the property
      */
-    protected function setRelationship($property, $newValues, $addMethod, $removeMethod)
+    protected function setRelationship($property, $addMethod, $removeMethod, Collection $newValues = null)
     {
         if (is_null($newValues)) {
             $this->$property = new ArrayCollection();

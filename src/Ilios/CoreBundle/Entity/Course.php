@@ -492,7 +492,7 @@ class Course implements CourseInterface
      */
     public function setDirectors(Collection $directors = null)
     {
-        $this->setRelationship('directors', $directors, 'addDirector', 'removeDirector');
+        $this->setRelationship('directors', 'addDirector', 'removeDirector', $directors);
     }
 
     /**
@@ -526,7 +526,7 @@ class Course implements CourseInterface
      */
     public function setCohorts(Collection $cohorts = null)
     {
-        $this->setRelationship('cohorts', $cohorts, 'addCohort', 'removeCohort');
+        $this->setRelationship('cohorts', 'addCohort', 'removeCohort', $cohorts);
     }
 
     /**
@@ -560,7 +560,7 @@ class Course implements CourseInterface
      */
     public function setMeshDescriptors(Collection $meshDescriptors = null)
     {
-        $this->setRelationship('meshDescriptors', $meshDescriptors, 'addMeshDescriptor', 'removeMeshDescriptor');
+        $this->setRelationship('meshDescriptors', 'addMeshDescriptor', 'removeMeshDescriptor', $meshDescriptors);
     }
 
     /**
@@ -596,9 +596,9 @@ class Course implements CourseInterface
     {
         $this->setRelationship(
             'learningMaterials',
-            $learningMaterials,
             'addLearningMaterial',
-            'removeLearningMaterial'
+            'removeLearningMaterial',
+            $learningMaterials
         );
     }
 
@@ -649,7 +649,7 @@ class Course implements CourseInterface
      */
     public function setDescendants(Collection $descendants)
     {
-        $this->setRelationship('descendants', $descendants, 'addDescendant', 'removeDescendant');
+        $this->setRelationship('descendants', 'addDescendant', 'removeDescendant', $descendants);
     }
 
     /**
