@@ -10,9 +10,8 @@ ADD ilios.conf /etc/nginx/conf.d/
 
 RUN echo "upstream php-upstream { server php:9000; }" > /etc/nginx/conf.d/upstream.conf
 
-RUN adduser -D -g '' -G www-data www-data
-
-CMD ["nginx"]
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 80
 EXPOSE 443
