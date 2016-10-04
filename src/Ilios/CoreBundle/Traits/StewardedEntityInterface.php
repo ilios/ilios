@@ -25,6 +25,11 @@ interface StewardedEntityInterface
     public function addSteward(ProgramYearStewardInterface $steward);
 
     /**
+     * @param ProgramYearStewardInterface $steward
+     */
+    public function removeSteward(ProgramYearStewardInterface $steward);
+
+    /**
     * @return ProgramYearStewardInterface[]|ArrayCollection
     */
     public function getStewards();

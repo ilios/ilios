@@ -35,6 +35,14 @@ trait StewardedEntity
     }
 
     /**
+     * @param ProgramYearStewardInterface $steward
+     */
+    public function removeSteward(ProgramYearStewardInterface $steward)
+    {
+        $this->stewards->removeObject($steward);
+    }
+
+    /**
     * @return ProgramYearStewardInterface[]|ArrayCollection
     */
     public function getStewards()
