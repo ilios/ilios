@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\UsersEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,6 +30,7 @@ class UserRole implements UserRoleInterface
     use TitledEntity;
     use StringableIdEntity;
     use IdentifiableEntity;
+    use UsersEntity;
 
     /**
      * @var int
@@ -79,18 +81,6 @@ class UserRole implements UserRoleInterface
     }
 
     /**
-     * @param Collection $users
-     */
-    public function setUsers(Collection $users)
-    {
-        $this->users = new ArrayCollection();
-
-        foreach ($users as $user) {
-            $this->addUser($user);
-        }
-    }
-
-    /**
      * @param UserInterface $user
      */
     public function addUser(UserInterface $user)
@@ -99,14 +89,6 @@ class UserRole implements UserRoleInterface
             $this->users->add($user);
             $user->addRole($this);
         }
-    }
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getUsers()
-    {
-        return $this->users;
     }
 
     /**

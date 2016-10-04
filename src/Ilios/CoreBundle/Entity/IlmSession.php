@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
 use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
@@ -27,6 +28,7 @@ class IlmSession implements IlmSessionInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use SessionConsolidationEntity;
+    use LearnerGroupsEntity;
 
     /**
      * @var int
@@ -208,36 +210,6 @@ class IlmSession implements IlmSessionInterface
     public function getDueDate()
     {
         return $this->dueDate;
-    }
-
-    /**
-     * @param Collection $learnerGroups
-     */
-    public function setLearnerGroups(Collection $learnerGroups)
-    {
-        $this->learnerGroups = new ArrayCollection();
-
-        foreach ($learnerGroups as $group) {
-            $this->addLearnerGroup($group);
-        }
-    }
-
-    /**
-     * @param LearnerGroupInterface $learnerGroup
-     */
-    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
-    {
-        if (!$this->learnerGroups->contains($learnerGroup)) {
-            $this->learnerGroups->add($learnerGroup);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
-    public function getLearnerGroups()
-    {
-        return $this->learnerGroups;
     }
 
     /**

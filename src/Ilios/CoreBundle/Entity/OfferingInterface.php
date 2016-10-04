@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 
@@ -18,7 +19,8 @@ interface OfferingInterface extends
     StringableEntityInterface,
     TimestampableEntityInterface,
     LoggableEntityInterface,
-    SessionStampableInterface
+    SessionStampableInterface,
+    LearnerGroupsEntityInterface
 {
     /**
      * @param string $room
@@ -74,22 +76,6 @@ interface OfferingInterface extends
      * @return SessionInterface|null
      */
     public function getSession();
-
-    /**
-     * @param Collection $groups
-     */
-    public function setLearnerGroups(Collection $learnerGroups);
-
-    /**
-     * @param LearnerGroupInterface $learnerGroup
-     */
-    public function addLearnerGroup(LearnerGroupInterface $learnerGroup);
-
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
-    public function getLearnerGroups();
-
     /**
      * @param Collection $instructorGroups
      */

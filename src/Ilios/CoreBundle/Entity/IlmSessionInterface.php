@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
 
 /**
  * Interface IlmSessionInterface
@@ -14,7 +15,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 interface IlmSessionInterface extends
     IdentifiableEntityInterface,
     LoggableEntityInterface,
-    SessionStampableInterface
+    SessionStampableInterface,
+    LearnerGroupsEntityInterface
 {
     /**
      * @param float $hours
@@ -35,22 +37,6 @@ interface IlmSessionInterface extends
      * @return \DateTime
      */
     public function getDueDate();
-
-    /**
-     * @param Collection $groups
-     */
-    public function setLearnerGroups(Collection $learnerGroups);
-
-    /**
-     * @param LearnerGroupInterface $learnerGroup
-     */
-    public function addLearnerGroup(LearnerGroupInterface $learnerGroup);
-
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
-    public function getLearnerGroups();
-
     /**
      * @param Collection $instructors
      */

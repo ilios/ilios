@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Traits\AlertableEntityInterface;
+use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
@@ -28,6 +29,7 @@ interface UserInterface extends
     SchoolEntityInterface,
     EncoderAwareInterface,
     AlertableEntityInterface,
+    LearnerGroupsEntityInterface,
     \Serializable
 {
     /**
@@ -209,21 +211,6 @@ interface UserInterface extends
     public function isDirectingCourse($courseId);
 
     /**
-     * @param Collection $userGroups
-     */
-    public function setLearnerGroups(Collection $userGroups);
-
-    /**
-     * @param LearnerGroupInterface $userGroup
-     */
-    public function addLearnerGroup(LearnerGroupInterface $userGroup);
-
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
-    public function getLearnerGroups();
-
-    /**
      * @param Collection $instructedLearnerGroups
      */
     public function setInstructedLearnerGroups(Collection $instructedLearnerGroups);
@@ -325,6 +312,11 @@ interface UserInterface extends
      * @param CohortInterface $cohort
      */
     public function addCohort(CohortInterface $cohort);
+
+    /**
+     * @param CohortInterface $cohort
+     */
+    public function removeCohort(CohortInterface $cohort);
 
     /**
      * @return CohortInterface[]|ArrayCollection

@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\AlertableEntity;
+use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,6 +34,7 @@ class User implements UserInterface
     use ProgramYearsEntity;
     use SchoolEntity;
     use AlertableEntity;
+    use LearnerGroupsEntity;
 
     /**
      * @var int
@@ -820,18 +822,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param Collection $learnerGroups
-     */
-    public function setLearnerGroups(Collection $learnerGroups)
-    {
-        $this->learnerGroups = new ArrayCollection();
-
-        foreach ($learnerGroups as $group) {
-            $this->addLearnerGroup($group);
-        }
-    }
-
-    /**
      * @param LearnerGroupInterface $learnerGroup
      */
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
@@ -841,15 +831,6 @@ class User implements UserInterface
             $learnerGroup->addUser($this);
         }
     }
-
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
-    public function getLearnerGroups()
-    {
-        return $this->learnerGroups;
-    }
-
     /**
      * @param Collection $instructedLearnerGroups
      */
@@ -1112,6 +1093,14 @@ class User implements UserInterface
         if (!$this->cohorts->contains($cohort)) {
             $this->cohorts->add($cohort);
         }
+    }
+
+    /**
+    * @inheritdoc
+    */
+    public function removeCohort(CohortInterface $cohort)
+    {
+        $this->cohorts->removeElement($cohort);
     }
 
     /**

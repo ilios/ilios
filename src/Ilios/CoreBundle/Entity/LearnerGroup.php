@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\UsersEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,6 +30,7 @@ class LearnerGroup implements LearnerGroupInterface
     use TitledEntity;
     use StringableIdEntity;
     use OfferingsEntity;
+    use UsersEntity;
 
     /**
      * @var int
@@ -233,39 +235,6 @@ class LearnerGroup implements LearnerGroupInterface
     public function getCohort()
     {
         return $this->cohort;
-    }
-
-    /**
-     * @param Collection $users
-     */
-    public function setUsers(Collection $users = null)
-    {
-        $this->users = new ArrayCollection();
-        if (is_null($users)) {
-            return;
-        }
-
-        foreach ($users as $user) {
-            $this->addUser($user);
-        }
-    }
-
-    /**
-     * @param UserInterface $user
-     */
-    public function addUser(UserInterface $user)
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getUsers()
-    {
-        return $this->users;
     }
 
     /**
