@@ -61,6 +61,14 @@ class AamcMethodTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\AamcMethod::removeSessionType
+     */
+    public function testRemoveSessionType()
+    {
+        $this->entityCollectionRemoveTest('sessionType', 'SessionType', false, false, false, 'removeAamcMethod');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\AamcMethod::getSessionTypes
      */
     public function testGetSessionTypes()
