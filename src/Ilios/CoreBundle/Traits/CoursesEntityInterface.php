@@ -24,6 +24,11 @@ interface CoursesEntityInterface
     public function addCourse(CourseInterface $course);
 
     /**
+     * @param CourseInterface $course
+     */
+    public function removeCourse(CourseInterface $course);
+
+    /**
     * @return CourseInterface[]|ArrayCollection
     */
     public function getCourses();

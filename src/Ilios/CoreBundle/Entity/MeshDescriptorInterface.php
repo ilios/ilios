@@ -45,6 +45,11 @@ interface MeshDescriptorInterface extends
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
 
     /**
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     */
+    public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
+
+    /**
      * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
     public function getSessionLearningMaterials();
@@ -58,6 +63,11 @@ interface MeshDescriptorInterface extends
      * @param CourseLearningMaterialInterface $courseLearningMaterial
      */
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
+
+    /**
+     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     */
+    public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
 
     /**
      * @return ArrayCollection|CourseLearningMaterialInterface[]
@@ -75,6 +85,11 @@ interface MeshDescriptorInterface extends
     public function addConcept(MeshConceptInterface $concept);
 
     /**
+     * @param MeshConceptInterface $concept
+     */
+    public function removeConcept(MeshConceptInterface $concept);
+
+    /**
      * @return ArrayCollection|MeshConceptInterface[]
      */
     public function getConcepts();
@@ -90,6 +105,11 @@ interface MeshDescriptorInterface extends
     public function addQualifier(MeshQualifierInterface $qualifier);
 
     /**
+     * @param MeshQualifierInterface $qualifier
+     */
+    public function removeQualifier(MeshQualifierInterface $qualifier);
+
+    /**
      * @return ArrayCollection|MeshQualifierInterface[]
      */
     public function getQualifiers();
@@ -103,6 +123,11 @@ interface MeshDescriptorInterface extends
      * @param MeshTreeInterface $tree
      */
     public function addTree(MeshTreeInterface $tree);
+
+    /**
+     * @param MeshTreeInterface $tree
+     */
+    public function removeTree(MeshTreeInterface $tree);
 
     /**
      * @return ArrayCollection|MeshTreeInterface[]

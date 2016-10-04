@@ -31,7 +31,17 @@ trait CoursesEntity
      */
     public function addCourse(CourseInterface $course)
     {
-        $this->courses->add($course);
+        if (!$this->courses->containts($course)) {
+            $this->courses->add($course);
+        }
+    }
+
+    /**
+     * @param CourseInterface $course
+     */
+    public function removeCourse(CourseInterface $course)
+    {
+        $this->courses->removeElement($course);
     }
 
     /**
