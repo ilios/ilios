@@ -802,6 +802,17 @@ class UserControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.user')
             ->getOne();
+        $data['directedCourses'] = ['2'];
+        $data['learnerGroups'] = ['2'];
+        $data['instructedLearnerGroups'] = ['2'];
+        $data['instructorGroups'] = ['2'];
+        $data['instructorIlmSessions'] = ['2'];
+        $data['learnerIlmSessions'] = ['2'];
+        $data['instructedOfferings'] = ['2'];
+        $data['programYears'] = ['2'];
+        $data['alerts'] = ['2'];
+        $data['roles'] = ['2'];
+        $data['cohorts'] = ['2'];
 
         $data['userSyncIgnore'] = true;
         $data['firstName'] = 'Omar';
@@ -847,6 +858,17 @@ class UserControllerTest extends AbstractControllerTest
         $data['userSyncIgnore'] = true;
         $data['firstName'] = 'Omar';
         $data['lastName'] = 'Vizquel';
+
+        $data['directedCourses'] = ['1'];
+        $data['learnerGroups'] = ['4'];
+        $data['instructedLearnerGroups'] = ['2'];
+        $data['instructorGroups'] = ['4'];
+        $data['instructorIlmSessions'] = ['2'];
+        $data['learnerIlmSessions'] = ['2'];
+        $data['instructedOfferings'] = ['2'];
+        $data['programYears'] = ['2'];
+        $data['alerts'] = ['2'];
+        $data['cohorts'] = ['2'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

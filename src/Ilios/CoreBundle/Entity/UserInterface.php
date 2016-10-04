@@ -191,6 +191,11 @@ interface UserInterface extends
     public function addReminder(UserMadeReminderInterface $reminder);
 
     /**
+     * @param UserMadeReminderInterface $reminder
+     */
+    public function removeReminder(UserMadeReminderInterface $reminder);
+
+    /**
      * @return ArrayCollection|UserMadeReminderInterface[]
      */
     public function getReminders();
@@ -204,6 +209,11 @@ interface UserInterface extends
      * @param CourseInterface $course
      */
     public function addDirectedCourse(CourseInterface $course);
+
+    /**
+     * @param CourseInterface $course
+     */
+    public function removeDirectedCourse(CourseInterface $course);
 
     /**
      * @return ArrayCollection|CourseInterface[]
@@ -227,6 +237,11 @@ interface UserInterface extends
     public function addInstructedLearnerGroup(LearnerGroupInterface $instructedLearnerGroup);
 
     /**
+     * @param LearnerGroupInterface $instructedLearnerGroup
+     */
+    public function removeInstructedLearnerGroup(LearnerGroupInterface $instructedLearnerGroup);
+
+    /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getInstructedLearnerGroups();
@@ -240,6 +255,11 @@ interface UserInterface extends
      * @param UserRoleInterface $role
      */
     public function addRole(UserRoleInterface $role);
+
+    /**
+     * @param UserRoleInterface $role
+     */
+    public function removeRole(UserRoleInterface $role);
 
     /**
      * @return ArrayCollection|UserRoleInterface[]
@@ -265,6 +285,11 @@ interface UserInterface extends
     public function addReport(ReportInterface $report);
 
     /**
+     * @param ReportInterface $report
+     */
+    public function removeReport(ReportInterface $report);
+
+    /**
      * @return ArrayCollection|ReportInterface[]
      */
     public function getReports();
@@ -278,6 +303,11 @@ interface UserInterface extends
      * @param PendingUserUpdateInterface $pendingUserUpdate
      */
     public function addPendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate);
+
+    /**
+     * @param PendingUserUpdateInterface $pendingUserUpdate
+     */
+    public function removePendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate);
 
     /**
      * @return ArrayCollection|PendingUserUpdateInterface[]
@@ -330,7 +360,52 @@ interface UserInterface extends
     public function addPermission(PermissionInterface $permission);
 
     /**
+     * @param PermissionInterface $permission
+     */
+    public function removePermission(PermissionInterface $permission);
+
+    /**
      * @return ArrayCollection|PermissionInterface[]
      */
     public function getPermissions();
+
+    /**
+     * @param Collection $auditLogs
+     */
+    public function setAuditLogs(Collection $auditLogs);
+
+    /**
+     * @param AuditLogInterface $auditLog
+     */
+    public function addAuditLog(AuditLogInterface $auditLog);
+
+    /**
+     * @param AuditLogInterface $auditLog
+     */
+    public function removeAuditLog(AuditLogInterface $auditLog);
+
+    /**
+     * @return ArrayCollection|AuditLogInterface[]
+     */
+    public function getAuditLogs();
+
+    /**
+     * @param Collection $alerts
+     */
+    public function setAlerts(Collection $alerts);
+
+    /**
+     * @param AlertInterface $alert
+     */
+    public function addAlert(AlertInterface $alert);
+
+    /**
+     * @param AlertInterface $alert
+     */
+    public function removeAlert(AlertInterface $alert);
+
+    /**
+     * @return ArrayCollection|AlertInterface[]
+     */
+    public function getAlerts();
 }

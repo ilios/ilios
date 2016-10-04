@@ -747,7 +747,17 @@ class User implements UserInterface
      */
     public function addReminder(UserMadeReminderInterface $reminder)
     {
-        $this->reminders->add($reminder);
+        if (!$this->reminders->contains($reminder)) {
+            $this->reminders->add($reminder);
+        }
+    }
+
+    /**
+     * @param UserMadeReminderInterface $reminder
+     */
+    public function removeReminder(UserMadeReminderInterface $reminder)
+    {
+        $this->reminders->removeElement($reminder);
     }
 
     /**
@@ -775,7 +785,17 @@ class User implements UserInterface
      */
     public function addPermission(PermissionInterface $permission)
     {
-        $this->permissions->add($permission);
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions->add($permission);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removePermission(PermissionInterface $permission)
+    {
+        $this->permissions->removeElement($permission);
     }
 
     /**
@@ -807,6 +827,15 @@ class User implements UserInterface
             $this->directedCourses->add($course);
             $course->addDirector($this);
         }
+    }
+
+    /**
+     * @param CourseInterface $course
+     */
+    public function removeDirectedCourse(CourseInterface $course)
+    {
+        $this->directedCourses->removeElement($course);
+        $course->removeDirector($this);
     }
 
     /**
@@ -861,6 +890,15 @@ class User implements UserInterface
     }
 
     /**
+     * @param LearnerGroupInterface $instructedLearnerGroup
+     */
+    public function removeInstructedLearnerGroup(LearnerGroupInterface $instructedLearnerGroup)
+    {
+        $this->instructedLearnerGroups->removeElement($instructedLearnerGroup);
+        $instructedLearnerGroup->removeInstructor($this);
+    }
+
+    /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getInstructedLearnerGroups()
@@ -877,6 +915,15 @@ class User implements UserInterface
             $this->instructorGroups->add($instructorGroup);
             $instructorGroup->addUser($this);
         }
+    }
+
+    /**
+     * @param InstructorGroupInterface $instructorGroup
+     */
+    public function removeInstructorGroup(InstructorGroupInterface $instructorGroup)
+    {
+        $this->instructorGroups->removeElement($instructorGroup);
+        $instructorGroup->removeUser($this);
     }
 
     /**
@@ -900,6 +947,15 @@ class User implements UserInterface
             $this->instructorIlmSessions->add($session);
             $session->addInstructor($this);
         }
+    }
+
+    /**
+     * @param IlmSessionInterface $session
+     */
+    public function removeInstructorIlmSession(IlmSessionInterface $session)
+    {
+        $this->instructorIlmSessions->removeElement($session);
+        $session->removeInstructor($this);
     }
 
     /**
@@ -934,6 +990,15 @@ class User implements UserInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function removeLearnerIlmSessions(IlmSessionInterface $session)
+    {
+        $this->learnerIlmSessions->removeElement($session);
+        $session->removeLearner($this);
+    }
+
+    /**
      * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getLearnerIlmSessions()
@@ -950,6 +1015,15 @@ class User implements UserInterface
             $this->alerts->add($alert);
             $alert->addInstigator($this);
         }
+    }
+
+    /**
+     * @param AlertInterface $alert
+     */
+    public function removeAlert(AlertInterface $alert)
+    {
+        $this->alerts->removeElement($alert);
+        $alert->removeInstigator($this);
     }
 
     /**
@@ -972,6 +1046,14 @@ class User implements UserInterface
         if (!$this->roles->contains($role)) {
             $this->roles->add($role);
         }
+    }
+
+    /**
+     * @param UserRoleInterface $role
+     */
+    public function removeRole(UserRoleInterface $role)
+    {
+        $this->roles->removeElement($role);
     }
 
     /**
@@ -1016,7 +1098,17 @@ class User implements UserInterface
      */
     public function addReport(ReportInterface $report)
     {
-        $this->reports->add($report);
+        if (!$this->reports->contains($report)) {
+            $this->reports->add($report);
+        }
+    }
+
+    /**
+     * @param ReportInterface $report
+     */
+    public function removeReport(ReportInterface $report)
+    {
+        $this->reports->removeElement($report);
     }
 
     /**
@@ -1070,6 +1162,15 @@ class User implements UserInterface
     }
 
     /**
+     * @param Offering $instructedOffering
+     */
+    public function removeInstructedOffering(Offering $instructedOffering)
+    {
+        $this->instructedOfferings->removeElement($instructedOffering);
+        $instructedOffering->removeInstructor($this);
+    }
+
+    /**
      * @inheritdoc
      */
     public function getInstructedOfferings()
@@ -1107,15 +1208,23 @@ class User implements UserInterface
     }
 
     /**
-     * @param AuditLog $auditLog
+     * @param AuditLogInterface $auditLog
      */
-    public function addAuditLog(AuditLog $auditLog)
+    public function addAuditLog(AuditLogInterface $auditLog)
     {
         $this->auditLogs->add($auditLog);
     }
 
     /**
-     * @return ArrayCollection[AuditLog]
+     * @param AuditLogInterface $auditLog
+     */
+    public function removeAuditLog(AuditLogInterface $auditLog)
+    {
+        $this->auditLogs->add($auditLog);
+    }
+
+    /**
+     * @return ArrayCollection[AuditLogInterface]
      */
     public function getAuditLogs()
     {
@@ -1139,7 +1248,17 @@ class User implements UserInterface
      */
     public function addPendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate)
     {
-        $this->pendingUserUpdates->add($pendingUserUpdate);
+        if (!$this->pendingUserUpdates->contains($pendingUserUpdate)) {
+            $this->pendingUserUpdates->add($pendingUserUpdate);
+        }
+    }
+
+    /**
+     * @param PendingUserUpdateInterface $pendingUserUpdate
+     */
+    public function removePendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate)
+    {
+        $this->pendingUserUpdates->removeElement($pendingUserUpdate);
     }
 
     /**
@@ -1164,12 +1283,30 @@ class User implements UserInterface
     /**
      * @inheritdoc
      */
+    public function removeProgramYear(ProgramYearInterface $programYear)
+    {
+        $this->programYears->removeElement($programYear);
+        $programYear->removeDirector($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addOffering(OfferingInterface $offering)
     {
         if (!$this->offerings->contains($offering)) {
             $this->offerings->add($offering);
             $offering->addLearner($this);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeOffering(OfferingInterface $offering)
+    {
+        $this->offerings->removeElement($offering);
+        $offering->removeLearner($this);
     }
 
     /**

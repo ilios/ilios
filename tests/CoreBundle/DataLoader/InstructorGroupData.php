@@ -38,6 +38,16 @@ class InstructorGroupData extends AbstractDataLoader
             'offerings' => []
         );
 
+        $arr[] = array(
+            'id' => 4,
+            'title' => $this->faker->text(10),
+            'school' => '2',
+            'learnerGroups' => [],
+            'ilmSessions' => [],
+            'users' => [],
+            'offerings' => []
+        );
+
 
         return $arr;
     }
