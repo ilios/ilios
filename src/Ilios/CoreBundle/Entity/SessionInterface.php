@@ -114,6 +114,11 @@ interface SessionInterface extends
     public function addLearningMaterial(SessionLearningMaterialInterface $learningMaterial);
 
     /**
+     * @param SessionLearningMaterialInterface $learningMaterial
+     */
+    public function removeLearningMaterial(SessionLearningMaterialInterface $learningMaterial);
+
+    /**
      * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
     public function getLearningMaterials();
