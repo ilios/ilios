@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Traits\AlertableEntityInterface;
+use Ilios\CoreBundle\Traits\CohortsEntityInterface;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
@@ -30,6 +31,7 @@ interface UserInterface extends
     EncoderAwareInterface,
     AlertableEntityInterface,
     LearnerGroupsEntityInterface,
+    CohortsEntityInterface,
     \Serializable
 {
     /**
@@ -302,26 +304,6 @@ interface UserInterface extends
      * @return ArrayCollection|PendingUserUpdateInterface[]
      */
     public function getPendingUserUpdates();
-
-    /**
-     * @param Collection $cohorts
-     */
-    public function setCohorts(Collection $cohorts);
-
-    /**
-     * @param CohortInterface $cohort
-     */
-    public function addCohort(CohortInterface $cohort);
-
-    /**
-     * @param CohortInterface $cohort
-     */
-    public function removeCohort(CohortInterface $cohort);
-
-    /**
-     * @return CohortInterface[]|ArrayCollection
-     */
-    public function getCohorts();
 
     /**
      * @inheritDoc
