@@ -55,7 +55,7 @@ class InstructorGroupData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 4,
+            'id' => 5,
             'title' => $this->faker->text(10),
             'school' => '1',
             'learnerGroups' => ['1'],
