@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\AlertableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
 use Ilios\CoreBundle\Traits\SessionTypesEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
@@ -27,7 +28,8 @@ interface SchoolInterface extends
     LoggableEntityInterface,
     StewardedEntityInterface,
     AlertableEntityInterface,
-    SessionTypesEntityInterface
+    SessionTypesEntityInterface,
+    InstructorGroupsEntityInterface
 {
     /**
      * @param string $templatePrefix

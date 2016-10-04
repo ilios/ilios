@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Traits\AlertableEntityInterface;
 use Ilios\CoreBundle\Traits\CohortsEntityInterface;
+use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
@@ -32,6 +33,7 @@ interface UserInterface extends
     AlertableEntityInterface,
     LearnerGroupsEntityInterface,
     CohortsEntityInterface,
+    InstructorGroupsEntityInterface,
     \Serializable
 {
     /**
@@ -226,16 +228,6 @@ interface UserInterface extends
      * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getInstructedLearnerGroups();
-
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
-    public function addInstructorGroup(InstructorGroupInterface $instructorGroup);
-
-    /**
-     * @return ArrayCollection|InstructorGroupInterface[]
-     */
-    public function getInstructorGroups();
 
     /**
      * @param Collection $roles

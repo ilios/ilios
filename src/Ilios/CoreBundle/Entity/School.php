@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\AlertableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
 use Ilios\CoreBundle\Traits\SessionTypesEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
@@ -42,6 +43,7 @@ class School implements SchoolInterface
     use StringableIdEntity;
     use AlertableEntity;
     use SessionTypesEntity;
+    use InstructorGroupsEntity;
 
     /**
      * @var int
@@ -397,33 +399,5 @@ class School implements SchoolInterface
     public function getVocabularies()
     {
         return $this->vocabularies;
-    }
-
-    /**
-     * @param Collection $instructorGroups
-     */
-    public function setInstructorGroups(Collection $instructorGroups)
-    {
-        $this->instructorGroups = new ArrayCollection();
-
-        foreach ($instructorGroups as $instructorGroup) {
-            $this->addInstructorGroup($instructorGroup);
-        }
-    }
-
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
-    public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
-    {
-        $this->instructorGroups->add($instructorGroup);
-    }
-
-    /**
-     * @return ArrayCollection|InstructorGroupInterface[]
-     */
-    public function getInstructorGroups()
-    {
-        return $this->instructorGroups;
     }
 }

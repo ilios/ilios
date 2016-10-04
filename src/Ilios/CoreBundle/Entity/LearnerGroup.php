@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
+use Ilios\CoreBundle\Traits\InstructorsEntity;
 use Ilios\CoreBundle\Traits\UsersEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
@@ -31,6 +33,8 @@ class LearnerGroup implements LearnerGroupInterface
     use StringableIdEntity;
     use OfferingsEntity;
     use UsersEntity;
+    use InstructorsEntity;
+    use InstructorGroupsEntity;
 
     /**
      * @var int
@@ -317,73 +321,6 @@ class LearnerGroup implements LearnerGroupInterface
     public function getChildren()
     {
         return $this->children;
-    }
-
-    /**
-     * @param Collection $instructorGroups
-     */
-    public function setInstructorGroups(Collection $instructorGroups = null)
-    {
-        $this->instructorGroups = new ArrayCollection();
-
-        if (is_null($instructorGroups)) {
-            return;
-        }
-
-        foreach ($instructorGroups as $instructorGroup) {
-            $this->addInstructorGroup($instructorGroup);
-        }
-    }
-
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
-    public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
-    {
-        if (!$this->instructorGroups->contains($instructorGroup)) {
-            $this->instructorGroups->add($instructorGroup);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|InstructorGroupInterface[]
-     */
-    public function getInstructorGroups()
-    {
-        return $this->instructorGroups;
-    }
-
-    /**
-     * @param Collection $instructors
-     */
-    public function setInstructors(Collection $instructors = null)
-    {
-        $this->instructors = new ArrayCollection();
-        if (is_null($instructors)) {
-            return;
-        }
-
-        foreach ($instructors as $user) {
-            $this->addInstructor($user);
-        }
-    }
-
-    /**
-     * @param UserInterface $user
-     */
-    public function addInstructor(UserInterface $user)
-    {
-        if (!$this->instructors->contains($user)) {
-            $this->instructors->add($user);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getInstructors()
-    {
-        return $this->instructors;
     }
 
     /**

@@ -6,7 +6,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
+use Ilios\CoreBundle\Traits\InstructorsEntityInterface;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
+use Ilios\CoreBundle\Traits\LearnersEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 
@@ -20,7 +23,10 @@ interface OfferingInterface extends
     TimestampableEntityInterface,
     LoggableEntityInterface,
     SessionStampableInterface,
-    LearnerGroupsEntityInterface
+    LearnerGroupsEntityInterface,
+    InstructorGroupsEntityInterface,
+    InstructorsEntityInterface,
+    LearnersEntityInterface
 {
     /**
      * @param string $room
@@ -76,50 +82,6 @@ interface OfferingInterface extends
      * @return SessionInterface|null
      */
     public function getSession();
-    /**
-     * @param Collection $instructorGroups
-     */
-    public function setInstructorGroups(Collection $instructorGroups);
-
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
-    public function addInstructorGroup(InstructorGroupInterface $instructorGroup);
-
-    /**
-     * @return ArrayCollection|InstructorGroupInterface[]
-     */
-    public function getInstructorGroups();
-
-    /**
-     * @param Collection $learners
-     */
-    public function setLearners(Collection $learners);
-
-    /**
-     * @param UserInterface $learner
-     */
-    public function addLearner(UserInterface $learner);
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getLearners();
-
-    /**
-     * @param Collection $instructors
-     */
-    public function setInstructors(Collection $instructors);
-
-    /**
-     * @param UserInterface $instructor
-     */
-    public function addInstructor(UserInterface $instructor);
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getInstructors();
 
     /**
      * Get all the instructors including those in groups
