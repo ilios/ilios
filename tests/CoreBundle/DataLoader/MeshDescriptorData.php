@@ -15,7 +15,7 @@ class MeshDescriptorData extends AbstractDataLoader
             'objectives' => ['5', '6'],
             'sessionLearningMaterials' => ['1'],
             'courseLearningMaterials' => ['1', '3'],
-            'sessions' => ['1'],
+            'sessions' => ['1', '2'],
             'concepts' => ['1', '2'],
             'qualifiers' => ['1', '2'],
             'trees' => ['1', '2'],

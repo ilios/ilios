@@ -25,12 +25,12 @@ class ObjectiveData extends AbstractDataLoader
             'id' => 2,
             'title' => $this->faker->text,
             'courses' => ['1', '2', '4'],
-            'programYears' => [],
-            'sessions' => [],
+            'programYears' => ['1'],
+            'sessions' => ['1'],
             'parents' => ['1'],
             'children' => ['3'],
-            'meshDescriptors' => [],
-            'descendants' => []
+            'meshDescriptors' => ['abc1'],
+            'descendants' => ['3']
         );
 
         $arr[] = array(
@@ -42,6 +42,7 @@ class ObjectiveData extends AbstractDataLoader
             'parents' => ['2'],
             'children' => [],
             'meshDescriptors' => [],
+            'ancestor' => '2',
             'descendants' => []
         );
 
