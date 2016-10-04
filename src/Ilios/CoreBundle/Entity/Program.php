@@ -220,7 +220,19 @@ class Program implements ProgramInterface
     */
     public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
     {
-        $this->curriculumInventoryReports->add($report);
+        if (!$this->curriculumInventoryReports->contains($report)) {
+            $this->curriculumInventoryReports->add($report);
+            $report->setProgram($this);
+        }
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
+    {
+        $this->curriculumInventoryReports->removeElement($report);
+        $report->setProgram(null);
     }
 
     /**

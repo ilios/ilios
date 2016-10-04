@@ -75,7 +75,7 @@ interface CurriculumInventoryReportInterface extends
     /**
      * @param ProgramInterface $program
      */
-    public function setProgram(ProgramInterface $program);
+    public function setProgram(ProgramInterface $program = null);
 
     /**
      * @return ProgramInterface

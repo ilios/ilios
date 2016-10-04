@@ -54,6 +54,11 @@ interface ProgramInterface extends
      */
     public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
 
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     */
+    public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
+
 
     /**
      * @return CurriculumInventoryReportInterface[]|ArrayCollection
