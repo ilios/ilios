@@ -174,6 +174,7 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.alertchangetype')
             ->getOne();
+        $data['alerts'] = ['3'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

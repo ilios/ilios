@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Traits\AlertableEntityInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
@@ -26,6 +27,7 @@ interface UserInterface extends
     BaseUserInterface,
     SchoolEntityInterface,
     EncoderAwareInterface,
+    AlertableEntityInterface,
     \Serializable
 {
     /**
@@ -245,21 +247,6 @@ interface UserInterface extends
      * @return ArrayCollection|InstructorGroupInterface[]
      */
     public function getInstructorGroups();
-
-    /**
-     * @param Collection $alerts
-     */
-    public function setAlerts(Collection $alerts);
-
-    /**
-     * @param AlertInterface $alert
-     */
-    public function addAlert(AlertInterface $alert);
-
-    /**
-     * @return ArrayCollection|AlertInterface[]
-     */
-    public function getAlerts();
 
     /**
      * @param Collection $roles
