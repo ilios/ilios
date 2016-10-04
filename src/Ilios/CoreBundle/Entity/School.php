@@ -336,7 +336,17 @@ class School implements SchoolInterface
      */
     public function addDepartment(DepartmentInterface $department)
     {
-        $this->departments->add($department);
+        if (!$this->departments->contains($department)) {
+            $this->departments->add($department);
+        }
+    }
+
+    /**
+     * @param DepartmentInterface $department
+     */
+    public function removeDepartment(DepartmentInterface $department)
+    {
+        $this->departments->removeElement($department);
     }
 
     /**
@@ -364,7 +374,17 @@ class School implements SchoolInterface
      */
     public function addVocabulary(VocabularyInterface $vocabulary)
     {
-        $this->vocabularies->add($vocabulary);
+        if (!$this->vocabularies->contains($vocabulary)) {
+            $this->vocabularies->add($vocabulary);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeVocabulary(VocabularyInterface $vocabulary)
+    {
+        $this->vocabularies->removeElement($vocabulary);
     }
 
     /**
