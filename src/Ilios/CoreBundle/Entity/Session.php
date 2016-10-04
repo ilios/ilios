@@ -458,7 +458,17 @@ class Session implements SessionInterface
      */
     public function addLearningMaterial(SessionLearningMaterialInterface $learningMaterial)
     {
-        $this->learningMaterials->add($learningMaterial);
+        if ($this->learningMaterials->contains($learningMaterial)) {
+            $this->learningMaterials->add($learningMaterial);
+        }
+    }
+
+    /**
+     * @param SessionLearningMaterialInterface $learningMaterial
+     */
+    public function removeLearningMaterial(SessionLearningMaterialInterface $learningMaterial)
+    {
+        $this->learningMaterials->removeElement($learningMaterial);
     }
 
     /**
