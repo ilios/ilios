@@ -73,6 +73,11 @@ interface SchoolInterface extends
     public function addDepartment(DepartmentInterface $department);
 
     /**
+     * @param DepartmentInterface $department
+     */
+    public function removeDepartment(DepartmentInterface $department);
+
+    /**
      * @return ArrayCollection|DepartmentInterface[]
      */
     public function getDepartments();
@@ -86,6 +91,11 @@ interface SchoolInterface extends
      * @param VocabularyInterface $vocabulary
      */
     public function addVocabulary(VocabularyInterface $vocabulary);
+
+    /**
+     * @param VocabularyInterface $vocabulary
+     */
+    public function removeVocabulary(VocabularyInterface $vocabulary);
 
     /**
      * @return ArrayCollection|VocabularyInterface[]

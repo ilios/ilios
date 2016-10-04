@@ -26,6 +26,7 @@ class SchoolControllerTest extends AbstractControllerTest
             'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
             'Tests\CoreBundle\Fixture\LoadCourseData',
             'Tests\CoreBundle\Fixture\LoadReportData',
+            'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
         ]);
     }
 
@@ -158,6 +159,8 @@ class SchoolControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.school')
             ->getOne();
+        $data['curriculumInventoryInstitution'] = '2';
+
 
         $postData = $data;
         //unset any parameters which should not be POSTed
