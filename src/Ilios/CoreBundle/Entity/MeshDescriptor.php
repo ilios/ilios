@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\ConceptsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use JMS\Serializer\Annotation as JMS;
 
@@ -36,6 +37,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     use CoursesEntity;
     use SessionsEntity;
     use ObjectivesEntity;
+    use ConceptsEntity;
 
     /**
      * @var string
@@ -321,45 +323,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getCourseLearningMaterials()
     {
         return $this->courseLearningMaterials;
-    }
-
-    /**
-     * @param Collection $concepts
-     */
-    public function setConcepts(Collection $concepts)
-    {
-        $this->concepts = new ArrayCollection();
-
-        foreach ($concepts as $concept) {
-            $this->addConcept($concept);
-        }
-    }
-
-    /**
-     * @param MeshConceptInterface $concept
-     */
-    public function addConcept(MeshConceptInterface $concept)
-    {
-        if (!$this->concepts->contains($concept)) {
-            $this->concepts->add($concept);
-            $concept->addDescriptor($this);
-        }
-    }
-
-    /**
-     * @param MeshConceptInterface $concept
-     */
-    public function removeConcept(MeshConceptInterface $concept)
-    {
-        $this->concepts->removeElement($concept);
-    }
-
-    /**
-     * @return ArrayCollection|MeshConceptInterface[]
-     */
-    public function getConcepts()
-    {
-        return $this->concepts;
     }
 
     /**

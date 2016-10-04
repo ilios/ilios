@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\ConceptsEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -34,6 +35,7 @@ class MeshTerm implements MeshTermInterface
     use NameableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
+    use ConceptsEntity;
 
     /**
      * @var int
@@ -293,33 +295,5 @@ class MeshTerm implements MeshTermInterface
     public function isPrintable()
     {
         return $this->printable;
-    }
-
-    /**
-     * @param Collection $concepts
-     */
-    public function setConcepts(Collection $concepts)
-    {
-        $this->concepts = new ArrayCollection();
-
-        foreach ($concepts as $concept) {
-            $this->addConcept($concept);
-        }
-    }
-
-    /**
-     * @param MeshConceptInterface $concept
-     */
-    public function addConcept(MeshConceptInterface $concept)
-    {
-        $this->concepts->add($concept);
-    }
-
-    /**
-     * @return ArrayCollection|MeshConceptInterface[]
-     */
-    public function getConcepts()
-    {
-        return $this->concepts;
     }
 }

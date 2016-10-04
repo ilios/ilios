@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 
+use Ilios\CoreBundle\Traits\ConceptsEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
@@ -22,7 +23,8 @@ interface MeshDescriptorInterface extends
     TimestampableEntityInterface,
     CoursesEntityInterface,
     SessionsEntityInterface,
-    ObjectivesEntityInterface
+    ObjectivesEntityInterface,
+    ConceptsEntityInterface
 {
     /**
      * @param string $annotation
@@ -73,26 +75,6 @@ interface MeshDescriptorInterface extends
      * @return ArrayCollection|CourseLearningMaterialInterface[]
      */
     public function getCourseLearningMaterials();
-
-    /**
-     * @param Collection $concepts
-     */
-    public function setConcepts(Collection $concepts);
-
-    /**
-     * @param MeshConceptInterface $concept
-     */
-    public function addConcept(MeshConceptInterface $concept);
-
-    /**
-     * @param MeshConceptInterface $concept
-     */
-    public function removeConcept(MeshConceptInterface $concept);
-
-    /**
-     * @return ArrayCollection|MeshConceptInterface[]
-     */
-    public function getConcepts();
 
     /**
      * @param Collection $qualifiers

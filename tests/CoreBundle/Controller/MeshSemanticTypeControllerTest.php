@@ -205,7 +205,7 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
             ->getOne();
         $postData['name'] = 'somethign new';
         $postData['concepts'] = ['2'];
-        
+
         //unset any parameters which should not be POSTed
         unset($postData['updatedAt']);
         unset($postData['createdAt']);
