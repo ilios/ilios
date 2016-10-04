@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\IlmSessionsEntityInterface;
 use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
 use Ilios\CoreBundle\Traits\InstructorsEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
@@ -25,7 +26,8 @@ interface LearnerGroupInterface extends
     LoggableEntityInterface,
     UsersEntityInterface,
     InstructorGroupsEntityInterface,
-    InstructorsEntityInterface
+    InstructorsEntityInterface,
+    IlmSessionsEntityInterface
 {
     /**
      * @param string $location
@@ -46,20 +48,6 @@ interface LearnerGroupInterface extends
      * @return CohortInterface
      */
     public function getCohort();
-    /**
-     * @param Collection $ilmSessions
-     */
-    public function setIlmSessions(Collection $ilmSessions);
-
-    /**
-     * @param IlmSessionInterface $ilmSession
-     */
-    public function addIlmSession(IlmSessionInterface $ilmSession);
-
-    /**
-     * @return ArrayCollection|IlmSessionInterface[]
-     */
-    public function getIlmSessions();
 
     /**
      * @param LearnerGroupInterface $parent
