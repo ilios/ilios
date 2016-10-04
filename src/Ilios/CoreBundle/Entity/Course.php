@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
+use Ilios\CoreBundle\Traits\CohortsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use JMS\Serializer\Annotation as JMS;
@@ -45,6 +46,7 @@ class Course implements CourseInterface
     use ObjectivesEntity;
     use PublishableEntity;
     use CategorizableEntity;
+    use CohortsEntity;
 
     /**
      * @var int
@@ -522,47 +524,6 @@ class Course implements CourseInterface
     public function getDirectors()
     {
         return $this->directors;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setCohorts(Collection $cohorts = null)
-    {
-        $this->cohorts = new ArrayCollection();
-        if (is_null($cohorts)) {
-            return;
-        }
-
-        foreach ($cohorts as $cohort) {
-            $this->addCohort($cohort);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addCohort(CohortInterface $cohort)
-    {
-        if (!$this->cohorts->contains($cohort)) {
-            $this->cohorts->add($cohort);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeCohort(CohortInterface $cohort)
-    {
-        $this->cohorts->removeElement($cohort);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getCohorts()
-    {
-        return $this->cohorts;
     }
 
     /**

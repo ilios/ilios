@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
+use Ilios\CoreBundle\Traits\CohortsEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
@@ -31,7 +32,8 @@ interface CourseInterface extends
     LoggableEntityInterface,
     ObjectivesEntityInterface,
     PublishableEntityInterface,
-    CategorizableEntityInterface
+    CategorizableEntityInterface,
+    CohortsEntityInterface
 {
     /**
      * @param int $level
@@ -114,27 +116,6 @@ interface CourseInterface extends
      * @return ArrayCollection|UserInterface[]
      */
     public function getDirectors();
-
-    /**
-     * @param Collection|CohortInterface[] $cohorts
-     */
-    public function setCohorts(Collection $cohorts);
-
-    /**
-     * @param CohortInterface $cohort
-     */
-    public function addCohort(CohortInterface $cohort);
-
-    /**
-     * @param CohortInterface $cohort
-     */
-    public function removeCohort(CohortInterface $cohort);
-
-    /**
-     * @return ArrayCollection|CohortInterface[]
-     */
-    public function getCohorts();
-
     /**
      * @param Collection|MeshDescriptorInterface[] $meshDescriptors
      */

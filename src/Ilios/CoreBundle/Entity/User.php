@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\AlertableEntity;
+use Ilios\CoreBundle\Traits\CohortsEntity;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
@@ -35,6 +36,7 @@ class User implements UserInterface
     use SchoolEntity;
     use AlertableEntity;
     use LearnerGroupsEntity;
+    use CohortsEntity;
 
     /**
      * @var int
@@ -1067,48 +1069,6 @@ class User implements UserInterface
     public function getReports()
     {
         return $this->reports;
-    }
-
-    /**
-    * @param Collection $cohorts
-    */
-    public function setCohorts(Collection $cohorts)
-    {
-        $this->cohorts = new ArrayCollection();
-
-        foreach ($cohorts as $cohort) {
-            $this->addCohort($cohort);
-        }
-
-        if (!$cohorts->contains($this->getPrimaryCohort())) {
-            $this->setPrimaryCohort(null);
-        }
-    }
-
-    /**
-    * @param CohortInterface $cohort
-    */
-    public function addCohort(CohortInterface $cohort)
-    {
-        if (!$this->cohorts->contains($cohort)) {
-            $this->cohorts->add($cohort);
-        }
-    }
-
-    /**
-    * @inheritdoc
-    */
-    public function removeCohort(CohortInterface $cohort)
-    {
-        $this->cohorts->removeElement($cohort);
-    }
-
-    /**
-    * @return CohortInterface[]|ArrayCollection
-    */
-    public function getCohorts()
-    {
-        return $this->cohorts;
     }
 
     /**
