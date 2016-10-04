@@ -204,9 +204,10 @@ class MeshSemanticTypeControllerTest extends AbstractControllerTest
             ->get('ilioscore.dataloader.meshsemanticType')
             ->getOne();
         $postData['name'] = 'somethign new';
+        $postData['concepts'] = ['2'];
+        
         //unset any parameters which should not be POSTed
         unset($postData['updatedAt']);
-        unset($postData['descriptors']);
         unset($postData['createdAt']);
         $this->createJsonRequest(
             'PUT',
