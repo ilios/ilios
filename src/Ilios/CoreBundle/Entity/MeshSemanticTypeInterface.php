@@ -28,6 +28,11 @@ interface MeshSemanticTypeInterface extends
     public function addConcept(MeshConceptInterface $concept);
 
     /**
+     * @param MeshConceptInterface $concept
+     */
+    public function removeConcept(MeshConceptInterface $concept);
+
+    /**
      * @return ArrayCollection|MeshConceptInterface[]
      */
     public function getConcepts();
