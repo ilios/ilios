@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\IlmSessionsEntity;
 use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
 use Ilios\CoreBundle\Traits\InstructorsEntity;
 use Ilios\CoreBundle\Traits\UsersEntity;
@@ -35,6 +36,7 @@ class LearnerGroup implements LearnerGroupInterface
     use UsersEntity;
     use InstructorsEntity;
     use InstructorGroupsEntity;
+    use IlmSessionsEntity;
 
     /**
      * @var int
@@ -242,20 +244,6 @@ class LearnerGroup implements LearnerGroupInterface
     }
 
     /**
-     * @param Collection $ilmSessions
-     */
-    public function setIlmSessions(Collection $ilmSessions = null)
-    {
-        $this->ilmSessions = new ArrayCollection();
-        if (is_null($ilmSessions)) {
-            return;
-        }
-        foreach ($ilmSessions as $ilmSession) {
-            $this->addIlmSession($ilmSession);
-        }
-    }
-
-    /**
      * @param IlmSessionInterface $ilmSession
      */
     public function addIlmSession(IlmSessionInterface $ilmSession)
@@ -264,14 +252,6 @@ class LearnerGroup implements LearnerGroupInterface
             $this->ilmSessions->add($ilmSession);
             $ilmSession->addLearnerGroup($this);
         }
-    }
-
-    /**
-     * @return ArrayCollection|IlmSessionInterface[]
-     */
-    public function getIlmSessions()
-    {
-        return $this->ilmSessions;
     }
 
     /**

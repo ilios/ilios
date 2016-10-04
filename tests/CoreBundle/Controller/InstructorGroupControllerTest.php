@@ -215,6 +215,7 @@ class InstructorGroupControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.instructorgroup')
             ->getOne();
+        $data['ilmSessions'] = ['2'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed
