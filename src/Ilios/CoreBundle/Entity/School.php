@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Ilios\CoreBundle\Traits\AlertableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
@@ -38,6 +39,7 @@ class School implements SchoolInterface
     use ProgramsEntity;
     use StewardedEntity;
     use StringableIdEntity;
+    use AlertableEntity;
 
     /**
      * @var int
@@ -301,19 +303,7 @@ class School implements SchoolInterface
     }
 
     /**
-     * @param Collection $alerts
-     */
-    public function setAlerts(Collection $alerts)
-    {
-        $this->alerts = new ArrayCollection();
-
-        foreach ($alerts as $alert) {
-            $this->addAlert($alert);
-        }
-    }
-
-    /**
-     * @param AlertInterface $alert
+     * @inheritdoc
      */
     public function addAlert(AlertInterface $alert)
     {
@@ -321,14 +311,6 @@ class School implements SchoolInterface
             $this->alerts->add($alert);
             $alert->addRecipient($this);
         }
-    }
-
-    /**
-     * @return ArrayCollection|AlertInterface[]
-     */
-    public function getAlerts()
-    {
-        return $this->alerts;
     }
 
     /**

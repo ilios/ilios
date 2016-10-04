@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\AlertableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
@@ -17,7 +18,8 @@ interface AlertChangeTypeInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     StringableEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    AlertableEntityInterface
 {
     /**
      * Indicates a course director change.
@@ -59,19 +61,4 @@ interface AlertChangeTypeInterface extends
      * @var int
      */
     const CHANGE_TYPE_TIME = 1;
-
-    /**
-     * @param Collection $alerts
-     */
-    public function setAlerts(Collection $alerts);
-
-    /**
-     * @param AlertInterface $alert
-     */
-    public function addAlert(AlertInterface $alert);
-
-    /**
-     * @return ArrayCollection|AlertInterface[]
-     */
-    public function getAlerts();
 }

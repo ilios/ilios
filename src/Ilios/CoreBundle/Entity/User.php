@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\AlertableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,6 +32,7 @@ class User implements UserInterface
     use OfferingsEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
+    use AlertableEntity;
 
     /**
      * @var int
@@ -973,18 +975,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param Collection $alerts
-     */
-    public function setAlerts(Collection $alerts)
-    {
-        $this->alerts = new ArrayCollection();
-
-        foreach ($alerts as $alert) {
-            $this->addAlert($alert);
-        }
-    }
-
-    /**
      * @param AlertInterface $alert
      */
     public function addAlert(AlertInterface $alert)
@@ -993,14 +983,6 @@ class User implements UserInterface
             $this->alerts->add($alert);
             $alert->addInstigator($this);
         }
-    }
-
-    /**
-     * @return ArrayCollection|AlertInterface[]
-     */
-    public function getAlerts()
-    {
-        return $this->alerts;
     }
 
     /**

@@ -25,6 +25,15 @@ class AlertData extends AbstractDataLoader
             'instigators' => [],
             'recipients' => []
         );
+        $arr[] = array(
+            'id' => 3,
+            'tableRowId' => 1,
+            'tableName' => 'course',
+            'dispatched' => false,
+            'changeTypes' => [],
+            'instigators' => [],
+            'recipients' => []
+        );
 
         return $arr;
     }
@@ -32,7 +41,7 @@ class AlertData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 3,
+            'id' => 4,
             'tableRowId' => $this->faker->randomDigit,
             'tableName' => 'course',
             'dispatched' => '1',

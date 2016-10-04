@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\AlertableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -28,6 +29,7 @@ class AlertChangeType implements AlertChangeTypeInterface
     use TitledEntity;
     use StringableIdEntity;
     use IdentifiableEntity;
+    use AlertableEntity;
 
     /**
      * @deprecated Replace with trait in 3.x
@@ -79,19 +81,7 @@ class AlertChangeType implements AlertChangeTypeInterface
     }
 
     /**
-     * @param Collection $alerts
-     */
-    public function setAlerts(Collection $alerts)
-    {
-        $this->alerts = new ArrayCollection();
-
-        foreach ($alerts as $alert) {
-            $this->addAlert($alert);
-        }
-    }
-
-    /**
-     * @param AlertInterface $alert
+     * @inheritdoc
      */
     public function addAlert(AlertInterface $alert)
     {
@@ -99,13 +89,5 @@ class AlertChangeType implements AlertChangeTypeInterface
             $this->alerts->add($alert);
             $alert->addChangeType($this);
         }
-    }
-
-    /**
-     * @return ArrayCollection|AlertInterface[]
-     */
-    public function getAlerts()
-    {
-        return $this->alerts;
     }
 }
