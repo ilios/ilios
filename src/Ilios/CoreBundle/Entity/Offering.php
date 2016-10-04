@@ -3,7 +3,10 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
+use Ilios\CoreBundle\Traits\InstructorsEntity;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
+use Ilios\CoreBundle\Traits\LearnersEntity;
 use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
@@ -36,6 +39,9 @@ class Offering implements OfferingInterface
     use TimestampableEntity;
     use SessionConsolidationEntity;
     use LearnerGroupsEntity;
+    use LearnersEntity;
+    use InstructorsEntity;
+    use InstructorGroupsEntity;
 
     /**
      * @var int
@@ -310,96 +316,6 @@ class Offering implements OfferingInterface
     public function getSession()
     {
         return $this->session;
-    }
-
-    /**
-     * @param Collection $instructorGroups
-     */
-    public function setInstructorGroups(Collection $instructorGroups)
-    {
-        $this->instructorGroups = new ArrayCollection();
-
-        foreach ($instructorGroups as $instructorGroup) {
-            $this->addInstructorGroup($instructorGroup);
-        }
-    }
-
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
-    public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
-    {
-        if (! $this->instructorGroups->contains($instructorGroup)) {
-            $this->instructorGroups->add($instructorGroup);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|InstructorGroupInterface[]
-     */
-    public function getInstructorGroups()
-    {
-        return $this->instructorGroups;
-    }
-
-    /**
-     * @param Collection $learners
-     */
-    public function setLearners(Collection $learners)
-    {
-        $this->learners = new ArrayCollection();
-
-        foreach ($learners as $learner) {
-            $this->addLearner($learner);
-        }
-    }
-
-    /**
-     * @param UserInterface $learner
-     */
-    public function addLearner(UserInterface $learner)
-    {
-        if (! $this->learners->contains($learner)) {
-            $this->learners->add($learner);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getLearners()
-    {
-        return $this->learners;
-    }
-
-    /**
-     * @param Collection $instructors
-     */
-    public function setInstructors(Collection $instructors)
-    {
-        $this->instructors = new ArrayCollection();
-
-        foreach ($instructors as $instructor) {
-            $this->addInstructor($instructor);
-        }
-    }
-
-    /**
-     * @param UserInterface $instructor
-     */
-    public function addInstructor(UserInterface $instructor)
-    {
-        if (!$this->instructors->contains($instructor)) {
-            $this->instructors->add($instructor);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getInstructors()
-    {
-        return $this->instructors;
     }
 
     /**

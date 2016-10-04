@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\AlertableEntity;
 use Ilios\CoreBundle\Traits\CohortsEntity;
+use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
@@ -37,6 +38,7 @@ class User implements UserInterface
     use AlertableEntity;
     use LearnerGroupsEntity;
     use CohortsEntity;
+    use InstructorGroupsEntity;
 
     /**
      * @var int
@@ -865,18 +867,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param Collection $instructorGroups
-     */
-    public function setInstructorGroups(Collection $instructorGroups)
-    {
-        $this->instructorGroups = new ArrayCollection();
-
-        foreach ($instructorGroups as $instructorGroup) {
-            $this->addInstructorGroup($instructorGroup);
-        }
-    }
-
-    /**
      * @param InstructorGroupInterface $instructorGroup
      */
     public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
@@ -885,14 +875,6 @@ class User implements UserInterface
             $this->instructorGroups->add($instructorGroup);
             $instructorGroup->addUser($this);
         }
-    }
-
-    /**
-     * @return ArrayCollection|InstructorGroupInterface[]
-     */
-    public function getInstructorGroups()
-    {
-        return $this->instructorGroups;
     }
 
     /**

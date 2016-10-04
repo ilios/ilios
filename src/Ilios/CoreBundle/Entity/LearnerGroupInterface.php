@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
+use Ilios\CoreBundle\Traits\InstructorsEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
@@ -21,7 +23,9 @@ interface LearnerGroupInterface extends
     StringableEntityInterface,
     OfferingsEntityInterface,
     LoggableEntityInterface,
-    UsersEntityInterface
+    UsersEntityInterface,
+    InstructorGroupsEntityInterface,
+    InstructorsEntityInterface
 {
     /**
      * @param string $location
@@ -81,36 +85,6 @@ interface LearnerGroupInterface extends
      * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getChildren();
-
-    /**
-     * @param Collection $instructorGroups
-     */
-    public function setInstructorGroups(Collection $instructorGroups);
-
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
-    public function addInstructorGroup(InstructorGroupInterface $instructorGroup);
-
-    /**
-     * @return ArrayCollection|InstructorGroupInterface[]
-     */
-    public function getInstructorGroups();
-
-    /**
-     * @param Collection $instructors
-     */
-    public function setInstructors(Collection $instructors = null);
-
-    /**
-     * @param UserInterface $instructor
-     */
-    public function addInstructor(UserInterface $instructor);
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getInstructors();
 
     /**
      * Get the school we belong to

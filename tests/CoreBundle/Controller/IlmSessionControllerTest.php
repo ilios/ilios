@@ -136,6 +136,10 @@ class IlmSessionControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.ilmsession')
             ->getOne();
+        $data['learnerGroups'] = ['1'];
+        $data['instructorGroups'] = ['1'];
+        $data['instructors'] = ['1'];
+        $data['learners'] = ['1'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

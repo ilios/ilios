@@ -6,7 +6,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
+use Ilios\CoreBundle\Traits\InstructorsEntityInterface;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
+use Ilios\CoreBundle\Traits\LearnersEntityInterface;
 
 /**
  * Interface IlmSessionInterface
@@ -16,7 +19,10 @@ interface IlmSessionInterface extends
     IdentifiableEntityInterface,
     LoggableEntityInterface,
     SessionStampableInterface,
-    LearnerGroupsEntityInterface
+    LearnerGroupsEntityInterface,
+    InstructorGroupsEntityInterface,
+    InstructorsEntityInterface,
+    LearnersEntityInterface
 {
     /**
      * @param float $hours
@@ -37,35 +43,6 @@ interface IlmSessionInterface extends
      * @return \DateTime
      */
     public function getDueDate();
-    /**
-     * @param Collection $instructors
-     */
-    public function setInstructors(Collection $instructors);
-
-    /**
-     * @param UserInterface $instructor
-     */
-    public function addInstructor(UserInterface $instructor);
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getInstructors();
-
-    /**
-     * @param Collection $instructorGroups
-     */
-    public function setInstructorGroups(Collection $instructorGroups);
-
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
-    public function addInstructorGroup(InstructorGroupInterface $instructorGroup);
-
-    /**
-     * @return ArrayCollection|InstructorGroupInterface[]
-     */
-    public function getInstructorGroups();
 
     /**
      * Get all the instructors including those in groups
@@ -74,25 +51,9 @@ interface IlmSessionInterface extends
     public function getAllInstructors();
 
     /**
-     * @param Collection $learners
-     */
-    public function setLearners(Collection $learners);
-
-    /**
-     * @param UserInterface $learner
-     */
-    public function addLearner(UserInterface $learner);
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getLearners();
-
-    /**
      * @param SessionInterface $session
      */
     public function setSession(SessionInterface $session);
-
 
     /**
      * @return SessionInterface|null
