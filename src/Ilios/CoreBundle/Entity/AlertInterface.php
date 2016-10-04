@@ -65,6 +65,11 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     public function addChangeType(AlertChangeTypeInterface $changeType);
 
     /**
+     * @param AlertChangeTypeInterface $changeType
+     */
+    public function removeChangeType(AlertChangeTypeInterface $changeType);
+
+    /**
      * @return ArrayCollection|AlertChangeTypeInterface[]
      */
     public function getChangeTypes();
@@ -80,6 +85,11 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     public function addInstigator(UserInterface $instigator);
 
     /**
+     * @param UserInterface $instigator
+     */
+    public function removeInstigator(UserInterface $instigator);
+
+    /**
      * @return ArrayCollection|UserInterface[]
      */
     public function getInstigators();
@@ -93,6 +103,11 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
      * @param SchoolInterface $recipient
      */
     public function addRecipient(SchoolInterface $recipient);
+
+    /**
+     * @param SchoolInterface $recipient
+     */
+    public function removeRecipient(SchoolInterface $recipient);
 
     /**
      * @return ArrayCollection|SchoolInterface[]
