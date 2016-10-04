@@ -13,7 +13,7 @@ class SessionTypeData extends AbstractDataLoader
             'title' => $this->faker->text(50),
             'assessmentOption' => '1',
             'school' => '1',
-            'aamcMethods' => ['AM001', 'AM002'],
+            'aamcMethods' => ['AM001'],
             'sessions' => ['1']
         );
 

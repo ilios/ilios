@@ -228,7 +228,17 @@ class SessionType implements SessionTypeInterface
      */
     public function addAamcMethod(AamcMethodInterface $aamcMethod)
     {
-        $this->aamcMethods->add($aamcMethod);
+        if (!$this->aamcMethods->contains($aamcMethod)) {
+            $this->aamcMethods->add($aamcMethod);
+        }
+    }
+
+    /**
+     * @param AamcMethodInterface $aamcMethod
+     */
+    public function removeAamcMethod(AamcMethodInterface $aamcMethod)
+    {
+        $this->aamcMethods->removeElement($aamcMethod);
     }
 
     /**

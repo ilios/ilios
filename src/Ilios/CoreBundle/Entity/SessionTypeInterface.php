@@ -65,6 +65,11 @@ interface SessionTypeInterface extends
     public function addAamcMethod(AamcMethodInterface $aamcMethod);
 
     /**
+     * @param AamcMethodInterface $aamcMethod
+     */
+    public function removeAamcMethod(AamcMethodInterface $aamcMethod);
+
+    /**
      * @return ArrayCollection|AamcMethodInterface[]
      */
     public function getAamcMethods();
