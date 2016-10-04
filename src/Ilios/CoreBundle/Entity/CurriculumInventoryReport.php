@@ -285,7 +285,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     /**
      * @param ProgramInterface $program
      */
-    public function setProgram(ProgramInterface $program)
+    public function setProgram(ProgramInterface $program = null)
     {
         $this->program = $program;
     }
