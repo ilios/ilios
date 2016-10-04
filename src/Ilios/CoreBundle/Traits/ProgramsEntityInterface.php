@@ -25,6 +25,11 @@ interface ProgramsEntityInterface
     public function addProgram(ProgramInterface $program);
 
     /**
+     * @param ProgramInterface $program
+     */
+    public function removeProgram(ProgramInterface $program);
+
+    /**
     * @return ProgramInterface[]|ArrayCollection
     */
     public function getPrograms();

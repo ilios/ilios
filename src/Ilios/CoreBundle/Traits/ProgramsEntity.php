@@ -31,7 +31,17 @@ trait ProgramsEntity
      */
     public function addProgram(ProgramInterface $program)
     {
-        $this->programs->add($program);
+        if (!$this->programs->contaisn($program)) {
+            $this->programs->add($program);
+        }
+    }
+
+    /**
+     * @param ProgramInterface $program
+     */
+    public function removeProgram(ProgramInterface $program)
+    {
+        $this->programs->removeElement($program);
     }
 
     /**

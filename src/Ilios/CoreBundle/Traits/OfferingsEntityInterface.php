@@ -25,6 +25,11 @@ interface OfferingsEntityInterface
     public function addOffering(OfferingInterface $offering);
 
     /**
+     * @param OfferingInterface $offering
+     */
+    public function removeOffering(OfferingInterface $offering);
+
+    /**
     * @return OfferingInterface[]|ArrayCollection
     */
     public function getOfferings();
