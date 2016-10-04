@@ -107,4 +107,15 @@ class MeshSemanticType implements MeshSemanticTypeInterface
         $this->updatedAt = new \DateTime();
         $this->concepts = new ArrayCollection();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function addConcept(MeshConceptInterface $concept)
+    {
+        if (!$this->concepts->contains($concept)) {
+            $this->concepts->add($concept);
+            $concept->addSemanticType($this);
+        }
+    }
 }
