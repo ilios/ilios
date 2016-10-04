@@ -170,7 +170,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param int $tableRowId
+     * @inheritdoc
      */
     public function setTableRowId($tableRowId)
     {
@@ -178,7 +178,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @return int
+     * @inheritdoc
      */
     public function getTableRowId()
     {
@@ -186,7 +186,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param string $tableName
+     * @inheritdoc
      */
     public function setTableName($tableName)
     {
@@ -194,7 +194,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getTableName()
     {
@@ -202,7 +202,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param string $additionalText
+     * @inheritdoc
      */
     public function setAdditionalText($additionalText)
     {
@@ -210,7 +210,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getAdditionalText()
     {
@@ -218,7 +218,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param boolean $dispatched
+     * @inheritdoc
      */
     public function setDispatched($dispatched)
     {
@@ -226,7 +226,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @return boolean
+     * @inheritdoc
      */
     public function isDispatched()
     {
@@ -234,7 +234,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param Collection $changeTypes
+     * @inheritdoc
      */
     public function setChangeTypes(Collection $changeTypes)
     {
@@ -246,7 +246,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param AlertChangeTypeInterface $changeType
+     * @inheritdoc
      */
     public function addChangeType(AlertChangeTypeInterface $changeType)
     {
@@ -256,7 +256,15 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @return ArrayCollection|AlertChangeTypeInterface[]
+     * @inheritdoc
+     */
+    public function removeChangeType(AlertChangeTypeInterface $changeType)
+    {
+        $this->changeTypes->removeElement($changeType);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getChangeTypes()
     {
@@ -264,7 +272,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param Collection $instigators
+     * @inheritdoc
      */
     public function setInstigators(Collection $instigators)
     {
@@ -276,7 +284,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param UserInterface $instigator
+     * @inheritdoc
      */
     public function addInstigator(UserInterface $instigator)
     {
@@ -286,7 +294,15 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @return ArrayCollection|UserInterface[]
+     * @inheritdoc
+     */
+    public function removeInstigator(UserInterface $instigator)
+    {
+        $this->instigators->removeElement($instigator);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getInstigators()
     {
@@ -294,7 +310,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param Collection $recipients
+     * @inheritdoc
      */
     public function setRecipients(Collection $recipients)
     {
@@ -306,7 +322,7 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @param SchoolInterface $recipient
+     * @inheritdoc
      */
     public function addRecipient(SchoolInterface $recipient)
     {
@@ -316,7 +332,15 @@ class Alert implements AlertInterface
     }
 
     /**
-     * @return ArrayCollection|SchoolInterface[]
+     * @inheritdoc
+     */
+    public function removeRecipient(SchoolInterface $recipient)
+    {
+        $this->recipients->removeElement($recipient);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getRecipients()
     {
