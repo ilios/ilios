@@ -12,7 +12,7 @@ class InstructorGroupData extends AbstractDataLoader
             'id' => 1,
             'title' => $this->faker->text(10),
             'school' => '1',
-            'learnerGroups' => [],
+            'learnerGroups' => ['1'],
             'ilmSessions' => ['1'],
             'users' => ['2'],
             'offerings' => ['1']
