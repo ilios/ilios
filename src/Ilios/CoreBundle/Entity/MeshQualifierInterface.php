@@ -28,6 +28,11 @@ interface MeshQualifierInterface extends
     public function addDescriptor(MeshDescriptorInterface $descriptor);
 
     /**
+     * @param MeshDescriptorInterface $descriptor
+     */
+    public function removeDescriptor(MeshDescriptorInterface $descriptor);
+
+    /**
      * @return ArrayCollection|MeshDescriptorInterface[]
      */
     public function getDescriptors();
