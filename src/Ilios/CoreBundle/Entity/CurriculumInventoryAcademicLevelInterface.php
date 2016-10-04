@@ -47,6 +47,11 @@ interface CurriculumInventoryAcademicLevelInterface extends
     public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
 
     /**
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     */
+    public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
+
+    /**
      * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      */
     public function getSequenceBlocks();
