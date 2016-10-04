@@ -143,6 +143,7 @@ class CurriculumInventorySequenceBlockControllerTest extends AbstractControllerT
         $data = $this->container
             ->get('ilioscore.dataloader.curriculuminventorysequenceblock')
             ->getOne();
+        $data['sessions'] = ['2'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\SessionsEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,6 +30,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     use DescribableEntity;
     use TitledEntity;
     use StringableIdEntity;
+    use SessionsEntity;
 
     /**
      * @var int
@@ -505,7 +507,17 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      */
     public function addChild(CurriculumInventorySequenceBlockInterface $child)
     {
-        $this->children->add($child);
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+        }
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $child
+     */
+    public function removeChild(CurriculumInventorySequenceBlockInterface $child)
+    {
+        $this->children->removeElement($child);
     }
 
     /**
@@ -530,36 +542,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function getReport()
     {
         return $this->report;
-    }
-
-    /**
-     * @param Collection $sessions
-     */
-    public function setSessions(Collection $sessions = null)
-    {
-        $this->sessions = new ArrayCollection();
-        if (is_null($sessions)) {
-            return;
-        }
-        foreach ($sessions as $session) {
-            $this->addSession($session);
-        }
-    }
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function addSession(SessionInterface $session)
-    {
-        $this->sessions->add($session);
-    }
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions()
-    {
-        return $this->sessions;
     }
 
     /**
