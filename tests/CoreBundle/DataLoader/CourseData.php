@@ -24,7 +24,7 @@ class CourseData extends AbstractDataLoader
             'clerkshipType' => "1",
             'directors' => ['1'],
             'cohorts' => ['1'],
-            'terms' => [],
+            'terms' => ['1'],
             'objectives' => ['2'],
             'meshDescriptors' => ["abc1"],
             'learningMaterials' => ['1', '2', '4'],

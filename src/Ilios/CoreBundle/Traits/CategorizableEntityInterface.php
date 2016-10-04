@@ -23,6 +23,11 @@ interface CategorizableEntityInterface
     public function addTerm(TermInterface $term);
 
     /**
+     * @param TermInterface $term
+     */
+    public function removeTerm(TermInterface $term);
+
+    /**
      * @return ArrayCollection|TermInterface[]
      */
     public function getTerms();

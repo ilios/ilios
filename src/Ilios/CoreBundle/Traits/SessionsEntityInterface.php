@@ -25,6 +25,11 @@ interface SessionsEntityInterface
     public function addSession(SessionInterface $session);
 
     /**
+     * @param SessionInterface $session
+     */
+    public function removeSession(SessionInterface $session);
+
+    /**
     * @return SessionInterface[]|ArrayCollection
     */
     public function getSessions();
