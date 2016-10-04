@@ -59,6 +59,11 @@ interface TermInterface extends
     public function addChild(TermInterface $child);
 
     /**
+     * @param TermInterface $child
+     */
+    public function removeChild(TermInterface $child);
+
+    /**
      * @return ArrayCollection|TermInterface[]
      */
     public function getChildren();
@@ -77,6 +82,11 @@ interface TermInterface extends
      * @param AamcResourceTypeInterface $aamcResourceType
      */
     public function addAamcResourceType(AamcResourceTypeInterface $aamcResourceType);
+
+    /**
+     * @param AamcResourceTypeInterface $aamcResourceType
+     */
+    public function removeAamcResourceType(AamcResourceTypeInterface $aamcResourceType);
 
     /**
      * @return ArrayCollection|AamcResourceTypeInterface[]
