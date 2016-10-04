@@ -515,7 +515,17 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
     {
-        $this->courseLearningMaterials->add($courseLearningMaterial);
+        if (!$this->courseLearningMaterials->contains($courseLearningMaterial)) {
+            $this->courseLearningMaterials->add($courseLearningMaterial);
+        }
+    }
+
+    /**
+     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     */
+    public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    {
+        $this->courseLearningMaterials->removeElement($courseLearningMaterial);
     }
 
     /**
@@ -546,7 +556,17 @@ class LearningMaterial implements LearningMaterialInterface
      */
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
     {
-        $this->sessionLearningMaterials->add($sessionLearningMaterial);
+        if (!$this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
+            $this->sessionLearningMaterials->add($sessionLearningMaterial);
+        }
+    }
+
+    /**
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     */
+    public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
+    {
+        $this->sessionLearningMaterials->removeElement($sessionLearningMaterial);
     }
 
     /**

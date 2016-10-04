@@ -168,6 +168,11 @@ interface LearningMaterialInterface extends
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
 
     /**
+     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     */
+    public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
+
+    /**
      * @return ArrayCollection|CourseLearningMaterialInterface[]
      */
     public function getCourseLearningMaterials();
@@ -181,6 +186,11 @@ interface LearningMaterialInterface extends
      * @param SessionLearningMaterialInterface $sessionLearningMaterial
      */
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
+
+    /**
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     */
+    public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
 
     /**
      * @return ArrayCollection|SessionLearningMaterialInterface[]
