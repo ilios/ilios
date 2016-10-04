@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
 use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\SequenceBlocksEntityInterface;
 
 /**
  * Interface CurriculumInventoryAcademicLevelInterface
@@ -14,7 +15,8 @@ interface CurriculumInventoryAcademicLevelInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
     DescribableEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    SequenceBlocksEntityInterface
 {
     /**
      * @param int $level
@@ -35,24 +37,4 @@ interface CurriculumInventoryAcademicLevelInterface extends
      * @return CurriculumInventoryReportInterface
      */
     public function getReport();
-
-    /**
-     * @param Collection $sequenceBlocks
-     */
-    public function setSequenceBlocks(Collection $sequenceBlocks = null);
-
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
-    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
-
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
-    public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
-
-    /**
-     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     */
-    public function getSequenceBlocks();
 }

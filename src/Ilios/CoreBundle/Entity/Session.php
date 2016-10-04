@@ -7,6 +7,7 @@ use Ilios\CoreBundle\Traits\CategorizableEntity;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
+use Ilios\CoreBundle\Traits\SequenceBlocksEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -46,6 +47,7 @@ class Session implements SessionInterface
     use PublishableEntity;
     use CategorizableEntity;
     use MeshDescriptorsEntity;
+    use SequenceBlocksEntity;
 
     /**
      * @var int
@@ -476,36 +478,5 @@ class Session implements SessionInterface
             return $course->getSchool();
         }
         return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $block)
-    {
-        $this->sequenceBlocks->add($block);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getSequenceBlocks()
-    {
-        return $this->sequenceBlocks;
-    }
-
-    /**
-     * @param Collection $sequenceBlocks
-     */
-    public function setSequenceBlocks(Collection $sequenceBlocks = null)
-    {
-        $this->sequenceBlocks = new ArrayCollection();
-        if (is_null($sequenceBlocks)) {
-            return;
-        }
-
-        foreach ($sequenceBlocks as $sequenceBlock) {
-            $this->addSequenceBlock($sequenceBlock);
-        }
     }
 }

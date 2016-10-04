@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\SequenceBlocksEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -38,6 +39,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     use NameableEntity;
     use DescribableEntity;
     use StringableIdEntity;
+    use SequenceBlocksEntity;
 
     /**
      * @var int
@@ -162,45 +164,5 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     public function getReport()
     {
         return $this->report;
-    }
-
-    /**
-     * @param Collection $sequenceBlocks
-     */
-    public function setSequenceBlocks(Collection $sequenceBlocks = null)
-    {
-        $this->sequenceBlocks = new ArrayCollection();
-        if (is_null($sequenceBlocks)) {
-            return;
-        }
-        foreach ($sequenceBlocks as $sequenceBlock) {
-            $this->addSequenceBlock($sequenceBlock);
-        }
-    }
-
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
-    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
-    {
-        if (!$this->sequenceBlocks->contains($sequenceBlock)) {
-            $this->sequenceBlocks->add($sequenceBlock);
-        }
-    }
-
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
-    public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
-    {
-        $this->sequenceBlocks->removeElement($sequenceBlock);
-    }
-
-    /**
-     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     */
-    public function getSequenceBlocks()
-    {
-        return $this->sequenceBlocks;
     }
 }

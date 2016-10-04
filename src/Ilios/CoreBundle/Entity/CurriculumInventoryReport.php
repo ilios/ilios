@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\SequenceBlocksEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -37,6 +38,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     use NameableEntity;
     use DescribableEntity;
     use StringableIdEntity;
+    use SequenceBlocksEntity;
 
     /**
      * @var int
@@ -297,36 +299,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     }
 
     /**
-     * @param Collection $sequenceBlocks
-     */
-    public function setSequenceBlocks(Collection $sequenceBlocks = null)
-    {
-        $this->sequenceBlocks = new ArrayCollection();
-        if (is_null($sequenceBlocks)) {
-            return;
-        }
-        foreach ($sequenceBlocks as $sequenceBlock) {
-            $this->addSequenceBlock($sequenceBlock);
-        }
-    }
-
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
-    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
-    {
-        $this->sequenceBlocks->add($sequenceBlock);
-    }
-
-    /**
-     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     */
-    public function getSequenceBlocks()
-    {
-        return $this->sequenceBlocks;
-    }
-
-    /**
      * @param Collection $academicLevels
      */
     public function setAcademicLevels(Collection $academicLevels = null)
@@ -345,7 +317,17 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel)
     {
-        $this->academicLevels->add($academicLevel);
+        if (!$this->academicLevels->contains($academicLevel)) {
+            $this->academicLevels->add($academicLevel);
+        }
+    }
+
+    /**
+     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
+     */
+    public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel)
+    {
+        $this->academicLevels->removeElement($academicLevel);
     }
 
     /**

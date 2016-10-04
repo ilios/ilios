@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
+use Ilios\CoreBundle\Traits\SequenceBlocksEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
@@ -18,7 +19,8 @@ interface CurriculumInventoryReportInterface extends
     NameableEntityInterface,
     DescribableEntityInterface,
     StringableEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    SequenceBlocksEntityInterface
 {
     /**
      * @param int $year
@@ -79,22 +81,6 @@ interface CurriculumInventoryReportInterface extends
      * @return ProgramInterface
      */
     public function getProgram();
-
-    /**
-     * @param Collection $sequenceBlocks
-     */
-    public function setSequenceBlocks(Collection $sequenceBlocks = null);
-
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
-    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
-
-    /**
-     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     */
-    public function getSequenceBlocks();
-
     /**
      * @param Collection $academicLevels
      */
@@ -104,6 +90,11 @@ interface CurriculumInventoryReportInterface extends
      * @param CurriculumInventoryAcademicLevelInterface $academicLevel
      */
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
+
+    /**
+     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
+     */
+    public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
 
     /**
      * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
