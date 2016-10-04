@@ -1120,6 +1120,34 @@ class User implements UserInterface
     }
 
     /**
+     * Remove Primary cohort if it is no longer a cohorts
+     * @inheritdoc
+     */
+    public function setCohorts(Collection $cohorts)
+    {
+        $this->cohorts = new ArrayCollection();
+        foreach ($cohorts as $cohort) {
+            $this->addCohort($cohort);
+        }
+        if (!$cohorts->contains($this->getPrimaryCohort())) {
+            $this->setPrimaryCohort(null);
+        }
+    }
+
+    /**
+     * Remove Primary cohort if it is no longer a cohorts
+     * @inheritdoc
+     */
+    public function removeCohort(CohortInterface $cohort)
+    {
+        $this->cohorts->removeElement($cohort);
+        $primaryCohort = $this->getPrimaryCohort();
+        if ($primaryCohort && $cohort === $primaryCohort) {
+            $this->setPrimaryCohort(null);
+        }
+    }
+
+    /**
      * @param CohortInterface $primaryCohort
      */
     public function setPrimaryCohort(CohortInterface $primaryCohort = null)

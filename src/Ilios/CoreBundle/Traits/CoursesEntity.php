@@ -31,7 +31,7 @@ trait CoursesEntity
      */
     public function addCourse(CourseInterface $course)
     {
-        if (!$this->courses->containts($course)) {
+        if (!$this->courses->contains($course)) {
             $this->courses->add($course);
         }
     }
