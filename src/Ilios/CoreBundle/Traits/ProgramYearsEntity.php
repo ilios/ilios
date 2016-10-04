@@ -15,7 +15,7 @@ use Ilios\CoreBundle\Entity\ProgramYearInterface;
 trait ProgramYearsEntity
 {
     /**
-     * @param Collection $programYears
+     * @inheritdoc
      */
     public function setProgramYears(Collection $programYears)
     {
@@ -27,16 +27,26 @@ trait ProgramYearsEntity
     }
 
     /**
-     * @param ProgramYearInterface $programYear
+     * @inheritdoc
      */
     public function addProgramYear(ProgramYearInterface $programYear)
     {
-        $this->programYears->add($programYear);
+        if (!$this->programYears->contains($programYear)) {
+            $this->programYears->add($programYear);
+        }
     }
 
     /**
-    * @return ProgramYearInterface[]|ArrayCollection
-    */
+     * @inheritdoc
+     */
+    public function removeProgramYear(ProgramYearInterface $programYear)
+    {
+        $this->programYears->removeElement($programYear);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getProgramYears()
     {
         return $this->programYears;

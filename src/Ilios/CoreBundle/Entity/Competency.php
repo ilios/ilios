@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\ActivatableEntity;
+use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,6 +34,7 @@ class Competency implements CompetencyInterface
     use SchoolEntity;
     use StringableIdEntity;
     use ActivatableEntity;
+    use ObjectivesEntity;
 
     /**
      * @var int
@@ -169,7 +171,7 @@ class Competency implements CompetencyInterface
     /**
      * @param CompetencyInterface $parent
      */
-    public function setParent(CompetencyInterface $parent)
+    public function setParent(CompetencyInterface $parent = null)
     {
         $this->parent = $parent;
     }
@@ -199,7 +201,18 @@ class Competency implements CompetencyInterface
      */
     public function addChild(CompetencyInterface $child)
     {
-        $this->children->add($child);
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+        }
+    }
+
+    /**
+     * @param CompetencyInterface $child
+     */
+    public function removeChild(CompetencyInterface $child)
+    {
+        $this->children->removeElement($child);
+        $child->setParent(null);
     }
 
     /**
@@ -254,37 +267,6 @@ class Competency implements CompetencyInterface
     public function getAamcPcrses()
     {
         return $this->aamcPcrses;
-    }
-
-    /**
-     * @param Collection|ObjectiveInterface[] $objectives
-     */
-    public function setObjectives(Collection $objectives = null)
-    {
-        $this->objectives = new ArrayCollection();
-        if (is_null($objectives)) {
-            return;
-        }
-
-        foreach ($objectives as $objective) {
-            $this->addObjective($objective);
-        }
-    }
-
-    /**
-     * @param ObjectiveInterface $objective
-     */
-    public function addObjective(ObjectiveInterface $objective)
-    {
-        $this->objectives->add($objective);
-    }
-
-    /**
-     * @return ArrayCollection|ObjectiveInterface[]
-     */
-    public function getObjectives()
-    {
-        return $this->objectives;
     }
 
     /**
