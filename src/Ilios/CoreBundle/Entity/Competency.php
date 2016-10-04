@@ -241,6 +241,14 @@ class Competency implements CompetencyInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function removeAamcPcrs(AamcPcrsInterface $aamcPcrs)
+    {
+        $this->aamcPcrses->removeElement($aamcPcrs);
+    }
+
+    /**
      * @return ArrayCollection|AamcPcrsInterface[]
      */
     public function getAamcPcrses()

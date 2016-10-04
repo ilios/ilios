@@ -83,7 +83,7 @@ class AamcPcrs implements AamcPcrsInterface
     }
 
     /**
-     * @param Collection $competencies
+     * @inheritdoc
      */
     public function setCompetencies(Collection $competencies)
     {
@@ -95,7 +95,7 @@ class AamcPcrs implements AamcPcrsInterface
     }
 
     /**
-     * @param CompetencyInterface $competency
+     * @inheritdoc
      */
     public function addCompetency(CompetencyInterface $competency)
     {
@@ -106,7 +106,16 @@ class AamcPcrs implements AamcPcrsInterface
     }
 
     /**
-     * @return ArrayCollection|CompetencyInterface[]
+     * @inheritdoc
+     */
+    public function removeCompetency(CompetencyInterface $competency)
+    {
+        $this->competencies->removeElement($competency);
+        $competency->removeAamcPcrs($this);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getCompetencies()
     {

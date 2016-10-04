@@ -31,6 +31,11 @@ interface AamcPcrsInterface extends
     public function addCompetency(CompetencyInterface $competency);
 
     /**
+     * @param CompetencyInterface $competency
+     */
+    public function removeCompetency(CompetencyInterface $competency);
+
+    /**
      * @return ArrayCollection|CompetencyInterface[]
      */
     public function getCompetencies();
