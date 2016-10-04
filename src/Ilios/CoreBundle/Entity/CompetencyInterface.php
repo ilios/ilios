@@ -11,6 +11,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
+use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
@@ -25,7 +26,8 @@ interface CompetencyInterface extends
     ProgramYearsEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,
-    ActivatableEntityInterface
+    ActivatableEntityInterface,
+    ObjectivesEntityInterface
 {
     /**
      * @param CompetencyInterface $parent
@@ -46,6 +48,11 @@ interface CompetencyInterface extends
      * @param CompetencyInterface $child
      */
     public function addChild(CompetencyInterface $child);
+
+    /**
+     * @param CompetencyInterface $child
+     */
+    public function removeChild(CompetencyInterface $child);
 
     /**
      * @return ArrayCollection|CompetencyInterface[]

@@ -61,6 +61,18 @@ class CompetencyTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Competency::setParent
+     */
+    public function testRemoveParent()
+    {
+        $obj = m::mock('Ilios\CoreBundle\Entity\Competency');
+        $this->object->setParent($obj);
+        $this->assertSame($obj, $this->object->getParent());
+        $this->object->setParent(null);
+        $this->assertNull($this->object->getParent());
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Competency::addAamcPcrs
      */
     public function testAddPcrs()

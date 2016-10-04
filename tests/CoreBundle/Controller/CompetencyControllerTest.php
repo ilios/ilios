@@ -180,6 +180,43 @@ class CompetencyControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.competency')
             ->getOne();
+        $data['programYears'] = ['2'];
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['children']);
+        unset($postData['objectives']);
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_competencies',
+                ['id' => $data['id']]
+            ),
+            json_encode(['competency' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertEquals(
+            $this->mockSerialize($data),
+            json_decode($response->getContent(), true)['competency']
+        );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testPutCompetencyRemoveParent()
+    {
+        $data = $this->container
+            ->get('ilioscore.dataloader.competency')
+            ->getAll()[2];
+        $this->assertEquals('1', $data['parent']);
+        //remove the parent
+        unset($data['parent']);
 
         $postData = $data;
         //unset any parameters which should not be POSTed
