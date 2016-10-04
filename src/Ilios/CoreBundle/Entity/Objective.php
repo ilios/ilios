@@ -224,7 +224,17 @@ class Objective implements ObjectiveInterface
      */
     public function addParent(ObjectiveInterface $parent)
     {
-        $this->parents->add($parent);
+        if (!$this->parents->contains($parent)) {
+            $this->parents->add($parent);
+        }
+    }
+
+    /**
+     * @param ObjectiveInterface $parent
+     */
+    public function removeParent(ObjectiveInterface $parent)
+    {
+        $this->parents->removeElement($parent);
     }
 
     /**
@@ -252,7 +262,17 @@ class Objective implements ObjectiveInterface
      */
     public function addChild(ObjectiveInterface $child)
     {
-        $this->children->add($child);
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+        }
+    }
+
+    /**
+     * @param ObjectiveInterface $child
+     */
+    public function removeChild(ObjectiveInterface $child)
+    {
+        $this->children->removeElement($child);
     }
 
     /**
@@ -329,7 +349,17 @@ class Objective implements ObjectiveInterface
      */
     public function addDescendant(ObjectiveInterface $descendant)
     {
-        $this->descendants->add($descendant);
+        if (!$this->descendants->contains($descendant)) {
+            $this->descendants->add($descendant);
+        }
+    }
+
+    /**
+     * @param ObjectiveInterface $descendant
+     */
+    public function removeDescendant(ObjectiveInterface $descendant)
+    {
+        $this->descendants->removeElement($descendant);
     }
 
     /**

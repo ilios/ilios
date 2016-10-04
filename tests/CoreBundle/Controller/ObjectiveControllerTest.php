@@ -327,7 +327,13 @@ class ObjectiveControllerTest extends AbstractControllerTest
     {
         $data = $this->container
             ->get('ilioscore.dataloader.objective')
-            ->getOne();
+            ->getAll()[1];
+        $data['courses'] = ['3'];
+        $data['programYears'] = ['2'];
+        $data['sessions'] = ['2'];
+        $data['parents'] = ['2'];
+        $data['children'] = ['4'];
+        $data['meshDescriptors'] = ['abc2'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

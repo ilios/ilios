@@ -45,6 +45,11 @@ interface ObjectiveInterface extends
     public function addParent(ObjectiveInterface $parent);
 
     /**
+     * @param ObjectiveInterface $parent
+     */
+    public function removeParent(ObjectiveInterface $parent);
+
+    /**
      * @return ArrayCollection|ObjectiveInterface
      */
     public function getParents();
@@ -58,6 +63,11 @@ interface ObjectiveInterface extends
      * @param ObjectiveInterface $child
      */
     public function addChild(ObjectiveInterface $child);
+
+    /**
+     * @param ObjectiveInterface $child
+     */
+    public function removeChild(ObjectiveInterface $child);
 
     /**
      * @return ArrayCollection|ObjectiveInterface[]
@@ -83,6 +93,11 @@ interface ObjectiveInterface extends
      * @param ObjectiveInterface $child
      */
     public function addDescendant(ObjectiveInterface $child);
+
+    /**
+     * @param ObjectiveInterface $child
+     */
+    public function removeDescendant(ObjectiveInterface $child);
 
     /**
      * @return ArrayCollection|ObjectiveInterface[]

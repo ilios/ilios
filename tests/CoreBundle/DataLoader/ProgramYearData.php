@@ -20,7 +20,7 @@ class ProgramYearData extends AbstractDataLoader
             'directors' => ['1'],
             'competencies' => ['1', '3'],
             'terms' => [],
-            'objectives' => ['1'],
+            'objectives' => ['1', '2'],
             'stewards' => ['1', '2']
         );
         $arr[] = array(
