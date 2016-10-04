@@ -388,7 +388,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param int $level
+     * @inheritdoc
      */
     public function setLevel($level)
     {
@@ -396,7 +396,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return int
+     * @inheritdoc
      */
     public function getLevel()
     {
@@ -404,7 +404,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param int $year
+     * @inheritdoc
      */
     public function setYear($year)
     {
@@ -412,7 +412,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return int
+     * @inheritdoc
      */
     public function getYear()
     {
@@ -420,7 +420,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param \DateTime $startDate
+     * @inheritdoc
      */
     public function setStartDate(\DateTime $startDate = null)
     {
@@ -428,7 +428,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return \DateTime
+     * @inheritdoc
      */
     public function getStartDate()
     {
@@ -436,7 +436,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param \DateTime $endDate
+     * @inheritdoc
      */
     public function setEndDate(\DateTime $endDate = null)
     {
@@ -444,7 +444,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return \DateTime
+     * @inheritdoc
      */
     public function getEndDate()
     {
@@ -452,8 +452,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @todo: Possible rename.
-     * @param string $externalId
+     * @inheritdoc
      */
     public function setExternalId($externalId)
     {
@@ -461,8 +460,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @todo: Possible rename.
-     * @return string
+     * @inheritdoc
      */
     public function getExternalId()
     {
@@ -470,7 +468,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param CourseClerkshipTypeInterface $clerkshipType
+     * @inheritdoc
      */
     public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType = null)
     {
@@ -478,7 +476,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return CourseClerkshipTypeInterface
+     * @inheritdoc
      */
     public function getClerkshipType()
     {
@@ -486,7 +484,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param Collection|UserInterface[] $directors
+     * @inheritdoc
      */
     public function setDirectors(Collection $directors = null)
     {
@@ -501,7 +499,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param UserInterface $director
+     * @inheritdoc
      */
     public function addDirector(UserInterface $director = null)
     {
@@ -511,7 +509,15 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return ArrayCollection|UserInterface[]
+     * @inheritdoc
+     */
+    public function removeDirector(UserInterface $director)
+    {
+        $this->directors->removeElement($director);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getDirectors()
     {
@@ -519,7 +525,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param Collection|CohortInterface[] $cohorts
+     * @inheritdoc
      */
     public function setCohorts(Collection $cohorts = null)
     {
@@ -534,7 +540,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param CohortInterface $cohort
+     * @inheritdoc
      */
     public function addCohort(CohortInterface $cohort)
     {
@@ -544,7 +550,15 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return ArrayCollection|CohortInterface[]
+     * @inheritdoc
+     */
+    public function removeCohort(CohortInterface $cohort)
+    {
+        $this->cohorts->removeElement($cohort);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getCohorts()
     {
@@ -552,7 +566,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param Collection|MeshDescriptorInterface[] $meshDescriptors
+     * @inheritdoc
      */
     public function setMeshDescriptors(Collection $meshDescriptors = null)
     {
@@ -567,7 +581,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param MeshDescriptorInterface $meshDescriptor
+     * @inheritdoc
      */
     public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
@@ -577,7 +591,15 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return Collection|MeshDescriptorInterface[]
+     * @inheritdoc
+     */
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    {
+        $this->meshDescriptors->removeElement($meshDescriptor);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getMeshDescriptors()
     {
@@ -585,7 +607,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param Collection $learningMaterials
+     * @inheritdoc
      */
     public function setLearningMaterials(Collection $learningMaterials = null)
     {
@@ -600,7 +622,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param CourseLearningMaterialInterface $learningMaterial
+     * @inheritdoc
      */
     public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
     {
@@ -608,7 +630,15 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return ArrayCollection|CourseLearningMaterialInterface[]
+     * @inheritdoc
+     */
+    public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
+    {
+        $this->learningMaterials->removeElement($learningMaterial);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getLearningMaterials()
     {
@@ -616,7 +646,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param CourseInterface $parent
+     * @inheritdoc
      */
     public function setAncestor(CourseInterface $ancestor = null)
     {
@@ -624,7 +654,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return CourseInterface
+     * @inheritdoc
      */
     public function getAncestor()
     {
@@ -632,7 +662,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param Collection $descendants
+     * @inheritdoc
      */
     public function setDescendants(Collection $descendants)
     {
@@ -644,7 +674,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param CourseInterface $descendant
+     * @inheritdoc
      */
     public function addDescendant(CourseInterface $descendant)
     {
@@ -652,7 +682,15 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return ArrayCollection|CourseInterface[]
+     * @inheritdoc
+     */
+    public function removeDescendant(CourseInterface $descendant)
+    {
+        $this->descendants->removeElement($descendant);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getDescendants()
     {

@@ -24,6 +24,11 @@ interface ObjectivesEntityInterface
     public function addObjective(ObjectiveInterface $objective);
 
     /**
+     * @param ObjectiveInterface $objective
+     */
+    public function removeObjective(ObjectiveInterface $objective);
+
+    /**
     * @return ObjectiveInterface[]|ArrayCollection
     */
     public function getObjectives();

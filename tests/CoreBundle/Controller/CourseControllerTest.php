@@ -342,12 +342,53 @@ class CourseControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.course')
             ->getOne();
-        
+
+        $data['objectives'] = ['3'];
+        $data['directors'] = ['2'];
+        $data['cohorts'] = ['2'];
+        $data['meshDescriptors'] = ['abc2'];
+        $data['descendants'] = ['3'];
+        $data['terms'] = ['2'];
+
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
         unset($postData['learningMaterials']);
         unset($postData['sessions']);
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_courses',
+                ['id' => $data['id']]
+            ),
+            json_encode(['course' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertEquals(
+            $this->mockSerialize($data),
+            json_decode($response->getContent(), true)['course']
+        );
+    }
+
+    /**
+     * Ember doesn't send the non-owning side of many2one relationships
+     * @group controllers_a
+     */
+    public function testPutCourseWithoutSessionsAndLms()
+    {
+        $data = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getOne();
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['sessions']);
+        unset($postData['learningMaterials']);
 
         $this->createJsonRequest(
             'PUT',
@@ -610,12 +651,18 @@ class CourseControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['courses'];
-        $this->assertEquals(1, count($data));
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $courses[0]
+            ),
+            $data[0]
+        );
         $this->assertEquals(
             $this->mockSerialize(
                 $courses[1]
             ),
-            $data[0]
+            $data[1]
         );
     }
 

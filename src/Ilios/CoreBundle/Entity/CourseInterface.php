@@ -106,6 +106,11 @@ interface CourseInterface extends
     public function addDirector(UserInterface $director);
 
     /**
+     * @param UserInterface $director
+     */
+    public function removeDirector(UserInterface $director);
+
+    /**
      * @return ArrayCollection|UserInterface[]
      */
     public function getDirectors();
@@ -119,6 +124,11 @@ interface CourseInterface extends
      * @param CohortInterface $cohort
      */
     public function addCohort(CohortInterface $cohort);
+
+    /**
+     * @param CohortInterface $cohort
+     */
+    public function removeCohort(CohortInterface $cohort);
 
     /**
      * @return ArrayCollection|CohortInterface[]
@@ -136,6 +146,11 @@ interface CourseInterface extends
     public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
 
     /**
+     * @param MeshDescriptorInterface $meshDescriptor
+     */
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
+
+    /**
      * @return Collection|MeshDescriptorInterface[]
      */
     public function getMeshDescriptors();
@@ -149,6 +164,11 @@ interface CourseInterface extends
      * @param CourseLearningMaterialInterface $learningMaterial
      */
     public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial);
+
+    /**
+     * @param CourseLearningMaterialInterface $learningMaterial
+     */
+    public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial);
 
     /**
      * @return ArrayCollection|CourseLearningMaterialInterface[]
@@ -174,6 +194,11 @@ interface CourseInterface extends
      * @param CourseInterface $child
      */
     public function addDescendant(CourseInterface $child);
+
+    /**
+     * @param CourseInterface $child
+     */
+    public function removeDescendant(CourseInterface $child);
 
     /**
      * @return ArrayCollection|CourseInterface[]

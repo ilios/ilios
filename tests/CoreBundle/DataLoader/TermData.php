@@ -13,7 +13,7 @@ class TermData extends AbstractDataLoader
             'description' => $this->faker->text(200),
             'vocabulary' => '1',
             'children' => ['2', '3'],
-            'courses' => ['2'],
+            'courses' => ['1', '2'],
             'programYears' => ["2"],
             'sessions' => ['2'],
             'aamcResourceTypes' => ['RE001'],

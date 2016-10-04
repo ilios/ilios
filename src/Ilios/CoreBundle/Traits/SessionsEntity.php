@@ -31,7 +31,17 @@ trait SessionsEntity
      */
     public function addSession(SessionInterface $session)
     {
-        $this->sessions->add($session);
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+        }
+    }
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function removeSession(SessionInterface $session)
+    {
+        $this->sessions->remvoeElement($session);
     }
 
     /**

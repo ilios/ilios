@@ -36,6 +36,14 @@ trait ObjectivesEntity
     }
 
     /**
+     * @inheritdoc
+     */
+    public function removeObjective(ObjectiveInterface $objective)
+    {
+        $this->objectives->removeElement($objective);
+    }
+
+    /**
     * @inheritdoc
     */
     public function getObjectives()

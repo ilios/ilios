@@ -39,6 +39,14 @@ trait CategorizableEntity
     }
 
     /**
+     * @param TermInterface $term
+     */
+    public function removeTerm(TermInterface $term)
+    {
+        $this->terms->removeElement($term);
+    }
+
+    /**
      * @return ArrayCollection|TermInterface[]
      */
     public function getTerms()
