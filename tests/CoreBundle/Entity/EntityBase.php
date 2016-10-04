@@ -218,34 +218,45 @@ class EntityBase extends \PHPUnit_Framework_TestCase
      * @param string|bool $getter name of the method to use instead of a generated method, or FALSE if n/a.
      * @param string|bool $setter name of the method to use instead of a generated method, or FALSE if n/a.
      * @param string|bool $remover name of the method to use instead of a generated method, or FALSE if n/a.
-
+     * @param string|bool $crossSaveMethod name of the method to call on the inverse side of the relationship.
      */
     protected function entityCollectionRemoveTest(
         $property,
         $entityName,
         $getter = false,
         $setter = false,
-        $remover = false
+        $remover = false,
+        $crossSaveMethod = false
     ) {
-        $this->assertTrue(true);
-        // $arr = $this->getArrayOfMockObjects('Ilios\CoreBundle\Entity\\' . $entityName, 5);
-        // $addMethod = $setter?$setter:$this->getAddMethodForProperty($property);
-        // $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
-        // $removeMethod = $remover?$remover:$this->getRemoveMethodForProperty($property);
-        // $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
-        // $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
-        // $this->assertTrue(method_exists($this->object, $removeMethod), "Method {$removeMethod} missing");
-        // foreach ($arr as $obj) {
-        //     $this->object->$addMethod($obj);
-        // }
-        // $key = array_rand($arr);
-        // $obj = $arr[$key];
-        // unset($arr[$key]);
-        // $this->object->$removeMethod($obj);
-        // $collection = $this->object->$getMethod();
-        // foreach ($arr as $obj) {
-        //     $this->assertTrue($collection->contains($obj));
-        // }
+        $arr = $this->getArrayOfMockObjects('Ilios\CoreBundle\Entity\\' . $entityName, 10);
+        $addMethod = $setter?$setter:$this->getAddMethodForProperty($property);
+        $removeMethod = $remover?$remover:$this->getRemoveMethodForProperty($property);
+        $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
+        $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
+        $this->assertTrue(method_exists($this->object, $removeMethod), "Method {$removeMethod} missing");
+        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
+
+        foreach ($arr as $obj) {
+            $obj->shouldIgnoreMissing();
+            $this->object->$addMethod($obj);
+        }
+        $results = $this->object->$getMethod();
+        $this->assertTrue($results instanceof Collection, 'Collection not returned.');
+        foreach ($arr as $obj) {
+            if ($crossSaveMethod) {
+                $obj->shouldReceive($crossSaveMethod)->with($this->object)->once();
+            }
+            $this->assertTrue($results->contains($obj));
+        }
+
+        foreach ($arr as $obj) {
+            $this->object->$removeMethod($obj);
+        }
+        $results = $this->object->$getMethod();
+        $this->assertTrue($results instanceof Collection, 'Collection not returned.');
+        foreach ($arr as $obj) {
+            $this->assertTrue(!$results->contains($obj), 'Entity was not removed correctly');
+        }
     }
 
     /**

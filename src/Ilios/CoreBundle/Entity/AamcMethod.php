@@ -33,7 +33,6 @@ class AamcMethod implements AamcMethodInterface
     use SessionTypesEntity;
 
     /**
-     * @deprecated replace with IdentifiableEntity trait for 3.1.x
      * @var string
      *
      * @ORM\Column(name="method_id", type="string", length=10)
@@ -96,5 +95,14 @@ class AamcMethod implements AamcMethodInterface
             $this->sessionTypes->add($sessionType);
             $sessionType->addAamcMethod($this);
         }
+    }
+
+    /**
+     * @param SessionTypeInterface $sessionType
+     */
+    public function removeSessionType(SessionTypeInterface $sessionType)
+    {
+        $this->sessionTypes->removeElement($sessionType);
+        $sessionType->removeAamcMethod($this);
     }
 }
