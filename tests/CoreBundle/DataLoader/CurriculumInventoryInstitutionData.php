@@ -44,7 +44,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'addressStateOrProvince' => $this->faker->stateAbbr,
             'addressZipCode' => $this->faker->postcode,
             'addressCountryCode' => 'US',
-            'school' => '2'
+            'school' => '3'
         );
     }
 
