@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\LearningMaterialsEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,6 +28,7 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
+    use LearningMaterialsEntity;
 
     /**
      * @var int
@@ -72,33 +74,5 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     public function __construct()
     {
         $this->learningMaterials = new ArrayCollection();
-    }
-
-    /**
-     * @param Collection $learningMaterials
-     */
-    public function setLearningMaterials(Collection $learningMaterials)
-    {
-        $this->learningMaterials = new ArrayCollection();
-
-        foreach ($learningMaterials as $learningMaterial) {
-            $this->addLearningMaterial($learningMaterial);
-        }
-    }
-
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
-    public function addLearningMaterial(LearningMaterialInterface $learningMaterial)
-    {
-        $this->learningMaterials->add($learningMaterial);
-    }
-
-    /**
-     * @return ArrayCollection|LearningMaterialInterface[]
-     */
-    public function getLearningMaterials()
-    {
-        return $this->learningMaterials;
     }
 }
