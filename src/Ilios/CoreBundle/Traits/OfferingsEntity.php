@@ -31,7 +31,17 @@ trait OfferingsEntity
      */
     public function addOffering(OfferingInterface $offering)
     {
-        $this->offerings->add($offering);
+        if (!$this->offerings->contains($offering)) {
+            $this->offerings->add($offering);
+        }
+    }
+
+    /**
+     * @param OfferingInterface $offering
+     */
+    public function removeOffering(OfferingInterface $offering)
+    {
+        $this->offerings->removeElement($offering);
     }
 
     /**
