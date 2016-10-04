@@ -209,13 +209,14 @@ class MeshConceptControllerTest extends AbstractControllerTest
         $postData = $this->container
             ->get('ilioscore.dataloader.meshconcept')
             ->getOne();
+        $data['semanticTypes'] = ['3'];
+        $data['terms'] = ['1'];
+        $data['descriptors'] = ['1'];
+
         $postData['scopeNote'] = 'somethign new';
         //unset any parameters which should not be POSTed
         unset($postData['updatedAt']);
         unset($postData['createdAt']);
-        unset($postData['terms']);
-        unset($postData['semanticTypes']);
-        unset($postData['descriptors']);
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(

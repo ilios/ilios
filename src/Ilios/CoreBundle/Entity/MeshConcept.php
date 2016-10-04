@@ -327,6 +327,14 @@ class MeshConcept implements MeshConceptInterface
     }
 
     /**
+     * @param MeshSemanticTypeInterface $semanticType
+     */
+    public function removeSemanticType(MeshSemanticTypeInterface $semanticType)
+    {
+        $this->semanticTypes->removeElement($semanticType);
+    }
+
+    /**
      * @return ArrayCollection|MeshSemanticTypeInterface[]
      */
     public function getSemanticTypes()
@@ -358,6 +366,14 @@ class MeshConcept implements MeshConceptInterface
     }
 
     /**
+     * @param MeshTermInterface $term
+     */
+    public function removeTerm(MeshTermInterface $term)
+    {
+        $this->terms->removeElement($term);
+    }
+
+    /**
      * @return ArrayCollection|MeshTermInterface[]
      */
     public function getTerms()
@@ -385,6 +401,14 @@ class MeshConcept implements MeshConceptInterface
         if (!$this->descriptors->contains($descriptor)) {
             $this->descriptors->add($descriptor);
         }
+    }
+
+    /**
+     * @param MeshDescriptorInterface $descriptor
+     */
+    public function removeDescriptor(MeshDescriptorInterface $descriptor)
+    {
+        $this->descriptors->removeElement($descriptor);
     }
 
     /**

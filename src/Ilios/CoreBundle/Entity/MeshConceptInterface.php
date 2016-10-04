@@ -78,6 +78,11 @@ interface MeshConceptInterface extends
     public function addSemanticType(MeshSemanticTypeInterface $semanticType);
 
     /**
+     * @param MeshSemanticTypeInterface $semanticType
+     */
+    public function removeSemanticType(MeshSemanticTypeInterface $semanticType);
+
+    /**
      * @return ArrayCollection|MeshSemanticTypeInterface[]
      */
     public function getSemanticTypes();
@@ -93,6 +98,11 @@ interface MeshConceptInterface extends
     public function addTerm(MeshTermInterface $term);
 
     /**
+     * @param MeshTermInterface $term
+     */
+    public function removeTerm(MeshTermInterface $term);
+
+    /**
      * @return ArrayCollection|MeshTermInterface[]
      */
     public function getTerms();
@@ -106,6 +116,11 @@ interface MeshConceptInterface extends
      * @param MeshDescriptorInterface $descriptor
      */
     public function addDescriptor(MeshDescriptorInterface $descriptor);
+
+    /**
+     * @param MeshDescriptorInterface $descriptor
+     */
+    public function removeDescriptor(MeshDescriptorInterface $descriptor);
 
     /**
      * @return ArrayCollection|MeshDescriptorInterface[]
