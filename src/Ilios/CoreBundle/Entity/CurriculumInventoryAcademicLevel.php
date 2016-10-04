@@ -183,7 +183,17 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      */
     public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
     {
-        $this->sequenceBlocks->add($sequenceBlock);
+        if (!$this->sequenceBlocks->contains($sequenceBlock)) {
+            $this->sequenceBlocks->add($sequenceBlock);
+        }
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     */
+    public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    {
+        $this->sequenceBlocks->removeElement($sequenceBlock);
     }
 
     /**
