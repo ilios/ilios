@@ -171,6 +171,7 @@ class AamcResourceTypeControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.aamcresourcetype')
             ->getOne();
+        $data['terms'] = ['3'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

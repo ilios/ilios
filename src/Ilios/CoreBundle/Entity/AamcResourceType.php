@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\CategorizableEntity;
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -28,6 +29,7 @@ class AamcResourceType implements AamcResourceTypeInterface
     use DescribableEntity;
     use TitledEntity;
     use StringableIdEntity;
+    use CategorizableEntity;
 
     /**
      * @var string
@@ -95,36 +97,5 @@ class AamcResourceType implements AamcResourceTypeInterface
     public function __construct()
     {
         $this->terms = new ArrayCollection();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setTerms(Collection $terms)
-    {
-        $this->terms = new ArrayCollection();
-
-        foreach ($terms as $term) {
-            $this->addTerm($term);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addTerm(TermInterface $term)
-    {
-        if (!$this->terms->contains($term)) {
-            $this->terms->add($term);
-            $term->addAamcResourceType($this);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTerms()
-    {
-        return $this->terms;
     }
 }
