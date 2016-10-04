@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
 use Ilios\CoreBundle\Traits\PublishableEntityInterface;
+use Ilios\CoreBundle\Traits\SequenceBlocksEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
@@ -29,7 +30,8 @@ interface SessionInterface extends
     ObjectivesEntityInterface,
     PublishableEntityInterface,
     CategorizableEntityInterface,
-    MeshDescriptorsEntityInterface
+    MeshDescriptorsEntityInterface,
+    SequenceBlocksEntityInterface
 {
     /**
      * @param boolean $attireRequired
@@ -120,19 +122,4 @@ interface SessionInterface extends
      * @return SchoolInterface|null
      */
     public function getSchool();
-
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $block
-     */
-    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $block);
-
-    /**
-     * @return CurriculumInventorySequenceBlockInterface
-     */
-    public function getSequenceBlocks();
-
-    /**
-     * @param Collection $sequenceBlocks
-     */
-    public function setSequenceBlocks(Collection $sequenceBlocks = null);
 }
