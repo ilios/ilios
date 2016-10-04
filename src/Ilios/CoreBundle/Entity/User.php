@@ -7,6 +7,7 @@ use Ilios\CoreBundle\Traits\AlertableEntity;
 use Ilios\CoreBundle\Traits\CohortsEntity;
 use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
+use Ilios\CoreBundle\Traits\LearningMaterialsEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,6 +40,7 @@ class User implements UserInterface
     use LearnerGroupsEntity;
     use CohortsEntity;
     use InstructorGroupsEntity;
+    use LearningMaterialsEntity;
 
     /**
      * @var int
@@ -995,34 +997,6 @@ class User implements UserInterface
         $intersection = array_intersect($eligibleRoles, $roles);
 
         return ! empty($intersection);
-    }
-
-    /**
-     * @param Collection $learningMaterials
-     */
-    public function setLearningMaterials(Collection $learningMaterials)
-    {
-        $this->learningMaterials = new ArrayCollection();
-
-        foreach ($learningMaterials as $learningMaterial) {
-            $this->addLearningMaterial($learningMaterial);
-        }
-    }
-
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
-    public function addLearningMaterial(LearningMaterialInterface $learningMaterial)
-    {
-        $this->learningMaterials->add($learningMaterial);
-    }
-
-    /**
-     * @return ArrayCollection|LearningMaterialInterface[]
-     */
-    public function getLearningMaterials()
-    {
-        return $this->learningMaterials;
     }
 
     /**

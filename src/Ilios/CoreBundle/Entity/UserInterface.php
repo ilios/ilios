@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Traits\AlertableEntityInterface;
 use Ilios\CoreBundle\Traits\CohortsEntityInterface;
 use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
+use Ilios\CoreBundle\Traits\LearningMaterialsEntityInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
@@ -34,6 +35,7 @@ interface UserInterface extends
     LearnerGroupsEntityInterface,
     CohortsEntityInterface,
     InstructorGroupsEntityInterface,
+    LearningMaterialsEntityInterface,
     \Serializable
 {
     /**
@@ -251,21 +253,6 @@ interface UserInterface extends
      * @return bool TRUE if the user has at least one of the roles, FALSE otherwise.
      */
     public function hasRole(array $eligibleRoles);
-
-    /**
-     * @param Collection $learningMaterials
-     */
-    public function setLearningMaterials(Collection $learningMaterials);
-
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
-    public function addLearningMaterial(LearningMaterialInterface $learningMaterial);
-
-    /**
-     * @return ArrayCollection|LearningMaterialInterface[]
-     */
-    public function getLearningMaterials();
 
     /**
      * @param Collection $reports
