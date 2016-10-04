@@ -439,4 +439,15 @@ class MeshDescriptor implements MeshDescriptorInterface
             $session->addMeshDescriptor($this);
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function addConcept(MeshConceptInterface $concept)
+    {
+        if (!$this->concepts->contains($concept)) {
+            $this->concepts->add($concept);
+            $concept->addDescriptor($this);
+        }
+    }
 }
