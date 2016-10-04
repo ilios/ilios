@@ -132,6 +132,14 @@ class MeshQualifier implements MeshQualifierInterface
     }
 
     /**
+     * @param MeshDescriptorInterface $descriptor
+     */
+    public function removeDescriptor(MeshDescriptorInterface $descriptor)
+    {
+        $this->descriptors->removeElement($descriptor);
+    }
+
+    /**
      * @return ArrayCollection|MeshDescriptorInterface[]
      */
     public function getDescriptors()

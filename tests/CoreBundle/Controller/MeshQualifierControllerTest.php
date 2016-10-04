@@ -172,9 +172,10 @@ class MeshQualifierControllerTest extends AbstractControllerTest
             ->get('ilioscore.dataloader.meshqualifier')
             ->getOne();
         $postData['name'] = 'somethign new';
+        $postData['descriptors'] = ['abc2'];
+
         //unset any parameters which should not be POSTed
         unset($postData['updatedAt']);
-        unset($postData['descriptors']);
         unset($postData['createdAt']);
         $this->createJsonRequest(
             'PUT',
