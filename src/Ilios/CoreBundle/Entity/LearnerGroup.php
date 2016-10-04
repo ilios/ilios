@@ -296,6 +296,14 @@ class LearnerGroup implements LearnerGroupInterface
     }
 
     /**
+     * @param LearnerGroupInterface $child
+     */
+    public function removeChild(LearnerGroupInterface $child)
+    {
+        $this->children->removeElement($child);
+    }
+
+    /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getChildren()

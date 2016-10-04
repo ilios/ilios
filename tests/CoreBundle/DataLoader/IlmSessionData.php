@@ -14,7 +14,7 @@ class IlmSessionData extends AbstractDataLoader
             'id' => 1,
             'hours' => $this->faker->randomFloat,
             'dueDate' => $dt->format('c'),
-            'learnerGroups' => ['3'],
+            'learnerGroups' => ['1', '3'],
             'instructorGroups' => ['1'],
             'instructors' => [],
             'learners' => [],

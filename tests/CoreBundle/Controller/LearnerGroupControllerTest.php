@@ -21,7 +21,6 @@ class LearnerGroupControllerTest extends AbstractControllerTest
             'Tests\CoreBundle\Fixture\LoadCohortData',
             'Tests\CoreBundle\Fixture\LoadIlmSessionData',
             'Tests\CoreBundle\Fixture\LoadOfferingData',
-            'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
             'Tests\CoreBundle\Fixture\LoadUserData',
         ]);
     }
@@ -209,6 +208,11 @@ class LearnerGroupControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.learnergroup')
             ->getOne();
+        $data['ilmSessions'] = ['1'];
+        $data['offerings'] = ['2'];
+        $data['users'] = ['1'];
+        $data['instructorGroups'] = ['1'];
+        $data['instructors'] = ['1'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

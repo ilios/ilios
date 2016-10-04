@@ -70,6 +70,11 @@ interface LearnerGroupInterface extends
     public function addChild(LearnerGroupInterface $child);
 
     /**
+     * @param LearnerGroupInterface $child
+     */
+    public function removeChild(LearnerGroupInterface $child);
+
+    /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getChildren();

@@ -45,6 +45,9 @@ class LoadLearnerGroupData extends AbstractFixture implements
             foreach ($arr['instructors'] as $id) {
                 $entity->addInstructor($this->getReference('users' . $id));
             }
+            foreach ($arr['instructorGroups'] as $id) {
+                $entity->addInstructorGroup($this->getReference('instructorGroups' . $id));
+            }
             $manager->persist($entity);
             $this->addReference('learnerGroups' . $arr['id'], $entity);
         }
@@ -57,6 +60,7 @@ class LoadLearnerGroupData extends AbstractFixture implements
         return array(
             'Tests\CoreBundle\Fixture\LoadCohortData',
             'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
         );
     }
 }
