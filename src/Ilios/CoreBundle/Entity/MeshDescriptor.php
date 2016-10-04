@@ -269,6 +269,14 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     */
+    public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
+    {
+        $this->sessionLearningMaterials->removeElement($sessionLearningMaterial);
+    }
+
+    /**
      * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
     public function getSessionLearningMaterials()
@@ -297,6 +305,14 @@ class MeshDescriptor implements MeshDescriptorInterface
             $this->courseLearningMaterials->add($courseLearningMaterial);
             $courseLearningMaterial->addMeshDescriptor($this);
         }
+    }
+
+    /**
+     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     */
+    public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    {
+        $this->courseLearningMaterials->removeElement($courseLearningMaterial);
     }
 
     /**
@@ -331,6 +347,14 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
+     * @param MeshConceptInterface $concept
+     */
+    public function removeConcept(MeshConceptInterface $concept)
+    {
+        $this->concepts->removeElement($concept);
+    }
+
+    /**
      * @return ArrayCollection|MeshConceptInterface[]
      */
     public function getConcepts()
@@ -362,6 +386,14 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
+     * @param MeshQualifierInterface $qualifier
+     */
+    public function removeQualifier(MeshQualifierInterface $qualifier)
+    {
+        $this->qualifiers->removeElement($qualifier);
+    }
+
+    /**
      * @return ArrayCollection|MeshQualifierInterface[]
      */
     public function getQualifiers()
@@ -386,7 +418,17 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function addTree(MeshTreeInterface $tree)
     {
-        $this->trees->add($tree);
+        if (!$this->trees->contains($tree)) {
+            $this->trees->add($tree);
+        }
+    }
+
+    /**
+     * @param MeshTreeInterface $tree
+     */
+    public function removeTree(MeshTreeInterface $tree)
+    {
+        $this->trees->removeElement($tree);
     }
 
     /**

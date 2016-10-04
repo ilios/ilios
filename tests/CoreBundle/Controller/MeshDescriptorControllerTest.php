@@ -550,6 +550,13 @@ class MeshDescriptorControllerTest extends AbstractControllerTest
             ->get('ilioscore.dataloader.meshdescriptor')
             ->getOne();
         //mutate something
+        $data['courses'] = ['1'];
+        $data['objectives'] = ['1'];
+        $data['sessionLearningMaterials'] = ['1'];
+        $data['courseLearningMaterials'] = ['1'];
+        $data['sessions'] = ['1'];
+        $data['concepts'] = ['1'];
+        $data['qualifiers'] = ['1'];
         $data['annotation'] = 'somethign new';
 
         $postData = $data;
