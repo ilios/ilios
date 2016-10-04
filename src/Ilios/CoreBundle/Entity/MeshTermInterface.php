@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\ConceptsEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
@@ -14,7 +14,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 interface MeshTermInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
-    TimestampableEntityInterface
+    TimestampableEntityInterface,
+    ConceptsEntityInterface
 {
 
     /**
@@ -76,19 +77,4 @@ interface MeshTermInterface extends
      * @return boolean
      */
     public function isPrintable();
-
-    /**
-     * @param Collection $concepts
-     */
-    public function setConcepts(Collection $concepts);
-
-    /**
-     * @param MeshConceptInterface $concept
-     */
-    public function addConcept(MeshConceptInterface $concept);
-
-    /**
-     * @return ArrayCollection|MeshConceptInterface[]
-     */
-    public function getConcepts();
 }

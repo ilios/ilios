@@ -205,12 +205,13 @@ class MeshTermControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.meshterm')
             ->getOne();
-        $postData['name'] = 'somethign new';
+        $data['name'] = 'somethign new';
+        $data['concepts'] = ['2'];
+
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
         unset($postData['updatedAt']);
-        unset($postData['concepts']);
         unset($postData['createdAt']);
         $this->createJsonRequest(
             'PUT',
