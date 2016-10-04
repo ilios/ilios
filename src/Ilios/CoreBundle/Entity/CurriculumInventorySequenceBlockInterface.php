@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\SessionsEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
@@ -16,7 +17,8 @@ interface CurriculumInventorySequenceBlockInterface extends
     IdentifiableEntityInterface,
     DescribableEntityInterface,
     TitledEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    SessionsEntityInterface
 {
     /**
      * @var int
@@ -167,6 +169,11 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function addChild(CurriculumInventorySequenceBlockInterface $child);
 
     /**
+     * @param CurriculumInventorySequenceBlockInterface $child
+     */
+    public function removeChild(CurriculumInventorySequenceBlockInterface $child);
+
+    /**
      * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      */
     public function getChildren();
@@ -180,13 +187,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      * @return CurriculumInventoryReportInterface
      */
     public function getReport();
-    
-    public function addSession(SessionInterface $session);
-
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions();
 
     /**
      * @param CurriculumInventorySequenceBlockInterface $parent
