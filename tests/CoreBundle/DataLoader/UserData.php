@@ -70,7 +70,7 @@ class UserData extends AbstractDataLoader
             'cohorts' => ['1'],
             'reminders' => ['1', '2'],
             'pendingUserUpdates' => [],
-            'permissions' => ['1', '2', '3']
+            'permissions' => ['1', '2', '3', '4']
         );
 
         $arr[] = array(

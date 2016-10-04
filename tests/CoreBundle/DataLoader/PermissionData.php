@@ -36,13 +36,22 @@ class PermissionData extends AbstractDataLoader
             'tableRowId' => 1,
             'tableName' => 'program',
         ];
+
+        $arr[] = [
+            'id' => 4,
+            'user' => '2',
+            'canRead' => true,
+            'canWrite' => true,
+            'tableRowId' => 3,
+            'tableName' => 'school',
+        ];
         return $arr;
     }
 
     public function create()
     {
         return [
-            'id' => 4,
+            'id' => 5,
             'user' => '1',
             'canRead' => true,
             'canWrite' => false,
