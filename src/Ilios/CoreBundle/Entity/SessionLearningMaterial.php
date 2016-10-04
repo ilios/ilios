@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
@@ -30,6 +31,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use SessionConsolidationEntity;
+    use MeshDescriptorsEntity;
 
     /**
      * @var integer
@@ -229,33 +231,5 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     public function getLearningMaterial()
     {
         return $this->learningMaterial;
-    }
-
-    /**
-     * @param Collection $meshDescriptors
-     */
-    public function setMeshDescriptors(Collection $meshDescriptors)
-    {
-        $this->meshDescriptors = new ArrayCollection();
-
-        foreach ($meshDescriptors as $meshDescriptor) {
-            $this->addMeshDescriptor($meshDescriptor);
-        }
-    }
-
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
-    {
-        $this->meshDescriptors->add($meshDescriptor);
-    }
-
-    /**
-     * @return ArrayCollection|MeshDescriptorInterface[]
-     */
-    public function getMeshDescriptors()
-    {
-        return $this->meshDescriptors;
     }
 }

@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,6 +26,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
+    use MeshDescriptorsEntity;
 
     /**
      * @var int
@@ -224,35 +226,5 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     public function getLearningMaterial()
     {
         return $this->learningMaterial;
-    }
-
-    /**
-     * @param Collection $meshDescriptors
-     */
-    public function setMeshDescriptors(Collection $meshDescriptors)
-    {
-        $this->meshDescriptors = new ArrayCollection();
-
-        foreach ($meshDescriptors as $meshDescriptor) {
-            $this->addMeshDescriptor($meshDescriptor);
-        }
-    }
-
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
-    {
-        if (!$this->meshDescriptors->contains($meshDescriptor)) {
-            $this->meshDescriptors->add($meshDescriptor);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|MeshDescriptorInterface[]
-     */
-    public function getMeshDescriptors()
-    {
-        return $this->meshDescriptors;
     }
 }

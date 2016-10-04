@@ -15,7 +15,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'notes' => $this->faker->text,
             'course' => "1",
             'learningMaterial' => "1",
-            'meshDescriptors' => []
+            'meshDescriptors' => ['abc1']
         );
 
         $arr[] = array(

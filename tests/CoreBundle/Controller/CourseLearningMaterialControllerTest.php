@@ -139,6 +139,7 @@ class CourseLearningMaterialControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.courselearningmaterial')
             ->getOne();
+        $data['meshDescriptors'] = ['abc2'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

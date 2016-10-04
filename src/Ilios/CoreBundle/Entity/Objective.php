@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
@@ -33,6 +34,7 @@ class Objective implements ObjectiveInterface
     use SessionsEntity;
     use ProgramYearsEntity;
     use StringableIdEntity;
+    use MeshDescriptorsEntity;
 
     /**
      * @var int
@@ -259,36 +261,6 @@ class Objective implements ObjectiveInterface
     public function getChildren()
     {
         return $this->children;
-    }
-
-    /**
-     * @param Collection $meshDescriptors
-     */
-    public function setMeshDescriptors(Collection $meshDescriptors)
-    {
-        $this->meshDescriptors = new ArrayCollection();
-
-        foreach ($meshDescriptors as $meshDescriptor) {
-            $this->addMeshDescriptor($meshDescriptor);
-        }
-    }
-
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
-    {
-        if (!$this->meshDescriptors->contains($meshDescriptor)) {
-            $this->meshDescriptors->add($meshDescriptor);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|MeshDescriptorInterface[]
-     */
-    public function getMeshDescriptors()
-    {
-        return $this->meshDescriptors;
     }
 
     /**

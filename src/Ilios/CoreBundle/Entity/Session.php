@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
+use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use JMS\Serializer\Annotation as JMS;
@@ -44,6 +45,7 @@ class Session implements SessionInterface
     use ObjectivesEntity;
     use PublishableEntity;
     use CategorizableEntity;
+    use MeshDescriptorsEntity;
 
     /**
      * @var int
@@ -415,34 +417,6 @@ class Session implements SessionInterface
     public function getIlmSession()
     {
         return $this->ilmSession;
-    }
-
-    /**
-     * @param Collection $meshDescriptors
-     */
-    public function setMeshDescriptors(Collection $meshDescriptors)
-    {
-        $this->meshDescriptors = new ArrayCollection();
-
-        foreach ($meshDescriptors as $meshDescriptor) {
-            $this->addMeshDescriptor($meshDescriptor);
-        }
-    }
-
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
-    {
-        $this->meshDescriptors->add($meshDescriptor);
-    }
-
-    /**
-     * @return ArrayCollection|MeshDescriptorInterface[]
-     */
-    public function getMeshDescriptors()
-    {
-        return $this->meshDescriptors;
     }
 
     /**

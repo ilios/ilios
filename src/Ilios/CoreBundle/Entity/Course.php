@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
 use Ilios\CoreBundle\Traits\CohortsEntity;
+use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use JMS\Serializer\Annotation as JMS;
@@ -47,6 +48,7 @@ class Course implements CourseInterface
     use PublishableEntity;
     use CategorizableEntity;
     use CohortsEntity;
+    use MeshDescriptorsEntity;
 
     /**
      * @var int
@@ -525,48 +527,6 @@ class Course implements CourseInterface
     {
         return $this->directors;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function setMeshDescriptors(Collection $meshDescriptors = null)
-    {
-        $this->meshDescriptors = new ArrayCollection();
-        if (is_null($meshDescriptors)) {
-            return;
-        }
-
-        foreach ($meshDescriptors as $meshDescriptor) {
-            $this->addMeshDescriptor($meshDescriptor);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
-    {
-        if (!$this->meshDescriptors->contains($meshDescriptor)) {
-            $this->meshDescriptors->add($meshDescriptor);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
-    {
-        $this->meshDescriptors->removeElement($meshDescriptor);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getMeshDescriptors()
-    {
-        return $this->meshDescriptors;
-    }
-
     /**
      * @inheritdoc
      */
