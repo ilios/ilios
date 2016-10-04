@@ -6,9 +6,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
+use Ilios\CoreBundle\Traits\UsersEntityInterface;
 
 /**
  * Interface InstructorGroupInterface
@@ -19,23 +21,10 @@ interface InstructorGroupInterface extends
     TitledEntityInterface,
     OfferingsEntityInterface,
     SchoolEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    LearnerGroupsEntityInterface,
+    UsersEntityInterface
 {
-    /**
-     * @param Collection $learnerGroups
-     */
-    public function setLearnerGroups(Collection $learnerGroups);
-
-    /**
-     * @param LearnerGroupInterface $learnerGroup
-     */
-    public function addLearnerGroup(LearnerGroupInterface $learnerGroup);
-
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
-    public function getLearnerGroups();
-
     /**
      * @param Collection $ilmSessions
      */
@@ -50,19 +39,4 @@ interface InstructorGroupInterface extends
      * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getIlmSessions();
-
-    /**
-     * @param Collection $users
-     */
-    public function setUsers(Collection $users);
-
-    /**
-     * @param UserInterface $user
-     */
-    public function addUser(UserInterface $user);
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getUsers();
 }

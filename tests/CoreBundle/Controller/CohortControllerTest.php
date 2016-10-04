@@ -264,6 +264,9 @@ class CohortControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.cohort')
             ->getOne();
+        $data['courses'] = ['3'];
+        $data['users'] = ['3'];
+
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);

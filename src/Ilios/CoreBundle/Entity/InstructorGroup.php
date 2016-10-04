@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
+use Ilios\CoreBundle\Traits\UsersEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,6 +33,8 @@ class InstructorGroup implements InstructorGroupInterface
     use StringableIdEntity;
     use OfferingsEntity;
     use SchoolEntity;
+    use LearnerGroupsEntity;
+    use UsersEntity;
 
     /**
      * @var int
@@ -138,18 +142,6 @@ class InstructorGroup implements InstructorGroupInterface
     }
 
     /**
-     * @param Collection $learnerGroups
-     */
-    public function setLearnerGroups(Collection $learnerGroups)
-    {
-        $this->learnerGroups = new ArrayCollection();
-
-        foreach ($learnerGroups as $group) {
-            $this->addLearnerGroup($group);
-        }
-    }
-
-    /**
      * @param LearnerGroupInterface $learnerGroup
      */
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
@@ -158,14 +150,6 @@ class InstructorGroup implements InstructorGroupInterface
             $this->learnerGroups->add($learnerGroup);
             $learnerGroup->addInstructorGroup($this);
         }
-    }
-
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
-    public function getLearnerGroups()
-    {
-        return $this->learnerGroups;
     }
 
     /**
@@ -197,35 +181,5 @@ class InstructorGroup implements InstructorGroupInterface
     public function getIlmSessions()
     {
         return $this->ilmSessions;
-    }
-
-    /**
-     * @param Collection $users
-     */
-    public function setUsers(Collection $users)
-    {
-        $this->users = new ArrayCollection();
-
-        foreach ($users as $user) {
-            $this->addUser($user);
-        }
-    }
-
-    /**
-     * @param UserInterface $user
-     */
-    public function addUser(UserInterface $user)
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getUsers()
-    {
-        return $this->users;
     }
 }

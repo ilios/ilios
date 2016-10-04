@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
+use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\CoursesEntityInterface;
+use Ilios\CoreBundle\Traits\UsersEntityInterface;
 
 /**
  * Interface CohortInterface
@@ -17,7 +19,9 @@ interface CohortInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     CoursesEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    LearnerGroupsEntityInterface,
+    UsersEntityInterface
 {
     /**
      * @param ProgramYearInterface $programYear
@@ -28,37 +32,6 @@ interface CohortInterface extends
      * @return ProgramYearInterface
      */
     public function getProgramYear();
-
-    /**
-     * @return LearnerGroupInterface[]|ArrayCollection
-     */
-    public function getLearnerGroups();
-
-    /**
-    * @param Collection $learnerGroups
-    */
-    public function setLearnerGroups(Collection $learnerGroups);
-
-    /**
-    * @param LearnerGroupInterface $learnerGroup
-    */
-    public function addLearnerGroup(LearnerGroupInterface $learnerGroup);
-
-    /**
-     * @param Collection $users
-     */
-    public function setUsers(Collection $users = null);
-
-    /**
-     * @param UserInterface $user
-     */
-    public function addUser(UserInterface $user);
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getUsers();
-
 
     /**
      * Get the school we belong to

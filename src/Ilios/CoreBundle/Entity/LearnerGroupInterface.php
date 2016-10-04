@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
+use Ilios\CoreBundle\Traits\UsersEntityInterface;
 
 /**
  * Interface GroupInterface
@@ -19,7 +20,8 @@ interface LearnerGroupInterface extends
     TitledEntityInterface,
     StringableEntityInterface,
     OfferingsEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    UsersEntityInterface
 {
     /**
      * @param string $location
@@ -40,22 +42,6 @@ interface LearnerGroupInterface extends
      * @return CohortInterface
      */
     public function getCohort();
-
-    /**
-     * @param Collection $users
-     */
-    public function setUsers(Collection $users);
-
-    /**
-     * @param UserInterface $user
-     */
-    public function addUser(UserInterface $user);
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getUsers();
-
     /**
      * @param Collection $ilmSessions
      */

@@ -5,6 +5,8 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
+use Ilios\CoreBundle\Traits\UsersEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,6 +36,8 @@ class Cohort implements CohortInterface
     use TitledEntity;
     use StringableIdEntity;
     use CoursesEntity;
+    use LearnerGroupsEntity;
+    use UsersEntity;
 
     /**
      * @var int
@@ -51,7 +55,6 @@ class Cohort implements CohortInterface
 
     /**
      * @ORM\Column(type="string", length=60)
-     * @todo should be on the TitledEntity Trait
      * @var string
      *
      * @JMS\Expose
@@ -137,50 +140,18 @@ class Cohort implements CohortInterface
     }
 
     /**
-    * @return LearnerGroupInterface[]|ArrayCollection
-    */
-    public function getLearnerGroups()
-    {
-        return $this->learnerGroups;
-    }
-
-    /**
-    * @param Collection $learnerGroups
-    */
-    public function setLearnerGroups(Collection $learnerGroups)
-    {
-        $this->learnerGroups = new ArrayCollection();
-
-        foreach ($learnerGroups as $group) {
-            $this->addLearnerGroup($group);
-        }
-    }
-
-    /**
-    * @param LearnerGroupInterface $learnerGroup
-    */
-    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
-    {
-        $this->learnerGroups->add($learnerGroup);
-    }
-
-    /**
-     * @param Collection $users
+     * @inheritdoc
      */
-    public function setUsers(Collection $users = null)
+    public function addCourse(CourseInterface $course)
     {
-        $this->users = new ArrayCollection();
-        if (is_null($users)) {
-            return;
-        }
-
-        foreach ($users as $user) {
-            $this->addUser($user);
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+            $course->addCohort($this);
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @inheritdoc
      */
     public function addUser(UserInterface $user)
     {
@@ -193,20 +164,10 @@ class Cohort implements CohortInterface
     /**
      * @inheritdoc
      */
-    public function addCourse(CourseInterface $course)
+    public function removeUser(UserInterface $user)
     {
-        if (!$this->courses->contains($course)) {
-            $this->courses->add($course);
-            $course->addCohort($this);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getUsers()
-    {
-        return $this->users;
+        $this->users->removeElement($user);
+        $user->removeCohort($this);
     }
 
     /**
