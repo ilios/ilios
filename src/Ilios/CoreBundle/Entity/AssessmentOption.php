@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Traits\SessionTypesEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,6 +29,7 @@ class AssessmentOption implements AssessmentOptionInterface
     use IdentifiableEntity;
     use NameableEntity;
     use StringableIdEntity;
+    use SessionTypesEntity;
 
     /**
      * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
@@ -78,33 +80,5 @@ class AssessmentOption implements AssessmentOptionInterface
     public function __construct()
     {
         $this->sessionTypes = new ArrayCollection();
-    }
-
-    /**
-     * @param Collection $sessionTypes
-     */
-    public function setSessionTypes(Collection $sessionTypes)
-    {
-        $this->sessionTypes = new ArrayCollection();
-
-        foreach ($sessionTypes as $sessionType) {
-            $this->addSessionType($sessionType);
-        }
-    }
-
-    /**
-     * @param SessionTypeInterface $sessionType
-     */
-    public function addSessionType(SessionTypeInterface $sessionType)
-    {
-        $this->sessionTypes->add($sessionType);
-    }
-
-    /**
-     * @return ArrayCollection|SessionTypeInterface[]
-     */
-    public function getSessionTypes()
-    {
-        return $this->sessionTypes;
     }
 }

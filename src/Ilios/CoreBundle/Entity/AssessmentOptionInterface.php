@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
+use Ilios\CoreBundle\Traits\SessionTypesEntityInterface;
 
 /**
  * Interface AssessmentOptionInterface
@@ -14,21 +15,7 @@ use Ilios\CoreBundle\Traits\NameableEntityInterface;
 interface AssessmentOptionInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    SessionTypesEntityInterface
 {
-
-    /**
-     * @param Collection $sessionTypes
-     */
-    public function setSessionTypes(Collection $sessionTypes);
-
-    /**
-     * @param SessionTypeInterface $sessionType
-     */
-    public function addSessionType(SessionTypeInterface $sessionType);
-
-    /**
-     * @return ArrayCollection|SessionTypeInterface[]
-     */
-    public function getSessionTypes();
 }

@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\SessionTypesEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,6 +30,7 @@ class AamcMethod implements AamcMethodInterface
     use IdentifiableEntity;
     use DescribableEntity;
     use StringableIdEntity;
+    use SessionTypesEntity;
 
     /**
      * @deprecated replace with IdentifiableEntity trait for 3.1.x
@@ -88,39 +90,11 @@ class AamcMethod implements AamcMethodInterface
     /**
      * @inheritdoc
      */
-    public function setSessionTypes(Collection $sessionTypes)
-    {
-        $this->sessionTypes = new ArrayCollection();
-
-        foreach ($sessionTypes as $sessionType) {
-            $this->addSessionType($sessionType);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function addSessionType(SessionTypeInterface $sessionType)
     {
         if (!$this->sessionTypes->contains($sessionType)) {
             $this->sessionTypes->add($sessionType);
             $sessionType->addAamcMethod($this);
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeSessionType(SessionTypeInterface $sessionType)
-    {
-        $this->sessionTypes->removeElement($sessionType);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getSessionTypes()
-    {
-        return $this->sessionTypes;
     }
 }

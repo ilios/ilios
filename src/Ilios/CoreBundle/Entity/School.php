@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\AlertableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\SessionTypesEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
@@ -40,6 +41,7 @@ class School implements SchoolInterface
     use StewardedEntity;
     use StringableIdEntity;
     use AlertableEntity;
+    use SessionTypesEntity;
 
     /**
      * @var int
@@ -423,33 +425,5 @@ class School implements SchoolInterface
     public function getInstructorGroups()
     {
         return $this->instructorGroups;
-    }
-
-    /**
-     * @param Collection $sessionTypes
-     */
-    public function setSessionTypes(Collection $sessionTypes)
-    {
-        $this->sessionTypes = new ArrayCollection();
-
-        foreach ($sessionTypes as $sessionType) {
-            $this->addSessionType($sessionType);
-        }
-    }
-
-    /**
-     * @param SessionTypeInterface $sessionType
-     */
-    public function addSessionType(SessionTypeInterface $sessionType)
-    {
-        $this->sessionTypes->add($sessionType);
-    }
-
-    /**
-     * @return ArrayCollection|SessionTypeInterface[]
-     */
-    public function getSessionTypes()
-    {
-        return $this->sessionTypes;
     }
 }
