@@ -86,7 +86,7 @@ class AamcMethod implements AamcMethodInterface
     }
 
     /**
-     * @param Collection $sessionTypes
+     * @inheritdoc
      */
     public function setSessionTypes(Collection $sessionTypes)
     {
@@ -98,7 +98,7 @@ class AamcMethod implements AamcMethodInterface
     }
 
     /**
-     * @param SessionTypeInterface $sessionType
+     * @inheritdoc
      */
     public function addSessionType(SessionTypeInterface $sessionType)
     {
@@ -109,7 +109,7 @@ class AamcMethod implements AamcMethodInterface
     }
 
     /**
-     * @param SessionTypeInterface $sessionType
+     * @inheritdoc
      */
     public function removeSessionType(SessionTypeInterface $sessionType)
     {
@@ -117,7 +117,7 @@ class AamcMethod implements AamcMethodInterface
     }
 
     /**
-     * @return ArrayCollection|SessionTypeInterface[]
+     * @inheritdoc
      */
     public function getSessionTypes()
     {

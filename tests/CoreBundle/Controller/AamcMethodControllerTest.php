@@ -166,6 +166,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.aamcmethod')
             ->getOne();
+        $data['sessionTypes'] = ['1'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed
