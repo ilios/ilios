@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
+use Ilios\CoreBundle\Traits\CompetenciesEntityInterface;
+use Ilios\CoreBundle\Traits\DirectorsEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
@@ -25,7 +27,9 @@ interface ProgramYearInterface extends
     StewardedEntityInterface,
     ObjectivesEntityInterface,
     PublishableEntityInterface,
-    CategorizableEntityInterface
+    CategorizableEntityInterface,
+    DirectorsEntityInterface,
+    CompetenciesEntityInterface
 {
     /**
      * @param int $startYear
@@ -46,36 +50,6 @@ interface ProgramYearInterface extends
      * @return ProgramInterface
      */
     public function getProgram();
-
-    /**
-     * @param Collection $directors
-     */
-    public function setDirectors(Collection $directors);
-
-    /**
-     * @param UserInterface $director
-     */
-    public function addDirector(UserInterface $director);
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getDirectors();
-
-    /**
-     * @param Collection $competencies
-     */
-    public function setCompetencies(Collection $competencies);
-
-    /**
-     * @param CompetencyInterface $competency
-     */
-    public function addCompetency(CompetencyInterface $competency);
-
-    /**
-     * @return ArrayCollection|CompetencyInterface[]
-     */
-    public function getCompetencies();
 
     /**
      * Gets the school that this program year belongs to.

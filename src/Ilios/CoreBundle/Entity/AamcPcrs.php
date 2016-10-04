@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\CompetenciesEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,6 +29,7 @@ class AamcPcrs implements AamcPcrsInterface
     use IdentifiableEntity;
     use DescribableEntity;
     use StringableIdEntity;
+    use CompetenciesEntity;
 
     /**
      * @var string
@@ -80,45 +82,5 @@ class AamcPcrs implements AamcPcrsInterface
     public function __construct()
     {
         $this->competencies = new ArrayCollection();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setCompetencies(Collection $competencies)
-    {
-        $this->competencies = new ArrayCollection();
-
-        foreach ($competencies as $competency) {
-            $this->addCompetency($competency);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addCompetency(CompetencyInterface $competency)
-    {
-        if (!$this->competencies->contains($competency)) {
-            $this->competencies->add($competency);
-            $competency->addAamcPcrs($this);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeCompetency(CompetencyInterface $competency)
-    {
-        $this->competencies->removeElement($competency);
-        $competency->removeAamcPcrs($this);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getCompetencies()
-    {
-        return $this->competencies;
     }
 }

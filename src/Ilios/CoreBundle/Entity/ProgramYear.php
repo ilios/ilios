@@ -4,6 +4,8 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
+use Ilios\CoreBundle\Traits\CompetenciesEntity;
+use Ilios\CoreBundle\Traits\DirectorsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -37,6 +39,8 @@ class ProgramYear implements ProgramYearInterface
     use PublishableEntity;
     use CategorizableEntity;
     use StringableIdEntity;
+    use DirectorsEntity;
+    use CompetenciesEntity;
 
     /**
     * @var int
@@ -257,7 +261,6 @@ class ProgramYear implements ProgramYearInterface
         return $this->startYear;
     }
 
-
     /**
      * @param ProgramInterface $program
      */
@@ -272,66 +275,6 @@ class ProgramYear implements ProgramYearInterface
     public function getProgram()
     {
         return $this->program;
-    }
-
-    /**
-     * @param Collection $directors
-     */
-    public function setDirectors(Collection $directors)
-    {
-        $this->directors = new ArrayCollection();
-
-        foreach ($directors as $director) {
-            $this->addDirector($director);
-        }
-    }
-
-    /**
-     * @param UserInterface $director
-     */
-    public function addDirector(UserInterface $director)
-    {
-        if (! $this->directors->contains($director)) {
-            $this->directors->add($director);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getDirectors()
-    {
-        return $this->directors;
-    }
-
-    /**
-     * @param Collection $competencies
-     */
-    public function setCompetencies(Collection $competencies)
-    {
-        $this->competencies = new ArrayCollection();
-
-        foreach ($competencies as $competency) {
-            $this->addCompetency($competency);
-        }
-    }
-
-    /**
-     * @param CompetencyInterface $competency
-     */
-    public function addCompetency(CompetencyInterface $competency)
-    {
-        if (! $this->competencies->contains($competency)) {
-            $this->competencies->add($competency);
-        }
-    }
-
-    /**
-     * @return ArrayCollection|CompetencyInterface[]
-     */
-    public function getCompetencies()
-    {
-        return $this->competencies;
     }
 
     /**

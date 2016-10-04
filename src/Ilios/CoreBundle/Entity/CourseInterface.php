@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
 use Ilios\CoreBundle\Traits\CohortsEntityInterface;
+use Ilios\CoreBundle\Traits\DirectorsEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
@@ -35,7 +36,8 @@ interface CourseInterface extends
     PublishableEntityInterface,
     CategorizableEntityInterface,
     CohortsEntityInterface,
-    MeshDescriptorsEntityInterface
+    MeshDescriptorsEntityInterface,
+    DirectorsEntityInterface
 {
     /**
      * @param int $level
@@ -98,26 +100,6 @@ interface CourseInterface extends
      * @return \Ilios\CoreBundle\Entity\CourseClerkshipType
      */
     public function getClerkshipType();
-
-    /**
-     * @param Collection|UserInterface[] $directors
-     */
-    public function setDirectors(Collection $directors);
-
-    /**
-     * @param UserInterface $director
-     */
-    public function addDirector(UserInterface $director);
-
-    /**
-     * @param UserInterface $director
-     */
-    public function removeDirector(UserInterface $director);
-
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getDirectors();
 
     /**
      * @param Collection $learningMaterials

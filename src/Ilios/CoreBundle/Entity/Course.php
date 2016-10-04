@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
 use Ilios\CoreBundle\Traits\CohortsEntity;
+use Ilios\CoreBundle\Traits\DirectorsEntity;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
@@ -49,6 +50,7 @@ class Course implements CourseInterface
     use CategorizableEntity;
     use CohortsEntity;
     use MeshDescriptorsEntity;
+    use DirectorsEntity;
 
     /**
      * @var int
@@ -486,47 +488,7 @@ class Course implements CourseInterface
     {
         return $this->clerkshipType;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function setDirectors(Collection $directors = null)
-    {
-        $this->directors = new ArrayCollection();
-        if (is_null($directors)) {
-            return;
-        }
-
-        foreach ($directors as $director) {
-            $this->addDirector($director);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addDirector(UserInterface $director = null)
-    {
-        if (!$this->directors->contains($director)) {
-            $this->directors->add($director);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeDirector(UserInterface $director)
-    {
-        $this->directors->removeElement($director);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDirectors()
-    {
-        return $this->directors;
-    }
+    
     /**
      * @inheritdoc
      */
