@@ -294,7 +294,17 @@ class Term implements TermInterface
      */
     public function addChild(TermInterface $child)
     {
-        $this->children->add($child);
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeChild(TermInterface $child)
+    {
+        $this->children->removeElement($child);
     }
 
     /**
@@ -325,6 +335,14 @@ class Term implements TermInterface
         if (!$this->aamcResourceTypes->contains($aamcResourceType)) {
             $this->aamcResourceTypes->add($aamcResourceType);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeAamcResourceType(AamcResourceTypeInterface $aamcResourceType)
+    {
+        $this->aamcResourceTypes->removeElement($aamcResourceType);
     }
 
     /**

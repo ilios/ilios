@@ -148,6 +148,7 @@ class TermControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.term')
             ->getOne();
+        $data['aamcResourceTypes'] = ['RE002'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed
@@ -505,30 +506,36 @@ class TermControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['terms'];
-        $this->assertEquals(4, count($data));
+        $this->assertEquals(5, count($data));
         $this->assertEquals(
             $this->mockSerialize(
-                $terms[1]
+                $terms[0]
             ),
             $data[0]
         );
         $this->assertEquals(
             $this->mockSerialize(
-                $terms[2]
+                $terms[1]
             ),
             $data[1]
         );
         $this->assertEquals(
             $this->mockSerialize(
-                $terms[4]
+                $terms[2]
             ),
             $data[2]
         );
         $this->assertEquals(
             $this->mockSerialize(
-                $terms[5]
+                $terms[4]
             ),
             $data[3]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $terms[5]
+            ),
+            $data[4]
         );
     }
 
