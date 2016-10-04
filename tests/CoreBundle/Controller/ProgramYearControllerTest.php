@@ -150,6 +150,8 @@ class ProgramYearControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.programyear')
             ->getOne();
+        $data['directors'] = ['2'];
+        $data['competencies'] = ['2'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

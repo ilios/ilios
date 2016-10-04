@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\AlertableEntityInterface;
+use Ilios\CoreBundle\Traits\CompetenciesEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
 use Ilios\CoreBundle\Traits\SessionTypesEntityInterface;
@@ -29,7 +30,8 @@ interface SchoolInterface extends
     StewardedEntityInterface,
     AlertableEntityInterface,
     SessionTypesEntityInterface,
-    InstructorGroupsEntityInterface
+    InstructorGroupsEntityInterface,
+    CompetenciesEntityInterface
 {
     /**
      * @param string $templatePrefix
@@ -60,22 +62,6 @@ interface SchoolInterface extends
      * @return string
      */
     public function getChangeAlertRecipients();
-
-    /**
-     * @param Collection $competencies
-     */
-    public function setCompetencies(Collection $competencies);
-
-    /**
-     * @param CompetencyInterface $competency
-     */
-    public function addCompetency(CompetencyInterface $competency);
-
-    /**
-     * @return ArrayCollection|CompetencyInterface[]
-     */
-    public function getCompetencies();
-
     /**
      * @param Collection $departments
      */

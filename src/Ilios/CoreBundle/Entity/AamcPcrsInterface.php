@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Ilios\CoreBundle\Traits\CompetenciesEntityInterface;
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
@@ -18,25 +19,7 @@ interface AamcPcrsInterface extends
     IdentifiableEntityInterface,
     DescribableEntityInterface,
     StringableEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    CompetenciesEntityInterface
 {
-    /**
-     * @param Collection $competencies
-     */
-    public function setCompetencies(Collection $competencies);
-
-    /**
-     * @param CompetencyInterface $competency
-     */
-    public function addCompetency(CompetencyInterface $competency);
-
-    /**
-     * @param CompetencyInterface $competency
-     */
-    public function removeCompetency(CompetencyInterface $competency);
-
-    /**
-     * @return ArrayCollection|CompetencyInterface[]
-     */
-    public function getCompetencies();
 }
