@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
 use Ilios\CoreBundle\Traits\CohortsEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
+use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
 use Ilios\CoreBundle\Traits\PublishableEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
@@ -33,7 +34,8 @@ interface CourseInterface extends
     ObjectivesEntityInterface,
     PublishableEntityInterface,
     CategorizableEntityInterface,
-    CohortsEntityInterface
+    CohortsEntityInterface,
+    MeshDescriptorsEntityInterface
 {
     /**
      * @param int $level
@@ -116,25 +118,6 @@ interface CourseInterface extends
      * @return ArrayCollection|UserInterface[]
      */
     public function getDirectors();
-    /**
-     * @param Collection|MeshDescriptorInterface[] $meshDescriptors
-     */
-    public function setMeshDescriptors(Collection $meshDescriptors);
-
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
-
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
-    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
-
-    /**
-     * @return Collection|MeshDescriptorInterface[]
-     */
-    public function getMeshDescriptors();
 
     /**
      * @param Collection $learningMaterials

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
 use Ilios\CoreBundle\Traits\ObjectivesEntityInterface;
 use Ilios\CoreBundle\Traits\PublishableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
@@ -27,7 +28,8 @@ interface SessionInterface extends
     LoggableEntityInterface,
     ObjectivesEntityInterface,
     PublishableEntityInterface,
-    CategorizableEntityInterface
+    CategorizableEntityInterface,
+    MeshDescriptorsEntityInterface
 {
     /**
      * @param boolean $attireRequired
@@ -88,21 +90,6 @@ interface SessionInterface extends
      * @return IlmSessionInterface
      */
     public function getIlmSession();
-
-    /**
-     * @param Collection $meshDescriptors
-     */
-    public function setMeshDescriptors(Collection $meshDescriptors);
-
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
-
-    /**
-     * @return ArrayCollection|MeshDescriptorInterface[]
-     */
-    public function getMeshDescriptors();
 
     /**
      * @param SessionDescriptionInterface $sessionDescripiton

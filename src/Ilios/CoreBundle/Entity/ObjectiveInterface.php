@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\CoursesEntityInterface;
 use Ilios\CoreBundle\Traits\SessionsEntityInterface;
@@ -20,7 +21,8 @@ interface ObjectiveInterface extends
     CoursesEntityInterface,
     SessionsEntityInterface,
     ProgramYearsEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    MeshDescriptorsEntityInterface
 {
     /**
      * @param CompetencyInterface $competency
@@ -61,21 +63,6 @@ interface ObjectiveInterface extends
      * @return ArrayCollection|ObjectiveInterface[]
      */
     public function getChildren();
-
-    /**
-     * @param Collection $meshDescriptors
-     */
-    public function setMeshDescriptors(Collection $meshDescriptors);
-
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
-
-    /**
-     * @return ArrayCollection|MeshDescriptorInterface[]
-     */
-    public function getMeshDescriptors();
 
     /**
      * @param ObjectiveInterface $ancestor
