@@ -98,4 +98,15 @@ class AamcResourceType implements AamcResourceTypeInterface
     {
         $this->terms = new ArrayCollection();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function addTerm(TermInterface $term)
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+            $term->addAamcResourceType($this);
+        }
+    }
 }

@@ -18,7 +18,7 @@ trait AlertableEntity
     public function setAlerts(Collection $alerts = null)
     {
         $this->alerts = new ArrayCollection();
-        if (isNull($alerts)) {
+        if (is_null($alerts)) {
             return;
         }
 

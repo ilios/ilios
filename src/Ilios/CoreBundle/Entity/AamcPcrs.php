@@ -83,4 +83,15 @@ class AamcPcrs implements AamcPcrsInterface
     {
         $this->competencies = new ArrayCollection();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function addCompetency(CompetencyInterface $competency)
+    {
+        if (!$this->competencies->contains($competency)) {
+            $this->competencies->add($competency);
+            $competency->addAamcPcrs($this);
+        }
+    }
 }
