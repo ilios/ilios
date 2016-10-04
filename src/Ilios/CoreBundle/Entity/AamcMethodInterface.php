@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\SessionTypesEntityInterface;
 
 /**
  * Interface AamcMethodInterface
@@ -16,25 +17,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 interface AamcMethodInterface extends
     IdentifiableEntityInterface,
     DescribableEntityInterface,
-    LoggableEntityInterface
+    LoggableEntityInterface,
+    SessionTypesEntityInterface
 {
-    /**
-     * @param Collection $sessionTypes
-     */
-    public function setSessionTypes(Collection $sessionTypes);
-
-    /**
-     * @param SessionTypeInterface $sessionType
-     */
-    public function addSessionType(SessionTypeInterface $sessionType);
-
-    /**
-     * @param SessionTypeInterface $sessionType
-     */
-    public function removeSessionType(SessionTypeInterface $sessionType);
-
-    /**
-     * @return ArrayCollection|SessionTypeInterface[]
-     */
-    public function getSessionTypes();
 }

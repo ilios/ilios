@@ -94,7 +94,6 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-        unset($postData['sessionTypes']);
 
         $this->createJsonRequest(
             'POST',
@@ -142,11 +141,11 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.assessmentoption')
             ->getOne();
+        $data['sessionTypes'] = ['2'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-        unset($postData['sessionTypes']);
 
         $this->createJsonRequest(
             'PUT',

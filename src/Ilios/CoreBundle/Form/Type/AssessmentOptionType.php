@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
 
 /**
  * Class AssessmentOptionType
@@ -21,6 +22,10 @@ class AssessmentOptionType extends AbstractType
     {
         $builder
             ->add('name', null, ['empty_data' => null])
+            ->add('sessionTypes', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:SessionType"
+            ])
         ;
         $builder->get('name')->addViewTransformer(new RemoveMarkupTransformer());
     }

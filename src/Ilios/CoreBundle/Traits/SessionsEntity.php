@@ -41,7 +41,7 @@ trait SessionsEntity
      */
     public function removeSession(SessionInterface $session)
     {
-        $this->sessions->remvoeElement($session);
+        $this->sessions->removeElement($session);
     }
 
     /**
