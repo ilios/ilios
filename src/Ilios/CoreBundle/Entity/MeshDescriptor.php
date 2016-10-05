@@ -248,6 +248,17 @@ class MeshDescriptor implements MeshDescriptorInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function removeObjective(ObjectiveInterface $objective)
+    {
+        if ($this->objectives->contains($objective)) {
+            $this->objectives->removeElement($objective);
+            $objective->removeMeshDescriptor($this);
+        }
+    }
+
+    /**
      * @param Collection $sessionLearningMaterials
      */
     public function setSessionLearningMaterials(Collection $sessionLearningMaterials)
@@ -275,7 +286,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
     {
-        $this->sessionLearningMaterials->removeElement($sessionLearningMaterial);
+        if ($this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
+            $this->sessionLearningMaterials->removeElement($sessionLearningMaterial);
+            $sessionLearningMaterial->removeMeshDescriptor($this);
+        }
     }
 
     /**
@@ -314,7 +328,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
     {
-        $this->courseLearningMaterials->removeElement($courseLearningMaterial);
+        if ($this->courseLearningMaterials->contains($courseLearningMaterial)) {
+            $this->courseLearningMaterials->removeElement($courseLearningMaterial);
+            $courseLearningMaterial->removeMeshDescriptor($this);
+        }
     }
 
     /**
@@ -353,7 +370,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function removeQualifier(MeshQualifierInterface $qualifier)
     {
-        $this->qualifiers->removeElement($qualifier);
+        if ($this->qualifiers->contains($qualifier)) {
+            $this->qualifiers->removeElement($qualifier);
+            $qualifier->removeDescriptor($this);
+        }
     }
 
     /**
@@ -391,7 +411,9 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     public function removeTree(MeshTreeInterface $tree)
     {
-        $this->trees->removeElement($tree);
+        if ($this->trees->contains($tree)) {
+            $this->trees->removeElement($tree);
+        }
     }
 
     /**
@@ -432,6 +454,17 @@ class MeshDescriptor implements MeshDescriptorInterface
     /**
      * @inheritdoc
      */
+    public function removeCourse(CourseInterface $course)
+    {
+        if ($this->courses->contains($course)) {
+            $this->courses->removeElement($course);
+            $course->removeMeshDescriptor($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addSession(SessionInterface $session)
     {
         if (!$this->sessions->contains($session)) {
@@ -443,11 +476,33 @@ class MeshDescriptor implements MeshDescriptorInterface
     /**
      * @inheritdoc
      */
+    public function removeSession(SessionInterface $session)
+    {
+        if ($this->sessions->contains($session)) {
+            $this->sessions->removeElement($session);
+            $session->removeMeshDescriptor($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addConcept(MeshConceptInterface $concept)
     {
         if (!$this->concepts->contains($concept)) {
             $this->concepts->add($concept);
             $concept->addDescriptor($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeConcept(MeshConceptInterface $concept)
+    {
+        if ($this->concepts->contains($concept)) {
+            $this->concepts->removeElement($concept);
+            $concept->removeDescriptor($this);
         }
     }
 }

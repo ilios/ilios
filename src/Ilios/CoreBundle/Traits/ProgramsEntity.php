@@ -31,7 +31,7 @@ trait ProgramsEntity
      */
     public function addProgram(ProgramInterface $program)
     {
-        if (!$this->programs->contaisn($program)) {
+        if (!$this->programs->contains($program)) {
             $this->programs->add($program);
         }
     }

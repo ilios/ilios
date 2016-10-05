@@ -140,4 +140,52 @@ class CurriculumInventoryReportTest extends EntityBase
         $report = new CurriculumInventoryReport();
         $this->assertNull($report->getSchool());
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::addSequenceBlock
+     */
+    public function testAddSequenceBlock()
+    {
+        $this->entityCollectionAddTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::removeSequenceBlock
+     */
+    public function testRemoveSequenceBlock()
+    {
+        $this->entityCollectionRemoveTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getSequenceBlocks
+     */
+    public function testGetSequenceBlocks()
+    {
+        $this->entityCollectionSetTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::addAcademicLevel
+     */
+    public function testAddAcademicLevel()
+    {
+        $this->entityCollectionAddTest('academicLevel', 'CurriculumInventoryAcademicLevel');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::removeAcademicLevel
+     */
+    public function testRemoveAcademicLevel()
+    {
+        $this->entityCollectionRemoveTest('academicLevel', 'CurriculumInventoryAcademicLevel');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getAcademicLevels
+     */
+    public function testGetAcademicLevels()
+    {
+        $this->entityCollectionSetTest('academicLevel', 'CurriculumInventoryAcademicLevel');
+    }
 }

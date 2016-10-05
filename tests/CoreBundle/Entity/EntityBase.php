@@ -232,9 +232,12 @@ class EntityBase extends \PHPUnit_Framework_TestCase
         $addMethod = $adder?$adder:$this->getAddMethodForProperty($property);
         $removeMethod = $remover?$remover:$this->getRemoveMethodForProperty($property);
         $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
-        $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
-        $this->assertTrue(method_exists($this->object, $removeMethod), "Method {$removeMethod} missing");
-        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
+        $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing from {$entityName}");
+        $this->assertTrue(
+            method_exists($this->object, $removeMethod),
+            "Method {$removeMethod} missing from {$entityName}"
+        );
+        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing from {$entityName}");
 
         foreach ($arr as $obj) {
             $obj->shouldIgnoreMissing();

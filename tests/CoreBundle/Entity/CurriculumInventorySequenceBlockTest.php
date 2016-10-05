@@ -340,4 +340,52 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
         return $rhett;
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::addChild
+     */
+    public function testAddChild()
+    {
+        $this->entityCollectionAddTest('child', 'CurriculumInventorySequenceBlock', 'getChildren');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::removeChild
+     */
+    public function testRemoveChild()
+    {
+        $this->entityCollectionRemoveTest('child', 'CurriculumInventorySequenceBlock', 'getChildren');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getChildren
+     */
+    public function testGetChildren()
+    {
+        $this->entityCollectionSetTest('child', 'CurriculumInventorySequenceBlock', 'getChildren', 'setChildren');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::addSession
+     */
+    public function testAddSession()
+    {
+        $this->entityCollectionAddTest('session', 'Session');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::removeSession
+     */
+    public function testRemoveSession()
+    {
+        $this->entityCollectionRemoveTest('session', 'Session');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getSessions
+     */
+    public function testGetSessions()
+    {
+        $this->entityCollectionSetTest('session', 'Session');
+    }
 }

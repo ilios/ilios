@@ -218,6 +218,17 @@ class Term implements TermInterface
     /**
      * @inheritdoc
      */
+    public function removeCourse(CourseInterface $course)
+    {
+        if ($this->courses->contains($course)) {
+            $this->courses->removeElement($course);
+            $course->removeTerm($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addProgramYear(ProgramYearInterface $programYear)
     {
         if (!$this->programYears->contains($programYear)) {
@@ -229,11 +240,33 @@ class Term implements TermInterface
     /**
      * @inheritdoc
      */
+    public function removeProgramYear(ProgramYearInterface $programYear)
+    {
+        if ($this->programYears->contains($programYear)) {
+            $this->programYears->removeElement($programYear);
+            $programYear->removeTerm($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addSession(SessionInterface $session)
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
             $session->addTerm($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeSession(SessionInterface $session)
+    {
+        if ($this->sessions->contains($session)) {
+            $this->sessions->removeElement($session);
+            $session->removeTerm($this);
         }
     }
 

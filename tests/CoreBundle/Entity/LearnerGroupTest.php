@@ -93,11 +93,115 @@ class LearnerGroupTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::addIlmSession
+     */
+    public function testAddIlmSession()
+    {
+        $this->entityCollectionAddTest('ilmSession', 'IlmSession', false, false, 'addLearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::removeIlmSession
+     */
+    public function testRemoveIlmSession()
+    {
+        $this->entityCollectionRemoveTest('ilmSession', 'IlmSession', false, false, false, 'removeLearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getIlmSessions
+     */
+    public function getGetIlmSessions()
+    {
+        $this->entityCollectionSetTest('ilmSession', 'IlmSession', false, false, 'addLearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::addOffering
+     */
+    public function testAddOffering()
+    {
+        $this->entityCollectionAddTest('offering', 'Offering', false, false, 'addLearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::removeOffering
+     */
+    public function testRemoveOffering()
+    {
+        $this->entityCollectionRemoveTest('offering', 'Offering', false, false, false, 'removeLearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getOfferings
+     */
+    public function getGetOfferings()
+    {
+        $this->entityCollectionSetTest('offering', 'Offering', false, false, 'addLearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::addInstructorGroup
+     */
+    public function testAddInstructorGroup()
+    {
+        $this->entityCollectionAddTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::removeInstructorGroup
+     */
+    public function testRemoveInstructorGroup()
+    {
+        $this->entityCollectionRemoveTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getInstructorGroups
+     */
+    public function getGetInstructorGroups()
+    {
+        $this->entityCollectionSetTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::addUser
+     */
+    public function testAddUser()
+    {
+        $this->entityCollectionAddTest('user', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::removeUser
+     */
+    public function testRemoveUser()
+    {
+        $this->entityCollectionRemoveTest('user', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getUsers
+     */
+    public function getGetUsers()
+    {
+        $this->entityCollectionSetTest('user', 'User');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\LearnerGroup::addInstructor
      */
     public function testAddInstructor()
     {
         $this->entityCollectionAddTest('instructor', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::removeInstructor
+     */
+    public function testRemoveInstructor()
+    {
+        $this->entityCollectionRemoveTest('instructor', 'User');
     }
 
     /**
@@ -198,5 +302,29 @@ class LearnerGroupTest extends EntityBase
 
         $learnerGroup = new LearnerGroup();
         $this->assertNull($learnerGroup->getSchool());
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::addChild
+     */
+    public function testAddChild()
+    {
+        $this->entityCollectionAddTest('child', 'LearnerGroup', 'getChildren');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::removeChild
+     */
+    public function testRemoveChild()
+    {
+        $this->entityCollectionRemoveTest('child', 'LearnerGroup', 'getChildren');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getChildren
+     */
+    public function testGetChildren()
+    {
+        $this->entityCollectionSetTest('child', 'LearnerGroup', 'getChildren', 'setChildren');
     }
 }

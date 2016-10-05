@@ -408,4 +408,24 @@ interface UserInterface extends
      * @return ArrayCollection|AlertInterface[]
      */
     public function getAlerts();
+
+    /**
+     * @param Collection $learnerIlmSessions
+     */
+    public function setLearnerIlmSessions(Collection $learnerIlmSessions);
+
+    /**
+     * @param IlmSessionInterface $learnerIlmSession
+     */
+    public function addLearnerIlmSession(IlmSessionInterface $learnerIlmSession);
+
+    /**
+     * @param IlmSessionInterface $learnerIlmSession
+     */
+    public function removeLearnerIlmSession(IlmSessionInterface $learnerIlmSession);
+
+    /**
+     * @return ArrayCollection|IlmSessionInterface[]
+     */
+    public function getLearnerIlmSessions();
 }

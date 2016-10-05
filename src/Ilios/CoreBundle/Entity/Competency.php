@@ -283,4 +283,15 @@ class Competency implements CompetencyInterface
             $programYear->addCompetency($this);
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeProgramYear(ProgramYearInterface $programYear)
+    {
+        if ($this->programYears->contains($programYear)) {
+            $this->programYears->removeElement($programYear);
+            $programYear->removeCompetency($this);
+        }
+    }
 }

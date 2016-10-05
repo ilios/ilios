@@ -49,4 +49,28 @@ class CourseClerkshipTypeTest extends EntityBase
     {
         $this->basicSetTest('title', 'string');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::addCourse
+     */
+    public function testAddCourse()
+    {
+        $this->entityCollectionAddTest('course', 'Course');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::removeCourse
+     */
+    public function testRemoveCourse()
+    {
+        $this->entityCollectionRemoveTest('course', 'Course');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::getCourses
+     */
+    public function testGetCourses()
+    {
+        $this->entityCollectionSetTest('course', 'Course');
+    }
 }

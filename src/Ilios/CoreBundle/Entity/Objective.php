@@ -297,6 +297,17 @@ class Objective implements ObjectiveInterface
     /**
      * @inheritdoc
      */
+    public function removeCourse(CourseInterface $course)
+    {
+        if ($this->courses->contains($course)) {
+            $this->courses->removeElement($course);
+            $course->removeObjective($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addSession(SessionInterface $session)
     {
         if (!$this->sessions->contains($session)) {
@@ -308,11 +319,33 @@ class Objective implements ObjectiveInterface
     /**
      * @inheritdoc
      */
+    public function removeSession(SessionInterface $session)
+    {
+        if ($this->sessions->contains($session)) {
+            $this->sessions->removeElement($session);
+            $session->removeObjective($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addProgramYear(ProgramYearInterface $programYear)
     {
         if (!$this->programYears->contains($programYear)) {
             $this->programYears->add($programYear);
             $programYear->addObjective($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeProgramYear(ProgramYearInterface $programYear)
+    {
+        if ($this->programYears->contains($programYear)) {
+            $this->programYears->removeElement($programYear);
+            $programYear->removeObjective($this);
         }
     }
 

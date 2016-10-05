@@ -320,6 +320,17 @@ class School implements SchoolInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function removeAlert(AlertInterface $alert)
+    {
+        if ($this->alerts->contains($alert)) {
+            $this->alerts->removeElement($alert);
+            $alert->removeRecipient($this);
+        }
+    }
+
+    /**
      * @param Collection $departments
      */
     public function setDepartments(Collection $departments)

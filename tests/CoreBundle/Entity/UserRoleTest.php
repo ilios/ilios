@@ -59,6 +59,14 @@ class UserRoleTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\UserRole::removeUser
+     */
+    public function testRemoveUser()
+    {
+        $this->entityCollectionRemoveTest('user', 'User', false, false, false, 'removeRole');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\UserRole::getUsers
      */
     public function testGetUsers()

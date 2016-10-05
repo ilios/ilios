@@ -118,4 +118,15 @@ class MeshSemanticType implements MeshSemanticTypeInterface
             $concept->addSemanticType($this);
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeConcept(MeshConceptInterface $concept)
+    {
+        if ($this->concepts->contains($concept)) {
+            $this->concepts->removeElement($concept);
+            $concept->removeSemanticType($this);
+        }
+    }
 }

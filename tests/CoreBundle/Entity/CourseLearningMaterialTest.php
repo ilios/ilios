@@ -85,6 +85,14 @@ class CourseLearningMaterialTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::removeMeshDescriptor
+     */
+    public function testRemoveMeshDescriptor()
+    {
+        $this->entityCollectionRemoveTest('meshDescriptor', 'MeshDescriptor');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::getMeshDescriptors
      */
     public function testGetMeshDescriptors()

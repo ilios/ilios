@@ -59,6 +59,14 @@ class LearningMaterialUserRoleTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::removeLearningMaterial
+     */
+    public function testRemoveLearningMaterial()
+    {
+        $this->entityCollectionRemoveTest('learningMaterial', 'LearningMaterial');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::getLearningMaterials
      */
     public function testGetLearningMaterials()

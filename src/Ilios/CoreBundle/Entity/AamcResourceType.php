@@ -109,4 +109,15 @@ class AamcResourceType implements AamcResourceTypeInterface
             $term->addAamcResourceType($this);
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeTerm(TermInterface $term)
+    {
+        if ($this->terms->contains($term)) {
+            $this->terms->removeElement($term);
+            $term->removeAamcResourceType($this);
+        }
+    }
 }

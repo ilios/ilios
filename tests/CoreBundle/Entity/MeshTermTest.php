@@ -114,4 +114,28 @@ class MeshTermTest extends EntityBase
         $diff = $now->diff($updatedAt);
         $this->assertTrue($diff->s < 2);
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshTerm::addConcept
+     */
+    public function testAddConcept()
+    {
+        $this->entityCollectionAddTest('concept', 'MeshConcept');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshTerm::removeConcept
+     */
+    public function testRemoveConcept()
+    {
+        $this->entityCollectionRemoveTest('concept', 'MeshConcept');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshTerm::getConcepts
+     */
+    public function getGetConcepts()
+    {
+        $this->entityCollectionSetTest('concept', 'MeshConcept');
+    }
 }

@@ -79,6 +79,14 @@ class TermTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Term::removeCourse
+     */
+    public function testRemoveCourse()
+    {
+        $this->entityCollectionRemoveTest('course', 'Course', false, false, false, 'removeTerm');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Term::getCourses
      */
     public function testGetCourses()
@@ -92,6 +100,14 @@ class TermTest extends EntityBase
     public function testAddProgramYear()
     {
         $this->entityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addTerm');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Term::removeProgramYear
+     */
+    public function testRemoveProgramYear()
+    {
+        $this->entityCollectionRemoveTest('programYear', 'ProgramYear', false, false, false, 'removeTerm');
     }
 
     /**
@@ -111,6 +127,14 @@ class TermTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Term::removeSession
+     */
+    public function testRemoveSession()
+    {
+        $this->entityCollectionRemoveTest('session', 'Session', false, false, false, 'removeTerm');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Term::getSessions
      */
     public function testGetSessions()
@@ -127,10 +151,42 @@ class TermTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Term::removeAamcResourceType
+     */
+    public function testRemoveAamcResourceTypes()
+    {
+        $this->entityCollectionRemoveTest('aamcResourceType', 'AamcResourceType');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Term::getAamcResourceTypes
      */
     public function testGetAamcResourceTypes()
     {
         $this->entityCollectionSetTest('aamcResourceType', 'AamcResourceType');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Term::addChild
+     */
+    public function testAddChild()
+    {
+        $this->entityCollectionAddTest('child', 'Term', 'getChildren');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Term::removeChild
+     */
+    public function testRemoveChild()
+    {
+        $this->entityCollectionRemoveTest('child', 'Term', 'getChildren');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Term::getChildren
+     */
+    public function testGetChildren()
+    {
+        $this->entityCollectionSetTest('child', 'Term', 'getChildren', 'setChildren');
     }
 }

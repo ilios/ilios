@@ -187,12 +187,45 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeReminder
+     */
+    public function testRemoveReminder()
+    {
+        $this->entityCollectionRemoveTest('reminder', 'UserMadeReminder');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::setReminders
      * @covers Ilios\CoreBundle\Entity\User::getReminders
      */
     public function testSetReminders()
     {
         $this->entityCollectionSetTest('reminder', 'UserMadeReminder');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::addAuditLog
+     */
+    public function testAddAuditLog()
+    {
+        $this->entityCollectionAddTest('auditLog', 'AuditLog');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeAuditLog
+     */
+    public function testRemoveAuditLog()
+    {
+        $this->entityCollectionRemoveTest('auditLog', 'AuditLog');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::setAuditLogs
+     * @covers Ilios\CoreBundle\Entity\User::getAuditLogs
+     */
+    public function testSetAuditLogs()
+    {
+        $this->entityCollectionSetTest('auditLog', 'AuditLog');
     }
 
     /**
@@ -204,6 +237,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removePermission
+     */
+    public function testRemovePermission()
+    {
+        $this->entityCollectionRemoveTest('permission', 'Permission');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::setPermissions
      * @covers Ilios\CoreBundle\Entity\User::getPermissions
      */
@@ -212,13 +253,20 @@ class UserTest extends EntityBase
         $this->entityCollectionSetTest('permission', 'Permission');
     }
 
-
     /**
      * @covers Ilios\CoreBundle\Entity\User::addDirectedCourse
      */
     public function testAddDirectedCourse()
     {
         $this->entityCollectionAddTest('directedCourse', 'Course', false, false, 'addDirector');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeDirectedCourse
+     */
+    public function testRemoveDirectedCourse()
+    {
+        $this->entityCollectionRemoveTest('directedCourse', 'Course', false, false, false, 'removeDirector');
     }
 
     /**
@@ -238,6 +286,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeLearnerGroup
+     */
+    public function testRemoveLearnerGroup()
+    {
+        $this->entityCollectionRemoveTest('learnerGroup', 'LearnerGroup', false, false, false, 'removeUser');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getLearnerGroups
      */
     public function testSetLearnerGroups()
@@ -251,6 +307,21 @@ class UserTest extends EntityBase
     public function testAddInstructedLearnerGroup()
     {
         $this->entityCollectionAddTest('instructedLearnerGroup', 'LearnerGroup', false, false, 'addInstructor');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeInstructedLearnerGroup
+     */
+    public function testRemoveInstructedLearnerGroup()
+    {
+        $this->entityCollectionRemoveTest(
+            'instructedLearnerGroup',
+            'LearnerGroup',
+            false,
+            false,
+            false,
+            'removeInstructor'
+        );
     }
 
     /**
@@ -270,6 +341,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeInstructorGroup
+     */
+    public function testRemoveInstructorGroup()
+    {
+        $this->entityCollectionRemoveTest('instructorGroup', 'InstructorGroup', false, false, false, 'removeUser');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getInstructorGroups
      */
     public function testSetInstructorGroups()
@@ -283,6 +362,14 @@ class UserTest extends EntityBase
     public function testAddOffering()
     {
         $this->entityCollectionAddTest('offering', 'Offering', false, false, 'addLearner');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeOffering
+     */
+    public function testRemoveOffering()
+    {
+        $this->entityCollectionRemoveTest('offering', 'Offering', false, false, false, 'removeLearner');
     }
 
     /**
@@ -302,6 +389,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeProgramYear
+     */
+    public function testRemoveProgramYear()
+    {
+        $this->entityCollectionRemoveTest('programYear', 'ProgramYear', false, false, false, 'removeDirector');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getProgramYears
      */
     public function testSetProgramYears()
@@ -315,6 +410,14 @@ class UserTest extends EntityBase
     public function testAddAlert()
     {
         $this->entityCollectionAddTest('alert', 'Alert', false, false, 'addInstigator');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeAlert
+     */
+    public function testRemoveAlert()
+    {
+        $this->entityCollectionRemoveTest('alert', 'Alert', false, false, false, 'removeInstigator');
     }
 
     /**
@@ -334,6 +437,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeRole
+     */
+    public function testRemoveRole()
+    {
+        $this->entityCollectionRemoveTest('role', 'UserRole');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getRoles
      */
     public function testSetRoles()
@@ -347,6 +458,14 @@ class UserTest extends EntityBase
     public function testAddLearningMaterial()
     {
         $this->entityCollectionAddTest('learningMaterial', 'LearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeLearningMaterial
+     */
+    public function testRemoveLearningMaterial()
+    {
+        $this->entityCollectionRemoveTest('learningMaterial', 'LearningMaterial');
     }
 
     /**
@@ -366,6 +485,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeReport
+     */
+    public function testRemoveReport()
+    {
+        $this->entityCollectionRemoveTest('report', 'Report');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getReports
      */
     public function testSetReports()
@@ -373,13 +500,20 @@ class UserTest extends EntityBase
         $this->entityCollectionSetTest('report', 'Report');
     }
 
-
     /**
      * @covers Ilios\CoreBundle\Entity\User::addCohort
      */
     public function testAddCohort()
     {
         $this->entityCollectionAddTest('cohort', 'Cohort');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeCohort
+     */
+    public function testRemoveCohort()
+    {
+        $this->entityCollectionRemoveTest('cohort', 'Cohort');
     }
 
     /**
@@ -407,6 +541,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeInstructedOffering
+     */
+    public function testRemoveInstructedOffering()
+    {
+        $this->entityCollectionRemoveTest('instructedOffering', 'Offering', false, false, false, 'removeInstructor');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getInstructedOfferings
      */
     public function testSetInstructedOffering()
@@ -423,11 +565,57 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeInstructorIlmSession
+     */
+    public function testRemoveInstructorIlmSessions()
+    {
+        $this->entityCollectionRemoveTest(
+            'instructorIlmSession',
+            'IlmSession',
+            false,
+            false,
+            false,
+            'removeInstructor'
+        );
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getInstructorIlmSessions
      */
     public function testGetInstructorIlmSessions()
     {
         $this->entityCollectionSetTest('instructorIlmSession', 'IlmSession', false, false, 'addInstructor');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::addLearnerIlmSession
+     */
+    public function testAddLearnerIlmSessions()
+    {
+        $this->entityCollectionAddTest('learnerIlmSession', 'IlmSession', false, false, 'addLearner');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeLearnerIlmSession
+     */
+    public function testRemoveLearnerIlmSessions()
+    {
+        $this->entityCollectionRemoveTest(
+            'learnerIlmSession',
+            'IlmSession',
+            false,
+            false,
+            false,
+            'removeLearner'
+        );
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::getLearnerIlmSessions
+     */
+    public function testGetLearnerIlmSessions()
+    {
+        $this->entityCollectionSetTest('learnerIlmSession', 'IlmSession', false, false, 'addLearner');
     }
 
     /**
@@ -444,5 +632,29 @@ class UserTest extends EntityBase
         $this->object->setPrimaryCohort($obj);
         $this->assertSame($obj, $this->object->getPrimaryCohort());
         $this->assertTrue($this->object->getCohorts()->contains($obj));
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::addPendingUserUpdate
+     */
+    public function testAddPendingUserUpdates()
+    {
+        $this->entityCollectionAddTest('pendingUserUpdate', 'PendingUserUpdate');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removePendingUserUpdate
+     */
+    public function testRemovePendingUserUpdates()
+    {
+        $this->entityCollectionRemoveTest('pendingUserUpdate', 'PendingUserUpdate');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::getPendingUserUpdates
+     */
+    public function testGetPendingUserUpdates()
+    {
+        $this->entityCollectionSetTest('pendingUserUpdate', 'PendingUserUpdate');
     }
 }

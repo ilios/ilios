@@ -866,6 +866,18 @@ class User implements UserInterface
             $learnerGroup->addUser($this);
         }
     }
+
+    /**
+     * @param LearnerGroupInterface $learnerGroup
+     */
+    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup)
+    {
+        if ($this->learnerGroups->contains($learnerGroup)) {
+            $this->learnerGroups->removeElement($learnerGroup);
+            $learnerGroup->removeUser($this);
+        }
+    }
+
     /**
      * @param Collection $instructedLearnerGroups
      */
@@ -974,14 +986,14 @@ class User implements UserInterface
         $this->learnerIlmSessions = new ArrayCollection();
 
         foreach ($sessions as $session) {
-            $this->addLearnerIlmSessions($session);
+            $this->addLearnerIlmSession($session);
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function addLearnerIlmSessions(IlmSessionInterface $session)
+    public function addLearnerIlmSession(IlmSessionInterface $session)
     {
         if (!$this->learnerIlmSessions->contains($session)) {
             $this->learnerIlmSessions->add($session);
@@ -992,10 +1004,12 @@ class User implements UserInterface
     /**
      * @inheritdoc
      */
-    public function removeLearnerIlmSessions(IlmSessionInterface $session)
+    public function removeLearnerIlmSession(IlmSessionInterface $session)
     {
-        $this->learnerIlmSessions->removeElement($session);
-        $session->removeLearner($this);
+        if ($this->learnerIlmSessions->contains($session)) {
+            $this->learnerIlmSessions->removeElement($session);
+            $session->removeLearner($this);
+        }
     }
 
     /**
@@ -1240,7 +1254,9 @@ class User implements UserInterface
      */
     public function addAuditLog(AuditLogInterface $auditLog)
     {
-        $this->auditLogs->add($auditLog);
+        if (!$this->auditLogs->contains($auditLog)) {
+            $this->auditLogs->add($auditLog);
+        }
     }
 
     /**
@@ -1248,7 +1264,7 @@ class User implements UserInterface
      */
     public function removeAuditLog(AuditLogInterface $auditLog)
     {
-        $this->auditLogs->add($auditLog);
+        $this->auditLogs->removeElement($auditLog);
     }
 
     /**
@@ -1313,8 +1329,10 @@ class User implements UserInterface
      */
     public function removeProgramYear(ProgramYearInterface $programYear)
     {
-        $this->programYears->removeElement($programYear);
-        $programYear->removeDirector($this);
+        if ($this->programYears->contains($programYear)) {
+            $this->programYears->removeElement($programYear);
+            $programYear->removeDirector($this);
+        }
     }
 
     /**
@@ -1333,8 +1351,10 @@ class User implements UserInterface
      */
     public function removeOffering(OfferingInterface $offering)
     {
-        $this->offerings->removeElement($offering);
-        $offering->removeLearner($this);
+        if ($this->offerings->contains($offering)) {
+            $this->offerings->removeElement($offering);
+            $offering->removeLearner($this);
+        }
     }
 
     /**

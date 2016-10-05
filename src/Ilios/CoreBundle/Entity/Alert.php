@@ -27,7 +27,6 @@ class Alert implements AlertInterface
     use StringableIdEntity;
 
     /**
-     * @deprecated Replace with trait.
      * @var int
      *
      * @ORM\Column(name="alert_id", type="integer")

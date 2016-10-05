@@ -58,6 +58,14 @@ class AlertChangeTypeTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\AlertChangeType::removeAlert
+     */
+    public function testRemoveAlert()
+    {
+        $this->entityCollectionRemoveTest('alert', 'Alert', false, false, false, 'removeChangeType');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\AlertChangeType::getAlerts
      */
     public function testGetAlerts()
