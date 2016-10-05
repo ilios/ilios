@@ -51,15 +51,15 @@ class VocabularyTest extends EntityBase
     /**
      * @covers Ilios\CoreBundle\Entity\Vocabulary::addTerm
      */
-    public function testAddSteward()
+    public function testAddTerm()
     {
         $this->entityCollectionAddTest('term', 'Term');
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::getTerm
+     * @covers Ilios\CoreBundle\Entity\Vocabulary::getTerms
      */
-    public function testGetSteward()
+    public function testGetTerm()
     {
         $this->entityCollectionSetTest('term', 'Term');
     }
