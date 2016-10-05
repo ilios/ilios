@@ -813,6 +813,7 @@ class UserControllerTest extends AbstractControllerTest
         $data['alerts'] = ['2'];
         $data['roles'] = ['2'];
         $data['cohorts'] = ['2'];
+        $data['primaryCohort'] = '2';
 
         $data['userSyncIgnore'] = true;
         $data['firstName'] = 'Omar';
