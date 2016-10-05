@@ -90,4 +90,15 @@ class AlertChangeType implements AlertChangeTypeInterface
             $alert->addChangeType($this);
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeAlert(AlertInterface $alert)
+    {
+        if ($this->alerts->contains($alert)) {
+            $this->alerts->removeElement($alert);
+            $alert->removeChangeType($this);
+        }
+    }
 }

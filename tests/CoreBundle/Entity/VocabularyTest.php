@@ -57,6 +57,14 @@ class VocabularyTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Vocabulary::removeTerm
+     */
+    public function testRemoveTerm()
+    {
+        $this->entityCollectionRemoveTest('term', 'Term');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Vocabulary::getTerms
      */
     public function testGetTerm()

@@ -92,6 +92,17 @@ class UserRole implements UserRoleInterface
     }
 
     /**
+     * @param UserInterface $user
+     */
+    public function removeUser(UserInterface $user)
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeRole($this);
+        }
+    }
+
+    /**
      * @return string
      */
     public function getRole()

@@ -72,6 +72,14 @@ class AamcResourceTypeTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\AamcResourceType::removeTerm
+     */
+    public function testRemoveTerm()
+    {
+        $this->entityCollectionRemoveTest('term', 'Term', false, false, false, 'removeAamcResourceType');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\AamcResourceType::getTerms
      */
     public function testGetTerms()

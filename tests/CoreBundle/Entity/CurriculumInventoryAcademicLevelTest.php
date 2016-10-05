@@ -78,4 +78,28 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     {
         $this->entitySetTest('report', 'CurriculumInventoryReport');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::addSequenceBlock
+     */
+    public function testAddSequenceBlock()
+    {
+        $this->entityCollectionAddTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::removeSequenceBlock
+     */
+    public function testRemoveSequenceBlock()
+    {
+        $this->entityCollectionRemoveTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getSequenceBlocks
+     */
+    public function testGetSequenceBlocks()
+    {
+        $this->entityCollectionSetTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
 }

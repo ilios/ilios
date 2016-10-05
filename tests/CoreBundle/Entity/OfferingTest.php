@@ -124,6 +124,94 @@ class OfferingTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Offering::removeLearnerGroup
+     */
+    public function testRemoveLearnerGroup()
+    {
+        $this->entityCollectionRemoveTest('learnerGroup', 'LearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::setLearnerGroups
+     */
+    public function testSetLearnerGroup()
+    {
+        $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::addInstructorGroup
+     */
+    public function testAddInstructorGroup()
+    {
+        $this->entityCollectionAddTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::removeInstructorGroup
+     */
+    public function testRemoveInstructorGroup()
+    {
+        $this->entityCollectionRemoveTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::setInstructorGroups
+     */
+    public function testSetInstructorGroup()
+    {
+        $this->entityCollectionSetTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::addLearner
+     */
+    public function testAddLearner()
+    {
+        $this->entityCollectionAddTest('learner', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::removeLearner
+     */
+    public function testRemoveLearner()
+    {
+        $this->entityCollectionRemoveTest('learner', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::setLearners
+     */
+    public function testSetLearner()
+    {
+        $this->entityCollectionSetTest('learner', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::addInstructor
+     */
+    public function testAddInstructor()
+    {
+        $this->entityCollectionAddTest('instructor', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::removeInstructor
+     */
+    public function testRemoveInstructor()
+    {
+        $this->entityCollectionRemoveTest('instructor', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Offering::setInstructors
+     */
+    public function testSetInstructor()
+    {
+        $this->entityCollectionSetTest('instructor', 'User');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Offering::getSchool
      */
     public function testGetSchool()

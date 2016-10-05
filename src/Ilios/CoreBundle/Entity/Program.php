@@ -222,7 +222,6 @@ class Program implements ProgramInterface
     {
         if (!$this->curriculumInventoryReports->contains($report)) {
             $this->curriculumInventoryReports->add($report);
-            $report->setProgram($this);
         }
     }
 
@@ -231,8 +230,9 @@ class Program implements ProgramInterface
     */
     public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
     {
-        $this->curriculumInventoryReports->removeElement($report);
-        $report->setProgram(null);
+        if ($this->curriculumInventoryReports->contains($report)) {
+            $this->curriculumInventoryReports->removeElement($report);
+        }
     }
 
     /**

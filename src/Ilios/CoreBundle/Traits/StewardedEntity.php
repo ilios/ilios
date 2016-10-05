@@ -39,7 +39,7 @@ trait StewardedEntity
      */
     public function removeSteward(ProgramYearStewardInterface $steward)
     {
-        $this->stewards->removeObject($steward);
+        $this->stewards->removeElement($steward);
     }
 
     /**

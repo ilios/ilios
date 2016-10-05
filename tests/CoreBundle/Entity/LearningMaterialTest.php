@@ -115,4 +115,52 @@ class LearningMaterialTest extends EntityBase
         $lm = new LearningMaterial();
         $this->assertNull($lm->getOwningSchool());
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearningMaterial::addCourseLearningMaterial
+     */
+    public function testAddCourseLearningMaterial()
+    {
+        $this->entityCollectionAddTest('courseLearningMaterial', 'CourseLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearningMaterial::removeCourseLearningMaterial
+     */
+    public function testRemoveCourseLearningMaterial()
+    {
+        $this->entityCollectionRemoveTest('courseLearningMaterial', 'CourseLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearningMaterial::getCourseLearningMaterials
+     */
+    public function getGetCourseLearningMaterials()
+    {
+        $this->entityCollectionSetTest('courseLearningMaterial', 'CourseLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearningMaterial::addSessionLearningMaterial
+     */
+    public function testAddSessionLearningMaterial()
+    {
+        $this->entityCollectionAddTest('sessionLearningMaterial', 'SessionLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearningMaterial::removeSessionLearningMaterial
+     */
+    public function testRemoveSessionLearningMaterial()
+    {
+        $this->entityCollectionRemoveTest('sessionLearningMaterial', 'SessionLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearningMaterial::getSessionLearningMaterials
+     */
+    public function getGetSessionLearningMaterials()
+    {
+        $this->entityCollectionSetTest('sessionLearningMaterial', 'SessionLearningMaterial');
+    }
 }

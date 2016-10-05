@@ -109,6 +109,14 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::removeSemanticType
+     */
+    public function testRemoveSemanticType()
+    {
+        $this->entityCollectionRemoveTest('semanticType', 'MeshSemanticType');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setSemanticTypes
      * @covers Ilios\CoreBundle\Entity\MeshConcept::getSemanticTypes
      */
@@ -126,6 +134,14 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::removeTerm
+     */
+    public function testRemoveTerm()
+    {
+        $this->entityCollectionRemoveTest('term', 'MeshTerm', false, false, false, 'removeConcept');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setTerms
      * @covers Ilios\CoreBundle\Entity\MeshConcept::getTerms
      */
@@ -140,6 +156,14 @@ class MeshConceptTest extends EntityBase
     public function testAddDescriptor()
     {
         $this->entityCollectionAddTest('descriptor', 'MeshDescriptor');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::removeDescriptor
+     */
+    public function testRemoveDescriptor()
+    {
+        $this->entityCollectionRemoveTest('descriptor', 'MeshDescriptor');
     }
 
     /**

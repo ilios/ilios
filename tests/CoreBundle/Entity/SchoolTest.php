@@ -96,11 +96,54 @@ class SchoolTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\School::removeAlert
+     */
+    public function testRemoveAlert()
+    {
+        $this->entityCollectionRemoveTest('alert', 'Alert', false, false, false, 'removeRecipient');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\School::getAlerts
      */
     public function testGetAlerts()
     {
         $this->entityCollectionSetTest('alert', 'Alert', false, false, 'addRecipient');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addCompetency
+     */
+    public function testAddCompetency()
+    {
+        $this->entityCollectionAddTest('competencies', 'Competency', 'getCompetencies', 'addCompetency');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::getCompetencies
+     */
+    public function testGetCompetencies()
+    {
+        $this->entityCollectionSetTest(
+            'competencies',
+            'Competency',
+            'getCompetencies',
+            'setCompetencies'
+        );
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::removeCompetency
+     */
+    public function testRemoveCompetency()
+    {
+        $this->entityCollectionRemoveTest(
+            'competencies',
+            'Competency',
+            'getCompetencies',
+            'addCompetency',
+            'removeCompetency'
+        );
     }
 
     /**
@@ -112,6 +155,14 @@ class SchoolTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\School::removeCourse
+     */
+    public function testRemoveCourse()
+    {
+        $this->entityCollectionRemoveTest('course', 'Course');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\School::getCourses
      */
     public function testGetCourses()
@@ -120,11 +171,43 @@ class SchoolTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\School::addProgram
+     */
+    public function testAddProgram()
+    {
+        $this->entityCollectionAddTest('program', 'Program');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::removeProgram
+     */
+    public function testRemoveProgram()
+    {
+        $this->entityCollectionRemoveTest('program', 'Program');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::getPrograms
+     */
+    public function testGetPrograms()
+    {
+        $this->entityCollectionSetTest('program', 'Program');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\School::addDepartment
      */
     public function testAddDepartment()
     {
         $this->entityCollectionAddTest('department', 'Department');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::removeDepartment
+     */
+    public function testRemoveDepartment()
+    {
+        $this->entityCollectionRemoveTest('department', 'Department');
     }
 
     /**
@@ -144,6 +227,14 @@ class SchoolTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\School::removeSteward
+     */
+    public function testRemoveSteward()
+    {
+        $this->entityCollectionRemoveTest('steward', 'ProgramYearSteward');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\School::getStewards
      */
     public function testGetSteward()
@@ -160,11 +251,67 @@ class SchoolTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\School::removeVocabulary
+     */
+    public function testRemoveVocabulary()
+    {
+        $this->entityCollectionRemoveTest('vocabulary', 'Vocabulary', 'getVocabularies');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\School::getVocabularies
      * @covers Ilios\CoreBundle\Entity\School::setVocabularies
      */
     public function testGetVocabularies()
     {
         $this->entityCollectionSetTest('vocabulary', 'Vocabulary', 'getVocabularies', 'setVocabularies');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addInstructorGroup
+     */
+    public function testAddInstructorGroup()
+    {
+        $this->entityCollectionAddTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::removeInstructorGroup
+     */
+    public function testRemoveInstructorGroup()
+    {
+        $this->entityCollectionRemoveTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::setInstructorGroups
+     */
+    public function testSetInstructorGroup()
+    {
+        $this->entityCollectionSetTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addSessionType
+     */
+    public function testAddSessionType()
+    {
+        $this->entityCollectionAddTest('sessionType', 'SessionType');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::removeSessionType
+     */
+    public function testRemoveSessionType()
+    {
+        $this->entityCollectionRemoveTest('sessionType', 'SessionType');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::setSessionTypes
+     */
+    public function testSetSessionType()
+    {
+        $this->entityCollectionSetTest('sessionType', 'SessionType');
     }
 }

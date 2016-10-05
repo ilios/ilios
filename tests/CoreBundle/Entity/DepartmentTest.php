@@ -82,6 +82,14 @@ class DepartmentTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\School::removeSteward
+     */
+    public function testRemoveSteward()
+    {
+        $this->entityCollectionRemoveTest('steward', 'ProgramYearSteward');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\School::getStewards
      */
     public function testGetSteward()

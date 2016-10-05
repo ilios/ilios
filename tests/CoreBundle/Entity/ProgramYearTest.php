@@ -126,11 +126,35 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeDirector
+     */
+    public function testRemoveDirector()
+    {
+        $this->entityCollectionRemoveTest('director', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::getDirectors
+     */
+    public function testGetDirectors()
+    {
+        $this->entityCollectionSetTest('director', 'User');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::addSteward
      */
     public function testAddSteward()
     {
         $this->entityCollectionAddTest('steward', 'ProgramYearSteward');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeSteward
+     */
+    public function testRemoveSteward()
+    {
+        $this->entityCollectionRemoveTest('steward', 'ProgramYearSteward');
     }
 
     /**
@@ -171,11 +195,79 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeTerm
+     */
+    public function testRemoveTerm()
+    {
+        $this->entityCollectionRemoveTest('term', 'Term');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::getTerms
      * @covers Ilios\CoreBundle\Entity\ProgramYear::setTerms
      */
     public function testSetTerms()
     {
         $this->entityCollectionSetTest('term', 'Term');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::addObjective
+     */
+    public function testAddObjective()
+    {
+        $this->entityCollectionAddTest('objective', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeObjective
+     */
+    public function testRemoveObjective()
+    {
+        $this->entityCollectionRemoveTest('objective', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::getObjectives
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::setObjectives
+     */
+    public function testSetObjectives()
+    {
+        $this->entityCollectionSetTest('objective', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::addCompetency
+     */
+    public function testAddCompetency()
+    {
+        $this->entityCollectionAddTest('competencies', 'Competency', 'getCompetencies', 'addCompetency');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::getCompetencies
+     */
+    public function testGetCompetencies()
+    {
+        $this->entityCollectionSetTest(
+            'competencies',
+            'Competency',
+            'getCompetencies',
+            'setCompetencies'
+        );
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeCompetency
+     */
+    public function testRemoveCompetency()
+    {
+        $this->entityCollectionRemoveTest(
+            'competencies',
+            'Competency',
+            'getCompetencies',
+            'addCompetency',
+            'removeCompetency'
+        );
     }
 }

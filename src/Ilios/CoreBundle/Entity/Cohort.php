@@ -153,6 +153,17 @@ class Cohort implements CohortInterface
     /**
      * @inheritdoc
      */
+    public function removeCourse(CourseInterface $course)
+    {
+        if ($this->courses->contains($course)) {
+            $this->courses->removeElement($course);
+            $course->removeCohort($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addUser(UserInterface $user)
     {
         if (!$this->users->contains($user)) {

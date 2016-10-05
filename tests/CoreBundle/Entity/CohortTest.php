@@ -69,7 +69,15 @@ class CohortTest extends EntityBase
      */
     public function testAddCourse()
     {
-        $this->entityCollectionSetTest('course', 'Course', false, false, 'addCohort');
+        $this->entityCollectionAddTest('course', 'Course', false, false, 'addCohort');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Cohort::removeCourse
+     */
+    public function testRemoveCourse()
+    {
+        $this->entityCollectionRemoveTest('course', 'Course', false, false, false, 'removeCohort');
     }
 
     /**
@@ -78,6 +86,54 @@ class CohortTest extends EntityBase
     public function testGetCourses()
     {
         $this->entityCollectionSetTest('course', 'Course', false, false, 'addCohort');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Cohort::addUser
+     */
+    public function testAddUser()
+    {
+        $this->entityCollectionAddTest('user', 'User', false, false, 'addCohort');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Cohort::removeUser
+     */
+    public function testRemoveUser()
+    {
+        $this->entityCollectionRemoveTest('user', 'User', false, false, false, 'removeCohort');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Cohort::getUsers
+     */
+    public function testGetUsers()
+    {
+        $this->entityCollectionSetTest('user', 'User', false, false, 'addCohort');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Cohort::addLearnerGroup
+     */
+    public function testAddLearnerGroup()
+    {
+        $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Cohort::removeLearnerGroup
+     */
+    public function testRemoveLearnerGroup()
+    {
+        $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Cohort::getLearnerGroups
+     */
+    public function testGetLearnerGroups()
+    {
+        $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
     }
 
     /**

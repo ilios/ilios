@@ -187,7 +187,47 @@ class CourseTest extends EntityBase
      */
     public function testAddDirector()
     {
-        $this->entityCollectionAddTest('director', 'User');
+        $this->entityCollectionAddTest('director', 'User', false, false, 'addDirectedCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::removeDirector
+     */
+    public function testRemoveDirector()
+    {
+        $this->entityCollectionRemoveTest('director', 'User', false, false, false, 'removeDirectedCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::getDirectors
+     */
+    public function testGetDirectors()
+    {
+        $this->entityCollectionSetTest('director', 'User', false, false, 'addDirectedCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::addCohort
+     */
+    public function testAddCohort()
+    {
+        $this->entityCollectionAddTest('cohort', 'Cohort', false, false, 'addCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::removeCohort
+     */
+    public function testRemoveCohort()
+    {
+        $this->entityCollectionRemoveTest('cohort', 'Cohort', false, false, false, 'removeCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::getCohorts
+     */
+    public function testGetCohorts()
+    {
+        $this->entityCollectionSetTest('cohort', 'Cohort', false, false, 'addCourse');
     }
 
     /**
@@ -196,6 +236,14 @@ class CourseTest extends EntityBase
     public function testAddLearningMaterial()
     {
         $this->entityCollectionAddTest('learningMaterial', 'CourseLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::removeLearningMaterial
+     */
+    public function testRemoveLearningMaterial()
+    {
+        $this->entityCollectionRemoveTest('learningMaterial', 'CourseLearningMaterial');
     }
 
     /**
@@ -212,7 +260,15 @@ class CourseTest extends EntityBase
      */
     public function testAddTerm()
     {
-        $this->entityCollectionAddTest('term', 'Term');
+        $this->entityCollectionAddTest('term', 'Term', false, false, 'addCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::removeTerm
+     */
+    public function testRemoveTerm()
+    {
+        $this->entityCollectionRemoveTest('term', 'Term', false, false, false, 'removeCourse');
     }
 
     /**
@@ -221,7 +277,7 @@ class CourseTest extends EntityBase
      */
     public function testSetTerms()
     {
-        $this->entityCollectionSetTest('term', 'Term');
+        $this->entityCollectionSetTest('term', 'Term', false, false, 'addCourse');
     }
 
     /**
@@ -242,11 +298,43 @@ class CourseTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Course::removeDescendant
+     */
+    public function testRemoveDescendant()
+    {
+        $this->entityCollectionRemoveTest('descendant', 'Course');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Course::getDescendants
      * @covers Ilios\CoreBundle\Entity\Course::setDescendants
      */
     public function testGetDescendants()
     {
         $this->entityCollectionSetTest('descendant', 'Course');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::addSession
+     */
+    public function testAddSession()
+    {
+        $this->entityCollectionAddTest('session', 'Session');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::removeSession
+     */
+    public function testRemoveSession()
+    {
+        $this->entityCollectionRemoveTest('session', 'Session');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::getSessions
+     */
+    public function testGetSessions()
+    {
+        $this->entityCollectionSetTest('session', 'Session');
     }
 }

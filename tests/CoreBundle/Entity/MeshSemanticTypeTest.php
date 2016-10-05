@@ -67,4 +67,28 @@ class MeshSemanticTypeTest extends EntityBase
         $diff = $now->diff($updatedAt);
         $this->assertTrue($diff->s < 2);
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::addConcept
+     */
+    public function testAddConcept()
+    {
+        $this->entityCollectionAddTest('concept', 'MeshConcept', false, false, 'addSemanticType');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::removeConcept
+     */
+    public function testRemoveConcept()
+    {
+        $this->entityCollectionRemoveTest('concept', 'MeshConcept', false, false, false, 'removeSemanticType');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::getConcepts
+     */
+    public function getGetConcepts()
+    {
+        $this->entityCollectionSetTest('concept', 'MeshConcept', false, false, 'addSemanticType');
+    }
 }

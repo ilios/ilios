@@ -101,4 +101,44 @@ class SessionTypeTest extends EntityBase
     {
         $this->entityCollectionAddTest('aamcMethod', 'AamcMethod');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\SessionType::removeAamcMethod
+     */
+    public function testRemoveAamcMethod()
+    {
+        $this->entityCollectionRemoveTest('aamcMethod', 'AamcMethod');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\SessionType::setAamcMethods
+     */
+    public function testSetAamcMethods()
+    {
+        $this->entityCollectionSetTest('aamcMethod', 'AamcMethod');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\SessionType::addSession
+     */
+    public function testAddSession()
+    {
+        $this->entityCollectionAddTest('session', 'Session');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\SessionType::removeSession
+     */
+    public function testRemoveSession()
+    {
+        $this->entityCollectionRemoveTest('session', 'Session');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\SessionType::setSessions
+     */
+    public function testSetSessions()
+    {
+        $this->entityCollectionSetTest('session', 'Session');
+    }
 }

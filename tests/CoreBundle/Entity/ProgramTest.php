@@ -114,4 +114,52 @@ class ProgramTest extends EntityBase
     {
         $this->entitySetTest('school', 'School');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Program::addProgramYear
+     */
+    public function testAddProgramYear()
+    {
+        $this->entityCollectionAddTest('programYear', 'ProgramYear');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Program::removeProgramYear
+     */
+    public function testRemoveProgramYear()
+    {
+        $this->entityCollectionRemoveTest('programYear', 'ProgramYear');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Program::getProgramYears
+     */
+    public function testGetProgramYears()
+    {
+        $this->entityCollectionSetTest('programYear', 'ProgramYear');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Program::addCurriculumInventoryReport
+     */
+    public function testAddCurriculumInventoryReport()
+    {
+        $this->entityCollectionAddTest('curriculumInventoryReport', 'CurriculumInventoryReport');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Program::removeCurriculumInventoryReport
+     */
+    public function testRemoveCurriculumInventoryReport()
+    {
+        $this->entityCollectionRemoveTest('curriculumInventoryReport', 'CurriculumInventoryReport');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Program::getCurriculumInventoryReports
+     */
+    public function testGetCurriculumInventoryReports()
+    {
+        $this->entityCollectionSetTest('curriculumInventoryReport', 'CurriculumInventoryReport');
+    }
 }

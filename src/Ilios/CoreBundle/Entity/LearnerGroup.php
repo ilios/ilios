@@ -255,6 +255,17 @@ class LearnerGroup implements LearnerGroupInterface
     }
 
     /**
+     * @param IlmSessionInterface $ilmSession
+     */
+    public function removeIlmSession(IlmSessionInterface $ilmSession)
+    {
+        if ($this->ilmSessions->contains($ilmSession)) {
+            $this->ilmSessions->removeElement($ilmSession);
+            $ilmSession->removeLearnerGroup($this);
+        }
+    }
+
+    /**
      * @param LearnerGroupInterface $parent
      */
     public function setParent(LearnerGroupInterface $parent)
@@ -319,6 +330,17 @@ class LearnerGroup implements LearnerGroupInterface
         if (!$this->offerings->contains($offering)) {
             $this->offerings->add($offering);
             $offering->addLearnerGroup($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeOffering(OfferingInterface $offering)
+    {
+        if ($this->offerings->contains($offering)) {
+            $this->offerings->removeElement($offering);
+            $offering->removeLearnerGroup($this);
         }
     }
 

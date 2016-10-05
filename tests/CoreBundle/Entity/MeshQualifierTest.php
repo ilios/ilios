@@ -65,4 +65,28 @@ class MeshQualifierTest extends EntityBase
         $diff = $now->diff($updatedAt);
         $this->assertTrue($diff->s < 2);
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshQualifier::addDescriptor
+     */
+    public function testAddDescriptor()
+    {
+        $this->entityCollectionAddTest('descriptor', 'MeshDescriptor');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshQualifier::removeDescriptor
+     */
+    public function testRemoveDescriptor()
+    {
+        $this->entityCollectionRemoveTest('descriptor', 'MeshDescriptor');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshQualifier::getDescriptors
+     */
+    public function getGetDescriptors()
+    {
+        $this->entityCollectionSetTest('descriptor', 'MeshDescriptor');
+    }
 }

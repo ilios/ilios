@@ -156,6 +156,14 @@ class SessionTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Session::removeLearningMaterial
+     */
+    public function testRemoveLearningMaterial()
+    {
+        $this->entityCollectionRemoveTest('learningMaterial', 'SessionLearningMaterial');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Session::setLearningMaterials
      * @covers Ilios\CoreBundle\Entity\Session::getLearningMaterials
      */
@@ -207,12 +215,70 @@ class SessionTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Session::removeTerm
+     */
+    public function testRemoveTerm()
+    {
+        $this->entityCollectionRemoveTest('term', 'Term');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Session::getTerms
      * @covers Ilios\CoreBundle\Entity\Session::setTerms
      */
     public function testSetTerms()
     {
         $this->entityCollectionSetTest('term', 'Term');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::addObjective
+     */
+    public function testAddObjective()
+    {
+        $this->entityCollectionAddTest('objective', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::removeObjective
+     */
+    public function testRemoveObjective()
+    {
+        $this->entityCollectionRemoveTest('objective', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::getObjectives
+     * @covers Ilios\CoreBundle\Entity\Session::setObjectives
+     */
+    public function testSetObjectives()
+    {
+        $this->entityCollectionSetTest('objective', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::addMeshDescriptor
+     */
+    public function testAddMeshDescriptor()
+    {
+        $this->entityCollectionAddTest('meshDescriptor', 'MeshDescriptor');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::removeMeshDescriptor
+     */
+    public function testRemoveMeshDescriptor()
+    {
+        $this->entityCollectionRemoveTest('meshDescriptor', 'MeshDescriptor');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::getMeshDescriptors
+     * @covers Ilios\CoreBundle\Entity\Session::setMeshDescriptors
+     */
+    public function testSetMeshDescriptors()
+    {
+        $this->entityCollectionSetTest('meshDescriptor', 'MeshDescriptor');
     }
 
     /**
@@ -238,11 +304,44 @@ class SessionTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Session::removeSequenceBlock
+     */
+    public function testRemoveSequenceBlock()
+    {
+        $this->entityCollectionRemoveTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Session::setSequenceBlocks
      * @covers Ilios\CoreBundle\Entity\Session::getSequenceBlocks
      */
     public function testGetSequenceBlocks()
     {
         $this->entityCollectionSetTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::addOffering
+     */
+    public function testAddOffering()
+    {
+        $this->entityCollectionAddTest('offering', 'Offering');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::removeOffering
+     */
+    public function testRemoveOffering()
+    {
+        $this->entityCollectionRemoveTest('offering', 'Offering');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::getOfferings
+     * @covers Ilios\CoreBundle\Entity\Session::setOfferings
+     */
+    public function testSetOfferings()
+    {
+        $this->entityCollectionSetTest('offering', 'Offering');
     }
 }

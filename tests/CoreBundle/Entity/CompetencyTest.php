@@ -77,7 +77,7 @@ class CompetencyTest extends EntityBase
      */
     public function testAddPcrs()
     {
-        $this->entityCollectionAddTest('aamcPcrses', 'AamcPcrs', 'getAamcPcrses', 'addAamcPcrs');
+        $this->entityCollectionAddTest('aamcPcrses', 'AamcPcrs', 'getAamcPcrses', 'addAamcPcrs', 'addCompetency');
     }
 
     /**
@@ -85,7 +85,7 @@ class CompetencyTest extends EntityBase
      */
     public function testGetPcrses()
     {
-        $this->entityCollectionSetTest('aamcPcrses', 'AamcPcrs', 'getAamcPcrses', 'setAamcPcrses');
+        $this->entityCollectionSetTest('aamcPcrses', 'AamcPcrs', 'getAamcPcrses', 'setAamcPcrses', 'addCompetency');
     }
 
     /**
@@ -93,7 +93,15 @@ class CompetencyTest extends EntityBase
      */
     public function testAddProgramYear()
     {
-        $this->entityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addCompetency');
+        $this->entityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addCompetency');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Competency::removeProgramYear
+     */
+    public function testRemoveProgramYear()
+    {
+        $this->entityCollectionRemoveTest('programYear', 'ProgramYear', false, false, false, 'removeCompetency');
     }
 
     /**
@@ -102,5 +110,53 @@ class CompetencyTest extends EntityBase
     public function testGetProgramYears()
     {
         $this->entityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addCompetency');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Competency::addObjective
+     */
+    public function testAddObjective()
+    {
+        $this->entityCollectionAddTest('objective', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Competency::removeObjective
+     */
+    public function testRemoveObjective()
+    {
+        $this->entityCollectionRemoveTest('objective', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Competency::getObjectives
+     */
+    public function testGetObjectives()
+    {
+        $this->entityCollectionSetTest('objective', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Competency::addChild
+     */
+    public function testAddChild()
+    {
+        $this->entityCollectionAddTest('child', 'Competency', 'getChildren');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Competency::removeChild
+     */
+    public function testRemoveChild()
+    {
+        $this->entityCollectionRemoveTest('child', 'Competency', 'getChildren');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Competency::getChildren
+     */
+    public function testGetChildren()
+    {
+        $this->entityCollectionSetTest('child', 'Competency', 'getChildren', 'setChildren');
     }
 }

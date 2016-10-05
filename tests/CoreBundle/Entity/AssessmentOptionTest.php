@@ -50,4 +50,28 @@ class AssessmentOptionTest extends EntityBase
     {
         $this->basicSetTest('name', 'string');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\AssessmentOption::addSessionType
+     */
+    public function testAddSessionType()
+    {
+        $this->entityCollectionAddTest('sessionType', 'SessionType');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\AssessmentOption::removeSessionType
+     */
+    public function testRemoveSessionType()
+    {
+        $this->entityCollectionRemoveTest('sessionType', 'SessionType');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\AssessmentOption::getSessionTypes
+     */
+    public function testGetSessionTypes()
+    {
+        $this->entityCollectionSetTest('sessionType', 'SessionType');
+    }
 }

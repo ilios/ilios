@@ -370,7 +370,10 @@ class MeshConcept implements MeshConceptInterface
      */
     public function removeTerm(MeshTermInterface $term)
     {
-        $this->terms->removeElement($term);
+        if ($this->terms->contains($term)) {
+            $this->terms->removeElement($term);
+            $term->removeConcept($this);
+        }
     }
 
     /**

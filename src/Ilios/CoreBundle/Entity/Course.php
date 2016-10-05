@@ -509,7 +509,9 @@ class Course implements CourseInterface
      */
     public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
     {
-        $this->learningMaterials->add($learningMaterial);
+        if (!$this->learningMaterials->contains($learningMaterial)) {
+            $this->learningMaterials->add($learningMaterial);
+        }
     }
 
     /**
@@ -517,7 +519,9 @@ class Course implements CourseInterface
      */
     public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
     {
-        $this->learningMaterials->removeElement($learningMaterial);
+        if ($this->learningMaterials->contains($learningMaterial)) {
+            $this->learningMaterials->removeElement($learningMaterial);
+        }
     }
 
     /**
@@ -578,5 +582,71 @@ class Course implements CourseInterface
     public function getDescendants()
     {
         return $this->descendants;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addDirector(UserInterface $director)
+    {
+        if (!$this->directors->contains($director)) {
+            $this->directors->add($director);
+            $director->addDirectedCourse($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeDirector(UserInterface $director)
+    {
+        if ($this->directors->contains($director)) {
+            $this->directors->removeElement($director);
+            $director->removeDirectedCourse($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addCohort(CohortInterface $cohort)
+    {
+        if (!$this->cohorts->contains($cohort)) {
+            $this->cohorts->add($cohort);
+            $cohort->addCourse($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeCohort(CohortInterface $cohort)
+    {
+        if ($this->cohorts->contains($cohort)) {
+            $this->cohorts->removeElement($cohort);
+            $cohort->removeCourse($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addTerm(TermInterface $term)
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+            $term->addCourse($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeTerm(TermInterface $term)
+    {
+        if ($this->terms->contains($term)) {
+            $this->terms->removeElement($term);
+            $term->removeCourse($this);
+        }
     }
 }
