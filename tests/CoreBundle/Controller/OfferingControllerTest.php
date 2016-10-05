@@ -23,6 +23,7 @@ class OfferingControllerTest extends AbstractControllerTest
             'Tests\CoreBundle\Fixture\LoadOfferingData',
             'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
             'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
+            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
             'Tests\CoreBundle\Fixture\LoadAlertChangeTypeData'
         ]);
     }
