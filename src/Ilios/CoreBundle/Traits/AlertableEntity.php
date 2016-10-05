@@ -30,24 +30,6 @@ trait AlertableEntity
     /**
      * @inheritdoc
      */
-    public function addAlert(AlertInterface $alert)
-    {
-        if (!$this->alerts->contains($alert)) {
-            $this->alerts->add($alert);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeAlert(AlertInterface $alert)
-    {
-        $this->alerts->removeElement($alert);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getAlerts()
     {
         return $this->alerts;
