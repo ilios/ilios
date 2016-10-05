@@ -40,7 +40,9 @@ trait CompetenciesEntity
      */
     public function removeCompetency(CompetencyInterface $competency)
     {
-        $this->competencies->removeElement($competency);
+        if ($this->competencies->contains($competency)) {
+            $this->competencies->removeElement($competency);
+        }
     }
 
     /**

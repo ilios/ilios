@@ -250,6 +250,7 @@ class Competency implements CompetencyInterface
     {
         if (!$this->aamcPcrses->contains($aamcPcrs)) {
             $this->aamcPcrses->add($aamcPcrs);
+            $aamcPcrs->addCompetency($this);
         }
     }
 
@@ -258,7 +259,10 @@ class Competency implements CompetencyInterface
      */
     public function removeAamcPcrs(AamcPcrsInterface $aamcPcrs)
     {
-        $this->aamcPcrses->removeElement($aamcPcrs);
+        if ($this->aamcPcrses->contains($aamcPcrs)) {
+            $this->aamcPcrses->removeElement($aamcPcrs);
+            $aamcPcrs->removeCompetency($this);
+        }
     }
 
     /**

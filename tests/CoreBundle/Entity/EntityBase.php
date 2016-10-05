@@ -216,7 +216,7 @@ class EntityBase extends \PHPUnit_Framework_TestCase
      * @param string $property
      * @param string $entityName
      * @param string|bool $getter name of the method to use instead of a generated method, or FALSE if n/a.
-     * @param string|bool $setter name of the method to use instead of a generated method, or FALSE if n/a.
+     * @param string|bool $adder name of the method used to add instead of a generated method, or FALSE if n/a.
      * @param string|bool $remover name of the method to use instead of a generated method, or FALSE if n/a.
      * @param string|bool $crossSaveMethod name of the method to call on the inverse side of the relationship.
      */
@@ -224,12 +224,12 @@ class EntityBase extends \PHPUnit_Framework_TestCase
         $property,
         $entityName,
         $getter = false,
-        $setter = false,
+        $adder = false,
         $remover = false,
         $crossSaveMethod = false
     ) {
         $arr = $this->getArrayOfMockObjects('Ilios\CoreBundle\Entity\\' . $entityName, 10);
-        $addMethod = $setter?$setter:$this->getAddMethodForProperty($property);
+        $addMethod = $adder?$adder:$this->getAddMethodForProperty($property);
         $removeMethod = $remover?$remover:$this->getRemoveMethodForProperty($property);
         $getMethod = $getter?$getter:$this->getGetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");

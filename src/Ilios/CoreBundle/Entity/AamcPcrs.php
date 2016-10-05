@@ -94,4 +94,15 @@ class AamcPcrs implements AamcPcrsInterface
             $competency->addAamcPcrs($this);
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeCompetency(CompetencyInterface $competency)
+    {
+        if ($this->competencies->contains($competency)) {
+            $this->competencies->removeElement($competency);
+            $competency->removeAamcPcrs($this);
+        }
+    }
 }
