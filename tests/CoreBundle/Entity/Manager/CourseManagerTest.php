@@ -19,7 +19,7 @@ class CourseManagerTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\CourseManager::deleteCourse
+     * @covers Ilios\CoreBundle\Entity\Manager\CourseManager::delete
      */
     public function testDeleteCourse()
     {

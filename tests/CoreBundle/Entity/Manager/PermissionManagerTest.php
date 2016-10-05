@@ -378,7 +378,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToCoursesBySchool
+     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToCoursesInSchool
      */
     public function testUserHasReadPermissionToCoursesBySchool()
     {
