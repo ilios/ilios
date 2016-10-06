@@ -9,6 +9,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -66,6 +67,19 @@ class CurriculumInventoryDownloadController extends FOSRestController
         $response = new Response($document);
         $response->headers->set('Content-Type', 'application/xml; charset="utf-8"');
         $response->headers->set('Content-disposition', 'attachment; filename="report.xml"');
+
+        // Set a cookie in the response so that the client side can better deal with long-running d/l requests.
+        // This cookie must be accessible by JS on the client, so HttpOnly must be explicitly set to FALSE.
+        $cookie = new Cookie(
+            'report-download-' . $curriculumInventoryReport->getId(),
+            true,
+            0,
+            '/',
+            null,
+            false,
+            false
+        );
+        $response->headers->setCookie($cookie);
         return $response;
     }
 
