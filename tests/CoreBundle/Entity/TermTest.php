@@ -160,6 +160,7 @@ class TermTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Term::getAamcResourceTypes
+     * @covers Ilios\CoreBundle\Entity\Term::setAamcResourceTypes
      */
     public function testGetAamcResourceTypes()
     {

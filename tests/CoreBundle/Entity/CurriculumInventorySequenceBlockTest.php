@@ -359,6 +359,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getChildren
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setChildren
      */
     public function testGetChildren()
     {

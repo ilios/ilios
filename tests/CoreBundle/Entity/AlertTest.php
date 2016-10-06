@@ -90,6 +90,7 @@ class AlertTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Alert::getChangeTypes
+     * @covers Ilios\CoreBundle\Entity\Alert::setChangeTypes
      */
     public function testGetChangeTypes()
     {
@@ -114,6 +115,7 @@ class AlertTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Alert::getInstigators
+     * @covers Ilios\CoreBundle\Entity\Alert::setInstigators
      */
     public function testGetInstigators()
     {
@@ -138,6 +140,7 @@ class AlertTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Alert::getRecipients
+     * @covers Ilios\CoreBundle\Entity\Alert::setRecipients
      */
     public function testGetRecipients()
     {

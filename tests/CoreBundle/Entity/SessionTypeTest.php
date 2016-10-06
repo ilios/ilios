@@ -112,6 +112,7 @@ class SessionTypeTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionType::setAamcMethods
+     * @covers Ilios\CoreBundle\Entity\SessionType::getAamcMethods
      */
     public function testSetAamcMethods()
     {

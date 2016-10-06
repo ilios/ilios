@@ -271,6 +271,7 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getDirectedCourses
+     * @covers Ilios\CoreBundle\Entity\User::setDirectedCourses
      */
     public function testGetDirectedCourses()
     {
@@ -326,6 +327,7 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getInstructedLearnerGroups
+     * @covers Ilios\CoreBundle\Entity\User::setInstructedLearnerGroups
      */
     public function testGetInstructedLearnerGroups()
     {
@@ -446,6 +448,7 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getRoles
+     * @covers Ilios\CoreBundle\Entity\User::setRoles
      */
     public function testSetRoles()
     {
@@ -494,6 +497,7 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getReports
+     * @covers Ilios\CoreBundle\Entity\User::setReports
      */
     public function testSetReports()
     {
@@ -518,6 +522,7 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getCohorts
+     * @covers Ilios\CoreBundle\Entity\User::setCohorts
      */
     public function testSetCohorts()
     {
@@ -550,6 +555,7 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getInstructedOfferings
+     * @covers Ilios\CoreBundle\Entity\User::setInstructedOfferings
      */
     public function testSetInstructedOffering()
     {
@@ -581,6 +587,7 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getInstructorIlmSessions
+     * @covers Ilios\CoreBundle\Entity\User::setInstructorIlmSessions
      */
     public function testGetInstructorIlmSessions()
     {
@@ -612,6 +619,7 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getLearnerIlmSessions
+     * @covers Ilios\CoreBundle\Entity\User::setLearnerIlmSessions
      */
     public function testGetLearnerIlmSessions()
     {
@@ -652,6 +660,7 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::getPendingUserUpdates
+     * @covers Ilios\CoreBundle\Entity\User::setPendingUserUpdates
      */
     public function testGetPendingUserUpdates()
     {

@@ -134,6 +134,7 @@ class LearningMaterialTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\LearningMaterial::getCourseLearningMaterials
+     * @covers Ilios\CoreBundle\Entity\LearningMaterial::setCourseLearningMaterials
      */
     public function getGetCourseLearningMaterials()
     {
@@ -158,6 +159,7 @@ class LearningMaterialTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\LearningMaterial::getSessionLearningMaterials
+     * @covers Ilios\CoreBundle\Entity\LearningMaterial::setSessionLearningMaterials
      */
     public function getGetSessionLearningMaterials()
     {

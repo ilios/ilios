@@ -155,6 +155,7 @@ class ObjectiveTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Objective::getChildren
+     * @covers Ilios\CoreBundle\Entity\Objective::setChildren
      */
     public function testGetChildren()
     {
@@ -203,6 +204,7 @@ class ObjectiveTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Objective::getParents
+     * @covers Ilios\CoreBundle\Entity\Objective::setParents
      */
     public function testGetParents()
     {
