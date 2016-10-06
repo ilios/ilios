@@ -270,4 +270,13 @@ class ProgramYearTest extends EntityBase
             'removeCompetency'
         );
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::setCohort
+     * @covers Ilios\CoreBundle\Entity\PendingCohortUpdate::getCohort
+     */
+    public function testSetCohort()
+    {
+        $this->entitySetTest('cohort', 'Cohort');
+    }
 }

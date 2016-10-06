@@ -183,6 +183,7 @@ class CurriculumInventoryReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getAcademicLevels
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setAcademicLevels
      */
     public function testGetAcademicLevels()
     {

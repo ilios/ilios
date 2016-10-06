@@ -84,6 +84,7 @@ class MeshQualifierTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshQualifier::getDescriptors
+     * @covers Ilios\CoreBundle\Entity\MeshQualifier::setDescriptors
      */
     public function getGetDescriptors()
     {

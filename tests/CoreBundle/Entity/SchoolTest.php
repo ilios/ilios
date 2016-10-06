@@ -88,6 +88,15 @@ class SchoolTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\School::setCurriculumInventoryInstitution
+     * @covers Ilios\CoreBundle\Entity\School::getCurriculumInventoryInstitution
+     */
+    public function testSetCurriculumInventoryInstitution()
+    {
+        $this->entitySetTest('curriculumInventoryInstitution', 'CurriculumInventoryInstitution');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\School::addAlert
      */
     public function testAddAlert()
@@ -212,6 +221,7 @@ class SchoolTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\School::getDepartments
+     * @covers Ilios\CoreBundle\Entity\School::setDepartments
      */
     public function testGetDepartments()
     {

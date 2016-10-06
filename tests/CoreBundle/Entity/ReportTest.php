@@ -49,6 +49,15 @@ class ReportTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Report::setPrepositionalObjectTableRowId
+     * @covers Ilios\CoreBundle\Entity\Report::getPrepositionalObjectTableRowId
+     */
+    public function testSetPrepositionalObjectTableRowId()
+    {
+        $this->basicSetTest('prepositionalObjectTableRowId', 'string');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Report::setTitle
      * @covers Ilios\CoreBundle\Entity\Report::getTitle
      */

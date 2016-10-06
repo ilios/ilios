@@ -322,6 +322,7 @@ class LearnerGroupTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\LearnerGroup::getChildren
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::setChildren
      */
     public function testGetChildren()
     {

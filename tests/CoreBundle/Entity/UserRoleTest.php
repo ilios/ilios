@@ -73,4 +73,10 @@ class UserRoleTest extends EntityBase
     {
         $this->entityCollectionSetTest('user', 'User', false, false, 'addRole');
     }
+
+    public function testGetRole()
+    {
+        $this->object->setTitle('test');
+        $this->assertEquals('ROLE_test', $this->object->getRole());
+    }
 }

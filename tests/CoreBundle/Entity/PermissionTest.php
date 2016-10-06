@@ -51,4 +51,13 @@ class PermissionTest extends EntityBase
     {
         $this->basicSetTest('tableName', 'string');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Permission::setUser
+     * @covers Ilios\CoreBundle\Entity\Permission::getUser
+     */
+    public function testSetUser()
+    {
+        $this->entitySetTest('user', 'User');
+    }
 }

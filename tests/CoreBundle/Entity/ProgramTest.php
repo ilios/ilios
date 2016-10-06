@@ -157,6 +157,7 @@ class ProgramTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Program::getCurriculumInventoryReports
+     * @covers Ilios\CoreBundle\Entity\Program::setCurriculumInventoryReports
      */
     public function testGetCurriculumInventoryReports()
     {

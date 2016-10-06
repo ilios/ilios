@@ -81,7 +81,23 @@ class CompetencyTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Competency::removeAamcPcrs
+     */
+    public function testRemovePcrs()
+    {
+        $this->entityCollectionRemoveTest(
+            'aamcPcrses',
+            'AamcPcrs',
+            'getAamcPcrses',
+            'addAamcPcrs',
+            'removeAamcPcrs',
+            'removeCompetency'
+        );
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Competency::getAamcPcrses
+     * @covers Ilios\CoreBundle\Entity\Competency::setAamcPcrses
      */
     public function testGetPcrses()
     {
@@ -154,6 +170,7 @@ class CompetencyTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Competency::getChildren
+     * @covers Ilios\CoreBundle\Entity\Competency::setChildren
      */
     public function testGetChildren()
     {

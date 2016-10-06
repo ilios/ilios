@@ -101,4 +101,13 @@ class AuditLogTest extends EntityBase
     {
         $this->entitySetTest('user', 'User');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setCreatedAt
+     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getCreatedAt
+     */
+    public function testSetCreatedAt()
+    {
+        $this->basicSetTest('createdAt', 'datetime');
+    }
 }

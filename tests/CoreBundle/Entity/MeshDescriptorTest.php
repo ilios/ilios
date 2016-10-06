@@ -183,6 +183,7 @@ class MeshDescriptorTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getQualifiers
+     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setQualifiers
      */
     public function testGetQualifiers()
     {
@@ -207,6 +208,7 @@ class MeshDescriptorTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getTrees
+     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setTrees
      */
     public function testGetTrees()
     {
