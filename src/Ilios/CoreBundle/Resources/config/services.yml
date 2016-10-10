@@ -40,6 +40,9 @@ services:
     ilioscore.curriculum_inventory.exporter:
         class: Ilios\CoreBundle\Service\CurriculumInventory\Exporter
         arguments: [ "@ilioscore.curriculuminventoryreport.manager", "@ilioscore.curriculuminventoryinstitution.manager", "%ilios_core.institution_domain%", "%ilios_core.supporting_link%" ]
+    ilioscore.curriculum_inventory.rollover:
+        class: Ilios\CoreBundle\Service\CurriculumInventory\ReportRollover
+        arguments: [ "@ilioscore.curriculuminventoryreport.manager", "@ilioscore.curriculuminventoryacademiclevel.manager", "@ilioscore.curriculuminventorysequence.manager", "@ilioscore.curriculuminventorysequenceblock.manager"]
     ilioscore.learningmaterial_decorator.factory:
         class: Ilios\CoreBundle\Service\LearningMaterialDecoratorFactory
         arguments: [ "@router", Ilios\CoreBundle\Classes\LearningMaterialDecorator ]

@@ -85,3 +85,8 @@ services:
         arguments: ["@ilioscore.user.manager", "@ilioscore.school.manager", "@ilioscore.userrole.manager", "@ilioscore.authentication.manager", "@security.password_encoder"]
         tags:
             -  { name: console.command }
+    ilioscli.command.curriculum_inventory_report_rollover:
+        class: Ilios\CliBundle\Command\RolloverCurriculumInventoryReportCommand
+        arguments: [ "@ilioscore.curriculuminventoryreport.manager", "@ilioscore.curriculum_inventory.rollover" ]
+        tags:
+            -  { name: console.command }
