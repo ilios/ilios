@@ -150,19 +150,13 @@ bin/console doctrine:fixtures:load --env=prod
 
 This will your database schema, with all tables and constraints, and will also load in all the default lookup table data, like competencies and topics --- which you can modify once you're done with setup --- but it won't have any course data or any other unique data about your specific school or curriculum until you log in and add some.
 
-* Then change into the document root folder ('/web/ilios3/ilios/web') and remove the 'app_dev.php' file as this file should not exist on a production machine.
-```bash
-cd web
-sudo -u apache rm app_dev.php
-```
+
 * Finally, you should clear all cached items from the system, including the Symfony Cache (and its store on the filesystem) and the APC cache:
 ```bash
-#first, change back into the application root folder ('/web/ilios3/ilios')
-cd ../
+# clear the cache items residing on the filesystem...
+sudo -u apache rm -Rf var/cache/*
 # then clear the Symfony cache...
 sudo -u apache bin/console cache:clear --env=prod
-# then, the cache items residing on the filesystem...
-sudo -u apache rm -Rf var/cache/*
 # and finally, the APC cache (by restarting the httpd server)
 sudo service httpd restart
 ```
