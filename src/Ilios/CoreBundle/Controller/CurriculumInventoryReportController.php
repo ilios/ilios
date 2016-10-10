@@ -322,6 +322,72 @@ class CurriculumInventoryReportController extends FOSRestController
     }
 
     /**
+     * Rollover (clone) a given curriculum Inventory report, down to the sequence block level.
+     *
+     * @ApiDoc(
+     *   section = "CurriculumInventoryReport",
+     *   description = "Rolls over a curriculum inventory report.",
+     *   resource = true,
+     *   method = "POST",
+     *   parameters={
+     *     {
+     *       "name"="name",
+     *       "dataType"="string",
+     *       "required"=false,
+     *       "description"="Name override for rolled-over report."
+     *     },
+     *     {
+     *       "name"="description",
+     *       "dataType"="string",
+     *       "required"=false,
+     *       "description"="Description override for rolled-over report."
+     *     },
+     *     {
+     *       "name"="year",
+     *       "dataType"="string (YYYY)",
+     *       "required"=false,
+     *       "description"="Academic year override for rolled-over report."},
+     *
+     *   },
+     *   output="Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator",
+     *   statusCodes={
+     *     201 = "Rolled-over Curriculum Inventory Report.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
+     *
+     * @Rest\View(statusCode=201,serializerEnableMaxDepthChecks=true)
+     *
+     * @param int $id The identifier of the report to rollover.
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function rolloverAction($id, Request $request)
+    {
+        $report = $this->getOr404($id);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted(['edit'], $report)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        $name = $request->get('name');
+        $description = $request->get('description');
+        $year = $request->get('year');
+
+        $service = $this->container->get('ilioscore.curriculum_inventory.rollover');
+        $newReport = $service->rollover($report, $name, $description, $year);
+
+        $factory = $this->get('ilioscore.curriculum_inventory_report_decorator.factory');
+        $answer['curriculumInventoryReports'] = [$factory->create($newReport)];
+
+        $view = $this->view($answer, Codes::HTTP_CREATED);
+        return $this->handleView($view);
+    }
+
+    /**
      * Get a entity or throw a exception
      *
      * @param $id
