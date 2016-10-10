@@ -92,4 +92,19 @@ class AppKernel extends Kernel
 
         return parent::getContainerBaseClass();
     }
+
+    /**
+     * Get ther kernel based on environemntal variables
+     * This is used in index.php to select the correct environment
+     * Thanks https://www.pmg.com/blog/symfony-no-app-dev/ for this idea
+     *
+     * @return AppKernel
+     */
+    public static function fromEnvironment()
+    {
+        $env = getenv('ILIOS_API_ENVIRONMENT') ?: 'prod';
+        $debug = filter_var(getenv('ILIOS_API_DEBUG'), FILTER_VALIDATE_BOOLEAN);
+
+        return new self($env, $debug);
+    }
 }
