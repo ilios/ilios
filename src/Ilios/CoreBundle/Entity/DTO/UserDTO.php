@@ -205,6 +205,13 @@ class UserDTO
     public $pendingUserUpdates;
 
     /**
+     * @var boolean
+     * @JMS\Type("boolean")
+
+     */
+    public $root;
+
+    /**
      * @var array
      * @JMS\Type("array<string>")
      **/
@@ -249,7 +256,8 @@ class UserDTO
         $campusId,
         $otherId,
         $userSyncIgnore,
-        $icsFeedKey
+        $icsFeedKey,
+        $root
     ) {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -262,6 +270,7 @@ class UserDTO
         $this->otherId = $otherId;
         $this->userSyncIgnore = $userSyncIgnore;
         $this->icsFeedKey = $icsFeedKey;
+        $this->root = $root;
 
         $this->reminders                = [];
         $this->directedCourses          = [];

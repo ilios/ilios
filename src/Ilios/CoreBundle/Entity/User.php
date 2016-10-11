@@ -540,6 +540,20 @@ class User implements UserInterface
     protected $directedPrograms;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="root", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("root")
+     */
+    protected $root;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -571,6 +585,7 @@ class User implements UserInterface
         $this->enabled                  = true;
         $this->examined                 = false;
         $this->userSyncIgnore           = false;
+        $this->root                   = false;
         
         $this->generateIcsFeedKey();
     }
@@ -1740,5 +1755,21 @@ class User implements UserInterface
         $schools = new ArrayCollection($allSchools);
 
         return $schools;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setRoot($root)
+    {
+        $this->root = $root;
     }
 }
