@@ -528,4 +528,14 @@ interface UserInterface extends
      * @return ArrayCollection|ProgramInterface[]
      */
     public function getDirectedPrograms();
+
+    /**
+     * @param boolean $root
+     */
+    public function setRoot($root);
+
+    /**
+     * @return boolean
+     */
+    public function isRoot();
 }

@@ -767,7 +767,8 @@ class UserRepository extends EntityRepository
                 $arr['campusId'],
                 $arr['otherId'],
                 $arr['userSyncIgnore'],
-                $arr['icsFeedKey']
+                $arr['icsFeedKey'],
+                $arr['root']
             );
         }
 

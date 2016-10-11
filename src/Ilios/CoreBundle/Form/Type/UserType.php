@@ -34,6 +34,7 @@ class UserType extends AbstractType
             ->add('otherId', null, ['required' => false, 'empty_data' => null])
             ->add('examined', null, ['required' => false])
             ->add('userSyncIgnore', null, ['required' => false])
+            ->add('root', null, ['required' => false])
             ->add('school', SingleRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"

@@ -64,6 +64,7 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getDirectedSchools());
         $this->assertEmpty($this->object->getAdministeredSchools());
         $this->assertEmpty($this->object->getDirectedPrograms());
+        $this->assertFalse($this->object->isRoot());
     }
 
     /**
@@ -795,5 +796,14 @@ class UserTest extends EntityBase
     public function testGetDirectedPrograms()
     {
         $this->entityCollectionSetTest('directedProgram', 'Program', false, false, 'addDirector');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\User::isRoot
+     * @covers \Ilios\CoreBundle\Entity\User::setRoot
+     */
+    public function testIsRoot()
+    {
+        $this->booleanSetTest('root');
     }
 }
