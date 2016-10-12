@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\AlertableEntity;
 use Ilios\CoreBundle\Traits\CompetenciesEntity;
+use Ilios\CoreBundle\Traits\DirectorsEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
 use Ilios\CoreBundle\Traits\SessionTypesEntity;
@@ -46,6 +47,7 @@ class School implements SchoolInterface
     use SessionTypesEntity;
     use InstructorGroupsEntity;
     use CompetenciesEntity;
+    use DirectorsEntity;
 
     /**
      * @var int
@@ -229,6 +231,24 @@ class School implements SchoolInterface
     protected $stewards;
 
     /**
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="directedSchools"))
+     * @ORM\JoinTable(name="school_director",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $directors;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -242,6 +262,7 @@ class School implements SchoolInterface
         $this->stewards = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->sessionTypes = new ArrayCollection();
+        $this->directors = new ArrayCollection();
     }
 
     /**
@@ -404,5 +425,27 @@ class School implements SchoolInterface
     public function getVocabularies()
     {
         return $this->vocabularies;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addDirector(UserInterface $director)
+    {
+        if (!$this->directors->contains($director)) {
+            $this->directors->add($director);
+            $director->addDirectedSchool($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeDirector(UserInterface $director)
+    {
+        if ($this->directors->contains($director)) {
+            $this->directors->removeElement($director);
+            $director->removeDirectedSchool($this);
+        }
     }
 }

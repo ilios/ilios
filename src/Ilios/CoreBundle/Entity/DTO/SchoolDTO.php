@@ -92,6 +92,13 @@ class SchoolDTO
     /**
      * @var int[]
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("directors")
+     */
+    public $directors;
+
+    /**
+     * @var int[]
+     * @JMS\Type("array<string>")
      */
     public $stewards;
 
@@ -114,5 +121,6 @@ class SchoolDTO
         $this->instructorGroups = [];
         $this->sessionTypes = [];
         $this->stewards = [];
+        $this->directors = [];
     }
 }

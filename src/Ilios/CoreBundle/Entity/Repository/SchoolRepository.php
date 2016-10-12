@@ -82,6 +82,7 @@ class SchoolRepository extends EntityRepository
             'instructorGroups',
             'sessionTypes',
             'stewards',
+            'directors',
         ];
 
         foreach ($related as $rel) {

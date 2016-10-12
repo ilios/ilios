@@ -160,7 +160,7 @@ class SchoolControllerTest extends AbstractControllerTest
             ->get('ilioscore.dataloader.school')
             ->getOne();
         $data['curriculumInventoryInstitution'] = '2';
-
+        $data['directors'] = ['2'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

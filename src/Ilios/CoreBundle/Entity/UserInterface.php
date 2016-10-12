@@ -428,4 +428,24 @@ interface UserInterface extends
      * @return ArrayCollection|IlmSessionInterface[]
      */
     public function getLearnerIlmSessions();
+
+    /**
+     * @param Collection $schools
+     */
+    public function setDirectedSchools(Collection $schools);
+
+    /**
+     * @param SchoolInterface $school
+     */
+    public function addDirectedSchool(SchoolInterface $school);
+
+    /**
+     * @param SchoolInterface $school
+     */
+    public function removeDirectedSchool(SchoolInterface $school);
+
+    /**
+     * @return ArrayCollection|SchoolInterface[]
+     */
+    public function getDirectedSchools();
 }

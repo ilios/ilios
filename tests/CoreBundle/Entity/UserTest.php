@@ -666,4 +666,29 @@ class UserTest extends EntityBase
     {
         $this->entityCollectionSetTest('pendingUserUpdate', 'PendingUserUpdate');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::addDirectedSchool
+     */
+    public function testAddDirectedSchool()
+    {
+        $this->entityCollectionAddTest('directedSchool', 'School', false, false, 'addDirector');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeDirectedSchool
+     */
+    public function testRemoveDirectedSchool()
+    {
+        $this->entityCollectionRemoveTest('directedSchool', 'School', false, false, false, 'removeDirector');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::getDirectedSchools
+     * @covers Ilios\CoreBundle\Entity\User::setDirectedSchools
+     */
+    public function testGetDirectedSchools()
+    {
+        $this->entityCollectionSetTest('directedSchool', 'School', false, false, 'addDirector');
+    }
 }

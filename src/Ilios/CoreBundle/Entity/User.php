@@ -485,6 +485,17 @@ class User implements UserInterface
     protected $permissions;
 
     /**
+     * @var ArrayCollection|SchoolInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="School", mappedBy="directors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("directedSchools")
+     */
+    protected $directedSchools;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -507,6 +518,7 @@ class User implements UserInterface
         $this->auditLogs                = new ArrayCollection();
         $this->permissions              = new ArrayCollection();
         $this->learnerIlmSessions       = new ArrayCollection();
+        $this->directedSchools       = new ArrayCollection();
         $this->addedViaIlios            = false;
         $this->enabled                  = true;
         $this->examined                 = false;
@@ -1355,6 +1367,46 @@ class User implements UserInterface
             $this->offerings->removeElement($offering);
             $offering->removeLearner($this);
         }
+    }
+
+    /**
+     * @param Collection $schools
+     */
+    public function setDirectedSchools(Collection $schools)
+    {
+        $this->directedSchools = new ArrayCollection();
+
+        foreach ($schools as $school) {
+            $this->addDirectedSchool($school);
+        }
+    }
+
+    /**
+     * @param SchoolInterface $school
+     */
+    public function addDirectedSchool(SchoolInterface $school)
+    {
+        if (!$this->directedSchools->contains($school)) {
+            $this->directedSchools->add($school);
+            $school->addDirector($this);
+        }
+    }
+
+    /**
+     * @param SchoolInterface $school
+     */
+    public function removeDirectedSchool(SchoolInterface $school)
+    {
+        $this->directedSchools->removeElement($school);
+        $school->removeDirector($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedSchools()
+    {
+        return $this->directedSchools;
     }
 
     /**
