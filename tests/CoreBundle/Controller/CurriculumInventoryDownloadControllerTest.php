@@ -69,7 +69,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
         $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode(), $response->getContent());
         $downloadCookie = null;
         $cookieName = 'report-download-' . $curriculumInventoryExport['report'];
-        foreach($response->headers->getCookies() as $cookie) {
+        foreach ($response->headers->getCookies() as $cookie) {
             if ($cookieName === $cookie->getName()) {
                 $downloadCookie = $cookie;
                 break;

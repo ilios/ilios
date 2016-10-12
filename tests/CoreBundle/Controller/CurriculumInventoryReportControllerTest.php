@@ -241,4 +241,104 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testRolloverCurriculumInventoryReport()
+    {
+        $report = $this->container
+            ->get('ilioscore.dataloader.curriculuminventoryreport')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'api_curriculuminventoryreport_rollover_v1',
+                [
+                    'id' => $report['id'],
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_CREATED);
+        $data = json_decode($response->getContent(), true)['curriculumInventoryReports'];
+        $newReport = $data[0];
+
+        // compare reports
+        $this->assertSame($report['name'], $newReport['name']);
+        $this->assertSame($report['description'], $newReport['description']);
+        $this->assertSame($report['year'], $newReport['year']);
+        $this->assertSame($report['program'], $newReport['program']);
+        $this->assertSame($report['startDate'], $newReport['startDate']);
+        $this->assertSame($report['endDate'], $newReport['endDate']);
+        $this->assertEmpty($newReport['export']);
+        $this->assertNotEmpty($newReport['absoluteFileUri']);
+
+        // compare sequences
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('get_curriculuminventorysequences', ['id' => $newReport['sequence']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $newSequence = json_decode($response->getContent(), true)['curriculumInventorySequences'][0];
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('get_curriculuminventorysequences', ['id' => $report['sequence']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $sequence = json_decode($response->getContent(), true)['curriculumInventorySequences'][0];
+        $this->assertSame($sequence['description'], $newSequence['description']);
+
+        // map and compare academic levels
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_curriculuminventoryacademiclevels',
+                ['filters[report]' => $report['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $levels = json_decode($response->getContent(), true)['curriculumInventoryAcademicLevels'];
+        $levelsById = [];
+        $levelsByLevel = [];
+        foreach ($levels as $level) {
+            $levelsById[$level['id']] = $level;
+            $levelsByLevel[$level['level']] = $level; // "Bleed with +1 bleed."
+        }
+
+        // map and compare academic levels
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_curriculuminventoryacademiclevels',
+                ['filters[report]' => $newReport['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $newLevels = json_decode($response->getContent(), true)['curriculumInventoryAcademicLevels'];
+        $newLevelsById = [];
+        foreach ($newLevels as $level) {
+            $newLevelsById[$level['id']] = $level;
+            $originalLevel = $levelsByLevel[$level['level']];
+            $this->assertSame($originalLevel['name'], $level['name']);
+            $this->assertSame($originalLevel['description'], $level['description']);
+            $this->assertSame(count($originalLevel['sequenceBlocks']), count($level['sequenceBlocks']));
+        }
+        $this->assertSame(count($levels), count($newLevels));
+
+        // compare sequence blocks.
+        // @todo implement. [ST 2016/10/13]
+    }
 }
