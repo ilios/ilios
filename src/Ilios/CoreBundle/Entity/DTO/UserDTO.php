@@ -203,6 +203,13 @@ class UserDTO
      **/
     public $permissions;
 
+    /**
+     * @var array
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("directedSchools")
+     */
+    public $directedSchools;
+
     public function __construct(
         $id,
         $firstName,
@@ -244,5 +251,6 @@ class UserDTO
         $this->auditLogs                = [];
         $this->permissions              = [];
         $this->learnerIlmSessions       = [];
+        $this->directedSchools          = [];
     }
 }

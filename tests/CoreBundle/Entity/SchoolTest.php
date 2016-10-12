@@ -324,4 +324,28 @@ class SchoolTest extends EntityBase
     {
         $this->entityCollectionSetTest('sessionType', 'SessionType');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addDirector
+     */
+    public function testAddDirector()
+    {
+        $this->entityCollectionAddTest('director', 'User', false, false, 'addDirectedSchool');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::removeDirector
+     */
+    public function testRemoveDirector()
+    {
+        $this->entityCollectionRemoveTest('director', 'User', false, false, false, 'removeDirectedSchool');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::getDirectors
+     */
+    public function testGetDirectors()
+    {
+        $this->entityCollectionSetTest('director', 'User', false, false, 'addDirectedSchool');
+    }
 }
