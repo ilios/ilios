@@ -24,6 +24,7 @@ class SchoolData extends AbstractDataLoader
             'stewards' => ['1', '2'],
             'vocabularies' => ['1'],
             'directors' => ['1'],
+            'administrators' => ['1'],
         );
 
         $arr[] = array(
@@ -42,6 +43,7 @@ class SchoolData extends AbstractDataLoader
             'stewards' => [],
             'vocabularies' => ['2'],
             'directors' => [],
+            'administrators' => [],
         );
 
         $arr[] = array(
@@ -59,6 +61,7 @@ class SchoolData extends AbstractDataLoader
             'stewards' => [],
             'vocabularies' => [],
             'directors' => [],
+            'administrators' => [],
         );
 
 
@@ -81,6 +84,7 @@ class SchoolData extends AbstractDataLoader
             'stewards' => [],
             'vocabularies' => [],
             'directors' => [],
+            'administrators' => [],
         );
     }
 

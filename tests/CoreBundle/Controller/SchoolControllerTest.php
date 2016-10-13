@@ -161,6 +161,7 @@ class SchoolControllerTest extends AbstractControllerTest
             ->getOne();
         $data['curriculumInventoryInstitution'] = '2';
         $data['directors'] = ['2'];
+        $data['administrators'] = ['3'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

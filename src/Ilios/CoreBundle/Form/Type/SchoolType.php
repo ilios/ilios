@@ -34,6 +34,10 @@ class SchoolType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
+            ->add('administrators', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
         ;
         $transformer = new RemoveMarkupTransformer();
         foreach (['title', 'templatePrefix', 'iliosAdministratorEmail', 'changeAlertRecipients'] as $element) {

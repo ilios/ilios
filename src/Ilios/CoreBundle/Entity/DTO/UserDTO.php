@@ -220,6 +220,13 @@ class UserDTO
     /**
      * @var array
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("administeredSchools")
+     */
+    public $administeredSchools;
+
+    /**
+     * @var array
+     * @JMS\Type("array<string>")
      * @JMS\SerializedName("administeredSessions")
      */
     public $administeredSessions;
@@ -267,6 +274,7 @@ class UserDTO
         $this->permissions              = [];
         $this->learnerIlmSessions       = [];
         $this->directedSchools          = [];
+        $this->administeredSchools      = [];
         $this->administeredSessions     = [];
     }
 }

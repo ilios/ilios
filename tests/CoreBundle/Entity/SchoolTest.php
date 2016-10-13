@@ -348,4 +348,29 @@ class SchoolTest extends EntityBase
     {
         $this->entityCollectionSetTest('director', 'User', false, false, 'addDirectedSchool');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::addAdministrator
+     */
+    public function testAddAdministrator()
+    {
+        $this->entityCollectionAddTest('administrator', 'User', false, false, 'addAdministeredSchool');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::removeAdministrator
+     */
+    public function testRemoveAdministrator()
+    {
+        $this->entityCollectionRemoveTest('administrator', 'User', false, false, false, 'removeAdministeredSchool');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\School::getAdministrators
+     * @covers Ilios\CoreBundle\Entity\School::setAdministrators
+     */
+    public function testSetAdministrators()
+    {
+        $this->entityCollectionSetTest('administrator', 'User', false, false, 'addAdministeredSchool');
+    }
 }

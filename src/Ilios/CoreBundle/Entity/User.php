@@ -518,6 +518,17 @@ class User implements UserInterface
     protected $directedSchools;
 
     /**
+     * @var ArrayCollection|SchoolInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="School", mappedBy="administrators")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("administeredSchools")
+     */
+    protected $administeredSchools;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -543,6 +554,7 @@ class User implements UserInterface
         $this->administeredCourses      = new ArrayCollection();
         $this->learnerIlmSessions       = new ArrayCollection();
         $this->directedSchools          = new ArrayCollection();
+        $this->administeredSchools      = new ArrayCollection();
         $this->addedViaIlios            = false;
         $this->enabled                  = true;
         $this->examined                 = false;
@@ -1511,6 +1523,46 @@ class User implements UserInterface
     public function getDirectedSchools()
     {
         return $this->directedSchools;
+    }
+
+    /**
+     * @param Collection $schools
+     */
+    public function setAdministeredSchools(Collection $schools)
+    {
+        $this->administeredSchools = new ArrayCollection();
+
+        foreach ($schools as $school) {
+            $this->addAdministeredSchool($school);
+        }
+    }
+
+    /**
+     * @param SchoolInterface $school
+     */
+    public function addAdministeredSchool(SchoolInterface $school)
+    {
+        if (!$this->administeredSchools->contains($school)) {
+            $this->administeredSchools->add($school);
+            $school->addAdministrator($this);
+        }
+    }
+
+    /**
+     * @param SchoolInterface $school
+     */
+    public function removeAdministeredSchool(SchoolInterface $school)
+    {
+        $this->administeredSchools->removeElement($school);
+        $school->removeAdministrator($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredSchools()
+    {
+        return $this->administeredSchools;
     }
 
     /**
