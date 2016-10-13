@@ -13,7 +13,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
         $dt->setTime(0, 0, 0);
         $arr[] = array(
             'id' => 1,
-            'title' => $this->faker->text(10),
+            'title' => 'Top Level Sequence Block 1',
             'report' => '1',
             'childSequenceOrder' => CurriculumInventorySequenceBlockInterface::ORDERED,
             'orderInSequence' => 0,
@@ -31,7 +31,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
         for ($i = 1; $i < 5; $i++) {
             $arr[] = array(
                 'id' => $i + 1,
-                'title' => $this->faker->text(10),
+                'title' => 'Nested Sequence Block '. $i,
                 'report' => '1',
                 'childSequenceOrder' => CurriculumInventorySequenceBlockInterface::OPTIONAL,
                 'orderInSequence' => $i,
