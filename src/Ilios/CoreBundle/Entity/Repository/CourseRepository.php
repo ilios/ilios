@@ -81,6 +81,7 @@ class CourseRepository extends EntityRepository
 
         $related = [
             'directors',
+            'administrators',
             'cohorts',
             'terms',
             'objectives',

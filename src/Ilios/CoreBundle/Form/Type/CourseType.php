@@ -49,6 +49,10 @@ class CourseType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
+            ->add('administrators', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
             ->add('cohorts', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"

@@ -792,6 +792,7 @@ class UserRepository extends EntityRepository
         $related = [
             'reminders',
             'directedCourses',
+            'administeredCourses',
             'learnerGroups',
             'instructedLearnerGroups',
             'instructorGroups',

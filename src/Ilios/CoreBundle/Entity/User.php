@@ -315,6 +315,17 @@ class User implements UserInterface
     protected $directedCourses;
 
     /**
+     * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="administrators")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("administeredCourses")
+     */
+    protected $administeredCourses;
+
+    /**
      * @var ArrayCollection|SessionInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="administrators")
@@ -529,8 +540,9 @@ class User implements UserInterface
         $this->auditLogs                = new ArrayCollection();
         $this->permissions              = new ArrayCollection();
         $this->administeredSessions     = new ArrayCollection();
+        $this->administeredCourses      = new ArrayCollection();
         $this->learnerIlmSessions       = new ArrayCollection();
-        $this->directedSchools       = new ArrayCollection();
+        $this->directedSchools          = new ArrayCollection();
         $this->addedViaIlios            = false;
         $this->enabled                  = true;
         $this->examined                 = false;
@@ -868,6 +880,46 @@ class User implements UserInterface
     public function getDirectedCourses()
     {
         return $this->directedCourses;
+    }
+
+    /**
+     * @param Collection $courses
+     */
+    public function setAdministeredCourses(Collection $courses)
+    {
+        $this->administeredCourses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addAdministeredCourse($course);
+        }
+    }
+
+    /**
+     * @param CourseInterface $course
+     */
+    public function addAdministeredCourse(CourseInterface $course)
+    {
+        if (!$this->administeredCourses->contains($course)) {
+            $this->administeredCourses->add($course);
+            $course->addAdministrator($this);
+        }
+    }
+
+    /**
+     * @param CourseInterface $course
+     */
+    public function removeAdministeredCourse(CourseInterface $course)
+    {
+        $this->administeredCourses->removeElement($course);
+        $course->removeAdministrator($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredCourses()
+    {
+        return $this->administeredCourses;
     }
 
     /**

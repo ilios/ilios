@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\AdministratorsEntityInterface;
 use Ilios\CoreBundle\Traits\ArchivableEntityInterface;
 use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
 use Ilios\CoreBundle\Traits\CohortsEntityInterface;
@@ -37,7 +38,8 @@ interface CourseInterface extends
     CategorizableEntityInterface,
     CohortsEntityInterface,
     MeshDescriptorsEntityInterface,
-    DirectorsEntityInterface
+    DirectorsEntityInterface,
+    AdministratorsEntityInterface
 {
     /**
      * @param int $level

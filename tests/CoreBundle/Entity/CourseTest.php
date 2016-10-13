@@ -72,6 +72,7 @@ class CourseTest extends EntityBase
         $this->assertEmpty($this->object->getSessions());
         $this->assertEmpty($this->object->getTerms());
         $this->assertEmpty($this->object->getDescendants());
+        $this->assertEmpty($this->object->getAdministrators());
     }
 
     /**
@@ -336,5 +337,30 @@ class CourseTest extends EntityBase
     public function testGetSessions()
     {
         $this->entityCollectionSetTest('session', 'Session');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::addAdministrator
+     */
+    public function testAddAdministrator()
+    {
+        $this->entityCollectionAddTest('administrator', 'User', false, false, 'addAdministeredCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::removeAdministrator
+     */
+    public function testRemoveAdministrator()
+    {
+        $this->entityCollectionRemoveTest('administrator', 'User', false, false, false, 'removeAdministeredCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::getAdministrators
+     * @covers Ilios\CoreBundle\Entity\Course::setAdministrators
+     */
+    public function testSetAdministrators()
+    {
+        $this->entityCollectionSetTest('administrator', 'User', false, false, 'addAdministeredCourse');
     }
 }

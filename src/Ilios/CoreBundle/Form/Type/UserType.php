@@ -98,6 +98,10 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
+            ->add('administeredCourses', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
         ;
         $transformer = new RemoveMarkupTransformer();
         $textElements = ['firstName', 'lastName', 'middleName', 'phone', 'email', 'campusId', 'icsFeedKey', 'otherId'];

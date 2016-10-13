@@ -106,6 +106,12 @@ class CourseDTO
      * @var int[]
      * @JMS\Type("array<string>")
      */
+    public $administrators;
+
+    /**
+     * @var int[]
+     * @JMS\Type("array<string>")
+     */
     public $cohorts;
 
     /**
@@ -178,6 +184,7 @@ class CourseDTO
         $this->published = $published;
 
         $this->directors = [];
+        $this->administrators = [];
         $this->cohorts = [];
         $this->terms = [];
         $this->objectives = [];
