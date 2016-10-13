@@ -91,16 +91,18 @@ class ReportRollover
         }
         $this->reportManager->update($newReport, false, false);
 
-        $levels = [];
-        for ($i = 1, $n = 10; $i <= $n; $i++) {
-            /* @var CurriculumInventoryAcademicLevelInterface $level */
-            $level = $this->academicLevelManager->create();
-            $level->setLevel($i);
-            $level->setName('Year ' . $i);
-            $newReport->addAcademicLevel($level);
-            $level->setReport($newReport);
-            $this->academicLevelManager->update($level, false, false);
-            $levels[$i] = $level;
+        $newLevels = [];
+        $levels = $report->getAcademicLevels();
+        foreach ($levels as $level) {
+            /* @var CurriculumInventoryAcademicLevelInterface $newLevel */
+            $newLevel = $this->academicLevelManager->create();
+            $newLevel->setLevel($level->getLevel());
+            $newLevel->setName($level->getName());
+            $newLevel->setDescription($level->getDescription());
+            $newReport->addAcademicLevel($newLevel);
+            $newLevel->setReport($newReport);
+            $this->academicLevelManager->update($newLevel, false, false);
+            $newLevels[$newLevel->getLevel()] = $newLevel;
         }
 
         // recursively rollover sequence blocks.
@@ -111,7 +113,7 @@ class ReportRollover
             });
 
         foreach ($topLevelBlocks as $block) {
-            $this->rolloverSequenceBlock($block, $newReport, $levels, null);
+            $this->rolloverSequenceBlock($block, $newReport, $newLevels, null);
         }
 
         $sequence = $report->getSequence();
