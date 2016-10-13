@@ -23,7 +23,8 @@ class SessionData extends AbstractDataLoader
             'objectives' => ['2', '3'],
             'meshDescriptors' => ['abc1'],
             'learningMaterials' => ['1'],
-            'offerings' => ['1', '2']
+            'offerings' => ['1', '2'],
+            'administrators' => ['1'],
         );
 
         $arr[] = array(
@@ -41,7 +42,8 @@ class SessionData extends AbstractDataLoader
             'objectives' => [],
             'meshDescriptors' => [],
             'learningMaterials' => [],
-            'offerings' => ['3', '4', '5']
+            'offerings' => ['3', '4', '5'],
+            'administrators' => [],
         );
 
         $arr[] = array(
@@ -58,7 +60,8 @@ class SessionData extends AbstractDataLoader
             'objectives' => [],
             'meshDescriptors' => ["abc2"],
             'learningMaterials' => ['2'],
-            'offerings' => ['6', '7', '8']
+            'offerings' => ['6', '7', '8'],
+            'administrators' => [],
         );
 
         $arr[] = array(
@@ -75,10 +78,12 @@ class SessionData extends AbstractDataLoader
             'objectives' => ['6', '7'],
             'meshDescriptors' => [],
             'learningMaterials' => [],
-            'offerings' => []
+            'offerings' => [],
+            'administrators' => [],
         );
         
         for ($i = 5; $i <= 8; $i++) {
+            $ilmSession = $i - 4;
             $arr[] = array(
                 'id' => $i,
                 'title' => $this->faker->text(10),
@@ -89,12 +94,13 @@ class SessionData extends AbstractDataLoader
                 'published' => false,
                 'sessionType' => '1',
                 'course' => '2',
-                'ilmSession' => $i - 4,
+                'ilmSession' => "${ilmSession}",
                 'terms' => [],
                 'objectives' => [],
                 'meshDescriptors' => [],
                 'learningMaterials' => [],
-                'offerings' => []
+                'offerings' => [],
+                'administrators' => [],
             );
         }
 
@@ -117,7 +123,8 @@ class SessionData extends AbstractDataLoader
             'objectives' => ['3'],
             'meshDescriptors' => [],
             'learningMaterials' => [],
-            'offerings' => []
+            'offerings' => [],
+            'administrators' => [],
         );
     }
 

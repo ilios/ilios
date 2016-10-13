@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\AdministratorsEntity;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
@@ -48,6 +49,7 @@ class Session implements SessionInterface
     use CategorizableEntity;
     use MeshDescriptorsEntity;
     use SequenceBlocksEntity;
+    use AdministratorsEntity;
 
     /**
      * @var int
@@ -148,7 +150,6 @@ class Session implements SessionInterface
     protected $published;
 
     /**
-     * @deprecated Replace with Timestampable trait in 3.x
      * @var \DateTime
      *
      * @ORM\Column(name="last_updated_on", type="datetime")
@@ -303,6 +304,24 @@ class Session implements SessionInterface
     protected $sequenceBlocks;
 
     /**
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="administeredSessions"))
+     * @ORM\JoinTable(name="session_administrator",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $administrators;
+    
+    /**
      * Constructor
      */
     public function __construct()
@@ -318,7 +337,8 @@ class Session implements SessionInterface
         $this->offerings = new ArrayCollection();
         $this->learningMaterials = new ArrayCollection();
         $this->sequenceBlocks = new ArrayCollection();
-        
+        $this->administrators = new ArrayCollection();
+
         $this->updatedAt = new \DateTime();
     }
 
@@ -488,5 +508,27 @@ class Session implements SessionInterface
             return $course->getSchool();
         }
         return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addAdministrator(UserInterface $administrator)
+    {
+        if (!$this->administrators->contains($administrator)) {
+            $this->administrators->add($administrator);
+            $administrator->addAdministeredSession($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeAdministrator(UserInterface $administrator)
+    {
+        if ($this->administrators->contains($administrator)) {
+            $this->administrators->removeElement($administrator);
+            $administrator->removeAdministeredSession($this);
+        }
     }
 }

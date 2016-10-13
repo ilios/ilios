@@ -806,7 +806,8 @@ class UserRepository extends EntityRepository
             'auditLogs',
             'permissions',
             'learnerIlmSessions',
-            'directedSchools'
+            'directedSchools',
+            'administeredSessions'
         ];
 
         foreach ($related as $rel) {

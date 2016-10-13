@@ -27,6 +27,7 @@ class SessionControllerTest extends AbstractControllerTest
             'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadLearningMaterialStatusData',
             'Tests\CoreBundle\Fixture\LoadIlmSessionData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
         ]);
     }
 
@@ -173,6 +174,7 @@ class SessionControllerTest extends AbstractControllerTest
         $data = $this->container
             ->get('ilioscore.dataloader.session')
             ->getOne();
+        $data['administrators'] = ['2'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

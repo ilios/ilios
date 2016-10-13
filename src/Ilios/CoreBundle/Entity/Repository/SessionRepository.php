@@ -81,7 +81,8 @@ class SessionRepository extends EntityRepository
             'objectives',
             'meshDescriptors',
             'learningMaterials',
-            'offerings'
+            'offerings',
+            'administrators'
         ];
 
         foreach ($related as $rel) {
