@@ -31,6 +31,7 @@ class UserControllerTest extends AbstractControllerTest
             'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
             'Tests\CoreBundle\Fixture\LoadReportData',
             'Tests\CoreBundle\Fixture\LoadAuthenticationData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
         ]);
     }
 
@@ -815,6 +816,7 @@ class UserControllerTest extends AbstractControllerTest
         $data['cohorts'] = ['2'];
         $data['primaryCohort'] = '2';
         $data['directedSchools'] = ['2'];
+        $data['administeredSessions'] = ['2'];
 
         $data['userSyncIgnore'] = true;
         $data['firstName'] = 'Omar';
@@ -872,6 +874,7 @@ class UserControllerTest extends AbstractControllerTest
         $data['alerts'] = ['2'];
         $data['cohorts'] = ['2'];
         $data['directedSchools'] = ['1'];
+        $data['administeredSessions'] = ['1'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed

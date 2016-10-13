@@ -124,6 +124,12 @@ class SessionDTO
      * @var int[]
      * @JMS\Type("array<string>")
      */
+    public $administrators;
+
+    /**
+     * @var int[]
+     * @JMS\Type("array<string>")
+     */
     public $offerings;
 
     public function __construct(
@@ -150,5 +156,6 @@ class SessionDTO
         $this->meshDescriptors = [];
         $this->learningMaterials = [];
         $this->offerings = [];
+        $this->administrators = [];
     }
 }

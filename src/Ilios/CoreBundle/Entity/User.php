@@ -315,6 +315,17 @@ class User implements UserInterface
     protected $directedCourses;
 
     /**
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Session", mappedBy="administrators")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("administeredSessions")
+     */
+    protected $administeredSessions;
+
+    /**
      * @var ArrayCollection|LearnerGroupInterface[]
      *
      * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="users")
@@ -517,6 +528,7 @@ class User implements UserInterface
         $this->pendingUserUpdates       = new ArrayCollection();
         $this->auditLogs                = new ArrayCollection();
         $this->permissions              = new ArrayCollection();
+        $this->administeredSessions     = new ArrayCollection();
         $this->learnerIlmSessions       = new ArrayCollection();
         $this->directedSchools       = new ArrayCollection();
         $this->addedViaIlios            = false;
@@ -856,6 +868,46 @@ class User implements UserInterface
     public function getDirectedCourses()
     {
         return $this->directedCourses;
+    }
+
+    /**
+     * @param Collection $sessions
+     */
+    public function setAdministeredSessions(Collection $sessions)
+    {
+        $this->administeredSessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addAdministeredSession($session);
+        }
+    }
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function addAdministeredSession(SessionInterface $session)
+    {
+        if (!$this->administeredSessions->contains($session)) {
+            $this->administeredSessions->add($session);
+            $session->addAdministrator($this);
+        }
+    }
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function removeAdministeredSession(SessionInterface $session)
+    {
+        $this->administeredSessions->removeElement($session);
+        $session->removeAdministrator($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAdministeredSessions()
+    {
+        return $this->administeredSessions;
     }
 
     /**

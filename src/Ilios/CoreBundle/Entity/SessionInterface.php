@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\AdministratorsEntityInterface;
 use Ilios\CoreBundle\Traits\CategorizableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
@@ -31,7 +32,8 @@ interface SessionInterface extends
     PublishableEntityInterface,
     CategorizableEntityInterface,
     MeshDescriptorsEntityInterface,
-    SequenceBlocksEntityInterface
+    SequenceBlocksEntityInterface,
+    AdministratorsEntityInterface
 {
     /**
      * @param boolean $attireRequired

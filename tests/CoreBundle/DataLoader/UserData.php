@@ -40,6 +40,7 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => ['1'],
             'permissions' => [],
             'directedSchools' => ['1'],
+            'administeredSessions' => ['1'],
         );
 
         $arr[] = array(
@@ -73,6 +74,7 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => [],
             'permissions' => ['1', '2', '3', '4'],
             'directedSchools' => [],
+            'administeredSessions' => [],
         );
 
         $arr[] = array(
@@ -105,6 +107,7 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => [],
             'permissions' => [],
             'directedSchools' => [],
+            'administeredSessions' => [],
         );
 
         $arr[] = array(
@@ -137,6 +140,7 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => ['2'],
             'permissions' => [],
             'directedSchools' => [],
+            'administeredSessions' => [],
         );
 
         return $arr;
@@ -172,6 +176,7 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => [],
             'permissions' => [],
             'directedSchools' => [],
+            'administeredSessions' => [],
         ];
     }
 

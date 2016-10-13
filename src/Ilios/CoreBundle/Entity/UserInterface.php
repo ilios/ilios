@@ -410,6 +410,26 @@ interface UserInterface extends
     public function getAlerts();
 
     /**
+     * @param Collection $administeredSessions
+     */
+    public function setAdministeredSessions(Collection $administeredSessions);
+
+    /**
+     * @param SessionInterface $administeredSession
+     */
+    public function addAdministeredSession(SessionInterface $administeredSession);
+
+    /**
+     * @param SessionInterface $administeredSession
+     */
+    public function removeAdministeredSession(SessionInterface $administeredSession);
+
+    /**
+     * @return ArrayCollection|SessionInterface[]
+     */
+    public function getAdministeredSessions();
+
+    /**
      * @param Collection $learnerIlmSessions
      */
     public function setLearnerIlmSessions(Collection $learnerIlmSessions);

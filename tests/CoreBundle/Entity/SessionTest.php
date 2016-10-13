@@ -344,4 +344,29 @@ class SessionTest extends EntityBase
     {
         $this->entityCollectionSetTest('offering', 'Offering');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::addAdministrator
+     */
+    public function testAddAdministrator()
+    {
+        $this->entityCollectionAddTest('administrator', 'User', false, false, 'addAdministeredSession');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::removeAdministrator
+     */
+    public function testRemoveAdministrator()
+    {
+        $this->entityCollectionRemoveTest('administrator', 'User', false, false, false, 'removeAdministeredSession');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::getAdministrators
+     * @covers Ilios\CoreBundle\Entity\Session::setAdministrators
+     */
+    public function testSetAdministrators()
+    {
+        $this->entityCollectionSetTest('administrator', 'User', false, false, 'addAdministeredSession');
+    }
 }

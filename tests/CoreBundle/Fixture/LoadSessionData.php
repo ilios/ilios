@@ -53,6 +53,9 @@ class LoadSessionData extends AbstractFixture implements
                     $entity->$method($this->getReference($key . $id));
                 }
             }
+            foreach ($arr['administrators'] as $id) {
+                $entity->addAdministrator($this->getReference('users' . $id));
+            }
             $manager->persist($entity);
 
             $this->addReference('sessions' . $arr['id'], $entity);
@@ -69,6 +72,7 @@ class LoadSessionData extends AbstractFixture implements
             'Tests\CoreBundle\Fixture\LoadObjectiveData',
             'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
             'Tests\CoreBundle\Fixture\LoadTermData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
         );
     }
 }

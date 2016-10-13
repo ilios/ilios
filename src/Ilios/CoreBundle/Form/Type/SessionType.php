@@ -60,6 +60,10 @@ class SessionType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionDescription"
             ])
+            ->add('administrators', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
         ;
 
         $builder->get('title')->addViewTransformer(new RemoveMarkupTransformer());
