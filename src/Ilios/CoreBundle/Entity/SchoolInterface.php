@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\AdministratorsEntityInterface;
 use Ilios\CoreBundle\Traits\AlertableEntityInterface;
 use Ilios\CoreBundle\Traits\CompetenciesEntityInterface;
 use Ilios\CoreBundle\Traits\DirectorsEntityInterface;
@@ -33,7 +34,8 @@ interface SchoolInterface extends
     SessionTypesEntityInterface,
     InstructorGroupsEntityInterface,
     CompetenciesEntityInterface,
-    DirectorsEntityInterface
+    DirectorsEntityInterface,
+    AdministratorsEntityInterface
 {
     /**
      * @param string $templatePrefix

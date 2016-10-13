@@ -94,6 +94,10 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
+            ->add('administeredSchools', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:School"
+            ])
             ->add('administeredSessions', ManyRelatedType::class, [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"

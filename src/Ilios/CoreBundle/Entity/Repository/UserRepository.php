@@ -808,6 +808,7 @@ class UserRepository extends EntityRepository
             'permissions',
             'learnerIlmSessions',
             'directedSchools',
+            'administeredSchools',
             'administeredSessions'
         ];
 

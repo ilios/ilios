@@ -56,6 +56,9 @@ class LoadUserData extends AbstractFixture implements
             foreach ($arr['directedSchools'] as $id) {
                 $entity->addDirectedSchool($this->getReference('schools' . $id));
             }
+            foreach ($arr['administeredSchools'] as $id) {
+                $entity->addAdministeredSchool($this->getReference('schools' . $id));
+            }
             $manager->persist($entity);
             $this->addReference('users' . $arr['id'], $entity);
         }

@@ -40,6 +40,7 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => ['1'],
             'permissions' => [],
             'directedSchools' => ['1'],
+            'administeredSchools' => ['1'],
             'administeredSessions' => ['1'],
             'administeredCourses' => ['1'],
         );
@@ -75,6 +76,7 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => [],
             'permissions' => ['1', '2', '3', '4'],
             'directedSchools' => [],
+            'administeredSchools' => [],
             'administeredSessions' => [],
             'administeredCourses' => [],
         );
@@ -109,6 +111,7 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => [],
             'permissions' => [],
             'directedSchools' => [],
+            'administeredSchools' => [],
             'administeredSessions' => [],
             'administeredCourses' => [],
         );
@@ -143,6 +146,7 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => ['2'],
             'permissions' => [],
             'directedSchools' => [],
+            'administeredSchools' => [],
             'administeredSessions' => [],
             'administeredCourses' => [],
         );
@@ -180,6 +184,7 @@ class UserData extends AbstractDataLoader
             'pendingUserUpdates' => [],
             'permissions' => [],
             'directedSchools' => [],
+            'administeredSchools' => [],
             'administeredSessions' => [],
             'administeredCourses' => [],
         ];

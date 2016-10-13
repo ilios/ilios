@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Ilios\CoreBundle\Traits\AdministratorsEntity;
 use Ilios\CoreBundle\Traits\AlertableEntity;
 use Ilios\CoreBundle\Traits\CompetenciesEntity;
 use Ilios\CoreBundle\Traits\DirectorsEntity;
@@ -48,6 +49,7 @@ class School implements SchoolInterface
     use InstructorGroupsEntity;
     use CompetenciesEntity;
     use DirectorsEntity;
+    use AdministratorsEntity;
 
     /**
      * @var int
@@ -249,6 +251,24 @@ class School implements SchoolInterface
     protected $directors;
 
     /**
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="administeredSchools"))
+     * @ORM\JoinTable(name="school_administrator",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $administrators;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -263,6 +283,7 @@ class School implements SchoolInterface
         $this->instructorGroups = new ArrayCollection();
         $this->sessionTypes = new ArrayCollection();
         $this->directors = new ArrayCollection();
+        $this->administrators = new ArrayCollection();
     }
 
     /**
@@ -446,6 +467,28 @@ class School implements SchoolInterface
         if ($this->directors->contains($director)) {
             $this->directors->removeElement($director);
             $director->removeDirectedSchool($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addAdministrator(UserInterface $administrator)
+    {
+        if (!$this->administrators->contains($administrator)) {
+            $this->administrators->add($administrator);
+            $administrator->addAdministeredSchool($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeAdministrator(UserInterface $administrator)
+    {
+        if ($this->administrators->contains($administrator)) {
+            $this->administrators->removeElement($administrator);
+            $administrator->removeAdministeredSchool($this);
         }
     }
 }
