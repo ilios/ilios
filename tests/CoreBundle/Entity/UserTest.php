@@ -60,6 +60,7 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getPendingUserUpdates());
         $this->assertEmpty($this->object->getPermissions());
         $this->assertEmpty($this->object->getAdministeredSessions());
+        $this->assertEmpty($this->object->getAdministeredCourses());
     }
 
     /**
@@ -716,5 +717,30 @@ class UserTest extends EntityBase
     public function testGetDirectedSchools()
     {
         $this->entityCollectionSetTest('directedSchool', 'School', false, false, 'addDirector');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::addAdministeredCourse
+     */
+    public function testAddAdministeredCourse()
+    {
+        $this->entityCollectionAddTest('administeredCourse', 'Course', false, false, 'addAdministrator');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeAdministeredCourse
+     */
+    public function testRemoveAdministeredCourse()
+    {
+        $this->entityCollectionRemoveTest('administeredCourse', 'Course', false, false, false, 'removeAdministrator');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::getAdministeredCourses
+     * @covers Ilios\CoreBundle\Entity\User::setAdministeredCourses
+     */
+    public function testGetAdministeredCourses()
+    {
+        $this->entityCollectionSetTest('administeredCourse', 'Course', false, false, 'addAdministrator');
     }
 }

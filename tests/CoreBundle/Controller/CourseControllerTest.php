@@ -345,6 +345,7 @@ class CourseControllerTest extends AbstractControllerTest
 
         $data['objectives'] = ['3'];
         $data['directors'] = ['2'];
+        $data['administrators'] = ['2'];
         $data['cohorts'] = ['2'];
         $data['meshDescriptors'] = ['abc2'];
         $data['descendants'] = ['3'];

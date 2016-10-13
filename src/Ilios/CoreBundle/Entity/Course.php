@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\AdministratorsEntity;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
 use Ilios\CoreBundle\Traits\CohortsEntity;
 use Ilios\CoreBundle\Traits\DirectorsEntity;
@@ -51,6 +52,7 @@ class Course implements CourseInterface
     use CohortsEntity;
     use MeshDescriptorsEntity;
     use DirectorsEntity;
+    use AdministratorsEntity;
 
     /**
      * @var int
@@ -258,6 +260,24 @@ class Course implements CourseInterface
     protected $directors;
 
     /**
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="administeredCourses"))
+     * @ORM\JoinTable(name="course_administrator",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $administrators;
+
+    /**
      * @var ArrayCollection|CohortInterface[]
      *
      * @ORM\ManyToMany(targetEntity="Cohort", inversedBy="courses")
@@ -380,6 +400,7 @@ class Course implements CourseInterface
     public function __construct()
     {
         $this->directors = new ArrayCollection();
+        $this->administrators = new ArrayCollection();
         $this->cohorts = new ArrayCollection();
         $this->terms = new ArrayCollection();
         $this->objectives = new ArrayCollection();
@@ -647,6 +668,28 @@ class Course implements CourseInterface
         if ($this->terms->contains($term)) {
             $this->terms->removeElement($term);
             $term->removeCourse($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addAdministrator(UserInterface $administrator)
+    {
+        if (!$this->administrators->contains($administrator)) {
+            $this->administrators->add($administrator);
+            $administrator->addAdministeredCourse($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeAdministrator(UserInterface $administrator)
+    {
+        if ($this->administrators->contains($administrator)) {
+            $this->administrators->removeElement($administrator);
+            $administrator->removeAdministeredCourse($this);
         }
     }
 }

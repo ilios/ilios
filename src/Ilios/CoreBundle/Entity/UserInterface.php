@@ -221,6 +221,26 @@ interface UserInterface extends
     public function getDirectedCourses();
 
     /**
+     * @param Collection $administeredCourses
+     */
+    public function setAdministeredCourses(Collection $administeredCourses);
+
+    /**
+     * @param CourseInterface $administeredCourse
+     */
+    public function addAdministeredCourse(CourseInterface $administeredCourse);
+
+    /**
+     * @param CourseInterface $administeredCourse
+     */
+    public function removeAdministeredCourse(CourseInterface $administeredCourse);
+
+    /**
+     * @return ArrayCollection|CourseInterface[]
+     */
+    public function getAdministeredCourses();
+
+    /**
      * @param int $courseId
      * @return boolean
      */

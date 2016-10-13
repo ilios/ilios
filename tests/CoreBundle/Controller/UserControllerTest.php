@@ -804,6 +804,7 @@ class UserControllerTest extends AbstractControllerTest
             ->get('ilioscore.dataloader.user')
             ->getOne();
         $data['directedCourses'] = ['2'];
+        $data['administeredCourses'] = ['3'];
         $data['learnerGroups'] = ['2'];
         $data['instructedLearnerGroups'] = ['2'];
         $data['instructorGroups'] = ['2'];
@@ -864,6 +865,7 @@ class UserControllerTest extends AbstractControllerTest
         $data['lastName'] = 'Vizquel';
 
         $data['directedCourses'] = ['1'];
+        $data['administeredCourses'] = ['1'];
         $data['learnerGroups'] = ['4'];
         $data['instructedLearnerGroups'] = ['2'];
         $data['instructorGroups'] = ['4'];

@@ -119,6 +119,13 @@ class UserDTO
     /**
      * @var array
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("administeredCourses")
+     */
+    public $administeredCourses;
+
+    /**
+     * @var array
+     * @JMS\Type("array<string>")
      * @JMS\SerializedName("learnerGroups")
      */
     public $learnerGroups;
@@ -244,6 +251,7 @@ class UserDTO
 
         $this->reminders                = [];
         $this->directedCourses          = [];
+        $this->administeredCourses          = [];
         $this->learnerGroups            = [];
         $this->instructedLearnerGroups  = [];
         $this->instructorGroups         = [];
