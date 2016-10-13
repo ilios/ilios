@@ -243,7 +243,7 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers_a
+     * @group controllers
      */
     public function testRolloverCurriculumInventoryReport()
     {
@@ -339,6 +339,134 @@ class CurriculumInventoryReportControllerTest extends AbstractControllerTest
         $this->assertSame(count($levels), count($newLevels));
 
         // compare sequence blocks.
-        // @todo implement. [ST 2016/10/13]
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_curriculuminventorysequenceblocks',
+                ['filters[report]' => $report['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $blocks = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        $blocksById = [];
+        $blocksByTitle = [];
+        foreach ($blocks as $block) {
+            $blocksById[$block['id']] = $block;
+            $blocksByTitle[$block['title']] = $block; // assuming that fixture seq blocks have unique titles.
+        }
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'cget_curriculuminventorysequenceblocks',
+                ['filters[report]' => $newReport['id']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $newBlocks = json_decode($response->getContent(), true)['curriculumInventorySequenceBlocks'];
+        $newBlocksById = [];
+        foreach ($newBlocks as $block) {
+            $newBlocksById[$block['id']] = $block;
+        }
+
+        $this->assertSame(count($blocks), count($newBlocks));
+        foreach ($newBlocks as $newBlock) {
+            $block = $blocksByTitle[$newBlock['title']];
+            $this->assertSame($block['required'], $newBlock['required']);
+            $this->assertSame($block['childSequenceOrder'], $newBlock['childSequenceOrder']);
+            $this->assertSame($block['orderInSequence'], $newBlock['orderInSequence']);
+            $this->assertSame($block['minimum'], $newBlock['minimum']);
+            $this->assertSame($block['maximum'], $newBlock['maximum']);
+            $this->assertSame($block['track'], $newBlock['track']);
+            $this->assertSame($block['startDate'], $newBlock['startDate']);
+            $this->assertSame($block['endDate'], $newBlock['endDate']);
+            $this->assertSame($block['duration'], $newBlock['duration']);
+            $this->assertSame(
+                $levelsById[$block['academicLevel']]['level'],
+                $newLevelsById[$newBlock['academicLevel']]['level']
+            );
+            $this->assertFalse(array_key_exists('course', $newBlock));
+            $this->assertEmpty($newBlock['sessions']);
+            $this->assertSame(count($block['children']), count($newBlock['children']));
+            if (count($newBlock['children'])) {
+                foreach ($newBlock['children'] as $childId) {
+                    $newChild = $newBlocksById[$childId];
+                    $oldChild = $blocksByTitle[$newChild['title']];
+                    $this->assertSame((int) $block['id'], (int) $oldChild['parent']);
+                }
+            }
+            if (array_key_exists('parent', $newBlock)) {
+                 $newParent = $newBlocksById[$newBlock['parent']];
+                $oldParent = $blocksById[$block['parent']];
+                $this->assertSame($oldParent['title'], $newParent['title']);
+            } else {
+                $this->assertFalse(array_key_exists('parent', $block));
+            }
+        }
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testRolloverCurriculumInventoryReportNotFound()
+    {
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'api_curriculuminventoryreport_rollover_v1',
+                [
+                    'id' => '-1',
+                ]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testRolloverCurriculumInventoryReportWithOverrides()
+    {
+        $this->assertTrue(true);
+        $report = $this->container
+            ->get('ilioscore.dataloader.curriculuminventoryreport')
+            ->getOne()
+        ;
+
+        $overrides = [
+            'name' => strrev($report['name']),
+            'description' => strrev($report['description']),
+            'year' => $report['year'] + 1,
+        ];
+
+        $postParams = array_merge($overrides, ['id' => $report['id']]);
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                'api_curriculuminventoryreport_rollover_v1',
+                $postParams
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_CREATED);
+        $data = json_decode($response->getContent(), true)['curriculumInventoryReports'];
+        $newReport = $data[0];
+
+        $this->assertSame($overrides['name'], $newReport['name']);
+        $this->assertNotSame($report['name'], $newReport['name']);
+        $this->assertSame($overrides['description'], $newReport['description']);
+        $this->assertNotSame($report['description'], $newReport['description']);
+        $this->assertSame((int) $overrides['year'], (int) $newReport['year']);
+        $this->assertNotSame((int) $report['year'], (int) $newReport['year']);
     }
 }
