@@ -28,7 +28,7 @@ class ObjectiveData extends AbstractDataLoader
             'programYears' => ['1'],
             'sessions' => ['1'],
             'parents' => ['1'],
-            'children' => ['3'],
+            'children' => ['3', '6'],
             'meshDescriptors' => ['abc1'],
             'descendants' => ['3']
         );
@@ -76,7 +76,7 @@ class ObjectiveData extends AbstractDataLoader
             'courses' => [],
             'programYears' => [],
             'sessions' => ["4"],
-            'parents' => [],
+            'parents' => ['2'],
             'children' => [],
             'meshDescriptors' => ["abc1"],
             'descendants' => ['7']

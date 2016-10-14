@@ -363,4 +363,46 @@ class CourseTest extends EntityBase
     {
         $this->entityCollectionSetTest('administrator', 'User', false, false, 'addAdministeredCourse');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::addObjective
+     */
+    public function testAddObjective()
+    {
+        $this->entityCollectionAddTest('objective', 'Objective', false, false, 'addCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::removeObjective
+     */
+    public function testRemoveObjective()
+    {
+        $this->entityCollectionRemoveTest('objective', 'Objective', false, false, false, 'removeCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::getObjectives
+     */
+    public function testGetObjectives()
+    {
+        $this->entityCollectionSetTest('objective', 'Objective', false, false, 'addCourse');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Course::removeObjective
+     */
+    public function testRemoveObjectiveWithSessionChildren()
+    {
+        $sessionObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+        $session = m::mock('Ilios\CoreBundle\Entity\Session');
+        $this->object->addSession($session);
+        $courseObjective = m::mock('Ilios\CoreBundle\Entity\Objective');
+        $courseObjective->shouldReceive('addCourse')->with($this->object)->once();
+        $courseObjective->shouldReceive('removeCourse')->with($this->object)->once();
+
+        $session->shouldReceive('getObjectives')->andReturn([$sessionObjective])->once();
+        $sessionObjective->shouldReceive('removeParent')->with($courseObjective)->once();
+        $this->object->addObjective($courseObjective);
+        $this->object->removeObjective($courseObjective);
+    }
 }
