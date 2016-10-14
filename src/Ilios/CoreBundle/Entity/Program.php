@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\DirectorsEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,6 +35,7 @@ class Program implements ProgramInterface
     use ProgramYearsEntity;
     use SchoolEntity;
     use PublishableEntity;
+    use DirectorsEntity;
 
     /**
      * @var int
@@ -160,6 +162,24 @@ class Program implements ProgramInterface
     */
     protected $curriculumInventoryReports;
 
+    /**
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="directedPrograms"))
+     * @ORM\JoinTable(name="program_director",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="program_id", referencedColumnName="program_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $directors;
+
         /**
      * Constructor
      */
@@ -169,6 +189,7 @@ class Program implements ProgramInterface
         $this->published = false;
         $this->programYears = new ArrayCollection();
         $this->curriculumInventoryReports = new ArrayCollection();
+        $this->directors = new ArrayCollection();
     }
 
     /**
@@ -241,5 +262,27 @@ class Program implements ProgramInterface
     public function getCurriculumInventoryReports()
     {
         return $this->curriculumInventoryReports;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addDirector(UserInterface $director)
+    {
+        if (!$this->directors->contains($director)) {
+            $this->directors->add($director);
+            $director->addDirectedProgram($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeDirector(UserInterface $director)
+    {
+        if ($this->directors->contains($director)) {
+            $this->directors->removeElement($director);
+            $director->removeDirectedProgram($this);
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\DirectorsEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\PublishableEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
@@ -22,7 +23,8 @@ interface ProgramInterface extends
     ProgramYearsEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,
-    PublishableEntityInterface
+    PublishableEntityInterface,
+    DirectorsEntityInterface
 {
     /**
      * @param string $shortTitle

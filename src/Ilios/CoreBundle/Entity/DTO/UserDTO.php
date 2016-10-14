@@ -231,6 +231,13 @@ class UserDTO
      */
     public $administeredSessions;
 
+    /**
+     * @var array
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("directedPrograms")
+     */
+    public $directedPrograms;
+
     public function __construct(
         $id,
         $firstName,
@@ -276,5 +283,6 @@ class UserDTO
         $this->directedSchools          = [];
         $this->administeredSchools      = [];
         $this->administeredSessions     = [];
+        $this->directedPrograms         = [];
     }
 }

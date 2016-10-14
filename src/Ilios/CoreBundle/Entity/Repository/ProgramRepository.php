@@ -66,7 +66,8 @@ class ProgramRepository extends EntityRepository
         }
         $related = [
             'programYears',
-            'curriculumInventoryReports'
+            'curriculumInventoryReports',
+            'directors'
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()

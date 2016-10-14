@@ -818,6 +818,7 @@ class UserControllerTest extends AbstractControllerTest
         $data['primaryCohort'] = '2';
         $data['directedSchools'] = ['2'];
         $data['administeredSessions'] = ['2'];
+        $data['directedPrograms'] = ['2'];
 
         $data['userSyncIgnore'] = true;
         $data['firstName'] = 'Omar';
@@ -877,6 +878,7 @@ class UserControllerTest extends AbstractControllerTest
         $data['cohorts'] = ['2'];
         $data['directedSchools'] = ['1'];
         $data['administeredSessions'] = ['1'];
+        $data['directedPrograms'] = ['1'];
 
         $postData = $data;
         //unset any parameters which should not be POSTed
