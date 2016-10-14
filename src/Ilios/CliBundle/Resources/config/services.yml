@@ -90,3 +90,18 @@ services:
         arguments: [ "@ilioscore.curriculuminventoryreport.manager", "@ilioscore.curriculum_inventory.rollover" ]
         tags:
             -  { name: console.command }
+    ilioscli.command.list_root_users:
+        class: Ilios\CliBundle\Command\ListRootUsersCommand
+        arguments: [ "@ilioscore.user.manager" ]
+        tags:
+            -  { name: console.command }
+    ilioscli.command.set_root_user:
+        class: Ilios\CliBundle\Command\SetRootUserCommand
+        arguments: [ "@ilioscore.user.manager" ]
+        tags:
+            -  { name: console.command }
+    ilioscli.command.unset_root_user:
+        class: Ilios\CliBundle\Command\UnsetRootUserCommand
+        arguments: [ "@ilioscore.user.manager" ]
+        tags:
+            -  { name: console.command }
