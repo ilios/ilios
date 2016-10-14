@@ -59,6 +59,7 @@ class ProgramTest extends EntityBase
     {
         $this->assertEmpty($this->object->getProgramYears());
         $this->assertEmpty($this->object->getCurriculumInventoryReports());
+        $this->assertEmpty($this->object->getDirectors());
     }
 
     /**
@@ -162,5 +163,29 @@ class ProgramTest extends EntityBase
     public function testGetCurriculumInventoryReports()
     {
         $this->entityCollectionSetTest('curriculumInventoryReport', 'CurriculumInventoryReport');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Program::addDirector
+     */
+    public function testAddDirector()
+    {
+        $this->entityCollectionAddTest('director', 'User', false, false, 'addDirectedProgram');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Program::removeDirector
+     */
+    public function testRemoveDirector()
+    {
+        $this->entityCollectionRemoveTest('director', 'User', false, false, false, 'removeDirectedProgram');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Program::getDirectors
+     */
+    public function testGetDirectors()
+    {
+        $this->entityCollectionSetTest('director', 'User', false, false, 'addDirectedProgram');
     }
 }

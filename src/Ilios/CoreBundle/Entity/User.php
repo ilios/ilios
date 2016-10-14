@@ -529,6 +529,17 @@ class User implements UserInterface
     protected $administeredSchools;
 
     /**
+     * @var ArrayCollection|ProgramInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Program", mappedBy="directors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("directedPrograms")
+     */
+    protected $directedPrograms;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -555,6 +566,7 @@ class User implements UserInterface
         $this->learnerIlmSessions       = new ArrayCollection();
         $this->directedSchools          = new ArrayCollection();
         $this->administeredSchools      = new ArrayCollection();
+        $this->directedPrograms         = new ArrayCollection();
         $this->addedViaIlios            = false;
         $this->enabled                  = true;
         $this->examined                 = false;
@@ -1563,6 +1575,46 @@ class User implements UserInterface
     public function getAdministeredSchools()
     {
         return $this->administeredSchools;
+    }
+
+    /**
+     * @param Collection $programs
+     */
+    public function setDirectedPrograms(Collection $programs)
+    {
+        $this->directedPrograms = new ArrayCollection();
+
+        foreach ($programs as $program) {
+            $this->addDirectedProgram($program);
+        }
+    }
+
+    /**
+     * @param ProgramInterface $program
+     */
+    public function addDirectedProgram(ProgramInterface $program)
+    {
+        if (!$this->directedPrograms->contains($program)) {
+            $this->directedPrograms->add($program);
+            $program->addDirector($this);
+        }
+    }
+
+    /**
+     * @param ProgramInterface $program
+     */
+    public function removeDirectedProgram(ProgramInterface $program)
+    {
+        $this->directedPrograms->removeElement($program);
+        $program->removeDirector($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirectedPrograms()
+    {
+        return $this->directedPrograms;
     }
 
     /**

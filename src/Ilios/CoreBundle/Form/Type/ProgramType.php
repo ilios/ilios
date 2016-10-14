@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Form\Type;
 
 use Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer;
 use Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType;
+use Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,6 +30,10 @@ class ProgramType extends AbstractType
             ->add('school', SingleRelatedType::class, [
                 'required' => true,
                 'entityName' => "IliosCoreBundle:School"
+            ])
+            ->add('directors', ManyRelatedType::class, [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
             ])
         ;
         $transformer = new RemoveMarkupTransformer();

@@ -508,4 +508,24 @@ interface UserInterface extends
      * @return ArrayCollection|SchoolInterface[]
      */
     public function getAdministeredSchools();
+
+    /**
+     * @param Collection $programs
+     */
+    public function setDirectedPrograms(Collection $programs);
+
+    /**
+     * @param ProgramInterface $program
+     */
+    public function addDirectedProgram(ProgramInterface $program);
+
+    /**
+     * @param ProgramInterface $program
+     */
+    public function removeDirectedProgram(ProgramInterface $program);
+
+    /**
+     * @return ArrayCollection|ProgramInterface[]
+     */
+    public function getDirectedPrograms();
 }

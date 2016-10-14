@@ -17,7 +17,8 @@ class ProgramData extends AbstractDataLoader
             'published' => true,
             'school' => "1",
             'programYears' => ["1", "2"],
-            'curriculumInventoryReports' => ["1", "2", "3"]
+            'curriculumInventoryReports' => ["1", "2", "3"],
+            'directors' => ['1'],
         );
 
         $arr[] = array(
@@ -29,7 +30,8 @@ class ProgramData extends AbstractDataLoader
             'published' => false,
             'school' => "1",
             'programYears' => ["3"],
-            'curriculumInventoryReports' => []
+            'curriculumInventoryReports' => [],
+            'directors' => [],
         );
 
         $arr[] = array(
@@ -41,7 +43,8 @@ class ProgramData extends AbstractDataLoader
             'published' => false,
             'school' => "2",
             'programYears' => ["4"],
-            'curriculumInventoryReports' => []
+            'curriculumInventoryReports' => [],
+            'directors' => [],
         );
 
 
@@ -59,7 +62,8 @@ class ProgramData extends AbstractDataLoader
             'published' => true,
             'school' => "1",
             'programYears' => [],
-            'curriculumInventoryReports' => []
+            'curriculumInventoryReports' => [],
+            'directors' => [],
         );
     }
 

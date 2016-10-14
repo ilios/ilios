@@ -76,6 +76,12 @@ class ProgramDTO
      */
     public $curriculumInventoryReports;
 
+    /**
+     * @var int[]
+     * @JMS\Type("array<string>")
+     */
+    public $directors;
+
 
     public function __construct(
         $id,
@@ -94,5 +100,6 @@ class ProgramDTO
 
         $this->programYears = [];
         $this->curriculumInventoryReports = [];
+        $this->directors = [];
     }
 }
