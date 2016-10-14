@@ -1108,12 +1108,18 @@ class SessionControllerTest extends AbstractControllerTest
             unset($arr['updatedAt']);
             return $arr;
         }, json_decode($response->getContent(), true)['sessions']);
-        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(2, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $sessions[0]
             ),
             $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessions[3]
+            ),
+            $data[1]
         );
     }
 

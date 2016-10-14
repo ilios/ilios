@@ -432,12 +432,18 @@ class SessionTypeControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['sessionTypes'];
-        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(2, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $sessionTypes[0]
             ),
             $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $sessionTypes[1]
+            ),
+            $data[1]
         );
     }
 

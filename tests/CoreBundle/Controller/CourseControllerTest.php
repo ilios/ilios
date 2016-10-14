@@ -1443,4 +1443,49 @@ class CourseControllerTest extends AbstractControllerTest
             json_decode($response->getContent(), true)['course']['locked']
         );
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testRemovingCourseObjectiveRemovesSessionObjectivesToo()
+    {
+        $data = $this->container
+            ->get('ilioscore.dataloader.course')
+            ->getOne();
+        $objectiveId = $data['objectives'][0];
+        $data['objectives'] = [];
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['learningMaterials']);
+        unset($postData['sessions']);
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_courses',
+                ['id' => $data['id']]
+            ),
+            json_encode(['course' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_objectives',
+                ['id' => $objectiveId]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $result = json_decode($response->getContent(), true)['objectives'][0];
+        $this->assertEquals($result['children'], ['6']);
+    }
 }

@@ -692,4 +692,32 @@ class Course implements CourseInterface
             $administrator->removeAdministeredCourse($this);
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function addObjective(ObjectiveInterface $objective)
+    {
+        if (!$this->objectives->contains($objective)) {
+            $this->objectives->add($objective);
+            $objective->addCourse($this);
+        }
+    }
+
+    /**
+     * When and objective is remove from a course it needs to remove any relationships
+     * to children that belong to sessions in that course
+     */
+    public function removeObjective(ObjectiveInterface $objective)
+    {
+        if ($this->objectives->contains($objective)) {
+            $this->objectives->removeElement($objective);
+            $objective->removeCourse($this);
+            foreach ($this->getSessions() as $session) {
+                foreach ($session->getObjectives() as $sessionObjective) {
+                    $sessionObjective->removeParent($objective);
+                }
+            }
+        }
+    }
 }
