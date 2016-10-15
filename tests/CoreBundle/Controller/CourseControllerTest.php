@@ -1380,7 +1380,12 @@ class CourseControllerTest extends AbstractControllerTest
 
         $this->canNot($userId, 'POST', $this->getUrl('post_courses'), json_encode(['course' => $subject]));
         $this->canNot($userId, 'PUT', $this->getUrl('put_courses', ['id' => $id]), json_encode(['course' => $subject]));
-        $this->canNot($userId, 'PUT', $this->getUrl('put_courses', ['id' => $id * 10000]), json_encode(['course' => $subject]));
+        $this->canNot(
+            $userId,
+            'PUT',
+            $this->getUrl('put_courses', ['id' => $id * 10000]),
+            json_encode(['course' => $subject])
+        );
         $this->canNot($userId, 'DELETE', $this->getUrl('delete_courses', ['id' => $id]));
         $rolloverData = [
             'id' => $id,
