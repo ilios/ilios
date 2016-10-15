@@ -72,7 +72,7 @@ script:
   then (bin/console doctrine:schema:validate --env=dev);
   fi
 - if [ "$CHECK_CODING_STANDARDS" = true ];
-  then (vendor/bin/phpcs --standard=app/phpcs.xml src);
+  then (vendor/bin/phpcs --standard=app/phpcs.xml src && vendor/bin/phpcs --standard=app/phpcs.xml tests);
   fi
 - if [ "$CHECK_CODING_STANDARDS" = true ];
   then (php security-checker.phar security:check);
