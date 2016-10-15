@@ -521,8 +521,18 @@ class ProgramControllerTest extends AbstractControllerTest
         $userId = 3;
 
         $this->canNot($userId, 'POST', $this->getUrl('post_programs'), json_encode(['program' => $subject]));
-        $this->canNot($userId, 'PUT', $this->getUrl('put_programs', ['id' => $id]), json_encode(['program' => $subject]));
-        $this->canNot($userId, 'PUT', $this->getUrl('put_programs', ['id' => $id * 10000]), json_encode(['program' => $subject]));
+        $this->canNot(
+            $userId,
+            'PUT',
+            $this->getUrl('put_programs', ['id' => $id]),
+            json_encode(['program' => $subject])
+        );
+        $this->canNot(
+            $userId,
+            'PUT',
+            $this->getUrl('put_programs', ['id' => $id * 10000]),
+            json_encode(['program' => $subject])
+        );
         $this->canNot($userId, 'DELETE', $this->getUrl('delete_programs', ['id' => $id]));
     }
 }

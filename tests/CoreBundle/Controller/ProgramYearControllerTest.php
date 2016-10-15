@@ -418,8 +418,18 @@ class ProgramYearControllerTest extends AbstractControllerTest
         $userId = 3;
 
         $this->canNot($userId, 'POST', $this->getUrl('post_programyears'), json_encode(['programYear' => $subject]));
-        $this->canNot($userId, 'PUT', $this->getUrl('put_programyears', ['id' => $id]), json_encode(['programYear' => $subject]));
-        $this->canNot($userId, 'PUT', $this->getUrl('put_programyears', ['id' => $id * 10000]), json_encode(['programYear' => $subject]));
+        $this->canNot(
+            $userId,
+            'PUT',
+            $this->getUrl('put_programyears', ['id' => $id]),
+            json_encode(['programYear' => $subject])
+        );
+        $this->canNot(
+            $userId,
+            'PUT',
+            $this->getUrl('put_programyears', ['id' => $id * 10000]),
+            json_encode(['programYear' => $subject])
+        );
         $this->canNot($userId, 'DELETE', $this->getUrl('delete_programyears', ['id' => $id]));
     }
 
