@@ -33,7 +33,7 @@ class MeshQualifierTest extends EntityBase
         $this->validate(0);
     }
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::__construct
+     * @covers \Ilios\CoreBundle\Entity\MeshQualifier::__construct
      */
     public function testConstructor()
     {
@@ -45,8 +45,8 @@ class MeshQualifierTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::setName
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::getName
+     * @covers \Ilios\CoreBundle\Entity\MeshQualifier::setName
+     * @covers \Ilios\CoreBundle\Entity\MeshQualifier::getName
      */
     public function testSetName()
     {
@@ -54,7 +54,7 @@ class MeshQualifierTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::stampUpdate
+     * @covers \Ilios\CoreBundle\Entity\MeshQualifier::stampUpdate
      */
     public function testStampUpdate()
     {
@@ -67,7 +67,7 @@ class MeshQualifierTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::addDescriptor
+     * @covers \Ilios\CoreBundle\Entity\MeshQualifier::addDescriptor
      */
     public function testAddDescriptor()
     {
@@ -75,7 +75,7 @@ class MeshQualifierTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::removeDescriptor
+     * @covers \Ilios\CoreBundle\Entity\MeshQualifier::removeDescriptor
      */
     public function testRemoveDescriptor()
     {
@@ -83,8 +83,8 @@ class MeshQualifierTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::getDescriptors
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::setDescriptors
+     * @covers \Ilios\CoreBundle\Entity\MeshQualifier::getDescriptors
+     * @covers \Ilios\CoreBundle\Entity\MeshQualifier::setDescriptors
      */
     public function getGetDescriptors()
     {

@@ -29,7 +29,7 @@ class LoadMeshQualifierDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadMeshQualifierData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadMeshQualifierData::load
      * @group mesh_data_import
      */
     public function testLoad()

@@ -34,7 +34,7 @@ class CourseClerkshipTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::__construct
+     * @covers \Ilios\CoreBundle\Entity\CourseClerkshipType::__construct
      */
     public function testConstructor()
     {
@@ -42,8 +42,8 @@ class CourseClerkshipTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::setTitle
-     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::getTitle
+     * @covers \Ilios\CoreBundle\Entity\CourseClerkshipType::setTitle
+     * @covers \Ilios\CoreBundle\Entity\CourseClerkshipType::getTitle
      */
     public function testSetTitle()
     {
@@ -51,7 +51,7 @@ class CourseClerkshipTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::addCourse
+     * @covers \Ilios\CoreBundle\Entity\CourseClerkshipType::addCourse
      */
     public function testAddCourse()
     {
@@ -59,7 +59,7 @@ class CourseClerkshipTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::removeCourse
+     * @covers \Ilios\CoreBundle\Entity\CourseClerkshipType::removeCourse
      */
     public function testRemoveCourse()
     {
@@ -67,7 +67,7 @@ class CourseClerkshipTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::getCourses
+     * @covers \Ilios\CoreBundle\Entity\CourseClerkshipType::getCourses
      */
     public function testGetCourses()
     {

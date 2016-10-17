@@ -50,7 +50,7 @@ class SessionTypeTest extends EntityBase
         $this->validate(0);
     }
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::__construct
+     * @covers \Ilios\CoreBundle\Entity\SessionType::__construct
      */
     public function testConstructor()
     {
@@ -59,8 +59,8 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::setTitle
-     * @covers Ilios\CoreBundle\Entity\SessionType::getTitle
+     * @covers \Ilios\CoreBundle\Entity\SessionType::setTitle
+     * @covers \Ilios\CoreBundle\Entity\SessionType::getTitle
      */
     public function testSetTitle()
     {
@@ -68,8 +68,8 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::setSessionTypeCssClass
-     * @covers Ilios\CoreBundle\Entity\SessionType::getSessionTypeCssClass
+     * @covers \Ilios\CoreBundle\Entity\SessionType::setSessionTypeCssClass
+     * @covers \Ilios\CoreBundle\Entity\SessionType::getSessionTypeCssClass
      */
     public function testSetSessionTypeCssClass()
     {
@@ -77,8 +77,8 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::setAssessment
-     * @covers Ilios\CoreBundle\Entity\SessionType::isAssessment
+     * @covers \Ilios\CoreBundle\Entity\SessionType::setAssessment
+     * @covers \Ilios\CoreBundle\Entity\SessionType::isAssessment
      */
     public function testIsAssessment()
     {
@@ -86,8 +86,8 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::setAssessmentOption
-     * @covers Ilios\CoreBundle\Entity\SessionType::getAssessmentOption
+     * @covers \Ilios\CoreBundle\Entity\SessionType::setAssessmentOption
+     * @covers \Ilios\CoreBundle\Entity\SessionType::getAssessmentOption
      */
     public function testSetAssessmentOption()
     {
@@ -95,7 +95,7 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::addAamcMethod
+     * @covers \Ilios\CoreBundle\Entity\SessionType::addAamcMethod
      */
     public function testAddAamcMethod()
     {
@@ -103,7 +103,7 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::removeAamcMethod
+     * @covers \Ilios\CoreBundle\Entity\SessionType::removeAamcMethod
      */
     public function testRemoveAamcMethod()
     {
@@ -111,8 +111,8 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::setAamcMethods
-     * @covers Ilios\CoreBundle\Entity\SessionType::getAamcMethods
+     * @covers \Ilios\CoreBundle\Entity\SessionType::setAamcMethods
+     * @covers \Ilios\CoreBundle\Entity\SessionType::getAamcMethods
      */
     public function testSetAamcMethods()
     {
@@ -120,7 +120,7 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::addSession
+     * @covers \Ilios\CoreBundle\Entity\SessionType::addSession
      */
     public function testAddSession()
     {
@@ -128,7 +128,7 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::removeSession
+     * @covers \Ilios\CoreBundle\Entity\SessionType::removeSession
      */
     public function testRemoveSession()
     {
@@ -136,7 +136,7 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::setSessions
+     * @covers \Ilios\CoreBundle\Entity\SessionType::setSessions
      */
     public function testSetSessions()
     {

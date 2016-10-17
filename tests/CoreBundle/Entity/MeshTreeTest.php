@@ -34,8 +34,8 @@ class MeshTreeTest extends EntityBase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTree::setTreeNumber
-     * @covers Ilios\CoreBundle\Entity\MeshTree::getTreeNumber
+     * @covers \Ilios\CoreBundle\Entity\MeshTree::setTreeNumber
+     * @covers \Ilios\CoreBundle\Entity\MeshTree::getTreeNumber
      */
     public function testSetTreeNumber()
     {
@@ -43,8 +43,8 @@ class MeshTreeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTree::getDescriptor
-     * @covers Ilios\CoreBundle\Entity\MeshTree::setDescriptor
+     * @covers \Ilios\CoreBundle\Entity\MeshTree::getDescriptor
+     * @covers \Ilios\CoreBundle\Entity\MeshTree::setDescriptor
      */
     public function testSetDescriptor()
     {

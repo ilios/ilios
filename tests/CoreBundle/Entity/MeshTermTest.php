@@ -37,7 +37,7 @@ class MeshTermTest extends EntityBase
 
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::__construct
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::__construct
      */
     public function testConstructor()
     {
@@ -49,8 +49,8 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::setName
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::getName
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::setName
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::getName
      */
     public function testSetName()
     {
@@ -58,8 +58,8 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::setLexicalTag
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::getLexicalTag
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::setLexicalTag
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::getLexicalTag
      */
     public function testSetLexicalTag()
     {
@@ -67,8 +67,8 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::setConceptPreferred
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::isConceptPreferred
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::setConceptPreferred
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::isConceptPreferred
      */
     public function testSetConceptPreferred()
     {
@@ -76,8 +76,8 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::setRecordPreferred
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::isRecordPreferred
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::setRecordPreferred
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::isRecordPreferred
      */
     public function testSetRecordPreferred()
     {
@@ -85,8 +85,8 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::setPermuted
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::isPermuted
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::setPermuted
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::isPermuted
      */
     public function testSetPermuted()
     {
@@ -94,8 +94,8 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::setPrintable
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::isPrintable
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::setPrintable
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::isPrintable
      */
     public function testSetPrintable()
     {
@@ -103,7 +103,7 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::stampUpdate
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::stampUpdate
      */
     public function testStampUpdate()
     {
@@ -116,7 +116,7 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::addConcept
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::addConcept
      */
     public function testAddConcept()
     {
@@ -124,7 +124,7 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::removeConcept
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::removeConcept
      */
     public function testRemoveConcept()
     {
@@ -132,7 +132,7 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::getConcepts
+     * @covers \Ilios\CoreBundle\Entity\MeshTerm::getConcepts
      */
     public function getGetConcepts()
     {

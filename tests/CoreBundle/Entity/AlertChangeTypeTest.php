@@ -33,7 +33,7 @@ class AlertChangeTypeTest extends EntityBase
         $this->validate(0);
     }
     /**
-     * @covers Ilios\CoreBundle\Entity\AlertChangeType::__construct
+     * @covers \Ilios\CoreBundle\Entity\AlertChangeType::__construct
      */
     public function testConstructor()
     {
@@ -41,8 +41,8 @@ class AlertChangeTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AlertChangeType::setTitle
-     * @covers Ilios\CoreBundle\Entity\AlertChangeType::getTitle
+     * @covers \Ilios\CoreBundle\Entity\AlertChangeType::setTitle
+     * @covers \Ilios\CoreBundle\Entity\AlertChangeType::getTitle
      */
     public function testSetTitle()
     {
@@ -50,7 +50,7 @@ class AlertChangeTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AlertChangeType::addAlert
+     * @covers \Ilios\CoreBundle\Entity\AlertChangeType::addAlert
      */
     public function testAddAlert()
     {
@@ -58,7 +58,7 @@ class AlertChangeTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AlertChangeType::removeAlert
+     * @covers \Ilios\CoreBundle\Entity\AlertChangeType::removeAlert
      */
     public function testRemoveAlert()
     {
@@ -66,7 +66,7 @@ class AlertChangeTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AlertChangeType::getAlerts
+     * @covers \Ilios\CoreBundle\Entity\AlertChangeType::getAlerts
      */
     public function testGetAlerts()
     {

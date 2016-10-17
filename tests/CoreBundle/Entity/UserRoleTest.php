@@ -34,7 +34,7 @@ class UserRoleTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\UserRole::__construct
+     * @covers \Ilios\CoreBundle\Entity\UserRole::__construct
      */
     public function testConstructor()
     {
@@ -42,8 +42,8 @@ class UserRoleTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\UserRole::setTitle
-     * @covers Ilios\CoreBundle\Entity\UserRole::getTitle
+     * @covers \Ilios\CoreBundle\Entity\UserRole::setTitle
+     * @covers \Ilios\CoreBundle\Entity\UserRole::getTitle
      */
     public function testSetTitle()
     {
@@ -51,7 +51,7 @@ class UserRoleTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\UserRole::addUser
+     * @covers \Ilios\CoreBundle\Entity\UserRole::addUser
      */
     public function testAddUser()
     {
@@ -59,7 +59,7 @@ class UserRoleTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\UserRole::removeUser
+     * @covers \Ilios\CoreBundle\Entity\UserRole::removeUser
      */
     public function testRemoveUser()
     {
@@ -67,7 +67,7 @@ class UserRoleTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\UserRole::getUsers
+     * @covers \Ilios\CoreBundle\Entity\UserRole::getUsers
      */
     public function testGetUsers()
     {

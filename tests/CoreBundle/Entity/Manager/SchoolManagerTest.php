@@ -19,7 +19,7 @@ class SchoolManagerTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\SchoolManager::delete
+     * @covers \Ilios\CoreBundle\Entity\Manager\SchoolManager::delete
      */
     public function testDeleteSchool()
     {

@@ -47,7 +47,7 @@ class AuditLogExportCommandTest extends WebTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\InstallFirstUserCommand::execute
+     * @covers \Ilios\CliBundle\Command\InstallFirstUserCommand::execute
      */
     public function testExecuteWithDefaultRange()
     {
@@ -61,7 +61,7 @@ class AuditLogExportCommandTest extends WebTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\InstallFirstUserCommand::execute
+     * @covers \Ilios\CliBundle\Command\InstallFirstUserCommand::execute
      */
     public function testExecuteWithCustomRange()
     {
@@ -77,7 +77,7 @@ class AuditLogExportCommandTest extends WebTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\InstallFirstUserCommand::execute
+     * @covers \Ilios\CliBundle\Command\InstallFirstUserCommand::execute
      */
     public function testExecuteWithDeletion()
     {

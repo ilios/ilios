@@ -30,7 +30,7 @@ class LoadMeshConceptTermDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadMeshConceptTermData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadMeshConceptTermData::load
      * @group mesh_data_import
      */
     public function testLoad()

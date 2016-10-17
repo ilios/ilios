@@ -36,7 +36,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::__construct
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::__construct
      */
     public function testConstructor()
     {
@@ -44,8 +44,8 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setLevel
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getLevel
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setLevel
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getLevel
      */
     public function testSetLevel()
     {
@@ -53,8 +53,8 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setName
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getName
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setName
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getName
      */
     public function testSetName()
     {
@@ -62,8 +62,8 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setDescription
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getDescription
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setDescription
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getDescription
      */
     public function testSetDescription()
     {
@@ -71,8 +71,8 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setReport
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getReport
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setReport
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getReport
      */
     public function testSetReport()
     {
@@ -80,7 +80,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::addSequenceBlock
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::addSequenceBlock
      */
     public function testAddSequenceBlock()
     {
@@ -88,7 +88,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::removeSequenceBlock
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::removeSequenceBlock
      */
     public function testRemoveSequenceBlock()
     {
@@ -96,7 +96,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getSequenceBlocks
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getSequenceBlocks
      */
     public function testGetSequenceBlocks()
     {

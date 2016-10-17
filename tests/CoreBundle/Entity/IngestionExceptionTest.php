@@ -25,8 +25,8 @@ class IngestionExceptionTest extends EntityBase
     // not sure about this one -- there is the ID field which is NotBlank() but I recall this failing
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IngestionException::setUser
-     * @covers Ilios\CoreBundle\Entity\IngestionException::getUser
+     * @covers \Ilios\CoreBundle\Entity\IngestionException::setUser
+     * @covers \Ilios\CoreBundle\Entity\IngestionException::getUser
      */
     public function testSetUser()
     {
@@ -34,8 +34,8 @@ class IngestionExceptionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IngestionException::setUid
-     * @covers Ilios\CoreBundle\Entity\IngestionException::getUid
+     * @covers \Ilios\CoreBundle\Entity\IngestionException::setUid
+     * @covers \Ilios\CoreBundle\Entity\IngestionException::getUid
      */
     public function testSetTitle()
     {

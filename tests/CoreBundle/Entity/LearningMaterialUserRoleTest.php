@@ -34,7 +34,7 @@ class LearningMaterialUserRoleTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::__construct
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialUserRole::__construct
      */
     public function testConstructor()
     {
@@ -42,8 +42,8 @@ class LearningMaterialUserRoleTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::setTitle
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::getTitle
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialUserRole::setTitle
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialUserRole::getTitle
      */
     public function testSetTitle()
     {
@@ -51,7 +51,7 @@ class LearningMaterialUserRoleTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::addLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialUserRole::addLearningMaterial
      */
     public function testAddLearningMaterial()
     {
@@ -59,7 +59,7 @@ class LearningMaterialUserRoleTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::removeLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialUserRole::removeLearningMaterial
      */
     public function testRemoveLearningMaterial()
     {
@@ -67,7 +67,7 @@ class LearningMaterialUserRoleTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::getLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialUserRole::getLearningMaterials
      */
     public function testGetLearningMaterials()
     {

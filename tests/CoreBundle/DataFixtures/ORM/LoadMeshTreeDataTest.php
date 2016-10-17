@@ -29,7 +29,7 @@ class LoadMeshTreeDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadMeshTreeData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadMeshTreeData::load
      * @group mesh_data_import
      */
     public function testLoad()

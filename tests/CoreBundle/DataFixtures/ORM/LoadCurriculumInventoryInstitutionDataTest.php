@@ -29,7 +29,7 @@ class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadCurriculumInventoryInstitutionData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadCurriculumInventoryInstitutionData::load
      */
     public function testLoad()
     {

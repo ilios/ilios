@@ -26,8 +26,8 @@ class ProgramYearStewardTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::setDepartment
-     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getDepartment
+     * @covers \Ilios\CoreBundle\Entity\ProgramYearSteward::setDepartment
+     * @covers \Ilios\CoreBundle\Entity\ProgramYearSteward::getDepartment
      */
     public function testSetDepartment()
     {
@@ -35,8 +35,8 @@ class ProgramYearStewardTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::setProgramYear
-     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getProgramYear
+     * @covers \Ilios\CoreBundle\Entity\ProgramYearSteward::setProgramYear
+     * @covers \Ilios\CoreBundle\Entity\ProgramYearSteward::getProgramYear
      */
     public function testSetProgramYear()
     {
@@ -44,8 +44,8 @@ class ProgramYearStewardTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::setSchool
-     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getSchool
+     * @covers \Ilios\CoreBundle\Entity\ProgramYearSteward::setSchool
+     * @covers \Ilios\CoreBundle\Entity\ProgramYearSteward::getSchool
      */
     public function testSetSchool()
     {
@@ -53,7 +53,7 @@ class ProgramYearStewardTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getSchool
+     * @covers \Ilios\CoreBundle\Entity\ProgramYearSteward::getSchool
      */
     public function testGetSchool()
     {
@@ -61,7 +61,7 @@ class ProgramYearStewardTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getProgram
+     * @covers \Ilios\CoreBundle\Entity\ProgramYearSteward::getProgram
      */
     public function testGetProgram()
     {
@@ -82,7 +82,7 @@ class ProgramYearStewardTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getProgramOwningSchool
+     * @covers \Ilios\CoreBundle\Entity\ProgramYearSteward::getProgramOwningSchool
      */
     public function testGetProgramOwningSchool()
     {

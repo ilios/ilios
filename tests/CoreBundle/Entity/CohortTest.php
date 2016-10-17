@@ -37,7 +37,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::__construct
+     * @covers \Ilios\CoreBundle\Entity\Cohort::__construct
      */
     public function testConstructor()
     {
@@ -47,8 +47,8 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::setTitle
-     * @covers Ilios\CoreBundle\Entity\Cohort::getTitle
+     * @covers \Ilios\CoreBundle\Entity\Cohort::setTitle
+     * @covers \Ilios\CoreBundle\Entity\Cohort::getTitle
      */
     public function testSetTitle()
     {
@@ -56,8 +56,8 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::setProgramYear
-     * @covers Ilios\CoreBundle\Entity\Cohort::getProgramYear
+     * @covers \Ilios\CoreBundle\Entity\Cohort::setProgramYear
+     * @covers \Ilios\CoreBundle\Entity\Cohort::getProgramYear
      */
     public function testSetProgramYear()
     {
@@ -65,7 +65,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::addCourse
+     * @covers \Ilios\CoreBundle\Entity\Cohort::addCourse
      */
     public function testAddCourse()
     {
@@ -73,7 +73,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::removeCourse
+     * @covers \Ilios\CoreBundle\Entity\Cohort::removeCourse
      */
     public function testRemoveCourse()
     {
@@ -81,7 +81,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::getCourses
+     * @covers \Ilios\CoreBundle\Entity\Cohort::getCourses
      */
     public function testGetCourses()
     {
@@ -89,7 +89,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::addUser
+     * @covers \Ilios\CoreBundle\Entity\Cohort::addUser
      */
     public function testAddUser()
     {
@@ -97,7 +97,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::removeUser
+     * @covers \Ilios\CoreBundle\Entity\Cohort::removeUser
      */
     public function testRemoveUser()
     {
@@ -105,7 +105,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::getUsers
+     * @covers \Ilios\CoreBundle\Entity\Cohort::getUsers
      */
     public function testGetUsers()
     {
@@ -113,7 +113,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::addLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\Cohort::addLearnerGroup
      */
     public function testAddLearnerGroup()
     {
@@ -121,7 +121,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::removeLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\Cohort::removeLearnerGroup
      */
     public function testRemoveLearnerGroup()
     {
@@ -129,7 +129,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::getLearnerGroups
+     * @covers \Ilios\CoreBundle\Entity\Cohort::getLearnerGroups
      */
     public function testGetLearnerGroups()
     {
@@ -137,7 +137,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::getProgram
+     * @covers \Ilios\CoreBundle\Entity\Cohort::getProgram
      */
     public function testGetProgram()
     {
@@ -158,7 +158,7 @@ class CohortTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Cohort::getSchool
+     * @covers \Ilios\CoreBundle\Entity\Cohort::getSchool
      */
     public function testGetSchool()
     {

@@ -60,7 +60,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::__construct
+     * @covers \Ilios\CoreBundle\Entity\Course::__construct
      */
     public function testConstructor()
     {
@@ -76,8 +76,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setTitle
-     * @covers Ilios\CoreBundle\Entity\Course::getTitle
+     * @covers \Ilios\CoreBundle\Entity\Course::setTitle
+     * @covers \Ilios\CoreBundle\Entity\Course::getTitle
      */
     public function testSetTitle()
     {
@@ -85,8 +85,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setLevel
-     * @covers Ilios\CoreBundle\Entity\Course::getLevel
+     * @covers \Ilios\CoreBundle\Entity\Course::setLevel
+     * @covers \Ilios\CoreBundle\Entity\Course::getLevel
      */
     public function testSetCourseLevel()
     {
@@ -94,8 +94,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setYear
-     * @covers Ilios\CoreBundle\Entity\Course::getYear
+     * @covers \Ilios\CoreBundle\Entity\Course::setYear
+     * @covers \Ilios\CoreBundle\Entity\Course::getYear
      */
     public function testSetYear()
     {
@@ -103,8 +103,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setStartDate
-     * @covers Ilios\CoreBundle\Entity\Course::getStartDate
+     * @covers \Ilios\CoreBundle\Entity\Course::setStartDate
+     * @covers \Ilios\CoreBundle\Entity\Course::getStartDate
      */
     public function testSetStartDate()
     {
@@ -112,8 +112,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setEndDate
-     * @covers Ilios\CoreBundle\Entity\Course::getEndDate
+     * @covers \Ilios\CoreBundle\Entity\Course::setEndDate
+     * @covers \Ilios\CoreBundle\Entity\Course::getEndDate
      */
     public function testSetEndDate()
     {
@@ -121,8 +121,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setId
-     * @covers Ilios\CoreBundle\Entity\Course::getId
+     * @covers \Ilios\CoreBundle\Entity\Course::setId
+     * @covers \Ilios\CoreBundle\Entity\Course::getId
      */
     public function testSetExternalId()
     {
@@ -130,8 +130,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setLocked
-     * @covers Ilios\CoreBundle\Entity\Course::isLocked
+     * @covers \Ilios\CoreBundle\Entity\Course::setLocked
+     * @covers \Ilios\CoreBundle\Entity\Course::isLocked
      */
     public function testSetLocked()
     {
@@ -139,8 +139,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setArchived
-     * @covers Ilios\CoreBundle\Entity\Course::isArchived
+     * @covers \Ilios\CoreBundle\Entity\Course::setArchived
+     * @covers \Ilios\CoreBundle\Entity\Course::isArchived
      */
     public function testSetArchived()
     {
@@ -148,8 +148,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setPublishedAsTbd
-     * @covers Ilios\CoreBundle\Entity\Course::isPublishedAsTbd
+     * @covers \Ilios\CoreBundle\Entity\Course::setPublishedAsTbd
+     * @covers \Ilios\CoreBundle\Entity\Course::isPublishedAsTbd
      */
     public function testSetPublishedAsTbd()
     {
@@ -157,8 +157,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setPublished
-     * @covers Ilios\CoreBundle\Entity\Course::isPublished
+     * @covers \Ilios\CoreBundle\Entity\Course::setPublished
+     * @covers \Ilios\CoreBundle\Entity\Course::isPublished
      */
     public function testSetPublished()
     {
@@ -166,8 +166,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setSchool
-     * @covers Ilios\CoreBundle\Entity\Course::getSchool
+     * @covers \Ilios\CoreBundle\Entity\Course::setSchool
+     * @covers \Ilios\CoreBundle\Entity\Course::getSchool
      */
     public function testSetSchool()
     {
@@ -175,8 +175,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setClerkshipType
-     * @covers Ilios\CoreBundle\Entity\Course::getClerkshipType
+     * @covers \Ilios\CoreBundle\Entity\Course::setClerkshipType
+     * @covers \Ilios\CoreBundle\Entity\Course::getClerkshipType
      */
     public function testSetClerkshipType()
     {
@@ -184,7 +184,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::addDirector
+     * @covers \Ilios\CoreBundle\Entity\Course::addDirector
      */
     public function testAddDirector()
     {
@@ -192,7 +192,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::removeDirector
+     * @covers \Ilios\CoreBundle\Entity\Course::removeDirector
      */
     public function testRemoveDirector()
     {
@@ -200,7 +200,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::getDirectors
+     * @covers \Ilios\CoreBundle\Entity\Course::getDirectors
      */
     public function testGetDirectors()
     {
@@ -208,7 +208,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::addCohort
+     * @covers \Ilios\CoreBundle\Entity\Course::addCohort
      */
     public function testAddCohort()
     {
@@ -216,7 +216,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::removeCohort
+     * @covers \Ilios\CoreBundle\Entity\Course::removeCohort
      */
     public function testRemoveCohort()
     {
@@ -224,7 +224,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::getCohorts
+     * @covers \Ilios\CoreBundle\Entity\Course::getCohorts
      */
     public function testGetCohorts()
     {
@@ -232,7 +232,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::addLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\Course::addLearningMaterial
      */
     public function testAddLearningMaterial()
     {
@@ -240,7 +240,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::removeLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\Course::removeLearningMaterial
      */
     public function testRemoveLearningMaterial()
     {
@@ -248,8 +248,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setLearningMaterials
-     * @covers Ilios\CoreBundle\Entity\Course::getLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\Course::setLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\Course::getLearningMaterials
      */
     public function testGetLearningMaterials()
     {
@@ -257,7 +257,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::addTerm
+     * @covers \Ilios\CoreBundle\Entity\Course::addTerm
      */
     public function testAddTerm()
     {
@@ -265,7 +265,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::removeTerm
+     * @covers \Ilios\CoreBundle\Entity\Course::removeTerm
      */
     public function testRemoveTerm()
     {
@@ -273,8 +273,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::getTerms
-     * @covers Ilios\CoreBundle\Entity\Course::setTerms
+     * @covers \Ilios\CoreBundle\Entity\Course::getTerms
+     * @covers \Ilios\CoreBundle\Entity\Course::setTerms
      */
     public function testSetTerms()
     {
@@ -282,8 +282,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setAncestor
-     * @covers Ilios\CoreBundle\Entity\Course::getAncestor
+     * @covers \Ilios\CoreBundle\Entity\Course::setAncestor
+     * @covers \Ilios\CoreBundle\Entity\Course::getAncestor
      */
     public function testSetAncestor()
     {
@@ -291,7 +291,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::addDescendant
+     * @covers \Ilios\CoreBundle\Entity\Course::addDescendant
      */
     public function testAddDescendant()
     {
@@ -299,7 +299,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::removeDescendant
+     * @covers \Ilios\CoreBundle\Entity\Course::removeDescendant
      */
     public function testRemoveDescendant()
     {
@@ -307,8 +307,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::getDescendants
-     * @covers Ilios\CoreBundle\Entity\Course::setDescendants
+     * @covers \Ilios\CoreBundle\Entity\Course::getDescendants
+     * @covers \Ilios\CoreBundle\Entity\Course::setDescendants
      */
     public function testGetDescendants()
     {
@@ -316,7 +316,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::addSession
+     * @covers \Ilios\CoreBundle\Entity\Course::addSession
      */
     public function testAddSession()
     {
@@ -324,7 +324,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::removeSession
+     * @covers \Ilios\CoreBundle\Entity\Course::removeSession
      */
     public function testRemoveSession()
     {
@@ -332,7 +332,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::getSessions
+     * @covers \Ilios\CoreBundle\Entity\Course::getSessions
      */
     public function testGetSessions()
     {
@@ -340,7 +340,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::addAdministrator
+     * @covers \Ilios\CoreBundle\Entity\Course::addAdministrator
      */
     public function testAddAdministrator()
     {
@@ -348,7 +348,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::removeAdministrator
+     * @covers \Ilios\CoreBundle\Entity\Course::removeAdministrator
      */
     public function testRemoveAdministrator()
     {
@@ -356,8 +356,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::getAdministrators
-     * @covers Ilios\CoreBundle\Entity\Course::setAdministrators
+     * @covers \Ilios\CoreBundle\Entity\Course::getAdministrators
+     * @covers \Ilios\CoreBundle\Entity\Course::setAdministrators
      */
     public function testSetAdministrators()
     {
@@ -365,7 +365,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::addObjective
+     * @covers \Ilios\CoreBundle\Entity\Course::addObjective
      */
     public function testAddObjective()
     {
@@ -373,7 +373,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::removeObjective
+     * @covers \Ilios\CoreBundle\Entity\Course::removeObjective
      */
     public function testRemoveObjective()
     {
@@ -381,7 +381,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::getObjectives
+     * @covers \Ilios\CoreBundle\Entity\Course::getObjectives
      */
     public function testGetObjectives()
     {
@@ -389,7 +389,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::removeObjective
+     * @covers \Ilios\CoreBundle\Entity\Course::removeObjective
      */
     public function testRemoveObjectiveWithSessionChildren()
     {

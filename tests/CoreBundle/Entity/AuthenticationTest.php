@@ -23,8 +23,8 @@ class AuthenticationTest extends EntityBase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\Authentication::setUsername
-     * @covers Ilios\CoreBundle\Entity\Authentication::getUsername
+     * @covers \Ilios\CoreBundle\Entity\Authentication::setUsername
+     * @covers \Ilios\CoreBundle\Entity\Authentication::getUsername
      */
     public function testSetUsername()
     {
@@ -32,7 +32,7 @@ class AuthenticationTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Authentication::setPasswordSha256
+     * @covers \Ilios\CoreBundle\Entity\Authentication::setPasswordSha256
      */
     public function testSetPasswordSha256()
     {
@@ -40,8 +40,8 @@ class AuthenticationTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Authentication::setUser
-     * @covers Ilios\CoreBundle\Entity\Authentication::getUser
+     * @covers \Ilios\CoreBundle\Entity\Authentication::setUser
+     * @covers \Ilios\CoreBundle\Entity\Authentication::getUser
      */
     public function testSetUser()
     {
@@ -49,8 +49,8 @@ class AuthenticationTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Authentication::setInvalidateTokenIssuedBefore
-     * @covers Ilios\CoreBundle\Entity\Authentication::getInvalidateTokenIssuedBefore
+     * @covers \Ilios\CoreBundle\Entity\Authentication::setInvalidateTokenIssuedBefore
+     * @covers \Ilios\CoreBundle\Entity\Authentication::getInvalidateTokenIssuedBefore
      */
     public function testSetInvalidateTokenIssuedBefore()
     {

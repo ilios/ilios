@@ -30,7 +30,7 @@ class LoadMeshConceptSemanticTypeDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadMeshConceptSemanticTypeData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadMeshConceptSemanticTypeData::load
      * @group mesh_data_import
      */
     public function testLoad()

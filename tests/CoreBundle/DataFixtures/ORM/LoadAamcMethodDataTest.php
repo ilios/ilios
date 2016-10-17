@@ -29,7 +29,7 @@ class LoadAamcMethodDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadAamcMethodData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadAamcMethodData::load
      */
     public function testLoad()
     {

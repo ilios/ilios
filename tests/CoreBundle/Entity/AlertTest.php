@@ -36,7 +36,7 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::__construct
+     * @covers \Ilios\CoreBundle\Entity\Alert::__construct
      */
     public function testConstructor()
     {
@@ -46,8 +46,8 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::setTableName
-     * @covers Ilios\CoreBundle\Entity\Alert::getTableName
+     * @covers \Ilios\CoreBundle\Entity\Alert::setTableName
+     * @covers \Ilios\CoreBundle\Entity\Alert::getTableName
      */
     public function testSetTableName()
     {
@@ -55,8 +55,8 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::setAdditionalText
-     * @covers Ilios\CoreBundle\Entity\Alert::getAdditionalText
+     * @covers \Ilios\CoreBundle\Entity\Alert::setAdditionalText
+     * @covers \Ilios\CoreBundle\Entity\Alert::getAdditionalText
      */
     public function testSetAdditionalText()
     {
@@ -64,8 +64,8 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::setDispatched
-     * @covers Ilios\CoreBundle\Entity\Alert::isDispatched
+     * @covers \Ilios\CoreBundle\Entity\Alert::setDispatched
+     * @covers \Ilios\CoreBundle\Entity\Alert::isDispatched
      */
     public function testSetDispatched()
     {
@@ -73,7 +73,7 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::addChangeType
+     * @covers \Ilios\CoreBundle\Entity\Alert::addChangeType
      */
     public function testAddChangeType()
     {
@@ -81,7 +81,7 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::removeChangeType
+     * @covers \Ilios\CoreBundle\Entity\Alert::removeChangeType
      */
     public function testRemoveChangeType()
     {
@@ -89,8 +89,8 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::getChangeTypes
-     * @covers Ilios\CoreBundle\Entity\Alert::setChangeTypes
+     * @covers \Ilios\CoreBundle\Entity\Alert::getChangeTypes
+     * @covers \Ilios\CoreBundle\Entity\Alert::setChangeTypes
      */
     public function testGetChangeTypes()
     {
@@ -98,7 +98,7 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::addInstigator
+     * @covers \Ilios\CoreBundle\Entity\Alert::addInstigator
      */
     public function testAddInstigator()
     {
@@ -106,7 +106,7 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::removeInstigator
+     * @covers \Ilios\CoreBundle\Entity\Alert::removeInstigator
      */
     public function testRemoveInstigator()
     {
@@ -114,8 +114,8 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::getInstigators
-     * @covers Ilios\CoreBundle\Entity\Alert::setInstigators
+     * @covers \Ilios\CoreBundle\Entity\Alert::getInstigators
+     * @covers \Ilios\CoreBundle\Entity\Alert::setInstigators
      */
     public function testGetInstigators()
     {
@@ -123,7 +123,7 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::addRecipient
+     * @covers \Ilios\CoreBundle\Entity\Alert::addRecipient
      */
     public function testAddRecipient()
     {
@@ -131,7 +131,7 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::removeRecipient
+     * @covers \Ilios\CoreBundle\Entity\Alert::removeRecipient
      */
     public function testRemoveRecipient()
     {
@@ -139,8 +139,8 @@ class AlertTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Alert::getRecipients
-     * @covers Ilios\CoreBundle\Entity\Alert::setRecipients
+     * @covers \Ilios\CoreBundle\Entity\Alert::getRecipients
+     * @covers \Ilios\CoreBundle\Entity\Alert::setRecipients
      */
     public function testGetRecipients()
     {

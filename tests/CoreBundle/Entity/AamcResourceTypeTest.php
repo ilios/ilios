@@ -38,7 +38,7 @@ class AamcResourceTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcResourceType::__construct
+     * @covers \Ilios\CoreBundle\Entity\AamcResourceType::__construct
      */
     public function testConstructor()
     {
@@ -46,8 +46,8 @@ class AamcResourceTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcResourceType::setTitle
-     * @covers Ilios\CoreBundle\Entity\AamcResourceType::getTitle
+     * @covers \Ilios\CoreBundle\Entity\AamcResourceType::setTitle
+     * @covers \Ilios\CoreBundle\Entity\AamcResourceType::getTitle
      */
     public function testSetTitle()
     {
@@ -55,8 +55,8 @@ class AamcResourceTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcResourceType::setDescription
-     * @covers Ilios\CoreBundle\Entity\AamcResourceType::getDescription
+     * @covers \Ilios\CoreBundle\Entity\AamcResourceType::setDescription
+     * @covers \Ilios\CoreBundle\Entity\AamcResourceType::getDescription
      */
     public function testSetDescription()
     {
@@ -64,7 +64,7 @@ class AamcResourceTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcResourceType::addTerm
+     * @covers \Ilios\CoreBundle\Entity\AamcResourceType::addTerm
      */
     public function testAddTerm()
     {
@@ -72,7 +72,7 @@ class AamcResourceTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcResourceType::removeTerm
+     * @covers \Ilios\CoreBundle\Entity\AamcResourceType::removeTerm
      */
     public function testRemoveTerm()
     {
@@ -80,7 +80,7 @@ class AamcResourceTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcResourceType::getTerms
+     * @covers \Ilios\CoreBundle\Entity\AamcResourceType::getTerms
      */
     public function testGetTerms()
     {

@@ -49,7 +49,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::__construct
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::__construct
      */
     public function testConstructor()
     {
@@ -60,7 +60,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::addLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::addLearnerGroup
      */
     public function testAddLearnerGroup()
     {
@@ -68,7 +68,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::removeLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::removeLearnerGroup
      */
     public function testRemoveLearnerGroup()
     {
@@ -76,7 +76,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::getLearnerGroups
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::getLearnerGroups
      */
     public function testGetLearnerGroups()
     {
@@ -84,7 +84,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::addIlmSession
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::addIlmSession
      */
     public function testAddIlmSession()
     {
@@ -92,7 +92,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::removeIlmSession
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::removeIlmSession
      */
     public function testRemoveIlmSession()
     {
@@ -100,7 +100,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::getIlmSessions
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::getIlmSessions
      */
     public function testGetIlmSessions()
     {
@@ -108,7 +108,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::addUser
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::addUser
      */
     public function testAddUser()
     {
@@ -116,7 +116,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::removeUser
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::removeUser
      */
     public function testRemoveUser()
     {
@@ -124,7 +124,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::getUsers
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::getUsers
      */
     public function testGetUsers()
     {
@@ -132,7 +132,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::addOffering
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::addOffering
      */
     public function testAddOffering()
     {
@@ -140,7 +140,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::removeOffering
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::removeOffering
      */
     public function testRemoveOffering()
     {
@@ -148,7 +148,7 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\InstructorGroup::getOfferings
+     * @covers \Ilios\CoreBundle\Entity\InstructorGroup::getOfferings
      */
     public function testGetOfferings()
     {

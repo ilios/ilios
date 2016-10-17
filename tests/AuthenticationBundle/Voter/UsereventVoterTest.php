@@ -28,7 +28,7 @@ class UsereventVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnViewAccessAsDeveloperProvider
-     * @covers Ilios\AuthenticationBundle\Voter\UsereventVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\UsereventVoter::vote
      */
     public function testVoteOnViewAccessAsDeveloper($token, UserEvent $object, $expectedOutcome, $message)
     {
@@ -37,7 +37,7 @@ class UsereventVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnViewAccessAsFacultyProvider
-     * @covers Ilios\AuthenticationBundle\Voter\UsereventVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\UsereventVoter::vote
      */
     public function testVoteOnViewAccessAsFaculty($token, UserEvent $object, $expectedOutcome, $message)
     {
@@ -46,7 +46,7 @@ class UsereventVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnViewAccessAsDirectorProvider
-     * @covers Ilios\AuthenticationBundle\Voter\UsereventVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\UsereventVoter::vote
      */
     public function testVoteOnViewAccessAsDirector($token, UserEvent $object, $expectedOutcome, $message)
     {
@@ -55,7 +55,7 @@ class UsereventVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnViewAccessAsStudentProvider
-     * @covers Ilios\AuthenticationBundle\Voter\UsereventVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\UsereventVoter::vote
      */
     public function testVoteOnViewAccessAsStudent($token, UserEvent $object, $expectedOutcome, $message)
     {

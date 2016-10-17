@@ -25,7 +25,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasPermission
+     * @covers \Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasPermission
      */
     public function testUserHasPermission()
     {
@@ -77,7 +77,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionToCourse
+     * @covers \Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionToCourse
      */
     public function testUserHasWritePermissionToCourse()
     {
@@ -112,7 +112,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToCourse
+     * @covers \Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToCourse
      */
     public function testUserHasReadPermissionToCourse()
     {
@@ -147,7 +147,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionToProgram
+     * @covers \Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionToProgram
      */
     public function testUserHasWritePermissionToProgram()
     {
@@ -182,7 +182,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToProgram
+     * @covers \Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToProgram
      */
     public function testUserHasReadPermissionToProgram()
     {
@@ -218,7 +218,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionToSchool
+     * @covers \Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionToSchool
      */
     public function testUserHasWritePermissionToSchool()
     {
@@ -253,7 +253,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToSchool
+     * @covers \Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToSchool
      */
     public function testUserHasReadPermissionToSchool()
     {
@@ -288,7 +288,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionToSchools
+     * @covers \Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasWritePermissionToSchools
      */
     public function testUserHasWritePermissionToSchools()
     {
@@ -333,7 +333,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToSchools
+     * @covers \Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToSchools
      */
     public function testUserHasReadPermissionToSchools()
     {
@@ -378,7 +378,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToCoursesInSchool
+     * @covers \Ilios\CoreBundle\Entity\Manager\PermissionManager::userHasReadPermissionToCoursesInSchool
      */
     public function testUserHasReadPermissionToCoursesBySchool()
     {

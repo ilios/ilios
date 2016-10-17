@@ -29,7 +29,7 @@ class LoadDepartmentDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadDepartmentData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadDepartmentData::load
      */
     public function testLoad()
     {

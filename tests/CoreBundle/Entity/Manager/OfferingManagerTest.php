@@ -22,7 +22,7 @@ class OfferingManagerTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\OfferingManager::delete
+     * @covers \Ilios\CoreBundle\Entity\Manager\OfferingManager::delete
      */
     public function testDeleteOffering()
     {
@@ -45,7 +45,7 @@ class OfferingManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Manager\OfferingManager::getOfferingsForTeachingReminders
+     * @covers \Ilios\CoreBundle\Entity\Manager\OfferingManager::getOfferingsForTeachingReminders
      */
     public function testGetOfferingsForTeachingReminders()
     {

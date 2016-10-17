@@ -23,7 +23,7 @@ class CourseLearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::__construct
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::__construct
      */
     public function testConstructor()
     {
@@ -32,8 +32,8 @@ class CourseLearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::setNotes
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::getNotes
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::setNotes
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::getNotes
      */
     public function testSetNotes()
     {
@@ -41,8 +41,8 @@ class CourseLearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::setRequired
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::isRequired
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::setRequired
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::isRequired
      */
     public function testSetRequired()
     {
@@ -50,8 +50,8 @@ class CourseLearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::setPublicNotes
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::hasPublicNotes
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::setPublicNotes
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::hasPublicNotes
      */
     public function testSetPublicNotes()
     {
@@ -59,8 +59,8 @@ class CourseLearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::setCourse
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::getCourse
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::setCourse
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::getCourse
      */
     public function testSetCourse()
     {
@@ -68,8 +68,8 @@ class CourseLearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::setLearningMaterial
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::getLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::setLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::getLearningMaterial
      */
     public function testSetLearningMaterial()
     {
@@ -77,7 +77,7 @@ class CourseLearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::addMeshDescriptor
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::addMeshDescriptor
      */
     public function testAddMeshDescriptor()
     {
@@ -85,7 +85,7 @@ class CourseLearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::removeMeshDescriptor
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::removeMeshDescriptor
      */
     public function testRemoveMeshDescriptor()
     {
@@ -93,7 +93,7 @@ class CourseLearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::getMeshDescriptors
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::getMeshDescriptors
      */
     public function testGetMeshDescriptors()
     {

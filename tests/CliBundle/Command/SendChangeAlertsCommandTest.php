@@ -97,7 +97,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
      * @dataProvider testExecuteProvider
      *
      * @param AlertInterface $alert
@@ -179,7 +179,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
      * @dataProvider testExecuteProvider
      *
      * @param AlertInterface $alert
@@ -205,7 +205,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
      */
     public function testExecuteNoPendingAlerts()
     {
@@ -216,7 +216,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->assertEquals('No undispatched offering alerts found.', trim($output));
     }
     /**
-     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
      * @dataProvider testExecuteNoRecipientsConfiguredProvider
      *
      * @param AlertInterface $alert
@@ -239,7 +239,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
      * @dataProvider testExecuteRecipientWithoutEmailProvider
      *
      * @param AlertInterface $alert
@@ -262,7 +262,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
      * @dataProvider testExecuteDeletedOfferingProvider
      *
      * @param AlertInterface $alert

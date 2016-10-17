@@ -29,7 +29,7 @@ class LoadVocabularyDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadVocabularyData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadVocabularyData::load
      */
     public function testLoad()
     {

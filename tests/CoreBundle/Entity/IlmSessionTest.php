@@ -51,7 +51,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::__construct
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::__construct
      */
     public function testConstructor()
     {
@@ -62,8 +62,8 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::setHours
-     * @covers Ilios\CoreBundle\Entity\IlmSession::getHours
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::setHours
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::getHours
      */
     public function testSetHours()
     {
@@ -71,8 +71,8 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::setDueDate
-     * @covers Ilios\CoreBundle\Entity\IlmSession::getDueDate
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::setDueDate
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::getDueDate
      */
     public function testSetDueDate()
     {
@@ -80,7 +80,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::addLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::addLearnerGroup
      */
     public function testAddLearnerGroup()
     {
@@ -88,7 +88,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::removeLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::removeLearnerGroup
      */
     public function testRemoveLearnerGroup()
     {
@@ -96,7 +96,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::getLearnerGroups
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::getLearnerGroups
      */
     public function testGetLearnerGroups()
     {
@@ -104,7 +104,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::addInstructorGroup
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::addInstructorGroup
      */
     public function testAddInstructorGroup()
     {
@@ -112,7 +112,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::removeInstructorGroup
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::removeInstructorGroup
      */
     public function testRemoveInstructorGroup()
     {
@@ -120,7 +120,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::getInstructorGroups
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::getInstructorGroups
      */
     public function testGetInstructorGroups()
     {
@@ -128,7 +128,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::addInstructor
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::addInstructor
      */
     public function testAddInstructor()
     {
@@ -136,7 +136,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::removeInstructor
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::removeInstructor
      */
     public function testRemoveInstructor()
     {
@@ -144,7 +144,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::getInstructors
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::getInstructors
      */
     public function testGetInstructors()
     {
@@ -152,7 +152,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::addLearner
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::addLearner
      */
     public function testAddLearner()
     {
@@ -160,7 +160,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::removeLearner
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::removeLearner
      */
     public function testRemoveLearner()
     {
@@ -168,7 +168,7 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::getLearners
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::getLearners
      */
     public function testGetLearners()
     {
@@ -176,8 +176,8 @@ class IlmSessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\IlmSession::setSession
-     * @covers Ilios\CoreBundle\Entity\IlmSession::getSession
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::setSession
+     * @covers \Ilios\CoreBundle\Entity\IlmSession::getSession
      */
     public function testSetSession()
     {

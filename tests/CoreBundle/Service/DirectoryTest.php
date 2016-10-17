@@ -14,7 +14,7 @@ class DirectoryTest extends TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Service\Directory::__construct
+     * @covers \Ilios\CoreBundle\Service\Directory::__construct
      */
     public function testConstructor()
     {
@@ -24,7 +24,7 @@ class DirectoryTest extends TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Service\Directory::findByCampusId
+     * @covers \Ilios\CoreBundle\Service\Directory::findByCampusId
      */
     public function testFindByCampusId()
     {
@@ -37,7 +37,7 @@ class DirectoryTest extends TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Service\Directory::findByCampusId
+     * @covers \Ilios\CoreBundle\Service\Directory::findByCampusId
      */
     public function testFindByCampusIds()
     {
@@ -50,7 +50,7 @@ class DirectoryTest extends TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Service\Directory::findByCampusId
+     * @covers \Ilios\CoreBundle\Service\Directory::findByCampusId
      */
     public function testFindByCampusIdsOnlyUseUnique()
     {
@@ -64,7 +64,7 @@ class DirectoryTest extends TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Service\Directory::find
+     * @covers \Ilios\CoreBundle\Service\Directory::find
      */
     public function testFind()
     {
@@ -78,7 +78,7 @@ class DirectoryTest extends TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Service\Directory::findByLdapFilter
+     * @covers \Ilios\CoreBundle\Service\Directory::findByLdapFilter
      */
     public function testFindByLdapFilter()
     {

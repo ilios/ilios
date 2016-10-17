@@ -23,7 +23,7 @@ class ReportTest extends EntityBase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::__construct
+     * @covers \Ilios\CoreBundle\Entity\Session::__construct
      */
     public function testConstructor()
     {
@@ -31,8 +31,8 @@ class ReportTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Report::setSubject
-     * @covers Ilios\CoreBundle\Entity\Report::getSubject
+     * @covers \Ilios\CoreBundle\Entity\Report::setSubject
+     * @covers \Ilios\CoreBundle\Entity\Report::getSubject
      */
     public function testSetSubject()
     {
@@ -40,8 +40,8 @@ class ReportTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Report::setPrepositionalObject
-     * @covers Ilios\CoreBundle\Entity\Report::getPrepositionalObject
+     * @covers \Ilios\CoreBundle\Entity\Report::setPrepositionalObject
+     * @covers \Ilios\CoreBundle\Entity\Report::getPrepositionalObject
      */
     public function testSetPrepositionalObject()
     {
@@ -49,8 +49,8 @@ class ReportTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Report::setPrepositionalObjectTableRowId
-     * @covers Ilios\CoreBundle\Entity\Report::getPrepositionalObjectTableRowId
+     * @covers \Ilios\CoreBundle\Entity\Report::setPrepositionalObjectTableRowId
+     * @covers \Ilios\CoreBundle\Entity\Report::getPrepositionalObjectTableRowId
      */
     public function testSetPrepositionalObjectTableRowId()
     {
@@ -58,8 +58,8 @@ class ReportTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Report::setTitle
-     * @covers Ilios\CoreBundle\Entity\Report::getTitle
+     * @covers \Ilios\CoreBundle\Entity\Report::setTitle
+     * @covers \Ilios\CoreBundle\Entity\Report::getTitle
      */
     public function testSetTitle()
     {
@@ -67,8 +67,8 @@ class ReportTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Report::setUser
-     * @covers Ilios\CoreBundle\Entity\Report::getUser
+     * @covers \Ilios\CoreBundle\Entity\Report::setUser
+     * @covers \Ilios\CoreBundle\Entity\Report::getUser
      */
     public function testSetUser()
     {
@@ -76,8 +76,8 @@ class ReportTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Report::setSchool
-     * @covers Ilios\CoreBundle\Entity\Report::getSchool
+     * @covers \Ilios\CoreBundle\Entity\Report::setSchool
+     * @covers \Ilios\CoreBundle\Entity\Report::getSchool
      */
     public function testSetSchool()
     {

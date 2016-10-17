@@ -29,7 +29,7 @@ class SchoolDTOVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnViewAccessProvider
-     * @covers Ilios\AuthenticationBundle\Voter\DTO\SchoolDTOVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\DTO\SchoolDTOVoter::vote
      */
     public function testVoteOnViewAccess($token, SchoolDTO $object, $expectedOutcome, $message)
     {
