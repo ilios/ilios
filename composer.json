@@ -43,7 +43,7 @@
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0",
-        "phpunit/phpunit": "~4.8.0",
+        "phpunit/phpunit": "5.6.*",
         "squizlabs/php_codesniffer": "@stable",
         "matthiasnoback/symfony-dependency-injection-test": "@stable",
         "matthiasnoback/symfony-config-test": "@stable",
