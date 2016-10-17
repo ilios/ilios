@@ -91,7 +91,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
      */
     public function testExecuteDryRun()
     {
@@ -165,7 +165,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
      */
     public function testExecuteDryRunWithNoResult()
     {
@@ -185,7 +185,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
      */
     public function testExecuteDryRunWithSenderName()
     {
@@ -208,7 +208,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
      */
     public function testExecuteDryRunWithCustomSubject()
     {
@@ -229,7 +229,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
      */
     public function testExecute()
     {
@@ -247,7 +247,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
      */
     public function testExecuteWithMissingInput()
     {
@@ -262,7 +262,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
+     * @covers \Ilios\CliBundle\Command\SendTeachingRemindersCommand::execute
      */
     public function testExecuteWithInvalidInput()
     {

@@ -48,7 +48,7 @@ class DepartmentTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Department::__construct
+     * @covers \Ilios\CoreBundle\Entity\Department::__construct
      */
     public function testConstructor()
     {
@@ -56,8 +56,8 @@ class DepartmentTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Department::setTitle
-     * @covers Ilios\CoreBundle\Entity\Department::getTitle
+     * @covers \Ilios\CoreBundle\Entity\Department::setTitle
+     * @covers \Ilios\CoreBundle\Entity\Department::getTitle
      */
     public function testSetTitle()
     {
@@ -65,8 +65,8 @@ class DepartmentTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Department::setSchool
-     * @covers Ilios\CoreBundle\Entity\Department::getSchool
+     * @covers \Ilios\CoreBundle\Entity\Department::setSchool
+     * @covers \Ilios\CoreBundle\Entity\Department::getSchool
      */
     public function testSetSchool()
     {
@@ -74,7 +74,7 @@ class DepartmentTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addSteward
+     * @covers \Ilios\CoreBundle\Entity\School::addSteward
      */
     public function testAddSteward()
     {
@@ -82,7 +82,7 @@ class DepartmentTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeSteward
+     * @covers \Ilios\CoreBundle\Entity\School::removeSteward
      */
     public function testRemoveSteward()
     {
@@ -90,7 +90,7 @@ class DepartmentTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getStewards
+     * @covers \Ilios\CoreBundle\Entity\School::getStewards
      */
     public function testGetSteward()
     {

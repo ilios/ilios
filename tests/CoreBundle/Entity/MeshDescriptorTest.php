@@ -33,7 +33,7 @@ class MeshDescriptorTest extends EntityBase
         $this->validate(0);
     }
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::__construct
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::__construct
      */
     public function testConstructor()
     {
@@ -51,8 +51,8 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setName
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getName
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::setName
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::getName
      */
     public function testSetName()
     {
@@ -60,8 +60,8 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setAnnotation
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getAnnotation
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::setAnnotation
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::getAnnotation
      */
     public function testSetAnnotation()
     {
@@ -69,7 +69,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::addCourse
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::addCourse
      */
     public function testAddCourse()
     {
@@ -77,7 +77,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::removeCourse
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::removeCourse
      */
     public function testRemoveCourse()
     {
@@ -85,7 +85,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getCourses
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::getCourses
      */
     public function testGetCourses()
     {
@@ -93,7 +93,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::addObjective
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::addObjective
      */
     public function testAddObjective()
     {
@@ -101,7 +101,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::removeObjective
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::removeObjective
      */
     public function testRemoveObjective()
     {
@@ -109,8 +109,8 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setObjectives
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getObjectives
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::setObjectives
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::getObjectives
      */
     public function testGetObjectives()
     {
@@ -118,7 +118,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::addSession
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::addSession
      */
     public function testAddSession()
     {
@@ -126,7 +126,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::removeSession
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::removeSession
      */
     public function testRemoveSession()
     {
@@ -134,7 +134,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getSessions
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::getSessions
      */
     public function testGetSessions()
     {
@@ -142,7 +142,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::addConcept
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::addConcept
      */
     public function testAddConcept()
     {
@@ -150,7 +150,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::removeConcept
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::removeConcept
      */
     public function testRemoveConcept()
     {
@@ -158,7 +158,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getConcepts
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::getConcepts
      */
     public function testGetConcepts()
     {
@@ -166,7 +166,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::addQualifier
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::addQualifier
      */
     public function testAddQualifier()
     {
@@ -174,7 +174,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::removeQualifier
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::removeQualifier
      */
     public function testRemoveQualifier()
     {
@@ -182,8 +182,8 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getQualifiers
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setQualifiers
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::getQualifiers
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::setQualifiers
      */
     public function testGetQualifiers()
     {
@@ -191,7 +191,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::addTree
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::addTree
      */
     public function testAddTree()
     {
@@ -199,7 +199,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::removeTree
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::removeTree
      */
     public function testRemoveTree()
     {
@@ -207,8 +207,8 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getTrees
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setTrees
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::getTrees
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::setTrees
      */
     public function testGetTrees()
     {
@@ -216,7 +216,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::addSessionLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::addSessionLearningMaterial
      */
     public function testAddSessionLearningMaterial()
     {
@@ -230,7 +230,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::removeSessionLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::removeSessionLearningMaterial
      */
     public function testRemoveSessionLearningMaterial()
     {
@@ -245,8 +245,8 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getSessionLearningMaterials
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setSessionLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::getSessionLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::setSessionLearningMaterials
      */
     public function testGetSessionLearningMaterials()
     {
@@ -260,7 +260,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::addCourseLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::addCourseLearningMaterial
      */
     public function testAddCourseLearningMaterial()
     {
@@ -274,7 +274,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::removeCourseLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::removeCourseLearningMaterial
      */
     public function testRemoveCourseLearningMaterial()
     {
@@ -289,8 +289,8 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getCourseLearningMaterials
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setCourseLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::getCourseLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::setCourseLearningMaterials
      */
     public function testGetCourseLearningMaterials()
     {
@@ -304,7 +304,7 @@ class MeshDescriptorTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::stampUpdate
+     * @covers \Ilios\CoreBundle\Entity\MeshDescriptor::stampUpdate
      */
     public function testStampUpdate()
     {

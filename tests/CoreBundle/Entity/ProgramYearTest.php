@@ -52,7 +52,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::__construct
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::__construct
      */
     public function testConstructor()
     {
@@ -64,8 +64,8 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setStartYear
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getStartYear
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::setStartYear
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::getStartYear
      */
     public function testSetStartYear()
     {
@@ -73,8 +73,8 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setLocked
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::isLocked
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::setLocked
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::isLocked
      */
     public function testSetLocked()
     {
@@ -82,8 +82,8 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setArchived
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::isArchived
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::setArchived
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::isArchived
      */
     public function testSetArchived()
     {
@@ -91,8 +91,8 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setPublishedAsTbd
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::isPublishedAsTbd
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::setPublishedAsTbd
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::isPublishedAsTbd
      */
     public function testSetPublishedAsTbd()
     {
@@ -100,8 +100,8 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setPublished
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::isPublished
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::setPublished
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::isPublished
      */
     public function testSetPublished()
     {
@@ -109,8 +109,8 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setProgram
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getProgram
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::setProgram
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::getProgram
      */
     public function testSetProgram()
     {
@@ -118,7 +118,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::addDirector
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::addDirector
      */
     public function testAddDirector()
     {
@@ -126,7 +126,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeDirector
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::removeDirector
      */
     public function testRemoveDirector()
     {
@@ -134,7 +134,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getDirectors
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::getDirectors
      */
     public function testGetDirectors()
     {
@@ -142,7 +142,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::addSteward
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::addSteward
      */
     public function testAddSteward()
     {
@@ -150,7 +150,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeSteward
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::removeSteward
      */
     public function testRemoveSteward()
     {
@@ -158,7 +158,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getStewards
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::getStewards
      */
     public function testGetSteward()
     {
@@ -166,7 +166,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getSchool
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::getSchool
      */
     public function testGetSchool()
     {
@@ -187,7 +187,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::addTerm
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::addTerm
      */
     public function testAddTerm()
     {
@@ -195,7 +195,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeTerm
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::removeTerm
      */
     public function testRemoveTerm()
     {
@@ -203,8 +203,8 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getTerms
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setTerms
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::getTerms
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::setTerms
      */
     public function testSetTerms()
     {
@@ -212,7 +212,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::addObjective
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::addObjective
      */
     public function testAddObjective()
     {
@@ -220,7 +220,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeObjective
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::removeObjective
      */
     public function testRemoveObjective()
     {
@@ -228,8 +228,8 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getObjectives
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setObjectives
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::getObjectives
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::setObjectives
      */
     public function testSetObjectives()
     {
@@ -237,7 +237,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::addCompetency
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::addCompetency
      */
     public function testAddCompetency()
     {
@@ -245,7 +245,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getCompetencies
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::getCompetencies
      */
     public function testGetCompetencies()
     {
@@ -258,7 +258,7 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeCompetency
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::removeCompetency
      */
     public function testRemoveCompetency()
     {
@@ -272,8 +272,8 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::setCohort
-     * @covers Ilios\CoreBundle\Entity\PendingCohortUpdate::getCohort
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::setCohort
+     * @covers \Ilios\CoreBundle\Entity\PendingCohortUpdate::getCohort
      */
     public function testSetCohort()
     {

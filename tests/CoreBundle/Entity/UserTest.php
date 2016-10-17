@@ -40,7 +40,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::__construct
+     * @covers \Ilios\CoreBundle\Entity\User::__construct
      */
     public function testConstructor()
     {
@@ -67,8 +67,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setLastName
-     * @covers Ilios\CoreBundle\Entity\User::getLastName
+     * @covers \Ilios\CoreBundle\Entity\User::setLastName
+     * @covers \Ilios\CoreBundle\Entity\User::getLastName
      */
     public function testSetLastName()
     {
@@ -76,8 +76,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setFirstName
-     * @covers Ilios\CoreBundle\Entity\User::getFirstName
+     * @covers \Ilios\CoreBundle\Entity\User::setFirstName
+     * @covers \Ilios\CoreBundle\Entity\User::getFirstName
      */
     public function testSetFirstName()
     {
@@ -85,8 +85,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setMiddleName
-     * @covers Ilios\CoreBundle\Entity\User::getMiddleName
+     * @covers \Ilios\CoreBundle\Entity\User::setMiddleName
+     * @covers \Ilios\CoreBundle\Entity\User::getMiddleName
      */
     public function testSetMiddleName()
     {
@@ -94,8 +94,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setPhone
-     * @covers Ilios\CoreBundle\Entity\User::getPhone
+     * @covers \Ilios\CoreBundle\Entity\User::setPhone
+     * @covers \Ilios\CoreBundle\Entity\User::getPhone
      */
     public function testSetPhone()
     {
@@ -103,8 +103,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setEmail
-     * @covers Ilios\CoreBundle\Entity\User::getEmail
+     * @covers \Ilios\CoreBundle\Entity\User::setEmail
+     * @covers \Ilios\CoreBundle\Entity\User::getEmail
      */
     public function testSetEmail()
     {
@@ -112,8 +112,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setAddedViaIlios
-     * @covers Ilios\CoreBundle\Entity\User::isAddedViaIlios
+     * @covers \Ilios\CoreBundle\Entity\User::setAddedViaIlios
+     * @covers \Ilios\CoreBundle\Entity\User::isAddedViaIlios
      */
     public function testSetAddedViaIlios()
     {
@@ -121,8 +121,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setEnabled
-     * @covers Ilios\CoreBundle\Entity\User::isEnabled
+     * @covers \Ilios\CoreBundle\Entity\User::setEnabled
+     * @covers \Ilios\CoreBundle\Entity\User::isEnabled
      */
     public function testSetEnabled()
     {
@@ -130,8 +130,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setCampusId
-     * @covers Ilios\CoreBundle\Entity\User::getCampusId
+     * @covers \Ilios\CoreBundle\Entity\User::setCampusId
+     * @covers \Ilios\CoreBundle\Entity\User::getCampusId
      */
     public function testSetCampusId()
     {
@@ -139,8 +139,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setOtherId
-     * @covers Ilios\CoreBundle\Entity\User::getOtherId
+     * @covers \Ilios\CoreBundle\Entity\User::setOtherId
+     * @covers \Ilios\CoreBundle\Entity\User::getOtherId
      */
     public function testSetOtherId()
     {
@@ -148,8 +148,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setExamined
-     * @covers Ilios\CoreBundle\Entity\User::isExamined
+     * @covers \Ilios\CoreBundle\Entity\User::setExamined
+     * @covers \Ilios\CoreBundle\Entity\User::isExamined
      */
     public function testSetExamined()
     {
@@ -157,8 +157,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setUserSyncIgnore
-     * @covers Ilios\CoreBundle\Entity\User::isUserSyncIgnore
+     * @covers \Ilios\CoreBundle\Entity\User::setUserSyncIgnore
+     * @covers \Ilios\CoreBundle\Entity\User::isUserSyncIgnore
      */
     public function testSetUserSyncIgnore()
     {
@@ -166,8 +166,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setIcsFeedKey
-     * @covers Ilios\CoreBundle\Entity\User::generateIcsFeedKey
+     * @covers \Ilios\CoreBundle\Entity\User::setIcsFeedKey
+     * @covers \Ilios\CoreBundle\Entity\User::generateIcsFeedKey
      */
     public function testSetIcsFeedKey()
     {
@@ -175,8 +175,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setSchool
-     * @covers Ilios\CoreBundle\Entity\User::getSchool
+     * @covers \Ilios\CoreBundle\Entity\User::setSchool
+     * @covers \Ilios\CoreBundle\Entity\User::getSchool
      */
     public function testSetSchool()
     {
@@ -184,7 +184,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addReminder
+     * @covers \Ilios\CoreBundle\Entity\User::addReminder
      */
     public function testAddReminder()
     {
@@ -192,7 +192,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeReminder
+     * @covers \Ilios\CoreBundle\Entity\User::removeReminder
      */
     public function testRemoveReminder()
     {
@@ -200,8 +200,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setReminders
-     * @covers Ilios\CoreBundle\Entity\User::getReminders
+     * @covers \Ilios\CoreBundle\Entity\User::setReminders
+     * @covers \Ilios\CoreBundle\Entity\User::getReminders
      */
     public function testSetReminders()
     {
@@ -209,7 +209,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addAuditLog
+     * @covers \Ilios\CoreBundle\Entity\User::addAuditLog
      */
     public function testAddAuditLog()
     {
@@ -217,7 +217,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeAuditLog
+     * @covers \Ilios\CoreBundle\Entity\User::removeAuditLog
      */
     public function testRemoveAuditLog()
     {
@@ -225,8 +225,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setAuditLogs
-     * @covers Ilios\CoreBundle\Entity\User::getAuditLogs
+     * @covers \Ilios\CoreBundle\Entity\User::setAuditLogs
+     * @covers \Ilios\CoreBundle\Entity\User::getAuditLogs
      */
     public function testSetAuditLogs()
     {
@@ -234,7 +234,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addPermission
+     * @covers \Ilios\CoreBundle\Entity\User::addPermission
      */
     public function testAddPermission()
     {
@@ -242,7 +242,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removePermission
+     * @covers \Ilios\CoreBundle\Entity\User::removePermission
      */
     public function testRemovePermission()
     {
@@ -250,8 +250,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setPermissions
-     * @covers Ilios\CoreBundle\Entity\User::getPermissions
+     * @covers \Ilios\CoreBundle\Entity\User::setPermissions
+     * @covers \Ilios\CoreBundle\Entity\User::getPermissions
      */
     public function testSetPermissions()
     {
@@ -259,7 +259,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addDirectedCourse
+     * @covers \Ilios\CoreBundle\Entity\User::addDirectedCourse
      */
     public function testAddDirectedCourse()
     {
@@ -267,7 +267,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeDirectedCourse
+     * @covers \Ilios\CoreBundle\Entity\User::removeDirectedCourse
      */
     public function testRemoveDirectedCourse()
     {
@@ -275,8 +275,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getDirectedCourses
-     * @covers Ilios\CoreBundle\Entity\User::setDirectedCourses
+     * @covers \Ilios\CoreBundle\Entity\User::getDirectedCourses
+     * @covers \Ilios\CoreBundle\Entity\User::setDirectedCourses
      */
     public function testGetDirectedCourses()
     {
@@ -284,7 +284,7 @@ class UserTest extends EntityBase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addAdministeredSession
+     * @covers \Ilios\CoreBundle\Entity\User::addAdministeredSession
      */
     public function testAddAdministeredSession()
     {
@@ -292,7 +292,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeAdministeredSession
+     * @covers \Ilios\CoreBundle\Entity\User::removeAdministeredSession
      */
     public function testRemoveAdministeredSession()
     {
@@ -300,8 +300,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getAdministeredSessions
-     * @covers Ilios\CoreBundle\Entity\User::setAdministeredSessions
+     * @covers \Ilios\CoreBundle\Entity\User::getAdministeredSessions
+     * @covers \Ilios\CoreBundle\Entity\User::setAdministeredSessions
      */
     public function testGetAdministeredSessions()
     {
@@ -309,7 +309,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\User::addLearnerGroup
      */
     public function testAddLearnerGroup()
     {
@@ -317,7 +317,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\User::removeLearnerGroup
      */
     public function testRemoveLearnerGroup()
     {
@@ -325,7 +325,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getLearnerGroups
+     * @covers \Ilios\CoreBundle\Entity\User::getLearnerGroups
      */
     public function testSetLearnerGroups()
     {
@@ -333,7 +333,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addInstructedLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\User::addInstructedLearnerGroup
      */
     public function testAddInstructedLearnerGroup()
     {
@@ -341,7 +341,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeInstructedLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\User::removeInstructedLearnerGroup
      */
     public function testRemoveInstructedLearnerGroup()
     {
@@ -356,8 +356,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getInstructedLearnerGroups
-     * @covers Ilios\CoreBundle\Entity\User::setInstructedLearnerGroups
+     * @covers \Ilios\CoreBundle\Entity\User::getInstructedLearnerGroups
+     * @covers \Ilios\CoreBundle\Entity\User::setInstructedLearnerGroups
      */
     public function testGetInstructedLearnerGroups()
     {
@@ -365,7 +365,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addInstructorGroup
+     * @covers \Ilios\CoreBundle\Entity\User::addInstructorGroup
      */
     public function testAddInstructorGroup()
     {
@@ -373,7 +373,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeInstructorGroup
+     * @covers \Ilios\CoreBundle\Entity\User::removeInstructorGroup
      */
     public function testRemoveInstructorGroup()
     {
@@ -381,7 +381,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getInstructorGroups
+     * @covers \Ilios\CoreBundle\Entity\User::getInstructorGroups
      */
     public function testSetInstructorGroups()
     {
@@ -389,7 +389,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addOffering
+     * @covers \Ilios\CoreBundle\Entity\User::addOffering
      */
     public function testAddOffering()
     {
@@ -397,7 +397,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeOffering
+     * @covers \Ilios\CoreBundle\Entity\User::removeOffering
      */
     public function testRemoveOffering()
     {
@@ -405,7 +405,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getOfferings
+     * @covers \Ilios\CoreBundle\Entity\User::getOfferings
      */
     public function testSetOfferings()
     {
@@ -413,7 +413,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addProgramYear
+     * @covers \Ilios\CoreBundle\Entity\User::addProgramYear
      */
     public function testAddProgramYear()
     {
@@ -421,7 +421,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeProgramYear
+     * @covers \Ilios\CoreBundle\Entity\User::removeProgramYear
      */
     public function testRemoveProgramYear()
     {
@@ -429,7 +429,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getProgramYears
+     * @covers \Ilios\CoreBundle\Entity\User::getProgramYears
      */
     public function testSetProgramYears()
     {
@@ -437,7 +437,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addAlert
+     * @covers \Ilios\CoreBundle\Entity\User::addAlert
      */
     public function testAddAlert()
     {
@@ -445,7 +445,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeAlert
+     * @covers \Ilios\CoreBundle\Entity\User::removeAlert
      */
     public function testRemoveAlert()
     {
@@ -453,7 +453,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getAlerts
+     * @covers \Ilios\CoreBundle\Entity\User::getAlerts
      */
     public function testSetAlerts()
     {
@@ -461,7 +461,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addRole
+     * @covers \Ilios\CoreBundle\Entity\User::addRole
      */
     public function testAddRole()
     {
@@ -469,7 +469,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeRole
+     * @covers \Ilios\CoreBundle\Entity\User::removeRole
      */
     public function testRemoveRole()
     {
@@ -477,8 +477,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getRoles
-     * @covers Ilios\CoreBundle\Entity\User::setRoles
+     * @covers \Ilios\CoreBundle\Entity\User::getRoles
+     * @covers \Ilios\CoreBundle\Entity\User::setRoles
      */
     public function testSetRoles()
     {
@@ -486,7 +486,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\User::addLearningMaterial
      */
     public function testAddLearningMaterial()
     {
@@ -494,7 +494,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\User::removeLearningMaterial
      */
     public function testRemoveLearningMaterial()
     {
@@ -502,7 +502,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\User::getLearningMaterials
      */
     public function testSetLearningMaterials()
     {
@@ -510,7 +510,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addReport
+     * @covers \Ilios\CoreBundle\Entity\User::addReport
      */
     public function testAddReport()
     {
@@ -518,7 +518,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeReport
+     * @covers \Ilios\CoreBundle\Entity\User::removeReport
      */
     public function testRemoveReport()
     {
@@ -526,8 +526,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getReports
-     * @covers Ilios\CoreBundle\Entity\User::setReports
+     * @covers \Ilios\CoreBundle\Entity\User::getReports
+     * @covers \Ilios\CoreBundle\Entity\User::setReports
      */
     public function testSetReports()
     {
@@ -535,7 +535,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addCohort
+     * @covers \Ilios\CoreBundle\Entity\User::addCohort
      */
     public function testAddCohort()
     {
@@ -543,7 +543,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeCohort
+     * @covers \Ilios\CoreBundle\Entity\User::removeCohort
      */
     public function testRemoveCohort()
     {
@@ -551,8 +551,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getCohorts
-     * @covers Ilios\CoreBundle\Entity\User::setCohorts
+     * @covers \Ilios\CoreBundle\Entity\User::getCohorts
+     * @covers \Ilios\CoreBundle\Entity\User::setCohorts
      */
     public function testSetCohorts()
     {
@@ -568,7 +568,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addInstructedOffering
+     * @covers \Ilios\CoreBundle\Entity\User::addInstructedOffering
      */
     public function testAddInstructedOffering()
     {
@@ -576,7 +576,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeInstructedOffering
+     * @covers \Ilios\CoreBundle\Entity\User::removeInstructedOffering
      */
     public function testRemoveInstructedOffering()
     {
@@ -584,8 +584,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getInstructedOfferings
-     * @covers Ilios\CoreBundle\Entity\User::setInstructedOfferings
+     * @covers \Ilios\CoreBundle\Entity\User::getInstructedOfferings
+     * @covers \Ilios\CoreBundle\Entity\User::setInstructedOfferings
      */
     public function testSetInstructedOffering()
     {
@@ -593,7 +593,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addInstructorIlmSession
+     * @covers \Ilios\CoreBundle\Entity\User::addInstructorIlmSession
      */
     public function testAddInstructorIlmSessions()
     {
@@ -601,7 +601,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeInstructorIlmSession
+     * @covers \Ilios\CoreBundle\Entity\User::removeInstructorIlmSession
      */
     public function testRemoveInstructorIlmSessions()
     {
@@ -616,8 +616,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getInstructorIlmSessions
-     * @covers Ilios\CoreBundle\Entity\User::setInstructorIlmSessions
+     * @covers \Ilios\CoreBundle\Entity\User::getInstructorIlmSessions
+     * @covers \Ilios\CoreBundle\Entity\User::setInstructorIlmSessions
      */
     public function testGetInstructorIlmSessions()
     {
@@ -625,7 +625,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addLearnerIlmSession
+     * @covers \Ilios\CoreBundle\Entity\User::addLearnerIlmSession
      */
     public function testAddLearnerIlmSessions()
     {
@@ -633,7 +633,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeLearnerIlmSession
+     * @covers \Ilios\CoreBundle\Entity\User::removeLearnerIlmSession
      */
     public function testRemoveLearnerIlmSessions()
     {
@@ -648,8 +648,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getLearnerIlmSessions
-     * @covers Ilios\CoreBundle\Entity\User::setLearnerIlmSessions
+     * @covers \Ilios\CoreBundle\Entity\User::getLearnerIlmSessions
+     * @covers \Ilios\CoreBundle\Entity\User::setLearnerIlmSessions
      */
     public function testGetLearnerIlmSessions()
     {
@@ -657,8 +657,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::setPrimaryCohort
-     * @covers Ilios\CoreBundle\Entity\User::getPrimaryCohort
+     * @covers \Ilios\CoreBundle\Entity\User::setPrimaryCohort
+     * @covers \Ilios\CoreBundle\Entity\User::getPrimaryCohort
      */
     public function testSetPrimaryCohort()
     {
@@ -673,7 +673,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addPendingUserUpdate
+     * @covers \Ilios\CoreBundle\Entity\User::addPendingUserUpdate
      */
     public function testAddPendingUserUpdates()
     {
@@ -681,7 +681,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removePendingUserUpdate
+     * @covers \Ilios\CoreBundle\Entity\User::removePendingUserUpdate
      */
     public function testRemovePendingUserUpdates()
     {
@@ -689,8 +689,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getPendingUserUpdates
-     * @covers Ilios\CoreBundle\Entity\User::setPendingUserUpdates
+     * @covers \Ilios\CoreBundle\Entity\User::getPendingUserUpdates
+     * @covers \Ilios\CoreBundle\Entity\User::setPendingUserUpdates
      */
     public function testGetPendingUserUpdates()
     {
@@ -698,7 +698,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addDirectedSchool
+     * @covers \Ilios\CoreBundle\Entity\User::addDirectedSchool
      */
     public function testAddDirectedSchool()
     {
@@ -706,7 +706,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeDirectedSchool
+     * @covers \Ilios\CoreBundle\Entity\User::removeDirectedSchool
      */
     public function testRemoveDirectedSchool()
     {
@@ -714,8 +714,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getDirectedSchools
-     * @covers Ilios\CoreBundle\Entity\User::setDirectedSchools
+     * @covers \Ilios\CoreBundle\Entity\User::getDirectedSchools
+     * @covers \Ilios\CoreBundle\Entity\User::setDirectedSchools
      */
     public function testGetDirectedSchools()
     {
@@ -723,7 +723,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addAdministeredCourse
+     * @covers \Ilios\CoreBundle\Entity\User::addAdministeredCourse
      */
     public function testAddAdministeredCourse()
     {
@@ -731,7 +731,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeAdministeredCourse
+     * @covers \Ilios\CoreBundle\Entity\User::removeAdministeredCourse
      */
     public function testRemoveAdministeredCourse()
     {
@@ -739,8 +739,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getAdministeredCourses
-     * @covers Ilios\CoreBundle\Entity\User::setAdministeredCourses
+     * @covers \Ilios\CoreBundle\Entity\User::getAdministeredCourses
+     * @covers \Ilios\CoreBundle\Entity\User::setAdministeredCourses
      */
     public function testGetAdministeredCourses()
     {
@@ -748,7 +748,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addAdministeredSchool
+     * @covers \Ilios\CoreBundle\Entity\User::addAdministeredSchool
      */
     public function testAddAdministeredSchool()
     {
@@ -756,7 +756,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeAdministeredSchool
+     * @covers \Ilios\CoreBundle\Entity\User::removeAdministeredSchool
      */
     public function testRemoveAdministeredSchool()
     {
@@ -764,8 +764,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getAdministeredSchools
-     * @covers Ilios\CoreBundle\Entity\User::setAdministeredSchools
+     * @covers \Ilios\CoreBundle\Entity\User::getAdministeredSchools
+     * @covers \Ilios\CoreBundle\Entity\User::setAdministeredSchools
      */
     public function testGetAdministeredSchools()
     {
@@ -773,7 +773,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::addDirectedProgram
+     * @covers \Ilios\CoreBundle\Entity\User::addDirectedProgram
      */
     public function testAddDirectedProgram()
     {
@@ -781,7 +781,7 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::removeDirectedProgram
+     * @covers \Ilios\CoreBundle\Entity\User::removeDirectedProgram
      */
     public function testRemoveDirectedProgram()
     {
@@ -789,8 +789,8 @@ class UserTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\User::getDirectedPrograms
-     * @covers Ilios\CoreBundle\Entity\User::setDirectedPrograms
+     * @covers \Ilios\CoreBundle\Entity\User::getDirectedPrograms
+     * @covers \Ilios\CoreBundle\Entity\User::setDirectedPrograms
      */
     public function testGetDirectedPrograms()
     {

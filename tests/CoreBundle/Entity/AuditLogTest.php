@@ -40,7 +40,7 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AuditLog::__construct
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::__construct
      */
     public function testConstructor()
     {
@@ -48,8 +48,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AuditLog::setAction
-     * @covers Ilios\CoreBundle\Entity\AuditLog::getAction
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::setAction
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::getAction
      */
     public function testSetAction()
     {
@@ -57,8 +57,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AuditLog::setObjectId
-     * @covers Ilios\CoreBundle\Entity\AuditLog::getObjectId
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::setObjectId
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::getObjectId
      */
     public function testSetObjectId()
     {
@@ -66,8 +66,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AuditLog::setObjectId
-     * @covers Ilios\CoreBundle\Entity\AuditLog::getObjectId
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::setObjectId
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::getObjectId
      */
     public function testSetObjectIdForcesInt()
     {
@@ -76,8 +76,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AuditLog::setObjectClass
-     * @covers Ilios\CoreBundle\Entity\AuditLog::getObjectClass
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::setObjectClass
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::getObjectClass
      */
     public function testSetObjectClass()
     {
@@ -85,8 +85,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AuditLog::setValuesChanged
-     * @covers Ilios\CoreBundle\Entity\AuditLog::getValuesChanged
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::setValuesChanged
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::getValuesChanged
      */
     public function testSetValuesChanged()
     {
@@ -94,8 +94,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AuditLog::setUser
-     * @covers Ilios\CoreBundle\Entity\AuditLog::getUser
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::setUser
+     * @covers \Ilios\CoreBundle\Entity\AuditLog::getUser
      */
     public function testSetUser()
     {
@@ -103,8 +103,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getCreatedAt
+     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::setCreatedAt
+     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::getCreatedAt
      */
     public function testSetCreatedAt()
     {

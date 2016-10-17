@@ -49,7 +49,7 @@ class UserMadeReminderTest extends EntityBase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::__construct
+     * @covers \Ilios\CoreBundle\Entity\Session::__construct
      */
     public function testConstructor()
     {
@@ -57,8 +57,8 @@ class UserMadeReminderTest extends EntityBase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setNote
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getNote
+     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::setNote
+     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::getNote
      */
     public function testSetNote()
     {
@@ -66,8 +66,8 @@ class UserMadeReminderTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setDueDate
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getDueDate
+     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::setDueDate
+     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::getDueDate
      */
     public function testSetDueDate()
     {
@@ -75,8 +75,8 @@ class UserMadeReminderTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setClosed
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::isClosed
+     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::setClosed
+     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::isClosed
      */
     public function testSetClosed()
     {
@@ -84,8 +84,8 @@ class UserMadeReminderTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setUser
-     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getUser
+     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::setUser
+     * @covers \Ilios\CoreBundle\Entity\UserMadeReminder::getUser
      */
     public function testSetUser()
     {

@@ -34,7 +34,7 @@ class LearningMaterialStatusTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::__construct
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialStatus::__construct
      */
     public function testConstructor()
     {
@@ -42,8 +42,8 @@ class LearningMaterialStatusTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::setTitle
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::getTitle
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialStatus::setTitle
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialStatus::getTitle
      */
     public function testSetTitle()
     {
@@ -51,7 +51,7 @@ class LearningMaterialStatusTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::addLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialStatus::addLearningMaterial
      */
     public function testAddLearningMaterial()
     {
@@ -59,7 +59,7 @@ class LearningMaterialStatusTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::removeLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialStatus::removeLearningMaterial
      */
     public function testRemoveLearningMaterial()
     {
@@ -67,7 +67,7 @@ class LearningMaterialStatusTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::getLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterialStatus::getLearningMaterials
      */
     public function testGetLearningMaterials()
     {

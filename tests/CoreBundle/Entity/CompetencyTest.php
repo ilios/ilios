@@ -23,7 +23,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::__construct
+     * @covers \Ilios\CoreBundle\Entity\Competency::__construct
      */
     public function testConstructor()
     {
@@ -34,8 +34,8 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::setTitle
-     * @covers Ilios\CoreBundle\Entity\Competency::getTitle
+     * @covers \Ilios\CoreBundle\Entity\Competency::setTitle
+     * @covers \Ilios\CoreBundle\Entity\Competency::getTitle
      */
     public function testSetTitle()
     {
@@ -43,8 +43,8 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::setSchool
-     * @covers Ilios\CoreBundle\Entity\Competency::getSchool
+     * @covers \Ilios\CoreBundle\Entity\Competency::setSchool
+     * @covers \Ilios\CoreBundle\Entity\Competency::getSchool
      */
     public function testSetSchool()
     {
@@ -52,8 +52,8 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::setParent
-     * @covers Ilios\CoreBundle\Entity\Competency::getParent
+     * @covers \Ilios\CoreBundle\Entity\Competency::setParent
+     * @covers \Ilios\CoreBundle\Entity\Competency::getParent
      */
     public function testSetParent()
     {
@@ -61,7 +61,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::setParent
+     * @covers \Ilios\CoreBundle\Entity\Competency::setParent
      */
     public function testRemoveParent()
     {
@@ -73,7 +73,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::addAamcPcrs
+     * @covers \Ilios\CoreBundle\Entity\Competency::addAamcPcrs
      */
     public function testAddPcrs()
     {
@@ -81,7 +81,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::removeAamcPcrs
+     * @covers \Ilios\CoreBundle\Entity\Competency::removeAamcPcrs
      */
     public function testRemovePcrs()
     {
@@ -96,8 +96,8 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::getAamcPcrses
-     * @covers Ilios\CoreBundle\Entity\Competency::setAamcPcrses
+     * @covers \Ilios\CoreBundle\Entity\Competency::getAamcPcrses
+     * @covers \Ilios\CoreBundle\Entity\Competency::setAamcPcrses
      */
     public function testGetPcrses()
     {
@@ -105,7 +105,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::addProgramYear
+     * @covers \Ilios\CoreBundle\Entity\Competency::addProgramYear
      */
     public function testAddProgramYear()
     {
@@ -113,7 +113,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::removeProgramYear
+     * @covers \Ilios\CoreBundle\Entity\Competency::removeProgramYear
      */
     public function testRemoveProgramYear()
     {
@@ -121,7 +121,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::getProgramYears
+     * @covers \Ilios\CoreBundle\Entity\Competency::getProgramYears
      */
     public function testGetProgramYears()
     {
@@ -129,7 +129,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::addObjective
+     * @covers \Ilios\CoreBundle\Entity\Competency::addObjective
      */
     public function testAddObjective()
     {
@@ -137,7 +137,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::removeObjective
+     * @covers \Ilios\CoreBundle\Entity\Competency::removeObjective
      */
     public function testRemoveObjective()
     {
@@ -145,7 +145,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::getObjectives
+     * @covers \Ilios\CoreBundle\Entity\Competency::getObjectives
      */
     public function testGetObjectives()
     {
@@ -153,7 +153,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::addChild
+     * @covers \Ilios\CoreBundle\Entity\Competency::addChild
      */
     public function testAddChild()
     {
@@ -161,7 +161,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::removeChild
+     * @covers \Ilios\CoreBundle\Entity\Competency::removeChild
      */
     public function testRemoveChild()
     {
@@ -169,8 +169,8 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::getChildren
-     * @covers Ilios\CoreBundle\Entity\Competency::setChildren
+     * @covers \Ilios\CoreBundle\Entity\Competency::getChildren
+     * @covers \Ilios\CoreBundle\Entity\Competency::setChildren
      */
     public function testGetChildren()
     {

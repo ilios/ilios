@@ -58,7 +58,7 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::__construct
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::__construct
      */
     public function testConstructor()
     {
@@ -67,8 +67,8 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::setTitle
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::getTitle
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::setTitle
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::getTitle
      */
     public function testSetTitle()
     {
@@ -76,8 +76,8 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::setDescription
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::getDescription
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::setDescription
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::getDescription
      */
     public function testSetDescription()
     {
@@ -85,8 +85,8 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::setOriginalAuthor
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::getOriginalAuthor
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::setOriginalAuthor
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::getOriginalAuthor
      */
     public function testSetOriginalAuthor()
     {
@@ -94,7 +94,7 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::getOwningSchool
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::getOwningSchool
      */
     public function testGetOwningSchool()
     {
@@ -117,7 +117,7 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::addCourseLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::addCourseLearningMaterial
      */
     public function testAddCourseLearningMaterial()
     {
@@ -125,7 +125,7 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::removeCourseLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::removeCourseLearningMaterial
      */
     public function testRemoveCourseLearningMaterial()
     {
@@ -133,8 +133,8 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::getCourseLearningMaterials
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::setCourseLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::getCourseLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::setCourseLearningMaterials
      */
     public function getGetCourseLearningMaterials()
     {
@@ -142,7 +142,7 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::addSessionLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::addSessionLearningMaterial
      */
     public function testAddSessionLearningMaterial()
     {
@@ -150,7 +150,7 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::removeSessionLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::removeSessionLearningMaterial
      */
     public function testRemoveSessionLearningMaterial()
     {
@@ -158,8 +158,8 @@ class LearningMaterialTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::getSessionLearningMaterials
-     * @covers Ilios\CoreBundle\Entity\LearningMaterial::setSessionLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::getSessionLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\LearningMaterial::setSessionLearningMaterials
      */
     public function getGetSessionLearningMaterials()
     {

@@ -36,7 +36,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::__construct
+     * @covers \Ilios\CoreBundle\Entity\School::__construct
      */
     public function testConstructor()
     {
@@ -52,8 +52,8 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::setTemplatePrefix
-     * @covers Ilios\CoreBundle\Entity\School::getTemplatePrefix
+     * @covers \Ilios\CoreBundle\Entity\School::setTemplatePrefix
+     * @covers \Ilios\CoreBundle\Entity\School::getTemplatePrefix
      */
     public function testSetTemplatePrefix()
     {
@@ -61,8 +61,8 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::setTitle
-     * @covers Ilios\CoreBundle\Entity\School::getTitle
+     * @covers \Ilios\CoreBundle\Entity\School::setTitle
+     * @covers \Ilios\CoreBundle\Entity\School::getTitle
      */
     public function testSetTitle()
     {
@@ -70,8 +70,8 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::setIliosAdministratorEmail
-     * @covers Ilios\CoreBundle\Entity\School::getIliosAdministratorEmail
+     * @covers \Ilios\CoreBundle\Entity\School::setIliosAdministratorEmail
+     * @covers \Ilios\CoreBundle\Entity\School::getIliosAdministratorEmail
      */
     public function testSetIliosAdministratorEmail()
     {
@@ -79,8 +79,8 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::setChangeAlertRecipients
-     * @covers Ilios\CoreBundle\Entity\School::getChangeAlertRecipients
+     * @covers \Ilios\CoreBundle\Entity\School::setChangeAlertRecipients
+     * @covers \Ilios\CoreBundle\Entity\School::getChangeAlertRecipients
      */
     public function testSetChangeAlertRecipients()
     {
@@ -88,8 +88,8 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::setCurriculumInventoryInstitution
-     * @covers Ilios\CoreBundle\Entity\School::getCurriculumInventoryInstitution
+     * @covers \Ilios\CoreBundle\Entity\School::setCurriculumInventoryInstitution
+     * @covers \Ilios\CoreBundle\Entity\School::getCurriculumInventoryInstitution
      */
     public function testSetCurriculumInventoryInstitution()
     {
@@ -97,7 +97,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addAlert
+     * @covers \Ilios\CoreBundle\Entity\School::addAlert
      */
     public function testAddAlert()
     {
@@ -105,7 +105,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeAlert
+     * @covers \Ilios\CoreBundle\Entity\School::removeAlert
      */
     public function testRemoveAlert()
     {
@@ -113,7 +113,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getAlerts
+     * @covers \Ilios\CoreBundle\Entity\School::getAlerts
      */
     public function testGetAlerts()
     {
@@ -121,7 +121,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addCompetency
+     * @covers \Ilios\CoreBundle\Entity\School::addCompetency
      */
     public function testAddCompetency()
     {
@@ -129,7 +129,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getCompetencies
+     * @covers \Ilios\CoreBundle\Entity\School::getCompetencies
      */
     public function testGetCompetencies()
     {
@@ -142,7 +142,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeCompetency
+     * @covers \Ilios\CoreBundle\Entity\School::removeCompetency
      */
     public function testRemoveCompetency()
     {
@@ -156,7 +156,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addCourse
+     * @covers \Ilios\CoreBundle\Entity\School::addCourse
      */
     public function testAddCourse()
     {
@@ -164,7 +164,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeCourse
+     * @covers \Ilios\CoreBundle\Entity\School::removeCourse
      */
     public function testRemoveCourse()
     {
@@ -172,7 +172,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getCourses
+     * @covers \Ilios\CoreBundle\Entity\School::getCourses
      */
     public function testGetCourses()
     {
@@ -180,7 +180,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addProgram
+     * @covers \Ilios\CoreBundle\Entity\School::addProgram
      */
     public function testAddProgram()
     {
@@ -188,7 +188,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeProgram
+     * @covers \Ilios\CoreBundle\Entity\School::removeProgram
      */
     public function testRemoveProgram()
     {
@@ -196,7 +196,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getPrograms
+     * @covers \Ilios\CoreBundle\Entity\School::getPrograms
      */
     public function testGetPrograms()
     {
@@ -204,7 +204,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addDepartment
+     * @covers \Ilios\CoreBundle\Entity\School::addDepartment
      */
     public function testAddDepartment()
     {
@@ -212,7 +212,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeDepartment
+     * @covers \Ilios\CoreBundle\Entity\School::removeDepartment
      */
     public function testRemoveDepartment()
     {
@@ -220,8 +220,8 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getDepartments
-     * @covers Ilios\CoreBundle\Entity\School::setDepartments
+     * @covers \Ilios\CoreBundle\Entity\School::getDepartments
+     * @covers \Ilios\CoreBundle\Entity\School::setDepartments
      */
     public function testGetDepartments()
     {
@@ -229,7 +229,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addSteward
+     * @covers \Ilios\CoreBundle\Entity\School::addSteward
      */
     public function testAddSteward()
     {
@@ -237,7 +237,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeSteward
+     * @covers \Ilios\CoreBundle\Entity\School::removeSteward
      */
     public function testRemoveSteward()
     {
@@ -245,7 +245,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getStewards
+     * @covers \Ilios\CoreBundle\Entity\School::getStewards
      */
     public function testGetSteward()
     {
@@ -253,7 +253,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addVocabulary
+     * @covers \Ilios\CoreBundle\Entity\School::addVocabulary
      */
     public function testAddVocabulary()
     {
@@ -261,7 +261,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeVocabulary
+     * @covers \Ilios\CoreBundle\Entity\School::removeVocabulary
      */
     public function testRemoveVocabulary()
     {
@@ -269,8 +269,8 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getVocabularies
-     * @covers Ilios\CoreBundle\Entity\School::setVocabularies
+     * @covers \Ilios\CoreBundle\Entity\School::getVocabularies
+     * @covers \Ilios\CoreBundle\Entity\School::setVocabularies
      */
     public function testGetVocabularies()
     {
@@ -278,7 +278,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addInstructorGroup
+     * @covers \Ilios\CoreBundle\Entity\School::addInstructorGroup
      */
     public function testAddInstructorGroup()
     {
@@ -286,7 +286,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeInstructorGroup
+     * @covers \Ilios\CoreBundle\Entity\School::removeInstructorGroup
      */
     public function testRemoveInstructorGroup()
     {
@@ -294,7 +294,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::setInstructorGroups
+     * @covers \Ilios\CoreBundle\Entity\School::setInstructorGroups
      */
     public function testSetInstructorGroup()
     {
@@ -302,7 +302,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addSessionType
+     * @covers \Ilios\CoreBundle\Entity\School::addSessionType
      */
     public function testAddSessionType()
     {
@@ -310,7 +310,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeSessionType
+     * @covers \Ilios\CoreBundle\Entity\School::removeSessionType
      */
     public function testRemoveSessionType()
     {
@@ -318,7 +318,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::setSessionTypes
+     * @covers \Ilios\CoreBundle\Entity\School::setSessionTypes
      */
     public function testSetSessionType()
     {
@@ -326,7 +326,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addDirector
+     * @covers \Ilios\CoreBundle\Entity\School::addDirector
      */
     public function testAddDirector()
     {
@@ -334,7 +334,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeDirector
+     * @covers \Ilios\CoreBundle\Entity\School::removeDirector
      */
     public function testRemoveDirector()
     {
@@ -342,7 +342,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getDirectors
+     * @covers \Ilios\CoreBundle\Entity\School::getDirectors
      */
     public function testGetDirectors()
     {
@@ -350,7 +350,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::addAdministrator
+     * @covers \Ilios\CoreBundle\Entity\School::addAdministrator
      */
     public function testAddAdministrator()
     {
@@ -358,7 +358,7 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::removeAdministrator
+     * @covers \Ilios\CoreBundle\Entity\School::removeAdministrator
      */
     public function testRemoveAdministrator()
     {
@@ -366,8 +366,8 @@ class SchoolTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\School::getAdministrators
-     * @covers Ilios\CoreBundle\Entity\School::setAdministrators
+     * @covers \Ilios\CoreBundle\Entity\School::getAdministrators
+     * @covers \Ilios\CoreBundle\Entity\School::setAdministrators
      */
     public function testSetAdministrators()
     {

@@ -68,7 +68,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::__construct
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::__construct
      */
     public function testConstructor()
     {
@@ -77,8 +77,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setRequired
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getRequired
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setRequired
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getRequired
      */
     public function testSetRequired()
     {
@@ -86,8 +86,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setChildSequenceOrder
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getChildSequenceOrder
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setChildSequenceOrder
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getChildSequenceOrder
      */
     public function testSetChildSequenceOrder()
     {
@@ -95,8 +95,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setOrderInSequence
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getOrderInSequence
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setOrderInSequence
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getOrderInSequence
      */
     public function testSetOrderInSequence()
     {
@@ -104,8 +104,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setMinimum
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getMinimum
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setMinimum
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getMinimum
      */
     public function testSetMinimum()
     {
@@ -113,8 +113,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setMaximum
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getMaximum
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setMaximum
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getMaximum
      */
     public function testSetMaximum()
     {
@@ -122,8 +122,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setTrack
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::hasTrack
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setTrack
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::hasTrack
      */
     public function testSetTrack()
     {
@@ -131,8 +131,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setDescription
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getDescription
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setDescription
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getDescription
      */
     public function testSetDescription()
     {
@@ -140,8 +140,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setTitle
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getTitle
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setTitle
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getTitle
      */
     public function testSetTitle()
     {
@@ -149,8 +149,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setStartDate
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getStartDate
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setStartDate
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getStartDate
      */
     public function testSetStartDate()
     {
@@ -158,8 +158,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setEndDate
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getEndDate
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setEndDate
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getEndDate
      */
     public function testSetEndDate()
     {
@@ -167,8 +167,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setDuration
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getDuration
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setDuration
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getDuration
      */
     public function testSetDuration()
     {
@@ -176,8 +176,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setAcademicLevel
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getAcademicLevel
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setAcademicLevel
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getAcademicLevel
      */
     public function testSetAcademicLevel()
     {
@@ -185,8 +185,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setCourse
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getCourse
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setCourse
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getCourse
      */
     public function testSetCourse()
     {
@@ -194,8 +194,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setParent
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getParent
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setParent
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getParent
      */
     public function testSetParent()
     {
@@ -203,8 +203,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setReport
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getReport
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setReport
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getReport
      */
     public function testSetReport()
     {
@@ -212,7 +212,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithOrderedStrategy
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithOrderedStrategy
      * @dataProvider testCompareSequenceBlocksWithOrderedStrategyProvider
      *
      * @param CurriculumInventorySequenceBlockInterface $blockA
@@ -263,7 +263,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy
      * @dataProvider testCompareSequenceBlocksWithDefaultStrategyProvider
      *
      * @param CurriculumInventorySequenceBlockInterface $blockA
@@ -342,7 +342,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::addChild
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::addChild
      */
     public function testAddChild()
     {
@@ -350,7 +350,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::removeChild
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::removeChild
      */
     public function testRemoveChild()
     {
@@ -358,8 +358,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getChildren
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setChildren
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getChildren
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setChildren
      */
     public function testGetChildren()
     {
@@ -367,7 +367,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::addSession
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::addSession
      */
     public function testAddSession()
     {
@@ -375,7 +375,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::removeSession
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::removeSession
      */
     public function testRemoveSession()
     {
@@ -383,7 +383,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getSessions
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getSessions
      */
     public function testGetSessions()
     {

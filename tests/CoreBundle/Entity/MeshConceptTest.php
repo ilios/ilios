@@ -36,7 +36,7 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::__construct
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::__construct
      */
     public function testConstructor()
     {
@@ -48,8 +48,8 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setName
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getName
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setName
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::getName
      */
     public function testSetName()
     {
@@ -57,8 +57,8 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setUmlsUid
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getUmlsUid
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setUmlsUid
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::getUmlsUid
      */
     public function testSetUmlsUid()
     {
@@ -66,8 +66,8 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setPreferred
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getPreferred
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setPreferred
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::getPreferred
      */
     public function testSetPreferred()
     {
@@ -75,8 +75,8 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setScopeNote
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getScopeNote
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setScopeNote
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::getScopeNote
      */
     public function testSetScopeNote()
     {
@@ -84,7 +84,7 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setCasn1Name
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setCasn1Name
      */
     public function testSetCasn1Name()
     {
@@ -92,8 +92,8 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setRegistryNumber
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getRegistryNumber
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setRegistryNumber
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::getRegistryNumber
      */
     public function testSetRegistryNumber()
     {
@@ -101,7 +101,7 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::addSemanticType
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::addSemanticType
      */
     public function testAddSemanticType()
     {
@@ -109,7 +109,7 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::removeSemanticType
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::removeSemanticType
      */
     public function testRemoveSemanticType()
     {
@@ -117,8 +117,8 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setSemanticTypes
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getSemanticTypes
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setSemanticTypes
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::getSemanticTypes
      */
     public function testGetSemanticTypes()
     {
@@ -126,7 +126,7 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::addTerm
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::addTerm
      */
     public function testAddTerm()
     {
@@ -134,7 +134,7 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::removeTerm
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::removeTerm
      */
     public function testRemoveTerm()
     {
@@ -142,8 +142,8 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setTerms
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getTerms
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setTerms
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::getTerms
      */
     public function testGetTerms()
     {
@@ -151,7 +151,7 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::addDescriptor
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::addDescriptor
      */
     public function testAddDescriptor()
     {
@@ -159,7 +159,7 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::removeDescriptor
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::removeDescriptor
      */
     public function testRemoveDescriptor()
     {
@@ -167,8 +167,8 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setDescriptors
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getDescriptors
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::setDescriptors
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::getDescriptors
      */
     public function testGetDescriptors()
     {
@@ -176,7 +176,7 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::stampUpdate
+     * @covers \Ilios\CoreBundle\Entity\MeshConcept::stampUpdate
      */
     public function testStampUpdate()
     {

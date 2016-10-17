@@ -35,8 +35,8 @@ class MeshPreviousIndexingTest extends EntityBase
         $this->validate(0);
     }
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshPreviousIndexing::setPreviousIndexing
-     * @covers Ilios\CoreBundle\Entity\MeshPreviousIndexing::getPreviousIndexing
+     * @covers \Ilios\CoreBundle\Entity\MeshPreviousIndexing::setPreviousIndexing
+     * @covers \Ilios\CoreBundle\Entity\MeshPreviousIndexing::getPreviousIndexing
      */
     public function testSetPreviousIndexing()
     {
@@ -44,8 +44,8 @@ class MeshPreviousIndexingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshPreviousIndexing::getDescriptor
-     * @covers Ilios\CoreBundle\Entity\MeshPreviousIndexing::setDescriptor
+     * @covers \Ilios\CoreBundle\Entity\MeshPreviousIndexing::getDescriptor
+     * @covers \Ilios\CoreBundle\Entity\MeshPreviousIndexing::setDescriptor
      */
     public function testSetDescriptor()
     {

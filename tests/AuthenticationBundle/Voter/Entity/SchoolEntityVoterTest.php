@@ -34,7 +34,7 @@ class SchoolEntityVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnViewAccessProvider
-     * @covers Ilios\AuthenticationBundle\Voter\Entity\SchoolEntityVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\Entity\SchoolEntityVoter::vote
      */
     public function testVoteOnViewAccess($token, SchoolInterface $object, $expectedOutcome, $message)
     {

@@ -35,7 +35,7 @@ class AssessmentOptionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AssessmentOption::__construct
+     * @covers \Ilios\CoreBundle\Entity\AssessmentOption::__construct
      */
     public function testConstructor()
     {
@@ -43,8 +43,8 @@ class AssessmentOptionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AssessmentOption::setName
-     * @covers Ilios\CoreBundle\Entity\AssessmentOption::getName
+     * @covers \Ilios\CoreBundle\Entity\AssessmentOption::setName
+     * @covers \Ilios\CoreBundle\Entity\AssessmentOption::getName
      */
     public function testSetName()
     {
@@ -52,7 +52,7 @@ class AssessmentOptionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AssessmentOption::addSessionType
+     * @covers \Ilios\CoreBundle\Entity\AssessmentOption::addSessionType
      */
     public function testAddSessionType()
     {
@@ -60,7 +60,7 @@ class AssessmentOptionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AssessmentOption::removeSessionType
+     * @covers \Ilios\CoreBundle\Entity\AssessmentOption::removeSessionType
      */
     public function testRemoveSessionType()
     {
@@ -68,7 +68,7 @@ class AssessmentOptionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AssessmentOption::getSessionTypes
+     * @covers \Ilios\CoreBundle\Entity\AssessmentOption::getSessionTypes
      */
     public function testGetSessionTypes()
     {

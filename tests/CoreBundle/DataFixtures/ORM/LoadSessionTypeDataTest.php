@@ -29,7 +29,7 @@ class LoadSessionTypeDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadSessionTypeData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadSessionTypeData::load
      */
     public function testLoad()
     {

@@ -55,8 +55,8 @@ class PendingUserUpdateTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\PendingUserUpdate::setType
-     * @covers Ilios\CoreBundle\Entity\PendingUserUpdate::getType
+     * @covers \Ilios\CoreBundle\Entity\PendingUserUpdate::setType
+     * @covers \Ilios\CoreBundle\Entity\PendingUserUpdate::getType
      */
     public function testSetType()
     {
@@ -64,8 +64,8 @@ class PendingUserUpdateTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\PendingUserUpdate::setProperty
-     * @covers Ilios\CoreBundle\Entity\PendingUserUpdate::getProperty
+     * @covers \Ilios\CoreBundle\Entity\PendingUserUpdate::setProperty
+     * @covers \Ilios\CoreBundle\Entity\PendingUserUpdate::getProperty
      */
     public function testSetProperty()
     {
@@ -73,8 +73,8 @@ class PendingUserUpdateTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\PendingUserUpdate::setValue
-     * @covers Ilios\CoreBundle\Entity\PendingUserUpdate::getValue
+     * @covers \Ilios\CoreBundle\Entity\PendingUserUpdate::setValue
+     * @covers \Ilios\CoreBundle\Entity\PendingUserUpdate::getValue
      */
     public function testSetValue()
     {
@@ -82,8 +82,8 @@ class PendingUserUpdateTest extends EntityBase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\PendingUserUpdate::setUser
-     * @covers Ilios\CoreBundle\Entity\PendingUserUpdate::getUser
+     * @covers \Ilios\CoreBundle\Entity\PendingUserUpdate::setUser
+     * @covers \Ilios\CoreBundle\Entity\PendingUserUpdate::getUser
      */
     public function testSetUser()
     {

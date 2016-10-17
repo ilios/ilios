@@ -53,7 +53,7 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::__construct
+     * @covers \Ilios\CoreBundle\Entity\Program::__construct
      */
     public function testConstructor()
     {
@@ -63,8 +63,8 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::setTitle
-     * @covers Ilios\CoreBundle\Entity\Program::getTitle
+     * @covers \Ilios\CoreBundle\Entity\Program::setTitle
+     * @covers \Ilios\CoreBundle\Entity\Program::getTitle
      */
     public function testSetTitle()
     {
@@ -72,8 +72,8 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::setShortTitle
-     * @covers Ilios\CoreBundle\Entity\Program::getShortTitle
+     * @covers \Ilios\CoreBundle\Entity\Program::setShortTitle
+     * @covers \Ilios\CoreBundle\Entity\Program::getShortTitle
      */
     public function testSetShortTitle()
     {
@@ -81,8 +81,8 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::setDuration
-     * @covers Ilios\CoreBundle\Entity\Program::getDuration
+     * @covers \Ilios\CoreBundle\Entity\Program::setDuration
+     * @covers \Ilios\CoreBundle\Entity\Program::getDuration
      */
     public function testSetDuration()
     {
@@ -90,8 +90,8 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::setPublishedAsTbd
-     * @covers Ilios\CoreBundle\Entity\Program::isPublishedAsTbd
+     * @covers \Ilios\CoreBundle\Entity\Program::setPublishedAsTbd
+     * @covers \Ilios\CoreBundle\Entity\Program::isPublishedAsTbd
      */
     public function testSetPublishedAsTbd()
     {
@@ -99,8 +99,8 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::setPublished
-     * @covers Ilios\CoreBundle\Entity\Program::isPublished
+     * @covers \Ilios\CoreBundle\Entity\Program::setPublished
+     * @covers \Ilios\CoreBundle\Entity\Program::isPublished
      */
     public function testSetPublished()
     {
@@ -108,8 +108,8 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::setSchool
-     * @covers Ilios\CoreBundle\Entity\Program::getSchool
+     * @covers \Ilios\CoreBundle\Entity\Program::setSchool
+     * @covers \Ilios\CoreBundle\Entity\Program::getSchool
      */
     public function testSetSchool()
     {
@@ -117,7 +117,7 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::addProgramYear
+     * @covers \Ilios\CoreBundle\Entity\Program::addProgramYear
      */
     public function testAddProgramYear()
     {
@@ -125,7 +125,7 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::removeProgramYear
+     * @covers \Ilios\CoreBundle\Entity\Program::removeProgramYear
      */
     public function testRemoveProgramYear()
     {
@@ -133,7 +133,7 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::getProgramYears
+     * @covers \Ilios\CoreBundle\Entity\Program::getProgramYears
      */
     public function testGetProgramYears()
     {
@@ -141,7 +141,7 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::addCurriculumInventoryReport
+     * @covers \Ilios\CoreBundle\Entity\Program::addCurriculumInventoryReport
      */
     public function testAddCurriculumInventoryReport()
     {
@@ -149,7 +149,7 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::removeCurriculumInventoryReport
+     * @covers \Ilios\CoreBundle\Entity\Program::removeCurriculumInventoryReport
      */
     public function testRemoveCurriculumInventoryReport()
     {
@@ -157,8 +157,8 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::getCurriculumInventoryReports
-     * @covers Ilios\CoreBundle\Entity\Program::setCurriculumInventoryReports
+     * @covers \Ilios\CoreBundle\Entity\Program::getCurriculumInventoryReports
+     * @covers \Ilios\CoreBundle\Entity\Program::setCurriculumInventoryReports
      */
     public function testGetCurriculumInventoryReports()
     {
@@ -166,7 +166,7 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::addDirector
+     * @covers \Ilios\CoreBundle\Entity\Program::addDirector
      */
     public function testAddDirector()
     {
@@ -174,7 +174,7 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::removeDirector
+     * @covers \Ilios\CoreBundle\Entity\Program::removeDirector
      */
     public function testRemoveDirector()
     {
@@ -182,7 +182,7 @@ class ProgramTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::getDirectors
+     * @covers \Ilios\CoreBundle\Entity\Program::getDirectors
      */
     public function testGetDirectors()
     {

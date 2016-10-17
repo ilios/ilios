@@ -36,7 +36,7 @@ class AamcMethodTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcMethod::__construct
+     * @covers \Ilios\CoreBundle\Entity\AamcMethod::__construct
      */
     public function testConstructor()
     {
@@ -44,8 +44,8 @@ class AamcMethodTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcMethod::setDescription
-     * @covers Ilios\CoreBundle\Entity\AamcMethod::getDescription
+     * @covers \Ilios\CoreBundle\Entity\AamcMethod::setDescription
+     * @covers \Ilios\CoreBundle\Entity\AamcMethod::getDescription
      */
     public function testSetDescription()
     {
@@ -53,7 +53,7 @@ class AamcMethodTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcMethod::addSessionType
+     * @covers \Ilios\CoreBundle\Entity\AamcMethod::addSessionType
      */
     public function testAddSessionType()
     {
@@ -61,7 +61,7 @@ class AamcMethodTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcMethod::removeSessionType
+     * @covers \Ilios\CoreBundle\Entity\AamcMethod::removeSessionType
      */
     public function testRemoveSessionType()
     {
@@ -69,7 +69,7 @@ class AamcMethodTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcMethod::getSessionTypes
+     * @covers \Ilios\CoreBundle\Entity\AamcMethod::getSessionTypes
      */
     public function testGetSessionTypes()
     {

@@ -36,7 +36,7 @@ class AamcPcrsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcPcrs::__construct
+     * @covers \Ilios\CoreBundle\Entity\AamcPcrs::__construct
      */
     public function testConstructor()
     {
@@ -44,9 +44,9 @@ class AamcPcrsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcPcrs::setDescription
-     * @covers Ilios\CoreBundle\Entity\AamcPcrs::getDescription
-     * @covers Ilios\CoreBundle\Entity\AamcPcrs::getDescription
+     * @covers \Ilios\CoreBundle\Entity\AamcPcrs::setDescription
+     * @covers \Ilios\CoreBundle\Entity\AamcPcrs::getDescription
+     * @covers \Ilios\CoreBundle\Entity\AamcPcrs::getDescription
      */
     public function testSetDescription()
     {
@@ -54,7 +54,7 @@ class AamcPcrsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcPcrs::addCompetency
+     * @covers \Ilios\CoreBundle\Entity\AamcPcrs::addCompetency
      */
     public function testAddCompetency()
     {
@@ -62,7 +62,7 @@ class AamcPcrsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcPcrs::getCompetencies
+     * @covers \Ilios\CoreBundle\Entity\AamcPcrs::getCompetencies
      */
     public function testGetCompetencies()
     {
@@ -76,7 +76,7 @@ class AamcPcrsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\AamcPcrs::removeCompetency
+     * @covers \Ilios\CoreBundle\Entity\AamcPcrs::removeCompetency
      */
     public function testRemoveCompetency()
     {

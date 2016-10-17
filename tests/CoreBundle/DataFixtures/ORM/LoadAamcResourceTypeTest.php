@@ -29,7 +29,7 @@ class LoadAamcResourceTypeDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadAamcResourceTypeData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadAamcResourceTypeData::load
      */
     public function testLoad()
     {

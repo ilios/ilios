@@ -34,7 +34,7 @@ class CurriculumInventoryExportTest extends EntityBase
     }
     
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::__construct
+     * @covers \Ilios\CoreBundle\Entity\Session::__construct
      */
     public function testConstructor()
     {
@@ -42,8 +42,8 @@ class CurriculumInventoryExportTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::setDocument
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::getDocument
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryExport::setDocument
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryExport::getDocument
      */
     public function testSetDocument()
     {
@@ -51,8 +51,8 @@ class CurriculumInventoryExportTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::setReport
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::getReport
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryExport::setReport
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryExport::getReport
      */
     public function testSetReport()
     {
@@ -60,8 +60,8 @@ class CurriculumInventoryExportTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::setCreatedBy
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::getCreatedBy
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryExport::setCreatedBy
+     * @covers \Ilios\CoreBundle\Entity\CurriculumInventoryExport::getCreatedBy
      */
     public function testSetCreatedBy()
     {

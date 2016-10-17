@@ -29,7 +29,7 @@ class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadLearningMaterialStatusData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadLearningMaterialStatusData::load
      */
     public function testLoad()
     {

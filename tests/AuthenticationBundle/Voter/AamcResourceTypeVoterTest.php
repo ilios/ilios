@@ -29,7 +29,7 @@ class AamcResourceTypeVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnViewProvider
-     * @covers Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
      */
     public function testVoteOnView($token, AamcResourceTypeInterface $object, $expectedOutcome, $message)
     {
@@ -39,7 +39,7 @@ class AamcResourceTypeVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnCreateProvider
-     * @covers Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
      * @no
      */
     public function testVoteOnCreate($token, AamcResourceTypeInterface $object, $expectedOutcome, $message)
@@ -50,7 +50,7 @@ class AamcResourceTypeVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnEditProvider
-     * @covers Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
      */
     public function testVoteOnEdit($token, AamcResourceTypeInterface $object, $expectedOutcome, $message)
     {
@@ -60,7 +60,7 @@ class AamcResourceTypeVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnDeleteProvider
-     * @covers Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
      */
     public function testVoteOnDelete($token, AamcResourceTypeInterface $object, $expectedOutcome, $message)
     {

@@ -29,7 +29,7 @@ class LoadAssessmentOptionDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadAssessmentOptionData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadAssessmentOptionData::load
      */
     public function testLoad()
     {

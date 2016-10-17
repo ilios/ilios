@@ -29,7 +29,7 @@ class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadAlertChangeTypeData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadAlertChangeTypeData::load
      */
     public function testLoad()
     {

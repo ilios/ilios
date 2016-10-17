@@ -26,7 +26,7 @@ class RemoveMarkupTransformerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::reverseTransform
+     * @covers \Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::reverseTransform
      */
     public function testReverseTransformNotString()
     {
@@ -43,7 +43,7 @@ class RemoveMarkupTransformerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::reverseTransform
+     * @covers \Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::reverseTransform
      */
     public function testReverseTransform()
     {
@@ -53,7 +53,7 @@ class RemoveMarkupTransformerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::Transform
+     * @covers \Ilios\CoreBundle\Form\DataTransformer\RemoveMarkupTransformer::Transform
      */
     public function testTransform()
     {

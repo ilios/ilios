@@ -50,7 +50,7 @@ class SessionTest extends EntityBase
         $this->validate(0);
     }
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::__construct
+     * @covers \Ilios\CoreBundle\Entity\Session::__construct
      */
     public function testConstructor()
     {
@@ -62,8 +62,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setTitle
-     * @covers Ilios\CoreBundle\Entity\Session::getTitle
+     * @covers \Ilios\CoreBundle\Entity\Session::setTitle
+     * @covers \Ilios\CoreBundle\Entity\Session::getTitle
      */
     public function testSetTitle()
     {
@@ -71,8 +71,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setAttireRequired
-     * @covers Ilios\CoreBundle\Entity\Session::isAttireRequired
+     * @covers \Ilios\CoreBundle\Entity\Session::setAttireRequired
+     * @covers \Ilios\CoreBundle\Entity\Session::isAttireRequired
      */
     public function testSetAttireRequired()
     {
@@ -80,8 +80,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setEquipmentRequired
-     * @covers Ilios\CoreBundle\Entity\Session::isEquipmentRequired
+     * @covers \Ilios\CoreBundle\Entity\Session::setEquipmentRequired
+     * @covers \Ilios\CoreBundle\Entity\Session::isEquipmentRequired
      */
     public function testSetEquipmentRequired()
     {
@@ -89,8 +89,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setSupplemental
-     * @covers Ilios\CoreBundle\Entity\Session::isSupplemental
+     * @covers \Ilios\CoreBundle\Entity\Session::setSupplemental
+     * @covers \Ilios\CoreBundle\Entity\Session::isSupplemental
      */
     public function testSetSupplemental()
     {
@@ -98,8 +98,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setPublishedAsTbd
-     * @covers Ilios\CoreBundle\Entity\Session::isPublishedAsTbd
+     * @covers \Ilios\CoreBundle\Entity\Session::setPublishedAsTbd
+     * @covers \Ilios\CoreBundle\Entity\Session::isPublishedAsTbd
      */
     public function testSetPublishedAsTbd()
     {
@@ -107,8 +107,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setPublished
-     * @covers Ilios\CoreBundle\Entity\Session::isPublished
+     * @covers \Ilios\CoreBundle\Entity\Session::setPublished
+     * @covers \Ilios\CoreBundle\Entity\Session::isPublished
      */
     public function testSetPublished()
     {
@@ -116,8 +116,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setSessionType
-     * @covers Ilios\CoreBundle\Entity\Session::getSessionType
+     * @covers \Ilios\CoreBundle\Entity\Session::setSessionType
+     * @covers \Ilios\CoreBundle\Entity\Session::getSessionType
      */
     public function testSetSessionType()
     {
@@ -125,8 +125,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setCourse
-     * @covers Ilios\CoreBundle\Entity\Session::getCourse
+     * @covers \Ilios\CoreBundle\Entity\Session::setCourse
+     * @covers \Ilios\CoreBundle\Entity\Session::getCourse
      */
     public function testSetCourse()
     {
@@ -134,8 +134,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setIlmSession
-     * @covers Ilios\CoreBundle\Entity\Session::getIlmSession
+     * @covers \Ilios\CoreBundle\Entity\Session::setIlmSession
+     * @covers \Ilios\CoreBundle\Entity\Session::getIlmSession
      */
     public function testSetIlmSession()
     {
@@ -148,7 +148,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::addLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\Session::addLearningMaterial
      */
     public function testAddLearningMaterial()
     {
@@ -156,7 +156,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::removeLearningMaterial
+     * @covers \Ilios\CoreBundle\Entity\Session::removeLearningMaterial
      */
     public function testRemoveLearningMaterial()
     {
@@ -164,8 +164,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setLearningMaterials
-     * @covers Ilios\CoreBundle\Entity\Session::getLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\Session::setLearningMaterials
+     * @covers \Ilios\CoreBundle\Entity\Session::getLearningMaterials
      */
     public function testGetLearningMaterials()
     {
@@ -173,7 +173,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::stampUpdate
+     * @covers \Ilios\CoreBundle\Entity\Session::stampUpdate
      */
     public function testStampUpdate()
     {
@@ -186,7 +186,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::getSchool
+     * @covers \Ilios\CoreBundle\Entity\Session::getSchool
      */
     public function testGetSchool()
     {
@@ -207,7 +207,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::addTerm
+     * @covers \Ilios\CoreBundle\Entity\Session::addTerm
      */
     public function testAddTerm()
     {
@@ -215,7 +215,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::removeTerm
+     * @covers \Ilios\CoreBundle\Entity\Session::removeTerm
      */
     public function testRemoveTerm()
     {
@@ -223,8 +223,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::getTerms
-     * @covers Ilios\CoreBundle\Entity\Session::setTerms
+     * @covers \Ilios\CoreBundle\Entity\Session::getTerms
+     * @covers \Ilios\CoreBundle\Entity\Session::setTerms
      */
     public function testSetTerms()
     {
@@ -232,7 +232,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::addObjective
+     * @covers \Ilios\CoreBundle\Entity\Session::addObjective
      */
     public function testAddObjective()
     {
@@ -240,7 +240,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::removeObjective
+     * @covers \Ilios\CoreBundle\Entity\Session::removeObjective
      */
     public function testRemoveObjective()
     {
@@ -248,8 +248,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::getObjectives
-     * @covers Ilios\CoreBundle\Entity\Session::setObjectives
+     * @covers \Ilios\CoreBundle\Entity\Session::getObjectives
+     * @covers \Ilios\CoreBundle\Entity\Session::setObjectives
      */
     public function testSetObjectives()
     {
@@ -257,7 +257,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::addMeshDescriptor
+     * @covers \Ilios\CoreBundle\Entity\Session::addMeshDescriptor
      */
     public function testAddMeshDescriptor()
     {
@@ -265,7 +265,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::removeMeshDescriptor
+     * @covers \Ilios\CoreBundle\Entity\Session::removeMeshDescriptor
      */
     public function testRemoveMeshDescriptor()
     {
@@ -273,8 +273,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::getMeshDescriptors
-     * @covers Ilios\CoreBundle\Entity\Session::setMeshDescriptors
+     * @covers \Ilios\CoreBundle\Entity\Session::getMeshDescriptors
+     * @covers \Ilios\CoreBundle\Entity\Session::setMeshDescriptors
      */
     public function testSetMeshDescriptors()
     {
@@ -282,8 +282,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setSessionDescription
-     * @covers Ilios\CoreBundle\Entity\Session::getSessionDescription
+     * @covers \Ilios\CoreBundle\Entity\Session::setSessionDescription
+     * @covers \Ilios\CoreBundle\Entity\Session::getSessionDescription
      */
     public function testSetSessionDescription()
     {
@@ -296,7 +296,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::addSequenceBlock
+     * @covers \Ilios\CoreBundle\Entity\Session::addSequenceBlock
      */
     public function testAddSequenceBlock()
     {
@@ -304,7 +304,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::removeSequenceBlock
+     * @covers \Ilios\CoreBundle\Entity\Session::removeSequenceBlock
      */
     public function testRemoveSequenceBlock()
     {
@@ -312,8 +312,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setSequenceBlocks
-     * @covers Ilios\CoreBundle\Entity\Session::getSequenceBlocks
+     * @covers \Ilios\CoreBundle\Entity\Session::setSequenceBlocks
+     * @covers \Ilios\CoreBundle\Entity\Session::getSequenceBlocks
      */
     public function testGetSequenceBlocks()
     {
@@ -321,7 +321,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::addOffering
+     * @covers \Ilios\CoreBundle\Entity\Session::addOffering
      */
     public function testAddOffering()
     {
@@ -329,7 +329,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::removeOffering
+     * @covers \Ilios\CoreBundle\Entity\Session::removeOffering
      */
     public function testRemoveOffering()
     {
@@ -337,8 +337,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::getOfferings
-     * @covers Ilios\CoreBundle\Entity\Session::setOfferings
+     * @covers \Ilios\CoreBundle\Entity\Session::getOfferings
+     * @covers \Ilios\CoreBundle\Entity\Session::setOfferings
      */
     public function testSetOfferings()
     {
@@ -346,7 +346,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::addAdministrator
+     * @covers \Ilios\CoreBundle\Entity\Session::addAdministrator
      */
     public function testAddAdministrator()
     {
@@ -354,7 +354,7 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::removeAdministrator
+     * @covers \Ilios\CoreBundle\Entity\Session::removeAdministrator
      */
     public function testRemoveAdministrator()
     {
@@ -362,8 +362,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::getAdministrators
-     * @covers Ilios\CoreBundle\Entity\Session::setAdministrators
+     * @covers \Ilios\CoreBundle\Entity\Session::getAdministrators
+     * @covers \Ilios\CoreBundle\Entity\Session::setAdministrators
      */
     public function testSetAdministrators()
     {

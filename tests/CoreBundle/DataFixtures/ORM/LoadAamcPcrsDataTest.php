@@ -29,7 +29,7 @@ class LoadAamcPcrsDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadAamcPcrsData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadAamcPcrsData::load
      */
     public function testLoad()
     {

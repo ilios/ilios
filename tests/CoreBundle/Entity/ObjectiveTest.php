@@ -34,7 +34,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::__construct
+     * @covers \Ilios\CoreBundle\Entity\Course::__construct
      */
     public function testConstructor()
     {
@@ -48,8 +48,8 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::setTitle
-     * @covers Ilios\CoreBundle\Entity\Objective::getTitle
+     * @covers \Ilios\CoreBundle\Entity\Objective::setTitle
+     * @covers \Ilios\CoreBundle\Entity\Objective::getTitle
      */
     public function testSetTitle()
     {
@@ -57,8 +57,8 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::setCompetency
-     * @covers Ilios\CoreBundle\Entity\Objective::getCompetency
+     * @covers \Ilios\CoreBundle\Entity\Objective::setCompetency
+     * @covers \Ilios\CoreBundle\Entity\Objective::getCompetency
      */
     public function testSetCompetency()
     {
@@ -66,7 +66,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::addCourse
+     * @covers \Ilios\CoreBundle\Entity\Objective::addCourse
      */
     public function testAddCourse()
     {
@@ -74,7 +74,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::removeCourse
+     * @covers \Ilios\CoreBundle\Entity\Objective::removeCourse
      */
     public function testRemoveCourse()
     {
@@ -82,7 +82,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::getCourses
+     * @covers \Ilios\CoreBundle\Entity\Objective::getCourses
      */
     public function testGetCourses()
     {
@@ -90,7 +90,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::addProgramYear
+     * @covers \Ilios\CoreBundle\Entity\Objective::addProgramYear
      */
     public function testAddProgramYear()
     {
@@ -98,7 +98,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::removeProgramYear
+     * @covers \Ilios\CoreBundle\Entity\Objective::removeProgramYear
      */
     public function testRemoveProgramYear()
     {
@@ -106,7 +106,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::getProgramYears
+     * @covers \Ilios\CoreBundle\Entity\Objective::getProgramYears
      */
     public function testGetProgramYears()
     {
@@ -114,7 +114,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::addSession
+     * @covers \Ilios\CoreBundle\Entity\Objective::addSession
      */
     public function testAddSession()
     {
@@ -122,7 +122,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::removeSession
+     * @covers \Ilios\CoreBundle\Entity\Objective::removeSession
      */
     public function testRemoveSession()
     {
@@ -130,7 +130,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::getSessions
+     * @covers \Ilios\CoreBundle\Entity\Objective::getSessions
      */
     public function testGetSessions()
     {
@@ -138,7 +138,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::addChild
+     * @covers \Ilios\CoreBundle\Entity\Objective::addChild
      */
     public function testAddChild()
     {
@@ -146,7 +146,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::removeChild
+     * @covers \Ilios\CoreBundle\Entity\Objective::removeChild
      */
     public function testRemoveChild()
     {
@@ -154,8 +154,8 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::getChildren
-     * @covers Ilios\CoreBundle\Entity\Objective::setChildren
+     * @covers \Ilios\CoreBundle\Entity\Objective::getChildren
+     * @covers \Ilios\CoreBundle\Entity\Objective::setChildren
      */
     public function testGetChildren()
     {
@@ -163,7 +163,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::addMeshDescriptor
+     * @covers \Ilios\CoreBundle\Entity\Objective::addMeshDescriptor
      */
     public function testAddMeshDescriptor()
     {
@@ -171,7 +171,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::removeMeshDescriptor
+     * @covers \Ilios\CoreBundle\Entity\Objective::removeMeshDescriptor
      */
     public function testRemoveMeshDescriptor()
     {
@@ -179,7 +179,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::getMeshDescriptors
+     * @covers \Ilios\CoreBundle\Entity\Objective::getMeshDescriptors
      */
     public function testGetMeshDescriptors()
     {
@@ -187,7 +187,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::addParent
+     * @covers \Ilios\CoreBundle\Entity\Objective::addParent
      */
     public function testAddParent()
     {
@@ -195,7 +195,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::removeParent
+     * @covers \Ilios\CoreBundle\Entity\Objective::removeParent
      */
     public function testRemoveParent()
     {
@@ -203,8 +203,8 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::getParents
-     * @covers Ilios\CoreBundle\Entity\Objective::setParents
+     * @covers \Ilios\CoreBundle\Entity\Objective::getParents
+     * @covers \Ilios\CoreBundle\Entity\Objective::setParents
      */
     public function testGetParents()
     {
@@ -212,8 +212,8 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::setAncestor
-     * @covers Ilios\CoreBundle\Entity\Objective::getAncestor
+     * @covers \Ilios\CoreBundle\Entity\Objective::setAncestor
+     * @covers \Ilios\CoreBundle\Entity\Objective::getAncestor
      */
     public function testSetAncestor()
     {
@@ -221,7 +221,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::addDescendant
+     * @covers \Ilios\CoreBundle\Entity\Objective::addDescendant
      */
     public function testAddDescendant()
     {
@@ -229,7 +229,7 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::removeDescendant
+     * @covers \Ilios\CoreBundle\Entity\Objective::removeDescendant
      */
     public function testRemoveDescendant()
     {
@@ -237,8 +237,8 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Objective::getDescendants
-     * @covers Ilios\CoreBundle\Entity\Objective::setDescendants
+     * @covers \Ilios\CoreBundle\Entity\Objective::getDescendants
+     * @covers \Ilios\CoreBundle\Entity\Objective::setDescendants
      */
     public function testGetDescendants()
     {

@@ -29,7 +29,7 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadCourseClerkshipTypeData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadCourseClerkshipTypeData::load
      */
     public function testLoad()
     {

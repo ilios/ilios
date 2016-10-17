@@ -31,7 +31,7 @@ class PermissionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\Controller\PermissionController::getAction
+     * @covers \Ilios\CoreBundle\Controller\PermissionController::getAction
      * @group controllers_b
      */
     public function testGetPermission()
@@ -61,7 +61,7 @@ class PermissionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\Controller\PermissionController::cgetAction
+     * @covers \Ilios\CoreBundle\Controller\PermissionController::cgetAction
      * @group controllers_b
      */
     public function testGetAllPermissions()
@@ -81,7 +81,7 @@ class PermissionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\Controller\PermissionController::postAction
+     * @covers \Ilios\CoreBundle\Controller\PermissionController::postAction
      * @group controllers_b
      */
     public function testPostPermission()
@@ -110,7 +110,7 @@ class PermissionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\Controller\PermissionController::postAction
+     * @covers \Ilios\CoreBundle\Controller\PermissionController::postAction
      * @group controllers_b
      */
     public function testPostBadPermission()
@@ -132,7 +132,7 @@ class PermissionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\Controller\PermissionController::putAction
+     * @covers \Ilios\CoreBundle\Controller\PermissionController::putAction
      * @group controllers_b
      */
     public function testPutPermission()
@@ -164,7 +164,7 @@ class PermissionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\Controller\PermissionController::deleteAction
+     * @covers \Ilios\CoreBundle\Controller\PermissionController::deleteAction
      * @group controllers
      */
     public function testDeletePermission()
@@ -201,7 +201,7 @@ class PermissionControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\Controller\PermissionController::getAction
+     * @covers \Ilios\CoreBundle\Controller\PermissionController::getAction
      * @group controllers
      */
     public function testPermissionNotFound()

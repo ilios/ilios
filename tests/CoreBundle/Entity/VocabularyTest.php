@@ -23,7 +23,7 @@ class VocabularyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::__construct
+     * @covers \Ilios\CoreBundle\Entity\Vocabulary::__construct
      */
     public function testConstructor()
     {
@@ -31,8 +31,8 @@ class VocabularyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::setTitle
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::getTitle
+     * @covers \Ilios\CoreBundle\Entity\Vocabulary::setTitle
+     * @covers \Ilios\CoreBundle\Entity\Vocabulary::getTitle
      */
     public function testSetTitle()
     {
@@ -40,8 +40,8 @@ class VocabularyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::setSchool
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::getSchool
+     * @covers \Ilios\CoreBundle\Entity\Vocabulary::setSchool
+     * @covers \Ilios\CoreBundle\Entity\Vocabulary::getSchool
      */
     public function testSetSchool()
     {
@@ -49,7 +49,7 @@ class VocabularyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::addTerm
+     * @covers \Ilios\CoreBundle\Entity\Vocabulary::addTerm
      */
     public function testAddTerm()
     {
@@ -57,7 +57,7 @@ class VocabularyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::removeTerm
+     * @covers \Ilios\CoreBundle\Entity\Vocabulary::removeTerm
      */
     public function testRemoveTerm()
     {
@@ -65,7 +65,7 @@ class VocabularyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Vocabulary::getTerms
+     * @covers \Ilios\CoreBundle\Entity\Vocabulary::getTerms
      */
     public function testGetTerm()
     {

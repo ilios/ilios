@@ -23,7 +23,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::__construct
+     * @covers \Ilios\CoreBundle\Entity\Term::__construct
      */
     public function testConstructor()
     {
@@ -35,8 +35,8 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::setTitle
-     * @covers Ilios\CoreBundle\Entity\Term::getTitle
+     * @covers \Ilios\CoreBundle\Entity\Term::setTitle
+     * @covers \Ilios\CoreBundle\Entity\Term::getTitle
      */
     public function testSetTitle()
     {
@@ -44,8 +44,8 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::setDescription
-     * @covers Ilios\CoreBundle\Entity\Term::getDescription
+     * @covers \Ilios\CoreBundle\Entity\Term::setDescription
+     * @covers \Ilios\CoreBundle\Entity\Term::getDescription
      */
     public function testSetDescription()
     {
@@ -53,8 +53,8 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::setVocabulary
-     * @covers Ilios\CoreBundle\Entity\Term::getVocabulary
+     * @covers \Ilios\CoreBundle\Entity\Term::setVocabulary
+     * @covers \Ilios\CoreBundle\Entity\Term::getVocabulary
      */
     public function testSetVocabulary()
     {
@@ -62,8 +62,8 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::setParent
-     * @covers Ilios\CoreBundle\Entity\Term::getParent
+     * @covers \Ilios\CoreBundle\Entity\Term::setParent
+     * @covers \Ilios\CoreBundle\Entity\Term::getParent
      */
     public function testSetParent()
     {
@@ -71,7 +71,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::addCourse
+     * @covers \Ilios\CoreBundle\Entity\Term::addCourse
      */
     public function testAddCourse()
     {
@@ -79,7 +79,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::removeCourse
+     * @covers \Ilios\CoreBundle\Entity\Term::removeCourse
      */
     public function testRemoveCourse()
     {
@@ -87,7 +87,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::getCourses
+     * @covers \Ilios\CoreBundle\Entity\Term::getCourses
      */
     public function testGetCourses()
     {
@@ -95,7 +95,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::addProgramYear
+     * @covers \Ilios\CoreBundle\Entity\Term::addProgramYear
      */
     public function testAddProgramYear()
     {
@@ -103,7 +103,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::removeProgramYear
+     * @covers \Ilios\CoreBundle\Entity\Term::removeProgramYear
      */
     public function testRemoveProgramYear()
     {
@@ -111,7 +111,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::getProgramYears
+     * @covers \Ilios\CoreBundle\Entity\Term::getProgramYears
      */
     public function testGetProgramYears()
     {
@@ -119,7 +119,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::addSession
+     * @covers \Ilios\CoreBundle\Entity\Term::addSession
      */
     public function testAddSession()
     {
@@ -127,7 +127,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::removeSession
+     * @covers \Ilios\CoreBundle\Entity\Term::removeSession
      */
     public function testRemoveSession()
     {
@@ -135,7 +135,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::getSessions
+     * @covers \Ilios\CoreBundle\Entity\Term::getSessions
      */
     public function testGetSessions()
     {
@@ -143,7 +143,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::addAamcResourceType
+     * @covers \Ilios\CoreBundle\Entity\Term::addAamcResourceType
      */
     public function testAddAamcResourceTypes()
     {
@@ -151,7 +151,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::removeAamcResourceType
+     * @covers \Ilios\CoreBundle\Entity\Term::removeAamcResourceType
      */
     public function testRemoveAamcResourceTypes()
     {
@@ -159,8 +159,8 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::getAamcResourceTypes
-     * @covers Ilios\CoreBundle\Entity\Term::setAamcResourceTypes
+     * @covers \Ilios\CoreBundle\Entity\Term::getAamcResourceTypes
+     * @covers \Ilios\CoreBundle\Entity\Term::setAamcResourceTypes
      */
     public function testGetAamcResourceTypes()
     {
@@ -168,7 +168,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::addChild
+     * @covers \Ilios\CoreBundle\Entity\Term::addChild
      */
     public function testAddChild()
     {
@@ -176,7 +176,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::removeChild
+     * @covers \Ilios\CoreBundle\Entity\Term::removeChild
      */
     public function testRemoveChild()
     {
@@ -184,7 +184,7 @@ class TermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Term::getChildren
+     * @covers \Ilios\CoreBundle\Entity\Term::getChildren
      */
     public function testGetChildren()
     {

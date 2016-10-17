@@ -15,7 +15,7 @@ class ExporterTest extends TestCase
 {
 
     /**
-     * @covers Ilios\CoreBundle\Service\CurriculumInventory\Exporter::__construct
+     * @covers \Ilios\CoreBundle\Service\CurriculumInventory\Exporter::__construct
      */
     public function testConstructor()
     {

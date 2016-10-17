@@ -35,7 +35,7 @@ class MeshSemanticTypeTest extends EntityBase
 
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::__construct
+     * @covers \Ilios\CoreBundle\Entity\MeshSemanticType::__construct
      */
     public function testConstructor()
     {
@@ -47,8 +47,8 @@ class MeshSemanticTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::setName
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::getName
+     * @covers \Ilios\CoreBundle\Entity\MeshSemanticType::setName
+     * @covers \Ilios\CoreBundle\Entity\MeshSemanticType::getName
      */
     public function testSetName()
     {
@@ -56,7 +56,7 @@ class MeshSemanticTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::stampUpdate
+     * @covers \Ilios\CoreBundle\Entity\MeshSemanticType::stampUpdate
      */
     public function testStampUpdate()
     {
@@ -69,7 +69,7 @@ class MeshSemanticTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::addConcept
+     * @covers \Ilios\CoreBundle\Entity\MeshSemanticType::addConcept
      */
     public function testAddConcept()
     {
@@ -77,7 +77,7 @@ class MeshSemanticTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::removeConcept
+     * @covers \Ilios\CoreBundle\Entity\MeshSemanticType::removeConcept
      */
     public function testRemoveConcept()
     {
@@ -85,7 +85,7 @@ class MeshSemanticTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::getConcepts
+     * @covers \Ilios\CoreBundle\Entity\MeshSemanticType::getConcepts
      */
     public function getGetConcepts()
     {

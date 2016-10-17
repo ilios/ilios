@@ -29,7 +29,7 @@ class LoadUserRoleDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadUserRoleData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadUserRoleData::load
      */
     public function testLoad()
     {

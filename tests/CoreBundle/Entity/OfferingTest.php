@@ -59,7 +59,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::__construct
+     * @covers \Ilios\CoreBundle\Entity\Offering::__construct
      */
     public function testConstructor()
     {
@@ -71,8 +71,8 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setRoom
-     * @covers Ilios\CoreBundle\Entity\Offering::getRoom
+     * @covers \Ilios\CoreBundle\Entity\Offering::setRoom
+     * @covers \Ilios\CoreBundle\Entity\Offering::getRoom
      */
     public function testSetRoom()
     {
@@ -80,8 +80,8 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setSite
-     * @covers Ilios\CoreBundle\Entity\Offering::getSite
+     * @covers \Ilios\CoreBundle\Entity\Offering::setSite
+     * @covers \Ilios\CoreBundle\Entity\Offering::getSite
      */
     public function testSetSite()
     {
@@ -89,8 +89,8 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setStartDate
-     * @covers Ilios\CoreBundle\Entity\Offering::getStartDate
+     * @covers \Ilios\CoreBundle\Entity\Offering::setStartDate
+     * @covers \Ilios\CoreBundle\Entity\Offering::getStartDate
      */
     public function testSetStartDate()
     {
@@ -98,8 +98,8 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setEndDate
-     * @covers Ilios\CoreBundle\Entity\Offering::getEndDate
+     * @covers \Ilios\CoreBundle\Entity\Offering::setEndDate
+     * @covers \Ilios\CoreBundle\Entity\Offering::getEndDate
      */
     public function testSetEndDate()
     {
@@ -107,8 +107,8 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setSession
-     * @covers Ilios\CoreBundle\Entity\Offering::getSession
+     * @covers \Ilios\CoreBundle\Entity\Offering::setSession
+     * @covers \Ilios\CoreBundle\Entity\Offering::getSession
      */
     public function testSetSession()
     {
@@ -116,7 +116,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::addLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\Offering::addLearnerGroup
      */
     public function testAddLearnerGroup()
     {
@@ -124,7 +124,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::removeLearnerGroup
+     * @covers \Ilios\CoreBundle\Entity\Offering::removeLearnerGroup
      */
     public function testRemoveLearnerGroup()
     {
@@ -132,7 +132,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setLearnerGroups
+     * @covers \Ilios\CoreBundle\Entity\Offering::setLearnerGroups
      */
     public function testSetLearnerGroup()
     {
@@ -140,7 +140,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::addInstructorGroup
+     * @covers \Ilios\CoreBundle\Entity\Offering::addInstructorGroup
      */
     public function testAddInstructorGroup()
     {
@@ -148,7 +148,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::removeInstructorGroup
+     * @covers \Ilios\CoreBundle\Entity\Offering::removeInstructorGroup
      */
     public function testRemoveInstructorGroup()
     {
@@ -156,7 +156,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setInstructorGroups
+     * @covers \Ilios\CoreBundle\Entity\Offering::setInstructorGroups
      */
     public function testSetInstructorGroup()
     {
@@ -164,7 +164,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::addLearner
+     * @covers \Ilios\CoreBundle\Entity\Offering::addLearner
      */
     public function testAddLearner()
     {
@@ -172,7 +172,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::removeLearner
+     * @covers \Ilios\CoreBundle\Entity\Offering::removeLearner
      */
     public function testRemoveLearner()
     {
@@ -180,7 +180,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setLearners
+     * @covers \Ilios\CoreBundle\Entity\Offering::setLearners
      */
     public function testSetLearner()
     {
@@ -188,7 +188,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::addInstructor
+     * @covers \Ilios\CoreBundle\Entity\Offering::addInstructor
      */
     public function testAddInstructor()
     {
@@ -196,7 +196,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::removeInstructor
+     * @covers \Ilios\CoreBundle\Entity\Offering::removeInstructor
      */
     public function testRemoveInstructor()
     {
@@ -204,7 +204,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::setInstructors
+     * @covers \Ilios\CoreBundle\Entity\Offering::setInstructors
      */
     public function testSetInstructor()
     {
@@ -212,7 +212,7 @@ class OfferingTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Offering::getSchool
+     * @covers \Ilios\CoreBundle\Entity\Offering::getSchool
      */
     public function testGetSchool()
     {

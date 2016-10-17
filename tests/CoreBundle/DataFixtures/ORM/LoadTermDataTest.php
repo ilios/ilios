@@ -29,7 +29,7 @@ class LoadTermDataTest extends AbstractDataFixtureTest
     }
 
     /**
-     * @covers Ilios\CoreBundle\DataFixtures\ORM\LoadTermData::load
+     * @covers \Ilios\CoreBundle\DataFixtures\ORM\LoadTermData::load
      */
     public function testLoad()
     {
