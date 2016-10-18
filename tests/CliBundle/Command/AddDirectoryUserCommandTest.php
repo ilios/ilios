@@ -103,7 +103,7 @@ class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/abc       \| first \| last \| email \| abc123   \| phone/',
+            '/abc\s+\| first\s+\| last\s+\| email\s+\| abc123\s+\| phone/',
             $output
         );
         $this->assertRegExp(

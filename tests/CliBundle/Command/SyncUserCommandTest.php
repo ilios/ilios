@@ -85,11 +85,11 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/Ilios User     | abc       | old-first | old-last | old-email | old-phone/',
+            '/Ilios User\s+\| abc\s+\| old-first\s+\| old-last\s+\| old-email\s+\| old-phone/',
             $output
         );
         $this->assertRegExp(
-            '/Directory User | abc       | first     | last     | email     | phone/',
+            '/Directory User\s+\| abc\s+\| first\s+\| last\s+\| email\s+\| phone/',
             $output
         );
     }

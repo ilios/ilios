@@ -109,7 +109,7 @@ class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
             $output
         );
         $this->assertRegExp(
-            '/abc       \| first \| last \| email /',
+            '/abc\s+\| first\s+\| last\s+\| email /',
             $output
         );
         $this->assertRegExp(
