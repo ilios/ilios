@@ -194,6 +194,8 @@ class UserController extends FOSRestController
 
             $manager = $this->container->get('ilioscore.user.manager');
 
+            $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+
             foreach ($arr as $data) {
                 if (empty($data['icsFeedKey'])) {
                     //create an icsFeedKey for the new user
@@ -206,6 +208,11 @@ class UserController extends FOSRestController
 
                 $authChecker = $this->get('security.authorization_checker');
                 if (! $authChecker->isGranted('create', $user)) {
+                    throw $this->createAccessDeniedException('Unauthorized access!');
+                }
+
+                /* Only a root user can create new root users. */
+                if ($user->isRoot() && ! $currentUser->isRoot()) {
                     throw $this->createAccessDeniedException('Unauthorized access!');
                 }
 
@@ -270,11 +277,29 @@ class UserController extends FOSRestController
             }
 
             $handler = $this->container->get('ilioscore.user.handler');
+
+            $wasRootUser = $user->isRoot();
+
             $user = $handler->put($user, $this->getPostData($request)[0]);
+
+            $currentUser = $this->get('security.token_storage')->getToken()->getUser();
 
             $authChecker = $this->get('security.authorization_checker');
             if (! $authChecker->isGranted('edit', $user)) {
                 throw $this->createAccessDeniedException('Unauthorized access!');
+            }
+
+            if ($user->getId()) {
+                $rootAttributeHasChanged = $wasRootUser !== $user->isRoot();
+                /* Only a root user can modify another user's root attribute. */
+                if ($rootAttributeHasChanged && ! $currentUser->isRoot()) {
+                    throw $this->createAccessDeniedException('Unauthorized access!');
+                }
+            } else {
+                /* Only a root user can create new root users. */
+                if ($user->isRoot() && ! $currentUser->isRoot()) {
+                    throw $this->createAccessDeniedException('Unauthorized access!');
+                }
             }
 
             $manager = $this->container->get('ilioscore.user.manager');
