@@ -1,19 +1,18 @@
 <?php
 namespace Tests\CliBundle\Command;
 
-use Ilios\CliBundle\Command\ListRootUsersCommand;
-use Ilios\CliBundle\Command\UnsetRootUserCommand;
+use Ilios\CliBundle\Command\RemoveRootUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
 /**
- * Tests the Unset Root User command.
+ * Tests the Remove Root User command.
  *
- * Class UnsetRootUserCommandTest
+ * Class RemoveRootUserCommandTest
  * @package Tests\CliBundle\Command
  */
-class UnsetRootUserCommandTest extends \PHPUnit_Framework_TestCase
+class RemoveRootUserCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var m\MockInterface
@@ -32,10 +31,10 @@ class UnsetRootUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
 
-        $command = new UnsetRootUserCommand($this->userManager);
+        $command = new RemoveRootUserCommand($this->userManager);
         $application = new Application();
         $application->add($command);
-        $commandInApp = $application->find(UnsetRootUserCommand::COMMAND_NAME);
+        $commandInApp = $application->find(RemoveRootUserCommand::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -44,15 +43,15 @@ class UnsetRootUserCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        unset($this->userManager);
-        unset($this->commandTester);
+        Remove($this->userManager);
+        Remove($this->commandTester);
         m::close();
     }
 
     /**
-     * @covers \Ilios\CliBundle\Command\UnsetRootUserCommand::execute
+     * @covers \Ilios\CliBundle\Command\RemoveRootUserCommand::execute
      */
-    public function testSetRootUser()
+    public function testRemoveRootUser()
     {
         $userId = 1;
         $user = m::mock('Ilios\CoreBundle\Entity\User');
@@ -62,7 +61,7 @@ class UnsetRootUserCommandTest extends \PHPUnit_Framework_TestCase
         $user->shouldReceive('setRoot');
 
         $this->commandTester->execute([
-            'command' => UnsetRootUserCommand::COMMAND_NAME,
+            'command' => RemoveRootUserCommand::COMMAND_NAME,
             'userId' => $userId
         ]);
 
@@ -75,18 +74,18 @@ class UnsetRootUserCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Ilios\CliBundle\Command\UnsetRootUserCommand::execute
+     * @covers \Ilios\CliBundle\Command\RemoveRootUserCommand::execute
      */
     public function testMissingInput()
     {
         $this->setExpectedException('RuntimeException', 'Not enough arguments (missing: "userId").');
         $this->commandTester->execute([
-            'command' => UnsetRootUserCommand::COMMAND_NAME
+            'command' => RemoveRootUserCommand::COMMAND_NAME
         ]);
     }
 
     /**
-     * @covers \Ilios\CliBundle\Command\UnsetRootUserCommand::execute
+     * @covers \Ilios\CliBundle\Command\RemoveRootUserCommand::execute
      */
     public function testUserNotFound()
     {
@@ -95,7 +94,7 @@ class UnsetRootUserCommandTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('Exception', "No user with id #{$userId} was found.");
         $this->commandTester->execute([
-            'command' => UnsetRootUserCommand::COMMAND_NAME,
+            'command' => RemoveRootUserCommand::COMMAND_NAME,
             'userId' => $userId
         ]);
     }

@@ -1,19 +1,18 @@
 <?php
 namespace Tests\CliBundle\Command;
 
-use Ilios\CliBundle\Command\ListRootUsersCommand;
-use Ilios\CliBundle\Command\SetRootUserCommand;
+use Ilios\CliBundle\Command\AddRootUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
 /**
- * Tests the Set Root User command.
+ * Tests the Add Root User command.
  *
- * Class SetRootUserCommandTest
+ * Class AddRootUserCommandTest
  * @package Tests\CliBundle\Command
  */
-class SetRootUserCommandTest extends \PHPUnit_Framework_TestCase
+class AddRootUserCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var m\MockInterface
@@ -32,10 +31,10 @@ class SetRootUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
 
-        $command = new SetRootUserCommand($this->userManager);
+        $command = new AddRootUserCommand($this->userManager);
         $application = new Application();
         $application->add($command);
-        $commandInApp = $application->find(SetRootUserCommand::COMMAND_NAME);
+        $commandInApp = $application->find(AddRootUserCommand::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -50,24 +49,24 @@ class SetRootUserCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Ilios\CliBundle\Command\SetRootUserCommand::execute
+     * @covers \Ilios\CliBundle\Command\AddRootUserCommand::execute
      */
-    public function testSetRootUser()
+    public function testAddRootUser()
     {
         $userId = 1;
         $user = m::mock('Ilios\CoreBundle\Entity\User');
 
         $this->userManager->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn($user);
         $this->userManager->shouldReceive('update');
-        $user->shouldReceive('setRoot');
+        $user->shouldReceive('AddRoot');
 
         $this->commandTester->execute([
-            'command' => SetRootUserCommand::COMMAND_NAME,
+            'command' => AddRootUserCommand::COMMAND_NAME,
             'userId' => $userId
         ]);
 
         $this->userManager->shouldHaveReceived('update', [ $user, true, true ]);
-        $user->shouldHaveReceived('setRoot', [ true ]);
+        $user->shouldHaveReceived('AddRoot', [ true ]);
 
         $output = $this->commandTester->getDisplay();
 
@@ -75,18 +74,18 @@ class SetRootUserCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Ilios\CliBundle\Command\SetRootUserCommand::execute
+     * @covers \Ilios\CliBundle\Command\AddRootUserCommand::execute
      */
     public function testMissingInput()
     {
         $this->setExpectedException('RuntimeException', 'Not enough arguments (missing: "userId").');
         $this->commandTester->execute([
-            'command' => SetRootUserCommand::COMMAND_NAME
+            'command' => AddRootUserCommand::COMMAND_NAME
         ]);
     }
 
     /**
-     * @covers \Ilios\CliBundle\Command\SetRootUserCommand::execute
+     * @covers \Ilios\CliBundle\Command\AddRootUserCommand::execute
      */
     public function testUserNotFound()
     {
@@ -95,7 +94,7 @@ class SetRootUserCommandTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('Exception', "No user with id #{$userId} was found.");
         $this->commandTester->execute([
-            'command' => SetRootUserCommand::COMMAND_NAME,
+            'command' => AddRootUserCommand::COMMAND_NAME,
             'userId' => $userId
         ]);
     }
