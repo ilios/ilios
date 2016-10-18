@@ -1228,4 +1228,250 @@ class UserControllerTest extends AbstractControllerTest
             $data[1]
         );
     }
+
+    /**
+     * @group controllers_b
+     */
+    public function testPostRootUserAsRootUser()
+    {
+        // PLAN OF ACTION
+        // 1. POST a root user.
+        // 2. Then, use that root user to POST a new root user.
+        // 3. Check for success.
+
+        // 1.
+        $data = $this->container->get('ilioscore.dataloader.user')
+            ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        $postData['root'] = true;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $nonRootUser = json_decode($response->getContent(), true)['users'][0];
+        $nonRootUserToken = $this->getTokenForUser($nonRootUser['id']);
+
+        // 2.
+        $data = $this->container->get('ilioscore.dataloader.user')
+            ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        $postData['root'] = true;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $nonRootUserToken
+        );
+
+        // 3.
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
+    }
+
+    /**
+     * @group controllers_b
+     */
+    public function testPostRootUserAsNonRootUserFails()
+    {
+        // PLAN OF ACTION
+        // 1. POST a non-root user.
+        // 2. Then, use that non-root user to POST a new root user.
+        // 3. Check for failure.
+
+        // 1.
+        $data = $this->container->get('ilioscore.dataloader.user')
+            ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        $postData['root'] = false;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $nonRootUser = json_decode($response->getContent(), true)['users'][0];
+        $nonRootUserToken = $this->getTokenForUser($nonRootUser['id']);
+
+        // 2.
+        $data = $this->container->get('ilioscore.dataloader.user')
+            ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        $postData['root'] = true;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $nonRootUserToken
+        );
+
+        // 3.
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+
+    /**
+     * @group controllers_b
+     */
+    public function testUpdateRootAttributeAsRootUser()
+    {
+        // PLAN OF ACTION
+        // 1. POST a root user.
+        // 2. Then, use that root user change the root flag on another user. Update that other user.
+        // 3. Check for success.
+
+        // 1.
+        $data = $this->container->get('ilioscore.dataloader.user')
+            ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        $postData['root'] = true;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $rootUser = json_decode($response->getContent(), true)['users'][0];
+        $rootUserToken = $this->getTokenForUser($rootUser['id']);
+
+        // 2.
+        $data = $this->container->get('ilioscore.dataloader.user')->getOne();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        unset($postData['alerts']);
+        $postData['root'] = ! $postData['root'];
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_users',
+                ['id' => $data['id']]
+            ),
+            json_encode(['user' => $postData]),
+            $rootUserToken
+        );
+
+        // 3.
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     * @group controllers_b
+     */
+    public function testUpdateRootAttributeAsNonRootUserFails()
+    {
+        // PLAN OF ACTION
+        // 1. POST a non-root user.
+        // 2. Then, use that non-root user change the root flag on another user. Update that other user.
+        // 3. Check for failure.
+
+        // 1.
+        $data = $this->container->get('ilioscore.dataloader.user')
+            ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        $postData['root'] = false;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $nonRootUser = json_decode($response->getContent(), true)['users'][0];
+        $nonRootUserToken = $this->getTokenForUser($nonRootUser['id']);
+
+        // 2.
+        $data = $this->container->get('ilioscore.dataloader.user')->getOne();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        unset($postData['alerts']);
+        $postData['root'] = ! $postData['root'];
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_users',
+                ['id' => $data['id']]
+            ),
+            json_encode(['user' => $postData]),
+            $nonRootUserToken
+        );
+
+        // 3.
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
 }

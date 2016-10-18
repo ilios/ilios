@@ -9,17 +9,17 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Revokes root-level privileges from a given user.
+ * Grants root-level privileges to a given user.
  *
- * Class UnsetRootUserCommand
+ * Class AddRootUserCommand
  * @package Ilios\CliBundle\Command
  */
-class UnsetRootUserCommand extends Command
+class AddRootUserCommand extends Command
 {
     /**
      * @var string
      */
-    const COMMAND_NAME = 'ilios:maintenance:unset-root-user';
+    const COMMAND_NAME = 'ilios:maintenance:add-root-user';
 
     /**
      * @var UserManager
@@ -39,7 +39,7 @@ class UnsetRootUserCommand extends Command
     {
         $this
             ->setName(self::COMMAND_NAME)
-            ->setDescription('Revokes root-level privileges from a given user.')
+            ->setDescription('Grants root-level privileges to a given user.')
             ->addArgument(
                 'userId',
                 InputArgument::REQUIRED,
@@ -58,8 +58,8 @@ class UnsetRootUserCommand extends Command
         if (!$user) {
             throw new \Exception("No user with id #{$userId} was found.");
         }
-        $user->setRoot(false);
+        $user->setRoot(true);
         $this->userManager->update($user, true, true);
-        $output->writeln("Root-level privileges have been revoked from user with id #{$userId}.");
+        $output->writeln("User with id #{$userId} has been granted root-level privileges.");
     }
 }

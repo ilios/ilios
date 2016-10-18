@@ -95,13 +95,13 @@ services:
         arguments: [ "@ilioscore.user.manager" ]
         tags:
             -  { name: console.command }
-    ilioscli.command.set_root_user:
-        class: Ilios\CliBundle\Command\SetRootUserCommand
+    ilioscli.command.add_root_user:
+        class: Ilios\CliBundle\Command\AddRootUserCommand
         arguments: [ "@ilioscore.user.manager" ]
         tags:
             -  { name: console.command }
-    ilioscli.command.unset_root_user:
-        class: Ilios\CliBundle\Command\UnsetRootUserCommand
+    ilioscli.command.remove_root_user:
+        class: Ilios\CliBundle\Command\RemoveRootUserCommand
         arguments: [ "@ilioscore.user.manager" ]
         tags:
             -  { name: console.command }
