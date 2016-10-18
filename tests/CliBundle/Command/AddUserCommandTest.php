@@ -273,7 +273,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/abc       \| first \| last \| email@example.com \| abc123   \| phone/',
+            '/abc\s+\| first\s+\| last\s+\| email@example.com\s+\| abc123\s+\| phone/',
             $output
         );
         $this->assertRegExp(

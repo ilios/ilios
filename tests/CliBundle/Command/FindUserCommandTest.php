@@ -52,7 +52,7 @@ class FindUserCommandTest extends \PHPUnit_Framework_TestCase
         
         $output = $this->commandTester->getDisplay();
         $this->assertRegExp(
-            '/abc       | first | last | email | phone/',
+            '/abc\s+\| first\s+\| last\s+\| email\s+\| phone/',
             $output
         );
     }
