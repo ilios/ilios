@@ -1118,7 +1118,7 @@ class UserControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['users'];
-        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(4, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $users[0]
@@ -1136,6 +1136,12 @@ class UserControllerTest extends AbstractControllerTest
                 $users[2]
             ),
             $data[2]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $users[4]
+            ),
+            $data[3]
         );
     }
 
@@ -1214,7 +1220,7 @@ class UserControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['users'];
-        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(3, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $users[2]
@@ -1226,6 +1232,12 @@ class UserControllerTest extends AbstractControllerTest
                 $users[3]
             ),
             $data[1]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $users[4]
+            ),
+            $data[2]
         );
     }
 

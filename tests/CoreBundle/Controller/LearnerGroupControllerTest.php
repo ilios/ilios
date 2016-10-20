@@ -396,7 +396,7 @@ class LearnerGroupControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['learnerGroups'];
-        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(4, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $learnerGroups[0]
@@ -414,6 +414,12 @@ class LearnerGroupControllerTest extends AbstractControllerTest
                 $learnerGroups[2]
             ),
             $data[2]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learnerGroups[4]
+            ),
+            $data[3]
         );
 
         //Test the singular filter as well #1409
@@ -427,7 +433,7 @@ class LearnerGroupControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $data = json_decode($response->getContent(), true)['learnerGroups'];
-        $this->assertEquals(3, count($data), var_export($data, true));
+        $this->assertEquals(4, count($data), var_export($data, true));
         $this->assertEquals(
             $this->mockSerialize(
                 $learnerGroups[0]
@@ -445,6 +451,12 @@ class LearnerGroupControllerTest extends AbstractControllerTest
                 $learnerGroups[2]
             ),
             $data[2]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $learnerGroups[4]
+            ),
+            $data[3]
         );
     }
 }
