@@ -2,11 +2,14 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Classes\CalendarEvent;
 use Ilios\CoreBundle\Classes\UserEvent;
+use Ilios\CoreBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\DTO\UserDTO;
+use Ilios\CoreBundle\Service\UserMaterialFactory;
 
 /**
  * Class UserManager
@@ -14,6 +17,21 @@ use Ilios\CoreBundle\Entity\DTO\UserDTO;
  */
 class UserManager extends DTOManager
 {
+    /**
+     * @var UserMaterialFactory
+     */
+    protected $factory;
+
+    /**
+     * @param Registry $registry
+     * @param string $class
+     */
+    public function __construct(Registry $registry, $class, UserMaterialFactory $factory)
+    {
+        parent::__construct($registry, $class);
+        $this->factory = $factory;
+    }
+
     /**
      * @param array $campusIds
      *
@@ -96,5 +114,16 @@ class UserManager extends DTOManager
     public function resetExaminedFlagForAllUsers()
     {
         return $this->getRepository()->resetExaminedFlagForAllUsers();
+    }
+
+    /**
+     * Find all of the learning materials for a userId
+     *
+     * @param integer $userId
+     * @return UserMaterial[]
+     */
+    public function findMaterialsForUser($userId)
+    {
+        return $this->getRepository()->findMaterialsForUser($userId, $this->factory);
     }
 }

@@ -365,6 +365,13 @@ api_userevent_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+
+api_usermaterials_v1:
+    resource: "@IliosCoreBundle/Controller/UsermaterialsController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
 api_vocabulary_v1:
     resource: "@IliosCoreBundle/Controller/VocabularyController.php"
     type:     rest

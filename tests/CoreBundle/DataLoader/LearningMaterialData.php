@@ -16,7 +16,7 @@ class LearningMaterialData extends AbstractDataLoader
             'id' => 1,
             'title' => 'firstlm' . $this->faker->text(30),
             'description' => 'desc1' . $this->faker->text,
-            'originalAuthor' => $this->faker->name,
+            'originalAuthor' => 'author1' . $this->faker->name,
             'userRole' => "1",
             'status' => "1",
             'owningUser' => "1",
@@ -24,7 +24,7 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightPermission' => true,
             'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => ['1', '3'],
-            'citation' => $this->faker->text,
+            'citation' => 'citation1' . $this->faker->text,
             'mimetype' => 'citation',
         );
 

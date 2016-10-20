@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\DBAL\Types\Type as DoctrineType;
 use Ilios\CoreBundle\Classes\UserEvent;
+use Ilios\CoreBundle\Classes\UserMaterial;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Entity\DTO\UserDTO;
+use Ilios\CoreBundle\Service\UserMaterialFactory;
 
 /**
  * Class UserRepository
@@ -828,5 +830,152 @@ class UserRepository extends EntityRepository
         }
 
         return array_values($userDTOs);
+    }
+
+    /**
+     * Find all of the assigned materials for a user
+     * @param integer $id
+     * @param UserMaterialFactory $factory
+     *
+     * @return UserMaterial[]
+     */
+    public function findMaterialsForUser($id, UserMaterialFactory $factory)
+    {
+        //These joins are DQL representations to go from a user to a session
+        $sessionsJoins = [
+            ['g' => 'u.learnerGroups', 'o' => 'g.offerings', 's' => 'o.session'],
+            ['o' => 'u.offerings', 's' => 'o.session'],
+            ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions', 's' => 'ilm.session'],
+            ['ilm' => 'u.learnerIlmSessions', 's' => 'ilm.session'],
+        ];
+
+        $sessionMaterials = [];
+        //using each of the joins above create a query to get session materials
+        foreach ($sessionsJoins as $join) {
+            $materials = $this->getLearningMaterialsForSessions($id, $join, $factory);
+            $sessionMaterials = array_merge($sessionMaterials, $materials);
+        }
+        //extract unique offeringEvents by using the offering ID
+        $uniqueSessionMaterials = [];
+        foreach ($sessionMaterials as $userMaterial) {
+            $id = $userMaterial->session . $userMaterial->id;
+
+            if (!array_key_exists($id, $uniqueSessionMaterials)) {
+                $uniqueSessionMaterials[$id] = $userMaterial;
+            }
+        }
+
+        //These joins are DQL representations to go from a user to a session
+        $courseJoins = [
+            ['g' => 'u.learnerGroups', 'o' => 'g.offerings', 's' => 'o.session', 'c' => 's.course'],
+            ['o' => 'u.offerings', 's' => 'o.session', 'c' => 's.course'],
+            ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions', 's' => 'ilm.session', 'c' => 's.course'],
+            ['ilm' => 'u.learnerIlmSessions', 's' => 'ilm.session', 'c' => 's.course'],
+        ];
+
+        //using each of the joins above create a query to get course materials
+        $courseMaterials = [];
+        foreach ($courseJoins as $join) {
+            $materials = $this->getLearningMaterialsForCourses($id, $join, $factory);
+            $courseMaterials = array_merge($courseMaterials, $materials);
+        }
+        //extract unique offeringEvents by using the offering ID
+        $uniqueCourseMaterials = [];
+        foreach ($courseMaterials as $userMaterial) {
+            $id = $userMaterial->course . $userMaterial->id;
+            if (!array_key_exists($id, $uniqueCourseMaterials)) {
+                $uniqueCourseMaterials[$id] = $userMaterial;
+            }
+        }
+
+        $userMaterials = array_merge($uniqueSessionMaterials, $uniqueCourseMaterials);
+        //sort materials by id for consistency
+        usort($userMaterials, function (UserMaterial $a, UserMaterial $b) {
+            return $a->id - $b->id;
+        });
+
+        return $userMaterials;
+    }
+
+    /**
+     * Use the query builder and the $joins to get a set of
+     * learning materials based on session
+     *
+     * @param integer $userId
+     * @param array $joins
+     * @param UserMaterialFactory $factory
+     *
+     * @return UserMaterial[]
+     */
+    protected function getLearningMaterialsForSessions(
+        $userId,
+        array $joins,
+        UserMaterialFactory $factory
+    ) {
+
+        $qb = $this->_em->createQueryBuilder();
+        $what = 's.title as sessionTitle, s.id as sessionId, ' .
+            'slm.notes, slm.required, slm.publicNotes, ' .
+            'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
+            'lm.citation, lm.link, lm.filename, lm.mimetype';
+        $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
+        foreach ($joins as $key => $statement) {
+            $qb->leftJoin($statement, $key);
+        }
+        $qb->join('s.learningMaterials', 'slm');
+        $qb->join('slm.learningMaterial', 'lm');
+
+        $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
+        $qb->setParameter('user_id', $userId);
+        $qb->distinct();
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        $userMaterials = array_map(function (array $arr) use ($factory) {
+            return $factory->create($arr);
+        }, $results);
+
+        return $userMaterials;
+    }
+
+    /**
+     * Use the query builder and the $joins to get a set of
+     * learning materials based on course
+     *
+     * @param integer $userId
+     * @param array $joins
+     * @param UserMaterialFactory $factory
+     *
+     * @return UserMaterial[]
+     */
+    protected function getLearningMaterialsForCourses(
+        $userId,
+        array $joins,
+        UserMaterialFactory $factory
+    ) {
+
+        $qb = $this->_em->createQueryBuilder();
+        $what = 'c.title as courseTitle, c.id as courseId, ' .
+            'clm.notes, clm.required, clm.publicNotes, ' .
+            'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
+            'lm.citation, lm.link, lm.filename, lm.mimetype';
+        $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
+        foreach ($joins as $key => $statement) {
+            $qb->leftJoin($statement, $key);
+        }
+        $qb->join('c.learningMaterials', 'clm');
+        $qb->join('clm.learningMaterial', 'lm');
+
+        $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
+        $qb->setParameter('user_id', $userId);
+        $qb->distinct();
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        $userMaterials = array_map(function (array $arr) use ($factory) {
+            return $factory->create($arr);
+        }, $results);
+
+        return $userMaterials;
     }
 }
