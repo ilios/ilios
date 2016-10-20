@@ -30,6 +30,9 @@ class UsermaterialsController extends FOSRestController
    *   statusCodes = {
    *     200 = "List of user materials",
    *     204 = "No content. Nothing to list."
+   *   },
+   *   tags = {
+   *     "beta"
    *   }
    * )
    *
