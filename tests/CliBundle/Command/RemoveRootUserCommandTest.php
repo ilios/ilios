@@ -43,8 +43,8 @@ class RemoveRootUserCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        Remove($this->userManager);
-        Remove($this->commandTester);
+        unset($this->userManager);
+        unset($this->commandTester);
         m::close();
     }
 

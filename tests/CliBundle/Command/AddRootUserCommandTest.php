@@ -58,7 +58,7 @@ class AddRootUserCommandTest extends \PHPUnit_Framework_TestCase
 
         $this->userManager->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn($user);
         $this->userManager->shouldReceive('update');
-        $user->shouldReceive('AddRoot');
+        $user->shouldReceive('setRoot');
 
         $this->commandTester->execute([
             'command' => AddRootUserCommand::COMMAND_NAME,
@@ -66,7 +66,7 @@ class AddRootUserCommandTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->userManager->shouldHaveReceived('update', [ $user, true, true ]);
-        $user->shouldHaveReceived('AddRoot', [ true ]);
+        $user->shouldHaveReceived('setRoot', [ true ]);
 
         $output = $this->commandTester->getDisplay();
 
