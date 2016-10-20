@@ -159,13 +159,49 @@ class UserData extends AbstractDataLoader
             'directedPrograms' => [],
         );
 
+        $arr[] = array(
+            'id' => 5,
+            'lastName' => $this->faker->lastName,
+            'middleName' => $this->faker->firstName,
+            'firstName' => $this->faker->firstName,
+            'email' => $this->faker->email,
+            'phone' => $this->faker->phoneNumber,
+            'enabled' => true,
+            'campusId' => '5555@school.edu',
+            'userSyncIgnore' => false,
+            'icsFeedKey' => hash('sha256', '5'),
+            'learningMaterials' => [],
+            'reports' => [],
+            'school' => "1",
+            'directedCourses' => [],
+            'learnerGroups' => ['1', '5'],
+            'instructedLearnerGroups' => [],
+            'instructorGroups' => [],
+            'instructorIlmSessions' => [],
+            'learnerIlmSessions' => [],
+            'offerings' => [],
+            'instructedOfferings' => [],
+            'programYears' => [],
+            'alerts' => [],
+            'roles' => [],
+            'cohorts' => [],
+            'reminders' => [],
+            'pendingUserUpdates' => [],
+            'permissions' => [],
+            'directedSchools' => [],
+            'administeredSchools' => [],
+            'administeredSessions' => [],
+            'administeredCourses' => [],
+            'directedPrograms' => [],
+        );
+
         return $arr;
     }
 
     public function create()
     {
         return [
-            'id' => 5,
+            'id' => 6,
             'lastName' => $this->faker->lastName,
             'firstName' => $this->faker->firstName,
             'middleName' => $this->faker->firstName,

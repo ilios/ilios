@@ -4,6 +4,7 @@ namespace Tests\CoreBundle\Controller;
 
 use FOS\RestBundle\Util\Codes;
 use DateTime;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * UserRole controller Test.
@@ -40,7 +41,7 @@ class UsermaterialsControllerTest extends AbstractControllerTest
      */
     public function testGetMaterials()
     {
-        $userId = 2;
+        $userId = 5;
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
@@ -54,18 +55,18 @@ class UsermaterialsControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $materials = json_decode($response->getContent(), true)['userMaterials'];
-        $this->assertCount(1, $materials, 'All expected materials returned');
-        $ulm = $materials[0];
-        $this->assertEquals('1', $ulm['id']);
-        $this->assertEquals('1', $ulm['session']);
-        $this->assertFalse($ulm['required']);
-        $this->assertRegExp('/^firstlm/', $ulm['title']);
-        $this->assertRegExp('/^desc1/', $ulm['description']);
-        $this->assertRegExp('/^author1/', $ulm['originalAuthor']);
-        $this->assertRegExp('/^citation1/', $ulm['citation']);
-        $this->assertEquals('citation', $ulm['mimetype']);
-        $this->assertRegExp('/^session1Title/', $ulm['sessionTitle']);
-        $this->assertFalse(isset($ulm['courseTitle']));
-        $this->assertFalse(isset($ulm['course']));
+        $this->assertCount(4, $materials, 'All expected materials returned');
+        $this->assertEquals('1', $materials[0]['id']);
+        $this->assertEquals('1', $materials[0]['session']);
+        $this->assertFalse($materials[0]['required']);
+        $this->assertRegExp('/^firstlm/', $materials[0]['title']);
+        $this->assertRegExp('/^desc1/', $materials[0]['description']);
+        $this->assertRegExp('/^author1/', $materials[0]['originalAuthor']);
+        $this->assertRegExp('/^citation1/', $materials[0]['citation']);
+        $this->assertEquals('citation', $materials[0]['mimetype']);
+        $this->assertRegExp('/^session1Title/', $materials[0]['sessionTitle']);
+        $this->assertFalse(isset($materials[0]['courseTitle']));
+        $this->assertFalse(isset($materials[0]['course']));
+        $this->assertEquals('2016-09-07T17:00:00+00:00', $materials[0]['firstOfferingDate']);
     }
 }

@@ -121,4 +121,12 @@ class UserMaterial
      * @JMS\SerializedName("courseTitle")
      */
     public $courseTitle;
+
+    /**
+     * @var int
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("firstOfferingDate")
+     */
+    public $firstOfferingDate;
 }

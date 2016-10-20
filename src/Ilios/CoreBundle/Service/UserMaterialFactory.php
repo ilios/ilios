@@ -50,6 +50,7 @@ class UserMaterialFactory
         $obj->course = isset($material['courseId'])?$material['courseId']:null;
         $obj->sessionTitle = isset($material['sessionTitle'])?$material['sessionTitle']:null;
         $obj->courseTitle = isset($material['courseTitle'])?$material['courseTitle']:null;
+        $obj->firstOfferingDate = isset($material['firstOfferingDate'])?$material['firstOfferingDate']:null;
         if ($material['publicNotes']) {
             $obj->publicNotes = $material['notes'];
         }

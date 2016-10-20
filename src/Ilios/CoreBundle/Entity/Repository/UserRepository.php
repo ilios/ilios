@@ -841,54 +841,76 @@ class UserRepository extends EntityRepository
      */
     public function findMaterialsForUser($id, UserMaterialFactory $factory)
     {
-        //These joins are DQL representations to go from a user to a session
-        $sessionsJoins = [
-            ['g' => 'u.learnerGroups', 'o' => 'g.offerings', 's' => 'o.session'],
-            ['o' => 'u.offerings', 's' => 'o.session'],
-            ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions', 's' => 'ilm.session'],
-            ['ilm' => 'u.learnerIlmSessions', 's' => 'ilm.session'],
-        ];
+        $offIdQb = $this->_em->createQueryBuilder();
+        $offIdQb->select('learnerOffering.id')->from('IliosCoreBundle:User', 'learnerU');
+        $offIdQb->join('learnerU.offerings', 'learnerOffering');
+        $offIdQb->andWhere($offIdQb->expr()->eq('learnerU.id', ':user_id'));
 
-        $sessionMaterials = [];
-        //using each of the joins above create a query to get session materials
-        foreach ($sessionsJoins as $join) {
-            $materials = $this->getLearningMaterialsForSessions($id, $join, $factory);
-            $sessionMaterials = array_merge($sessionMaterials, $materials);
-        }
-        //extract unique offeringEvents by using the offering ID
-        $uniqueSessionMaterials = [];
-        foreach ($sessionMaterials as $userMaterial) {
-            $id = $userMaterial->session . $userMaterial->id;
+        $groupOfferingQb = $this->_em->createQueryBuilder();
+        $groupOfferingQb->select('groupOffering.id')->from('IliosCoreBundle:User', 'groupU');
+        $groupOfferingQb->leftJoin('groupU.learnerGroups', 'g');
+        $groupOfferingQb->leftJoin('g.offerings', 'groupOffering');
+        $groupOfferingQb->andWhere($groupOfferingQb->expr()->eq('groupU.id', ':user_id'));
 
-            if (!array_key_exists($id, $uniqueSessionMaterials)) {
-                $uniqueSessionMaterials[$id] = $userMaterial;
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('s.id, o.startDate');
+        $qb->from('IliosCoreBundle:Offering', 'o');
+        $qb->join('o.session', 's');
+        $qb->where($qb->expr()->in('o.id', $offIdQb->getDQL()));
+        $qb->orWhere($qb->expr()->in('o.id', $groupOfferingQb->getDQL()));
+        $qb->setParameter('user_id', $id);
+
+        $offeringSessions = $qb->getQuery()->getArrayResult();
+
+        $ilmQb = $this->_em->createQueryBuilder();
+        $ilmQb->select('learnerIlmSession.id')->from('IliosCoreBundle:User', 'learnerU');
+        $ilmQb->join('learnerU.learnerIlmSessions', 'learnerIlmSession');
+        $ilmQb->andWhere($ilmQb->expr()->eq('learnerU.id', ':user_id'));
+
+        $groupIlmSessionQb = $this->_em->createQueryBuilder();
+        $groupIlmSessionQb->select('groupIlmSession.id')->from('IliosCoreBundle:User', 'groupU');
+        $groupIlmSessionQb->leftJoin('groupU.learnerGroups', 'g');
+        $groupIlmSessionQb->leftJoin('g.ilmSessions', 'groupIlmSession');
+        $groupIlmSessionQb->andWhere($groupIlmSessionQb->expr()->eq('groupU.id', ':user_id'));
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('s.id, ilm.dueDate');
+        $qb->from('IliosCoreBundle:IlmSession', 'ilm');
+        $qb->join('ilm.session', 's');
+        $qb->where($qb->expr()->in('ilm.id', $ilmQb->getDQL()));
+        $qb->orWhere($qb->expr()->in('ilm.id', $groupIlmSessionQb->getDQL()));
+        $qb->setParameter('user_id', $id);
+
+        $ilmSessions = $qb->getQuery()->getArrayResult();
+        $sessions = [];
+        foreach ($offeringSessions as $arr) {
+            if (!array_key_exists($arr['id'], $sessions) || $arr['startDate'] < $sessions[$arr['id']]) {
+                $sessions[$arr['id']] = $arr['startDate'];
             }
         }
-
-        //These joins are DQL representations to go from a user to a session
-        $courseJoins = [
-            ['g' => 'u.learnerGroups', 'o' => 'g.offerings', 's' => 'o.session', 'c' => 's.course'],
-            ['o' => 'u.offerings', 's' => 'o.session', 'c' => 's.course'],
-            ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions', 's' => 'ilm.session', 'c' => 's.course'],
-            ['ilm' => 'u.learnerIlmSessions', 's' => 'ilm.session', 'c' => 's.course'],
-        ];
-
-        //using each of the joins above create a query to get course materials
-        $courseMaterials = [];
-        foreach ($courseJoins as $join) {
-            $materials = $this->getLearningMaterialsForCourses($id, $join, $factory);
-            $courseMaterials = array_merge($courseMaterials, $materials);
-        }
-        //extract unique offeringEvents by using the offering ID
-        $uniqueCourseMaterials = [];
-        foreach ($courseMaterials as $userMaterial) {
-            $id = $userMaterial->course . $userMaterial->id;
-            if (!array_key_exists($id, $uniqueCourseMaterials)) {
-                $uniqueCourseMaterials[$id] = $userMaterial;
+        foreach ($ilmSessions as $arr) {
+            if (!array_key_exists($arr['id'], $sessions) || $arr['dueDate'] < $sessions[$arr['id']]) {
+                $sessions[$arr['id']] = $arr['dueDate'];
             }
         }
+        $sessionIds = array_keys($sessions);
 
-        $userMaterials = array_merge($uniqueSessionMaterials, $uniqueCourseMaterials);
+
+        $sessionMaterials = $this->getLearningMaterialsForSessions($sessionIds);
+
+        $sessionUserMaterials = array_map(function (array $arr) use ($factory, $sessions) {
+            $arr['firstOfferingDate'] = $sessions[$arr['sessionId']];
+            return $factory->create($arr);
+        }, $sessionMaterials);
+
+        $courseMaterials = $this->getLearningMaterialsForCourses($sessionIds);
+
+        $courseUserMaterials = array_map(function (array $arr) use ($factory) {
+            return $factory->create($arr);
+        }, $courseMaterials);
+
+
+        $userMaterials = array_merge($sessionUserMaterials, $courseUserMaterials);
         //sort materials by id for consistency
         usort($userMaterials, function (UserMaterial $a, UserMaterial $b) {
             return $a->id - $b->id;
@@ -898,19 +920,14 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Use the query builder and the $joins to get a set of
-     * learning materials based on session
+     * Get a set of learning materials based on session
      *
-     * @param integer $userId
-     * @param array $joins
-     * @param UserMaterialFactory $factory
+     * @param array $sessionIds
      *
-     * @return UserMaterial[]
+     * @return array
      */
     protected function getLearningMaterialsForSessions(
-        $userId,
-        array $joins,
-        UserMaterialFactory $factory
+        array $sessionIds
     ) {
 
         $qb = $this->_em->createQueryBuilder();
@@ -918,40 +935,26 @@ class UserRepository extends EntityRepository
             'slm.notes, slm.required, slm.publicNotes, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
             'lm.citation, lm.link, lm.filename, lm.mimetype';
-        $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
-        foreach ($joins as $key => $statement) {
-            $qb->leftJoin($statement, $key);
-        }
+        $qb->select($what)->from('IliosCoreBundle:Session', 's');
         $qb->join('s.learningMaterials', 'slm');
         $qb->join('slm.learningMaterial', 'lm');
 
-        $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
-        $qb->setParameter('user_id', $userId);
+        $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
+        $qb->setParameter(':sessions', $sessionIds);
         $qb->distinct();
 
-        $results = $qb->getQuery()->getArrayResult();
-
-        $userMaterials = array_map(function (array $arr) use ($factory) {
-            return $factory->create($arr);
-        }, $results);
-
-        return $userMaterials;
+        return $qb->getQuery()->getArrayResult();
     }
 
     /**
-     * Use the query builder and the $joins to get a set of
-     * learning materials based on course
+     * Get a set of course learning materials based on sessionIds
      *
-     * @param integer $userId
-     * @param array $joins
-     * @param UserMaterialFactory $factory
+     * @param array $sessionIds
      *
-     * @return UserMaterial[]
+     * @return array
      */
     protected function getLearningMaterialsForCourses(
-        $userId,
-        array $joins,
-        UserMaterialFactory $factory
+        array $sessionIds
     ) {
 
         $qb = $this->_em->createQueryBuilder();
@@ -959,23 +962,15 @@ class UserRepository extends EntityRepository
             'clm.notes, clm.required, clm.publicNotes, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
             'lm.citation, lm.link, lm.filename, lm.mimetype';
-        $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
-        foreach ($joins as $key => $statement) {
-            $qb->leftJoin($statement, $key);
-        }
+        $qb->select($what)->from('IliosCoreBundle:Session', 's');
+        $qb->join('s.course', 'c');
         $qb->join('c.learningMaterials', 'clm');
         $qb->join('clm.learningMaterial', 'lm');
 
-        $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
-        $qb->setParameter('user_id', $userId);
+        $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
+        $qb->setParameter(':sessions', $sessionIds);
         $qb->distinct();
 
-        $results = $qb->getQuery()->getArrayResult();
-
-        $userMaterials = array_map(function (array $arr) use ($factory) {
-            return $factory->create($arr);
-        }, $results);
-
-        return $userMaterials;
+        return $qb->getQuery()->getArrayResult();
     }
 }
