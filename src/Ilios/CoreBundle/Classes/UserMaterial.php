@@ -121,5 +121,4 @@ class UserMaterial
      * @JMS\SerializedName("courseTitle")
      */
     public $courseTitle;
-
 }
