@@ -168,7 +168,7 @@ services:
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\UserMadeReminder]
     ilioscore.user.manager:
         class: "%ilioscore.user.manager.class%"
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\User]
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\User, '@ilioscore.usermaterial.factory']
     ilioscore.userrole.manager:
         class: "%ilioscore.basemanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\UserRole]
