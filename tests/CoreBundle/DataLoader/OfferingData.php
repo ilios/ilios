@@ -18,7 +18,7 @@ class OfferingData extends AbstractDataLoader
             'startDate' => "2016-09-08T15:00:00+00:00",
             'endDate' => "2016-09-08T17:00:00+00:00",
             'session' => '1',
-            'learnerGroups' => ['1'],
+            'learnerGroups' => ['1', '5'],
             'instructorGroups' => ['1'],
             'learners' => [],
             'instructors' => []
@@ -31,7 +31,7 @@ class OfferingData extends AbstractDataLoader
             'startDate' => "2016-09-07T17:00:00+00:00",
             'endDate' => "2016-09-07T18:00:00+00:00",
             'session' => '1',
-            'learnerGroups' => ['2'],
+            'learnerGroups' => ['2', '5'],
             'instructorGroups' => [],
             'learners' => [],
             'instructors' => [],

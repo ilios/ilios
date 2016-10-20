@@ -17,7 +17,7 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => ['1'],
             'offerings' => ['1'],
             'instructorGroups' => ['1'],
-            'users' => ['2'],
+            'users' => ['2', '5'],
             'instructors' => ['1']
         );
 
@@ -60,13 +60,26 @@ class LearnerGroupData extends AbstractDataLoader
         );
 
 
+        $arr[] = array(
+            'id' => 5,
+            'title' =>$this->faker->text(25),
+            'cohort' => '1',
+            'children' => [],
+            'ilmSessions' => [],
+            'offerings' => ['1', '2'],
+            'instructorGroups' => [],
+            'users' => ['5'],
+            'instructors' => []
+        );
+
+
         return $arr;
     }
 
     public function create()
     {
         return array(
-            'id' => 5,
+            'id' => 6,
             'title' => $this->faker->text(25),
             'cohort' => "1",
             'children' => [],
