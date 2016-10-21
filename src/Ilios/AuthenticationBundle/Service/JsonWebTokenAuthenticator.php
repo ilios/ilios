@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
-use Ilios\CoreBundle\Entity\AuthenticationInterface;
+use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
@@ -89,7 +89,7 @@ class JsonWebTokenAuthenticator implements SimplePreAuthenticatorInterface, Auth
                 'Invalid JSON Web Token: user is disabled'
             );
         }
-        /* @var AuthenticationInterface $authentication */
+        /* @var AuthenticationEntityInterface $authentication */
         $authentication = $user->getAuthentication();
         if ($authentication) {
             $tokenNotValidBefore = $authentication->getInvalidateTokenIssuedBefore();
