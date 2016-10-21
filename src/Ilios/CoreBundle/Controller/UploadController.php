@@ -24,7 +24,8 @@ class UploadController extends Controller
         $uploadedFile = $request->files->get('file');
         if (is_null($uploadedFile)) {
             return new JsonResponse(array(
-                'errors' => 'No file parameter was found in the request'
+                'errors' => 'Unable to find file in the request. ' .
+                            'The uploaded file may have exceeded the maximum allowed size'
             ), JsonResponse::HTTP_BAD_REQUEST);
         }
         if (!$uploadedFile->isValid()) {

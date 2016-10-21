@@ -87,6 +87,9 @@ class UploadControllerTest extends WebTestCase
         $this->assertJsonResponse($response, Codes::HTTP_BAD_REQUEST);
         
         $data = json_decode($response->getContent(), true);
-        $this->assertSame($data['errors'], 'No file parameter was found in the request');
+        $this->assertSame(
+            $data['errors'],
+            'Unable to find file in the request. The uploaded file may have exceeded the maximum allowed size'
+        );
     }
 }
