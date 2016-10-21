@@ -21,10 +21,20 @@ class ConfigControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('config', $content);
+        $data = $content['config'];
+        $this->assertArrayHasKey('maxUploadSize', $data);
+        $this->assertGreaterThan(0, $data['maxUploadSize']);
+        unset($data['maxUploadSize']);
 
         $this->assertEquals(
-            array('config' => array('type' => 'form', 'locale' => 'en', 'userSearchType' => 'local')),
-            json_decode($response->getContent(), true)
+            array(
+                'type' => 'form',
+                'locale' => 'en',
+                'userSearchType' => 'local'
+            ),
+            $data
         );
     }
 }
