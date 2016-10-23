@@ -369,7 +369,7 @@ class CurriculumInventoryReportController extends FOSRestController
         $report = $this->getOr404($id);
 
         $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted(['edit'], $report)) {
+        if (! $authChecker->isGranted(['create'], $report)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
