@@ -126,7 +126,7 @@ api_curriculuminventoryreport_v1:
     defaults: {_format:json}
 
 api_curriculuminventoryreport_rollover_v1:
-    path:     /v1/curriculumInventoryReport/{id}/rollover.{_format}
+    path:     /v1/curriculuminventoryreports/{id}/rollover.{_format}
     defaults: { _format: json, _controller: IliosCoreBundle:CurriculumInventoryReport:rollover }
     methods: [POST]
 
