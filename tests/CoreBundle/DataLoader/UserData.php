@@ -180,7 +180,7 @@ class UserData extends AbstractDataLoader
             'instructorGroups' => [],
             'instructorIlmSessions' => [],
             'learnerIlmSessions' => [],
-            'offerings' => [],
+            'offerings' => ['7'],
             'instructedOfferings' => [],
             'programYears' => [],
             'alerts' => [],
