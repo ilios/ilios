@@ -938,8 +938,13 @@ class UserRepository extends EntityRepository
         $qb->select($what)->from('IliosCoreBundle:Session', 's');
         $qb->join('s.learningMaterials', 'slm');
         $qb->join('slm.learningMaterial', 'lm');
+        $qb->join('s.course', 'c');
 
         $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
+        $qb->andWhere($qb->expr()->eq('s.published', 1));
+        $qb->andWhere($qb->expr()->eq('s.publishedAsTbd', 0));
+        $qb->andWhere($qb->expr()->eq('c.published', 1));
+        $qb->andWhere($qb->expr()->eq('c.publishedAsTbd', 0));
         $qb->setParameter(':sessions', $sessionIds);
         $qb->distinct();
 
@@ -968,6 +973,8 @@ class UserRepository extends EntityRepository
         $qb->join('clm.learningMaterial', 'lm');
 
         $qb->andWhere($qb->expr()->in('s.id', ':sessions'));
+        $qb->andWhere($qb->expr()->eq('c.published', 1));
+        $qb->andWhere($qb->expr()->eq('c.publishedAsTbd', 0));
         $qb->setParameter(':sessions', $sessionIds);
         $qb->distinct();
 

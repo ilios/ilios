@@ -98,7 +98,7 @@ class OfferingData extends AbstractDataLoader
             'session' => '3',
             'learnerGroups' => [],
             'instructorGroups' => [],
-            'learners' => [],
+            'learners' => ['5'],
             'instructors' => [],
         );
 
