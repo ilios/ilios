@@ -1,6 +1,7 @@
 <?php
 namespace Ilios\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +22,7 @@ class UploadController extends Controller
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
+        /** @var UploadedFile $uploadedFile */
         $uploadedFile = $request->files->get('file');
         if (is_null($uploadedFile)) {
             return new JsonResponse(array(
