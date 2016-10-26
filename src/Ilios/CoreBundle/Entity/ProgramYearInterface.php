@@ -66,5 +66,4 @@ interface ProgramYearInterface extends
      * @return CohortInterface
      */
     public function getCohort();
-
 }
