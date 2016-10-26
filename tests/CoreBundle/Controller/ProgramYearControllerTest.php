@@ -114,11 +114,44 @@ class ProgramYearControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $newProgramYear = json_decode($response->getContent(), true)['programYears'][0];
+        $cohortId = $newProgramYear['cohort'];
+        $this->assertNotEmpty($cohortId);
+        unset($newProgramYear['cohort']);
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['programYears'][0],
+            $newProgramYear,
             $response->getContent()
         );
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_cohorts',
+                ['id' => $cohortId]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $cohort = json_decode($response->getContent(), true)['cohorts'][0];
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_programs',
+                ['id' => $data['program']]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $program = json_decode($response->getContent(), true)['programs'][0];
+
+        $this->assertEquals($cohort['programYear'], $newProgramYear['id']);
+        $this->assertEquals($cohort['title'], 'Class of ' . ($newProgramYear['startYear'] + $program['duration']));
     }
 
     /**
