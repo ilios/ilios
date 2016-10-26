@@ -156,7 +156,8 @@ class CohortController extends FOSRestController
      *     201 = "Created Cohort.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
-     *   }
+     *   },
+     *   deprecated = true
      * )
      *
      * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
