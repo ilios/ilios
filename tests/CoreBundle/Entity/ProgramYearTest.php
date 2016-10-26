@@ -273,7 +273,7 @@ class ProgramYearTest extends EntityBase
 
     /**
      * @covers \Ilios\CoreBundle\Entity\ProgramYear::setCohort
-     * @covers \Ilios\CoreBundle\Entity\PendingCohortUpdate::getCohort
+     * @covers \Ilios\CoreBundle\Entity\ProgramYear::getCohort
      */
     public function testSetCohort()
     {
