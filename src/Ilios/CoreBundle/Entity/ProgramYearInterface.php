@@ -56,4 +56,15 @@ interface ProgramYearInterface extends
      * @return SchoolInterface|null
      */
     public function getSchool();
+
+    /**
+     * @param CohortInterface $cohort
+     */
+    public function setCohort(CohortInterface $cohort);
+
+    /**
+     * @return CohortInterface
+     */
+    public function getCohort();
+
 }
