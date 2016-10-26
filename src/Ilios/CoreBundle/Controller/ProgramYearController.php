@@ -7,6 +7,7 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
+use Ilios\CoreBundle\Entity\CohortInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -168,6 +169,7 @@ class ProgramYearController extends FOSRestController
     {
         try {
             $handler = $this->container->get('ilioscore.programyear.handler');
+            /* @var ProgramYearInterface $programYear */
             $programYear = $handler->post($this->getPostData($request));
 
             $authChecker = $this->get('security.authorization_checker');
@@ -175,8 +177,9 @@ class ProgramYearController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
-            $manager = $this->container->get('ilioscore.programyear.manager');
-            $manager->update($programYear, true, false);
+            $programYearManager = $this->container->get('ilioscore.programyear.manager');
+            $this->createCohort($programYear);
+            $programYearManager->update($programYear, true, false);
 
             $answer['programYears'] = [$programYear];
 
@@ -242,6 +245,9 @@ class ProgramYearController extends FOSRestController
                 throw $this->createAccessDeniedException('Unauthorized access!');
             }
 
+            if (empty($programYear->getCohort())) {
+                $this->createCohort($programYear);
+            }
             $manager->update($programYear, true, true);
 
             $answer['programYear'] = $programYear;
@@ -332,5 +338,22 @@ class ProgramYearController extends FOSRestController
         }
 
         return $request->request->all();
+    }
+
+    /**
+     * Creates a new cohort for the new program year.
+     * @param ProgramYearInterface $programYear
+     */
+    protected function createCohort(ProgramYearInterface $programYear)
+    {
+        $cohortManager = $this->container->get('ilioscore.cohort.manager');
+        $program = $programYear->getProgram();
+        $graduationYear = $programYear->getStartYear() + $program->getDuration();
+        /* @var CohortInterface $cohort */
+        $cohort = $cohortManager->create();
+        $cohort->setTitle("Class of ${graduationYear}");
+        $cohort->setProgramYear($programYear);
+        $programYear->setCohort($cohort);
+        $cohortManager->update($cohort, false, false);
     }
 }
