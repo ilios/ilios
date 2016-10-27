@@ -1,6 +1,7 @@
 <?php
 namespace Tests\WebBundle\Controller;
 
+use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FOS\RestBundle\Util\Codes;
 use Tests\CoreBundle\Traits\JsonControllerTest;
@@ -32,7 +33,8 @@ class ConfigControllerTest extends WebTestCase
             array(
                 'type' => 'form',
                 'locale' => 'en',
-                'userSearchType' => 'local'
+                'userSearchType' => 'local',
+                'apiVersion' => WebIndexFromJson::API_VERSION
             ),
             $data
         );

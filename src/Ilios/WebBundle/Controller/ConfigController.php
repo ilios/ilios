@@ -2,6 +2,7 @@
 
 namespace Ilios\WebBundle\Controller;
 
+use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +39,7 @@ class ConfigController extends Controller
             $configuration['userSearchType'] = 'local';
         }
         $configuration['maxUploadSize'] = UploadedFile::getMaxFilesize();
+        $configuration['apiVersion'] = WebIndexFromJson::API_VERSION;
 
 
         return new JsonResponse(array('config' => $configuration));
