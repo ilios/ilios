@@ -1486,4 +1486,36 @@ class UserControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_FORBIDDEN, $response->getStatusCode());
     }
+
+    /**
+     * @group controllers_b
+     */
+    public function testFilterByLearnerSessions()
+    {
+        $users = $this->container->get('ilioscore.dataloader.user')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_users', ['filters[learnerSessions][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['users'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $users[1]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $users[4]
+            ),
+            $data[1]
+        );
+    }
 }
