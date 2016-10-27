@@ -329,4 +329,26 @@ class CohortControllerTest extends AbstractControllerTest
             $data[1]
         );
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testPostCohortFails()
+    {
+        $data = $this->container->get('ilioscore.dataloader.cohort')->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['learnerGroups']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_cohorts'),
+            json_encode(['cohort' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_GONE, $response->getStatusCode(), $response->getContent());
+    }
 }
