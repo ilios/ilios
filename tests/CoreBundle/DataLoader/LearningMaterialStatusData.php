@@ -2,6 +2,8 @@
 
 namespace Tests\CoreBundle\DataLoader;
 
+use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
+
 class LearningMaterialStatusData extends AbstractDataLoader
 {
     protected function getData()
@@ -9,14 +11,17 @@ class LearningMaterialStatusData extends AbstractDataLoader
         $arr = array();
 
         $arr[] = array(
-            'id' => 1,
-            'title' => $this->faker->text(10)
+            'id' => LearningMaterialStatusInterface::IN_DRAFT,
+            'title' => 'Draft'
         );
         $arr[] = array(
-            'id' => 2,
-            'title' => $this->faker->text(10)
+            'id' => LearningMaterialStatusInterface::FINALIZED,
+            'title' => 'Final'
         );
-
+        $arr[] = array(
+            'id' => LearningMaterialStatusInterface::REVISED,
+            'title' => 'Revised'
+        );
 
         return $arr;
     }
@@ -24,7 +29,7 @@ class LearningMaterialStatusData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 3,
+            'id' => 4,
             'title' => $this->faker->text(10)
         );
     }

@@ -5,6 +5,7 @@ namespace Ilios\WebBundle\Controller;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -110,15 +111,29 @@ class IcsController extends Controller
         })->toArray();
         $sessionMaterials =
             $session->getLearningMaterials()
+                ->filter(function (SessionLearningMaterialInterface $learningMaterial) {
+                    /** @var LearningMaterialInterface $lm */
+                    $lm = $learningMaterial->getLearningMaterial();
+                    $status = $lm->getStatus();
+                    return $status->getId() !== LearningMaterialStatusInterface::IN_DRAFT;
+                })
                 ->map(function (SessionLearningMaterialInterface $learningMaterial) {
-                    return $this->getTextForLearningMaterial(($learningMaterial->getLearningMaterial()));
-                })->toArray();
+                    return $this->getTextForLearningMaterial($learningMaterial->getLearningMaterial());
+                })
+                ->toArray();
 
         $courseMaterials =
             $session->getCourse()->getLearningMaterials()
+                ->filter(function (CourseLearningMaterialInterface $learningMaterial) {
+                    /** @var LearningMaterialInterface $lm */
+                    $lm = $learningMaterial->getLearningMaterial();
+                    $status = $lm->getStatus();
+                    return $status->getId() !== LearningMaterialStatusInterface::IN_DRAFT;
+                })
                 ->map(function (CourseLearningMaterialInterface $learningMaterial) {
-                    return $this->getTextForLearningMaterial(($learningMaterial->getLearningMaterial()));
-                })->toArray();
+                    return $this->getTextForLearningMaterial($learningMaterial->getLearningMaterial());
+                })
+                ->toArray();
 
         $lines = [
             $this->purify($description),

@@ -60,4 +60,29 @@ class IcsControllerTest extends WebTestCase
             'LM Links are absolute paths'
         );
     }
+
+    public function testDraftLmsNotInFeedForStudents()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $users = $container->get('ilioscore.dataloader.user')->getAll();
+        $studentUser = $users[4];
+        $this->assertEmpty($studentUser['roles']);
+
+        $url = '/ics/' . $studentUser['icsFeedKey'];
+        $client->request('GET', $url);
+        $response = $client->getResponse();
+
+        $content = $response->getContent();
+
+        $this->assertEquals(
+            Codes::HTTP_OK,
+            $response->getStatusCode(),
+            "Status Code: {$response->getStatusCode()} is not OK"
+        );
+        $this->assertRegexp('/firstlm/', $content);
+        $this->assertRegexp('/thirdlm/', $content);
+        $this->assertFalse(strpos($content, 'secondlm'));
+    }
 }

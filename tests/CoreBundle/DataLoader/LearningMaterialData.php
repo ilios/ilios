@@ -2,6 +2,8 @@
 
 namespace Tests\CoreBundle\DataLoader;
 
+use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
+
 class LearningMaterialData extends AbstractDataLoader
 {
 
@@ -18,7 +20,7 @@ class LearningMaterialData extends AbstractDataLoader
             'description' => 'desc1' . $this->faker->text,
             'originalAuthor' => 'author1' . $this->faker->name,
             'userRole' => "1",
-            'status' => "1",
+            'status' => LearningMaterialStatusInterface::FINALIZED,
             'owningUser' => "1",
             'copyrightRationale' => $this->faker->text,
             'copyrightPermission' => true,
@@ -34,7 +36,7 @@ class LearningMaterialData extends AbstractDataLoader
             'description' => 'desc2' . $this->faker->text,
             'originalAuthor' => $this->faker->name,
             'userRole' => "2",
-            'status' => "1",
+            'status' => LearningMaterialStatusInterface::IN_DRAFT,
             'owningUser' => "1",
             'copyrightRationale' => $this->faker->text,
             'copyrightPermission' => true,
@@ -50,7 +52,7 @@ class LearningMaterialData extends AbstractDataLoader
             'description' => 'desc3' . $this->faker->text,
             'originalAuthor' => $this->faker->name,
             'userRole' => "2",
-            'status' => "1",
+            'status' => LearningMaterialStatusInterface::REVISED,
             'owningUser' => "1",
             'copyrightRationale' => $this->faker->text,
             'copyrightPermission' => true,
