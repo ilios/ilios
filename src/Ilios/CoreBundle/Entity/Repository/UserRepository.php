@@ -601,9 +601,9 @@ class UserRepository extends EntityRepository
             $qb->leftJoin('is_ilm2.session', 'is_session4');
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->in('is_session.id', ':sessions'),
-                $qb->expr()->in('is_session.id', ':sessions'),
-                $qb->expr()->in('is_session.id', ':sessions'),
-                $qb->expr()->in('is_session.id', ':sessions')
+                $qb->expr()->in('is_session2.id', ':sessions'),
+                $qb->expr()->in('is_session3.id', ':sessions'),
+                $qb->expr()->in('is_session4.id', ':sessions')
             ));
             $qb->setParameter(':sessions', $ids);
         }
@@ -721,6 +721,28 @@ class UserRepository extends EntityRepository
             }
         }
 
+        if (array_key_exists('learnerSessions', $criteria)) {
+            $ids = is_array($criteria['learnerSessions'])
+                ? $criteria['learnerSessions'] : [$criteria['learnerSessions']];
+
+            $qb->leftJoin('u.offerings', 'ls_offering');
+            $qb->leftJoin('u.learnerIlmSessions', 'ls_ilm');
+            $qb->leftJoin('u.learnerGroups', 'ls_iGroup');
+            $qb->leftJoin('ls_iGroup.offerings', 'ls_offering2');
+            $qb->leftJoin('ls_iGroup.ilmSessions', 'ls_ilm2');
+            $qb->leftJoin('ls_offering.session', 'ls_session');
+            $qb->leftJoin('ls_ilm.session', 'ls_session2');
+            $qb->leftJoin('ls_offering2.session', 'ls_session3');
+            $qb->leftJoin('ls_ilm2.session', 'ls_session4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('ls_session.id', ':sessions'),
+                $qb->expr()->in('ls_session2.id', ':sessions'),
+                $qb->expr()->in('ls_session3.id', ':sessions'),
+                $qb->expr()->in('ls_session4.id', ':sessions')
+            ));
+            $qb->setParameter(':sessions', $ids);
+        }
+
         //cleanup all the possible relationship filters
         unset($criteria['cohorts']);
         unset($criteria['roles']);
@@ -731,6 +753,7 @@ class UserRepository extends EntityRepository
         unset($criteria['instructedTerms']);
         unset($criteria['instructedSessionTypes']);
         unset($criteria['instructorGroups']);
+        unset($criteria['learnerSessions']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
