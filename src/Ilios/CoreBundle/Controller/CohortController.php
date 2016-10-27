@@ -9,6 +9,7 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -151,43 +152,19 @@ class CohortController extends FOSRestController
      *   description = "Create a Cohort.",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\CohortType",
-     *   output="Ilios\CoreBundle\Entity\Cohort",
      *   statusCodes={
-     *     201 = "Created Cohort.",
-     *     400 = "Bad Request.",
-     *     404 = "Not Found."
+     *     410 = "Gone.",
      *   },
      *   deprecated = true
      * )
      *
      * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function postAction(Request $request)
+    public function postAction()
     {
-        try {
-            $handler = $this->container->get('ilioscore.cohort.handler');
-            $cohort = $handler->post($this->getPostData($request));
-
-            $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted('create', $cohort)) {
-                throw $this->createAccessDeniedException('Unauthorized access!');
-            }
-
-            $manager = $this->container->get('ilioscore.cohort.manager');
-            $manager->update($cohort, true, false);
-
-            $answer['cohorts'] = [$cohort];
-
-            $view = $this->view($answer, Codes::HTTP_CREATED);
-
-            return $this->handleView($view);
-        } catch (InvalidFormException $exception) {
-            return $exception->getForm();
-        }
+        $this->throwCreatingCohortNotSupportedException();
     }
 
     /**
@@ -203,7 +180,8 @@ class CohortController extends FOSRestController
      *     200 = "Updated Cohort.",
      *     201 = "Created Cohort.",
      *     400 = "Bad Request.",
-     *     404 = "Not Found."
+     *     404 = "Not Found.",
+     *     410 = "Gone."
      *   }
      * )
      *
@@ -222,8 +200,7 @@ class CohortController extends FOSRestController
             if ($cohort) {
                 $code = Codes::HTTP_OK;
             } else {
-                $cohort = $manager->create();
-                $code = Codes::HTTP_CREATED;
+                $this->throwCreatingCohortNotSupportedException();
             }
 
             $handler = $this->container->get('ilioscore.cohort.handler');
@@ -324,5 +301,13 @@ class CohortController extends FOSRestController
         }
 
         return $request->request->all();
+    }
+
+    /**
+     * @throws GoneHttpException
+     */
+    protected function throwCreatingCohortNotSupportedException()
+    {
+        throw new GoneHttpException('Explicitly creating cohorts is no longer supported.');
     }
 }
