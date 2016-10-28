@@ -1,7 +1,73 @@
 # Change Log
 
-## [v3.20.0](https://github.com/ilios/ilios/tree/v3.20.0)
+## [v3.21.0](https://github.com/ilios/ilios/tree/v3.21.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.20.0...v3.21.0)
+
+**Implemented enhancements:**
+
+- Put API version into /application/config [\#1655](https://github.com/ilios/ilios/issues/1655)
+- Advertise maximum upload size at /application/config [\#1648](https://github.com/ilios/ilios/issues/1648)
+- Add learnerSessions filter to users endpoint [\#1643](https://github.com/ilios/ilios/issues/1643)
+- Add /usermaterials/ endpoint [\#1635](https://github.com/ilios/ilios/issues/1635)
+- create cohort when program year is created [\#1633](https://github.com/ilios/ilios/issues/1633)
+- Add directors relationship to program [\#1631](https://github.com/ilios/ilios/issues/1631)
+- Add administrator relationship to session [\#1624](https://github.com/ilios/ilios/issues/1624)
+- Add administrators relationship to course [\#1621](https://github.com/ilios/ilios/issues/1621)
+- Add administrators relationship to school [\#1618](https://github.com/ilios/ilios/issues/1618)
+- Add directors relationship to school [\#1617](https://github.com/ilios/ilios/issues/1617)
+- add ability to clone curriculum inventory reports [\#1614](https://github.com/ilios/ilios/issues/1614)
+- Update PCRS Mapping [\#1456](https://github.com/ilios/ilios/issues/1456)
+
+**Closed issues:**
+
+- Draft Learning Materials Showing Up in Calendar Feed [\#1659](https://github.com/ilios/ilios/issues/1659)
+- curriculum inventory report controller fails to rollover finalized reports [\#1653](https://github.com/ilios/ilios/issues/1653)
+- realign URL for curriculum inventory reports rollover. [\#1650](https://github.com/ilios/ilios/issues/1650)
+- Name conflict in JsonWebTokenAuthenticator [\#1645](https://github.com/ilios/ilios/issues/1645)
+- PHPCS not running against /tests [\#1636](https://github.com/ilios/ilios/issues/1636)
+- Add "is root" attribute to users [\#1623](https://github.com/ilios/ilios/issues/1623)
+- Be more frugal about updating relationships [\#1606](https://github.com/ilios/ilios/issues/1606)
+- When Course objectives are deleted, cascade to delete session obj \> course obj. relationship [\#1597](https://github.com/ilios/ilios/issues/1597)
+- update vagrant image to ubuntu 16.04 [\#1554](https://github.com/ilios/ilios/issues/1554)
+- API documentation for Session PUT is confusing [\#1468](https://github.com/ilios/ilios/issues/1468)
+- Doctrine Migrations fail in MySQL 5.6+ [\#1449](https://github.com/ilios/ilios/issues/1449)
+- Upgrade to Symfony 3 [\#1417](https://github.com/ilios/ilios/issues/1417)
+- Load test bulk group management in the API [\#1378](https://github.com/ilios/ilios/issues/1378)
+- Fail better on large file uploads [\#1196](https://github.com/ilios/ilios/issues/1196)
+- Use the symfony PHPUnit bridge [\#1077](https://github.com/ilios/ilios/issues/1077)
+
+**Merged pull requests:**
+
+- Exclude draft LMs from ICS Feed [\#1660](https://github.com/ilios/ilios/pull/1660) ([jrjohnson](https://github.com/jrjohnson))
+- Add learnerSessions filter to users [\#1658](https://github.com/ilios/ilios/pull/1658) ([jrjohnson](https://github.com/jrjohnson))
+- Add API version to configuration [\#1657](https://github.com/ilios/ilios/pull/1657) ([jrjohnson](https://github.com/jrjohnson))
+- Create cohort with program year [\#1656](https://github.com/ilios/ilios/pull/1656) ([stopfstedt](https://github.com/stopfstedt))
+- Use Symfony builtin to detect maximum file upload size [\#1654](https://github.com/ilios/ilios/pull/1654) ([jrjohnson](https://github.com/jrjohnson))
+- enforce create perms check on rollover request. [\#1652](https://github.com/ilios/ilios/pull/1652) ([stopfstedt](https://github.com/stopfstedt))
+- fixed route to ci rollover report endpoint. [\#1651](https://github.com/ilios/ilios/pull/1651) ([stopfstedt](https://github.com/stopfstedt))
+- Add maxUploadSize key to config [\#1649](https://github.com/ilios/ilios/pull/1649) ([jrjohnson](https://github.com/jrjohnson))
+- Clarify error message for large file uploads [\#1647](https://github.com/ilios/ilios/pull/1647) ([jrjohnson](https://github.com/jrjohnson))
+- Use AuthenticationInterface as a different name to avoid conflicts [\#1646](https://github.com/ilios/ilios/pull/1646) ([jrjohnson](https://github.com/jrjohnson))
+- Add endpoint to get all materials for a user [\#1644](https://github.com/ilios/ilios/pull/1644) ([jrjohnson](https://github.com/jrjohnson))
+- fixed/cleaned up some regexp in CLI command tests. [\#1641](https://github.com/ilios/ilios/pull/1641) ([stopfstedt](https://github.com/stopfstedt))
+- prefixed Ilios namespace with slash. [\#1640](https://github.com/ilios/ilios/pull/1640) ([stopfstedt](https://github.com/stopfstedt))
+- updated PHPUnit to version 5.6 [\#1639](https://github.com/ilios/ilios/pull/1639) ([stopfstedt](https://github.com/stopfstedt))
+- Update Libraries [\#1638](https://github.com/ilios/ilios/pull/1638) ([jrjohnson](https://github.com/jrjohnson))
+- runs PHPCS against /tests dir [\#1637](https://github.com/ilios/ilios/pull/1637) ([stopfstedt](https://github.com/stopfstedt))
+- When a course objective is removed unlink session objectives [\#1634](https://github.com/ilios/ilios/pull/1634) ([jrjohnson](https://github.com/jrjohnson))
+- Add director to program [\#1632](https://github.com/ilios/ilios/pull/1632) ([jrjohnson](https://github.com/jrjohnson))
+- added "root" attribute to user entity [\#1630](https://github.com/ilios/ilios/pull/1630) ([stopfstedt](https://github.com/stopfstedt))
+- Add administrator relationship to school [\#1629](https://github.com/ilios/ilios/pull/1629) ([jrjohnson](https://github.com/jrjohnson))
+- Add administrators relationship to course [\#1628](https://github.com/ilios/ilios/pull/1628) ([jrjohnson](https://github.com/jrjohnson))
+- Add administrator relationship to session [\#1627](https://github.com/ilios/ilios/pull/1627) ([jrjohnson](https://github.com/jrjohnson))
+- Add directors relationship to school [\#1625](https://github.com/ilios/ilios/pull/1625) ([jrjohnson](https://github.com/jrjohnson))
+- curriculum inventory report rollover. [\#1616](https://github.com/ilios/ilios/pull/1616) ([stopfstedt](https://github.com/stopfstedt))
+- Improved Front Controller [\#1615](https://github.com/ilios/ilios/pull/1615) ([jrjohnson](https://github.com/jrjohnson))
+- set a cookie to report download response. [\#1613](https://github.com/ilios/ilios/pull/1613) ([stopfstedt](https://github.com/stopfstedt))
+- Update relationships only when needed [\#1611](https://github.com/ilios/ilios/pull/1611) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.20.0](https://github.com/ilios/ilios/tree/v3.20.0) (2016-09-30)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.19.0...v3.20.0)
 
 **Implemented enhancements:**
@@ -18,6 +84,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for the v3.20.0 release [\#1609](https://github.com/ilios/ilios/pull/1609) ([thecoolestguy](https://github.com/thecoolestguy))
 - Replace Listeners for time stamping [\#1608](https://github.com/ilios/ilios/pull/1608) ([jrjohnson](https://github.com/jrjohnson))
 - issue correct HTTP response on authn failure [\#1604](https://github.com/ilios/ilios/pull/1604) ([stopfstedt](https://github.com/stopfstedt))
 - Log less information when there is a missing ship parameter [\#1602](https://github.com/ilios/ilios/pull/1602) ([jrjohnson](https://github.com/jrjohnson))
