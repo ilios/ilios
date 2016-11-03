@@ -859,10 +859,11 @@ class UserRepository extends EntityRepository
      * Find all of the assigned materials for a user
      * @param integer $id
      * @param UserMaterialFactory $factory
+     * @param array $criteria
      *
      * @return UserMaterial[]
      */
-    public function findMaterialsForUser($id, UserMaterialFactory $factory)
+    public function findMaterialsForUser($id, UserMaterialFactory $factory, $criteria)
     {
         $offIdQb = $this->_em->createQueryBuilder();
         $offIdQb->select('learnerOffering.id')->from('IliosCoreBundle:User', 'learnerU');
@@ -879,8 +880,18 @@ class UserRepository extends EntityRepository
         $qb->select('s.id, o.startDate');
         $qb->from('IliosCoreBundle:Offering', 'o');
         $qb->join('o.session', 's');
-        $qb->where($qb->expr()->in('o.id', $offIdQb->getDQL()));
-        $qb->orWhere($qb->expr()->in('o.id', $groupOfferingQb->getDQL()));
+        $qb->where($qb->expr()->orX(
+            $qb->expr()->in('o.id', $offIdQb->getDQL()),
+            $qb->expr()->in('o.id', $groupOfferingQb->getDQL())
+        ));
+        if (array_key_exists('before', $criteria)) {
+            $qb->andWhere($qb->expr()->lte('o.startDate', ':before'));
+            $qb->setParameter('before', $criteria['before']);
+        }
+        if (array_key_exists('after', $criteria)) {
+            $qb->andWhere($qb->expr()->gte('o.startDate', ':after'));
+            $qb->setParameter('after', $criteria['after']);
+        }
         $qb->setParameter('user_id', $id);
 
         $offeringSessions = $qb->getQuery()->getArrayResult();
@@ -900,8 +911,18 @@ class UserRepository extends EntityRepository
         $qb->select('s.id, ilm.dueDate');
         $qb->from('IliosCoreBundle:IlmSession', 'ilm');
         $qb->join('ilm.session', 's');
-        $qb->where($qb->expr()->in('ilm.id', $ilmQb->getDQL()));
-        $qb->orWhere($qb->expr()->in('ilm.id', $groupIlmSessionQb->getDQL()));
+        $qb->where($qb->expr()->orX(
+            $qb->expr()->in('ilm.id', $ilmQb->getDQL()),
+            $qb->expr()->in('ilm.id', $groupIlmSessionQb->getDQL())
+        ));
+        if (array_key_exists('before', $criteria)) {
+            $qb->andWhere($qb->expr()->lte('ilm.dueDate', ':before'));
+            $qb->setParameter('before', $criteria['before']);
+        }
+        if (array_key_exists('after', $criteria)) {
+            $qb->andWhere($qb->expr()->gte('ilm.dueDate', ':after'));
+            $qb->setParameter('after', $criteria['after']);
+        }
         $qb->setParameter('user_id', $id);
 
         $ilmSessions = $qb->getQuery()->getArrayResult();

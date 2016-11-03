@@ -120,10 +120,11 @@ class UserManager extends DTOManager
      * Find all of the learning materials for a userId
      *
      * @param integer $userId
+     * @param array $criteria
      * @return UserMaterial[]
      */
-    public function findMaterialsForUser($userId)
+    public function findMaterialsForUser($userId, $criteria)
     {
-        return $this->getRepository()->findMaterialsForUser($userId, $this->factory);
+        return $this->getRepository()->findMaterialsForUser($userId, $this->factory, $criteria);
     }
 }
