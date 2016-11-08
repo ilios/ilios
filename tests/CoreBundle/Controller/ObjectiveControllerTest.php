@@ -183,7 +183,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostSessionObjective()
     {
@@ -230,7 +230,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
      *
-     * @group controllers
+     * @group controllers_a
      */
     public function testInputSanitation($input, $output)
     {
@@ -277,7 +277,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     /**
      * Assert that a POST request fails if form validation fails due to input sanitation.
      *
-     * @group controllers
+     * @group controllers_a
      */
     public function testInputSanitationFailure()
     {
@@ -300,7 +300,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPostBadObjective()
     {
@@ -321,7 +321,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutObjective()
     {
@@ -358,7 +358,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testDeleteObjective()
     {
@@ -394,7 +394,7 @@ class ObjectiveControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testObjectiveNotFound()
     {
@@ -407,5 +407,127 @@ class ObjectiveControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByCompetencies()
+    {
+        $objectives = $this->container->get('ilioscore.dataloader.objective')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_objectives', ['filters[competency]' => 3]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['objectives'];
+        $this->assertEquals(1, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $objectives[0]
+            ),
+            $data[0]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByCourses()
+    {
+        $objectives = $this->container->get('ilioscore.dataloader.objective')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_objectives', ['filters[courses][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['objectives'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $objectives[1]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $objectives[3]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByProgramYears()
+    {
+        $objectives = $this->container->get('ilioscore.dataloader.objective')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_objectives', ['filters[programYears][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['objectives'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $objectives[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $objectives[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterBySessions()
+    {
+        $objectives = $this->container->get('ilioscore.dataloader.objective')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_objectives', ['filters[sessions][]' => 1]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['objectives'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $objectives[1]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $objectives[2]
+            ),
+            $data[1]
+        );
     }
 }

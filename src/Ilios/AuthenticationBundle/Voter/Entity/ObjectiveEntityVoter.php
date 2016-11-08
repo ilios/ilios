@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
@@ -9,13 +9,14 @@ use Ilios\CoreBundle\Entity\ObjectiveInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class ObjectiveVoter
+ * Class ObjectiveEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class ObjectiveVoter extends AbstractVoter
+class ObjectiveEntityVoter extends AbstractVoter
 {
     /**
      * @var PermissionManager

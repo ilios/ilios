@@ -52,7 +52,12 @@ class ObjectiveController extends FOSRestController
      */
     public function getAction($id)
     {
-        $objective = $this->getOr404($id);
+        $manager = $this->container->get('ilioscore.objective.manager');
+
+        $objective = $manager->findDTOBy(['id' => $id]);
+        if (!$objective) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $objective)) {
@@ -124,7 +129,7 @@ class ObjectiveController extends FOSRestController
         }, $criteria);
 
         $manager = $this->container->get('ilioscore.objective.manager');
-        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {

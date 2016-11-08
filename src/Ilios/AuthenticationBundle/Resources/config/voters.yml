@@ -134,12 +134,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.objective_voter:
-        class: Ilios\AuthenticationBundle\Voter\ObjectiveVoter
-        arguments: [ "@ilioscore.permission.manager", "@ilioscore.programyearsteward.manager" ]
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.offering_voter:
         class: Ilios\AuthenticationBundle\Voter\OfferingVoter
         parent: security.access.entity.session_voter

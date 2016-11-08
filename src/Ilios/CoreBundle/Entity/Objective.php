@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Traits\ProgramYearsEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="objective")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ObjectiveRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
