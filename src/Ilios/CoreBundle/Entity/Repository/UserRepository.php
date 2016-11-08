@@ -60,7 +60,7 @@ class UserRepository extends EntityRepository
                 $qb->expr()->like('u.campusId', "?{$key}"),
                 $qb->expr()->like('auth.username', "?{$key}")
             ))
-            ->setParameter($key, '%' . $term . '%');
+                ->setParameter($key, '%' . $term . '%');
         }
 
         if (empty($orderBy)) {
@@ -143,14 +143,14 @@ class UserRepository extends EntityRepository
             ['o' => 'u.instructedOfferings'],
             ['dc' => 'u.directedCourses', 'dcs' => 'dc.sessions', 'o' => 'dcs.offerings'],
         ];
-        
+
         $offeringEvents = [];
         //using each of the joins above create a query to get events
         foreach ($joins as $join) {
             $groupEvents = $this->getOfferingEventsFor($id, $from, $to, $join);
             $offeringEvents = array_merge($offeringEvents, $groupEvents);
         }
-        
+
         $events = [];
         //extract unique offeringEvents by using the offering ID
         foreach ($offeringEvents as $userEvent) {
@@ -158,7 +158,7 @@ class UserRepository extends EntityRepository
                 $events[$userEvent->offering] = $userEvent;
             }
         }
-        
+
         //These joins are DQL representations to go from a user to an ILMSession
         $joins = [
             ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions'],
@@ -167,7 +167,7 @@ class UserRepository extends EntityRepository
             ['ilm' => 'u.instructorIlmSessions'],
             ['dc' => 'u.directedCourses', 'sess' => 'dc.sessions', 'ilm' => 'sess.ilmSession']
         ];
-        
+
         $ilmEvents = [];
         //using each of the joins above create a query to get events
         foreach ($joins as $join) {
@@ -182,16 +182,16 @@ class UserRepository extends EntityRepository
                 $uniqueIlmEvents[$userEvent->ilmSession] = $userEvent;
             }
         }
-        
+
         $events = array_merge($events, $uniqueIlmEvents);
         //sort events by startDate for consistency
         usort($events, function ($a, $b) {
             return $a->startDate->getTimestamp() - $b->startDate->getTimestamp();
         });
-        
+
         return $events;
     }
-    
+
     /**
      * Get a list of users who do not have the former student role filtered by campus id
      * @param  array $campusIds
@@ -210,7 +210,7 @@ class UserRepository extends EntityRepository
         $formerStudentUserIds = array_map(function (array $arr) {
             return $arr['id'];
         }, $formerStudents);
-        
+
         $qb2 = $this->_em->createQueryBuilder();
         $qb2->add('select', 'u')
             ->from('IliosCoreBundle:User', 'u')
@@ -222,10 +222,10 @@ class UserRepository extends EntityRepository
         if (!empty($campusIds)) {
             $qb2->andWhere($qb->expr()->in('u.campusId', $campusIds));
         }
-        
+
         return new ArrayCollection($qb2->getQuery()->getResult());
     }
-    
+
     /**
      * Get all the campus IDs for all users
      *
@@ -244,36 +244,36 @@ class UserRepository extends EntityRepository
         if (!$includeSyncIgnore) {
             $qb->andWhere('u.userSyncIgnore=0');
         }
-        
+
         $campusIds = array_map(function (array $arr) {
             return $arr['campusId'];
         }, $qb->getQuery()->getScalarResult());
-        
+
         return $campusIds;
     }
-    
+
     /**
      * Reset examined flag for all users
      */
     public function resetExaminedFlagForAllUsers()
     {
         $qb = $this->_em->createQueryBuilder();
-        
+
         $qb->update('IliosCoreBundle:User', 'u')
             ->set('u.examined', $qb->expr()->literal(false));
-            
+
         $qb->getQuery()->execute();
     }
-    
+
     /**
-      * Use the query builder and the $joins to get a set of
-      * offering based user events
-      *
-      * @param integer $id
-      * @param \DateTime $from
-      * @param \DateTime $to
-      * @param array $joins
-      *
+     * Use the query builder and the $joins to get a set of
+     * offering based user events
+     *
+     * @param integer $id
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @param array $joins
+     *
      * @return UserEvent[]
      */
     protected function getOfferingEventsFor(
@@ -352,7 +352,7 @@ class UserRepository extends EntityRepository
         return $this->createEventObjectsForIlmSessions($id, $results);
     }
 
-    
+
     /**
      * Convert offerings into UserEvent objects
      * @param integer $userId
@@ -379,7 +379,7 @@ class UserRepository extends EntityRepository
         }, $results);
     }
 
-    
+
     /**
      * Convert IlmSessions into UserEvent objects
      * @param integer $userId
@@ -859,10 +859,11 @@ class UserRepository extends EntityRepository
      * Find all of the assigned materials for a user
      * @param integer $id
      * @param UserMaterialFactory $factory
+     * @param array $criteria
      *
      * @return UserMaterial[]
      */
-    public function findMaterialsForUser($id, UserMaterialFactory $factory)
+    public function findMaterialsForUser($id, UserMaterialFactory $factory, $criteria)
     {
         $offIdQb = $this->_em->createQueryBuilder();
         $offIdQb->select('learnerOffering.id')->from('IliosCoreBundle:User', 'learnerU');
@@ -879,8 +880,18 @@ class UserRepository extends EntityRepository
         $qb->select('s.id, o.startDate');
         $qb->from('IliosCoreBundle:Offering', 'o');
         $qb->join('o.session', 's');
-        $qb->where($qb->expr()->in('o.id', $offIdQb->getDQL()));
-        $qb->orWhere($qb->expr()->in('o.id', $groupOfferingQb->getDQL()));
+        $qb->where($qb->expr()->orX(
+            $qb->expr()->in('o.id', $offIdQb->getDQL()),
+            $qb->expr()->in('o.id', $groupOfferingQb->getDQL())
+        ));
+        if (array_key_exists('before', $criteria)) {
+            $qb->andWhere($qb->expr()->lte('o.startDate', ':before'));
+            $qb->setParameter('before', $criteria['before']);
+        }
+        if (array_key_exists('after', $criteria)) {
+            $qb->andWhere($qb->expr()->gte('o.startDate', ':after'));
+            $qb->setParameter('after', $criteria['after']);
+        }
         $qb->setParameter('user_id', $id);
 
         $offeringSessions = $qb->getQuery()->getArrayResult();
@@ -900,8 +911,18 @@ class UserRepository extends EntityRepository
         $qb->select('s.id, ilm.dueDate');
         $qb->from('IliosCoreBundle:IlmSession', 'ilm');
         $qb->join('ilm.session', 's');
-        $qb->where($qb->expr()->in('ilm.id', $ilmQb->getDQL()));
-        $qb->orWhere($qb->expr()->in('ilm.id', $groupIlmSessionQb->getDQL()));
+        $qb->where($qb->expr()->orX(
+            $qb->expr()->in('ilm.id', $ilmQb->getDQL()),
+            $qb->expr()->in('ilm.id', $groupIlmSessionQb->getDQL())
+        ));
+        if (array_key_exists('before', $criteria)) {
+            $qb->andWhere($qb->expr()->lte('ilm.dueDate', ':before'));
+            $qb->setParameter('before', $criteria['before']);
+        }
+        if (array_key_exists('after', $criteria)) {
+            $qb->andWhere($qb->expr()->gte('ilm.dueDate', ':after'));
+            $qb->setParameter('after', $criteria['after']);
+        }
         $qb->setParameter('user_id', $id);
 
         $ilmSessions = $qb->getQuery()->getArrayResult();
