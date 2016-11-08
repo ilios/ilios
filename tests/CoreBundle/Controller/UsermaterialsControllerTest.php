@@ -80,4 +80,92 @@ class UsermaterialsControllerTest extends AbstractControllerTest
         $this->assertEquals('1', $materials[3]['course']);
         $this->assertFalse(array_key_exists('session', $materials[3]));
     }
+
+    /**
+     * @group controllers_b
+     */
+    public function testGetMaterialsBeforeTheBeginningOfTime()
+    {
+        $userId = 5;
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_usermaterials',
+                ['id' => $userId, 'before' => 0]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $materials = json_decode($response->getContent(), true)['userMaterials'];
+        $this->assertCount(0, $materials, 'No materials returned');
+    }
+
+    /**
+     * @group controllers_b
+     */
+    public function testGetMaterialsAfterTheBeginningOfTime()
+    {
+        $userId = 5;
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_usermaterials',
+                ['id' => $userId, 'after' => 0]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $materials = json_decode($response->getContent(), true)['userMaterials'];
+        $this->assertCount(4, $materials, 'All materials returned');
+    }
+
+    /**
+     * @group controllers_b
+     */
+    public function testGetMaterialsAfterTheEndOfTime()
+    {
+        $userId = 5;
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_usermaterials',
+                ['id' => $userId, 'after' => 2051233745]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $materials = json_decode($response->getContent(), true)['userMaterials'];
+        $this->assertCount(0, $materials, 'No materials returned');
+    }
+
+    /**
+     * @group controllers_b
+     */
+    public function testGetMaterialsBeforeTheEndOfTime()
+    {
+        $userId = 5;
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_usermaterials',
+                ['id' => $userId, 'before' => 2051233745]
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $materials = json_decode($response->getContent(), true)['userMaterials'];
+        $this->assertCount(4, $materials, 'All materials returned');
+    }
 }
