@@ -28,6 +28,12 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.entity.objective_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\ObjectiveEntityVoter
+        arguments: [ "@ilioscore.permission.manager", "@ilioscore.programyearsteward.manager" ]
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.program_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\ProgramEntityVoter
         arguments: [ "@ilioscore.permission.manager" ]

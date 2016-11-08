@@ -27,6 +27,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.dto.objective_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\ObjectiveDTOVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.dto.program_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\ProgramDTOVoter
         public: false
