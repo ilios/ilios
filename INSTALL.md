@@ -7,7 +7,21 @@ This documentation covers new Ilios installations for users that have never had 
 Ilios 3 uses a [Symfony](https://symfony.com/) ([PHP](https://php.net))/SQL backend that provides an API to the Ilios 3 Frontend that is built in javascript using [EmberJs](https://emberjs.com).  The Ilios 3 Frontend is managed by the [Ilios development team](https://iliosproject.org) and the latest frontend javascript is served to users via the [Amazon Cloudfront](http://aws.amazon.com/cloudfront/) CDN (Content Delivery Network).
 
 ## Frontend 
-In most cases, you will never need to deploy the Ilios 3 Frontend on your own servers, as the latest version will always be up-to-date at the CDN, but the source for the frontend code can always be found at https://github.com/ilios/frontend
+The Ilios Frontend is always up-to-date on our content-delivery servers at Amazon S3, but you will need to regularly run a console command on your backend instance in order ensure that your users are seeing the latest version and that they are getting all the latest features and bugfixes. To make sure you users are receiving the latest frontend code at all times, just follow these steps:
+
+```bash
+# Log in to your Ilios API (backend) server and go to the root folder of your Ilios application ('/web/ilios3' for this example)
+$ cd /web/ilios3
+
+# Then run the 'ilios:maintenance:update-frontend' console command, in the context of your the user that runs your webservices (eg. 'apache')
+$ sudo -u apache bin/console ilios:maintenance:update-frontend --env=prod
+Frontend updated successfully!
+
+# and that's it!
+```
+It is a good idea to run this command often (in a cron job, perhaps!) and after any backend update as well, of course!
+
+Though you will probably never need to deploy the Ilios 3 Frontend on your own servers, the source for the frontend code can always be found at https://github.com/ilios/frontend.
 
 Currently, there is no Frontend deployment documentation available so, if you feel that you must manage the frontend files yourself, please contact the [Ilios Project Support Team](https://iliosproject.org) at support@iliosproject.org or refer back to the Ilios Frontend [README.md](https://github.com/ilios/frontend/blob/master/README.md) file at a later time for instructions on how to do so.
 
