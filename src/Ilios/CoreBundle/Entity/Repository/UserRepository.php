@@ -955,6 +955,7 @@ class UserRepository extends EntityRepository
 
         $qb = $this->_em->createQueryBuilder();
         $what = 's.title as sessionTitle, s.id as sessionId, ' .
+            'c.id as courseId, c.title as courseTitle, ' .
             'slm.notes, slm.required, slm.publicNotes, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
             'lm.citation, lm.link, lm.filename, lm.mimetype';

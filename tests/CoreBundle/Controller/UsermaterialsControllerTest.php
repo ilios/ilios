@@ -58,7 +58,6 @@ class UsermaterialsControllerTest extends AbstractControllerTest
         $this->assertCount(4, $materials, 'All expected materials returned');
         $this->assertEquals('1', $materials[0]['id']);
         $this->assertEquals('1', $materials[0]['session']);
-        $this->assertFalse(array_key_exists('course', $materials[0]));
         $this->assertFalse($materials[0]['required']);
         $this->assertRegExp('/^firstlm/', $materials[0]['title']);
         $this->assertRegExp('/^desc1/', $materials[0]['description']);
@@ -66,8 +65,8 @@ class UsermaterialsControllerTest extends AbstractControllerTest
         $this->assertRegExp('/^citation1/', $materials[0]['citation']);
         $this->assertEquals('citation', $materials[0]['mimetype']);
         $this->assertRegExp('/^session1Title/', $materials[0]['sessionTitle']);
-        $this->assertFalse(isset($materials[0]['courseTitle']));
-        $this->assertFalse(isset($materials[0]['course']));
+        $this->assertEquals('1', $materials[0]['course']);
+        $this->assertRegExp('/^firstCourse/', $materials[0]['courseTitle']);
         $this->assertEquals('2016-09-07T17:00:00+00:00', $materials[0]['firstOfferingDate']);
 
         $this->assertEquals('1', $materials[1]['id']);
