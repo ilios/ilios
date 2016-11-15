@@ -32,7 +32,7 @@ This is the header value that should be sent with every HTTP request that uses t
 
 #### To verify and/or test the use of a JWT, try the following:
 
-If you would like to test the functionality of your new JWT and verify that it is working and/or that the proper results are being returned as-expected, we recommend you test your JWT using the browser extensions ‘Modify Headers for Google Chrome’ (https://chrome.google.com/webstore/detail/modify-headers-for-google/innpjfdalfhpcoinfnehdnbkglpmogdi) for Google Chrome, or the ‘Modify Headers’ extension for Firefox (http://www.garethhunt.com/modifyheaders/?v=0.7.1.1).  These extensions will allow you to test a token and view the results of API calls directly within the browser.
+If you would like to test the functionality of your new JWT and verify that it is working and/or that the proper results are being returned as-expected, we recommend you test your JWT using the browser extensions ‘Modify Headers for Google Chrome’ (https://chrome.google.com/webstore/detail/modify-headers-for-google/innpjfdalfhpcoinfnehdnbkglpmogdi) for Google Chrome, or the ‘Modify Headers’ extension for Firefox (https://addons.mozilla.org/en-US/firefox/addon/modify-headers/).  These extensions will allow you to test a token and view the results of API calls directly within the browser.
 
 Using the 'Modify Headers for Google Chrome' extension in Google Chrome as an example, visit the extension's configuration page and do the following:
 
