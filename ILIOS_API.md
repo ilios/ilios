@@ -52,10 +52,12 @@ Aside from being a great source of up-to-date documentation of the methods avail
 4. In the area that expands, you will see the endpoint's documentation with two options listed at the very top: 'Documentation' and 'Sandbox'.
 5. Click on the 'Sandbox' link and you will be presented with several form fields. Find the ones under the 'Headers' label.  There should be one field for 'Key' and another for 'Value'.
 6. In the 'Key' field, enter this text: X-JWT-Authorization
-7. In the 'Value' field, enter 'Token [YOUR JWT VALUE]' (Replacing [YOUR JWT VALUE] with the value of the token you are testing). (Eg, "Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbGlvcyIsImF1ZCI6ImlsaW9zIiwiaWF0IjoiMTQ3OTE2NDIxNSIsImV4cCI6IjE0ODA0MDY0MDAiLCJ1c2VyX2lkIjoxNn0.45RN1Tw9bd_dgeiGVTJCm8sy_x4UD_a9xE4hHYS6H08")
-8. Click the 'Try!' button at the bottom of that section and wait for the results!
+7. In the 'Value' field, enter 'Token [YOUR JWT VALUE]' (Replacing [YOUR JWT VALUE] with the value of the token you are testing) as shown:
+```
+Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbGlvcyIsImF1ZCI6ImlsaW9zIiwiaWF0IjoiMTQ3OTE2NDIxNSIsImV4cCI6IjE0ODA0MDY0MDAiLCJ1c2VyX2lkIjoxNn0.45RN1Tw9bd_dgeiGVTJCm8sy_x4UD_a9xE4hHYS6H08
+```
 
-If all went well, you should see the JSON-formatted result of the API call!  Congratulations!
+Now, when you click the 'Try!' button at the bottom of that section, you should see the JSON-formatted result of the API call! Congratulations! Your JWT token is working correctly!
 
 #### Verifying JWT using browser extensions for Chrome or Firefox
 
@@ -77,7 +79,7 @@ To test that the header is being sent correctly, visit your Ilios API instance a
 
 https://ilios3-demo.ucsf.edu/api/v1/users
 
-If adding the token to the headers was successful, you will see a JSON-formatted display of all the user accounts in Ilios.
+If adding the token to the headers was successful, you will see a JSON-formatted display of all the user accounts in Ilios. Congratulations! Your JWT token is working correctly!
 
 The steps for using the Firefox extension are VERY similar to the ones listed above for Google Chrome and should be fairly simple to figure out.
 
