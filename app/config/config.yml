@@ -173,3 +173,4 @@ ilios_authentication:
 
 happyr_google_analytics:
     tracking_id: "%google_analytics_ua_code%"
+    http_message_factory: 'httplug.message_factory'
