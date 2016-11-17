@@ -2,6 +2,7 @@
 namespace Ilios\CoreBundle\EventListener;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 /**
@@ -12,6 +13,8 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
  */
 class TrackApiUsageListener
 {
+    use ContainerAwareTrait;
+
     public function onKernelController(FilterControllerEvent $event)
     {
         $controller = $event->getController();
