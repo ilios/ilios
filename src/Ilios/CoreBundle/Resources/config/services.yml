@@ -18,6 +18,8 @@ services:
         class: Ilios\CoreBundle\EventListener\TrackApiUsageListener
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+        calls:
+            - [ setContainer, ['@service_container'] ]
     ilioscore.dataimport_filelocator:
         class: Ilios\CoreBundle\Classes\DataimportFileLocator
         arguments: [ '@file_locator' ]
