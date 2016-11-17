@@ -47,3 +47,4 @@ parameters:
     cas_authentication_version: 3
     cas_authentication_verify_ssl: true
     cas_authentication_certificate_path: null
+    google_analytics_ua_code: null
