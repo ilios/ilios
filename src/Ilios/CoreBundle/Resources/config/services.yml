@@ -14,6 +14,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: flushQueue }
             - { name: kernel.event_listener, event: console.terminate, method: flushQueue }
+    ilioscore.listener.trackapiusage:
+        class: Ilios\CoreBundle\EventListener\TrackApiUsageListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
     ilioscore.dataimport_filelocator:
         class: Ilios\CoreBundle\Classes\DataimportFileLocator
         arguments: [ '@file_locator' ]
