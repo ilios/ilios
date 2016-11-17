@@ -38,7 +38,8 @@
         "exercise/htmlpurifier-bundle": "@stable",
         "ocramius/proxy-manager": "^1.0",
         "paragonie/random_compat": "^2.0",
-        "easycorp/easy-log-handler": "^1.0"
+        "easycorp/easy-log-handler": "^1.0",
+        "happyr/google-analytics-bundle": "^4.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
