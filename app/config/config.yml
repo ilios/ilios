@@ -170,3 +170,6 @@ ilios_authentication:
     cas_authentication_version: "%cas_authentication_version%"
     cas_authentication_verify_ssl: "%cas_authentication_verify_ssl%"
     cas_authentication_certificate_path: "%cas_authentication_certificate_path%"
+
+happyr_google_analytics:
+    tracking_id: "%google_analytics_ua_code%"

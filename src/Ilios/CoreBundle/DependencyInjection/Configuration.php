@@ -49,7 +49,8 @@ class Configuration implements ConfigurationInterface
                         "Optional 'supporting link' for the curriculum inventory exports."
                     )
                 ->end()
-                ->scalarNode('timezone')
+                ->scalarNode('timezone')->end()
+                ->scalarNode('google_analytics_ua_code')
             ->end();
 
         return $treeBuilder;
