@@ -177,11 +177,11 @@ httplug:
     plugins:
         logger: ~
     clients:
-        acme:
+        ga:
             factory: 'httplug.factory.guzzle6'
             plugins: ['httplug.plugin.logger']
             config:
-                verify: false
+                verify: true
                 timeout: 2
 
 happyr_google_analytics:
