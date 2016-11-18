@@ -32,6 +32,8 @@ class IliosCoreExtension extends Extension
         $container->setParameter('ilios_core.institution_domain', $config['institution_domain']);
         $container->setParameter('ilios_core.supporting_link', $config['supporting_link']);
         $container->setParameter('ilios_core.timezone', $config['timezone']);
+        $container->setParameter('ilios_core.enable_api_tracking', $config['enable_api_tracking']);
+
         $container->setParameter('ilios_core.google_analytics_ua_code', $config['google_analytics_ua_code']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
