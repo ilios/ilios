@@ -44,6 +44,7 @@ class AppKernel extends Kernel
             new Ilios\WebBundle\IliosWebBundle(),
             new Ilios\AuthenticationBundle\IliosAuthenticationBundle(),
             new Ilios\CliBundle\IliosCliBundle(),
+            new Http\HttplugBundle\HttplugBundle(),
             new Happyr\GoogleAnalyticsBundle\HappyrGoogleAnalyticsBundle(),
         ];
 
