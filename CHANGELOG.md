@@ -1,7 +1,31 @@
 # Change Log
 
-## [v3.21.0](https://github.com/ilios/ilios/tree/v3.21.0)
+## [v3.22.0](https://github.com/ilios/ilios/tree/v3.22.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.21.0...v3.22.0)
+
+**Implemented enhancements:**
+
+- Add courseId to session user materials [\#1672](https://github.com/ilios/ilios/issues/1672)
+
+**Closed issues:**
+
+- Add firstOfferingDate \(from course start data\) to usermaterials [\#1676](https://github.com/ilios/ilios/issues/1676)
+- Filter objectives by relationship [\#1666](https://github.com/ilios/ilios/issues/1666)
+- Filter /usermaterials by date [\#1661](https://github.com/ilios/ilios/issues/1661)
+
+**Merged pull requests:**
+
+- Add firstOfferingDate to course learning materials [\#1679](https://github.com/ilios/ilios/pull/1679) ([jrjohnson](https://github.com/jrjohnson))
+- Use DTO pattern for competencies [\#1678](https://github.com/ilios/ilios/pull/1678) ([jrjohnson](https://github.com/jrjohnson))
+- Add courseId and title to session usermaterials [\#1673](https://github.com/ilios/ilios/pull/1673) ([jrjohnson](https://github.com/jrjohnson))
+- added documentation for using the JSON Web Tokens [\#1671](https://github.com/ilios/ilios/pull/1671) ([thecoolestguy](https://github.com/thecoolestguy))
+- Filter Usermaterials by date [\#1668](https://github.com/ilios/ilios/pull/1668) ([jrjohnson](https://github.com/jrjohnson))
+- Make objective a DTO [\#1667](https://github.com/ilios/ilios/pull/1667) ([jrjohnson](https://github.com/jrjohnson))
+- added frontend-update command instructions [\#1665](https://github.com/ilios/ilios/pull/1665) ([thecoolestguy](https://github.com/thecoolestguy))
+- updated version requirements in INSTALL.md [\#1662](https://github.com/ilios/ilios/pull/1662) ([thecoolestguy](https://github.com/thecoolestguy))
+
+## [v3.21.0](https://github.com/ilios/ilios/tree/v3.21.0) (2016-10-28)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.20.0...v3.21.0)
 
 **Implemented enhancements:**
