@@ -172,6 +172,17 @@ ilios_authentication:
     cas_authentication_verify_ssl: "%cas_authentication_verify_ssl%"
     cas_authentication_certificate_path: "%cas_authentication_certificate_path%"
 
+httplug:
+    plugins:
+        logger: ~
+    clients:
+        acme:
+            factory: 'httplug.factory.guzzle6'
+            plugins: ['httplug.plugin.logger']
+            config:
+                verify: false
+                timeout: 2
+
 happyr_google_analytics:
     tracking_id: "%ilios_core.google_analytics_ua_code%"
     http_message_factory: 'httplug.message_factory'
