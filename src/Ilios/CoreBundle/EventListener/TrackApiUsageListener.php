@@ -31,7 +31,16 @@ class TrackApiUsageListener
 
         if ($controller[0] instanceof Controller) {
             $request = $event->getRequest();
-            // @todo implement. [ST 2016/11/17]
+            $tracker = $this->container->get('happyr.google_analytics.tracker');
+            $path = $request->getRequestUri();
+            $host = $request->getHost();
+            $title = self::class;
+            $data=array(
+                'dh' => $path,
+                'dp' => $host,
+                'dt' => $title,
+            );
+            $tracker->send($data, 'pageview');
         }
     }
 }

@@ -152,6 +152,7 @@ ilios_core:
     institution_domain: "%institution_domain%"
     supporting_link: "%supporting_link%"
     timezone: "%timezone%"
+    google_analytics_ua_code: "%google_analytics_ua_code"
 
 ilios_web:
     frontend_release_version: 80f4118be5ab8d22742f0112e27eb5d6
@@ -172,5 +173,5 @@ ilios_authentication:
     cas_authentication_certificate_path: "%cas_authentication_certificate_path%"
 
 happyr_google_analytics:
-    tracking_id: "%google_analytics_ua_code%"
+    tracking_id: "%ilios_core.google_analytics_ua_code%"
     http_message_factory: 'httplug.message_factory'

@@ -39,4 +39,4 @@ parameters:
     cas_authentication_server: null
     cas_authentication_version: null
     cas_authentication_certificate_path: null
-    google_analytics_ua_code: null
+    google_analytics_ua_code: UA-XXXXXX
