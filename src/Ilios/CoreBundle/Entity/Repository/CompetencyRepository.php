@@ -2,6 +2,9 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\AbstractQuery;
+use Ilios\CoreBundle\Entity\DTO\CompetencyDTO;
 
 /**
  * Class CompetencyRepository
@@ -15,19 +18,79 @@ class CompetencyRepository extends EntityRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-
         $qb->select('DISTINCT c')->from('IliosCoreBundle:Competency', 'c');
 
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('c.' . $sort, $order);
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('IliosCoreBundle:Competency', 'c');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $competencyDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $competencyDTOs[$arr['id']] = new CompetencyDTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['active']
+            );
+        }
+        $competencyIds = array_keys($competencyDTOs);
+        $qb = $this->_em->createQueryBuilder()
+            ->select('c.id as competencyId, s.id as schoolId, p.id as parentId')
+            ->from('IliosCoreBundle:Competency', 'c')
+            ->join('c.school', 's')
+            ->leftJoin('c.parent', 'p')
+            ->where($qb->expr()->in('c.id', ':ids'))
+            ->setParameter('ids', $competencyIds);
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $competencyDTOs[$arr['competencyId']]->school = (int) $arr['schoolId'];
+            $competencyDTOs[$arr['competencyId']]->parent = $arr['parentId']?(int)$arr['parentId']:null;
+        }
+        $related = [
+            'objectives',
+            'children',
+            'aamcPcrses',
+            'programYears'
+        ];
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, c.id AS competencyId')->from('IliosCoreBundle:Competency', 'c')
+                ->join("c.{$rel}", 'r')
+                ->where($qb->expr()->in('c.id', ':competencyIds'))
+                ->orderBy('relId')
+                ->setParameter('competencyIds', $competencyIds);
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $competencyDTOs[$arr['competencyId']]->{$rel}[] = $arr['relId'];
             }
         }
+        return array_values($competencyDTOs);
+    }
 
+
+    /**
+     * @param QueryBuilder $qb
+     * @param array $criteria
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return QueryBuilder
+     */
+    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
+    {
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
             $qb->leftJoin('c.children', 'se_subcompetency');
@@ -137,6 +200,17 @@ class CompetencyRepository extends EntityRepository
                 $qb->setParameter(":{$key}", $values);
             }
         }
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('c.'.$sort, $order);
+            }
+        }
+
         if ($offset) {
             $qb->setFirstResult($offset);
         }
@@ -145,6 +219,6 @@ class CompetencyRepository extends EntityRepository
             $qb->setMaxResults($limit);
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }

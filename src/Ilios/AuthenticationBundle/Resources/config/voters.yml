@@ -34,12 +34,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.competency_voter:
-        class: Ilios\AuthenticationBundle\Voter\CompetencyVoter
-        arguments: [ "@ilioscore.permission.manager" ]
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.course_clerkship_type_voter:
         class: Ilios\AuthenticationBundle\Voter\CourseClerkshipTypeVoter
         public: false
