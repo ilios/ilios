@@ -40,8 +40,8 @@ class TrackApiUsageListener
             $host = $request->getHost();
             $title = self::class;
             $data = [
-                'dh' => $path,
-                'dp' => $host,
+                'dh' => $host,
+                'dp' => $path,
                 'dt' => $title,
             ];
             $tracker->send($data, 'pageview');
