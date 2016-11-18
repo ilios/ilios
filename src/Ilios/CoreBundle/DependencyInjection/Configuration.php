@@ -51,6 +51,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('timezone')->end()
                 ->scalarNode('google_analytics_ua_code')
+                    ->info('Google Analytics UA code, used for measuring API access.')
             ->end();
 
         return $treeBuilder;
