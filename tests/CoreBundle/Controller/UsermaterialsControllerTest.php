@@ -74,9 +74,11 @@ class UsermaterialsControllerTest extends AbstractControllerTest
         $this->assertFalse(array_key_exists('session', $materials[1]));
         $this->assertEquals('2', $materials[2]['id']);
         $this->assertEquals('1', $materials[2]['course']);
+        $this->assertEquals('2016-09-04T00:00:00+00:00', $materials[2]['firstOfferingDate']);
         $this->assertFalse(array_key_exists('session', $materials[2]));
         $this->assertEquals('3', $materials[3]['id']);
         $this->assertEquals('1', $materials[3]['course']);
+        $this->assertEquals('2016-09-04T00:00:00+00:00', $materials[2]['firstOfferingDate']);
         $this->assertFalse(array_key_exists('session', $materials[3]));
     }
 

@@ -1008,7 +1008,7 @@ class UserRepository extends EntityRepository
     ) {
 
         $qb = $this->_em->createQueryBuilder();
-        $what = 'c.title as courseTitle, c.id as courseId, ' .
+        $what = 'c.title as courseTitle, c.id as courseId, c.startDate as firstOfferingDate, ' .
             'clm.notes, clm.required, clm.publicNotes, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
             'lm.citation, lm.link, lm.filename, lm.mimetype';
