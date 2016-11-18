@@ -35,7 +35,6 @@ class ObjectiveDTO
     /**
      * @var int[]
      * @JMS\Type("array<string>")
-     * @JMS\SerializedName("courses")
      *
      */
     public $courses;
