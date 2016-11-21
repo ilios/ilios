@@ -152,7 +152,7 @@ ilios_core:
     institution_domain: "%institution_domain%"
     supporting_link: "%supporting_link%"
     timezone: "%timezone%"
-    enable_api_tracking: "%enable_api_tracking%"
+    enable_tracking: "%enable_tracking%"
     google_analytics_ua_code: "%google_analytics_ua_code"
 
 ilios_web:

@@ -50,7 +50,7 @@ class Configuration implements ConfigurationInterface
                     )
                 ->end()
                 ->scalarNode('timezone')->end()
-                ->scalarNode('enable_api_tracking')
+                ->scalarNode('enable_tracking')
                     ->defaultFalse()
                     ->info('If set to TRUE, then API usage tracking will be enabled.')
                     ->end()

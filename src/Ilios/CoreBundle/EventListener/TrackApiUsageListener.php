@@ -17,7 +17,7 @@ class TrackApiUsageListener
 
     public function onKernelController(FilterControllerEvent $event)
     {
-        if (true !== $this->container->getParameter('ilios_core.enable_api_tracking')) {
+        if (true !== $this->container->getParameter('ilios_core.enable_tracking')) {
             return;
         }
 
