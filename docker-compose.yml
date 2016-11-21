@@ -6,6 +6,9 @@ services:
             - "17103:3306"
     php:
         image: iamjrjohnson/docker-ilios-php
+        environment:
+            - ILIOS_API_ENVIRONMENT=true
+            - ILIOS_API_DEBUG=true
         expose:
             - "9000"
         links:
