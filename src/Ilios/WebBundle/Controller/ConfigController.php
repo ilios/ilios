@@ -41,6 +41,10 @@ class ConfigController extends Controller
         $configuration['maxUploadSize'] = UploadedFile::getMaxFilesize();
         $configuration['apiVersion'] = WebIndexFromJson::API_VERSION;
 
+        $configuration['trackingEnabled'] = $this->container->getParameter('ilios_core.enable_tracking');
+        if ($configuration['trackingEnabled']) {
+            $configuration['trackingCode'] = $this->container->getParameter('ilios_core.google_analytics_ua_code');
+        }
 
         return new JsonResponse(array('config' => $configuration));
     }
