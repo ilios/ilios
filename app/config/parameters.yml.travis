@@ -39,5 +39,5 @@ parameters:
     cas_authentication_server: null
     cas_authentication_version: null
     cas_authentication_certificate_path: null
-    enable_api_tracking: false
+    enable_tracking: false
     google_analytics_ua_code: UA-XXXXXX

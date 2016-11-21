@@ -47,5 +47,5 @@ parameters:
     cas_authentication_version: 3
     cas_authentication_verify_ssl: true
     cas_authentication_certificate_path: null
-    enable_api_tracking: false
+    enable_tracking: false
     google_analytics_ua_code: UA-XXXXXX
