@@ -38,7 +38,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'supporting_link' => 'https://inventory.ucsf.edu',
             'timezone' => 'America\Los_Angeles',
             'enable_tracking' => $trackingEnabled,
-            'google_analytics_ua_code' => $trackingCode,
+            'tracking_code' => $trackingCode,
         ));
         $parameters = array(
             'ilioscore.form.handler.class' => 'Ilios\CoreBundle\Form\Handler',
@@ -129,7 +129,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilios_core.institution_domain' => 'ucsf.edu',
             'ilios_core.supporting_link' => 'https://inventory.ucsf.edu',
             'ilios_core.enable_tracking' => $trackingEnabled,
-            'ilios_core.google_analytics_ua_code' => $trackingCode,
+            'ilios_core.tracking_code' => $trackingCode,
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);

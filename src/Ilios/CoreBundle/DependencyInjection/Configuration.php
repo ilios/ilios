@@ -54,9 +54,9 @@ class Configuration implements ConfigurationInterface
                     ->defaultFalse()
                     ->info('If set to TRUE, then API usage tracking will be enabled.')
                     ->end()
-                ->scalarNode('google_analytics_ua_code')
+                ->scalarNode('tracking_code')
                     ->defaultValue('UA-XXXXXXXX-1')
-                    ->info('Google Analytics UA code, used for measuring API access.')
+                    ->info('Analytics tracking code.')
                     ->end()
             ->end();
 

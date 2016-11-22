@@ -43,7 +43,7 @@ class ConfigController extends Controller
 
         $configuration['trackingEnabled'] = $this->container->getParameter('ilios_core.enable_tracking');
         if ($configuration['trackingEnabled']) {
-            $configuration['trackingCode'] = $this->container->getParameter('ilios_core.google_analytics_ua_code');
+            $configuration['trackingCode'] = $this->container->getParameter('ilios_core.tracking_code');
         }
 
         return new JsonResponse(array('config' => $configuration));
