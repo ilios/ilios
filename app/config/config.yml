@@ -153,7 +153,7 @@ ilios_core:
     supporting_link: "%supporting_link%"
     timezone: "%timezone%"
     enable_tracking: "%enable_tracking%"
-    google_analytics_ua_code: "%google_analytics_ua_code%"
+    tracking_code: "%tracking_code%"
 
 ilios_web:
     frontend_release_version: 80f4118be5ab8d22742f0112e27eb5d6
@@ -185,5 +185,5 @@ httplug:
                 timeout: 2
 
 happyr_google_analytics:
-    tracking_id: "%ilios_core.google_analytics_ua_code%"
+    tracking_id: "%ilios_core.tracking_code%"
     http_message_factory: 'httplug.message_factory'

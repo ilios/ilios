@@ -40,4 +40,4 @@ parameters:
     cas_authentication_version: null
     cas_authentication_certificate_path: null
     enable_tracking: false
-    google_analytics_ua_code: UA-XXXXXXXX-1
+    tracking_code: UA-XXXXXXXX-1
