@@ -24,6 +24,8 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
         $ldapSearchBase = 'ldap.base';
         $ldapCampusIdProperty = 'ldap.camp';
         $ldapUsernameProperty = 'ldap.username';
+        $trackingEnabled = true;
+        $trackingCode = 'UA-XXXXXXXX-1';
         $this->load(array(
             'file_system_storage_path' => $fileSystemStoragePath,
             'ldap_directory_url' => $ldapUrl,
@@ -35,6 +37,8 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'institution_domain' => 'ucsf.edu',
             'supporting_link' => 'https://inventory.ucsf.edu',
             'timezone' => 'America\Los_Angeles',
+            'enable_tracking' => $trackingEnabled,
+            'google_analytics_ua_code' => $trackingCode,
         ));
         $parameters = array(
             'ilioscore.form.handler.class' => 'Ilios\CoreBundle\Form\Handler',
@@ -123,7 +127,9 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilios_core.ldap.username_property' => $ldapUsernameProperty,
             'ilios_core.file_store_path' => $fileSystemStoragePath,
             'ilios_core.institution_domain' => 'ucsf.edu',
-            'ilios_core.supporting_link' => 'https://inventory.ucsf.edu'
+            'ilios_core.supporting_link' => 'https://inventory.ucsf.edu',
+            'ilios_core.enable_tracking' => $trackingEnabled,
+            'ilios_core.google_analytics_ua_code' => $trackingCode,
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);
