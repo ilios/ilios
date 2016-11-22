@@ -48,4 +48,4 @@ parameters:
     cas_authentication_verify_ssl: true
     cas_authentication_certificate_path: null
     enable_tracking: false
-    google_analytics_ua_code: UA-XXXXXX
+    google_analytics_ua_code: UA-XXXXXXXX-1
