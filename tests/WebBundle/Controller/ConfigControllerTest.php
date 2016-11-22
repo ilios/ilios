@@ -34,7 +34,8 @@ class ConfigControllerTest extends WebTestCase
                 'type' => 'form',
                 'locale' => 'en',
                 'userSearchType' => 'local',
-                'apiVersion' => WebIndexFromJson::API_VERSION
+                'apiVersion' => WebIndexFromJson::API_VERSION,
+                'trackingEnabled' => false,
             ),
             $data
         );
