@@ -484,7 +484,7 @@ class SessionControllerTest extends AbstractControllerTest
         unset($postData['courseLearningMaterials']);
         unset($postData['sessionLearningMaterials']);
 
-        $postData['status'] = '2';
+        $postData['status'] = '1';
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
