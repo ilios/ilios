@@ -38,8 +38,6 @@ class OfferingManagerTest extends \PHPUnit_Framework_TestCase
             ->mock();
         
         $entity = m::mock($class);
-        $entity->shouldReceive('stampUpdate')->once();
-        $entity->shouldReceive('getSessions')->once()->andReturn([]);
         $manager = new OfferingManager($registry, $class);
         $manager->delete($entity);
     }

@@ -6,12 +6,6 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\Offering;
-use Ilios\CoreBundle\Entity\SessionStampableInterface;
-use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
-use Ilios\CoreBundle\Entity\Session;
-use Ilios\CoreBundle\Entity\SessionInterface;
-use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 
 /**
  * Class BaseManager
@@ -145,7 +139,6 @@ class BaseManager implements ManagerInterface
         $forceId = false
     ) {
         $this->em->persist($entity);
-        $this->stamp($entity);
 
         if ($forceId) {
             $metadata = $this->em->getClassMetaData(get_class($entity));
@@ -163,7 +156,6 @@ class BaseManager implements ManagerInterface
     public function delete(
         $entity
     ) {
-        $this->stamp($entity);
         $this->em->remove($entity);
         $this->em->flush();
     }
@@ -175,31 +167,5 @@ class BaseManager implements ManagerInterface
     {
         $class = $this->getClass();
         return new $class();
-    }
-
-    protected function stamp($entity)
-    {
-
-        if ($entity instanceof TimestampableEntityInterface) {
-            $entity->stampUpdate();
-        }
-
-        if ($entity instanceof OfferingsEntityInterface) {
-            $offerings = $entity->getOfferings();
-            $em = $this->registry->getManagerForClass(Offering::class);
-            foreach ($offerings as $offering) {
-                $offering->stampUpdate();
-                $em->persist($offering);
-            }
-        }
-
-        if ($entity instanceof SessionStampableInterface) {
-            $sessions = $entity->getSessions();
-            $em = $this->registry->getManagerForClass(Session::class);
-            foreach ($sessions as $session) {
-                $session->stampUpdate();
-                $em->persist($session);
-            }
-        }
     }
 }

@@ -20,6 +20,11 @@ services:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
         calls:
             - [ setContainer, ['@service_container'] ]
+    ilioscore.listener.timestampentity:
+        class: Ilios\CoreBundle\EventListener\TimestampEntityChanges
+        arguments: ['@ilioscore.timestamper']
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
     ilioscore.dataimport_filelocator:
         class: Ilios\CoreBundle\Classes\DataimportFileLocator
         arguments: [ '@file_locator' ]
@@ -64,3 +69,9 @@ services:
     ilioscore.usermaterial.factory:
         class: Ilios\CoreBundle\Service\UserMaterialFactory
         arguments: [ "@router", Ilios\CoreBundle\Classes\UserMaterial ]
+    ilioscore.timestamper:
+        class: Ilios\CoreBundle\Service\Timestamper
+        arguments: [ "@doctrine" ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: flush }
+            - { name: kernel.event_listener, event: console.terminate, method: flush }
