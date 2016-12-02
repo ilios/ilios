@@ -1,7 +1,28 @@
 # Change Log
 
-## [v3.22.0](https://github.com/ilios/ilios/tree/v3.22.0)
+## [v3.23.0](https://github.com/ilios/ilios/tree/v3.23.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.22.0...v3.23.0)
+
+**Implemented enhancements:**
+
+- Identify all faculty in a given school [\#1670](https://github.com/ilios/ilios/issues/1670)
+- log API usage [\#1148](https://github.com/ilios/ilios/issues/1148)
+
+**Closed issues:**
+
+- Unquoted parameters deprecation [\#1685](https://github.com/ilios/ilios/issues/1685)
+- Deadlock errors when creating multiple offerings [\#1683](https://github.com/ilios/ilios/issues/1683)
+
+**Merged pull requests:**
+
+- Updated Dependencies [\#1687](https://github.com/ilios/ilios/pull/1687) ([jrjohnson](https://github.com/jrjohnson))
+- Quote configuration parameters [\#1686](https://github.com/ilios/ilios/pull/1686) ([jrjohnson](https://github.com/jrjohnson))
+- Timestamp updated entities outside of the normal flow [\#1684](https://github.com/ilios/ilios/pull/1684) ([jrjohnson](https://github.com/jrjohnson))
+- added requirement notes for php-zip extension and URL-rewriting [\#1681](https://github.com/ilios/ilios/pull/1681) ([thecoolestguy](https://github.com/thecoolestguy))
+- track API usage [\#1677](https://github.com/ilios/ilios/pull/1677) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.22.0](https://github.com/ilios/ilios/tree/v3.22.0) (2016-11-18)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.21.0...v3.22.0)
 
 **Implemented enhancements:**
@@ -16,6 +37,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for v3.22.0 release [\#1680](https://github.com/ilios/ilios/pull/1680) ([thecoolestguy](https://github.com/thecoolestguy))
 - Add firstOfferingDate to course learning materials [\#1679](https://github.com/ilios/ilios/pull/1679) ([jrjohnson](https://github.com/jrjohnson))
 - Use DTO pattern for competencies [\#1678](https://github.com/ilios/ilios/pull/1678) ([jrjohnson](https://github.com/jrjohnson))
 - Add courseId and title to session usermaterials [\#1673](https://github.com/ilios/ilios/pull/1673) ([jrjohnson](https://github.com/jrjohnson))
