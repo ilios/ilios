@@ -11,8 +11,7 @@ services:
         class: Ilios\CoreBundle\EventListener\TrackApiUsageListener
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-        calls:
-            - [ setContainer, ['@service_container'] ]
+        arguments: ['%%ilios_core.enable_tracking%', '@happyr.google_analytics.tracker', '@logger']
     ilioscore.listener.timestampentity:
         class: Ilios\CoreBundle\EventListener\TimestampEntityChanges
         arguments: ['@ilioscore.timestamper']

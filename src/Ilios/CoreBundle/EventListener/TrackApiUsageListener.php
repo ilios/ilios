@@ -1,8 +1,9 @@
 <?php
 namespace Ilios\CoreBundle\EventListener;
 
+use Happyr\GoogleAnalyticsBundle\Service\Tracker;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 /**
@@ -13,11 +14,36 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
  */
 class TrackApiUsageListener
 {
-    use ContainerAwareTrait;
+    /**
+     * @var bool
+     */
+    protected $isTrackingEnabled;
+
+    /**
+     * @var Tracker
+     */
+    protected $tracker;
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
+     * @param bool $isTrackingEnabled
+     * @param Tracker $tracker
+     * @param LoggerInterface $logger
+     */
+    public function __construct($isTrackingEnabled, Tracker $tracker, LoggerInterface $logger)
+    {
+        $this->isTrackingEnabled = $isTrackingEnabled;
+        $this->tracker = $tracker;
+        $this->logger = $logger;
+    }
 
     public function onKernelController(FilterControllerEvent $event)
     {
-        if (true !== $this->container->getParameter('ilios_core.enable_tracking')) {
+        if (! $this->isTrackingEnabled) {
             return;
         }
 
@@ -37,7 +63,6 @@ class TrackApiUsageListener
 
         if ($controller instanceof Controller) {
             $request = $event->getRequest();
-            $tracker = $this->container->get('happyr.google_analytics.tracker');
             $path = $request->getRequestUri();
             $host = $request->getHost();
             $title = get_class($controller);
@@ -47,10 +72,9 @@ class TrackApiUsageListener
                 'dt' => $title
             ];
             try {
-                $tracker->send($data, 'pageview');
+                $this->tracker->send($data, 'pageview');
             } catch (\Exception $e) {
-                $logger = $this->container->get('logger');
-                $logger->error('Failed to send tracking data.', ['exception' => $e]);
+                $this->logger->error('Failed to send tracking data.', ['exception' => $e]);
             }
         }
     }
