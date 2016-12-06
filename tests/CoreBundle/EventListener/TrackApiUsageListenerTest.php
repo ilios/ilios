@@ -57,7 +57,6 @@ class TrackApiUsageListenerTest extends TestCase
         $this->mockContainer->shouldReceive('get')
             ->with('happyr.google_analytics.tracker')
             ->andReturn($this->mockTracker);
-
         $this->listener = new TrackApiUsageListener();
         $this->listener->setContainer($this->mockContainer);
     }
@@ -102,5 +101,29 @@ class TrackApiUsageListenerTest extends TestCase
             ['dh' => $host, 'dp' => $uri, 'dt' => get_class($this->mockController)],
             'pageview'
         ]);
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\EventListener\TrackApiUsageListener::onKernelController
+     */
+    public function testTrackingFailure()
+    {
+        $uri = '/api/v1/foo/bar/baz';
+        $host = 'iliosproject.org';
+        $mockLogger = m::mock('\Psr\Log\LoggerInterface');
+        $mockLogger->shouldReceive('error');
+        $this->mockContainer->shouldReceive('get')
+            ->with('logger')
+            ->andReturn($mockLogger);
+        $e = new \Exception();
+        $this->mockRequest->shouldReceive('getRequestUri')->andReturn($uri);
+        $this->mockRequest->shouldReceive('getHost')->andReturn($host);
+        $this->mockContainer->shouldReceive('getParameter')->with('ilios_core.enable_tracking')->andReturn(true);
+        $this->mockTracker->shouldReceive('send')->andReturnUsing(function () use ($e) {
+            throw $e;
+        });
+        $this->listener->onKernelController($this->mockEvent);
+        $mockLogger->shouldHaveReceived('error')->withArgs(['Failed to send tracking data.', ['exception' => $e]]);
+        unset($mockLogger);
     }
 }
