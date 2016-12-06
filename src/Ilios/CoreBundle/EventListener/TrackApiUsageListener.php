@@ -46,7 +46,12 @@ class TrackApiUsageListener
                 'dp' => $path,
                 'dt' => $title
             ];
-            $tracker->send($data, 'pageview');
+            try {
+                $tracker->send($data, 'pageview');
+            } catch (\Exception $e) {
+                $logger = $this->container->get('logger');
+                $logger->error('Failed to send tracking data.', ['exception' => $e]);
+            }
         }
     }
 }
