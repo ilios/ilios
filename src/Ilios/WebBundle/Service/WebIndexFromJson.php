@@ -11,7 +11,7 @@ class WebIndexFromJson
      * @var string
      */
     const DEFAULT_TEMPLATE_NAME = 'webindex.html.twig';
-    const API_VERSION = 'v1.13';
+    const API_VERSION = 'v1.14';
     const AWS_BUCKET = 'https://s3-us-west-2.amazonaws.com/frontend-json-config/';
 
     const PRODUCTION = 'prod';
@@ -71,7 +71,10 @@ class WebIndexFromJson
         }, $json->link);
 
         $scripts = array_map(function ($obj) {
-            return $obj->src;
+            return [
+                'src' => property_exists($obj, 'src')?$obj->src:null,
+                'content' => property_exists($obj, 'content')?$obj->content:null,
+            ];
         }, $json->script);
 
         $options = [
