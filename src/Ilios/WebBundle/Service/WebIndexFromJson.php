@@ -71,7 +71,10 @@ class WebIndexFromJson
         }, $json->link);
 
         $scripts = array_map(function ($obj) {
-            return $obj->src;
+            return [
+                'src' => property_exists($obj, 'src')?$obj->src:null,
+                'content' => property_exists($obj, 'content')?$obj->content:null,
+            ];
         }, $json->script);
 
         $options = [

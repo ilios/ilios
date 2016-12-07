@@ -15,7 +15,8 @@ class WebIndexFromJsonTest extends TestCase
     {
         $this->sampleJson = '{"meta":[{"name":"ilios/config/environment",' .
             '"content":"test-config"}],"link":[{"rel":"stylesheet","href":"first.css"},{"rel":"stylesheet",' .
-            '"href":"second.css"}],"script":[{"src":"first.js"},{"src":"second.js"},{"src":"third.js"}]}';
+            '"href":"second.css"}],"script":[{"src":"first.js"},{"src":"second.js"},{"src":"third.js"}, ' .
+            '{"content": "<script></script>"}]}';
     }
 
     public function tearDown()
@@ -55,9 +56,22 @@ class WebIndexFromJsonTest extends TestCase
 
             ],
             'scripts' => [
-                'first.js',
-                'second.js',
-                'third.js',
+                [
+                    'src' => 'first.js',
+                    'content' => null
+                ],
+                [
+                    'src' => 'second.js',
+                    'content' => null
+                ],
+                [
+                    'src' => 'third.js',
+                    'content' => null
+                ],
+                [
+                    'src' => null,
+                    'content' => '<script></script>'
+                ],
             ],
         ])->once()->andReturn('compiledtemplatestring');
         $result = $obj->getIndex(WebIndexFromJson::DEVELOPMENT);
