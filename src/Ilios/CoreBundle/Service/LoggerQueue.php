@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Classes;
+namespace Ilios\CoreBundle\Service;
 
 use Ilios\CoreBundle\Service\Logger;
 

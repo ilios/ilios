@@ -1,7 +1,7 @@
 <?php
-namespace Tests\CoreBundle\Classes;
+namespace Tests\CoreBundle\Service;
 
-use Ilios\CoreBundle\Classes\LoggerQueue;
+use Ilios\CoreBundle\Service\LoggerQueue;
 use Ilios\CoreBundle\Entity\School;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;

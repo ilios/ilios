@@ -2,7 +2,7 @@
 namespace Ilios\CoreBundle\EventListener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Ilios\CoreBundle\Service\Logger;
+use Doctrine\ORM\PersistentCollection;
 use Ilios\CoreBundle\Entity\LoggableEntityInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
  */
 class LogEntityChanges
 {
+    //We have to inject the container to avoid a circular service reference
     use ContainerAwareTrait;
 
     /**
@@ -31,24 +32,61 @@ class LogEntityChanges
         $actions['create'] = $uow->getScheduledEntityInsertions();
         $actions['update'] = $uow->getScheduledEntityUpdates();
         $actions['delete'] = $uow->getScheduledEntityDeletions();
-        
-        $auditLogMetaData = $entityManager->getClassMetadata('IliosCoreBundle:AuditLog');
-        $logger = $this->container->get('ilioscore.logger');
-        $queue = $this->container->get('ilioscore.logger.queue');
+
+        $updates = [];
         foreach ($actions as $action => $entities) {
             foreach ($entities as $entity) {
                 if ($entity instanceof LoggableEntityInterface) {
-                    $changeset = $uow->getEntityChangeSet($entity);
-                    $valuesChanged = implode(array_keys($changeset), ',');
-                    if ('create' === $action) {
-                        $queue->add($action, $entity, $valuesChanged);
-                    } else {
-                        $id = (string) $entity;
-                        $auditLog = $logger->log($action, $id, get_class($entity), $valuesChanged, false);
-                        $uow->computeChangeSet($auditLogMetaData, $auditLog);
-                    }
+                    $changes = $uow->getEntityChangeSet($entity);
+                    $updates[get_class($entity)] = [
+                        'entity' => $entity,
+                        'action' => $action,
+                        'changes' => array_keys($changes)
+                    ];
                 }
             }
+        }
+
+        $collections = $uow->getScheduledCollectionUpdates();
+        foreach ($collections as $col) {
+            /** @var $col PersistentCollection */
+            $entity = $col->getOwner();
+            $change = $col->getTypeClass()->name;
+            if ($entity instanceof LoggableEntityInterface) {
+                $entityClass = get_class($entity);
+                if (!array_key_exists($entityClass, $updates)) {
+                    $updates[$entityClass] = [
+                        'entity' => $entity,
+                        'action' => 'update',
+                        'changes' => []
+                    ];
+                }
+                $ref = new \ReflectionClass($change);
+                $updates[$entityClass]['changes'][] = 'Ref:' . $ref->getShortName();
+            }
+        }
+        $collections = $uow->getScheduledCollectionDeletions();
+        foreach ($collections as $col) {
+            /** @var $col PersistentCollection */
+            $entity = $col->getOwner();
+            $change = $col->getTypeClass()->name;
+            if ($entity instanceof LoggableEntityInterface) {
+                $entityClass = get_class($entity);
+                if (!array_key_exists($entityClass, $updates)) {
+                    $updates[$entityClass] = [
+                        'entity' => $entity,
+                        'action' => 'update',
+                        'changes' => []
+                    ];
+                }
+                $ref = new \ReflectionClass($change);
+                $updates[$entityClass]['changes'][] = 'Ref:' . $ref->getShortName();
+            }
+        }
+        $loggerQueue = $this->container->get('ilioscore.logger.queue');
+        foreach ($updates as $arr) {
+            $valuesChanged = implode($arr['changes'], ',');
+            $loggerQueue->add($arr['action'], $arr['entity'], $valuesChanged);
         }
     }
 }
