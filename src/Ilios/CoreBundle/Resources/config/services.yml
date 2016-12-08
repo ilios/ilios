@@ -3,17 +3,10 @@ services:
         class: Symfony\Component\Filesystem\Filesystem
     ilioscore.listener.logentitychanges:
         class: Ilios\CoreBundle\EventListener\LogEntityChanges
-        arguments: ['@ilioscore.logger', '@ilioscore.logger.queue']
         tags:
             - { name: doctrine.event_listener, event: onFlush }
         calls:
-        - [ setContainer, ['@service_container'] ]
-    ilioscore.listener.loggerqueue:
-        class: Ilios\CoreBundle\EventListener\LoggerQueueListener
-        arguments: ['@ilioscore.logger.queue']
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: flushQueue }
-            - { name: kernel.event_listener, event: console.terminate, method: flushQueue }
+            - [ setContainer, ['@service_container'] ]
     ilioscore.listener.trackapiusage:
         class: Ilios\CoreBundle\EventListener\TrackApiUsageListener
         tags:
@@ -40,8 +33,11 @@ services:
         class: Ilios\CoreBundle\Service\Logger
         arguments: ['@security.token_storage', '@ilioscore.auditlog.manager']
     ilioscore.logger.queue:
-        class: Ilios\CoreBundle\Classes\LoggerQueue
+        class: Ilios\CoreBundle\Service\LoggerQueue
         arguments: ['@ilioscore.logger']
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: flush }
+            - { name: kernel.event_listener, event: console.terminate, method: flush }
     ilioscore.ldapmanager:
         class: Ilios\CoreBundle\Service\LdapManager
         arguments: ['%ilios_core.ldap.url%', '%ilios_core.ldap.user%', '%ilios_core.ldap.password%', '%ilios_core.ldap.search_base%', '%ilios_core.ldap.campus_id_property%', '%ilios_core.ldap.username_property%']

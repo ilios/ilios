@@ -1,6 +1,7 @@
 <?php
 namespace Ilios\CoreBundle\Service;
 
+use Ilios\CoreBundle\Entity\AuditLog;
 use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
 use Ilios\CoreBundle\Entity\Manager\BaseManager;
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -54,6 +55,7 @@ class Logger
         $valuesChanged,
         $andFlush = true
     ) {
+        /** @var AuditLog $log */
         $log = $this->manager->create();
         $log->setAction($action);
         $log->setObjectId($objectId);
