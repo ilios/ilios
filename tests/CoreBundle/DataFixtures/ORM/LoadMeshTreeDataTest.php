@@ -34,7 +34,7 @@ class LoadMeshTreeDataTest extends AbstractDataFixtureTest
      */
     public function testLoad()
     {
-        $this->runTestLoad('mesh_tree_x_descriptor.csv', 10);
+        $this->runTestLoad('mesh_tree.csv', 10);
     }
 
     /**
