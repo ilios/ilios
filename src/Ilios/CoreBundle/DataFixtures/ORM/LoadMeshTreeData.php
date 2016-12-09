@@ -12,7 +12,7 @@ class LoadMeshTreeData extends AbstractMeshFixture implements DependentFixtureIn
 {
     public function __construct()
     {
-        parent::__construct('mesh_tree_x_descriptor.csv', 'MeshTree');
+        parent::__construct('mesh_tree.csv', 'MeshTree');
     }
 
     /**

@@ -15,8 +15,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * Class MeshTree
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Table(name="mesh_tree_x_descriptor"
- * )
+ * @ORM\Table(name="mesh_tree")
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")

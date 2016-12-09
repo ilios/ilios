@@ -313,7 +313,7 @@ EOL;
     public function importMeshTree(array $data)
     {
         $sql =<<<EOL
-INSERT INTO mesh_tree_x_descriptor (
+INSERT INTO mesh_tree (
     tree_number, mesh_descriptor_uid, mesh_tree_id
 ) VALUES (?, ?, ?)
 EOL;
