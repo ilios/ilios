@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="aamc_method")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AamcMethodRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")

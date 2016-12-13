@@ -1,4 +1,9 @@
 services:
+    security.access.aamc_method_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\AamcMethodEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.authentication_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\AuthenticationEntityVoter
         arguments: [ "@ilioscore.permission.manager" ]

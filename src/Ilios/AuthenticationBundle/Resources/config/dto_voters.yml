@@ -1,4 +1,9 @@
 services:
+    security.access.dto.aamc_method_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\AamcMethodDTOVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.dto.authentication_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\AuthenticationDTOVoter
         public: false

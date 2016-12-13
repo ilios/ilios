@@ -1,9 +1,4 @@
 services:
-    security.access.aamc_method_voter:
-        class: Ilios\AuthenticationBundle\Voter\AamcMethodVoter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.aamc_pcrs_voter:
         class: Ilios\AuthenticationBundle\Voter\AamcPcrsVoter
         public: false
