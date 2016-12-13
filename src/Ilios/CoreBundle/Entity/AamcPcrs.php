@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * Class AamcPcrs
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AamcPcrsRepository")
  * @ORM\Table(name="aamc_pcrs")
  *
  * @JMS\ExclusionPolicy("all")

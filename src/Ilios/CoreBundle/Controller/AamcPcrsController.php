@@ -52,7 +52,12 @@ class AamcPcrsController extends FOSRestController
      */
     public function getAction($id)
     {
-        $aamcPcrs = $this->getOr404($id);
+        $manager = $this->container->get('ilioscore.aamcpcrs.manager');
+
+        $aamcPcrs = $manager->findDTOBy(['id' => $id]);
+        if (!$aamcPcrs) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $aamcPcrs)) {
@@ -124,7 +129,7 @@ class AamcPcrsController extends FOSRestController
         }, $criteria);
 
         $manager = $this->container->get('ilioscore.aamcpcrs.manager');
-        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {

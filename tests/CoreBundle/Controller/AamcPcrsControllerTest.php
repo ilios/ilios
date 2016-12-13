@@ -159,7 +159,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutAamcPcrs()
     {
@@ -190,7 +190,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testDeleteAamcPcrs()
     {
@@ -226,7 +226,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testAamcPcrsNotFound()
     {
@@ -239,5 +239,31 @@ class AamcPcrsControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByCompetencies()
+    {
+        $aamcPcrses = $this->container->get('ilioscore.dataloader.aamcpcrs')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_aamcpcrs', ['filters[competencies]' => [1]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['aamcPcrses'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $aamcPcrses[0]
+            ),
+            $data[0]
+        );
     }
 }
