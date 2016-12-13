@@ -4,6 +4,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.aamc_pcrs_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\AamcPcrsEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.authentication_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\AuthenticationEntityVoter
         arguments: [ "@ilioscore.permission.manager" ]

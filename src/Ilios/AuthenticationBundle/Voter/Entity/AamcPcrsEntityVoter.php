@@ -1,7 +1,8 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * Class AamcPcrsVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class AamcPcrsVoter extends AbstractVoter
+class AamcPcrsEntityVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}
