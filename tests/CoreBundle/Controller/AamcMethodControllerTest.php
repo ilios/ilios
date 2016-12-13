@@ -32,7 +32,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers_a_a
+     * @group controllers_a
      */
     public function testGetAamcMethod()
     {
@@ -159,7 +159,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutAamcMethod()
     {
@@ -190,7 +190,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testDeleteAamcMethod()
     {
@@ -226,7 +226,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testAamcMethodNotFound()
     {
@@ -239,5 +239,31 @@ class AamcMethodControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterBySessionTypes()
+    {
+        $aamcMethods = $this->container->get('ilioscore.dataloader.aamcmethod')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_aamcmethods', ['filters[sessionTypes]' => [1]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['aamcMethods'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $aamcMethods[0]
+            ),
+            $data[0]
+        );
     }
 }
