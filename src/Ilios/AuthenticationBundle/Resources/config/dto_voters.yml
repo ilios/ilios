@@ -14,6 +14,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.dto.alert_change_type_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\AlertChangeTypeDTOVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.dto.authentication_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\AuthenticationDTOVoter
         public: false

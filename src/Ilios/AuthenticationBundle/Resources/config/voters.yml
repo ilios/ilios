@@ -1,9 +1,4 @@
 services:
-    security.access.alert_change_type_voter:
-        class: Ilios\AuthenticationBundle\Voter\AlertChangeTypeVoter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.alert_voter:
         class: Ilios\AuthenticationBundle\Voter\AlertVoter
         public: false

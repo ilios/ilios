@@ -249,4 +249,30 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByAlerts()
+    {
+        $alertChangeTypes = $this->container->get('ilioscore.dataloader.alertchangetype')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_alertchangetypes', ['filters[alerts]' => [1]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['alertChangeTypes'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $alertChangeTypes[0]
+            ),
+            $data[0]
+        );
+    }
 }
