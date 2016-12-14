@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *
  * @ORM\Table(name="alert_change_type")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AlertChangeTypeRepository")
-
+ *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
  */

@@ -11,18 +11,18 @@ class AlertData extends AbstractDataLoader
             'id' => 1,
             'tableRowId' => 1,
             'tableName' => 'course',
-            'dispatched' => '1',
+            'dispatched' => true,
             'changeTypes' => ['1'],
             'instigators' => ['1', '2'],
-            'recipients' => ['1']
+            'recipients' => ['1', '2']
         );
         $arr[] = array(
             'id' => 2,
             'tableRowId' => 1,
             'tableName' => 'course',
-            'dispatched' => '1',
+            'dispatched' => true,
             'changeTypes' => ['1'],
-            'instigators' => [],
+            'instigators' => ['2'],
             'recipients' => []
         );
         $arr[] = array(
@@ -32,7 +32,7 @@ class AlertData extends AbstractDataLoader
             'dispatched' => false,
             'changeTypes' => [],
             'instigators' => [],
-            'recipients' => []
+            'recipients' => ['2']
         );
 
         return $arr;

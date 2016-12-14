@@ -72,7 +72,7 @@ class UserData extends AbstractDataLoader
             'offerings' => ['4'],
             'instructedOfferings' => ['5'],
             'programYears' => [],
-            'alerts' => ['1'],
+            'alerts' => ['2'],
             'roles' => ['1'],
             'cohorts' => ['1'],
             'reminders' => ['1', '2'],

@@ -16,7 +16,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="alert")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AlertRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
@@ -98,7 +98,7 @@ class Alert implements AlertInterface
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose
-     * @JMS\Type("string")
+     * @JMS\Type("boolean")
      */
     protected $dispatched;
 
