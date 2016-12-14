@@ -164,7 +164,7 @@ class AamcResourceTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testPutAamcResourceType()
     {
@@ -195,7 +195,7 @@ class AamcResourceTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testDeleteAamcResourceType()
     {
@@ -231,7 +231,7 @@ class AamcResourceTypeControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testAamcResourceTypeNotFound()
     {
@@ -244,5 +244,31 @@ class AamcResourceTypeControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterBySessionTypes()
+    {
+        $aamcResourceTypes = $this->container->get('ilioscore.dataloader.aamcresourcetype')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_aamcresourcetypes', ['filters[terms]' => [1]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['aamcResourceTypes'];
+        $this->assertEquals(1, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $aamcResourceTypes[0]
+            ),
+            $data[0]
+        );
     }
 }

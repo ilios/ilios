@@ -52,7 +52,12 @@ class AamcResourceTypeController extends FOSRestController
      */
     public function getAction($id)
     {
-        $aamcResourceType = $this->getOr404($id);
+        $manager = $this->container->get('ilioscore.aamcresourcetype.manager');
+
+        $aamcResourceType = $manager->findDTOBy(['id' => $id]);
+        if (!$aamcResourceType) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $aamcResourceType)) {
@@ -124,7 +129,7 @@ class AamcResourceTypeController extends FOSRestController
         }, $criteria);
 
         $manager = $this->container->get('ilioscore.aamcresourcetype.manager');
-        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {
