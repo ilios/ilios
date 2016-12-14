@@ -4,11 +4,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.assessment_option_voter:
-        class: Ilios\AuthenticationBundle\Voter\AssessmentOptionVoter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.course_clerkship_type_voter:
         class: Ilios\AuthenticationBundle\Voter\CourseClerkshipTypeVoter
         public: false

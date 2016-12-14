@@ -52,7 +52,12 @@ class AssessmentOptionController extends FOSRestController
      */
     public function getAction($id)
     {
-        $assessmentOption = $this->getOr404($id);
+        $manager = $this->container->get('ilioscore.assessmentoption.manager');
+
+        $assessmentOption = $manager->findDTOBy(['id' => $id]);
+        if (!$assessmentOption) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $assessmentOption)) {
@@ -124,7 +129,7 @@ class AssessmentOptionController extends FOSRestController
         }, $criteria);
 
         $manager = $this->container->get('ilioscore.assessmentoption.manager');
-        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {

@@ -18,8 +18,8 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * Class AssessmentOption
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Entity
  * @ORM\Table(name="assessment_option",uniqueConstraints={@ORM\UniqueConstraint(name="name", columns={"name"})})
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AssessmentOptionRepository")
  *
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
