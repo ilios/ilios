@@ -24,6 +24,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.assessment_option_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\AssessmentOptionEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.authentication_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\AuthenticationEntityVoter
         arguments: [ "@ilioscore.permission.manager" ]
