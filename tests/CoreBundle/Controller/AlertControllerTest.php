@@ -165,7 +165,7 @@ class AlertControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testDeleteAlert()
     {
@@ -201,7 +201,7 @@ class AlertControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @group controllers
+     * @group controllers_a
      */
     public function testAlertNotFound()
     {
@@ -214,5 +214,101 @@ class AlertControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByChangeTypes()
+    {
+        $alerts = $this->container->get('ilioscore.dataloader.alert')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_alerts', ['filters[changeTypes]' => [1]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['alerts'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $alerts[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $alerts[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByInstigators()
+    {
+        $alerts = $this->container->get('ilioscore.dataloader.alert')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_alerts', ['filters[instigators]' => [2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['alerts'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $alerts[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $alerts[1]
+            ),
+            $data[1]
+        );
+    }
+
+    /**
+     * @group controllers_a
+     */
+    public function testFilterByRecipients()
+    {
+        $alerts = $this->container->get('ilioscore.dataloader.alert')->getAll();
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_alerts', ['filters[recipients]' => [2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['alerts'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals(
+            $this->mockSerialize(
+                $alerts[0]
+            ),
+            $data[0]
+        );
+        $this->assertEquals(
+            $this->mockSerialize(
+                $alerts[2]
+            ),
+            $data[1]
+        );
     }
 }

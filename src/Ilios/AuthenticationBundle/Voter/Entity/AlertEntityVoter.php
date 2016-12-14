@@ -1,16 +1,17 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\AlertInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class AlertVoter
+ * Class AlertEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class AlertVoter extends AbstractVoter
+class AlertEntityVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}

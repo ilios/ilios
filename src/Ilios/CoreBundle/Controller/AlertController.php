@@ -52,7 +52,12 @@ class AlertController extends FOSRestController
      */
     public function getAction($id)
     {
-        $alert = $this->getOr404($id);
+        $manager = $this->container->get('ilioscore.alert.manager');
+
+        $alert = $manager->findDTOBy(['id' => $id]);
+        if (!$alert) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
 
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted('view', $alert)) {
@@ -124,7 +129,7 @@ class AlertController extends FOSRestController
         }, $criteria);
 
         $manager = $this->container->get('ilioscore.alert.manager');
-        $result = $manager->findBy($criteria, $orderBy, $limit, $offset);
+        $result = $manager->findDTOsBy($criteria, $orderBy, $limit, $offset);
 
         $authChecker = $this->get('security.authorization_checker');
         $result = array_filter($result, function ($entity) use ($authChecker) {

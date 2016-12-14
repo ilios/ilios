@@ -1,9 +1,4 @@
 services:
-    security.access.alert_voter:
-        class: Ilios\AuthenticationBundle\Voter\AlertVoter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.archivable_voter:
         class: Ilios\AuthenticationBundle\Voter\ArchivableVoter
         public: false
