@@ -1,20 +1,21 @@
 <?php
-namespace Tests\AuthenticationBundle\Voter;
+namespace Tests\AuthenticationBundle\Voter\Entity;
 
+use Tests\AuthenticationBundle\Voter\AbstractVoterTestCase;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
-use Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter;
+use Ilios\AuthenticationBundle\Voter\Entity\AamcResourceTypeEntityVoter;
 use Ilios\CoreBundle\Entity\AamcResourceType;
 use Ilios\CoreBundle\Entity\AamcResourceTypeInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
- * Class AamcResourceTypeVoterTest
+ * Class AamcResourceTypeEntityVoterTest
  * @package Tests\AuthenticationBundle\\Voter
  */
-class AamcResourceTypeVoterTest extends AbstractVoterTestCase
+class AamcResourceTypeEntityVoterTest extends AbstractVoterTestCase
 {
     /**
-     * @var AamcResourceTypeVoter
+     * @var AamcResourceTypeEntityVoter
      */
     protected $voter;
 
@@ -24,12 +25,12 @@ class AamcResourceTypeVoterTest extends AbstractVoterTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->voter = new AamcResourceTypeVoter();
+        $this->voter = new AamcResourceTypeEntityVoter();
     }
 
     /**
      * @dataProvider testVoteOnViewProvider
-     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeEntityVoter::vote
      */
     public function testVoteOnView($token, AamcResourceTypeInterface $object, $expectedOutcome, $message)
     {
@@ -39,7 +40,7 @@ class AamcResourceTypeVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnCreateProvider
-     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeEntityVoter::vote
      * @no
      */
     public function testVoteOnCreate($token, AamcResourceTypeInterface $object, $expectedOutcome, $message)
@@ -50,7 +51,7 @@ class AamcResourceTypeVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnEditProvider
-     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeEntityVoter::vote
      */
     public function testVoteOnEdit($token, AamcResourceTypeInterface $object, $expectedOutcome, $message)
     {
@@ -60,7 +61,7 @@ class AamcResourceTypeVoterTest extends AbstractVoterTestCase
 
     /**
      * @dataProvider testVoteOnDeleteProvider
-     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeVoter::vote
+     * @covers \Ilios\AuthenticationBundle\Voter\AamcResourceTypeEntityVoter::vote
      */
     public function testVoteOnDelete($token, AamcResourceTypeInterface $object, $expectedOutcome, $message)
     {
