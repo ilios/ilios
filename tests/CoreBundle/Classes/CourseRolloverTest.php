@@ -427,20 +427,28 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
                 $newOffering->shouldIgnoreMissing();
                 $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
                     $oldStart = $offering->getStartDate();
+                    $expectedStartWeek = (int) $oldStart->format('W') + 2;
+                    if ($expectedStartWeek > 52) {
+                        $expectedStartWeek = $expectedStartWeek - 52;
+                    }
                     return (
                         //day of the week is the same
                         $oldStart->format('w') === $newStart->format('w') &&
                         //Week of the year is the same
-                        (int) $oldStart->format('W') + 2 ===  (int) $newStart->format('W')
+                        $expectedStartWeek ===  (int) $newStart->format('W')
                     );
                 }))->once();
                 $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
                     $oldEnd = $offering->getEndDate();
+                    $expectedEndWeek = (int) $oldEnd->format('W') + 2;
+                    if ($expectedEndWeek > 52) {
+                        $expectedEndWeek = $expectedEndWeek - 52;
+                    }
                     return (
                         //day of the week is the same
                         $oldEnd->format('w') === $newEnd->format('w') &&
                         //Week of the year is the same
-                        (int) $oldEnd->format('W') + 2 ===  (int) $newEnd->format('W')
+                        $expectedEndWeek ===  (int) $newEnd->format('W')
                     );
                 }))->once();
 
