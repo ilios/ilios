@@ -106,6 +106,15 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     protected $updatedAt;
 
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="deleted", type="boolean")
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     */
+    protected $deleted;
+
     /**
      * @var ArrayCollection|CourseInterface[]
      *
@@ -211,6 +220,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->qualifiers = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->deleted = false;
     }
 
     /**
@@ -497,5 +507,21 @@ class MeshDescriptor implements MeshDescriptorInterface
             $this->concepts->removeElement($concept);
             $concept->removeDescriptor($this);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
     }
 }
