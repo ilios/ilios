@@ -120,7 +120,8 @@ class MeshDescriptorRepository extends EntityRepository implements DTORepository
                 $arr['name'],
                 $arr['annotation'],
                 $arr['createdAt'],
-                $arr['updatedAt']
+                $arr['updatedAt'],
+                $arr['deleted']
             );
         }
         $descriptorIds = array_keys($descriptorDTOs);
