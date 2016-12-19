@@ -71,7 +71,7 @@ services:
             -  { name: console.command }
     ilioscli.command.update_frontend:
         class: Ilios\CliBundle\Command\UpdateFrontendCommand
-        arguments: ["@iliosweb.jsonindex", '@ilioscore.symfonyfilesystem', %kernel.cache_dir%, %ilios_web.frontend_release_version%, %ilios_web.keep_frontend_updated%]
+        arguments: ["@iliosweb.jsonindex", "@ilioscore.symfonyfilesystem", "%kernel.cache_dir%", "%ilios_web.frontend_release_version%", "%ilios_web.keep_frontend_updated%"]
         tags:
             -  { name: console.command }
             -  { name: kernel.cache_warmer }
