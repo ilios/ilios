@@ -397,24 +397,43 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($course->getStartDate()->format('w'), $newStartDate->format('w'));
 
         $newCourse
-            ->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($course, $newStartDate) {
+            ->shouldReceive('setStartDate')->with(m::on(function (\DateTime $newStart) use ($course, $newStartDate) {
                 $oldStart = $course->getStartDate();
+                $oldStartWeekOfYear = (int) $oldStart->format('W');
+                $newStartWeekOfYear = (int) $newStart->format('W');
+                $weeksDiff = 0;
+                if ($newStartWeekOfYear > $oldStartWeekOfYear) {
+                    $weeksDiff = $newStartWeekOfYear - $oldStartWeekOfYear;
+                } elseif ($newStartWeekOfYear < $oldStartWeekOfYear) {
+                    /* @link http://stackoverflow.com/a/21480444 */
+                    $weeksInOldYear = (int) (new DateTime("December 28th, {$oldStart->format('Y')}"))->format('W');
+                    $weeksDiff = ($weeksInOldYear - $oldStartWeekOfYear) + $newStartWeekOfYear;
+                }
                 return (
-                    $newStart->format('c') === $newStartDate->format('c') &&
-                    //day of the week is the same
-                    $oldStart->format('w') === $newStart->format('w') &&
-                    //Week of the year is two weeks later
-                    (int) $oldStart->format('W') + 2 ===  (int) $newStart->format('W')
+                    $newStart->format('c') === $newStartDate->format('c')
+                    // day of the week is the same
+                    && $oldStart->format('w') === $newStart->format('w')
+                    // dates are two weeks apart
+                    && 2 === $weeksDiff
                 );
             }))->once();
 
         $newCourse->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($course) {
             $oldEnd = $course->getEndDate();
+            $oldEndWeekOfYear = (int) $oldEnd->format('W');
+            $newEndWeekOfYear = (int) $newEnd->format('W');
+            $weeksDiff = 0;
+            if ($newEndWeekOfYear > $oldEndWeekOfYear) {
+                $weeksDiff = $newEndWeekOfYear - $oldEndWeekOfYear;
+            } elseif ($newEndWeekOfYear < $oldEndWeekOfYear) {
+                $weeksInOldYear = (int) (new DateTime("December 28th, {$oldEnd->format('Y')}"))->format('W');
+                $weeksDiff = ($weeksInOldYear - $oldEndWeekOfYear) + $newEndWeekOfYear;
+            }
             return (
                 //day of the week is the same
-                $oldEnd->format('w') === $newEnd->format('w') &&
-                //Week of the year is two weeks laters
-                (int) $oldEnd->format('W') + 2 ===  (int) $newEnd->format('W')
+                $oldEnd->format('w') === $newEnd->format('w')
+                // dates are two weeks apart
+                && 2 === $weeksDiff
             );
         }))->once();
 
