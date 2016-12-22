@@ -47,7 +47,7 @@ PHP should configured with a 'memory_limit' setting of at least 386MB and have t
 * php-pdo - DB connectivity
 * php-zip - for native zip package [de]compression during the composer installation process
 
-URL Rewriting
+### URL Rewriting
 Users should enable URL-rewriting on their webserver if at all possible. For those using Apache, this can be done by installing and enabling the 'mod_rewrite' module. In IIS, this is handled via the [Microsoft IIS URL Rewrite extension](https://www.iis.net/downloads/microsoft/url-rewrite)
 
 You are also need the Composer PHP package management tool.  If you do not have it, you can learn about it and download it at https://getcomposer.org
