@@ -1,7 +1,34 @@
 # Change Log
 
-## [v3.23.0](https://github.com/ilios/ilios/tree/v3.23.0)
+## [v3.24.0](https://github.com/ilios/ilios/tree/v3.24.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.23.0...v3.24.0)
+
+**Implemented enhancements:**
+
+- Pull the container out of TrackApiUsageListener [\#1691](https://github.com/ilios/ilios/issues/1691)
+
+**Closed issues:**
+
+- Add apcu to ilios requirements [\#1703](https://github.com/ilios/ilios/issues/1703)
+- course rollover tests broken [\#1700](https://github.com/ilios/ilios/issues/1700)
+- fix deprecation warnings [\#1699](https://github.com/ilios/ilios/issues/1699)
+- rename mesh\_tree\_x\_descriptor [\#1696](https://github.com/ilios/ilios/issues/1696)
+- Audit Log valuesChanged Field Not Updating Correctly [\#1694](https://github.com/ilios/ilios/issues/1694)
+- Errors reporting to google should not cause request to fail [\#1689](https://github.com/ilios/ilios/issues/1689)
+
+**Merged pull requests:**
+
+- Composer require apcu [\#1704](https://github.com/ilios/ilios/pull/1704) ([stopfstedt](https://github.com/stopfstedt))
+- another attempt to make tests pass if we're rolling over year boundaries. [\#1702](https://github.com/ilios/ilios/pull/1702) ([stopfstedt](https://github.com/stopfstedt))
+- fix deprecation warnings [\#1701](https://github.com/ilios/ilios/pull/1701) ([stopfstedt](https://github.com/stopfstedt))
+- Convert Entities to DTO pattern [\#1698](https://github.com/ilios/ilios/pull/1698) ([jrjohnson](https://github.com/jrjohnson))
+- schema change: replaced mesh\_tree\_x\_descriptor with mesh\_tree table. [\#1697](https://github.com/ilios/ilios/pull/1697) ([stopfstedt](https://github.com/stopfstedt))
+- Log relationship changes for entities [\#1695](https://github.com/ilios/ilios/pull/1695) ([jrjohnson](https://github.com/jrjohnson))
+- refactored track api usage listener w/o container aware trait. [\#1693](https://github.com/ilios/ilios/pull/1693) ([stopfstedt](https://github.com/stopfstedt))
+- catch and log tracking exceptions. [\#1690](https://github.com/ilios/ilios/pull/1690) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.23.0](https://github.com/ilios/ilios/tree/v3.23.0) (2016-12-02)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.22.0...v3.23.0)
 
 **Implemented enhancements:**
@@ -16,6 +43,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for the v3.23.0 release [\#1688](https://github.com/ilios/ilios/pull/1688) ([thecoolestguy](https://github.com/thecoolestguy))
 - Updated Dependencies [\#1687](https://github.com/ilios/ilios/pull/1687) ([jrjohnson](https://github.com/jrjohnson))
 - Quote configuration parameters [\#1686](https://github.com/ilios/ilios/pull/1686) ([jrjohnson](https://github.com/jrjohnson))
 - Timestamp updated entities outside of the normal flow [\#1684](https://github.com/ilios/ilios/pull/1684) ([jrjohnson](https://github.com/jrjohnson))
