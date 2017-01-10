@@ -74,8 +74,8 @@ class JsonWebTokenManagerTest extends TestCase
         $jwt = $obj->createJwtFromUser($user, 'P400D');
         $now = new DateTime();
         $expiresAt = $obj->getExpiresAtFromToken($jwt);
-        
-        $this->assertTrue($now->diff($expiresAt)->d < 365);
+
+        $this->assertTrue($now->diff($expiresAt)->days < 365, 'maximum ttl not applied');
     }
     
     protected function buildToken(array $values = array(), $secretKey = 'ilios.jwt.key.secret')

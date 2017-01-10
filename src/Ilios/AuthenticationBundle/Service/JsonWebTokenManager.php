@@ -72,7 +72,7 @@ class JsonWebTokenManager
     {
         return $this->createJwtFromUserId($user->getId(), $timeToLive);
     }
-
+    
     /**
      * Build a token from a userId
      * @param  integer $userId
@@ -84,8 +84,15 @@ class JsonWebTokenManager
     {
         $requestedInterval = new \DateInterval($timeToLive);
         $maximumInterval = new \DateInterval('P364D');
-        $interval = $requestedInterval > $maximumInterval?$maximumInterval:$requestedInterval;
         $now = new DateTime();
+
+        //DateIntervals are not comparable so we have to create DateTimes first with are
+        $requestedFromToday = clone $now;
+        $requestedFromToday->add($requestedInterval);
+        $maximumFromToday = clone $now;
+        $maximumFromToday->add($maximumInterval);
+
+        $interval = $requestedFromToday > $maximumFromToday?$maximumInterval:$requestedInterval;
         $expires = clone $now;
         $expires->add($interval);
 
