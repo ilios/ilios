@@ -913,7 +913,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             \Exception::class,
-            "You cannot rollover a course to a new year or start date that is already in the past."
+            "Courses cannot be rolled over to a new year before"
         );
 
         $this->service->rolloverCourse($courseId, $year, []);
