@@ -1187,10 +1187,9 @@ class CourseControllerTest extends AbstractControllerTest
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
-        $session1fferingData = json_decode($response->getContent(), true)['offerings'];
+        $session1OfferingData = json_decode($response->getContent(), true)['offerings'];
 
-        $this->assertEquals('2017-02-09T15:00:00+00:00', $session1fferingData[0]['startDate']);
-        $this->assertEquals('2017-02-08T17:00:00+00:00', $session1fferingData[1]['startDate']);
+        $this->assertEquals('2017-02-09T15:00:00+00:00', $session1OfferingData[0]['startDate']);
     }
 
     /**
