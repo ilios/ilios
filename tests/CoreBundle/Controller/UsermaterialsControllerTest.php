@@ -67,7 +67,7 @@ class UsermaterialsControllerTest extends AbstractControllerTest
         $this->assertRegExp('/^session1Title/', $materials[0]['sessionTitle']);
         $this->assertEquals('1', $materials[0]['course']);
         $this->assertRegExp('/^firstCourse/', $materials[0]['courseTitle']);
-        $this->assertEquals('2016-09-07T17:00:00+00:00', $materials[0]['firstOfferingDate']);
+        $this->assertEquals('2016-09-08T15:00:00+00:00', $materials[0]['firstOfferingDate']);
 
         $this->assertEquals('1', $materials[1]['id']);
         $this->assertEquals('1', $materials[1]['course']);
