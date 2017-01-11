@@ -2,6 +2,7 @@
 
 namespace Tests\CoreBundle\Controller;
 
+use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Symfony\Bundle\FrameworkBundle\Client;
@@ -22,10 +23,15 @@ abstract class AbstractControllerTest extends WebTestCase
      */
     protected $container;
 
-        /**
+    /**
      * @var Client
      */
     protected $client;
+
+    /**
+     * @var ProxyReferenceRepository
+     */
+    protected $fixtures;
 
     /**
      * @return array|FixtureInterface
@@ -51,7 +57,7 @@ abstract class AbstractControllerTest extends WebTestCase
         $this->client = static::createClient();
         $this->client->followRedirects();
         $this->container = $this->client->getContainer();
-        $this->loadFixtures($this->getFixtures());
+        $this->fixtures = $this->loadFixtures($this->getFixtures())->getReferenceRepository();
     }
     
     public function tearDown()

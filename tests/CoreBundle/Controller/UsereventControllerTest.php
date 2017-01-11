@@ -4,6 +4,7 @@ namespace Tests\CoreBundle\Controller;
 
 use FOS\RestBundle\Util\Codes;
 use DateTime;
+use Ilios\CoreBundle\Entity\Offering;
 
 /**
  * UserRole controller Test.
@@ -98,10 +99,21 @@ class UsereventControllerTest extends AbstractControllerTest
         $this->assertEquals($events[8]['startDate'], $ilmSessions[3]['dueDate'], 'dueDate is correct for event 8');
         $this->assertEquals($events[8]['courseTitle'], $courses[1]['title'], 'title is correct for event 8');
 
-        $this->assertEquals($events[9]['startDate'], $offerings[1]['startDate'], 'startDate is correct for event 9');
-        $this->assertEquals($events[9]['endDate'], $offerings[1]['endDate'], 'endDate is correct for event 9');
-        $this->assertEquals($events[10]['startDate'], $offerings[0]['startDate'], 'startDate is correct for event 10');
-        $this->assertEquals($events[10]['endDate'], $offerings[0]['endDate'], 'endDate is correct for event 10');
+        $this->assertEquals($events[9]['startDate'], $offerings[0]['startDate'], 'startDate is correct for event 9');
+        $this->assertEquals($events[9]['endDate'], $offerings[0]['endDate'], 'endDate is correct for event 9');
+
+        /** @var Offering $offering */
+        $offering = $this->fixtures->getReference('offerings2');
+        $this->assertEquals(
+            $events[10]['startDate'],
+            $offering->getStartDate()->format('c'),
+            'startDate is correct for event 10'
+        );
+        $this->assertEquals(
+            $events[10]['endDate'],
+            $offering->getEndDate()->format('c'),
+            'endDate is correct for event 10'
+        );
 
 
         foreach ($events as $event) {
