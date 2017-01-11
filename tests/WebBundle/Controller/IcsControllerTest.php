@@ -51,7 +51,7 @@ class IcsControllerTest extends WebTestCase
         );
         $matches = [];
         preg_match('/DESCRIPTION:(.+?)CATEGORIES/s', $content, $matches);
-        $this->assertEquals(count($matches), 2);
+        $this->assertEquals(count($matches), 2, 'Found description in response');
         $firstDescription = preg_replace('/\s+/', '', $matches[1]);
 
         $this->assertRegExp(

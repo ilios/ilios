@@ -55,6 +55,17 @@ abstract class AbstractDataLoader implements DataLoaderInterface
         return $this->data;
     }
 
+    /**
+     * Get a formatted data from a string
+     * @param string $when
+     * @return string
+     */
+    public function getFormattedDate($when)
+    {
+        $dt = new \DateTime($when);
+        return $dt->format('c');
+    }
+
     abstract public function create();
 
     abstract public function createInvalid();
