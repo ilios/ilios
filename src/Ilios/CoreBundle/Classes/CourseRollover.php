@@ -115,9 +115,9 @@ class CourseRollover
         $newStartDate = (!empty($options['new-start-date'])) ? new \DateTime($options['new-start-date']) : null;
 
         //make sure that the new course's academic year or new start date year is not in the past
-        $this->confirmYearIsNotInPast($newAcademicYear);
+        $this->confirmYearIsValid($newAcademicYear);
         if (!empty($newStartDate)) {
-            $this->confirmYearIsNotInPast($newStartDate->format('Y'));
+            $this->confirmYearIsValid($newStartDate->format('Y'));
         }
 
         //get the original course object
@@ -403,12 +403,12 @@ class CourseRollover
      * @param int $newAcademicYear
      * @throws \Exception
      */
-    private function confirmYearIsNotInPast($newAcademicYear)
+    private function confirmYearIsValid($newAcademicYear)
     {
-        $currentYear = date('Y');
-        if ($newAcademicYear < $currentYear) {
+        $lastYear = date('Y') - 1;
+        if ($newAcademicYear < $lastYear) {
             throw new \Exception(
-                "You cannot rollover a course to a new year or start date that is already in the past."
+                "Courses cannot be rolled over to a new year before {$lastYear}."
             );
         }
     }
