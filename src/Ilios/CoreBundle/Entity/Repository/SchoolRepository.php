@@ -139,9 +139,13 @@ class SchoolRepository extends EntityRepository
         }
 
         $events = array_merge($events, $uniqueIlmEvents);
-        //sort events by startDate for consistency
+        //sort events by startDate and endDate for consistency
         usort($events, function ($a, $b) {
-            return $a->startDate->getTimestamp() - $b->startDate->getTimestamp();
+            $diff = $a->startDate->getTimestamp() - $b->startDate->getTimestamp();
+            if ($diff === 0) {
+                $diff = $a->endDate->getTimestamp() - $b->endDate->getTimestamp();
+            }
+            return $diff;
         });
 
         return $events;
