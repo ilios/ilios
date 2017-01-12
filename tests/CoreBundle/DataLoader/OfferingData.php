@@ -8,7 +8,6 @@ class OfferingData extends AbstractDataLoader
 {
     protected function getData()
     {
-        $today = new \DateTime();
         $arr = array();
 
         $arr[] = array(
@@ -102,13 +101,12 @@ class OfferingData extends AbstractDataLoader
             'instructors' => [],
         );
 
-        $halfHourFromNow = new DateTime('+30 minutes');
         $arr[] = array(
             'id' => 8,
             'room' => $this->faker->text(10),
             'site' => $this->faker->text(10),
-            'startDate' => $today->format('c'),
-            'endDate' => $halfHourFromNow->format('c'),
+            'startDate' => $this->getFormattedDate('now'),
+            'endDate' => $this->getFormattedDate('+30 minutes'),
             'session' => '3',
             'learnerGroups' => [],
             'instructorGroups' => [],

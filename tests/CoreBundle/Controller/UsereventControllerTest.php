@@ -103,7 +103,8 @@ class UsereventControllerTest extends AbstractControllerTest
         $this->assertEquals($events[9]['endDate'], $offerings[0]['endDate'], 'endDate is correct for event 9');
 
         /** @var Offering $offering */
-        $offering = $this->fixtures->getReference('offerings2');
+        $offering = $this->fixtures->getReference('offerings8');
+        $this->assertEquals(8, $events[10]['offering'], 'offering is correct for event 10');
         $this->assertEquals(
             $events[10]['startDate'],
             $offering->getStartDate()->format('c'),

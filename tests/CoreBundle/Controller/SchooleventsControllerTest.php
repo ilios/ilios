@@ -103,12 +103,12 @@ class SchooleventsControllerTest extends AbstractControllerTest
         $this->assertEquals($events[9]['endDate'], $offerings[0]['endDate']);
         $this->assertEquals($events[9]['courseTitle'], $courses[0]['title']);
 
-        $this->assertEquals($events[10]['offering'], 2);
+        $this->assertEquals(8, $events[10]['offering']);
         /** @var Offering $offering */
-        $offering = $this->fixtures->getReference('offerings2');
+        $offering = $this->fixtures->getReference('offerings8');
         $this->assertEquals($events[10]['startDate'], $offering->getStartDate()->format('c'));
         $this->assertEquals($events[10]['endDate'], $offering->getEndDate()->format('c'));
-        $this->assertEquals($events[10]['courseTitle'], $courses[0]['title']);
+        $this->assertEquals($events[10]['courseTitle'], $courses[1]['title']);
 
 
         foreach ($events as $event) {
