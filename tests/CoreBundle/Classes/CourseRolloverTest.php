@@ -490,7 +490,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $newCourse->shouldIgnoreMissing();
 
         $newYear = $course->getYear();
-        $newTitle = $course->getTitle() + 'again';
+        $newTitle = $course->getTitle() . 'again';
 
         $this->courseManager->shouldReceive('findOneBy')
             ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
