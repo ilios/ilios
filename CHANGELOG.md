@@ -1,7 +1,27 @@
 # Change Log
 
-## [v3.24.0](https://github.com/ilios/ilios/tree/v3.24.0)
+## [v3.24.1](https://github.com/ilios/ilios/tree/v3.24.1)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.24.0...v3.24.1)
+
+**Closed issues:**
+
+- Start testing in PHP 7.1 [\#1719](https://github.com/ilios/ilios/issues/1719)
+- Some tests which relied on static offering are broken [\#1716](https://github.com/ilios/ilios/issues/1716)
+- Sudden ICS feed test failures [\#1714](https://github.com/ilios/ilios/issues/1714)
+- Unable to rollover course into current academic year [\#1711](https://github.com/ilios/ilios/issues/1711)
+- Maximum TTL not being applied for tokens [\#1709](https://github.com/ilios/ilios/issues/1709)
+
+**Merged pull requests:**
+
+- added php 7.1 to test matrix [\#1720](https://github.com/ilios/ilios/pull/1720) ([stopfstedt](https://github.com/stopfstedt))
+- Use variable date from offering fixture in tests [\#1717](https://github.com/ilios/ilios/pull/1717) ([jrjohnson](https://github.com/jrjohnson))
+- Use a relative timestamp for some test offering data [\#1715](https://github.com/ilios/ilios/pull/1715) ([jrjohnson](https://github.com/jrjohnson))
+- Allow courses to be rolled over in the previous year [\#1713](https://github.com/ilios/ilios/pull/1713) ([jrjohnson](https://github.com/jrjohnson))
+- Update dependencies [\#1712](https://github.com/ilios/ilios/pull/1712) ([jrjohnson](https://github.com/jrjohnson))
+- Correctly apply maximum TTL for tokens [\#1710](https://github.com/ilios/ilios/pull/1710) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.24.0](https://github.com/ilios/ilios/tree/v3.24.0) (2016-12-22)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.23.0...v3.24.0)
 
 **Implemented enhancements:**
@@ -19,6 +39,8 @@
 
 **Merged pull requests:**
 
+- updating changelog for the v3.24.0 release [\#1708](https://github.com/ilios/ilios/pull/1708) ([thecoolestguy](https://github.com/thecoolestguy))
+- moving url rewriting instructions into its own section. [\#1705](https://github.com/ilios/ilios/pull/1705) ([stopfstedt](https://github.com/stopfstedt))
 - Composer require apcu [\#1704](https://github.com/ilios/ilios/pull/1704) ([stopfstedt](https://github.com/stopfstedt))
 - another attempt to make tests pass if we're rolling over year boundaries. [\#1702](https://github.com/ilios/ilios/pull/1702) ([stopfstedt](https://github.com/stopfstedt))
 - fix deprecation warnings [\#1701](https://github.com/ilios/ilios/pull/1701) ([stopfstedt](https://github.com/stopfstedt))
