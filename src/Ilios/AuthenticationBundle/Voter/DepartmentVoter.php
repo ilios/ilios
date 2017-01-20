@@ -50,16 +50,9 @@ class DepartmentVoter extends AbstractVoter
         }
 
         switch ($attribute) {
-            // grant VIEW privileges
-            // if the user's primary school is the the departments's owning school
-            // - or -
-            // if the user has READ rights on the department's owning school
-            // via the permissions system.
             case self::VIEW:
-                return (
-                    $this->schoolsAreIdentical($department->getSchool(), $user->getSchool())
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $department->getSchool()->getId())
-                );
+                // grant view access on departments to all authn. users.
+                return true;
                 break;
             case self::CREATE:
             case self::EDIT:
