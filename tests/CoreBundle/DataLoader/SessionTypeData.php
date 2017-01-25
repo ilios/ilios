@@ -23,7 +23,7 @@ class SessionTypeData extends AbstractDataLoader
             'assessmentOption' => '2',
             'school' => '1',
             'aamcMethods' => ['AM001'],
-            'sessions' => ['2'. '4']
+            'sessions' => ['2', '4']
         );
 
 
