@@ -30,6 +30,8 @@ class SessionTypeControllerTest extends AbstractControllerTest
             'Tests\CoreBundle\Fixture\LoadCohortData',
             'Tests\CoreBundle\Fixture\LoadProgramYearData',
             'Tests\CoreBundle\Fixture\LoadProgramData',
+            'Tests\CoreBundle\Fixture\LoadVocabularyData',
+            'Tests\CoreBundle\Fixture\LoadTermData'
         ]);
     }
 
@@ -503,5 +505,28 @@ class SessionTypeControllerTest extends AbstractControllerTest
             ),
             $data[1]
         );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByTerms()
+    {
+        $sessionType1 = $this->fixtures->getReference('sessionTypes1');
+        $sessionType2 = $this->fixtures->getReference('sessionTypes2');
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_sessiontypes', ['filters[terms]' => [1, 2]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['sessionTypes'];
+        $this->assertEquals(2, count($data), var_export($data, true));
+        $this->assertEquals($sessionType1->getId(), $data[0]['id']);
+        $this->assertEquals($sessionType2->getId(), $data[1]['id']);
     }
 }
