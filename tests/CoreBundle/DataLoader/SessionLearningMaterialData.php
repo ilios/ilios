@@ -15,7 +15,8 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'notes' => $this->faker->text,
             'session' => '1',
             'learningMaterial' => '1',
-            'meshDescriptors' => ['abc1']
+            'meshDescriptors' => ['abc1'],
+            'position' => 0,
         );
 
         $arr[] = array(
@@ -25,7 +26,8 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'notes' => $this->faker->text,
             'session' => '3',
             'learningMaterial' => '3',
-            'meshDescriptors' => ['abc2']
+            'meshDescriptors' => ['abc2'],
+            'position' => 0,
         );
 
 
@@ -34,15 +36,16 @@ class SessionLearningMaterialData extends AbstractDataLoader
 
     public function create()
     {
-        return array(
-          'id' => 3,
-          'required' => false,
-          'notes' => $this->faker->text,
-          'publicNotes' => false,
-          'session' => '1',
-          'learningMaterial' => '2',
-          'meshDescriptors' => []
-        );
+        return [
+            'id' => 3,
+            'required' => false,
+            'notes' => $this->faker->text,
+            'publicNotes' => false,
+            'session' => '1',
+            'learningMaterial' => '2',
+            'meshDescriptors' => [],
+            'position' => 0,
+        ];
     }
 
     public function createInvalid()

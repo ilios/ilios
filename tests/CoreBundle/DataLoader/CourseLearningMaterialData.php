@@ -15,7 +15,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'notes' => $this->faker->text,
             'course' => "1",
             'learningMaterial' => "1",
-            'meshDescriptors' => ['abc1']
+            'meshDescriptors' => ['abc1'],
+            'position' => 0,
         );
 
         $arr[] = array(
@@ -25,7 +26,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'notes' => $this->faker->text,
             'course' => "1",
             'learningMaterial' => "2",
-            'meshDescriptors' => []
+            'meshDescriptors' => [],
+            'position' => 1,
         );
 
         $arr[] = array(
@@ -35,7 +37,9 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'notes' => $this->faker->text,
             'course' => "4",
             'learningMaterial' => "1",
-            'meshDescriptors' => ['abc1']
+            'meshDescriptors' => ['abc1'],
+            'position' => 0,
+
         );
 
         $arr[] = array(
@@ -45,7 +49,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'notes' => $this->faker->text,
             'course' => "1",
             'learningMaterial' => "3",
-            'meshDescriptors' => []
+            'meshDescriptors' => [],
+            'position' => 2,
         );
 
 
@@ -61,7 +66,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'notes' => $this->faker->text,
             'course' => "1",
             'learningMaterial' => "2",
-            'meshDescriptors' => []
+            'meshDescriptors' => [],
+            'position' => 0,
         ];
     }
 

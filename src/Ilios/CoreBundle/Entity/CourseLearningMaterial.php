@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
+use Ilios\CoreBundle\Traits\SortableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,6 +28,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use MeshDescriptorsEntity;
+    use SortableEntity;
 
     /**
      * @var int
@@ -139,6 +141,20 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     protected $meshDescriptors;
 
     /**
+     * @var int
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     *
+     * @ORM\Column(name="position", type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\SerializedName("position")
+     * @JMS\Type("integer")
+     */
+    protected $position;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -146,6 +162,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->publicNotes = false;
         $this->required = false;
+        $this->position = 0;
     }
 
     /**
