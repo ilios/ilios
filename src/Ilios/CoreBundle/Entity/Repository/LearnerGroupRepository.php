@@ -124,9 +124,33 @@ class LearnerGroupRepository extends EntityRepository
             }
         }
 
+        if (array_key_exists('terms', $criteria)) {
+            $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
+            $qb->leftJoin('l.offerings', 't_offering');
+            $qb->leftJoin('t_offering.session', 't_session1');
+            $qb->leftJoin('t_session1.terms', 't_term1');
+            $qb->leftJoin('t_session1.course', 't_course1');
+            $qb->leftJoin('t_course1.terms', 't_term2');
+            $qb->leftJoin('l.ilmSessions', 't_ilm');
+            $qb->leftJoin('t_ilm.session', 't_session2');
+            $qb->leftJoin('t_session2.terms', 't_term3');
+            $qb->leftJoin('t_session2.course', 't_course2');
+            $qb->leftJoin('t_course2.terms', 't_term4');
+            $qb->andWhere(
+              $qb->expr()->orX(
+                $qb->expr()->in('t_term1.id', ':terms'),
+                $qb->expr()->in('t_term2.id', ':terms'),
+                $qb->expr()->in('t_term3.id', ':terms'),
+                $qb->expr()->in('t_term4.id', ':terms')
+              )
+            );
+            $qb->setParameter(':terms', $ids);
+        }
+
         //cleanup all the possible relationship filters
         unset($criteria['cohorts']);
         unset($criteria['parents']);
+        unset($criteria['terms']);
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
