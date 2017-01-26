@@ -99,4 +99,13 @@ class CourseLearningMaterialTest extends EntityBase
     {
         $this->entityCollectionSetTest('meshDescriptor', 'MeshDescriptor');
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::setPosition
+     * @covers \Ilios\CoreBundle\Entity\CourseLearningMaterial::getPosition
+     */
+    public function testSetPosition()
+    {
+        $this->basicSetTest('position', 'integer');
+    }
 }
