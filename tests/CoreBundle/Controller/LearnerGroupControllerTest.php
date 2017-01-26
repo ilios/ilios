@@ -22,6 +22,8 @@ class LearnerGroupControllerTest extends AbstractControllerTest
             'Tests\CoreBundle\Fixture\LoadIlmSessionData',
             'Tests\CoreBundle\Fixture\LoadOfferingData',
             'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadVocabularyData',
+            'Tests\CoreBundle\Fixture\LoadTermData',
         ]);
     }
 
@@ -377,6 +379,33 @@ class LearnerGroupControllerTest extends AbstractControllerTest
             ),
             $data[0]
         );
+    }
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByTerms()
+    {
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_learnergroups', ['filters[terms]' => [1]]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $group1 = $this->fixtures->getReference('learnerGroups1');
+        $group2 = $this->fixtures->getReference('learnerGroups2');
+        $group3 = $this->fixtures->getReference('learnerGroups3');
+        $group5 = $this->fixtures->getReference('learnerGroups5');
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['learnerGroups'];
+        $this->assertEquals(4, count($data), var_export($data, true));
+        $this->assertEquals($data[0]['id'], $group1->getId());
+        $this->assertEquals($data[1]['id'], $group2->getId());
+        $this->assertEquals($data[2]['id'], $group3->getId());
+        $this->assertEquals($data[3]['id'], $group5->getId());
     }
 
     /**
