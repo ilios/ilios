@@ -131,6 +131,13 @@ class TermRepository extends EntityRepository
             $qb->setParameter(':sessions', $ids);
         }
 
+        if (array_key_exists('programYears', $criteria)) {
+            $ids = is_array($criteria['programYears']) ? $criteria['programYears'] : [$criteria['programYears']];
+            $qb->join('t.programYears', 'py_programyear');
+            $qb->andWhere($qb->expr()->in('py_programyear.id', ':programYears'));
+            $qb->setParameter(':programYears', $ids);
+        }
+
         if (array_key_exists('sessionTypes', $criteria)) {
             $ids = is_array($criteria['sessionTypes']) ? $criteria['sessionTypes'] : [$criteria['sessionTypes']];
             $qb->join('t.sessions', 'st_session');
@@ -292,6 +299,8 @@ class TermRepository extends EntityRepository
         unset($criteria['competencies']);
         unset($criteria['meshDescriptors']);
         unset($criteria['aamcResourceTypes']);
+        unset($criteria['programYears']);
+
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
