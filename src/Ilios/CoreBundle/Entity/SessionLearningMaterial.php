@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
+use Ilios\CoreBundle\Traits\SortableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -32,6 +33,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     use StringableIdEntity;
     use SessionConsolidationEntity;
     use MeshDescriptorsEntity;
+    use SortableEntity;
 
     /**
      * @var integer
@@ -145,12 +147,27 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     protected $meshDescriptors;
 
     /**
+     * @var int
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     *
+     * @ORM\Column(name="position", type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\SerializedName("position")
+     * @JMS\Type("integer")
+     */
+    protected $position;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->meshDescriptors = new ArrayCollection();
         $this->publicNotes = false;
+        $this->position = 0;
     }
 
     /**

@@ -34,6 +34,7 @@ class LoadCourseLearningMaterialData extends AbstractFixture implements
             $entity->setRequired($arr['required']);
             $entity->setPublicNotes($arr['publicNotes']);
             $entity->setNotes($arr['notes']);
+            $entity->setPosition($arr['position']);
             $entity->setCourse($this->getReference('courses' . $arr['course']));
             $entity->setLearningMaterial($this->getReference('learningMaterials' . $arr['learningMaterial']));
             foreach ($arr['meshDescriptors'] as $id) {

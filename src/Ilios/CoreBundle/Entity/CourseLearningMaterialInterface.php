@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
+use Ilios\CoreBundle\Traits\SortableEntityInterface;
 
 /**
  * Interface CourseLearningMaterialInterface
@@ -15,7 +16,8 @@ use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
 interface CourseLearningMaterialInterface extends
     IdentifiableEntityInterface,
     LoggableEntityInterface,
-    MeshDescriptorsEntityInterface
+    MeshDescriptorsEntityInterface,
+    SortableEntityInterface
 {
     /**
      * @param string $notes
