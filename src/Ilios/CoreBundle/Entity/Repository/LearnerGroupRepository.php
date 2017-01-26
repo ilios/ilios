@@ -137,12 +137,12 @@ class LearnerGroupRepository extends EntityRepository
             $qb->leftJoin('t_session2.course', 't_course2');
             $qb->leftJoin('t_course2.terms', 't_term4');
             $qb->andWhere(
-              $qb->expr()->orX(
-                $qb->expr()->in('t_term1.id', ':terms'),
-                $qb->expr()->in('t_term2.id', ':terms'),
-                $qb->expr()->in('t_term3.id', ':terms'),
-                $qb->expr()->in('t_term4.id', ':terms')
-              )
+                $qb->expr()->orX(
+                    $qb->expr()->in('t_term1.id', ':terms'),
+                    $qb->expr()->in('t_term2.id', ':terms'),
+                    $qb->expr()->in('t_term3.id', ':terms'),
+                    $qb->expr()->in('t_term4.id', ':terms')
+                )
             );
             $qb->setParameter(':terms', $ids);
         }
