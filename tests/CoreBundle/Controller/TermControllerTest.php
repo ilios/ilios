@@ -683,6 +683,31 @@ class TermControllerTest extends AbstractControllerTest
         );
     }
 
+
+    /**
+     * @group controllers
+     */
+    public function testFilterByProgramYear()
+    {
+        $programYear1 = $this->fixtures->getReference('programYears1');
+        $programYear4 = $this->fixtures->getReference('programYears4');
+
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('cget_terms', ['filters[programYears][]' => 2]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['terms'];
+        $this->assertEquals(2, count($data));
+        $this->assertEquals($programYear1->getId(), $data[0]['id']);
+        $this->assertEquals($programYear4->getId(), $data[1]['id']);
+    }
+
     /**
      * @group controllers
      */
