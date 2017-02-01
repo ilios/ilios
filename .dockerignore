@@ -1,0 +1,16 @@
+build
+tests
+vendor
+var
+containers
+docker-compose.yml
+phpunit.xml.dist
+.dockerignore
+.idea
+.git
+.gitignore
+.gitattributes
+.travis.yml
+docker-composer.yml
+Dockerfile
+app/config/parameters.yml
