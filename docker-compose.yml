@@ -7,24 +7,17 @@ services:
     php:
         image: iamjrjohnson/docker-ilios-php
         environment:
-            - ILIOS_API_ENVIRONMENT=true
-            - ILIOS_API_DEBUG=true
+            - ILIOS_API_ENVIRONMENT=prod
+            - ILIOS_API_DEBUG=false
         expose:
             - "9000"
         links:
             - db
-        volumes:
-            - ./:/ilios:ro
-            - /ilios/var
-            - /ilios/var/cache
-            - /ilios/var/sessions
-            - /ilios/var/tmp
-            - ./var/logs:/ilios/var/logs:rw
     web:
         build: ./containers/nginx
         ports:
             - "8000:80"
         links:
             - php
-        volumes_from:
-            - php
+        volumes:
+            - ./var/logs:/var/www/ilios/var/logs:rw
