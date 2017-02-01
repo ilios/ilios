@@ -8,6 +8,8 @@ RUN mkdir -p \
     /var/www/ilios/var/cache \
     /var/www/ilios/var/logs \
     /var/www/ilios/var/session \
-    /var/www/ilios/var/tmp
+    /var/www/ilios/var/tmp \
+    /var/www/ilios/vendor && \
+    chown -R nobody:nobody /var/www/ilios
 
 CMD /bin/true
