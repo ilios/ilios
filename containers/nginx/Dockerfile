@@ -1,19 +1,16 @@
-FROM alpine:3.4
+FROM iamjrjohnson/ilios-src:latest
 
-MAINTAINER Jon Johnson <jon.johnson@ucsf.edu>
+MAINTAINER Ilios Project Team <support@iliosproject.org>
 
 RUN apk add --update nginx
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
 
 ADD nginx.conf /etc/nginx/
-ADD ilios.conf /etc/nginx/conf.d/
+ADD ilios.conf /etc/nginx/conf.d/default.conf
 
 RUN echo "upstream php-upstream { server php:9000; }" > /etc/nginx/conf.d/upstream.conf
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["nginx"]
 
 EXPOSE 80
 EXPOSE 443
