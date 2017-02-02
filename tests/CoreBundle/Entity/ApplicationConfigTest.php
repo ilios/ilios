@@ -45,6 +45,6 @@ class ApplicationConfigTest extends EntityBase
      */
     public function testSetValue()
     {
-        $this->entitySetTest('value', 'string');
+        $this->basicSetTest('value', 'string');
     }
 }
