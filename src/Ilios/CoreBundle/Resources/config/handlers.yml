@@ -17,6 +17,9 @@ services:
     ilioscore.alert.handler:
         class: "%ilioscore.form.handler.class%"
         arguments: ["@ilioscore.alert.manager", '@form.factory', Ilios\CoreBundle\Form\Type\AlertType]
+    ilioscore.applicationconfig.handler:
+        class: "%ilioscore.form.handler.class%"
+        arguments: ["@ilioscore.applicationconfig.manager", '@form.factory', Ilios\CoreBundle\Form\Type\ApplicationConfigType]
     ilioscore.assessmentoption.handler:
         class: "%ilioscore.form.handler.class%"
         arguments: ["@ilioscore.assessmentoption.manager", '@form.factory', Ilios\CoreBundle\Form\Type\AssessmentOptionType]
@@ -128,6 +131,9 @@ services:
     ilioscore.school.handler:
         class: "%ilioscore.form.handler.class%"
         arguments: ["@ilioscore.school.manager", '@form.factory', Ilios\CoreBundle\Form\Type\SchoolType]
+    ilioscore.schoolconfig.handler:
+        class: "%ilioscore.form.handler.class%"
+        arguments: ["@ilioscore.schoolconfig.manager", '@form.factory', Ilios\CoreBundle\Form\Type\SchoolConfigType]
     ilioscore.sessiondescription.handler:
         class: "%ilioscore.form.handler.class%"
         arguments: ["@ilioscore.sessiondescription.manager", '@form.factory', Ilios\CoreBundle\Form\Type\SessionDescriptionType]
