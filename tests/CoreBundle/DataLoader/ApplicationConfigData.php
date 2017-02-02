@@ -33,7 +33,7 @@ class ApplicationConfigData extends AbstractDataLoader
     public function createInvalid()
     {
         return [
-            'name' => null,
+            'id' => 'dsfdsaf'
         ];
     }
 }
