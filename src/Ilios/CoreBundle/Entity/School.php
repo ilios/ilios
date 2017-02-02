@@ -269,6 +269,16 @@ class School implements SchoolInterface
     protected $administrators;
 
     /**
+     * @var ArrayCollection|SchoolConfigInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="SchoolConfig", mappedBy="school")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $configurations;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -284,6 +294,7 @@ class School implements SchoolInterface
         $this->sessionTypes = new ArrayCollection();
         $this->directors = new ArrayCollection();
         $this->administrators = new ArrayCollection();
+        $this->configurations = new ArrayCollection();
     }
 
     /**
@@ -491,4 +502,43 @@ class School implements SchoolInterface
             $administrator->removeAdministeredSchool($this);
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function addConfiguration(SchoolConfigInterface $config)
+    {
+        if (!$this->configurations->contains($config)) {
+            $this->configurations->add($config);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeConfiguration(SchoolConfigInterface $config)
+    {
+        $this->configurations->removeElement($config);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setConfigurations(Collection $configs)
+    {
+        $this->configurations = new ArrayCollection();
+
+        foreach ($configs as $config) {
+            $this->addConfiguration($config);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getConfigurations()
+    {
+        return $this->configurations;
+    }
+
 }

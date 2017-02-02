@@ -105,4 +105,24 @@ interface SchoolInterface extends
      * @return ArrayCollection|VocabularyInterface[]
      */
     public function getVocabularies();
+
+    /**
+     * @param SchoolConfigInterface $config
+     */
+    public function addConfiguration(SchoolConfigInterface $config);
+
+    /**
+     * @param SchoolConfigInterface $config
+     */
+    public function removeConfiguration(SchoolConfigInterface $config);
+
+    /**
+     * @param Collection $configs
+     */
+    public function setConfigurations(Collection $configs);
+
+    /**
+     * @return ArrayCollection|SchoolConfigInterface[]
+     */
+    public function getConfigurations();
 }
