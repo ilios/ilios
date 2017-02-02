@@ -34,6 +34,9 @@ services:
     ilioscore.alert.manager:
         class: "%ilioscore.basemanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Alert]
+    ilioscore.applicationconfig.manager:
+        class: "%ilioscore.basemanager.class%"
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\ApplicationConfig]
     ilioscore.assessmentoption.manager:
         class: "%ilioscore.basemanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AssessmentOption]
@@ -148,6 +151,9 @@ services:
     ilioscore.school.manager:
         class: "%ilioscore.school.manager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\School]
+    ilioscore.schoolconfig.manager:
+        class: "%ilioscore.basemanager.class%"
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\SchoolConfig]
     ilioscore.sessiondescription.manager:
         class: "%ilioscore.sessiondescription.manager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\SessionDescription]
