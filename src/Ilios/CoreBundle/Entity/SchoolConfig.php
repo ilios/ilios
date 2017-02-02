@@ -28,7 +28,7 @@ class SchoolConfig extends ApplicationConfig implements SchoolConfigInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="session_id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
