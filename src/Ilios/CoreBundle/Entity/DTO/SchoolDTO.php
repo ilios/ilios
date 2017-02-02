@@ -107,6 +107,13 @@ class SchoolDTO
      */
     public $stewards;
 
+    /**
+     * @var int[]
+     * @JMS\Type("array<string>")
+     */
+    public $configurations;
+
+
     public function __construct(
         $id,
         $title,
@@ -128,5 +135,6 @@ class SchoolDTO
         $this->stewards = [];
         $this->directors = [];
         $this->administrators = [];
+        $this->configurations = [];
     }
 }
