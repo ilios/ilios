@@ -4,6 +4,7 @@ parameters:
     ilioscore.dataloader.aamcresourcetype.class: Tests\CoreBundle\DataLoader\AamcResourceTypeData
     ilioscore.dataloader.alertchangetype.class: Tests\CoreBundle\DataLoader\AlertChangeTypeData
     ilioscore.dataloader.alert.class: Tests\CoreBundle\DataLoader\AlertData
+    ilioscore.dataloader.applicationconfig.class: Tests\CoreBundle\DataLoader\ApplicationConfigData
     ilioscore.dataloader.assessmentoption.class: Tests\CoreBundle\DataLoader\AssessmentOptionData
     ilioscore.dataloader.authentication.class: Tests\CoreBundle\DataLoader\AuthenticationData
     ilioscore.dataloader.cohort.class: Tests\CoreBundle\DataLoader\CohortData
@@ -41,6 +42,7 @@ parameters:
     ilioscore.dataloader.program.class: Tests\CoreBundle\DataLoader\ProgramData
     ilioscore.dataloader.report.class: Tests\CoreBundle\DataLoader\ReportData
     ilioscore.dataloader.school.class: Tests\CoreBundle\DataLoader\SchoolData
+    ilioscore.dataloader.schoolconfig.class: Tests\CoreBundle\DataLoader\SchoolConfigData
     ilioscore.dataloader.sessiondescription.class: Tests\CoreBundle\DataLoader\SessionDescriptionData
     ilioscore.dataloader.sessionlearningmaterial.class: Tests\CoreBundle\DataLoader\SessionLearningMaterialData
     ilioscore.dataloader.sessiontype.class: Tests\CoreBundle\DataLoader\SessionTypeData
@@ -62,6 +64,8 @@ services:
         class: "%ilioscore.dataloader.alertchangetype.class%"
     ilioscore.dataloader.alert:
         class: "%ilioscore.dataloader.alert.class%"
+    ilioscore.dataloader.applicationconfig:
+        class: "%ilioscore.dataloader.applicationconfig.class%"
     ilioscore.dataloader.assessmentoption:
         class: "%ilioscore.dataloader.assessmentoption.class%"
     ilioscore.dataloader.authentication:
@@ -136,6 +140,8 @@ services:
         class: "%ilioscore.dataloader.report.class%"
     ilioscore.dataloader.school:
         class: "%ilioscore.dataloader.school.class%"
+    ilioscore.dataloader.schoolconfig:
+        class: "%ilioscore.dataloader.schoolconfig.class%"
     ilioscore.dataloader.sessiondescription:
         class: "%ilioscore.dataloader.sessiondescription.class%"
     ilioscore.dataloader.sessionlearningmaterial:
