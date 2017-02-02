@@ -14,7 +14,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  *
  * @ORM\Table(name="school_config",
  *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_name", columns={"school_id", "name"})
+ *     @ORM\UniqueConstraint(name="school_config_unique", columns={"school_id", "name"})
  *   }
  * )
  * @ORM\Entity
