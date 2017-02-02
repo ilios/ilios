@@ -1,4 +1,9 @@
 services:
+    security.access.application_config_voter:
+        class: Ilios\AuthenticationBundle\Voter\ApplicationConfigVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.archivable_voter:
         class: Ilios\AuthenticationBundle\Voter\ArchivableVoter
         public: false
@@ -123,6 +128,11 @@ services:
             - { name: security.voter }
     security.access.report_voter:
         class: Ilios\AuthenticationBundle\Voter\ReportVoter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.school_config_voter:
+        class: Ilios\AuthenticationBundle\Voter\SchoolConfigVoter
         public: false
         tags:
             - { name: security.voter }
