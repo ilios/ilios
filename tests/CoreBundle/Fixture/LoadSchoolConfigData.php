@@ -35,7 +35,7 @@ class LoadSchoolConfigData extends AbstractFixture implements
             $entity->setValue($arr['value']);
             $entity->setSchool($this->getReference('schools' . $arr['school']));
             $manager->persist($entity);
-            $this->addReference('schoolconfigs' . $arr['id'], $entity);
+            $this->addReference('schoolConfigs' . $arr['id'], $entity);
         }
 
         $manager->flush();

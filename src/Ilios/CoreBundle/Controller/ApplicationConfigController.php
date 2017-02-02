@@ -188,7 +188,7 @@ class ApplicationConfigController extends FOSRestController
      *
      * @ApiDoc(
      *   section = "Application Configuration",
-     *   description = "Update a ApplicationConfig entity.",
+     *   description = "Update an application config setting.",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\ApplicationConfigType",
      *   output="Ilios\CoreBundle\Entity\ApplicationConfig",
