@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Entity\ApplicationConfigInterface;
 /**
  * Class ApplicationConfigController
  * @package Ilios\CoreBundle\Controller
- * @RouteResource("ApplicationConfigurations")
+ * @RouteResource("ApplicationConfigs")
  */
 class ApplicationConfigController extends FOSRestController
 {
@@ -26,7 +26,7 @@ class ApplicationConfigController extends FOSRestController
      * Get a Application configuration item.
      *
      * @ApiDoc(
-     *   section = "School Configuration",
+     *   section = "Application Configuration",
      *   description = "Get a application configuration setting.",
      *   resource = true,
      *   requirements={
@@ -68,7 +68,7 @@ class ApplicationConfigController extends FOSRestController
      * Get all application configuration settings.
      *
      * @ApiDoc(
-     *   section = "School Configuration",
+     *   section = "Application Configuration",
      *   description = "Get all application configuration settings.",
      *   resource = true,
      *   output="Ilios\CoreBundle\Entity\ApplicationConfig",
@@ -141,7 +141,7 @@ class ApplicationConfigController extends FOSRestController
      * Create a ApplicationConfig.
      *
      * @ApiDoc(
-     *   section = "School Configuration",
+     *   section = "Application Configuration",
      *   description = "Create a application configuration setting.",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\ApplicationConfigType",
@@ -187,7 +187,7 @@ class ApplicationConfigController extends FOSRestController
      * Update a ApplicationConfig.
      *
      * @ApiDoc(
-     *   section = "School Configuration",
+     *   section = "Application Configuration",
      *   description = "Update a ApplicationConfig entity.",
      *   resource = true,
      *   input="Ilios\CoreBundle\Form\Type\ApplicationConfigType",
@@ -243,7 +243,7 @@ class ApplicationConfigController extends FOSRestController
      * Delete a application configuration setting.
      *
      * @ApiDoc(
-     *   section = "School Configuration",
+     *   section = "Application Configuration",
      *   description = "Delete a application configuration setting.",
      *   resource = true,
      *   requirements={

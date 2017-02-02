@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Entity\SchoolConfigInterface;
 /**
  * Class SchoolConfigController
  * @package Ilios\CoreBundle\Controller
- * @RouteResource("SchoolConfigurations")
+ * @RouteResource("SchoolConfigs")
  */
 class SchoolConfigController extends FOSRestController
 {
