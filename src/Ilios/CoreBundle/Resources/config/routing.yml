@@ -5,6 +5,12 @@ ilios_core_apiinfo:
         template:    'IliosCoreBundle::apiinfo.html.twig'
         _format:     'html'
 
+api_application_config_v1:
+    resource: "@IliosCoreBundle/Controller/ApplicationConfigController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
 api_aamcmethod_v1:
     resource: "@IliosCoreBundle/Controller/AamcMethodController.php"
     type:     rest
@@ -302,7 +308,6 @@ api_schoolconfig_v1:
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
-
 
 api_schoolevents_v1:
     resource: "@IliosCoreBundle/Controller/SchooleventsController.php"
