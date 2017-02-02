@@ -297,6 +297,12 @@ api_school_v1:
     prefix:   /v1
     defaults: {_format:json}
 
+api_schoolconfig_v1:
+    resource: "@IliosCoreBundle/Controller/SchoolConfigController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
 
 api_schoolevents_v1:
     resource: "@IliosCoreBundle/Controller/SchooleventsController.php"
