@@ -26,5 +26,4 @@ interface SchoolConfigInterface extends
      * @param string $value
      */
     public function setValue($value);
-
 }

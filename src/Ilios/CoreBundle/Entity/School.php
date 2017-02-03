@@ -540,5 +540,4 @@ class School implements SchoolInterface
     {
         return $this->configurations;
     }
-
 }
