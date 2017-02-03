@@ -16,7 +16,7 @@ use Ilios\CoreBundle\Traits\NameableEntity;
  *
  * @ORM\Table(name="application_config",
  *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_name", columns={"name"})
+ *     @ORM\UniqueConstraint(name="app_conf_uniq", columns={"name"})
  *   }
  * )
  * @ORM\Entity
