@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,6 +29,7 @@ class SchoolConfig implements SchoolConfigInterface
     use SchoolEntity;
     use NameableEntity;
     use IdentifiableEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
