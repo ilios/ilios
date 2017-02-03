@@ -18,6 +18,7 @@ class SchoolControllerTest extends AbstractControllerTest
         $fixtures = parent::getFixtures();
         return array_merge($fixtures, [
             'Tests\CoreBundle\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadSchoolConfigData',
             'Tests\CoreBundle\Fixture\LoadAlertData',
             'Tests\CoreBundle\Fixture\LoadCompetencyData',
             'Tests\CoreBundle\Fixture\LoadSessionTypeData',
@@ -105,6 +106,7 @@ class SchoolControllerTest extends AbstractControllerTest
         //unset any parameters which should not be POSTed
         unset($postData['id']);
         unset($postData['courses']);
+        unset($postData['configurations']);
         unset($postData['vocabularies']);
         unset($postData['departments']);
         unset($postData['programs']);
@@ -169,6 +171,7 @@ class SchoolControllerTest extends AbstractControllerTest
         unset($postData['courses']);
         unset($postData['programs']);
         unset($postData['vocabularies']);
+        unset($postData['configurations']);
         unset($postData['departments']);
         unset($postData['competencies']);
         unset($postData['instructorGroups']);
