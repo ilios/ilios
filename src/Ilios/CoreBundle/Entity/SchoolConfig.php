@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,9 +23,11 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessType("public_method")
  */
-class SchoolConfig extends ApplicationConfig implements SchoolConfigInterface
+class SchoolConfig implements SchoolConfigInterface
 {
     use SchoolEntity;
+    use NameableEntity;
+    use IdentifiableEntity;
 
     /**
      * @var int
@@ -86,4 +90,20 @@ class SchoolConfig extends ApplicationConfig implements SchoolConfigInterface
      * @JMS\SerializedName("school")
      */
     protected $school;
+
+    /**
+     * @inheritdoc
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
 }
