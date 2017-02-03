@@ -377,8 +377,13 @@ EOL;
 
         if (array_key_exists('terms', $criteria)) {
             $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
-            $qb->join('c.terms', 't_term');
-            $qb->andWhere($qb->expr()->in('t_term.id', ':terms'));
+            $qb->leftJoin('c.terms', 't_term1');
+            $qb->leftJoin('c.sessions', 't_session');
+            $qb->leftJoin('t_session.terms', 't_term2');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('t_term1.id', ':terms'),
+                $qb->expr()->in('t_term2.id', ':terms')
+            ));
             $qb->setParameter(':terms', $ids);
         }
 
