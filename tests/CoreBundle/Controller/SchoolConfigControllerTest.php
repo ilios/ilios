@@ -52,7 +52,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($appConfig),
-            json_decode($response->getContent(), true)['application_configs'][0]
+            json_decode($response->getContent(), true)['school_configs'][0]
         );
     }
 
@@ -71,7 +71,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
                     ->get('ilioscore.dataloader.schoolconfig')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['application_configs']
+            json_decode($response->getContent(), true)['school_configs']
         );
     }
 
@@ -90,7 +90,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_schoolconfigs'),
-            json_encode(['applicationConfig' => $postData]),
+            json_encode(['schoolConfig' => $postData]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -99,7 +99,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['application_configs'][0],
+            json_decode($response->getContent(), true)['school_configs'][0],
             $response->getContent()
         );
     }
@@ -145,7 +145,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
                 'put_schoolconfigs',
                 ['id' => $data['id']]
             ),
-            json_encode(['applicationConfig' => $postData]),
+            json_encode(['schoolConfig' => $postData]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -153,7 +153,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['application_config']
+            json_decode($response->getContent(), true)['school_config']
         );
     }
 
