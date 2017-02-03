@@ -89,5 +89,4 @@ class ApplicationConfig implements ApplicationConfigInterface
     {
         $this->value = $value;
     }
-
 }
