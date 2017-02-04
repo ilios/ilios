@@ -1,7 +1,20 @@
 # Change Log
 
-## [v3.25.0](https://github.com/ilios/ilios/tree/v3.25.0)
+## [v3.26.0](https://github.com/ilios/ilios/tree/v3.26.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.25.0...v3.26.0)
+
+**Closed issues:**
+
+- include terms linked to owned sessions in terms filter to course endpoint.  [\#1737](https://github.com/ilios/ilios/issues/1737)
+- Add 'composer install' step to vagrant build [\#789](https://github.com/ilios/ilios/issues/789)
+
+**Merged pull requests:**
+
+- include session terms in course filter [\#1738](https://github.com/ilios/ilios/pull/1738) ([stopfstedt](https://github.com/stopfstedt))
+- Replace Vagrant with docker [\#1607](https://github.com/ilios/ilios/pull/1607) ([jrjohnson](https://github.com/jrjohnson))
+
+## [v3.25.0](https://github.com/ilios/ilios/tree/v3.25.0) (2017-01-27)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.24.1...v3.25.0)
 
 **Implemented enhancements:**
@@ -15,6 +28,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for 3.25.0 release [\#1733](https://github.com/ilios/ilios/pull/1733) ([thecoolestguy](https://github.com/thecoolestguy))
 - Update the API version we provide [\#1732](https://github.com/ilios/ilios/pull/1732) ([jrjohnson](https://github.com/jrjohnson))
 - filter terms by program years. [\#1731](https://github.com/ilios/ilios/pull/1731) ([stopfstedt](https://github.com/stopfstedt))
 - implemented filter by terms. [\#1728](https://github.com/ilios/ilios/pull/1728) ([stopfstedt](https://github.com/stopfstedt))
@@ -302,7 +316,6 @@
 - re-defined sequence-block/session relationship. [\#1542](https://github.com/ilios/ilios/pull/1542) ([stopfstedt](https://github.com/stopfstedt))
 - apply correct strategy when changing sequence sort order [\#1537](https://github.com/ilios/ilios/pull/1537) ([stopfstedt](https://github.com/stopfstedt))
 - annotate the track property as exposed. [\#1536](https://github.com/ilios/ilios/pull/1536) ([stopfstedt](https://github.com/stopfstedt))
-- make sequence block start/end date optional [\#1533](https://github.com/ilios/ilios/pull/1533) ([stopfstedt](https://github.com/stopfstedt))
 
 ## [v3.16.0](https://github.com/ilios/ilios/tree/v3.16.0) (2016-07-29)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.15.0...v3.16.0)
@@ -326,6 +339,7 @@
 
 - updating changelog for v3.16.0 release [\#1535](https://github.com/ilios/ilios/pull/1535) ([thecoolestguy](https://github.com/thecoolestguy))
 - fixed coding standards violation. [\#1534](https://github.com/ilios/ilios/pull/1534) ([stopfstedt](https://github.com/stopfstedt))
+- make sequence block start/end date optional [\#1533](https://github.com/ilios/ilios/pull/1533) ([stopfstedt](https://github.com/stopfstedt))
 - Replace SecureRandom with random\_bytes [\#1532](https://github.com/ilios/ilios/pull/1532) ([jrjohnson](https://github.com/jrjohnson))
 - replaced call to non-existent method with one of the same intent that works. [\#1529](https://github.com/ilios/ilios/pull/1529) ([stopfstedt](https://github.com/stopfstedt))
 - Add CAS as an auth provider [\#1528](https://github.com/ilios/ilios/pull/1528) ([jrjohnson](https://github.com/jrjohnson))
@@ -435,7 +449,6 @@
 - Update dependencies and remove dead packages [\#1442](https://github.com/ilios/ilios/pull/1442) ([jrjohnson](https://github.com/jrjohnson))
 - Allow tokens to be invalidated at /auth/invalidatetokens [\#1440](https://github.com/ilios/ilios/pull/1440) ([jrjohnson](https://github.com/jrjohnson))
 - "atomic" ci report creation [\#1438](https://github.com/ilios/ilios/pull/1438) ([stopfstedt](https://github.com/stopfstedt))
-- updating changelog for v3.12.0 release [\#1437](https://github.com/ilios/ilios/pull/1437) ([thecoolestguy](https://github.com/thecoolestguy))
 - Update API to v1.5 [\#1434](https://github.com/ilios/ilios/pull/1434) ([jrjohnson](https://github.com/jrjohnson))
 - refactor managers and handlers. [\#1426](https://github.com/ilios/ilios/pull/1426) ([stopfstedt](https://github.com/stopfstedt))
 
@@ -454,6 +467,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for v3.12.0 release [\#1437](https://github.com/ilios/ilios/pull/1437) ([thecoolestguy](https://github.com/thecoolestguy))
 - Align API docs with expectations [\#1436](https://github.com/ilios/ilios/pull/1436) ([jrjohnson](https://github.com/jrjohnson))
 - Fix problem with AuditLog [\#1432](https://github.com/ilios/ilios/pull/1432) ([jrjohnson](https://github.com/jrjohnson))
 - added call to remove 'fkey\_user\_primary\_school' index [\#1429](https://github.com/ilios/ilios/pull/1429) ([thecoolestguy](https://github.com/thecoolestguy))
@@ -1500,7 +1514,6 @@
 - Added audit log config to phing build [\#620](https://github.com/ilios/ilios/pull/620) ([jrjohnson](https://github.com/jrjohnson))
 - enforcing UTF-8 priority for mb\_detect\_order for CSV enrollments [\#619](https://github.com/ilios/ilios/pull/619) ([thecoolestguy](https://github.com/thecoolestguy))
 - updated version.php to reflect next release version [\#618](https://github.com/ilios/ilios/pull/618) ([thecoolestguy](https://github.com/thecoolestguy))
-- Fix for session not opening on course manager [\#616](https://github.com/ilios/ilios/pull/616) ([jrjohnson](https://github.com/jrjohnson))
 
 ## [v2.4.2](https://github.com/ilios/ilios/tree/v2.4.2) (2014-05-21)
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.2-prerelease-20140407...v2.4.2)
@@ -1532,6 +1545,7 @@
 
 **Merged pull requests:**
 
+- Fix for session not opening on course manager [\#616](https://github.com/ilios/ilios/pull/616) ([jrjohnson](https://github.com/jrjohnson))
 - updated CHANGELOG.txt and version.php files, ready for release 2.4.2 [\#615](https://github.com/ilios/ilios/pull/615) ([thecoolestguy](https://github.com/thecoolestguy))
 - Deal effectively with large audit\_atom table [\#613](https://github.com/ilios/ilios/pull/613) ([jrjohnson](https://github.com/jrjohnson))
 - added explode to account for shib 'mail' attributes returned as a 'SAML1... [\#612](https://github.com/ilios/ilios/pull/612) ([thecoolestguy](https://github.com/thecoolestguy))
