@@ -116,10 +116,6 @@ locale: en
 #be EXTREMELY dangerous in a production enviroment!
 secret: ThisCanBeWhateverYouLike,JustMakeSureYouChangeIt!
 
-#These should all be set to 'false' in a production environment
-debug_toolbar: false
-debug_redirects: false
-
 # can currently be 'form' (default),'ldap', or 'shibboleth' depeding on your institution
 authentication_type: form
 

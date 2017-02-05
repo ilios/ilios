@@ -18,9 +18,6 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    debug_toolbar:          true
-    debug_redirects:        false
-
     authentication_type: "form"
     legacy_password_salt: "Ilios2 ilios_authentication_internal_auth_salt value"
     file_system_storage_path: "A path on your server's file system where Ilios can store files like learning_materials"
