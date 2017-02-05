@@ -13,8 +13,6 @@ parameters:
     mailer_password: null
     locale: en
     secret: ThisTokenIsNotSoSecretChangeIt
-    debug_toolbar: true
-    debug_redirects: false
     authentication_type: form
     legacy_password_salt: null
     file_system_storage_path: /tmp
