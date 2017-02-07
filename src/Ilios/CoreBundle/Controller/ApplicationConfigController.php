@@ -59,7 +59,7 @@ class ApplicationConfigController extends FOSRestController
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        $answer['application_configs'][] = $applicationConfig;
+        $answer['applicationConfigs'][] = $applicationConfig;
 
         return $answer;
     }
@@ -132,7 +132,7 @@ class ApplicationConfigController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['application_configs'] = $result ? array_values($result) : [];
+        $answer['applicationConfigs'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -173,7 +173,7 @@ class ApplicationConfigController extends FOSRestController
             $manager = $this->container->get('ilioscore.applicationconfig.manager');
             $manager->update($applicationConfig, true, false);
 
-            $answer['application_configs'] = [$applicationConfig];
+            $answer['applicationConfigs'] = [$applicationConfig];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -229,7 +229,7 @@ class ApplicationConfigController extends FOSRestController
 
             $manager->update($applicationConfig, true, true);
 
-            $answer['application_config'] = $applicationConfig;
+            $answer['applicationConfig'] = $applicationConfig;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

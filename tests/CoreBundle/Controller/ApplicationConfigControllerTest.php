@@ -51,7 +51,7 @@ class ApplicationConfigControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($appConfig),
-            json_decode($response->getContent(), true)['application_configs'][0]
+            json_decode($response->getContent(), true)['applicationConfigs'][0]
         );
     }
 
@@ -75,7 +75,7 @@ class ApplicationConfigControllerTest extends AbstractControllerTest
                     ->get('ilioscore.dataloader.applicationconfig')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['application_configs']
+            json_decode($response->getContent(), true)['applicationConfigs']
         );
     }
 
@@ -103,7 +103,7 @@ class ApplicationConfigControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['application_configs'][0],
+            json_decode($response->getContent(), true)['applicationConfigs'][0],
             $response->getContent()
         );
     }
@@ -157,7 +157,7 @@ class ApplicationConfigControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['application_config']
+            json_decode($response->getContent(), true)['applicationConfig']
         );
     }
 
