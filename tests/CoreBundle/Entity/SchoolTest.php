@@ -21,7 +21,7 @@ class SchoolTest extends EntityBase
     {
         $this->object = new School;
     }
-    
+
     public function testNotBlankValidation()
     {
         $notBlank = array(
@@ -49,6 +49,8 @@ class SchoolTest extends EntityBase
         $this->assertEmpty($this->object->getCompetencies());
         $this->assertEmpty($this->object->getSessionTypes());
         $this->assertEmpty($this->object->getVocabularies());
+        $this->assertEmpty($this->object->getConfigurations());
+
     }
 
     /**
@@ -372,5 +374,30 @@ class SchoolTest extends EntityBase
     public function testSetAdministrators()
     {
         $this->entityCollectionSetTest('administrator', 'User', false, false, 'addAdministeredSchool');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\School::addConfiguration
+     */
+    public function testAddConfiguration()
+    {
+        $this->entityCollectionAddTest('configuration', 'SchoolConfig', 'getConfigurations');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\School::removeConfiguration
+     */
+    public function testRemoveConfiguration()
+    {
+        $this->entityCollectionRemoveTest('configuration', 'SchoolConfig', 'getConfigurations');
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\School::getConfigurations
+     * @covers \Ilios\CoreBundle\Entity\School::setConfigurations
+     */
+    public function testGetConfigurations()
+    {
+        $this->entityCollectionSetTest('configuration', 'SchoolConfig', 'getConfigurations', 'setConfigurations');
     }
 }
