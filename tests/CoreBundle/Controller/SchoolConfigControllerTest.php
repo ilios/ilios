@@ -52,7 +52,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($appConfig),
-            json_decode($response->getContent(), true)['school_configs'][0]
+            json_decode($response->getContent(), true)['schoolConfigs'][0]
         );
     }
 
@@ -71,7 +71,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
                     ->get('ilioscore.dataloader.schoolconfig')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['school_configs']
+            json_decode($response->getContent(), true)['schoolConfigs']
         );
     }
 
@@ -99,7 +99,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['school_configs'][0],
+            json_decode($response->getContent(), true)['schoolConfigs'][0],
             $response->getContent()
         );
     }
@@ -117,7 +117,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_schoolconfigs'),
-            json_encode(['applicationConfig' => $invalidSchoolConfig]),
+            json_encode(['schoolConfig' => $invalidSchoolConfig]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -162,7 +162,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
      */
     public function testDeleteSchoolConfig()
     {
-        $applicationConfig = $this->container
+        $schoolConfig = $this->container
             ->get('ilioscore.dataloader.schoolconfig')
             ->getOne()
         ;
@@ -171,7 +171,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
             'DELETE',
             $this->getUrl(
                 'delete_schoolconfigs',
-                ['id' => $applicationConfig['id']]
+                ['id' => $schoolConfig['id']]
             ),
             null,
             $this->getAuthenticatedUserToken()
@@ -183,7 +183,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
             'GET',
             $this->getUrl(
                 'get_schoolconfigs',
-                ['id' => $applicationConfig['id']]
+                ['id' => $schoolConfig['id']]
             ),
             null,
             $this->getAuthenticatedUserToken()

@@ -59,7 +59,7 @@ class SchoolConfigController extends FOSRestController
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        $answer['school_configs'][] = $schoolConfig;
+        $answer['schoolConfigs'][] = $schoolConfig;
 
         return $answer;
     }
@@ -132,7 +132,7 @@ class SchoolConfigController extends FOSRestController
         });
 
         //If there are no matches return an empty array
-        $answer['school_configs'] = $result ? array_values($result) : [];
+        $answer['schoolConfigs'] = $result ? array_values($result) : [];
 
         return $answer;
     }
@@ -173,7 +173,7 @@ class SchoolConfigController extends FOSRestController
             $manager = $this->container->get('ilioscore.schoolconfig.manager');
             $manager->update($schoolConfig, true, false);
 
-            $answer['school_configs'] = [$schoolConfig];
+            $answer['schoolConfigs'] = [$schoolConfig];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -229,7 +229,7 @@ class SchoolConfigController extends FOSRestController
 
             $manager->update($schoolConfig, true, true);
 
-            $answer['school_config'] = $schoolConfig;
+            $answer['schoolConfig'] = $schoolConfig;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
