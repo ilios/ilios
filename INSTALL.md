@@ -162,7 +162,7 @@ bin/console doctrine:migrations:migrate --env=prod
 bin/console doctrine:fixtures:load --env=prod
 ```
 
-This will your database schema, with all tables and constraints, and will also load in all the default lookup table data, like competencies and topics --- which you can modify once you're done with setup --- but it won't have any course data or any other unique data about your specific school or curriculum until you log in and add some.
+This will create your database schema, with all tables and constraints, and will also load in all the default lookup table data, like competencies and topics --- which you can modify once you're done with setup --- but it won't have any course data or any other unique data about your specific school or curriculum until you log in and add some.
 
 
 * Finally, you should clear all cached items from the system, including the Symfony Cache (and its store on the filesystem) and the APC cache:
