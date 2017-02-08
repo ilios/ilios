@@ -291,6 +291,24 @@ class CourseTest extends EntityBase
     }
 
     /**
+     * @covers \Ilios\CoreBundle\Entity\Course::getAncestorOrSelf
+     */
+    public function testGetAncestorOrSelfWithAncestor()
+    {
+        $ancestor = m::mock('Ilios\CoreBundle\Entity\Course');
+        $this->object->setAncestor($ancestor);
+        $this->assertSame($ancestor, $this->object->getAncestorOrSelf());
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Course::getAncestorOrSelf
+     */
+    public function testGetAncestorOrSelfWithNoAncestor()
+    {
+        $this->assertSame($this->object, $this->object->getAncestorOrSelf());
+    }
+
+    /**
      * @covers \Ilios\CoreBundle\Entity\Course::addDescendant
      */
     public function testAddDescendant()

@@ -366,6 +366,18 @@ class Objective implements ObjectiveInterface
     }
 
     /**
+     * If the objective has no ancestor then we need to objective itself
+     *
+     * @return ObjectiveInterface
+     */
+    public function getAncestorOrSelf()
+    {
+        $ancestor = $this->getAncestor();
+
+        return $ancestor?$ancestor:$this;
+    }
+
+    /**
      * @param Collection $descendants
      */
     public function setDescendants(Collection $descendants)

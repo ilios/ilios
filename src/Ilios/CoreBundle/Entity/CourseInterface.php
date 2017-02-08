@@ -134,6 +134,11 @@ interface CourseInterface extends
     public function getAncestor();
 
     /**
+     * @return CourseInterface
+     */
+    public function getAncestorOrSelf();
+
+    /**
      * @param Collection $children
      */
     public function setDescendants(Collection $children);

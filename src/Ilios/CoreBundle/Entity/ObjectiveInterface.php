@@ -85,6 +85,11 @@ interface ObjectiveInterface extends
     public function getAncestor();
 
     /**
+     * @return ObjectiveInterface
+     */
+    public function getAncestorOrSelf();
+
+    /**
      * @param Collection $children
      */
     public function setDescendants(Collection $children);

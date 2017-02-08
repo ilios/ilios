@@ -1067,6 +1067,7 @@ class CourseControllerTest extends AbstractControllerTest
         $this->assertSame(count($course['objectives']), count($newCourse['objectives']));
         $this->assertEquals($course['meshDescriptors'], $newCourse['meshDescriptors']);
         $this->assertSame(count($course['learningMaterials']), count($newCourse['learningMaterials']));
+        $this->assertEquals($course['id'], $newCourse['ancestor']);
 
         $newSessions = $newCourse['sessions'];
         $this->assertEquals(count($newSessions), 2);

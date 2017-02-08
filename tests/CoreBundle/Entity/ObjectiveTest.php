@@ -221,6 +221,24 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
+     * @covers \Ilios\CoreBundle\Entity\Objective::getAncestorOrSelf
+     */
+    public function testGetAncestorOrSelfWithAncestor()
+    {
+        $ancestor = m::mock('Ilios\CoreBundle\Entity\Objective');
+        $this->object->setAncestor($ancestor);
+        $this->assertSame($ancestor, $this->object->getAncestorOrSelf());
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Objective::getAncestorOrSelf
+     */
+    public function testGetAncestorOrSelfWithNoAncestor()
+    {
+        $this->assertSame($this->object, $this->object->getAncestorOrSelf());
+    }
+
+    /**
      * @covers \Ilios\CoreBundle\Entity\Objective::addDescendant
      */
     public function testAddDescendant()
