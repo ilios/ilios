@@ -153,7 +153,7 @@ class SchoolConfigControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['school_config']
+            json_decode($response->getContent(), true)['schoolConfig']
         );
     }
 
