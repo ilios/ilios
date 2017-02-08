@@ -572,6 +572,16 @@ class Course implements CourseInterface
     /**
      * @inheritdoc
      */
+    public function getAncestorOrSelf()
+    {
+        $ancestor = $this->getAncestor();
+
+        return $ancestor?$ancestor:$this;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function setDescendants(Collection $descendants)
     {
         $this->descendants = new ArrayCollection();

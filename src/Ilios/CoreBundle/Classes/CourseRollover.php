@@ -157,6 +157,7 @@ class CourseRollover
         $newCourse->setStartDate($newCourseStartDate);
         $newCourse->setEndDate($newCourseEndDate);
         $newCourse->setExternalId($origCourse->getExternalId());
+        $newCourse->setAncestor($origCourse->getAncestorOrSelf());
         if ($clerkshipType = $origCourse->getClerkshipType()) {
             $newCourse->setClerkshipType($clerkshipType);
         }
@@ -462,6 +463,7 @@ class CourseRollover
             $newObjective->setTitle($objective->getTitle());
             $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
             $newObjective->addCourse($newCourse);
+            $newObjective->setAncestor($objective->getAncestorOrSelf());
             $this->objectiveManager->update($newObjective, false, false);
             $newCourseObjectives[$objective->getId()] = $newObjective;
         }
@@ -487,6 +489,7 @@ class CourseRollover
                     $newObjective->setTitle($objective->getTitle());
                     $newObjective->setMeshDescriptors($objective->getMeshDescriptors());
                     $newObjective->addSession($newSession);
+                    $newObjective->setAncestor($objective->getAncestorOrSelf());
                     $newParents = $objective->getParents()
                         ->map(
                             function (ObjectiveInterface $oldParent) use ($newCourseObjectives, $objective) {
