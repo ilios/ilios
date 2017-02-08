@@ -50,7 +50,6 @@ class SchoolTest extends EntityBase
         $this->assertEmpty($this->object->getSessionTypes());
         $this->assertEmpty($this->object->getVocabularies());
         $this->assertEmpty($this->object->getConfigurations());
-
     }
 
     /**
