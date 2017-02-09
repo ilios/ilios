@@ -35,12 +35,41 @@ Email: info@iliosproject.org
 
 # Development of Ilios
 
-You can build a run a local version of Ilios easily using [docker](https://www.docker.com/).
-There are convenient clients for Mac and Windows and instructions Linux.
+The Ilios API is a PHP application which requires a MySQL server. 
+The easiest way to get a working MySQL database running is by using the 
+ilios/mysql-demo docker image.
 
-After you have installed docker on your machine you can startup a local version by changing into the Ilios directory and running:
+After installing [Docker](https://www.docker.com/) you can start a demo database by running the following command:
+
 ```bash
-docker-compose up
+docker run -d --name db -p 3306:3306 ilios/mysql-demo
 ```
 
-You will now be able to access ilios at http://localhost:8000
+Then, modify your `/app/config/parameters.yml` configuration file to connect to this database:
+
+```yaml
+parameters:
+    database_name: ilios
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_user: ilios
+    database_password: ilios
+    database_mysql_version: 5.7
+```
+
+You can test that the database is configured correctly by running:
+
+```bash
+bin/console doctrine:schema:validate
+```
+
+Start a PHP development webserver by running:
+
+```bash
+ILIOS_API_ENVIRONMENT=dev ILIOS_API_DEBUG=true bin/console server:start --router=web/app.php
+```
+
+
+You should now be able to access your newly-Dockerized instance of Ilios 
+by visiting http://localhost:8000 in your browser.
