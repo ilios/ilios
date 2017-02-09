@@ -123,6 +123,19 @@ class Session implements SessionInterface
     /**
      * @var boolean
      *
+     * @ORM\Column(name="attendance_required", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    protected $attendanceRequired;
+
+    /**
+     * @var boolean
+     *
      * @ORM\Column(name="published_as_tbd", type="boolean")
      *
      * @Assert\NotNull()
@@ -317,6 +330,7 @@ class Session implements SessionInterface
         $this->attireRequired = false;
         $this->equipmentRequired = false;
         $this->supplemental = false;
+        $this->attendanceRequired = false;
         $this->publishedAsTbd = false;
         $this->published = false;
         $this->terms = new ArrayCollection();
@@ -376,6 +390,22 @@ class Session implements SessionInterface
     public function isSupplemental()
     {
         return $this->supplemental;
+    }
+
+    /**
+     * @param boolean $attendanceRequired
+     */
+    public function setAttendanceRequired($attendanceRequired)
+    {
+        $this->attendanceRequired = $attendanceRequired;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAttendanceRequired()
+    {
+        return $this->attendanceRequired;
     }
 
     /**

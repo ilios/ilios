@@ -53,6 +53,13 @@ class SessionDTO
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    public $attendanceRequired;
+
+    /**
+     * @var boolean
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
     public $publishedAsTbd;
 
     /**
@@ -145,6 +152,7 @@ class SessionDTO
         $attireRequired,
         $equipmentRequired,
         $supplemental,
+        $attendanceRequired,
         $publishedAsTbd,
         $published,
         $updatedAt
@@ -154,6 +162,7 @@ class SessionDTO
         $this->attireRequired = $attireRequired;
         $this->equipmentRequired = $equipmentRequired;
         $this->supplemental = $supplemental;
+        $this->attendanceRequired = $attendanceRequired;
         $this->publishedAsTbd = $publishedAsTbd;
         $this->published = $published;
         $this->updatedAt = $updatedAt;

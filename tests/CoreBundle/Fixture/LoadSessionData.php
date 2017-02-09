@@ -35,6 +35,7 @@ class LoadSessionData extends AbstractFixture implements
             $entity->setAttireRequired($arr['attireRequired']);
             $entity->setEquipmentRequired($arr['equipmentRequired']);
             $entity->setSupplemental($arr['supplemental']);
+            $entity->setAttendanceRequired($arr['attendanceRequired']);
             $entity->setPublishedAsTbd($arr['publishedAsTbd']);
             $entity->setPublished($arr['published']);
             if (!empty($arr['sessionType'])) {
