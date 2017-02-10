@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * This adds a 'position' column to the course/session learning materials tables.
  */
-class Version20170126193201 extends AbstractMigration
+class Version20170210175148 extends AbstractMigration
 {
     /**
      * @inheritdoc
