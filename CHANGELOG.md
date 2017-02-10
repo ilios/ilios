@@ -1,7 +1,28 @@
 # Change Log
 
-## [v3.26.0](https://github.com/ilios/ilios/tree/v3.26.0)
+## [v3.27.0](https://github.com/ilios/ilios/tree/v3.27.0)
 
+[Full Changelog](https://github.com/ilios/ilios/compare/v3.26.0...v3.27.0)
+
+**Implemented enhancements:**
+
+- Align docker-composer.yml with new Ilios images [\#1747](https://github.com/ilios/ilios/issues/1747)
+- Handle service worker script tag in frontend JSON file [\#1692](https://github.com/ilios/ilios/issues/1692)
+
+**Closed issues:**
+
+- add application and school configuration to schema [\#1735](https://github.com/ilios/ilios/issues/1735)
+
+**Merged pull requests:**
+
+- Better Ilios Development Setup [\#1748](https://github.com/ilios/ilios/pull/1748) ([jrjohnson](https://github.com/jrjohnson))
+- Create ancestor relationship when rolling over courses [\#1745](https://github.com/ilios/ilios/pull/1745) ([jrjohnson](https://github.com/jrjohnson))
+- added missing word 'create' [\#1744](https://github.com/ilios/ilios/pull/1744) ([thecoolestguy](https://github.com/thecoolestguy))
+- Remove debug parameters which are only used in dev [\#1741](https://github.com/ilios/ilios/pull/1741) ([jrjohnson](https://github.com/jrjohnson))
+- Allow ILIOS\_\* env variables to fill parameters.yml [\#1740](https://github.com/ilios/ilios/pull/1740) ([jrjohnson](https://github.com/jrjohnson))
+- application and school configuration [\#1736](https://github.com/ilios/ilios/pull/1736) ([stopfstedt](https://github.com/stopfstedt))
+
+## [v3.26.0](https://github.com/ilios/ilios/tree/v3.26.0) (2017-02-04)
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.25.0...v3.26.0)
 
 **Closed issues:**
@@ -11,6 +32,7 @@
 
 **Merged pull requests:**
 
+- updating changelog for the v3.26.0 release [\#1739](https://github.com/ilios/ilios/pull/1739) ([thecoolestguy](https://github.com/thecoolestguy))
 - include session terms in course filter [\#1738](https://github.com/ilios/ilios/pull/1738) ([stopfstedt](https://github.com/stopfstedt))
 - Replace Vagrant with docker [\#1607](https://github.com/ilios/ilios/pull/1607) ([jrjohnson](https://github.com/jrjohnson))
 
@@ -75,6 +97,7 @@
 
 **Merged pull requests:**
 
+- Read content from scripts when pulling frontend JSON [\#1742](https://github.com/ilios/ilios/pull/1742) ([jrjohnson](https://github.com/jrjohnson))
 - updating changelog for the v3.24.0 release [\#1708](https://github.com/ilios/ilios/pull/1708) ([thecoolestguy](https://github.com/thecoolestguy))
 - moving url rewriting instructions into its own section. [\#1705](https://github.com/ilios/ilios/pull/1705) ([stopfstedt](https://github.com/stopfstedt))
 - Composer require apcu [\#1704](https://github.com/ilios/ilios/pull/1704) ([stopfstedt](https://github.com/stopfstedt))
