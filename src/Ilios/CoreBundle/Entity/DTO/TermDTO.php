@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class TermDTO
@@ -14,72 +14,69 @@ class TermDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $title;
 
     /**
      *
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      *
      */
     public $description;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $parent;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $children;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $courses;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * @IS\Type("entityCollection")
      */
     public $programYears;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $sessions;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("vocabulary")
+     * @IS\Type("string")
      */
     public $vocabulary;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("aamcResourceTypes")
+     * @IS\Type("entityCollection")
      */
     public $aamcResourceTypes;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Type("boolean")
      */
     public $active;
 

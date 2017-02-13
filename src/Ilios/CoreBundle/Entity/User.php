@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Traits\CohortsEntity;
 use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
 use Ilios\CoreBundle\Traits\LearningMaterialsEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,8 +26,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_school", columns={"school_id"})})
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class User implements UserInterface
 {
@@ -51,8 +50,8 @@ class User implements UserInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -68,9 +67,8 @@ class User implements UserInterface
      *      max = 30
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("lastName")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $lastName;
 
@@ -86,9 +84,8 @@ class User implements UserInterface
      *      max = 20
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("firstName")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $firstName;
 
@@ -102,9 +99,8 @@ class User implements UserInterface
      *      min = 1,
      *      max = 20
      * )
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("middleName")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $middleName;
 
@@ -119,8 +115,8 @@ class User implements UserInterface
      *      max = 30
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $phone;
 
@@ -138,8 +134,8 @@ class User implements UserInterface
      *      max = 100
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $email;
 
@@ -161,8 +157,8 @@ class User implements UserInterface
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $enabled;
 
@@ -177,9 +173,8 @@ class User implements UserInterface
      *      max = 16
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("campusId")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $campusId;
 
@@ -194,9 +189,8 @@ class User implements UserInterface
      *      max = 16
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("otherId")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $otherId;
 
@@ -218,9 +212,8 @@ class User implements UserInterface
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("userSyncIgnore")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $userSyncIgnore;
 
@@ -235,9 +228,8 @@ class User implements UserInterface
      *      max = 64
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("icsFeedKey")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $icsFeedKey;
 
@@ -245,8 +237,8 @@ class User implements UserInterface
      * @var AuthenticationInterface
      *
      * @ORM\OneToOne(targetEntity="Authentication", mappedBy="user")
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $authentication;
 
@@ -255,8 +247,8 @@ class User implements UserInterface
      *
      * @ORM\OneToMany(targetEntity="UserMadeReminder", mappedBy="user")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $reminders;
 
@@ -273,9 +265,7 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="owningUser")
      *
      * Don't put learningMaterials in the user API it takes forever to load them all
-     * @JMS\Exclude
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learningMaterials")
+     * @IS\Type("entityCollection")
      */
     protected $learningMaterials;
 
@@ -284,8 +274,8 @@ class User implements UserInterface
      *
      * @ORM\OneToMany(targetEntity="Report", mappedBy="user")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $reports;
 
@@ -297,9 +287,8 @@ class User implements UserInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("school")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $school;
 
@@ -308,9 +297,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="directors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("directedCourses")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $directedCourses;
 
@@ -319,9 +307,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="administrators")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("administeredCourses")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $administeredCourses;
 
@@ -330,9 +317,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="administrators")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("administeredSessions")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $administeredSessions;
 
@@ -341,9 +327,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="users")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learnerGroups")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $learnerGroups;
 
@@ -352,9 +337,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructedLearnerGroups")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $instructedLearnerGroups;
 
@@ -363,9 +347,8 @@ class User implements UserInterface
     *
     * @ORM\ManyToMany(targetEntity="InstructorGroup", mappedBy="users")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("instructorGroups")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $instructorGroups;
 
@@ -374,9 +357,8 @@ class User implements UserInterface
     *
     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="instructors")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("instructorIlmSessions")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $instructorIlmSessions;
 
@@ -385,9 +367,8 @@ class User implements UserInterface
     *
     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="learners")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("learnerIlmSessions")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $learnerIlmSessions;
 
@@ -396,8 +377,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="Offering", mappedBy="learners")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $offerings;
 
@@ -406,9 +387,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="Offering", mappedBy="instructors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructedOfferings")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $instructedOfferings;
 
@@ -417,9 +397,8 @@ class User implements UserInterface
     *
     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="directors")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("programYears")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $programYears;
 
@@ -429,8 +408,7 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity="Alert", mappedBy="instigators")
      *
      * Don't put alerts in the user API it takes forever to load them all
-     * @JMS\Exclude
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     protected $alerts;
 
@@ -447,8 +425,8 @@ class User implements UserInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $roles;
 
@@ -465,8 +443,8 @@ class User implements UserInterface
     *   }
     * )
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $cohorts;
 
@@ -478,9 +456,8 @@ class User implements UserInterface
      *   @ORM\JoinColumn(name="primary_cohort_id", referencedColumnName="cohort_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("primaryCohort")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $primaryCohort;
 
@@ -489,9 +466,8 @@ class User implements UserInterface
      *
      * @ORM\OneToMany(targetEntity="PendingUserUpdate", mappedBy="user")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("pendingUserUpdates")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $pendingUserUpdates;
 
@@ -500,9 +476,8 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="Permission", mappedBy="user")
      * @ORM\OrderBy({"id" = "ASC"})
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("permissions")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      **/
     protected $permissions;
 
@@ -511,9 +486,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="School", mappedBy="directors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("directedSchools")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $directedSchools;
 
@@ -522,9 +496,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="School", mappedBy="administrators")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("administeredSchools")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $administeredSchools;
 
@@ -533,9 +506,8 @@ class User implements UserInterface
      *
      * @ORM\ManyToMany(targetEntity="Program", mappedBy="directors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("directedPrograms")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $directedPrograms;
 
@@ -547,9 +519,8 @@ class User implements UserInterface
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("root")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $root;
 

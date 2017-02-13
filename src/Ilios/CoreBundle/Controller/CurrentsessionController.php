@@ -17,7 +17,7 @@ use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Classes\CurrentSession;
 use Ilios\CoreBundle\Entity\User;
 
-class CurrentsessionController extends FOSRestController
+class CurrentsessionController
 {
 
     /**

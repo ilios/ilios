@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class CohortDTO
@@ -14,40 +14,38 @@ class CohortDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      *
      */
     public $title;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("programYear")
+     * @IS\Type("string")
      */
     public $programYear;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $courses;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learnerGroups")
+     * @IS\Type("entityCollection")
      */
     public $learnerGroups;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $users;
 

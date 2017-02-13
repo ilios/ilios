@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("SessionDescriptions")
  */
-class SessionDescriptionController extends FOSRestController
+class SessionDescriptionController
 {
     /**
      * Get a SessionDescription

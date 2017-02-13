@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\PermissionInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Permissions")
  */
-class PermissionController extends FOSRestController
+class PermissionController
 {
     /**
      * Get a Permission

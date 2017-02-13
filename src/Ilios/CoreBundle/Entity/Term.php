@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\ActivatableEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\CoursesEntity;
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -27,8 +27,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  * )
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\TermRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Term implements TermInterface
 {
@@ -50,9 +49,8 @@ class Term implements TermInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("id")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -61,8 +59,8 @@ class Term implements TermInterface
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="terms")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $courses;
 
@@ -77,8 +75,8 @@ class Term implements TermInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     protected $description;
@@ -91,8 +89,8 @@ class Term implements TermInterface
      *   @ORM\JoinColumn(name="parent_term_id", referencedColumnName="term_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $parent;
 
@@ -101,8 +99,8 @@ class Term implements TermInterface
      *
      * @ORM\OneToMany(targetEntity="Term", mappedBy="parent")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $children;
 
@@ -111,9 +109,8 @@ class Term implements TermInterface
      *
      * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="terms")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $programYears;
 
@@ -122,8 +119,8 @@ class Term implements TermInterface
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="terms")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sessions;
 
@@ -138,8 +135,8 @@ class Term implements TermInterface
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -153,9 +150,8 @@ class Term implements TermInterface
      *   @ORM\JoinColumn(name="vocabulary_id", referencedColumnName="vocabulary_id", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("vocabulary")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $vocabulary;
 
@@ -172,9 +168,8 @@ class Term implements TermInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("aamcResourceTypes")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $aamcResourceTypes;
 
@@ -186,8 +181,8 @@ class Term implements TermInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $active;
 

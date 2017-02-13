@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\InstructorGroupInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("InstructorGroups")
  */
-class InstructorGroupController extends FOSRestController
+class InstructorGroupController
 {
     /**
      * Get a InstructorGroup

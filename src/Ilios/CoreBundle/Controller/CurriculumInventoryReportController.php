@@ -22,7 +22,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("CurriculumInventoryReports")
  */
-class CurriculumInventoryReportController extends FOSRestController
+class CurriculumInventoryReportController
 {
     /**
      * Get a CurriculumInventoryReport

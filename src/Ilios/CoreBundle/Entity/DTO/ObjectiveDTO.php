@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class ObjectiveDTO
@@ -14,78 +14,76 @@ class ObjectiveDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      *
      */
     public $title;
 
     /**
      * @var integer
-     * @JMS\Type("string")
+     * @IS\Type("string")
      *
      */
     public $competency;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      *
      */
     public $courses;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * @IS\Type("entityCollection")
      *
      */
     public $programYears;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      *
      */
     public $sessions;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      *
      */
     public $parents;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      *
      */
     public $children;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("meshDescriptors")
+     * @IS\Type("entityCollection")
      *
      */
     public $meshDescriptors;
 
     /**
      * @var integer
-     * @JMS\Type("string")
+     * @IS\Type("string")
      *
      */
     public $ancestor;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      *
      */
     public $descendants;

@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("CurriculumInventoryInstitutions")
  */
-class CurriculumInventoryInstitutionController extends FOSRestController
+class CurriculumInventoryInstitutionController
 {
     /**
      * Get a CurriculumInventoryInstitution

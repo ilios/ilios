@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\SequenceBlocksEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -30,8 +30,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  * )
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
@@ -50,8 +49,8 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -67,8 +66,8 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *      max = 50
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
     */
     protected $name;
@@ -84,8 +83,8 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $description;
 
@@ -97,8 +96,8 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $level;
 
@@ -110,8 +109,8 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", onDelete="cascade")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $report;
 
@@ -120,9 +119,8 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     *
     * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="academicLevel")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("sequenceBlocks")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $sequenceBlocks;
 

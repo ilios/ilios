@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("CurriculumInventoryAcademicLevels")
  */
-class CurriculumInventoryAcademicLevelController extends FOSRestController
+class CurriculumInventoryAcademicLevelController
 {
     /**
      * Get a CurriculumInventoryAcademicLevel

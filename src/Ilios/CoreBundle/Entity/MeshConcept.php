@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
@@ -20,8 +20,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * @ORM\Table(name="mesh_concept")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class MeshConcept implements MeshConceptInterface
 {
@@ -40,8 +39,8 @@ class MeshConcept implements MeshConceptInterface
      *
      * @Assert\Type(type="string")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $id;
 
@@ -57,8 +56,8 @@ class MeshConcept implements MeshConceptInterface
      *      max = 192
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $name;
 
@@ -74,9 +73,8 @@ class MeshConcept implements MeshConceptInterface
      *      max = 9
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("umlsUid")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $umlsUid;
 
@@ -88,8 +86,8 @@ class MeshConcept implements MeshConceptInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $preferred;
 
@@ -104,9 +102,8 @@ class MeshConcept implements MeshConceptInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("scopeNote")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $scopeNote;
 
@@ -121,9 +118,8 @@ class MeshConcept implements MeshConceptInterface
      *      max = 127
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("casn1Name")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $casn1Name;
 
@@ -138,9 +134,8 @@ class MeshConcept implements MeshConceptInterface
      *      max = 30
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("registryNumber")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $registryNumber;
 
@@ -157,9 +152,8 @@ class MeshConcept implements MeshConceptInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("semanticTypes")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $semanticTypes;
 
@@ -168,28 +162,26 @@ class MeshConcept implements MeshConceptInterface
      *
      * @ORM\ManyToMany(targetEntity="MeshTerm", mappedBy="concepts")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $terms;
 
     /**
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("createdAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $createdAt;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("updatedAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $updatedAt;
 
@@ -206,8 +198,8 @@ class MeshConcept implements MeshConceptInterface
     *   }
     * )
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $descriptors;
 

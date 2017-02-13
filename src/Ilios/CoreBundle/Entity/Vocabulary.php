@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\ActivatableEntity;
 use Ilios\CoreBundle\Traits\CategorizableEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\SchoolEntity;
@@ -25,8 +25,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  * )
  * @ORM\Entity()
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Vocabulary implements VocabularyInterface
 {
@@ -46,9 +45,8 @@ class Vocabulary implements VocabularyInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("id")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -63,8 +61,8 @@ class Vocabulary implements VocabularyInterface
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -78,9 +76,8 @@ class Vocabulary implements VocabularyInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("school")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $school;
 
@@ -90,8 +87,8 @@ class Vocabulary implements VocabularyInterface
      * @ORM\OneToMany(targetEntity="Term", mappedBy="vocabulary")
      * @ORM\OrderBy({"id" = "ASC"})
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $terms;
 
@@ -103,8 +100,8 @@ class Vocabulary implements VocabularyInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $active;
 

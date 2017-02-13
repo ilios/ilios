@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -27,8 +27,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *   indexes={@ORM\Index(name="IDX_program_year_school", columns={"program_year_Id", "school_Id"})})
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class ProgramYearSteward implements ProgramYearStewardInterface
 {
@@ -45,8 +44,8 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -58,8 +57,8 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      *   @ORM\JoinColumn(name="department_id", referencedColumnName="department_id", onDelete="CASCADE")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $department;
 
@@ -74,9 +73,8 @@ class ProgramYearSteward implements ProgramYearStewardInterface
            nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("programYear")
+     * @IS\Expose
+     * @IS\Type("string")
      **/
     protected $programYear;
 
@@ -90,8 +88,8 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", onDelete="CASCADE", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $school;
 

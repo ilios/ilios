@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class AamcMethodDTO
@@ -13,21 +13,20 @@ class AamcMethodDTO
 {
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      *
      */
     public $description;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionTypes")
+     * @IS\Type("entityCollection")
      */
     public $sessionTypes;
 

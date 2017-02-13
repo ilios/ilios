@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\MeshTermInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("MeshTerms")
  */
-class MeshTermController extends FOSRestController
+class MeshTermController
 {
     /**
      * Get a MeshTerm

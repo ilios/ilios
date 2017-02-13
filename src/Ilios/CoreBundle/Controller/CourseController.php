@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Courses")
  */
-class CourseController extends FOSRestController
+class CourseController
 {
     /**
      * Get a Course

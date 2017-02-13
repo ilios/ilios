@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("MeshPreviousIndexings")
  */
-class MeshPreviousIndexingController extends FOSRestController
+class MeshPreviousIndexingController
 {
     /**
      * Get a MeshPreviousIndexing

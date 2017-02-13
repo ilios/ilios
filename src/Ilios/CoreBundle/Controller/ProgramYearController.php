@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Entity\ProgramYearInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("ProgramYears")
  */
-class ProgramYearController extends FOSRestController
+class ProgramYearController
 {
     /**
      * Get a ProgramYear

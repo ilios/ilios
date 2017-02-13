@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
  * @RouteResource("MeshSemanticTypes")
  * @deprecated
  */
-class MeshSemanticTypeController extends FOSRestController
+class MeshSemanticTypeController
 {
     /**
      * Get a MeshSemanticType

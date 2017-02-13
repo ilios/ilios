@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class CompetencyDTO
@@ -14,58 +14,56 @@ class CompetencyDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      *
      */
     public $title;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $school;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $objectives;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $parent;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $children;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("aamcPcrses")
+     * @IS\Type("entityCollection")
      */
     public $aamcPcrses;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * @IS\Type("entityCollection")
      */
     public $programYears;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Type("boolean")
      *
      */
     public $active;

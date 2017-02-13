@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\SchoolInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Schools")
  */
-class SchoolController extends FOSRestController
+class SchoolController
 {
     /**
      * Get a School

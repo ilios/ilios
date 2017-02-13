@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Traits\SessionTypesEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -21,8 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="assessment_option",uniqueConstraints={@ORM\UniqueConstraint(name="name", columns={"name"})})
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AssessmentOptionRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class AssessmentOption implements AssessmentOptionInterface
 {
@@ -41,8 +40,8 @@ class AssessmentOption implements AssessmentOptionInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -58,8 +57,8 @@ class AssessmentOption implements AssessmentOptionInterface
     *      max = 18
     * )
     *
-    * @JMS\Expose
-    * @JMS\Type("string")
+    * @IS\Expose
+    * @IS\Type("string")
     */
     protected $name;
 
@@ -68,9 +67,8 @@ class AssessmentOption implements AssessmentOptionInterface
      *
      * @ORM\OneToMany(targetEntity="SessionType", mappedBy="assessmentOption")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionTypes")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sessionTypes;
 

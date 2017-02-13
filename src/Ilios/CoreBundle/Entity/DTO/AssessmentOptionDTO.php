@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class AssessmentOptionDTO
@@ -13,20 +13,19 @@ class AssessmentOptionDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $name;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionTypes")
+     * @IS\Type("entityCollection")
      */
     public $sessionTypes;
 

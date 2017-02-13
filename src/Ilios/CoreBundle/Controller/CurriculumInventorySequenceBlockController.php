@@ -22,7 +22,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("CurriculumInventorySequenceBlocks")
  */
-class CurriculumInventorySequenceBlockController extends FOSRestController
+class CurriculumInventorySequenceBlockController
 {
     /**
      * Get a CurriculumInventorySequenceBlock

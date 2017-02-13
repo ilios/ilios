@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\MeshTreeInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("MeshTrees")
  */
-class MeshTreeController extends FOSRestController
+class MeshTreeController
 {
     /**
      * Get a MeshTree

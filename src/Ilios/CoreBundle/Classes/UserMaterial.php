@@ -2,131 +2,125 @@
 
 namespace Ilios\CoreBundle\Classes;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class UserMaterial
  * @package Ilios\CoreBundle\Classes
  *
- * @JMS\ExclusionPolicy("all")
+ * @IS\Entity
  */
 class UserMaterial
 {
     /**
      * @var int
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $id;
 
     /**
      * @var int
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $session;
 
     /**
      * @var int
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $course;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("publicNotes")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $publicNotes;
 
     /**
      * @var boolean
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $required;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $title;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $description;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("originalAuthor")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $originalAuthor;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("absoluteFileUri")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $absoluteFileUri;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $citation;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $link;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $filename;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $mimetype;
 
     /**
      * @var int
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("sessionTitle")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $sessionTitle;
 
     /**
      * @var int
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("courseTitle")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $courseTitle;
 
     /**
      * @var int
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("firstOfferingDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     public $firstOfferingDate;
 }

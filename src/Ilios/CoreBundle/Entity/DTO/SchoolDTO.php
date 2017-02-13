@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class SchoolDTO
@@ -14,102 +14,97 @@ class SchoolDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $title;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("iliosAdministratorEmail")
+     * @IS\Type("string")
      */
     public $iliosAdministratorEmail;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("changeAlertRecipients")
+     * @IS\Type("string")
      */
     public $changeAlertRecipients;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $competencies;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $courses;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $programs;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $departments;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $vocabularies;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructorGroups")
+     * @IS\Type("entityCollection")
      */
     public $instructorGroups;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("curriculumInventoryInstitution")
+     * @IS\Type("string")
      */
     public $curriculumInventoryInstitution;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionTypes")
+     * @IS\Type("entityCollection")
      */
     public $sessionTypes;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $directors;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $administrators;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $stewards;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $configurations;
 

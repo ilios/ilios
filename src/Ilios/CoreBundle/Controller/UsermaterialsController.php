@@ -20,7 +20,7 @@ use DateTime;
  * @package Ilios\CoreBundle\Controller\;
  * @RouteResource("Usermaterials")
  */
-class UsermaterialsController extends FOSRestController
+class UsermaterialsController
 {
 
     /**

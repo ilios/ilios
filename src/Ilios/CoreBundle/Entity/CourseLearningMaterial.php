@@ -3,11 +3,10 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\SortableEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -20,8 +19,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="course_learning_material")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
@@ -39,8 +37,8 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -56,8 +54,8 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $notes;
 
@@ -69,8 +67,8 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $required;
 
@@ -82,9 +80,8 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publicNotes")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $publicNotes;
 
@@ -97,8 +94,8 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $course;
 
@@ -111,9 +108,8 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *   @ORM\JoinColumn(name="learning_material_id", referencedColumnName="learning_material_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("learningMaterial")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $learningMaterial;
 
@@ -134,9 +130,8 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("meshDescriptors")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $meshDescriptors;
 
@@ -148,9 +143,8 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @ORM\Column(name="position", type="integer")
      *
-     * @JMS\Expose
-     * @JMS\SerializedName("position")
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $position;
 

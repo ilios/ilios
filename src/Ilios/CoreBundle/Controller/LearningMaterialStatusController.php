@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("LearningMaterialStatuses")
  */
-class LearningMaterialStatusController extends FOSRestController
+class LearningMaterialStatusController
 {
     /**
      * Get a LearningMaterialStatus

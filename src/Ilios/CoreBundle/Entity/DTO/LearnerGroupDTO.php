@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class LearnerGroupDTO
@@ -15,69 +15,67 @@ class LearnerGroupDTO
     
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $title;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $location;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $cohort;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $parent;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $children;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("ilmSessions")
+     * @IS\Type("entityCollection")
      */
     public $ilmSessions;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $offerings;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructorGroups")
+     * @IS\Type("entityCollection")
      */
     public $instructorGroups;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $users;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $instructors;
 

@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\SessionTypesEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
@@ -22,8 +22,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="aamc_method")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AamcMethodRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class AamcMethod implements AamcMethodInterface
 {
@@ -46,8 +45,8 @@ class AamcMethod implements AamcMethodInterface
      *      max = 10
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $id;
 
@@ -62,8 +61,8 @@ class AamcMethod implements AamcMethodInterface
     *      max = 65000
     * )
     *
-    * @JMS\Expose
-    * @JMS\Type("string")
+    * @IS\Expose
+    * @IS\Type("string")
     */
     protected $description;
 
@@ -72,9 +71,8 @@ class AamcMethod implements AamcMethodInterface
      *
      * @ORM\ManyToMany(targetEntity="SessionType", mappedBy="aamcMethods")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionTypes")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sessionTypes;
 

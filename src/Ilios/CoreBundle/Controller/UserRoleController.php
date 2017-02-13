@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\UserRoleInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("UserRoles")
  */
-class UserRoleController extends FOSRestController
+class UserRoleController
 {
     /**
      * Get a UserRole

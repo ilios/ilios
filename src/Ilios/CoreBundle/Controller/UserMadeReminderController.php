@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\UserMadeReminderInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("UserMadeReminders")
  */
-class UserMadeReminderController extends FOSRestController
+class UserMadeReminderController
 {
     /**
      * Get a UserMadeReminder

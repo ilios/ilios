@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\LearnerGroupInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("LearnerGroups")
  */
-class LearnerGroupController extends FOSRestController
+class LearnerGroupController
 {
     /**
      * Get a LearnerGroup

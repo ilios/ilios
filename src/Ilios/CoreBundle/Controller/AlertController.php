@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\AlertInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Alerts")
  */
-class AlertController extends FOSRestController
+class AlertController
 {
     /**
      * Get a Alert

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\ActivatableEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -23,8 +23,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @ORM\Table(name="competency", indexes={@ORM\Index(name="parent_competency_id_k", columns={"parent_competency_id"})})
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CompetencyRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Competency implements CompetencyInterface
 {
@@ -45,8 +44,8 @@ class Competency implements CompetencyInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -60,8 +59,8 @@ class Competency implements CompetencyInterface
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -75,9 +74,8 @@ class Competency implements CompetencyInterface
      *
      * @Assert\NotNull()
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("school")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $school;
 
@@ -85,8 +83,8 @@ class Competency implements CompetencyInterface
     * @var ArrayCollection|ObjectiveInterface[]
     * @ORM\OneToMany(targetEntity="Objective", mappedBy="competency")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $objectives;
 
@@ -98,8 +96,8 @@ class Competency implements CompetencyInterface
      *   @ORM\JoinColumn(name="parent_competency_id", referencedColumnName="competency_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $parent;
 
@@ -108,8 +106,8 @@ class Competency implements CompetencyInterface
      *
      * @ORM\OneToMany(targetEntity="Competency", mappedBy="parent")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $children;
 
@@ -126,9 +124,8 @@ class Competency implements CompetencyInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("aamcPcrses")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $aamcPcrses;
 
@@ -137,9 +134,8 @@ class Competency implements CompetencyInterface
      *
      * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="competencies")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $programYears;
 
@@ -151,8 +147,8 @@ class Competency implements CompetencyInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $active;
 

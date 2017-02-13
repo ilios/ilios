@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Competencies")
  */
-class CompetencyController extends FOSRestController
+class CompetencyController
 {
     /**
      * Get a Competency

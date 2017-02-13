@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Users")
  */
-class UserController extends FOSRestController
+class UserController
 {
     /**
      * Get a User

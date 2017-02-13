@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\AamcResourceTypeInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("AamcResourceTypes")
  */
-class AamcResourceTypeController extends FOSRestController
+class AamcResourceTypeController
 {
     /**
      * Get a AamcResourceType

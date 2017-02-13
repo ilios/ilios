@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("LearningMaterialUserRoles")
  */
-class LearningMaterialUserRoleController extends FOSRestController
+class LearningMaterialUserRoleController
 {
     /**
      * Get a LearningMaterialUserRole

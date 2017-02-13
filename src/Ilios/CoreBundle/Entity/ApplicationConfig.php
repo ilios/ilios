@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -20,8 +20,7 @@ use Ilios\CoreBundle\Traits\NameableEntity;
  *   }
  * )
  * @ORM\Entity
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class ApplicationConfig implements ApplicationConfigInterface
 {
@@ -37,8 +36,8 @@ class ApplicationConfig implements ApplicationConfigInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -53,8 +52,8 @@ class ApplicationConfig implements ApplicationConfigInterface
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $name;
 
@@ -69,8 +68,8 @@ class ApplicationConfig implements ApplicationConfigInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $value;
 

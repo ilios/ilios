@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\SchoolConfigInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("SchoolConfigs")
  */
-class SchoolConfigController extends FOSRestController
+class SchoolConfigController
 {
     /**
      * Get a School configuration item.

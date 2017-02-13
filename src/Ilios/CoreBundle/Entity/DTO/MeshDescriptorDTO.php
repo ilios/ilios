@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class MeshDescriptorDTO
@@ -14,104 +14,99 @@ class MeshDescriptorDTO
 {
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $name;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $annotation;
 
     /**
      * @var \DateTime
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("createdAt")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     public $createdAt;
 
     /**
      * @var \DateTime
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("updatedAt")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     public $updatedAt;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     public $courses;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     public $objectives;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     public $sessions;
 
     /**
      * @var string[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     public $concepts;
 
     /**
      * @var string[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     public $qualifiers;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     public $trees;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionLearningMaterials")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     public $sessionLearningMaterials;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("courseLearningMaterials")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     public $courseLearningMaterials;
 
     /**
      * @var int
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("previousIndexing")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $previousIndexing;
 

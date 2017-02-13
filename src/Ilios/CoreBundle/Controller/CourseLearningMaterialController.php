@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("CourseLearningMaterials")
  */
-class CourseLearningMaterialController extends FOSRestController
+class CourseLearningMaterialController
 {
     /**
      * Get a CourseLearningMaterial

@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Traits\InstructorsEntity;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
 use Ilios\CoreBundle\Traits\LearnersEntity;
 use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,8 +23,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="ilm_session_facet")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class IlmSession implements IlmSessionInterface
 {
@@ -45,8 +44,8 @@ class IlmSession implements IlmSessionInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -65,8 +64,8 @@ class IlmSession implements IlmSessionInterface
      * })
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $session;
 
@@ -82,8 +81,8 @@ class IlmSession implements IlmSessionInterface
      *      max = 10000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("float")
+     * @IS\Expose
+     * @IS\Type("float")
      */
     protected $hours;
 
@@ -95,9 +94,8 @@ class IlmSession implements IlmSessionInterface
      * @Assert\NotBlank()
      * @Assert\DateTime()
      *
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("dueDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     protected $dueDate;
 
@@ -114,9 +112,8 @@ class IlmSession implements IlmSessionInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learnerGroups")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $learnerGroups;
 
@@ -133,9 +130,8 @@ class IlmSession implements IlmSessionInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructorGroups")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $instructorGroups;
 
@@ -152,8 +148,8 @@ class IlmSession implements IlmSessionInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $instructors;
 
@@ -170,8 +166,8 @@ class IlmSession implements IlmSessionInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $learners;
 

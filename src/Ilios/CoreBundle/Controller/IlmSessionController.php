@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\IlmSessionInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("IlmSessions")
  */
-class IlmSessionController extends FOSRestController
+class IlmSessionController
 {
     /**
      * Get a IlmSession

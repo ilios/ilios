@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\VocabularyInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Vocabularies")
  */
-class VocabularyController extends FOSRestController
+class VocabularyController
 {
     /**
      * Get a Vocabulary.

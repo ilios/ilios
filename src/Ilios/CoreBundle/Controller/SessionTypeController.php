@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\SessionTypeInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("SessionTypes")
  */
-class SessionTypeController extends FOSRestController
+class SessionTypeController
 {
     /**
      * Get a SessionType

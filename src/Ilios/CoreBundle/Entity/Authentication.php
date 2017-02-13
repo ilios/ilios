@@ -2,7 +2,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -14,8 +14,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
  * @ORM\Table(name="authentication")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AuthenticationRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Authentication implements AuthenticationInterface
 {
@@ -30,9 +29,9 @@ class Authentication implements AuthenticationInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Type("string")
-     * @JMS\ReadOnly
-     * @JMS\Expose
+     * @IS\Type("string")
+     * @IS\ReadOnly
+     * @IS\Expose
     */
     protected $user;
 
@@ -46,7 +45,7 @@ class Authentication implements AuthenticationInterface
      *      max = 100
      * )
      *
-     * @JMS\Expose
+     * @IS\Expose
     */
     private $username;
 
@@ -81,10 +80,9 @@ class Authentication implements AuthenticationInterface
      *
      * @Assert\DateTime()
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("invalidateTokenIssuedBefore")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $invalidateTokenIssuedBefore;
 

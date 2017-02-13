@@ -22,7 +22,7 @@ use \Ilios\CoreBundle\Classes\AcademicYear;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("AcademicYears")
  */
-class AcademicYearController extends FOSRestController
+class AcademicYearController
 {
 
     /**

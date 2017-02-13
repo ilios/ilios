@@ -12,7 +12,7 @@ use Ilios\CoreBundle\Traits\DirectorsEntity;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\ArchivableEntity;
@@ -34,8 +34,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * })
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CourseRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Course implements CourseInterface
 {
@@ -63,8 +62,8 @@ class Course implements CourseInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -80,8 +79,8 @@ class Course implements CourseInterface
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -97,8 +96,8 @@ class Course implements CourseInterface
      *      max = 10
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $level;
 
@@ -110,8 +109,8 @@ class Course implements CourseInterface
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $year;
 
@@ -122,9 +121,8 @@ class Course implements CourseInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("startDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     protected $startDate;
 
@@ -135,9 +133,8 @@ class Course implements CourseInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("endDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     protected $endDate;
 
@@ -152,9 +149,8 @@ class Course implements CourseInterface
      *      max = 255
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("externalId")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $externalId;
 
@@ -166,8 +162,8 @@ class Course implements CourseInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $locked;
 
@@ -179,8 +175,8 @@ class Course implements CourseInterface
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $archived;
 
@@ -192,9 +188,8 @@ class Course implements CourseInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publishedAsTbd")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $publishedAsTbd;
 
@@ -206,8 +201,8 @@ class Course implements CourseInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $published;
 
@@ -219,9 +214,8 @@ class Course implements CourseInterface
      *   @ORM\JoinColumn(name="clerkship_type_id", referencedColumnName="course_clerkship_type_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("clerkshipType")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $clerkshipType;
 
@@ -235,9 +229,8 @@ class Course implements CourseInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("school")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $school;
 
@@ -254,8 +247,8 @@ class Course implements CourseInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $directors;
 
@@ -272,8 +265,8 @@ class Course implements CourseInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $administrators;
 
@@ -290,8 +283,8 @@ class Course implements CourseInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $cohorts;
 
@@ -308,8 +301,8 @@ class Course implements CourseInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $terms;
 
@@ -326,8 +319,8 @@ class Course implements CourseInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $objectives;
 
@@ -344,9 +337,8 @@ class Course implements CourseInterface
      *    }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("meshDescriptors")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $meshDescriptors;
 
@@ -355,9 +347,8 @@ class Course implements CourseInterface
      *
      * @ORM\OneToMany(targetEntity="CourseLearningMaterial",mappedBy="course")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learningMaterials")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $learningMaterials;
 
@@ -366,8 +357,8 @@ class Course implements CourseInterface
      *
      * @ORM\OneToMany(targetEntity="Session", mappedBy="course")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sessions;
 
@@ -379,8 +370,8 @@ class Course implements CourseInterface
      *   @ORM\JoinColumn(name="ancestor_id", referencedColumnName="course_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $ancestor;
 
@@ -389,8 +380,8 @@ class Course implements CourseInterface
      *
      * @ORM\OneToMany(targetEntity="Course", mappedBy="ancestor")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $descendants;
 

@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\ReportInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Reports")
  */
-class ReportController extends FOSRestController
+class ReportController
 {
     /**
      * Get a Report

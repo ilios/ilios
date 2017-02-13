@@ -3,7 +3,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class ProgramYearDTO
@@ -16,83 +16,81 @@ class ProgramYearDTO
 
     /**
     * @var int
-    * @JMS\Type("integer")
+    * @IS\Type("integer")
     */
     public $id;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("startYear")
+     * @IS\Type("string")
      */
     public $startYear;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Type("boolean")
      */
     public $locked;
 
     /**
      * @var boolean
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $archived;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publishedAsTbd")
+     * @IS\Type("boolean")
      */
     public $publishedAsTbd;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Type("boolean")
      */
     public $published;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $program;
 
     /**
     * @var int
-    * @JMS\Type("string")
+    * @IS\Type("string")
     */
     public $cohort;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $directors;
 
     /**
      * @var ArrayCollection|CompetencyInterface[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $competencies;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $terms;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $objectives;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $stewards;
 

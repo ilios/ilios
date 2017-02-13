@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("SessionLearningMaterials")
  */
-class SessionLearningMaterialController extends FOSRestController
+class SessionLearningMaterialController
 {
     /**
      * Get a SessionLearningMaterial

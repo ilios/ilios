@@ -2,106 +2,97 @@
 
 namespace Ilios\CoreBundle\Classes;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class CalendarEvent
  * @package Ilios\CoreBundle\Classes
  *
- *@JMS\ExclusionPolicy("all")
+ *@IS\Entity
  */
 abstract class CalendarEvent
 {
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      **/
     public $name;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("courseTitle")
+     * @IS\Expose
+     * @IS\Type("string")
      **/
     public $courseTitle;
 
     /**
      * @var \DateTime
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("startDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      **/
     public $startDate;
 
     /**
      * @var \DateTime
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("endDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      **/
     public $endDate;
 
     /**
      * @var Integer
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      **/
     public $offering;
 
     /**
      * @var Integer
-     * @JMS\Expose
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("ilmSession")
+     * @IS\Expose
+     * @IS\Type("integer")
      **/
     public $ilmSession;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("eventClass")
+     * @IS\Expose
+     * @IS\Type("string")
      **/
     public $eventClass;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      **/
     public $location;
 
     /**
      * @var \DateTime
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("lastModified")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     public $lastModified;
 
     /**
      * @var bool
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("isPublished")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $isPublished;
 
     /**
      * @var bool
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("isScheduled")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $isScheduled;
 
     /**
      * @var array
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructors")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     public $instructors = array();
 

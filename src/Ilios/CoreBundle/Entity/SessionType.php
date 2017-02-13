@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,8 +25,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * )
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\SessionTypeRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class SessionType implements SessionTypeInterface
 {
@@ -45,8 +44,8 @@ class SessionType implements SessionTypeInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -61,8 +60,8 @@ class SessionType implements SessionTypeInterface
      *      max = 100
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $title;
 
@@ -97,9 +96,8 @@ class SessionType implements SessionTypeInterface
      *   @ORM\JoinColumn(name="assessment_option_id", referencedColumnName="assessment_option_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("assessmentOption")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $assessmentOption;
 
@@ -113,9 +111,8 @@ class SessionType implements SessionTypeInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("school")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $school;
 
@@ -132,9 +129,8 @@ class SessionType implements SessionTypeInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("aamcMethods")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $aamcMethods;
 
@@ -144,8 +140,7 @@ class SessionType implements SessionTypeInterface
      * @ORM\OneToMany(targetEntity="Session", mappedBy="sessionType")
      *
      * Don't put sessions in the sessionType API it takes forever to load them all
-     * @JMS\Exclude
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     protected $sessions;
 

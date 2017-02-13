@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
 use Ilios\CoreBundle\Traits\UsersEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\TitledEntity;
@@ -27,8 +27,7 @@ use Ilios\CoreBundle\Traits\CoursesEntity;
  *  }
  * )
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Cohort implements CohortInterface
 {
@@ -48,8 +47,8 @@ class Cohort implements CohortInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -57,8 +56,8 @@ class Cohort implements CohortInterface
      * @ORM\Column(type="string", length=60)
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
@@ -76,9 +75,8 @@ class Cohort implements CohortInterface
      * @ORM\OneToOne(targetEntity="ProgramYear", inversedBy="cohort")
      * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", unique=true, onDelete="cascade")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("programYear")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $programYear;
 
@@ -87,8 +85,8 @@ class Cohort implements CohortInterface
     *
     * @ORM\ManyToMany(targetEntity="Course", mappedBy="cohorts")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $courses;
 
@@ -97,9 +95,8 @@ class Cohort implements CohortInterface
      *
      * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="cohort")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learnerGroups")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $learnerGroups;
 
@@ -108,8 +105,8 @@ class Cohort implements CohortInterface
     *
     * @ORM\ManyToMany(targetEntity="User", mappedBy="cohorts")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $users;
 

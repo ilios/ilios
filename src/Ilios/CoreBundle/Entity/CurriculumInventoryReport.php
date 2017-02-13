@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\SequenceBlocksEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -29,8 +29,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * )
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CurriculumInventoryReportRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
@@ -49,8 +48,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -65,8 +64,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $name;
 
@@ -81,8 +80,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $description;
 
@@ -94,8 +93,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $year;
 
@@ -106,9 +105,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("startDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     protected $startDate;
 
@@ -119,9 +117,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("endDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     protected $endDate;
 
@@ -130,8 +127,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *
      * @ORM\OneToOne(targetEntity="CurriculumInventoryExport", mappedBy="report")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $export;
 
@@ -140,8 +137,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     *
     * @ORM\OneToOne(targetEntity="CurriculumInventorySequence", mappedBy="report")
     *
-    * @JMS\Expose
-    * @JMS\Type("string")
+    * @IS\Expose
+    * @IS\Type("string")
     */
     protected $sequence;
 
@@ -150,9 +147,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     *
     * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock",mappedBy="report")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("sequenceBlocks")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $sequenceBlocks;
 
@@ -164,8 +160,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")
     * })
     *
-    * @JMS\Expose
-    * @JMS\Type("string")
+    * @IS\Expose
+    * @IS\Type("string")
     */
     protected $program;
 
@@ -174,9 +170,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     *
     * @ORM\OneToMany(targetEntity="CurriculumInventoryAcademicLevel", mappedBy="report")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("academicLevels")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $academicLevels;
 

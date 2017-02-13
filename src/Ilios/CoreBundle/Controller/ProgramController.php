@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\ProgramInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Programs")
  */
-class ProgramController extends FOSRestController
+class ProgramController
 {
     /**
      * Get a Program

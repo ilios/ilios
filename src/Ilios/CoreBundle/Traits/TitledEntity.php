@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class TitledEntity

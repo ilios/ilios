@@ -19,7 +19,7 @@ use Ilios\CoreBundle\Exception\InvalidFormException;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("CurriculumInventoryExports")
  */
-class CurriculumInventoryExportController extends FOSRestController
+class CurriculumInventoryExportController
 {
     /**
      * Creates a Curriculum Inventory Export.

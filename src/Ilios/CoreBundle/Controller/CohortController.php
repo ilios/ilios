@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Entity\CohortInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Cohorts")
  */
-class CohortController extends FOSRestController
+class CohortController
 {
     /**
      * Get a Cohort

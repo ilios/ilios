@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("MeshDescriptors")
  */
-class MeshDescriptorController extends FOSRestController
+class MeshDescriptorController
 {
     /**
      * Get a MeshDescriptor

@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\PendingUserUpdateInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("PendingUserUpdates")
  */
-class PendingUserUpdateController extends FOSRestController
+class PendingUserUpdateController
 {
     /**
      * Get a PendingUserUpdate

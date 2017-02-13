@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Traits\DirectorsEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
@@ -24,8 +24,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @ORM\Table(name="program")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ProgramRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Program implements ProgramInterface
 {
@@ -46,8 +45,8 @@ class Program implements ProgramInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -62,8 +61,8 @@ class Program implements ProgramInterface
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $title;
 
@@ -78,9 +77,8 @@ class Program implements ProgramInterface
      *      max = 10
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("shortTitle")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $shortTitle;
 
@@ -92,8 +90,8 @@ class Program implements ProgramInterface
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $duration;
 
@@ -105,9 +103,8 @@ class Program implements ProgramInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publishedAsTbd")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $publishedAsTbd;
 
@@ -119,8 +116,8 @@ class Program implements ProgramInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $published;
 
@@ -134,9 +131,8 @@ class Program implements ProgramInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("school")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $school;
 
@@ -145,9 +141,8 @@ class Program implements ProgramInterface
     *
     * @ORM\OneToMany(targetEntity="ProgramYear", mappedBy="program")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("programYears")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $programYears;
 
@@ -156,9 +151,8 @@ class Program implements ProgramInterface
     *
     * @ORM\OneToMany(targetEntity="CurriculumInventoryReport", mappedBy="program")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("curriculumInventoryReports")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $curriculumInventoryReports;
 
@@ -175,8 +169,8 @@ class Program implements ProgramInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $directors;
 

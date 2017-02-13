@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\DepartmentInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Departments")
  */
-class DepartmentController extends FOSRestController
+class DepartmentController
 {
     /**
      * Get a Department

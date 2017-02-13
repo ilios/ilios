@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("ProgramYearStewards")
  */
-class ProgramYearStewardController extends FOSRestController
+class ProgramYearStewardController
 {
     /**
      * Get a ProgramYearSteward

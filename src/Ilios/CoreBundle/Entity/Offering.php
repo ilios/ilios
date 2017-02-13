@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Traits\InstructorsEntity;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
 use Ilios\CoreBundle\Traits\LearnersEntity;
 use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,8 +29,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * )
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Offering implements OfferingInterface
 {
@@ -52,8 +51,8 @@ class Offering implements OfferingInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -69,8 +68,8 @@ class Offering implements OfferingInterface
      *      max = 255
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $room;
 
@@ -85,8 +84,8 @@ class Offering implements OfferingInterface
      *      max = 255
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $site;
 
@@ -97,9 +96,8 @@ class Offering implements OfferingInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("startDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     protected $startDate;
 
@@ -110,9 +108,8 @@ class Offering implements OfferingInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("endDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     protected $endDate;
 
@@ -123,10 +120,9 @@ class Offering implements OfferingInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("updatedAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $updatedAt;
 
@@ -139,8 +135,8 @@ class Offering implements OfferingInterface
      *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $session;
 
@@ -157,9 +153,8 @@ class Offering implements OfferingInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learnerGroups")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $learnerGroups;
 
@@ -176,9 +171,8 @@ class Offering implements OfferingInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructorGroups")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $instructorGroups;
 
@@ -195,8 +189,8 @@ class Offering implements OfferingInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $learners;
 
@@ -213,8 +207,8 @@ class Offering implements OfferingInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $instructors;
 

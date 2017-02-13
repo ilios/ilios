@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
@@ -14,119 +14,113 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
  * Class CurriculumInventoryReportDecorator
  * @package Ilios\CoreBundle\Classes
  *
- * @JMS\ExclusionPolicy("all")
+ * @IS\Entity
  */
 class CurriculumInventoryReportDecorator
 {
     /**
      * @var int
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("id")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $name;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $description;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $sequence;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $year;
 
     /**
      * @var \DateTime
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("startDate")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $startDate;
 
     /**
      * @var \DateTime
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("endDate")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $endDate;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $program;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $report;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $export;
 
     /**
      * @var string[]
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("academicLevels")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $academicLevels;
 
     /**
      * @var string[]
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sequenceBlocks")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sequenceBlocks;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("absoluteFileUri")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $absoluteFileUri;
 

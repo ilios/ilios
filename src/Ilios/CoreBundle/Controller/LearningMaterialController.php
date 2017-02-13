@@ -22,7 +22,7 @@ use Ilios\CoreBundle\Entity\LearningMaterialInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("LearningMaterials")
  */
-class LearningMaterialController extends FOSRestController
+class LearningMaterialController
 {
     /**
      * Get a LearningMaterial

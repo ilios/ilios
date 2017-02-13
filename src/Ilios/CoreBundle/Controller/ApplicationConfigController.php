@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\ApplicationConfigInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("ApplicationConfigs")
  */
-class ApplicationConfigController extends FOSRestController
+class ApplicationConfigController
 {
     /**
      * Get a Application configuration item.

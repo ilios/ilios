@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\ObjectiveInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Objectives")
  */
-class ObjectiveController extends FOSRestController
+class ObjectiveController
 {
     /**
      * Get a Objective

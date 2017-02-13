@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class UserDTO
@@ -14,234 +14,212 @@ class UserDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("lastName")
+     * @IS\Type("string")
      */
     public $lastName;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("firstName")
+     * @IS\Type("string")
      */
     public $firstName;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("middleName")
+     * @IS\Type("string")
      */
     public $middleName;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $phone;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $email;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Type("boolean")
      */
     public $enabled;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("campusId")
+     * @IS\Type("string")
      */
     public $campusId;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("otherId")
+     * @IS\Type("string")
      */
     public $otherId;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("userSyncIgnore")
+     * @IS\Type("boolean")
      */
     public $userSyncIgnore;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("icsFeedKey")
+     * @IS\Type("string")
      */
     public $icsFeedKey;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $reminders;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $reports;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $school;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     public $authentication;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("directedCourses")
+     * @IS\Type("entityCollection")
      */
     public $directedCourses;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("administeredCourses")
+     * @IS\Type("entityCollection")
      */
     public $administeredCourses;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learnerGroups")
+     * @IS\Type("entityCollection")
      */
     public $learnerGroups;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructedLearnerGroups")
+     * @IS\Type("entityCollection")
      */
     public $instructedLearnerGroups;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructorGroups")
+     * @IS\Type("entityCollection")
      */
     public $instructorGroups;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructorIlmSessions")
+     * @IS\Type("entityCollection")
      */
     public $instructorIlmSessions;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learnerIlmSessions")
+     * @IS\Type("entityCollection")
      */
     public $learnerIlmSessions;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $offerings;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructedOfferings")
+     * @IS\Type("entityCollection")
      */
     public $instructedOfferings;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * @IS\Type("entityCollection")
      */
     public $programYears;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $roles;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $cohorts;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("primaryCohort")
+     * @IS\Type("string")
      */
     public $primaryCohort;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("pendingUserUpdates")
+     * @IS\Type("entityCollection")
      */
     public $pendingUserUpdates;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Type("boolean")
 
      */
     public $root;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      **/
     public $permissions;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("directedSchools")
+     * @IS\Type("entityCollection")
      */
     public $directedSchools;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("administeredSchools")
+     * @IS\Type("entityCollection")
      */
     public $administeredSchools;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("administeredSessions")
+     * @IS\Type("entityCollection")
      */
     public $administeredSessions;
 
     /**
      * @var array
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("directedPrograms")
+     * @IS\Type("entityCollection")
      */
     public $directedPrograms;
 

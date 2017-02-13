@@ -19,7 +19,7 @@ use DateTime;
  * @package Ilios\CoreBundle\Controller\;
  * @RouteResource("Userevent")
  */
-class UsereventController extends FOSRestController
+class UsereventController
 {
 
   /**

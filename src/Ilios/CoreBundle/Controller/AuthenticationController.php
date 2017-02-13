@@ -22,7 +22,7 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Authentications")
  */
-class AuthenticationController extends FOSRestController
+class AuthenticationController
 {
     /**
      * Get a Authentication

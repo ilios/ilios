@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -20,8 +20,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * )
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class UserMadeReminder implements UserMadeReminderInterface
 {
@@ -37,8 +36,8 @@ class UserMadeReminder implements UserMadeReminderInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -53,8 +52,8 @@ class UserMadeReminder implements UserMadeReminderInterface
      *      max = 150
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $note;
 
@@ -65,10 +64,9 @@ class UserMadeReminder implements UserMadeReminderInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("createdAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $createdAt;
 
@@ -79,9 +77,8 @@ class UserMadeReminder implements UserMadeReminderInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("dueDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     protected $dueDate;
 
@@ -93,8 +90,8 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $closed;
 
@@ -108,8 +105,8 @@ class UserMadeReminder implements UserMadeReminderInterface
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $user;
 

@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\MeshConceptInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("MeshConcepts")
  */
-class MeshConceptController extends FOSRestController
+class MeshConceptController
 {
     /**
      * Get a MeshConcept

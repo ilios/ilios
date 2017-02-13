@@ -22,7 +22,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("CurriculumInventoryDownloads")
  */
-class CurriculumInventoryDownloadController extends FOSRestController
+class CurriculumInventoryDownloadController
 {
     /**
      * Downloads the curriculum inventory report document for a given report.

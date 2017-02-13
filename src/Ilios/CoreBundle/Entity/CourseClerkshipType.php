@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -20,8 +20,7 @@ use Ilios\CoreBundle\Traits\CoursesEntity;
  * @ORM\Table(name="course_clerkship_type")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
@@ -39,8 +38,8 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -55,8 +54,8 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      *      min = 1,
      *      max = 20
      * )
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -65,8 +64,8 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      *
      * @ORM\OneToMany(targetEntity="Course", mappedBy="clerkshipType")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $courses;
 

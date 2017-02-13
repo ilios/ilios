@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("AlertChangeTypes")
  */
-class AlertChangeTypeController extends FOSRestController
+class AlertChangeTypeController
 {
     /**
      * Get a AlertChangeType

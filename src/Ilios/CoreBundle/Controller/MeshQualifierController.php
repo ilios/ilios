@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\MeshQualifierInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("MeshQualifiers")
  */
-class MeshQualifierController extends FOSRestController
+class MeshQualifierController
 {
     /**
      * Get a MeshQualifier

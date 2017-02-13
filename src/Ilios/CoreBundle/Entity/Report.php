@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\SchoolEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\TitledEntity;
@@ -18,8 +18,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="report")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Report implements ReportInterface
 {
@@ -37,8 +36,8 @@ class Report implements ReportInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -53,8 +52,8 @@ class Report implements ReportInterface
      * )
      *
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $title;
 
@@ -65,10 +64,9 @@ class Report implements ReportInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("createdAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $createdAt;
 
@@ -80,8 +78,8 @@ class Report implements ReportInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $school;
 
@@ -97,8 +95,8 @@ class Report implements ReportInterface
      *      max = 32
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $subject;
 
@@ -113,9 +111,8 @@ class Report implements ReportInterface
      *      max = 32
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("prepositionalObject")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $prepositionalObject;
 
@@ -130,9 +127,8 @@ class Report implements ReportInterface
      *      max = 14
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("prepositionalObjectTableRowId")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $prepositionalObjectTableRowId;
 
@@ -146,8 +142,8 @@ class Report implements ReportInterface
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="cascade", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $user;
 

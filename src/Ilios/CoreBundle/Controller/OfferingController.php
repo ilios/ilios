@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Offerings")
  */
-class OfferingController extends FOSRestController
+class OfferingController
 {
     /**
      * Get a Offering

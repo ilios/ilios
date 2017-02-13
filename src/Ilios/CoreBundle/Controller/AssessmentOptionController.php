@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("AssessmentOptions")
  */
-class AssessmentOptionController extends FOSRestController
+class AssessmentOptionController
 {
     /**
      * Get a AssessmentOption

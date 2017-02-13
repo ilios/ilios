@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\TermInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("Terms")
  */
-class TermController extends FOSRestController
+class TermController
 {
     /**
      * Get a Term.

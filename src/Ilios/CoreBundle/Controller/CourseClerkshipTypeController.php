@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("CourseClerkshipTypes")
  */
-class CourseClerkshipTypeController extends FOSRestController
+class CourseClerkshipTypeController
 {
     /**
      * Get a CourseClerkshipType

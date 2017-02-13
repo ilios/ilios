@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,8 +23,7 @@ use Ilios\CoreBundle\Traits\ProgramYearsEntity;
  * @ORM\Table(name="objective")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ObjectiveRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Objective implements ObjectiveInterface
 {
@@ -45,8 +44,8 @@ class Objective implements ObjectiveInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -62,8 +61,8 @@ class Objective implements ObjectiveInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -75,8 +74,8 @@ class Objective implements ObjectiveInterface
      *   @ORM\JoinColumn(name="competency_id", referencedColumnName="competency_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $competency;
 
@@ -85,8 +84,8 @@ class Objective implements ObjectiveInterface
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="objectives")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $courses;
 
@@ -95,9 +94,8 @@ class Objective implements ObjectiveInterface
      *
      * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="objectives")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $programYears;
 
@@ -106,8 +104,8 @@ class Objective implements ObjectiveInterface
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="objectives")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sessions;
 
@@ -120,8 +118,8 @@ class Objective implements ObjectiveInterface
      *   inverseJoinColumns={@ORM\JoinColumn(name="parent_objective_id", referencedColumnName="objective_id")}
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $parents;
 
@@ -130,8 +128,8 @@ class Objective implements ObjectiveInterface
      *
      * @ORM\ManyToMany(targetEntity="Objective", mappedBy="parents")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $children;
 
@@ -148,9 +146,8 @@ class Objective implements ObjectiveInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("meshDescriptors")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $meshDescriptors;
 
@@ -162,8 +159,8 @@ class Objective implements ObjectiveInterface
      *   @ORM\JoinColumn(name="ancestor_id", referencedColumnName="objective_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $ancestor;
 
@@ -172,8 +169,8 @@ class Objective implements ObjectiveInterface
      *
      * @ORM\OneToMany(targetEntity="Objective", mappedBy="ancestor")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $descendants;
 

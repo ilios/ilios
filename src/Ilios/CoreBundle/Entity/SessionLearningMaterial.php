@@ -6,8 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
 use Ilios\CoreBundle\Traits\SortableEntity;
-use JMS\Serializer\Annotation as JMS;
-use Doctrine\Common\Collections\Collection;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -24,8 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * })
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class SessionLearningMaterial implements SessionLearningMaterialInterface
 {
@@ -44,8 +42,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -60,8 +58,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $notes;
 
@@ -73,8 +71,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $required;
 
@@ -86,9 +84,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publicNotes")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $publicNotes;
 
@@ -102,8 +99,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $session;
 
@@ -117,9 +114,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *   @ORM\JoinColumn(name="learning_material_id", referencedColumnName="learning_material_id", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("learningMaterial")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $learningMaterial;
 
@@ -140,9 +136,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("meshDescriptors")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $meshDescriptors;
 
@@ -154,9 +149,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @ORM\Column(name="position", type="integer")
      *
-     * @JMS\Expose
-     * @JMS\SerializedName("position")
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $position;
 

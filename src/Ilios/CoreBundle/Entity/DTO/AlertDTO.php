@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class AlertDTO
@@ -13,53 +13,49 @@ class AlertDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var int
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("tableRowId")
+     * @IS\Type("integer")
      */
     public $tableRowId;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("tableName")
+     * @IS\Type("string")
      */
     public $tableName;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("additionalText")
+     * @IS\Type("string")
      */
     public $additionalText;
 
     /**
      * @var int
-     * @JMS\Type("boolean")
+     * @IS\Type("boolean")
      */
     public $dispatched;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("changeTypes")
+     * @IS\Type("entityCollection")
      */
     public $changeTypes;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $instigators;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     public $recipients;
 

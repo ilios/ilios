@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\CompetenciesEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -21,8 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AamcPcrsRepository")
  * @ORM\Table(name="aamc_pcrs")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class AamcPcrs implements AamcPcrsInterface
 {
@@ -45,8 +44,8 @@ class AamcPcrs implements AamcPcrsInterface
      *      max = 21
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $id;
 
@@ -61,8 +60,8 @@ class AamcPcrs implements AamcPcrsInterface
     *      max = 65000
     * )
     *
-    * @JMS\Expose
-    * @JMS\Type("string")
+    * @IS\Expose
+    * @IS\Type("string")
     */
     protected $description;
 
@@ -71,8 +70,8 @@ class AamcPcrs implements AamcPcrsInterface
      *
      * @ORM\ManyToMany(targetEntity="Competency", mappedBy="aamcPcrses")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $competencies;
 

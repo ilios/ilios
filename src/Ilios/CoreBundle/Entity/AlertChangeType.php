@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\AlertableEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,8 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="alert_change_type")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AlertChangeTypeRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class AlertChangeType implements AlertChangeTypeInterface
 {
@@ -41,8 +40,8 @@ class AlertChangeType implements AlertChangeTypeInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -57,8 +56,8 @@ class AlertChangeType implements AlertChangeTypeInterface
     *      max = 60
     * )
     *
-    * @JMS\Expose
-    * @JMS\Type("string")
+    * @IS\Expose
+    * @IS\Type("string")
     */
     protected $title;
 
@@ -67,8 +66,8 @@ class AlertChangeType implements AlertChangeTypeInterface
     *
     * @ORM\ManyToMany(targetEntity="Alert", mappedBy="changeTypes")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $alerts;
 

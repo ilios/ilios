@@ -7,7 +7,7 @@ use Ilios\CoreBundle\Traits\IlmSessionsEntity;
 use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
 use Ilios\CoreBundle\Traits\InstructorsEntity;
 use Ilios\CoreBundle\Traits\UsersEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,8 +24,7 @@ use Ilios\CoreBundle\Traits\OfferingsEntity;
  * @ORM\Table(name="`group`")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\LearnerGroupRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class LearnerGroup implements LearnerGroupInterface
 {
@@ -47,8 +46,8 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -64,8 +63,8 @@ class LearnerGroup implements LearnerGroupInterface
      *      max = 60
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -80,8 +79,8 @@ class LearnerGroup implements LearnerGroupInterface
      *      max = 100
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $location;
 
@@ -94,8 +93,8 @@ class LearnerGroup implements LearnerGroupInterface
      *   @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $cohort;
 
@@ -107,8 +106,8 @@ class LearnerGroup implements LearnerGroupInterface
      *   @ORM\JoinColumn(name="parent_group_id", referencedColumnName="group_id", onDelete="CASCADE")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $parent;
 
@@ -117,8 +116,8 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="parent")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $children;
 
@@ -127,9 +126,8 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="learnerGroups")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("ilmSessions")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $ilmSessions;
 
@@ -138,8 +136,8 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @ORM\ManyToMany(targetEntity="Offering", mappedBy="learnerGroups")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $offerings;
 
@@ -156,9 +154,8 @@ class LearnerGroup implements LearnerGroupInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructorGroups")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $instructorGroups;
 
@@ -175,8 +172,8 @@ class LearnerGroup implements LearnerGroupInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $users;
 
@@ -193,8 +190,8 @@ class LearnerGroup implements LearnerGroupInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $instructors;
 

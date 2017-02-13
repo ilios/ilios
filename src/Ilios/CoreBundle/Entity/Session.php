@@ -9,18 +9,16 @@ use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use Ilios\CoreBundle\Traits\SequenceBlocksEntity;
-use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Ilios\ApiBundle\Annotation as IS;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
 use Ilios\CoreBundle\Traits\OfferingsEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
-
-use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class Session
@@ -155,7 +153,7 @@ class Session implements SessionInterface
      * @Assert\NotBlank()
      *
      * @IS\Expose
-     * @JMS\ReadOnly
+     * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
     protected $updatedAt;

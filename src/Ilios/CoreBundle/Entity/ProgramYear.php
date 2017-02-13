@@ -9,7 +9,7 @@ use Ilios\CoreBundle\Traits\DirectorsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,8 +26,7 @@ use Ilios\CoreBundle\Traits\StewardedEntity;
  * @ORM\Table(name="program_year")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ProgramYearRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class ProgramYear implements ProgramYearInterface
 {
@@ -51,17 +50,16 @@ class ProgramYear implements ProgramYearInterface
     *
     * @Assert\Type(type="integer")
     *
-    * @JMS\Expose
-    * @JMS\Type("integer")
+    * @IS\Expose
+    * @IS\Type("integer")
     */
     protected $id;
 
     /**
      * @var int
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("startYear")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
@@ -73,8 +71,8 @@ class ProgramYear implements ProgramYearInterface
     /**
      * @var boolean
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
@@ -86,8 +84,8 @@ class ProgramYear implements ProgramYearInterface
     /**
      * @var boolean
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
@@ -99,9 +97,8 @@ class ProgramYear implements ProgramYearInterface
     /**
      * @var boolean
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publishedAsTbd")
+     * @IS\Expose
+     * @IS\Type("boolean")
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
@@ -118,8 +115,8 @@ class ProgramYear implements ProgramYearInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $published;
 
@@ -132,8 +129,8 @@ class ProgramYear implements ProgramYearInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")
      * })
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $program;
 
@@ -142,8 +139,8 @@ class ProgramYear implements ProgramYearInterface
     *
     * @ORM\OneToOne(targetEntity="Cohort", mappedBy="programYear")
     *
-    * @JMS\Expose
-    * @JMS\Type("string")
+    * @IS\Expose
+    * @IS\Type("string")
     */
     protected $cohort;
 
@@ -160,8 +157,8 @@ class ProgramYear implements ProgramYearInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $directors;
 
@@ -178,8 +175,8 @@ class ProgramYear implements ProgramYearInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $competencies;
 
@@ -196,8 +193,8 @@ class ProgramYear implements ProgramYearInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $terms;
 
@@ -214,8 +211,8 @@ class ProgramYear implements ProgramYearInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $objectives;
 
@@ -224,8 +221,8 @@ class ProgramYear implements ProgramYearInterface
      *
      * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="programYear")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $stewards;
 

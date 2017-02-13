@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\AamcPcrsInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("AamcPcrs")
  */
-class AamcPcrsController extends FOSRestController
+class AamcPcrsController
 {
     /**
      * Get a AamcPcrs

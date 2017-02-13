@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\AamcMethodInterface;
  * @package Ilios\CoreBundle\Controller
  * @RouteResource("AamcMethods")
  */
-class AamcMethodController extends FOSRestController
+class AamcMethodController
 {
     /**
      * Get a AamcMethod

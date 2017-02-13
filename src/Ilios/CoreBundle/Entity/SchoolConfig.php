@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\SchoolEntity;
@@ -21,8 +21,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  *   }
  * )
  * @ORM\Entity
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class SchoolConfig implements SchoolConfigInterface
 {
@@ -40,8 +39,8 @@ class SchoolConfig implements SchoolConfigInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -56,8 +55,8 @@ class SchoolConfig implements SchoolConfigInterface
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $name;
 
@@ -72,8 +71,8 @@ class SchoolConfig implements SchoolConfigInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $value;
 
@@ -87,9 +86,8 @@ class SchoolConfig implements SchoolConfigInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("school")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $school;
 
