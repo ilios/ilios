@@ -8,6 +8,11 @@ NelmioApiDocBundle:
     prefix:   /api/doc
     schemes:  ["%forceProtocol%"]
 
+IliosApiBundle:
+    resource: "@IliosApiBundle/Resources/config/routing.yml"
+    prefix:   /api
+    schemes:  ["%forceProtocol%"]
+
 IliosCoreBundle:
     resource: "@IliosCoreBundle/Resources/config/routing.yml"
     prefix:   /api

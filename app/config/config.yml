@@ -25,7 +25,7 @@ framework:
     fragments:       ~
     http_method_override: true
     serializer:
-        enabled: false
+        enabled: true
     assets: ~
 
 # Twig Configuration
@@ -70,32 +70,6 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
-
-fos_rest:
-    routing_loader:
-        default_format: json
-    param_fetcher_listener: true
-    body_listener: true
-    body_converter:
-        enabled: true
-    format_listener: true
-    view:
-        view_response_listener: force
-        formats:
-            xml: true
-            json : true
-        failed_validation: HTTP_BAD_REQUEST
-        default_engine: twig
-    exception:
-        enabled: true
-        codes:
-            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': 404
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
-            'Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException': 400
-            'Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException': 500
-        messages:
-            'Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException': true
-
 
 nelmio_cors:
     defaults:

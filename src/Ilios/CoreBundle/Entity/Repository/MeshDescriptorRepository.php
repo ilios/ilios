@@ -92,6 +92,8 @@ class MeshDescriptorRepository extends EntityRepository
     {
         $qb = $this->_em->createQueryBuilder();
 
+        $qb->select('DISTINCT m')->from('IliosCoreBundle:MeshDescriptor', 'm');
+
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $qb->getQuery()->getResult();

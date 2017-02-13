@@ -1,0 +1,17 @@
+services:
+    ilios_api.normalizer.entity:
+        class: Ilios\ApiBundle\Normalizer\Entity
+        parent: serializer.normalizer.object
+        calls:
+          - [setReader, ['@annotation_reader']]
+          - [setRegistry, ['@doctrine']]
+        tags:
+          - { name: serializer.normalizer }
+
+    ilios_api.normalizer.dto:
+        class: Ilios\ApiBundle\Normalizer\DTO
+        parent: serializer.normalizer.object
+        calls:
+          - [setReader, ['@annotation_reader']]
+        tags:
+          - { name: serializer.normalizer }

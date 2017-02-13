@@ -1,0 +1,33 @@
+ilios_api_get:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:Default:get }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: '[a-z]+'
+        id: '\d+'
+
+ilios_api_getall:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:Default:getAll }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: '[a-z]+'
+
+ilios_api_post:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:Default:post }
+    methods:  [POST]
+    requirements:
+        version: 'v\d+'
+        object: '[a-z]+'
+
+ilios_api_put:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:Default:put }
+    methods:  [PUT]
+    requirements:
+        version: 'v\d+'
+        object: '[a-z]+'
+        id: '\d+'

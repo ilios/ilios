@@ -43,7 +43,7 @@ class SessionControllerTest extends AbstractControllerTest
     /**
      * @group controllers_b
      */
-    public function testGetSession()
+    public function testGetOneSession()
     {
         $session = $this->container
             ->get('ilioscore.dataloader.session')
@@ -53,8 +53,8 @@ class SessionControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_sessions',
-                ['id' => $session['id']]
+                'ilios_api_get',
+                ['version' => 'v1', 'object' => 'sessions', 'id' => $session['id']]
             ),
             null,
             $this->getAuthenticatedUserToken()
@@ -84,7 +84,10 @@ class SessionControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('cget_sessions'),
+            $this->getUrl(
+                'ilios_api_getall',
+                ['version' => 'v1', 'object' => 'session']
+            ),
             null,
             $this->getAuthenticatedUserToken()
         );
@@ -124,7 +127,7 @@ class SessionControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_sessions'),
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'session']),
             json_encode(['session' => $postData]),
             $this->getAuthenticatedUserToken()
         );
@@ -157,13 +160,13 @@ class SessionControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_sessions'),
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'session']),
             json_encode(['session' => $invalidSession]),
             $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode(), $response->getContent());
     }
 
     /**
@@ -178,15 +181,14 @@ class SessionControllerTest extends AbstractControllerTest
 
         $postData = $data;
         //unset any parameters which should not be POSTed
-        unset($postData['id']);
         unset($postData['offerings']);
         unset($postData['learningMaterials']);
 
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
-                'put_sessions',
-                ['id' => $data['id']]
+                'ilios_api_put',
+                ['version' => 'v1', 'object' => 'session', 'id' => $data['id']]
             ),
             json_encode(['session' => $postData]),
             $this->getAuthenticatedUserToken()
