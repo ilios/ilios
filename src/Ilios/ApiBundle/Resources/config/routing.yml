@@ -31,3 +31,12 @@ ilios_api_put:
         version: 'v\d+'
         object: '[a-z]+'
         id: '\d+'
+
+ilios_api_delete:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:Default:delete }
+    methods:  [DELETE]
+    requirements:
+        version: 'v\d+'
+        object: '[a-z]+'
+        id: '\d+'

@@ -171,6 +171,29 @@ class DefaultController extends Controller
         return $response;
     }
 
+    public function deleteAction($version, $object, $id, Request $request)
+    {
+        $manager = $this->getManager($object);
+        $entity = $manager->findOneBy(['id'=> $id]);
+
+        if (! $entity) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+        }
+
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted('delete', $entity)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
+        }
+
+        try {
+            $manager->delete($entity);
+
+            return new Response('', Response::HTTP_NO_CONTENT);
+        } catch (\Exception $exception) {
+            throw new \RuntimeException("Deletion not allowed: " . $exception->getMessage());
+        }
+    }
+
     protected function getManager($object)
     {
         $singularName = $this->getSingularObjectName($object);
