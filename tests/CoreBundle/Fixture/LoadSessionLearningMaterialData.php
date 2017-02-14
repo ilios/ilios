@@ -35,6 +35,7 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
             $entity->setPublicNotes($arr['publicNotes']);
             $entity->setNotes($arr['notes']);
             $entity->setSession($this->getReference('sessions' . $arr['session']));
+            $entity->setPosition($arr['position']);
             if ($arr['learningMaterial']) {
                 $entity->setLearningMaterial($this->getReference('learningMaterials' . $arr['learningMaterial']));
             }
