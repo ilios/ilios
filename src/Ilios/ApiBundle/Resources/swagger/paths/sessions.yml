@@ -1,0 +1,41 @@
+/sessions:
+      get:
+        summary: Sessions
+        description: |
+          Ilios Sessions
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+        tags:
+          - Sessions
+        responses:
+          200:
+            description: An array of sessions as relteaed to a rcourse
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Session'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/sessions/{id}:
+  get:
+    summary: Session
+    description: |
+      Ilios Session
+    tags:
+      - Sessions
+    responses:
+      200:
+        description: A session
+        schema:
+          $ref: '#/definitions/Session'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

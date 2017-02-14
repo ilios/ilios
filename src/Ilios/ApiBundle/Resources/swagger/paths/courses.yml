@@ -1,0 +1,41 @@
+/courses:
+      get:
+        summary: Courses
+        description: |
+          Ilios Courses
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+        tags:
+          - Courses
+        responses:
+          200:
+            description: An array of courses as relteaed to a rcourse
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Course'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/courses/{id}:
+  get:
+    summary: Course
+    description: |
+      Ilios Course
+    tags:
+      - Courses
+    responses:
+      200:
+        description: A course
+        schema:
+          $ref: '#/definitions/Course'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

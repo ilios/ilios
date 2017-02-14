@@ -1,0 +1,9 @@
+Course:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id
+      title:
+        type: string
+        description: Title

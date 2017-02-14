@@ -1,3 +1,8 @@
+ilios_api_docs:
+    path:     /docs/swagger.yml
+    defaults: { _controller: IliosApiBundle:SwaggerDocs:index }
+    methods:  [GET]
+
 ilios_api_get:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:Default:get }
