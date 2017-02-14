@@ -16,7 +16,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'session' => '1',
             'learningMaterial' => '1',
             'meshDescriptors' => ['abc1'],
-            'position' => 0,
+            'position' => 1,
         );
 
         $arr[] = array(
