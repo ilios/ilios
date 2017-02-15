@@ -104,8 +104,16 @@ class Entity extends ObjectNormalizer
                     $exposedProperties[$attribute],
                     $value
                 );
-                if (null !== $denormalizedValue) {
+                try {
                     $this->setAttributeValue($object, $attribute, $denormalizedValue, $format, $context);
+                } catch (\InvalidArgumentException $exception) {
+                    $type = $this->entityMetadata->getTypeOfProperty($exposedProperties[$attribute]);
+                    if (null !== $denormalizedValue or 'entity' !== $type) {
+                        throw $exception;
+                    }
+
+                    // we ignore attempts to set entiteis to NULL when they are type hinted otherwise
+                    // This will get caught in the validator with a much nicer message
                 }
             }
         }
