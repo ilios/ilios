@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\Common\Util\Inflector;
 
-class DefaultController extends Controller
+class ApiController extends Controller
 {
     public function getAction($version, $object, $id)
     {
