@@ -313,4 +313,112 @@ class SessionsTest extends AbstractTest
         $filters = ['filters[schools]' => [2]];
         $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
     }
+
+    /**
+     * @group api_1
+     */
+    public function testUpdatingIlmUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
+        $data = $dataLoader->getOne();
+        $data['instructors'] = ["1", "2"];
+        $this->relatedTimeStampUpdateTest('sessions', $data['session'], ['updatedAt'], 'ilmsessions', $data);
+    }
+
+    /**
+     * @group api_1
+     */
+    public function testUpdatingIlmInstructorGroupsUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
+        $data = $dataLoader->getOne();
+        $data['instructors'] = ["1", "2"];
+        $this->relatedTimeStampUpdateTest('sessions', $data['session'], ['updatedAt'], 'ilmsessions', $data);
+    }
+
+    /**
+     * @group api_1
+     */
+    public function testUpdatingIlmLearnerGroupsUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
+        $data = $dataLoader->getOne();
+        $data['learnerGroups'] = ["1", "2"];
+        $this->relatedTimeStampUpdateTest('sessions', $data['session'], ['updatedAt'], 'ilmsessions', $data);
+    }
+
+    /**
+     * @group api_1
+     */
+    public function testUpdatingIlmLearnersUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
+        $data = $dataLoader->getOne();
+        $data['learners'] = ["1", "2"];
+        $this->relatedTimeStampUpdateTest('sessions', $data['session'], ['updatedAt'], 'ilmsessions', $data);
+    }
+
+    /**
+     * @group api_1
+     */
+    public function testUpdatingLearningMaterialUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.learningmaterial');
+        $data = $dataLoader->getOne();
+        $data['status'] = '1';
+        $this->relatedTimeStampUpdateTest('sessions', 1, ['updatedAt'], 'learningmaterials', $data);
+    }
+
+    /**
+     * @group api_1
+     */
+    public function testNewSessionLearningMaterialUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
+        $data = $dataLoader->create();
+        $this->relatedTimeStampPostTest('sessions', 1, ['updatedAt'], 'sessionlearningmaterials', $data);
+    }
+
+    /**
+     * @group api_1
+     */
+    public function testUpdatingSessionLearningMaterialUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
+        $data = $dataLoader->getOne();
+        $data['required'] = !$data['required'];
+        $this->relatedTimeStampUpdateTest('sessions', 1, ['updatedAt'], 'sessionlearningmaterials', $data);
+    }
+
+    /**
+     * @group api_1
+     */
+    public function testDeletingSessionLearningMaterialUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
+        $data = $dataLoader->getOne();
+        $this->relatedTimeStampDeleteTest('sessions', 1, ['updatedAt'], 'sessionlearningmaterials', $data['id']);
+    }
+
+    /**
+     * @group api_1
+     */
+    public function testDeletingSessionDescriptionUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.sessiondescription');
+        $data = $dataLoader->getOne();
+        $this->relatedTimeStampDeleteTest('sessions', $data['session'], ['updatedAt'], 'sessiondescriptions', $data['id']);
+    }
+
+    /**
+     * @group api_1
+     */
+    public function testUpdatingSessionDescriptionUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.sessiondescription');
+        $data = $dataLoader->getOne();
+        $data['description'] = 'new description';
+        $this->relatedTimeStampUpdateTest('sessions', $data['session'], ['updatedAt'], 'sessiondescriptions', $data);
+    }
+
 }

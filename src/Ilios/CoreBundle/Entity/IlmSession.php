@@ -65,7 +65,7 @@ class IlmSession implements IlmSessionInterface
      * @Assert\NotBlank()
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $session;
 

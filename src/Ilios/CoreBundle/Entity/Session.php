@@ -34,7 +34,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  *
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\SessionRepository")
  *
- * @IS\Entity;
+ * @IS\Entity
  */
 class Session implements SessionInterface
 {

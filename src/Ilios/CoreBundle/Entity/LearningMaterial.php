@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class LearningMaterial
@@ -23,6 +24,8 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *  name="learning_material",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="idx_learning_material_token_unique", columns={"token"})}
  * )
+ *
+ * @IS\Entity
  */
 class LearningMaterial implements LearningMaterialInterface
 {
@@ -39,6 +42,9 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @Assert\Type(type="integer")
+     *
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
@@ -53,6 +59,9 @@ class LearningMaterial implements LearningMaterialInterface
      *      min = 1,
      *      max = 60
      * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -66,6 +75,9 @@ class LearningMaterial implements LearningMaterialInterface
      *      min = 1,
      *      max = 65000
      * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $description;
 
@@ -75,6 +87,10 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="upload_date", type="datetime")
      *
      * @Assert\NotBlank()
+     *
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $uploadDate;
 
@@ -89,6 +105,9 @@ class LearningMaterial implements LearningMaterialInterface
      *      min = 1,
      *      max = 80
      * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $originalAuthor;
 
@@ -116,6 +135,9 @@ class LearningMaterial implements LearningMaterialInterface
      *     referencedColumnName="learning_material_user_role_id",
      *     nullable=false)
      * })
+     *
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $userRole;
 
@@ -130,6 +152,9 @@ class LearningMaterial implements LearningMaterialInterface
      *     referencedColumnName="learning_material_status_id",
      *     nullable=false)
      * })
+     *
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $status;
 
@@ -141,6 +166,9 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="owning_user_id", referencedColumnName="user_id", nullable=false)
      * })
+     *
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $owningUser;
 
@@ -148,6 +176,9 @@ class LearningMaterial implements LearningMaterialInterface
      * @var ArrayCollection|SessionLearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="learningMaterial")
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sessionLearningMaterials;
 
@@ -155,6 +186,9 @@ class LearningMaterial implements LearningMaterialInterface
     * @var ArrayCollection|CourseLearningMaterialInterface[]
     *
     * @ORM\OneToMany(targetEntity="CourseLearningMaterial",mappedBy="learningMaterial")
+     *
+     * @IS\Expose
+     * @IS\Type("entityCollection")
     */
     protected $courseLearningMaterials;
 
@@ -170,6 +204,9 @@ class LearningMaterial implements LearningMaterialInterface
      *      max = 512,
      *      groups={"citation"}
      * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $citation;
 
@@ -195,6 +232,9 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="copyright_ownership", type="boolean", nullable=true)
      *
      * @Assert\Type(type="bool")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $copyrightPermission;
 
@@ -208,6 +248,9 @@ class LearningMaterial implements LearningMaterialInterface
     *      min = 1,
     *      max = 65000
     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $copyrightRationale;
 
@@ -222,6 +265,9 @@ class LearningMaterial implements LearningMaterialInterface
     *      max = 255,
      *     groups={"file"}
     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $filename;
 
@@ -236,6 +282,9 @@ class LearningMaterial implements LearningMaterialInterface
     *      max = 96,
     *      groups={"file"}
     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $mimetype;
 
@@ -245,6 +294,9 @@ class LearningMaterial implements LearningMaterialInterface
     * @ORM\Column(name="filesize", type="integer", nullable=true, options={"unsigned"=true})
     *
     * @Assert\Type(type="integer")
+     *
+     * @IS\Expose
+     * @IS\Type("integer")
     */
     protected $filesize;
 
@@ -255,6 +307,9 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="web_link", type="string", length=256, nullable=true)
      *
      * @Assert\Type(type="string", groups={"link"})
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $link;
 

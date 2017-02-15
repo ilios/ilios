@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
  * Class UserEvent
  * @package Ilios\CoreBundle\Classes
  *
- * @IS\Entity
+ * @IS\DTO
  */
 class LearningMaterialDecorator
 {
@@ -63,7 +63,7 @@ class LearningMaterialDecorator
      * @var string
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $userRole;
 
@@ -71,7 +71,7 @@ class LearningMaterialDecorator
      * @var string
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $status;
 
@@ -79,7 +79,7 @@ class LearningMaterialDecorator
      * @var string
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $owningUser;
 

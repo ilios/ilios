@@ -58,7 +58,7 @@ class SessionDescription implements SessionDescriptionInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $session;
 

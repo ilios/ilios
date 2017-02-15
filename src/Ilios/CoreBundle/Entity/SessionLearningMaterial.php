@@ -100,7 +100,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $session;
 
@@ -115,7 +115,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $learningMaterial;
 
