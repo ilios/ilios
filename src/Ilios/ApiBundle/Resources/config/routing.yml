@@ -1,5 +1,5 @@
 ilios_swagger_file:
-    path:     /docs/swagger.yml
+    path:     /doc/swagger.yml
     defaults: { _controller: IliosApiBundle:SwaggerDocs:index }
     methods:  [GET]
 
