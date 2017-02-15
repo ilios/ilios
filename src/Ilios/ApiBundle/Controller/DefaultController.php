@@ -2,7 +2,6 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\CoreBundle\Entity\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,11 +82,11 @@ class DefaultController extends Controller
         $data = $this->extractDataFromRequest($request, $object);
         $serializer = $this->container->get('serializer');
 
-        $session = $manager->create();
-        $serializer->deserialize($data, Session::class, 'json', array('object_to_populate' => $session));
+        $entity = $manager->create();
+        $serializer->deserialize($data, get_class($entity), 'json', array('object_to_populate' => $entity));
 
         $validator = $this->container->get('validator');
-        $errors = $validator->validate($session);
+        $errors = $validator->validate($entity);
 
         if (count($errors) > 0) {
             $errorsString = (string) $errors;
@@ -99,13 +98,13 @@ class DefaultController extends Controller
         }
 
         $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('create', $session)) {
+        if (! $authChecker->isGranted('create', $entity)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        $manager->update($session, true, false);
+        $manager->update($entity, true, false);
 
-        $answer[$object] = [$session];
+        $answer[$object] = [$entity];
 
         $response = new Response(
             $serializer->serialize($answer, 'json'),
