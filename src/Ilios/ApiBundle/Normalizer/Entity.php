@@ -99,7 +99,7 @@ class Entity extends ObjectNormalizer
                 $attribute = $this->nameConverter->denormalize($attribute);
             }
 
-            if (!empty($value) && array_key_exists($attribute, $exposedProperties)) {
+            if (array_key_exists($attribute, $exposedProperties)) {
                 $denormalizedValue = $this->getDenormalizedValueForProperty(
                     $exposedProperties[$attribute],
                     $value
@@ -147,15 +147,7 @@ class Entity extends ObjectNormalizer
      */
     protected function getDenormalizedValueForProperty(\ReflectionProperty $property, $value)
     {
-        if (null == $value) {
-            return null;
-        }
-
         $type = $this->entityMetadata->getTypeOfProperty($property);
-        if ($type === 'dateTime') {
-            $value = new \DateTime($value);
-        }
-
         if (in_array($type, ['entity', 'entityCollection'])) {
             $manager = $this->registry->getManagerForClass($property->class);
             $metaData = $manager->getClassMetadata($property->class);
@@ -165,7 +157,7 @@ class Entity extends ObjectNormalizer
             $targetEntity = $association['targetEntity'];
             $repository = $this->registry->getRepository($targetEntity);
 
-            if ($type === 'entity') {
+            if (!empty($value) && $type === 'entity') {
                 $value = $repository->find($value);
             } else {
                 if (is_array($value) && !empty($value)) {
@@ -175,6 +167,10 @@ class Entity extends ObjectNormalizer
                 }
             }
 
+        }
+
+        if (null !== $value and $type === 'dateTime') {
+            $value = new \DateTime($value);
         }
 
         return $value;
