@@ -150,3 +150,6 @@ httplug:
 happyr_google_analytics:
     tracking_id: "%ilios_core.tracking_code%"
     http_message_factory: 'httplug.message_factory'
+
+al_swagger_ui:
+    resource_list: ilios_swagger_file

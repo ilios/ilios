@@ -1,4 +1,4 @@
-ilios_api_docs:
+ilios_swagger_file:
     path:     /docs/swagger.yml
     defaults: { _controller: IliosApiBundle:SwaggerDocs:index }
     methods:  [GET]
