@@ -9,7 +9,7 @@ namespace Ilios\ApiBundle\Annotation;
 class Type
 {
     /**
-     * @Enum({"integer", "float", "string", "boolean", "dateTime", "entity", "entityCollection"})
+     * @Enum({"integer", "float", "string", "boolean", "dateTime", "entity", "entityCollection", "array<string>"})
      */
     public $value;
 }
