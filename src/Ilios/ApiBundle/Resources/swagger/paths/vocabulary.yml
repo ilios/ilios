@@ -77,6 +77,12 @@
     summary: Fetch a single Vocabulary
     description: |
           Ilios Vocabulary
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Vocabularies
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Vocabularies
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

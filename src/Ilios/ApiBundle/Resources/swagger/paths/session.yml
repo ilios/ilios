@@ -77,6 +77,12 @@
     summary: Fetch a single Session
     description: |
           Ilios Session
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Sessions
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Sessions
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

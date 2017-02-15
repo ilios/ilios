@@ -77,6 +77,12 @@
     summary: Fetch a single Schoolconfig
     description: |
           Ilios Schoolconfig
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Schoolconfigs
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Schoolconfigs
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

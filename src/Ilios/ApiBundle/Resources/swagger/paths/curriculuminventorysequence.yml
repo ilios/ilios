@@ -77,6 +77,12 @@
     summary: Fetch a single Curriculuminventorysequence
     description: |
           Ilios Curriculuminventorysequence
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Curriculuminventorysequences
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Curriculuminventorysequences
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

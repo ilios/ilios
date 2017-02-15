@@ -77,6 +77,12 @@
     summary: Fetch a single Curriculuminventorydownload
     description: |
           Ilios Curriculuminventorydownload
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Curriculuminventorydownloads
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Curriculuminventorydownloads
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

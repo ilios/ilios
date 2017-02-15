@@ -77,6 +77,12 @@
     summary: Fetch a single Term
     description: |
           Ilios Term
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Terms
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Terms
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

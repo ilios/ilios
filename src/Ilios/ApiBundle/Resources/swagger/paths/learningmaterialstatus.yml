@@ -77,6 +77,12 @@
     summary: Fetch a single Learningmaterialstatus
     description: |
           Ilios Learningmaterialstatus
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Learningmaterialstatuses
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Learningmaterialstatuses
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

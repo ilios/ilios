@@ -77,6 +77,12 @@
     summary: Fetch a single Meshpreviousindexing
     description: |
           Ilios Meshpreviousindexing
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Meshpreviousindexings
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Meshpreviousindexings
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

@@ -77,6 +77,12 @@
     summary: Fetch a single Applicationconfig
     description: |
           Ilios Applicationconfig
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Applicationconfigs
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Applicationconfigs
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

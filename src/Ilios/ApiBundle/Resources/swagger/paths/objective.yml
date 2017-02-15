@@ -77,6 +77,12 @@
     summary: Fetch a single Objective
     description: |
           Ilios Objective
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Objectives
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Objectives
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

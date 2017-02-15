@@ -77,6 +77,12 @@
     summary: Fetch a single Meshdescriptor
     description: |
           Ilios Meshdescriptor
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Meshdescriptors
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Meshdescriptors
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

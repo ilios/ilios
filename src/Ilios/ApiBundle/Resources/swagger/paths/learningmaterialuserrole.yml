@@ -77,6 +77,12 @@
     summary: Fetch a single Learningmaterialuserrole
     description: |
           Ilios Learningmaterialuserrole
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Learningmaterialuserroles
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Learningmaterialuserroles
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

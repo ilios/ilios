@@ -77,6 +77,12 @@
     summary: Fetch a single Academicyear
     description: |
           Ilios Academicyear
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Academicyears
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Academicyears
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

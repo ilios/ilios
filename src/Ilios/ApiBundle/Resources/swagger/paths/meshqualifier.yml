@@ -77,6 +77,12 @@
     summary: Fetch a single Meshqualifier
     description: |
           Ilios Meshqualifier
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Meshqualifiers
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Meshqualifiers
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

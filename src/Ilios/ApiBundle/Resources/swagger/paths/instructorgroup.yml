@@ -77,6 +77,12 @@
     summary: Fetch a single Instructorgroup
     description: |
           Ilios Instructorgroup
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Instructorgroups
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Instructorgroups
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

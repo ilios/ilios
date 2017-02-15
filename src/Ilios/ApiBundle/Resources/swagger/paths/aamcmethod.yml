@@ -77,6 +77,12 @@
     summary: Fetch a single Aamcmethod
     description: |
           Ilios Aamcmethod
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Aamcmethods
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Aamcmethods
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

@@ -77,6 +77,12 @@
     summary: Fetch a single Course
     description: |
           Ilios Course
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Courses
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Courses
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

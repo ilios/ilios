@@ -70,7 +70,7 @@ class AamcmethodsTest extends AbstractTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        $data['description'] = ['new'];
+        $data['description'] = 'new';
 
         $postData = $data;
         $this->putTest('aamcmethods', $data, $postData);

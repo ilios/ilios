@@ -77,6 +77,12 @@
     summary: Fetch a single Meshtree
     description: |
           Ilios Meshtree
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Meshtrees
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Meshtrees
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

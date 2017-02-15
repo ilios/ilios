@@ -77,6 +77,12 @@
     summary: Fetch a single Programyearsteward
     description: |
           Ilios Programyearsteward
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Programyearstewards
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Programyearstewards
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

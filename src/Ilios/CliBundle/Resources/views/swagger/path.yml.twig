@@ -77,6 +77,12 @@
     summary: Fetch a single {{ object | capitalize }}
     description: |
           Ilios {{ object | capitalize }}
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - {{ endpoint | capitalize }}
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios {{ endpoint | capitalize }}
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

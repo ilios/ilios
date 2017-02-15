@@ -77,6 +77,12 @@
     summary: Fetch a single Usermaterial
     description: |
           Ilios Usermaterial
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Usermaterials
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Usermaterials
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true

@@ -77,6 +77,12 @@
     summary: Fetch a single Program
     description: |
           Ilios Program
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Programs
     responses:
@@ -98,6 +104,11 @@
     description: |
       Ilios Programs
     parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     - name: body
       in: body
       required: true
