@@ -10,7 +10,7 @@ ilios_api_get:
     requirements:
         version: 'v\d+'
         object: '[a-z]+'
-        id: '\d+'
+        id: '(?i)[a-z0-9]+'
 
 ilios_api_getall:
     path:     /{version}/{object}
@@ -35,7 +35,7 @@ ilios_api_put:
     requirements:
         version: 'v\d+'
         object: '[a-z]+'
-        id: '\d+'
+        id: '(?i)[a-z0-9]+'
 
 ilios_api_delete:
     path:     /{version}/{object}/{id}
@@ -44,4 +44,4 @@ ilios_api_delete:
     requirements:
         version: 'v\d+'
         object: '[a-z]+'
-        id: '\d+'
+        id: '(?i)[a-z0-9]+'
