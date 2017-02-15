@@ -1,0 +1,135 @@
+/usermaterials:
+      get:
+        summary: Fetch all Usermaterials
+        description: |
+          Ilios Usermaterials
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Usermaterials
+        responses:
+          200:
+            description: An array of usermaterials
+            schema:
+              type: object
+              properties:
+                usermaterials:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Usermaterial'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Usermaterials
+        description: |
+          Ilios Usermaterials
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                usermaterial:
+                  $ref: '#/definitions/Usermaterial'
+        tags:
+          - Usermaterials
+        responses:
+          201:
+            description: A single Usermaterial
+            schema:
+              type: object
+              properties:
+                usermaterials:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Usermaterial'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/usermaterials/{id}:
+  get:
+    summary: Fetch a single Usermaterial
+    description: |
+          Ilios Usermaterial
+    tags:
+      - Usermaterials
+    responses:
+      200:
+        description: A single Usermaterial
+        schema:
+          type: object
+          properties:
+            usermaterials:
+              type: array
+              items:
+                $ref: '#/definitions/Usermaterial'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Usermaterial
+    description: |
+      Ilios Usermaterials
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            usermaterial:
+              $ref: '#/definitions/Usermaterial'
+    tags:
+      - Usermaterials
+    responses:
+      200:
+        description: A single Usermaterial
+        schema:
+          type: object
+          properties:
+            usermaterial:
+              $ref: '#/definitions/Usermaterial'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Usermaterial
+    description: |
+          Delete Ilios Usermaterial
+    tags:
+      - Usermaterials
+    responses:
+      204:
+        description: Deleted Usermaterial
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

@@ -1,0 +1,35 @@
+Ilmsession:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  session:
+   description: Session
+   type: string
+  hours:
+   description: Hours
+   type: float
+  dueDate:
+   description: Duedate
+   type: dateTime
+  learnerGroups:
+   description: Learnergroups
+   type: array
+   items:
+    type: string
+  instructorGroups:
+   description: Instructorgroups
+   type: array
+   items:
+    type: string
+  instructors:
+   description: Instructors
+   type: array
+   items:
+    type: string
+  learners:
+   description: Learners
+   type: array
+   items:
+    type: string

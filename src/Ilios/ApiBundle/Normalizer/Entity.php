@@ -2,10 +2,9 @@
 
 namespace Ilios\ApiBundle\Normalizer;
 
-use Ilios\ApiBundle\Annotation\Type;
-use Doctrine\Common\Annotations\Reader;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Ilios\CoreBundle\Service\EntityMetadata;
 
 /**
  * Ilios Entity normalizer
@@ -13,9 +12,9 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 class Entity extends ObjectNormalizer
 {
     /**
-     * @var Reader
+     * @var EntityMetadata
      */
-    private $annotationReader;
+    private $entityMetadata;
 
     /**
      * @var Registry
@@ -23,11 +22,11 @@ class Entity extends ObjectNormalizer
     private $registry;
 
     /**
-     * @param Reader $annotationReader
+     * @param EntityMetadata $entityMetadata
      */
-    public function setReader(Reader $annotationReader)
+    public function setEntityMetadata(EntityMetadata $entityMetadata)
     {
-        $this->annotationReader = $annotationReader;
+        $this->entityMetadata = $entityMetadata;
     }
 
     /**
@@ -57,11 +56,11 @@ class Entity extends ObjectNormalizer
     protected function getAttributeValue($object, $property, $format = null, array $context = array())
     {
         $reflection = new \ReflectionClass($object);
-        $exposedProperties = $this->extractExposedProperties($reflection);
+        $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
         if (!array_key_exists($property, $exposedProperties)) {
             return null;
         }
-        $type = $this->getTypeOfProperty($exposedProperties[$property]);
+        $type = $this->entityMetadata->getTypeOfProperty($exposedProperties[$property]);
 
         if ($type === 'dateTime') {
             $value = $this->propertyAccessor->getValue($object, $property);
@@ -93,7 +92,7 @@ class Entity extends ObjectNormalizer
         $reflection = new \ReflectionClass($class);
         $normalizedData = $this->prepareForDenormalization($data);
         $object = $this->instantiateObject($normalizedData, $class, $context, $reflection, false);
-        $exposedProperties = $this->extractExposedProperties($reflection);
+        $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
 
         foreach ($normalizedData as $attribute => $value) {
             if ($this->nameConverter) {
@@ -119,7 +118,7 @@ class Entity extends ObjectNormalizer
      */
     public function supportsNormalization($data, $format = null)
     {
-        return $this->isAnIliosEntity($data);
+        return $this->entityMetadata->isAnIliosEntity($data);
     }
 
     /**
@@ -127,62 +126,7 @@ class Entity extends ObjectNormalizer
      */
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return $this->isAnIliosEntity($type);
-    }
-
-    protected function isAnIliosEntity($classNameOrObject)
-    {
-        if (
-            (is_string($classNameOrObject) && class_exists($classNameOrObject)) ||
-            is_object($classNameOrObject)
-        ) {
-            $annotation = $this->annotationReader->getClassAnnotation(
-                new \ReflectionClass($classNameOrObject),
-                'Ilios\ApiBundle\Annotation\Entity'
-            );
-
-            return !is_null($annotation);
-        }
-
-        return false;
-    }
-
-    protected function extractExposedProperties(\ReflectionClass $reflection)
-    {
-        $properties = $reflection->getProperties();
-
-        $exposed =  array_filter($properties, function( \ReflectionProperty $property) {
-            $annotation = $this->annotationReader->getPropertyAnnotation(
-                $property,
-                'Ilios\ApiBundle\Annotation\Expose'
-            );
-
-            return !is_null($annotation);
-        });
-
-        $exposedProperties = [];
-        foreach ($exposed as $property) {
-            $exposedProperties[$property->name] = $property;
-        }
-
-        return $exposedProperties;
-    }
-
-    protected function getTypeOfProperty(\ReflectionProperty $property)
-    {
-        /** @var Type $typeAnnotation */
-        $typeAnnotation = $this->annotationReader->getPropertyAnnotation(
-            $property,
-            'Ilios\ApiBundle\Annotation\Type'
-        );
-
-        if (is_null($typeAnnotation)) {
-            throw new \Exception(
-                "Missing Type annotation on {$property->class}::{$property->getName()}"
-            );
-        }
-
-        return $typeAnnotation->value;
+        return $this->entityMetadata->isAnIliosEntity($type);
     }
 
     /**
@@ -199,7 +143,7 @@ class Entity extends ObjectNormalizer
             return null;
         }
 
-        $type = $this->getTypeOfProperty($property);
+        $type = $this->entityMetadata->getTypeOfProperty($property);
         if ($type === 'dateTime') {
             $value = new \DateTime($value);
         }

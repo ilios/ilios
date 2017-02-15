@@ -1,0 +1,135 @@
+/userroles:
+      get:
+        summary: Fetch all Userroles
+        description: |
+          Ilios Userroles
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Userroles
+        responses:
+          200:
+            description: An array of userroles
+            schema:
+              type: object
+              properties:
+                userroles:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Userrole'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Userroles
+        description: |
+          Ilios Userroles
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                userrole:
+                  $ref: '#/definitions/Userrole'
+        tags:
+          - Userroles
+        responses:
+          201:
+            description: A single Userrole
+            schema:
+              type: object
+              properties:
+                userroles:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Userrole'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/userroles/{id}:
+  get:
+    summary: Fetch a single Userrole
+    description: |
+          Ilios Userrole
+    tags:
+      - Userroles
+    responses:
+      200:
+        description: A single Userrole
+        schema:
+          type: object
+          properties:
+            userroles:
+              type: array
+              items:
+                $ref: '#/definitions/Userrole'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Userrole
+    description: |
+      Ilios Userroles
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            userrole:
+              $ref: '#/definitions/Userrole'
+    tags:
+      - Userroles
+    responses:
+      200:
+        description: A single Userrole
+        schema:
+          type: object
+          properties:
+            userrole:
+              $ref: '#/definitions/Userrole'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Userrole
+    description: |
+          Delete Ilios Userrole
+    tags:
+      - Userroles
+    responses:
+      204:
+        description: Deleted Userrole
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

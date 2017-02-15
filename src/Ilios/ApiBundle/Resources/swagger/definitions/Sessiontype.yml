@@ -1,0 +1,20 @@
+Sessiontype:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  title:
+   description: Title
+   type: string
+  assessmentOption:
+   description: Assessmentoption
+   type: string
+  school:
+   description: School
+   type: string
+  aamcMethods:
+   description: Aamcmethods
+   type: array
+   items:
+    type: string

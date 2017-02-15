@@ -74,3 +74,6 @@ services:
             class:     Doctrine\Common\Cache\Cache
             factory: ['Ilios\CoreBundle\Service\CacheFactory', createCache]
             arguments: ["%kernel.environment%"]
+    ilioscore.entitymetadata:
+        class: Ilios\CoreBundle\Service\EntityMetadata
+        arguments: [ "@annotation_reader" ]

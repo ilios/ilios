@@ -1,0 +1,135 @@
+/cohorts:
+      get:
+        summary: Fetch all Cohorts
+        description: |
+          Ilios Cohorts
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Cohorts
+        responses:
+          200:
+            description: An array of cohorts
+            schema:
+              type: object
+              properties:
+                cohorts:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Cohort'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Cohorts
+        description: |
+          Ilios Cohorts
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                cohort:
+                  $ref: '#/definitions/Cohort'
+        tags:
+          - Cohorts
+        responses:
+          201:
+            description: A single Cohort
+            schema:
+              type: object
+              properties:
+                cohorts:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Cohort'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/cohorts/{id}:
+  get:
+    summary: Fetch a single Cohort
+    description: |
+          Ilios Cohort
+    tags:
+      - Cohorts
+    responses:
+      200:
+        description: A single Cohort
+        schema:
+          type: object
+          properties:
+            cohorts:
+              type: array
+              items:
+                $ref: '#/definitions/Cohort'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Cohort
+    description: |
+      Ilios Cohorts
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            cohort:
+              $ref: '#/definitions/Cohort'
+    tags:
+      - Cohorts
+    responses:
+      200:
+        description: A single Cohort
+        schema:
+          type: object
+          properties:
+            cohort:
+              $ref: '#/definitions/Cohort'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Cohort
+    description: |
+          Delete Ilios Cohort
+    tags:
+      - Cohorts
+    responses:
+      204:
+        description: Deleted Cohort
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

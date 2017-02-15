@@ -1,6 +1,6 @@
 /sessions:
       get:
-        summary: Sessions
+        summary: Fetch all Sessions
         description: |
           Ilios Sessions
         parameters:
@@ -10,31 +10,125 @@
             required: false
             type: number
             format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
         tags:
           - Sessions
         responses:
           200:
-            description: An array of sessions as relteaed to a rcourse
+            description: An array of sessions
             schema:
-              type: array
-              items:
-                $ref: '#/definitions/Session'
+              type: object
+              properties:
+                sessions:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Session'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Sessions
+        description: |
+          Ilios Sessions
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                session:
+                  $ref: '#/definitions/Session'
+        tags:
+          - Sessions
+        responses:
+          201:
+            description: A single Session
+            schema:
+              type: object
+              properties:
+                sessions:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Session'
           default:
             description: Unexpected error
             schema:
               $ref: '#/definitions/Error'
 /sessions/{id}:
   get:
-    summary: Session
+    summary: A single Session
     description: |
-      Ilios Session
+          Ilios Session
     tags:
       - Sessions
     responses:
       200:
-        description: A session
+        description: A single Session
         schema:
-          $ref: '#/definitions/Session'
+          type: object
+          properties:
+            sessions:
+              type: array
+              items:
+                $ref: '#/definitions/Session'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Sessions
+    description: |
+      Ilios Sessions
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            session:
+              $ref: '#/definitions/Session'
+    tags:
+      - Sessions
+    responses:
+      200:
+        description: A single Session
+        schema:
+          type: object
+          properties:
+            session:
+              $ref: '#/definitions/Session'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Session
+    description: |
+          Delete Ilios Session
+    tags:
+      - Sessions
+    responses:
+      204:
+        description: Deleted Session
       default:
         description: Unexpected error
         schema:

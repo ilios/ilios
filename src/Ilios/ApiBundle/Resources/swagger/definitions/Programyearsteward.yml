@@ -1,0 +1,15 @@
+Programyearsteward:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  department:
+   description: Department
+   type: string
+  programYear:
+   description: Programyear
+   type: string
+  school:
+   description: School
+   type: string

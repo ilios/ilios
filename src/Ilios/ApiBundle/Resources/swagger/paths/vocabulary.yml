@@ -1,0 +1,135 @@
+/vocabularies:
+      get:
+        summary: Fetch all Vocabularies
+        description: |
+          Ilios Vocabularies
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Vocabularies
+        responses:
+          200:
+            description: An array of vocabularies
+            schema:
+              type: object
+              properties:
+                vocabularies:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Vocabulary'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Vocabularies
+        description: |
+          Ilios Vocabularies
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                vocabulary:
+                  $ref: '#/definitions/Vocabulary'
+        tags:
+          - Vocabularies
+        responses:
+          201:
+            description: A single Vocabulary
+            schema:
+              type: object
+              properties:
+                vocabularies:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Vocabulary'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/vocabularies/{id}:
+  get:
+    summary: Fetch a single Vocabulary
+    description: |
+          Ilios Vocabulary
+    tags:
+      - Vocabularies
+    responses:
+      200:
+        description: A single Vocabulary
+        schema:
+          type: object
+          properties:
+            vocabularies:
+              type: array
+              items:
+                $ref: '#/definitions/Vocabulary'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Vocabulary
+    description: |
+      Ilios Vocabularies
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            vocabulary:
+              $ref: '#/definitions/Vocabulary'
+    tags:
+      - Vocabularies
+    responses:
+      200:
+        description: A single Vocabulary
+        schema:
+          type: object
+          properties:
+            vocabulary:
+              $ref: '#/definitions/Vocabulary'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Vocabulary
+    description: |
+          Delete Ilios Vocabulary
+    tags:
+      - Vocabularies
+    responses:
+      204:
+        description: Deleted Vocabulary
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

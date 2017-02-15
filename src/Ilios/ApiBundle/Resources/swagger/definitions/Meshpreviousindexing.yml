@@ -1,0 +1,12 @@
+Meshpreviousindexing:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  descriptor:
+   description: Descriptor
+   type: string
+  previousIndexing:
+   description: Previousindexing
+   type: string

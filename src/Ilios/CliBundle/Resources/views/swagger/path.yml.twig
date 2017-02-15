@@ -1,0 +1,135 @@
+/{{ endpoint }}:
+      get:
+        summary: Fetch all {{ endpoint | capitalize }}
+        description: |
+          Ilios {{ endpoint | capitalize }}
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - {{ endpoint | capitalize }}
+        responses:
+          200:
+            description: An array of {{ endpoint }}
+            schema:
+              type: object
+              properties:
+                {{ endpoint }}:
+                  type: array
+                  items:
+                    $ref: '#/definitions/{{ object | capitalize }}'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a {{ endpoint | capitalize }}
+        description: |
+          Ilios {{ endpoint | capitalize }}
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                {{ object }}:
+                  $ref: '#/definitions/{{ object | capitalize }}'
+        tags:
+          - {{ endpoint | capitalize }}
+        responses:
+          201:
+            description: A single {{ object | capitalize }}
+            schema:
+              type: object
+              properties:
+                {{ endpoint }}:
+                  type: array
+                  items:
+                    $ref: '#/definitions/{{ object | capitalize }}'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/{{ endpoint }}/{id}:
+  get:
+    summary: Fetch a single {{ object | capitalize }}
+    description: |
+          Ilios {{ object | capitalize }}
+    tags:
+      - {{ endpoint | capitalize }}
+    responses:
+      200:
+        description: A single {{ object | capitalize }}
+        schema:
+          type: object
+          properties:
+            {{ endpoint }}:
+              type: array
+              items:
+                $ref: '#/definitions/{{ object | capitalize }}'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a {{ object | capitalize }}
+    description: |
+      Ilios {{ endpoint | capitalize }}
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            {{ object }}:
+              $ref: '#/definitions/{{ object | capitalize }}'
+    tags:
+      - {{ endpoint | capitalize }}
+    responses:
+      200:
+        description: A single {{ object | capitalize }}
+        schema:
+          type: object
+          properties:
+            {{ object }}:
+              $ref: '#/definitions/{{ object | capitalize }}'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete {{ object | capitalize }}
+    description: |
+          Delete Ilios {{ object | capitalize }}
+    tags:
+      - {{ endpoint | capitalize }}
+    responses:
+      204:
+        description: Deleted {{ object | capitalize }}
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

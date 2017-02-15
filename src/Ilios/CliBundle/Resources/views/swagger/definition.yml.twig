@@ -1,0 +1,14 @@
+{{ entity | capitalize }}:
+ type: object
+ properties:
+{% for property in properties %}
+  {{ property.name }}:
+   description: {{ property.name | capitalize }}
+{% if property.type == 'arrayOfStrings' %}
+   type: array
+   items:
+    type: string
+{%  else %}
+   type: {{ property.type }}
+{% endif %}
+{% endfor %}

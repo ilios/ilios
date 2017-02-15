@@ -1,0 +1,17 @@
+Aamcresourcetype:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: string
+  title:
+   description: Title
+   type: string
+  description:
+   description: Description
+   type: string
+  terms:
+   description: Terms
+   type: array
+   items:
+    type: string

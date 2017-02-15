@@ -1,0 +1,135 @@
+/curriculuminventorydownloads:
+      get:
+        summary: Fetch all Curriculuminventorydownloads
+        description: |
+          Ilios Curriculuminventorydownloads
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Curriculuminventorydownloads
+        responses:
+          200:
+            description: An array of curriculuminventorydownloads
+            schema:
+              type: object
+              properties:
+                curriculuminventorydownloads:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Curriculuminventorydownload'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Curriculuminventorydownloads
+        description: |
+          Ilios Curriculuminventorydownloads
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                curriculuminventorydownload:
+                  $ref: '#/definitions/Curriculuminventorydownload'
+        tags:
+          - Curriculuminventorydownloads
+        responses:
+          201:
+            description: A single Curriculuminventorydownload
+            schema:
+              type: object
+              properties:
+                curriculuminventorydownloads:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Curriculuminventorydownload'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/curriculuminventorydownloads/{id}:
+  get:
+    summary: Fetch a single Curriculuminventorydownload
+    description: |
+          Ilios Curriculuminventorydownload
+    tags:
+      - Curriculuminventorydownloads
+    responses:
+      200:
+        description: A single Curriculuminventorydownload
+        schema:
+          type: object
+          properties:
+            curriculuminventorydownloads:
+              type: array
+              items:
+                $ref: '#/definitions/Curriculuminventorydownload'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Curriculuminventorydownload
+    description: |
+      Ilios Curriculuminventorydownloads
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            curriculuminventorydownload:
+              $ref: '#/definitions/Curriculuminventorydownload'
+    tags:
+      - Curriculuminventorydownloads
+    responses:
+      200:
+        description: A single Curriculuminventorydownload
+        schema:
+          type: object
+          properties:
+            curriculuminventorydownload:
+              $ref: '#/definitions/Curriculuminventorydownload'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Curriculuminventorydownload
+    description: |
+          Delete Ilios Curriculuminventorydownload
+    tags:
+      - Curriculuminventorydownloads
+    responses:
+      204:
+        description: Deleted Curriculuminventorydownload
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

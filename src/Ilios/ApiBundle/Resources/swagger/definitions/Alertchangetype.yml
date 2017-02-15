@@ -1,0 +1,14 @@
+Alertchangetype:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  title:
+   description: Title
+   type: string
+  alerts:
+   description: Alerts
+   type: array
+   items:
+    type: string

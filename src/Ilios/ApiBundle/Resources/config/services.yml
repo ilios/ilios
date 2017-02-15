@@ -3,7 +3,7 @@ services:
         class: Ilios\ApiBundle\Normalizer\Entity
         parent: serializer.normalizer.object
         calls:
-          - [setReader, ['@annotation_reader']]
+          - [setEntityMetadata, ['@ilioscore.entitymetadata']]
           - [setRegistry, ['@doctrine']]
         tags:
           - { name: serializer.normalizer }
@@ -12,6 +12,6 @@ services:
         class: Ilios\ApiBundle\Normalizer\DTO
         parent: serializer.normalizer.object
         calls:
-          - [setReader, ['@annotation_reader']]
+          - [setEntityMetadata, ['@ilioscore.entitymetadata']]
         tags:
           - { name: serializer.normalizer }

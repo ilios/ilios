@@ -1,0 +1,135 @@
+/meshdescriptors:
+      get:
+        summary: Fetch all Meshdescriptors
+        description: |
+          Ilios Meshdescriptors
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Meshdescriptors
+        responses:
+          200:
+            description: An array of meshdescriptors
+            schema:
+              type: object
+              properties:
+                meshdescriptors:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Meshdescriptor'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Meshdescriptors
+        description: |
+          Ilios Meshdescriptors
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                meshdescriptor:
+                  $ref: '#/definitions/Meshdescriptor'
+        tags:
+          - Meshdescriptors
+        responses:
+          201:
+            description: A single Meshdescriptor
+            schema:
+              type: object
+              properties:
+                meshdescriptors:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Meshdescriptor'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/meshdescriptors/{id}:
+  get:
+    summary: Fetch a single Meshdescriptor
+    description: |
+          Ilios Meshdescriptor
+    tags:
+      - Meshdescriptors
+    responses:
+      200:
+        description: A single Meshdescriptor
+        schema:
+          type: object
+          properties:
+            meshdescriptors:
+              type: array
+              items:
+                $ref: '#/definitions/Meshdescriptor'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Meshdescriptor
+    description: |
+      Ilios Meshdescriptors
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            meshdescriptor:
+              $ref: '#/definitions/Meshdescriptor'
+    tags:
+      - Meshdescriptors
+    responses:
+      200:
+        description: A single Meshdescriptor
+        schema:
+          type: object
+          properties:
+            meshdescriptor:
+              $ref: '#/definitions/Meshdescriptor'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Meshdescriptor
+    description: |
+          Delete Ilios Meshdescriptor
+    tags:
+      - Meshdescriptors
+    responses:
+      204:
+        description: Deleted Meshdescriptor
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

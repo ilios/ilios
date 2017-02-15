@@ -1,0 +1,61 @@
+Meshdescriptor:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: string
+  name:
+   description: Name
+   type: string
+  annotation:
+   description: Annotation
+   type: string
+  createdAt:
+   description: Createdat
+   type: dateTime
+  updatedAt:
+   description: Updatedat
+   type: dateTime
+  courses:
+   description: Courses
+   type: array
+   items:
+    type: string
+  objectives:
+   description: Objectives
+   type: array
+   items:
+    type: string
+  sessions:
+   description: Sessions
+   type: array
+   items:
+    type: string
+  concepts:
+   description: Concepts
+   type: array
+   items:
+    type: string
+  qualifiers:
+   description: Qualifiers
+   type: array
+   items:
+    type: string
+  trees:
+   description: Trees
+   type: array
+   items:
+    type: string
+  sessionLearningMaterials:
+   description: Sessionlearningmaterials
+   type: array
+   items:
+    type: string
+  courseLearningMaterials:
+   description: Courselearningmaterials
+   type: array
+   items:
+    type: string
+  previousIndexing:
+   description: Previousindexing
+   type: string

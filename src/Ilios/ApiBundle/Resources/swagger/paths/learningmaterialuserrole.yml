@@ -1,0 +1,135 @@
+/learningmaterialuserroles:
+      get:
+        summary: Fetch all Learningmaterialuserroles
+        description: |
+          Ilios Learningmaterialuserroles
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Learningmaterialuserroles
+        responses:
+          200:
+            description: An array of learningmaterialuserroles
+            schema:
+              type: object
+              properties:
+                learningmaterialuserroles:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Learningmaterialuserrole'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Learningmaterialuserroles
+        description: |
+          Ilios Learningmaterialuserroles
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                learningmaterialuserrole:
+                  $ref: '#/definitions/Learningmaterialuserrole'
+        tags:
+          - Learningmaterialuserroles
+        responses:
+          201:
+            description: A single Learningmaterialuserrole
+            schema:
+              type: object
+              properties:
+                learningmaterialuserroles:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Learningmaterialuserrole'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/learningmaterialuserroles/{id}:
+  get:
+    summary: Fetch a single Learningmaterialuserrole
+    description: |
+          Ilios Learningmaterialuserrole
+    tags:
+      - Learningmaterialuserroles
+    responses:
+      200:
+        description: A single Learningmaterialuserrole
+        schema:
+          type: object
+          properties:
+            learningmaterialuserroles:
+              type: array
+              items:
+                $ref: '#/definitions/Learningmaterialuserrole'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Learningmaterialuserrole
+    description: |
+      Ilios Learningmaterialuserroles
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            learningmaterialuserrole:
+              $ref: '#/definitions/Learningmaterialuserrole'
+    tags:
+      - Learningmaterialuserroles
+    responses:
+      200:
+        description: A single Learningmaterialuserrole
+        schema:
+          type: object
+          properties:
+            learningmaterialuserrole:
+              $ref: '#/definitions/Learningmaterialuserrole'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Learningmaterialuserrole
+    description: |
+          Delete Ilios Learningmaterialuserrole
+    tags:
+      - Learningmaterialuserroles
+    responses:
+      204:
+        description: Deleted Learningmaterialuserrole
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

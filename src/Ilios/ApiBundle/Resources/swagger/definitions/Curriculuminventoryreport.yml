@@ -1,0 +1,40 @@
+Curriculuminventoryreport:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  name:
+   description: Name
+   type: string
+  description:
+   description: Description
+   type: string
+  year:
+   description: Year
+   type: integer
+  startDate:
+   description: Startdate
+   type: dateTime
+  endDate:
+   description: Enddate
+   type: dateTime
+  export:
+   description: Export
+   type: string
+  sequence:
+   description: Sequence
+   type: string
+  sequenceBlocks:
+   description: Sequenceblocks
+   type: array
+   items:
+    type: string
+  program:
+   description: Program
+   type: string
+  academicLevels:
+   description: Academiclevels
+   type: array
+   items:
+    type: string

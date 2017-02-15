@@ -1,0 +1,135 @@
+/currentsessions:
+      get:
+        summary: Fetch all Currentsessions
+        description: |
+          Ilios Currentsessions
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Currentsessions
+        responses:
+          200:
+            description: An array of currentsessions
+            schema:
+              type: object
+              properties:
+                currentsessions:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Currentsession'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Currentsessions
+        description: |
+          Ilios Currentsessions
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                currentsession:
+                  $ref: '#/definitions/Currentsession'
+        tags:
+          - Currentsessions
+        responses:
+          201:
+            description: A single Currentsession
+            schema:
+              type: object
+              properties:
+                currentsessions:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Currentsession'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/currentsessions/{id}:
+  get:
+    summary: Fetch a single Currentsession
+    description: |
+          Ilios Currentsession
+    tags:
+      - Currentsessions
+    responses:
+      200:
+        description: A single Currentsession
+        schema:
+          type: object
+          properties:
+            currentsessions:
+              type: array
+              items:
+                $ref: '#/definitions/Currentsession'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Currentsession
+    description: |
+      Ilios Currentsessions
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            currentsession:
+              $ref: '#/definitions/Currentsession'
+    tags:
+      - Currentsessions
+    responses:
+      200:
+        description: A single Currentsession
+        schema:
+          type: object
+          properties:
+            currentsession:
+              $ref: '#/definitions/Currentsession'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Currentsession
+    description: |
+          Delete Ilios Currentsession
+    tags:
+      - Currentsessions
+    responses:
+      204:
+        description: Deleted Currentsession
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

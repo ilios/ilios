@@ -1,0 +1,135 @@
+/meshqualifiers:
+      get:
+        summary: Fetch all Meshqualifiers
+        description: |
+          Ilios Meshqualifiers
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Meshqualifiers
+        responses:
+          200:
+            description: An array of meshqualifiers
+            schema:
+              type: object
+              properties:
+                meshqualifiers:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Meshqualifier'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Meshqualifiers
+        description: |
+          Ilios Meshqualifiers
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                meshqualifier:
+                  $ref: '#/definitions/Meshqualifier'
+        tags:
+          - Meshqualifiers
+        responses:
+          201:
+            description: A single Meshqualifier
+            schema:
+              type: object
+              properties:
+                meshqualifiers:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Meshqualifier'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/meshqualifiers/{id}:
+  get:
+    summary: Fetch a single Meshqualifier
+    description: |
+          Ilios Meshqualifier
+    tags:
+      - Meshqualifiers
+    responses:
+      200:
+        description: A single Meshqualifier
+        schema:
+          type: object
+          properties:
+            meshqualifiers:
+              type: array
+              items:
+                $ref: '#/definitions/Meshqualifier'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Meshqualifier
+    description: |
+      Ilios Meshqualifiers
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            meshqualifier:
+              $ref: '#/definitions/Meshqualifier'
+    tags:
+      - Meshqualifiers
+    responses:
+      200:
+        description: A single Meshqualifier
+        schema:
+          type: object
+          properties:
+            meshqualifier:
+              $ref: '#/definitions/Meshqualifier'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Meshqualifier
+    description: |
+          Delete Ilios Meshqualifier
+    tags:
+      - Meshqualifiers
+    responses:
+      204:
+        description: Deleted Meshqualifier
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

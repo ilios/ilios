@@ -1,0 +1,135 @@
+/meshconcepts:
+      get:
+        summary: Fetch all Meshconcepts
+        description: |
+          Ilios Meshconcepts
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Meshconcepts
+        responses:
+          200:
+            description: An array of meshconcepts
+            schema:
+              type: object
+              properties:
+                meshconcepts:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Meshconcept'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Meshconcepts
+        description: |
+          Ilios Meshconcepts
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                meshconcept:
+                  $ref: '#/definitions/Meshconcept'
+        tags:
+          - Meshconcepts
+        responses:
+          201:
+            description: A single Meshconcept
+            schema:
+              type: object
+              properties:
+                meshconcepts:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Meshconcept'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/meshconcepts/{id}:
+  get:
+    summary: Fetch a single Meshconcept
+    description: |
+          Ilios Meshconcept
+    tags:
+      - Meshconcepts
+    responses:
+      200:
+        description: A single Meshconcept
+        schema:
+          type: object
+          properties:
+            meshconcepts:
+              type: array
+              items:
+                $ref: '#/definitions/Meshconcept'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Meshconcept
+    description: |
+      Ilios Meshconcepts
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            meshconcept:
+              $ref: '#/definitions/Meshconcept'
+    tags:
+      - Meshconcepts
+    responses:
+      200:
+        description: A single Meshconcept
+        schema:
+          type: object
+          properties:
+            meshconcept:
+              $ref: '#/definitions/Meshconcept'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Meshconcept
+    description: |
+          Delete Ilios Meshconcept
+    tags:
+      - Meshconcepts
+    responses:
+      204:
+        description: Deleted Meshconcept
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

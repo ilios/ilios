@@ -1,0 +1,27 @@
+Report:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  title:
+   description: Title
+   type: string
+  createdAt:
+   description: Createdat
+   type: dateTime
+  school:
+   description: School
+   type: string
+  subject:
+   description: Subject
+   type: string
+  prepositionalObject:
+   description: Prepositionalobject
+   type: string
+  prepositionalObjectTableRowId:
+   description: Prepositionalobjecttablerowid
+   type: string
+  user:
+   description: User
+   type: string

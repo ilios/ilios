@@ -1,0 +1,14 @@
+Assessmentoption:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  name:
+   description: Name
+   type: string
+  sessionTypes:
+   description: Sessiontypes
+   type: array
+   items:
+    type: string

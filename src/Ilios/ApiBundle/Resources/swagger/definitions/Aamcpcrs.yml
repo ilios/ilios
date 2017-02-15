@@ -1,0 +1,14 @@
+Aamcpcrs:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: string
+  description:
+   description: Description
+   type: string
+  competencies:
+   description: Competencies
+   type: array
+   items:
+    type: string

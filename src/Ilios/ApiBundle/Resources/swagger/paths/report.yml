@@ -1,0 +1,135 @@
+/reports:
+      get:
+        summary: Fetch all Reports
+        description: |
+          Ilios Reports
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Reports
+        responses:
+          200:
+            description: An array of reports
+            schema:
+              type: object
+              properties:
+                reports:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Report'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Reports
+        description: |
+          Ilios Reports
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                report:
+                  $ref: '#/definitions/Report'
+        tags:
+          - Reports
+        responses:
+          201:
+            description: A single Report
+            schema:
+              type: object
+              properties:
+                reports:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Report'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/reports/{id}:
+  get:
+    summary: Fetch a single Report
+    description: |
+          Ilios Report
+    tags:
+      - Reports
+    responses:
+      200:
+        description: A single Report
+        schema:
+          type: object
+          properties:
+            reports:
+              type: array
+              items:
+                $ref: '#/definitions/Report'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Report
+    description: |
+      Ilios Reports
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            report:
+              $ref: '#/definitions/Report'
+    tags:
+      - Reports
+    responses:
+      200:
+        description: A single Report
+        schema:
+          type: object
+          properties:
+            report:
+              $ref: '#/definitions/Report'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Report
+    description: |
+          Delete Ilios Report
+    tags:
+      - Reports
+    responses:
+      204:
+        description: Deleted Report
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

@@ -1,0 +1,21 @@
+Usermadereminder:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  note:
+   description: Note
+   type: string
+  createdAt:
+   description: Createdat
+   type: dateTime
+  dueDate:
+   description: Duedate
+   type: dateTime
+  closed:
+   description: Closed
+   type: boolean
+  user:
+   description: User
+   type: string

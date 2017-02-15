@@ -1,0 +1,135 @@
+/downloads:
+      get:
+        summary: Fetch all Downloads
+        description: |
+          Ilios Downloads
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Downloads
+        responses:
+          200:
+            description: An array of downloads
+            schema:
+              type: object
+              properties:
+                downloads:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Download'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Downloads
+        description: |
+          Ilios Downloads
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                download:
+                  $ref: '#/definitions/Download'
+        tags:
+          - Downloads
+        responses:
+          201:
+            description: A single Download
+            schema:
+              type: object
+              properties:
+                downloads:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Download'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/downloads/{id}:
+  get:
+    summary: Fetch a single Download
+    description: |
+          Ilios Download
+    tags:
+      - Downloads
+    responses:
+      200:
+        description: A single Download
+        schema:
+          type: object
+          properties:
+            downloads:
+              type: array
+              items:
+                $ref: '#/definitions/Download'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Download
+    description: |
+      Ilios Downloads
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            download:
+              $ref: '#/definitions/Download'
+    tags:
+      - Downloads
+    responses:
+      200:
+        description: A single Download
+        schema:
+          type: object
+          properties:
+            download:
+              $ref: '#/definitions/Download'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Download
+    description: |
+          Delete Ilios Download
+    tags:
+      - Downloads
+    responses:
+      204:
+        description: Deleted Download
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

@@ -1,0 +1,9 @@
+Learningmaterialuserrole:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  title:
+   description: Title
+   type: string

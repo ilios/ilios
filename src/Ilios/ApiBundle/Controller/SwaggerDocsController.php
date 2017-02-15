@@ -42,6 +42,11 @@ class SwaggerDocsController extends Controller
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
             $contents = Yaml::parse($file->getContents());
+            if (!is_array($contents)) {
+                throw new \Exception(
+                  "{$file->getRealPath()} is not valid YAML"
+                );
+            }
 
             $items = array_merge($items, $contents);
         }

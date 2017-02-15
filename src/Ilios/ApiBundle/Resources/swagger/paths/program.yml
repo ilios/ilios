@@ -1,0 +1,135 @@
+/programs:
+      get:
+        summary: Fetch all Programs
+        description: |
+          Ilios Programs
+        parameters:
+          - name: offset
+            in: query
+            description: Offset
+            required: false
+            type: number
+            format: integer
+          - name: limit
+            in: query
+            description: Limit Results
+            required: false
+            type: number
+            format: integer
+            default: 20
+          - name: order_by
+            in: query
+            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+            required: false
+            type: array
+          - name: filters
+            in: query
+            description: Filter by fields. Must be an array ie. &filters[id]=3
+            required: false
+            type: array
+        tags:
+          - Programs
+        responses:
+          200:
+            description: An array of programs
+            schema:
+              type: object
+              properties:
+                programs:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Program'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+      post:
+        summary: Create a Programs
+        description: |
+          Ilios Programs
+        parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+              type: object
+              properties:
+                program:
+                  $ref: '#/definitions/Program'
+        tags:
+          - Programs
+        responses:
+          201:
+            description: A single Program
+            schema:
+              type: object
+              properties:
+                programs:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Program'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+/programs/{id}:
+  get:
+    summary: Fetch a single Program
+    description: |
+          Ilios Program
+    tags:
+      - Programs
+    responses:
+      200:
+        description: A single Program
+        schema:
+          type: object
+          properties:
+            programs:
+              type: array
+              items:
+                $ref: '#/definitions/Program'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  put:
+    summary: Edit a Program
+    description: |
+      Ilios Programs
+    parameters:
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            program:
+              $ref: '#/definitions/Program'
+    tags:
+      - Programs
+    responses:
+      200:
+        description: A single Program
+        schema:
+          type: object
+          properties:
+            program:
+              $ref: '#/definitions/Program'
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'
+  delete:
+    summary: Delete Program
+    description: |
+          Delete Ilios Program
+    tags:
+      - Programs
+    responses:
+      204:
+        description: Deleted Program
+      default:
+        description: Unexpected error
+        schema:
+          $ref: '#/definitions/Error'

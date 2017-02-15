@@ -1,0 +1,20 @@
+Meshsemantictype:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: string
+  name:
+   description: Name
+   type: string
+  createdAt:
+   description: Createdat
+   type: dateTime
+  updatedAt:
+   description: Updatedat
+   type: dateTime
+  concepts:
+   description: Concepts
+   type: array
+   items:
+    type: string

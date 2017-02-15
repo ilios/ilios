@@ -2,8 +2,7 @@
 
 namespace Ilios\ApiBundle\Normalizer;
 
-use Ilios\ApiBundle\Annotation\Type;
-use Doctrine\Common\Annotations\Reader;
+use Ilios\CoreBundle\Service\EntityMetadata;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
@@ -12,16 +11,16 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 class DTO extends ObjectNormalizer
 {
     /**
-     * @var Reader
+     * @var EntityMetadata
      */
-    private $annotationReader;
+    private $entityMetadata;
 
     /**
-     * @param Reader $annotationReader
+     * @param EntityMetadata $entityMetadata
      */
-    public function setReader(Reader $annotationReader)
+    public function setEntityMetadata(EntityMetadata $entityMetadata)
     {
-        $this->annotationReader = $annotationReader;
+        $this->entityMetadata = $entityMetadata;
     }
 
     /**
@@ -43,18 +42,6 @@ class DTO extends ObjectNormalizer
      */
     public function supportsNormalization($classNameOrObject, $format = null)
     {
-        if (
-            (is_string($classNameOrObject) && class_exists($classNameOrObject)) ||
-            is_object($classNameOrObject)
-        ) {
-            $annotation = $this->annotationReader->getClassAnnotation(
-                new \ReflectionClass($classNameOrObject),
-                'Ilios\ApiBundle\Annotation\DTO'
-            );
-
-            return !is_null($annotation);
-        }
-
-        return false;
+        $this->entityMetadata->isAnIliosDto($classNameOrObject);
     }
 }

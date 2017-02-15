@@ -1,0 +1,20 @@
+Vocabulary:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+  title:
+   description: Title
+   type: string
+  school:
+   description: School
+   type: string
+  terms:
+   description: Terms
+   type: array
+   items:
+    type: string
+  active:
+   description: Active
+   type: boolean

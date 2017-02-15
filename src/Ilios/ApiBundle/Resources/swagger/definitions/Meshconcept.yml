@@ -1,0 +1,45 @@
+Meshconcept:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: string
+  name:
+   description: Name
+   type: string
+  umlsUid:
+   description: Umlsuid
+   type: string
+  preferred:
+   description: Preferred
+   type: boolean
+  scopeNote:
+   description: Scopenote
+   type: string
+  casn1Name:
+   description: Casn1name
+   type: string
+  registryNumber:
+   description: Registrynumber
+   type: string
+  semanticTypes:
+   description: Semantictypes
+   type: array
+   items:
+    type: string
+  terms:
+   description: Terms
+   type: array
+   items:
+    type: string
+  createdAt:
+   description: Createdat
+   type: dateTime
+  updatedAt:
+   description: Updatedat
+   type: dateTime
+  descriptors:
+   description: Descriptors
+   type: array
+   items:
+    type: string
