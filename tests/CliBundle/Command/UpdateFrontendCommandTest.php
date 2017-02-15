@@ -26,7 +26,7 @@ class UpdateFrontendCommandTest extends \PHPUnit_Framework_TestCase
 
         $this->builder = m::mock('Ilios\WebBundle\Service\WebIndexFromJson');
         $this->fs = m::mock('Ilios\CoreBundle\Classes\Filesystem');
-        $command = new UpdateFrontendCommand($this->builder, $this->fs, $this->fakeTestFileDir, 'blank', true);
+        $command = new UpdateFrontendCommand($this->builder, $this->fs, $this->fakeTestFileDir, 'blank', true, 'prod');
         $application = new Application();
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);

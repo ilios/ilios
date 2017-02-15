@@ -14,13 +14,15 @@ class IndexController extends Controller
         $path = $this->getParameter('kernel.cache_dir') . '/' . UpdateFrontendCommand::CACHE_FILE_NAME;
 
         if (!$fs->exists($path)) {
-            throw new \Exception(
-                "Unable to load the index file at {$path}.  Run ilios:maintenance:update-frontend to create it."
+            $response = new Response(
+                $this->renderView('IliosWebBundle:Index:error.html.twig')
             );
-        }
-        $contents = $fs->readFile($path);
+        } else {
+            $contents = $fs->readFile($path);
 
-        $response = new Response($contents);
+            $response = new Response($contents);
+        }
+
         $response->headers->set('Content-Type', 'text/html');
 
         $response->setPublic();
