@@ -48,19 +48,26 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
      * @var boolean
      */
     protected $keepFrontendUpdated;
+
+    /**
+     * @var string
+     */
+    protected $environment;
     
     public function __construct(
         WebIndexFromJson $builder,
         Filesystem $fs,
         $kernelCacheDir,
         $releaseVersion,
-        $keepFrontendUpdated
+        $keepFrontendUpdated,
+        $environment
     ) {
         $this->builder = $builder;
         $this->fs = $fs;
         $this->cacheDir = $kernelCacheDir;
         $this->releaseVersion = $releaseVersion;
         $this->keepFrontendUpdated = $keepFrontendUpdated;
+        $this->environment = $environment;
 
         parent::__construct();
     }
@@ -130,7 +137,17 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
      */
     public function warmUp($cacheDir)
     {
-        $this->writeIndexFile($cacheDir, WebIndexFromJson::PRODUCTION, null);
+        try {
+            $this->writeIndexFile($cacheDir, WebIndexFromJson::PRODUCTION, null);
+        } catch (\Exception $e) {
+            if ($this->environment === 'prod') {
+                throw new \Exception(
+                    'Unable to load the frontend.  Please try again or let the Ilios Team know about this issue.'
+                );
+            }
+
+            print "Unable to load frontend.  Please run ilios:maintenance:update-frontend. \n";
+        }
     }
 
     /**
@@ -138,7 +155,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
      */
     public function isOptional()
     {
-        return false;
+        return true;
     }
 
     /**
