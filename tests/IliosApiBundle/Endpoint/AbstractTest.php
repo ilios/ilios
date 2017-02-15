@@ -256,8 +256,7 @@ abstract class AbstractTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-
-        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
     public function filterTest($pluralObjectName, array $filters, $expectedData, array $timeStampFields = [])
