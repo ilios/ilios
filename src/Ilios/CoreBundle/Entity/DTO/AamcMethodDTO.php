@@ -8,17 +8,21 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class AamcMethodDTO
  * Data transfer object for a aamcMethod
  * @package Ilios\CoreBundle\Entity\DTO
+ *
+ * @IS\DTO
  */
 class AamcMethodDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -26,7 +30,8 @@ class AamcMethodDTO
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $sessionTypes;
 

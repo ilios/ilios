@@ -8,35 +8,41 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class CourseDTO
  * Data transfer object for a course
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class CourseDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $title;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $level;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $year;
 
     /**
+     * @IS\Expose
      * @var \DateTime
      * @IS\Type("dateTime")
      */
@@ -44,24 +50,28 @@ class CourseDTO
 
     /**
      * @var \DateTime
+     * @IS\Expose
      * @IS\Type("dateTime")
      */
     public $endDate;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $externalId;
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
      */
     public $locked;
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
      */
     public $archived;
@@ -74,79 +84,92 @@ class CourseDTO
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
      */
     public $published;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $clerkshipType;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $school;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $directors;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $administrators;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $cohorts;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $terms;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $objectives;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $meshDescriptors;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $learningMaterials;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $sessions;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $ancestor;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $descendants;
 

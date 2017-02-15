@@ -8,18 +8,21 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class ObjectiveDTO
  * Data transfer object for a Objective
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class ObjectiveDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -27,6 +30,7 @@ class ObjectiveDTO
 
     /**
      * @var integer
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -34,48 +38,55 @@ class ObjectiveDTO
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $courses;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $programYears;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $sessions;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $parents;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $children;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $meshDescriptors;
 
     /**
      * @var integer
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -83,7 +94,8 @@ class ObjectiveDTO
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $descendants;

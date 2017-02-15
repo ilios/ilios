@@ -8,186 +8,216 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class UserDTO
  * Data transfer object for a user
  * @package Ilios\CoreBundle\Entity\DTO
-
+ * @IS\DTO
  */
 class UserDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $lastName;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $firstName;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $middleName;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $phone;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $email;
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
      */
     public $enabled;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $campusId;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $otherId;
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
      */
     public $userSyncIgnore;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $icsFeedKey;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $reminders;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $reports;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $school;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $authentication;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $directedCourses;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $administeredCourses;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $learnerGroups;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $instructedLearnerGroups;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $instructorGroups;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $instructorIlmSessions;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $learnerIlmSessions;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $offerings;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $instructedOfferings;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $programYears;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $roles;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $cohorts;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $primaryCohort;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $pendingUserUpdates;
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
 
      */
@@ -195,31 +225,36 @@ class UserDTO
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      **/
     public $permissions;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $directedSchools;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $administeredSchools;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $administeredSessions;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $directedPrograms;
 

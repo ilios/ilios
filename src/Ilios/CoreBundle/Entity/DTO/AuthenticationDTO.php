@@ -7,18 +7,20 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class Authentication
  * @package Ilios\CoreBundle\Entity\DTO
  *
+ * @IS\DTO
  */
 class AuthenticationDTO
 {
     /**
      * @var int
-     *
+     * @IS\Expose
      * @IS\Type("string")
     */
     public $user;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
     */
@@ -26,6 +28,7 @@ class AuthenticationDTO
 
     /**
      * @IS\Type("dateTime")
+     * @IS\Expose
      */
     protected $invalidateTokenIssuedBefore;
 

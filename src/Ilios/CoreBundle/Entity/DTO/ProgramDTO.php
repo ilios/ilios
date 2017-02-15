@@ -8,18 +8,21 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class ProgramDTO
  * Data transfer object for a Program
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class ProgramDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -27,6 +30,7 @@ class ProgramDTO
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -34,6 +38,7 @@ class ProgramDTO
 
     /**
      * @var integer
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -41,18 +46,21 @@ class ProgramDTO
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
      */
     public $publishedAsTbd;
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
      */
     public $published;
 
     /**
      * @var integer
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -60,21 +68,24 @@ class ProgramDTO
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $programYears;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $curriculumInventoryReports;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $directors;
 

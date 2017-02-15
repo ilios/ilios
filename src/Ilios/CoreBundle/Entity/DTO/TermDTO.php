@@ -8,18 +8,21 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class TermDTO
  * Data transfer object for a session.
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class TermDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $title;
@@ -27,6 +30,7 @@ class TermDTO
     /**
      *
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -34,48 +38,56 @@ class TermDTO
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $parent;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $children;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $courses;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $programYears;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $sessions;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $vocabulary;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $aamcResourceTypes;
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
      */
     public $active;

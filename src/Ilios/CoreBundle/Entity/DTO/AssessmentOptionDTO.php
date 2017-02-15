@@ -8,24 +8,29 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class AssessmentOptionDTO
  * Data transfer object for an assessmentOption
  * @package Ilios\CoreBundle\Entity\DTO
+ *
+ * @IS\DTO
  */
 class AssessmentOptionDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $name;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $sessionTypes;
 

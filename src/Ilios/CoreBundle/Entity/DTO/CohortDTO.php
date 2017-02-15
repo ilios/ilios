@@ -8,18 +8,21 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class CohortDTO
  * Data transfer object for a cohort
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class CohortDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -27,25 +30,29 @@ class CohortDTO
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $programYear;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $courses;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $learnerGroups;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $users;
 

@@ -8,17 +8,21 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class AamcResourceTypeDTO
  * Data transfer object for a aamcResourceType
  * @package Ilios\CoreBundle\Entity\DTO
+ *
+ * @IS\DTO
  */
 class AamcResourceTypeDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -26,6 +30,7 @@ class AamcResourceTypeDTO
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -33,7 +38,8 @@ class AamcResourceTypeDTO
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $terms;
 

@@ -8,17 +8,21 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class AlertChangeTypeDTO
  * Data transfer object for a alertChangeType
  * @package Ilios\CoreBundle\Entity\DTO
+ *
+ * @IS\DTO
  */
 class AlertChangeTypeDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -26,7 +30,8 @@ class AlertChangeTypeDTO
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $alerts;
 

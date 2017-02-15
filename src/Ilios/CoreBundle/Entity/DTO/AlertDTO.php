@@ -8,54 +8,64 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class AlertDTO
  * Data transfer object for an alert
  * @package Ilios\CoreBundle\Entity\DTO
+ *
+ * @IS\DTO
  */
 class AlertDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $tableRowId;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $tableName;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $additionalText;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("boolean")
      */
     public $dispatched;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $changeTypes;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $instigators;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $recipients;
 

@@ -8,17 +8,21 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class AamcPcrsDTO
  * Data transfer object for a aamcPcrs
  * @package Ilios\CoreBundle\Entity\DTO
+ *
+ * @IS\DTO
  */
 class AamcPcrsDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -26,7 +30,8 @@ class AamcPcrsDTO
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $competencies;
 

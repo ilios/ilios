@@ -8,7 +8,8 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class MeshDescriptorDTO
  * Data transfer object for a MeSH descriptor.
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class MeshDescriptorDTO
 {
@@ -50,56 +51,56 @@ class MeshDescriptorDTO
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $courses;
 
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $objectives;
 
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $sessions;
 
     /**
      * @var string[]
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $concepts;
 
     /**
      * @var string[]
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $qualifiers;
 
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $trees;
 
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $sessionLearningMaterials;
 
     /**
      * @var int[]
      * @IS\Expose
-     * @IS\Type("entityCollection")
+     * @IS\Type("array<string>")
      */
     public $courseLearningMaterials;
 

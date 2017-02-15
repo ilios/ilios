@@ -8,74 +8,86 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class LearnerGroupDTO
  * Data transfer object for a learner group
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class LearnerGroupDTO
 {
     
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $title;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $location;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $cohort;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $parent;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $children;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $ilmSessions;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $offerings;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $instructorGroups;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $users;
 
     /**
      * @var array
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $instructors;
 

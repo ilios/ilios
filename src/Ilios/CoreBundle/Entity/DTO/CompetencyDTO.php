@@ -8,18 +8,21 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class CompetencyDTO
  * Data transfer object for a competency
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class CompetencyDTO
 {
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
+     * @IS\Expose
      * @IS\Type("string")
      *
      */
@@ -27,42 +30,49 @@ class CompetencyDTO
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $school;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $objectives;
 
     /**
      * @var int
+     * @IS\Expose
      * @IS\Type("string")
      */
     public $parent;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $children;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $aamcPcrses;
 
     /**
      * @var int[]
-     * @IS\Type("entityCollection")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $programYears;
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
      *
      */
