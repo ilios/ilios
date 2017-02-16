@@ -43,9 +43,19 @@ abstract class AbstractTest extends WebTestCase
     }
 
     /**
+     * @return string
+     */
+    abstract protected function getPluralName();
+
+    /**
      * @return DataLoaderInterface
      */
-    abstract protected function getDataLoader();
+    protected function getDataLoader()
+    {
+        $name = $this->getSingularName();
+
+        return $this->container->get("ilioscore.dataloader.{$name}");
+    }
 
     public function setUp()
     {
@@ -82,8 +92,9 @@ abstract class AbstractTest extends WebTestCase
         $this->makeJsonRequest($this->client, $method, $url, $content, $token, $files);
     }
 
-    protected function getOneTest($pluralObjectName, $timeStampFields = [])
+    protected function getOneTest($timeStampFields = [])
     {
+        $pluralObjectName = $this->getPluralName();
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
         $returnedData = $this->getOne($pluralObjectName, $data['id']);
@@ -100,28 +111,36 @@ abstract class AbstractTest extends WebTestCase
             $returnedData
         );
 
+        return $returnedData;
+
     }
 
     protected function getOne($pluralObjectName, $id)
     {
+        $url = $this->getUrl(
+            'ilios_api_get',
+            ['version' => 'v1', 'object' => $pluralObjectName, 'id' => $id]
+        );
         $this->createJsonRequest(
             'GET',
-            $this->getUrl(
-                'ilios_api_get',
-                ['version' => 'v1', 'object' => $pluralObjectName, 'id' => $id]
-            ),
+            $url,
             null,
             $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
 
+        if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
+            $this->fail("Unable to load url: {$url}");
+        }
+
         $this->assertJsonResponse($response, Response::HTTP_OK);
         return json_decode($response->getContent(), true)[$pluralObjectName][0];
     }
 
-    protected function getAllTest($pluralObjectName, $timeStampFields = [])
+    protected function getAllTest($timeStampFields = [])
     {
+        $pluralObjectName = $this->getPluralName();
         $loader = $this->getDataLoader();
         $data = $loader->getAll();
         $this->createJsonRequest(
@@ -152,10 +171,13 @@ abstract class AbstractTest extends WebTestCase
             );
         }
 
+        return $responses;
+
     }
 
-    protected function postTest($pluralObjectName, $data, $postData, $timeStampFields = [])
+    protected function postTest($data, $postData, $timeStampFields = [])
     {
+        $pluralObjectName = $this->getPluralName();
         $responseData = $this->postOne($pluralObjectName, $postData);
 
         $now = new DateTime();
@@ -170,6 +192,8 @@ abstract class AbstractTest extends WebTestCase
             $data,
             $responseData
         );
+
+        return $responseData;
     }
 
     protected function postOne($pluralObjectName, $postData)
@@ -182,15 +206,15 @@ abstract class AbstractTest extends WebTestCase
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-
-        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
         return json_decode($response->getContent(), true)[$pluralObjectName][0];
     }
 
-    protected function badPostTest($pluralObjectName, $data, $timeStampFields = [])
+    protected function badPostTest($data, $timeStampFields = [])
     {
-        $singularObjectName = Inflector::singularize($pluralObjectName);
+        $pluralObjectName = $this->getPluralName();
+        $singularObjectName = $this->getSingularName();
         $this->createJsonRequest(
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $pluralObjectName]),
@@ -199,11 +223,17 @@ abstract class AbstractTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode(), $response->getContent());
+
+        $this->assertEquals(
+            Response::HTTP_BAD_REQUEST,
+            $response->getStatusCode(),
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 200)
+        );
     }
 
-    protected function putTest($pluralObjectName, $data, $postData, $timeStampFields = [])
+    protected function putTest($data, $postData, $timeStampFields = [])
     {
+        $pluralObjectName = $this->getPluralName();
         $responseData = $this->putOne($pluralObjectName, $data['id'], $postData);
 
         $now = new DateTime();
@@ -218,6 +248,8 @@ abstract class AbstractTest extends WebTestCase
             $data,
             $responseData
         );
+
+        return $responseData;
     }
 
     protected function putOne($pluralObjectName, $id, $data)
@@ -230,27 +262,17 @@ abstract class AbstractTest extends WebTestCase
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), $response->getContent());
+        $this->assertJsonResponse($response, Response::HTTP_OK);
 
         return json_decode($response->getContent(), true)[$singularObjectName];
     }
 
-    protected function deleteTest($pluralObjectName, $id)
+    protected function deleteTest($id)
     {
+        $pluralObjectName = $this->getPluralName();
         $this->deleteOne($pluralObjectName, $id);
-        $this->createJsonRequest(
-            'GET',
-            $this->getUrl(
-                'ilios_api_get',
-                ['version' => 'v1', 'object' => $pluralObjectName, 'id' => $id]
-            ),
-            null,
-            $this->getAuthenticatedUserToken()
-        );
 
-        $response = $this->client->getResponse();
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->notFoundTest($id);
     }
 
     protected function deleteOne($pluralObjectName, $id)
@@ -262,13 +284,20 @@ abstract class AbstractTest extends WebTestCase
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-        $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+
+
+        $this->assertEquals(
+            Response::HTTP_NO_CONTENT,
+            $response->getStatusCode(),
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 200)
+        );
 
         return $response;
     }
 
-    protected function notFoundTest($pluralObjectName, $badId)
+    protected function notFoundTest($badId)
     {
+        $pluralObjectName = $this->getPluralName();
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
@@ -280,11 +309,17 @@ abstract class AbstractTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+
+        $this->assertEquals(
+            Response::HTTP_NOT_FOUND,
+            $response->getStatusCode(),
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 200)
+        );
     }
 
-    protected function filterTest($pluralObjectName, array $filters, $expectedData, array $timeStampFields = [])
+    protected function filterTest(array $filters, $expectedData, array $timeStampFields = [])
     {
+        $pluralObjectName = $this->getPluralName();
         $parameters = array_merge([
             'version' => 'v1',
             'object' => $pluralObjectName
@@ -319,13 +354,13 @@ abstract class AbstractTest extends WebTestCase
     }
 
     protected function relatedTimeStampUpdateTest(
-        $pluralObjectName,
         $id,
         array $timeStampFields,
         $relatedPluralObjectName,
         $relatedData
 
     ){
+        $pluralObjectName = $this->getPluralName();
         $initialState = $this->getOne($pluralObjectName, $id);
         sleep(1);
         $this->putOne($relatedPluralObjectName, $relatedData['id'], $relatedData);
@@ -344,13 +379,13 @@ abstract class AbstractTest extends WebTestCase
     }
 
     protected function relatedTimeStampPostTest(
-        $pluralObjectName,
         $id,
         array $timeStampFields,
         $relatedPluralObjectName,
         $relatedPostData
 
     ){
+        $pluralObjectName = $this->getPluralName();
         $initialState = $this->getOne($pluralObjectName, $id);
         sleep(1);
         $this->postOne($relatedPluralObjectName, $relatedPostData);
@@ -369,13 +404,13 @@ abstract class AbstractTest extends WebTestCase
     }
 
     protected function relatedTimeStampDeleteTest(
-        $pluralObjectName,
         $id,
         array $timeStampFields,
         $relatedPluralObjectName,
         $relatedId
 
     ){
+        $pluralObjectName = $this->getPluralName();
         $initialState = $this->getOne($pluralObjectName, $id);
         sleep(1);
         $this->deleteOne($relatedPluralObjectName, $relatedId);
@@ -391,5 +426,11 @@ abstract class AbstractTest extends WebTestCase
                 ' Now: ' . $currentStamp->format('c')
             );
         }
+    }
+
+    protected function getSingularName()
+    {
+        $pluralized = $this->getPluralName();
+        return Inflector::singularize($pluralized);
     }
 }

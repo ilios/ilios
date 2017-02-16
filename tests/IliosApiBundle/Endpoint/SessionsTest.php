@@ -29,83 +29,77 @@ class SessionsTest extends AbstractTest
         ];
     }
 
-    protected function getDataLoader()
+    protected function getPluralName()
     {
-        return $this->container->get('ilioscore.dataloader.session');
+        return 'sessions';
     }
 
     /**
      * @group api_1
      */
-    public function testGetOneSession()
+    public function testGetOne()
     {
-        $this->getOneTest('sessions', ['updatedAt']);
+        $this->getOneTest(['updatedAt']);
     }
 
     /**
      * @group api_1
      */
-    public function testGetAllSessions()
+    public function testGetAll()
     {
-        $this->getAllTest('sessions', ['updatedAt']);
+        $this->getAllTest(['updatedAt']);
     }
 
     /**
      * @group api_1
      */
-    public function testPostSession()
+    public function testPost()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['id']);
-        unset($postData['offerings']);
-        unset($postData['learningMaterials']);
-        $this->postTest('sessions', $data, $postData, ['updatedAt']);
+        $this->postTest($data, $postData, ['updatedAt']);
     }
 
     /**
      * @group api_1
      */
-    public function testPostBadSession()
+    public function testPostBad()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->createInvalid();
-        $this->badPostTest('sessions', $data);
+        $this->badPostTest($data);
     }
 
     /**
      * @group api_1
      */
-    public function testPutSession()
+    public function testPut()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        $data['administrators'] = ['2'];
+        $data['title'] = 'new';
 
         $postData = $data;
-        unset($postData['offerings']);
-        unset($postData['learningMaterials']);
-        $this->putTest('sessions', $data, $postData, ['updatedAt']);
+        $this->putTest($data, $postData, ['updatedAt']);
     }
 
     /**
      * @group api_1
      */
-    public function testDeleteSession()
+    public function testDelete()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        $this->deleteTest('sessions', $data['id']);
+        $this->deleteTest($data['id']);
     }
 
     /**
      * @group api_1
      */
-    public function testSessionNotFound()
+    public function testNotFound()
     {
-        $this->notFoundTest('sessions', 99);
+        $this->notFoundTest(99);
     }
 
     /**
@@ -117,7 +111,7 @@ class SessionsTest extends AbstractTest
         $all = $dataLoader->getAll();
         $expectedData[] = $all[1];
         $filters = ['filters[attireRequired]' => true];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -130,7 +124,7 @@ class SessionsTest extends AbstractTest
         $expectedData[] = $all[1];
         $expectedData[] = $all[2];
         $filters = ['filters[supplemental]' => true];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -143,7 +137,7 @@ class SessionsTest extends AbstractTest
         $expectedData[] = $all[0];
         $expectedData[] = $all[2];
         $filters = ['filters[id]' => [1,3]];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -155,7 +149,7 @@ class SessionsTest extends AbstractTest
         $all = $dataLoader->getAll();
         $expectedData[] = $all[1];
         $filters = ['filters[supplemental]' => true, 'filters[attireRequired]' => true];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -169,7 +163,7 @@ class SessionsTest extends AbstractTest
         $expectedData[] = $all[2];
         $expectedData[] = $all[3];
         $filters = ['filters[sessionType]' => 2];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -182,7 +176,7 @@ class SessionsTest extends AbstractTest
         $expectedData[] = $all[1];
         $expectedData[] = $all[2];
         $filters = ['filters[supplemental]' => true, 'filters[sessionType]' => 2];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -194,7 +188,7 @@ class SessionsTest extends AbstractTest
         $all = $dataLoader->getAll();
         $expectedData[] = $all[1];
         $filters = ['filters[terms]' => 1];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -206,7 +200,7 @@ class SessionsTest extends AbstractTest
         $all = $dataLoader->getAll();
         $expectedData[] = $all[3];
         $filters = ['filters[course]' => 4];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -220,7 +214,7 @@ class SessionsTest extends AbstractTest
         $expectedData[] = $all[1];
         $expectedData[] = $all[3];
         $filters = ['filters[course]' => [1, 4]];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -232,7 +226,7 @@ class SessionsTest extends AbstractTest
         $all = $dataLoader->getAll();
         $expectedData[] = $all[3];
         $filters = ['filters[programs]' => [2]];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -248,7 +242,7 @@ class SessionsTest extends AbstractTest
         $expectedData[] = $all[5];
         $expectedData[] = $all[6];
         $filters = ['filters[instructors]' => [2]];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -261,7 +255,7 @@ class SessionsTest extends AbstractTest
         $expectedData[] = $all[0];
         $expectedData[] = $all[4];
         $filters = ['filters[instructorGroups]' => [1]];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -273,7 +267,7 @@ class SessionsTest extends AbstractTest
         $all = $dataLoader->getAll();
         $expectedData[] = $all[2];
         $filters = ['filters[learningMaterials]' => [3]];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -286,7 +280,7 @@ class SessionsTest extends AbstractTest
         $expectedData[] = $all[0];
         $expectedData[] = $all[3];
         $filters = ['filters[competencies]' => [1]];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -299,7 +293,7 @@ class SessionsTest extends AbstractTest
         $expectedData[] = $all[2];
         $expectedData[] = $all[3];
         $filters = ['filters[meshDescriptors]' => ['abc2', 'abc3']];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -311,7 +305,7 @@ class SessionsTest extends AbstractTest
         $all = $dataLoader->getAll();
         $expectedData[] = $all[3];
         $filters = ['filters[schools]' => [2]];
-        $this->filterTest('sessions', $filters, $expectedData, ['updatedAt']);
+        $this->filterTest($filters, $expectedData, ['updatedAt']);
     }
 
     /**
@@ -322,7 +316,7 @@ class SessionsTest extends AbstractTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['instructors'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest('sessions', $data['session'], ['updatedAt'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'ilmsessions', $data);
     }
 
     /**
@@ -333,7 +327,7 @@ class SessionsTest extends AbstractTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['instructors'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest('sessions', $data['session'], ['updatedAt'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'ilmsessions', $data);
     }
 
     /**
@@ -344,7 +338,7 @@ class SessionsTest extends AbstractTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['learnerGroups'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest('sessions', $data['session'], ['updatedAt'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'ilmsessions', $data);
     }
 
     /**
@@ -355,7 +349,7 @@ class SessionsTest extends AbstractTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['learners'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest('sessions', $data['session'], ['updatedAt'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'ilmsessions', $data);
     }
 
     /**
@@ -366,7 +360,7 @@ class SessionsTest extends AbstractTest
         $dataLoader = $this->container->get('ilioscore.dataloader.learningmaterial');
         $data = $dataLoader->getOne();
         $data['status'] = '1';
-        $this->relatedTimeStampUpdateTest('sessions', 1, ['updatedAt'], 'learningmaterials', $data);
+        $this->relatedTimeStampUpdateTest(1, ['updatedAt'], 'learningmaterials', $data);
     }
 
     /**
@@ -376,7 +370,7 @@ class SessionsTest extends AbstractTest
     {
         $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
         $data = $dataLoader->create();
-        $this->relatedTimeStampPostTest('sessions', 1, ['updatedAt'], 'sessionlearningmaterials', $data);
+        $this->relatedTimeStampPostTest(1, ['updatedAt'], 'sessionlearningmaterials', $data);
     }
 
     /**
@@ -387,7 +381,7 @@ class SessionsTest extends AbstractTest
         $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
         $data = $dataLoader->getOne();
         $data['required'] = !$data['required'];
-        $this->relatedTimeStampUpdateTest('sessions', 1, ['updatedAt'], 'sessionlearningmaterials', $data);
+        $this->relatedTimeStampUpdateTest(1, ['updatedAt'], 'sessionlearningmaterials', $data);
     }
 
     /**
@@ -397,7 +391,7 @@ class SessionsTest extends AbstractTest
     {
         $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
         $data = $dataLoader->getOne();
-        $this->relatedTimeStampDeleteTest('sessions', 1, ['updatedAt'], 'sessionlearningmaterials', $data['id']);
+        $this->relatedTimeStampDeleteTest(1, ['updatedAt'], 'sessionlearningmaterials', $data['id']);
     }
 
     /**
@@ -407,7 +401,7 @@ class SessionsTest extends AbstractTest
     {
         $dataLoader = $this->container->get('ilioscore.dataloader.sessiondescription');
         $data = $dataLoader->getOne();
-        $this->relatedTimeStampDeleteTest('sessions', $data['session'], ['updatedAt'], 'sessiondescriptions', $data['id']);
+        $this->relatedTimeStampDeleteTest($data['session'], ['updatedAt'], 'sessiondescriptions', $data['id']);
     }
 
     /**
@@ -418,7 +412,7 @@ class SessionsTest extends AbstractTest
         $dataLoader = $this->container->get('ilioscore.dataloader.sessiondescription');
         $data = $dataLoader->getOne();
         $data['description'] = 'new description';
-        $this->relatedTimeStampUpdateTest('sessions', $data['session'], ['updatedAt'], 'sessiondescriptions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'sessiondescriptions', $data);
     }
 
 }

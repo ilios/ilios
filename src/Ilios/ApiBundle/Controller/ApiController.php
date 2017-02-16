@@ -225,6 +225,9 @@ class ApiController extends Controller
 
     protected function getSingularObjectName($object)
     {
+        Inflector::rules('singular', array(
+            'uninflected' => array('aamcpcrs'),
+        ));
         return Inflector::singularize($object);
     }
 }

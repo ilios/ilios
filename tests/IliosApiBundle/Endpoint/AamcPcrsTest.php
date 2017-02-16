@@ -5,10 +5,10 @@ namespace Tests\IliosApiBundle\Endpiont;
 use Tests\IliosApiBundle\Endpoint\AbstractTest;
 
 /**
- * Aamcmethod controller Test.
+ * AamcPcrsTest controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
-class AamcmethodsTest extends AbstractTest
+class AamcPcrsTest extends AbstractTest
 {
     /**
      * @inheritdoc
@@ -16,9 +16,14 @@ class AamcmethodsTest extends AbstractTest
     protected function getFixtures()
     {
         return [
-            'Tests\CoreBundle\Fixture\LoadAamcMethodData',
-            'Tests\CoreBundle\Fixture\LoadSessionTypeData'
+            'Tests\CoreBundle\Fixture\LoadAamcPcrsData',
+            'Tests\CoreBundle\Fixture\LoadCompetencyData'
         ];
+    }
+
+    protected function getDataLoader()
+    {
+        return $this->container->get('ilioscore.dataloader.aamcPcrs');
     }
 
     /**
@@ -26,13 +31,18 @@ class AamcmethodsTest extends AbstractTest
      */
     protected function getPluralName()
     {
-        return 'aamcmethods';
+        return 'aamcpcrs';
+    }
+
+    protected function getSingular($pluralized)
+    {
+        return 'aamcpcrs';
     }
 
     /**
      * @group api_1
      */
-    public function testGetOne()
+    public function testGetOneAamcPcrs()
     {
         $this->getOneTest();
     }
@@ -40,7 +50,7 @@ class AamcmethodsTest extends AbstractTest
     /**
      * @group api_1
      */
-    public function testGetAll()
+    public function testGetAllAamcPcrss()
     {
         $this->getAllTest();
     }
@@ -48,7 +58,7 @@ class AamcmethodsTest extends AbstractTest
     /**
      * @group api_1
      */
-    public function testPost()
+    public function testPostAamcPcrs()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
@@ -59,7 +69,7 @@ class AamcmethodsTest extends AbstractTest
     /**
      * @group api_1
      */
-    public function testPostBad()
+    public function testPostBadAamcPcrs()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->createInvalid();
@@ -69,7 +79,7 @@ class AamcmethodsTest extends AbstractTest
     /**
      * @group api_1
      */
-    public function testPut()
+    public function testPutAamcPcrs()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
@@ -82,7 +92,7 @@ class AamcmethodsTest extends AbstractTest
     /**
      * @group api_1
      */
-    public function testDelete()
+    public function testDeleteAamcPcrs()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
@@ -92,7 +102,7 @@ class AamcmethodsTest extends AbstractTest
     /**
      * @group api_1
      */
-    public function testNotFound()
+    public function testAamcPcrsNotFound()
     {
         $this->notFoundTest(99);
     }
@@ -100,12 +110,29 @@ class AamcmethodsTest extends AbstractTest
     /**
      * @group api_1
      */
-    public function testFilterBySessionTypes()
+    public function testPostCompetencyAamcPcrs()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $responseData = $this->postTest($data, $postData);
+
+        $newId = $responseData['id'];
+        foreach ($postData['competencies'] as $id) {
+            $competency = $this->getOne('competencies', $id);
+            $this->assertTrue(in_array($newId, $competency['aamcPcrses']));
+        }
+    }
+
+    /**
+     * @group api_1
+     */
+    public function testFilterByCompetencies()
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $expectedData[] = $all[0];
-        $filters = ['filters[sessionTypes]' => [1]];
+        $filters = ['filters[competencies]' => [1]];
         $this->filterTest($filters, $expectedData);
     }
 }

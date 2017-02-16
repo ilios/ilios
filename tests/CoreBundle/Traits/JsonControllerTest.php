@@ -22,7 +22,11 @@ trait JsonControllerTest
      */
     protected function assertJsonResponse(Response $response, $statusCode, $checkValidJson = true)
     {
-        $this->assertEquals($statusCode, $response->getStatusCode(), $response->getContent());
+        $this->assertEquals(
+            $statusCode,
+            $response->getStatusCode(),
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 200)
+        );
 
         if ($checkValidJson) {
             $this->assertTrue(
