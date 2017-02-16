@@ -1,8 +1,0 @@
-{%  if (form is defined) %}
-    <form action="{{ url('put_course', {'id': id}) }}" method="POST" {{ form_enctype(form) }}>
-        <input type="hidden" name="_method" value="put" />
-        {{ form_widget(form) }}
-
-        <input type="submit" value="Save">
-    </form>
-{% endif %}
