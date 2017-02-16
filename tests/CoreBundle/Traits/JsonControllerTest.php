@@ -25,7 +25,7 @@ trait JsonControllerTest
         $this->assertEquals(
             $statusCode,
             $response->getStatusCode(),
-            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 200)
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 400)
         );
 
         if ($checkValidJson) {

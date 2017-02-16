@@ -3,6 +3,7 @@
 namespace Ilios\CliBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Inflector\Inflector;
 use Ilios\CoreBundle\Service\EntityMetadata;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,12 +12,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
- * Generates the YAML file for the swagger definitino docs
+ * Generates the test for an endpoint
  *
- * Class GenerateSwaggerApiPathYamlCommand
+ * Class GenerateEndpointTestCommand
  * @package Ilios\CliBUndle\Command
  */
-class GenerateSwaggerApiDefinitionYamlCommand extends Command
+class GenerateEndpointTestCommand extends Command
 {
     /**
      * @var EngineInterface
@@ -56,8 +57,8 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ilios:generate:swagger-definition')
-            ->setDescription('Creates standard swagger definition yaml file for an entity.')
+            ->setName('ilios:generate:endpoint-test')
+            ->setDescription('Creates basic test for an endpoint.')
             ->addArgument(
                 'entityShortcut',
                 InputArgument::REQUIRED,
@@ -80,27 +81,35 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
         $reflection = new \ReflectionClass($class);
         $entity = $reflection->getShortName();
 
-        $propertyReflection = $this->entityMetadata->extractExposedProperties($reflection);
-        $properties = array_map(function (\ReflectionProperty $property) {
-            $type = $this->entityMetadata->getTypeOfProperty($property);
-            if ($type === 'entity') {
-                $type = 'string';
-            }
-            if ($type === 'entityCollection') {
-                $type = 'arrayOfStrings';
-            }
+        $writableProperties = $this->entityMetadata->extractWritableProperties($reflection);
+        $puts = array_map(function (\ReflectionProperty $property) {
             return [
                 'name' => $property->getName(),
-                'type' => $type
+                'type' => $this->entityMetadata->getTypeOfProperty($property)
+            ];
+        }, $writableProperties);
+
+        $propertyReflection = $this->entityMetadata->extractExposedProperties($reflection);
+        $filters = array_map(function (\ReflectionProperty $property) {
+            $type = $this->entityMetadata->getTypeOfProperty($property);
+            return [
+                'name' => $property->getName(),
+                'type' => $this->entityMetadata->getTypeOfProperty($property)
             ];
         }, $propertyReflection);
 
-
-        $template = 'IliosCliBundle:Template:definition.yml.twig';
+        $endpoint = strtolower($entity);
+        $plural = Inflector::pluralize($endpoint);
+        $template = 'IliosCliBundle:Template:endpointTest.php.twig';
+        $groupNumber = rand(1, 2);
 
         $content = $this->templatingEngine->render($template, [
             'entity' => $entity,
-            'properties' => $properties
+            'plural' => $plural,
+            'endpoint' => $endpoint,
+            'filters' => $filters,
+            'puts' => $puts,
+            'groupNumber' => $groupNumber,
         ]);
 
         print $content;

@@ -68,6 +68,13 @@ class Entity extends ObjectNormalizer
                 return $value->format('c');
             }
         }
+
+        if ($type === 'boolean') {
+            $value = $this->propertyAccessor->getValue($object, $property);
+            if ($value) {
+                return boolval($value);
+            }
+        }
         if ($type === 'entity') {
             $entity = $this->propertyAccessor->getValue($object, $property);
 
@@ -171,6 +178,10 @@ class Entity extends ObjectNormalizer
 
         if (null !== $value and $type === 'dateTime') {
             $value = new \DateTime($value);
+        }
+
+        if (null !== $value and $type === 'boolean') {
+            $value = boolval($value);
         }
 
         return $value;

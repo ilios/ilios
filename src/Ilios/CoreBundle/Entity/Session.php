@@ -61,6 +61,7 @@ class Session implements SessionInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

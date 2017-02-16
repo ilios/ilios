@@ -1,0 +1,79 @@
+<?php
+
+namespace Tests\IliosApiBundle\Endpoints;
+
+/**
+ * {{ entity }} API endpoint Test.
+ * @package Tests\IliosApiBundle\Endpoints
+ * @group api_{{ groupNumber }}
+ */
+class {{ entity }}Test extends AbstractTest
+{
+    protected $testName =  '{{ endpoint | lower }}';
+
+    /**
+     * @inheritdoc
+     */
+    protected function getFixtures()
+    {
+        return [
+            'Tests\CoreBundle\Fixture\Load{{ entity }}Data',
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * returns an array of field / value pairs to modify
+     * the key for each item is reflected in the failure message
+     * each one will be separately tested in a PUT request
+     */
+    public function putsToTest()
+    {
+        return [
+{% for property in puts %}
+{% if property.type == 'entityCollection' %}
+            '{{ property.name }}' => ['{{ property.name }}', [1]],
+{%  elseif property.type == 'boolean' %}
+            '{{ property.name }}' => ['{{ property.name }}', false],
+{%  elseif property.type == 'integer' %}
+            '{{ property.name }}' => ['{{ property.name }}', $this->getFaker()->randomDigit],
+{%  elseif property.type == 'entity' %}
+            '{{ property.name }}' => ['{{ property.name }}', 1],
+{%  else %}
+            '{{ property.name }}' => ['{{ property.name }}', $this->getFaker()->text],
+{% endif %}
+{% endfor %}
+        ];
+    }
+
+
+    /**
+     * @inheritDoc
+     *
+     * returns an array of filters to test
+     * the key for each item is reflected in the failure message
+     * the first item is an array of the positions the expected items
+     * can be found in the data loader
+     * the second item is the filter we are testing
+     */
+    public function filtersToTest()
+    {
+        return [
+{% for property in filters %}
+{% if property.type == 'entityCollection' %}
+            '{{ property.name }}' => [[0], ['filters[{{ property.name }}]' => [1]]],
+{%  elseif property.type == 'boolean' %}
+            '{{ property.name }}' => [[0], ['filters[{{ property.name }}]' => false]],
+{%  elseif property.type == 'integer' %}
+            '{{ property.name }}' => [[0], ['filters[{{ property.name }}]' => 1]],
+{%  elseif property.type == 'entity' %}
+            '{{ property.name }}' => [[0], ['filters[{{ property.name }}]' => 1]],
+{%  else %}
+            '{{ property.name }}' => [[0], ['filters[{{ property.name }}]' => 'test']],
+{% endif %}
+{% endfor %}
+        ];
+    }
+
+}

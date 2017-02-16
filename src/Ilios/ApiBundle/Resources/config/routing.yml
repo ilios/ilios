@@ -9,7 +9,7 @@ ilios_nondto_api_get:
     methods:  [GET]
     requirements:
         version: 'v\d+'
-        object: '(?i)sessionlearningmaterials'
+        object: '(?i)(sessionlearningmaterials|applicationconfigs)'
         id: '(?i)[a-z0-9\-]+'
 
 ilios_api_get:
@@ -27,7 +27,7 @@ ilios_nondto_api_getall:
     methods:  [GET]
     requirements:
         version: 'v\d+'
-        object: '(?i)sessionlearningmaterials'
+        object: '(?i)(sessionlearningmaterials|applicationconfigs)'
 
 ilios_api_getall:
     path:     /{version}/{object}

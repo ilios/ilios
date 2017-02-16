@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\IliosApiBundle\Endpoint;
+namespace Tests\IliosApiBundle\Endpoints;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use DateTime;
@@ -11,14 +11,19 @@ use Tests\CoreBundle\DataLoader\DataLoaderInterface;
 use Tests\CoreBundle\Traits\JsonControllerTest;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Util\Inflector;
+use Faker\Factory as FakerFactory;
+use Faker\Generator as FakerGenerator;
 
 /**
  * Session controller Test.
- * @package Ilios\CoreBundle\Test\Controller;
+ * @package Tests\IliosApiBundle\Endpoints
  */
 abstract class AbstractTest extends WebTestCase
 {
     use JsonControllerTest;
+
+    protected $testName = null;
+
     /**
      * @var ContainerInterface
      */
@@ -34,6 +39,12 @@ abstract class AbstractTest extends WebTestCase
      */
     protected $fixtures;
 
+
+    /**
+     * @var FakerGenerator
+     */
+    protected $faker;
+
     /**
      * @return array
      */
@@ -43,9 +54,12 @@ abstract class AbstractTest extends WebTestCase
     }
 
     /**
-     * @return string
+     * @return array
      */
-    abstract protected function getPluralName();
+    public function filtersToTest()
+    {
+        return [];
+    }
 
     /**
      * @return DataLoaderInterface
@@ -53,9 +67,19 @@ abstract class AbstractTest extends WebTestCase
     protected function getDataLoader()
     {
         $name = $this->getSingularName();
+        $service = "ilioscore.dataloader.{$name}";
 
-        return $this->container->get("ilioscore.dataloader.{$name}");
+        return $this->container->get($service);
     }
+
+    /**
+     * @return array
+     */
+    protected function getTimeStampFields()
+    {
+        return [];
+    }
+
 
     public function setUp()
     {
@@ -77,6 +101,80 @@ abstract class AbstractTest extends WebTestCase
         unset($this->client);
         unset($this->container);
         unset($this->fixtures);
+        unset($this->faker);
+    }
+
+    public function testGetOne()
+    {
+        $this->getOneTest();
+    }
+
+    public function testGetAll()
+    {
+        $this->getAllTest();
+    }
+
+    public function testPost()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->postTest($data, $postData);
+    }
+
+    public function testPostBad()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->createInvalid();
+        $this->badPostTest($data);
+    }
+
+    /**
+     * @dataProvider putsToTest
+     */
+    public function testPut($key, $value)
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        if (array_key_exists($key, $data) and $data[$key] == $value) {
+            $this->fail(
+                "This value is already set for {$key}. " .
+                "Modify " . get_class($this) . '::putsToTest'
+            );
+        }
+        $data[$key] = $value;
+
+        $postData = $data;
+        $this->putTest($data, $postData);
+    }
+
+    public function testDelete()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->deleteTest($data['id']);
+    }
+
+    public function testNotFound()
+    {
+        $this->notFoundTest(99);
+    }
+
+    /**
+     * @dataProvider filtersToTest
+     */
+    public function testFilters(array $dataKeys = [], array $filters = [])
+    {
+        if (empty($dataKeys) || empty($filters)) {
+            $this->markTestSkipped('Missing filters tests for this endpoint');
+            return;
+        }
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $expectedData = array_map(function($i) use ($all) {
+            return $all[$i];
+        }, $dataKeys);
+        $this->filterTest($filters, $expectedData);
     }
 
     /**
@@ -92,14 +190,14 @@ abstract class AbstractTest extends WebTestCase
         $this->makeJsonRequest($this->client, $method, $url, $content, $token, $files);
     }
 
-    protected function getOneTest($timeStampFields = [])
+    protected function getOneTest()
     {
         $pluralObjectName = $this->getPluralName();
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
         $returnedData = $this->getOne($pluralObjectName, $data['id']);
 
-        foreach ($timeStampFields as $field) {
+        foreach ($this->getTimeStampFields() as $field) {
             $stamp = new DateTime($returnedData[$field]);
             unset($returnedData[$field]);
             $now = new DateTime();
@@ -138,7 +236,7 @@ abstract class AbstractTest extends WebTestCase
         return json_decode($response->getContent(), true)[$pluralObjectName][0];
     }
 
-    protected function getAllTest($timeStampFields = [])
+    protected function getAllTest()
     {
         $pluralObjectName = $this->getPluralName();
         $loader = $this->getDataLoader();
@@ -159,7 +257,7 @@ abstract class AbstractTest extends WebTestCase
 
         $now = new DateTime();
         foreach ($responses as $i => $response) {
-            foreach ($timeStampFields as $field) {
+            foreach ($this->getTimeStampFields() as $field) {
                 $stamp = new DateTime($response[$field]);
                 unset($response[$field]);
                 $diff = $now->diff($stamp);
@@ -175,13 +273,13 @@ abstract class AbstractTest extends WebTestCase
 
     }
 
-    protected function postTest($data, $postData, $timeStampFields = [])
+    protected function postTest($data, $postData)
     {
         $pluralObjectName = $this->getPluralName();
         $responseData = $this->postOne($pluralObjectName, $postData);
 
         $now = new DateTime();
-        foreach ($timeStampFields as $field) {
+        foreach ($this->getTimeStampFields() as $field) {
             $stamp = new DateTime($responseData[$field]);
             unset($responseData[$field]);
             $diff = $now->diff($stamp);
@@ -211,7 +309,7 @@ abstract class AbstractTest extends WebTestCase
         return json_decode($response->getContent(), true)[$pluralObjectName][0];
     }
 
-    protected function badPostTest($data, $timeStampFields = [])
+    protected function badPostTest($data)
     {
         $pluralObjectName = $this->getPluralName();
         $singularObjectName = $this->getSingularName();
@@ -231,13 +329,26 @@ abstract class AbstractTest extends WebTestCase
         );
     }
 
-    protected function putTest($data, $postData, $timeStampFields = [])
+    public function relatedPostDataTest($data, $postData, $relationship, $related)
+    {
+        $responseData = $this->postTest($data, $postData);
+
+        $newId = $responseData['id'];
+        $this->assertTrue(array_key_exists($related, $postData), var_export($postData, true));
+        foreach ($postData[$related] as $id) {
+            $obj = $this->getOne($related, $id);
+            $this->assertTrue(array_key_exists($relationship, $obj), var_export($obj, true));
+            $this->assertTrue(in_array($newId, $obj[$relationship]));
+        }
+    }
+
+    protected function putTest($data, $postData)
     {
         $pluralObjectName = $this->getPluralName();
         $responseData = $this->putOne($pluralObjectName, $data['id'], $postData);
 
         $now = new DateTime();
-        foreach ($timeStampFields as $field) {
+        foreach ($this->getTimeStampFields() as $field) {
             $stamp = new DateTime($responseData[$field]);
             unset($responseData[$field]);
             $diff = $now->diff($stamp);
@@ -317,7 +428,7 @@ abstract class AbstractTest extends WebTestCase
         );
     }
 
-    protected function filterTest(array $filters, $expectedData, array $timeStampFields = [])
+    protected function filterTest(array $filters, $expectedData)
     {
         $pluralObjectName = $this->getPluralName();
         $parameters = array_merge([
@@ -337,14 +448,18 @@ abstract class AbstractTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
+        $timeStampFields = $this->getTimeStampFields();
         $responseData = array_map(function ($arr) use ($timeStampFields) {
-            foreach ($timeStampFields as $field) {
+            foreach ($this->getTimeStampFields() as $field) {
                 unset($arr[$field]);
             }
             return $arr;
         }, json_decode($response->getContent(), true)[$pluralObjectName]);
 
-        $this->assertEquals(count($expectedData), count($responseData), var_export($responseData, true));
+        $this->assertEquals(
+            count($expectedData),
+            count($responseData),
+            'Wrong Number of responses returned from filter got: ' . var_export($responseData, true));
         foreach ($expectedData as $i => $data) {
             $this->assertEquals(
                 $data,
@@ -365,7 +480,7 @@ abstract class AbstractTest extends WebTestCase
         sleep(1);
         $this->putOne($relatedPluralObjectName, $relatedData['id'], $relatedData);
         $currentState = $this->getOne($pluralObjectName, $id);
-        foreach ($timeStampFields as $field) {
+        foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);
             $currentStamp = new DateTime($currentState[$field]);
 
@@ -390,7 +505,7 @@ abstract class AbstractTest extends WebTestCase
         sleep(1);
         $this->postOne($relatedPluralObjectName, $relatedPostData);
         $currentState = $this->getOne($pluralObjectName, $id);
-        foreach ($timeStampFields as $field) {
+        foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);
             $currentStamp = new DateTime($currentState[$field]);
 
@@ -415,7 +530,7 @@ abstract class AbstractTest extends WebTestCase
         sleep(1);
         $this->deleteOne($relatedPluralObjectName, $relatedId);
         $currentState = $this->getOne($pluralObjectName, $id);
-        foreach ($timeStampFields as $field) {
+        foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);
             $currentStamp = new DateTime($currentState[$field]);
 
@@ -428,9 +543,27 @@ abstract class AbstractTest extends WebTestCase
         }
     }
 
+    protected function getPluralName()
+    {
+        return $this->testName;
+    }
+
     protected function getSingularName()
     {
         $pluralized = $this->getPluralName();
         return Inflector::singularize($pluralized);
+    }
+
+    /**
+     * @return FakerGenerator
+     */
+    protected function getFaker()
+    {
+        if (!$this->faker) {
+            $this->faker = FakerFactory::create();
+            $this->faker->seed(17105);
+        }
+
+        return $this->faker;
     }
 }

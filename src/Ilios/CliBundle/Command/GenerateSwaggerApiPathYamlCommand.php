@@ -6,7 +6,6 @@ use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -44,7 +43,7 @@ class GenerateSwaggerApiPathYamlCommand extends Command
             ->addArgument(
                 'endpointName',
                 InputArgument::REQUIRED,
-                'The basename of the end poing e.g. session.'
+                'The basename of the end point e.g. session.'
             );
     }
 
@@ -57,13 +56,15 @@ class GenerateSwaggerApiPathYamlCommand extends Command
 
         $singular = Inflector::singularize($endpoint);
         $plural = Inflector::pluralize($singular);
-        $template = 'IliosCliBundle:Swagger:path.yml.twig';
+        $template = 'IliosCliBundle:Template:path.yml.twig';
 
         $content = $this->templatingEngine->render($template, [
             'endpoint' => $plural,
             'object' => $singular,
         ]);
 
-        print $content; die;
+        print $content;
+
+        exit();
     }
 }

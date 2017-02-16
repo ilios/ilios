@@ -115,3 +115,8 @@ services:
         arguments: ["@templating", "@doctrine", "@ilioscore.entitymetadata"]
         tags:
             -  { name: console.command }
+    ilioscli.command.generate_endpoint_test:
+        class: Ilios\CliBundle\Command\GenerateEndpointTestCommand
+        arguments: ["@templating", "@doctrine", "@ilioscore.entitymetadata"]
+        tags:
+            -  { name: console.command }

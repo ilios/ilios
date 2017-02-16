@@ -75,6 +75,20 @@ class EntityMetadata
         return $exposedProperties;
     }
 
+    public function extractWritableProperties(\ReflectionClass $reflection)
+    {
+        $exposedProperties = $this->extractExposedProperties($reflection);
+
+        return array_filter($exposedProperties, function( \ReflectionProperty $property) {
+            $annotation = $this->annotationReader->getPropertyAnnotation(
+                $property,
+                'Ilios\ApiBundle\Annotation\ReadOnly'
+            );
+
+            return is_null($annotation);
+        });
+    }
+
     public function getTypeOfProperty(\ReflectionProperty $property)
     {
         /** @var Type $typeAnnotation */

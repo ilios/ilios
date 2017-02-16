@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\ApiBundle\Annotation as IS;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -26,6 +27,7 @@ class ApplicationConfig implements ApplicationConfigInterface
 {
     use IdentifiableEntity;
     use NameableEntity;
+    use StringableIdEntity;
 
     /**
      * @var int

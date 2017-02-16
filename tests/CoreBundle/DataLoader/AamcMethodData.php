@@ -16,7 +16,7 @@ class AamcMethodData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => "AM002",
-            'description' => $this->faker->text,
+            'description' => 'filterable description',
             'sessionTypes' => []
         );
 

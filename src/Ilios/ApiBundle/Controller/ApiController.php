@@ -198,8 +198,8 @@ class ApiController extends Controller
         $singularName = $this->getSingularObjectName($object);
         $name = "ilioscore.{$singularName}.manager";
         if (!$this->container->has($name)) {
-            throw new \Exception(
-              "There is no manager for ${object}.  Tried {$name}."
+            throw new NotFoundHttpException(sprintf(
+                'The endpoint \'%s\' does not exist.', $object)
             );
         }
         return $this->container->get($name);
