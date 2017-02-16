@@ -37,6 +37,7 @@ class CourseLearningMaterialType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
+            ->add('position')
         ;
     }
 

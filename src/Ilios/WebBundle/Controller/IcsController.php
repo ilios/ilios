@@ -7,6 +7,7 @@ use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
+use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,6 +89,7 @@ class IcsController extends Controller
         if ($event->offering) {
             $offeringManager = $this->container->get('ilioscore.offering.manager');
             $offering = $offeringManager->findOneBy(['id' => $event->offering]);
+            /* @var SessionInterface $session */
             $session = $offering->getSession();
         }
         if ($event->ilmSession) {
@@ -109,6 +111,7 @@ class IcsController extends Controller
         $sessionObjectives = $session->getObjectives()->map(function (ObjectiveInterface $objective) {
             return $this->purify($objective->getTitle());
         })->toArray();
+
         $sessionMaterials =
             $session->getLearningMaterials()
                 ->filter(function (SessionLearningMaterialInterface $learningMaterial) {
@@ -116,9 +119,6 @@ class IcsController extends Controller
                     $lm = $learningMaterial->getLearningMaterial();
                     $status = $lm->getStatus();
                     return $status->getId() !== LearningMaterialStatusInterface::IN_DRAFT;
-                })
-                ->map(function (SessionLearningMaterialInterface $learningMaterial) {
-                    return $this->getTextForLearningMaterial($learningMaterial->getLearningMaterial());
                 })
                 ->toArray();
 
@@ -130,10 +130,38 @@ class IcsController extends Controller
                     $status = $lm->getStatus();
                     return $status->getId() !== LearningMaterialStatusInterface::IN_DRAFT;
                 })
-                ->map(function (CourseLearningMaterialInterface $learningMaterial) {
-                    return $this->getTextForLearningMaterial($learningMaterial->getLearningMaterial());
-                })
                 ->toArray();
+
+        $callback = function ($lm1, $lm2) {
+            $pos1 = $lm1->getPosition();
+            $pos2 = $lm2->getPosition();
+            if ($pos1 > $pos2) {
+                return 1;
+            } elseif ($pos1 < $pos2) {
+                return -1;
+            }
+
+            $id1 = $lm1->getId();
+            $id2 = $lm2->getId();
+
+            if ($id1 > $id2) {
+                return -1;
+            } elseif ($id1 < $id2) {
+                return 1;
+            }
+            return 0;
+        };
+
+        usort($sessionMaterials, $callback);
+        usort($courseMaterials, $callback);
+
+        $courseMaterials = array_map(function (CourseLearningMaterialInterface $learningMaterial) {
+            return $this->getTextForLearningMaterial($learningMaterial->getLearningMaterial());
+        }, $courseMaterials);
+
+        $sessionMaterials = array_map(function (SessionLearningMaterialInterface $learningMaterial) {
+            return $this->getTextForLearningMaterial($learningMaterial->getLearningMaterial());
+        }, $sessionMaterials);
 
         $lines = [
             $this->purify($description),
