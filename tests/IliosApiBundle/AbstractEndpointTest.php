@@ -175,21 +175,27 @@ abstract class AbstractEndpointTest extends WebTestCase
     /**
      * @dataProvider readOnliesToTest
      */
-    public function testPutReadOnly($key, $id, $value)
+    public function testPutReadOnly($key = null, $id = null, $value = null)
     {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        if (array_key_exists($key, $data) and $data[$key] == $value) {
-            $this->fail(
-                "This value is already set for {$key}. " .
-                "Modify " . get_class($this) . '::readOnliesToTest'
-            );
-        }
-        $postData = $data;
-        $postData[$key] = $value;
+        if (
+            null != $key &&
+            null != $id &&
+            null != $value
+        ) {
+            $dataLoader = $this->getDataLoader();
+            $data = $dataLoader->getOne();
+            if (array_key_exists($key, $data) and $data[$key] == $value) {
+                $this->fail(
+                    "This value is already set for {$key}. " .
+                    "Modify " . get_class($this) . '::readOnliesToTest'
+                );
+            }
+            $postData = $data;
+            $postData[$key] = $value;
 
-        //nothing should change
-        $this->putTest($data, $postData, $id);
+            //nothing should change
+            $this->putTest($data, $postData, $id);
+        }
     }
 
     public function testDelete()

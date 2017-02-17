@@ -46,7 +46,6 @@ class AamcResourceType implements AamcResourceTypeInterface
      *
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\ReadOnly
      */
     protected $id;
 

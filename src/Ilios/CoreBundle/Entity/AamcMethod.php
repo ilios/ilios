@@ -47,7 +47,6 @@ class AamcMethod implements AamcMethodInterface
      *
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\ReadOnly
      */
     protected $id;
 

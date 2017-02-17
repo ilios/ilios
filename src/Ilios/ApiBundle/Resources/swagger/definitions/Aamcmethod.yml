@@ -4,7 +4,6 @@ Aamcmethod:
   id:
    description: Id
    type: string
-   readOnly: true
   description:
    description: Description
    type: string

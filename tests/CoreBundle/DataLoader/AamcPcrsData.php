@@ -14,7 +14,7 @@ class AamcPcrsData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 'aamc-pcrs-comp-c0102',
-            'description' => $this->faker->text,
+            'description' => 'second description',
             'competencies' => [2,3]
         );
 

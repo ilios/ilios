@@ -145,13 +145,6 @@ class ApiController extends Controller
             );
         }
 
-        if ($id != (string) $entity) {
-            return new Response(
-                'The URL ID and the provided data ID do not match',
-                Response::HTTP_BAD_REQUEST
-            );
-        }
-
         $authChecker = $this->get('security.authorization_checker');
         if (! $authChecker->isGranted($permission, $entity)) {
             throw $this->createAccessDeniedException('Unauthorized access!');

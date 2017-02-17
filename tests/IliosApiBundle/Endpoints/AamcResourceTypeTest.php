@@ -20,6 +20,7 @@ class AamcResourceTypeTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadAamcResourceTypeData',
+            'Tests\CoreBundle\Fixture\LoadTermData'
         ];
     }
 
@@ -31,7 +32,7 @@ class AamcResourceTypeTest extends AbstractEndpointTest
         return [
             'title' => ['title', $this->getFaker()->text],
             'description' => ['description', $this->getFaker()->text],
-            'terms' => ['terms', [1]],
+            'terms' => ['terms', [3]],
         ];
     }
 
@@ -40,9 +41,7 @@ class AamcResourceTypeTest extends AbstractEndpointTest
      */
     public function readOnliesToTest()
     {
-        return [
-            'id' => ['id', 1, 99],
-        ];
+        return [];
     }
 
     /**
@@ -51,11 +50,30 @@ class AamcResourceTypeTest extends AbstractEndpointTest
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['id' => 'test']],
-            'title' => [[0], ['title' => 'test']],
-            'description' => [[0], ['description' => 'test']],
+            'id' => [[2], ['id' => 'RE003']],
+            'title' => [[0], ['title' => 'first title']],
+            'description' => [[1], ['description' => 'second description']],
             'terms' => [[0], ['terms' => [1]]],
         ];
+    }
+
+    public function testPutId()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $id = $data['id'];
+        $data['id'] = $this->getFaker()->text(10);
+
+        $postData = $data;
+        $this->putTest($data, $postData, $id);
+    }
+
+    public function testPostTermAamcResourceType()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'aamcResourceType', 'terms');
     }
 
 }

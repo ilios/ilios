@@ -40,9 +40,7 @@ class AamcMethodTest extends AbstractEndpointTest
      */
     public function readOnliesToTest()
     {
-        return [
-            'id' => ['id', 'AM001', 'AMBlank'],
-        ];
+        return [];
     }
 
     /**
@@ -55,6 +53,17 @@ class AamcMethodTest extends AbstractEndpointTest
             'description' => [[1], ['description' => 'filterable description']],
             'sessionTypes' => [[0], ['sessionTypes' => [1]]],
         ];
+    }
+
+    public function testPutId()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $id = $data['id'];
+        $data['id'] = $this->getFaker()->text(10);
+
+        $postData = $data;
+        $this->putTest($data, $postData, $id);
     }
 
 }

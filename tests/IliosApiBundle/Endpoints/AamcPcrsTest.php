@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Doctrine\Common\Inflector\Inflector;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 
 /**
@@ -13,6 +14,14 @@ class AamcPcrsTest extends AbstractEndpointTest
 {
     protected $testName =  'aamcpcrs';
 
+    public function setUp()
+    {
+        parent::setUp();
+        Inflector::rules('singular', array(
+            'uninflected' => array('aamcpcrs'),
+        ));
+    }
+
     /**
      * @inheritdoc
      */
@@ -20,6 +29,7 @@ class AamcPcrsTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadAamcPcrsData',
+            'Tests\CoreBundle\Fixture\LoadCompetencyData'
         ];
     }
 
@@ -30,7 +40,7 @@ class AamcPcrsTest extends AbstractEndpointTest
     {
         return [
             'description' => ['description', $this->getFaker()->text],
-            'competencies' => ['competencies', [1]],
+            'competencies' => ['competencies', [3]],
         ];
     }
 
@@ -39,9 +49,7 @@ class AamcPcrsTest extends AbstractEndpointTest
      */
     public function readOnliesToTest()
     {
-        return [
-            'id' => ['id', 1, 99],
-        ];
+        return [];
     }
 
     /**
@@ -50,10 +58,29 @@ class AamcPcrsTest extends AbstractEndpointTest
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['id' => 'test']],
-            'description' => [[0], ['description' => 'test']],
+            'id' => [[0], ['id' => 'aamc-pcrs-comp-c0101']],
+            'description' => [[1], ['description' => 'second description']],
             'competencies' => [[0], ['competencies' => [1]]],
         ];
+    }
+
+    public function testPutId()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $id = $data['id'];
+        $data['id'] = $this->getFaker()->text(10);
+
+        $postData = $data;
+        $this->putTest($data, $postData, $id);
+    }
+
+    public function testPostTermAamcResourceType()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'aamcPcrses', 'competencies');
     }
 
 }
