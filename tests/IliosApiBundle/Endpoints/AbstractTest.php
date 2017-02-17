@@ -56,10 +56,17 @@ abstract class AbstractTest extends WebTestCase
     /**
      * @return array
      */
-    public function filtersToTest()
-    {
-        return [];
-    }
+    public abstract function filtersToTest();
+
+    /**
+     * @return array
+     */
+    public abstract function putsToTest();
+
+    /**
+     * @return array
+     */
+    public abstract function readOnliesToTest();
 
     /**
      * @return DataLoaderInterface
@@ -145,7 +152,27 @@ abstract class AbstractTest extends WebTestCase
         $data[$key] = $value;
 
         $postData = $data;
-        $this->putTest($data, $postData);
+        $this->putTest($data, $postData, $data['id']);
+    }
+
+    /**
+     * @dataProvider readOnliesToTest
+     */
+    public function testPutReadOnly($key, $id, $value)
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        if (array_key_exists($key, $data) and $data[$key] == $value) {
+            $this->fail(
+                "This value is already set for {$key}. " .
+                "Modify " . get_class($this) . '::readOnliesToTest'
+            );
+        }
+        $postData = $data;
+        $postData[$key] = $value;
+
+        //nothing should change
+        $this->putTest($data, $postData, $id);
     }
 
     public function testDelete()
@@ -342,10 +369,10 @@ abstract class AbstractTest extends WebTestCase
         }
     }
 
-    protected function putTest($data, $postData)
+    protected function putTest($data, $postData, $id)
     {
         $pluralObjectName = $this->getPluralName();
-        $responseData = $this->putOne($pluralObjectName, $data['id'], $postData);
+        $responseData = $this->putOne($pluralObjectName, $id, $postData);
 
         $now = new DateTime();
         foreach ($this->getTimeStampFields() as $field) {

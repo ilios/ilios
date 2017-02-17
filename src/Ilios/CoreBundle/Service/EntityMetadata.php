@@ -85,6 +85,15 @@ class EntityMetadata
         });
     }
 
+    public function extractReadOnlyProperties(\ReflectionClass $reflection)
+    {
+        $exposedProperties = $this->extractExposedProperties($reflection);
+
+        return array_filter($exposedProperties, function( \ReflectionProperty $property) {
+            return $this->isPropertyReadOnly($property);
+        });
+    }
+
     public function getTypeOfProperty(\ReflectionProperty $property)
     {
         /** @var Type $typeAnnotation */

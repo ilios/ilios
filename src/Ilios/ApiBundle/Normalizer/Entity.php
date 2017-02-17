@@ -99,27 +99,27 @@ class Entity extends ObjectNormalizer
         $reflection = new \ReflectionClass($class);
         $normalizedData = $this->prepareForDenormalization($data);
         $object = $this->instantiateObject($normalizedData, $class, $context, $reflection, false);
-        $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
+        $writableProperties = $this->entityMetadata->extractWritableProperties($reflection);
 
         foreach ($normalizedData as $attribute => $value) {
             if ($this->nameConverter) {
                 $attribute = $this->nameConverter->denormalize($attribute);
             }
 
-            if (array_key_exists($attribute, $exposedProperties)) {
+            if (array_key_exists($attribute, $writableProperties)) {
                 $denormalizedValue = $this->getDenormalizedValueForProperty(
-                    $exposedProperties[$attribute],
+                    $writableProperties[$attribute],
                     $value
                 );
                 try {
                     $this->setAttributeValue($object, $attribute, $denormalizedValue, $format, $context);
                 } catch (\InvalidArgumentException $exception) {
-                    $type = $this->entityMetadata->getTypeOfProperty($exposedProperties[$attribute]);
+                    $type = $this->entityMetadata->getTypeOfProperty($writableProperties[$attribute]);
                     if (null !== $denormalizedValue or 'entity' !== $type) {
                         throw $exception;
                     }
 
-                    // we ignore attempts to set entiteis to NULL when they are type hinted otherwise
+                    // we ignore attempts to set entities to NULL when they are type hinted otherwise
                     // This will get caught in the validator with a much nicer message
                 }
             }

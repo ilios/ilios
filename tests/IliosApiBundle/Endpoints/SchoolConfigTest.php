@@ -5,7 +5,7 @@ namespace Tests\IliosApiBundle\Endpoints;
 /**
  * SchoolConfig API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class SchoolConfigTest extends AbstractTest
 {
@@ -37,6 +37,19 @@ class SchoolConfigTest extends AbstractTest
         ];
     }
 
+    /**
+     * @inheritDoc
+     *
+     * returns an array of field / value pairs that are readOnly
+     * the key for each item is reflected in the failure message
+     * each one will be separately tested in a PUT request
+     */
+    public function readOnliesToTest()
+    {
+        return [
+            'id' => ['id', 1, 99],
+        ];
+    }
 
     /**
      * @inheritDoc

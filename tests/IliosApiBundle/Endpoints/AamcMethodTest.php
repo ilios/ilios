@@ -37,6 +37,20 @@ class AamcMethodTest extends AbstractTest
         ];
     }
 
+    /**
+     * @inheritDoc
+     *
+     * returns an array of field / value pairs that are readOnly
+     * the key for each item is reflected in the failure message
+     * each one will be separately tested in a PUT request
+     */
+    public function readOnliesToTest()
+    {
+        return [
+            'id' => ['id', 'AM001', 'AMBlank'],
+        ];
+    }
+
 
     /**
      * @inheritDoc

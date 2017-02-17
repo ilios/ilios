@@ -95,6 +95,9 @@ class GenerateEndpointTestCommand extends Command
         $propertyReflection = $this->entityMetadata->extractExposedProperties($reflection);
         $filters = array_map($mapProperties, $propertyReflection);
 
+        $propertyReflection = $this->entityMetadata->extractReadOnlyProperties($reflection);
+        $readOnlies = array_map($mapProperties, $propertyReflection);
+
         $endpoint = strtolower($entity);
         $plural = Inflector::pluralize($endpoint);
         $template = 'IliosCliBundle:Template:endpointTest.php.twig';
@@ -106,6 +109,7 @@ class GenerateEndpointTestCommand extends Command
             'endpoint' => $endpoint,
             'filters' => $filters,
             'puts' => $puts,
+            'readOnlies' => $readOnlies,
             'groupNumber' => $groupNumber,
         ]);
 

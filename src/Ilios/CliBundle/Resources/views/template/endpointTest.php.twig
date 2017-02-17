@@ -47,6 +47,27 @@ class {{ entity }}Test extends AbstractTest
         ];
     }
 
+    /**
+     * @inheritDoc
+     *
+     * returns an array of field / value pairs that are readOnly
+     * the key for each item is reflected in the failure message
+     * each one will be separately tested in a PUT request
+     */
+    public function readOnliesToTest()
+    {
+        return [
+{% for property in readOnlies %}
+{% if property.type == 'entityCollection' %}
+            '{{ property.name }}' => ['{{ property.name }}', 1, [2]],
+{%  elseif property.type == 'boolean' %}
+            '{{ property.name }}' => ['{{ property.name }}', 1, false],
+{%  else %}
+            '{{ property.name }}' => ['{{ property.name }}', 1, 99],
+{% endif %}
+{% endfor %}
+        ];
+    }
 
     /**
      * @inheritDoc
