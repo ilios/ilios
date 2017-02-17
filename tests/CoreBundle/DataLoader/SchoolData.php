@@ -35,7 +35,7 @@ class SchoolData extends AbstractDataLoader
             'changeAlertRecipients' => $this->faker->email,
             'alerts' => ['3'],
             'competencies' => [],
-            'courses' => ["3", "4"],
+            'courses' => ["3", "4", "5"],
             'programs' => ["3"],
             'departments' => [],
             'instructorGroups' => ['4'],

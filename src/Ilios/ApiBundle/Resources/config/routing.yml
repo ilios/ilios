@@ -11,13 +11,30 @@ ilios_api_getallsessions:
         version: 'v\d+'
         object: '(?i)sessions'
 
+ilios_api_getallcourses:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:Courses:getAll }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: '(?i)courses'
+
+ilios_api_courserollover:
+    path:     /{version}/{object}/{id}/rollover
+    defaults: { _controller: IliosApiBundle:Courses:rollover }
+    methods:  [POST]
+    requirements:
+        version: 'v\d+'
+        object: '(?i)courses'
+        id: '[0-9]+'
+
 ilios_nondto_api_get:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:NonDtoApi:get }
     methods:  [GET]
     requirements:
         version: 'v\d+'
-        object: '(?i)(sessionlearningmaterials|applicationconfigs)'
+        object: '(?i)(applicationconfigs|ilmsessions|objectives|offerings|sessiondescriptions|sessionlearningmaterials)'
         id: '(?i)[a-z0-9\-]+'
 
 ilios_api_get:
@@ -35,7 +52,7 @@ ilios_nondto_api_getall:
     methods:  [GET]
     requirements:
         version: 'v\d+'
-        object: '(?i)(sessionlearningmaterials|applicationconfigs)'
+        object: '(?i)(applicationconfigs|ilmsessions|objectives|offerings|sessiondescriptions|sessionlearningmaterials)'
 
 ilios_api_getall:
     path:     /{version}/{object}

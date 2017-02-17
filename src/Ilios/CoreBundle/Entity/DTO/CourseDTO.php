@@ -78,6 +78,7 @@ class CourseDTO
 
     /**
      * @var boolean
+     * @IS\Expose
      * @IS\Type("boolean")
      */
     public $publishedAsTbd;

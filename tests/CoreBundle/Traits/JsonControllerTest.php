@@ -1,7 +1,6 @@
 <?php
 namespace Tests\CoreBundle\Traits;
 
-use FOS\RestBundle\Util\Codes;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -25,7 +24,7 @@ trait JsonControllerTest
         $this->assertEquals(
             $statusCode,
             $response->getStatusCode(),
-            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 400)
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 1000)
         );
 
         if ($checkValidJson) {
@@ -139,9 +138,10 @@ trait JsonControllerTest
 
         $response = $client->getResponse();
         $this->assertEquals(
-            Codes::HTTP_FORBIDDEN,
+            Response::HTTP_FORBIDDEN,
             $response->getStatusCode(),
-            "User #{$userId} should be prevented from {$method} at {$url}" . var_export($response->getContent(), true)
+            "User #{$userId} should be prevented from {$method} at {$url}" .
+            substr(var_export($response->getContent(), true), 0, 400)
         );
     }
 }

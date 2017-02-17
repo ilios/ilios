@@ -485,6 +485,35 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function filterTest(array $filters, $expectedData)
     {
         $pluralObjectName = $this->getPluralName();
+        $filteredData = $this->getFiltered($pluralObjectName, $filters);
+
+        $timeStampFields = $this->getTimeStampFields();
+        $responseData = array_map(function ($arr) use ($timeStampFields) {
+            foreach ($this->getTimeStampFields() as $field) {
+                unset($arr[$field]);
+            }
+            return $arr;
+        }, $filteredData);
+
+        $this->assertEquals(
+            count($expectedData),
+            count($responseData),
+            'Wrong Number of responses returned from filter got: ' . var_export($responseData, true));
+        foreach ($expectedData as $i => $data) {
+            $this->assertEquals(
+                $data,
+                $responseData[$i]
+            );
+        }
+    }
+
+    /**
+     * @param $pluralObjectName
+     * @param array $filters
+     * @return mixed
+     */
+    protected function getFiltered($pluralObjectName, array $filters)
+    {
         $parameters = array_merge([
             'version' => 'v1',
             'object' => $pluralObjectName
@@ -502,24 +531,34 @@ abstract class AbstractEndpointTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
-        $timeStampFields = $this->getTimeStampFields();
-        $responseData = array_map(function ($arr) use ($timeStampFields) {
-            foreach ($this->getTimeStampFields() as $field) {
-                unset($arr[$field]);
-            }
-            return $arr;
-        }, json_decode($response->getContent(), true)[$pluralObjectName]);
+
+        return json_decode($response->getContent(), true)[$pluralObjectName];
+    }
+
+    protected function badFilterTest(array $badFilters)
+    {
+        $pluralObjectName = $this->getPluralName();
+        $parameters = array_merge([
+            'version' => 'v1',
+            'object' => $pluralObjectName
+        ], $badFilters);
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'ilios_api_getall',
+                $parameters
+            ),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
 
         $this->assertEquals(
-            count($expectedData),
-            count($responseData),
-            'Wrong Number of responses returned from filter got: ' . var_export($responseData, true));
-        foreach ($expectedData as $i => $data) {
-            $this->assertEquals(
-                $data,
-                $responseData[$i]
-            );
-        }
+            Response::HTTP_INTERNAL_SERVER_ERROR,
+            $response->getStatusCode(),
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 200)
+        );
     }
 
     protected function relatedTimeStampUpdateTest(

@@ -137,7 +137,7 @@ class Offering implements OfferingInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $session;
 

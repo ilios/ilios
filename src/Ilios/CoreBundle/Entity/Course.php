@@ -117,7 +117,6 @@ class Course implements CourseInterface
 
     /**
      * @var \DateTime
-     * @todo: add a format and variable timezone if possible
      * @ORM\Column(type="date", name="start_date")
      *
      * @Assert\NotBlank()
@@ -216,7 +215,7 @@ class Course implements CourseInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $clerkshipType;
 
@@ -231,7 +230,7 @@ class Course implements CourseInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 
@@ -372,7 +371,7 @@ class Course implements CourseInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $ancestor;
 

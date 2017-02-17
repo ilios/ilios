@@ -93,11 +93,11 @@ ilios_core_apiinfo:
 #    type:     rest
 #    prefix:   /v1
 #    defaults: {_format:json}
-
-api_course_rollover_v1:
-    path:     /v1/courses/{id}/rollover.{_format}
-    defaults: { _format: json, _controller: IliosCoreBundle:Course:rollover }
-    methods: [POST]
+#
+#api_course_rollover_v1:
+#    path:     /v1/courses/{id}/rollover.{_format}
+#    defaults: { _format: json, _controller: IliosCoreBundle:Course:rollover }
+#    methods: [POST]
 #
 #api_currentsession_v1:
 #    resource: "@IliosCoreBundle/Controller/CurrentsessionController.php"
