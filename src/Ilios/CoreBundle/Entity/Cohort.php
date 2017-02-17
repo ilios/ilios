@@ -49,6 +49,7 @@ class Cohort implements CohortInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

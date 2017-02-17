@@ -44,6 +44,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

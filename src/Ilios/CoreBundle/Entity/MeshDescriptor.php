@@ -53,6 +53,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @IS\Expose
      * @IS\Type("string")
+     * @IS\ReadOnly
      */
     protected $id;
 

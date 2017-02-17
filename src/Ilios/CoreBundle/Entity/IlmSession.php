@@ -46,6 +46,7 @@ class IlmSession implements IlmSessionInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

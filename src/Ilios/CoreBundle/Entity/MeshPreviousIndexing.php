@@ -37,6 +37,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

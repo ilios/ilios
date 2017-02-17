@@ -64,6 +64,7 @@ class Course implements CourseInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

@@ -38,6 +38,7 @@ class Report implements ReportInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

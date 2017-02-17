@@ -40,6 +40,7 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

@@ -41,6 +41,7 @@ class SchoolConfig implements SchoolConfigInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

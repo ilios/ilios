@@ -42,6 +42,7 @@ class AssessmentOption implements AssessmentOptionInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

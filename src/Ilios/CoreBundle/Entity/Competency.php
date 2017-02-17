@@ -46,6 +46,7 @@ class Competency implements CompetencyInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

@@ -45,6 +45,7 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

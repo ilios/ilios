@@ -50,6 +50,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

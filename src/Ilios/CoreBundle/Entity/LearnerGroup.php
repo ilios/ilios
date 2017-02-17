@@ -48,6 +48,7 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

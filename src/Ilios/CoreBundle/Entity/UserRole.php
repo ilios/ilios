@@ -42,6 +42,7 @@ class UserRole implements UserRoleInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

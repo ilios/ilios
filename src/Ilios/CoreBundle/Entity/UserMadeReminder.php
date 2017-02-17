@@ -38,6 +38,7 @@ class UserMadeReminder implements UserMadeReminderInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

@@ -52,6 +52,7 @@ class ProgramYear implements ProgramYearInterface
     *
     * @IS\Expose
     * @IS\Type("integer")
+     * @IS\ReadOnly
     */
     protected $id;
 

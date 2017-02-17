@@ -36,6 +36,7 @@ class Alert implements AlertInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

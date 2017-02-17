@@ -46,6 +46,7 @@ class Objective implements ObjectiveInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

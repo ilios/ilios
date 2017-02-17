@@ -47,6 +47,7 @@ class Program implements ProgramInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

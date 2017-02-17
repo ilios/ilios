@@ -51,6 +51,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

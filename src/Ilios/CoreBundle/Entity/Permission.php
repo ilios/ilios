@@ -38,6 +38,7 @@ class Permission implements PermissionInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

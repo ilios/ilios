@@ -38,6 +38,7 @@ class SessionDescription implements SessionDescriptionInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

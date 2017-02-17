@@ -40,6 +40,7 @@ class ApplicationConfig implements ApplicationConfigInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

@@ -40,6 +40,7 @@ class MeshQualifier implements MeshQualifierInterface
      *
      * @IS\Expose
      * @IS\Type("string")
+     * @IS\ReadOnly
      */
     protected $id;
 

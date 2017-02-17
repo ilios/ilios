@@ -46,6 +46,7 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

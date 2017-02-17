@@ -61,6 +61,7 @@ class School implements SchoolInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

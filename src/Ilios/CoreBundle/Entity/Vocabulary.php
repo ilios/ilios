@@ -47,6 +47,7 @@ class Vocabulary implements VocabularyInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

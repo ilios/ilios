@@ -34,6 +34,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

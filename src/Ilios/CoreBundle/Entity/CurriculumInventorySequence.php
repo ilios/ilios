@@ -36,6 +36,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

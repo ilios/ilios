@@ -38,6 +38,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

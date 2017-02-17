@@ -47,6 +47,7 @@ class MeshTerm implements MeshTermInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

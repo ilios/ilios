@@ -40,6 +40,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

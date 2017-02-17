@@ -46,6 +46,7 @@ class AamcPcrs implements AamcPcrsInterface
      *
      * @IS\Expose
      * @IS\Type("string")
+     * @IS\ReadOnly
      */
     protected $id;
 

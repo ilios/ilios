@@ -41,6 +41,7 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 

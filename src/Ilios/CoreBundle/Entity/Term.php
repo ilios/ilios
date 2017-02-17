@@ -51,6 +51,7 @@ class Term implements TermInterface
      *
      * @IS\Expose
      * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
