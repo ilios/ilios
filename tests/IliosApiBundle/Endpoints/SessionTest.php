@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class SessionTest extends AbstractEndpointTest
 {
-    protected $testName =  'session';
+    protected $testName =  'sessions';
 
     /**
      * @inheritdoc

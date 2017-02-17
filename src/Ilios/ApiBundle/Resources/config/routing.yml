@@ -3,6 +3,14 @@ ilios_swagger_file:
     defaults: { _controller: IliosApiBundle:SwaggerDocs:index }
     methods:  [GET]
 
+ilios_api_getallsessions:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:Sessions:getAll }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: '(?i)sessions'
+
 ilios_nondto_api_get:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:NonDtoApi:get }
