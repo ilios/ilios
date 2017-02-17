@@ -25,10 +25,6 @@ class VocabularyTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -42,10 +38,6 @@ class VocabularyTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -56,21 +48,15 @@ class VocabularyTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'title' => [[0], ['filters[title]' => 'test']],
-            'school' => [[0], ['filters[school]' => 'test']],
-            'terms' => [[0], ['filters[terms]' => [1]]],
-            'active' => [[0], ['filters[active]' => false]],
+            'id' => [[0], ['id' => 1]],
+            'title' => [[0], ['title' => 'test']],
+            'school' => [[0], ['school' => 'test']],
+            'terms' => [[0], ['terms' => [1]]],
+            'active' => [[0], ['active' => false]],
         ];
     }
 

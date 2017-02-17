@@ -7,7 +7,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * AlertChangeType API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class AlertChangeTypeTest extends AbstractEndpointTest
 {
@@ -25,10 +25,6 @@ class AlertChangeTypeTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -40,10 +36,6 @@ class AlertChangeTypeTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -54,19 +46,13 @@ class AlertChangeTypeTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'title' => [[0], ['filters[title]' => 'test']],
-            'alerts' => [[0], ['filters[alerts]' => [1]]],
+            'id' => [[0], ['id' => 1]],
+            'title' => [[0], ['title' => 'test']],
+            'alerts' => [[0], ['alerts' => [1]]],
         ];
     }
 

@@ -25,10 +25,6 @@ class ObjectiveTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -48,10 +44,6 @@ class ObjectiveTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -62,27 +54,21 @@ class ObjectiveTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'title' => [[0], ['filters[title]' => 'test']],
-            'competency' => [[0], ['filters[competency]' => 'test']],
-            'courses' => [[0], ['filters[courses]' => [1]]],
-            'programYears' => [[0], ['filters[programYears]' => [1]]],
-            'sessions' => [[0], ['filters[sessions]' => [1]]],
-            'parents' => [[0], ['filters[parents]' => [1]]],
-            'children' => [[0], ['filters[children]' => [1]]],
-            'meshDescriptors' => [[0], ['filters[meshDescriptors]' => [1]]],
-            'ancestor' => [[0], ['filters[ancestor]' => 'test']],
-            'descendants' => [[0], ['filters[descendants]' => [1]]],
+            'id' => [[0], ['id' => 1]],
+            'title' => [[0], ['title' => 'test']],
+            'competency' => [[0], ['competency' => 'test']],
+            'courses' => [[0], ['courses' => [1]]],
+            'programYears' => [[0], ['programYears' => [1]]],
+            'sessions' => [[0], ['sessions' => [1]]],
+            'parents' => [[0], ['parents' => [1]]],
+            'children' => [[0], ['children' => [1]]],
+            'meshDescriptors' => [[0], ['meshDescriptors' => [1]]],
+            'ancestor' => [[0], ['ancestor' => 'test']],
+            'descendants' => [[0], ['descendants' => [1]]],
         ];
     }
 

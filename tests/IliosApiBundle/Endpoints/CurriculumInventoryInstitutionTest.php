@@ -25,10 +25,6 @@ class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -46,10 +42,6 @@ class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -60,25 +52,19 @@ class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'name' => [[0], ['filters[name]' => 'test']],
-            'aamcCode' => [[0], ['filters[aamcCode]' => 'test']],
-            'addressStreet' => [[0], ['filters[addressStreet]' => 'test']],
-            'addressCity' => [[0], ['filters[addressCity]' => 'test']],
-            'addressStateOrProvince' => [[0], ['filters[addressStateOrProvince]' => 'test']],
-            'addressZipCode' => [[0], ['filters[addressZipCode]' => 'test']],
-            'addressCountryCode' => [[0], ['filters[addressCountryCode]' => 'test']],
-            'school' => [[0], ['filters[school]' => 'test']],
+            'id' => [[0], ['id' => 1]],
+            'name' => [[0], ['name' => 'test']],
+            'aamcCode' => [[0], ['aamcCode' => 'test']],
+            'addressStreet' => [[0], ['addressStreet' => 'test']],
+            'addressCity' => [[0], ['addressCity' => 'test']],
+            'addressStateOrProvince' => [[0], ['addressStateOrProvince' => 'test']],
+            'addressZipCode' => [[0], ['addressZipCode' => 'test']],
+            'addressCountryCode' => [[0], ['addressCountryCode' => 'test']],
+            'school' => [[0], ['school' => 'test']],
         ];
     }
 

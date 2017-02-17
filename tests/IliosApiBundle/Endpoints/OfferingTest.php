@@ -25,10 +25,6 @@ class OfferingTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -47,10 +43,6 @@ class OfferingTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -62,27 +54,21 @@ class OfferingTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'room' => [[0], ['filters[room]' => 'test']],
-            'site' => [[0], ['filters[site]' => 'test']],
-            'startDate' => [[0], ['filters[startDate]' => 'test']],
-            'endDate' => [[0], ['filters[endDate]' => 'test']],
-            'updatedAt' => [[0], ['filters[updatedAt]' => 'test']],
-            'session' => [[0], ['filters[session]' => 'test']],
-            'learnerGroups' => [[0], ['filters[learnerGroups]' => [1]]],
-            'instructorGroups' => [[0], ['filters[instructorGroups]' => [1]]],
-            'learners' => [[0], ['filters[learners]' => [1]]],
-            'instructors' => [[0], ['filters[instructors]' => [1]]],
+            'id' => [[0], ['id' => 1]],
+            'room' => [[0], ['room' => 'test']],
+            'site' => [[0], ['site' => 'test']],
+            'startDate' => [[0], ['startDate' => 'test']],
+            'endDate' => [[0], ['endDate' => 'test']],
+            'updatedAt' => [[0], ['updatedAt' => 'test']],
+            'session' => [[0], ['session' => 'test']],
+            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
+            'instructorGroups' => [[0], ['instructorGroups' => [1]]],
+            'learners' => [[0], ['learners' => [1]]],
+            'instructors' => [[0], ['instructors' => [1]]],
         ];
     }
 

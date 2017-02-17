@@ -7,7 +7,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * CurriculumInventoryReport API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class CurriculumInventoryReportTest extends AbstractEndpointTest
 {
@@ -25,10 +25,6 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -48,10 +44,6 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -62,27 +54,21 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'name' => [[0], ['filters[name]' => 'test']],
-            'description' => [[0], ['filters[description]' => 'test']],
-            'year' => [[0], ['filters[year]' => 1]],
-            'startDate' => [[0], ['filters[startDate]' => 'test']],
-            'endDate' => [[0], ['filters[endDate]' => 'test']],
-            'export' => [[0], ['filters[export]' => 'test']],
-            'sequence' => [[0], ['filters[sequence]' => 'test']],
-            'sequenceBlocks' => [[0], ['filters[sequenceBlocks]' => [1]]],
-            'program' => [[0], ['filters[program]' => 'test']],
-            'academicLevels' => [[0], ['filters[academicLevels]' => [1]]],
+            'id' => [[0], ['id' => 1]],
+            'name' => [[0], ['name' => 'test']],
+            'description' => [[0], ['description' => 'test']],
+            'year' => [[0], ['year' => 1]],
+            'startDate' => [[0], ['startDate' => 'test']],
+            'endDate' => [[0], ['endDate' => 'test']],
+            'export' => [[0], ['export' => 'test']],
+            'sequence' => [[0], ['sequence' => 'test']],
+            'sequenceBlocks' => [[0], ['sequenceBlocks' => [1]]],
+            'program' => [[0], ['program' => 'test']],
+            'academicLevels' => [[0], ['academicLevels' => [1]]],
         ];
     }
 

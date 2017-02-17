@@ -7,7 +7,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * ProgramYear API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class ProgramYearTest extends AbstractEndpointTest
 {
@@ -25,10 +25,6 @@ class ProgramYearTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -50,10 +46,6 @@ class ProgramYearTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -64,29 +56,23 @@ class ProgramYearTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'startYear' => [[0], ['filters[startYear]' => 'test']],
-            'locked' => [[0], ['filters[locked]' => false]],
-            'archived' => [[0], ['filters[archived]' => false]],
-            'publishedAsTbd' => [[0], ['filters[publishedAsTbd]' => false]],
-            'published' => [[0], ['filters[published]' => false]],
-            'program' => [[0], ['filters[program]' => 'test']],
-            'cohort' => [[0], ['filters[cohort]' => 'test']],
-            'directors' => [[0], ['filters[directors]' => [1]]],
-            'competencies' => [[0], ['filters[competencies]' => [1]]],
-            'terms' => [[0], ['filters[terms]' => [1]]],
-            'objectives' => [[0], ['filters[objectives]' => [1]]],
-            'stewards' => [[0], ['filters[stewards]' => [1]]],
+            'id' => [[0], ['id' => 1]],
+            'startYear' => [[0], ['startYear' => 'test']],
+            'locked' => [[0], ['locked' => false]],
+            'archived' => [[0], ['archived' => false]],
+            'publishedAsTbd' => [[0], ['publishedAsTbd' => false]],
+            'published' => [[0], ['published' => false]],
+            'program' => [[0], ['program' => 'test']],
+            'cohort' => [[0], ['cohort' => 'test']],
+            'directors' => [[0], ['directors' => [1]]],
+            'competencies' => [[0], ['competencies' => [1]]],
+            'terms' => [[0], ['terms' => [1]]],
+            'objectives' => [[0], ['objectives' => [1]]],
+            'stewards' => [[0], ['stewards' => [1]]],
         ];
     }
 

@@ -7,7 +7,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * PendingUserUpdate API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class PendingUserUpdateTest extends AbstractEndpointTest
 {
@@ -25,10 +25,6 @@ class PendingUserUpdateTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -42,10 +38,6 @@ class PendingUserUpdateTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -56,21 +48,15 @@ class PendingUserUpdateTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'type' => [[0], ['filters[type]' => 'test']],
-            'property' => [[0], ['filters[property]' => 'test']],
-            'value' => [[0], ['filters[value]' => 'test']],
-            'user' => [[0], ['filters[user]' => 'test']],
+            'id' => [[0], ['id' => 1]],
+            'type' => [[0], ['type' => 'test']],
+            'property' => [[0], ['property' => 'test']],
+            'value' => [[0], ['value' => 'test']],
+            'user' => [[0], ['user' => 'test']],
         ];
     }
 

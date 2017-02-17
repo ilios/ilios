@@ -7,7 +7,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * User API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class UserTest extends AbstractEndpointTest
 {
@@ -25,10 +25,6 @@ class UserTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -72,10 +68,6 @@ class UserTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -86,51 +78,45 @@ class UserTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'lastName' => [[0], ['filters[lastName]' => 'test']],
-            'firstName' => [[0], ['filters[firstName]' => 'test']],
-            'middleName' => [[0], ['filters[middleName]' => 'test']],
-            'phone' => [[0], ['filters[phone]' => 'test']],
-            'email' => [[0], ['filters[email]' => 'test']],
-            'enabled' => [[0], ['filters[enabled]' => false]],
-            'campusId' => [[0], ['filters[campusId]' => 'test']],
-            'otherId' => [[0], ['filters[otherId]' => 'test']],
-            'userSyncIgnore' => [[0], ['filters[userSyncIgnore]' => false]],
-            'icsFeedKey' => [[0], ['filters[icsFeedKey]' => 'test']],
-            'authentication' => [[0], ['filters[authentication]' => 'test']],
-            'reminders' => [[0], ['filters[reminders]' => [1]]],
-            'reports' => [[0], ['filters[reports]' => [1]]],
-            'school' => [[0], ['filters[school]' => 'test']],
-            'directedCourses' => [[0], ['filters[directedCourses]' => [1]]],
-            'administeredCourses' => [[0], ['filters[administeredCourses]' => [1]]],
-            'administeredSessions' => [[0], ['filters[administeredSessions]' => [1]]],
-            'learnerGroups' => [[0], ['filters[learnerGroups]' => [1]]],
-            'instructedLearnerGroups' => [[0], ['filters[instructedLearnerGroups]' => [1]]],
-            'instructorGroups' => [[0], ['filters[instructorGroups]' => [1]]],
-            'instructorIlmSessions' => [[0], ['filters[instructorIlmSessions]' => [1]]],
-            'learnerIlmSessions' => [[0], ['filters[learnerIlmSessions]' => [1]]],
-            'offerings' => [[0], ['filters[offerings]' => [1]]],
-            'instructedOfferings' => [[0], ['filters[instructedOfferings]' => [1]]],
-            'programYears' => [[0], ['filters[programYears]' => [1]]],
-            'roles' => [[0], ['filters[roles]' => [1]]],
-            'cohorts' => [[0], ['filters[cohorts]' => [1]]],
-            'primaryCohort' => [[0], ['filters[primaryCohort]' => 'test']],
-            'pendingUserUpdates' => [[0], ['filters[pendingUserUpdates]' => [1]]],
-            'permissions' => [[0], ['filters[permissions]' => [1]]],
-            'directedSchools' => [[0], ['filters[directedSchools]' => [1]]],
-            'administeredSchools' => [[0], ['filters[administeredSchools]' => [1]]],
-            'directedPrograms' => [[0], ['filters[directedPrograms]' => [1]]],
-            'root' => [[0], ['filters[root]' => false]],
+            'id' => [[0], ['id' => 1]],
+            'lastName' => [[0], ['lastName' => 'test']],
+            'firstName' => [[0], ['firstName' => 'test']],
+            'middleName' => [[0], ['middleName' => 'test']],
+            'phone' => [[0], ['phone' => 'test']],
+            'email' => [[0], ['email' => 'test']],
+            'enabled' => [[0], ['enabled' => false]],
+            'campusId' => [[0], ['campusId' => 'test']],
+            'otherId' => [[0], ['otherId' => 'test']],
+            'userSyncIgnore' => [[0], ['userSyncIgnore' => false]],
+            'icsFeedKey' => [[0], ['icsFeedKey' => 'test']],
+            'authentication' => [[0], ['authentication' => 'test']],
+            'reminders' => [[0], ['reminders' => [1]]],
+            'reports' => [[0], ['reports' => [1]]],
+            'school' => [[0], ['school' => 'test']],
+            'directedCourses' => [[0], ['directedCourses' => [1]]],
+            'administeredCourses' => [[0], ['administeredCourses' => [1]]],
+            'administeredSessions' => [[0], ['administeredSessions' => [1]]],
+            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
+            'instructedLearnerGroups' => [[0], ['instructedLearnerGroups' => [1]]],
+            'instructorGroups' => [[0], ['instructorGroups' => [1]]],
+            'instructorIlmSessions' => [[0], ['instructorIlmSessions' => [1]]],
+            'learnerIlmSessions' => [[0], ['learnerIlmSessions' => [1]]],
+            'offerings' => [[0], ['offerings' => [1]]],
+            'instructedOfferings' => [[0], ['instructedOfferings' => [1]]],
+            'programYears' => [[0], ['programYears' => [1]]],
+            'roles' => [[0], ['roles' => [1]]],
+            'cohorts' => [[0], ['cohorts' => [1]]],
+            'primaryCohort' => [[0], ['primaryCohort' => 'test']],
+            'pendingUserUpdates' => [[0], ['pendingUserUpdates' => [1]]],
+            'permissions' => [[0], ['permissions' => [1]]],
+            'directedSchools' => [[0], ['directedSchools' => [1]]],
+            'administeredSchools' => [[0], ['administeredSchools' => [1]]],
+            'directedPrograms' => [[0], ['directedPrograms' => [1]]],
+            'root' => [[0], ['root' => false]],
         ];
     }
 

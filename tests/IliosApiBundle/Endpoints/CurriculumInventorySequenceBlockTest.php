@@ -25,10 +25,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -55,10 +51,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -69,34 +61,28 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'title' => [[0], ['filters[title]' => 'test']],
-            'description' => [[0], ['filters[description]' => 'test']],
-            'required' => [[0], ['filters[required]' => 1]],
-            'childSequenceOrder' => [[0], ['filters[childSequenceOrder]' => 1]],
-            'orderInSequence' => [[0], ['filters[orderInSequence]' => 1]],
-            'minimum' => [[0], ['filters[minimum]' => 1]],
-            'maximum' => [[0], ['filters[maximum]' => 1]],
-            'track' => [[0], ['filters[track]' => false]],
-            'startDate' => [[0], ['filters[startDate]' => 'test']],
-            'endDate' => [[0], ['filters[endDate]' => 'test']],
-            'duration' => [[0], ['filters[duration]' => 1]],
-            'academicLevel' => [[0], ['filters[academicLevel]' => 'test']],
-            'course' => [[0], ['filters[course]' => 'test']],
-            'parent' => [[0], ['filters[parent]' => 'test']],
-            'children' => [[0], ['filters[children]' => [1]]],
-            'report' => [[0], ['filters[report]' => 'test']],
-            'sessions' => [[0], ['filters[sessions]' => [1]]],
+            'id' => [[0], ['id' => 1]],
+            'title' => [[0], ['title' => 'test']],
+            'description' => [[0], ['description' => 'test']],
+            'required' => [[0], ['required' => 1]],
+            'childSequenceOrder' => [[0], ['childSequenceOrder' => 1]],
+            'orderInSequence' => [[0], ['orderInSequence' => 1]],
+            'minimum' => [[0], ['minimum' => 1]],
+            'maximum' => [[0], ['maximum' => 1]],
+            'track' => [[0], ['track' => false]],
+            'startDate' => [[0], ['startDate' => 'test']],
+            'endDate' => [[0], ['endDate' => 'test']],
+            'duration' => [[0], ['duration' => 1]],
+            'academicLevel' => [[0], ['academicLevel' => 'test']],
+            'course' => [[0], ['course' => 'test']],
+            'parent' => [[0], ['parent' => 'test']],
+            'children' => [[0], ['children' => [1]]],
+            'report' => [[0], ['report' => 'test']],
+            'sessions' => [[0], ['sessions' => [1]]],
         ];
     }
 

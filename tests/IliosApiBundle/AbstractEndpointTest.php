@@ -54,17 +54,34 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
-     * @return array
+     * @return array [[positions], [[filterKey, filterValue]]
+     * the key for each item is reflected in the failure message
+     * positions:  array of the positions the expected items from the DataLoader
+     * filter: array containing the filterKey and filterValue we are testing
      */
     public abstract function filtersToTest();
 
     /**
-     * @return array
+     * @return array [field, value]
+     * field / value pairs to modify
+     * field: readonly property name on the entity
+     * value: something to set it to
+     * the key for each item is reflected in the failure message
+     * each one will be separately tested in a PUT request
      */
     public abstract function putsToTest();
 
     /**
-     * @return array
+     * @return array [field, value, id]
+     *
+     * field / value / id sets that are readOnly
+     * field: readonly property name on the entity
+     * value: something to set it to
+     * id: the ID of the object we want to test.  The has to be provided seperatly
+     * because we can't extract it from the $data without invalidting this test
+     *
+     * the key for each item is reflected in the failure message
+     * each one will be separately tested in a PUT request
      */
     public abstract function readOnliesToTest();
 
@@ -190,9 +207,9 @@ abstract class AbstractEndpointTest extends WebTestCase
     /**
      * @dataProvider filtersToTest
      */
-    public function testFilters(array $dataKeys = [], array $filters = [])
+    public function testFilters(array $dataKeys = [], array $filterParts = [])
     {
-        if (empty($dataKeys) || empty($filters)) {
+        if (empty($dataKeys) || empty($filterParts)) {
             $this->markTestSkipped('Missing filters tests for this endpoint');
             return;
         }
@@ -201,6 +218,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         $expectedData = array_map(function($i) use ($all) {
             return $all[$i];
         }, $dataKeys);
+        $filters = [];
+        foreach ($filterParts as $key => $value) {
+            $filters["filters[{$key}]"] = $value;
+        }
         $this->filterTest($filters, $expectedData);
     }
 

@@ -7,7 +7,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * Cohort API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class CohortTest extends AbstractEndpointTest
 {
@@ -25,10 +25,6 @@ class CohortTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs to modify
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function putsToTest()
     {
@@ -43,10 +39,6 @@ class CohortTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of field / value pairs that are readOnly
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
      */
     public function readOnliesToTest()
     {
@@ -57,22 +49,16 @@ class CohortTest extends AbstractEndpointTest
 
     /**
      * @inheritDoc
-     *
-     * returns an array of filters to test
-     * the key for each item is reflected in the failure message
-     * the first item is an array of the positions the expected items
-     * can be found in the data loader
-     * the second item is the filter we are testing
      */
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['filters[id]' => 1]],
-            'title' => [[0], ['filters[title]' => 'test']],
-            'programYear' => [[0], ['filters[programYear]' => 'test']],
-            'courses' => [[0], ['filters[courses]' => [1]]],
-            'learnerGroups' => [[0], ['filters[learnerGroups]' => [1]]],
-            'users' => [[0], ['filters[users]' => [1]]],
+            'id' => [[0], ['id' => 1]],
+            'title' => [[0], ['title' => 'test']],
+            'programYear' => [[0], ['programYear' => 'test']],
+            'courses' => [[0], ['courses' => [1]]],
+            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
+            'users' => [[0], ['users' => [1]]],
         ];
     }
 
