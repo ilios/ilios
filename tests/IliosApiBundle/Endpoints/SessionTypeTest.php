@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * SessionType API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
-class SessionTypeTest extends AbstractTest
+class SessionTypeTest extends AbstractEndpointTest
 {
     protected $testName =  'sessiontype';
 

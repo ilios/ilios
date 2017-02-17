@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * InstructorGroup API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
-class InstructorGroupTest extends AbstractTest
+class InstructorGroupTest extends AbstractEndpointTest
 {
     protected $testName =  'instructorgroup';
 

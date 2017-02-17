@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * MeshQualifier API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_2
  */
-class MeshQualifierTest extends AbstractTest
+class MeshQualifierTest extends AbstractEndpointTest
 {
     protected $testName =  'meshqualifier';
 

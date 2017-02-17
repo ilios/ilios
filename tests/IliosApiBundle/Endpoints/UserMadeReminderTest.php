@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * UserMadeReminder API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
-class UserMadeReminderTest extends AbstractTest
+class UserMadeReminderTest extends AbstractEndpointTest
 {
     protected $testName =  'usermadereminder';
 

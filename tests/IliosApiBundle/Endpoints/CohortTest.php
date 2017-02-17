@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * Cohort API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
-class CohortTest extends AbstractTest
+class CohortTest extends AbstractEndpointTest
 {
     protected $testName =  'cohort';
 

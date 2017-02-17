@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * Competency API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
-class CompetencyTest extends AbstractTest
+class CompetencyTest extends AbstractEndpointTest
 {
     protected $testName =  'competency';
 

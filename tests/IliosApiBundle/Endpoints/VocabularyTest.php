@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * Vocabulary API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
-class VocabularyTest extends AbstractTest
+class VocabularyTest extends AbstractEndpointTest
 {
     protected $testName =  'vocabulary';
 

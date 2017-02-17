@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * PendingUserUpdate API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
-class PendingUserUpdateTest extends AbstractTest
+class PendingUserUpdateTest extends AbstractEndpointTest
 {
     protected $testName =  'pendinguserupdate';
 

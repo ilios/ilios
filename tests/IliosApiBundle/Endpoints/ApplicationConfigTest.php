@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * ApplicationConfig API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
-class ApplicationConfigTest extends AbstractTest
+class ApplicationConfigTest extends AbstractEndpointTest
 {
     protected $testName =  'applicationconfig';
 

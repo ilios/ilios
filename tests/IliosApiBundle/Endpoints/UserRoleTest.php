@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * UserRole API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_2
  */
-class UserRoleTest extends AbstractTest
+class UserRoleTest extends AbstractEndpointTest
 {
     protected $testName =  'userrole';
 

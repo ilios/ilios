@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * MeshTerm API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
-class MeshTermTest extends AbstractTest
+class MeshTermTest extends AbstractEndpointTest
 {
     protected $testName =  'meshterm';
 

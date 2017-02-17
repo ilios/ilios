@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * MeshSemanticType API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_2
  */
-class MeshSemanticTypeTest extends AbstractTest
+class MeshSemanticTypeTest extends AbstractEndpointTest
 {
     protected $testName =  'meshsemantictype';
 

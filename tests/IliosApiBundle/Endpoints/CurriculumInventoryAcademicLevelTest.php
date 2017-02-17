@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * CurriculumInventoryAcademicLevel API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_2
  */
-class CurriculumInventoryAcademicLevelTest extends AbstractTest
+class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
 {
     protected $testName =  'curriculuminventoryacademiclevel';
 

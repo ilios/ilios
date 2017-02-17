@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * CourseClerkshipType API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
-class CourseClerkshipTypeTest extends AbstractTest
+class CourseClerkshipTypeTest extends AbstractEndpointTest
 {
     protected $testName =  'courseclerkshiptype';
 

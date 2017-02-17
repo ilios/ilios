@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\IliosApiBundle\Endpoints;
+namespace Tests\IliosApiBundle;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use DateTime;
@@ -18,7 +18,7 @@ use Faker\Generator as FakerGenerator;
  * Session controller Test.
  * @package Tests\IliosApiBundle\Endpoints
  */
-abstract class AbstractTest extends WebTestCase
+abstract class AbstractEndpointTest extends WebTestCase
 {
     use JsonControllerTest;
 

@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * Permission API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
-class PermissionTest extends AbstractTest
+class PermissionTest extends AbstractEndpointTest
 {
     protected $testName =  'permission';
 

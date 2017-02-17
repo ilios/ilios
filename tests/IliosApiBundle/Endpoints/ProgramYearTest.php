@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * ProgramYear API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
-class ProgramYearTest extends AbstractTest
+class ProgramYearTest extends AbstractEndpointTest
 {
     protected $testName =  'programyear';
 

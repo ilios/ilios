@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * MeshPreviousIndexing API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
-class MeshPreviousIndexingTest extends AbstractTest
+class MeshPreviousIndexingTest extends AbstractEndpointTest
 {
     protected $testName =  'meshpreviousindexing';
 

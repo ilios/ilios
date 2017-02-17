@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * AamcMethod API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
-class AamcMethodTest extends AbstractTest
+class AamcMethodTest extends AbstractEndpointTest
 {
     protected $testName =  'aamcmethod';
 

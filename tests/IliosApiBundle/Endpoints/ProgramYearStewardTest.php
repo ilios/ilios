@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * ProgramYearSteward API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
-class ProgramYearStewardTest extends AbstractTest
+class ProgramYearStewardTest extends AbstractEndpointTest
 {
     protected $testName =  'programyearsteward';
 

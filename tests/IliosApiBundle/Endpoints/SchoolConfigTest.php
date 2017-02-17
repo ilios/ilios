@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * SchoolConfig API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
-class SchoolConfigTest extends AbstractTest
+class SchoolConfigTest extends AbstractEndpointTest
 {
     protected $testName =  'schoolconfig';
 

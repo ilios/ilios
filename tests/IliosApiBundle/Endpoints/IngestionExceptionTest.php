@@ -2,12 +2,14 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\IliosApiBundle\AbstractEndpointTest;
+
 /**
  * IngestionException API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
-class IngestionExceptionTest extends AbstractTest
+class IngestionExceptionTest extends AbstractEndpointTest
 {
     protected $testName =  'ingestionexception';
 
