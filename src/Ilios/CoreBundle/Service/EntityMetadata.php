@@ -2,23 +2,37 @@
 
 namespace Ilios\CoreBundle\Service;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
+use Doctrine\Common\Cache\ApcuCache;
+use Doctrine\Common\Cache\FilesystemCache;
 use Ilios\ApiBundle\Annotation\ReadOnly;
 use Ilios\ApiBundle\Annotation\Type;
 
 class EntityMetadata
 {
+    const CACHE_FILE_NAME = '/ilios/annotations';
+
     /**
      * @var Reader
      */
     private $annotationReader;
 
-    /**
-     * @param Reader $annotationReader
-     */
-    public function __construct(Reader $annotationReader)
+    public function __construct($environment, $kernelCacheDir)
     {
-        $this->annotationReader = $annotationReader;
+        if ($environment === 'prod') {
+            $cache = new ApcuCache();
+        } else {
+            $cache = new FilesystemCache($kernelCacheDir . self::CACHE_FILE_NAME);
+        }
+
+        $this->annotationReader = new CachedReader(
+            new AnnotationReader(),
+            $cache,
+            $debug = false
+        );
+
     }
 
     public function isAnIliosEntity($classNameOrObject)

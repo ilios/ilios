@@ -76,4 +76,4 @@ services:
             arguments: ["%kernel.environment%"]
     ilioscore.entitymetadata:
         class: Ilios\CoreBundle\Service\EntityMetadata
-        arguments: [ "@annotation_reader" ]
+        arguments: [ "%kernel.environment%", "%kernel.cache_dir%" ]
