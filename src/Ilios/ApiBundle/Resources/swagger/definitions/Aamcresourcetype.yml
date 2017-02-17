@@ -4,6 +4,7 @@ Aamcresourcetype:
   id:
    description: Id
    type: string
+   readOnly: true
   title:
    description: Title
    type: string

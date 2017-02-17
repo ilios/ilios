@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Service;
 
 use Doctrine\Common\Annotations\Reader;
+use Ilios\ApiBundle\Annotation\ReadOnly;
 use Ilios\ApiBundle\Annotation\Type;
 
 class EntityMetadata
@@ -80,12 +81,7 @@ class EntityMetadata
         $exposedProperties = $this->extractExposedProperties($reflection);
 
         return array_filter($exposedProperties, function( \ReflectionProperty $property) {
-            $annotation = $this->annotationReader->getPropertyAnnotation(
-                $property,
-                'Ilios\ApiBundle\Annotation\ReadOnly'
-            );
-
-            return is_null($annotation);
+            return !$this->isPropertyReadOnly($property);
         });
     }
 
@@ -104,5 +100,16 @@ class EntityMetadata
         }
 
         return $typeAnnotation->value;
+    }
+
+    public function isPropertyReadOnly(\ReflectionProperty $property)
+    {
+        /** @var ReadOnly $annotation */
+        $annotation = $this->annotationReader->getPropertyAnnotation(
+            $property,
+            'Ilios\ApiBundle\Annotation\ReadOnly'
+        );
+
+        return !is_null($annotation);
     }
 }

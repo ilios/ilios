@@ -4,6 +4,7 @@ Session:
   id:
    description: Id
    type: integer
+   readOnly: true
   title:
    description: Title
    type: string
@@ -25,6 +26,7 @@ Session:
   updatedAt:
    description: Updatedat
    type: dateTime
+   readOnly: true
   sessionType:
    description: Sessiontype
    type: string

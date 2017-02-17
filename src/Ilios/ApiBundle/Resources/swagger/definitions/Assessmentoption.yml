@@ -4,6 +4,7 @@ Assessmentoption:
   id:
    description: Id
    type: integer
+   readOnly: true
   name:
    description: Name
    type: string

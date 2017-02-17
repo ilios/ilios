@@ -4,6 +4,7 @@ Permission:
   id:
    description: Id
    type: integer
+   readOnly: true
   user:
    description: User
    type: string

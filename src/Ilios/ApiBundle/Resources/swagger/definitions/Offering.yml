@@ -4,6 +4,7 @@ Offering:
   id:
    description: Id
    type: integer
+   readOnly: true
   room:
    description: Room
    type: string
@@ -19,6 +20,7 @@ Offering:
   updatedAt:
    description: Updatedat
    type: dateTime
+   readOnly: true
   session:
    description: Session
    type: string

@@ -4,6 +4,7 @@ Learningmaterialuserrole:
   id:
    description: Id
    type: integer
+   readOnly: true
   title:
    description: Title
    type: string

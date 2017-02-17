@@ -1,0 +1,14 @@
+Authentication:
+ type: object
+ properties:
+  user:
+   description: User
+   type: string
+   readOnly: true
+  username:
+   description: Username
+   type: string
+  invalidateTokenIssuedBefore:
+   description: Invalidatetokenissuedbefore
+   type: dateTime
+   readOnly: true

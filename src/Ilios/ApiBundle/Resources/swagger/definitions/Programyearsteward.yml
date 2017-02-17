@@ -4,6 +4,7 @@ Programyearsteward:
   id:
    description: Id
    type: integer
+   readOnly: true
   department:
    description: Department
    type: string

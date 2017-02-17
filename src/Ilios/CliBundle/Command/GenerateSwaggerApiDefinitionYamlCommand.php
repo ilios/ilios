@@ -80,27 +80,25 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
         $reflection = new \ReflectionClass($class);
         $entity = $reflection->getShortName();
 
-        $propertyReflection = $this->entityMetadata->extractExposedProperties($reflection);
-        $properties = array_map(function (\ReflectionProperty $property) {
+        $mapProperties = function (\ReflectionProperty $property) {
             $type = $this->entityMetadata->getTypeOfProperty($property);
             if ($type === 'entity') {
                 $type = 'string';
             }
-            if ($type === 'entityCollection') {
-                $type = 'arrayOfStrings';
-            }
             return [
                 'name' => $property->getName(),
+                'readOnly' => $this->entityMetadata->isPropertyReadOnly($property),
                 'type' => $type
             ];
-        }, $propertyReflection);
-
+        };
+        $reflectionProperties = $this->entityMetadata->extractExposedProperties($reflection);
+        $properties = array_map($mapProperties, $reflectionProperties);
 
         $template = 'IliosCliBundle:Template:definition.yml.twig';
 
         $content = $this->templatingEngine->render($template, [
             'entity' => $entity,
-            'properties' => $properties
+            'properties' => $properties,
         ]);
 
         print $content;

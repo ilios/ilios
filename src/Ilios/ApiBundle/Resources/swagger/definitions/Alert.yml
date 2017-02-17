@@ -4,6 +4,7 @@ Alert:
   id:
    description: Id
    type: integer
+   readOnly: true
   tableRowId:
    description: Tablerowid
    type: integer

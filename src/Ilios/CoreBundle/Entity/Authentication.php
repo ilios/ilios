@@ -46,7 +46,8 @@ class Authentication implements AuthenticationInterface
      * )
      *
      * @IS\Expose
-    */
+     * @IS\Type("string")
+     */
     private $username;
 
     /**

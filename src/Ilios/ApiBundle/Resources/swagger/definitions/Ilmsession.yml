@@ -4,6 +4,7 @@ Ilmsession:
   id:
    description: Id
    type: integer
+   readOnly: true
   session:
    description: Session
    type: string

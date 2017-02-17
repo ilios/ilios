@@ -4,6 +4,7 @@ Sessionlearningmaterial:
   id:
    description: Id
    type: integer
+   readOnly: true
   notes:
    description: Notes
    type: string
@@ -24,3 +25,6 @@ Sessionlearningmaterial:
    type: array
    items:
     type: string
+  position:
+   description: Position
+   type: integer

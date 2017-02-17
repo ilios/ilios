@@ -4,6 +4,7 @@ Pendinguserupdate:
   id:
    description: Id
    type: integer
+   readOnly: true
   type:
    description: Type
    type: string

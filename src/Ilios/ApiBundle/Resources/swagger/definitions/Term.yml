@@ -4,6 +4,7 @@ Term:
   id:
    description: Id
    type: integer
+   readOnly: true
   courses:
    description: Courses
    type: array

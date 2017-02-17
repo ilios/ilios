@@ -4,6 +4,7 @@ User:
   id:
    description: Id
    type: integer
+   readOnly: true
   lastName:
    description: Lastname
    type: string

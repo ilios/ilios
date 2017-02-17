@@ -4,6 +4,7 @@ Curriculuminventoryexport:
   id:
    description: Id
    type: integer
+   readOnly: true
   report:
    description: Report
    type: string

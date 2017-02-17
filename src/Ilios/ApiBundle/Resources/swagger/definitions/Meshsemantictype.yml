@@ -4,15 +4,18 @@ Meshsemantictype:
   id:
    description: Id
    type: string
+   readOnly: true
   name:
    description: Name
    type: string
   createdAt:
    description: Createdat
    type: dateTime
+   readOnly: true
   updatedAt:
    description: Updatedat
    type: dateTime
+   readOnly: true
   concepts:
    description: Concepts
    type: array

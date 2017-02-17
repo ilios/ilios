@@ -81,22 +81,19 @@ class GenerateEndpointTestCommand extends Command
         $reflection = new \ReflectionClass($class);
         $entity = $reflection->getShortName();
 
-        $writableProperties = $this->entityMetadata->extractWritableProperties($reflection);
-        $puts = array_map(function (\ReflectionProperty $property) {
+
+        $mapProperties = function (\ReflectionProperty $property) {
             return [
                 'name' => $property->getName(),
                 'type' => $this->entityMetadata->getTypeOfProperty($property)
             ];
-        }, $writableProperties);
+        };
+
+        $writableProperties = $this->entityMetadata->extractWritableProperties($reflection);
+        $puts = array_map($mapProperties, $writableProperties);
 
         $propertyReflection = $this->entityMetadata->extractExposedProperties($reflection);
-        $filters = array_map(function (\ReflectionProperty $property) {
-            $type = $this->entityMetadata->getTypeOfProperty($property);
-            return [
-                'name' => $property->getName(),
-                'type' => $this->entityMetadata->getTypeOfProperty($property)
-            ];
-        }, $propertyReflection);
+        $filters = array_map($mapProperties, $propertyReflection);
 
         $endpoint = strtolower($entity);
         $plural = Inflector::pluralize($endpoint);

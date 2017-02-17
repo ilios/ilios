@@ -4,6 +4,7 @@ Meshdescriptor:
   id:
    description: Id
    type: string
+   readOnly: true
   name:
    description: Name
    type: string
@@ -13,9 +14,11 @@ Meshdescriptor:
   createdAt:
    description: Createdat
    type: dateTime
+   readOnly: true
   updatedAt:
    description: Updatedat
    type: dateTime
+   readOnly: true
   courses:
    description: Courses
    type: array

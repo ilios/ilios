@@ -4,6 +4,7 @@ Meshtree:
   id:
    description: Id
    type: integer
+   readOnly: true
   treeNumber:
    description: Treenumber
    type: string

@@ -4,6 +4,7 @@ Meshpreviousindexing:
   id:
    description: Id
    type: integer
+   readOnly: true
   descriptor:
    description: Descriptor
    type: string

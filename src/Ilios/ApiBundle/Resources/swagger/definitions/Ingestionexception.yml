@@ -4,6 +4,7 @@ Ingestionexception:
   id:
    description: Id
    type: integer
+   readOnly: true
   uid:
    description: Uid
    type: string

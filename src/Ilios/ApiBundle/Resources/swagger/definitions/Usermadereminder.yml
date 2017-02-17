@@ -4,12 +4,14 @@ Usermadereminder:
   id:
    description: Id
    type: integer
+   readOnly: true
   note:
    description: Note
    type: string
   createdAt:
    description: Createdat
    type: dateTime
+   readOnly: true
   dueDate:
    description: Duedate
    type: dateTime

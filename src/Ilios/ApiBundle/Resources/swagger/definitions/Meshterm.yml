@@ -4,6 +4,7 @@ Meshterm:
   id:
    description: Id
    type: integer
+   readOnly: true
   meshTermUid:
    description: Meshtermuid
    type: string
@@ -28,9 +29,11 @@ Meshterm:
   createdAt:
    description: Createdat
    type: dateTime
+   readOnly: true
   updatedAt:
    description: Updatedat
    type: dateTime
+   readOnly: true
   concepts:
    description: Concepts
    type: array

@@ -4,6 +4,7 @@ Programyear:
   id:
    description: Id
    type: integer
+   readOnly: true
   startYear:
    description: Startyear
    type: string
