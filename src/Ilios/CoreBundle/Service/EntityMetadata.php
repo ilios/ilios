@@ -30,7 +30,7 @@ class EntityMetadata
         $this->annotationReader = new CachedReader(
             new AnnotationReader(),
             $cache,
-            $debug = false
+            $debug = $environment !== 'prod'
         );
 
     }
