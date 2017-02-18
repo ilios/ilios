@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class AamcResourceTypeTest extends AbstractEndpointTest
 {
-    protected $testName =  'aamcresourcetype';
+    protected $testName =  'aamcresourcetypes';
 
     /**
      * @inheritdoc

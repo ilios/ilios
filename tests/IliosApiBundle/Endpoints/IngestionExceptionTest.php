@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class IngestionExceptionTest extends AbstractEndpointTest
 {
-    protected $testName =  'ingestionexception';
+    protected $testName =  'ingestionexceptions';
 
     /**
      * @inheritdoc

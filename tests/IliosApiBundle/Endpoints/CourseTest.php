@@ -302,9 +302,6 @@ class CourseTest extends AbstractEndpointTest
         $this->assertEquals('2017-02-09T15:00:00+00:00', $session1OfferingData[0]['startDate']);
     }
 
-    /**
-     * @group controllers_a
-     */
     public function testRolloverCourseWithNoOfferings()
     {
         $dataLoader = $this->getDataLoader();
@@ -331,9 +328,6 @@ class CourseTest extends AbstractEndpointTest
         $this->assertEmpty($data[1]['offerings']);
     }
 
-    /**
-     * @group controllers_a
-     */
     public function testRolloverCourseWithNewTitle()
     {
         $dataLoader = $this->getDataLoader();
@@ -351,9 +345,6 @@ class CourseTest extends AbstractEndpointTest
         $this->assertSame($newCourseTitle, $newCourse['title']);
     }
 
-    /**
-     * @group controllers_a
-     */
     public function testRolloverIlmSessions()
     {
         $dataLoader = $this->getDataLoader();
@@ -425,13 +416,12 @@ class CourseTest extends AbstractEndpointTest
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
         $userId = 3;
-        $id = $course['id'];
 
         $this->canNot(
             $userId,
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'courses']),
-            json_encode(['course' => $course])
+            json_encode(['courses' => [$course]])
         );
     }
 

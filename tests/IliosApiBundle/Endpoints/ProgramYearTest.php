@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class ProgramYearTest extends AbstractEndpointTest
 {
-    protected $testName =  'programyear';
+    protected $testName =  'programyears';
 
     /**
      * @inheritdoc

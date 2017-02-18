@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class PendingUserUpdateTest extends AbstractEndpointTest
 {
-    protected $testName =  'pendinguserupdate';
+    protected $testName =  'pendinguserupdates';
 
     /**
      * @inheritdoc

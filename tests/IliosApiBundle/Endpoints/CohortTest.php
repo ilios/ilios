@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * Cohort API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class CohortTest extends AbstractEndpointTest
 {
-    protected $testName =  'cohort';
+    protected $testName =  'cohorts';
 
     /**
      * @inheritdoc

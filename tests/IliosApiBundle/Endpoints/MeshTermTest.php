@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * MeshTerm API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class MeshTermTest extends AbstractEndpointTest
 {
-    protected $testName =  'meshterm';
+    protected $testName =  'meshterms';
 
     /**
      * @inheritdoc

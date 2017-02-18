@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class SessionLearningMaterialTest extends AbstractEndpointTest
 {
-    protected $testName =  'sessionlearningmaterial';
+    protected $testName =  'sessionlearningmaterials';
 
     /**
      * @inheritdoc

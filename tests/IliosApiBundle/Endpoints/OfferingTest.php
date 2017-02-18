@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * Offering API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class OfferingTest extends AbstractEndpointTest
 {
-    protected $testName =  'offering';
+    protected $testName =  'offerings';
 
     /**
      * @inheritdoc
@@ -31,9 +31,9 @@ class OfferingTest extends AbstractEndpointTest
         return [
             'room' => ['room', $this->getFaker()->text],
             'site' => ['site', $this->getFaker()->text],
-            'startDate' => ['startDate', $this->getFaker()->text],
-            'endDate' => ['endDate', $this->getFaker()->text],
-            'session' => ['session', $this->getFaker()->text],
+            'startDate' => ['startDate', $this->getFaker()->iso8601],
+            'endDate' => ['endDate', $this->getFaker()->iso8601],
+            'session' => ['session', 1],
             'learnerGroups' => ['learnerGroups', [1]],
             'instructorGroups' => ['instructorGroups', [1]],
             'learners' => ['learners', [1]],
@@ -64,7 +64,7 @@ class OfferingTest extends AbstractEndpointTest
             'startDate' => [[0], ['startDate' => 'test']],
             'endDate' => [[0], ['endDate' => 'test']],
             'updatedAt' => [[0], ['updatedAt' => 'test']],
-            'session' => [[0], ['session' => 'test']],
+            'session' => [[0], ['session' => 1]],
             'learnerGroups' => [[0], ['learnerGroups' => [1]]],
             'instructorGroups' => [[0], ['instructorGroups' => [1]]],
             'learners' => [[0], ['learners' => [1]]],

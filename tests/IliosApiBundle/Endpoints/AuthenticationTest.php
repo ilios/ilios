@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * Authentication API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class AuthenticationTest extends AbstractEndpointTest
 {
-    protected $testName =  'authentication';
+    protected $testName =  'authentications';
 
     /**
      * @inheritdoc

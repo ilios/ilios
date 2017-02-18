@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class PermissionTest extends AbstractEndpointTest
 {
-    protected $testName =  'permission';
+    protected $testName =  'permissions';
 
     /**
      * @inheritdoc

@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * UserMadeReminder API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class UserMadeReminderTest extends AbstractEndpointTest
 {
-    protected $testName =  'usermadereminder';
+    protected $testName =  'usermadereminders';
 
     /**
      * @inheritdoc
@@ -30,7 +30,7 @@ class UserMadeReminderTest extends AbstractEndpointTest
     {
         return [
             'note' => ['note', $this->getFaker()->text],
-            'dueDate' => ['dueDate', $this->getFaker()->text],
+            'dueDate' => ['dueDate', $this->getFaker()->iso8601],
             'closed' => ['closed', false],
             'user' => ['user', $this->getFaker()->text],
         ];

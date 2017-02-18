@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class ApplicationConfigTest extends AbstractEndpointTest
 {
-    protected $testName =  'applicationconfig';
+    protected $testName =  'applicationconfigs';
 
     /**
      * @inheritdoc

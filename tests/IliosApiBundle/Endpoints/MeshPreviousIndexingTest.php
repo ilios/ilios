@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class MeshPreviousIndexingTest extends AbstractEndpointTest
 {
-    protected $testName =  'meshpreviousindexing';
+    protected $testName =  'meshpreviousindexings';
 
     /**
      * @inheritdoc

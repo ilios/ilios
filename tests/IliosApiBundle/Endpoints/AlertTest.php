@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class AlertTest extends AbstractEndpointTest
 {
-    protected $testName =  'alert';
+    protected $testName =  'alerts';
 
     /**
      * @inheritdoc

@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
 {
-    protected $testName =  'curriculuminventoryacademiclevel';
+    protected $testName =  'curriculuminventoryacademiclevels';
 
     /**
      * @inheritdoc

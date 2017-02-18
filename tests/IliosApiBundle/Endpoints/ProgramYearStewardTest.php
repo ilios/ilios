@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * ProgramYearSteward API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class ProgramYearStewardTest extends AbstractEndpointTest
 {
-    protected $testName =  'programyearsteward';
+    protected $testName =  'programyearstewards';
 
     /**
      * @inheritdoc

@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class CurriculumInventoryExportTest extends AbstractEndpointTest
 {
-    protected $testName =  'curriculuminventoryexport';
+    protected $testName =  'curriculuminventoryexports';
 
     /**
      * @inheritdoc
@@ -31,7 +31,7 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
         return [
             'report' => ['report', $this->getFaker()->text],
             'createdBy' => ['createdBy', $this->getFaker()->text],
-            'createdAt' => ['createdAt', $this->getFaker()->text],
+            'createdAt' => ['createdAt', $this->getFaker()->iso8601],
         ];
     }
 

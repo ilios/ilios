@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * CurriculumInventoryReport API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class CurriculumInventoryReportTest extends AbstractEndpointTest
 {
-    protected $testName =  'curriculuminventoryreport';
+    protected $testName =  'curriculuminventoryreports';
 
     /**
      * @inheritdoc
@@ -32,8 +32,8 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
             'name' => ['name', $this->getFaker()->text],
             'description' => ['description', $this->getFaker()->text],
             'year' => ['year', $this->getFaker()->randomDigit],
-            'startDate' => ['startDate', $this->getFaker()->text],
-            'endDate' => ['endDate', $this->getFaker()->text],
+            'startDate' => ['startDate', $this->getFaker()->iso8601],
+            'endDate' => ['endDate', $this->getFaker()->iso8601],
             'export' => ['export', $this->getFaker()->text],
             'sequence' => ['sequence', $this->getFaker()->text],
             'sequenceBlocks' => ['sequenceBlocks', [1]],

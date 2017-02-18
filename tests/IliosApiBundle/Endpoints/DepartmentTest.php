@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class DepartmentTest extends AbstractEndpointTest
 {
-    protected $testName =  'department';
+    protected $testName =  'departments';
 
     /**
      * @inheritdoc

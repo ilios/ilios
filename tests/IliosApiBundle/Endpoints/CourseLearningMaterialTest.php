@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * CourseLearningMaterial API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class CourseLearningMaterialTest extends AbstractEndpointTest
 {
-    protected $testName =  'courselearningmaterial';
+    protected $testName =  'courselearningmaterials';
 
     /**
      * @inheritdoc

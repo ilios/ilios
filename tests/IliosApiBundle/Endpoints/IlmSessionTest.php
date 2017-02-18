@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * IlmSession API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class IlmSessionTest extends AbstractEndpointTest
 {
-    protected $testName =  'ilmsession';
+    protected $testName =  'ilmsessions';
 
     /**
      * @inheritdoc
@@ -31,7 +31,7 @@ class IlmSessionTest extends AbstractEndpointTest
         return [
             'session' => ['session', 1],
             'hours' => ['hours', $this->getFaker()->text],
-            'dueDate' => ['dueDate', $this->getFaker()->text],
+            'dueDate' => ['dueDate', $this->getFaker()->iso8601],
             'learnerGroups' => ['learnerGroups', [1]],
             'instructorGroups' => ['instructorGroups', [1]],
             'instructors' => ['instructors', [1]],

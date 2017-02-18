@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * MeshQualifier API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class MeshQualifierTest extends AbstractEndpointTest
 {
-    protected $testName =  'meshqualifier';
+    protected $testName =  'meshqualifiers';
 
     /**
      * @inheritdoc

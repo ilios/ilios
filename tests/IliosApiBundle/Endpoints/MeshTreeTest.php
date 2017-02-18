@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class MeshTreeTest extends AbstractEndpointTest
 {
-    protected $testName =  'meshtree';
+    protected $testName =  'meshtrees';
 
     /**
      * @inheritdoc

@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * CurriculumInventorySequenceBlock API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 {
-    protected $testName =  'curriculuminventorysequenceblock';
+    protected $testName =  'curriculuminventorysequenceblocks';
 
     /**
      * @inheritdoc
@@ -37,8 +37,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
             'minimum' => ['minimum', $this->getFaker()->randomDigit],
             'maximum' => ['maximum', $this->getFaker()->randomDigit],
             'track' => ['track', false],
-            'startDate' => ['startDate', $this->getFaker()->text],
-            'endDate' => ['endDate', $this->getFaker()->text],
+            'startDate' => ['startDate', $this->getFaker()->iso8601],
+            'endDate' => ['endDate', $this->getFaker()->iso8601],
             'duration' => ['duration', $this->getFaker()->randomDigit],
             'academicLevel' => ['academicLevel', $this->getFaker()->text],
             'course' => ['course', $this->getFaker()->text],

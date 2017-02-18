@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class TermTest extends AbstractEndpointTest
 {
-    protected $testName =  'term';
+    protected $testName =  'terms';
 
     /**
      * @inheritdoc

@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * CurriculumInventoryInstitution API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
 {
-    protected $testName =  'curriculuminventoryinstitution';
+    protected $testName =  'curriculuminventoryinstitutions';
 
     /**
      * @inheritdoc

@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class AamcMethodTest extends AbstractEndpointTest
 {
-    protected $testName =  'aamcmethod';
+    protected $testName =  'aamcmethods';
 
     /**
      * @inheritdoc

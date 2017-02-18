@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class MeshDescriptorTest extends AbstractEndpointTest
 {
-    protected $testName =  'meshdescriptor';
+    protected $testName =  'meshdescriptors';
 
     /**
      * @inheritdoc

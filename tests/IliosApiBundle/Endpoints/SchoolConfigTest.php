@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class SchoolConfigTest extends AbstractEndpointTest
 {
-    protected $testName =  'schoolconfig';
+    protected $testName =  'schoolconfigs';
 
     /**
      * @inheritdoc

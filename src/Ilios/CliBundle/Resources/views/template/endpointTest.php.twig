@@ -36,6 +36,8 @@ class {{ entity }}Test extends AbstractEndpointTest
             '{{ property.name }}' => ['{{ property.name }}', false],
 {%  elseif property.type == 'integer' %}
             '{{ property.name }}' => ['{{ property.name }}', $this->getFaker()->randomDigit],
+{%  elseif property.type == 'dateTime' %}
+            '{{ property.name }}' => ['{{ property.name }}', $this->getFaker()->iso8601],
 {%  elseif property.type == 'entity' %}
             '{{ property.name }}' => ['{{ property.name }}', 1],
 {%  else %}

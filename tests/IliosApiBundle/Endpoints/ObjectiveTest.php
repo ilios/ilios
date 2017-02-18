@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * Objective API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class ObjectiveTest extends AbstractEndpointTest
 {
-    protected $testName =  'objective';
+    protected $testName =  'objectives';
 
     /**
      * @inheritdoc

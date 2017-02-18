@@ -98,8 +98,8 @@ class GenerateEndpointTestCommand extends Command
         $propertyReflection = $this->entityMetadata->extractReadOnlyProperties($reflection);
         $readOnlies = array_map($mapProperties, $propertyReflection);
 
-        $endpoint = strtolower($entity);
-        $plural = Inflector::pluralize($endpoint);
+        $plural = Inflector::pluralize($entity);
+        $endpoint = strtolower($plural);
         $template = 'IliosCliBundle:Template:endpointTest.php.twig';
         $groupNumber = rand(1, 2);
 

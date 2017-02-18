@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * Competency API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class CompetencyTest extends AbstractEndpointTest
 {
-    protected $testName =  'competency';
+    protected $testName =  'competencies';
 
     /**
      * @inheritdoc

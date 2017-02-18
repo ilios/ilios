@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * MeshSemanticType API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class MeshSemanticTypeTest extends AbstractEndpointTest
 {
-    protected $testName =  'meshsemantictype';
+    protected $testName =  'meshsemantictypes';
 
     /**
      * @inheritdoc

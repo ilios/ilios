@@ -11,7 +11,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class InstructorGroupTest extends AbstractEndpointTest
 {
-    protected $testName =  'instructorgroup';
+    protected $testName =  'instructorgroups';
 
     /**
      * @inheritdoc

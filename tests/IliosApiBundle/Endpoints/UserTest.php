@@ -7,11 +7,11 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 /**
  * User API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class UserTest extends AbstractEndpointTest
 {
-    protected $testName =  'user';
+    protected $testName =  'users';
 
     /**
      * @inheritdoc
