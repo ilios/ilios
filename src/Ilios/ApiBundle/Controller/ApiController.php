@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\Common\Util\Inflector;
+use Symfony\Component\Serializer\Serializer;
 
 class ApiController extends Controller
 {
@@ -41,13 +42,19 @@ class ApiController extends Controller
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
-        $entity = $manager->create();
+        $class = $manager->getClass() . '[]';
 
-        $data = $this->extractDataFromRequest($request, $object);
-        $this->populateEntityFromInput($entity, $data, 'create');
+        $json = $this->extractDataFromRequest($request, $object);
+        $serializer = $this->getSerializer();
+        $entities = $serializer->deserialize($json, $class, 'json');
+        $this->validateAndAuthorizeEntities($entities, 'create');
 
-        $manager->update($entity, true, false);
-        return $this->createResponse($object, [$entity], Response::HTTP_CREATED);
+        foreach ($entities as $entity) {
+            $manager->update($entity, false);
+        }
+        $manager->flushAndClear();
+
+        return $this->createResponse($object, $entities, Response::HTTP_CREATED);
     }
 
     public function putAction($version, $object, $id, Request $request)
@@ -64,8 +71,10 @@ class ApiController extends Controller
             $permission = 'create';
         }
 
-        $data = $this->extractDataFromRequest($request, $object);
-        $this->populateEntityFromInput($entity, $data, $permission);
+        $json = $this->extractDataFromRequest($request, $object, $singleItem = true);
+        $serializer = $this->getSerializer();
+        $serializer->deserialize($json, get_class($entity), 'json', array('object_to_populate' => $entity));
+        $this->validateAndAuthorizeEntities([$entity], $permission);
 
         $manager->update($entity, true, false);
         $singularName = $this->getSingularObjectName($object);
@@ -110,24 +119,41 @@ class ApiController extends Controller
             );
         }
 
-        return $this->container->get($name);
+        /** @var BaseManager $manager */
+        $manager = $this->container->get($name);
+
+        return $manager;
     }
 
-    protected function extractDataFromRequest(Request $request, $object)
+    /**
+     * @param Request $request
+     * @param $object string the name of the object we are extracting from the request
+     * @param bool $singleItem forces items out of an array and into single items
+     * @return string
+     */
+    protected function extractDataFromRequest(Request $request, $object, $singleItem = false)
     {
+        $data = false;
         $singularName = $this->getSingularObjectName($object);
-        $data = $request->request->get($object);
-        if (!$data) {
-            $str = $request->getContent();
-            $obj = json_decode($str);
-            $block = $obj->$singularName;
-            $data = json_encode($block);
+        $str = $request->getContent();
+        $obj = json_decode($str);
+        if (property_exists($obj, $singularName)) {
+            $data = [$obj->$singularName];
         }
         if (!$data) {
-            $data = $request->getContent();
+            if (property_exists($obj, $object)) {
+                $data = $obj->$object;
+            }
+        }
+        if (!$data) {
+            $data = [$obj];
         }
 
-        return $data;
+        if ($singleItem) {
+            $data = array_shift($data);
+        }
+
+        return json_encode($data);
     }
 
     protected function getSingularObjectName($object)
@@ -179,7 +205,7 @@ class ApiController extends Controller
     protected function createResponse($responseKey, $value, $responseCode)
     {
         $response[$responseKey] = $value;
-        $serializer = $this->get('serializer');
+        $serializer = $this->getSerializer();
         return new Response(
             $serializer->serialize($response, 'json'),
             $responseCode,
@@ -187,23 +213,30 @@ class ApiController extends Controller
         );
     }
 
-    protected function populateEntityFromInput($entity, $data, $permission)
+    protected function validateAndAuthorizeEntities($entities, $permission)
     {
-        $serializer = $this->get('serializer');
-
-        $serializer->deserialize($data, get_class($entity), 'json', array('object_to_populate' => $entity));
         $validator = $this->container->get('validator');
-        $errors = $validator->validate($entity);
+        foreach ($entities as $entity) {
+            $errors = $validator->validate($entity);
 
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
+            if (count($errors) > 0) {
+                $errorsString = (string) $errors;
 
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
+                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
+            }
+
+            $authChecker = $this->get('security.authorization_checker');
+            if (! $authChecker->isGranted($permission, $entity)) {
+                throw $this->createAccessDeniedException('Unauthorized access!');
+            }
         }
+    }
 
-        $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted($permission, $entity)) {
-            throw $this->createAccessDeniedException('Unauthorized access!');
-        }
+    /**
+     * @return Serializer
+     */
+    protected function getSerializer()
+    {
+        return $this->get('serializer');
     }
 }

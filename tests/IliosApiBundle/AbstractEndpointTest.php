@@ -93,7 +93,9 @@ abstract class AbstractEndpointTest extends WebTestCase
         $name = $this->getSingularName();
         $service = "ilioscore.dataloader.{$name}";
 
-        return $this->container->get($service);
+        /** @var DataLoaderInterface $dataLoader */
+        $dataLoader = $this->container->get($service);
+        return $dataLoader;
     }
 
     /**
@@ -151,6 +153,13 @@ abstract class AbstractEndpointTest extends WebTestCase
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->createInvalid();
         $this->badPostTest($data);
+    }
+
+    public function testPostMany()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->createMany(51);
+        $this->postManyTest($data);
     }
 
     /**
@@ -258,10 +267,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $diff = $now->diff($stamp);
             $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
         }
-        $this->assertEquals(
-            $data,
-            $returnedData
-        );
+        $this->compareData($data, $returnedData);
 
         return $returnedData;
 
@@ -317,10 +323,8 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $diff = $now->diff($stamp);
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
-            $this->assertEquals(
-                $data[$i],
-                $response
-            );
+            $this->compareData($data[$i], $response);
+
         }
 
         return $responses;
@@ -331,21 +335,50 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $pluralObjectName = $this->getPluralName();
         $responseData = $this->postOne($pluralObjectName, $postData);
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($pluralObjectName, $responseData['id']);
 
         $now = new DateTime();
         foreach ($this->getTimeStampFields() as $field) {
-            $stamp = new DateTime($responseData[$field]);
-            unset($responseData[$field]);
+            $stamp = new DateTime($fetchedResponseData[$field]);
+            unset($fetchedResponseData[$field]);
             $diff = $now->diff($stamp);
             $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
         }
 
-        $this->assertEquals(
-            $data,
-            $responseData
-        );
+        $this->compareData($data, $fetchedResponseData);
 
-        return $responseData;
+        return $fetchedResponseData;
+    }
+
+    protected function postManyTest($data)
+    {
+        $pluralObjectName = $this->getPluralName();
+        $responseData = $this->postMany($pluralObjectName, $data);
+        $ids = array_map(function (array $arr) {
+            return $arr['id'];
+        }, $responseData);
+        $filters = [
+            'filters[id]' => $ids,
+            'limit' => count($ids)
+        ];
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getFiltered($pluralObjectName, $filters);
+
+        $now = new DateTime();
+        foreach ($data as $i => $datum) {
+            $response = $fetchedResponseData[$i];
+            foreach ($this->getTimeStampFields() as $field) {
+                $stamp = new DateTime($response[$field]);
+                unset($response[$field]);
+                $diff = $now->diff($stamp);
+                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            }
+
+            $this->compareData($datum, $response);
+        }
+
+        return $fetchedResponseData;
     }
 
     protected function postOne($pluralObjectName, $postData)
@@ -361,6 +394,20 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
         return json_decode($response->getContent(), true)[$pluralObjectName][0];
+    }
+
+    protected function postMany($pluralObjectName, $postData)
+    {
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $pluralObjectName]),
+            json_encode([$pluralObjectName => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_CREATED);
+
+        return json_decode($response->getContent(), true)[$pluralObjectName];
     }
 
     protected function badPostTest($data)
@@ -400,21 +447,20 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $pluralObjectName = $this->getPluralName();
         $responseData = $this->putOne($pluralObjectName, $id, $postData);
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($pluralObjectName, $responseData['id']);
 
         $now = new DateTime();
         foreach ($this->getTimeStampFields() as $field) {
-            $stamp = new DateTime($responseData[$field]);
-            unset($responseData[$field]);
+            $stamp = new DateTime($fetchedResponseData[$field]);
+            unset($fetchedResponseData[$field]);
             $diff = $now->diff($stamp);
             $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
         }
 
-        $this->assertEquals(
-            $data,
-            $responseData
-        );
+        $this->compareData($data, $fetchedResponseData);
 
-        return $responseData;
+        return $fetchedResponseData;
     }
 
     protected function putOne($pluralObjectName, $id, $data)
@@ -482,7 +528,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         );
     }
 
-    protected function filterTest(array $filters, $expectedData)
+    protected function filterTest(array $filters, array $expectedData)
     {
         $pluralObjectName = $this->getPluralName();
         $filteredData = $this->getFiltered($pluralObjectName, $filters);
@@ -500,10 +546,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             count($responseData),
             'Wrong Number of responses returned from filter got: ' . var_export($responseData, true));
         foreach ($expectedData as $i => $data) {
-            $this->assertEquals(
-                $data,
-                $responseData[$i]
-            );
+            $this->compareData($data, $responseData[$i]);
         }
     }
 
@@ -658,5 +701,21 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
 
         return $this->faker;
+    }
+
+    /**
+     * An overridable way to do the field comparison
+     * So those endpoints which dont return all data
+     * like Users::alerts[] will be able to do thier comparison
+     *
+     * @param array $expected
+     * @param array $result
+     */
+    protected function compareData(array $expected, array $result)
+    {
+        $this->assertEquals(
+            $expected,
+            $result
+        );
     }
 }

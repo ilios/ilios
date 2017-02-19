@@ -69,4 +69,19 @@ abstract class AbstractDataLoader implements DataLoaderInterface
     abstract public function create();
 
     abstract public function createInvalid();
+
+    /**
+     * @inheritdoc
+     */
+    public function createMany($count)
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] + $i;
+            $data[] = $arr;
+        }
+
+        return $data;
+    }
 }
