@@ -20,25 +20,25 @@ parameters:
 
 services:
     ilioscore.aamcmethod.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AamcMethod]
     ilioscore.aamcpcrs.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AamcPcrs]
     ilioscore.aamcresourcetype.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AamcResourceType]
     ilioscore.alertchangetype.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AlertChangeType]
     ilioscore.alert.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Alert]
     ilioscore.applicationconfig.manager:
         class: "%ilioscore.basemanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\ApplicationConfig]
     ilioscore.assessmentoption.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\AssessmentOption]
     ilioscore.auditlog.manager:
         class: "%ilioscore.auditlog.manager.class%"
@@ -50,7 +50,7 @@ services:
         class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Cohort]
     ilioscore.competency.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Competency]
     ilioscore.courseclerkshiptype.manager:
         class: "%ilioscore.basemanager.class%"
