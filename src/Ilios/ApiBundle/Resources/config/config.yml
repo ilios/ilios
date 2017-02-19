@@ -1,0 +1,2 @@
+parameters:
+  ilios_api_non_dto_controllers: '(?i)(applicationconfigs|ilmsessions|instructorgroups|objectives|offerings|sessiondescriptions|sessionlearningmaterials)'
