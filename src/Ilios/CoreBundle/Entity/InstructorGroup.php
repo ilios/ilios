@@ -78,7 +78,7 @@ class InstructorGroup implements InstructorGroupInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 

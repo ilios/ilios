@@ -23,6 +23,14 @@ ilios_api_courserollover:
         object: '(?i)courses'
         id: '\d+'
 
+ilios_api_getallusers:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:Users:getAll }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: '(?i)users'
+
 ilios_nondto_api_get:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:NonDtoApi:get }

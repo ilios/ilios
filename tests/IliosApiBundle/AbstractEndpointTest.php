@@ -239,7 +239,7 @@ abstract class AbstractEndpointTest extends WebTestCase
      */
     public function testFilters(array $dataKeys = [], array $filterParts = [])
     {
-        if (empty($dataKeys) || empty($filterParts)) {
+        if (empty($filterParts)) {
             $this->markTestSkipped('Missing filters tests for this endpoint');
             return;
         }
@@ -445,13 +445,14 @@ abstract class AbstractEndpointTest extends WebTestCase
         );
     }
 
-    public function relatedPostDataTest($data, $postData, $relationship, $related)
+    public function relatedPostDataTest($data, $postData, $relationship, $related, $relatedName = null)
     {
         $responseData = $this->postTest($data, $postData);
 
         $newId = $responseData['id'];
-        $this->assertTrue(array_key_exists($related, $postData), var_export($postData, true));
-        foreach ($postData[$related] as $id) {
+        $relatedName = null == $relatedName?$related:$relatedName;
+        $this->assertArrayHasKey($relatedName, $postData, 'Missing related key: ' . var_export($postData, true));
+        foreach ($postData[$relatedName] as $id) {
             $obj = $this->getOne($related, $id);
             $this->assertTrue(array_key_exists($relationship, $obj), var_export($obj, true));
             $this->assertTrue(in_array($newId, $obj[$relationship]));

@@ -41,6 +41,9 @@ class LoadUserData extends AbstractFixture implements
             $entity->setPhone($arr['phone']);
             $entity->setCampusId($arr['campusId']);
             $entity->setUserSyncIgnore($arr['userSyncIgnore']);
+            if (array_key_exists('otherId', $arr)) {
+                $entity->setOtherId($arr['otherId']);
+            }
             foreach ($arr['roles'] as $id) {
                 $entity->addRole($this->getReference('userRoles' . $id));
             }

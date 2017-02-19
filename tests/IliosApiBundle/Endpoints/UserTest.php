@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 
 /**
@@ -20,6 +21,20 @@ class UserTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadAlertData',
+            'Tests\CoreBundle\Fixture\LoadCourseData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadInstructorGroupData',
+            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
+            'Tests\CoreBundle\Fixture\LoadUserMadeReminderData',
+            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
+            'Tests\CoreBundle\Fixture\LoadOfferingData',
+            'Tests\CoreBundle\Fixture\LoadPendingUserUpdateData',
+            'Tests\CoreBundle\Fixture\LoadPermissionData',
+            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadReportData',
+            'Tests\CoreBundle\Fixture\LoadAuthenticationData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
         ];
     }
 
@@ -29,23 +44,22 @@ class UserTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'lastName' => ['lastName', $this->getFaker()->text],
-            'firstName' => ['firstName', $this->getFaker()->text],
-            'middleName' => ['middleName', $this->getFaker()->text],
-            'phone' => ['phone', $this->getFaker()->text],
-            'email' => ['email', $this->getFaker()->text],
+            'lastName' => ['lastName', $this->getFaker()->text(30)],
+            'firstName' => ['firstName', $this->getFaker()->text(20)],
+            'middleName' => ['middleName', $this->getFaker()->text(20)],
+            'phone' => ['phone', $this->getFaker()->phoneNumber],
+            'email' => ['email', $this->getFaker()->email],
             'enabled' => ['enabled', false],
-            'campusId' => ['campusId', $this->getFaker()->text],
-            'otherId' => ['otherId', $this->getFaker()->text],
-            'userSyncIgnore' => ['userSyncIgnore', false],
-            'icsFeedKey' => ['icsFeedKey', $this->getFaker()->text],
-            'authentication' => ['authentication', $this->getFaker()->text],
-            'reminders' => ['reminders', [1]],
-            'reports' => ['reports', [1]],
-            'school' => ['school', $this->getFaker()->text],
-            'directedCourses' => ['directedCourses', [1]],
-            'administeredCourses' => ['administeredCourses', [1]],
-            'administeredSessions' => ['administeredSessions', [1]],
+            'campusId' => ['campusId', $this->getFaker()->text(10)],
+            'otherId' => ['otherId', $this->getFaker()->text(10)],
+            'userSyncIgnore' => ['userSyncIgnore', true],
+            'icsFeedKey' => ['icsFeedKey', hash('sha256', 'testValueics')],
+//            'reminders' => ['reminders', [1]],
+//            'reports' => ['reports', [1]],
+            'school' => ['school', 3],
+            'directedCourses' => ['directedCourses', [2]],
+            'administeredCourses' => ['administeredCourses', [1, 2]],
+            'administeredSessions' => ['administeredSessions', [2]],
             'learnerGroups' => ['learnerGroups', [1]],
             'instructedLearnerGroups' => ['instructedLearnerGroups', [1]],
             'instructorGroups' => ['instructorGroups', [1]],
@@ -53,16 +67,16 @@ class UserTest extends AbstractEndpointTest
             'learnerIlmSessions' => ['learnerIlmSessions', [1]],
             'offerings' => ['offerings', [1]],
             'instructedOfferings' => ['instructedOfferings', [1]],
-            'programYears' => ['programYears', [1]],
-            'roles' => ['roles', [1]],
-            'cohorts' => ['cohorts', [1]],
-            'primaryCohort' => ['primaryCohort', $this->getFaker()->text],
-            'pendingUserUpdates' => ['pendingUserUpdates', [1]],
-            'permissions' => ['permissions', [1]],
-            'directedSchools' => ['directedSchools', [1]],
-            'administeredSchools' => ['administeredSchools', [1]],
-            'directedPrograms' => ['directedPrograms', [1]],
-            'root' => ['root', false],
+            'programYears' => ['programYears', [2]],
+            'roles' => ['roles', [2]],
+//            'cohorts' => ['cohorts', [2]],
+//            'primaryCohort' => ['primaryCohort', 3],
+//            'pendingUserUpdates' => ['pendingUserUpdates', [2]],
+//            'permissions' => ['permissions', [1]],
+            'directedSchools' => ['directedSchools', [2]],
+            'administeredSchools' => ['administeredSchools', [1, 2]],
+            'directedPrograms' => ['directedPrograms', [2]],
+            'root' => ['root', true],
         ];
     }
 
@@ -83,41 +97,315 @@ class UserTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'lastName' => [[0], ['lastName' => 'test']],
-            'firstName' => [[0], ['firstName' => 'test']],
-            'middleName' => [[0], ['middleName' => 'test']],
-            'phone' => [[0], ['phone' => 'test']],
-            'email' => [[0], ['email' => 'test']],
-            'enabled' => [[0], ['enabled' => false]],
-            'campusId' => [[0], ['campusId' => 'test']],
-            'otherId' => [[0], ['otherId' => 'test']],
-            'userSyncIgnore' => [[0], ['userSyncIgnore' => false]],
-            'icsFeedKey' => [[0], ['icsFeedKey' => 'test']],
-            'authentication' => [[0], ['authentication' => 'test']],
-            'reminders' => [[0], ['reminders' => [1]]],
-            'reports' => [[0], ['reports' => [1]]],
-            'school' => [[0], ['school' => 'test']],
-            'directedCourses' => [[0], ['directedCourses' => [1]]],
-            'administeredCourses' => [[0], ['administeredCourses' => [1]]],
-            'administeredSessions' => [[0], ['administeredSessions' => [1]]],
-            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
-            'instructedLearnerGroups' => [[0], ['instructedLearnerGroups' => [1]]],
-            'instructorGroups' => [[0], ['instructorGroups' => [1]]],
-            'instructorIlmSessions' => [[0], ['instructorIlmSessions' => [1]]],
-            'learnerIlmSessions' => [[0], ['learnerIlmSessions' => [1]]],
-            'offerings' => [[0], ['offerings' => [1]]],
-            'instructedOfferings' => [[0], ['instructedOfferings' => [1]]],
-            'programYears' => [[0], ['programYears' => [1]]],
-            'roles' => [[0], ['roles' => [1]]],
-            'cohorts' => [[0], ['cohorts' => [1]]],
-            'primaryCohort' => [[0], ['primaryCohort' => 'test']],
-            'pendingUserUpdates' => [[0], ['pendingUserUpdates' => [1]]],
-            'permissions' => [[0], ['permissions' => [1]]],
-            'directedSchools' => [[0], ['directedSchools' => [1]]],
-            'administeredSchools' => [[0], ['administeredSchools' => [1]]],
-            'directedPrograms' => [[0], ['directedPrograms' => [1]]],
-            'root' => [[0], ['root' => false]],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'lastName' => [[1], ['lastName' => 'first']],
+            'firstName' => [[2], ['firstName' => 'second']],
+            'middleName' => [[1], ['middleName' => 'first']],
+            'phone' => [[1], ['phone' => '415-555-0123']],
+            'email' => [[1], ['email' => 'first@example.com']],
+            'enabled' => [[0, 1, 2, 3, 4], ['enabled' => true]],
+            'notEnabled' => [[], ['enabled' => false]],
+            'campusId' => [[0], ['campusId' => '1111@school.edu']],
+            'otherId' => [[2], ['otherId' => '001']],
+            'userSyncIgnore' => [[1], ['userSyncIgnore' => true]],
+            'notUserSyncIgnore' => [[0, 2, 3, 4], ['userSyncIgnore' => false]],
+            'icsFeedKey' => [[1], ['icsFeedKey' => hash('sha256', '2')]],
+//            'authentication' => [[2], ['authentication' => 2]],
+//            'reminders' => [[1], ['reminders' => [2]]],
+//            'reports' => [[1], ['reports' => [1]]],
+            'school' => [[0, 1, 2, 4], ['school' => 1]],
+            'schools' => [[0, 1, 2, 4], ['schools' => [1]]],
+//            'directedCourses' => [[0], ['directedCourses' => [1]]],
+//            'administeredCourses' => [[0], ['administeredCourses' => [1]]],
+//            'administeredSessions' => [[0], ['administeredSessions' => [1]]],
+//            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
+//            'instructedLearnerGroups' => [[0], ['instructedLearnerGroups' => [1]]],
+//            'instructorGroups' => [[1], ['instructorGroups' => [1, 2, 3]]],
+//            'instructorIlmSessions' => [[0], ['instructorIlmSessions' => [1]]],
+//            'learnerIlmSessions' => [[0], ['learnerIlmSessions' => [1]]],
+//            'offerings' => [[0], ['offerings' => [1]]],
+//            'instructedOfferings' => [[0], ['instructedOfferings' => [1]]],
+//            'programYears' => [[0], ['programYears' => [1]]],
+            'roles' => [[2], ['roles' => [2]]],
+            'cohorts' => [[0, 1], ['cohorts' => [1]]],
+            'nullCohorts' => [[2, 3, 4], ['cohorts' => 'null']],
+            'primaryCohort' => [[0], ['primaryCohort' => 1]],
+//            'nullPrimaryCohort' => [[1, 2, 3, 4], ['primaryCohort' => null]],
+//            'pendingUserUpdates' => [[0], ['pendingUserUpdates' => [1]]],
+//            'permissions' => [[0], ['permissions' => [1]]],
+//            'directedSchools' => [[0], ['directedSchools' => [1]]],
+//            'administeredSchools' => [[0], ['administeredSchools' => [1]]],
+//            'directedPrograms' => [[0], ['directedPrograms' => [1]]],
+            'isRoot' => [[1], ['root' => true]],
+            'isNotRoot' => [[0, 2, 3, 4], ['root' => false]],
+            'instructedCourses' => [[1], ['instructedCourses' => [1]]],
+            'instructedSessions' => [[1], ['instructedSessions' => [2]]],
+            'instructedSessionTypes' => [[0, 1], ['instructedSessionTypes' => [2]]],
+            'instructedLearningMaterials' => [[0, 1], ['instructedLearningMaterials' => [1, 2, 3]]],
+            'learnerSessions' => [[1, 4], ['learnerSessions' => [1]]],
         ];
+    }
+
+
+
+    public function qsToTest()
+    {
+        return [
+          ['first', [1]],
+          ['second', [2]],
+          ['example', [1, 2]],
+          ['example second', [2]],
+          ['nobodyxyzmartian', []],
+          ['newuser', [1]],
+          ['1111@school', [0]],
+        ];
+    }
+
+    protected function compareData(array $expected, array $result)
+    {
+        unset($expected['alerts']);
+        unset($expected['learningMaterials']);
+        $this->assertEquals(
+            $expected,
+            $result
+        );
+    }
+
+    /**
+     * @dataProvider qsToTest
+     * @param $q
+     * @param $dataKeys
+     */
+    public function testFindByQ($q, $dataKeys)
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $expectedData = array_map(function($i) use ($all) {
+            return $all[$i];
+        }, $dataKeys);
+        $filters = ['q' => $q];
+        $this->filterTest($filters, $expectedData);
+    }
+
+    public function findUsersWithRoleOne()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $expectedData[] = $all[0];
+        $expectedData[] = $all[1];
+        $filters = [
+            'q' => 'example',
+            'filters[userRole]' => [1]
+        ];
+        $this->filterTest($filters, $expectedData);
+    }
+
+    public function findUsersWithRoleOneAndFour()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $expectedData[] = $all[0];
+        $expectedData[] = $all[1];
+        $filters = [
+            'q' => 'example',
+            'filters[userRole]' => [1, 4]
+        ];
+        $this->filterTest($filters, $expectedData);
+    }
+
+    public function testRejectUnpriviledgedPostRootUser()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $user = $all[2];
+        $this->assertFalse($user['root'], 'User #3 is supposed to not be root or this test is garbage');
+        $userId = $user['id'];
+
+        $postData = $dataLoader->create();
+        $postData['root'] = true;
+
+        $this->canNot(
+            $userId,
+            'POST',
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'users']),
+            json_encode(['users' => $postData])
+        );
+    }
+
+    public function testPostRootUserAsRootUser()
+    {
+        // PLAN OF ACTION
+        // 1. POST a root user.
+        // 2. Then, use that root user to POST a new root user.
+        // 3. Check for success.
+
+        // 1.
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['root'] = true;
+        $rootUser = $this->postOne('users', $data);
+        $this->assertTrue($rootUser['root']);
+        $rootUserToken = $this->getTokenForUser($rootUser['id']);
+
+        // 2.
+        $data = $dataLoader->create();
+        $data['root'] = true;
+
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('ilios_api_post', [
+                'version' => 'v1',
+                'object' => 'users'
+            ]),
+            json_encode(['user' => $data]),
+            $rootUserToken
+        );
+
+        // 3.
+        $response = $this->client->getResponse();
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+    }
+
+    public function testRejectUnpriviledgedChangeUserToRoot()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $user = $all[2];
+        $this->assertFalse($user['root'], 'User #3 is supposed to not be root or this test is garbage');
+        $userId = $user['id'];
+
+        $postData = $user;
+        $postData['root'] = true;
+
+        $this->canNot(
+            $userId,
+            'PUT',
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]),
+            json_encode(['user' => $postData])
+        );
+    }
+
+    public function testRejectUnpriviledgedRemoveRootFromUser()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $user = $all[2];
+        $this->assertFalse($user['root'], 'User #3 is supposed to not be root or this test is garbage');
+        $userId = $user['id'];
+
+        $postData = $all[1];
+        $this->assertTrue($postData['root'], 'User #2 is supposed to be root or this test is garbage');
+
+        $postData['root'] = false;
+
+        $this->canNot(
+            $userId,
+            'PUT',
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]),
+            json_encode(['user' => $postData])
+        );
+    }
+
+    public function testUpdateRootAttributeAsRootUser()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $user = $all[2];
+        $this->assertFalse($user['root'], 'User #3 is supposed to not be root or this test is garbage');
+        $user['root'] = true;
+
+        $this->putTest($user, $user, $user['id']);
+    }
+
+    public function testPostUserCourse()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'directors', 'courses', 'directedCourses');
+    }
+
+    public function testPostUserLearnerGroup()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'users', 'learnergroups', 'learnerGroups');
+    }
+
+    public function testPostUserInstructorLearnerGroup()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'instructors', 'learnergroups', 'instructedLearnerGroups');
+    }
+
+    public function testPostUserInstructorGroup()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'users', 'instructorgroups', 'instructorGroups');
+    }
+
+    public function testPostUserIlmSession()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'learners', 'ilmsessions', 'learnerIlmSessions');
+    }
+
+    public function testPostUserInstructedIlmSession()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'instructors', 'ilmsessions', 'instructorIlmSessions');
+    }
+
+    public function testPostUserOffering()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'learners', 'offerings');
+    }
+
+    public function testPostUserInstructedOffering()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'instructors', 'offerings', 'instructedOfferings');
+    }
+
+    public function testPostUserProgramYear()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'directors', 'programYears');
+    }
+
+    public function testPostUserCohort()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'users', 'cohorts');
+    }
+
+    public function testPostUserWithNoIcsFeeDKey()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        unset($data['icsFeedKey']);
+
+        $response = $this->postOne('users', $data);
+        $this->assertEquals(64, strlen($response['icsFeedKey']), 'Not ICS feed key for user');
     }
 
 }

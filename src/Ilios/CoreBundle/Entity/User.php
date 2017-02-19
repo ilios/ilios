@@ -239,7 +239,7 @@ class User implements UserInterface
      *
      * @ORM\OneToOne(targetEntity="Authentication", mappedBy="user")
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $authentication;
 
@@ -289,7 +289,7 @@ class User implements UserInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 
@@ -458,7 +458,7 @@ class User implements UserInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $primaryCohort;
 
@@ -753,7 +753,6 @@ class User implements UserInterface
     {
         $random = random_bytes(128);
         
-        // prepend user id to avoid a conflict
         // and current time to give some more uniqueness
         $key = microtime() . '_' . $random;
         
