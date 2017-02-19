@@ -26,7 +26,12 @@ class ValidApiObjectListener
      */
     public function __construct($validApiObjects)
     {
-        $this->validApiObjects = explode(',', $validApiObjects);
+        $arr = explode(',', $validApiObjects);
+        //YAML leaves whitespace sometimes.
+        // So we strip it out
+        $arr = array_map('trim', $arr);
+
+        $this->validApiObjects = $arr;
     }
 
     public function onKernelController(FilterControllerEvent $event)
