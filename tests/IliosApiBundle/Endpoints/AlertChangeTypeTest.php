@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 
 /**
@@ -20,6 +21,7 @@ class AlertChangeTypeTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadAlertChangeTypeData',
+            'Tests\CoreBundle\Fixture\LoadAlertData'
         ];
     }
 
@@ -29,7 +31,7 @@ class AlertChangeTypeTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
+            'title' => ['title', $this->getFaker()->text(30)],
             'alerts' => ['alerts', [1]],
         ];
     }
@@ -50,10 +52,23 @@ class AlertChangeTypeTest extends AbstractEndpointTest
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['id' => 1]],
-            'title' => [[0], ['title' => 'test']],
+            'id' => [[2], ['id' => AlertChangeTypeInterface::CHANGE_TYPE_LEARNING_MATERIAL]],
+            'ids' => [[0, 1, 3], ['id' => [
+                AlertChangeTypeInterface::CHANGE_TYPE_TIME,
+                AlertChangeTypeInterface::CHANGE_TYPE_LOCATION,
+                AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR
+            ]]],
+            'title' => [[1], ['title' => 'second title']],
             'alerts' => [[0], ['alerts' => [1]]],
         ];
+    }
+
+    public function testPostAlertAlertChangeType()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'changeTypes', 'alerts');
     }
 
 }
