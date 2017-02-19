@@ -98,21 +98,6 @@ class BaseManager implements ManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findDTOBy(
-        array $criteria,
-        array $orderBy = null
-    ) {
-        $repository = $this->getRepository();
-        if (!method_exists($repository, 'findDTOBy')) {
-            throw new \Exception("{$this->class} is not DTO enabled.");
-        }
-        $results = $repository->findDTOsBy($criteria, $orderBy, 1);
-        return empty($results)?false:$results[0];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function findBy(
         array $criteria,
         array $orderBy = null,
@@ -120,22 +105,6 @@ class BaseManager implements ManagerInterface
         $offset = null
     ) {
         return $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findDTOsBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
-        $repository = $this->getRepository();
-        if (!method_exists($repository, 'findDTOsBy')) {
-            throw new \Exception("{$this->class} is not DTO enabled.");
-        }
-        return $repository->findDTOsBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**

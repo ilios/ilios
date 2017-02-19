@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\CoreBundle\Entity\Manager\BaseManager;
+use Ilios\CoreBundle\Entity\Manager\DTOManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -107,20 +108,25 @@ class ApiController extends Controller implements ApiControllerInterface
 
     /**
      * @param string $object
-     * @return BaseManager
+     * @return DTOManagerInterface
+     * @throws \Exception
      */
     protected function getManager($object)
     {
         $singularName = $this->getSingularObjectName($object);
         $name = "ilioscore.{$singularName}.manager";
         if (!$this->container->has($name)) {
-            throw new NotFoundHttpException(sprintf(
-                'The endpoint \'%s\' does not exist.', $object)
+            throw new \Exception(
+                'The manager for \'%s\' does not exist.', $object
             );
         }
 
-        /** @var BaseManager $manager */
         $manager = $this->container->get($name);
+
+        if (!$manager instanceof DTOManagerInterface) {
+            $class = $manager->getClass();
+            throw new \Exception("{$class} is not DTO enabled.");
+        }
 
         return $manager;
     }

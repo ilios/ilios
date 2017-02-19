@@ -37,38 +37,12 @@ interface ManagerInterface
     /**
      * @param array $criteria
      * @param array $orderBy
-     *
-     * @return object|null The DTO instance or NULL if the entity can not be found.
-     */
-    public function findDTOBy(
-        array $criteria,
-        array $orderBy = null
-    );
-
-    /**
-     * @param array $criteria
-     * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return array A list of entities.
      */
     public function findBy(
-        array $criteria,
-        array $orderBy = null,
-        $limit = null,
-        $offset = null
-    );
-
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return array A list of DTOs.
-     */
-    public function findDTOsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,

@@ -34,4 +34,24 @@ class NonDtoApiController extends ApiController
 
         return $this->resultsToResponse($result, $object, Response::HTTP_OK);
     }
+
+    /**
+     * @param string $object
+     * @return BaseManager
+     */
+    protected function getManager($object)
+    {
+        $singularName = $this->getSingularObjectName($object);
+        $name = "ilioscore.{$singularName}.manager";
+        if (!$this->container->has($name)) {
+            throw new NotFoundHttpException(sprintf(
+                    'The endpoint \'%s\' does not exist.', $object)
+            );
+        }
+
+        /** @var BaseManager $manager */
+        $manager = $this->container->get($name);
+
+        return $manager;
+    }
 }
