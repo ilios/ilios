@@ -181,6 +181,21 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->putTest($data, $postData, $data['id']);
     }
 
+    public function testPutForAllData()
+    {
+        $putsToTest = $this->putsToTest();
+        $firstPut = array_shift($putsToTest);
+        $changeKey = $firstPut[0];
+        $changeValue = $firstPut[1];
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        foreach ($all as $data) {
+            $data[$changeKey] = $changeValue;
+
+            $this->putTest($data, $data, $data['id']);
+        }
+    }
+
     /**
      * @dataProvider readOnliesToTest
      */
