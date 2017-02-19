@@ -20,6 +20,7 @@ class AssessmentOptionTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadAssessmentOptionData',
+            'Tests\CoreBundle\Fixture\LoadSessionTypeData'
         ];
     }
 
@@ -29,8 +30,8 @@ class AssessmentOptionTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'name' => ['name', $this->getFaker()->text],
-            'sessionTypes' => ['sessionTypes', [1]],
+            'name' => ['name', $this->getFaker()->text(18)],
+//            'sessionTypes' => ['sessionTypes', [2, 3]],
         ];
     }
 
@@ -51,9 +52,22 @@ class AssessmentOptionTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'name' => [[0], ['name' => 'test']],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'name' => [[1], ['name' => 'second option']],
             'sessionTypes' => [[0], ['sessionTypes' => [1]]],
         ];
+    }
+
+    public function testPutForAllData()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $faker = $this->getFaker();
+        foreach ($all as $data) {
+            $data['name'] = $faker->word;
+
+            $this->putTest($data, $data, $data['id']);
+        }
     }
 
 }

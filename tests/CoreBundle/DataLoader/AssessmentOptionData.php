@@ -16,7 +16,7 @@ class AssessmentOptionData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'name' => $this->faker->word,
+            'name' => 'second option',
             'sessionTypes' => [2]
         );
         return $arr;
@@ -37,5 +37,21 @@ class AssessmentOptionData extends AbstractDataLoader
             'id' => 'something',
             'name' => $this->faker->text
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createMany($count)
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] + $i;
+            $arr['name'] = $arr['id'] . $this->faker->word;
+            $data[] = $arr;
+        }
+
+        return $data;
     }
 }
