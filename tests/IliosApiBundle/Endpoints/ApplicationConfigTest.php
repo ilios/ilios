@@ -29,8 +29,8 @@ class ApplicationConfigTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'name' => ['name', $this->getFaker()->text],
             'value' => ['value', $this->getFaker()->text],
+            'name' => ['name', $this->getFaker()->text(100)],
         ];
     }
 
@@ -51,8 +51,9 @@ class ApplicationConfigTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'name' => [[0], ['name' => 'test']],
-            'value' => [[0], ['value' => 'test']],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'name' => [[1], ['name' => 'second name']],
+            'value' => [[2], ['value' => 'third value']],
         ];
     }
 

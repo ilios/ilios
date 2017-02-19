@@ -50,6 +50,7 @@ class ApplicationConfig implements ApplicationConfigInterface
      * @ORM\Column(type="string", length=200, nullable=false)
      *
      * @Assert\Type(type="string")
+     * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 1,
      *      max = 200
@@ -66,6 +67,7 @@ class ApplicationConfig implements ApplicationConfigInterface
      * @ORM\Column(name="value", type="text", nullable=false)
      *
      * @Assert\Type(type="string")
+     * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 1,
      *      max = 65000

@@ -14,8 +14,13 @@ class ApplicationConfigData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 2,
-            'name' => '2' . $this->faker->text(50),
+            'name' => 'second name',
             'value' => $this->faker->text(100),
+        );
+        $arr[] = array(
+            'id' => 3,
+            'name' => '2' . $this->faker->text(50),
+            'value' => 'third value',
         );
 
         return $arr;
@@ -24,8 +29,8 @@ class ApplicationConfigData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 3,
-            'name' => '3' . $this->faker->text(50),
+            'id' => 4,
+            'name' => '4' . $this->faker->text(50),
             'value' => $this->faker->text(100),
         ];
     }
