@@ -15,3 +15,9 @@ services:
           - [setEntityMetadata, ['@ilioscore.entitymetadata']]
         tags:
           - { name: serializer.normalizer }
+
+    ilios_api.valid_object_listener:
+            class: Ilios\ApiBundle\EventListener\ValidApiObjectListener
+            arguments: ['%ilios_api_valid_endpoints%']
+            tags:
+                - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

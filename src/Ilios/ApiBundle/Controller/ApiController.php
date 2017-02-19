@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\Common\Util\Inflector;
 use Symfony\Component\Serializer\Serializer;
 
-class ApiController extends Controller
+class ApiController extends Controller implements ApiControllerInterface
 {
     public function getAction($version, $object, $id)
     {
