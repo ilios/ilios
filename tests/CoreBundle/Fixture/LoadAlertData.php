@@ -34,6 +34,9 @@ class LoadAlertData extends AbstractFixture implements
             $entity->setTableName($arr['tableName']);
             $entity->setTableRowId($arr['tableRowId']);
             $entity->setDispatched($arr['dispatched']);
+            if (array_key_exists('additionalText', $arr)) {
+                $entity->setAdditionalText($arr['additionalText']);
+            }
             foreach ($arr['changeTypes'] as $id) {
                 $entity->addChangeType($this->getReference('alertChangeTypes' . $id));
             }
