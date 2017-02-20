@@ -77,7 +77,7 @@ class Cohort implements CohortInterface
      * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", unique=true, onDelete="cascade")
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $programYear;
 

@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 
 /**
@@ -20,6 +21,10 @@ class CohortTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadCohortData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearData',
+            'Tests\CoreBundle\Fixture\LoadCourseData',
+            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
+            'Tests\CoreBundle\Fixture\LoadUserData'
         ];
     }
 
@@ -29,10 +34,9 @@ class CohortTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
-            'programYear' => ['programYear', $this->getFaker()->text],
+            'title' => ['title', $this->getFaker()->text(60)],
             'courses' => ['courses', [1]],
-            'learnerGroups' => ['learnerGroups', [1]],
+//            'learnerGroups' => ['learnerGroups', [1]],
             'users' => ['users', [1]],
         ];
     }
@@ -54,12 +58,63 @@ class CohortTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'title' => [[0], ['title' => 'test']],
-            'programYear' => [[0], ['programYear' => 'test']],
-            'courses' => [[0], ['courses' => [1]]],
-            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
-            'users' => [[0], ['users' => [1]]],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'title' => [[1], ['title' => 'Class of 2018']],
+            'programYear' => [[1], ['programYear' => 2]],
+            'courses' => [[2], ['courses' => [4]]],
+            'learnerGroups' => [[1], ['learnerGroups' => [2]]],
+            'users' => [[0], ['users' => [2]]],
+            'schools' => [[3], ['schools' => [2]]],
+            'startYears' => [[1, 3], ['startYears' => ['2014', '2016']]],
         ];
+    }
+
+    public function testPost()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'cohorts']),
+            json_encode(['cohorts' => [$data]]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Response::HTTP_GONE, $response->getStatusCode(), $response->getContent());
+    }
+
+    public function testCreateWithPut()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl('ilios_api_put', [
+                'version' => 'v1',
+                'object' => 'cohorts',
+                'id' => $data['id']
+            ]),
+            json_encode(['cohort' => $data]),
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Response::HTTP_GONE, $response->getStatusCode(), $response->getContent());
+    }
+
+    /**
+     * This test is disabled since cohorts can't be posted
+     */
+    public function testPostBad()
+    {
+        $this->assertTrue(true);
+    }
+
+    /**
+     * This test is disabled since cohorts can't be posted
+     */
+    public function testPostMany()
+    {
+        $this->assertTrue(true);
     }
 
 }
