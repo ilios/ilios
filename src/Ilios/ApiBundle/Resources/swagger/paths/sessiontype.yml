@@ -135,6 +135,12 @@
     summary: Delete Sessiontype
     description: |
           Delete Ilios Sessiontype
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Sessiontypes
     responses:

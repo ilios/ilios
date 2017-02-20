@@ -135,6 +135,12 @@
     summary: Delete Report
     description: |
           Delete Ilios Report
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Reports
     responses:

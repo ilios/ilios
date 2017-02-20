@@ -135,6 +135,12 @@
     summary: Delete Currentsession
     description: |
           Delete Ilios Currentsession
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Currentsessions
     responses:

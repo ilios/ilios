@@ -135,6 +135,12 @@
     summary: Delete Curriculuminventoryexport
     description: |
           Delete Ilios Curriculuminventoryexport
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Curriculuminventoryexports
     responses:

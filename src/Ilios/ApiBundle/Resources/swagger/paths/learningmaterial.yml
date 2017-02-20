@@ -135,6 +135,12 @@
     summary: Delete Learningmaterial
     description: |
           Delete Ilios Learningmaterial
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Learningmaterials
     responses:

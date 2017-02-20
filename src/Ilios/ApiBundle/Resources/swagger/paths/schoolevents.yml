@@ -135,6 +135,12 @@
     summary: Delete Schoolevent
     description: |
           Delete Ilios Schoolevent
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Schoolevents
     responses:

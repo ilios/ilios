@@ -135,6 +135,12 @@
     summary: Delete Pendinguserupdate
     description: |
           Delete Ilios Pendinguserupdate
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Pendinguserupdates
     responses:

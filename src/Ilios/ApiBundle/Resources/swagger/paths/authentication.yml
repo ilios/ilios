@@ -135,6 +135,12 @@
     summary: Delete Authentication
     description: |
           Delete Ilios Authentication
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Authentications
     responses:

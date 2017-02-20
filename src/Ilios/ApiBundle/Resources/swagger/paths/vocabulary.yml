@@ -135,6 +135,12 @@
     summary: Delete Vocabulary
     description: |
           Delete Ilios Vocabulary
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Vocabularies
     responses:

@@ -135,6 +135,12 @@
     summary: Delete Programyear
     description: |
           Delete Ilios Programyear
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Programyears
     responses:

@@ -135,6 +135,12 @@
     summary: Delete School
     description: |
           Delete Ilios School
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Schools
     responses:

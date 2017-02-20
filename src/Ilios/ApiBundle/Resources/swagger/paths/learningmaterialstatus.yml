@@ -135,6 +135,12 @@
     summary: Delete Learningmaterialstatus
     description: |
           Delete Ilios Learningmaterialstatus
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Learningmaterialstatuses
     responses:

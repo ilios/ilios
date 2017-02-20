@@ -135,6 +135,12 @@
     summary: Delete Course
     description: |
           Delete Ilios Course
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Courses
     responses:

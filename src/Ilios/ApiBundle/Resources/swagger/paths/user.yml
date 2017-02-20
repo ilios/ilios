@@ -135,6 +135,12 @@
     summary: Delete User
     description: |
           Delete Ilios User
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Users
     responses:

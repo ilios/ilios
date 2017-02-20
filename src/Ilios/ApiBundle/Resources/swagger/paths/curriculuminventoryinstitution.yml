@@ -135,6 +135,12 @@
     summary: Delete Curriculuminventoryinstitution
     description: |
           Delete Ilios Curriculuminventoryinstitution
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Curriculuminventoryinstitutions
     responses:

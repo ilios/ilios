@@ -135,6 +135,12 @@
     summary: Delete Download
     description: |
           Delete Ilios Download
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Downloads
     responses:

@@ -135,6 +135,12 @@
     summary: Delete Term
     description: |
           Delete Ilios Term
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Terms
     responses:

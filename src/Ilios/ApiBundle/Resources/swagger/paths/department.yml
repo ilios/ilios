@@ -135,6 +135,12 @@
     summary: Delete Department
     description: |
           Delete Ilios Department
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Departments
     responses:

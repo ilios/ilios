@@ -135,6 +135,12 @@
     summary: Delete Meshtree
     description: |
           Delete Ilios Meshtree
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Meshtrees
     responses:

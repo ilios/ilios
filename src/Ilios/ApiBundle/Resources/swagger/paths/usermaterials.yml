@@ -135,6 +135,12 @@
     summary: Delete Usermaterial
     description: |
           Delete Ilios Usermaterial
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Usermaterials
     responses:

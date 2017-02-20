@@ -135,6 +135,12 @@
     summary: Delete Aamcpcr
     description: |
           Delete Ilios Aamcpcr
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Aamcpcrs
     responses:

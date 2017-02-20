@@ -135,6 +135,12 @@
     summary: Delete Schoolconfig
     description: |
           Delete Ilios Schoolconfig
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
     tags:
       - Schoolconfigs
     responses:
