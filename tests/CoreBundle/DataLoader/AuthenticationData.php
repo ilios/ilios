@@ -39,4 +39,9 @@ class AuthenticationData extends AbstractDataLoader
     {
         return [];
     }
+
+    public function createMany($count)
+    {
+        throw new \Exception("Cannot auto create many Authentications.  Users have to be created first");
+    }
 }

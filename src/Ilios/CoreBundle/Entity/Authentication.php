@@ -29,8 +29,7 @@ class Authentication implements AuthenticationInterface
      *
      * @Assert\NotBlank()
      *
-     * @IS\Type("string")
-     * @IS\ReadOnly
+     * @IS\Type("entity")
      * @IS\Expose
     */
     protected $user;
@@ -51,29 +50,29 @@ class Authentication implements AuthenticationInterface
     private $username;
 
     /**
-    * @ORM\Column(name="password_sha256", type="string", length=64, nullable=true)
-    * @var string
-    *
-    * @Assert\Type(type="string")
-    * @Assert\Length(
-    *      min = 1,
-    *      max = 64
-    * )
-    *
-    */
+     * @ORM\Column(name="password_sha256", type="string", length=64, nullable=true)
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 64
+     * )
+     *
+     */
     private $passwordSha256;
 
     /**
-    * @ORM\Column(name="password_bcrypt", type="string", nullable=true)
-    * @var string
-    *
-    * @Assert\Type(type="string")
-    * @Assert\Length(
-    *      min = 1,
-    *      max = 64
-    * )
-    *
-    */
+     * @ORM\Column(name="password_bcrypt", type="string", nullable=true)
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 64
+     * )
+     *
+     */
     private $passwordBcrypt;
 
     /**
