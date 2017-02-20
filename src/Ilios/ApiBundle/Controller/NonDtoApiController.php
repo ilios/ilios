@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\CoreBundle\Entity\Manager\BaseManager;
+use Ilios\CoreBundle\Entity\Manager\DTOManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -38,6 +39,7 @@ class NonDtoApiController extends ApiController
     /**
      * @param string $object
      * @return BaseManager
+     * @throws \Exception
      */
     protected function getManager($object)
     {
@@ -51,6 +53,14 @@ class NonDtoApiController extends ApiController
 
         /** @var BaseManager $manager */
         $manager = $this->container->get($name);
+
+        if ($manager instanceof DTOManagerInterface) {
+            $class = $manager->getClass();
+            throw new \Exception(
+                "{$class} is DTO enabled and should be removed " .
+                'from the "ilios_api_non_dto_controllers" parameter.'
+            );
+        }
 
         return $manager;
     }
