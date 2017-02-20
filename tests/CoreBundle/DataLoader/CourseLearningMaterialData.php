@@ -21,7 +21,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'required' => true,
+            'required' => false,
             'publicNotes' => true,
             'notes' => $this->faker->text,
             'course' => "1",
@@ -33,8 +33,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
         $arr[] = array(
             'id' => 3,
             'required' => true,
-            'publicNotes' => true,
-            'notes' => $this->faker->text,
+            'publicNotes' => false,
+            'notes' => 'third note',
             'course' => "4",
             'learningMaterial' => "1",
             'meshDescriptors' => ['abc1'],

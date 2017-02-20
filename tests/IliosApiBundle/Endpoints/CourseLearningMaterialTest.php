@@ -20,6 +20,7 @@ class CourseLearningMaterialTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
         ];
     }
 
@@ -32,9 +33,9 @@ class CourseLearningMaterialTest extends AbstractEndpointTest
             'notes' => ['notes', $this->getFaker()->text],
             'required' => ['required', false],
             'publicNotes' => ['publicNotes', false],
-            'course' => ['course', $this->getFaker()->text],
-            'learningMaterial' => ['learningMaterial', $this->getFaker()->text],
-            'meshDescriptors' => ['meshDescriptors', [1]],
+            'course' => ['course', 4],
+            'learningMaterial' => ['learningMaterial', 2],
+            'meshDescriptors' => ['meshDescriptors', ['abc3']],
             'position' => ['position', $this->getFaker()->randomDigit],
         ];
     }
@@ -56,13 +57,16 @@ class CourseLearningMaterialTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'notes' => [[0], ['notes' => 'test']],
-            'required' => [[0], ['required' => false]],
-            'publicNotes' => [[0], ['publicNotes' => false]],
-            'course' => [[0], ['course' => 'test']],
-            'learningMaterial' => [[0], ['learningMaterial' => 'test']],
-            'meshDescriptors' => [[0], ['meshDescriptors' => [1]]],
-            'position' => [[0], ['position' => 1]],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'notes' => [[2], ['notes' => 'third note']],
+            'notRequired' => [[1], ['required' => false]],
+            'required' => [[0, 2, 3], ['required' => true]],
+            'notPublicNotes' => [[2], ['publicNotes' => false]],
+            'publicNotes' => [[0, 1, 3], ['publicNotes' => true]],
+            'course' => [[2], ['course' => 4]],
+            'learningMaterial' => [[1], ['learningMaterial' => 2]],
+//            'meshDescriptors' => [[0, 2], ['meshDescriptors' => ['abc1']]],
+            'position' => [[1], ['position' => 1]],
         ];
     }
 

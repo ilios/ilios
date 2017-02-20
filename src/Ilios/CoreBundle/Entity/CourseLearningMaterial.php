@@ -96,7 +96,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $course;
 
@@ -110,7 +110,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $learningMaterial;
 
