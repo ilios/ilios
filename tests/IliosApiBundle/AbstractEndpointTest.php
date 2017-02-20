@@ -398,11 +398,10 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function postOne($pluralObjectName, $postData)
     {
-        $singularObjectName = Inflector::singularize($pluralObjectName);
         $this->createJsonRequest(
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $pluralObjectName]),
-            json_encode([$singularObjectName => $postData]),
+            json_encode([$pluralObjectName => $postData]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
@@ -428,11 +427,10 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function badPostTest($data)
     {
         $pluralObjectName = $this->getPluralName();
-        $singularObjectName = $this->getSingularName();
         $this->createJsonRequest(
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $pluralObjectName]),
-            json_encode([$singularObjectName => $data]),
+            json_encode([$pluralObjectName => $data]),
             $this->getAuthenticatedUserToken()
         );
 
