@@ -171,7 +171,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", unique=true, nullable=false)
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 
