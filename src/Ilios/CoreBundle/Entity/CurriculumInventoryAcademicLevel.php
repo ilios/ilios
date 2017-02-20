@@ -111,7 +111,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $report;
 

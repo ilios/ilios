@@ -20,6 +20,10 @@ class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadCurriculumInventoryAcademicLevelData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryReportData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventoryExportData',
+            'Tests\CoreBundle\Fixture\LoadCurriculumInventorySequenceBlockData',
+            'Tests\CoreBundle\Fixture\LoadProgramData',
         ];
     }
 
@@ -29,11 +33,10 @@ class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'name' => ['name', $this->getFaker()->text],
+            'name' => ['name', $this->getFaker()->text(50)],
             'description' => ['description', $this->getFaker()->text],
             'level' => ['level', $this->getFaker()->randomDigit],
-            'report' => ['report', $this->getFaker()->text],
-            'sequenceBlocks' => ['sequenceBlocks', [1]],
+//            'sequenceBlocks' => ['sequenceBlocks', [2]],
         ];
     }
 
@@ -54,11 +57,12 @@ class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'name' => [[0], ['name' => 'test']],
-            'description' => [[0], ['description' => 'test']],
-            'level' => [[0], ['level' => 1]],
-            'report' => [[0], ['report' => 'test']],
-            'sequenceBlocks' => [[0], ['sequenceBlocks' => [1]]],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'name' => [[1], ['name' => 'second name']],
+            'description' => [[0], ['description' => 'first description']],
+            'level' => [[1], ['level' => 2]],
+            'report' => [[0, 1], ['report' => '1']],
+//            'sequenceBlocks' => [[1], ['sequenceBlocks' => [2]]],
         ];
     }
 
