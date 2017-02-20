@@ -53,7 +53,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $report;
 
@@ -81,7 +81,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $createdBy;
 
@@ -92,6 +92,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *
      * @Assert\NotBlank()
      * @IS\Expose
+     * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
     protected $createdAt;

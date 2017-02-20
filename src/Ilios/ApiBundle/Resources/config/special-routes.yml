@@ -66,6 +66,22 @@ ilios_api_authentication_delete:
         object: 'authentications'
         userId: '\d+'
 
+ilios_api_curriculuminventoryexport_post:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:CurriculumInventoryExport:post }
+    methods:  [POST]
+    requirements:
+        version: 'v\d+'
+        object: 'curriculuminventoryexports'
+
+ilios_api_curriculuminventoryexport_404:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:CurriculumInventoryExport:fourOhFour, id: 0 }
+    methods:  [GET, PUT, DELETE]
+    requirements:
+        version: 'v\d+'
+        object: 'curriculuminventoryexports'
+
 ilios_api_cohort_put:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:Cohort:put }
