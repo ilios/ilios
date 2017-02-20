@@ -338,7 +338,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $relatedName = null == $relatedName?$related:$relatedName;
         $this->assertArrayHasKey($relatedName, $postData, 'Missing related key: ' . var_export($postData, true));
         foreach ($postData[$relatedName] as $id) {
-            $obj = $this->getOne($related, $id);
+            $obj = $this->getOne(strtolower($related), $id);
             $this->assertTrue(array_key_exists($relationship, $obj), var_export($obj, true));
             $this->assertTrue(in_array($newId, $obj[$relationship]));
         }

@@ -2,6 +2,6 @@ parameters:
   ilios_api_valid_endpoints: >-
     aamcmethods,aamcpcrs,aamcresourcetypes,alertchangetypes,alerts,applicationconfigs,assessmentoptions,authentications,
     cohorts,competencies,courses,courseclerkshiptypes,courselearningmaterials,curriculuminventoryacademiclevels,
-    ilmsessions,sessions,users
+    ilmsessions,programyears,sessions,users
   ilios_api_non_dto_controllers: >-
     (?i)(applicationconfigs|courseclerkshiptypes|courselearningmaterials|curriculuminventoryacademiclevels|ilmsessions|instructorgroups|objectives|offerings|sessiondescriptions|sessionlearningmaterials)

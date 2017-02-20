@@ -85,14 +85,14 @@ class CompetencyTest extends AbstractEndpointTest
             'courses' => [[0, 2], ['courses' => [1]]],
         ];
     }
-//
-//    public function testPostCompetencyProgramYear()
-//    {
-//        $dataLoader = $this->getDataLoader();
-//        $data = $dataLoader->create();
-//        $postData = $data;
-//        $this->relatedPostDataTest($data, $postData, 'competencies', 'programYears');
-//    }
+
+    public function testPostCompetencyProgramYear()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'competencies', 'programYears');
+    }
 
     public function testRemoveParent()
     {
