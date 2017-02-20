@@ -20,6 +20,7 @@ class CourseClerkshipTypeTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadCourseClerkshipTypeData',
+            'Tests\CoreBundle\Fixture\LoadCourseData'
         ];
     }
 
@@ -29,8 +30,8 @@ class CourseClerkshipTypeTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
-            'courses' => ['courses', [1]],
+            'title' => ['title', $this->getFaker()->text(20)],
+//            'courses' => ['courses', [1]],
         ];
     }
 
@@ -51,8 +52,9 @@ class CourseClerkshipTypeTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'title' => [[0], ['title' => 'test']],
-            'courses' => [[0], ['courses' => [1]]],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'title' => [[1], ['title' => 'second clerkship type']],
+//            'courses' => [[0], ['courses' => [1]]],
         ];
     }
 

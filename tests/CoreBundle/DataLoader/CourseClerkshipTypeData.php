@@ -16,7 +16,7 @@ class CourseClerkshipTypeData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text(10),
+            'title' => 'second clerkship type',
             'courses' => []
         );
 
