@@ -4,6 +4,7 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * User API endpoint Test.
@@ -12,6 +13,8 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class UserTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
+
     protected $testName =  'users';
 
     /**

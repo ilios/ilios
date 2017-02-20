@@ -4,6 +4,7 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * Course API endpoint Test.
@@ -12,6 +13,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class CourseTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
     protected $testName =  'courses';
 
     /**

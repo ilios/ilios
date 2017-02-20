@@ -3,14 +3,17 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * LearningMaterialStatus API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class LearningMaterialStatusTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
+
     protected $testName =  'learningmaterialstatuses';
 
     /**

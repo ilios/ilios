@@ -3,14 +3,17 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * InstructorGroup API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class InstructorGroupTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
+
     protected $testName =  'instructorgroups';
 
     /**
@@ -30,7 +33,7 @@ class InstructorGroupTest extends AbstractEndpointTest
     {
         return [
             'title' => ['title', $this->getFaker()->text],
-            'school' => ['school', $this->getFaker()->text],
+            'school' => ['school', 1],
             'learnerGroups' => ['learnerGroups', [1]],
             'ilmSessions' => ['ilmSessions', [1]],
             'users' => ['users', [1]],
@@ -56,7 +59,7 @@ class InstructorGroupTest extends AbstractEndpointTest
         return [
             'id' => [[0], ['id' => 1]],
             'title' => [[0], ['title' => 'test']],
-            'school' => [[0], ['school' => 'test']],
+            'school' => [[0], ['school' => 1]],
             'learnerGroups' => [[0], ['learnerGroups' => [1]]],
             'ilmSessions' => [[0], ['ilmSessions' => [1]]],
             'users' => [[0], ['users' => [1]]],

@@ -15,14 +15,18 @@ use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
 
 /**
- * Session controller Test.
- * @package Tests\IliosApiBundle\Endpoints
+ * Abstract Testing glue for endpoints
+ * @package Tests\IliosApiBundle
  */
 abstract class AbstractEndpointTest extends WebTestCase
 {
     use JsonControllerTest;
 
+    /**
+     * @var string|null the name of this endpoint (plural)
+     */
     protected $testName = null;
+
 
     /**
      * @var ContainerInterface
@@ -44,67 +48,6 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @var FakerGenerator
      */
     protected $faker;
-
-    /**
-     * @return array
-     */
-    protected function getFixtures()
-    {
-        return [];
-    }
-
-    /**
-     * @return array [[positions], [[filterKey, filterValue]]
-     * the key for each item is reflected in the failure message
-     * positions:  array of the positions the expected items from the DataLoader
-     * filter: array containing the filterKey and filterValue we are testing
-     */
-    public abstract function filtersToTest();
-
-    /**
-     * @return array [field, value]
-     * field / value pairs to modify
-     * field: readonly property name on the entity
-     * value: something to set it to
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
-     */
-    public abstract function putsToTest();
-
-    /**
-     * @return array [field, value, id]
-     *
-     * field / value / id sets that are readOnly
-     * field: readonly property name on the entity
-     * value: something to set it to
-     * id: the ID of the object we want to test.  The has to be provided seperatly
-     * because we can't extract it from the $data without invalidting this test
-     *
-     * the key for each item is reflected in the failure message
-     * each one will be separately tested in a PUT request
-     */
-    public abstract function readOnliesToTest();
-
-    /**
-     * @return DataLoaderInterface
-     */
-    protected function getDataLoader()
-    {
-        $name = $this->getSingularName();
-        $service = "ilioscore.dataloader.{$name}";
-
-        /** @var DataLoaderInterface $dataLoader */
-        $dataLoader = $this->container->get($service);
-        return $dataLoader;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getTimeStampFields()
-    {
-        return [];
-    }
 
 
     public function setUp()
@@ -130,129 +73,73 @@ abstract class AbstractEndpointTest extends WebTestCase
         unset($this->faker);
     }
 
-    public function testGetOne()
+    /**
+     * @return array
+     */
+    protected function getFixtures()
     {
-        $this->getOneTest();
+        return [];
     }
 
-    public function testGetAll()
+    protected function getPluralName()
     {
-        $this->getAllTest();
+        return $this->testName;
     }
 
-    public function testPost()
+    protected function getSingularName()
     {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $this->postTest($data, $postData);
-    }
-
-    public function testPostBad()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->createInvalid();
-        $this->badPostTest($data);
-    }
-
-    public function testPostMany()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->createMany(51);
-        $this->postManyTest($data);
+        $pluralized = $this->getPluralName();
+        return Inflector::singularize($pluralized);
     }
 
     /**
-     * @dataProvider putsToTest
+     * @return FakerGenerator
      */
-    public function testPut($key, $value)
+    protected function getFaker()
     {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        if (array_key_exists($key, $data) and $data[$key] == $value) {
-            $this->fail(
-                "This value is already set for {$key}. " .
-                "Modify " . get_class($this) . '::putsToTest'
-            );
+        if (!$this->faker) {
+            $this->faker = FakerFactory::create();
+            $this->faker->seed(17105);
         }
-        $data[$key] = $value;
 
-        $postData = $data;
-        $this->putTest($data, $postData, $data['id']);
-    }
-
-    public function testPutForAllData()
-    {
-        $putsToTest = $this->putsToTest();
-        $firstPut = array_shift($putsToTest);
-        $changeKey = $firstPut[0];
-        $changeValue = $firstPut[1];
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        foreach ($all as $data) {
-            $data[$changeKey] = $changeValue;
-
-            $this->putTest($data, $data, $data['id']);
-        }
+        return $this->faker;
     }
 
     /**
-     * @dataProvider readOnliesToTest
+     * An overridable way to do the field comparison
+     * So those endpoints which dont return all data
+     * like Users::alerts[] will be able to do thier comparison
+     *
+     * @param array $expected
+     * @param array $result
      */
-    public function testPutReadOnly($key = null, $id = null, $value = null)
+    protected function compareData(array $expected, array $result)
     {
-        if (
-            null != $key &&
-            null != $id &&
-            null != $value
-        ) {
-            $dataLoader = $this->getDataLoader();
-            $data = $dataLoader->getOne();
-            if (array_key_exists($key, $data) and $data[$key] == $value) {
-                $this->fail(
-                    "This value is already set for {$key}. " .
-                    "Modify " . get_class($this) . '::readOnliesToTest'
-                );
-            }
-            $postData = $data;
-            $postData[$key] = $value;
-
-            //nothing should change
-            $this->putTest($data, $postData, $id);
-        }
-    }
-
-    public function testDelete()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $this->deleteTest($data['id']);
-    }
-
-    public function testNotFound()
-    {
-        $this->notFoundTest(99);
+        $this->assertEquals(
+            $expected,
+            $result
+        );
     }
 
     /**
-     * @dataProvider filtersToTest
+     * @return DataLoaderInterface
      */
-    public function testFilters(array $dataKeys = [], array $filterParts = [])
+    protected function getDataLoader()
     {
-        if (empty($filterParts)) {
-            $this->markTestSkipped('Missing filters tests for this endpoint');
-            return;
-        }
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(function($i) use ($all) {
-            return $all[$i];
-        }, $dataKeys);
-        $filters = [];
-        foreach ($filterParts as $key => $value) {
-            $filters["filters[{$key}]"] = $value;
-        }
-        $this->filterTest($filters, $expectedData);
+        $name = $this->getSingularName();
+        $service = "ilioscore.dataloader.{$name}";
+
+        /** @var DataLoaderInterface $dataLoader */
+        $dataLoader = $this->container->get($service);
+        return $dataLoader;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getTimeStampFields()
+    {
+        return [];
     }
 
     /**
@@ -346,7 +233,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     }
 
-    protected function postTest($data, $postData)
+    protected function postTest(array $data, array $postData)
     {
         $pluralObjectName = $this->getPluralName();
         $responseData = $this->postOne($pluralObjectName, $postData);
@@ -366,7 +253,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $fetchedResponseData;
     }
 
-    protected function postManyTest($data)
+    protected function postManyTest(array $data)
     {
         $pluralObjectName = $this->getPluralName();
         $responseData = $this->postMany($pluralObjectName, $data);
@@ -396,7 +283,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $fetchedResponseData;
     }
 
-    protected function postOne($pluralObjectName, $postData)
+    protected function postOne($pluralObjectName, array $postData)
     {
         $this->createJsonRequest(
             'POST',
@@ -410,7 +297,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         return json_decode($response->getContent(), true)[$pluralObjectName][0];
     }
 
-    protected function postMany($pluralObjectName, $postData)
+    protected function postMany($pluralObjectName, array $postData)
     {
         $this->createJsonRequest(
             'POST',
@@ -424,7 +311,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         return json_decode($response->getContent(), true)[$pluralObjectName];
     }
 
-    protected function badPostTest($data)
+    protected function badPostTest(array $data)
     {
         $pluralObjectName = $this->getPluralName();
         $this->createJsonRequest(
@@ -443,7 +330,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         );
     }
 
-    public function relatedPostDataTest($data, $postData, $relationship, $related, $relatedName = null)
+    public function relatedPostDataTest(array $data, array $postData, $relationship, $related, $relatedName = null)
     {
         $responseData = $this->postTest($data, $postData);
 
@@ -457,7 +344,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
     }
 
-    protected function putTest($data, $postData, $id)
+    protected function putTest(array $data, array $postData, $id)
     {
         $pluralObjectName = $this->getPluralName();
         $responseData = $this->putOne($pluralObjectName, $id, $postData);
@@ -477,7 +364,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $fetchedResponseData;
     }
 
-    protected function putOne($pluralObjectName, $id, $data)
+    protected function putOne($pluralObjectName, $id, array $data)
     {
         $singularObjectName = Inflector::singularize($pluralObjectName);
         $this->createJsonRequest(
@@ -620,10 +507,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function relatedTimeStampUpdateTest(
         $id,
-        array $timeStampFields,
         $relatedPluralObjectName,
         $relatedData
-
     ){
         $pluralObjectName = $this->getPluralName();
         $initialState = $this->getOne($pluralObjectName, $id);
@@ -645,10 +530,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function relatedTimeStampPostTest(
         $id,
-        array $timeStampFields,
         $relatedPluralObjectName,
         $relatedPostData
-
     ){
         $pluralObjectName = $this->getPluralName();
         $initialState = $this->getOne($pluralObjectName, $id);
@@ -670,10 +553,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function relatedTimeStampDeleteTest(
         $id,
-        array $timeStampFields,
         $relatedPluralObjectName,
         $relatedId
-
     ){
         $pluralObjectName = $this->getPluralName();
         $initialState = $this->getOne($pluralObjectName, $id);
@@ -691,45 +572,5 @@ abstract class AbstractEndpointTest extends WebTestCase
                 ' Now: ' . $currentStamp->format('c')
             );
         }
-    }
-
-    protected function getPluralName()
-    {
-        return $this->testName;
-    }
-
-    protected function getSingularName()
-    {
-        $pluralized = $this->getPluralName();
-        return Inflector::singularize($pluralized);
-    }
-
-    /**
-     * @return FakerGenerator
-     */
-    protected function getFaker()
-    {
-        if (!$this->faker) {
-            $this->faker = FakerFactory::create();
-            $this->faker->seed(17105);
-        }
-
-        return $this->faker;
-    }
-
-    /**
-     * An overridable way to do the field comparison
-     * So those endpoints which dont return all data
-     * like Users::alerts[] will be able to do thier comparison
-     *
-     * @param array $expected
-     * @param array $result
-     */
-    protected function compareData(array $expected, array $result)
-    {
-        $this->assertEquals(
-            $expected,
-            $result
-        );
     }
 }

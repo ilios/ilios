@@ -3,6 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * CurriculumInventoryExport API endpoint Test.
@@ -11,6 +12,8 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class CurriculumInventoryExportTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
+
     protected $testName =  'curriculuminventoryexports';
 
     /**
@@ -29,9 +32,8 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'report' => ['report', $this->getFaker()->text],
-            'createdBy' => ['createdBy', $this->getFaker()->text],
-            'createdAt' => ['createdAt', $this->getFaker()->iso8601],
+            'report' => ['report', 1],
+            'createdBy' => ['createdBy', 1],
         ];
     }
 
@@ -42,6 +44,7 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
     {
         return [
             'id' => ['id', 1, 99],
+            'createdAt' => ['createdAt', 1, 99],
         ];
     }
 
@@ -52,8 +55,8 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'report' => [[0], ['report' => 'test']],
-            'createdBy' => [[0], ['createdBy' => 'test']],
+            'report' => [[0], ['report' => 1]],
+            'createdBy' => [[0], ['createdBy' => 1]],
             'createdAt' => [[0], ['createdAt' => 'test']],
         ];
     }

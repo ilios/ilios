@@ -4,6 +4,7 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Doctrine\Common\Inflector\Inflector;
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * AamcPcrs API endpoint Test.
@@ -12,6 +13,8 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class AamcPcrsTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
+
     protected $testName =  'aamcpcrs';
 
     public function setUp()

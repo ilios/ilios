@@ -3,6 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * MeshConcept API endpoint Test.
@@ -11,6 +12,8 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class MeshConceptTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
+
     protected $testName =  'meshconcepts';
 
     /**

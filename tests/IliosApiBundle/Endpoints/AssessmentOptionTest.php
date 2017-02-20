@@ -3,6 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * AssessmentOption API endpoint Test.
@@ -11,6 +12,8 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class AssessmentOptionTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
+
     protected $testName =  'assessmentoptions';
 
     /**

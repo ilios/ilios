@@ -4,6 +4,7 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * AlertChangeType API endpoint Test.
@@ -12,6 +13,8 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class AlertChangeTypeTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
+
     protected $testName =  'alertchangetypes';
 
     /**

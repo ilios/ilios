@@ -4,6 +4,7 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * Authentication API endpoint Test.
@@ -12,6 +13,8 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class AuthenticationTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
+
     protected $testName =  'authentications';
 
     /**

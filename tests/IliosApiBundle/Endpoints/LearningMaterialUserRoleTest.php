@@ -3,14 +3,17 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\IliosApiBundle\AbstractEndpointTest;
+use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * LearningMaterialUserRole API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class LearningMaterialUserRoleTest extends AbstractEndpointTest
 {
+    use EndpointTestsTrait;
+
     protected $testName =  'learningmaterialuserroles';
 
     /**
