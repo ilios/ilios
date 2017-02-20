@@ -92,6 +92,15 @@ ilios_nondto_api_get:
         object: "%ilios_api_non_dto_controllers%"
         id: '(?i)[a-z0-9\-]+'
 
+ilios_nondto_api_put:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:NonDtoApi:put }
+    methods:  [PUT]
+    requirements:
+        version: 'v\d+'
+        object: "%ilios_api_non_dto_controllers%"
+        id: '(?i)[a-z0-9\-]+'
+
 ilios_nondto_api_getall:
     path:     /{version}/{object}
     defaults: { _controller: IliosApiBundle:NonDtoApi:getAll }
@@ -99,3 +108,20 @@ ilios_nondto_api_getall:
     requirements:
         version: 'v\d+'
         object: "%ilios_api_non_dto_controllers%"
+
+ilios_nondto_api_post:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:NonDtoApi:post }
+    methods:  [POST]
+    requirements:
+        version: 'v\d+'
+        object: "%ilios_api_non_dto_controllers%"
+
+ilios_nondto_api_delete:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:NonDtoApi:delete }
+    methods:  [DELETE]
+    requirements:
+        version: 'v\d+'
+        object: "%ilios_api_non_dto_controllers%"
+        id: '(?i)[a-z0-9\-]+'
