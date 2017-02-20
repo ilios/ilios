@@ -221,20 +221,30 @@ class ApiController extends Controller implements ApiControllerInterface
 
     protected function validateAndAuthorizeEntities($entities, $permission)
     {
-        $validator = $this->container->get('validator');
         foreach ($entities as $entity) {
-            $errors = $validator->validate($entity);
+            $this->validateEntity($entity);
+            $this->authorizeEntity($entity, $permission);
+        }
 
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
+    }
 
-                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-            }
+    protected function validateEntity($entity)
+    {
+        $validator = $this->container->get('validator');
+        $errors = $validator->validate($entity);
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
 
-            $authChecker = $this->get('security.authorization_checker');
-            if (! $authChecker->isGranted($permission, $entity)) {
-                throw $this->createAccessDeniedException('Unauthorized access!');
-            }
+            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
+        }
+
+    }
+
+    protected function authorizeEntity($entity, $permission)
+    {
+        $authChecker = $this->get('security.authorization_checker');
+        if (! $authChecker->isGranted($permission, $entity)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
         }
     }
 

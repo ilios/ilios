@@ -179,7 +179,7 @@ trait EndpointTestsTrait
     abstract protected function getOneTest();
     abstract protected function filterTest(array $filters, array $expectedData);
     abstract protected function notFoundTest($badId);
-    abstract protected function putTest(array $data, array $postData, $id);
+    abstract protected function putTest(array $data, array $postData, $id, $new = false);
     abstract protected function deleteTest($id);
     abstract protected function postTest(array $data, array $postData);
     abstract protected function postManyTest(array $data);

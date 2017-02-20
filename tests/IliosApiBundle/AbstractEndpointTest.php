@@ -344,10 +344,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
     }
 
-    protected function putTest(array $data, array $postData, $id)
+    protected function putTest(array $data, array $postData, $id, $new = false)
     {
         $pluralObjectName = $this->getPluralName();
-        $responseData = $this->putOne($pluralObjectName, $id, $postData);
+        $responseData = $this->putOne($pluralObjectName, $id, $postData, $new);
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getOne($pluralObjectName, $responseData['id']);
 
@@ -364,7 +364,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $fetchedResponseData;
     }
 
-    protected function putOne($pluralObjectName, $id, array $data)
+    protected function putOne($pluralObjectName, $id, array $data, $new = false)
     {
         $singularObjectName = Inflector::singularize($pluralObjectName);
         $this->createJsonRequest(
@@ -374,7 +374,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_OK);
+        $expectedHeader = $new?Response::HTTP_CREATED:Response::HTTP_OK;
+        $this->assertJsonResponse($response, $expectedHeader);
 
         return json_decode($response->getContent(), true)[$singularObjectName];
     }

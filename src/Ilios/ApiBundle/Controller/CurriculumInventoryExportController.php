@@ -33,25 +33,16 @@ class CurriculumInventoryExportController extends NonDtoApiController
         /** @var UserInterface $currentUser */
         $currentUser = $this->get('security.token_storage')->getToken()->getUser();
         $exporter = $this->container->get('ilioscore.curriculum_inventory.exporter');
-        $authChecker = $this->get('security.authorization_checker');
-        $validator = $this->container->get('validator');
         /** @var CurriculumInventoryExportInterface $export */
         foreach ($entities as $export) {
             $export->setCreatedBy($currentUser);
-            if (! $authChecker->isGranted('create', $export)) {
-                throw $this->createAccessDeniedException('Unauthorized access!');
-            }
+            $this->authorizeEntity($export, 'create');
+
             // generate and set the report document
             $document = $exporter->getXmlReport($export->getReport());
             $export->setDocument($document->saveXML());
 
-            $errors = $validator->validate($export);
-
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
-
-                throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
-            }
+            $this->validateEntity($export);
             $manager->update($export, false);
         }
 

@@ -209,7 +209,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $academicLevel;
 
@@ -222,7 +222,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $course;
 
@@ -239,7 +239,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $parent;
 
@@ -263,7 +263,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $report;
 

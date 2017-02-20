@@ -82,6 +82,32 @@ ilios_api_curriculuminventoryexport_404:
         version: 'v\d+'
         object: 'curriculuminventoryexports'
 
+ilios_api_curriculuminventorysequenceblock_post:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:CurriculumInventorySequenceBlock:post }
+    methods:  [POST]
+    requirements:
+        version: 'v\d+'
+        object: 'curriculuminventorysequenceblocks'
+
+ilios_api_curriculuminventorysequenceblock_put:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:CurriculumInventorySequenceBlock:put }
+    methods:  [PUT]
+    requirements:
+        version: 'v\d+'
+        object: 'curriculuminventorysequenceblocks'
+        id: '\d+'
+
+ilios_api_curriculuminventorysequenceblock_delete:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:CurriculumInventorySequenceBlock:delete }
+    methods:  [DELETE]
+    requirements:
+        version: 'v\d+'
+        object: 'curriculuminventorysequenceblocks'
+        id: '\d+'
+
 ilios_api_cohort_put:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:Cohort:put }
