@@ -401,7 +401,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->createJsonRequest(
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $pluralObjectName]),
-            json_encode([$pluralObjectName => $postData]),
+            json_encode([$pluralObjectName => [$postData]]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
@@ -430,7 +430,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->createJsonRequest(
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $pluralObjectName]),
-            json_encode([$pluralObjectName => $data]),
+            json_encode([$pluralObjectName => [$data]]),
             $this->getAuthenticatedUserToken()
         );
 

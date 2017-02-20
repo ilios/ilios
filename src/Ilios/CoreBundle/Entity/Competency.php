@@ -76,7 +76,7 @@ class Competency implements CompetencyInterface
      * @Assert\NotNull()
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 
@@ -98,7 +98,7 @@ class Competency implements CompetencyInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $parent;
 
