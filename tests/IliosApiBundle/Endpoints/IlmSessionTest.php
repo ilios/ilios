@@ -23,6 +23,7 @@ class IlmSessionTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadIlmSessionData',
+            'Tests\CoreBundle\Fixture\LoadSessionData'
         ];
     }
 
@@ -32,11 +33,10 @@ class IlmSessionTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
+            'hours' => ['hours', $this->getFaker()->randomFloat(2)],
             'session' => ['session', 1],
-            'hours' => ['hours', $this->getFaker()->text],
-            'dueDate' => ['dueDate', $this->getFaker()->iso8601],
             'learnerGroups' => ['learnerGroups', [1]],
-            'instructorGroups' => ['instructorGroups', [1]],
+            'instructorGroups' => ['instructorGroups', [2, 3]],
             'instructors' => ['instructors', [1]],
             'learners' => ['learners', [1]],
         ];
@@ -59,14 +59,41 @@ class IlmSessionTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'session' => [[0], ['session' => 1]],
-            'hours' => [[0], ['hours' => 'test']],
-            'dueDate' => [[0], ['dueDate' => 'test']],
-            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
-            'instructorGroups' => [[0], ['instructorGroups' => [1]]],
-            'instructors' => [[0], ['instructors' => [1]]],
-            'learners' => [[0], ['learners' => [1]]],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'session' => [[1], ['session' => 6]],
+            'hours' => [[1], ['hours' => 21.2]],
+//            'learnerGroups' => [[0], ['learnerGroups' => [3]]],
+//            'instructorGroups' => [[1], ['instructorGroups' => [3]]],
+//            'instructors' => [[2], ['instructors' => [2]]],
+//            'learners' => [[0], ['learners' => [1]]],
         ];
+    }
+
+
+    /**
+     * We need to create additional sessions to
+     * go with each new IlmSessio
+     * @inheritdoc
+     */
+    public function testPostMany()
+    {
+        $count = 51;
+        $sessionDataLoader = $this->container->get('ilioscore.dataloader.session');
+        $sessions = $sessionDataLoader->createMany($count);
+        $savedSessions = $this->postMany('sessions', $sessions);
+
+        $dataLoader = $this->getDataLoader();
+        $data = [];
+
+        foreach ($savedSessions as $i => $session) {
+            $arr = $dataLoader->create();
+            $arr['id'] += $i;
+            $arr['session'] = $session['id'];
+
+            $data[] = $arr;
+        }
+
+        $this->postManyTest($data);
     }
 
 }

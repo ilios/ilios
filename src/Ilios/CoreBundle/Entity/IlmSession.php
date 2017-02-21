@@ -76,7 +76,7 @@ class IlmSession implements IlmSessionInterface
      * @ORM\Column(name="hours", type="decimal", precision=6, scale=2)
      *
      * @Assert\NotBlank()
-     * @Assert\Type(type="float")
+     * @Assert\Type(type="numeric")
      * @Assert\Length(
      *      min = 0,
      *      max = 10000
