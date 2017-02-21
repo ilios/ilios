@@ -95,7 +95,7 @@ class LearnerGroup implements LearnerGroupInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $cohort;
 
@@ -108,7 +108,7 @@ class LearnerGroup implements LearnerGroupInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $parent;
 

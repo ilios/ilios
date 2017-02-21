@@ -23,6 +23,13 @@ class LearnerGroupTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
+            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
+            'Tests\CoreBundle\Fixture\LoadCohortData',
+            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
+            'Tests\CoreBundle\Fixture\LoadOfferingData',
+            'Tests\CoreBundle\Fixture\LoadUserData',
+            'Tests\CoreBundle\Fixture\LoadVocabularyData',
+            'Tests\CoreBundle\Fixture\LoadTermData',
         ];
     }
 
@@ -32,16 +39,16 @@ class LearnerGroupTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
-            'location' => ['location', $this->getFaker()->text],
-            'cohort' => ['cohort', $this->getFaker()->text],
-            'parent' => ['parent', $this->getFaker()->text],
-            'children' => ['children', [1]],
-            'ilmSessions' => ['ilmSessions', [1]],
-            'offerings' => ['offerings', [1]],
-            'instructorGroups' => ['instructorGroups', [1]],
+            'title' => ['title', $this->getFaker()->text(60)],
+            'location' => ['location', $this->getFaker()->text(100)],
+            'cohort' => ['cohort', 3],
+            'parent' => ['parent', 2],
+//            'children' => ['children', [1]],
+            'ilmSessions' => ['ilmSessions', [2]],
+            'offerings' => ['offerings', [2]],
+            'instructorGroups' => ['instructorGroups', [1, 2]],
             'users' => ['users', [1]],
-            'instructors' => ['instructors', [1]],
+            'instructors' => ['instructors', [1, 2]],
         ];
     }
 
@@ -62,17 +69,36 @@ class LearnerGroupTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'title' => [[0], ['title' => 'test']],
-            'location' => [[0], ['location' => 'test']],
-            'cohort' => [[0], ['cohort' => 'test']],
-            'parent' => [[0], ['parent' => 'test']],
-            'children' => [[0], ['children' => [1]]],
-            'ilmSessions' => [[0], ['ilmSessions' => [1]]],
-            'offerings' => [[0], ['offerings' => [1]]],
-            'instructorGroups' => [[0], ['instructorGroups' => [1]]],
-            'users' => [[0], ['users' => [1]]],
-            'instructors' => [[0], ['instructors' => [1]]],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'title' => [[2], ['title' => 'third learner group']],
+            'location' => [[3], ['location' => 'fourth location']],
+            'cohort' => [[1], ['cohort' => 2]],
+            'parent' => [[3], ['parent' => 1]],
+            'noParent' => [[0, 1, 2, 4], ['parent' => 'null']],
+//            'children' => [[0], ['children' => [4]]],
+//            'ilmSessions' => [[0, 2], ['ilmSessions' => [1]]],
+//            'offerings' => [[1, 4], ['offerings' => [2]]],
+//            'instructorGroups' => [[0], ['instructorGroups' => [1]]],
+//            'users' => [[0, 4], ['users' => [5]]],
+//            'instructors' => [[0, 2], ['instructors' => [1]]],
+            'cohorts' => [[1], ['cohorts' => [2]]],
         ];
+    }
+
+    public function testPostLearnerGroupIlmSession()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'learnerGroups', 'ilmSessions');
+    }
+
+    public function testPostLearnerGroupOfferings()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'learnerGroups', 'offerings');
     }
 
 }
