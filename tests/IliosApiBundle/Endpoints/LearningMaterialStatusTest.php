@@ -23,6 +23,7 @@ class LearningMaterialStatusTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadLearningMaterialStatusData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialData'
         ];
     }
 
@@ -32,7 +33,7 @@ class LearningMaterialStatusTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
+            'title' => ['title', $this->getFaker()->text(60)],
         ];
     }
 
@@ -53,7 +54,8 @@ class LearningMaterialStatusTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'title' => [[0], ['title' => 'test']],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'title' => [[1], ['title' => 'Final']],
         ];
     }
 
