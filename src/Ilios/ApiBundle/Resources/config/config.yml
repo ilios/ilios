@@ -3,6 +3,6 @@ parameters:
     aamcmethods,aamcpcrs,aamcresourcetypes,alertchangetypes,alerts,applicationconfigs,assessmentoptions,authentications,
     cohorts,competencies,courses,courseclerkshiptypes,courselearningmaterials,curriculuminventoryacademiclevels,curriculuminventoryexports,
     curriculuminventoryinstitutions,curriculuminventorysequenceblocks,curriculuminventorysequences,curriculuminventoryreports,
-    departments,ilmsessions,ingestionexceptions,programyears,sessions,schools,users
+    departments,ilmsessions,ingestionexceptions,instructorgroups,learnergroups,programyears,sessions,schools,users
   ilios_api_non_dto_controllers: >-
     (?i)(applicationconfigs|courseclerkshiptypes|courselearningmaterials|curriculuminventoryacademiclevels|curriculuminventoryexports|curriculuminventoryinstitutions|curriculuminventorysequenceblocks|curriculuminventoryreports|curriculuminventorysequences|departments|ilmsessions|ingestionexceptions|instructorgroups|objectives|offerings|sessiondescriptions|sessionlearningmaterials)
