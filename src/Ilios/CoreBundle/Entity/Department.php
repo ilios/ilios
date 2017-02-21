@@ -71,7 +71,7 @@ class Department implements DepartmentInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 

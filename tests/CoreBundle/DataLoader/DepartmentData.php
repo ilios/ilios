@@ -17,10 +17,9 @@ class DepartmentData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text(50),
+            'title' => 'second department',
             'school' => '1',
             'stewards' => ['2'],
-            'stewards' => ['2']
         );
 
 
