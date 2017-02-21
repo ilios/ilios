@@ -54,7 +54,7 @@ trait EndpointTestsTrait
         $this->getAllTest();
     }
 
-    public function testPost()
+    public function testPostOne()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();

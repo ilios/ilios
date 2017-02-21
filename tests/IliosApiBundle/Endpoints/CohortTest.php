@@ -72,7 +72,7 @@ class CohortTest extends AbstractEndpointTest
         ];
     }
 
-    public function testPost()
+    public function testPostOne()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
