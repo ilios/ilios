@@ -129,7 +129,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @ORM\OneToOne(targetEntity="CurriculumInventoryExport", mappedBy="report")
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $export;
 
@@ -139,7 +139,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     * @ORM\OneToOne(targetEntity="CurriculumInventorySequence", mappedBy="report")
     *
     * @IS\Expose
-    * @IS\Type("string")
+    * @IS\Type("entity")
     */
     protected $sequence;
 
@@ -162,7 +162,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     * })
     *
     * @IS\Expose
-    * @IS\Type("string")
+    * @IS\Type("entity")
     */
     protected $program;
 

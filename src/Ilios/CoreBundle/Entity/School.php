@@ -200,9 +200,6 @@ class School implements SchoolInterface
     *
     * @IS\Expose
     * @IS\Type("string")
-    *
-    * @IS\Expose
-    * @IS\Type("string")
     */
     protected $curriculumInventoryInstitution;
 

@@ -17,7 +17,7 @@ class CurriculumInventorySequenceData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'report' => '2',
-            'description' => $this->faker->text(100),
+            'description' => 'second description',
         );
 
         return $arr;
