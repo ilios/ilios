@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -12,8 +13,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
  */
 class IngestionExceptionTest extends AbstractEndpointTest
 {
-    use EndpointTestsTrait;
-
     protected $testName =  'ingestionexceptions';
 
     /**
@@ -29,34 +28,91 @@ class IngestionExceptionTest extends AbstractEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
-    {
-        return [
-            'uid' => ['uid', $this->getFaker()->text],
-            'user' => ['user', $this->getFaker()->text],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function readOnliesToTest()
-    {
-        return [
-            'id' => ['id', 1, 99],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function filtersToTest()
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'uid' => [[0], ['uid' => 'test']],
-            'user' => [[0], ['user' => 'test']],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'uid' => [[1], ['uid' => 'second exception']],
+            'user' => [[1], ['user' => 2]],
         ];
+    }
+
+    public function testGetOne()
+    {
+        $this->getOneTest();
+    }
+
+    public function testGetAll()
+    {
+        $this->getAllTest();
+    }
+
+    /**
+     * @dataProvider filtersToTest
+     */
+    public function testFilters(array $dataKeys = [], array $filterParts = [])
+    {
+        if (empty($filterParts)) {
+            $this->markTestSkipped('Missing filters tests for this endpoint');
+            return;
+        }
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $expectedData = array_map(function($i) use ($all) {
+            return $all[$i];
+        }, $dataKeys);
+        $filters = [];
+        foreach ($filterParts as $key => $value) {
+            $filters["filters[{$key}]"] = $value;
+        }
+        $this->filterTest($filters, $expectedData);
+    }
+
+    public function testPostIs404()
+    {
+        $this->fourOhFourTest('POST');
+    }
+
+    public function testPutIs404()
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+        $id = $data['id'];
+
+        $this->fourOhFourTest('PUT', ['id' => $id]);
+    }
+
+    public function testDeleteIs404()
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+        $id = $data['id'];
+
+        $this->fourOhFourTest('DELETE', ['id' => $id]);
+    }
+
+    protected function fourOhFourTest($type, array $parameters = [])
+    {
+        $parameters = array_merge(
+            ['version' => 'v1', 'object' => 'ingestionexceptions'],
+            $parameters
+        );
+
+        $url = $this->getUrl(
+            'ilios_api_ingestionexception_404',
+            $parameters
+        );
+        $this->createJsonRequest(
+            $type,
+            $url,
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
 }

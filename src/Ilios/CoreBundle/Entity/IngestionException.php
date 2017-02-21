@@ -68,7 +68,7 @@ class IngestionException implements IngestionExceptionInterface
      * )})
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $user;
 

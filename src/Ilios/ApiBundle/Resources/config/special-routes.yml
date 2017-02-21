@@ -124,6 +124,32 @@ ilios_api_cohort_post:
     requirements:
         version: 'v\d+'
         object: 'cohorts'
+        
+ilios_api_ingestionexception_getall:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:IngestionException:getAll }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: 'ingestionExceptions'
+
+ilios_ingestionexception_api_get:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:IngestionException:get }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: "ingestionexceptions"
+        id: '\d+'
+
+ilios_api_ingestionexception_404:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:IngestionException:fourOhFour, id: 0 }
+    methods:  [POST, PUT, DELETE]
+    requirements:
+        version: 'v\d+'
+        object: 'ingestionexceptions'
+        id: '\d+'
 
 ilios_nondto_api_get:
     path:     /{version}/{object}/{id}
