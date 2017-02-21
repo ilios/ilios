@@ -15,7 +15,7 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text(10)
+            'title' => 'second lm user role'
         );
 
         return $arr;

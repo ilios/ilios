@@ -23,6 +23,7 @@ class LearningMaterialUserRoleTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadLearningMaterialUserRoleData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialData'
         ];
     }
 
@@ -32,7 +33,7 @@ class LearningMaterialUserRoleTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
+            'title' => ['title', $this->getFaker()->text(10)],
         ];
     }
 
@@ -53,7 +54,8 @@ class LearningMaterialUserRoleTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'title' => [[0], ['title' => 'test']],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'title' => [[1], ['title' => 'second lm user role']],
         ];
     }
 
