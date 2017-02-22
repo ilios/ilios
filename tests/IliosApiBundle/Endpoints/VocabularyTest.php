@@ -22,6 +22,7 @@ class VocabularyTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
             'Tests\CoreBundle\Fixture\LoadVocabularyData',
         ];
     }
@@ -32,9 +33,9 @@ class VocabularyTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
-            'school' => ['school', $this->getFaker()->text],
-            'terms' => ['terms', [1]],
+            'title' => ['title', $this->getFaker()->text(100)],
+            'school' => ['school', 2],
+//            'terms' => ['terms', [1]],
             'active' => ['active', false],
         ];
     }
@@ -56,10 +57,12 @@ class VocabularyTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'title' => [[0], ['title' => 'test']],
-            'school' => [[0], ['school' => 'test']],
-            'terms' => [[0], ['terms' => [1]]],
-            'active' => [[0], ['active' => false]],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'title' => [[1], ['title' => 'second vocabulary']],
+            'school' => [[1], ['school' => 2]],
+//            'terms' => [[1], ['terms' => [5]]],
+            'active' => [[0], ['active' => true]],
+            'notActive' => [[1], ['active' => false]],
         ];
     }
 }

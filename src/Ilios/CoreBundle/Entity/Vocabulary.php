@@ -78,7 +78,7 @@ class Vocabulary implements VocabularyInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 

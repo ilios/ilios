@@ -74,7 +74,7 @@ class UserRoleTest extends AbstractEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        
+
         //extract the ID before changing anything in case
         // the key we are changing is the ID
         $id = $data['id'];

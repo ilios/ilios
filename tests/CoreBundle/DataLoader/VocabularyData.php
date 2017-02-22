@@ -16,7 +16,7 @@ class VocabularyData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text(100),
+            'title' => 'second vocabulary',
             'active' => false,
             'school' => '2',
             'terms' => ['4', '5', '6']
