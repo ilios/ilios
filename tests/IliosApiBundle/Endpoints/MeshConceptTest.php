@@ -84,47 +84,6 @@ class MeshConceptTest extends AbstractEndpointTest
         return ['updatedAt', 'createdAt'];
     }
 
-    /**
-     * Because MeshConcept uses strings for the IDs
-     * they come back sorted as if they were numbers.
-     * We have to resort them using a natural sort
-     * algorithm to get testable results
-     * @inheritdoc
-     */
-    public function postManyTest(array $data)
-    {
-        $pluralObjectName = $this->getPluralName();
-        $responseData = $this->postMany($pluralObjectName, $data);
-        $ids = array_map(function (array $arr) {
-            return $arr['id'];
-        }, $responseData);
-        $filters = [
-            'filters[id]' => $ids,
-            'limit' => count($ids)
-        ];
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($pluralObjectName, $filters);
-
-        usort($fetchedResponseData, function ($a, $b) {
-            return strnatcasecmp($a['id'], $b['id']);
-        });
-
-        $now = new DateTime();
-        foreach ($data as $i => $datum) {
-            $response = $fetchedResponseData[$i];
-            foreach ($this->getTimeStampFields() as $field) {
-                $stamp = new DateTime($response[$field]);
-                unset($response[$field]);
-                $diff = $now->diff($stamp);
-                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
-            }
-
-            $this->compareData($datum, $response);
-        }
-
-        return $fetchedResponseData;
-    }
-
     public function testPostMeshConceptTerm()
     {
         $dataLoader = $this->getDataLoader();

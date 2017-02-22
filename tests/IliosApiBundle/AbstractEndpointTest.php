@@ -264,6 +264,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($pluralObjectName, $filters);
 
+        usort($fetchedResponseData, function ($a, $b) {
+            return strnatcasecmp($a['id'], $b['id']);
+        });
+
         $now = new DateTime();
         foreach ($data as $i => $datum) {
             $response = $fetchedResponseData[$i];
