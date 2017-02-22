@@ -49,6 +49,10 @@ class UserEntityVoter extends AbstractVoter
             return false;
         }
 
+        if ($user->isRoot()) {
+            return true;
+        }
+
         switch ($attribute) {
             // at least one of these must be true.
             // 1. the requested user is the current user
@@ -59,26 +63,34 @@ class UserEntityVoter extends AbstractVoter
                     || $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                 );
                 break;
-            // at least one of these must be true.
-            // 1. the current user has developer role
-            //    and has the same primary school affiliation as the given user
-            // 2. the current user has developer role
-            //    and has WRITE rights to one of the users affiliated schools.
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
-                return (
-                    $this->userHasRole($user, ['Developer'])
-                    && (
-                        $requestedUser->getAllSchools()->contains($user->getSchool())
-                        || $this->permissionManager->userHasReadPermissionToSchools(
-                            $user,
-                            $requestedUser->getAllSchools()
-                        )
-                    )
-                );
+                return $this->canCreateEditDeleteUser($user, $requestedUser);
                 break;
         }
+        return false;
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param UserInterface $requestedUser
+     * @return bool
+     */
+    protected function canCreateEditDeleteUser(UserInterface $user, UserInterface $requestedUser)
+    {
+        // only root users can edit/delete/create root users
+        if (! $user->isRoot() && $requestedUser->isRoot()) {
+            return false;
+        }
+
+        // current user must have developer role and share the same school affiliations than the requested user.
+        if ($this->userHasRole($user, ['Developer'])
+            && ($requestedUser->getAllSchools()->contains($user->getSchool())
+                || $this->permissionManager->userHasReadPermissionToSchools($user, $requestedUser->getAllSchools()))) {
+            return true;
+        }
+
         return false;
     }
 }
