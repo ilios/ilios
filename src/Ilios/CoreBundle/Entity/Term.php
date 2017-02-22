@@ -91,7 +91,7 @@ class Term implements TermInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $parent;
 
@@ -152,7 +152,7 @@ class Term implements TermInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $vocabulary;
 

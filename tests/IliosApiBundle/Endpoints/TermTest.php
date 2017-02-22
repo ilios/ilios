@@ -22,6 +22,19 @@ class TermTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
+            'Tests\CoreBundle\Fixture\LoadAamcResourceTypeData',
+            'Tests\CoreBundle\Fixture\LoadVocabularyData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
+            'Tests\CoreBundle\Fixture\LoadCourseData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearData',
+            'Tests\CoreBundle\Fixture\LoadSessionData',
+            'Tests\CoreBundle\Fixture\LoadOfferingData',
+            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
+            'Tests\CoreBundle\Fixture\LoadLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadMeshDescriptorData',
+            'Tests\CoreBundle\Fixture\LoadObjectiveData',
             'Tests\CoreBundle\Fixture\LoadTermData',
         ];
     }
@@ -32,15 +45,15 @@ class TermTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
+            'description' => ['description', $this->getFaker()->text(200)],
+            'title' => ['title', $this->getFaker()->text(100)],
             'courses' => ['courses', [1]],
-            'description' => ['description', $this->getFaker()->text],
-            'parent' => ['parent', $this->getFaker()->text],
-            'children' => ['children', [1]],
+            'parent' => ['parent', 2],
+//            'children' => ['children', [1]],
             'programYears' => ['programYears', [1]],
             'sessions' => ['sessions', [1]],
-            'title' => ['title', $this->getFaker()->text],
-            'vocabulary' => ['vocabulary', $this->getFaker()->text],
-            'aamcResourceTypes' => ['aamcResourceTypes', [1]],
+            'vocabulary' => ['vocabulary', 2],
+//            'aamcResourceTypes' => ['aamcResourceTypes', [1]],
             'active' => ['active', false],
         ];
     }
@@ -62,16 +75,26 @@ class TermTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'courses' => [[0], ['courses' => [1]]],
-            'description' => [[0], ['description' => 'test']],
-            'parent' => [[0], ['parent' => 'test']],
-            'children' => [[0], ['children' => [1]]],
-            'programYears' => [[0], ['programYears' => [1]]],
-            'sessions' => [[0], ['sessions' => [1]]],
-            'title' => [[0], ['title' => 'test']],
-            'vocabulary' => [[0], ['vocabulary' => 'test']],
-            'aamcResourceTypes' => [[0], ['aamcResourceTypes' => [1]]],
-            'active' => [[0], ['active' => false]],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'title' => [[1], ['title' => 'second term']],
+            'courses' => [[0, 1, 3, 4], ['courses' => [1]]],
+            'description' => [[2], ['description' => 'third description']],
+            'parent' => [[1, 2], ['parent' => 1]],
+//            'children' => [[0], ['children' => [3]]],
+            'programYears' => [[0, 3], ['programYears' => [2]]],
+            'sessions' => [[0, 1, 3, 4], ['sessions' => [1, 2]]],
+            'vocabulary' => [[3, 4, 5], ['vocabulary' => 2]],
+            'aamcResourceTypes' => [[1, 2], ['aamcResourceTypes' => ['RE002']]],
+            'active' => [[0, 1, 3, 4], ['active' => true]],
+            'notActive' => [[2, 5], ['active' => false]],
+            'sessionTypes' => [[0, 1, 2, 3, 4, 5], ['sessionTypes' => [1, 2]]],
+            'instructors' => [[0, 1, 3, 4], ['instructors' => [2]]],
+            'instructorGroups' => [[0, 1, 3, 4], ['instructorGroups' => [1, 2, 3]]],
+            'learningMaterials' => [[0, 1, 2, 4, 5], ['learningMaterials' => [1, 2, 3]]],
+            'competencies' => [[0, 1, 2, 3, 4, 5], ['competencies' => [1, 2]]],
+            'meshDescriptors' => [[0, 1, 2, 3, 4, 5], ['meshDescriptors' => ['abc1', 'abc2', 'abc3']]],
+            'programs' => [[0, 3], ['programs' => [1]]],
+            'schools' => [[0, 1, 2, 3, 4, 5], ['schools' => [1]]],
         ];
     }
 }
