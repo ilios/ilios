@@ -19,7 +19,7 @@ class SessionTypeData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text(50),
+            'title' => 'second session type',
             'assessmentOption' => '2',
             'school' => '1',
             'aamcMethods' => ['AM001'],

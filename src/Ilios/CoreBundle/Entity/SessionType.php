@@ -98,7 +98,7 @@ class SessionType implements SessionTypeInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $assessmentOption;
 
@@ -113,7 +113,7 @@ class SessionType implements SessionTypeInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 
