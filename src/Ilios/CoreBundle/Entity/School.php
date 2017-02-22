@@ -199,7 +199,7 @@ class School implements SchoolInterface
     * @ORM\OneToOne(targetEntity="CurriculumInventoryInstitution", mappedBy="school")
     *
     * @IS\Expose
-    * @IS\Type("string")
+    * @IS\Type("entity")
     */
     protected $curriculumInventoryInstitution;
 
