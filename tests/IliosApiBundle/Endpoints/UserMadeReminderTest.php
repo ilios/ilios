@@ -23,6 +23,7 @@ class UserMadeReminderTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadUserMadeReminderData',
+            'Tests\CoreBundle\Fixture\LoadUserData'
         ];
     }
 
@@ -32,10 +33,10 @@ class UserMadeReminderTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'note' => ['note', $this->getFaker()->text],
-            'dueDate' => ['dueDate', $this->getFaker()->iso8601],
+            'note' => ['note', $this->getFaker()->text(150)],
+//            'dueDate' => ['dueDate', $this->getFaker()->iso8601],
             'closed' => ['closed', false],
-            'user' => ['user', $this->getFaker()->text],
+//            'user' => ['user', 2],
         ];
     }
 
@@ -57,11 +58,16 @@ class UserMadeReminderTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'note' => [[0], ['note' => 'test']],
-            'createdAt' => [[0], ['createdAt' => 'test']],
-            'dueDate' => [[0], ['dueDate' => 'test']],
-            'closed' => [[0], ['closed' => false]],
-            'user' => [[0], ['user' => 'test']],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'note' => [[1], ['note' => 'second note']],
+            'open' => [[1], ['closed' => false]],
+            'closed' => [[0], ['closed' => true]],
+            'user' => [[0, 1], ['user' => 2]],
         ];
+    }
+
+    protected function getTimeStampFields()
+    {
+        return ['createdAt'];
     }
 }
