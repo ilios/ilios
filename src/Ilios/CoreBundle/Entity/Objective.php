@@ -76,7 +76,7 @@ class Objective implements ObjectiveInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $competency;
 
@@ -161,7 +161,7 @@ class Objective implements ObjectiveInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $ancestor;
 

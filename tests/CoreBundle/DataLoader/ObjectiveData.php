@@ -23,7 +23,7 @@ class ObjectiveData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text,
+            'title' => 'second objective',
             'courses' => ['1', '2', '4'],
             'programYears' => ['1'],
             'sessions' => ['1'],
