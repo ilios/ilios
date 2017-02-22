@@ -57,8 +57,8 @@ class SessionTest extends AbstractEndpointTest
             'terms' => ['terms', [1]],
             'objectives' => ['objectives', [1]],
 //            'meshDescriptors' => ['meshDescriptors', [1]],
-            'learningMaterials' => ['learningMaterials', [2]],
-            'offerings' => ['offerings', [1]],
+//            'learningMaterials' => ['learningMaterials', [2]],
+//            'offerings' => ['offerings', [1]],
             'administrators' => ['administrators', [2]],
         ];
     }
@@ -132,15 +132,23 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['instructors'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', $data);
+    }
+
+    public function testUpdatingIlmInstructorUpdatesSessionStamp()
+    {
+        $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
+        $data = $dataLoader->getOne();
+        $data['instructors'] = ["1", "2"];
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', $data);
     }
 
     public function testUpdatingIlmInstructorGroupsUpdatesSessionStamp()
     {
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
-        $data['instructors'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'ilmsessions', $data);
+        $data['instructorGroups'] = ["1", "2"];
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', $data);
     }
 
     public function testUpdatingIlmLearnerGroupsUpdatesSessionStamp()
@@ -148,7 +156,7 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['learnerGroups'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', $data);
     }
 
     public function testUpdatingIlmLearnersUpdatesSessionStamp()
@@ -156,7 +164,7 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['learners'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', $data);
     }
 
     public function testUpdatingLearningMaterialUpdatesSessionStamp()
@@ -164,14 +172,14 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.learningmaterial');
         $data = $dataLoader->getOne();
         $data['status'] = '1';
-        $this->relatedTimeStampUpdateTest(1, ['updatedAt'], 'learningmaterials', $data);
+        $this->relatedTimeStampUpdateTest(1, 'learningmaterials', $data);
     }
 
     public function testNewSessionLearningMaterialUpdatesSessionStamp()
     {
         $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
         $data = $dataLoader->create();
-        $this->relatedTimeStampPostTest(1, ['updatedAt'], 'sessionlearningmaterials', $data);
+        $this->relatedTimeStampPostTest(1, 'sessionlearningmaterials', $data);
     }
 
     public function testUpdatingSessionLearningMaterialUpdatesSessionStamp()
@@ -179,21 +187,21 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
         $data = $dataLoader->getOne();
         $data['required'] = !$data['required'];
-        $this->relatedTimeStampUpdateTest(1, ['updatedAt'], 'sessionlearningmaterials', $data);
+        $this->relatedTimeStampUpdateTest(1, 'sessionlearningmaterials', $data);
     }
 
     public function testDeletingSessionLearningMaterialUpdatesSessionStamp()
     {
         $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
         $data = $dataLoader->getOne();
-        $this->relatedTimeStampDeleteTest(1, ['updatedAt'], 'sessionlearningmaterials', $data['id']);
+        $this->relatedTimeStampDeleteTest(1, 'sessionlearningmaterials', $data['id']);
     }
 
     public function testDeletingSessionDescriptionUpdatesSessionStamp()
     {
         $dataLoader = $this->container->get('ilioscore.dataloader.sessiondescription');
         $data = $dataLoader->getOne();
-        $this->relatedTimeStampDeleteTest($data['session'], ['updatedAt'], 'sessiondescriptions', $data['id']);
+        $this->relatedTimeStampDeleteTest($data['session'], 'sessiondescriptions', $data['id']);
     }
 
     public function testUpdatingSessionDescriptionUpdatesSessionStamp()
@@ -201,6 +209,6 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.sessiondescription');
         $data = $dataLoader->getOne();
         $data['description'] = 'new description';
-        $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'sessiondescriptions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'sessiondescriptions', $data);
     }
 }

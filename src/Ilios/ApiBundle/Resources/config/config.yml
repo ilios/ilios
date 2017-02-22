@@ -3,9 +3,9 @@ parameters:
     aamcmethods,aamcpcrs,aamcresourcetypes,alertchangetypes,alerts,applicationconfigs,assessmentoptions,authentications,
     cohorts,competencies,courses,courseclerkshiptypes,courselearningmaterials,curriculuminventoryacademiclevels,curriculuminventoryexports,
     curriculuminventoryinstitutions,curriculuminventorysequenceblocks,curriculuminventorysequences,curriculuminventoryreports,
-    departments,ilmsessions,ingestionexceptions,instructorgroups,learnergroups,learningmaterialstatuses,learningmaterialuserroles,
+    departments,ilmsessions,ingestionexceptions,instructorgroups,learnergroups,learningmaterials,learningmaterialstatuses,learningmaterialuserroles,
     meshconcepts,meshdescriptors,meshterms,meshpreviousindexings,meshqualifiers,meshterms,meshtrees,
     objectives,offerings,pendinguserupdates,permissions,programs,programyears,programyearstewards,reports,
-    sessions,schoolconfigs,schools,users
+    sessionlearningmaterials,sessiondescriptions,sessions,schoolconfigs,schools,users
   ilios_api_non_dto_controllers: >-
     (?i)(applicationconfigs|courseclerkshiptypes|courselearningmaterials|curriculuminventoryacademiclevels|curriculuminventoryexports|curriculuminventoryinstitutions|curriculuminventorysequenceblocks|curriculuminventoryreports|curriculuminventorysequences|departments|ilmsessions|ingestionexceptions|instructorgroups|learningmaterialstatuses|learningmaterialuserroles|meshconcepts|meshterms|meshpreviousindexings|meshqualifiers|meshterms|meshtrees|objectives|offerings|pendinguserupdates|permissions|programyearstewards|reports|schoolconfigs|sessiondescriptions|sessionlearningmaterials)
