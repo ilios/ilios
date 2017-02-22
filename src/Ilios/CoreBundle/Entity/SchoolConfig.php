@@ -88,7 +88,7 @@ class SchoolConfig implements SchoolConfigInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 

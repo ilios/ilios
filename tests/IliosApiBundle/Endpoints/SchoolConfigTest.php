@@ -22,6 +22,7 @@ class SchoolConfigTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
+            'Tests\CoreBundle\Fixture\LoadSchoolData',
             'Tests\CoreBundle\Fixture\LoadSchoolConfigData',
         ];
     }
@@ -32,9 +33,9 @@ class SchoolConfigTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'name' => ['name', $this->getFaker()->text],
-            'value' => ['value', $this->getFaker()->text],
-            'school' => ['school', $this->getFaker()->text],
+            'value' => ['value', $this->getFaker()->text(100)],
+            'name' => ['name', $this->getFaker()->text(50)],
+            'school' => ['school', 2],
         ];
     }
 
@@ -55,9 +56,10 @@ class SchoolConfigTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'name' => [[0], ['name' => 'test']],
-            'value' => [[0], ['value' => 'test']],
-            'school' => [[0], ['school' => 'test']],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'name' => [[1], ['name' => 'second config']],
+            'value' => [[2], ['value' => 'third value']],
+            'school' => [[2], ['school' => 2]],
         ];
     }
 }
