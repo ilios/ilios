@@ -208,4 +208,148 @@ class LearningMaterialDecorator
             });
         $this->sessionLearningMaterials = $sessionLearningMaterialIds->toArray();
     }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUploadDate()
+    {
+        return $this->uploadDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalAuthor()
+    {
+        return $this->originalAuthor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserRole()
+    {
+        return $this->userRole;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOwningUser()
+    {
+        return $this->owningUser;
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getSessionLearningMaterials()
+    {
+        return $this->sessionLearningMaterials;
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getCourseLearningMaterials()
+    {
+        return $this->courseLearningMaterials;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCitation()
+    {
+        return $this->citation;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCopyrightPermission()
+    {
+        return $this->copyrightPermission;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCopyrightRationale()
+    {
+        return $this->copyrightRationale;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMimetype()
+    {
+        return $this->mimetype;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilesize()
+    {
+        return $this->filesize;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAbsoluteFileUri()
+    {
+        return $this->absoluteFileUri;
+    }
 }

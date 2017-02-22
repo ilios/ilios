@@ -307,7 +307,12 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\Column(name="web_link", type="string", length=256, nullable=true)
      *
-     * @Assert\Type(type="string", groups={"link"})
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 256,
+     *      groups={"link"}
+     * )
      *
      * @IS\Expose
      * @IS\Type("string")
@@ -657,4 +662,19 @@ class LearningMaterial implements LearningMaterialInterface
 
         return $sessions;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationGroups()
+    {
+        if ('' !== trim($this->getCitation())) {
+            return ['Default', 'citation'];
+        } elseif ('' !== trim($this->getLink())) {
+            return ['Default', 'link'];
+        }
+
+        return ['Default', 'file'];
+    }
+
 }

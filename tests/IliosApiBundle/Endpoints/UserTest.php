@@ -149,8 +149,6 @@ class UserTest extends AbstractEndpointTest
         ];
     }
 
-
-
     public function qsToTest()
     {
         return [

@@ -135,9 +135,10 @@ class ApiController extends Controller implements ApiControllerInterface
      * @param Request $request
      * @param $object string the name of the object we are extracting from the request
      * @param bool $singleItem forces items out of an array and into single items
-     * @return string
+     * @param bool $returnArray should we leave the data as an array (for further upstream processig)
+     * @return string | array
      */
-    protected function extractDataFromRequest(Request $request, $object, $singleItem = false)
+    protected function extractDataFromRequest(Request $request, $object, $singleItem = false, $returnArray = false)
     {
         $data = false;
         $singularName = $this->getSingularObjectName($object);
@@ -159,7 +160,7 @@ class ApiController extends Controller implements ApiControllerInterface
             $data = array_shift($data);
         }
 
-        return json_encode($data);
+        return $returnArray?$data:json_encode($data);
     }
 
     protected function getSingularObjectName($object)

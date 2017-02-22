@@ -14,6 +14,40 @@ ilios_api_getallacademicyears:
     requirements:
         version: 'v\d+'
         object: '(?i)academicyears'
+        
+ilios_api_learningmaterial_get:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:LearningMaterial:get }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: '(?i)learningmaterials'
+        id: '\d+'
+
+ilios_api_learningmaterials_getall:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:LearningMaterial:getAll }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: '(?i)learningmaterials'
+
+ilios_api_learningmaterials_post:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:LearningMaterial:post }
+    methods:  [POST]
+    requirements:
+        version: 'v\d+'
+        object: '(?i)learningmaterials'
+
+ilios_api_learningmaterial_put:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:LearningMaterial:put }
+    methods:  [PUT]
+    requirements:
+        version: 'v\d+'
+        object: '(?i)learningmaterials'
+        id: '\d+'
 
 ilios_api_academicyear_404:
     path:     /{version}/{object}/{id}

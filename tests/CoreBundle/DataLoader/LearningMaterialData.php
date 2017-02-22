@@ -17,8 +17,8 @@ class LearningMaterialData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => 'firstlm' . $this->faker->text(30),
-            'description' => 'desc1' . $this->faker->text,
-            'originalAuthor' => 'author1' . $this->faker->name,
+            'description' => 'desc1',
+            'originalAuthor' => 'author1',
             'userRole' => "1",
             'status' => LearningMaterialStatusInterface::FINALIZED,
             'owningUser' => "1",
@@ -26,7 +26,7 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightPermission' => true,
             'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => ['1', '3'],
-            'citation' => 'citation1' . $this->faker->text,
+            'citation' => 'citation1',
             'mimetype' => 'citation',
         );
 
@@ -39,10 +39,10 @@ class LearningMaterialData extends AbstractDataLoader
             'status' => LearningMaterialStatusInterface::IN_DRAFT,
             'owningUser' => "1",
             'copyrightRationale' => $this->faker->text,
-            'copyrightPermission' => true,
+            'copyrightPermission' => false,
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [2],
-            'link' => $this->faker->url,
+            'link' => 'http://example.com/example-file.txt',
             'mimetype' => 'link',
         );
 
@@ -54,7 +54,7 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::REVISED,
             'owningUser' => "1",
-            'copyrightRationale' => $this->faker->text,
+            'copyrightRationale' => 'i own it',
             'copyrightPermission' => true,
             'sessionLearningMaterials' => ['2'],
             'courseLearningMaterials' => ['4'],
@@ -72,6 +72,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function create()
     {
         return array(
+            'id' => 4,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -93,6 +94,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createCitation()
     {
         return array(
+            'id' => 4,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -112,6 +114,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createLink()
     {
         return array(
+            'id' => 4,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -131,6 +134,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createFile()
     {
         return array(
+            'id' => 4,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -149,7 +153,9 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createInvalid()
     {
-        return [];
+        return [
+            'id' => 4
+        ];
     }
 
     /**
@@ -157,7 +163,8 @@ class LearningMaterialData extends AbstractDataLoader
      */
     public function createInvalidCitation()
     {
-        return array(
+        return [
+            'id' => 4,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -167,7 +174,7 @@ class LearningMaterialData extends AbstractDataLoader
             'status' => "1",
             'owningUser' => "1",
             'citation' => $this->faker->text(600), // too long
-        );
+        ];
     }
 
     /**
@@ -176,6 +183,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createInvalidLink()
     {
         return array(
+            'id' => 4,
             'title' => $this->faker->text(30),
             'description' => $this->faker->text,
             'originalAuthor' => $this->faker->name,
@@ -184,7 +192,7 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
-            'link' => 'this-is-not-an-url',
+            'link' => $this->faker->text(600), // too long
         );
     }
 
