@@ -59,26 +59,31 @@ class UserEntityVoter extends AbstractVoter
                     || $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
                 );
                 break;
-            // at least one of these must be true.
-            // 1. the current user has developer role
-            //    and has the same primary school affiliation as the given user
-            // 2. the current user has developer role
-            //    and has WRITE rights to one of the users affiliated schools.
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
-                return (
-                    $this->userHasRole($user, ['Developer'])
-                    && (
-                        $requestedUser->getAllSchools()->contains($user->getSchool())
-                        || $this->permissionManager->userHasReadPermissionToSchools(
-                            $user,
-                            $requestedUser->getAllSchools()
-                        )
-                    )
-                );
+                return $this->canCreateEditDeleteUser($user, $requestedUser);
                 break;
         }
         return false;
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param UserInterface $requestedUser
+     * @return bool
+     */
+    protected function canCreateEditDeleteUser(UserInterface $user, UserInterface $requestedUser)
+    {
+        return (
+            $this->userHasRole($user, ['Developer'])
+            && (
+                $requestedUser->getAllSchools()->contains($user->getSchool())
+                || $this->permissionManager->userHasReadPermissionToSchools(
+                    $user,
+                    $requestedUser->getAllSchools()
+                )
+            )
+        );
     }
 }
