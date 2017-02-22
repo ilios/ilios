@@ -23,6 +23,7 @@ class MeshTermTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadMeshTermData',
+            'Tests\CoreBundle\Fixture\LoadMeshConceptData',
         ];
     }
 
@@ -32,14 +33,14 @@ class MeshTermTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'meshTermUid' => ['meshTermUid', $this->getFaker()->text],
+            'meshTermUid' => ['meshTermUid', $this->getFaker()->text(9)],
             'name' => ['name', $this->getFaker()->text],
-            'lexicalTag' => ['lexicalTag', $this->getFaker()->text],
-            'conceptPreferred' => ['conceptPreferred', $this->getFaker()->text],
-            'recordPreferred' => ['recordPreferred', $this->getFaker()->text],
-            'permuted' => ['permuted', $this->getFaker()->text],
-            'printable' => ['printable', $this->getFaker()->text],
-            'concepts' => ['concepts', [1]],
+            'lexicalTag' => ['lexicalTag', $this->getFaker()->text(12)],
+            'conceptPreferred' => ['conceptPreferred', false],
+            'recordPreferred' => ['recordPreferred', true],
+            'permuted' => ['permuted', false],
+            'printable' => ['printable', true],
+            'concepts' => ['concepts', [2]],
         ];
     }
 
@@ -62,16 +63,32 @@ class MeshTermTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'meshTermUid' => [[0], ['meshTermUid' => 'test']],
-            'name' => [[0], ['name' => 'test']],
-            'lexicalTag' => [[0], ['lexicalTag' => 'test']],
-            'conceptPreferred' => [[0], ['conceptPreferred' => 'test']],
-            'recordPreferred' => [[0], ['recordPreferred' => 'test']],
-            'permuted' => [[0], ['permuted' => 'test']],
-            'printable' => [[0], ['printable' => 'test']],
-            'createdAt' => [[0], ['createdAt' => 'test']],
-            'updatedAt' => [[0], ['updatedAt' => 'test']],
-            'concepts' => [[0], ['concepts' => [1]]],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'meshTermUid' => [[1], ['meshTermUid' => 'uid2']],
+            'name' => [[1], ['name' => 'second term']],
+            'lexicalTag' => [[0], ['lexicalTag' => 'first tag']],
+            'conceptPreferred' => [[0], ['conceptPreferred' => true]],
+            'conceptNotPreferred' => [[1], ['conceptPreferred' => false]],
+            'recordPreferred' => [[1], ['recordPreferred' => true]],
+            'recordNotPreferred' => [[0], ['recordPreferred' => false]],
+            'permuted' => [[0], ['permuted' => true]],
+            'notPermuted' => [[1], ['permuted' => false]],
+            'printable' => [[1], ['printable' => true]],
+            'notPrintable' => [[0], ['printable' => false]],
+//            'concepts' => [[0, 1], ['concepts' => [1]]],
         ];
+    }
+
+    public function getTimeStampFields()
+    {
+        return ['createdAt', 'updatedAt'];
+    }
+
+    public function testPostMeshTermConcept()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'terms', 'meshConcepts', 'concepts');
     }
 }
