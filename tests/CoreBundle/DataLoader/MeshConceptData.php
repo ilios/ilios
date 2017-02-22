@@ -66,7 +66,7 @@ class MeshConceptData extends AbstractDataLoader
     {
         $data = parent::createMany($count);
 
-        return array_map(function(array $arr){
+        return array_map(function (array $arr) {
             $arr['id'] = (string) $arr['id'];
 
             return $arr;

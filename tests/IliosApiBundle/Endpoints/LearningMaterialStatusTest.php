@@ -58,5 +58,4 @@ class LearningMaterialStatusTest extends AbstractEndpointTest
             'title' => [[1], ['title' => 'Final']],
         ];
     }
-
 }

@@ -85,5 +85,4 @@ class MeshPreviousIndexingTest extends AbstractEndpointTest
 
         $this->postManyTest($data);
     }
-
 }

@@ -119,5 +119,4 @@ class CohortTest extends AbstractEndpointTest
     {
         $this->assertTrue(true);
     }
-
 }

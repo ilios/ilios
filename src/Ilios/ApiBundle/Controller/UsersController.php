@@ -38,6 +38,5 @@ class UsersController extends ApiController
         }
 
         return parent::getAllAction($version, $object, $request);
-
     }
 }

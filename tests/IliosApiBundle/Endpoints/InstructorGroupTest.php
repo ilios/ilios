@@ -98,5 +98,4 @@ class InstructorGroupTest extends AbstractEndpointTest
         $postData = $data;
         $this->relatedPostDataTest($data, $postData, 'instructorGroups', 'ilmSessions');
     }
-
 }

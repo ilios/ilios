@@ -72,5 +72,4 @@ class AssessmentOptionTest extends AbstractEndpointTest
             $this->putTest($data, $data, $data['id']);
         }
     }
-
 }

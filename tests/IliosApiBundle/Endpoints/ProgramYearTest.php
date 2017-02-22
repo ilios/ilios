@@ -78,5 +78,4 @@ class ProgramYearTest extends AbstractEndpointTest
             'stewards' => [[0], ['stewards' => [1]]],
         ];
     }
-
 }

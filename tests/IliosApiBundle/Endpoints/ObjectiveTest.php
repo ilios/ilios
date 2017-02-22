@@ -74,5 +74,4 @@ class ObjectiveTest extends AbstractEndpointTest
             'descendants' => [[0], ['descendants' => [1]]],
         ];
     }
-
 }

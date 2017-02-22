@@ -73,5 +73,4 @@ class AlertChangeTypeTest extends AbstractEndpointTest
         $postData = $data;
         $this->relatedPostDataTest($data, $postData, 'changeTypes', 'alerts');
     }
-
 }

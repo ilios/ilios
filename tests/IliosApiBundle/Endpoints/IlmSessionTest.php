@@ -95,5 +95,4 @@ class IlmSessionTest extends AbstractEndpointTest
 
         $this->postManyTest($data);
     }
-
 }

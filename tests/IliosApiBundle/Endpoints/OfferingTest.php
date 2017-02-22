@@ -74,5 +74,4 @@ class OfferingTest extends AbstractEndpointTest
             'instructors' => [[0], ['instructors' => [1]]],
         ];
     }
-
 }

@@ -64,5 +64,4 @@ class PermissionTest extends AbstractEndpointTest
             'tableName' => [[0], ['tableName' => 'test']],
         ];
     }
-
 }

@@ -74,5 +74,4 @@ class MeshTermTest extends AbstractEndpointTest
             'concepts' => [[0], ['concepts' => [1]]],
         ];
     }
-
 }

@@ -74,5 +74,4 @@ class TermTest extends AbstractEndpointTest
             'active' => [[0], ['active' => false]],
         ];
     }
-
 }

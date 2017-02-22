@@ -74,5 +74,4 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
             'academicLevels' => [[0], ['academicLevels' => [1]]],
         ];
     }
-
 }

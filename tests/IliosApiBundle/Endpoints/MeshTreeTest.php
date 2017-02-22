@@ -58,5 +58,4 @@ class MeshTreeTest extends AbstractEndpointTest
             'descriptor' => [[0], ['descriptor' => 'test']],
         ];
     }
-
 }

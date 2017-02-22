@@ -68,5 +68,4 @@ class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
 //            'sequenceBlocks' => [[1], ['sequenceBlocks' => [2]]],
         ];
     }
-
 }

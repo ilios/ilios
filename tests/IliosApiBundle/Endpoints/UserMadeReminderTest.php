@@ -64,5 +64,4 @@ class UserMadeReminderTest extends AbstractEndpointTest
             'user' => [[0], ['user' => 'test']],
         ];
     }
-
 }

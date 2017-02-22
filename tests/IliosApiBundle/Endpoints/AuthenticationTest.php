@@ -315,5 +315,4 @@ class AuthenticationTest extends AbstractEndpointTest
         $this->assertJsonResponse($response, Response::HTTP_OK);
         return json_decode($response->getContent(), true)[$pluralObjectName][0];
     }
-
 }

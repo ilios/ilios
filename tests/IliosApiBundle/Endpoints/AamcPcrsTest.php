@@ -85,5 +85,4 @@ class AamcPcrsTest extends AbstractEndpointTest
         $postData = $data;
         $this->relatedPostDataTest($data, $postData, 'aamcPcrses', 'competencies');
     }
-
 }

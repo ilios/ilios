@@ -72,5 +72,4 @@ class ProgramTest extends AbstractEndpointTest
             'directors' => [[0], ['directors' => [1]]],
         ];
     }
-
 }

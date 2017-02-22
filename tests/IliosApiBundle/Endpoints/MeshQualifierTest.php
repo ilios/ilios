@@ -62,5 +62,4 @@ class MeshQualifierTest extends AbstractEndpointTest
             'descriptors' => [[0], ['descriptors' => [1]]],
         ];
     }
-
 }

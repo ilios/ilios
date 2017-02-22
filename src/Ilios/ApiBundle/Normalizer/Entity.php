@@ -45,7 +45,7 @@ class Entity extends ObjectNormalizer
         $arr = parent::normalize($object, $format, $context);
 
         //remove null values
-        return array_filter($arr, function($value) {
+        return array_filter($arr, function ($value) {
             return null !== $value;
         });
     }
@@ -84,7 +84,7 @@ class Entity extends ObjectNormalizer
         if ($type === 'entityCollection') {
             $collection = $this->propertyAccessor->getValue($object, $property);
 
-            $ids = $collection->map(function ($entity){
+            $ids = $collection->map(function ($entity) {
                 return $entity?(string) $entity:null;
             })->toArray();
 
@@ -173,7 +173,6 @@ class Entity extends ObjectNormalizer
                     $value = [];
                 }
             }
-
         }
 
         if (null !== $value and $type === 'dateTime') {

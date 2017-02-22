@@ -172,7 +172,6 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->compareData($data, $returnedData);
 
         return $returnedData;
-
     }
 
     protected function getOne($pluralObjectName, $id)
@@ -226,11 +225,9 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
             $this->compareData($data[$i], $response);
-
         }
 
         return $responses;
-
     }
 
     protected function postTest(array $data, array $postData)
@@ -446,7 +443,8 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->assertEquals(
             count($expectedData),
             count($responseData),
-            'Wrong Number of responses returned from filter got: ' . var_export($responseData, true));
+            'Wrong Number of responses returned from filter got: ' . var_export($responseData, true)
+        );
         foreach ($expectedData as $i => $data) {
             $this->compareData($data, $responseData[$i]);
         }
@@ -510,7 +508,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $id,
         $relatedPluralObjectName,
         $relatedData
-    ){
+    ) {
         $pluralObjectName = $this->getPluralName();
         $initialState = $this->getOne($pluralObjectName, $id);
         sleep(1);
@@ -533,7 +531,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $id,
         $relatedPluralObjectName,
         $relatedPostData
-    ){
+    ) {
         $pluralObjectName = $this->getPluralName();
         $initialState = $this->getOne($pluralObjectName, $id);
         sleep(1);
@@ -556,7 +554,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $id,
         $relatedPluralObjectName,
         $relatedId
-    ){
+    ) {
         $pluralObjectName = $this->getPluralName();
         $initialState = $this->getOne($pluralObjectName, $id);
         sleep(1);

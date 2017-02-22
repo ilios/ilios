@@ -102,5 +102,4 @@ class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
 
         $this->postManyTest($data);
     }
-
 }

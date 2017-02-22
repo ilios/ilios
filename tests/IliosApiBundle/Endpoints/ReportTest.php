@@ -68,5 +68,4 @@ class ReportTest extends AbstractEndpointTest
             'user' => [[0], ['user' => 'test']],
         ];
     }
-
 }

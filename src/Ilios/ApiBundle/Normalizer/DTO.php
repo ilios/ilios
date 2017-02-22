@@ -31,7 +31,7 @@ class DTO extends ObjectNormalizer
         $arr = parent::normalize($object, $format, $context);
 
         //remove null values
-        return array_filter($arr, function($value) {
+        return array_filter($arr, function ($value) {
             return null !== $value;
         });
     }

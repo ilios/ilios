@@ -59,5 +59,4 @@ class ApplicationConfigTest extends AbstractEndpointTest
             'value' => [[2], ['value' => 'third value']],
         ];
     }
-
 }

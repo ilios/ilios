@@ -111,5 +111,4 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
-
 }

@@ -58,5 +58,4 @@ class SessionDescriptionTest extends AbstractEndpointTest
             'description' => [[0], ['description' => 'test']],
         ];
     }
-
 }

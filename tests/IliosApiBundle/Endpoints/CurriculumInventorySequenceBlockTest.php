@@ -78,7 +78,9 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
             'required' => [[0], ['required' => CurriculumInventorySequenceBlockInterface::REQUIRED]],
             'optional' => [[1, 2, 3, 4], ['required' => CurriculumInventorySequenceBlockInterface::OPTIONAL]],
             'childSequenceOrder' => [[0], ['childSequenceOrder' => CurriculumInventorySequenceBlockInterface::ORDERED]],
-            'childSequenceOpt' => [[1, 2, 3, 4], ['childSequenceOrder' => CurriculumInventorySequenceBlockInterface::OPTIONAL]],
+            'childSequenceOpt' => [[1, 2, 3, 4], [
+                'childSequenceOrder' => CurriculumInventorySequenceBlockInterface::OPTIONAL]
+            ],
             'orderInSequence' => [[1], ['orderInSequence' => 1]],
             'minimum' => [[0, 1, 2, 3, 4], ['minimum' => 1]],
             'maximum' => [[0, 1, 2, 3, 4], ['maximum' => 1]],
@@ -415,10 +417,10 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
         );
 
          $this->assertEquals(
-            count($childrenBeforeMove),
-            count($childrenAfterMove),
-            'Sequence contains the same number of blocks as before.'
-        );
+             count($childrenBeforeMove),
+             count($childrenAfterMove),
+             'Sequence contains the same number of blocks as before.'
+         );
 
         $childrenAfterMove = $this->sortOrderedSequence($childrenAfterMove);
 
@@ -650,5 +652,4 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
         });
         return $sortedSequence;
     }
-
 }

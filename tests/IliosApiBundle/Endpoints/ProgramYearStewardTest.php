@@ -60,5 +60,4 @@ class ProgramYearStewardTest extends AbstractEndpointTest
             'school' => [[0], ['school' => 'test']],
         ];
     }
-
 }

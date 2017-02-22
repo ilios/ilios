@@ -38,7 +38,6 @@ class CoursesController extends ApiController
         }
 
         return parent::getAllAction($version, $object, $request);
-
     }
 
     public function rolloverAction($version, $object, $id, Request $request)
@@ -86,7 +85,7 @@ class CoursesController extends ApiController
     {
         $parameters = parent::extractParameters($request);
         $dateTimes = ['startDate', 'endDate'];
-        foreach($dateTimes as $key) {
+        foreach ($dateTimes as $key) {
             if (array_key_exists($key, $parameters['criteria'])) {
                 $parameters['criteria'][$key] = new \DateTime($parameters['criteria'][$key]);
             }

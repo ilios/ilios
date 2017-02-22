@@ -32,13 +32,11 @@ class EntityMetadata
             $cache,
             $debug = $environment !== 'prod'
         );
-
     }
 
     public function isAnIliosEntity($classNameOrObject)
     {
-        if (
-            (is_string($classNameOrObject) && class_exists($classNameOrObject)) ||
+        if ((is_string($classNameOrObject) && class_exists($classNameOrObject)) ||
             is_object($classNameOrObject)
         ) {
             $annotation = $this->annotationReader->getClassAnnotation(
@@ -54,8 +52,7 @@ class EntityMetadata
 
     public function isAnIliosDto($classNameOrObject)
     {
-        if (
-            (is_string($classNameOrObject) && class_exists($classNameOrObject)) ||
+        if ((is_string($classNameOrObject) && class_exists($classNameOrObject)) ||
             is_object($classNameOrObject)
         ) {
             $annotation = $this->annotationReader->getClassAnnotation(
@@ -73,7 +70,7 @@ class EntityMetadata
     {
         $properties = $reflection->getProperties();
 
-        $exposed =  array_filter($properties, function( \ReflectionProperty $property) {
+        $exposed =  array_filter($properties, function (\ReflectionProperty $property) {
             $annotation = $this->annotationReader->getPropertyAnnotation(
                 $property,
                 'Ilios\ApiBundle\Annotation\Expose'
@@ -94,7 +91,7 @@ class EntityMetadata
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
-        return array_filter($exposedProperties, function( \ReflectionProperty $property) {
+        return array_filter($exposedProperties, function (\ReflectionProperty $property) {
             return !$this->isPropertyReadOnly($property);
         });
     }
@@ -103,7 +100,7 @@ class EntityMetadata
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
-        return array_filter($exposedProperties, function( \ReflectionProperty $property) {
+        return array_filter($exposedProperties, function (\ReflectionProperty $property) {
             return $this->isPropertyReadOnly($property);
         });
     }

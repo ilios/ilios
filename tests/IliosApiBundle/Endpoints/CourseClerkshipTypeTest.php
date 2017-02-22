@@ -60,5 +60,4 @@ class CourseClerkshipTypeTest extends AbstractEndpointTest
 //            'courses' => [[0], ['courses' => [1]]],
         ];
     }
-
 }

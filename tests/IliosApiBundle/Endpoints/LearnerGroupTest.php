@@ -100,5 +100,4 @@ class LearnerGroupTest extends AbstractEndpointTest
         $postData = $data;
         $this->relatedPostDataTest($data, $postData, 'learnerGroups', 'offerings');
     }
-
 }

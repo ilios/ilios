@@ -2,7 +2,6 @@
 
 namespace Ilios\ApiBundle\EventListener;
 
-
 use Ilios\ApiBundle\Controller\ApiControllerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;

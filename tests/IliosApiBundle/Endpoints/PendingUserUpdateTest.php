@@ -62,5 +62,4 @@ class PendingUserUpdateTest extends AbstractEndpointTest
             'user' => [[0], ['user' => 'test']],
         ];
     }
-
 }

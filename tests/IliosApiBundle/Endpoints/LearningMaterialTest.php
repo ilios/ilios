@@ -86,5 +86,4 @@ class LearningMaterialTest extends AbstractEndpointTest
             'link' => [[0], ['link' => 'test']],
         ];
     }
-
 }

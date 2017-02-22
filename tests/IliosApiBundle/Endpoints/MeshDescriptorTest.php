@@ -80,5 +80,4 @@ class MeshDescriptorTest extends AbstractEndpointTest
             'previousIndexing' => [[0], ['previousIndexing' => 'test']],
         ];
     }
-
 }

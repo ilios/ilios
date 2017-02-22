@@ -68,5 +68,4 @@ class AamcMethodTest extends AbstractEndpointTest
         $postData = $data;
         $this->putTest($data, $postData, $id);
     }
-
 }

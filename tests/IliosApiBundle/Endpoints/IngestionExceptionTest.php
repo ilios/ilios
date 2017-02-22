@@ -59,7 +59,7 @@ class IngestionExceptionTest extends AbstractEndpointTest
         }
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $expectedData = array_map(function($i) use ($all) {
+        $expectedData = array_map(function ($i) use ($all) {
             return $all[$i];
         }, $dataKeys);
         $filters = [];
@@ -114,5 +114,4 @@ class IngestionExceptionTest extends AbstractEndpointTest
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
-
 }

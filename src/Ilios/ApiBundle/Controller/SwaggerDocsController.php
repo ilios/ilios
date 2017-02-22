@@ -44,7 +44,7 @@ class SwaggerDocsController extends Controller
             $contents = Yaml::parse($file->getContents());
             if (!is_array($contents)) {
                 throw new \Exception(
-                  "{$file->getRealPath()} is not valid YAML"
+                    "{$file->getRealPath()} is not valid YAML"
                 );
             }
 
@@ -71,5 +71,4 @@ class SwaggerDocsController extends Controller
 
         return $arr;
     }
-
 }

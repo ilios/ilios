@@ -183,7 +183,7 @@ class UserTest extends AbstractEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $expectedData = array_map(function($i) use ($all) {
+        $expectedData = array_map(function ($i) use ($all) {
             return $all[$i];
         }, $dataKeys);
         $filters = ['q' => $q];
@@ -410,5 +410,4 @@ class UserTest extends AbstractEndpointTest
         $response = $this->postOne('users', $data);
         $this->assertEquals(64, strlen($response['icsFeedKey']), 'Not ICS feed key for user');
     }
-
 }

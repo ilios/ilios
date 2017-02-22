@@ -72,5 +72,4 @@ class CourseLearningMaterialTest extends AbstractEndpointTest
             'position' => [[1], ['position' => 1]],
         ];
     }
-
 }

@@ -58,5 +58,4 @@ class LearningMaterialUserRoleTest extends AbstractEndpointTest
             'title' => [[1], ['title' => 'second lm user role']],
         ];
     }
-
 }

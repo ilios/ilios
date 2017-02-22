@@ -56,5 +56,4 @@ class UserRoleTest extends AbstractEndpointTest
             'title' => [[0], ['title' => 'test']],
         ];
     }
-
 }

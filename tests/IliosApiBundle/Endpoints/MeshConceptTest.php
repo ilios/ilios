@@ -105,7 +105,7 @@ class MeshConceptTest extends AbstractEndpointTest
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($pluralObjectName, $filters);
 
-        usort($fetchedResponseData, function($a, $b){
+        usort($fetchedResponseData, function ($a, $b) {
             return strnatcasecmp($a['id'], $b['id']);
         });
 
@@ -132,5 +132,4 @@ class MeshConceptTest extends AbstractEndpointTest
         $postData = $data;
         $this->relatedPostDataTest($data, $postData, 'concepts', 'meshTerms', 'terms');
     }
-
 }

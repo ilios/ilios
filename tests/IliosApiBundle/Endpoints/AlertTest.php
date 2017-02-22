@@ -72,5 +72,4 @@ class AlertTest extends AbstractEndpointTest
             'recipients' => [[0, 2], ['recipients' => [2]]],
         ];
     }
-
 }

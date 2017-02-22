@@ -68,5 +68,4 @@ class SessionLearningMaterialTest extends AbstractEndpointTest
             'position' => [[0], ['position' => 1]],
         ];
     }
-
 }

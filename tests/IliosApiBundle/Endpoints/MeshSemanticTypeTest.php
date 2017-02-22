@@ -62,5 +62,4 @@ class MeshSemanticTypeTest extends AbstractEndpointTest
             'concepts' => [[0], ['concepts' => [1]]],
         ];
     }
-
 }

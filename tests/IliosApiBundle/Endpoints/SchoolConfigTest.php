@@ -60,5 +60,4 @@ class SchoolConfigTest extends AbstractEndpointTest
             'school' => [[0], ['school' => 'test']],
         ];
     }
-
 }

@@ -78,5 +78,4 @@ class AamcResourceTypeTest extends AbstractEndpointTest
         $postData = $data;
         $this->relatedPostDataTest($data, $postData, 'aamcResourceType', 'terms');
     }
-
 }

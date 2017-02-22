@@ -105,5 +105,4 @@ class CompetencyTest extends AbstractEndpointTest
         unset($postData['parent']);
         $this->putTest($data, $postData, $data['id']);
     }
-
 }

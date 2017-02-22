@@ -117,7 +117,7 @@ class ApiController extends Controller implements ApiControllerInterface
         $name = "ilioscore.{$singularName}.manager";
         if (!$this->container->has($name)) {
             throw new \Exception(
-                'The manager for \'%s\' does not exist.', $object
+                sprintf('The manager for \'%s\' does not exist.', $object)
             );
         }
 
@@ -225,7 +225,6 @@ class ApiController extends Controller implements ApiControllerInterface
             $this->validateEntity($entity);
             $this->authorizeEntity($entity, $permission);
         }
-
     }
 
     protected function validateEntity($entity)
@@ -237,7 +236,6 @@ class ApiController extends Controller implements ApiControllerInterface
 
             throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
         }
-
     }
 
     protected function authorizeEntity($entity, $permission)

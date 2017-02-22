@@ -62,5 +62,4 @@ class VocabularyTest extends AbstractEndpointTest
             'active' => [[0], ['active' => false]],
         ];
     }
-
 }

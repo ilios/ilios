@@ -203,5 +203,4 @@ class SessionTest extends AbstractEndpointTest
         $data['description'] = 'new description';
         $this->relatedTimeStampUpdateTest($data['session'], ['updatedAt'], 'sessiondescriptions', $data);
     }
-
 }

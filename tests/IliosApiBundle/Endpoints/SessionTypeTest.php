@@ -62,5 +62,4 @@ class SessionTypeTest extends AbstractEndpointTest
             'aamcMethods' => [[0], ['aamcMethods' => [1]]],
         ];
     }
-
 }

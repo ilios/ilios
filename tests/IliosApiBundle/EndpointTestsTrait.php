@@ -118,8 +118,7 @@ trait EndpointTestsTrait
      */
     public function testPutReadOnly($key = null, $id = null, $value = null)
     {
-        if (
-            null != $key &&
+        if (null != $key &&
             null != $id &&
             null != $value
         ) {
@@ -162,7 +161,7 @@ trait EndpointTestsTrait
         }
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $expectedData = array_map(function($i) use ($all) {
+        $expectedData = array_map(function ($i) use ($all) {
             return $all[$i];
         }, $dataKeys);
         $filters = [];
@@ -191,5 +190,4 @@ trait EndpointTestsTrait
 
     abstract public function fail($message = '');
     abstract protected function markTestSkipped($message = '');
-
 }
