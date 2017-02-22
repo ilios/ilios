@@ -49,6 +49,10 @@ class UserEntityVoter extends AbstractVoter
             return false;
         }
 
+        if ($user->isRoot()) {
+            return true;
+        }
+
         switch ($attribute) {
             // at least one of these must be true.
             // 1. the requested user is the current user
@@ -75,15 +79,18 @@ class UserEntityVoter extends AbstractVoter
      */
     protected function canCreateEditDeleteUser(UserInterface $user, UserInterface $requestedUser)
     {
-        return (
-            $this->userHasRole($user, ['Developer'])
-            && (
-                $requestedUser->getAllSchools()->contains($user->getSchool())
-                || $this->permissionManager->userHasReadPermissionToSchools(
-                    $user,
-                    $requestedUser->getAllSchools()
-                )
-            )
-        );
+        // only root users can edit/delete/create root users
+        if (! $user->isRoot() && $requestedUser->isRoot()) {
+            return false;
+        }
+
+        // current user must have developer role and share the same school affiliations than the requested user.
+        if ($this->userHasRole($user, ['Developer'])
+            && ($requestedUser->getAllSchools()->contains($user->getSchool())
+                || $this->permissionManager->userHasReadPermissionToSchools($user, $requestedUser->getAllSchools()))) {
+            return true;
+        }
+
+        return false;
     }
 }
