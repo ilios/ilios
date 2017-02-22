@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Controller;
+namespace Ilios\ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

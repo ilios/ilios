@@ -48,3 +48,11 @@ ilios_api_delete:
         version: 'v\d+'
         object: '(?i)[a-z]+'
         id: '(?i)[a-z0-9\-]+'
+
+api_bad_request:
+    path:     /{url}
+    defaults:
+        url: null
+        _controller: IliosApiBundle:BadRequest:index
+    requirements:
+        url: ".+"

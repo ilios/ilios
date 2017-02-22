@@ -382,10 +382,4 @@ ilios_core_apiinfo:
 #    prefix:   /v1
 #    defaults: {_format:json}
 
-api_bad_request:
-    path:     /{url}
-    defaults:
-        url: null
-        _controller: IliosCoreBundle:BadRequest:index
-    requirements:
-        url: ".+"
+
