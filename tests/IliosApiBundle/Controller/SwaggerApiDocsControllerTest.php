@@ -5,7 +5,7 @@ namespace Tests\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class SwaggerYamlDocsControllerTest extends WebTestCase
+class SwaggerApiDocsControllerTest extends WebTestCase
 {
     /**
      * Ensure that the page will load correctly
@@ -13,7 +13,7 @@ class SwaggerYamlDocsControllerTest extends WebTestCase
     public function testLoad()
     {
         $client = static::createClient();
-        $client->request('GET', '/api/doc/swagger.yml');
+        $crawler = $client->request('GET', '/api/doc/');
         $response = $client->getResponse();
 
         $this->assertEquals(
@@ -22,14 +22,6 @@ class SwaggerYamlDocsControllerTest extends WebTestCase
             substr($response->getContent(), 0, 400)
         );
 
-        $this->assertTrue(
-            $response->headers->contains(
-                'Content-Type',
-                'application/x-yaml'
-            ),
-            $response->headers
-        );
-        
-        $this->assertGreaterThan(1000, strlen($response->getContent()), 'API Endpoints loaded');
+        $this->assertGreaterThan(100, strlen($response->getContent()), 'API Endpoints loaded');
     }
 }
