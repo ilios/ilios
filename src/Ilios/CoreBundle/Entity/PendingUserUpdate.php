@@ -99,7 +99,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $user;
 

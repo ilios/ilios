@@ -32,10 +32,10 @@ class PendingUserUpdateTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'type' => ['type', $this->getFaker()->text],
-            'property' => ['property', $this->getFaker()->text],
-            'value' => ['value', $this->getFaker()->text],
-            'user' => ['user', $this->getFaker()->text],
+            'type' => ['type', $this->getFaker()->text(15)],
+            'property' => ['property', $this->getFaker()->text(5)],
+            'value' => ['value', $this->getFaker()->text(25)],
+            'user' => ['user', 2],
         ];
     }
 
@@ -56,10 +56,13 @@ class PendingUserUpdateTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'type' => [[0], ['type' => 'test']],
-            'property' => [[0], ['property' => 'test']],
-            'value' => [[0], ['value' => 'test']],
-            'user' => [[0], ['user' => 'test']],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'type' => [[1], ['type' => 'second type']],
+            'property' => [[0], ['property' => 'first property']],
+            'value' => [[1], ['value' => 'second value']],
+            'user' => [[1], ['user' => 4]],
+            'users' => [[0], ['users' => [1]]],
+            'schools' => [[1], ['schools' => [2]]],
         ];
     }
 }
