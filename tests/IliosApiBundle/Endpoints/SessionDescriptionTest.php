@@ -23,6 +23,7 @@ class SessionDescriptionTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadSessionDescriptionData',
+            'Tests\CoreBundle\Fixture\LoadSessionData'
         ];
     }
 
@@ -32,8 +33,8 @@ class SessionDescriptionTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'session' => ['session', 1],
             'description' => ['description', $this->getFaker()->text],
+            'session' => ['session', 3],
         ];
     }
 
@@ -54,8 +55,36 @@ class SessionDescriptionTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'session' => [[0], ['session' => 1]],
-            'description' => [[0], ['description' => 'test']],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'session' => [[1], ['session' => 2]],
+            'description' => [[1], ['description' => 'second description']],
         ];
+    }
+
+
+    /**
+     * We need to create additional sessions to
+     * go with each new SessionDescription
+     * @inheritdoc
+     */
+    public function testPostMany()
+    {
+        $count = 51;
+        $sessionDataLoader = $this->container->get('ilioscore.dataloader.session');
+        $sessions = $sessionDataLoader->createMany($count);
+        $savedSessions = $this->postMany('sessions', $sessions);
+
+        $dataLoader = $this->getDataLoader();
+        $data = [];
+
+        foreach ($savedSessions as $i => $session) {
+            $arr = $dataLoader->create();
+            $arr['id'] += $i;
+            $arr['session'] = $session['id'];
+
+            $data[] = $arr;
+        }
+
+        $this->postManyTest($data);
     }
 }
