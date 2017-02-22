@@ -39,8 +39,13 @@ class EntityMetadata
         if ((is_string($classNameOrObject) && class_exists($classNameOrObject)) ||
             is_object($classNameOrObject)
         ) {
+            $reflection = new \ReflectionClass($classNameOrObject);
+            if ($reflection->implementsInterface('Doctrine\Common\Persistence\Proxy')) {
+                $reflection = $reflection->getParentClass();
+            }
+            
             $annotation = $this->annotationReader->getClassAnnotation(
-                new \ReflectionClass($classNameOrObject),
+                $reflection,
                 'Ilios\ApiBundle\Annotation\Entity'
             );
 
