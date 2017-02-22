@@ -22,6 +22,13 @@ class DepartmentData extends AbstractDataLoader
             'stewards' => ['2'],
         );
 
+        $arr[] = array(
+            'id' => 3,
+            'title' => $this->faker->text(50),
+            'school' => '2',
+            'stewards' => [],
+        );
+
 
         return $arr;
     }
@@ -29,7 +36,7 @@ class DepartmentData extends AbstractDataLoader
     public function create()
     {
         return array(
-            'id' => 3,
+            'id' => 4,
             'title' => $this->faker->text(50),
             'school' => '1',
             'stewards' => []

@@ -37,7 +37,7 @@ class SchoolData extends AbstractDataLoader
             'competencies' => [],
             'courses' => ["3", "4", "5"],
             'programs' => ["3"],
-            'departments' => [],
+            'departments' => ['3'],
             'instructorGroups' => ['4'],
             'curriculumInventoryInstitution' => "2",
             'sessionTypes' => [],

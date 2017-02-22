@@ -59,7 +59,7 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $department;
 
@@ -75,7 +75,7 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      **/
     protected $programYear;
 
@@ -90,7 +90,7 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 

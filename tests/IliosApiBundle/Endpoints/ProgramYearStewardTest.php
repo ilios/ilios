@@ -23,6 +23,9 @@ class ProgramYearStewardTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
+            'Tests\CoreBundle\Fixture\LoadDepartmentData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearData',
+            'Tests\CoreBundle\Fixture\LoadSchoolData'
         ];
     }
 
@@ -32,9 +35,9 @@ class ProgramYearStewardTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'department' => ['department', $this->getFaker()->text],
-            'programYear' => ['programYear', $this->getFaker()->text],
-            'school' => ['school', $this->getFaker()->text],
+            'department' => ['department', 3],
+            'programYear' => ['programYear', 2],
+            'school' => ['school', 2],
         ];
     }
 
@@ -55,9 +58,35 @@ class ProgramYearStewardTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'department' => [[0], ['department' => 'test']],
-            'programYear' => [[0], ['programYear' => 'test']],
-            'school' => [[0], ['school' => 'test']],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'department' => [[1], ['department' => 2]],
+            'programYear' => [[0, 1], ['programYear' => 1]],
+            'school' => [[0, 1], ['school' => 1]],
         ];
+    }
+
+    /**
+     * Creating many runs into UNIQUE constraints quick
+     * so instead build a bunch of new departments to use
+     */
+    public function testPostMany()
+    {
+        $departmentDataLoader = $this->container->get('ilioscore.dataloader.department');
+        $departments = $departmentDataLoader->createMany(51);
+        $savedDepartments = $this->postMany('departments', $departments);
+
+        $dataLoader = $this->getDataLoader();
+
+        $data = [];
+        foreach ($savedDepartments as $i => $department) {
+            $arr = $dataLoader->create();
+            $arr['id'] += $i;
+            $arr['department'] = (string) $department['id'];
+
+            $data[] = $arr;
+        }
+
+
+        $this->postManyTest($data);
     }
 }
