@@ -72,7 +72,7 @@ class IlmSessionTest extends AbstractEndpointTest
 
     /**
      * We need to create additional sessions to
-     * go with each new IlmSessio
+     * go with each new IlmSession
      * @inheritdoc
      */
     public function testPostMany()

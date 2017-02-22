@@ -32,8 +32,8 @@ class MeshPreviousIndexingTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'descriptor' => ['descriptor', $this->getFaker()->text],
             'previousIndexing' => ['previousIndexing', $this->getFaker()->text],
+            'descriptor' => ['descriptor', 'abc3'],
         ];
     }
 
@@ -54,9 +54,36 @@ class MeshPreviousIndexingTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'descriptor' => [[0], ['descriptor' => 'test']],
-            'previousIndexing' => [[0], ['previousIndexing' => 'test']],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'descriptor' => [[1], ['descriptor' => 'abc2']],
+            'previousIndexing' => [[1], ['previousIndexing' => 'second previous indexing']],
         ];
+    }
+
+    /**
+     * We need to create additional descriptors to
+     * go with each new PreviousIndex
+     * @inheritdoc
+     */
+    public function testPostMany()
+    {
+        $count = 51;
+        $descriptorDataLoader = $this->container->get('ilioscore.dataloader.meshdescriptor');
+        $descriptors = $descriptorDataLoader->createMany($count);
+        $savedDescriptors = $this->postMany('meshdescriptors', $descriptors);
+
+        $dataLoader = $this->getDataLoader();
+        $data = [];
+
+        foreach ($savedDescriptors as $i => $descriptor) {
+            $arr = $dataLoader->create();
+            $arr['id'] += $i;
+            $arr['descriptor'] = $descriptor['id'];
+
+            $data[] = $arr;
+        }
+
+        $this->postManyTest($data);
     }
 
 }

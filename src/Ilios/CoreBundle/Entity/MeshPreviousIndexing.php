@@ -50,7 +50,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $descriptor;
 

@@ -56,7 +56,7 @@ class MeshDescriptorData extends AbstractDataLoader
     {
         return array(
             'id' => 'abc4',
-            'name' => $this->faker->text,
+            'name' => $this->faker->text(20),
             'annotation' => $this->faker->text,
             'courses' => ['1'],
             'objectives' => ['1'],
@@ -74,5 +74,21 @@ class MeshDescriptorData extends AbstractDataLoader
         return array(
             'id' => 'bad'
         );
+    }
+
+    /**
+     * Mesh descriptor IDs are strings so we have to convert them
+     * @inheritdoc
+     */
+    public function createMany($count)
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] . $i;
+            $data[] = $arr;
+        }
+
+        return $data;
     }
 }

@@ -53,7 +53,6 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\ReadOnly
      */
     protected $id;
 
@@ -194,7 +193,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\OneToOne(targetEntity="MeshPreviousIndexing", mappedBy="descriptor")
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $previousIndexing;
 
