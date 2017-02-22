@@ -89,10 +89,13 @@ trait EndpointTestsTrait
                 "Modify " . get_class($this) . '::putsToTest'
             );
         }
+        //extract the ID before changing anything in case
+        // the key we are changing is the ID
+        $id = $data['id'];
         $data[$key] = $value;
 
         $postData = $data;
-        $this->putTest($data, $postData, $data['id']);
+        $this->putTest($data, $postData, $id);
     }
 
     public function testPutForAllData()

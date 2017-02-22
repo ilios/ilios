@@ -41,7 +41,6 @@ class MeshConcept implements MeshConceptInterface
      *
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\ReadOnly
      */
     protected $id;
 
