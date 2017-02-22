@@ -52,7 +52,7 @@ class Permission implements PermissionInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $user;
 
@@ -61,7 +61,7 @@ class Permission implements PermissionInterface
      *
      * @ORM\Column(name="can_read", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @IS\Expose

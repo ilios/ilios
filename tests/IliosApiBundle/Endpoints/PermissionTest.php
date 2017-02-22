@@ -22,6 +22,7 @@ class PermissionTest extends AbstractEndpointTest
     protected function getFixtures()
     {
         return [
+            'Tests\CoreBundle\Fixture\LoadUserData',
             'Tests\CoreBundle\Fixture\LoadPermissionData',
         ];
     }
@@ -32,11 +33,11 @@ class PermissionTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'user' => ['user', $this->getFaker()->text],
+            'user' => ['user', 3],
             'canRead' => ['canRead', false],
             'canWrite' => ['canWrite', false],
             'tableRowId' => ['tableRowId', $this->getFaker()->randomDigit],
-            'tableName' => ['tableName', $this->getFaker()->text],
+            'tableName' => ['tableName', $this->getFaker()->text(30)],
         ];
     }
 
@@ -57,11 +58,35 @@ class PermissionTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'user' => [[0], ['user' => 'test']],
-            'canRead' => [[0], ['canRead' => false]],
-            'canWrite' => [[0], ['canWrite' => false]],
-            'tableRowId' => [[0], ['tableRowId' => 1]],
-            'tableName' => [[0], ['tableName' => 'test']],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'user' => [[0, 1, 2, 3], ['user' => 2]],
+            'canRead' => [[0, 1, 3], ['canRead' => true]],
+            'canNotRead' => [[2], ['canRead' => false]],
+            'canWrite' => [[0, 2, 3], ['canWrite' => true]],
+            'canNotWrite' => [[1], ['canWrite' => false]],
+            'tableRowId' => [[1, 2], ['tableRowId' => 1]],
+            'tableName' => [[0, 3], ['tableName' => 'school']],
         ];
+    }
+
+    public function testPostMany()
+    {
+        $userDataLoader = $this->container->get('ilioscore.dataloader.user');
+        $users = $userDataLoader->createMany(51);
+        $savedUsers = $this->postMany('users', $users);
+
+        $dataLoader = $this->getDataLoader();
+
+        $data = [];
+        foreach ($users as $i => $user) {
+            $arr = $dataLoader->create();
+            $arr['id'] += $i;
+            $arr['user'] = (string) $user['id'];
+
+            $data[] = $arr;
+        }
+
+
+        $this->postManyTest($data);
     }
 }
