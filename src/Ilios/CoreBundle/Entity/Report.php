@@ -80,7 +80,7 @@ class Report implements ReportInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 
@@ -144,7 +144,7 @@ class Report implements ReportInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $user;
 

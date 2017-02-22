@@ -23,6 +23,7 @@ class ReportTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadReportData',
+            'Tests\CoreBundle\Fixture\LoadUserData'
         ];
     }
 
@@ -32,12 +33,11 @@ class ReportTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
-            'school' => ['school', $this->getFaker()->text],
-            'subject' => ['subject', $this->getFaker()->text],
-            'prepositionalObject' => ['prepositionalObject', $this->getFaker()->text],
-            'prepositionalObjectTableRowId' => ['prepositionalObjectTableRowId', $this->getFaker()->text],
-            'user' => ['user', $this->getFaker()->text],
+            'title' => ['title', $this->getFaker()->text(25)],
+            'school' => ['school', 3],
+            'subject' => ['subject', $this->getFaker()->text(5)],
+            'prepositionalObject' => ['prepositionalObject', $this->getFaker()->text(32)],
+            'prepositionalObjectTableRowId' => ['prepositionalObjectTableRowId', '9'],
         ];
     }
 
@@ -59,13 +59,18 @@ class ReportTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'title' => [[0], ['title' => 'test']],
-            'createdAt' => [[0], ['createdAt' => 'test']],
-            'school' => [[0], ['school' => 'test']],
-            'subject' => [[0], ['subject' => 'test']],
-            'prepositionalObject' => [[0], ['prepositionalObject' => 'test']],
-            'prepositionalObjectTableRowId' => [[0], ['prepositionalObjectTableRowId' => 'test']],
-            'user' => [[0], ['user' => 'test']],
+            'ids' => [[1, 2], ['id' => [2, 3]]],
+            'title' => [[1], ['title' => 'second report']],
+            'school' => [[2], ['school' => 1]],
+            'subject' => [[2], ['subject' => 'subject3']],
+            'prepositionalObject' => [[2], ['prepositionalObject' => 'object3']],
+            'prepositionalObjectTableRowId' => [[1], ['prepositionalObjectTableRowId' => 14]],
+            'user' => [[0, 1, 2], ['user' => 2]],
         ];
+    }
+
+    protected function getTimeStampFields()
+    {
+        return ['createdAt'];
     }
 }
