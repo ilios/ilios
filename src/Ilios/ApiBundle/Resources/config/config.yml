@@ -5,6 +5,6 @@ parameters:
     curriculuminventoryinstitutions,curriculuminventorysequenceblocks,curriculuminventorysequences,curriculuminventoryreports,
     departments,ilmsessions,ingestionexceptions,instructorgroups,learnergroups,learningmaterialstatuses,learningmaterialuserroles,
     meshconcepts,meshdescriptors,meshterms,meshpreviousindexings,meshqualifiers,meshterms,meshtrees,
-    objectives,offerings,pendinguserupdates,permissions,programyears,sessions,schools,users
+    objectives,offerings,pendinguserupdates,permissions,programs,programyears,sessions,schools,users
   ilios_api_non_dto_controllers: >-
     (?i)(applicationconfigs|courseclerkshiptypes|courselearningmaterials|curriculuminventoryacademiclevels|curriculuminventoryexports|curriculuminventoryinstitutions|curriculuminventorysequenceblocks|curriculuminventoryreports|curriculuminventorysequences|departments|ilmsessions|ingestionexceptions|instructorgroups|learningmaterialstatuses|learningmaterialuserroles|meshconcepts|meshterms|meshpreviousindexings|meshqualifiers|meshterms|meshtrees|objectives|offerings|pendinguserupdates|permissions|sessiondescriptions|sessionlearningmaterials)

@@ -133,7 +133,7 @@ class Program implements ProgramInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $school;
 
