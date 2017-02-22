@@ -234,7 +234,7 @@ class AuthenticationTest extends AbstractEndpointTest
      * 'user' as the Primary Key
      * @inheritdoc
      */
-    protected function postTest($data, $postData)
+    protected function postTest(array $data, array $postData)
     {
         $pluralObjectName = $this->getPluralName();
         $responseData = $this->postOne($pluralObjectName, $postData);
@@ -250,7 +250,7 @@ class AuthenticationTest extends AbstractEndpointTest
      * 'user' as the Primary Key
      * @inheritdoc
      */
-    protected function putTest($data, $postData, $id)
+    protected function putTest(array $data, array $postData, $id, $new = false)
     {
         $pluralObjectName = $this->getPluralName();
         $responseData = $this->putOne($pluralObjectName, $id, $postData);
@@ -266,7 +266,7 @@ class AuthenticationTest extends AbstractEndpointTest
      * 'user' as the Primary Key
      * @inheritdoc
      */
-    protected function postManyTest($data)
+    protected function postManyTest(array $data)
     {
         $pluralObjectName = $this->getPluralName();
         $responseData = $this->postMany($pluralObjectName, $data);
