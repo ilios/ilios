@@ -32,8 +32,9 @@ class MeshQualifierTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'name' => ['name', $this->getFaker()->text],
-            'descriptors' => ['descriptors', [1]],
+            'name' => ['name', $this->getFaker()->text(60)],
+//            'id' => ['id', $this->getFaker()->word],
+            'descriptors' => ['descriptors', ['abc2']],
         ];
     }
 
@@ -43,7 +44,6 @@ class MeshQualifierTest extends AbstractEndpointTest
     public function readOnliesToTest()
     {
         return [
-            'id' => ['id', 1, 99],
             'createdAt' => ['createdAt', 1, 99],
             'updatedAt' => ['updatedAt', 1, 99],
         ];
@@ -55,11 +55,15 @@ class MeshQualifierTest extends AbstractEndpointTest
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['id' => 'test']],
-            'name' => [[0], ['name' => 'test']],
-            'createdAt' => [[0], ['createdAt' => 'test']],
-            'updatedAt' => [[0], ['updatedAt' => 'test']],
-            'descriptors' => [[0], ['descriptors' => [1]]],
+            'id' => [[0], ['id' => '1']],
+            'ids' => [[0, 1], ['id' => ['1', '2']]],
+            'name' => [[1], ['name' => 'second qualifier']],
+//            'descriptors' => [[0, 1], ['descriptors' => ['abc1']]],
         ];
+    }
+
+    public function getTimeStampFields()
+    {
+        return ['createdAt', 'updatedAt'];
     }
 }
