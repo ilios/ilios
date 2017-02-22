@@ -32,8 +32,8 @@ class MeshTreeTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'treeNumber' => ['treeNumber', $this->getFaker()->text],
-            'descriptor' => ['descriptor', $this->getFaker()->text],
+            'treeNumber' => ['treeNumber', $this->getFaker()->text(31)],
+            'descriptor' => ['descriptor', 'abc2'],
         ];
     }
 
@@ -54,8 +54,9 @@ class MeshTreeTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'treeNumber' => [[0], ['treeNumber' => 'test']],
-            'descriptor' => [[0], ['descriptor' => 'test']],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'treeNumber' => [[1], ['treeNumber' => 'tree2']],
+            'descriptor' => [[0, 1], ['descriptor' => 'abc1']],
         ];
     }
 }

@@ -66,7 +66,7 @@ class MeshTree implements MeshTreeInterface
      * })
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $descriptor;
 
