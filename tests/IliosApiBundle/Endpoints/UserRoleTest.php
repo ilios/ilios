@@ -23,6 +23,7 @@ class UserRoleTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadUserRoleData',
+            'Tests\CoreBundle\Fixture\LoadUserData'
         ];
     }
 
@@ -32,7 +33,7 @@ class UserRoleTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'title' => ['title', $this->getFaker()->text],
+            'title' => ['title', 'Developer'],
         ];
     }
 
@@ -53,7 +54,33 @@ class UserRoleTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
-            'title' => [[0], ['title' => 'test']],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'title' => [[1], ['title' => 'Something Else']],
         ];
+    }
+
+    protected function compareData(array $expected, array $result)
+    {
+        unset($expected['users']);
+        return parent::compareData($expected, $result);
+    }
+
+    /**
+     * We can't change the title on the Developer role
+     * Doing that leaves us without the permissions to change the title
+     * @dataProvider putsToTest
+     */
+    public function testPut($key, $value)
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        
+        //extract the ID before changing anything in case
+        // the key we are changing is the ID
+        $id = $data['id'];
+        $data[$key] = $value;
+
+        $postData = $data;
+        $this->putTest($data, $postData, $id);
     }
 }

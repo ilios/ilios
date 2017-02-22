@@ -66,7 +66,7 @@ class UserRole implements UserRoleInterface
      *
      * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
      *
-     * Don't put users in the UserRoel API it takes too long to load
+     * Don't put users in the UserRole API it takes too long to load
      * @IS\Type("entityCollection")
      */
     protected $users;
