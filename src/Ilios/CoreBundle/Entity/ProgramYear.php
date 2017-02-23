@@ -60,7 +60,7 @@ class ProgramYear implements ProgramYearInterface
      * @var int
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("integer")
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
@@ -131,7 +131,7 @@ class ProgramYear implements ProgramYearInterface
      *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")
      * })
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("entity")
      */
     protected $program;
 
@@ -141,7 +141,7 @@ class ProgramYear implements ProgramYearInterface
     * @ORM\OneToOne(targetEntity="Cohort", mappedBy="programYear")
     *
     * @IS\Expose
-    * @IS\Type("string")
+    * @IS\Type("entity")
     */
     protected $cohort;
 

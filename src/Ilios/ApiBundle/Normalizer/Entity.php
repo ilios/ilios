@@ -183,6 +183,10 @@ class Entity extends ObjectNormalizer
             $value = boolval($value);
         }
 
+        if (null !== $value and $type === 'integer') {
+            $value = intval($value);
+        }
+
         return $value;
     }
 }
