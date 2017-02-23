@@ -2,53 +2,22 @@
 
 namespace Ilios\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Request\ParamFetcherInterface;
-use FOS\RestBundle\Util\Codes;
-
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
  * Class CurriculumInventoryDownloadController
  * @package Ilios\CoreBundle\Controller
- * @RouteResource("CurriculumInventoryDownloads")
  */
-class CurriculumInventoryDownloadController
+class CurriculumInventoryDownloadController extends Controller
 {
     /**
      * Downloads the curriculum inventory report document for a given report.
      *
-     * @ApiDoc(
-     *   section = "CurriculumInventoryDownload",
-     *   description = "Downloads a curriculum inventory report document for a given report id.",
-     *   resource = true,
-     *   requirements={
-     *     {
-     *        "name"="token",
-     *        "dataType"="string",
-     *        "description"="The curriculum inventory report's download token."
-     *     }
-     *   },
-     *   statusCodes={
-     *     200 = "OK",
-     *     401 = "Unauthorized.",
-     *     403 = "Access denied.",
-     *     404 = "Not Found."
-     *   }
-     * )
-     *
-     * @Rest\View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param $token
      *
      * @return Response
      */
