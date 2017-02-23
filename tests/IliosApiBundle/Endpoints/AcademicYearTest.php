@@ -10,7 +10,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_2
  */
-class AamcMethodTest extends AbstractEndpointTest
+class AcademicYearTest extends AbstractEndpointTest
 {
     protected $testName =  'academicyears';
 
