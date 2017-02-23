@@ -23,6 +23,7 @@ class MeshSemanticTypeTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadMeshSemanticTypeData',
+            'Tests\CoreBundle\Fixture\LoadMeshConceptData',
         ];
     }
 
@@ -33,7 +34,7 @@ class MeshSemanticTypeTest extends AbstractEndpointTest
     {
         return [
             'name' => ['name', $this->getFaker()->text],
-            'concepts' => ['concepts', [1]],
+            'concepts' => ['concepts', [2]],
         ];
     }
 
@@ -43,7 +44,6 @@ class MeshSemanticTypeTest extends AbstractEndpointTest
     public function readOnliesToTest()
     {
         return [
-            'id' => ['id', 1, 99],
             'createdAt' => ['createdAt', 1, 99],
             'updatedAt' => ['updatedAt', 1, 99],
         ];
@@ -55,11 +55,23 @@ class MeshSemanticTypeTest extends AbstractEndpointTest
     public function filtersToTest()
     {
         return [
-            'id' => [[0], ['id' => 'test']],
-            'name' => [[0], ['name' => 'test']],
-            'createdAt' => [[0], ['createdAt' => 'test']],
-            'updatedAt' => [[0], ['updatedAt' => 'test']],
-            'concepts' => [[0], ['concepts' => [1]]],
+            'id' => [[0], ['id' => 1]],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
+            'name' => [[1], ['name' => 'second type']],
+//            'concepts' => [[0], ['concepts' => [1]]],
         ];
+    }
+
+    protected function getTimeStampFields()
+    {
+        return ['createdAt', 'updatedAt'];
+    }
+
+    public function testPostMeshSemanticTypeConcept()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $this->relatedPostDataTest($data, $postData, 'semanticTypes', 'meshConcepts', 'concepts');
     }
 }

@@ -14,7 +14,7 @@ class MeshSemanticTypeData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => '2',
-            'name' => 'type' . $this->faker->text,
+            'name' => 'second type',
             'concepts' => ['1']
         );
 
@@ -25,7 +25,7 @@ class MeshSemanticTypeData extends AbstractDataLoader
     {
         return array(
             'id' => '3',
-            'name' => $this->faker->text,
+            'name' => $this->faker->text(192),
             'concepts' => ['1']
         );
     }
@@ -35,5 +35,17 @@ class MeshSemanticTypeData extends AbstractDataLoader
         return array(
             'id' => 'bad'
         );
+    }
+
+    public function createMany($count)
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] . $i;
+            $data[] = $arr;
+        }
+
+        return $data;
     }
 }

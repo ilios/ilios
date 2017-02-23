@@ -234,7 +234,7 @@ ilios_api_programyears_post:
         version: 'v\d+'
         object: 'programyears'
 
-ilios_nondto_api_put:
+ilios_api_programyears_put:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:ProgramYear:put }
     methods:  [PUT]

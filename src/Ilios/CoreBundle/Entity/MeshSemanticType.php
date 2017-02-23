@@ -47,7 +47,6 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      *
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\ReadOnly
      */
     protected $id;
 
