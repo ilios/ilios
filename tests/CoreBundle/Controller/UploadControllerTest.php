@@ -4,8 +4,8 @@ namespace Tests\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
-use FOS\RestBundle\Util\Codes;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
@@ -60,7 +60,7 @@ class UploadControllerTest extends WebTestCase
         );
         
         $response = $client->getResponse();
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         
         $data = json_decode($response->getContent(), true);
         $this->assertSame($data['filename'], 'TESTFILE.txt');
@@ -84,7 +84,7 @@ class UploadControllerTest extends WebTestCase
         );
         
         $response = $client->getResponse();
-        $this->assertJsonResponse($response, Codes::HTTP_BAD_REQUEST);
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
         
         $data = json_decode($response->getContent(), true);
         $this->assertSame(
