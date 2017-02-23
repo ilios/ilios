@@ -15,7 +15,7 @@ class AlertChangeTypeTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'alertchangetypes';
+    protected $testName =  'alertChangeTypes';
 
     /**
      * @inheritdoc

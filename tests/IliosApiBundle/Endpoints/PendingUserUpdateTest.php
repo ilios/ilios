@@ -14,7 +14,7 @@ class PendingUserUpdateTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'pendinguserupdates';
+    protected $testName =  'pendingUserUpdates';
 
     /**
      * @inheritdoc

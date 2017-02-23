@@ -14,7 +14,7 @@ class ProgramYearTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'programyears';
+    protected $testName =  'programYears';
 
     /**
      * @inheritdoc

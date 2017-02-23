@@ -31,7 +31,7 @@ class LearningMaterialController extends NonDtoApiController
                 $parameters['offset']
             );
 
-            return $this->resultsToResponse($result, $object, Response::HTTP_OK);
+            return $this->resultsToResponse($result, $this->getPluralResponseKey($object), Response::HTTP_OK);
         }
 
         return parent::getAllAction($version, $object, $request);
@@ -92,7 +92,7 @@ class LearningMaterialController extends NonDtoApiController
         }
         $manager->flushAndClear();
 
-        return $this->createResponse($object, $entities, Response::HTTP_CREATED);
+        return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
     public function putAction($version, $object, $id, Request $request)
@@ -121,9 +121,8 @@ class LearningMaterialController extends NonDtoApiController
         $this->validateAndAuthorizeEntities([$entity], $permission);
 
         $manager->update($entity, true, false);
-        $singularName = $this->getSingularObjectName($object);
 
-        return $this->createResponse($singularName, $entity, $code);
+        return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
 
     protected function createResponse($responseKey, $value, $responseCode)

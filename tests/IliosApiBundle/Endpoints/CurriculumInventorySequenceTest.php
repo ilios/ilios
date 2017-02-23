@@ -14,7 +14,7 @@ class CurriculumInventorySequenceTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'curriculuminventorysequences';
+    protected $testName =  'curriculumInventorySequences';
 
     /**
      * @inheritdoc

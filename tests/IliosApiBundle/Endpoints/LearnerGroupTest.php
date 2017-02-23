@@ -14,7 +14,7 @@ class LearnerGroupTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'learnergroups';
+    protected $testName =  'learnerGroups';
 
     /**
      * @inheritdoc

@@ -41,7 +41,7 @@ class CurriculumInventorySequenceBlockController extends NonDtoApiController
 
         $manager->flushAndClear();
 
-        return $this->createResponse($object, $entities, Response::HTTP_CREATED);
+        return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
     public function putAction($version, $object, $id, Request $request)
@@ -77,9 +77,8 @@ class CurriculumInventorySequenceBlockController extends NonDtoApiController
 
         $manager->update($entity, false, false);
         $manager->flushAndClear();
-        $singularName = $this->getSingularObjectName($object);
 
-        return $this->createResponse($singularName, $entity, $code);
+        return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
 
     public function deleteAction($version, $object, $id, Request $request)

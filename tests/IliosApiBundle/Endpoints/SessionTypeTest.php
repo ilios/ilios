@@ -14,7 +14,7 @@ class SessionTypeTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'sessiontypes';
+    protected $testName =  'sessionTypes';
 
     /**
      * @inheritdoc

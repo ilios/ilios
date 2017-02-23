@@ -15,7 +15,7 @@ class AamcPcrsTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'aamcpcrs';
+    protected $testName =  'aamcPcrs';
 
     public function setUp()
     {

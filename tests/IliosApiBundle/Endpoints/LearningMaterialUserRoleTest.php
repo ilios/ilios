@@ -14,7 +14,7 @@ class LearningMaterialUserRoleTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'learningmaterialuserroles';
+    protected $testName =  'learningMaterialUserRoles';
 
     /**
      * @inheritdoc

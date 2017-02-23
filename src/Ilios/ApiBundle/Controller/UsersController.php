@@ -34,7 +34,7 @@ class UsersController extends ApiController
                 $parameters['criteria']
             );
 
-            return $this->resultsToResponse($result, $object, Response::HTTP_OK);
+            return $this->resultsToResponse($result, $this->getPluralResponseKey($object), Response::HTTP_OK);
         }
 
         return parent::getAllAction($version, $object, $request);

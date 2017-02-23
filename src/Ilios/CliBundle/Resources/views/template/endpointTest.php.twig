@@ -14,7 +14,8 @@ class {{ entity }}Test extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  '{{ endpoint | lower }}';
+    protected $testName =  '{{ entity[:1]|lower ~ entity[1:] }}';
+
 
     /**
      * @inheritdoc

@@ -14,7 +14,7 @@ class AssessmentOptionTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'assessmentoptions';
+    protected $testName =  'assessmentOptions';
 
     /**
      * @inheritdoc

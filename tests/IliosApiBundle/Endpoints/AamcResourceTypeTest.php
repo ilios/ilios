@@ -14,7 +14,7 @@ class AamcResourceTypeTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'aamcresourcetypes';
+    protected $testName =  'aamcResourceTypes';
 
     /**
      * @inheritdoc

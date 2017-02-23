@@ -14,7 +14,7 @@ class ApplicationConfigTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'applicationconfigs';
+    protected $testName =  'applicationConfigs';
 
     /**
      * @inheritdoc

@@ -132,7 +132,7 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['instructors'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSessions', $data);
     }
 
     public function testUpdatingIlmInstructorUpdatesSessionStamp()
@@ -140,7 +140,7 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['instructors'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSessions', $data);
     }
 
     public function testUpdatingIlmInstructorGroupsUpdatesSessionStamp()
@@ -148,7 +148,7 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['instructorGroups'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSessions', $data);
     }
 
     public function testUpdatingIlmLearnerGroupsUpdatesSessionStamp()
@@ -156,7 +156,7 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['learnerGroups'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSessions', $data);
     }
 
     public function testUpdatingIlmLearnersUpdatesSessionStamp()
@@ -164,7 +164,7 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.ilmsession');
         $data = $dataLoader->getOne();
         $data['learners'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSessions', $data);
     }
 
     public function testUpdatingLearningMaterialUpdatesSessionStamp()
@@ -172,14 +172,14 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.learningmaterial');
         $data = $dataLoader->getOne();
         $data['status'] = '1';
-        $this->relatedTimeStampUpdateTest(1, 'learningmaterials', $data);
+        $this->relatedTimeStampUpdateTest(1, 'learningmaterials', 'learningMaterials', $data);
     }
 
     public function testNewSessionLearningMaterialUpdatesSessionStamp()
     {
         $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
         $data = $dataLoader->create();
-        $this->relatedTimeStampPostTest(1, 'sessionlearningmaterials', $data);
+        $this->relatedTimeStampPostTest(1, 'sessionlearningmaterials', 'sessionLearningMaterials', $data);
     }
 
     public function testUpdatingSessionLearningMaterialUpdatesSessionStamp()
@@ -187,7 +187,7 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
         $data = $dataLoader->getOne();
         $data['required'] = !$data['required'];
-        $this->relatedTimeStampUpdateTest(1, 'sessionlearningmaterials', $data);
+        $this->relatedTimeStampUpdateTest(1, 'sessionlearningmaterials', 'sessionLearningMaterials', $data);
     }
 
     public function testDeletingSessionLearningMaterialUpdatesSessionStamp()
@@ -209,6 +209,6 @@ class SessionTest extends AbstractEndpointTest
         $dataLoader = $this->container->get('ilioscore.dataloader.sessiondescription');
         $data = $dataLoader->getOne();
         $data['description'] = 'new description';
-        $this->relatedTimeStampUpdateTest($data['session'], 'sessiondescriptions', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'sessiondescriptions', 'sessionDescriptions', $data);
     }
 }

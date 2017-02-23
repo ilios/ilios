@@ -135,7 +135,7 @@ class AuthenticationTest extends AbstractEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['user'] = '4';
-        $user4 = $this->getOne('users', 4);
+        $user4 = $this->getOne('users', 'users', 4);
         $this->assertSame($user4['school'], '2', 'User #4 should be in school 2 or this test is garbage');
 
         $this->postTest($data, $data);
@@ -170,10 +170,11 @@ class AuthenticationTest extends AbstractEndpointTest
      */
     protected function getOneTest()
     {
-        $pluralObjectName = $this->getPluralName();
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
-        $returnedData = $this->getOne($pluralObjectName, $data['user']);
+        $returnedData = $this->getOne($endpoint, $responseKey, $data['user']);
         $this->compareData($data, $returnedData);
 
         return $returnedData;
@@ -236,10 +237,11 @@ class AuthenticationTest extends AbstractEndpointTest
      */
     protected function postTest(array $data, array $postData)
     {
-        $pluralObjectName = $this->getPluralName();
-        $responseData = $this->postOne($pluralObjectName, $postData);
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postOne($endpoint, $responseKey, $postData);
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($pluralObjectName, $responseData['user']);
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['user']);
         $this->compareData($data, $fetchedResponseData);
 
         return $fetchedResponseData;
@@ -252,10 +254,12 @@ class AuthenticationTest extends AbstractEndpointTest
      */
     protected function putTest(array $data, array $postData, $id, $new = false)
     {
-        $pluralObjectName = $this->getPluralName();
-        $responseData = $this->putOne($pluralObjectName, $id, $postData);
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $singularResponseKey = $this->getCamelCasedSingularName();
+        $responseData = $this->putOne($endpoint, $singularResponseKey, $id, $postData);
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($pluralObjectName, $responseData['user']);
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['user']);
         $this->compareData($data, $fetchedResponseData);
 
         return $fetchedResponseData;
@@ -268,8 +272,9 @@ class AuthenticationTest extends AbstractEndpointTest
      */
     protected function postManyTest(array $data)
     {
-        $pluralObjectName = $this->getPluralName();
-        $responseData = $this->postMany($pluralObjectName, $data);
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postMany($endpoint, $responseKey, $data);
         $ids = array_map(function (array $arr) {
             return $arr['user'];
         }, $responseData);
@@ -278,7 +283,7 @@ class AuthenticationTest extends AbstractEndpointTest
             'limit' => count($ids)
         ];
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($pluralObjectName, $filters);
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
 
         foreach ($data as $i => $datum) {
             $response = $fetchedResponseData[$i];
@@ -293,11 +298,11 @@ class AuthenticationTest extends AbstractEndpointTest
      * 'user' as the Primary Key
      * @inheritdoc
      */
-    protected function getOne($pluralObjectName, $userId)
+    protected function getOne($endpoint, $responseKey, $userId)
     {
         $url = $this->getUrl(
             'ilios_api_authentication_get',
-            ['version' => 'v1', 'object' => $pluralObjectName, 'userId' => $userId]
+            ['version' => 'v1', 'object' => $endpoint, 'userId' => $userId]
         );
         $this->createJsonRequest(
             'GET',
@@ -313,6 +318,6 @@ class AuthenticationTest extends AbstractEndpointTest
         }
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
-        return json_decode($response->getContent(), true)[$pluralObjectName][0];
+        return json_decode($response->getContent(), true)[$responseKey][0];
     }
 }

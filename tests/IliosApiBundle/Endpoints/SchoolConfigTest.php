@@ -14,7 +14,7 @@ class SchoolConfigTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'schoolconfigs';
+    protected $testName =  'schoolConfigs';
 
     /**
      * @inheritdoc

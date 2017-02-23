@@ -14,7 +14,7 @@ class MeshSemanticTypeTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'meshsemantictypes';
+    protected $testName =  'meshSemanticTypes';
 
     /**
      * @inheritdoc

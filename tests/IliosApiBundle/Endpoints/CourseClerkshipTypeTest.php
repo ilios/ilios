@@ -14,7 +14,7 @@ class CourseClerkshipTypeTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'courseclerkshiptypes';
+    protected $testName =  'courseClerkshipTypes';
 
     /**
      * @inheritdoc

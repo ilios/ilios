@@ -14,7 +14,7 @@ class UserRoleTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'userroles';
+    protected $testName =  'userRoles';
 
     /**
      * @inheritdoc

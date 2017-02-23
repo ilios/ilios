@@ -16,7 +16,7 @@ use DateTime;
  */
 class CurriculumInventoryExportTest extends AbstractEndpointTest
 {
-    protected $testName =  'curriculuminventoryexports';
+    protected $testName =  'curriculumInventoryExports';
 
     /**
      * @inheritdoc
@@ -37,8 +37,9 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
 
-        $pluralObjectName = $this->getPluralName();
-        $responseData = $this->postOne($pluralObjectName, $data);
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postOne($endpoint, $responseKey, $data);
 
         $this->assertEquals($responseData['report'], $data['report']);
         $this->assertNotEmpty($responseData['createdBy']);

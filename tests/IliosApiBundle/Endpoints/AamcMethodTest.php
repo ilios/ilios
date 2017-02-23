@@ -14,7 +14,7 @@ class AamcMethodTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'aamcmethods';
+    protected $testName =  'aamcMethods';
 
     /**
      * @inheritdoc

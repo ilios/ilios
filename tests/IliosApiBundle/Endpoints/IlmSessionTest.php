@@ -14,7 +14,7 @@ class IlmSessionTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'ilmsessions';
+    protected $testName =  'ilmSessions';
 
     /**
      * @inheritdoc

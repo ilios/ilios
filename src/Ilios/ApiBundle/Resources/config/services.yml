@@ -21,3 +21,7 @@ services:
             arguments: ['%ilios_api_valid_endpoints%']
             tags:
                 - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    ilios_api.endpoint_response_namer:
+        class: Ilios\ApiBundle\Service\EndpointResponseNamer
+        arguments: ["@kernel"]

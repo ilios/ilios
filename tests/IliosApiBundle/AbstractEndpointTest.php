@@ -83,12 +83,23 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function getPluralName()
     {
-        return $this->testName;
+        return strtolower($this->testName);
     }
 
     protected function getSingularName()
     {
         $pluralized = $this->getPluralName();
+        return Inflector::singularize($pluralized);
+    }
+
+    protected function getCamelCasedPluralName()
+    {
+        return $this->testName;
+    }
+
+    protected function getCamelCasedSingularName()
+    {
+        $pluralized = $this->getCamelCasedPluralName();
         return Inflector::singularize($pluralized);
     }
 
@@ -157,10 +168,11 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function getOneTest()
     {
-        $pluralObjectName = $this->getPluralName();
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
-        $returnedData = $this->getOne($pluralObjectName, $data['id']);
+        $returnedData = $this->getOne($endpoint, $responseKey, $data['id']);
 
         foreach ($this->getTimeStampFields() as $field) {
             $stamp = new DateTime($returnedData[$field]);
@@ -174,11 +186,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $returnedData;
     }
 
-    protected function getOne($pluralObjectName, $id)
+    protected function getOne($endpoint, $responseKey, $id)
     {
         $url = $this->getUrl(
             'ilios_api_get',
-            ['version' => 'v1', 'object' => $pluralObjectName, 'id' => $id]
+            ['version' => 'v1', 'object' => $endpoint, 'id' => $id]
         );
         $this->createJsonRequest(
             'GET',
@@ -194,19 +206,20 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
-        return json_decode($response->getContent(), true)[$pluralObjectName][0];
+        return json_decode($response->getContent(), true)[$responseKey][0];
     }
 
     protected function getAllTest()
     {
-        $pluralObjectName = $this->getPluralName();
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
         $loader = $this->getDataLoader();
         $data = $loader->getAll();
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'ilios_api_getall',
-                ['version' => 'v1', 'object' => $pluralObjectName]
+                ['version' => 'v1', 'object' => $endpoint]
             ),
             null,
             $this->getAuthenticatedUserToken()
@@ -214,7 +227,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
-        $responses = json_decode($response->getContent(), true)[$pluralObjectName];
+        $responses = json_decode($response->getContent(), true)[$responseKey];
 
         $now = new DateTime();
         foreach ($responses as $i => $response) {
@@ -232,10 +245,11 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function postTest(array $data, array $postData)
     {
-        $pluralObjectName = $this->getPluralName();
-        $responseData = $this->postOne($pluralObjectName, $postData);
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postOne($endpoint, $responseKey, $postData);
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($pluralObjectName, $responseData['id']);
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['id']);
 
         $now = new DateTime();
         foreach ($this->getTimeStampFields() as $field) {
@@ -252,8 +266,9 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function postManyTest(array $data)
     {
-        $pluralObjectName = $this->getPluralName();
-        $responseData = $this->postMany($pluralObjectName, $data);
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postMany($endpoint, $responseKey, $data);
         $ids = array_map(function (array $arr) {
             return $arr['id'];
         }, $responseData);
@@ -262,7 +277,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'limit' => count($ids)
         ];
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($pluralObjectName, $filters);
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
 
         usort($fetchedResponseData, function ($a, $b) {
             return strnatcasecmp($a['id'], $b['id']);
@@ -284,41 +299,42 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $fetchedResponseData;
     }
 
-    protected function postOne($pluralObjectName, array $postData)
+    protected function postOne($endpoint, $responseKey, array $postData)
     {
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $pluralObjectName]),
-            json_encode([$pluralObjectName => [$postData]]),
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            json_encode([$responseKey => [$postData]]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
-        return json_decode($response->getContent(), true)[$pluralObjectName][0];
+        return json_decode($response->getContent(), true)[$responseKey][0];
     }
 
-    protected function postMany($pluralObjectName, array $postData)
+    protected function postMany($endpoint, $responseKey, array $postData)
     {
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $pluralObjectName]),
-            json_encode([$pluralObjectName => $postData]),
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            json_encode([$responseKey => $postData]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
 
-        return json_decode($response->getContent(), true)[$pluralObjectName];
+        return json_decode($response->getContent(), true)[$responseKey];
     }
 
     protected function badPostTest(array $data)
     {
-        $pluralObjectName = $this->getPluralName();
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $pluralObjectName]),
-            json_encode([$pluralObjectName => [$data]]),
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
+            json_encode([$responseKey => [$data]]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -339,7 +355,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $relatedName = null == $relatedName?$related:$relatedName;
         $this->assertArrayHasKey($relatedName, $postData, 'Missing related key: ' . var_export($postData, true));
         foreach ($postData[$relatedName] as $id) {
-            $obj = $this->getOne(strtolower($related), $id);
+            $obj = $this->getOne(strtolower($related), $related, $id);
             $this->assertTrue(array_key_exists($relationship, $obj), var_export($obj, true));
             $this->assertTrue(in_array($newId, $obj[$relationship]));
         }
@@ -347,10 +363,12 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function putTest(array $data, array $postData, $id, $new = false)
     {
-        $pluralObjectName = $this->getPluralName();
-        $responseData = $this->putOne($pluralObjectName, $id, $postData, $new);
+        $endpoint = $this->getPluralName();
+        $putResponseKey = $this->getCamelCasedSingularName();
+        $getResponseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->putOne($endpoint, $putResponseKey, $id, $postData, $new);
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($pluralObjectName, $responseData['id']);
+        $fetchedResponseData = $this->getOne($endpoint, $getResponseKey, $responseData['id']);
 
         $now = new DateTime();
         foreach ($this->getTimeStampFields() as $field) {
@@ -365,35 +383,34 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $fetchedResponseData;
     }
 
-    protected function putOne($pluralObjectName, $id, array $data, $new = false)
+    protected function putOne($endpoint, $responseKey, $id, array $data, $new = false)
     {
-        $singularObjectName = Inflector::singularize($pluralObjectName);
         $this->createJsonRequest(
             'PUT',
-            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => $pluralObjectName, 'id' => $id]),
-            json_encode([$singularObjectName => $data]),
+            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => $endpoint, 'id' => $id]),
+            json_encode([$responseKey => $data]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
         $expectedHeader = $new?Response::HTTP_CREATED:Response::HTTP_OK;
         $this->assertJsonResponse($response, $expectedHeader);
 
-        return json_decode($response->getContent(), true)[$singularObjectName];
+        return json_decode($response->getContent(), true)[$responseKey];
     }
 
     protected function deleteTest($id)
     {
-        $pluralObjectName = $this->getPluralName();
-        $this->deleteOne($pluralObjectName, $id);
+        $endpoint = $this->getPluralName();
+        $this->deleteOne($endpoint, $id);
 
         $this->notFoundTest($id);
     }
 
-    protected function deleteOne($pluralObjectName, $id)
+    protected function deleteOne($endpoint, $id)
     {
         $this->createJsonRequest(
             'DELETE',
-            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => $pluralObjectName, 'id' => $id]),
+            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => $endpoint, 'id' => $id]),
             null,
             $this->getAuthenticatedUserToken()
         );
@@ -411,12 +428,12 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function notFoundTest($badId)
     {
-        $pluralObjectName = $this->getPluralName();
+        $endpoint = $this->getPluralName();
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'ilios_api_get',
-                ['version' => 'v1', 'object' => $pluralObjectName, 'id' => $badId]
+                ['version' => 'v1', 'object' => $endpoint, 'id' => $badId]
             ),
             null,
             $this->getAuthenticatedUserToken()
@@ -433,8 +450,9 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function filterTest(array $filters, array $expectedData)
     {
-        $pluralObjectName = $this->getPluralName();
-        $filteredData = $this->getFiltered($pluralObjectName, $filters);
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $filteredData = $this->getFiltered($endpoint, $responseKey, $filters);
 
         $timeStampFields = $this->getTimeStampFields();
         $responseData = array_map(function ($arr) use ($timeStampFields) {
@@ -455,15 +473,16 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
-     * @param $pluralObjectName
+     * @param $endpoint
+     * @param $responseKey
      * @param array $filters
      * @return mixed
      */
-    protected function getFiltered($pluralObjectName, array $filters)
+    protected function getFiltered($endpoint, $responseKey, array $filters)
     {
         $parameters = array_merge([
             'version' => 'v1',
-            'object' => $pluralObjectName
+            'object' => $endpoint
         ], $filters);
         $this->createJsonRequest(
             'GET',
@@ -479,15 +498,15 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
-        return json_decode($response->getContent(), true)[$pluralObjectName];
+        return json_decode($response->getContent(), true)[$responseKey];
     }
 
     protected function badFilterTest(array $badFilters)
     {
-        $pluralObjectName = $this->getPluralName();
+        $endpoint = $this->getPluralName();
         $parameters = array_merge([
             'version' => 'v1',
-            'object' => $pluralObjectName
+            'object' => $endpoint
         ], $badFilters);
         $this->createJsonRequest(
             'GET',
@@ -511,13 +530,15 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function relatedTimeStampUpdateTest(
         $id,
         $relatedPluralObjectName,
+        $relatedResponseKey,
         $relatedData
     ) {
-        $pluralObjectName = $this->getPluralName();
-        $initialState = $this->getOne($pluralObjectName, $id);
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $initialState = $this->getOne($endpoint, $responseKey, $id);
         sleep(1);
-        $this->putOne($relatedPluralObjectName, $relatedData['id'], $relatedData);
-        $currentState = $this->getOne($pluralObjectName, $id);
+        $this->putOne($relatedPluralObjectName, $relatedResponseKey, $relatedData['id'], $relatedData);
+        $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);
             $currentStamp = new DateTime($currentState[$field]);
@@ -534,13 +555,15 @@ abstract class AbstractEndpointTest extends WebTestCase
     protected function relatedTimeStampPostTest(
         $id,
         $relatedPluralObjectName,
+        $relatedResponseKey,
         $relatedPostData
     ) {
-        $pluralObjectName = $this->getPluralName();
-        $initialState = $this->getOne($pluralObjectName, $id);
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $initialState = $this->getOne($endpoint, $responseKey, $id);
         sleep(1);
-        $this->postOne($relatedPluralObjectName, $relatedPostData);
-        $currentState = $this->getOne($pluralObjectName, $id);
+        $this->postOne($relatedPluralObjectName, $relatedResponseKey, $relatedPostData);
+        $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);
             $currentStamp = new DateTime($currentState[$field]);
@@ -559,11 +582,12 @@ abstract class AbstractEndpointTest extends WebTestCase
         $relatedPluralObjectName,
         $relatedId
     ) {
-        $pluralObjectName = $this->getPluralName();
-        $initialState = $this->getOne($pluralObjectName, $id);
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $initialState = $this->getOne($endpoint, $responseKey, $id);
         sleep(1);
         $this->deleteOne($relatedPluralObjectName, $relatedId);
-        $currentState = $this->getOne($pluralObjectName, $id);
+        $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);
             $currentStamp = new DateTime($currentState[$field]);

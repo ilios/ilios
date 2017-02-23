@@ -23,7 +23,7 @@ class AcademicYearController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $this->createResponse($object, [new AcademicYear($id)], Response::HTTP_OK);
+        return $this->createResponse('academicYears', [new AcademicYear($id)], Response::HTTP_OK);
     }
 
     public function getAllAction($version, $object, Request $request)
@@ -34,7 +34,7 @@ class AcademicYearController extends ApiController
             return new AcademicYear($year);
         }, $courseManager->getYears());
 
-        return $this->createResponse($object, $years, Response::HTTP_OK);
+        return $this->createResponse('academicYears', $years, Response::HTTP_OK);
     }
 
     public function fourOhFourAction()

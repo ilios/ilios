@@ -12,7 +12,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
  */
 class AcademicYearTest extends AbstractEndpointTest
 {
-    protected $testName =  'academicyears';
+    protected $testName =  'academicYears';
 
     /**
      * @inheritdoc
@@ -40,22 +40,22 @@ class AcademicYearTest extends AbstractEndpointTest
 
     public function testGetOne()
     {
-        $pluralObjectName = $this->getPluralName();
         $academicYears = $this->getYears();
         $data = $academicYears[0];
-        $returnedData = $this->getOne($pluralObjectName, $data['id']);
+        $returnedData = $this->getOne('academicyears', 'academicYears', $data['id']);
         $this->compareData($data, $returnedData);
     }
 
     public function testGetAll()
     {
-        $pluralObjectName = $this->getPluralName();
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
         $academicYears = $this->getYears();
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
                 'ilios_api_getall',
-                ['version' => 'v1', 'object' => $pluralObjectName]
+                ['version' => 'v1', 'object' => $endpoint]
             ),
             null,
             $this->getAuthenticatedUserToken()
@@ -63,7 +63,7 @@ class AcademicYearTest extends AbstractEndpointTest
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
-        $responses = json_decode($response->getContent(), true)[$pluralObjectName];
+        $responses = json_decode($response->getContent(), true)[$responseKey];
 
 
         $this->assertEquals(

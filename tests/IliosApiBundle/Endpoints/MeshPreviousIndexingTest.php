@@ -14,7 +14,7 @@ class MeshPreviousIndexingTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'meshpreviousindexings';
+    protected $testName =  'meshPreviousIndexings';
 
     /**
      * @inheritdoc

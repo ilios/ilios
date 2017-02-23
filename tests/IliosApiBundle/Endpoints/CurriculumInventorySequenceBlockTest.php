@@ -16,7 +16,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'curriculuminventorysequenceblocks';
+    protected $testName =  'curriculumInventorySequenceBlocks';
 
     /**
      * @inheritdoc
@@ -102,6 +102,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenBeforeDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenBeforeDeletion = $this->sortOrderedSequence($childrenBeforeDeletion);
@@ -117,6 +118,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenAfterDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenAfterDeletion = $this->sortOrderedSequence($childrenAfterDeletion);
@@ -145,6 +147,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenBeforeDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenBeforeDeletion = $this->sortOrderedSequence($childrenBeforeDeletion);
@@ -160,6 +163,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenAfterDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenAfterDeletion = $this->sortOrderedSequence($childrenAfterDeletion);
@@ -185,6 +189,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenBeforeDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenBeforeDeletion = $this->sortOrderedSequence($childrenBeforeDeletion);
@@ -199,6 +204,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenAfterDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenAfterDeletion = $this->sortOrderedSequence($childrenAfterDeletion);
@@ -233,6 +239,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenBeforeAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenBeforeAddition = $this->sortOrderedSequence($childrenBeforeAddition);
@@ -244,10 +251,11 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $postData = $dataLoader->create();
         $postData['orderInSequence']  = 1;
-        $newBlock = $this->postOne('curriculuminventorysequenceblocks', $postData);
+        $newBlock = $this->postOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlocks', $postData);
 
         $childrenAfterAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $this->assertEquals(
@@ -281,6 +289,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenBeforeAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenBeforeAddition = $this->sortOrderedSequence($childrenBeforeAddition);
@@ -292,10 +301,11 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $postData = $dataLoader->create();
         $postData['orderInSequence']  = count($childrenBeforeAddition) + 1;
-        $newBlock = $this->postOne('curriculuminventorysequenceblocks', $postData);
+        $newBlock = $this->postOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlocks', $postData);
 
         $childrenAfterAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
 
@@ -329,6 +339,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenBeforeAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenBeforeAddition = $this->sortOrderedSequence($childrenBeforeAddition);
@@ -340,10 +351,11 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $postData = $dataLoader->create();
         $postData['orderInSequence']  = 2;
-        $newBlock = $this->postOne('curriculuminventorysequenceblocks', $postData);
+        $newBlock = $this->postOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlocks', $postData);
 
         $childrenAfterAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
 
@@ -385,6 +397,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenBeforeMove = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenBeforeMove = $this->sortOrderedSequence($childrenBeforeMove);
@@ -403,7 +416,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
         $blockId = $postData['id'];
         $postData['orderInSequence'] = $newPosition;
 
-        $updatedBlock = $this->putOne('curriculuminventorysequenceblocks', $blockId, $postData);
+        $updatedBlock = $this->putOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlock', $blockId, $postData);
 
         $this->assertEquals(
             $postData['orderInSequence'],
@@ -413,6 +426,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenAfterMove = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
 
@@ -450,7 +464,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
         // move block back into its original position
         $postData['orderInSequence'] = $oldPosition;
 
-        $updatedBlock = $this->putOne('curriculuminventorysequenceblocks', $blockId, $postData);
+        $updatedBlock = $this->putOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlock', $blockId, $postData);
         $this->assertEquals(
             $postData['orderInSequence'],
             $updatedBlock['orderInSequence'],
@@ -459,6 +473,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenAfterMove = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenAfterMove = $this->sortOrderedSequence($childrenAfterMove);
@@ -487,6 +502,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenBeforeMove = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenBeforeMove = $this->sortOrderedSequence($childrenBeforeMove);
@@ -538,6 +554,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $childrenBeforeMove = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         $childrenBeforeMove = $this->sortOrderedSequence($childrenBeforeMove);
@@ -599,10 +616,11 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $parentId = $parent['id'];
         $parent['childSequenceOrder'] = CurriculumInventorySequenceBlockInterface::UNORDERED;
-        $this->putOne('curriculuminventorysequenceblocks', $parentId, $parent);
+        $this->putOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlock', $parentId, $parent);
 
         $unorderedSequence = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         foreach ($unorderedSequence as $block) {
@@ -610,9 +628,10 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
         }
 
         $parent['childSequenceOrder'] = CurriculumInventorySequenceBlockInterface::ORDERED;
-        $this->putOne('curriculuminventorysequenceblocks', $parentId, $parent);
+        $this->putOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlock', $parentId, $parent);
         $orderedSequence = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
 
@@ -627,9 +646,10 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
         }
 
         $parent['childSequenceOrder'] = CurriculumInventorySequenceBlockInterface::PARALLEL;
-        $this->putOne('curriculuminventorysequenceblocks', $parentId, $parent);
+        $this->putOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlock', $parentId, $parent);
         $unorderedSequence = $this->getFiltered(
             'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlocks',
             ['filters[parent]' => $parent['id']]
         );
         foreach ($unorderedSequence as $block) {

@@ -19,7 +19,7 @@ class NonDtoApiController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $this->resultsToResponse([$entity], $object, Response::HTTP_OK);
+        return $this->resultsToResponse([$entity], $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 
     public function getAllAction($version, $object, Request $request)
@@ -33,7 +33,7 @@ class NonDtoApiController extends ApiController
             $parameters['offset']
         );
 
-        return $this->resultsToResponse($result, $object, Response::HTTP_OK);
+        return $this->resultsToResponse($result, $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 
     /**

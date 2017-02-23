@@ -28,7 +28,7 @@ class AuthenticationController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $userId));
         }
 
-        return $this->resultsToResponse([$dto], $object, Response::HTTP_OK);
+        return $this->resultsToResponse([$dto], $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 
     public function postAction($version, $object, Request $request)
@@ -88,7 +88,7 @@ class AuthenticationController extends ApiController
         }
         $manager->flushAndClear();
 
-        return $this->createResponse($object, $entities, Response::HTTP_CREATED);
+        return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
     public function putAction($version, $object, $userId, Request $request)
@@ -131,9 +131,8 @@ class AuthenticationController extends ApiController
         $this->validateAndAuthorizeEntities([$entity], $permission);
 
         $manager->update($entity, true, false);
-        $singularName = $this->getSingularObjectName($object);
 
-        return $this->createResponse($singularName, $entity, $code);
+        return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
 
     public function deleteAction($version, $object, $userId, Request $request)

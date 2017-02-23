@@ -34,7 +34,7 @@ class CoursesController extends ApiController
                 $parameters['offset']
             );
 
-            return $this->resultsToResponse($result, $object, Response::HTTP_OK);
+            return $this->resultsToResponse($result, $this->getPluralResponseKey($object), Response::HTTP_OK);
         }
 
         return parent::getAllAction($version, $object, $request);
@@ -78,7 +78,7 @@ class CoursesController extends ApiController
         //pulling the DTO ensures we get all the new relationships
         $newCourseDTO = $manager->findDTOBy(['id' => $newCourse->getId()]);
 
-        return $this->createResponse($object, [$newCourseDTO], Response::HTTP_CREATED);
+        return $this->createResponse($this->getPluralResponseKey($object), [$newCourseDTO], Response::HTTP_CREATED);
     }
 
     protected function extractParameters(Request $request)

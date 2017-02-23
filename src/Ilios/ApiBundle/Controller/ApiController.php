@@ -2,7 +2,6 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\CoreBundle\Entity\Manager\BaseManager;
 use Ilios\CoreBundle\Entity\Manager\DTOManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +22,7 @@ class ApiController extends Controller implements ApiControllerInterface
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $this->resultsToResponse([$dto], $object, Response::HTTP_OK);
+        return $this->resultsToResponse([$dto], $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 
     public function getAllAction($version, $object, Request $request)
@@ -37,7 +36,7 @@ class ApiController extends Controller implements ApiControllerInterface
             $parameters['offset']
         );
 
-        return $this->resultsToResponse($result, $object, Response::HTTP_OK);
+        return $this->resultsToResponse($result, $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 
     public function postAction($version, $object, Request $request)
@@ -55,7 +54,7 @@ class ApiController extends Controller implements ApiControllerInterface
         }
         $manager->flushAndClear();
 
-        return $this->createResponse($object, $entities, Response::HTTP_CREATED);
+        return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
     public function putAction($version, $object, $id, Request $request)
@@ -78,9 +77,8 @@ class ApiController extends Controller implements ApiControllerInterface
         $this->validateAndAuthorizeEntities([$entity], $permission);
 
         $manager->update($entity, true, false);
-        $singularName = $this->getSingularObjectName($object);
 
-        return $this->createResponse($singularName, $entity, $code);
+        return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
 
     public function deleteAction($version, $object, $id, Request $request)
@@ -141,15 +139,16 @@ class ApiController extends Controller implements ApiControllerInterface
     protected function extractDataFromRequest(Request $request, $object, $singleItem = false, $returnArray = false)
     {
         $data = false;
-        $singularName = $this->getSingularObjectName($object);
+        $singularResponseKey = $this->getSingularResponseKey($object);
+        $pluralResponseKey = $this->getPluralResponseKey($object);
         $str = $request->getContent();
         $obj = json_decode($str);
-        if (property_exists($obj, $singularName)) {
-            $data = [$obj->$singularName];
+        if (property_exists($obj, $singularResponseKey)) {
+            $data = [$obj->$singularResponseKey];
         }
         if (!$data) {
-            if (property_exists($obj, $object)) {
-                $data = $obj->$object;
+            if (property_exists($obj, $pluralResponseKey)) {
+                $data = $obj->$pluralResponseKey;
             }
         }
         if (!$data) {
@@ -169,6 +168,20 @@ class ApiController extends Controller implements ApiControllerInterface
             'uninflected' => array('aamcpcrs'),
         ));
         return Inflector::singularize($object);
+    }
+
+    protected function getPluralResponseKey($object)
+    {
+        $namer = $this->container->get('ilios_api.endpoint_response_namer');
+
+        return $namer->getPluralName($object);
+    }
+
+    protected function getSingularResponseKey($object)
+    {
+        $namer = $this->container->get('ilios_api.endpoint_response_namer');
+
+        return $namer->getSingularName($object);
     }
 
     protected function extractParameters(Request $request)

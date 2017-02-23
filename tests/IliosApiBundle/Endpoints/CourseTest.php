@@ -252,7 +252,7 @@ class CourseTest extends AbstractEndpointTest
         $this->assertEquals($lastSessionId + 1, $newSessions[0], 'incremented session id 1');
         $this->assertEquals($lastSessionId + 2, $newSessions[1], 'incremented session id 2');
 
-        $newSessionsData = $this->getFiltered('sessions', ['filters[id]' => $newSessions]);
+        $newSessionsData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions]);
         $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
         $lastOfferingId = array_pop($offerings)['id'];
 
@@ -272,7 +272,7 @@ class CourseTest extends AbstractEndpointTest
         $this->assertEquals($lastDescriptionId + 1, $newDescriptionIds[0], 'incremented description id 1');
         $this->assertEquals($lastDescriptionId + 2, $newDescriptionIds[1], 'incremented description id 2');
 
-        $newDescriptionData = $this->getFiltered('sessiondescriptions', ['filters[id]' => $newDescriptionIds]);
+        $newDescriptionData = $this->getFiltered('sessiondescriptions', 'sessionDescriptions', ['filters[id]' => $newDescriptionIds]);
 
         $this->assertEquals($newDescriptionData[0]['description'], $descriptions[0]['description']);
         $this->assertEquals($newDescriptionData[1]['description'], $descriptions[1]['description']);
@@ -296,10 +296,10 @@ class CourseTest extends AbstractEndpointTest
         $newSessions = $newCourse['sessions'];
         $this->assertEquals(count($newSessions), 2);
 
-        $newSessionsData = $this->getFiltered('sessions', ['filters[id]' => $newSessions]);
+        $newSessionsData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions]);
 
         $session1Offerings = $newSessionsData[0]['offerings'];
-        $session1OfferingData = $this->getFiltered('offerings', ['filters[id]' => $session1Offerings]);
+        $session1OfferingData = $this->getFiltered('offerings', 'offerings', ['filters[id]' => $session1Offerings]);
 
         $this->assertEquals('2017-02-09T15:00:00+00:00', $session1OfferingData[0]['startDate']);
     }
@@ -324,7 +324,7 @@ class CourseTest extends AbstractEndpointTest
         $this->assertEquals($lastSessionId + 1, $newSessions[0], 'incremented session id 1');
         $this->assertEquals($lastSessionId + 2, $newSessions[1], 'incremented session id 2');
 
-        $data = $this->getFiltered('sessions', ['filters[id]' => $newSessions]);
+        $data = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions]);
 
         $this->assertEmpty($data[0]['offerings']);
         $this->assertEmpty($data[1]['offerings']);
@@ -361,7 +361,7 @@ class CourseTest extends AbstractEndpointTest
         $newSessionIds = $newCourse['sessions'];
         $this->assertEquals(count($newSessionIds), 5);
 
-        $newSessionData = $this->getFiltered('sessions', ['filters[id]' => $newSessionIds]);
+        $newSessionData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessionIds]);
 
         $newSessionsWithILMs = array_filter($newSessionData, function (array $session) {
             return !empty($session['ilmSession']);
@@ -381,7 +381,7 @@ class CourseTest extends AbstractEndpointTest
         $this->assertEquals($lastIlmId + 3, $newIlmIds[2], 'incremented ilm id 3');
         $this->assertEquals($lastIlmId + 4, $newIlmIds[3], 'incremented ilm id 4');
 
-        $newIlmData = $this->getFiltered('ilmsessions', ['filters[id]' => $newIlmIds]);
+        $newIlmData = $this->getFiltered('ilmsessions', 'ilmSessions', ['filters[id]' => $newIlmIds]);
 
         $this->assertEquals($newIlmData[0]['hours'], $ilms[0]['hours']);
         $this->assertEquals($newIlmData[1]['hours'], $ilms[1]['hours']);
@@ -521,7 +521,7 @@ class CourseTest extends AbstractEndpointTest
 
         $this->putTest($data, $postData, $data['id']);
 
-        $result = $this->getOne('objectives', $objectiveId);
+        $result = $this->getOne('objectives', 'objectives', $objectiveId);
         $this->assertEquals($result['children'], ['6']);
     }
 }

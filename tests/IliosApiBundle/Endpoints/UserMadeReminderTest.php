@@ -14,7 +14,7 @@ class UserMadeReminderTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'usermadereminders';
+    protected $testName =  'userMadeReminders';
 
     /**
      * @inheritdoc

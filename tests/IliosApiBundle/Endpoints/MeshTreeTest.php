@@ -14,7 +14,7 @@ class MeshTreeTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'meshtrees';
+    protected $testName =  'meshTrees';
 
     /**
      * @inheritdoc
