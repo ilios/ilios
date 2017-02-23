@@ -218,6 +218,14 @@ ilios_api_ingestionexception_404:
         object: 'ingestionexceptions'
         id: '\d+'
 
+ilios_api_meshdescriptors_getall:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:MeshDescriptor:getAll }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: 'meshdescriptors'
+
 ilios_nondto_api_get:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:NonDtoApi:get }

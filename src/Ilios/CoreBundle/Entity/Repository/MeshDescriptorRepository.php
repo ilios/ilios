@@ -23,7 +23,7 @@ class MeshDescriptorRepository extends EntityRepository
      * @param integer $offset
      * @return MeshDescriptorInterface[]
      */
-    public function findByQ($q, array $orderBy, $limit, $offset)
+    public function findByQ($q, $orderBy, $limit, $offset)
     {
         $qb = $this->_em->createQueryBuilder()
             ->select('DISTINCT d')
