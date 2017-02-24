@@ -67,7 +67,7 @@ class CourseTest extends AbstractEndpointTest
             'learningMaterials' => ['learningMaterials', [1], $skipped = true],
             'sessions' => ['sessions', [1], $skipped = true],
             'ancestor' => ['ancestor', 2],
-            'descendants' => ['descendants', [2]],
+            'descendants' => ['descendants', ['3'], $skipped = true],
         ];
     }
 
