@@ -43,9 +43,6 @@ class UploadControllerTest extends WebTestCase
         unset($this->fakeTestFile);
     }
 
-    /**
-     * @group controllers_b
-     */
     public function testUploadFile()
     {
         $client = $this->createClient();
@@ -67,9 +64,6 @@ class UploadControllerTest extends WebTestCase
         $this->assertSame($data['fileHash'], md5_file(__FILE__));
     }
 
-    /**
-     * @group controllers_b
-     */
     public function testBadUpload()
     {
         $client = $this->createClient();

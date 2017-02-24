@@ -16,17 +16,17 @@ matrix:
   - php: '7.1'
     env: TEST_PHPUNIT_OTHERS=true
   - php: '5.6'
-    env: TEST_PHPUNIT_CONTROLLERSA=true
+    env: TEST_PHPUNIT_API1=true
   - php: '7'
-    env: TEST_PHPUNIT_CONTROLLERSA=true
+    env: TEST_PHPUNIT_API1=true
   - php: '7.1'
-    env: TEST_PHPUNIT_CONTROLLERSA=true
+    env: TEST_PHPUNIT_API1=true
   - php: '5.6'
-    env: TEST_PHPUNIT_CONTROLLERSB=true
+    env: TEST_PHPUNIT_API2=true
   - php: '7'
-    env: TEST_PHPUNIT_CONTROLLERSB=true
+    env: TEST_PHPUNIT_API2=true
   - php: '7.1'
-    env: TEST_PHPUNIT_CONTROLLERSB=true
+    env: TEST_PHPUNIT_API2=true
   - php: '5.6'
     env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
   - php: '7'
@@ -51,8 +51,8 @@ php:
 - '7.1'
 env:
   matrix:
-  - TEST_PHPUNIT_CONTROLLERSA=false
-  - TEST_PHPUNIT_CONTROLLERSB=false
+  - TEST_PHPUNIT_API1=false
+  - TEST_PHPUNIT_API2=false
   - TEST_PHPUNIT_OTHERS=false
   - TEST_PHPUNIT_MESH_DATA_IMPORT=false
   - VALIDATE_SCHEMA=false
@@ -96,14 +96,14 @@ script:
 - if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ];
   then (vendor/bin/phpunit -c phpunit.xml.dist --group mesh_data_import);
   fi
-- if [ "$TEST_PHPUNIT_CONTROLLERSA" = true ];
-  then (vendor/bin/phpunit -c phpunit.xml.dist --group controllers_a);
+- if [ "$TEST_PHPUNIT_API1" = true ];
+  then (vendor/bin/phpunit -c phpunit.xml.dist --group api_1);
   fi
-- if [ "$TEST_PHPUNIT_CONTROLLERSB" = true ];
-  then (vendor/bin/phpunit -c phpunit.xml.dist --group controllers_b);
+- if [ "$TEST_PHPUNIT_API2" = true ];
+  then (vendor/bin/phpunit -c phpunit.xml.dist --group api_2);
   fi
 - if [ "$TEST_PHPUNIT_OTHERS" = true ];
-  then (vendor/bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,controllers_a,controllers_b);
+  then (vendor/bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,api_1,api_2);
   fi
 notifications:
   slack:

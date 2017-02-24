@@ -57,9 +57,6 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertFalse(array_key_exists('session', $materials[3]));
     }
 
-    /**
-     * @group controllers_b
-     */
     public function testGetMaterialsBeforeTheBeginningOfTime()
     {
         $userId = 5;
@@ -68,9 +65,6 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertCount(0, $materials, 'No materials returned');
     }
 
-    /**
-     * @group controllers_b
-     */
     public function testGetMaterialsAfterTheBeginningOfTime()
     {
         $userId = 5;
@@ -78,9 +72,6 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertCount(4, $materials, 'All materials returned');
     }
 
-    /**
-     * @group controllers_b
-     */
     public function testGetMaterialsAfterTheEndOfTime()
     {
         $userId = 5;
@@ -88,9 +79,6 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertCount(0, $materials, 'No materials returned');
     }
 
-    /**
-     * @group controllers_b
-     */
     public function testGetMaterialsBeforeTheEndOfTime()
     {
         $userId = 5;

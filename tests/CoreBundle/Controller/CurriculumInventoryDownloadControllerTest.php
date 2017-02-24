@@ -33,7 +33,6 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
 
     /**
      * @covers \Ilios\CoreBundle\Controller\CurriculumInventoryDownloadController::getAction
-     * @group controllers_a
      */
     public function testGetCurriculumInventoryDownload()
     {
