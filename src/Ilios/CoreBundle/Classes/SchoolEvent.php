@@ -8,7 +8,7 @@ use Ilios\ApiBundle\Annotation as IS;
  * Class SchoolEvent
  * @package Ilios\CoreBundle\Classes
  *
- * @IS\Entity
+ * @IS\DTO
  */
 class SchoolEvent extends CalendarEvent
 {

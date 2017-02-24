@@ -6,6 +6,14 @@ ilios_swagger_file:
 ilios_api_special_routes:
     resource: "@IliosApiBundle/Resources/config/special-routes.yml"
 
+ilios_api_schoolevents:
+    path:     /{version}/schoolevents/{id}
+    defaults: { _controller: IliosApiBundle:Schoolevent:get }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        id: '\d+'
+
 ilios_api_get:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:Api:get }
