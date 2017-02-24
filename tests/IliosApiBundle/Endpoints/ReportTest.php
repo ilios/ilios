@@ -8,7 +8,7 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 /**
  * Report API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class ReportTest extends AbstractEndpointTest
 {

@@ -8,7 +8,7 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 /**
  * MeshTerm API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_2
  */
 class MeshTermTest extends AbstractEndpointTest
 {

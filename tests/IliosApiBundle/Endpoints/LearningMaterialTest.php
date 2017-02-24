@@ -14,7 +14,7 @@ use DateTime;
 /**
  * LearningMaterial API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class LearningMaterialTest extends AbstractEndpointTest
 {

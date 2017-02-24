@@ -9,7 +9,7 @@ use DateTime;
 /**
  * MeshConcept API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_3
  */
 class MeshConceptTest extends AbstractEndpointTest
 {
