@@ -75,8 +75,11 @@ class AcademicYearTest extends AbstractEndpointTest
     /**
      * @dataProvider filtersToTest
      */
-    public function testFilters(array $dataKeys = [], array $filterParts = [])
+    public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false)
     {
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
         if (empty($filterParts)) {
             $this->markTestSkipped('Missing filters tests for this endpoint');
             return;
