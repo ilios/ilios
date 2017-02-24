@@ -15,15 +15,7 @@ class AamcPcrsTest extends AbstractEndpointTest
 {
     use EndpointTestsTrait;
 
-    protected $testName =  'aamcPcrs';
-
-    public function setUp()
-    {
-        parent::setUp();
-        Inflector::rules('singular', array(
-            'uninflected' => array('aamcpcrs'),
-        ));
-    }
+    protected $testName =  'aamcPcrses';
 
     /**
      * @inheritdoc
@@ -74,5 +66,43 @@ class AamcPcrsTest extends AbstractEndpointTest
         $data = $dataLoader->create();
         $postData = $data;
         $this->relatedPostDataTest($data, $postData, 'aamcPcrses', 'competencies');
+    }
+
+    public function testCamelCaseInflection()
+    {
+        $singular = 'aamcPcrs';
+        $plural = 'aamcPcrses';
+        $inflectedPlural = Inflector::pluralize($singular);
+        $inflectedSingular = Inflector::singularize($plural);
+
+        $this->assertEquals($singular, $inflectedSingular, 'correctly singularized');
+        $this->assertEquals($plural, $inflectedPlural, 'correctly pluralized');
+
+        $unInflectedPlural = Inflector::pluralize($plural);
+        $unInflectedSingular = Inflector::singularize($singular);
+
+        $this->assertEquals($singular, $unInflectedSingular, 'correctly singularized');
+        $this->assertEquals($plural, $unInflectedPlural, 'correctly pluralized');
+
+
+    }
+
+    public function testLowerCaseInflection()
+    {
+        $singular = 'aamcpcrs';
+        $plural = 'aamcpcrses';
+        $inflectedPlural = Inflector::pluralize($singular);
+        $inflectedSingular = Inflector::singularize($plural);
+
+        $this->assertEquals($singular, $inflectedSingular, 'correctly singularized');
+        $this->assertEquals($plural, $inflectedPlural, 'correctly pluralized');
+
+        $unInflectedPlural = Inflector::pluralize($plural);
+        $unInflectedSingular = Inflector::singularize($singular);
+
+        $this->assertEquals($singular, $unInflectedSingular, 'correctly singularized');
+        $this->assertEquals($plural, $unInflectedPlural, 'correctly pluralized');
+
+
     }
 }

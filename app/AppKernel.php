@@ -2,6 +2,7 @@
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Doctrine\Common\Inflector\Inflector;
 
 /**
  * Class AppKernel
@@ -16,6 +17,8 @@ class AppKernel extends Kernel
         // Force a UTC timezone on everyone
         date_default_timezone_set('UTC');
         parent::__construct($environment, $debug);
+
+        self::loadInflectionRules();
     }
 
     /**
@@ -105,5 +108,22 @@ class AppKernel extends Kernel
         $debug = filter_var(getenv('ILIOS_API_DEBUG'), FILTER_VALIDATE_BOOLEAN);
 
         return new self($env, $debug);
+    }
+
+    /**
+     * Words which are difficult to inflect need custom
+     * rules.  We set these up here so they are consisten across the
+     * entire application.
+     */
+    public static function loadInflectionRules()
+    {
+        Inflector::rules('singular', [
+            'rules' => ['/^aamc(p)crses$/i' => 'aamc\1crs'],
+            'uninflected' => ['aamcpcrs'],
+        ]);
+        Inflector::rules('plural', [
+            'rules' => ['/^aamc(p)crs$/i' => 'aamc\1crses'],
+            'uninflected' => ['aamcpcrses'],
+        ]);
     }
 }

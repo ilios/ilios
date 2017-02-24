@@ -17,13 +17,6 @@ class EndpointResponseNamer
     public function __construct(Kernel $kernel)
     {
         $this->pathToEntities = $kernel->locateResource('@IliosCoreBundle/Entity');
-
-        Inflector::rules('plural', array(
-            'uninflected' => array('aamcpcrs'),
-        ));
-        Inflector::rules('singular', array(
-            'uninflected' => array('aamcpcrs'),
-        ));
     }
 
     public function getPluralName($object)

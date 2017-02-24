@@ -1,6 +1,6 @@
 parameters:
   ilios_api_valid_endpoints: >-
-    aamcmethods,aamcpcrs,aamcresourcetypes,academicyears,alertchangetypes,alerts,applicationconfigs,assessmentoptions,authentications,
+    aamcmethods,aamcpcrses,aamcresourcetypes,academicyears,alertchangetypes,alerts,applicationconfigs,assessmentoptions,authentications,
     cohorts,competencies,courses,courseclerkshiptypes,courselearningmaterials,curriculuminventoryacademiclevels,curriculuminventoryexports,
     curriculuminventoryinstitutions,curriculuminventorysequenceblocks,curriculuminventorysequences,curriculuminventoryreports,
     departments,ilmsessions,ingestionexceptions,instructorgroups,learnergroups,learningmaterials,learningmaterialstatuses,learningmaterialuserroles,

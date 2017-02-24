@@ -164,10 +164,9 @@ class ApiController extends Controller implements ApiControllerInterface
 
     protected function getSingularObjectName($object)
     {
-        Inflector::rules('singular', array(
-            'uninflected' => array('aamcpcrs'),
-        ));
-        return Inflector::singularize($object);
+        $namer = $this->container->get('ilios_api.endpoint_response_namer');
+
+        return strtolower($namer->getSingularName($object));
     }
 
     protected function getPluralResponseKey($object)
