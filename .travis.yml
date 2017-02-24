@@ -113,7 +113,7 @@ script:
   then (vendor/bin/phpunit -c phpunit.xml.dist --group api_3);
   fi
 - if [ "$TEST_PHPUNIT_OTHERS" = true ];
-  then (vendor/bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,api_1,api_2,api3);
+  then (vendor/bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,api_1,api_2,api_3);
   fi
 notifications:
   slack:
