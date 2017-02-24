@@ -126,8 +126,72 @@ class CohortTest extends AbstractEndpointTest
     public function testPutForAllData()
     {
         $dataLoader = $this->getDataLoader();
-        $allCohorts = $dataLoader->getAll();
+        $all = $dataLoader->getAll();
+        $putsToTest = $this->putsToTest();
+        $firstPut = array_shift($putsToTest);
+        $changeKey = $firstPut[0];
+        $changeValue = $firstPut[1];
 
+        foreach ($all as $cohort) {
+            $programYearId = $cohort['programYear'];
+
+            $programYear = $this->getProgramYear($programYearId);
+            $programYear['locked'] = false;
+            $programYear['archived'] = false;
+            $this->putOne('programyears', 'programYear', $programYearId, $programYear);
+            $cohort[$changeKey] = $changeValue;
+            $this->putTest($cohort, $cohort, $cohort['id']);
+        }
+    }
+
+    public function testRejectPutCohortInLockedProgramYear()
+    {
+        $userId = 2;
+        $dataLoader = $this->getDataLoader();
+        $cohort = $dataLoader->getOne();
+        $programYear = $this->getProgramYear($cohort['programYear']);
+        $programYear['locked'] = true;
+        $programYear['archived'] = false;
+        $this->putOne('programyears', 'programYear', $programYear['id'], $programYear);
+
+        $id = $cohort['id'];
+
+        $this->canNot(
+            $userId,
+            'PUT',
+            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'cohorts', 'id' => $id]),
+            json_encode(['cohort' => $cohort])
+        );
+    }
+
+    public function testRejectPutCohortInArchivedProgramYear()
+    {
+        $userId = 2;
+        $dataLoader = $this->getDataLoader();
+        $cohort = $dataLoader->getOne();
+        $programYear = $this->getProgramYear($cohort['programYear']);
+        $programYear['locked'] = false;
+        $programYear['archived'] = true;
+        $this->putOne('programyears', 'programYear', $programYear['id'], $programYear);
+
+        $id = $cohort['id'];
+
+        $this->canNot(
+            $userId,
+            'PUT',
+            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'cohorts', 'id' => $id]),
+            json_encode(['cohort' => $cohort])
+        );
+    }
+
+    /**
+     * Get programYear data from loader by id
+     * @param integer $programYearId
+     *
+     * @return array
+     */
+    public function getProgramYear($id)
+    {
         $programYearDataLoader = $this->container->get('ilioscore.dataloader.programyear');
         $allProgramYears = $programYearDataLoader->getAll();
         $programYearsById = [];
@@ -135,19 +199,6 @@ class CohortTest extends AbstractEndpointTest
             $programYearsById[$arr['id']] = $arr;
         }
 
-        $putsToTest = $this->putsToTest();
-        $firstPut = array_shift($putsToTest);
-        $changeKey = $firstPut[0];
-        $changeValue = $firstPut[1];
-
-        foreach ($allCohorts as $cohort) {
-            $programYearId = $cohort['programYear'];
-            $programYear = $programYearsById[$programYearId];
-            $programYear['locked'] = false;
-            $programYear['archived'] = false;
-            $this->putOne('programyears', 'programYear', $programYear['id'], $programYear);
-            $cohort[$changeKey] = $changeValue;
-            $this->putTest($cohort, $cohort, $cohort['id']);
-        }
+        return $programYearsById[$id];
     }
 }
