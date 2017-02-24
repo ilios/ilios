@@ -179,7 +179,7 @@ class SessionTest extends AbstractEndpointTest
     {
         $dataLoader = $this->container->get('ilioscore.dataloader.sessionlearningmaterial');
         $data = $dataLoader->create();
-        $this->relatedTimeStampPostTest(1, 'sessionlearningmaterials', 'sessionLearningMaterial', $data);
+        $this->relatedTimeStampPostTest(1, 'sessionlearningmaterials', 'sessionLearningMaterials', $data);
     }
 
     public function testUpdatingSessionLearningMaterialUpdatesSessionStamp()
