@@ -49,7 +49,7 @@ class MeshConceptTest extends AbstractEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnliesToTest()
+    public function readOnlyPropertiesToTest()
     {
         return [
             'createdAt' => ['createdAt', 1, 99],

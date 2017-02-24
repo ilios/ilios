@@ -70,7 +70,7 @@ class SessionTest extends AbstractEndpointTest
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public function readOnliesToTest()
+    public function readOnlyPropertiesToTest()
     {
         return [
             'id' => ['id', 1, 99],

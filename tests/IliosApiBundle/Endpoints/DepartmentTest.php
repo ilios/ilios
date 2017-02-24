@@ -43,7 +43,7 @@ class DepartmentTest extends AbstractEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnliesToTest()
+    public function readOnlyPropertiesToTest()
     {
         return [
             'id' => ['id', 1, 99],

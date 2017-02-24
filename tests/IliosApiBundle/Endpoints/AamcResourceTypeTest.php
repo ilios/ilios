@@ -43,7 +43,7 @@ class AamcResourceTypeTest extends AbstractEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnliesToTest()
+    public function readOnlyPropertiesToTest()
     {
         return [];
     }

@@ -53,7 +53,7 @@ class AuthenticationTest extends AbstractEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnliesToTest()
+    public function readOnlyPropertiesToTest()
     {
         return [
             'invalidateTokenIssuedBefore' => ['invalidateTokenIssuedBefore', 1, 99],

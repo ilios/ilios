@@ -41,7 +41,7 @@ trait EndpointTestsTrait
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public abstract function readOnliesToTest();
+    public abstract function readOnlyPropertiesToTest();
 
     public function testGetOne()
     {
@@ -130,7 +130,7 @@ trait EndpointTestsTrait
      * @param mixed|null $value
      * @param bool $skipped
      *
-     * @dataProvider readOnliesToTest
+     * @dataProvider readOnlyPropertiesToTest
      */
     public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
     {
@@ -146,7 +146,7 @@ trait EndpointTestsTrait
             if (array_key_exists($key, $data) and $data[$key] == $value) {
                 $this->fail(
                     "This value is already set for {$key}. " .
-                    "Modify " . get_class($this) . '::readOnliesToTest'
+                    "Modify " . get_class($this) . '::readOnlyPropertiesToTest'
                 );
             }
             $postData = $data;
