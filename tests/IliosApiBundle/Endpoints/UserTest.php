@@ -214,7 +214,7 @@ class UserTest extends AbstractEndpointTest
         $this->filterTest($filters, $expectedData);
     }
 
-    public function testRejectUnpriviledgedPostRootUser()
+    public function testRejectUnprivilegedPostRootUser()
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -268,7 +268,7 @@ class UserTest extends AbstractEndpointTest
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
     }
 
-    public function testRejectUnpriviledgedChangeUserToRoot()
+    public function testRejectUnprivilegedChangeUserToRoot()
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -287,7 +287,7 @@ class UserTest extends AbstractEndpointTest
         );
     }
 
-    public function testRejectUnpriviledgedRemoveRootFromUser()
+    public function testRejectUnprivilegedRemoveRootFromUser()
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();

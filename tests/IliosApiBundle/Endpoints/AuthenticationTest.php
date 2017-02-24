@@ -152,7 +152,7 @@ class AuthenticationTest extends AbstractEndpointTest
     }
 
     /**
-     * Overridden because authenticaiton users
+     * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
      */
@@ -164,7 +164,7 @@ class AuthenticationTest extends AbstractEndpointTest
     }
 
     /**
-     * Overridden because authenticaiton users
+     * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
      */
@@ -181,7 +181,7 @@ class AuthenticationTest extends AbstractEndpointTest
     }
 
     /**
-     * Overridden because authenticaiton users
+     * Overridden because authentication users
      * 'user' as the Primary Key
      * @dataProvider putsToTest
      * @inheritdoc
@@ -203,7 +203,7 @@ class AuthenticationTest extends AbstractEndpointTest
     }
 
     /**
-     * Overridden because authenticaiton users
+     * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
      */
@@ -221,7 +221,7 @@ class AuthenticationTest extends AbstractEndpointTest
 
 
     /**
-     * Overridden because authenticaiton users
+     * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
      */
@@ -232,7 +232,7 @@ class AuthenticationTest extends AbstractEndpointTest
     }
 
     /**
-     * Overridden because authenticaiton users
+     * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
      */
@@ -249,7 +249,7 @@ class AuthenticationTest extends AbstractEndpointTest
     }
 
     /**
-     * Overridden because authenticaiton users
+     * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
      */
@@ -267,7 +267,7 @@ class AuthenticationTest extends AbstractEndpointTest
     }
 
     /**
-     * Overridden because authenticaiton users
+     * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
      */
@@ -295,7 +295,7 @@ class AuthenticationTest extends AbstractEndpointTest
     }
 
     /**
-     * Overridden because authenticaiton users
+     * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
      */

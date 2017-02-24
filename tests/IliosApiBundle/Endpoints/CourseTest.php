@@ -418,7 +418,7 @@ class CourseTest extends AbstractEndpointTest
         return $data[0];
     }
 
-    public function testRejectUnpriviledgedPostCourse()
+    public function testRejectUnprivilegedPostCourse()
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
@@ -432,7 +432,7 @@ class CourseTest extends AbstractEndpointTest
         );
     }
 
-    public function testRejectUnpriviledgedPutCourse()
+    public function testRejectUnprivilegedPutCourse()
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
@@ -447,7 +447,7 @@ class CourseTest extends AbstractEndpointTest
         );
     }
 
-    public function testRejectUnpriviledgedPutCourseWithWrongId()
+    public function testRejectUnprivilegedPutCourseWithWrongId()
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
@@ -463,7 +463,7 @@ class CourseTest extends AbstractEndpointTest
         );
     }
 
-    public function testRejectUnpriviledgedDeleteCourse()
+    public function testRejectUnprivilegedDeleteCourse()
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
@@ -477,7 +477,7 @@ class CourseTest extends AbstractEndpointTest
         );
     }
 
-    public function testRejectUnpriviledgedRollover()
+    public function testRejectUnprivilegedRollover()
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
