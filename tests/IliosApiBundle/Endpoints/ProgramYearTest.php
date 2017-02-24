@@ -74,7 +74,6 @@ class ProgramYearTest extends AbstractEndpointTest
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
-            'startYear' => [[1], ['startYear' => '2015']],
             'locked' => [[3], ['locked' => true]],
             'notLocked' => [[0, 1, 2], ['locked' => false]],
             'archived' => [[2], ['archived' => true]],
