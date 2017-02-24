@@ -35,6 +35,7 @@ class AamcMethodTest extends AbstractEndpointTest
         return [
             'description' => ['description', $this->getFaker()->text],
             'sessionTypes' => ['sessionTypes', [1]],
+            'id' => ['id', 'NEW1', $skip = true],
         ];
     }
 
@@ -53,19 +54,9 @@ class AamcMethodTest extends AbstractEndpointTest
     {
         return [
             'id' => [[0], ['id' => 'AM001']],
+            'ids' => [[0, 1], ['id' => ['AM001', 'AM002']]],
             'description' => [[1], ['description' => 'filterable description']],
             'sessionTypes' => [[0], ['sessionTypes' => [1]]],
         ];
-    }
-
-    public function testPutId()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $id = $data['id'];
-        $data['id'] = $this->getFaker()->text(10);
-
-        $postData = $data;
-        $this->putTest($data, $postData, $id);
     }
 }
