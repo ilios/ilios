@@ -229,7 +229,7 @@ class UserTest extends AbstractEndpointTest
             $userId,
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'users']),
-            json_encode(['users' => $postData])
+            json_encode(['users' => [$postData]])
         );
     }
 
@@ -282,7 +282,7 @@ class UserTest extends AbstractEndpointTest
         $this->canNot(
             $userId,
             'PUT',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]),
+            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]),
             json_encode(['user' => $postData])
         );
     }
@@ -303,7 +303,7 @@ class UserTest extends AbstractEndpointTest
         $this->canNot(
             $userId,
             'PUT',
-            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]),
+            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'users', 'id' => $postData['id']]),
             json_encode(['user' => $postData])
         );
     }
@@ -332,7 +332,7 @@ class UserTest extends AbstractEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'users', 'learnergroups', 'learnerGroups');
+        $this->relatedPostDataTest($data, $postData, 'users', 'learnerGroups', 'learnerGroups');
     }
 
     public function testPostUserInstructorLearnerGroup()
@@ -340,7 +340,7 @@ class UserTest extends AbstractEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'instructors', 'learnergroups', 'instructedLearnerGroups');
+        $this->relatedPostDataTest($data, $postData, 'instructors', 'learnerGroups', 'instructedLearnerGroups');
     }
 
     public function testPostUserInstructorGroup()
@@ -348,7 +348,7 @@ class UserTest extends AbstractEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'users', 'instructorgroups', 'instructorGroups');
+        $this->relatedPostDataTest($data, $postData, 'users', 'instructorGroups', 'instructorGroups');
     }
 
     public function testPostUserIlmSession()
@@ -356,7 +356,7 @@ class UserTest extends AbstractEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'learners', 'ilmsessions', 'learnerIlmSessions');
+        $this->relatedPostDataTest($data, $postData, 'learners', 'ilmSessions', 'learnerIlmSessions');
     }
 
     public function testPostUserInstructedIlmSession()
@@ -364,7 +364,7 @@ class UserTest extends AbstractEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'instructors', 'ilmsessions', 'instructorIlmSessions');
+        $this->relatedPostDataTest($data, $postData, 'instructors', 'ilmSessions', 'instructorIlmSessions');
     }
 
     public function testPostUserOffering()
