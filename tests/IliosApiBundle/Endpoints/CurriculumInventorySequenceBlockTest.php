@@ -529,21 +529,21 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'curriculuminventorysequenceblocks']),
-            json_encode(['curriculuminventorysequenceblocks' => [$block]]),
+            json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
         $this->assertEquals(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             $response->getStatusCode(),
-            'Fails on loswer boundary.'
+            'Fails on lower boundary: '
         );
         $block['orderInSequence'] = count($parent['children']) + 2; // out of bounds on upper boundary
 
         $this->createJsonRequest(
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'curriculuminventorysequenceblocks']),
-            json_encode(['curriculuminventorysequenceblocks' => [$block]]),
+            json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
@@ -586,14 +586,14 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
                 'object' => 'curriculuminventorysequenceblocks',
                 'id' => $blockId
             ]),
-            json_encode(['curriculuminventorysequenceblock' => $block]),
+            json_encode(['curriculumInventorySequenceBlock' => $block]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
         $this->assertEquals(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             $response->getStatusCode(),
-            'Fails on loswer boundary.'
+            'Fails on lower boundary.'
         );
         $block['orderInSequence'] = count($parent['children']) + 2; // out of bounds on upper boundary
 
@@ -604,7 +604,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
                 'object' => 'curriculuminventorysequenceblocks',
                 'id' => $blockId
             ]),
-            json_encode(['curriculuminventorysequenceblock' => $block]),
+            json_encode(['curriculumInventorySequenceBlock' => $block]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
