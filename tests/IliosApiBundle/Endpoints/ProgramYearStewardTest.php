@@ -73,7 +73,7 @@ class ProgramYearStewardTest extends AbstractEndpointTest
     {
         $departmentDataLoader = $this->container->get('ilioscore.dataloader.department');
         $departments = $departmentDataLoader->createMany(51);
-        $savedDepartments = $this->postMany('departments', $departments);
+        $savedDepartments = $this->postMany('departments', 'departments', $departments);
 
         $dataLoader = $this->getDataLoader();
 

@@ -48,6 +48,7 @@ class IngestionExceptionTest extends AbstractEndpointTest
     }
 
     /**
+     * @inheritdoc
      * @dataProvider filtersToTest
      */
     public function testFilters(array $dataKeys = [], array $filterParts = [])

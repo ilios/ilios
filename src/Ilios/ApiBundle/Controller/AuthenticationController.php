@@ -124,7 +124,7 @@ class AuthenticationController extends ApiController
 
         $json = json_encode($authObject);
         $serializer = $this->getSerializer();
-        $serializer->deserialize($json, get_class($entity), 'json', array('object_to_populate' => $entity));
+        $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         if (isset($encodedPassword)) {
             $entity->setPasswordBcrypt($encodedPassword);
         }
@@ -141,7 +141,7 @@ class AuthenticationController extends ApiController
         $entity = $manager->findOneBy(['user'=> $userId]);
 
         if (! $entity) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $userId));
         }
 
         $authChecker = $this->get('security.authorization_checker');

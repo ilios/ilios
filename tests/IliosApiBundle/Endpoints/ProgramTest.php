@@ -88,7 +88,7 @@ class ProgramTest extends AbstractEndpointTest
         ];
     }
 
-    public function testRejectUnpriviledgedPostProgram()
+    public function testRejectUnprivilegedPostProgram()
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
@@ -102,7 +102,7 @@ class ProgramTest extends AbstractEndpointTest
         );
     }
 
-    public function testRejectUnpriviledgedPutProgram()
+    public function testRejectUnprivilegedPutProgram()
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
@@ -116,7 +116,7 @@ class ProgramTest extends AbstractEndpointTest
         );
     }
 
-    public function testRejectUnpriviledgedPutNewProgram()
+    public function testRejectUnprivilegedPutNewProgram()
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
@@ -130,7 +130,7 @@ class ProgramTest extends AbstractEndpointTest
         );
     }
 
-    public function testRejectUnpriviledgedDeleteProgram()
+    public function testRejectUnprivilegedDeleteProgram()
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();

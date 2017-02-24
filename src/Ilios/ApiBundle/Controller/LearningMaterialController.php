@@ -117,7 +117,7 @@ class LearningMaterialController extends NonDtoApiController
 
         $json = json_encode($data);
         $serializer = $this->getSerializer();
-        $serializer->deserialize($json, get_class($entity), 'json', array('object_to_populate' => $entity));
+        $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         $this->validateAndAuthorizeEntities([$entity], $permission);
 
         $manager->update($entity, true, false);
@@ -142,6 +142,7 @@ class LearningMaterialController extends NonDtoApiController
 
     /**
      * @inheritdoc
+     * @param LearningMaterialInterface $entity
      */
     protected function validateEntity($entity)
     {

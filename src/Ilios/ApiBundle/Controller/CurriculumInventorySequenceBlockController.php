@@ -2,14 +2,10 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -63,7 +59,7 @@ class CurriculumInventorySequenceBlockController extends NonDtoApiController
 
         $json = $this->extractDataFromRequest($request, $object, $singleItem = true);
         $serializer = $this->getSerializer();
-        $serializer->deserialize($json, get_class($entity), 'json', array('object_to_populate' => $entity));
+        $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         $this->validateAndAuthorizeEntities([$entity], $permission);
 
         $this->reorderChildrenOnChildSequenceOrderChange(
@@ -84,6 +80,7 @@ class CurriculumInventorySequenceBlockController extends NonDtoApiController
     public function deleteAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);
+        /** @var CurriculumInventorySequenceBlockInterface $entity */
         $entity = $manager->findOneBy(['id'=> $id]);
 
         if (! $entity) {
@@ -135,7 +132,7 @@ class CurriculumInventorySequenceBlockController extends NonDtoApiController
      * Reorders child sequence blocks if the parent's child sequence order changes.
      * @param int $oldValue
      * @param CurriculumInventorySequenceBlockInterface $block
-     * @param ManagerInterface $manager
+     * @internal param ManagerInterface $manager
      */
     protected function reorderChildrenOnChildSequenceOrderChange(
         $oldValue,

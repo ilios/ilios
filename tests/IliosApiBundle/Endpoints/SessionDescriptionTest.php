@@ -72,7 +72,7 @@ class SessionDescriptionTest extends AbstractEndpointTest
         $count = 51;
         $sessionDataLoader = $this->container->get('ilioscore.dataloader.session');
         $sessions = $sessionDataLoader->createMany($count);
-        $savedSessions = $this->postMany('sessions', $sessions);
+        $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
 
         $dataLoader = $this->getDataLoader();
         $data = [];

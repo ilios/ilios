@@ -118,8 +118,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     /**
      * An overridable way to do the field comparison
-     * So those endpoints which dont return all data
-     * like Users::alerts[] will be able to do thier comparison
+     * So those endpoints which don't return all data
+     * like Users::alerts[] will be able to do their comparison
      *
      * @param array $expected
      * @param array $result
@@ -160,8 +160,9 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param string $url
      * @param string $content
      * @param string $token
+     * @param array $files
      */
-    protected function createJsonRequest($method, $url, $content = null, $token = null, $files = array())
+    protected function createJsonRequest($method, $url, $content = null, $token = null, $files = [])
     {
         $this->makeJsonRequest($this->client, $method, $url, $content, $token, $files);
     }

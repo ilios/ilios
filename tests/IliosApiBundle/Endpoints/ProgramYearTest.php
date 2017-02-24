@@ -155,7 +155,7 @@ class ProgramYearTest extends AbstractEndpointTest
         return $fetchedResponseData;
     }
 
-    public function testRejectUnpriviledgedPost()
+    public function testRejectUnprivilegedPost()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
@@ -169,7 +169,7 @@ class ProgramYearTest extends AbstractEndpointTest
         );
     }
 
-    public function testRejectUnpriviledgedPut()
+    public function testRejectUnprivilegedPut()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
@@ -183,7 +183,7 @@ class ProgramYearTest extends AbstractEndpointTest
         );
     }
 
-    public function testRejectUnpriviledgedDelete()
+    public function testRejectUnprivilegedDelete()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();

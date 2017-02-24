@@ -4,7 +4,6 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
-use DateTime;
 
 /**
  * MeshConcept API endpoint Test.

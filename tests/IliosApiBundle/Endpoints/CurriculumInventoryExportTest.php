@@ -2,7 +2,6 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
-use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
@@ -51,7 +50,7 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
         $this->assertTrue($diff->days < 2, "The createdAt timestamp is within the last day");
         $this->assertFalse(array_key_exists('document', $responseData), 'Document is not part of payload.');
 
-        /** @var CurriculumInventoryReportInterface $export */
+        /** @var CurriculumInventoryReportInterface $report */
         $report = $this->fixtures->getReference('curriculumInventoryReports' . $data['report']);
         $export = $report->getExport();
         $this->assertNotEmpty($export);

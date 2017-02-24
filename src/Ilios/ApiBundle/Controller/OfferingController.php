@@ -57,7 +57,7 @@ class OfferingController extends NonDtoApiController
 
         $json = $this->extractDataFromRequest($request, $object, $singleItem = true);
         $serializer = $this->getSerializer();
-        $serializer->deserialize($json, get_class($entity), 'json', array('object_to_populate' => $entity));
+        $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         $this->validateAndAuthorizeEntities([$entity], $permission);
 
         $manager->update($entity, false);

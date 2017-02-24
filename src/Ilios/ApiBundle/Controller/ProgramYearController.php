@@ -2,14 +2,10 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\CohortInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\GoneHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class ProgramYearController
@@ -63,7 +59,7 @@ class ProgramYearController extends ApiController
         }
         $json = json_encode($data);
         $serializer = $this->getSerializer();
-        $serializer->deserialize($json, get_class($entity), 'json', array('object_to_populate' => $entity));
+        $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         $this->validateAndAuthorizeEntities([$entity], $permission);
 
         if (empty($entity->getCohort())) {

@@ -108,6 +108,7 @@ class OfferingTest extends AbstractEndpointTest
 
     /**
      * @dataProvider changeTypePutsToTest
+     * @inheritdoc
      */
     public function testPut($key, $value, $changeType)
     {

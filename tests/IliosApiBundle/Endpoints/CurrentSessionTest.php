@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +28,11 @@ class CurrentSessionTest extends WebTestCase
      * @var Client
      */
     protected $client;
+
+    /**
+     * @var ProxyReferenceRepository
+     */
+    protected $fixtures;
 
 
     public function setUp()

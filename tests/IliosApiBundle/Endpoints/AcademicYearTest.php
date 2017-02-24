@@ -74,6 +74,7 @@ class AcademicYearTest extends AbstractEndpointTest
 
     /**
      * @dataProvider filtersToTest
+     * @inheritdoc
      */
     public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false)
     {

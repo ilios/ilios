@@ -29,7 +29,7 @@ class UsereventTest extends AbstractEndpointTest
     public function testGetEvents()
     {
         $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
-        $ilmSessions = $this->container->get('ilioscore.dataloader.ilmSession')->getAll();
+        $ilmSessions = $this->container->get('ilioscore.dataloader.ilmsession')->getAll();
         $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
         $userId = 2;
 

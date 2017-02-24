@@ -40,7 +40,7 @@ class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
             'addressCity' => ['addressCity', $this->getFaker()->text(100)],
             'addressStateOrProvince' => ['addressStateOrProvince', $this->getFaker()->text(50)],
             'addressZipCode' => ['addressZipCode', $this->getFaker()->text(10)],
-            'addressCountryCode' => ['addressCountryCode', $this->getFaker()->word(2)],
+            'addressCountryCode' => ['addressCountryCode', $this->getFaker()->word],
             'school' => ['school', 3],
         ];
     }
@@ -89,7 +89,7 @@ class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
         $count = 26;
         $schoolDataLoader = $this->container->get('ilioscore.dataloader.school');
         $schools = $schoolDataLoader->createMany($count);
-        $savedSchools = $this->postMany('schools', $schools);
+        $savedSchools = $this->postMany('schools', 'schools', $schools);
 
         $dataLoader = $this->getDataLoader();
 

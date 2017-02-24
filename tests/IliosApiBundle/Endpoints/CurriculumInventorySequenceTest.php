@@ -71,7 +71,7 @@ class CurriculumInventorySequenceTest extends AbstractEndpointTest
         $count = 26;
         $reportDataLoader = $this->container->get('ilioscore.dataloader.curriculuminventoryreport');
         $reports = $reportDataLoader->createMany($count);
-        $savedReports = $this->postMany('curriculuminventoryreports', $reports);
+        $savedReports = $this->postMany('curriculuminventoryreports', 'curriculumInventoryReports', $reports);
 
         $dataLoader = $this->getDataLoader();
         $data = [];

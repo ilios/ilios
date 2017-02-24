@@ -40,7 +40,7 @@ class Entity extends ObjectNormalizer
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize($object, $format = null, array $context = [])
     {
         $arr = parent::normalize($object, $format, $context);
 
@@ -53,7 +53,7 @@ class Entity extends ObjectNormalizer
     /**
      * {@inheritdoc}
      */
-    protected function getAttributeValue($object, $property, $format = null, array $context = array())
+    protected function getAttributeValue($object, $property, $format = null, array $context = [])
     {
         $reflection = new \ReflectionClass($object);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
@@ -94,7 +94,7 @@ class Entity extends ObjectNormalizer
         return $this->propertyAccessor->getValue($object, $property);
     }
 
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
         $reflection = new \ReflectionClass($class);
         $normalizedData = $this->prepareForDenormalization($data);

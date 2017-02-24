@@ -68,6 +68,7 @@ class UserRoleTest extends AbstractEndpointTest
     /**
      * We can't change the title on the Developer role
      * Doing that leaves us without the permissions to change the title
+     * @inheritdoc
      * @dataProvider putsToTest
      */
     public function testPut($key, $value)

@@ -56,7 +56,7 @@ class UserTest extends AbstractEndpointTest
             'campusId' => ['campusId', $this->getFaker()->text(10)],
             'otherId' => ['otherId', $this->getFaker()->text(10)],
             'userSyncIgnore' => ['userSyncIgnore', true],
-            'icsFeedKey' => ['icsFeedKey', hash('sha256', 'testValueics')],
+            'icsFeedKey' => ['icsFeedKey', hash('sha256', 'testValueICS')],
             'reminders' => ['reminders', [1], $skipped = true],
             'reports' => ['reports', [1], $skipped = true],
             'school' => ['school', 3],

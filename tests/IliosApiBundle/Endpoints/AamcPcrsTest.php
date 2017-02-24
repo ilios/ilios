@@ -7,7 +7,7 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
- * AamcPcrs API endpoint Test.
+ * AamcPcrses API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
  * @group api_2
  */
@@ -83,8 +83,6 @@ class AamcPcrsTest extends AbstractEndpointTest
 
         $this->assertEquals($singular, $unInflectedSingular, 'correctly singularized');
         $this->assertEquals($plural, $unInflectedPlural, 'correctly pluralized');
-
-
     }
 
     public function testLowerCaseInflection()
@@ -102,7 +100,5 @@ class AamcPcrsTest extends AbstractEndpointTest
 
         $this->assertEquals($singular, $unInflectedSingular, 'correctly singularized');
         $this->assertEquals($plural, $unInflectedPlural, 'correctly pluralized');
-
-
     }
 }

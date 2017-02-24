@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\LearningMaterialData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
-use DateTime;
 
 /**
  * LearningMaterial API endpoint Test.
@@ -210,7 +209,7 @@ class LearningMaterialTest extends AbstractEndpointTest
             '/upload',
             null,
             $this->getAuthenticatedUserToken(),
-            array('file' => $fakeTestFile)
+            ['file' => $fakeTestFile]
         );
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);

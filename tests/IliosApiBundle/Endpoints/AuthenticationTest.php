@@ -75,7 +75,7 @@ class AuthenticationTest extends AbstractEndpointTest
     {
         $userDataLoader = $this->container->get('ilioscore.dataloader.user');
         $users = $userDataLoader->createMany($count);
-        $savedUsers = $this->postMany('users', $users);
+        $savedUsers = $this->postMany('users', 'users', $users);
 
         $dataLoader = $this->getDataLoader();
 
@@ -184,6 +184,7 @@ class AuthenticationTest extends AbstractEndpointTest
      * Overridden because authenticaiton users
      * 'user' as the Primary Key
      * @dataProvider putsToTest
+     * @inheritdoc
      */
     public function testPut($key, $value)
     {

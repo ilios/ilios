@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -136,7 +137,7 @@ class ObjectiveTest extends AbstractEndpointTest
 
         $response = $this->client->getResponse();
 
-        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             json_decode($response->getContent(), true)['objectives'][0]['title'],
             $output,
@@ -182,6 +183,6 @@ class ObjectiveTest extends AbstractEndpointTest
         );
 
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, Codes::HTTP_BAD_REQUEST);
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 }

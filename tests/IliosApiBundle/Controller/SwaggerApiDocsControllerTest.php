@@ -13,7 +13,7 @@ class SwaggerApiDocsControllerTest extends WebTestCase
     public function testLoad()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/api/doc/');
+        $client->request('GET', '/api/doc/');
         $response = $client->getResponse();
 
         $this->assertEquals(

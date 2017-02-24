@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Doctrine\Common\Util\Inflector;
 use Symfony\Component\Serializer\Serializer;
 
 class ApiController extends Controller implements ApiControllerInterface
@@ -73,7 +72,7 @@ class ApiController extends Controller implements ApiControllerInterface
 
         $json = $this->extractDataFromRequest($request, $object, $singleItem = true);
         $serializer = $this->getSerializer();
-        $serializer->deserialize($json, get_class($entity), 'json', array('object_to_populate' => $entity));
+        $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         $this->validateAndAuthorizeEntities([$entity], $permission);
 
         $manager->update($entity, true, false);

@@ -73,12 +73,12 @@ class PermissionTest extends AbstractEndpointTest
     {
         $userDataLoader = $this->container->get('ilioscore.dataloader.user');
         $users = $userDataLoader->createMany(51);
-        $savedUsers = $this->postMany('users', $users);
+        $savedUsers = $this->postMany('users', 'users', $users);
 
         $dataLoader = $this->getDataLoader();
 
         $data = [];
-        foreach ($users as $i => $user) {
+        foreach ($savedUsers as $i => $user) {
             $arr = $dataLoader->create();
             $arr['id'] += $i;
             $arr['user'] = (string) $user['id'];

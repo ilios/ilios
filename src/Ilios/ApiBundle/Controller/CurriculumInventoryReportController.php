@@ -76,6 +76,11 @@ class CurriculumInventoryReportController extends NonDtoApiController
 
     /**
      * Rollover (clone) a given curriculum Inventory report, down to the sequence block level.
+     * @param $version
+     * @param $object
+     * @param $id
+     * @param Request $request
+     * @return Response
      */
     public function rolloverAction($version, $object, $id, Request $request)
     {

@@ -5,7 +5,7 @@ namespace Ilios\ApiBundle\Service;
 use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class EndpointResponseNamer
 {
@@ -14,7 +14,7 @@ class EndpointResponseNamer
      */
     protected $pathToEntities;
 
-    public function __construct(Kernel $kernel)
+    public function __construct(KernelInterface $kernel)
     {
         $this->pathToEntities = $kernel->locateResource('@IliosCoreBundle/Entity');
     }

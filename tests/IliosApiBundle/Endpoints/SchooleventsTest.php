@@ -30,7 +30,7 @@ class SchooleventsTest extends AbstractEndpointTest
     {
         $school = $this->container->get('ilioscore.dataloader.school')->getOne();
         $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
-        $ilmSessions = $this->container->get('ilioscore.dataloader.ilmSession')->getAll();
+        $ilmSessions = $this->container->get('ilioscore.dataloader.ilmsession')->getAll();
         $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
 
         $events = $this->getEvents($school['id'], 0, 100000000000);
