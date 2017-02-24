@@ -1,61 +1,22 @@
 <?php
 
-namespace Ilios\CoreBundle\Controller;
+namespace Ilios\ApiBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Request\ParamFetcherInterface;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use FOS\RestBundle\Controller\FOSRestController;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use DateTime;
 
 /**
- * User event controller
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("Userevent")
+ * Class UsereventController
+ * @package Ilios\ApiBundle\Controller
  */
-class UsereventController
+class UsereventController extends Controller
 {
-
-  /**
-   * Get events for a user
-   *
-   * @ApiDoc(
-   *   resource = true,
-   *   description = "Get events for a user.",
-   *   output="Ilios\CoreBundle\Classes\UserEvent",
-   *   statusCodes = {
-   *     200 = "List of user events",
-   *     204 = "No content. Nothing to list."
-   *   }
-   * )
-   *
-   * @View(serializerEnableMaxDepthChecks=true)
-   *
-   * @param integer $id
-   * @param ParamFetcherInterface $paramFetcher
-   *
-   * @return Response
-   *
-   * @QueryParam(
-   *   name="from",
-   *   requirements="\d+",
-   *   description="Timestamp for first event from time."
-   * )
-   * @QueryParam(
-   *   name="to",
-   *   requirements="\d+",
-   *   description="Time stamp for last event from time"
-   * )
-   *
-   * @throws \Exception
-   */
-    public function getAction($id, ParamFetcherInterface $paramFetcher)
+    public function getAction($version, $id, Request $request)
     {
         $manager = $this->container->get('ilioscore.user.manager');
 
@@ -70,8 +31,8 @@ class UsereventController
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        $fromTimestamp = $paramFetcher->get('from');
-        $toTimestamp = $paramFetcher->get('to');
+        $fromTimestamp = $request->get('from');
+        $toTimestamp = $request->get('to');
         $from = DateTime::createFromFormat('U', $fromTimestamp);
         $to = DateTime::createFromFormat('U', $toTimestamp);
 
@@ -98,9 +59,12 @@ class UsereventController
 
         $result = $manager->addInstructorsToEvents($events);
 
-        //If there are no matches return an empty array
-        $answer['userEvents'] = $result ? array_values($result) : [];
-
-        return $answer;
+        $response['userEvents'] = $result ? array_values($result) : [];;
+        $serializer = $this->get('serializer');
+        return new Response(
+            $serializer->serialize($response, 'json'),
+            Response::HTTP_OK,
+            ['Content-type' => 'application/json']
+        );
     }
 }

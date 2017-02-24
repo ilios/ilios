@@ -14,6 +14,14 @@ ilios_api_schoolevents:
         version: 'v\d+'
         id: '\d+'
 
+ilios_api_userevents:
+    path:     /{version}/userevents/{id}
+    defaults: { _controller: IliosApiBundle:Userevent:get }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        id: '\d+'
+
 ilios_api_get:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:Api:get }
