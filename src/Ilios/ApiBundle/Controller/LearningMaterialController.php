@@ -40,7 +40,6 @@ class LearningMaterialController extends NonDtoApiController
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
-        $class = $manager->getClass() . '[]';
 
         $data = $this->extractDataFromRequest($request, $object, $singleItem = false, $returnArray = true);
 
@@ -74,18 +73,23 @@ class LearningMaterialController extends NonDtoApiController
             return $obj;
         }, $data);
 
-        $json = json_encode($dataWithFilesAttributes);
-
-        $serializer = $this->getSerializer();
-        $entities = $serializer->deserialize($json, $class, 'json');
-        $this->validateAndAuthorizeEntities($entities, 'create');
-
-        foreach ($entities as $entity) {
+        $class = $manager->getClass();
+        $entities = [];
+        foreach ($dataWithFilesAttributes as $obj) {
+            $json = json_encode($obj);
+            $serializer = $this->getSerializer();
+            /** @var LearningMaterialInterface $entity */
+            $entity = $serializer->deserialize($json, $class, 'json');
+            if (property_exists($obj, 'relativePath')) {
+                $entity->setRelativePath($obj->relativePath);
+            }
             $manager->update($entity, false);
+            $this->validateAndAuthorizeEntities([$entity], 'create');
+
+            $entities[] = $entity;
         }
         $manager->flush();
 
-        /** @var LearningMaterialInterface $entity */
         foreach ($entities as $entity) {
             $entity->generateToken();
             $manager->update($entity, false);

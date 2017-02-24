@@ -22,6 +22,13 @@ class DownloadController extends Controller
         if (!$learningMaterial) {
             throw new NotFoundHttpException();
         }
+
+        $path = $learningMaterial->getRelativePath();
+        if (!$path) {
+            throw new \Exception(
+                "No valid path for learning material with token: " . $token
+            );
+        }
         
         $file = $this->container->get('ilioscore.filesystem')
             ->getFile($learningMaterial->getRelativePath());

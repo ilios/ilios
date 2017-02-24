@@ -218,6 +218,7 @@ class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="relative_file_system_location", type="string", length=128, nullable=true)
      *
      * @Assert\Type(type="string")
+     * @Assert\NotBlank(groups={"file"})
      * @Assert\Length(
      *      min = 1,
      *      max = 128,
@@ -240,36 +241,36 @@ class LearningMaterial implements LearningMaterialInterface
     protected $copyrightPermission;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="copyright_rationale", type="text", nullable=true)
-    *
-    * @Assert\Type(type="string")
-    * @Assert\Length(
-    *      min = 1,
-    *      max = 65000
-    * )
+     * @var string
+     *
+     * @ORM\Column(name="copyright_rationale", type="text", nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
      *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
     protected $copyrightRationale;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="filename", type="string", length=255, nullable=true)
-    *
-    * @Assert\Type(type="string")
-    * @Assert\Length(
-    *      min = 1,
-    *      max = 255,
+     * @var string
+     *
+     * @ORM\Column(name="filename", type="string", length=255, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
      *     groups={"file"}
-    * )
+     * )
      *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
     protected $filename;
 
     /**
