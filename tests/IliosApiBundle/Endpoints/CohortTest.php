@@ -119,4 +119,35 @@ class CohortTest extends AbstractEndpointTest
     {
         $this->assertTrue(true);
     }
+
+    /**
+     * Unlock program years before attempting to PUT cohorts
+     */
+    public function testPutForAllData()
+    {
+        $dataLoader = $this->getDataLoader();
+        $allCohorts = $dataLoader->getAll();
+
+        $programYearDataLoader = $this->container->get('ilioscore.dataloader.programyear');
+        $allProgramYears = $programYearDataLoader->getAll();
+        $programYearsById = [];
+        foreach ($allProgramYears as $arr) {
+            $programYearsById[$arr['id']] = $arr;
+        }
+
+        $putsToTest = $this->putsToTest();
+        $firstPut = array_shift($putsToTest);
+        $changeKey = $firstPut[0];
+        $changeValue = $firstPut[1];
+
+        foreach ($allCohorts as $cohort) {
+            $programYearId = $cohort['programYear'];
+            $programYear = $programYearsById[$programYearId];
+            $programYear['locked'] = false;
+            $programYear['archived'] = false;
+            $this->putOne('programyears', 'programYear', $programYear['id'], $programYear);
+            $cohort[$changeKey] = $changeValue;
+            $this->putTest($cohort, $cohort, $cohort['id']);
+        }
+    }
 }
