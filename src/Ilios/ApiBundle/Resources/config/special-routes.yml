@@ -277,6 +277,23 @@ ilios_api_programyears_post:
         version: 'v\d+'
         object: 'programyears'
 
+ilios_api_offerings_put:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:Offering:put }
+    methods:  [PUT]
+    requirements:
+        version: 'v\d+'
+        object: "offerings"
+        id: '\d+'
+
+ilios_api_offerings_post:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:Offering:post }
+    methods:  [POST]
+    requirements:
+        version: 'v\d+'
+        object: 'offerings'
+
 ilios_api_programyears_put:
     path:     /{version}/{object}/{id}
     defaults: { _controller: IliosApiBundle:ProgramYear:put }

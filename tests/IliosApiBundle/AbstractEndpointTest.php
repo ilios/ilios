@@ -529,7 +529,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function relatedTimeStampUpdateTest(
         $id,
-        $relatedPluralObjectName,
+        $relatedEndpoint,
         $relatedResponseKey,
         $relatedData
     ) {
@@ -537,7 +537,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $responseKey = $this->getCamelCasedPluralName();
         $initialState = $this->getOne($endpoint, $responseKey, $id);
         sleep(1);
-        $this->putOne($relatedPluralObjectName, $relatedResponseKey, $relatedData['id'], $relatedData);
+        $this->putOne($relatedEndpoint, $relatedResponseKey, $relatedData['id'], $relatedData);
         $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);
