@@ -14,14 +14,13 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'id' => 1,
             'program' => '1',
             'sequence' => '1',
-            'year' => $this->faker->date('Y'),
+            'year' => '2014',
             'name' => $this->faker->text(100),
             'description' => $this->faker->text(200),
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => ['1', '2', '3', '4', '5'],
-            'academicLevels' => ['1', '2'],
-            'export' => ''
+            'academicLevels' => ['1', '2']
         );
         
         $arr[] = array(
@@ -29,8 +28,8 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'export' => '1',
             'program' => '1',
             'sequence' => '2',
-            'year' => $this->faker->date('Y'),
-            'name' => $this->faker->text(100),
+            'year' => '2015',
+            'name' => 'second report',
             'description' => $this->faker->text(200),
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
@@ -41,9 +40,9 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'id' => 3,
             'export' => '2',
             'program' => '1',
-            'year' => $this->faker->date('Y'),
+            'year' => '2016',
             'name' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
+            'description' => 'third report',
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => [],
@@ -60,7 +59,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         return array(
             'id' => 4,
             'program' => '2',
-            'year' => (int) $this->faker->date('Y'),
+            'year' => $this->faker->date('Y'),
             'name' => $this->faker->text(100),
             'description' => $this->faker->text(200),
             'startDate' => $dt->format('c'),

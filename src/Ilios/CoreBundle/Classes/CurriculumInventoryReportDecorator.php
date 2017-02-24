@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
  * Class CurriculumInventoryReportDecorator
  * @package Ilios\CoreBundle\Classes
  *
- * @IS\Entity
+ * @IS\DTO
  */
 class CurriculumInventoryReportDecorator
 {
@@ -143,9 +143,9 @@ class CurriculumInventoryReportDecorator
         $this->year = $report->getYear();
         $this->startDate = $report->getStartDate();
         $this->endDate = $report->getEndDate();
-        $this->export = (string) $report->getExport();
-        $this->sequence = (string) $report->getSequence();
-        $this->program = (string) $report->getProgram();
+        $this->export = $report->getExport()?(string) $report->getExport():null;
+        $this->sequence = $report->getSequence()?(string) $report->getSequence():null;
+        $this->program = $report->getProgram()?(string) $report->getProgram():null;
 
         $sequenceBlockIds = $report->getSequenceBlocks()
             ->map(function (CurriculumInventorySequenceBlockInterface $block) {
@@ -159,4 +159,110 @@ class CurriculumInventoryReportDecorator
             });
         $this->academicLevels = $academicLevelIds->toArray();
     }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSequence()
+    {
+        return $this->sequence;
+    }
+
+    /**
+     * @return string
+     */
+    public function getYear()
+    {
+        return $this->year;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProgram()
+    {
+        return $this->program;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReport()
+    {
+        return $this->report;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExport()
+    {
+        return $this->export;
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getAcademicLevels()
+    {
+        return $this->academicLevels;
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getSequenceBlocks()
+    {
+        return $this->sequenceBlocks;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAbsoluteFileUri()
+    {
+        return $this->absoluteFileUri;
+    }
+
+
 }

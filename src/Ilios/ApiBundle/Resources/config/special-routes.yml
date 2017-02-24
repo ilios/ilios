@@ -149,6 +149,49 @@ ilios_api_curriculuminventoryexport_404:
         version: 'v\d+'
         object: 'curriculuminventoryexports'
 
+ilios_api_curriculuminventoryreport_getall:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:CurriculumInventoryReport:getAll }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: 'curriculuminventoryreports'
+
+ilios_api_curriculuminventoryreport_get:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:CurriculumInventoryReport:get }
+    methods:  [GET]
+    requirements:
+        version: 'v\d+'
+        object: 'curriculuminventoryreports'
+        id: '\d+'
+
+ilios_api_curriculuminventoryreport_post:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:CurriculumInventoryReport:post }
+    methods:  [POST]
+    requirements:
+        version: 'v\d+'
+        object: 'curriculuminventoryreports'
+
+ilios_api_curriculuminventoryreport_put:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:CurriculumInventoryReport:put }
+    methods:  [PUT]
+    requirements:
+        version: 'v\d+'
+        object: 'curriculuminventoryreports'
+        id: '\d+'
+
+ilios_api_curriculuminventoryreport_rollover:
+    path:     /{version}/{object}/{id}/rollover
+    defaults: { _controller: IliosApiBundle:CurriculumInventoryReport:rollover }
+    methods:  [POST]
+    requirements:
+        version: 'v\d+'
+        object: 'curriculuminventoryreports'
+        id: '\d+'
+
 ilios_api_curriculuminventorysequenceblock_post:
     path:     /{version}/{object}
     defaults: { _controller: IliosApiBundle:CurriculumInventorySequenceBlock:post }
