@@ -89,4 +89,18 @@ class ProgramYearStewardTest extends AbstractEndpointTest
 
         $this->postManyTest($data);
     }
+
+    /**
+     * Override this so we don't change any values.  Changing something
+     * like department or school causes key conflicts and there isn't really
+     * anything non-unique to change here.
+     */
+    public function testPutForAllData()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        foreach ($all as $data) {
+            $this->putTest($data, $data, $data['id']);
+        }
+    }
 }
