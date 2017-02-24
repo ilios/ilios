@@ -328,8 +328,8 @@ class AuthenticationControllerTest extends WebTestCase
             $client,
             'GET',
             $this->getUrl(
-                'get_users',
-                ['id' => 1]
+                'ilios_api_get',
+                ['object' => 'users', 'version' => 'v1', 'id' => 1]
             ),
             null,
             $jwt

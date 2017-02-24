@@ -41,8 +41,8 @@ class DownloadControllerTest extends WebTestCase
             $client,
             'GET',
             $this->getUrl(
-                'get_learningmaterials',
-                ['id' => $learningMaterial['id']]
+                'ilios_api_learningmaterial_get',
+                ['version' => 'v1', 'object' => 'learningmaterials', 'id' => $learningMaterial['id']]
             ),
             null,
             $this->getAuthenticatedUserToken()
