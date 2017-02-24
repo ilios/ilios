@@ -62,10 +62,10 @@ class IlmSessionTest extends AbstractEndpointTest
             'ids' => [[1, 2], ['id' => [2, 3]]],
             'session' => [[1], ['session' => 6]],
             'hours' => [[1], ['hours' => 21.2]],
-//            'learnerGroups' => [[0], ['learnerGroups' => [3]]],
-//            'instructorGroups' => [[1], ['instructorGroups' => [3]]],
-//            'instructors' => [[2], ['instructors' => [2]]],
-//            'learners' => [[0], ['learners' => [1]]],
+            'learnerGroups' => [[0], ['learnerGroups' => [3]], $skipped = true],
+            'instructorGroups' => [[1], ['instructorGroups' => [3]], $skipped = true],
+            'instructors' => [[2], ['instructors' => [2]], $skipped = true],
+            'learners' => [[0], ['learners' => [1]], $skipped = true],
         ];
     }
 

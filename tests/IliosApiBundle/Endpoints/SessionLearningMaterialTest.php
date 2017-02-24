@@ -70,7 +70,7 @@ class SessionLearningMaterialTest extends AbstractEndpointTest
             'notPublicNotes' => [[0], ['publicNotes' => false]],
             'session' => [[0], ['session' => 1]],
             'learningMaterial' => [[0], ['learningMaterial' => 1]],
-//            'meshDescriptors' => [[1], ['meshDescriptors' => ['abc2']]],
+            'meshDescriptors' => [[1], ['meshDescriptors' => ['abc2']], $skipped = true],
             'position' => [[1], ['position' => 0]],
         ];
     }

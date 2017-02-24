@@ -34,7 +34,7 @@ class AssessmentOptionTest extends AbstractEndpointTest
     {
         return [
             'name' => ['name', $this->getFaker()->text(18)],
-//            'sessionTypes' => ['sessionTypes', [2, 3]],
+            'sessionTypes' => ['sessionTypes', [2, 3], $skipped = true],
         ];
     }
 

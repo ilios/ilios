@@ -30,10 +30,10 @@ class AcademicYearTest extends AbstractEndpointTest
     public function filtersToTest()
     {
         return [
-//            'id' => [[1], ['id' => 2013]],
-//            'ids' => [[0, 2], ['id' => [2012, 2016]]],
-//            'title' => [[1], ['id' => 2013]],
-//            'titles' => [[0, 2], ['id' => [2012, 2016]]],
+            'id' => [[1], ['id' => 2013], $skipped = true],
+            'ids' => [[0, 2], ['id' => [2012, 2016]], $skipped = true],
+            'title' => [[1], ['id' => 2013], $skipped = true],
+            'titles' => [[0, 2], ['id' => [2012, 2016]], $skipped = true],
         ];
     }
 

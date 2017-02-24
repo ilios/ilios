@@ -50,12 +50,12 @@ class LearningMaterialTest extends AbstractEndpointTest
             'userRole' => ['userRole', 2],
             'status' => ['status', LearningMaterialStatusInterface::IN_DRAFT],
             'owningUser' => ['owningUser', 2],
-//            'sessionLearningMaterials' => ['sessionLearningMaterials', [2]],
-//            'courseLearningMaterials' => ['courseLearningMaterials', [1]],
+            'sessionLearningMaterials' => ['sessionLearningMaterials', [2], $skipped = true],
+            'courseLearningMaterials' => ['courseLearningMaterials', [1], $skipped = true],
             'citation' => ['citation', $this->getFaker()->text],
             'copyrightPermission' => ['copyrightPermission', false],
             'copyrightRationale' => ['copyrightRationale', $this->getFaker()->text],
-//            'link' => ['link', $this->getFaker()->text],
+            'link' => ['link', $this->getFaker()->text, $skipped = true],
         ];
     }
 
@@ -90,8 +90,8 @@ class LearningMaterialTest extends AbstractEndpointTest
             'draft' => [[1], ['status' => LearningMaterialStatusInterface::IN_DRAFT]],
             'revised' => [[2], ['status' => LearningMaterialStatusInterface::REVISED]],
             'owningUser' => [[0, 1, 2], ['owningUser' => 1]],
-//            'sessionLearningMaterials' => [[2], ['sessionLearningMaterials' => [2]]],
-//            'courseLearningMaterials' => [[2], ['courseLearningMaterials' => [4]]],
+            'sessionLearningMaterials' => [[2], ['sessionLearningMaterials' => [2]], $skipped = true],
+            'courseLearningMaterials' => [[2], ['courseLearningMaterials' => [4]], $skipped = true],
             'citation' => [[0], ['citation' => 'citation1']],
             'copyrightPermission' => [[0, 2], ['copyrightPermission' => true]],
             'noCopyrightPermission' => [[1], ['copyrightPermission' => false]],

@@ -74,7 +74,7 @@ class SessionTypeTest extends AbstractEndpointTest
             'assessmentOption' => [[1], ['assessmentOption' => '2']],
             'school' => [[0, 1], ['school' => 1]],
             'schools' => [[0, 1], ['school' => [1]]],
-//            'aamcMethods' => [[0, 1], ['aamcMethods' => ['AM001']]],
+            'aamcMethods' => [[0, 1], ['aamcMethods' => ['AM001']], $skipped = true],
             'sessions' => [[1], ['sessions' => [2]]],
             'courses' => [[0, 1], ['courses' => [1, 2]]],
             'learningMaterials' => [[0, 1], ['learningMaterials' => [1, 2, 3]]],

@@ -34,9 +34,9 @@ class UserMadeReminderTest extends AbstractEndpointTest
     {
         return [
             'note' => ['note', $this->getFaker()->text(150)],
-//            'dueDate' => ['dueDate', $this->getFaker()->iso8601],
+            'dueDate' => ['dueDate', $this->getFaker()->iso8601, $skipped = true],
             'closed' => ['closed', false],
-//            'user' => ['user', 2],
+            'user' => ['user', 2, $skipped = true],
         ];
     }
 

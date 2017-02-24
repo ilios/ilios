@@ -39,7 +39,7 @@ class CohortTest extends AbstractEndpointTest
         return [
             'title' => ['title', $this->getFaker()->text(60)],
             'courses' => ['courses', [1]],
-//            'learnerGroups' => ['learnerGroups', [1]],
+            'learnerGroups' => ['learnerGroups', [1], $skipped = true],
             'users' => ['users', [1]],
         ];
     }

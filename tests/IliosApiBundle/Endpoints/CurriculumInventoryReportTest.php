@@ -41,13 +41,13 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
             'name' => ['name', $this->getFaker()->text],
             'description' => ['description', $this->getFaker()->text],
             'year' => ['year', $this->getFaker()->randomDigit],
-//            'startDate' => ['startDate', $this->getFaker()->iso8601],
-//            'endDate' => ['endDate', $this->getFaker()->iso8601],
-//            'export' => ['export', 2],
-//            'sequence' => ['sequence', 1],
-//            'sequenceBlocks' => ['sequenceBlocks', [1]],
-//            'program' => ['program', $this->getFaker()->text],
-//            'academicLevels' => ['academicLevels', [1]],
+            'startDate' => ['startDate', $this->getFaker()->iso8601, $skipped = true],
+            'endDate' => ['endDate', $this->getFaker()->iso8601, $skipped = true],
+            'export' => ['export', 2, $skipped = true],
+            'sequence' => ['sequence', 1, $skipped = true],
+            'sequenceBlocks' => ['sequenceBlocks', [1], $skipped = true],
+            'program' => ['program', $this->getFaker()->text, $skipped = true],
+            'academicLevels' => ['academicLevels', [1], $skipped = true],
         ];
     }
 
@@ -71,13 +71,13 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
             'name' => [[1], ['name' => 'second report']],
             'description' => [[2], ['description' => 'third report']],
             'year' => [[1], ['year' => 2015]],
-//            'startDate' => [[0], ['startDate' => 'test']],
-//            'endDate' => [[0], ['endDate' => 'test']],
-//            'export' => [[0], ['export' => 1]],
-//            'sequence' => [[0], ['sequence' => 1]],
-//            'sequenceBlocks' => [[0], ['sequenceBlocks' => [1]]],
+            'startDate' => [[0], ['startDate' => 'test'], $skipped = true],
+            'endDate' => [[0], ['endDate' => 'test'], $skipped = true],
+            'export' => [[0], ['export' => 1], $skipped = true],
+            'sequence' => [[0], ['sequence' => 1], $skipped = true],
+            'sequenceBlocks' => [[0], ['sequenceBlocks' => [1]], $skipped = true],
             'program' => [[0, 1, 2], ['program' => 1]],
-//            'academicLevels' => [[0], ['academicLevels' => [1]]],
+            'academicLevels' => [[0], ['academicLevels' => [1]], $skipped = true],
         ];
     }
 

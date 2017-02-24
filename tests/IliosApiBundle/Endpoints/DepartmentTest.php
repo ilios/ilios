@@ -36,7 +36,7 @@ class DepartmentTest extends AbstractEndpointTest
         return [
             'title' => ['title', $this->getFaker()->text(50)],
             'school' => ['school', 3],
-//            'stewards' => ['stewards', [2]],
+            'stewards' => ['stewards', [2], $skipped = true],
         ];
     }
 
@@ -60,7 +60,7 @@ class DepartmentTest extends AbstractEndpointTest
             'ids' => [[0, 1], ['id' => [1, 2]]],
             'title' => [[1], ['title' => 'second department']],
             'school' => [[0, 1], ['school' => 1]],
-//            'stewards' => [[0], ['stewards' => [1]]],
+            'stewards' => [[0], ['stewards' => [1]], $skipped = true],
         ];
     }
 }

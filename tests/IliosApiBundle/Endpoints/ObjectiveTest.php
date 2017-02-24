@@ -43,10 +43,10 @@ class ObjectiveTest extends AbstractEndpointTest
             'programYears' => ['programYears', [2]],
             'sessions' => ['sessions', [2]],
             'parents' => ['parents', [2]],
-//            'children' => ['children', [4]],
+            'children' => ['children', [4], $skipped = true],
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
-//            'ancestor' => ['ancestor', 1],
-//            'descendants' => ['descendants', [2]],
+            'ancestor' => ['ancestor', 1, $skipped = true],
+            'descendants' => ['descendants', [2], $skipped = true],
         ];
     }
 

@@ -56,9 +56,9 @@ class SessionTest extends AbstractEndpointTest
             'ilmSession' => ['ilmSession', 1],
             'terms' => ['terms', [1]],
             'objectives' => ['objectives', [1]],
-//            'meshDescriptors' => ['meshDescriptors', [1]],
-//            'learningMaterials' => ['learningMaterials', [2]],
-//            'offerings' => ['offerings', [1]],
+            'meshDescriptors' => ['meshDescriptors', [1], $skipped = true],
+            'learningMaterials' => ['learningMaterials', [2], $skipped = true],
+            'offerings' => ['offerings', [1], $skipped = true],
             'administrators' => ['administrators', [2]],
         ];
     }

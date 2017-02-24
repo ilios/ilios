@@ -35,7 +35,7 @@ class VocabularyTest extends AbstractEndpointTest
         return [
             'title' => ['title', $this->getFaker()->text(100)],
             'school' => ['school', 2],
-//            'terms' => ['terms', [1]],
+            'terms' => ['terms', [1], $skipped = true],
             'active' => ['active', false],
         ];
     }
@@ -60,7 +60,7 @@ class VocabularyTest extends AbstractEndpointTest
             'ids' => [[0, 1], ['id' => [1, 2]]],
             'title' => [[1], ['title' => 'second vocabulary']],
             'school' => [[1], ['school' => 2]],
-//            'terms' => [[1], ['terms' => [5]]],
+            'terms' => [[1], ['terms' => [5]], $skipped = true],
             'active' => [[0], ['active' => true]],
             'notActive' => [[1], ['active' => false]],
         ];

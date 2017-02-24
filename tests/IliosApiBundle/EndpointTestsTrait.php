@@ -79,8 +79,11 @@ trait EndpointTestsTrait
     /**
      * @dataProvider putsToTest
      */
-    public function testPut($key, $value)
+    public function testPut($key, $value, $skipped = false)
     {
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         if (array_key_exists($key, $data) and $data[$key] == $value) {
@@ -116,8 +119,11 @@ trait EndpointTestsTrait
     /**
      * @dataProvider readOnliesToTest
      */
-    public function testPutReadOnly($key = null, $id = null, $value = null)
+    public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
     {
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
         if (null != $key &&
             null != $id &&
             null != $value
@@ -153,8 +159,11 @@ trait EndpointTestsTrait
     /**
      * @dataProvider filtersToTest
      */
-    public function testFilters(array $dataKeys = [], array $filterParts = [])
+    public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false)
     {
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
         if (empty($filterParts)) {
             $this->markTestSkipped('Missing filters tests for this endpoint');
             return;

@@ -45,7 +45,7 @@ class InstructorGroupTest extends AbstractEndpointTest
             'learnerGroups' => ['learnerGroups', [2, 3]],
             'ilmSessions' => ['ilmSessions', [1, 2]],
             'users' => ['users', [1]],
-//            'offerings' => ['offerings', [2, 3, 4]],
+            'offerings' => ['offerings', [2, 3, 4], $skipped = true],
         ];
     }
 
@@ -70,10 +70,10 @@ class InstructorGroupTest extends AbstractEndpointTest
             'title' => [[1], ['title' => 'second instructor group']],
             'school' => [[0, 1, 2], ['school' => 1]],
             'schools' => [[0, 1, 2], ['schools' => [1]]],
-//            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
-//            'ilmSessions' => [[0], ['ilmSessions' => [1]]],
-//            'users' => [[0], ['users' => [1]]],
-//            'offerings' => [[0], ['offerings' => [1]]],
+            'learnerGroups' => [[0], ['learnerGroups' => [1]], $skipped = true],
+            'ilmSessions' => [[0], ['ilmSessions' => [1]], $skipped = true],
+            'users' => [[0], ['users' => [1]], $skipped = true],
+            'offerings' => [[0], ['offerings' => [1]], $skipped = true],
             'courses' => [[0, 1], ['courses' => [1]]],
             'sessions' => [[0, 1], ['sessions' => [1, 2, 3]]],
             'sessionTypes' => [[0, 1, 2], ['sessionTypes' => [1, 2]]],

@@ -58,7 +58,7 @@ class MeshQualifierTest extends AbstractEndpointTest
             'id' => [[0], ['id' => '1']],
             'ids' => [[0, 1], ['id' => ['1', '2']]],
             'name' => [[1], ['name' => 'second qualifier']],
-//            'descriptors' => [[0, 1], ['descriptors' => ['abc1']]],
+            'descriptors' => [[0, 1], ['descriptors' => ['abc1']], $skipped = true],
         ];
     }
 

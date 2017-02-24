@@ -35,7 +35,7 @@ class MeshConceptTest extends AbstractEndpointTest
     {
         return [
             'name' => ['name', $this->getFaker()->text],
-//            'id' => ['id', $this->getFaker()->word],
+            'id' => ['id', $this->getFaker()->word, $skipped = true],
             'umlsUid' => ['umlsUid', $this->getFaker()->text(9)],
             'preferred' => ['preferred', false],
             'scopeNote' => ['scopeNote', $this->getFaker()->text],
@@ -43,7 +43,7 @@ class MeshConceptTest extends AbstractEndpointTest
             'registryNumber' => ['registryNumber', $this->getFaker()->text(20)],
             'semanticTypes' => ['semanticTypes', [1]],
             'terms' => ['terms', [1]],
-//            'descriptors' => ['descriptors', [1]],
+            'descriptors' => ['descriptors', [1], $skipped = true],
         ];
     }
 
@@ -73,9 +73,9 @@ class MeshConceptTest extends AbstractEndpointTest
             'scopeNote' => [[0], ['scopeNote' => 'first scopeNote']],
             'casn1Name' => [[1], ['casn1Name' => 'second casn']],
             'registryNumber' => [[1], ['registryNumber' => 'abcd']],
-//            'semanticTypes' => [[0], ['semanticTypes' => [1]]],
-//            'terms' => [[0], ['terms' => [1]]],
-//            'descriptors' => [[0, 1], ['descriptors' => ['abc1']]],
+            'semanticTypes' => [[0], ['semanticTypes' => [1]], $skipped = true],
+            'terms' => [[0], ['terms' => [1]], $skipped = true],
+            'descriptors' => [[0, 1], ['descriptors' => ['abc1']], $skipped = true],
         ];
     }
 

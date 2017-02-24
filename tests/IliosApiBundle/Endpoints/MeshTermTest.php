@@ -75,7 +75,7 @@ class MeshTermTest extends AbstractEndpointTest
             'notPermuted' => [[1], ['permuted' => false]],
             'printable' => [[1], ['printable' => true]],
             'notPrintable' => [[0], ['printable' => false]],
-//            'concepts' => [[0, 1], ['concepts' => [1]]],
+            'concepts' => [[0, 1], ['concepts' => [1]], $skipped = true],
         ];
     }
 

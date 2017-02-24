@@ -76,14 +76,14 @@ class OfferingTest extends AbstractEndpointTest
             'ids' => [[3, 4], ['id' => [4, 5]]],
             'room' => [[2], ['room' => 'room 3']],
             'site' => [[3], ['site' => 'site 4']],
-//            'startDate' => [[0], ['startDate' => 'test']],
-//            'endDate' => [[0], ['endDate' => 'test']],
-//            'updatedAt' => [[0], ['updatedAt' => 'test']],
+            'startDate' => [[0], ['startDate' => 'test'], $skipped = true],
+            'endDate' => [[0], ['endDate' => 'test'], $skipped = true],
+            'updatedAt' => [[0], ['updatedAt' => 'test'], $skipped = true],
             'session' => [[2, 3, 4], ['session' => 2]],
-//            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
-//            'instructorGroups' => [[0], ['instructorGroups' => [1]]],
-//            'learners' => [[0], ['learners' => [1]]],
-//            'instructors' => [[0], ['instructors' => [1]]],
+            'learnerGroups' => [[0], ['learnerGroups' => [1]], $skipped = true],
+            'instructorGroups' => [[0], ['instructorGroups' => [1]], $skipped = true],
+            'learners' => [[0], ['learners' => [1]], $skipped = true],
+            'instructors' => [[0], ['instructors' => [1]], $skipped = true],
         ];
     }
 

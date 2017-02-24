@@ -68,7 +68,7 @@ class CourseLearningMaterialTest extends AbstractEndpointTest
             'publicNotes' => [[0, 1, 3], ['publicNotes' => true]],
             'course' => [[2], ['course' => 4]],
             'learningMaterial' => [[1], ['learningMaterial' => 2]],
-//            'meshDescriptors' => [[0, 2], ['meshDescriptors' => ['abc1']]],
+            'meshDescriptors' => [[0, 2], ['meshDescriptors' => ['abc1']], $skipped = true],
             'position' => [[1], ['position' => 1]],
         ];
     }

@@ -39,7 +39,7 @@ class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
             'name' => ['name', $this->getFaker()->text(50)],
             'description' => ['description', $this->getFaker()->text],
             'level' => ['level', $this->getFaker()->randomDigit],
-//            'sequenceBlocks' => ['sequenceBlocks', [2]],
+            'sequenceBlocks' => ['sequenceBlocks', [2], $skipped = true],
         ];
     }
 
@@ -65,7 +65,7 @@ class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
             'description' => [[0], ['description' => 'first description']],
             'level' => [[1], ['level' => 2]],
             'report' => [[0, 1], ['report' => '1']],
-//            'sequenceBlocks' => [[1], ['sequenceBlocks' => [2]]],
+            'sequenceBlocks' => [[1], ['sequenceBlocks' => [2]], $skipped = true],
         ];
     }
 }

@@ -49,11 +49,11 @@ class TermTest extends AbstractEndpointTest
             'title' => ['title', $this->getFaker()->text(100)],
             'courses' => ['courses', [1]],
             'parent' => ['parent', 2],
-//            'children' => ['children', [1]],
+            'children' => ['children', [1], $skipped = true],
             'programYears' => ['programYears', [1]],
             'sessions' => ['sessions', [1]],
             'vocabulary' => ['vocabulary', 2],
-//            'aamcResourceTypes' => ['aamcResourceTypes', [1]],
+            'aamcResourceTypes' => ['aamcResourceTypes', [1], $skipped = true],
             'active' => ['active', false],
         ];
     }
@@ -80,7 +80,7 @@ class TermTest extends AbstractEndpointTest
             'courses' => [[0, 1, 3, 4], ['courses' => [1]]],
             'description' => [[2], ['description' => 'third description']],
             'parent' => [[1, 2], ['parent' => 1]],
-//            'children' => [[0], ['children' => [3]]],
+            'children' => [[0], ['children' => [3]], $skipped = true],
             'programYears' => [[0, 3], ['programYears' => [2]]],
             'sessions' => [[0, 1, 3, 4], ['sessions' => [1, 2]]],
             'vocabulary' => [[3, 4, 5], ['vocabulary' => 2]],

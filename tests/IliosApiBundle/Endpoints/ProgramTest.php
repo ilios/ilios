@@ -44,8 +44,8 @@ class ProgramTest extends AbstractEndpointTest
             'publishedAsTbd' => ['publishedAsTbd', true],
             'published' => ['published', false],
             'school' => ['school', 3],
-//            'programYears' => ['programYears', [1]],
-//            'curriculumInventoryReports' => ['curriculumInventoryReports', [1]],
+            'programYears' => ['programYears', [1], $skipped = true],
+            'curriculumInventoryReports' => ['curriculumInventoryReports', [1], $skipped = true],
             'directors' => ['directors', [1, 3]],
         ];
     }
@@ -77,9 +77,9 @@ class ProgramTest extends AbstractEndpointTest
             'notPublished' => [[1, 2], ['published' => false]],
             'school' => [[2], ['school' => 2]],
             'schools' => [[0, 1], ['schools' => 1]],
-//            'programYears' => [[0], ['programYears' => [1]]],
-//            'curriculumInventoryReports' => [[0], ['curriculumInventoryReports' => [1]]],
-//            'directors' => [[0], ['directors' => [1]]],
+            'programYears' => [[0], ['programYears' => [1]], $skipped = true],
+            'curriculumInventoryReports' => [[0], ['curriculumInventoryReports' => [1]], $skipped = true],
+            'directors' => [[0], ['directors' => [1]], $skipped = true],
             'durationAndScheduled' => [[1], ['publishedAsTbd' => true, 'duration' => 4]],
             'durationAndSchool' => [[1], ['school' => 1, 'duration' => 4]],
             'courses' => [[1], ['courses' => [4]]],
