@@ -44,6 +44,7 @@ class AamcPcrsTest extends AbstractEndpointTest
         return [
             'description' => ['description', $this->getFaker()->text],
             'competencies' => ['competencies', [3]],
+            'id' => ['id', 'new-id', $skipped = true],
         ];
     }
 
@@ -65,17 +66,6 @@ class AamcPcrsTest extends AbstractEndpointTest
             'description' => [[1], ['description' => 'second description']],
             'competencies' => [[0], ['competencies' => [1]]],
         ];
-    }
-
-    public function testPutId()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $id = $data['id'];
-        $data['id'] = $this->getFaker()->text(10);
-
-        $postData = $data;
-        $this->putTest($data, $postData, $id);
     }
 
     public function testPostTermAamcResourceType()

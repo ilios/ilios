@@ -24,7 +24,7 @@ class AamcPcrsData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => $this->faker->text(5),
+            'id' => 'fk-',
             'description' => $this->faker->text,
             'competencies' => [1]
         ];
@@ -36,5 +36,20 @@ class AamcPcrsData extends AbstractDataLoader
             'id' => $this->faker->text,
             'competencies' => [454098430958]
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createMany($count)
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] . $i;
+            $data[] = $arr;
+        }
+
+        return $data;
     }
 }
