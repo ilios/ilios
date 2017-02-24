@@ -98,6 +98,11 @@ trait EndpointTestsTrait
         $data[$key] = $value;
 
         $postData = $data;
+
+        //When we remove a value in a test we shouldn't expect it back
+        if (null === $value) {
+            unset($data[$key]);
+        }
         $this->putTest($data, $postData, $id);
     }
 

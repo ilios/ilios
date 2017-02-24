@@ -164,8 +164,10 @@ class Entity extends ObjectNormalizer
             $targetEntity = $association['targetEntity'];
             $repository = $this->registry->getRepository($targetEntity);
 
-            if (!empty($value) && $type === 'entity') {
-                $value = $repository->find($value);
+            if ($type === 'entity') {
+                if (null !== $value) {
+                    $value = $repository->find($value);
+                }
             } else {
                 if (is_array($value) && !empty($value)) {
                     $value = $repository->findBy(['id' => $value]);
