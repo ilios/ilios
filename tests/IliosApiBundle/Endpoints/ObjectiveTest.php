@@ -104,87 +104,84 @@ class ObjectiveTest extends AbstractEndpointTest
         $this->relatedPostDataTest($data, $postData, 'objectives', 'sessions');
     }
 
-//
-//    /**
-//     * Ideally, we'd be testing the "purified textarea" form type by itself.
-//     * However, the framework currently does not provide boilerplate to roll container-aware form test.
-//     * We'd need a hybrid between <code>KernelTestCase</code> and <code>TypeTestCase</code>.
-//     * @link  http://symfony.com/doc/current/cookbook/testing/doctrine.html
-//     * @link http://symfony.com/doc/current/cookbook/form/unit_testing.html
-//     * To keep things easy, I bolted this test on to this controller test for the time being.
-//     * @todo Revisit occasionally and check if future versions of Symfony have addressed this need. [ST 2015/10/19]
-//     *
-//     * @dataProvider testInputSanitationTestProvider
-//     *
-//     * @param string $input A given objective title as un-sanitized input.
-//     * @param string $output The expected sanitized objective title output as returned from the server.
-//     *
-//     * @group controllers_a
-//     */
-//    public function testInputSanitation($input, $output)
-//    {
-//        $postData = $this->container->get('ilioscore.dataloader.objective')
-//            ->create();
-//        $postData['title'] = $input;
-//        unset($postData['id']);
-//
-//        $this->createJsonRequest(
-//            'POST',
-//            $this->getUrl('post_objectives'),
-//            json_encode(['objective' => $postData]),
-//            $this->getAuthenticatedUserToken()
-//        );
-//
-//        $response = $this->client->getResponse();
-//
-//        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
-//        $this->assertEquals(
-//            json_decode($response->getContent(), true)['objectives'][0]['title'],
-//            $output,
-//            $response->getContent()
-//        );
-//    }
-//
-//    /**
-//     * @return array
-//     */
-//    public function testInputSanitationTestProvider()
-//    {
-//        return [
-//            ['foo', 'foo'],
-//            ['<p>foo</p>', '<p>foo</p>'],
-//            ['<ul><li>foo</li></ul>', '<ul><li>foo</li></ul>'],
-//            ['<script>alert("hello");</script><p>foo</p>', '<p>foo</p>'],
-//            [
-//                '<a href="https://iliosproject.org" target="_blank">Ilios</a>',
-//                '<a href="https://iliosproject.org">Ilios</a>'
-//            ],
-//            ['<u>NOW I CRY</u>', '<u>NOW I CRY</u>'],
-//        ];
-//    }
-//
-//    /**
-//     * Assert that a POST request fails if form validation fails due to input sanitation.
-//     *
-//     * @group controllers_a
-//     */
-//    public function testInputSanitationFailure()
-//    {
-//        $postData = $this->container->get('ilioscore.dataloader.objective')
-//            ->create();
-//        // this markup will get stripped out, leaving a blank string as input.
-//        // which in turn will cause the form validation to fail.
-//        $postData['title'] = '<iframe></iframe>';
-//        unset($postData['id']);
-//
-//        $this->createJsonRequest(
-//            'POST',
-//            $this->getUrl('post_objectives'),
-//            json_encode(['objective' => $postData]),
-//            $this->getAuthenticatedUserToken()
-//        );
-//
-//        $response = $this->client->getResponse();
-//        $this->assertJsonResponse($response, Codes::HTTP_BAD_REQUEST);
-//    }
+
+    /**
+     * Ideally, we'd be testing the "purified textarea" form type by itself.
+     * However, the framework currently does not provide boilerplate to roll container-aware form test.
+     * We'd need a hybrid between <code>KernelTestCase</code> and <code>TypeTestCase</code>.
+     * @link  http://symfony.com/doc/current/cookbook/testing/doctrine.html
+     * @link http://symfony.com/doc/current/cookbook/form/unit_testing.html
+     * To keep things easy, I bolted this test on to this controller test for the time being.
+     * @todo Revisit occasionally and check if future versions of Symfony have addressed this need. [ST 2015/10/19]
+     *
+     * @dataProvider testInputSanitationTestProvider
+     *
+     * @param string $input A given objective title as un-sanitized input.
+     * @param string $output The expected sanitized objective title output as returned from the server.
+     *
+     */
+    public function testInputSanitation($input, $output)
+    {
+        $postData = $this->container->get('ilioscore.dataloader.objective')
+            ->create();
+        $postData['title'] = $input;
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_objectives'),
+            json_encode(['objective' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $this->assertEquals(
+            json_decode($response->getContent(), true)['objectives'][0]['title'],
+            $output,
+            $response->getContent()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function testInputSanitationTestProvider()
+    {
+        return [
+            ['foo', 'foo'],
+            ['<p>foo</p>', '<p>foo</p>'],
+            ['<ul><li>foo</li></ul>', '<ul><li>foo</li></ul>'],
+            ['<script>alert("hello");</script><p>foo</p>', '<p>foo</p>'],
+            [
+                '<a href="https://iliosproject.org" target="_blank">Ilios</a>',
+                '<a href="https://iliosproject.org">Ilios</a>'
+            ],
+            ['<u>NOW I CRY</u>', '<u>NOW I CRY</u>'],
+        ];
+    }
+
+    /**
+     * Assert that a POST request fails if form validation fails due to input sanitation.
+     */
+    public function testInputSanitationFailure()
+    {
+        $postData = $this->container->get('ilioscore.dataloader.objective')
+            ->create();
+        // this markup will get stripped out, leaving a blank string as input.
+        // which in turn will cause the form validation to fail.
+        $postData['title'] = '<iframe></iframe>';
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_objectives'),
+            json_encode(['objective' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_BAD_REQUEST);
+    }
 }
