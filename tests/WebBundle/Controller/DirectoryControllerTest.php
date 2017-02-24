@@ -3,8 +3,8 @@
 namespace Tests\WebBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
-use FOS\RestBundle\Util\Codes;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\Client;
 
@@ -68,7 +68,7 @@ class DirectoryControllerTest extends WebTestCase
 
         $response = $this->client->getResponse();
         $content = $response->getContent();
-        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
         $fakeDirectoryUser['user'] = null;
 
         $this->assertEquals(
@@ -120,7 +120,7 @@ class DirectoryControllerTest extends WebTestCase
 
         $response = $this->client->getResponse();
         $content = $response->getContent();
-        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
         $results = json_decode($content, true)['results'];
 
         $this->assertEquals(
@@ -176,7 +176,7 @@ class DirectoryControllerTest extends WebTestCase
 
         $response = $this->client->getResponse();
         $content = $response->getContent();
-        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode(), var_export($content, true));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
         $this->assertEquals(
             array('result' => $fakeDirectoryUser),

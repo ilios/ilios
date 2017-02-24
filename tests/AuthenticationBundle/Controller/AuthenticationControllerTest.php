@@ -3,10 +3,10 @@
 namespace Tests\AuthenticationBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use FOS\RestBundle\Util\Codes;
 use Firebase\JWT\JWT;
 use DateTime;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
@@ -38,7 +38,7 @@ class AuthenticationControllerTest extends WebTestCase
 
         $response = $client->getResponse();
 
-        $this->assertJsonResponse($response, Codes::HTTP_BAD_REQUEST);
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
         
         $content = $response->getContent();
         $data = json_decode($content);
@@ -58,7 +58,7 @@ class AuthenticationControllerTest extends WebTestCase
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
@@ -79,7 +79,7 @@ class AuthenticationControllerTest extends WebTestCase
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         
         $content = $response->getContent();
         $data = json_decode($content);
@@ -102,7 +102,7 @@ class AuthenticationControllerTest extends WebTestCase
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
@@ -124,7 +124,7 @@ class AuthenticationControllerTest extends WebTestCase
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
@@ -146,7 +146,7 @@ class AuthenticationControllerTest extends WebTestCase
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_UNAUTHORIZED);
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
         
         $content = $response->getContent();
         $data = json_decode($content);
@@ -165,7 +165,7 @@ class AuthenticationControllerTest extends WebTestCase
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_UNAUTHORIZED);
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
         
         $content = $response->getContent();
         $data = json_decode($content);
@@ -194,7 +194,7 @@ class AuthenticationControllerTest extends WebTestCase
         ));
     
         $response = $client->getResponse();
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
     
         $client->request('POST', '/auth/login', array(
             'username' => 'legacyuser',
@@ -202,7 +202,7 @@ class AuthenticationControllerTest extends WebTestCase
         ));
     
         $response = $client->getResponse();
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
@@ -231,7 +231,7 @@ class AuthenticationControllerTest extends WebTestCase
             $jwt
         );
         $response = $client->getResponse();
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $response = json_decode($response->getContent(), true);
     
         $this->assertTrue(
@@ -321,7 +321,7 @@ class AuthenticationControllerTest extends WebTestCase
             $jwt
         );
         $response = $client->getResponse();
-        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $client = static::createClient();
         $this->makeJsonRequest(
@@ -335,7 +335,7 @@ class AuthenticationControllerTest extends WebTestCase
             $jwt
         );
         $response2 = $client->getResponse();
-        $this->assertEquals(Codes::HTTP_UNAUTHORIZED, $response2->getStatusCode());
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response2->getStatusCode());
         $this->assertRegExp('/Invalid JSON Web Token: Not issued after/', $response2->getContent());
     }
 }
