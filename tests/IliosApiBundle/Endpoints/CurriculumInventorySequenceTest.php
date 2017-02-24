@@ -62,21 +62,26 @@ class CurriculumInventorySequenceTest extends AbstractEndpointTest
 
 
     /**
-     * We need to create additional reports to
-     * go with each Sequence
+     * We need to create additional reports to go with each Sequence
+     * however when new reports are created a sequence is automatically created
+     * for them.  So we need to delete each of the new fresh sequences so we can create
+     * new ones of our own and link them to the report.
      * @inheritdoc
      */
     public function testPostMany()
     {
-        $count = 26;
+        $count = 4;
         $reportDataLoader = $this->container->get('ilioscore.dataloader.curriculuminventoryreport');
         $reports = $reportDataLoader->createMany($count);
         $savedReports = $this->postMany('curriculuminventoryreports', 'curriculumInventoryReports', $reports);
+
 
         $dataLoader = $this->getDataLoader();
         $data = [];
 
         foreach ($savedReports as $i => $report) {
+            $sequenceId = $report['sequence'];
+            $this->deleteOne('curriculuminventorysequences', $sequenceId);
             $arr = $dataLoader->create();
             $arr['id'] += $i;
             $arr['report'] = $report['id'];
