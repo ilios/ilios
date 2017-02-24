@@ -272,7 +272,11 @@ class CourseTest extends AbstractEndpointTest
         $this->assertEquals($lastDescriptionId + 1, $newDescriptionIds[0], 'incremented description id 1');
         $this->assertEquals($lastDescriptionId + 2, $newDescriptionIds[1], 'incremented description id 2');
 
-        $newDescriptionData = $this->getFiltered('sessiondescriptions', 'sessionDescriptions', ['filters[id]' => $newDescriptionIds]);
+        $newDescriptionData = $this->getFiltered(
+            'sessiondescriptions',
+            'sessionDescriptions',
+            ['filters[id]' => $newDescriptionIds]
+        );
 
         $this->assertEquals($newDescriptionData[0]['description'], $descriptions[0]['description']);
         $this->assertEquals($newDescriptionData[1]['description'], $descriptions[1]['description']);

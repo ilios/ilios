@@ -263,6 +263,4 @@ class CurriculumInventoryReportDecorator
     {
         return $this->absoluteFileUri;
     }
-
-
 }

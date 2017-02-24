@@ -141,7 +141,11 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
         $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['id']);
 
         $this->assertNotEmpty($fetchedResponseData['absoluteFileUri']);
-        $this->assertEquals(10, count($fetchedResponseData['academicLevels']), 'There should be 10 academic levels ids.');
+        $this->assertEquals(
+            10,
+            count($fetchedResponseData['academicLevels']),
+            'There should be 10 academic levels ids.'
+        );
         $this->assertNotEmpty($fetchedResponseData['sequence'], 'A sequence id should be present.');
 
         unset($fetchedResponseData['sequence']);
@@ -227,8 +231,8 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
         $changeValue = $firstPut[1];
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $nonExportedReports = array_filter($all, function($report) {
-           return !array_key_exists('export', $report);
+        $nonExportedReports = array_filter($all, function ($report) {
+            return !array_key_exists('export', $report);
         });
         foreach ($nonExportedReports as $data) {
             $data[$changeKey] = $changeValue;

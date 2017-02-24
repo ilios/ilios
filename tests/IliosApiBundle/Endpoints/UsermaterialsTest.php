@@ -118,6 +118,4 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertJsonResponse($response, Response::HTTP_OK);
         return json_decode($response->getContent(), true)['userMaterials'];
     }
-
-
 }

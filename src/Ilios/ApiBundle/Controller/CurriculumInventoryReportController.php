@@ -45,7 +45,6 @@ class CurriculumInventoryReportController extends NonDtoApiController
             $sequenceManager->update($sequence, false);
 
             $manager->update($entity, false);
-
         }
         $manager->flush();
 

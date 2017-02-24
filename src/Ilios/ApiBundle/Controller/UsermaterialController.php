@@ -42,7 +42,7 @@ class UsermaterialController extends Controller
         $materials = $manager->findMaterialsForUser($user->getId(), $criteria);
 
         //If there are no matches return an empty array
-        $response['userMaterials'] = $materials ? array_values($materials) : [];;
+        $response['userMaterials'] = $materials ? array_values($materials) : [];
         $serializer = $this->get('serializer');
         return new Response(
             $serializer->serialize($response, 'json'),

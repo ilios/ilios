@@ -47,7 +47,7 @@ class OfferingTest extends AbstractEndpointTest
         ];
     }
 
-    public  function putsToTest()
+    public function putsToTest()
     {
         return [
             'site' => ['site', $this->getFaker()->text],
@@ -169,7 +169,7 @@ class OfferingTest extends AbstractEndpointTest
             $responseData['id'],
             AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
             $instigator = 2,
-            $school =1
+            $school = 1
         );
 
         return $responseData;

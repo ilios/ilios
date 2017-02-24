@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use DateTime;
+
 /**
  * SchooleventsTest API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
@@ -137,6 +138,4 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertJsonResponse($response, Response::HTTP_OK);
         return json_decode($response->getContent(), true)['events'];
     }
-
-
 }

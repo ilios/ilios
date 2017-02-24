@@ -416,7 +416,12 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
         $blockId = $postData['id'];
         $postData['orderInSequence'] = $newPosition;
 
-        $updatedBlock = $this->putOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlock', $blockId, $postData);
+        $updatedBlock = $this->putOne(
+            'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlock',
+            $blockId,
+            $postData
+        );
 
         $this->assertEquals(
             $postData['orderInSequence'],
@@ -464,7 +469,12 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
         // move block back into its original position
         $postData['orderInSequence'] = $oldPosition;
 
-        $updatedBlock = $this->putOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlock', $blockId, $postData);
+        $updatedBlock = $this->putOne(
+            'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlock',
+            $blockId,
+            $postData
+        );
         $this->assertEquals(
             $postData['orderInSequence'],
             $updatedBlock['orderInSequence'],

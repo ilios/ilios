@@ -59,7 +59,7 @@ class UsereventController extends Controller
 
         $result = $manager->addInstructorsToEvents($events);
 
-        $response['userEvents'] = $result ? array_values($result) : [];;
+        $response['userEvents'] = $result ? array_values($result) : [];
         $serializer = $this->get('serializer');
         return new Response(
             $serializer->serialize($response, 'json'),

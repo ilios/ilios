@@ -676,5 +676,4 @@ class LearningMaterial implements LearningMaterialInterface
 
         return ['Default', 'file'];
     }
-
 }
