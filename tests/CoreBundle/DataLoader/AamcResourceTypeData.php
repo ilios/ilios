@@ -40,7 +40,7 @@ class AamcResourceTypeData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => 'RE004',
+            'id' => 'FKRE',
             'title' => $this->faker->text(100),
             'description' => $this->faker->text,
             'terms' => [],
@@ -50,5 +50,20 @@ class AamcResourceTypeData extends AbstractDataLoader
     public function createInvalid()
     {
         return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createMany($count)
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] . $i;
+            $data[] = $arr;
+        }
+
+        return $data;
     }
 }

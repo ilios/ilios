@@ -36,6 +36,7 @@ class AamcResourceTypeTest extends AbstractEndpointTest
             'title' => ['title', $this->getFaker()->text],
             'description' => ['description', $this->getFaker()->text],
             'terms' => ['terms', [3]],
+            'id' => ['id', 'FK1', $skipped = true],
         ];
     }
 
@@ -58,17 +59,6 @@ class AamcResourceTypeTest extends AbstractEndpointTest
             'description' => [[1], ['description' => 'second description']],
             'terms' => [[0], ['terms' => [1]]],
         ];
-    }
-
-    public function testPutId()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $id = $data['id'];
-        $data['id'] = $this->getFaker()->text(10);
-
-        $postData = $data;
-        $this->putTest($data, $postData, $id);
     }
 
     public function testPostTermAamcResourceType()
