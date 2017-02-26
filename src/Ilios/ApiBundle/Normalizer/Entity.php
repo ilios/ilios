@@ -137,6 +137,7 @@ class Entity extends ObjectNormalizer
         $reflection = new \ReflectionClass($class);
         $normalizedData = $this->prepareForDenormalization($data);
         $object = $this->instantiateObject($normalizedData, $class, $context, $reflection, false);
+        $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
         $writableProperties = $this->entityMetadata->extractWritableProperties($reflection);
 
         foreach ($normalizedData as $attribute => $value) {
@@ -159,6 +160,12 @@ class Entity extends ObjectNormalizer
 
                     // we ignore attempts to set entities to NULL when they are type hinted otherwise
                     // This will get caught in the validator with a much nicer message
+                }
+            } else {
+                if (!array_key_exists($attribute, $exposedProperties)) {
+                    throw new InvalidInputWithSafeUserMessageException(
+                        sprintf("Extra data was sent:  '%s' is not a valid property", $attribute)
+                    );
                 }
             }
         }

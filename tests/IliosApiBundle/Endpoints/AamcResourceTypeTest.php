@@ -68,4 +68,13 @@ class AamcResourceTypeTest extends AbstractEndpointTest
         $postData = $data;
         $this->relatedPostDataTest($data, $postData, 'aamcResourceType', 'terms');
     }
+
+    public function testPutResourceTypeWithExtraData()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['garbage'] = 'LA Dodgers';
+
+        $this->badPostTest($data);
+    }
 }
