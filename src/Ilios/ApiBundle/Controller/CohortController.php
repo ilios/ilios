@@ -12,11 +12,17 @@ use Symfony\Component\HttpKernel\Exception\GoneHttpException;
  */
 class CohortController extends ApiController
 {
+    /**
+     * @inheritdoc
+     */
     public function postAction($version, $object, Request $request)
     {
         $this->throwCreatingCohortNotSupportedException();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);

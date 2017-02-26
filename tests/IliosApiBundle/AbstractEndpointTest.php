@@ -81,22 +81,34 @@ abstract class AbstractEndpointTest extends WebTestCase
         return [];
     }
 
+    /**
+     * @return string
+     */
     protected function getPluralName()
     {
         return strtolower($this->testName);
     }
 
+    /**
+     * @return string
+     */
     protected function getSingularName()
     {
         $pluralized = $this->getPluralName();
         return Inflector::singularize($pluralized);
     }
 
+    /**
+     * @return null|string
+     */
     protected function getCamelCasedPluralName()
     {
         return $this->testName;
     }
 
+    /**
+     * @return string
+     */
     protected function getCamelCasedSingularName()
     {
         $pluralized = $this->getCamelCasedPluralName();
@@ -167,6 +179,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->makeJsonRequest($this->client, $method, $url, $content, $token, $files);
     }
 
+    /**
+     * Test getting a single value from the API
+     * @return mixed
+     */
     protected function getOneTest()
     {
         $endpoint = $this->getPluralName();
@@ -187,6 +203,15 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $returnedData;
     }
 
+    /**
+     * Get a single value from an API endpoint
+     *
+     * @param string $endpoint the name of the API endpoint
+     * @param string $responseKey the key data is returned under
+     * @param mixed $id the ID to fetch
+     *
+     * @return mixed
+     */
     protected function getOne($endpoint, $responseKey, $id)
     {
         $url = $this->getUrl(
@@ -210,6 +235,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         return json_decode($response->getContent(), true)[$responseKey][0];
     }
 
+    /**
+     * Get getting every peice of data in the test DB
+     * @return mixed
+     */
     protected function getAllTest()
     {
         $endpoint = $this->getPluralName();
@@ -244,6 +273,13 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $responses;
     }
 
+    /**
+     * Test saving new data to the API
+     *
+     * @param array $data
+     * @param array $postData
+     * @return mixed
+     */
     protected function postTest(array $data, array $postData)
     {
         $endpoint = $this->getPluralName();
@@ -265,6 +301,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $fetchedResponseData;
     }
 
+    /**
+     * Test POSTing an array of similar items to the API
+     * @param array $data
+     * @return mixed
+     */
     protected function postManyTest(array $data)
     {
         $endpoint = $this->getPluralName();
@@ -300,6 +341,15 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $fetchedResponseData;
     }
 
+    /**
+     * POST a single item to the API
+     *
+     * @param string $endpoint to send to
+     * @param string $responseKey the key the reponse will be under
+     * @param array $postData the data to send
+     *
+     * @return mixed
+     */
     protected function postOne($endpoint, $responseKey, array $postData)
     {
         $this->createJsonRequest(
@@ -314,6 +364,13 @@ abstract class AbstractEndpointTest extends WebTestCase
         return json_decode($response->getContent(), true)[$responseKey][0];
     }
 
+    /**
+     * @param string $endpoint to send to
+     * @param string $responseKey the data will be returned with
+     * @param array $postData to send
+     *
+     * @return mixed
+     */
     protected function postMany($endpoint, $responseKey, array $postData)
     {
         $this->createJsonRequest(
@@ -328,6 +385,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         return json_decode($response->getContent(), true)[$responseKey];
     }
 
+    /**
+     * Test POSTing bad data to the API
+     * @param array $data
+     */
     protected function badPostTest(array $data)
     {
         $endpoint = $this->getPluralName();
@@ -348,6 +409,16 @@ abstract class AbstractEndpointTest extends WebTestCase
         );
     }
 
+    /**
+     * When relational data is sent to the API ensure it
+     * is recorded on the non-owning side of the relationship
+     *
+     * @param array $data to match with
+     * @param array $postData to send
+     * @param string $relationship the test target has to the subject
+     * @param string $related the name of the related data
+     * @param null $relatedName
+     */
     public function relatedPostDataTest(array $data, array $postData, $relationship, $related, $relatedName = null)
     {
         $responseData = $this->postTest($data, $postData);
@@ -362,6 +433,14 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
     }
 
+    /**
+     * Test puttinga  single value to the API
+     * @param array $data
+     * @param array $postData
+     * @param mixed $id
+     * @param bool $new if we are expecting this data to create a new item
+     * @return mixed
+     */
     protected function putTest(array $data, array $postData, $id, $new = false)
     {
         $endpoint = $this->getPluralName();
@@ -384,6 +463,18 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $fetchedResponseData;
     }
 
+    /**
+     * Put a single item into the API
+     *
+     * @param string $endpoint we are testing
+     * @param string $responseKey we expect to be returned
+     * @param mixed $id of the data
+     * @param array $data we are changing
+     * @param bool $new if this is expected to generate new data instead
+     *                  of updating existing data
+     *
+     * @return mixed
+     */
     protected function putOne($endpoint, $responseKey, $id, array $data, $new = false)
     {
         $this->createJsonRequest(
@@ -399,6 +490,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         return json_decode($response->getContent(), true)[$responseKey];
     }
 
+    /**
+     * Test deleting an object from the API
+     *
+     * @param $id
+     */
     protected function deleteTest($id)
     {
         $endpoint = $this->getPluralName();
@@ -407,6 +503,12 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->notFoundTest($id);
     }
 
+    /**
+     * Delete an object from the API
+     * @param string $endpoint we are testing
+     * @param mixed $id we want to delete
+     * @return null|Response
+     */
     protected function deleteOne($endpoint, $id)
     {
         $this->createJsonRequest(
@@ -427,6 +529,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $response;
     }
 
+    /**
+     * Ensure that a bad ID returns a 404
+     *
+     * @param $badId
+     */
     protected function notFoundTest($badId)
     {
         $endpoint = $this->getPluralName();
@@ -449,6 +556,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         );
     }
 
+    /**
+     * Test that a filter returns the expected data
+     * @param array $filters we are using
+     * @param array $expectedData we hope to see
+     */
     protected function filterTest(array $filters, array $expectedData)
     {
         $endpoint = $this->getPluralName();
@@ -474,6 +586,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
+     * Get data from the API using filter parameters
      * @param $endpoint
      * @param $responseKey
      * @param array $filters
@@ -502,6 +615,11 @@ abstract class AbstractEndpointTest extends WebTestCase
         return json_decode($response->getContent(), true)[$responseKey];
     }
 
+    /**
+     * Test invalid filters
+     *
+     * @param array $badFilters
+     */
     protected function badFilterTest(array $badFilters)
     {
         $endpoint = $this->getPluralName();
@@ -528,6 +646,13 @@ abstract class AbstractEndpointTest extends WebTestCase
         );
     }
 
+    /**
+     * Test that updating a related entity updates the timestamp on this one
+     * @param $id
+     * @param $relatedEndpoint
+     * @param $relatedResponseKey
+     * @param $relatedData
+     */
     protected function relatedTimeStampUpdateTest(
         $id,
         $relatedEndpoint,
@@ -547,12 +672,19 @@ abstract class AbstractEndpointTest extends WebTestCase
             $diff = $currentStamp->getTimestamp() - $initialStamp->getTimestamp();
             $this->assertTrue(
                 $diff > 1,
-                'The updatedAt timestamp has increased.  Original: ' . $initialStamp->format('c') .
+                'The timestamp has increased.  Original: ' . $initialStamp->format('c') .
                 ' Now: ' . $currentStamp->format('c')
             );
         }
     }
 
+    /**
+     * Test that creating related data updates a timestamp on this endpoint
+     * @param $id
+     * @param $relatedPluralObjectName
+     * @param $relatedResponseKey
+     * @param $relatedPostData
+     */
     protected function relatedTimeStampPostTest(
         $id,
         $relatedPluralObjectName,
@@ -572,12 +704,18 @@ abstract class AbstractEndpointTest extends WebTestCase
             $diff = $currentStamp->getTimestamp() - $initialStamp->getTimestamp();
             $this->assertTrue(
                 $diff > 1,
-                'The updatedAt timestamp has increased.  Original: ' . $initialStamp->format('c') .
+                'The timestamp has increased.  Original: ' . $initialStamp->format('c') .
                 ' Now: ' . $currentStamp->format('c')
             );
         }
     }
 
+    /**
+     * Test that deleting a realted entity updates a timestamp on this one
+     * @param $id
+     * @param $relatedPluralObjectName
+     * @param $relatedId
+     */
     protected function relatedTimeStampDeleteTest(
         $id,
         $relatedPluralObjectName,
@@ -596,7 +734,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             $diff = $currentStamp->getTimestamp() - $initialStamp->getTimestamp();
             $this->assertTrue(
                 $diff > 1,
-                'The updatedAt timestamp has increased.  Original: ' . $initialStamp->format('c') .
+                'The timestamp has increased.  Original: ' . $initialStamp->format('c') .
                 ' Now: ' . $currentStamp->format('c')
             );
         }

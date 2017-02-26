@@ -16,9 +16,6 @@ class ApiControllerTest extends WebTestCase
         ]);
     }
 
-    /**
-     * @group api_1
-     */
     public function testNoEndpoint()
     {
         $client = $this->createClient();
@@ -37,9 +34,6 @@ class ApiControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @group api_1
-     */
     public function testNoVersion()
     {
         $client = $this->createClient();
@@ -58,9 +52,6 @@ class ApiControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @group api_1
-     */
     public function testBadVersion()
     {
         $client = $this->createClient();

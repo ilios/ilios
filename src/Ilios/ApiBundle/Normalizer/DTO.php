@@ -16,6 +16,9 @@ class DTO extends ObjectNormalizer
     private $entityMetadata;
 
     /**
+     * Set by the DI system.  We don't want to override
+     * the constructor so this uses a setter to pass the needed
+     * service
      * @param EntityMetadata $entityMetadata
      */
     public function setEntityMetadata(EntityMetadata $entityMetadata)
@@ -24,6 +27,7 @@ class DTO extends ObjectNormalizer
     }
 
     /**
+     * Overridden to remove null values
      * {@inheritdoc}
      */
     public function normalize($object, $format = null, array $context = [])
@@ -37,6 +41,8 @@ class DTO extends ObjectNormalizer
     }
 
     /**
+     * Use our annotation type system to correctly turn values
+     * into their eventual JSON representation
      * {@inheritdoc}
      */
     protected function getAttributeValue($object, $property, $format = null, array $context = [])
@@ -65,6 +71,7 @@ class DTO extends ObjectNormalizer
 
 
     /**
+     * Check to see if we can normalize the object or class
      * {@inheritdoc}
      */
     public function supportsNormalization($classNameOrObject, $format = null)

@@ -16,6 +16,15 @@ use DateTime;
  */
 class UsereventController extends Controller
 {
+    /**
+     * Get events for a user
+     *
+     * @param string $version
+     * @param int $id of the user
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function getAction($version, $id, Request $request)
     {
         $manager = $this->container->get('ilioscore.user.manager');

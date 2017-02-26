@@ -15,6 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ProgramYearController extends ApiController
 {
+    /**
+     * Create cohort to match the new program year
+     * @inheritdoc
+     */
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
@@ -34,6 +38,11 @@ class ProgramYearController extends ApiController
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
+    /**
+     * Allow program years to be unlocked if necessary
+     * and add a cohort if one does not already exist
+     * @inheritdoc
+     */
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);

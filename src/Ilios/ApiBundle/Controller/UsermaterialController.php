@@ -14,6 +14,14 @@ use DateTime;
  */
 class UsermaterialController extends Controller
 {
+    /**
+     * Get the materials for a user
+     * @param string $version of the API requested
+     * @param int $id of the user
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function getAction($version, $id, Request $request)
     {
         $manager = $this->container->get('ilioscore.user.manager');

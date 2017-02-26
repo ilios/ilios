@@ -10,12 +10,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class AuthenticationController
- * Authentication uses 'user' and the primary key
+ * Authentication uses 'user' as the primary key and
+ * needs to encode passwords
  * so we have to handle that specially.
  * @package Ilios\ApiBundle\Controller
  */
 class AuthenticationController extends ApiController
 {
+    /**
+     * @inheritdoc
+     */
     public function getAction($version, $object, $userId)
     {
         if ('authentications' !== $object) {
@@ -31,6 +35,11 @@ class AuthenticationController extends ApiController
         return $this->resultsToResponse([$dto], $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 
+    /**
+     * Along with taking input this also encodes the passwords
+     * so they can be stored safely in the database
+     * @inheritdoc
+     */
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
@@ -91,6 +100,12 @@ class AuthenticationController extends ApiController
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
+    /**
+     * Along with taking input this also encodes passwords so they
+     * can be stored safely in the database
+     *
+     * @inheritdoc
+     */
     public function putAction($version, $object, $userId, Request $request)
     {
         $manager = $this->getManager($object);
@@ -135,7 +150,11 @@ class AuthenticationController extends ApiController
         return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
 
-    public function deleteAction($version, $object, $userId, Request $request)
+    /**
+     * Deletes a record by userId
+     * @inheritdoc
+     */
+    public function deleteAction($version, $object, $userId)
     {
         $manager = $this->getManager($object);
         $entity = $manager->findOneBy(['user'=> $userId]);

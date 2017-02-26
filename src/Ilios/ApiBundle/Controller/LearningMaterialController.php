@@ -17,6 +17,10 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class LearningMaterialController extends NonDtoApiController
 {
+    /**
+     * Handle 'q' as a special parameter to search with
+     * @inheritdoc
+     */
     public function getAllAction($version, $object, Request $request)
     {
         $q = $request->get('q');
@@ -37,6 +41,13 @@ class LearningMaterialController extends NonDtoApiController
         return parent::getAllAction($version, $object, $request);
     }
 
+    /**
+     * Connects file learning materials to the uploaded file
+     * they are referencing and generate a token to use to link
+     * to this learning material.
+     *
+     * @inheritdoc
+     */
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
@@ -99,6 +110,11 @@ class LearningMaterialController extends NonDtoApiController
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
+    /**
+     * When saving a learning material do not allow
+     * the modification of file fields.  These are not
+     * technically read only, but should not be writable when saved.
+     */
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);
@@ -129,6 +145,10 @@ class LearningMaterialController extends NonDtoApiController
         return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
 
+    /**
+     * Decorate materials with a factory to add absolute links to files
+     * @inheritdoc
+     */
     protected function createResponse($responseKey, $value, $responseCode)
     {
         $factory = $this->get('ilioscore.learningmaterial_decorator.factory');
@@ -145,6 +165,10 @@ class LearningMaterialController extends NonDtoApiController
     }
 
     /**
+     * Use validation groups to validate learning materials
+     * since different rules are applied to them based on the
+     * type of material they are.
+     *
      * @inheritdoc
      * @param LearningMaterialInterface $entity
      */

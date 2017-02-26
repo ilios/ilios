@@ -8,8 +8,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class NonDtoApiController
+ *
+ * Some entities have not yet been converted to use plain
+ * PHP objects and a special repository method when fetched
+ *
+ * These have to be found differently
+ *
+ * @package Ilios\ApiBundle\Controller
+ */
 class NonDtoApiController extends ApiController
 {
+    /**
+     * @inheritdoc
+     */
     public function getAction($version, $object, $id)
     {
         $manager = $this->getManager($object);
@@ -22,6 +35,9 @@ class NonDtoApiController extends ApiController
         return $this->resultsToResponse([$entity], $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getAllAction($version, $object, Request $request)
     {
         $parameters = $this->extractParameters($request);
@@ -37,6 +53,9 @@ class NonDtoApiController extends ApiController
     }
 
     /**
+     * Get a manager which does not handle DTOs and confirm
+     * that the endpoint should not be using one that does
+     *
      * @param string $object
      * @return BaseManager
      * @throws \Exception

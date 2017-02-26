@@ -10,8 +10,23 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ * Class ApiController
+ *
+ * Default Controller for all API endpoints.
+ * @package Ilios\ApiBundle\Controller
+ */
 class ApiController extends Controller implements ApiControllerInterface
 {
+    /**
+     * Handles single GET requests for endpoints
+     *
+     * @param string $version the API version (v1) requested
+     * @param string $object the name of the endpoint
+     * @param mixed $id the ID of the requested entity
+     *
+     * @return Response
+     */
     public function getAction($version, $object, $id)
     {
         $manager = $this->getManager($object);
@@ -24,6 +39,15 @@ class ApiController extends Controller implements ApiControllerInterface
         return $this->resultsToResponse([$dto], $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 
+    /**
+     * Handles plural GET requests for endpoints
+     *
+     * @param string $version the API version (v1) requested
+     * @param string $object the name of the endpoint
+     * @param Request $request details (filters, order, limit)
+     *
+     * @return Response
+     */
     public function getAllAction($version, $object, Request $request)
     {
         $parameters = $this->extractParameters($request);
@@ -38,6 +62,16 @@ class ApiController extends Controller implements ApiControllerInterface
         return $this->resultsToResponse($result, $this->getPluralResponseKey($object), Response::HTTP_OK);
     }
 
+    /**
+     * Handles POST which creates new data in the API
+     *
+     * @param string $version the API version (v1) requested
+     * @param string $object the name of the endpoint
+     *
+     * @param Request $request the content to be created
+     *
+     * @return Response
+     */
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
@@ -56,6 +90,17 @@ class ApiController extends Controller implements ApiControllerInterface
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
+    /**
+     * Modifies a single object in the API.  Can also create and
+     * object if it does not yet exist.
+     *
+     * @param string $version the API version (v1) requested
+     * @param string $object the name of the endpoint
+     * @param string $id the ID of the entity we are modifying
+     *
+     * @param Request $request the content to be modified
+     * @return Response
+     */
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);
@@ -80,7 +125,18 @@ class ApiController extends Controller implements ApiControllerInterface
         return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
 
-    public function deleteAction($version, $object, $id, Request $request)
+    /**
+     * Handles DELETE requests to remove an element from the API
+     *
+     * @param string $version the API version (v1) requested
+     * @param string $object the name of the endpoint
+     * @param string $id the entity to be deleted
+     *
+     * @throws \RuntimeException when there is a problem deleting soemthing
+     *
+     * @return Response
+     */
+    public function deleteAction($version, $object, $id)
     {
         $manager = $this->getManager($object);
         $entity = $manager->findOneBy(['id'=> $id]);
@@ -104,9 +160,15 @@ class ApiController extends Controller implements ApiControllerInterface
     }
 
     /**
+     * The the manager for this request by name
+     *
      * @param string $object
+     *
      * @return DTOManagerInterface
-     * @throws \Exception
+     *
+     * @throws \Exception if the manager doesn't exist or
+     * if the manager does not support operations that this default
+     * controller needs.
      */
     protected function getManager($object)
     {
@@ -129,10 +191,13 @@ class ApiController extends Controller implements ApiControllerInterface
     }
 
     /**
+     * Take the request object and pull out the input data we need
+     *
      * @param Request $request
      * @param $object string the name of the object we are extracting from the request
      * @param bool $singleItem forces items out of an array and into single items
      * @param bool $returnArray should we leave the data as an array (for further upstream processig)
+     *
      * @return string | array
      */
     protected function extractDataFromRequest(Request $request, $object, $singleItem = false, $returnArray = false)
@@ -161,6 +226,13 @@ class ApiController extends Controller implements ApiControllerInterface
         return $returnArray?$data:json_encode($data);
     }
 
+    /**
+     * Get the singular name of an endpoint
+     *
+     * @param string $object
+     *
+     * @return string
+     */
     protected function getSingularObjectName($object)
     {
         $namer = $this->container->get('ilios_api.endpoint_response_namer');
@@ -168,6 +240,13 @@ class ApiController extends Controller implements ApiControllerInterface
         return strtolower($namer->getSingularName($object));
     }
 
+    /**
+     * Get the plural name of an endpoint
+     *
+     * @param string $object
+     *
+     * @return string
+     */
     protected function getPluralResponseKey($object)
     {
         $namer = $this->container->get('ilios_api.endpoint_response_namer');
@@ -175,6 +254,14 @@ class ApiController extends Controller implements ApiControllerInterface
         return $namer->getPluralName($object);
     }
 
+    /**
+     * Get the singular name of the responseKey we will
+     * send with data at this endpoint
+     *
+     * @param string $object
+     *
+     * @return string
+     */
     protected function getSingularResponseKey($object)
     {
         $namer = $this->container->get('ilios_api.endpoint_response_namer');
@@ -182,6 +269,13 @@ class ApiController extends Controller implements ApiControllerInterface
         return $namer->getSingularName($object);
     }
 
+    /**
+     * Extract the non-data parameters which control the response we send
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
     protected function extractParameters(Request $request)
     {
         $parameters = [
@@ -206,6 +300,16 @@ class ApiController extends Controller implements ApiControllerInterface
         return $parameters;
     }
 
+    /**
+     * Convert the results we have generated into a Response which
+     * Symfony can use to present data to the user
+     *
+     * @param array $results
+     * @param string $responseKey the key we will send this data under
+     * @param string $responseCode the HTTP status code we will use with the request
+     *
+     * @return Response
+     */
     protected function resultsToResponse(array $results, $responseKey, $responseCode)
     {
         $authChecker = $this->get('security.authorization_checker');
@@ -220,6 +324,14 @@ class ApiController extends Controller implements ApiControllerInterface
         return $this->createResponse($responseKey, $values, $responseCode);
     }
 
+    /**
+     * Create a response object
+     *
+     * @param string $responseKey the key we will send this data under
+     * @param mixed $value
+     * @param string $responseCode the HTTP status code we will use with the request
+     * @return Response
+     */
     protected function createResponse($responseKey, $value, $responseCode)
     {
         $response[$responseKey] = $value;
@@ -231,6 +343,12 @@ class ApiController extends Controller implements ApiControllerInterface
         );
     }
 
+    /**
+     * Validate and authorize a set of entities
+     *
+     * @param array $entities
+     * @param string $permission we want to authorize ('view', 'create', 'edit', 'delete')
+     */
     protected function validateAndAuthorizeEntities($entities, $permission)
     {
         foreach ($entities as $entity) {
@@ -239,6 +357,11 @@ class ApiController extends Controller implements ApiControllerInterface
         }
     }
 
+    /**
+     * Runs the Symfony validation against the annotations in an entity
+     *
+     * @param mixed $entity
+     */
     protected function validateEntity($entity)
     {
         $validator = $this->container->get('validator');
@@ -250,6 +373,13 @@ class ApiController extends Controller implements ApiControllerInterface
         }
     }
 
+    /**
+     * Checks that the current user has the permissions
+     * they need to work with an entity
+     *
+     * @param mixed $entity
+     * @param string $permission we need to verify
+     */
     protected function authorizeEntity($entity, $permission)
     {
         $authChecker = $this->get('security.authorization_checker');
@@ -259,6 +389,12 @@ class ApiController extends Controller implements ApiControllerInterface
     }
 
     /**
+     * Gets the serializer service
+     *
+     * Currently returns the default serializer, but if we need
+     * to build a custom implementation this will make it easier to use it
+     * in this controller
+     *
      * @return Serializer
      */
     protected function getSerializer()

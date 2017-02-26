@@ -4,8 +4,16 @@ namespace Ilios\ApiBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class SessionsController
+ * @package Ilios\ApiBundle\Controller
+ */
 class SessionsController extends ApiController
 {
+    /**
+     * Extract and process DateTime properties
+     * @inheritdoc
+     */
     protected function extractParameters(Request $request)
     {
         $parameters = parent::extractParameters($request);

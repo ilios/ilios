@@ -15,11 +15,19 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CurriculumInventoryExportController extends NonDtoApiController
 {
+    /**
+     * Return a 404 response
+     */
     public function fourOhFourAction()
     {
         throw new NotFoundHttpException('Curriculum Inventory Exports can only be created');
     }
 
+    /**
+     * Create the XML document for a curriculum inventory report
+     *
+     * @inheritdoc
+     */
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);

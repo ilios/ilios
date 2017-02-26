@@ -16,6 +16,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CoursesController extends ApiController
 {
+    /**
+     * @inheritdoc
+     */
     public function getAllAction($version, $object, Request $request)
     {
         $my = $request->get('my');
@@ -40,6 +43,16 @@ class CoursesController extends ApiController
         return parent::getAllAction($version, $object, $request);
     }
 
+    /**
+     * Rollover a course by ID
+     *
+     * @param string $version
+     * @param string $object
+     * @param int $id
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function rolloverAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);
@@ -81,6 +94,11 @@ class CoursesController extends ApiController
         return $this->createResponse($this->getPluralResponseKey($object), [$newCourseDTO], Response::HTTP_CREATED);
     }
 
+    /**
+     * Along with extracting the parameters this converts
+     * the datetime ones into DateTime objects from strings
+     * @inheritdoc
+     */
     protected function extractParameters(Request $request)
     {
         $parameters = parent::extractParameters($request);

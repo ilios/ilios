@@ -28,6 +28,10 @@ class Entity extends ObjectNormalizer
     protected $purifier;
 
     /**
+     * Set by the DI system.  We don't want to override
+     * the constructor so this uses a setter to pass the needed
+     * service
+     *
      * @param EntityMetadata $entityMetadata
      */
     public function setEntityMetadata(EntityMetadata $entityMetadata)
@@ -36,6 +40,10 @@ class Entity extends ObjectNormalizer
     }
 
     /**
+     * Set by the DI system.  We don't want to override
+     * the constructor so this uses a setter to pass the needed
+     * service
+     *
      * @param Registry $registry
      */
     public function setRegistry(Registry $registry)
@@ -44,6 +52,10 @@ class Entity extends ObjectNormalizer
     }
 
     /**
+     * Set by the DI system.  We don't want to override
+     * the constructor so this uses a setter to pass the needed
+     * service
+     *
      * @param HTMLPurifier $purifier
      */
     public function setPurifier(HTMLPurifier $purifier)
@@ -52,6 +64,8 @@ class Entity extends ObjectNormalizer
     }
 
     /**
+     * Overridden in order to filter our null values
+     *
      * {@inheritdoc}
      */
     public function normalize($object, $format = null, array $context = [])
@@ -65,6 +79,9 @@ class Entity extends ObjectNormalizer
     }
 
     /**
+     * Using our annotation system convert raw entity values
+     * into the data that will be seen in the JSON response
+     *
      * {@inheritdoc}
      */
     protected function getAttributeValue($object, $property, $format = null, array $context = [])
@@ -108,6 +125,12 @@ class Entity extends ObjectNormalizer
         return $this->propertyAccessor->getValue($object, $property);
     }
 
+    /**
+     * Takes data from user input and converts it back into what
+     * our entities expect to be able to save
+     *
+     * @inheritdoc
+     */
     public function denormalize($data, $class, $format = null, array $context = [])
     {
         $reflection = new \ReflectionClass($class);
@@ -159,7 +182,7 @@ class Entity extends ObjectNormalizer
     }
 
     /**
-     * Convert API data back into what the entity needs
+     * Convert single API value back into what the entity needs
      *
      * @param \ReflectionProperty $property
      * @param mixed $value

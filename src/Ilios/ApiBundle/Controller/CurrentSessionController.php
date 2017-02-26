@@ -15,6 +15,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 class CurrentSessionController extends Controller
 {
+    /**
+     * Gets the currently authenticated users Id
+     *
+     * @param string $version
+     *
+     * @return Response
+     */
     public function getAction($version)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();

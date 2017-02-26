@@ -8,8 +8,20 @@ use Ilios\CoreBundle\Entity\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class OfferingController
+ *
+ * When an offering is created or modified alerts get
+ * recorded to let users know about the change
+ *
+ * @package Ilios\ApiBundle\Controller
+ */
 class OfferingController extends NonDtoApiController
 {
+    /**
+     * Create alerts when adding offerings
+     * @inheritdoc
+     */
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
@@ -38,6 +50,10 @@ class OfferingController extends NonDtoApiController
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
+    /**
+     * Create alerts when modifying offerings
+     * @inheritdoc
+     */
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);

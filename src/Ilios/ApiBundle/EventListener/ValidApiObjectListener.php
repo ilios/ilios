@@ -33,6 +33,11 @@ class ValidApiObjectListener
         $this->validApiObjects = $arr;
     }
 
+    /**
+     * Search and validate requests
+     *
+     * @param FilterControllerEvent $event
+     */
     public function onKernelController(FilterControllerEvent $event)
     {
         $controllers = $event->getController();

@@ -12,10 +12,19 @@ use DateTime;
 
 /**
  * Class SchooleventController
+ *
+ * Search for events happenign in a school
  * @package Ilios\ApiBundle\Controller
  */
 class SchooleventController extends Controller
 {
+    /**
+     * @param string $version of the API requested
+     * @param string $id of the school
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function getAction($version, $id, Request $request)
     {
         $schoolManager = $this->container->get('ilioscore.school.manager');

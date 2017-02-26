@@ -15,6 +15,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CurriculumInventorySequenceBlockController extends NonDtoApiController
 {
+    /**
+     * Re-order blocks when they are saved
+     * @inheritdoc
+     */
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
@@ -40,6 +44,10 @@ class CurriculumInventorySequenceBlockController extends NonDtoApiController
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
+    /**
+     * Re-order blocks when they are saved
+     * @inheritdoc
+     */
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);
@@ -77,7 +85,11 @@ class CurriculumInventorySequenceBlockController extends NonDtoApiController
         return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
 
-    public function deleteAction($version, $object, $id, Request $request)
+    /**
+     * Re-order blocks when others are deleted
+     * @inheritdoc
+     */
+    public function deleteAction($version, $object, $id)
     {
         $manager = $this->getManager($object);
         /** @var CurriculumInventorySequenceBlockInterface $entity */

@@ -10,8 +10,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Class SwaggerDocsController
+ *
+ * Produce the YAML files that document our endpoints
+ *
+ * @package Ilios\ApiBundle\Controller
+ */
 class SwaggerDocsController extends Controller
 {
+    /**
+     * Get a single YAML file which documents our endpoints
+     *
+     * @param Request $request
+     * @return Response
+     */
     public function indexAction(Request $request)
     {
         $swaggerDir = $this->get('kernel')->locateResource("@IliosApiBundle/Resources/swagger");
@@ -33,6 +46,16 @@ class SwaggerDocsController extends Controller
         return $response;
     }
 
+    /**
+     * Parse a directory and its YAML files and convert them
+     * into an array.
+     *
+     * @param string $dir
+     *
+     * @return array
+     *
+     * @throws \Exception
+     */
     protected function getSection($dir)
     {
         $finder = new Finder();
@@ -54,6 +77,13 @@ class SwaggerDocsController extends Controller
         return $items;
     }
 
+    /**
+     * Get the information swagger loads at the top of the document
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
     protected function getFrontMatter(Request $request)
     {
         $arr = [];

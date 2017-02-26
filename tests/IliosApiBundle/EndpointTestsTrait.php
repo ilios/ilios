@@ -43,16 +43,25 @@ trait EndpointTestsTrait
      */
     public abstract function readOnlyPropertiesToTest();
 
+    /**
+     * Test fetching a single object
+     */
     public function testGetOne()
     {
         $this->getOneTest();
     }
 
+    /**
+     * Test fetching ALL objects
+     */
     public function testGetAll()
     {
         $this->getAllTest();
     }
 
+    /**
+     * Test posting a single object
+     */
     public function testPostOne()
     {
         $dataLoader = $this->getDataLoader();
@@ -61,6 +70,9 @@ trait EndpointTestsTrait
         $this->postTest($data, $postData);
     }
 
+    /**
+     * Test a failure when posting an object
+     */
     public function testPostBad()
     {
         $dataLoader = $this->getDataLoader();
@@ -68,6 +80,9 @@ trait EndpointTestsTrait
         $this->badPostTest($data);
     }
 
+    /**
+     * Test POST several of this type of object
+     */
     public function testPostMany()
     {
         $dataLoader = $this->getDataLoader();
@@ -109,6 +124,10 @@ trait EndpointTestsTrait
         $this->putTest($data, $postData, $id);
     }
 
+    /**
+     * Test PUTing each test data item to ensure
+     * they all are saved as we would expect
+     */
     public function testPutForAllData()
     {
         $putsToTest = $this->putsToTest();
@@ -157,6 +176,9 @@ trait EndpointTestsTrait
         }
     }
 
+    /**
+     * Test deleting data
+     */
     public function testDelete()
     {
         $dataLoader = $this->getDataLoader();
@@ -164,6 +186,9 @@ trait EndpointTestsTrait
         $this->deleteTest($data['id']);
     }
 
+    /**
+     * Test that a bad ID produces a 404 response
+     */
     public function testNotFound()
     {
         $this->notFoundTest(99);

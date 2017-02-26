@@ -16,6 +16,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CurriculumInventoryReportController extends NonDtoApiController
 {
+    /**
+     * Along with the report create the Sequence and Levels that
+     * are necessary for a Report to be at all valid
+     *
+     * @inheritdoc
+     */
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
@@ -59,6 +65,12 @@ class CurriculumInventoryReportController extends NonDtoApiController
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
+    /**
+     * Decorate Reports with a factory before sending
+     * them to the user
+     *
+     * @inheritdoc
+     */
     protected function createResponse($responseKey, $value, $responseCode)
     {
         $factory = $this->get('ilioscore.curriculum_inventory_report_decorator.factory');

@@ -11,6 +11,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class IngestionExceptionController extends NonDtoApiController
 {
+    /**
+     * Send a 404 header to the user
+     */
     public function fourOhFourAction()
     {
         throw new NotFoundHttpException('Curriculum Inventory Exports can only be created');

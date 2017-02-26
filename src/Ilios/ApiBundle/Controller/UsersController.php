@@ -14,6 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class UsersController extends ApiController
 {
+    /**
+     * Handle special 'q' parameter in the request
+     * @inheritdoc
+     */
     public function getAllAction($version, $object, Request $request)
     {
         $q = $request->get('q');

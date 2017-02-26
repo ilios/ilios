@@ -14,6 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MeshDescriptorController extends ApiController
 {
+    /**
+     * Handle 'q' parameter in queries
+     * @inheritdoc
+     */
     public function getAllAction($version, $object, Request $request)
     {
         $q = $request->get('q');

@@ -7,18 +7,37 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\KernelInterface;
 
+/**
+ * Class EndpointResponseNamer
+ * Handles the pluralization and string manipulatio to go from
+ * the value our api expects like 'userrole' to what we may need
+ * to return like 'userRole'
+ *
+ * @package Ilios\ApiBundle\Service
+ */
 class EndpointResponseNamer
 {
     /**
-     * @var string
+     * @var string pointing to all of our entity classes
      */
     protected $pathToEntities;
 
+    /**
+     * EndpointResponseNamer constructor.
+     * Extracts the entity path from the Kernel
+     * @param KernelInterface $kernel
+     */
     public function __construct(KernelInterface $kernel)
     {
         $this->pathToEntities = $kernel->locateResource('@IliosCoreBundle/Entity');
     }
 
+    /**
+     * Get the pluralized name of an enpoint
+     *
+     * @param $object
+     * @return mixed
+     */
     public function getPluralName($object)
     {
         $list = $this->getEntityList();
@@ -26,6 +45,12 @@ class EndpointResponseNamer
         return $list[$object]['plural'];
     }
 
+    /**
+     * Get the singular name for an endpoint
+     *
+     * @param $object
+     * @return mixed
+     */
     public function getSingularName($object)
     {
         $list = $this->getEntityList();
@@ -33,6 +58,10 @@ class EndpointResponseNamer
         return $list[$object]['singular'];
     }
 
+    /**
+     * Create a list of all the plural and singular names for entities
+     * @return array
+     */
     protected function getEntityList()
     {
         $finder = new Finder();
