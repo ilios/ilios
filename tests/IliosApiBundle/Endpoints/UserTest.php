@@ -287,6 +287,25 @@ class UserTest extends AbstractEndpointTest
         );
     }
 
+    public function testRejectUnprivilegedAddDeveloperRoleToOwnAccount()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $user = $all[2];
+        $this->assertNotContains(1, $user['roles'], 'User #3 should not be a developer or this test is garbage');
+        $userId = $user['id'];
+
+        $postData = $user;
+        $postData['roles'] = ['1', '2'];
+
+        $this->canNot(
+            $userId,
+            'PUT',
+            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'users', 'id' => $userId]),
+            json_encode(['user' => $postData])
+        );
+    }
+
     public function testRejectUnprivilegedRemoveRootFromUser()
     {
         $dataLoader = $this->getDataLoader();

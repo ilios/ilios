@@ -198,7 +198,7 @@ class ApiController extends Controller implements ApiControllerInterface
      * @param bool $singleItem forces items out of an array and into single items
      * @param bool $returnArray should we leave the data as an array (for further upstream processig)
      *
-     * @return string | array
+     * @return mixed
      */
     protected function extractDataFromRequest(Request $request, $object, $singleItem = false, $returnArray = false)
     {

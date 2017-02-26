@@ -98,6 +98,15 @@ ilios_api_getallusers:
         version: 'v\d+'
         object: '(?i)users'
 
+ilios_api_user_put:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:Users:put }
+    methods:  [PUT]
+    requirements:
+        version: 'v\d+'
+        object: 'users'
+        id: '\d+'
+
 ilios_api_authentication_get:
     path:     /{version}/{object}/{userId}
     defaults: { _controller: IliosApiBundle:Authentication:get }
