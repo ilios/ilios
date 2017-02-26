@@ -11,4 +11,3 @@ parameters:
   ilios_api_non_dto_controllers: >-
     (?i)(academicyears|applicationconfigs|courseclerkshiptypes|courselearningmaterials|curriculuminventoryacademiclevels|curriculuminventoryexports|curriculuminventoryinstitutions|curriculuminventorysequenceblocks|curriculuminventoryreports|curriculuminventorysequences|departments|ilmsessions|ingestionexceptions|instructorgroups|learningmaterials|learningmaterialstatuses|learningmaterialuserroles|meshconcepts|meshterms|meshpreviousindexings|meshqualifiers|meshsemantictypes|meshterms|meshtrees|objectives|offerings|pendinguserupdates|permissions|programyearstewards|reports|schoolconfigs|sessiondescriptions|sessionlearningmaterials|sessiontypes|usermadereminders|userroles|vocabularies)
   ilios_api_valid_api_versions: 'v1'
-  
