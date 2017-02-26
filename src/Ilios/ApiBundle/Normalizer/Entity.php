@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Normalizer;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Ilios\CoreBundle\Service\EntityMetadata;
 use HTMLPurifier;
@@ -203,11 +204,37 @@ class Entity extends ObjectNormalizer
 
             if ($type === 'entity') {
                 if (null !== $value) {
-                    $value = $repository->find($value);
+                    $result = $repository->find($value);
+                    if (!$result) {
+                        $identifier = $metaData->getSingleIdentifierFieldName();
+                        throw new InvalidInputWithSafeUserMessageException(
+                          sprintf("Unable to resolve %s with %s %s", $property->getName(), $identifier, $value)
+                        );
+                    }
+                    $value = $result;
                 }
             } else {
                 if (is_array($value) && !empty($value)) {
-                    $value = $repository->findBy(['id' => $value]);
+                    $result = $repository->findBy(['id' => $value]);
+                    if (count($result) !== count($value)) {
+                        $identifier = $metaData->getSingleIdentifierFieldName();
+                        $method = 'get' . ucfirst($identifier);
+                        $foundIds = array_map(function($entity) use ($method) {
+                            return $entity->$method();
+                        }, $result);
+                        $missingIds = array_filter($value, function ($id) use ($foundIds) {
+                           return  !in_array($id, $foundIds);
+                        });
+                        throw new InvalidInputWithSafeUserMessageException(
+                            sprintf(
+                                "Unable to resolve %s[%s] for %s",
+                                $identifier,
+                                implode(',', $missingIds),
+                                $property->getName()
+                            )
+                        );
+                    }
+                    $value = $result;
                 } else {
                     $value = [];
                 }

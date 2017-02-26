@@ -529,4 +529,22 @@ class CourseTest extends AbstractEndpointTest
         $result = $this->getOne('objectives', 'objectives', $objectiveId);
         $this->assertEquals($result['children'], ['6']);
     }
+
+    public function testPutCourseWithBadSchoolId()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['school'] = 99;
+
+        $this->badPostTest($data);
+    }
+
+    public function testPutCourseWithBadSessionId()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['sessions'] = [1, 99, 14];
+
+        $this->badPostTest($data);
+    }
 }
