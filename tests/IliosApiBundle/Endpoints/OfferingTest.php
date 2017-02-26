@@ -9,7 +9,7 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 /**
  * Offering API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_3
  */
 class OfferingTest extends AbstractEndpointTest
 {
