@@ -38,7 +38,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
             'title' => ['title', $this->getFaker()->text],
             'description' => ['description', $this->getFaker()->text],
             'required' => ['required', $this->getFaker()->randomDigit],
-            'childSequenceOrder' => ['childSequenceOrder', $this->getFaker()->randomDigit],
+            'childSequenceOrder' => ['childSequenceOrder', 2],
             'orderInSequence' => ['orderInSequence', $this->getFaker()->randomDigit],
             'minimum' => ['minimum', $this->getFaker()->randomDigit],
             'maximum' => ['maximum', $this->getFaker()->randomDigit],
