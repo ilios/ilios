@@ -30,7 +30,7 @@ services:
         class: Ilios\CoreBundle\Classes\Filesystem
     ilioscore.logger:
         class: Ilios\CoreBundle\Service\Logger
-        arguments: ['@security.token_storage', '@ilioscore.auditlog.manager']
+        arguments: ['@security.token_storage', '@ilioscore.auditlog.manager', '@logger']
     ilioscore.logger.queue:
         class: Ilios\CoreBundle\Service\LoggerQueue
         arguments: ['@ilioscore.logger']

@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Classes\SchoolEvent;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -52,7 +52,7 @@ class SchooleventVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $event, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 

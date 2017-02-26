@@ -75,4 +75,42 @@ class AuditLogRepository extends EntityRepository
             );
         $qb->getQuery()->execute();
     }
+
+    /**
+     * Write logs to the database
+     *
+     * We use the DBAL layer here so we can insert with the userId and
+     * do not need to access the user entity
+     *
+     * @param array $entries
+     *
+     * @throws \Exception where there are issues with the passed data
+     */
+    public function writeLogs(array $entries)
+    {
+        $conn = $this->_em->getConnection();
+        $now = new \DateTime();
+        $timestamp = $now->format('Y-m-d H:i:s');
+        $logs = array_map(function (array $entry) use ($timestamp) {
+            $keys = ['action', 'objectId', 'objectClass', 'valuesChanged', 'userId'];
+            $log = [];
+            foreach ($keys as $key) {
+                if (!array_key_exists($key, $entry)) {
+                    throw new \Exception("Log entry missing required {$key} key: " . var_export($entry, true));
+                }
+            }
+            $log['action'] = $entry['action'];
+            $log['objectId'] = empty($entry['objectId'])?0:$entry['objectId'];
+            $log['objectClass'] = $entry['objectClass'];
+            $log['valuesChanged'] = $entry['valuesChanged'];
+            $log['user_id'] = $entry['userId'];
+            $log['createdAt'] = $timestamp;
+
+            return $log;
+        }, $entries);
+
+        foreach ($logs as $log) {
+            $conn->insert('audit_log', $log);
+        }
+    }
 }

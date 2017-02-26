@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -59,7 +59,7 @@ class ObjectiveEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $objective, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 

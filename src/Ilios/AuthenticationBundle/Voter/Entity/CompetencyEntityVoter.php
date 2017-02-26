@@ -4,7 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -46,7 +46,7 @@ class CompetencyEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $competency, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 

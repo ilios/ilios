@@ -2,9 +2,9 @@
 
 namespace Ilios\AuthenticationBundle\Voter\DTO;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\DTO\CourseDTO;
 use Ilios\AuthenticationBundle\Voter\CourseVoter;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -30,7 +30,7 @@ class CourseDTOVoter extends CourseVoter
     protected function voteOnAttribute($attribute, $course, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 

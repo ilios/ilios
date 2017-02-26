@@ -2,8 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -31,7 +31,7 @@ class UserRoleVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $role, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 

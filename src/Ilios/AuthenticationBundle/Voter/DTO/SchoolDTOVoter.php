@@ -2,9 +2,9 @@
 
 namespace Ilios\AuthenticationBundle\Voter\DTO;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -31,7 +31,7 @@ class SchoolDTOVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $school, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
         // this voter only supports view access, grant it to all authn. users.

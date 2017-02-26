@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 use Ilios\CoreBundle\Entity\MeshTermInterface;
 use Ilios\CoreBundle\Entity\MeshTreeInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -44,7 +44,7 @@ class MeshEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $meshObject, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 

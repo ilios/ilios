@@ -2,8 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\PermissionInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -31,7 +31,7 @@ class PermissionVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $permission, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -41,7 +41,7 @@ class PermissionVoter extends AbstractVoter
             // 2. the current user has developer role
             case self::VIEW:
                 return (
-                    $this->usersAreIdentical($user, $permission->getUser())
+                    $user->isTheUser($permission->getUser())
                     || $this->userHasRole($user, ['Developer'])
                 );
                 break;

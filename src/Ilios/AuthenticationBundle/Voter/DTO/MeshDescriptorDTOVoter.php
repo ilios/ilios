@@ -4,7 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter\DTO;
 
 use Ilios\AuthenticationBundle\Voter\Entity\MeshEntityVoter;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -30,7 +30,7 @@ class MeshDescriptorDTOVoter extends MeshEntityVoter
     protected function voteOnAttribute($attribute, $requestedDescriptor, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 

@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Encoder;
 
 use Ilios\AuthenticationBundle\Jwt\Token as JwtToken;
@@ -64,13 +65,13 @@ class JsonWebTokenManager
     
     /**
      * Build a token from a user
-     * @param  UserInterface $user
+     * @param  SessionUserInterface $sessionUser
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
      * @return string
      */
-    public function createJwtFromUser(UserInterface $user, $timeToLive = 'PT8H')
+    public function createJwtFromUser(SessionUserInterface $sessionUser, $timeToLive = 'PT8H')
     {
-        return $this->createJwtFromUserId($user->getId(), $timeToLive);
+        return $this->createJwtFromUserId($sessionUser->getId(), $timeToLive);
     }
     
     /**

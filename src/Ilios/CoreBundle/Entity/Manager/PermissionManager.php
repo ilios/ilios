@@ -3,10 +3,10 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\PermissionInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class PermissionManager
@@ -26,99 +26,99 @@ class PermissionManager extends BaseManager
 
     /**
      * Checks if a given user has "read" permissions for a given course.
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param null|$courseId
      * @return bool
      */
-    public function userHasReadPermissionToCourse(UserInterface $user, $courseId = null)
+    public function userHasReadPermissionToCourse(SessionUserInterface $user, $courseId = null)
     {
         return $courseId && $this->userHasPermission($user, self::CAN_READ, 'course', $courseId);
     }
 
     /**
      * Checks if a given user has "read" permissions for a given program.
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param ProgramInterface|null $program
      * @return bool
      */
-    public function userHasReadPermissionToProgram(UserInterface $user, ProgramInterface $program = null)
+    public function userHasReadPermissionToProgram(SessionUserInterface $user, ProgramInterface $program = null)
     {
         return $program && $this->userHasPermission($user, self::CAN_READ, 'program', $program->getId());
     }
 
     /**
      * Checks if a given user has "read" permissions for a given school.
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param int|null $schoolId
      * @return bool
      */
-    public function userHasReadPermissionToSchool(UserInterface $user, $schoolId = null)
+    public function userHasReadPermissionToSchool(SessionUserInterface $user, $schoolId = null)
     {
         return $schoolId && $this->userHasPermission($user, self::CAN_READ, 'school', $schoolId);
     }
 
     /**
      * Checks if a given user has "read" permissions for and in an array of schools.
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param ArrayCollection $schools
      * @return bool
      */
-    public function userHasReadPermissionToSchools(UserInterface $user, ArrayCollection $schools)
+    public function userHasReadPermissionToSchools(SessionUserInterface $user, ArrayCollection $schools)
     {
         return $this->userHasPermissionToSchools($user, self::CAN_READ, $schools);
     }
 
     /**
      * Checks if a given user has "write" permissions for a list of schools
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param ArrayCollection $schools
      * @return bool
      */
-    public function userHasWritePermissionToSchools(UserInterface $user, ArrayCollection $schools)
+    public function userHasWritePermissionToSchools(SessionUserInterface $user, ArrayCollection $schools)
     {
         return $this->userHasPermissionToSchools($user, self::CAN_WRITE, $schools);
     }
 
     /**
      * Checks if a given user has "write" permissions for a given course.
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param int|null $courseId
      * @return bool
      */
-    public function userHasWritePermissionToCourse(UserInterface $user, $courseId = null)
+    public function userHasWritePermissionToCourse(SessionUserInterface $user, $courseId = null)
     {
         return $courseId && $this->userHasPermission($user, self::CAN_WRITE, 'course', $courseId);
     }
 
     /**
      * Checks if a given user has "write" permissions for a given program.
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param ProgramInterface|null $program
      * @return bool
      */
-    public function userHasWritePermissionToProgram(UserInterface $user, ProgramInterface $program = null)
+    public function userHasWritePermissionToProgram(SessionUserInterface $user, ProgramInterface $program = null)
     {
         return $program && $this->userHasPermission($user, self::CAN_WRITE, 'program', $program->getId());
     }
 
     /**
      * Checks if a given user has "write" permissions for a given school.
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param int|null $schoolId
      * @return bool
      */
-    public function userHasWritePermissionToSchool(UserInterface $user, $schoolId = null)
+    public function userHasWritePermissionToSchool(SessionUserInterface $user, $schoolId = null)
     {
         return $schoolId && $this->userHasPermission($user, self::CAN_WRITE, 'school', $schoolId);
     }
 
     /**
      * Checks if a given user has "read" permissions to any courses in a given school.
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param SchoolInterface|null $school
      * @return bool
      */
-    public function userHasReadPermissionToCoursesInSchool(UserInterface $user, SchoolInterface $school = null)
+    public function userHasReadPermissionToCoursesInSchool(SessionUserInterface $user, SchoolInterface $school = null)
     {
         if (! $school) {
             return false;
@@ -133,13 +133,13 @@ class PermissionManager extends BaseManager
     }
 
     /**
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param string $permission must be either 'canRead' or 'canWrite'.
      * @param string $tableName
      * @param string $tableRowId
      * @return bool
      */
-    protected function userHasPermission(UserInterface $user, $permission, $tableName, $tableRowId)
+    protected function userHasPermission(SessionUserInterface $user, $permission, $tableName, $tableRowId)
     {
         $criteria = [
             'tableRowId' => $tableRowId,
@@ -153,12 +153,12 @@ class PermissionManager extends BaseManager
     }
 
     /**
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param string $permission must be either 'canRead' or 'canWrite'.
      * @param ArrayCollection $schools
      * @return bool
      */
-    protected function userHasPermissionToSchools(UserInterface $user, $permission, ArrayCollection $schools)
+    protected function userHasPermissionToSchools(SessionUserInterface $user, $permission, ArrayCollection $schools)
     {
         $criteria = [
             'tableName' => 'school',

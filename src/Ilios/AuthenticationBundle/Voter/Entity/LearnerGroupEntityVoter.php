@@ -4,7 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 
@@ -43,7 +43,7 @@ class LearnerGroupEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $group, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -65,10 +65,7 @@ class LearnerGroupEntityVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical(
-                            $user->getSchool(),
-                            $group->getSchool()
-                        )
+                        $user->isThePrimarySchool($group->getSchool())
                         || $this->permissionManager->userHasWritePermissionToSchool(
                             $user,
                             $group->getSchool()->getId()

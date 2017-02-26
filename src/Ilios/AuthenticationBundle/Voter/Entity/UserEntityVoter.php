@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
@@ -45,7 +46,7 @@ class UserEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $requestedUser, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -73,11 +74,11 @@ class UserEntityVoter extends AbstractVoter
     }
 
     /**
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param UserInterface $requestedUser
      * @return bool
      */
-    protected function canCreateEditDeleteUser(UserInterface $user, UserInterface $requestedUser)
+    protected function canCreateEditDeleteUser(SessionUserInterface $user, UserInterface $requestedUser)
     {
         // only root users can edit/delete/create root users
         if (! $user->isRoot() && $requestedUser->isRoot()) {

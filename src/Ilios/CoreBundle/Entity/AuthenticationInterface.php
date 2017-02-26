@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+
 /**
  * Interface AuthenticationInterface
  * @package Ilios\CoreBundle\Entity
@@ -39,6 +41,11 @@ interface AuthenticationInterface extends LoggableEntityInterface
     public function getPasswordBcrypt();
 
     /**
+     * @return string
+     */
+    public function getPassword();
+
+    /**
      * @param UserInterface $user
      */
     public function setUser(UserInterface $user);
@@ -65,4 +72,9 @@ interface AuthenticationInterface extends LoggableEntityInterface
      * @return \DateTime
      */
     public function getInvalidateTokenIssuedBefore();
+
+    /**
+     * @return SessionUserInterface
+     */
+    public function getSessionUser();
 }

@@ -1211,23 +1211,6 @@ class User implements UserInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function hasRole(array $eligibleRoles)
-    {
-        $roles = array_map(
-            function (UserRoleInterface $role) {
-                return $role->getTitle();
-            },
-            $this->getRoles()->toArray()
-        );
-
-        $intersection = array_intersect($eligibleRoles, $roles);
-
-        return ! empty($intersection);
-    }
-
-    /**
      * @param Collection $reports
      */
     public function setReports(Collection $reports)
@@ -1610,82 +1593,6 @@ class User implements UserInterface
     public function getDirectedPrograms()
     {
         return $this->directedPrograms;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function serialize()
-    {
-        return serialize(array(
-                $this->id,
-                $this->campusId,
-                $this->email
-            ));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->campusId,
-            $this->email
-            ) = unserialize($serialized);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function eraseCredentials()
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getPassword()
-    {
-        $authentication = $this->getAuthentication();
-        if (!$authentication) {
-            return null;
-        }
-        $newPassword = $authentication->getPasswordBcrypt();
-        $legacyPassword = $authentication->getPasswordSha256();
-
-        return $newPassword ? $newPassword : $legacyPassword;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSalt()
-    {
-        return '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getUsername()
-    {
-        return (string) $this->id;
-    }
-
-    /**
-     * Use the old ilios legacy encoder for accounts
-     * that haven't changed their password
-     * @return string|null
-     */
-    public function getEncoderName()
-    {
-        if ($this->getAuthentication() && $this->getAuthentication()->isLegacyAccount()) {
-            return 'ilios_legacy_encoder';
-        }
-
-        return null; // use the default encoder
     }
     
     /**

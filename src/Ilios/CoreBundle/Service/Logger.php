@@ -5,7 +5,10 @@ use Ilios\CoreBundle\Entity\AuditLog;
 use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
 use Ilios\CoreBundle\Entity\Manager\BaseManager;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 
 /**
  * Class Logger
@@ -14,39 +17,58 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class Logger
 {
     /**
-     * @var UserInterface
+     * @var integer
      */
-    protected $user;
-    
+    protected $userId;
+
     /**
      * @var AuditLogManager
      */
     protected $manager;
 
     /**
-     * Set the username from injected security context
+     * @var LoggerInterface
+     */
+    protected $frameworkLogger;
+
+    /**
+     * @var array
+     */
+    protected $entries;
+
+    /**
+     * Set the userId from injected security context
+     *
      * @param TokenStorageInterface $securityTokenStorage
      * @param AuditLogManager $auditLogManager
+     * @param LoggerInterface $logger
      */
     public function __construct(
         TokenStorageInterface $securityTokenStorage,
-        AuditLogManager $auditLogManager
+        AuditLogManager $auditLogManager,
+        LoggerInterface $logger
     ) {
         if (null !== $securityTokenStorage &&
             null !== $securityTokenStorage->getToken()
         ) {
-            $this->user = $securityTokenStorage->getToken()->getUser();
+            /** @var SessionUserInterface $sessionUser */
+            $sessionUser = $securityTokenStorage->getToken()->getUser();
+            if ($sessionUser instanceof SessionUserInterface) {
+                $this->userId = $sessionUser->getId();
+            }
         }
         $this->manager = $auditLogManager;
+        $this->frameworkLogger = $logger;
     }
 
     /**
+     * Log an action
+     *
      * @param $action
      * @param $objectId
      * @param $objectClass
      * @param $valuesChanged
      * @param bool $andFlush
-     * @return mixed|object
      */
     public function log(
         $action,
@@ -55,24 +77,33 @@ class Logger
         $valuesChanged,
         $andFlush = true
     ) {
-        /** @var AuditLog $log */
-        $log = $this->manager->create();
-        $log->setAction($action);
-        $log->setObjectId($objectId);
-        $log->setObjectClass($objectClass);
-        $log->setValuesChanged($valuesChanged);
-        $log->setUser($this->user);
+        if (!$this->userId) {
+            throw new \Exception('Attempted to log something but there is no authenticated user.');
+        }
+        $log = [
+            'action' => $action,
+            'objectId' => $objectId,
+            'objectClass' => $objectClass,
+            'valuesChanged' => $valuesChanged,
+            'userId' => $this->userId,
+        ];
+        $this->entries[] = $log;
 
-        $this->manager->update($log, $andFlush);
-        
-        return $log;
+        if ($andFlush) {
+            $this->flush();
+        }
     }
 
     /**
-     * @see BaseManager::flush()
+     * Write logs to the DB
      */
     public function flush()
     {
-        $this->manager->flush();
+        try {
+            $this->manager->writeLogs($this->entries);
+            $this->entries = [];
+        } catch (\Exception $e) {
+            $this->frameworkLogger->alert('Unable to write logs: ' . $e->getMessage(), ['exception' => $e]);
+        }
     }
 }

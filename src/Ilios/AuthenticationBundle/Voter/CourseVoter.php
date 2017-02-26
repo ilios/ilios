@@ -2,9 +2,9 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
-use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class CourseVoter
@@ -12,11 +12,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 abstract class CourseVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
     /**
      * @var CourseManager
      */
@@ -26,20 +21,19 @@ abstract class CourseVoter extends AbstractVoter
      * @param CourseManager $courseManager
      * @param PermissionManager $permissionManager
      */
-    public function __construct(CourseManager $courseManager, PermissionManager $permissionManager)
+    public function __construct(CourseManager $courseManager)
     {
         $this->courseManager = $courseManager;
-        $this->permissionManager = $permissionManager;
     }
 
     /**
      * @param int $courseId
      * @param int $owningSchoolId
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      *
      * @return bool
      */
-    protected function isViewGranted($courseId, $owningSchoolId, UserInterface $user)
+    protected function isViewGranted($courseId, $owningSchoolId, SessionUserInterface $user)
     {
         // grant VIEW privileges if at least one of the following
         // statements is true:
@@ -49,22 +43,21 @@ abstract class CourseVoter extends AbstractVoter
         // 4. the user has READ rights on the course's owning school via the permissions system
         // 5. the user has READ rights on the course via the permissions system
         return (
-            $owningSchoolId === $user->getSchool()->getId()
-            || $this->courseManager->isUserInstructingInCourse($user, $courseId)
-            || $user->isDirectingCourse($courseId)
-            || $this->permissionManager->userHasReadPermissionToSchool($user, $owningSchoolId)
-            || $this->permissionManager->userHasReadPermissionToCourse($user, $courseId)
+            $owningSchoolId === $user->getSchoolId()
+            || $this->courseManager->isUserInstructingInCourse($user->getId(), $courseId)
+            || $user->hasReadPermissionToSchool($owningSchoolId)
+            || $user->hasReadPermissionToCourse($courseId)
         );
     }
 
     /**
      * @param int $courseId
      * @param int $owningSchoolId
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      *
      * @return bool
      */
-    protected function isWriteGranted($courseId, $owningSchoolId, UserInterface $user)
+    protected function isWriteGranted($courseId, $owningSchoolId, SessionUserInterface $user)
     {
         // grant CREATE/EDIT/DELETE privileges if at least one of the following
         // statements is true:
@@ -76,10 +69,10 @@ abstract class CourseVoter extends AbstractVoter
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
             && (
-                $owningSchoolId === $user->getSchool()->getId()
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $owningSchoolId)
+                $owningSchoolId === $user->getSchoolId()
+                || $user->hasWritePermissionToSchool($owningSchoolId)
             )
-            || $this->permissionManager->userHasWritePermissionToCourse($user, $courseId)
+            || $user->hasWritePermissionToCourse($courseId)
         );
     }
 }

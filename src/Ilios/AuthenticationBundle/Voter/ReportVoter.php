@@ -2,8 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\ReportInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -31,7 +31,7 @@ class ReportVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $report, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -42,7 +42,7 @@ class ReportVoter extends AbstractVoter
             case self::VIEW:
             case self::EDIT:
             case self::DELETE:
-                return $this->usersAreIdentical($user, $report->getUser());
+                return $user->isTheUser($report->getUser());
                 break;
         }
 

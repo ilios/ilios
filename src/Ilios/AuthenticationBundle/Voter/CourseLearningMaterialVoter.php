@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -32,7 +32,7 @@ class CourseLearningMaterialVoter extends CourseVoter
     protected function voteOnAttribute($attribute, $material, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 

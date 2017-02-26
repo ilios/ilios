@@ -127,11 +127,11 @@ class CourseRepository extends EntityRepository
     /**
      * Checks if a given user is assigned as instructor to ILMs or offerings in a given course.
      *
-     * @param UserInterface $user
+     * @param int $userId
      * @param int $courseId
      * @return boolean TRUE if the user instructs at least one offering or ILM, FALSE otherwise.
      */
-    public function isUserInstructingInCourse(UserInterface $user, $courseId)
+    public function isUserInstructingInCourse($userId, $courseId)
     {
         $sql =<<<EOL
 SELECT
@@ -185,7 +185,7 @@ EOL;
 
         $conn = $this->getEntityManager()->getConnection();
         $stmt = $conn->prepare($sql);
-        $stmt->bindValue("user_id", $user->getId());
+        $stmt->bindValue("user_id", $userId);
         $stmt->bindValue("course_id", $courseId);
         $stmt->execute();
         $rows =  $stmt->fetchAll();
@@ -198,7 +198,7 @@ EOL;
      * Finds all courses associated with a given user.
      * A user can be associated as either course director, learner or instructor with a given course.
      *
-     * @param UserInterface $user
+     * @param integer $user
      * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
@@ -206,8 +206,8 @@ EOL;
      * @return CourseInterface[]
      * @throws \Exception
      */
-    public function findByUser(
-        UserInterface $user,
+    public function findByUserId(
+        $userId,
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -339,7 +339,7 @@ EOL;
         }
 
         $query = $this->_em->createNativeQuery($sql, $rsm);
-        $query->setParameter('user_id', $user->getId());
+        $query->setParameter('user_id', $userId);
         foreach ($params as $field => $label) {
             $value = $criteria[$field];
             $query->setParameter($label, $value);

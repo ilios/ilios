@@ -3,6 +3,8 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\ApiBundle\Annotation as IS;
+use Ilios\AuthenticationBundle\Classes\SessionUser;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Entity\UserInterface;
@@ -138,6 +140,17 @@ class Authentication implements AuthenticationInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getPassword()
+    {
+        $newPassword = $this->getPasswordBcrypt();
+        $legacyPassword = $this->getPasswordSha256();
+        return $newPassword ? $newPassword : $legacyPassword;
+    }
+
+
+    /**
      * @inheritdoc
      */
     public function setUser(UserInterface $user)
@@ -183,5 +196,13 @@ class Authentication implements AuthenticationInterface
     public function __toString()
     {
         return (string) $this->user;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSessionUser()
+    {
+        return new SessionUser($this->user);
     }
 }

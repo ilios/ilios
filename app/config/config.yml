@@ -90,7 +90,7 @@ sensio_framework_extra:
 
 security:
     encoders:
-        Ilios\CoreBundle\Entity\User:
+        Ilios\AuthenticationBundle\Classes\SessionUserInterface:
             algorithm: bcrypt
         ilios_legacy_encoder:
             id: ilios_authentication.form.legacy_encoder

@@ -9,8 +9,6 @@ use Ilios\CoreBundle\Traits\CohortsEntityInterface;
 use Ilios\CoreBundle\Traits\InstructorGroupsEntityInterface;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntityInterface;
 use Ilios\CoreBundle\Traits\LearningMaterialsEntityInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
-use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
@@ -28,15 +26,12 @@ interface UserInterface extends
     OfferingsEntityInterface,
     ProgramYearsEntityInterface,
     LoggableEntityInterface,
-    BaseUserInterface,
     SchoolEntityInterface,
-    EncoderAwareInterface,
     AlertableEntityInterface,
     LearnerGroupsEntityInterface,
     CohortsEntityInterface,
     InstructorGroupsEntityInterface,
-    LearningMaterialsEntityInterface,
-    \Serializable
+    LearningMaterialsEntityInterface
 {
     /**
      * @param AuthenticationInterface|null $authentication
@@ -287,14 +282,6 @@ interface UserInterface extends
     public function getRoles();
 
     /**
-     * Utility method, determines if the user has any of the given roles.
-     * @param array $eligibleRoles a list of role names
-     *
-     * @return bool TRUE if the user has at least one of the roles, FALSE otherwise.
-     */
-    public function hasRole(array $eligibleRoles);
-
-    /**
      * @param Collection $reports
      */
     public function setReports(Collection $reports);
@@ -333,36 +320,6 @@ interface UserInterface extends
      * @return ArrayCollection|PendingUserUpdateInterface[]
      */
     public function getPendingUserUpdates();
-
-    /**
-     * @inheritDoc
-     */
-    public function serialize();
-
-    /**
-     * @inheritDoc
-     */
-    public function unserialize($serialized);
-
-    /**
-     * @inheritDoc
-     */
-    public function eraseCredentials();
-
-    /**
-     * @inheritDoc
-     */
-    public function getPassword();
-
-    /**
-     * @return string
-     */
-    public function getSalt();
-
-    /**
-     * @return string
-     */
-    public function getUsername();
     
     /**
      * @return ArrayCollection[School]

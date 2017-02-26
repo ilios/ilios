@@ -18,8 +18,6 @@ interface AuditLogInterface extends
      * Set action
      *
      * @param string $action
-     *
-     * @return AuditLog
      */
     public function setAction($action);
 
@@ -47,8 +45,6 @@ interface AuditLogInterface extends
      * Set objectId
      *
      * @param integer $objectId
-     *
-     * @return AuditLog
      */
     public function setObjectId($objectId);
 
@@ -63,8 +59,6 @@ interface AuditLogInterface extends
      * Set objectClass
      *
      * @param string $objectClass
-     *
-     * @return AuditLog
      */
     public function setObjectClass($objectClass);
 
