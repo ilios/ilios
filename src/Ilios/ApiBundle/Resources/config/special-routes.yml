@@ -3,7 +3,7 @@ ilios_api_currentsession:
     defaults: { _controller: IliosApiBundle:CurrentSession:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'currentsession'
 
 ilios_api_academicyear_get:
@@ -11,7 +11,7 @@ ilios_api_academicyear_get:
     defaults: { _controller: IliosApiBundle:AcademicYear:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'academicyears'
         id: '\d+'
 
@@ -20,7 +20,7 @@ ilios_api_getallacademicyears:
     defaults: { _controller: IliosApiBundle:AcademicYear:getAll }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)academicyears'
         
 ilios_api_learningmaterial_get:
@@ -28,7 +28,7 @@ ilios_api_learningmaterial_get:
     defaults: { _controller: IliosApiBundle:LearningMaterial:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)learningmaterials'
         id: '\d+'
 
@@ -37,7 +37,7 @@ ilios_api_learningmaterials_getall:
     defaults: { _controller: IliosApiBundle:LearningMaterial:getAll }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)learningmaterials'
 
 ilios_api_learningmaterials_post:
@@ -45,7 +45,7 @@ ilios_api_learningmaterials_post:
     defaults: { _controller: IliosApiBundle:LearningMaterial:post }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)learningmaterials'
 
 ilios_api_learningmaterial_put:
@@ -53,7 +53,7 @@ ilios_api_learningmaterial_put:
     defaults: { _controller: IliosApiBundle:LearningMaterial:put }
     methods:  [PUT]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)learningmaterials'
         id: '\d+'
 
@@ -62,7 +62,7 @@ ilios_api_academicyear_404:
     defaults: { _controller: IliosApiBundle:AcademicYear:fourOhFour, id: 0 }
     methods:  [POST, PUT, DELETE]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'academicyears'
 
 ilios_api_getallsessions:
@@ -70,7 +70,7 @@ ilios_api_getallsessions:
     defaults: { _controller: IliosApiBundle:Sessions:getAll }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)sessions'
 
 ilios_api_getallcourses:
@@ -78,7 +78,7 @@ ilios_api_getallcourses:
     defaults: { _controller: IliosApiBundle:Courses:getAll }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)courses'
 
 ilios_api_courserollover:
@@ -86,7 +86,7 @@ ilios_api_courserollover:
     defaults: { _controller: IliosApiBundle:Courses:rollover }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)courses'
         id: '\d+'
 
@@ -95,7 +95,7 @@ ilios_api_getallusers:
     defaults: { _controller: IliosApiBundle:Users:getAll }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)users'
 
 ilios_api_user_put:
@@ -103,7 +103,7 @@ ilios_api_user_put:
     defaults: { _controller: IliosApiBundle:Users:put }
     methods:  [PUT]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'users'
         id: '\d+'
 
@@ -112,7 +112,7 @@ ilios_api_authentication_get:
     defaults: { _controller: IliosApiBundle:Authentication:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'authentications'
         userId: '\d+'
 
@@ -121,7 +121,7 @@ ilios_api_authentication_put:
     defaults: { _controller: IliosApiBundle:Authentication:put }
     methods:  [PUT]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'authentications'
         userId: '\d+'
 
@@ -130,7 +130,7 @@ ilios_api_authentication_post:
     defaults: { _controller: IliosApiBundle:Authentication:post }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'authentications'
 
 ilios_api_authentication_delete:
@@ -138,7 +138,7 @@ ilios_api_authentication_delete:
     defaults: { _controller: IliosApiBundle:Authentication:delete }
     methods:  [DELETE]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'authentications'
         userId: '\d+'
 
@@ -147,7 +147,7 @@ ilios_api_curriculuminventoryexport_post:
     defaults: { _controller: IliosApiBundle:CurriculumInventoryExport:post }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'curriculuminventoryexports'
 
 ilios_api_curriculuminventoryexport_404:
@@ -155,7 +155,7 @@ ilios_api_curriculuminventoryexport_404:
     defaults: { _controller: IliosApiBundle:CurriculumInventoryExport:fourOhFour, id: 0 }
     methods:  [GET, PUT, DELETE]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'curriculuminventoryexports'
 
 ilios_api_curriculuminventoryreport_getall:
@@ -163,7 +163,7 @@ ilios_api_curriculuminventoryreport_getall:
     defaults: { _controller: IliosApiBundle:CurriculumInventoryReport:getAll }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'curriculuminventoryreports'
 
 ilios_api_curriculuminventoryreport_get:
@@ -171,7 +171,7 @@ ilios_api_curriculuminventoryreport_get:
     defaults: { _controller: IliosApiBundle:CurriculumInventoryReport:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'curriculuminventoryreports'
         id: '\d+'
 
@@ -180,7 +180,7 @@ ilios_api_curriculuminventoryreport_post:
     defaults: { _controller: IliosApiBundle:CurriculumInventoryReport:post }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'curriculuminventoryreports'
 
 ilios_api_curriculuminventoryreport_put:
@@ -188,7 +188,7 @@ ilios_api_curriculuminventoryreport_put:
     defaults: { _controller: IliosApiBundle:CurriculumInventoryReport:put }
     methods:  [PUT]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'curriculuminventoryreports'
         id: '\d+'
 
@@ -197,7 +197,7 @@ ilios_api_curriculuminventoryreport_rollover:
     defaults: { _controller: IliosApiBundle:CurriculumInventoryReport:rollover }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'curriculuminventoryreports'
         id: '\d+'
 
@@ -206,7 +206,7 @@ ilios_api_curriculuminventorysequenceblock_post:
     defaults: { _controller: IliosApiBundle:CurriculumInventorySequenceBlock:post }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'curriculuminventorysequenceblocks'
 
 ilios_api_curriculuminventorysequenceblock_put:
@@ -214,7 +214,7 @@ ilios_api_curriculuminventorysequenceblock_put:
     defaults: { _controller: IliosApiBundle:CurriculumInventorySequenceBlock:put }
     methods:  [PUT]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'curriculuminventorysequenceblocks'
         id: '\d+'
 
@@ -223,7 +223,7 @@ ilios_api_curriculuminventorysequenceblock_delete:
     defaults: { _controller: IliosApiBundle:CurriculumInventorySequenceBlock:delete }
     methods:  [DELETE]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'curriculuminventorysequenceblocks'
         id: '\d+'
 
@@ -232,7 +232,7 @@ ilios_api_cohort_put:
     defaults: { _controller: IliosApiBundle:Cohort:put }
     methods:  [PUT]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'cohorts'
         id: '\d+'
 
@@ -241,7 +241,7 @@ ilios_api_cohort_post:
     defaults: { _controller: IliosApiBundle:Cohort:post }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'cohorts'
         
 ilios_api_ingestionexception_getall:
@@ -249,7 +249,7 @@ ilios_api_ingestionexception_getall:
     defaults: { _controller: IliosApiBundle:IngestionException:getAll }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'ingestionExceptions'
 
 ilios_ingestionexception_api_get:
@@ -257,7 +257,7 @@ ilios_ingestionexception_api_get:
     defaults: { _controller: IliosApiBundle:IngestionException:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: "ingestionexceptions"
         id: '\d+'
 
@@ -266,7 +266,7 @@ ilios_api_ingestionexception_404:
     defaults: { _controller: IliosApiBundle:IngestionException:fourOhFour, id: 0 }
     methods:  [POST, PUT, DELETE]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'ingestionexceptions'
         id: '\d+'
 
@@ -275,7 +275,7 @@ ilios_api_meshdescriptors_getall:
     defaults: { _controller: IliosApiBundle:MeshDescriptor:getAll }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'meshdescriptors'
 
 ilios_api_programyears_post:
@@ -283,7 +283,7 @@ ilios_api_programyears_post:
     defaults: { _controller: IliosApiBundle:ProgramYear:post }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'programyears'
 
 ilios_api_offerings_put:
@@ -291,7 +291,7 @@ ilios_api_offerings_put:
     defaults: { _controller: IliosApiBundle:Offering:put }
     methods:  [PUT]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: "offerings"
         id: '\d+'
 
@@ -300,7 +300,7 @@ ilios_api_offerings_post:
     defaults: { _controller: IliosApiBundle:Offering:post }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: 'offerings'
 
 ilios_api_programyears_put:
@@ -308,7 +308,7 @@ ilios_api_programyears_put:
     defaults: { _controller: IliosApiBundle:ProgramYear:put }
     methods:  [PUT]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: "programyears"
         id: '\d+'
 
@@ -317,7 +317,7 @@ ilios_nondto_api_get:
     defaults: { _controller: IliosApiBundle:NonDtoApi:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: "%ilios_api_non_dto_controllers%"
         id: '(?i)[a-z0-9\-]+'
 
@@ -326,7 +326,7 @@ ilios_nondto_api_put:
     defaults: { _controller: IliosApiBundle:NonDtoApi:put }
     methods:  [PUT]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: "%ilios_api_non_dto_controllers%"
         id: '(?i)[a-z0-9\-]+'
 
@@ -335,7 +335,7 @@ ilios_nondto_api_getall:
     defaults: { _controller: IliosApiBundle:NonDtoApi:getAll }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: "%ilios_api_non_dto_controllers%"
 
 ilios_nondto_api_post:
@@ -343,7 +343,7 @@ ilios_nondto_api_post:
     defaults: { _controller: IliosApiBundle:NonDtoApi:post }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: "%ilios_api_non_dto_controllers%"
 
 ilios_nondto_api_delete:
@@ -351,6 +351,6 @@ ilios_nondto_api_delete:
     defaults: { _controller: IliosApiBundle:NonDtoApi:delete }
     methods:  [DELETE]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: "%ilios_api_non_dto_controllers%"
         id: '(?i)[a-z0-9\-]+'

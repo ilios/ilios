@@ -11,7 +11,7 @@ ilios_api_schoolevents:
     defaults: { _controller: IliosApiBundle:Schoolevent:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         id: '\d+'
 
 ilios_api_userevents:
@@ -19,7 +19,7 @@ ilios_api_userevents:
     defaults: { _controller: IliosApiBundle:Userevent:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         id: '\d+'
 
 ilios_api_usermaterials:
@@ -27,7 +27,7 @@ ilios_api_usermaterials:
     defaults: { _controller: IliosApiBundle:Usermaterial:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         id: '\d+'
 
 ilios_api_get:
@@ -35,7 +35,7 @@ ilios_api_get:
     defaults: { _controller: IliosApiBundle:Api:get }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)[a-z]+'
         id: '(?i)[a-z0-9\-]+'
 
@@ -44,7 +44,7 @@ ilios_api_getall:
     defaults: { _controller: IliosApiBundle:Api:getAll }
     methods:  [GET]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)[a-z]+'
 
 ilios_api_post:
@@ -52,7 +52,7 @@ ilios_api_post:
     defaults: { _controller: IliosApiBundle:Api:post }
     methods:  [POST]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)[a-z]+'
 
 ilios_api_put:
@@ -60,7 +60,7 @@ ilios_api_put:
     defaults: { _controller: IliosApiBundle:Api:put }
     methods:  [PUT]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)[a-z]+'
         id: '(?i)[a-z0-9\-]+'
 
@@ -69,7 +69,7 @@ ilios_api_delete:
     defaults: { _controller: IliosApiBundle:Api:delete }
     methods:  [DELETE]
     requirements:
-        version: 'v\d+'
+        version: "%ilios_api_valid_api_versions%"
         object: '(?i)[a-z]+'
         id: '(?i)[a-z0-9\-]+'
 
