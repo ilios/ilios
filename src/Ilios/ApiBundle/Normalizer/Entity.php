@@ -5,6 +5,7 @@ namespace Ilios\ApiBundle\Normalizer;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Ilios\CoreBundle\Service\EntityMetadata;
+use HTMLPurifier;
 
 /**
  * Ilios Entity normalizer
@@ -22,6 +23,11 @@ class Entity extends ObjectNormalizer
     private $registry;
 
     /**
+     * @var HTMLPurifier
+     */
+    protected $purifier;
+
+    /**
      * @param EntityMetadata $entityMetadata
      */
     public function setEntityMetadata(EntityMetadata $entityMetadata)
@@ -35,6 +41,14 @@ class Entity extends ObjectNormalizer
     public function setRegistry(Registry $registry)
     {
         $this->registry = $registry;
+    }
+
+    /**
+     * @param HTMLPurifier $purifier
+     */
+    public function setPurifier(HTMLPurifier $purifier)
+    {
+        $this->purifier = $purifier;
     }
 
     /**
@@ -187,6 +201,10 @@ class Entity extends ObjectNormalizer
 
         if (null !== $value and $type === 'integer') {
             $value = intval($value);
+        }
+
+        if ($this->entityMetadata->isPropertyRemoveMarkup($property)) {
+            $value = $this->purifier->purify($value);
         }
 
         return $value;

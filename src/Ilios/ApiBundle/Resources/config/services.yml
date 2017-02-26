@@ -5,6 +5,7 @@ services:
         calls:
           - [setEntityMetadata, ['@ilioscore.entitymetadata']]
           - [setRegistry, ['@doctrine']]
+          - [setPurifier, ['@exercise_html_purifier.default']]
         tags:
           - { name: serializer.normalizer }
 

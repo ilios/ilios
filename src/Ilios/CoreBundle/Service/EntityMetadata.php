@@ -137,4 +137,15 @@ class EntityMetadata
 
         return !is_null($annotation);
     }
+
+    public function isPropertyRemoveMarkup(\ReflectionProperty $property)
+    {
+        /** @var ReadOnly $annotation */
+        $annotation = $this->annotationReader->getPropertyAnnotation(
+            $property,
+            'Ilios\ApiBundle\Annotation\RemoveMarkup'
+        );
+
+        return !is_null($annotation);
+    }
 }

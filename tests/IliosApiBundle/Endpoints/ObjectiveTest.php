@@ -130,8 +130,11 @@ class ObjectiveTest extends AbstractEndpointTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_objectives'),
-            json_encode(['objective' => $postData]),
+            $this->getUrl('ilios_api_post', [
+                'version' => 'v1',
+                'object' => 'objectives'
+            ]),
+            json_encode(['objectives' => [$postData]]),
             $this->getAuthenticatedUserToken()
         );
 
@@ -177,12 +180,19 @@ class ObjectiveTest extends AbstractEndpointTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_objectives'),
-            json_encode(['objective' => $postData]),
+            $this->getUrl('ilios_api_post', [
+                'version' => 'v1',
+                'object' => 'objectives'
+            ]),
+            json_encode(['objectives' => [$postData]]),
             $this->getAuthenticatedUserToken()
         );
 
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
+        $this->assertEquals(
+            Response::HTTP_BAD_REQUEST,
+            $response->getStatusCode(),
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 400)
+        );
     }
 }
