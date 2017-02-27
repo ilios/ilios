@@ -10,11 +10,13 @@ Usermadereminder:
    type: string
   createdAt:
    description: Createdat
-   type: dateTime
+   type: string
+   format: date-time
    readOnly: true
   dueDate:
    description: Duedate
-   type: dateTime
+   type: string
+   format: date-time
   closed:
    description: Closed
    type: boolean

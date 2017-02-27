@@ -10,7 +10,8 @@ Report:
    type: string
   createdAt:
    description: Createdat
-   type: dateTime
+   type: string
+   format: date-time
    readOnly: true
   school:
    description: School
@@ -27,3 +28,6 @@ Report:
   user:
    description: User
    type: string
+  absoluteFileUri:
+    description: The URL where the report can be downloaded
+    type: string

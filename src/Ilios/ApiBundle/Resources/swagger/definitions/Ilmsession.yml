@@ -10,10 +10,12 @@ Ilmsession:
    type: string
   hours:
    description: Hours
-   type: float
+   type: number
+   format: float
   dueDate:
    description: Duedate
-   type: dateTime
+   type: string
+   format: date-time
   learnerGroups:
    description: Learnergroups
    type: array

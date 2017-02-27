@@ -13,13 +13,16 @@ Offering:
    type: string
   startDate:
    description: Startdate
-   type: dateTime
+   type: string
+   format: date-time
   endDate:
    description: Enddate
-   type: dateTime
+   type: string
+   format: date-time
   updatedAt:
    description: Updatedat
-   type: dateTime
+   type: string
+   format: date-time
    readOnly: true
   session:
    description: Session

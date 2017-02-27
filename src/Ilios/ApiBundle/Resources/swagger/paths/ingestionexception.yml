@@ -24,11 +24,15 @@
         description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
         required: false
         type: array
+        items:
+          type: string
       - name: filters
         in: query
         description: Filter by fields. Must be an array ie. &filters[id]=3
         required: false
         type: array
+        items:
+          type: string
     tags:
       - Ingestionexceptions
     responses:
@@ -41,41 +45,7 @@
               type: array
               items:
                 $ref: '#/definitions/Ingestionexception'
-  post:
-    summary: Create Ingestionexceptions
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            ingestionexceptions:
-              type: array
-              items:
-                $ref: '#/definitions/Ingestionexception'
-    tags:
-      - Ingestionexceptions
-    responses:
-      201:
-        description: An array of newly created ingestionexceptions
-        schema:
-          type: object
-          properties:
-            ingestionexceptions:
-              type: array
-              items:
-                $ref: '#/definitions/Ingestionexception'
-      400:
-        description: Bad Request Data
-      403:
-        description: Access Denied
+
 /ingestionexceptions/{id}:
   get:
     summary: Fetch a single Ingestionexception
@@ -105,64 +75,3 @@
                 $ref: '#/definitions/Ingestionexception'
       404:
         description: Not found
-  put:
-    summary: Edit a Ingestionexception
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    - name: body
-      in: body
-      required: true
-      schema:
-          type: object
-          properties:
-            ingestionexception:
-              $ref: '#/definitions/Ingestionexception'
-    tags:
-      - Ingestionexceptions
-    responses:
-      200:
-        description: A single Ingestionexception
-        schema:
-          type: object
-          properties:
-            ingestionexception:
-              $ref: '#/definitions/Ingestionexception'
-      400:
-        description: Bad Request Data
-      403:
-        description: Access Denied
-      404:
-        description: Not Found
-  delete:
-    summary: Delete a Ingestionexception
-    parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
-    - name: id
-      in: path
-      required: true
-      description: id
-      type: integer
-    tags:
-      - Ingestionexceptions
-    responses:
-      204:
-        description: Deleted Ingestionexception
-      404:
-        description: Not Found
-      500:
-        description: Deletion not allowed

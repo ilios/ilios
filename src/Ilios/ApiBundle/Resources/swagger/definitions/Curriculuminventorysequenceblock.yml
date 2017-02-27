@@ -31,10 +31,12 @@ Curriculuminventorysequenceblock:
    type: boolean
   startDate:
    description: Startdate
-   type: dateTime
+   type: string
+   format: date-time
   endDate:
    description: Enddate
-   type: dateTime
+   type: string
+   format: date-time
   duration:
    description: Duration
    type: integer

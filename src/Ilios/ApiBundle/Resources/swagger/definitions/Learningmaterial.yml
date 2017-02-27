@@ -13,7 +13,8 @@ Learningmaterial:
    type: string
   uploadDate:
    description: Uploaddate
-   type: dateTime
+   type: string
+   format: date-time
    readOnly: true
   originalAuthor:
    description: Originalauthor
@@ -57,4 +58,68 @@ Learningmaterial:
    type: integer
   link:
    description: Link
+   type: string
+DecoratedLearningmaterial:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  description:
+   description: Description
+   type: string
+  uploadDate:
+   description: Uploaddate
+   type: string
+   format: date-time
+   readOnly: true
+  originalAuthor:
+   description: Originalauthor
+   type: string
+  userRole:
+   description: Userrole
+   type: string
+  status:
+   description: Status
+   type: string
+  owningUser:
+   description: Owninguser
+   type: string
+  sessionLearningMaterials:
+   description: Sessionlearningmaterials
+   type: array
+   items:
+    type: string
+  courseLearningMaterials:
+   description: Courselearningmaterials
+   type: array
+   items:
+    type: string
+  citation:
+   description: Citation
+   type: string
+  copyrightPermission:
+   description: Copyrightpermission
+   type: boolean
+  copyrightRationale:
+   description: Copyrightrationale
+   type: string
+  filename:
+   description: Filename
+   type: string
+  mimetype:
+   description: Mimetype
+   type: string
+  filesize:
+   description: Filesize
+   type: integer
+  link:
+   description: Link
+   type: string
+  absoluteFileUri:
+   description: URI to download the file attached to this material
    type: string

@@ -34,11 +34,13 @@ Meshconcept:
     type: string
   createdAt:
    description: Createdat
-   type: dateTime
+   type: string
+   format: date-time
    readOnly: true
   updatedAt:
    description: Updatedat
-   type: dateTime
+   type: string
+   format: date-time
    readOnly: true
   descriptors:
    description: Descriptors

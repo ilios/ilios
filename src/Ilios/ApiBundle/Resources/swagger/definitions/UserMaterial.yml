@@ -28,7 +28,6 @@ UserMaterial:
   absoluteFileUri:
    description: URI to download the material
    type: string
-   format: url
   citation:
    description: Citation attached to material
    type: string

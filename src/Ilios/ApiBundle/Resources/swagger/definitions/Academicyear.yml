@@ -1,4 +1,4 @@
-Academiyear:
+Academicyear:
  type: object
  properties:
   id:

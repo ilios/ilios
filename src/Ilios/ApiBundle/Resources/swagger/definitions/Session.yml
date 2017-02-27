@@ -25,7 +25,8 @@ Session:
    type: boolean
   updatedAt:
    description: Updatedat
-   type: dateTime
+   type: string
+   format: date-time
    readOnly: true
   sessionType:
    description: Sessiontype

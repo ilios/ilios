@@ -24,11 +24,15 @@
         description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
         required: false
         type: array
+        items:
+          type: string
       - name: filters
         in: query
         description: Filter by fields. Must be an array ie. &filters[id]=3
         required: false
         type: array
+        items:
+          type: string
     tags:
       - Curriculuminventoryreports
     responses:
@@ -40,7 +44,7 @@
             curriculuminventoryreports:
               type: array
               items:
-                $ref: '#/definitions/Curriculuminventoryreport'
+                $ref: '#/definitions/DecoratedCurriculuminventoryreport'
   post:
     summary: Create Curriculuminventoryreports
     parameters:
@@ -71,7 +75,7 @@
             curriculuminventoryreports:
               type: array
               items:
-                $ref: '#/definitions/Curriculuminventoryreport'
+                $ref: '#/definitions/DecoratedCurriculuminventoryreport'
       400:
         description: Bad Request Data
       403:
@@ -102,7 +106,7 @@
             curriculuminventoryreports:
               type: array
               items:
-                $ref: '#/definitions/Curriculuminventoryreport'
+                $ref: '#/definitions/DecoratedCurriculuminventoryreport'
       404:
         description: Not found
   put:
@@ -136,7 +140,7 @@
           type: object
           properties:
             curriculuminventoryreport:
-              $ref: '#/definitions/Curriculuminventoryreport'
+              $ref: '#/definitions/DecoratedCurriculuminventoryreport'
       400:
         description: Bad Request Data
       403:

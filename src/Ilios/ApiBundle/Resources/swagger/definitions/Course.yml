@@ -16,10 +16,12 @@ Course:
    type: integer
   startDate:
    description: Startdate
-   type: dateTime
+   type: string
+   format: date-time
   endDate:
    description: Enddate
-   type: dateTime
+   type: string
+   format: date-time
   externalId:
    description: Externalid
    type: string

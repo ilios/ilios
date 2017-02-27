@@ -20,7 +20,7 @@
               type: array
               items:
                 $ref: '#/definitions/Academicyear'
-  /academicyears/{id}:
+/academicyears/{id}:
   get:
     summary: Fetch a single Academicyear
     parameters:

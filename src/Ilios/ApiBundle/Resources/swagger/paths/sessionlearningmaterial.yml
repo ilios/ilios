@@ -24,11 +24,15 @@
         description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
         required: false
         type: array
+        items:
+          type: string
       - name: filters
         in: query
         description: Filter by fields. Must be an array ie. &filters[id]=3
         required: false
         type: array
+        items:
+          type: string
     tags:
       - Sessionlearningmaterials
     responses:
