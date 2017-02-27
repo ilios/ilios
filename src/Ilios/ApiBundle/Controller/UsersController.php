@@ -62,8 +62,7 @@ class UsersController extends ApiController
             current user object in the session has been modified
         */
         $currentUser = $this->get('security.token_storage')->getToken()->getUser();
-        if (
-            $obj->root &&
+        if ($obj->root &&
             (!$currentUser->isRoot() && !$entity->isRoot())
         ) {
             throw $this->createAccessDeniedException('Unauthorized access!');
@@ -78,5 +77,4 @@ class UsersController extends ApiController
 
         return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
-
 }

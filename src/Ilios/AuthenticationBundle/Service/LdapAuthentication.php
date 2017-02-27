@@ -71,8 +71,7 @@ class LdapAuthentication implements AuthenticationInterface
         $username = null;
         $password = null;
         $content = $request->getContent();
-        if (!empty($content))
-        {
+        if (!empty($content)) {
             $arr = json_decode($content, true);
             if (array_key_exists('username', $arr)) {
                 $username = $arr['username'];

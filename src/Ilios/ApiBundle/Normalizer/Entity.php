@@ -215,7 +215,7 @@ class Entity extends ObjectNormalizer
                     if (!$result) {
                         $identifier = $metaData->getSingleIdentifierFieldName();
                         throw new InvalidInputWithSafeUserMessageException(
-                          sprintf("Unable to resolve %s with %s %s", $property->getName(), $identifier, $value)
+                            sprintf("Unable to resolve %s with %s %s", $property->getName(), $identifier, $value)
                         );
                     }
                     $value = $result;
@@ -226,11 +226,11 @@ class Entity extends ObjectNormalizer
                     if (count($result) !== count($value)) {
                         $identifier = $metaData->getSingleIdentifierFieldName();
                         $method = 'get' . ucfirst($identifier);
-                        $foundIds = array_map(function($entity) use ($method) {
+                        $foundIds = array_map(function ($entity) use ($method) {
                             return $entity->$method();
                         }, $result);
                         $missingIds = array_filter($value, function ($id) use ($foundIds) {
-                           return  !in_array($id, $foundIds);
+                            return  !in_array($id, $foundIds);
                         });
                         throw new InvalidInputWithSafeUserMessageException(
                             sprintf(
