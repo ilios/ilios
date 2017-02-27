@@ -1,0 +1,9 @@
+Academiyear:
+ type: object
+ properties:
+  id:
+   description: The year as an ID
+   type: string
+  title:
+   description: The year as the title
+   type: string

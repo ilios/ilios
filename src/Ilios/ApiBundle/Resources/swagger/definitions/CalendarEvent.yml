@@ -1,0 +1,44 @@
+CalendarEvent:
+ type: object
+ properties:
+  name:
+   description: Name of the event
+   type: string
+  courseTitle:
+   description: Title of the course
+   type: string
+  startDate:
+   description: Start Date
+   type: string
+   format: date-time
+  endDate:
+   description: End Date
+   type: string
+   format: date-time
+  offering:
+   description: The ID of the offering this event belongs to
+   type: integer
+  ilmSession:
+   description: The ID of the ILM Session this event belongs to
+   type: integer
+  eventClass:
+   description: CSS class to apply to an event
+   type: string
+  location:
+   description: Location where the event will take place
+   type: string
+  lastModified:
+   description: The last time the details for this event were updated
+   type: string
+   format: date-time
+  isPublished:
+   description: Is this event published
+   type: boolean
+  isScheduled:
+   description: Is this event published as TBD
+   type: boolean
+  instructors:
+   description: UserIds of Instructors
+   type: array
+   items:
+    type: integer
