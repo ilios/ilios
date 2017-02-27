@@ -25,6 +25,7 @@ class CohortTest extends AbstractEndpointTest
         return [
             'Tests\CoreBundle\Fixture\LoadCohortData',
             'Tests\CoreBundle\Fixture\LoadProgramYearData',
+            'Tests\CoreBundle\Fixture\LoadProgramYearStewardData',
             'Tests\CoreBundle\Fixture\LoadCourseData',
             'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
             'Tests\CoreBundle\Fixture\LoadUserData'
