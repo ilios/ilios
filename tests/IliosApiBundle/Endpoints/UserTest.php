@@ -162,16 +162,6 @@ class UserTest extends AbstractEndpointTest
         ];
     }
 
-    protected function compareData(array $expected, array $result)
-    {
-        unset($expected['alerts']);
-        unset($expected['learningMaterials']);
-        $this->assertEquals(
-            $expected,
-            $result
-        );
-    }
-
     /**
      * @dataProvider qsToTest
      * @param $q
