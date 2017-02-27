@@ -95,14 +95,4 @@ class SchoolTest extends AbstractEndpointTest
             'configurations' => [[0], ['configurations' => [1]], $skipped = true],
         ];
     }
-
-    /**
-     * Remove fields not sent by the school endpoint
-     * @inheritdoc
-     */
-    protected function compareData(array $expected, array $result)
-    {
-        unset($expected['alerts']);
-        parent::compareData($expected, $result);
-    }
 }
