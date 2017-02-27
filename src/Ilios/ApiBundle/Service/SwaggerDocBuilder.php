@@ -13,7 +13,6 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Templating\EngineInterface;
 
-
 class SwaggerDocBuilder
 {
     const CACHE_NAME = 'swagger-doc-builder.yaml';
@@ -42,7 +41,7 @@ class SwaggerDocBuilder
      */
     protected $router;
 
-    function __construct(
+    public function __construct(
         KernelInterface $kernel,
         EngineInterface $templatingEngine,
         Router $router,
@@ -75,7 +74,6 @@ class SwaggerDocBuilder
         }
 
         return $cachedYaml->get();
-
     }
 
     /**
@@ -152,7 +150,7 @@ class SwaggerDocBuilder
             ['version' => 'v1', 'object' => 'users'],
             UrlGenerator::ABSOLUTE_URL
         );
-        $template = 'IliosApiBundle:Swagger:description.html.twig';
+        $template = 'IliosApiBundle:swagger:description.markdown.twig';
         return $this->templatingEngine->render($template, [
             'apiDocsUrl' => $apiDocsUrl,
             'myprofileUrl' => $myprofileUrl . 'myprofile',
