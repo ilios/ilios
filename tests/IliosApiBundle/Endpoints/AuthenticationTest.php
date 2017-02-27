@@ -124,6 +124,8 @@ class AuthenticationTest extends AbstractEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
+        unset($data['passwordSha256']);
+        unset($data['passwordBcrypt']);
         $data['username'] = 'somethingnew';
         $data['password'] = 'somethingnew';
 
@@ -196,6 +198,8 @@ class AuthenticationTest extends AbstractEndpointTest
                 "Modify " . get_class($this) . '::putsToTest'
             );
         }
+        unset($data['passwordSha256']);
+        unset($data['passwordBcrypt']);
         $data[$key] = $value;
 
         $postData = $data;
@@ -214,6 +218,8 @@ class AuthenticationTest extends AbstractEndpointTest
         $faker = $this->getFaker();
         foreach ($all as $data) {
             $data['username'] = $faker->text(50);
+            unset($data['passwordSha256']);
+            unset($data['passwordBcrypt']);
 
             $this->putTest($data, $data, $data['user']);
         }
@@ -320,5 +326,37 @@ class AuthenticationTest extends AbstractEndpointTest
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         return json_decode($response->getContent(), true)[$responseKey][0];
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @dataProvider readOnlyPropertiesToTest
+     */
+    public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
+    {
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
+        if (null != $key &&
+            null != $id &&
+            null != $value
+        ) {
+            $dataLoader = $this->getDataLoader();
+            $data = $dataLoader->getOne();
+            if (array_key_exists($key, $data) and $data[$key] == $value) {
+                $this->fail(
+                    "This value is already set for {$key}. " .
+                    "Modify " . get_class($this) . '::readOnlyPropertiesToTest'
+                );
+            }
+            unset($data['passwordSha256']);
+            unset($data['passwordBcrypt']);
+            $postData = $data;
+            $postData[$key] = $value;
+
+            //nothing should change
+            $this->putTest($data, $postData, $id);
+        }
     }
 }

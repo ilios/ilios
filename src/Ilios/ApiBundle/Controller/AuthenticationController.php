@@ -120,9 +120,7 @@ class AuthenticationController extends ApiController
             $permission = 'create';
         }
 
-        $json = $this->extractDataFromRequest($request, $object, $singleItem = true);
-        $authObject = json_decode($json);
-
+        $authObject = $this->extractDataFromRequest($request, $object, $singleItem = true, $returnArray = true);
         $userManager = $this->container->get('ilioscore.user.manager');
         $encoder = $this->container->get('security.password_encoder');
 
@@ -130,7 +128,7 @@ class AuthenticationController extends ApiController
             $user = $userManager->findOneBy(['id' => $authObject->user]);
             if ($user) {
                 //set the password to null to reset the encoder
-                //so we don't use the lagacy one
+                //so we don't use the legacy one
                 $entity->setPasswordSha256(null);
                 $encodedPassword = $encoder->encodePassword($user, $authObject->password);
             }
