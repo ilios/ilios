@@ -24,6 +24,10 @@ class PermissionTest extends AbstractEndpointTest
         return [
             'Tests\CoreBundle\Fixture\LoadUserData',
             'Tests\CoreBundle\Fixture\LoadPermissionData',
+            'Tests\CoreBundle\Fixture\LoadCourseData',
+            'Tests\CoreBundle\Fixture\LoadLearnerGroupData',
+            'Tests\CoreBundle\Fixture\LoadIlmSessionData',
+            'Tests\CoreBundle\Fixture\LoadOfferingData',
         ];
     }
 
