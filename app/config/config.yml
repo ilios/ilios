@@ -51,8 +51,17 @@ doctrine:
         # path:     "%database_path%"
 
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+      auto_generate_proxy_classes: "%kernel.debug%"
+      auto_mapping: true
+      metadata_cache_driver:
+        type: service
+        id: ilioscore.cache
+      result_cache_driver:
+        type: service
+        id: ilioscore.cache
+      query_cache_driver:
+        type: service
+        id: ilioscore.cache
 
 # Swiftmailer Configuration
 swiftmailer:
