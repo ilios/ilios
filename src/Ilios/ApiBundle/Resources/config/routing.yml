@@ -18,7 +18,7 @@ ilios_api_get:
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)[a-z]+'
+        object: '[a-z]+'
         id: '(?i)[a-z0-9\-]+'
 
 ilios_api_getall:
@@ -27,7 +27,7 @@ ilios_api_getall:
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)[a-z]+'
+        object: '[a-z]+'
 
 ilios_api_post:
     path:     /{version}/{object}
@@ -35,7 +35,7 @@ ilios_api_post:
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)[a-z]+'
+        object: '[a-z]+'
 
 ilios_api_put:
     path:     /{version}/{object}/{id}
@@ -43,7 +43,7 @@ ilios_api_put:
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)[a-z]+'
+        object: '[a-z]+'
         id: '(?i)[a-z0-9\-]+'
 
 ilios_api_delete:
@@ -52,7 +52,7 @@ ilios_api_delete:
     methods:  [DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)[a-z]+'
+        object: '[a-z]+'
         id: '(?i)[a-z0-9\-]+'
 
 api_bad_request:

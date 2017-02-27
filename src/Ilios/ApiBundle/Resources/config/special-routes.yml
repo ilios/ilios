@@ -4,7 +4,7 @@ ilios_api_learningmaterial_get:
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)learningmaterials'
+        object: 'learningmaterials'
         id: '\d+'
 
 ilios_api_learningmaterials_getall:
@@ -13,7 +13,7 @@ ilios_api_learningmaterials_getall:
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)learningmaterials'
+        object: 'learningmaterials'
 
 ilios_api_learningmaterials_post:
     path:     /{version}/{object}
@@ -21,7 +21,7 @@ ilios_api_learningmaterials_post:
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)learningmaterials'
+        object: 'learningmaterials'
 
 ilios_api_learningmaterial_put:
     path:     /{version}/{object}/{id}
@@ -29,7 +29,7 @@ ilios_api_learningmaterial_put:
     methods:  [PUT]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)learningmaterials'
+        object: 'learningmaterials'
         id: '\d+'
 
 ilios_api_getallsessions:
@@ -38,7 +38,7 @@ ilios_api_getallsessions:
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)sessions'
+        object: 'sessions'
 
 ilios_api_getallcourses:
     path:     /{version}/{object}
@@ -46,7 +46,7 @@ ilios_api_getallcourses:
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)courses'
+        object: 'courses'
 
 ilios_api_courserollover:
     path:     /{version}/{object}/{id}/rollover
@@ -54,7 +54,7 @@ ilios_api_courserollover:
     methods:  [POST]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)courses'
+        object: 'courses'
         id: '\d+'
 
 ilios_api_getallusers:
@@ -63,7 +63,7 @@ ilios_api_getallusers:
     methods:  [GET]
     requirements:
         version: "%ilios_api_valid_api_versions%"
-        object: '(?i)users'
+        object: 'users'
 
 ilios_api_user_put:
     path:     /{version}/{object}/{id}
