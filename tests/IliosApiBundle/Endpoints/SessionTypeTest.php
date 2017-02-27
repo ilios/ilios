@@ -86,10 +86,4 @@ class SessionTypeTest extends AbstractEndpointTest
             'terms' => [[0 , 1], ['terms' => [1, 2]]],
         ];
     }
-
-    protected function compareData(array $expected, array $result)
-    {
-        unset($expected['sessions']);
-        return parent::compareData($expected, $result);
-    }
 }
