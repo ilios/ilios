@@ -173,7 +173,7 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
-            'citation' => $this->faker->text(600), // too long
+            'citation' => $this->faker->text(1000), // too long
         ];
     }
 
