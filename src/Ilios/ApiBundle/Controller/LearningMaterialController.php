@@ -87,12 +87,14 @@ class LearningMaterialController extends NonDtoApiController
         $class = $manager->getClass();
         $entities = [];
         foreach ($dataWithFilesAttributes as $obj) {
+            $relativePath = property_exists($obj, 'relativePath')?$obj->relativePath:null;
+            unset($obj->relativePath);
             $json = json_encode($obj);
             $serializer = $this->getSerializer();
             /** @var LearningMaterialInterface $entity */
             $entity = $serializer->deserialize($json, $class, 'json');
-            if (property_exists($obj, 'relativePath')) {
-                $entity->setRelativePath($obj->relativePath);
+            if ($relativePath) {
+                $entity->setRelativePath($relativePath);
             }
             $manager->update($entity, false);
             $this->validateAndAuthorizeEntities([$entity], 'create');
