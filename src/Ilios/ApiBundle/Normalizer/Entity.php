@@ -195,6 +195,10 @@ class Entity extends ObjectNormalizer
      * @param \ReflectionProperty $property
      * @param mixed $value
      *
+     * @todo could we extract the name of an Ilios Entity manager from the entity name?
+     *          Then we could use that instead of the repository which would ensure anything
+     *          weird that we are doing in the manager would work here
+     *          [JJ 2/2017]
      * @return mixed
      */
     protected function getDenormalizedValueForProperty(\ReflectionProperty $property, $value)
