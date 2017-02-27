@@ -1,83 +1,91 @@
 /learnergroups:
-      get:
-        summary: Fetch all Learnergroups
-        description: |
-          Ilios Learnergroups
-        parameters:
-          - name: offset
-            in: query
-            description: Offset
-            required: false
-            type: number
-            format: integer
-          - name: limit
-            in: query
-            description: Limit Results
-            required: false
-            type: number
-            format: integer
-            default: 20
-          - name: order_by
-            in: query
-            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
-            required: false
-            type: array
-          - name: filters
-            in: query
-            description: Filter by fields. Must be an array ie. &filters[id]=3
-            required: false
-            type: array
-        tags:
-          - Learnergroups
-        responses:
-          200:
-            description: An array of learnergroups
-            schema:
-              type: object
-              properties:
-                learnergroups:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Learnergroup'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
-      post:
-        summary: Create a Learnergroups
-        description: |
-          Ilios Learnergroups
-        parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-              type: object
-              properties:
-                learnergroup:
-                  $ref: '#/definitions/Learnergroup'
-        tags:
-          - Learnergroups
-        responses:
-          201:
-            description: A single Learnergroup
-            schema:
-              type: object
-              properties:
-                learnergroups:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Learnergroup'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
+  get:
+    summary: Fetch all Learnergroups
+    parameters:
+      - name: X-JWT-Authorization
+        in: header
+        description: API JWT Token
+        required: true
+        type: string
+        default: Token XXX
+      - name: offset
+        in: query
+        description: Offset
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        description: Limit Results
+        required: false
+        type: integer
+        default: 20
+      - name: order_by
+        in: query
+        description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+        required: false
+        type: array
+      - name: filters
+        in: query
+        description: Filter by fields. Must be an array ie. &filters[id]=3
+        required: false
+        type: array
+    tags:
+      - Learnergroups
+    responses:
+      200:
+        description: An array of learnergroups
+        schema:
+          type: object
+          properties:
+            learnergroups:
+              type: array
+              items:
+                $ref: '#/definitions/Learnergroup'
+  post:
+    summary: Create Learnergroups
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            learnergroups:
+              type: array
+              items:
+                $ref: '#/definitions/Learnergroup'
+    tags:
+      - Learnergroups
+    responses:
+      201:
+        description: An array of newly created learnergroups
+        schema:
+          type: object
+          properties:
+            learnergroups:
+              type: array
+              items:
+                $ref: '#/definitions/Learnergroup'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
 /learnergroups/{id}:
   get:
     summary: Fetch a single Learnergroup
-    description: |
-          Ilios Learnergroup
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -95,15 +103,17 @@
               type: array
               items:
                 $ref: '#/definitions/Learnergroup'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not found
   put:
     summary: Edit a Learnergroup
-    description: |
-      Ilios Learnergroups
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -127,15 +137,21 @@
           properties:
             learnergroup:
               $ref: '#/definitions/Learnergroup'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
   delete:
-    summary: Delete Learnergroup
-    description: |
-          Delete Ilios Learnergroup
+    summary: Delete a Learnergroup
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -146,7 +162,7 @@
     responses:
       204:
         description: Deleted Learnergroup
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not Found
+      500:
+        description: Deletion not allowed

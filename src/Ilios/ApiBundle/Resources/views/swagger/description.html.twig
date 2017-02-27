@@ -65,22 +65,17 @@ Aside from being a great source of up-to-date documentation of the methods avail
 Ilios API, the Ilios API endpoint reference also provides a sandbox for testing specific calls using
 your JWT.  To test your newly created JWT in the API sandbox, do the following:
 
-1. Visit /api/doc on your Ilios installation (for this example, we'll
-use [{{ apiDocsUrl }}]({{ apiDocsUrl }}))
+1. Visit the API documentation on your Ilios installation [{{ apiDocsUrl }}]({{ apiDocsUrl }}))
 2. Scroll down and find the Ilios API endpoint that you would like to test (ie, 'User')
 3. Expand the desired endpoint's documentation by clicking on the request method (ie, "GET")
-4. In the area that expands, you will see the endpoint's documentation with two options listed
-at the very top: 'Documentation' and 'Sandbox'.
-5. Click on the 'Sandbox' link and you will be presented with several form fields. Find the ones
-under the 'Headers' label.  There should be one field for 'Key' and another for 'Value'.
-6. In the 'Key' field, enter this text: X-JWT-Authorization
-7. In the 'Value' field, enter 'Token [YOUR JWT VALUE]' (Replacing [YOUR JWT VALUE] with the value
+4. You will be presented with several table roles including one labled 'X-JWT-Authorization'.
+5. In the 'Value' field, enter 'Token [YOUR JWT VALUE]' (Replacing [YOUR JWT VALUE] with the value
 of the token you are testing) as shown:
 ```
 Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbGlvcyIsImF1ZCI6ImlsaW9zIiwiaWF0IjoiMTQ3OTE2NDIxNSIsImV4cCI6IjE0ODA0MDY0MDAiLCJ1c2VyX2lkIjoxNn0.45RN1Tw9bd_dgeiGVTJCm8sy_x4UD_a9xE4hHYS6H08
 ```
 
-Now, when you click the 'Try!' button at the bottom of that section, you should see the JSON-formatted
+Now, when you click the 'Try it out!' button at the bottom of that section, you should see the JSON-formatted
 result of the API call! Congratulations! Your JWT token is working correctly!
 
 #### Verifying JWT using browser extensions for Chrome or Firefox

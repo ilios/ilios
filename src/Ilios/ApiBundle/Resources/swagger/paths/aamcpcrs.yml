@@ -1,109 +1,119 @@
-/aamcpcrs:
-      get:
-        summary: Fetch all Aamcpcrs
-        description: |
-          Ilios Aamcpcrs
-        parameters:
-          - name: offset
-            in: query
-            description: Offset
-            required: false
-            type: number
-            format: integer
-          - name: limit
-            in: query
-            description: Limit Results
-            required: false
-            type: number
-            format: integer
-            default: 20
-          - name: order_by
-            in: query
-            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
-            required: false
-            type: array
-          - name: filters
-            in: query
-            description: Filter by fields. Must be an array ie. &filters[id]=3
-            required: false
-            type: array
-        tags:
-          - Aamcpcrs
-        responses:
-          200:
-            description: An array of aamcpcrs
-            schema:
-              type: object
-              properties:
-                aamcpcrs:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Aamcpcr'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
-      post:
-        summary: Create a Aamcpcrs
-        description: |
-          Ilios Aamcpcrs
-        parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-              type: object
-              properties:
-                aamcpcr:
-                  $ref: '#/definitions/Aamcpcr'
-        tags:
-          - Aamcpcrs
-        responses:
-          201:
-            description: A single Aamcpcr
-            schema:
-              type: object
-              properties:
-                aamcpcrs:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Aamcpcr'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
-/aamcpcrs/{id}:
+/aamcpcrses:
   get:
-    summary: Fetch a single Aamcpcr
-    description: |
-          Ilios Aamcpcr
+    summary: Fetch all Aamcpcrses
     parameters:
+      - name: X-JWT-Authorization
+        in: header
+        description: API JWT Token
+        required: true
+        type: string
+        default: Token XXX
+      - name: offset
+        in: query
+        description: Offset
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        description: Limit Results
+        required: false
+        type: integer
+        default: 20
+      - name: order_by
+        in: query
+        description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+        required: false
+        type: array
+      - name: filters
+        in: query
+        description: Filter by fields. Must be an array ie. &filters[id]=3
+        required: false
+        type: array
+    tags:
+      - Aamcpcrses
+    responses:
+      200:
+        description: An array of aamcpcrses
+        schema:
+          type: object
+          properties:
+            aamcpcrses:
+              type: array
+              items:
+                $ref: '#/definitions/Aamcpcrs'
+  post:
+    summary: Create Aamcpcrses
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            aamcpcrses:
+              type: array
+              items:
+                $ref: '#/definitions/Aamcpcrs'
+    tags:
+      - Aamcpcrses
+    responses:
+      201:
+        description: An array of newly created aamcpcrses
+        schema:
+          type: object
+          properties:
+            aamcpcrses:
+              type: array
+              items:
+                $ref: '#/definitions/Aamcpcrs'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+/aamcpcrses/{id}:
+  get:
+    summary: Fetch a single Aamcpcrs
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
       description: id
       type: integer
     tags:
-      - Aamcpcrs
+      - Aamcpcrses
     responses:
       200:
-        description: A single Aamcpcr
+        description: A single Aamcpcrs
         schema:
           type: object
           properties:
-            aamcpcrs:
+            aamcpcrses:
               type: array
               items:
-                $ref: '#/definitions/Aamcpcr'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+                $ref: '#/definitions/Aamcpcrs'
+      404:
+        description: Not found
   put:
-    summary: Edit a Aamcpcr
-    description: |
-      Ilios Aamcpcrs
+    summary: Edit a Aamcpcrs
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -115,38 +125,44 @@
       schema:
           type: object
           properties:
-            aamcpcr:
-              $ref: '#/definitions/Aamcpcr'
+            aamcpcrs:
+              $ref: '#/definitions/Aamcpcrs'
     tags:
-      - Aamcpcrs
+      - Aamcpcrses
     responses:
       200:
-        description: A single Aamcpcr
+        description: A single Aamcpcrs
         schema:
           type: object
           properties:
-            aamcpcr:
-              $ref: '#/definitions/Aamcpcr'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+            aamcpcrs:
+              $ref: '#/definitions/Aamcpcrs'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
   delete:
-    summary: Delete Aamcpcr
-    description: |
-          Delete Ilios Aamcpcr
+    summary: Delete a Aamcpcrs
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
       description: id
       type: integer
     tags:
-      - Aamcpcrs
+      - Aamcpcrses
     responses:
       204:
-        description: Deleted Aamcpcr
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+        description: Deleted Aamcpcrs
+      404:
+        description: Not Found
+      500:
+        description: Deletion not allowed

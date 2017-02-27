@@ -1,83 +1,91 @@
 /aamcresourcetypes:
-      get:
-        summary: Fetch all Aamcresourcetypes
-        description: |
-          Ilios Aamcresourcetypes
-        parameters:
-          - name: offset
-            in: query
-            description: Offset
-            required: false
-            type: number
-            format: integer
-          - name: limit
-            in: query
-            description: Limit Results
-            required: false
-            type: number
-            format: integer
-            default: 20
-          - name: order_by
-            in: query
-            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
-            required: false
-            type: array
-          - name: filters
-            in: query
-            description: Filter by fields. Must be an array ie. &filters[id]=3
-            required: false
-            type: array
-        tags:
-          - Aamcresourcetypes
-        responses:
-          200:
-            description: An array of aamcresourcetypes
-            schema:
-              type: object
-              properties:
-                aamcresourcetypes:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Aamcresourcetype'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
-      post:
-        summary: Create a Aamcresourcetypes
-        description: |
-          Ilios Aamcresourcetypes
-        parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-              type: object
-              properties:
-                aamcresourcetype:
-                  $ref: '#/definitions/Aamcresourcetype'
-        tags:
-          - Aamcresourcetypes
-        responses:
-          201:
-            description: A single Aamcresourcetype
-            schema:
-              type: object
-              properties:
-                aamcresourcetypes:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Aamcresourcetype'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
+  get:
+    summary: Fetch all Aamcresourcetypes
+    parameters:
+      - name: X-JWT-Authorization
+        in: header
+        description: API JWT Token
+        required: true
+        type: string
+        default: Token XXX
+      - name: offset
+        in: query
+        description: Offset
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        description: Limit Results
+        required: false
+        type: integer
+        default: 20
+      - name: order_by
+        in: query
+        description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+        required: false
+        type: array
+      - name: filters
+        in: query
+        description: Filter by fields. Must be an array ie. &filters[id]=3
+        required: false
+        type: array
+    tags:
+      - Aamcresourcetypes
+    responses:
+      200:
+        description: An array of aamcresourcetypes
+        schema:
+          type: object
+          properties:
+            aamcresourcetypes:
+              type: array
+              items:
+                $ref: '#/definitions/Aamcresourcetype'
+  post:
+    summary: Create Aamcresourcetypes
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            aamcresourcetypes:
+              type: array
+              items:
+                $ref: '#/definitions/Aamcresourcetype'
+    tags:
+      - Aamcresourcetypes
+    responses:
+      201:
+        description: An array of newly created aamcresourcetypes
+        schema:
+          type: object
+          properties:
+            aamcresourcetypes:
+              type: array
+              items:
+                $ref: '#/definitions/Aamcresourcetype'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
 /aamcresourcetypes/{id}:
   get:
     summary: Fetch a single Aamcresourcetype
-    description: |
-          Ilios Aamcresourcetype
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -95,15 +103,17 @@
               type: array
               items:
                 $ref: '#/definitions/Aamcresourcetype'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not found
   put:
     summary: Edit a Aamcresourcetype
-    description: |
-      Ilios Aamcresourcetypes
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -127,15 +137,21 @@
           properties:
             aamcresourcetype:
               $ref: '#/definitions/Aamcresourcetype'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
   delete:
-    summary: Delete Aamcresourcetype
-    description: |
-          Delete Ilios Aamcresourcetype
+    summary: Delete a Aamcresourcetype
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -146,7 +162,7 @@
     responses:
       204:
         description: Deleted Aamcresourcetype
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not Found
+      500:
+        description: Deletion not allowed

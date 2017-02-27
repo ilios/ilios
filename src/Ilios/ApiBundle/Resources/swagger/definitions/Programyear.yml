@@ -7,7 +7,7 @@ Programyear:
    readOnly: true
   startYear:
    description: Startyear
-   type: string
+   type: integer
   locked:
    description: Locked
    type: boolean

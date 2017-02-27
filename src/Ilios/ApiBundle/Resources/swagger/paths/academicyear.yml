@@ -1,83 +1,91 @@
 /academicyears:
-      get:
-        summary: Fetch all Academicyears
-        description: |
-          Ilios Academicyears
-        parameters:
-          - name: offset
-            in: query
-            description: Offset
-            required: false
-            type: number
-            format: integer
-          - name: limit
-            in: query
-            description: Limit Results
-            required: false
-            type: number
-            format: integer
-            default: 20
-          - name: order_by
-            in: query
-            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
-            required: false
-            type: array
-          - name: filters
-            in: query
-            description: Filter by fields. Must be an array ie. &filters[id]=3
-            required: false
-            type: array
-        tags:
-          - Academicyears
-        responses:
-          200:
-            description: An array of academicyears
-            schema:
-              type: object
-              properties:
-                academicyears:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Academicyear'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
-      post:
-        summary: Create a Academicyears
-        description: |
-          Ilios Academicyears
-        parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-              type: object
-              properties:
-                academicyear:
-                  $ref: '#/definitions/Academicyear'
-        tags:
-          - Academicyears
-        responses:
-          201:
-            description: A single Academicyear
-            schema:
-              type: object
-              properties:
-                academicyears:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Academicyear'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
+  get:
+    summary: Fetch all Academicyears
+    parameters:
+      - name: X-JWT-Authorization
+        in: header
+        description: API JWT Token
+        required: true
+        type: string
+        default: Token XXX
+      - name: offset
+        in: query
+        description: Offset
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        description: Limit Results
+        required: false
+        type: integer
+        default: 20
+      - name: order_by
+        in: query
+        description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+        required: false
+        type: array
+      - name: filters
+        in: query
+        description: Filter by fields. Must be an array ie. &filters[id]=3
+        required: false
+        type: array
+    tags:
+      - Academicyears
+    responses:
+      200:
+        description: An array of academicyears
+        schema:
+          type: object
+          properties:
+            academicyears:
+              type: array
+              items:
+                $ref: '#/definitions/Academicyear'
+  post:
+    summary: Create Academicyears
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            academicyears:
+              type: array
+              items:
+                $ref: '#/definitions/Academicyear'
+    tags:
+      - Academicyears
+    responses:
+      201:
+        description: An array of newly created academicyears
+        schema:
+          type: object
+          properties:
+            academicyears:
+              type: array
+              items:
+                $ref: '#/definitions/Academicyear'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
 /academicyears/{id}:
   get:
     summary: Fetch a single Academicyear
-    description: |
-          Ilios Academicyear
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -95,15 +103,17 @@
               type: array
               items:
                 $ref: '#/definitions/Academicyear'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not found
   put:
     summary: Edit a Academicyear
-    description: |
-      Ilios Academicyears
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -127,15 +137,21 @@
           properties:
             academicyear:
               $ref: '#/definitions/Academicyear'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
   delete:
-    summary: Delete Academicyear
-    description: |
-          Delete Ilios Academicyear
+    summary: Delete a Academicyear
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -146,7 +162,7 @@
     responses:
       204:
         description: Deleted Academicyear
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not Found
+      500:
+        description: Deletion not allowed

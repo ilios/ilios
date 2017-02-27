@@ -1,83 +1,91 @@
 /offerings:
-      get:
-        summary: Fetch all Offerings
-        description: |
-          Ilios Offerings
-        parameters:
-          - name: offset
-            in: query
-            description: Offset
-            required: false
-            type: number
-            format: integer
-          - name: limit
-            in: query
-            description: Limit Results
-            required: false
-            type: number
-            format: integer
-            default: 20
-          - name: order_by
-            in: query
-            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
-            required: false
-            type: array
-          - name: filters
-            in: query
-            description: Filter by fields. Must be an array ie. &filters[id]=3
-            required: false
-            type: array
-        tags:
-          - Offerings
-        responses:
-          200:
-            description: An array of offerings
-            schema:
-              type: object
-              properties:
-                offerings:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Offering'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
-      post:
-        summary: Create a Offerings
-        description: |
-          Ilios Offerings
-        parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-              type: object
-              properties:
-                offering:
-                  $ref: '#/definitions/Offering'
-        tags:
-          - Offerings
-        responses:
-          201:
-            description: A single Offering
-            schema:
-              type: object
-              properties:
-                offerings:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Offering'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
+  get:
+    summary: Fetch all Offerings
+    parameters:
+      - name: X-JWT-Authorization
+        in: header
+        description: API JWT Token
+        required: true
+        type: string
+        default: Token XXX
+      - name: offset
+        in: query
+        description: Offset
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        description: Limit Results
+        required: false
+        type: integer
+        default: 20
+      - name: order_by
+        in: query
+        description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+        required: false
+        type: array
+      - name: filters
+        in: query
+        description: Filter by fields. Must be an array ie. &filters[id]=3
+        required: false
+        type: array
+    tags:
+      - Offerings
+    responses:
+      200:
+        description: An array of offerings
+        schema:
+          type: object
+          properties:
+            offerings:
+              type: array
+              items:
+                $ref: '#/definitions/Offering'
+  post:
+    summary: Create Offerings
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            offerings:
+              type: array
+              items:
+                $ref: '#/definitions/Offering'
+    tags:
+      - Offerings
+    responses:
+      201:
+        description: An array of newly created offerings
+        schema:
+          type: object
+          properties:
+            offerings:
+              type: array
+              items:
+                $ref: '#/definitions/Offering'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
 /offerings/{id}:
   get:
     summary: Fetch a single Offering
-    description: |
-          Ilios Offering
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -95,15 +103,17 @@
               type: array
               items:
                 $ref: '#/definitions/Offering'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not found
   put:
     summary: Edit a Offering
-    description: |
-      Ilios Offerings
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -127,15 +137,21 @@
           properties:
             offering:
               $ref: '#/definitions/Offering'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
   delete:
-    summary: Delete Offering
-    description: |
-          Delete Ilios Offering
+    summary: Delete a Offering
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -146,7 +162,7 @@
     responses:
       204:
         description: Deleted Offering
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not Found
+      500:
+        description: Deletion not allowed

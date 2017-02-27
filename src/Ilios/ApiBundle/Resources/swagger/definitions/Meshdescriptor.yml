@@ -4,7 +4,6 @@ Meshdescriptor:
   id:
    description: Id
    type: string
-   readOnly: true
   name:
    description: Name
    type: string

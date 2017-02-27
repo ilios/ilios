@@ -1,83 +1,91 @@
 /uploads:
-      get:
-        summary: Fetch all Uploads
-        description: |
-          Ilios Uploads
-        parameters:
-          - name: offset
-            in: query
-            description: Offset
-            required: false
-            type: number
-            format: integer
-          - name: limit
-            in: query
-            description: Limit Results
-            required: false
-            type: number
-            format: integer
-            default: 20
-          - name: order_by
-            in: query
-            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
-            required: false
-            type: array
-          - name: filters
-            in: query
-            description: Filter by fields. Must be an array ie. &filters[id]=3
-            required: false
-            type: array
-        tags:
-          - Uploads
-        responses:
-          200:
-            description: An array of uploads
-            schema:
-              type: object
-              properties:
-                uploads:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Upload'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
-      post:
-        summary: Create a Uploads
-        description: |
-          Ilios Uploads
-        parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-              type: object
-              properties:
-                upload:
-                  $ref: '#/definitions/Upload'
-        tags:
-          - Uploads
-        responses:
-          201:
-            description: A single Upload
-            schema:
-              type: object
-              properties:
-                uploads:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Upload'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
+  get:
+    summary: Fetch all Uploads
+    parameters:
+      - name: X-JWT-Authorization
+        in: header
+        description: API JWT Token
+        required: true
+        type: string
+        default: Token XXX
+      - name: offset
+        in: query
+        description: Offset
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        description: Limit Results
+        required: false
+        type: integer
+        default: 20
+      - name: order_by
+        in: query
+        description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+        required: false
+        type: array
+      - name: filters
+        in: query
+        description: Filter by fields. Must be an array ie. &filters[id]=3
+        required: false
+        type: array
+    tags:
+      - Uploads
+    responses:
+      200:
+        description: An array of uploads
+        schema:
+          type: object
+          properties:
+            uploads:
+              type: array
+              items:
+                $ref: '#/definitions/Upload'
+  post:
+    summary: Create Uploads
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            uploads:
+              type: array
+              items:
+                $ref: '#/definitions/Upload'
+    tags:
+      - Uploads
+    responses:
+      201:
+        description: An array of newly created uploads
+        schema:
+          type: object
+          properties:
+            uploads:
+              type: array
+              items:
+                $ref: '#/definitions/Upload'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
 /uploads/{id}:
   get:
     summary: Fetch a single Upload
-    description: |
-          Ilios Upload
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -95,15 +103,17 @@
               type: array
               items:
                 $ref: '#/definitions/Upload'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not found
   put:
     summary: Edit a Upload
-    description: |
-      Ilios Uploads
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -127,15 +137,21 @@
           properties:
             upload:
               $ref: '#/definitions/Upload'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
   delete:
-    summary: Delete Upload
-    description: |
-          Delete Ilios Upload
+    summary: Delete a Upload
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -146,7 +162,7 @@
     responses:
       204:
         description: Deleted Upload
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not Found
+      500:
+        description: Deletion not allowed

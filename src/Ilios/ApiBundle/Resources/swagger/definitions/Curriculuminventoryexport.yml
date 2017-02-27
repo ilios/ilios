@@ -14,3 +14,4 @@ Curriculuminventoryexport:
   createdAt:
    description: Createdat
    type: dateTime
+   readOnly: true

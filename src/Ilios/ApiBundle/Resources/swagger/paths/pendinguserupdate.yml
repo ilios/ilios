@@ -1,83 +1,91 @@
 /pendinguserupdates:
-      get:
-        summary: Fetch all Pendinguserupdates
-        description: |
-          Ilios Pendinguserupdates
-        parameters:
-          - name: offset
-            in: query
-            description: Offset
-            required: false
-            type: number
-            format: integer
-          - name: limit
-            in: query
-            description: Limit Results
-            required: false
-            type: number
-            format: integer
-            default: 20
-          - name: order_by
-            in: query
-            description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
-            required: false
-            type: array
-          - name: filters
-            in: query
-            description: Filter by fields. Must be an array ie. &filters[id]=3
-            required: false
-            type: array
-        tags:
-          - Pendinguserupdates
-        responses:
-          200:
-            description: An array of pendinguserupdates
-            schema:
-              type: object
-              properties:
-                pendinguserupdates:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Pendinguserupdate'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
-      post:
-        summary: Create a Pendinguserupdates
-        description: |
-          Ilios Pendinguserupdates
-        parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-              type: object
-              properties:
-                pendinguserupdate:
-                  $ref: '#/definitions/Pendinguserupdate'
-        tags:
-          - Pendinguserupdates
-        responses:
-          201:
-            description: A single Pendinguserupdate
-            schema:
-              type: object
-              properties:
-                pendinguserupdates:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Pendinguserupdate'
-          default:
-            description: Unexpected error
-            schema:
-              $ref: '#/definitions/Error'
+  get:
+    summary: Fetch all Pendinguserupdates
+    parameters:
+      - name: X-JWT-Authorization
+        in: header
+        description: API JWT Token
+        required: true
+        type: string
+        default: Token XXX
+      - name: offset
+        in: query
+        description: Offset
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        description: Limit Results
+        required: false
+        type: integer
+        default: 20
+      - name: order_by
+        in: query
+        description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+        required: false
+        type: array
+      - name: filters
+        in: query
+        description: Filter by fields. Must be an array ie. &filters[id]=3
+        required: false
+        type: array
+    tags:
+      - Pendinguserupdates
+    responses:
+      200:
+        description: An array of pendinguserupdates
+        schema:
+          type: object
+          properties:
+            pendinguserupdates:
+              type: array
+              items:
+                $ref: '#/definitions/Pendinguserupdate'
+  post:
+    summary: Create Pendinguserupdates
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            pendinguserupdates:
+              type: array
+              items:
+                $ref: '#/definitions/Pendinguserupdate'
+    tags:
+      - Pendinguserupdates
+    responses:
+      201:
+        description: An array of newly created pendinguserupdates
+        schema:
+          type: object
+          properties:
+            pendinguserupdates:
+              type: array
+              items:
+                $ref: '#/definitions/Pendinguserupdate'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
 /pendinguserupdates/{id}:
   get:
     summary: Fetch a single Pendinguserupdate
-    description: |
-          Ilios Pendinguserupdate
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -95,15 +103,17 @@
               type: array
               items:
                 $ref: '#/definitions/Pendinguserupdate'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not found
   put:
     summary: Edit a Pendinguserupdate
-    description: |
-      Ilios Pendinguserupdates
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -127,15 +137,21 @@
           properties:
             pendinguserupdate:
               $ref: '#/definitions/Pendinguserupdate'
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
   delete:
-    summary: Delete Pendinguserupdate
-    description: |
-          Delete Ilios Pendinguserupdate
+    summary: Delete a Pendinguserupdate
     parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
     - name: id
       in: path
       required: true
@@ -146,7 +162,7 @@
     responses:
       204:
         description: Deleted Pendinguserupdate
-      default:
-        description: Unexpected error
-        schema:
-          $ref: '#/definitions/Error'
+      404:
+        description: Not Found
+      500:
+        description: Deletion not allowed
