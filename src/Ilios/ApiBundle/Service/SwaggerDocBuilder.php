@@ -3,12 +3,15 @@
 namespace Ilios\ApiBundle\Service;
 
 use Ilios\WebBundle\Service\WebIndexFromJson;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Templating\EngineInterface;
 
 
 class SwaggerDocBuilder
@@ -29,11 +32,27 @@ class SwaggerDocBuilder
      */
     protected $environment;
 
-    function __construct(KernelInterface $kernel, $forceProtocol)
-    {
+    /**
+     * @var EngineInterface
+     */
+    protected $templatingEngine;
+
+    /**
+     * @var Router
+     */
+    protected $router;
+
+    function __construct(
+        KernelInterface $kernel,
+        EngineInterface $templatingEngine,
+        Router $router,
+        $forceProtocol
+    ) {
         $this->swaggerDir = $kernel->locateResource("@IliosApiBundle/Resources/swagger");
         $this->environment = $kernel->getEnvironment();
         $this->forceProtocol = $forceProtocol;
+        $this->templatingEngine = $templatingEngine;
+        $this->router = $router;
     }
 
     public function getDocs(Request $request)
@@ -103,8 +122,8 @@ class SwaggerDocBuilder
         $arr = [];
         $arr['swagger'] = '2.0';
         $arr['info'] = [
-            'title' => 'Ilios API',
-            'description' => 'Ilios API Description',
+            'title' => 'Ilios API Documentation',
+            'description' => $this->getDescription(),
             'version' => WebIndexFromJson::API_VERSION,
         ];
 
@@ -114,5 +133,30 @@ class SwaggerDocBuilder
         $arr['produces'] = ['application/json'];
 
         return $arr;
+    }
+
+    protected function getDescription()
+    {
+        $apiDocsUrl = $this->router->generate(
+            'al_swagger_ui_home',
+            [],
+            UrlGenerator::ABSOLUTE_URL
+        );
+        $myprofileUrl = $this->router->generate(
+            'ilios_web_homepage',
+            [],
+            UrlGenerator::ABSOLUTE_URL
+        );
+        $userApiUrl = $this->router->generate(
+            'ilios_api_getall',
+            ['version' => 'v1', 'object' => 'users'],
+            UrlGenerator::ABSOLUTE_URL
+        );
+        $template = 'IliosApiBundle:Swagger:description.html.twig';
+        return $this->templatingEngine->render($template, [
+            'apiDocsUrl' => $apiDocsUrl,
+            'myprofileUrl' => $myprofileUrl . 'myprofile',
+            'userApiUrl' => $userApiUrl,
+        ]);
     }
 }

@@ -29,4 +29,4 @@ services:
 
     ilios_api.swagger_doc_builder:
         class: Ilios\ApiBundle\Service\SwaggerDocBuilder
-        arguments: ["@kernel", "%forceProtocol%"]
+        arguments: ["@kernel", "@templating", "@router", "%forceProtocol%"]
