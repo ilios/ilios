@@ -23,6 +23,10 @@ class MeshPreviousIndexingTest extends AbstractEndpointTest
     {
         return [
             'Tests\CoreBundle\Fixture\LoadMeshPreviousIndexingData',
+            'Tests\CoreBundle\Fixture\LoadCourseLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadSessionLearningMaterialData',
+            'Tests\CoreBundle\Fixture\LoadMeshConceptData',
+            'Tests\CoreBundle\Fixture\LoadMeshQualifierData',
         ];
     }
 
