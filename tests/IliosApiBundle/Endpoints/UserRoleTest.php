@@ -59,12 +59,6 @@ class UserRoleTest extends AbstractEndpointTest
         ];
     }
 
-    protected function compareData(array $expected, array $result)
-    {
-        unset($expected['users']);
-        return parent::compareData($expected, $result);
-    }
-
     /**
      * We can't change the title on the Developer role
      * Doing that leaves us without the permissions to change the title

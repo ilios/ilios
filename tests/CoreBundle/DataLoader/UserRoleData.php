@@ -11,13 +11,11 @@ class UserRoleData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => 'Developer',
-            'users' => ['1','2'],
         );
 
         $arr[] = array(
             'id' => 2,
             'title' => 'Something Else',
-            'users' => ['3'],
         );
 
 
