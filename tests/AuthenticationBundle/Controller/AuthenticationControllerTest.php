@@ -51,10 +51,10 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'legacyuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
     
@@ -71,11 +71,11 @@ class AuthenticationControllerTest extends WebTestCase
     public function testAuthenticateUser()
     {
         $client = static::createClient();
-    
-        $client->request('POST', '/auth/login', array(
+
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'newuser',
             'password' => 'newuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
     
@@ -95,10 +95,10 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'LEGACYUSER',
             'password' => 'legacyuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
     
@@ -117,11 +117,10 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'NEWUSER',
             'password' => 'newuserpass'
-        ));
-    
+        ]));
         $response = $client->getResponse();
     
         $this->assertJsonResponse($response, Response::HTTP_OK);
@@ -139,10 +138,10 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'wronglegacyuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
     
@@ -158,10 +157,10 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'newuser',
             'password' => 'wrongnewuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
     
@@ -188,18 +187,18 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertEmpty($authentication->getPasswordBcrypt());
     
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'legacyuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'legacyuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);

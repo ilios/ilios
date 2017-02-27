@@ -39,14 +39,14 @@ class LdapAuthenticationTest extends TestCase
             'port',
             'bindTemplate'
         );
-        
-        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
-            ->shouldReceive('get')->with('username')->andReturn(null)
-            ->shouldReceive('get')->with('password')->andReturn(null)
-            ->mock();
+        $arr = [
+            'username' => null,
+            'password' => null
+        ];
+
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
-        $request->request = $parameterBag;
-        
+        $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
+
         $result = $obj->login($request);
         
         $this->assertTrue($result instanceof JsonResponse);
@@ -68,14 +68,13 @@ class LdapAuthenticationTest extends TestCase
             'port',
             'bindTemplate'
         );
-        
-        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
-            ->shouldReceive('get')->with('username')->andReturn('abc')
-            ->shouldReceive('get')->with('password')->andReturn('123')
-            ->mock();
+        $arr = [
+            'username' => 'abc',
+            'password' => '123'
+        ];
+
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
-        $request->request = $parameterBag;
-        
+        $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
         $authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn(null);
         $result = $obj->login($request);
@@ -104,14 +103,13 @@ class LdapAuthenticationTest extends TestCase
             )
         );
         $obj->shouldReceive('checkLdapPassword')->once()->andReturn(false);
-        
-        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
-            ->shouldReceive('get')->with('username')->andReturn('abc')
-            ->shouldReceive('get')->with('password')->andReturn('123')
-            ->mock();
+        $arr = [
+            'username' => 'abc',
+            'password' => '123'
+        ];
+
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
-        $request->request = $parameterBag;
-        
+        $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
@@ -144,14 +142,13 @@ class LdapAuthenticationTest extends TestCase
                 'bindTemplate'
             )
         );
+        $arr = [
+            'username' => 'abc',
+            'password' => '123'
+        ];
 
-        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
-            ->shouldReceive('get')->with('username')->andReturn('abc')
-            ->shouldReceive('get')->with('password')->andReturn('123')
-            ->mock();
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
-        $request->request = $parameterBag;
-
+        $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('isEnabled')->andReturn(false)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
@@ -185,14 +182,14 @@ class LdapAuthenticationTest extends TestCase
             )
         );
         $obj->shouldReceive('checkLdapPassword')->once()->andReturn(true);
-        
-        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
-            ->shouldReceive('get')->with('username')->andReturn('abc')
-            ->shouldReceive('get')->with('password')->andReturn('123')
-            ->mock();
+        $arr = [
+            'username' => 'abc',
+            'password' => '123'
+        ];
+
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
-        $request->request = $parameterBag;
-        
+        $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
+
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')

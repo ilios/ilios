@@ -68,8 +68,19 @@ class LdapAuthentication implements AuthenticationInterface
      */
     public function login(Request $request)
     {
-        $username = $request->request->get('username');
-        $password = $request->request->get('password');
+        $username = null;
+        $password = null;
+        $content = $request->getContent();
+        if (!empty($content))
+        {
+            $arr = json_decode($content, true);
+            if (array_key_exists('username', $arr)) {
+                $username = $arr['username'];
+            }
+            if (array_key_exists('password', $arr)) {
+                $password = $arr['password'];
+            }
+        }
         $code = JsonResponse::HTTP_OK;
         $errors = [];
         if (!$username) {
