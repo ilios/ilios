@@ -1518,4 +1518,63 @@ class UserControllerTest extends AbstractControllerTest
             $data[1]
         );
     }
+
+    /**
+     * @group controllers_b
+     */
+    public function testAddDeveloperRoleToOwnAccountFails()
+    {
+        // PLAN OF ACTION
+        // 1. POST a non-developer user.
+        // 2. Then, use that non-developer user to PUT their account with a developer role
+        // 3. Check for failure.
+
+        // 1.
+        $data = $this->container->get('ilioscore.dataloader.user')
+            ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        $postData['root'] = false;
+        $postData['roles'] = [];
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_users'),
+            json_encode(['user' => $postData]),
+            $this->getAuthenticatedUserToken()
+        );
+
+        $response = $this->client->getResponse();
+
+        $nonRootUser = json_decode($response->getContent(), true)['users'][0];
+        $nonRootUserToken = $this->getTokenForUser($nonRootUser['id']);
+
+        // 2.
+        $postData = $nonRootUser;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+        unset($postData['reminders']);
+        unset($postData['learningMaterials']);
+        unset($postData['reports']);
+        unset($postData['pendingUserUpdates']);
+        unset($postData['permissions']);
+        $postData['roles'] = ['1'];
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl('put_users', ['id' => $nonRootUser['id']]),
+            json_encode(['user' => $postData]),
+            $nonRootUserToken
+        );
+
+        // 3.
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
 }

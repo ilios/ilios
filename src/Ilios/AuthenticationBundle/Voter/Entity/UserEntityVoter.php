@@ -84,6 +84,13 @@ class UserEntityVoter extends AbstractVoter
             return false;
         }
 
+        /**
+         * Temporary mitigation for #1762
+         */
+        if ($this->usersAreIdentical($user, $requestedUser)) {
+            return false;
+        }
+
         // current user must have developer role and share the same school affiliations than the requested user.
         if ($this->userHasRole($user, ['Developer'])
             && ($requestedUser->getAllSchools()->contains($user->getSchool())
