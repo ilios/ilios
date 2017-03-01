@@ -18,6 +18,11 @@ class UserRoleData extends AbstractDataLoader
             'title' => 'Something Else',
         );
 
+        $arr[] = array(
+            'id' => 3,
+            'title' => 'Course Director',
+        );
+
 
         return $arr;
     }
@@ -27,7 +32,7 @@ class UserRoleData extends AbstractDataLoader
         $arr = array();
 
         $arr[] = array(
-            'id' => 3,
+            'id' => 4,
             'title' => $this->faker->text(10)
         );
 

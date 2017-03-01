@@ -472,16 +472,17 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param array $data we are changing
      * @param bool $new if this is expected to generate new data instead
      *                  of updating existing data
+     * @param integer $userId
      *
      * @return mixed
      */
-    protected function putOne($endpoint, $responseKey, $id, array $data, $new = false)
+    protected function putOne($endpoint, $responseKey, $id, array $data, $new = false, $userId = 2)
     {
         $this->createJsonRequest(
             'PUT',
             $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => $endpoint, 'id' => $id]),
             json_encode([$responseKey => $data]),
-            $this->getAuthenticatedUserToken()
+            $this->getTokenForUser($userId)
         );
         $response = $this->client->getResponse();
         $expectedHeader = $new?Response::HTTP_CREATED:Response::HTTP_OK;

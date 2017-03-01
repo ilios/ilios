@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,6 +42,43 @@ class CoursesController extends ApiController
         }
 
         return parent::getAllAction($version, $object, $request);
+    }
+
+    /**
+     * Allow courses to be unlocked if necessary
+     * @inheritdoc
+     */
+    public function putAction($version, $object, $id, Request $request)
+    {
+        $manager = $this->getManager($object);
+        /** @var CourseInterface $entity */
+        $entity = $manager->findOneBy(['id'=> $id]);
+        $data = $this->extractDataFromRequest($request, $object, $singleItem = true, $returnData = true);
+
+        if ($entity) {
+            $code = Response::HTTP_OK;
+            $permission = 'edit';
+            $authChecker = $this->get('security.authorization_checker');
+            if ($entity->isLocked() && !$data->locked) {
+                //check if the course can be unlocked and unlock it
+                if ($authChecker->isGranted('unlock', $entity)) {
+                    $entity->setLocked(false);
+                }
+                $data->locked = $entity->isLocked();
+            }
+        } else {
+            $entity = $manager->create();
+            $code = Response::HTTP_CREATED;
+            $permission = 'create';
+        }
+        $json = json_encode($data);
+        $serializer = $this->getSerializer();
+        $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
+        $this->validateAndAuthorizeEntities([$entity], $permission);
+
+        $manager->update($entity, true, false);
+
+        return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
 
     /**
