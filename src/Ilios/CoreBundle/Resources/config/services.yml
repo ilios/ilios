@@ -70,3 +70,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: flush }
             - { name: kernel.event_listener, event: console.terminate, method: flush }
+    ilioscore.cache:
+            class:     Doctrine\Common\Cache\Cache
+            factory: ['Ilios\CoreBundle\Service\CacheFactory', createCache]
+            arguments: ["%kernel.environment%"]
