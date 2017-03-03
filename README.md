@@ -39,10 +39,21 @@ The Ilios API is a PHP application which requires a MySQL server.
 The easiest way to get a working MySQL database running is by using the 
 ilios/mysql-demo docker image.
 
-After installing [Docker](https://www.docker.com/) you can start a demo database by running the following command:
+### Install Docker
+[Docker](https://www.docker.com/)
+
+### Start the Ilios Demo Database
+Now you can start a demo database by running the following command:
 
 ```bash
-docker run -d --name db -p 3306:3306 ilios/mysql-demo
+docker run -d --name ilios-demo-db -p 3306:3306 ilios/mysql-demo
+```
+
+Even after this process has exited it can take a while for the Demo database to completely load.  Take a break,
+have some tea and come back to it in 10 minutes.  If you want to watch while (really boring) magic happens you can:
+
+```bash
+docker logs -f ilios-demo-db
 ```
 
 Then, modify your `/app/config/parameters.yml` configuration file to connect to this database:
@@ -64,12 +75,60 @@ You can test that the database is configured correctly by running:
 bin/console doctrine:schema:validate
 ```
 
-Start a PHP development webserver by running:
+If you see :
+
+```bash
+Connection refused
+```
+
+Then there is an issue with either your ilios-demo database or your parameters.yml file.
+
+If you see :
+
+```bash
+[Database] FAIL - The database schema is not in sync with the current mapping file.
+```
+
+Then you just need to run the database migrations:
+```bash
+bin/console doctrine:migrations:migrate
+```
+
+### Development Server Options
+
+##### PHP Server (Option A)
+Docker does a bad job keeping local development files in sync with a container so if you are actively working and 
+making many changes start a local PHP webserver  by running:
 
 ```bash
 ILIOS_API_ENVIRONMENT=dev ILIOS_API_DEBUG=true bin/console server:start --router=web/app.php
 ```
 
+##### Docker Server (Option B)
+If you are less interested in making changes to the code and more interested in testing features
+or overall performance you can build a local docker server.
+
+- First Create the container
+
+```bash
+docker build -f Dockerfile.dev . -t ilios-web-container
+```
+
+- Second Start the server
+```bash
+docker run -d --name=ilios-web -p 8000:80 --link ilios-demo-db:ilios-demo-db ilios-web-container
+```
+
+- Third If you make changes to the code you must run start from scratch
+
+```bash
+docker stop ilios-web
+docker rm ilios-web
+docker build -f Dockerfile.dev . -t ilios-web-container
+docker run --name=ilios-web -d -p 8080:80 --link ilios-demo-db:ilios-demo-db ilios-web-container
+```
+
+### Accessing Ilios
 
 You should now be able to access your newly-Dockerized instance of Ilios 
-by visiting http://localhost:8000 in your browser.
+by visiting [http://localhost:8000](http://localhost:8000) in your browser.
