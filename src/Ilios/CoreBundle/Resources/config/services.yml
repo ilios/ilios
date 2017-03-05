@@ -73,4 +73,4 @@ services:
             arguments: ["%kernel.environment%"]
     ilioscore.entitymetadata:
         class: Ilios\CoreBundle\Service\EntityMetadata
-        arguments: [ "%kernel.environment%", "%kernel.cache_dir%" ]
+        arguments: [ "@ilioscore.cache", "%kernel.environment%" ]

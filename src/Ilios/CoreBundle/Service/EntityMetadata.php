@@ -5,27 +5,25 @@ namespace Ilios\CoreBundle\Service;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
-use Doctrine\Common\Cache\ApcuCache;
-use Doctrine\Common\Cache\FilesystemCache;
+use Doctrine\Common\Cache\Cache;
 use Ilios\ApiBundle\Annotation\ReadOnly;
 use Ilios\ApiBundle\Annotation\Type;
 
 class EntityMetadata
 {
-    const CACHE_FILE_NAME = '/ilios/annotations';
-
     /**
      * @var Reader
      */
     private $annotationReader;
 
-    public function __construct($environment, $kernelCacheDir)
+    /**
+     * @var array
+     */
+    private $exposedPropertiesForClass;
+
+    public function __construct(Cache $cache, $environment)
     {
-        if ($environment === 'prod') {
-            $cache = new ApcuCache();
-        } else {
-            $cache = new FilesystemCache($kernelCacheDir . self::CACHE_FILE_NAME);
-        }
+        $this->exposedPropertiesForClass = [];
 
         $this->annotationReader = new CachedReader(
             new AnnotationReader(),
@@ -73,23 +71,28 @@ class EntityMetadata
 
     public function extractExposedProperties(\ReflectionClass $reflection)
     {
-        $properties = $reflection->getProperties();
+        $className = $reflection->getName();
+        if (!array_key_exists($className, $this->exposedPropertiesForClass)) {
+            $properties = $reflection->getProperties();
 
-        $exposed =  array_filter($properties, function (\ReflectionProperty $property) {
-            $annotation = $this->annotationReader->getPropertyAnnotation(
-                $property,
-                'Ilios\ApiBundle\Annotation\Expose'
-            );
+            $exposed =  array_filter($properties, function (\ReflectionProperty $property) {
+                $annotation = $this->annotationReader->getPropertyAnnotation(
+                    $property,
+                    'Ilios\ApiBundle\Annotation\Expose'
+                );
 
-            return !is_null($annotation);
-        });
+                return !is_null($annotation);
+            });
 
-        $exposedProperties = [];
-        foreach ($exposed as $property) {
-            $exposedProperties[$property->name] = $property;
+            $exposedProperties = [];
+            foreach ($exposed as $property) {
+                $exposedProperties[$property->name] = $property;
+            }
+
+            $this->exposedPropertiesForClass[$className] = $exposedProperties;
         }
 
-        return $exposedProperties;
+        return $this->exposedPropertiesForClass[$className];
     }
 
     public function extractWritableProperties(\ReflectionClass $reflection)
