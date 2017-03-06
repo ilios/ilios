@@ -166,6 +166,8 @@
     responses:
       204:
         description: Deleted Learnergroup
+      403:
+        description: Access Denied
       404:
         description: Not Found
       500:

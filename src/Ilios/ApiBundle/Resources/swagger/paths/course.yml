@@ -171,6 +171,8 @@
     responses:
       204:
         description: Deleted Course
+      403:
+        description: Access Denied
       404:
         description: Not Found
       500:
