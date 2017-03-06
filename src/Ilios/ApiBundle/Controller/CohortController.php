@@ -13,14 +13,7 @@ use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 class CohortController extends ApiController
 {
     /**
-     * @inheritdoc
-     */
-    public function postAction($version, $object, Request $request)
-    {
-        $this->throwCreatingCohortNotSupportedException();
-    }
-
-    /**
+     * Don't allow new cohorts to be created with a PUT request
      * @inheritdoc
      */
     public function putAction($version, $object, $id, Request $request)
@@ -36,10 +29,19 @@ class CohortController extends ApiController
     }
 
     /**
+     * Generic action used by the router to send a 410 GONE
+     * to anyone trying to POST or DELETE a cohort
+     */
+    public function fourTenAction()
+    {
+        $this->throwCreatingCohortNotSupportedException();
+    }
+
+    /**
      * @throws GoneHttpException
      */
     protected function throwCreatingCohortNotSupportedException()
     {
-        throw new GoneHttpException('Explicitly creating cohorts is no longer supported.');
+        throw new GoneHttpException('Explicitly creating and deleting cohorts is no longer supported.');
     }
 }

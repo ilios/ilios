@@ -212,13 +212,14 @@ ilios_api_cohort_put:
         object: 'cohorts'
         id: '\d+'
 
-ilios_api_cohort_post:
-    path:     /{version}/{object}
-    defaults: { _controller: IliosApiBundle:Cohort:post }
-    methods:  [POST]
+ilios_api_cohort_404:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:Cohort:fourTen, id: 0 }
+    methods:  [POST, DELETE]
     requirements:
         version: "%ilios_api_valid_api_versions%"
         object: 'cohorts'
+        id: '(?i)[a-z0-9\-]+'
         
 ilios_api_ingestionexception_getall:
     path:     /{version}/{object}

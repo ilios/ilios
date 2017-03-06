@@ -105,6 +105,20 @@ class CohortTest extends AbstractEndpointTest
         $this->assertEquals(Response::HTTP_GONE, $response->getStatusCode(), $response->getContent());
     }
 
+    public function testDelete()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $this->createJsonRequest(
+            'DELETE',
+            $this->getUrl('ilios_api_delete', ['version' => 'v1', 'object' => 'cohorts', 'id' => $data['id']]),
+            null,
+            $this->getAuthenticatedUserToken()
+        );
+        $response = $this->client->getResponse();
+        $this->assertEquals(Response::HTTP_GONE, $response->getStatusCode(), $response->getContent());
+    }
+
     /**
      * This test is disabled since cohorts can't be posted
      */
@@ -191,7 +205,7 @@ class CohortTest extends AbstractEndpointTest
      *
      * @return array
      */
-    public function getProgramYear($id)
+    protected function getProgramYear($id)
     {
         $programYearDataLoader = $this->container->get('ilioscore.dataloader.programyear');
         $allProgramYears = $programYearDataLoader->getAll();
