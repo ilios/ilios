@@ -169,4 +169,4 @@
       404:
         description: Not Found
       500:
-        description: Deletion not allowed
+        description: Failed to delete entity (usually caused by non-cascading relationships)

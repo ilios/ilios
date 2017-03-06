@@ -155,7 +155,7 @@ class ApiController extends Controller implements ApiControllerInterface
 
             return new Response('', Response::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
-            throw new \RuntimeException("Deletion not allowed: " . $exception->getMessage());
+            throw new \RuntimeException("Failed to delete entity: " . $exception->getMessage());
         }
     }
 
