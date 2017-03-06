@@ -102,7 +102,7 @@ class SessionTest extends AbstractEndpointTest
             'sessionType' => [[1, 2, 3], ['sessionType' => 2]],
             'supplementalAndSessionType' => [[1, 2], ['supplemental' => true, 'sessionType' => 2]],
             'course' => [[3], ['course' => 4]],
-            'multipeCourse' => [[0, 1, 3], ['course' => [1, 4]]],
+            'multipleCourse' => [[0, 1, 3], ['course' => [1, 4]]],
 //            'ilmSession' => [[0], ['ilmSessions' => [1]]],
             'terms' => [[1], ['terms' => 1]],
             'termsMultiple' => [[0], ['terms' => [2, 5]]],

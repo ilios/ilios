@@ -81,16 +81,16 @@ class AuthenticationController extends ApiController
         $entities = $serializer->deserialize($json, $class, 'json');
         $this->validateAndAuthorizeEntities($entities, 'create');
 
-        $entitesByUserId = [];
+        $entitiesByUserId = [];
         /** @var AuthenticationInterface $authentication */
         foreach ($entities as $authentication) {
-            $entitesByUserId[$authentication->getUser()->getId()] = $authentication;
+            $entitiesByUserId[$authentication->getUser()->getId()] = $authentication;
         }
 
         foreach ($encodedPasswords as $userId => $password) {
-            $entitesByUserId[$userId]->setPasswordBcrypt($password);
+            $entitiesByUserId[$userId]->setPasswordBcrypt($password);
         }
-        $entities = array_values($entitesByUserId);
+        $entities = array_values($entitiesByUserId);
 
         foreach ($entities as $entity) {
             $manager->update($entity, false);
@@ -101,7 +101,7 @@ class AuthenticationController extends ApiController
     }
 
     /**
-     * Along with taking input this also encodes passwords so they
+     * Along with taking user input, this also encodes passwords so they
      * can be stored safely in the database
      *
      * @inheritdoc

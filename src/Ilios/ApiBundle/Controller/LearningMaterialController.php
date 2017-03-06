@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class LearningMaterialController
- * We have to handle a special 'q' parameter on learningMaterils
+ * We have to handle a special 'q' parameter on learningMaterials
  * and we need to work with a factory to produce the results
  * so it needs its own controller
  * @package Ilios\ApiBundle\Controller

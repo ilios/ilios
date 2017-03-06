@@ -9,7 +9,7 @@ endpoints and their use on one would just need to visit [{{ apiDocsUrl }}]({{ ap
 ## API Authentication - Using JSON Web Tokens
 
 To make calls to any of the endpoints provided by the Ilios API, a valid JSON Web Token (JWT) must
-be sent along in the headers of the HTTP request.  JWT's can be created and invalidated as-needed by
+be sent along in the headers of the HTTP request.  JWTs can be created and invalidated as-needed by
 any user when they visit their profile page [{{ myprofileUrl }}]({{ myprofileUrl }}) in the Ilios application.
 The permissions for the token reflect those of the account of the user creating the token -
 any tasks available to the user within the Ilios frontend GUI application will be available to the
@@ -68,7 +68,7 @@ your JWT.  To test your newly created JWT in the API sandbox, do the following:
 1. Visit the API documentation on your Ilios installation [{{ apiDocsUrl }}]({{ apiDocsUrl }}))
 2. Scroll down and find the Ilios API endpoint that you would like to test (ie, 'User')
 3. Expand the desired endpoint's documentation by clicking on the request method (ie, "GET")
-4. You will be presented with several table roles including one labled 'X-JWT-Authorization'.
+4. You will be presented with several table roles including one labeled 'X-JWT-Authorization'.
 5. In the 'Value' field, enter 'Token [YOUR JWT VALUE]' (Replacing [YOUR JWT VALUE] with the value
 of the token you are testing) as shown:
 ```

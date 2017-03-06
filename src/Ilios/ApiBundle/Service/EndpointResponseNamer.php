@@ -9,9 +9,9 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Class EndpointResponseNamer
- * Handles the pluralization and string manipulatio to go from
+ * Handles the pluralization and string manipulation to go from
  * the value our api expects like 'userrole' to what we may need
- * to return like 'userRole'
+ * to return like 'userRoles'
  *
  * @package Ilios\ApiBundle\Service
  */
@@ -33,7 +33,7 @@ class EndpointResponseNamer
     }
 
     /**
-     * Get the pluralized name of an enpoint
+     * Get the pluralized name of an endpoint
      *
      * @param $object
      * @return mixed

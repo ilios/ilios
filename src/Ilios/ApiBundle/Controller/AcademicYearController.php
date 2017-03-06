@@ -40,7 +40,7 @@ class AcademicYearController extends ApiController
     public function fourOhFourAction()
     {
         throw new NotFoundHttpException(
-            'Academic Years cannot be modified directly.  They must be atached to a course.'
+            'Academic Years cannot be modified directly.  They must be attached to a course.'
         );
     }
 }

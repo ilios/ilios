@@ -30,7 +30,7 @@ class AcademicYear
     protected $title;
 
     /**
-     * Set the year and set botht he id and title to it
+     * Set the year and set both the id and title to it
      * @param string $year
      */
     public function __construct($year)

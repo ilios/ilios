@@ -132,7 +132,7 @@ class ApiController extends Controller implements ApiControllerInterface
      * @param string $object the name of the endpoint
      * @param string $id the entity to be deleted
      *
-     * @throws \RuntimeException when there is a problem deleting soemthing
+     * @throws \RuntimeException when there is a problem deleting something
      *
      * @return Response
      */
@@ -160,7 +160,7 @@ class ApiController extends Controller implements ApiControllerInterface
     }
 
     /**
-     * The the manager for this request by name
+     * Get the manager for this request by name
      *
      * @param string $object
      *
@@ -196,7 +196,7 @@ class ApiController extends Controller implements ApiControllerInterface
      * @param Request $request
      * @param $object string the name of the object we are extracting from the request
      * @param bool $singleItem forces items out of an array and into single items
-     * @param bool $returnArray should we leave the data as an array (for further upstream processig)
+     * @param bool $returnArray should we leave the data as an array (for further upstream processing)
      *
      * @return mixed
      */

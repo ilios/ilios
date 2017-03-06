@@ -96,7 +96,7 @@ class AppKernel extends Kernel
     }
 
     /**
-     * Get ther kernel based on environemntal variables
+     * Get the kernel based on environmental variables
      * This is used in index.php to select the correct environment
      * Thanks https://www.pmg.com/blog/symfony-no-app-dev/ for this idea
      *
@@ -112,7 +112,7 @@ class AppKernel extends Kernel
 
     /**
      * Words which are difficult to inflect need custom
-     * rules.  We set these up here so they are consisten across the
+     * rules.  We set these up here so they are consistent across the
      * entire application.
      */
     public static function loadInflectionRules()

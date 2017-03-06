@@ -236,7 +236,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
-     * Get getting every peice of data in the test DB
+     * Get getting every piece of data in the test DB
      * @return mixed
      */
     protected function getAllTest()
@@ -345,7 +345,7 @@ abstract class AbstractEndpointTest extends WebTestCase
      * POST a single item to the API
      *
      * @param string $endpoint to send to
-     * @param string $responseKey the key the reponse will be under
+     * @param string $responseKey the key the response will be under
      * @param array $postData the data to send
      *
      * @return mixed
@@ -434,7 +434,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
-     * Test puttinga  single value to the API
+     * Test putting a  single value to the API
      * @param array $data
      * @param array $postData
      * @param mixed $id
@@ -712,7 +712,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
-     * Test that deleting a realted entity updates a timestamp on this one
+     * Test that deleting a related entity updates a timestamp on this one
      * @param $id
      * @param $relatedPluralObjectName
      * @param $relatedId
