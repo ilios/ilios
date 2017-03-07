@@ -4,6 +4,7 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\CoreBundle\Entity\Manager\DTOManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -348,6 +349,9 @@ class ApiController extends Controller implements ApiControllerInterface
      *
      * @param array $entities
      * @param string $permission we want to authorize ('view', 'create', 'edit', 'delete')
+     *
+     * @throws HttpException when input is no valid
+     * @throws AccessDeniedException when authorization is insufficient
      */
     protected function validateAndAuthorizeEntities($entities, $permission)
     {
@@ -361,6 +365,8 @@ class ApiController extends Controller implements ApiControllerInterface
      * Runs the Symfony validation against the annotations in an entity
      *
      * @param mixed $entity
+     *
+     * @throws HttpException when input is no valid
      */
     protected function validateEntity($entity)
     {
@@ -379,6 +385,8 @@ class ApiController extends Controller implements ApiControllerInterface
      *
      * @param mixed $entity
      * @param string $permission we need to verify
+     *
+     * @throws AccessDeniedException when authorization is insufficient
      */
     protected function authorizeEntity($entity, $permission)
     {
