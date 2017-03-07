@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
- * Generates the YAML file for the swagger definitino docs
+ * Generates the YAML file for the swagger definition docs
  *
  * Class GenerateSwaggerApiPathYamlCommand
  * @package Ilios\CliBUndle\Command
