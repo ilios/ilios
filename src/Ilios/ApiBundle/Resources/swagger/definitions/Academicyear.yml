@@ -4,6 +4,8 @@ Academicyear:
   id:
    description: The year as an ID
    type: string
+   readOnly: true
   title:
    description: The year as the title
    type: string
+   readOnly: true
