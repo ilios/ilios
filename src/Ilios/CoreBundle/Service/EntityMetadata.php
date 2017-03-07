@@ -6,7 +6,6 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Persistence\Proxy;
 use Ilios\ApiBundle\Annotation\ReadOnly;
 use Ilios\ApiBundle\Annotation\Type;
 use Symfony\Component\Finder\Finder;
@@ -87,12 +86,15 @@ class EntityMetadata
             if (in_array($className, $this->iliosEntities)) {
                 return true;
             }
-            if (is_object($classNameOrObject) && $classNameOrObject instanceof Proxy) {
-                $reflection = new \ReflectionClass($classNameOrObject);
-                $reflection = $reflection->getParentClass();
-                $className = $reflection->getName();
 
-                return in_array($className, $this->iliosDtos);
+            if (strpos($className, 'Proxies') !== false) {
+                $reflection = new \ReflectionClass($classNameOrObject);
+                if ($reflection->implementsInterface('Doctrine\Common\Persistence\Proxy')) {
+                    $reflection = $reflection->getParentClass();
+                    $className = $reflection->getName();
+
+                    return in_array($className, $this->iliosEntities);
+                }
             }
         }
 
@@ -136,7 +138,6 @@ class EntityMetadata
     protected function getClassName($classNameOrObject)
     {
         return is_object($classNameOrObject)?get_class($classNameOrObject):$classNameOrObject;
-
     }
 
     /**
