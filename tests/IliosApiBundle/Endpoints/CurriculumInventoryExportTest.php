@@ -11,7 +11,7 @@ use DateTime;
  * CurriculumInventoryExport API endpoint Test.
  * This is a POST only endpoint so that is all we will test
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class CurriculumInventoryExportTest extends AbstractEndpointTest
 {

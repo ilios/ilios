@@ -8,7 +8,7 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 /**
  * CurriculumInventoryAcademicLevel API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_1
+ * @group api_4
  */
 class CurriculumInventoryAcademicLevelTest extends AbstractEndpointTest
 {

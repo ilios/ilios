@@ -10,7 +10,7 @@ use DateTime;
 /**
  * UsereventTest API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_1
  */
 class UsereventTest extends AbstractEndpointTest
 {

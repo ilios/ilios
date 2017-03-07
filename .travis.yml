@@ -34,6 +34,12 @@ matrix:
   - php: '7.1'
     env: TEST_PHPUNIT_API3=true
   - php: '5.6'
+    env: TEST_PHPUNIT_API4=true
+  - php: '7'
+    env: TEST_PHPUNIT_API4=true
+  - php: '7.1'
+    env: TEST_PHPUNIT_API4=true
+  - php: '5.6'
     env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
   - php: '7'
     env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
@@ -60,6 +66,7 @@ env:
   - TEST_PHPUNIT_API1=false
   - TEST_PHPUNIT_API2=false
   - TEST_PHPUNIT_API3=false
+  - TEST_PHPUNIT_API4=false
   - TEST_PHPUNIT_OTHERS=false
   - TEST_PHPUNIT_MESH_DATA_IMPORT=false
   - VALIDATE_SCHEMA=false
@@ -112,8 +119,11 @@ script:
 - if [ "$TEST_PHPUNIT_API3" = true ];
   then (vendor/bin/phpunit -c phpunit.xml.dist --group api_3);
   fi
+- if [ "$TEST_PHPUNIT_API4" = true ];
+  then (vendor/bin/phpunit -c phpunit.xml.dist --group api_4);
+  fi
 - if [ "$TEST_PHPUNIT_OTHERS" = true ];
-  then (vendor/bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,api_1,api_2,api_3);
+  then (vendor/bin/phpunit -c phpunit.xml.dist --exclude-group mesh_data_import,api_1,api_2,api_3,api_4);
   fi
 notifications:
   slack:

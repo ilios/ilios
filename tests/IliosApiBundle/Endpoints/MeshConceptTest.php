@@ -8,7 +8,7 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 /**
  * MeshConcept API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_3
+ * @group api_2
  */
 class MeshConceptTest extends AbstractEndpointTest
 {

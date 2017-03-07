@@ -8,7 +8,7 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 /**
  * MeshPreviousIndexing API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_4
  */
 class MeshPreviousIndexingTest extends AbstractEndpointTest
 {

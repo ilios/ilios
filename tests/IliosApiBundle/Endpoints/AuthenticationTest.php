@@ -9,7 +9,7 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 /**
  * Authentication API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_3
+ * @group api_1
  */
 class AuthenticationTest extends AbstractEndpointTest
 {

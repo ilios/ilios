@@ -10,7 +10,7 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 /**
  * CurriculumInventorySequenceBlock API endpoint Test.
  * @package Tests\IliosApiBundle\Endpoints
- * @group api_2
+ * @group api_4
  */
 class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 {
