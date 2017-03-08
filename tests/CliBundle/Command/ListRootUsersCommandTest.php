@@ -55,8 +55,38 @@ class ListRootUsersCommandTest extends \PHPUnit_Framework_TestCase
     public function testListRootUsers()
     {
         $users = [];
-        $users[] = new UserDTO(1, 'Hans', 'Dampf', '', 'hans@test.com', '111-111-1111', true, 1, '', true, '', true);
-        $users[] = new UserDTO(2, 'Ilse', 'Bilse', '', 'ilse@test.com', '222-222-2222', false, 1, '', true, '', true);
+        $users[] = new UserDTO(
+            1,
+            'Hans',
+            'Dampf',
+            '',
+            '111-111-1111',
+            'hans@test.com',
+            true,
+            true,
+            '',
+            '',
+            true,
+            false,
+            '',
+            true
+        );
+        $users[] = new UserDTO(
+            2,
+            'Ilse',
+            'Bilse',
+            '',
+            '222-222-2222',
+            'ilse@test.com',
+            true,
+            false,
+            '',
+            '',
+            true,
+            false,
+            '',
+            true
+        );
 
         $this->userManager->shouldReceive('findDTOsBy')->with(['root' => true])->andReturn($users);
 
@@ -66,11 +96,11 @@ class ListRootUsersCommandTest extends \PHPUnit_Framework_TestCase
         $output = $this->commandTester->getDisplay();
 
         $this->assertRegExp(
-            '/\| 1\s+| Hans\s+\| Dampf\s+\| 111-111-1111\s+\| hans@test.com\s+\| Yes\s+\|/',
+            '/\| 1\s+| Hans\s+\| Dampf\s+\| hans@test.com\s+\| 111-111-1111\s+\| Yes\s+\|/',
             $output
         );
         $this->assertRegExp(
-            '/\| 2\s+\| Ilse\s+\| Bilse\s+\| 222-222-2222\s+\| ilse@test.com\s+\| No\s+\|/',
+            '/\| 2\s+\| Ilse\s+\| Bilse\s+\|| ilse@test.com\s+\| 222-222-2222\s+\ No\s+\|/',
             $output
         );
     }
