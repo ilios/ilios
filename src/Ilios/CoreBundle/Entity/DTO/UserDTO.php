@@ -59,6 +59,13 @@ class UserDTO
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    public $addedViaIlios;
+
+    /**
+     * @var boolean
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
     public $enabled;
 
     /**
@@ -74,6 +81,13 @@ class UserDTO
      * @IS\Type("string")
      */
     public $otherId;
+
+    /**
+     * @var boolean
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public $examined;
 
     /**
      * @var boolean
@@ -265,9 +279,11 @@ class UserDTO
         $middleName,
         $phone,
         $email,
+        $addedViaIlios,
         $enabled,
         $campusId,
         $otherId,
+        $examined,
         $userSyncIgnore,
         $icsFeedKey,
         $root
@@ -278,9 +294,11 @@ class UserDTO
         $this->middleName = $middleName;
         $this->phone = $phone;
         $this->email = $email;
+        $this->addedViaIlios = $addedViaIlios;
         $this->enabled = $enabled;
         $this->campusId = $campusId;
         $this->otherId = $otherId;
+        $this->examined = $examined;
         $this->userSyncIgnore = $userSyncIgnore;
         $this->icsFeedKey = $icsFeedKey;
         $this->root = $root;

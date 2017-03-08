@@ -792,9 +792,11 @@ class UserRepository extends EntityRepository
                 $arr['middleName'],
                 $arr['phone'],
                 $arr['email'],
+                $arr['addedViaIlios'],
                 $arr['enabled'],
                 $arr['campusId'],
                 $arr['otherId'],
+                $arr['examined'],
                 $arr['userSyncIgnore'],
                 $arr['icsFeedKey'],
                 $arr['root']

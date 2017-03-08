@@ -147,6 +147,9 @@ class User implements UserInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $addedViaIlios;
 
@@ -202,6 +205,9 @@ class User implements UserInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $examined;
 

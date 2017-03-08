@@ -56,6 +56,8 @@ class UserTest extends AbstractEndpointTest
             'campusId' => ['campusId', $this->getFaker()->text(10)],
             'otherId' => ['otherId', $this->getFaker()->text(10)],
             'userSyncIgnore' => ['userSyncIgnore', true],
+            'addedViaIlios' => ['addedViaIlios', true],
+            'examined' => ['examined', false],
             'icsFeedKey' => ['icsFeedKey', hash('sha256', 'testValueICS')],
             'reminders' => ['reminders', [1], $skipped = true],
             'reports' => ['reports', [1], $skipped = true],
@@ -112,6 +114,10 @@ class UserTest extends AbstractEndpointTest
             'otherId' => [[2], ['otherId' => '001']],
             'userSyncIgnore' => [[1], ['userSyncIgnore' => true]],
             'notUserSyncIgnore' => [[0, 2, 3, 4], ['userSyncIgnore' => false]],
+            'addedViaIlios' => [[1], ['addedViaIlios' => true]],
+            'notAddedViaIlios' => [[0, 2, 3, 4], ['addedViaIlios' => false]],
+            'examined' => [[0, 1], ['examined' => true]],
+            'notExamined' => [[2, 3, 4], ['examined' => false]],
             'icsFeedKey' => [[1], ['icsFeedKey' => hash('sha256', '2')]],
 //            'authentication' => [[2], ['authentication' => 2]],
 //            'reminders' => [[1], ['reminders' => [2]]],
@@ -408,7 +414,7 @@ class UserTest extends AbstractEndpointTest
         $this->relatedPostDataTest($data, $postData, 'users', 'cohorts');
     }
 
-    public function testPostUserWithNoIcsFeeDKey()
+    public function testPostUserWithNoIcsFeedKey()
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
