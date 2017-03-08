@@ -112,7 +112,7 @@ class ProgramTest extends AbstractEndpointTest
             $userId,
             'PUT',
             $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'programs', 'id' => $program['id']]),
-            json_encode(['programs' => [$program]])
+            json_encode(['program' => $program])
         );
     }
 
@@ -126,7 +126,7 @@ class ProgramTest extends AbstractEndpointTest
             $userId,
             'PUT',
             $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'programs', 'id' => $program['id'] * 10000]),
-            json_encode(['programs' => [$program]])
+            json_encode(['program' => $program])
         );
     }
 
