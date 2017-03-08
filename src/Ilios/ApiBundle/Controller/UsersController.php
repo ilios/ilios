@@ -8,8 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UsersController
- * We have to handle a special 'q' parameter on users
- * so it needs its own controller
+ * We have to handle a special 'q' parameter
+ * as well as special handling for ICS feed keys
+ * so users needs its own controller
  * @package Ilios\ApiBundle\Controller
  */
 class UsersController extends ApiController
@@ -39,6 +40,42 @@ class UsersController extends ApiController
         }
 
         return parent::getAllAction($version, $object, $request);
+    }
+
+    /**
+     * When Users are submitted with an empty icsFeedKey value that overrides
+     * the created key.  This happens when new users are created and they don't have a
+     * key yet.  Instead of using the blank key we need to keep the one that is generated
+     * in the User entity constructor.
+     *
+     * @inheritdoc
+     */
+    public function postAction($version, $object, Request $request)
+    {
+        $manager = $this->getManager($object);
+        $class = $manager->getClass() . '[]';
+
+        $data = $this->extractDataFromRequest($request, $object, $singleItem = false, $returnArray = true);
+        $dataWithoutEmptyIcsFeed = array_map(function ($obj) {
+            if (property_exists($obj, 'icsFeedKey')) {
+                if (empty($obj->icsFeedKey)) {
+                    unset($obj->icsFeedKey);
+                }
+            }
+
+            return $obj;
+        }, $data);
+        $json = json_encode($dataWithoutEmptyIcsFeed);
+        $serializer = $this->getSerializer();
+        $entities = $serializer->deserialize($json, $class, 'json');
+        $this->validateAndAuthorizeEntities($entities, 'create');
+
+        foreach ($entities as $entity) {
+            $manager->update($entity, false);
+        }
+        $manager->flushAndClear();
+
+        return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
 
     public function putAction($version, $object, $id, Request $request)

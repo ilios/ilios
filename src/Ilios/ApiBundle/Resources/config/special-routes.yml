@@ -83,6 +83,14 @@ ilios_api_user_put:
         object: 'users'
         id: '\d+'
 
+ilios_api_user_post:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:Users:post }
+    methods:  [POST]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: 'users'
+
 ilios_api_authentication_get:
     path:     /{version}/{object}/{userId}
     defaults: { _controller: IliosApiBundle:Authentication:get }
