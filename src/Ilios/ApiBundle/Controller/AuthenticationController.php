@@ -94,7 +94,7 @@ class AuthenticationController extends ApiController
         foreach ($entities as $entity) {
             $manager->update($entity, false);
         }
-        $manager->flushAndClear();
+        $manager->flush();
 
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }

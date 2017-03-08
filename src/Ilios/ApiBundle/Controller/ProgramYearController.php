@@ -33,7 +33,7 @@ class ProgramYearController extends ApiController
             $manager->update($entity, false);
             $this->createCohort($entity);
         }
-        $manager->flushAndClear();
+        $manager->flush();
 
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }

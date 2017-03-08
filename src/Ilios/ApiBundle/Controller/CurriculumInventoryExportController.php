@@ -54,7 +54,7 @@ class CurriculumInventoryExportController extends NonDtoApiController
         }
 
 
-        $manager->flushAndClear();
+        $manager->flush();
 
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }

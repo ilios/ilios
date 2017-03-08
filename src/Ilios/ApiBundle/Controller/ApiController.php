@@ -87,7 +87,7 @@ class ApiController extends Controller implements ApiControllerInterface
         foreach ($entities as $entity) {
             $manager->update($entity, false);
         }
-        $manager->flushAndClear();
+        $manager->flush();
 
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }

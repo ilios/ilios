@@ -60,7 +60,7 @@ class CurriculumInventoryReportController extends NonDtoApiController
             $manager->update($entity, false);
         }
 
-        $manager->flushAndClear();
+        $manager->flush();
 
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }

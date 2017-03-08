@@ -45,7 +45,7 @@ class OfferingController extends NonDtoApiController
             }
         }
 
-        $manager->flushAndClear();
+        $manager->flush();
 
         return $this->createResponse($this->getPluralResponseKey($object), $entities, Response::HTTP_CREATED);
     }
@@ -91,7 +91,7 @@ class OfferingController extends NonDtoApiController
             }
         }
 
-        $manager->flushAndClear();
+        $manager->flush();
 
         return $this->createResponse($this->getSingularResponseKey($object), $entity, $code);
     }
