@@ -136,7 +136,8 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postOne($endpoint, $responseKey, $postData);
+        $postKey = $this->getCamelCasedSingularName();
+        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $postData);
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['id']);
 

@@ -80,7 +80,7 @@ class CohortTest extends AbstractEndpointTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'cohorts']),
-            json_encode(['cohorts' => [$data]]),
+            json_encode(['cohort' => $data]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();

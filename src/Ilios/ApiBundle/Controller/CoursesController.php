@@ -53,7 +53,7 @@ class CoursesController extends ApiController
         $manager = $this->getManager($object);
         /** @var CourseInterface $entity */
         $entity = $manager->findOneBy(['id'=> $id]);
-        $data = $this->extractDataFromRequest($request, $this->getSingularResponseKey($object));
+        $data = $this->extractPutDataFromRequest($request, $object);
 
         if ($entity) {
             $code = Response::HTTP_OK;

@@ -52,7 +52,7 @@ class LearningMaterialController extends NonDtoApiController
     {
         $manager = $this->getManager($object);
 
-        $data = $this->extractDataFromRequest($request, $this->getPluralResponseKey($object));
+        $data = $this->extractPostDataFromRequest($request, $object);
         $temporaryFileSystem = $this->container->get('ilioscore.temporary_filesystem');
         $fs = $this->container->get('ilioscore.filesystem');
         $dataWithFilesAttributes = array_map(function ($obj) use ($fs, $temporaryFileSystem) {
@@ -130,7 +130,7 @@ class LearningMaterialController extends NonDtoApiController
             $permission = 'create';
         }
 
-        $data = $this->extractDataFromRequest($request, $this->getSingularResponseKey($object));
+        $data = $this->extractPutDataFromRequest($request, $object);
         unset($data->fileHash);
         unset($data->mimetype);
         unset($data->relativePath);

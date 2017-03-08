@@ -38,7 +38,8 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
 
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postOne($endpoint, $responseKey, $data);
+        $postKey = $this->getCamelCasedSingularName();
+        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $data);
 
         $this->assertEquals($responseData['report'], $data['report']);
         $this->assertNotEmpty($responseData['createdBy']);

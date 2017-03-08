@@ -284,7 +284,8 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postOne($endpoint, $responseKey, $postData);
+        $postKey = $this->getCamelCasedSingularName();
+        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $postData);
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['id']);
 
@@ -345,17 +346,18 @@ abstract class AbstractEndpointTest extends WebTestCase
      * POST a single item to the API
      *
      * @param string $endpoint to send to
+     * @param string $postKey the key to send the POST under
      * @param string $responseKey the key the response will be under
      * @param array $postData the data to send
      *
      * @return mixed
      */
-    protected function postOne($endpoint, $responseKey, array $postData)
+    protected function postOne($endpoint, $postKey, $responseKey, array $postData)
     {
         $this->createJsonRequest(
             'POST',
             $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => $endpoint]),
-            json_encode([$responseKey => [$postData]]),
+            json_encode([$postKey => $postData]),
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
@@ -696,7 +698,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $responseKey = $this->getCamelCasedPluralName();
         $initialState = $this->getOne($endpoint, $responseKey, $id);
         sleep(1);
-        $this->postOne($relatedPluralObjectName, $relatedResponseKey, $relatedPostData);
+        $this->postMany($relatedPluralObjectName, $relatedResponseKey, [$relatedPostData]);
         $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);

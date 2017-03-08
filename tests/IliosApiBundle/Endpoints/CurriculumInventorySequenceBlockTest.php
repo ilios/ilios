@@ -251,7 +251,12 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $postData = $dataLoader->create();
         $postData['orderInSequence']  = 1;
-        $newBlock = $this->postOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlocks', $postData);
+        $newBlock = $this->postOne(
+            'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlock',
+            'curriculumInventorySequenceBlocks',
+            $postData
+        );
 
         $childrenAfterAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
@@ -301,7 +306,12 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $postData = $dataLoader->create();
         $postData['orderInSequence']  = count($childrenBeforeAddition) + 1;
-        $newBlock = $this->postOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlocks', $postData);
+        $newBlock = $this->postOne(
+            'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlock',
+            'curriculumInventorySequenceBlocks',
+            $postData
+        );
 
         $childrenAfterAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
@@ -351,7 +361,12 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
 
         $postData = $dataLoader->create();
         $postData['orderInSequence']  = 2;
-        $newBlock = $this->postOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlocks', $postData);
+        $newBlock = $this->postOne(
+            'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlock',
+            'curriculumInventorySequenceBlocks',
+            $postData
+        );
 
         $childrenAfterAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',

@@ -27,7 +27,7 @@ class CurriculumInventoryReportController extends NonDtoApiController
         $manager = $this->getManager($object);
         $class = $manager->getClass() . '[]';
 
-        $json = $this->extractJsonFromRequest($request, $this->getPluralResponseKey($object));
+        $json = $this->extractJsonFromRequest($request, $object, 'POST');
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
         $this->validateAndAuthorizeEntities($entities, 'create');

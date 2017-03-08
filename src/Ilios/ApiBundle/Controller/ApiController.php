@@ -79,7 +79,7 @@ class ApiController extends Controller implements ApiControllerInterface
         $manager = $this->getManager($object);
         $class = $manager->getClass() . '[]';
 
-        $json = $this->extractJsonFromRequest($request, $this->getPluralResponseKey($object));
+        $json = $this->extractJsonFromRequest($request, $object, 'POST');
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
         $this->validateAndAuthorizeEntities($entities, 'create');
@@ -116,7 +116,7 @@ class ApiController extends Controller implements ApiControllerInterface
             $code = Response::HTTP_CREATED;
             $permission = 'create';
         }
-        $json = $this->extractJsonFromRequest($request, $this->getSingularResponseKey($object));
+        $json = $this->extractJsonFromRequest($request, $object, 'PUT');
         $serializer = $this->getSerializer();
         $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         $this->validateAndAuthorizeEntities([$entity], $permission);
@@ -192,21 +192,94 @@ class ApiController extends Controller implements ApiControllerInterface
     }
 
     /**
-     * Take the request object and pull out the input data we need
+     * Take the request object and pull out the input data we need for a POST request
+     * which can be either an object under a singular key or an array of objects
+     * under a plural key
      *
      * @param Request $request
-     * @param string $key of the object we are extracting from the request
+     * @param string $object we are extracting from the request
      *
-     * @throws BadRequestHttpException when the key does not exist
-     * @return Object|Object[]
+     * @throws BadRequestHttpException when the key does not exist or match the data
+     * @return Object[]
      */
-    protected function extractDataFromRequest(Request $request, $key)
+    protected function extractPostDataFromRequest(Request $request, $object)
     {
         $data = false;
         $str = $request->getContent();
         $obj = json_decode($str);
+
+        $singularResponseKey = $this->getSingularResponseKey($object);
+        $pluralResponseKey = $this->getPluralResponseKey($object);
+        if (property_exists($obj, $singularResponseKey)) {
+            $data = $obj->$singularResponseKey;
+
+            if (is_array($data)) {
+                throw new BadRequestHttpException(
+                    sprintf(
+                        "Data under the singular key %s should be an object not an array.",
+                        $singularResponseKey
+                    )
+                );
+            }
+            $data = [$data];
+        }
+
+        if (!$data) {
+            if (property_exists($obj, $pluralResponseKey)) {
+                $data = $obj->$pluralResponseKey;
+
+                if (!is_array($data)) {
+                    throw new BadRequestHttpException(
+                        sprintf(
+                            "Data under the plural key %s should be an array not an object.",
+                            $singularResponseKey
+                        )
+                    );
+                }
+            }
+        }
+
+        if (!$data) {
+            throw new BadRequestHttpException(
+                sprintf(
+                    "This request contained no usable data.  Expected to find it under %s or %s",
+                    $pluralResponseKey,
+                    $singularResponseKey
+                )
+            );
+        }
+
+        return $data;
+    }
+
+    /**
+     * Take the request object and pull out the input data we need for a PUT request
+     * which can only be a single object under a singular key
+     *
+     * @param Request $request
+     * @param string $object we are extracting from the request
+     *
+     * @throws BadRequestHttpException when the key does not exist or match the data
+     * @return Object
+     */
+    protected function extractPutDataFromRequest(Request $request, $object)
+    {
+        $data = false;
+        $str = $request->getContent();
+        $obj = json_decode($str);
+
+        $key = $this->getSingularResponseKey($object);
         if (property_exists($obj, $key)) {
             $data = $obj->$key;
+
+            if (is_array($data)) {
+                throw new BadRequestHttpException(
+                    sprintf(
+                        "Data was found in %s but it should be an object not an array.",
+                        $key
+                    )
+                );
+            }
         }
 
         if (!$data) {
@@ -222,16 +295,28 @@ class ApiController extends Controller implements ApiControllerInterface
     }
 
     /**
-     * Get the JSON we need from our Request by extracting the key
+     * Get the JSON we need from our POST Request
      *
      * @param Request $request
-     * @param string $key of the object we are extracting from the request
+     * @param string $object we are extracting from the request
+     * @param string $type or request POST or PUT
      *
+     * @throws \Exception when invalid $type is sent
      * @return string JSON
      */
-    protected function extractJsonFromRequest(Request $request, $key)
+    protected function extractJsonFromRequest(Request $request, $object, $type)
     {
-        $data = $this->extractDataFromRequest($request, $key);
+        $uType = strtoupper($type);
+        if (!in_array($uType, ['POST', 'PUT'])) {
+            throw new \Exception("Invalid input type must be either POST or PUT you sent ${type}");
+        }
+        $data = null;
+        if ('POST' === $uType) {
+            $data = $this->extractPostDataFromRequest($request, $object);
+        }
+        if ('PUT' === $uType) {
+            $data = $this->extractPutDataFromRequest($request, $object);
+        }
 
         return json_encode($data);
     }

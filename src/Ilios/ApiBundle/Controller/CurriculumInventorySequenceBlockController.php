@@ -24,7 +24,7 @@ class CurriculumInventorySequenceBlockController extends NonDtoApiController
         $manager = $this->getManager($object);
         $class = $manager->getClass() . '[]';
 
-        $json = $this->extractJsonFromRequest($request, $this->getPluralResponseKey($object));
+        $json = $this->extractJsonFromRequest($request, $object, 'POST');
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
         $this->validateAndAuthorizeEntities($entities, 'create');
@@ -65,7 +65,7 @@ class CurriculumInventorySequenceBlockController extends NonDtoApiController
         $oldChildSequenceOrder = $entity->getChildSequenceOrder();
         $oldOrderInSequence = $entity->getOrderInSequence();
 
-        $json = $this->extractJsonFromRequest($request, $this->getSingularResponseKey($object));
+        $json = $this->extractJsonFromRequest($request, $object, 'PUT');
         $serializer = $this->getSerializer();
         $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         $this->validateAndAuthorizeEntities([$entity], $permission);

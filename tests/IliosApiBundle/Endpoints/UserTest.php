@@ -240,7 +240,7 @@ class UserTest extends AbstractEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['root'] = true;
-        $rootUser = $this->postOne('users', 'users', $data);
+        $rootUser = $this->postOne('users', 'user', 'users', $data);
         $this->assertTrue($rootUser['root']);
         $rootUserToken = $this->getTokenForUser($rootUser['id']);
 
@@ -420,7 +420,7 @@ class UserTest extends AbstractEndpointTest
         $data = $dataLoader->create();
         unset($data['icsFeedKey']);
 
-        $response = $this->postOne('users', 'users', $data);
+        $response = $this->postOne('users', 'user', 'users', $data);
         $this->assertEquals(64, strlen($response['icsFeedKey']), 'Not ICS feed key for user');
     }
 
@@ -430,7 +430,7 @@ class UserTest extends AbstractEndpointTest
         $data = $dataLoader->create();
         $data['icsFeedKey'] = null;
 
-        $response = $this->postOne('users', 'users', $data);
+        $response = $this->postOne('users', 'user', 'users', $data);
         $this->assertEquals(64, strlen($response['icsFeedKey']), 'Not ICS feed key for user');
     }
 
