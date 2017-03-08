@@ -255,7 +255,7 @@ class UserTest extends AbstractEndpointTest
                 'version' => 'v1',
                 'object' => 'users'
             ]),
-            json_encode(['user' => $data]),
+            json_encode(['users' => [$data]]),
             $rootUserToken
         );
 
