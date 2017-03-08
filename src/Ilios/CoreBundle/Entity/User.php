@@ -1358,7 +1358,10 @@ class User implements UserInterface
     public function setAuthentication(AuthenticationInterface $authentication = null)
     {
         $this->authentication = $authentication;
-        $authentication->setUser($this);
+
+        if ($authentication) {
+            $authentication->setUser($this);
+        }
     }
 
     /**

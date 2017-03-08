@@ -433,4 +433,15 @@ class UserTest extends AbstractEndpointTest
         $response = $this->postOne('users', 'users', $data);
         $this->assertEquals(64, strlen($response['icsFeedKey']), 'Not ICS feed key for user');
     }
+
+    public function testPostUserWithNullAuthentication()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        unset($data['authentication']);
+        $postData = $data;
+        $postData['authentication'] = null;
+
+        $this->postTest($data, $postData);
+    }
 }
