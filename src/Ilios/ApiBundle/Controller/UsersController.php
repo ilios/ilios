@@ -55,9 +55,9 @@ class UsersController extends ApiController
         $manager = $this->getManager($object);
         $class = $manager->getClass() . '[]';
 
-        $data = $this->extractDataFromRequest($request, $object, $singleItem = false, $returnArray = true);
+        $data = $this->extractDataFromRequest($request, $this->getPluralResponseKey($object));
         $dataWithoutEmptyIcsFeed = array_map(function ($obj) {
-            if (property_exists($obj, 'icsFeedKey')) {
+            if (is_object($obj) && property_exists($obj, 'icsFeedKey')) {
                 if (empty($obj->icsFeedKey)) {
                     unset($obj->icsFeedKey);
                 }
@@ -92,11 +92,11 @@ class UsersController extends ApiController
             $permission = 'create';
         }
 
-        $obj = $this->extractDataFromRequest($request, $object, $singleItem = true, $returnObject = true);
+        $obj = $this->extractDataFromRequest($request, $this->getSingularResponseKey($object));
         /*
-            Only a root user can make other users root.
-            This has to be done here because by the time it reaches the voter the
-            current user object in the session has been modified
+          Only a root user can make other users root.
+          This has to be done here because by the time it reaches the voter the
+          current user object in the session has been modified
         */
         $currentUser = $this->get('security.token_storage')->getToken()->getUser();
         if ($obj->root &&

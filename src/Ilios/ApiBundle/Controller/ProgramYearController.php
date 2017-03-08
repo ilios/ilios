@@ -24,7 +24,7 @@ class ProgramYearController extends ApiController
         $manager = $this->getManager($object);
         $class = $manager->getClass() . '[]';
 
-        $json = $this->extractDataFromRequest($request, $object);
+        $json = $this->extractJsonFromRequest($request, $this->getPluralResponseKey($object));
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
         $this->validateAndAuthorizeEntities($entities, 'create');
@@ -48,7 +48,7 @@ class ProgramYearController extends ApiController
         $manager = $this->getManager($object);
         /** @var ProgramYearInterface $entity */
         $entity = $manager->findOneBy(['id'=> $id]);
-        $data = $this->extractDataFromRequest($request, $object, $singleItem = true, $returnData = true);
+        $data = $this->extractDataFromRequest($request, $this->getSingularResponseKey($object));
 
         if ($entity) {
             $code = Response::HTTP_OK;

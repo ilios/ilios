@@ -33,7 +33,7 @@ class CurriculumInventoryExportController extends NonDtoApiController
         $manager = $this->getManager($object);
         $class = $manager->getClass() . '[]';
 
-        $json = $this->extractDataFromRequest($request, $object);
+        $json = $this->extractJsonFromRequest($request, $this->getPluralResponseKey($object));
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
 

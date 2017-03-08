@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\Serializer;
@@ -78,7 +79,7 @@ class ApiController extends Controller implements ApiControllerInterface
         $manager = $this->getManager($object);
         $class = $manager->getClass() . '[]';
 
-        $json = $this->extractDataFromRequest($request, $object);
+        $json = $this->extractJsonFromRequest($request, $this->getPluralResponseKey($object));
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
         $this->validateAndAuthorizeEntities($entities, 'create');
@@ -115,8 +116,7 @@ class ApiController extends Controller implements ApiControllerInterface
             $code = Response::HTTP_CREATED;
             $permission = 'create';
         }
-
-        $json = $this->extractDataFromRequest($request, $object, $singleItem = true);
+        $json = $this->extractJsonFromRequest($request, $this->getSingularResponseKey($object));
         $serializer = $this->getSerializer();
         $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         $this->validateAndAuthorizeEntities([$entity], $permission);
@@ -195,36 +195,45 @@ class ApiController extends Controller implements ApiControllerInterface
      * Take the request object and pull out the input data we need
      *
      * @param Request $request
-     * @param $object string the name of the object we are extracting from the request
-     * @param bool $singleItem forces items out of an array and into single items
-     * @param bool $returnArray should we leave the data as an array (for further upstream processing)
+     * @param string $key of the object we are extracting from the request
      *
-     * @return mixed depends on $singleItem and $returnArray
+     * @throws BadRequestHttpException when the key does not exist
+     * @return Object|Object[]
      */
-    protected function extractDataFromRequest(Request $request, $object, $singleItem = false, $returnArray = false)
+    protected function extractDataFromRequest(Request $request, $key)
     {
         $data = false;
-        $singularResponseKey = $this->getSingularResponseKey($object);
-        $pluralResponseKey = $this->getPluralResponseKey($object);
         $str = $request->getContent();
         $obj = json_decode($str);
-        if (property_exists($obj, $singularResponseKey)) {
-            $data = [$obj->$singularResponseKey];
-        }
-        if (!$data) {
-            if (property_exists($obj, $pluralResponseKey)) {
-                $data = $obj->$pluralResponseKey;
-            }
-        }
-        if (!$data) {
-            $data = [$obj];
+        if (property_exists($obj, $key)) {
+            $data = $obj->$key;
         }
 
-        if ($singleItem) {
-            $data = array_shift($data);
+        if (!$data) {
+            throw new BadRequestHttpException(
+                sprintf(
+                    "This request contained no usable data.  Expected to find it under %s",
+                    $key
+                )
+            );
         }
 
-        return $returnArray?$data:json_encode($data);
+        return $data;
+    }
+
+    /**
+     * Get the JSON we need from our Request by extracting the key
+     *
+     * @param Request $request
+     * @param string $key of the object we are extracting from the request
+     *
+     * @return string JSON
+     */
+    protected function extractJsonFromRequest(Request $request, $key)
+    {
+        $data = $this->extractDataFromRequest($request, $key);
+
+        return json_encode($data);
     }
 
     /**

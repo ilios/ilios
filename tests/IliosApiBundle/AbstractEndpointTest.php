@@ -405,7 +405,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->assertEquals(
             Response::HTTP_BAD_REQUEST,
             $response->getStatusCode(),
-            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 200)
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 400)
         );
     }
 

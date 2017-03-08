@@ -45,8 +45,7 @@ class AuthenticationController extends ApiController
         $manager = $this->getManager($object);
         $class = $manager->getClass() . '[]';
 
-        $json = $this->extractDataFromRequest($request, $object);
-        $arr = json_decode($json);
+        $arr = $this->extractDataFromRequest($request, $this->getPluralResponseKey($object));
 
         $userManager = $this->container->get('ilioscore.user.manager');
         $needingHashedPassword = array_filter($arr, function ($obj) {
@@ -120,7 +119,7 @@ class AuthenticationController extends ApiController
             $permission = 'create';
         }
 
-        $authObject = $this->extractDataFromRequest($request, $object, $singleItem = true, $returnArray = true);
+        $authObject = $this->extractDataFromRequest($request, $this->getSingularResponseKey($object));
         $userManager = $this->container->get('ilioscore.user.manager');
         $encoder = $this->container->get('security.password_encoder');
 

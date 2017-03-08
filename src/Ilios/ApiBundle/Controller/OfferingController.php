@@ -27,7 +27,7 @@ class OfferingController extends NonDtoApiController
         $manager = $this->getManager($object);
         $class = $manager->getClass() . '[]';
 
-        $json = $this->extractDataFromRequest($request, $object);
+        $json = $this->extractJsonFromRequest($request, $this->getPluralResponseKey($object));
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
         $this->validateAndAuthorizeEntities($entities, 'create');
@@ -71,7 +71,7 @@ class OfferingController extends NonDtoApiController
         // capture the values of offering properties pre-update
         $alertProperties = $entity->getAlertProperties();
 
-        $json = $this->extractDataFromRequest($request, $object, $singleItem = true);
+        $json = $this->extractJsonFromRequest($request, $this->getSingularResponseKey($object));
         $serializer = $this->getSerializer();
         $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
         $this->validateAndAuthorizeEntities([$entity], $permission);
