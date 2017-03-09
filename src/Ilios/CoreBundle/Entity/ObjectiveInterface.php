@@ -22,7 +22,8 @@ interface ObjectiveInterface extends
     SessionsEntityInterface,
     ProgramYearsEntityInterface,
     LoggableEntityInterface,
-    MeshDescriptorsEntityInterface
+    MeshDescriptorsEntityInterface,
+    SortableEntityInterface
 {
     /**
      * @param CompetencyInterface $competency

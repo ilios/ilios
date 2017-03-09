@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
+use Ilios\CoreBundle\Traits\SortableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
@@ -34,6 +35,8 @@ class Objective implements ObjectiveInterface
     use ProgramYearsEntity;
     use StringableIdEntity;
     use MeshDescriptorsEntity;
+    use SortableEntity;
+
 
     /**
      * @var int
@@ -175,6 +178,19 @@ class Objective implements ObjectiveInterface
      * @IS\Type("entityCollection")
      */
     protected $descendants;
+
+    /**
+     * @var int
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     *
+     * @ORM\Column(name="position", type="integer")
+     *
+     * @IS\Expose
+     * @IS\Type("integer")
+     */
+    protected $position;
 
     /**
      * Constructor
