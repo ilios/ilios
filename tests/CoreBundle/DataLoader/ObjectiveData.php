@@ -11,6 +11,7 @@ class ObjectiveData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => $this->faker->text,
+            'position' => 0,
             'competency' => '3',
             'courses' => [],
             'programYears' => ['1'],
@@ -24,6 +25,7 @@ class ObjectiveData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'title' => 'second objective',
+            'position' => 0,
             'courses' => ['1', '2', '4'],
             'programYears' => ['1'],
             'sessions' => ['1'],
@@ -36,6 +38,7 @@ class ObjectiveData extends AbstractDataLoader
         $arr[] = array(
             'id' => 3,
             'title' => $this->faker->text,
+            'position' => 0,
             'courses' => [],
             'programYears' => [],
             'sessions' => ['1'],
@@ -49,6 +52,7 @@ class ObjectiveData extends AbstractDataLoader
         $arr[] = array(
             'id' => 4,
             'title' => $this->faker->text,
+            'position' => 0,
             'courses' => ["2"],
             'programYears' => [],
             'sessions' => [],
@@ -61,6 +65,7 @@ class ObjectiveData extends AbstractDataLoader
         $arr[] = array(
             'id' => 5,
             'title' => $this->faker->text,
+            'position' => 0,
             'courses' => ["3"],
             'programYears' => [],
             'sessions' => [],
@@ -73,6 +78,7 @@ class ObjectiveData extends AbstractDataLoader
         $arr[] = array(
             'id' => 6,
             'title' => $this->faker->text,
+            'position' => 0,
             'courses' => [],
             'programYears' => [],
             'sessions' => ["4"],
@@ -85,6 +91,7 @@ class ObjectiveData extends AbstractDataLoader
         $arr[] = array(
             'id' => 7,
             'title' => $this->faker->text,
+            'position' => 0,
             'courses' => [],
             'programYears' => [],
             'sessions' => ["4"],
@@ -103,6 +110,7 @@ class ObjectiveData extends AbstractDataLoader
         return array(
             'id' => 8,
             'title' => $this->faker->text,
+            'position' => 0,
             'competency' => "1",
             'courses' => ['1'],
             'programYears' => ['2'],
