@@ -92,6 +92,9 @@ class School implements SchoolInterface
      *      min = 1,
      *      max = 8
      * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $templatePrefix;
 

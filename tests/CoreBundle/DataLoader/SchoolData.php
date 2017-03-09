@@ -11,6 +11,7 @@ class SchoolData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => '1' . $this->faker->text(59),
+            'templatePrefix' => $this->faker->text(8),
             'iliosAdministratorEmail' => $this->faker->email,
             'changeAlertRecipients' => $this->faker->email,
             'competencies' => ['1', '2', '3'],
@@ -30,6 +31,7 @@ class SchoolData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'title' => '2' . $this->faker->word,
+            'templatePrefix' => $this->faker->text(8),
             'iliosAdministratorEmail' => 'info@example.com',
             'changeAlertRecipients' => $this->faker->email,
             'competencies' => [],
@@ -73,6 +75,7 @@ class SchoolData extends AbstractDataLoader
         return array(
             'id' => 4,
             'title' => '4' . $this->faker->word,
+            'templatePrefix' => $this->faker->text(8),
             'iliosAdministratorEmail' => $this->faker->email,
             'changeAlertRecipients' => $this->faker->email,
             'competencies' => [],
@@ -106,6 +109,7 @@ class SchoolData extends AbstractDataLoader
             $arr = $this->create();
             $arr['id'] = $arr['id'] + $i;
             $arr['title'] = $arr['id'] . $this->faker->word;
+            unset($arr['templatePrefix']);
             $data[] = $arr;
         }
 

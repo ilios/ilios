@@ -32,6 +32,13 @@ class SchoolDTO
      * @IS\Expose
      * @IS\Type("string")
      */
+    public $templatePrefix;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
     public $iliosAdministratorEmail;
 
     /**
@@ -129,11 +136,13 @@ class SchoolDTO
     public function __construct(
         $id,
         $title,
+        $templatePrefix,
         $iliosAdministratorEmail,
         $changeAlertRecipients
     ) {
         $this->id = $id;
         $this->title = $title;
+        $this->templatePrefix = $templatePrefix;
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
         $this->changeAlertRecipients = $changeAlertRecipients;
 
