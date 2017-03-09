@@ -197,6 +197,7 @@ class Objective implements ObjectiveInterface
      */
     public function __construct()
     {
+        $this->position = 0;
         $this->courses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->sessions = new ArrayCollection();
