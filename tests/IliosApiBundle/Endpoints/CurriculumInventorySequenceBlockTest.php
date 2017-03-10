@@ -548,11 +548,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-        $this->assertEquals(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            $response->getStatusCode(),
-            'Fails on lower boundary: '
-        );
+        //Fails on lower boundary
+        $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
         $block['orderInSequence'] = count($parent['children']) + 2; // out of bounds on upper boundary
 
         $this->createJsonRequest(
@@ -562,11 +559,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-        $this->assertEquals(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            $response->getStatusCode(),
-            'Fails on upper boundary.'
-        );
+        //Fails on upper boundary
+        $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
 
         $block['orderInSequence'] = count($parent['children']) + 1; // ok
         $this->postTest($block, $block);
@@ -605,11 +599,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-        $this->assertEquals(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            $response->getStatusCode(),
-            'Fails on lower boundary.'
-        );
+        //Fails on lower boundary
+        $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
         $block['orderInSequence'] = count($parent['children']) + 2; // out of bounds on upper boundary
 
         $this->createJsonRequest(
@@ -623,11 +614,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractEndpointTest
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-        $this->assertEquals(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            $response->getStatusCode(),
-            'Fails on upper boundary.'
-        );
+        //Fails on upper boundary
+        $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
 
         $block['orderInSequence'] = count($parent['children']) + 1; // ok
         $this->putTest($block, $block, $blockId, $new = true);

@@ -74,3 +74,6 @@ services:
     ilioscore.entitymetadata:
         class: Ilios\CoreBundle\Service\EntityMetadata
         arguments: [ "@ilioscore.cache", "@kernel" ]
+    ilioscore.exception_controller:
+            class: Ilios\CoreBundle\Controller\ExceptionController
+            arguments: ['@twig', '%kernel.environment%']

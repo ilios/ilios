@@ -33,7 +33,7 @@ trait JsonControllerTest
                     'Content-Type',
                     'application/json'
                 ),
-                $response->headers
+                "Content-type is not application/json headers: [\n" . $response->headers . ']'
             );
 
             $decode = json_decode($response->getContent());

@@ -145,11 +145,7 @@ class LearningMaterialTest extends AbstractEndpointTest
 
                 $response = $this->client->getResponse();
 
-                $this->assertEquals(
-                    Response::HTTP_OK,
-                    $response->getStatusCode(),
-                    substr($response->getContent(), 0, 400)
-                );
+                $this->assertJsonResponse($response, Response::HTTP_OK, false);
             }
         }
     }
@@ -236,11 +232,7 @@ class LearningMaterialTest extends AbstractEndpointTest
         $response = $this->client->getResponse();
 
 
-        $this->assertEquals(
-            Response::HTTP_OK,
-            $response->getStatusCode(),
-            'Unable to load file, got: ' . substr($response->getContent(), 0, 400)
-        );
+        $this->assertJsonResponse($response, Response::HTTP_OK, false);
     }
 
     public function testPostBadLearningMaterialCitation()

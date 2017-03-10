@@ -140,7 +140,7 @@ class ObjectiveTest extends AbstractEndpointTest
 
         $response = $this->client->getResponse();
 
-        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
+        $this->assertJsonResponse($response, Response::HTTP_CREATED);
         $this->assertEquals(
             json_decode($response->getContent(), true)['objectives'][0]['title'],
             $output,
@@ -189,10 +189,6 @@ class ObjectiveTest extends AbstractEndpointTest
         );
 
         $response = $this->client->getResponse();
-        $this->assertEquals(
-            Response::HTTP_BAD_REQUEST,
-            $response->getStatusCode(),
-            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 400)
-        );
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 }

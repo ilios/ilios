@@ -404,11 +404,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         $response = $this->client->getResponse();
 
-        $this->assertEquals(
-            Response::HTTP_BAD_REQUEST,
-            $response->getStatusCode(),
-            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 400)
-        );
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -523,11 +519,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $response = $this->client->getResponse();
 
 
-        $this->assertEquals(
-            Response::HTTP_NO_CONTENT,
-            $response->getStatusCode(),
-            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 200)
-        );
+        $this->assertJsonResponse($response, Response::HTTP_NO_CONTENT, false);
 
         return $response;
     }
@@ -552,11 +544,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         $response = $this->client->getResponse();
 
-        $this->assertEquals(
-            Response::HTTP_NOT_FOUND,
-            $response->getStatusCode(),
-            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 200)
-        );
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -642,11 +630,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         $response = $this->client->getResponse();
 
-        $this->assertEquals(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            $response->getStatusCode(),
-            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 200)
-        );
+        $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**

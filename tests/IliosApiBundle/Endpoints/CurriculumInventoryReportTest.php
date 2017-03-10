@@ -391,11 +391,7 @@ class CurriculumInventoryReportTest extends AbstractEndpointTest
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-        $this->assertEquals(
-            Response::HTTP_NOT_FOUND,
-            $response->getStatusCode(),
-            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 1000)
-        );
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     public function testRolloverCurriculumInventoryReportWithOverrides()

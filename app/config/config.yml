@@ -34,6 +34,7 @@ twig:
     strict_variables: "%kernel.debug%"
     paths:
         "%kernel.root_dir%/../custom/email_templates": custom_email_templates
+    exception_controller:  ilioscore.exception_controller:showAction
 
 # Doctrine Configuration
 doctrine:

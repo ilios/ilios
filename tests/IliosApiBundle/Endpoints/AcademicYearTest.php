@@ -137,7 +137,7 @@ class AcademicYearTest extends AbstractEndpointTest
 
         $response = $this->client->getResponse();
 
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     protected function getYears()

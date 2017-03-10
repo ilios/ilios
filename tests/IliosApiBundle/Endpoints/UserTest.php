@@ -261,7 +261,7 @@ class UserTest extends AbstractEndpointTest
 
         // 3.
         $response = $this->client->getResponse();
-        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+        $this->assertJsonResponse($response, Response::HTTP_CREATED);
     }
 
     public function testRejectUnprivilegedChangeUserToRoot()

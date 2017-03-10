@@ -84,7 +84,7 @@ class CohortTest extends AbstractEndpointTest
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-        $this->assertEquals(Response::HTTP_GONE, $response->getStatusCode(), $response->getContent());
+        $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
     public function testCreateWithPut()
@@ -102,7 +102,7 @@ class CohortTest extends AbstractEndpointTest
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-        $this->assertEquals(Response::HTTP_GONE, $response->getStatusCode(), $response->getContent());
+        $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
     public function testDelete()
@@ -116,7 +116,7 @@ class CohortTest extends AbstractEndpointTest
             $this->getAuthenticatedUserToken()
         );
         $response = $this->client->getResponse();
-        $this->assertEquals(Response::HTTP_GONE, $response->getStatusCode(), $response->getContent());
+        $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
     /**

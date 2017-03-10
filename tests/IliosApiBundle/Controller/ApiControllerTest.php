@@ -3,6 +3,7 @@
 namespace Tests\CoreBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
 
 class ApiControllerTest extends WebTestCase
@@ -27,11 +28,7 @@ class ApiControllerTest extends WebTestCase
             $this->getTokenForUser(1)
         );
         $response = $client->getResponse();
-        $this->assertEquals(
-            404,
-            $response->getStatusCode(),
-            substr($response->getContent(), 0, 400)
-        );
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     public function testNoVersion()
@@ -45,11 +42,7 @@ class ApiControllerTest extends WebTestCase
             $this->getTokenForUser(1)
         );
         $response = $client->getResponse();
-        $this->assertEquals(
-            404,
-            $response->getStatusCode(),
-            substr($response->getContent(), 0, 400)
-        );
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
     public function testBadVersion()
@@ -63,10 +56,6 @@ class ApiControllerTest extends WebTestCase
             $this->getTokenForUser(1)
         );
         $response = $client->getResponse();
-        $this->assertEquals(
-            404,
-            $response->getStatusCode(),
-            substr($response->getContent(), 0, 400)
-        );
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 }

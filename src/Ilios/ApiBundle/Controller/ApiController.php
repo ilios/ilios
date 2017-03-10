@@ -35,7 +35,8 @@ class ApiController extends Controller implements ApiControllerInterface
         $dto = $manager->findDTOBy(['id' => $id]);
 
         if (! $dto) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
+            $name = ucfirst($this->getSingularResponseKey($object));
+            throw new NotFoundHttpException(sprintf("%s with id '%s' was not found.", $name, $id));
         }
 
         return $this->resultsToResponse([$dto], $this->getPluralResponseKey($object), Response::HTTP_OK);
