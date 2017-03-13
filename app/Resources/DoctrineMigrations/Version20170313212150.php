@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Add attendanceRequired to Session
  */
-class Version20170209212150 extends AbstractMigration
+class Version20170313212150 extends AbstractMigration
 {
     /**
      * @param Schema $schema
