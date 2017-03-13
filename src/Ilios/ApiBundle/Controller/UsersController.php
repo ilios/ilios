@@ -27,7 +27,7 @@ class UsersController extends ApiController
         /** @var UserManager $manager */
         $manager = $this->getManager($object);
 
-        if (null !== $q) {
+        if (null !== $q && '' !== $q) {
             $result = $manager->findUsersByQ(
                 $q,
                 $parameters['orderBy'],

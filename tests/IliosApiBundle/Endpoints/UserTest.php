@@ -165,6 +165,7 @@ class UserTest extends AbstractEndpointTest
             ['nobodyxyzmartian', []],
             ['newuser', [1]],
             ['1111@school', [0]],
+            ['', [0, 1, 2, 3, 4]],
         ];
     }
 
