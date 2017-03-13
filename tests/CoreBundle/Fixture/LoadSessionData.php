@@ -32,10 +32,18 @@ class LoadSessionData extends AbstractFixture implements
             $entity = new Session();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            $entity->setAttireRequired($arr['attireRequired']);
-            $entity->setEquipmentRequired($arr['equipmentRequired']);
-            $entity->setSupplemental($arr['supplemental']);
-            $entity->setAttendanceRequired($arr['attendanceRequired']);
+
+            $related = array(
+                'attireRequired' => 'setAttireRequired',
+                'equipmentRequired' => 'setEquipmentRequired',
+                'supplemental' => 'setSupplemental',
+                'attendanceRequired' => 'setAttendanceRequired',
+            );
+            foreach ($related as $key => $method) {
+                if (array_key_exists($key, $arr)) {
+                    $entity->$method($arr[$key]);
+                }
+            }
             $entity->setPublishedAsTbd($arr['publishedAsTbd']);
             $entity->setPublished($arr['published']);
             if (!empty($arr['sessionType'])) {
