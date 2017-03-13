@@ -1,0 +1,56 @@
+ilios_api_currentsession:
+    path:     /{version}/currentsession
+    defaults: { _controller: IliosApiBundle:CurrentSession:get }
+    methods:  [GET]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+
+ilios_api_academicyear_get:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:AcademicYear:get }
+    methods:  [GET]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: 'academicyears'
+        id: '\d+'
+
+ilios_api_getallacademicyears:
+    path:     /{version}/{object}
+    defaults: { _controller: IliosApiBundle:AcademicYear:getAll }
+    methods:  [GET]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: 'academicyears'
+
+ilios_api_academicyear_404:
+    path:     /{version}/{object}/{id}
+    defaults: { _controller: IliosApiBundle:AcademicYear:fourOhFour, id: 0 }
+    methods:  [POST, PUT, DELETE]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        object: 'academicyears'
+        id: '(?i)[a-z0-9\-]+'
+
+ilios_api_schoolevents:
+    path:     /{version}/schoolevents/{id}
+    defaults: { _controller: IliosApiBundle:Schoolevent:get }
+    methods:  [GET]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        id: '\d+'
+
+ilios_api_userevents:
+    path:     /{version}/userevents/{id}
+    defaults: { _controller: IliosApiBundle:Userevent:get }
+    methods:  [GET]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        id: '\d+'
+
+ilios_api_usermaterials:
+    path:     /{version}/usermaterials/{id}
+    defaults: { _controller: IliosApiBundle:Usermaterial:get }
+    methods:  [GET]
+    requirements:
+        version: "%ilios_api_valid_api_versions%"
+        id: '\d+'

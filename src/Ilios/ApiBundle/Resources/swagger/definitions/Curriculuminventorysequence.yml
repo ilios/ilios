@@ -1,0 +1,13 @@
+Curriculuminventorysequence:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  report:
+   description: Report
+   type: string
+  description:
+   description: Description
+   type: string

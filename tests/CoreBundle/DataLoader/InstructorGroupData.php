@@ -20,7 +20,7 @@ class InstructorGroupData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text(10),
+            'title' => 'second instructor group',
             'school' => '1',
             'learnerGroups' => [],
             'ilmSessions' => [],

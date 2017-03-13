@@ -2,13 +2,13 @@
 
 namespace Ilios\CoreBundle\Classes;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class AcademicYear
  * @package Ilios\CoreBundle\Classes
  *
- * @JMS\ExclusionPolicy("all")
+ * @IS\DTO
  */
 
 class AcademicYear
@@ -16,21 +16,21 @@ class AcademicYear
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $id;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
     /**
-     * Set the year and set botht he id and title to it
+     * Set the year and set both the id and title to it
      * @param string $year
      */
     public function __construct($year)

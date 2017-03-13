@@ -11,7 +11,7 @@ class PendingUserUpdateData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'type' => $this->faker->text(15),
-            'property' => $this->faker->text(5),
+            'property' => 'first property',
             'value' => $this->faker->text(25),
             'user' => '1',
         );
@@ -19,9 +19,9 @@ class PendingUserUpdateData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'type' => $this->faker->text(15),
+            'type' => 'second type',
             'property' => $this->faker->text(5),
-            'value' => $this->faker->text(25),
+            'value' => 'second value',
             'user' => '4',
         );
 

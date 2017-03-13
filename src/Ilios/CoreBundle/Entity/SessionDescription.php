@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -18,8 +18,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="session_description")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class SessionDescription implements SessionDescriptionInterface
 {
@@ -37,8 +36,9 @@ class SessionDescription implements SessionDescriptionInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -58,8 +58,8 @@ class SessionDescription implements SessionDescriptionInterface
      *   )
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $session;
 
@@ -74,8 +74,9 @@ class SessionDescription implements SessionDescriptionInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
+     * @IS\RemoveMarkup
      *
     */
     protected $description;

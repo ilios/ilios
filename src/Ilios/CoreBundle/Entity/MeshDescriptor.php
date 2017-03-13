@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\ConceptsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,8 +25,7 @@ use Ilios\CoreBundle\Traits\SessionsEntity;
  * @ORM\Table(name="mesh_descriptor")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class MeshDescriptor implements MeshDescriptorInterface
 {
@@ -52,8 +51,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *      max = 9
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $id;
 
@@ -69,8 +68,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *      max = 192
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $name;
 
@@ -85,28 +84,26 @@ class MeshDescriptor implements MeshDescriptorInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $annotation;
 
     /**
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("createdAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $createdAt;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("updatedAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $updatedAt;
 
@@ -115,8 +112,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\ManyToMany(targetEntity="Course", mappedBy="meshDescriptors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $courses;
 
@@ -125,8 +122,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\ManyToMany(targetEntity="Objective", mappedBy="meshDescriptors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $objectives;
 
@@ -135,8 +132,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\ManyToMany(targetEntity="Session", mappedBy="meshDescriptors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sessions;
 
@@ -145,8 +142,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="descriptors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $concepts;
 
@@ -155,8 +152,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\ManyToMany(targetEntity="MeshQualifier", mappedBy="descriptors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $qualifiers;
 
@@ -165,8 +162,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\OneToMany(targetEntity="MeshTree", mappedBy="descriptor")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $trees;
 
@@ -175,9 +172,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\ManyToMany(targetEntity="SessionLearningMaterial", mappedBy="meshDescriptors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionLearningMaterials")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sessionLearningMaterials;
 
@@ -186,9 +182,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\ManyToMany(targetEntity="CourseLearningMaterial", mappedBy="meshDescriptors")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("courseLearningMaterials")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $courseLearningMaterials;
 
@@ -197,9 +192,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\OneToOne(targetEntity="MeshPreviousIndexing", mappedBy="descriptor")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("previousIndexing")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $previousIndexing;
 

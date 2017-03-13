@@ -3,9 +3,9 @@
 namespace Tests\WebBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
 use Faker\Factory as FakerFactory;
-use FOS\RestBundle\Util\Codes;
 
 class ErrorControllerTest extends WebTestCase
 {
@@ -36,6 +36,6 @@ class ErrorControllerTest extends WebTestCase
         );
 
         $response = $client->getResponse();
-        $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode(), $response->getContent());
+        $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode(), $response->getContent());
     }
 }

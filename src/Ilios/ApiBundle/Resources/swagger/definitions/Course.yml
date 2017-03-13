@@ -1,0 +1,93 @@
+Course:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  level:
+   description: Level
+   type: integer
+  year:
+   description: Year
+   type: integer
+  startDate:
+   description: Startdate
+   type: string
+   format: date-time
+  endDate:
+   description: Enddate
+   type: string
+   format: date-time
+  externalId:
+   description: Externalid
+   type: string
+  locked:
+   description: Locked
+   type: boolean
+  archived:
+   description: Archived
+   type: boolean
+  publishedAsTbd:
+   description: Publishedastbd
+   type: boolean
+  published:
+   description: Published
+   type: boolean
+  clerkshipType:
+   description: Clerkshiptype
+   type: string
+  school:
+   description: School
+   type: string
+  directors:
+   description: Directors
+   type: array
+   items:
+    type: string
+  administrators:
+   description: Administrators
+   type: array
+   items:
+    type: string
+  cohorts:
+   description: Cohorts
+   type: array
+   items:
+    type: string
+  terms:
+   description: Terms
+   type: array
+   items:
+    type: string
+  objectives:
+   description: Objectives
+   type: array
+   items:
+    type: string
+  meshDescriptors:
+   description: Meshdescriptors
+   type: array
+   items:
+    type: string
+  learningMaterials:
+   description: Learningmaterials
+   type: array
+   items:
+    type: string
+  sessions:
+   description: Sessions
+   type: array
+   items:
+    type: string
+  ancestor:
+   description: Ancestor
+   type: string
+  descendants:
+   description: Descendants
+   type: array
+   items:
+    type: string

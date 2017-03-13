@@ -11,21 +11,21 @@ class MeshTermData extends AbstractDataLoader
             'id' => '1',
             'meshTermUid' => 'tuid' . $this->faker->text(5),
             'name' => 'term' . $this->faker->text,
-            'lexicalTag' => 'tag' . $this->faker->text(5),
+            'lexicalTag' => 'first tag',
             'conceptPreferred' => true,
-            'recordPreferred' => true,
+            'recordPreferred' => false,
             'permuted' => true,
-            'printable' => true,
+            'printable' => false,
             'concepts' => ['1']
         );
         $arr[] = array(
             'id' => '2',
-            'meshTermUid' => 'tuid' . $this->faker->text(5),
-            'name' => 'term' . $this->faker->text,
+            'meshTermUid' => 'uid2',
+            'name' => 'second term',
             'lexicalTag' => 'tag' . $this->faker->text(5),
-            'conceptPreferred' => true,
+            'conceptPreferred' => false,
             'recordPreferred' => true,
-            'permuted' => true,
+            'permuted' => false,
             'printable' => true,
             'concepts' => ['1']
         );
@@ -39,8 +39,8 @@ class MeshTermData extends AbstractDataLoader
         return array(
             'id' => '3',
             'meshTermUid' => 'tuid123',
-            'name' => 'term' . $this->faker->word,
-            'lexicalTag' => 'tag' . $this->faker->word(5),
+            'name' => $this->faker->text(192),
+            'lexicalTag' => $this->faker->text(12),
             'conceptPreferred' => true,
             'recordPreferred' => true,
             'permuted' => true,

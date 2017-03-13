@@ -23,7 +23,7 @@ class MeshDescriptorRepository extends EntityRepository
      * @param integer $offset
      * @return MeshDescriptorInterface[]
      */
-    public function findByQ($q, array $orderBy, $limit, $offset)
+    public function findByQ($q, $orderBy, $limit, $offset)
     {
         $qb = $this->_em->createQueryBuilder()
             ->select('DISTINCT d')
@@ -91,6 +91,8 @@ class MeshDescriptorRepository extends EntityRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
+
+        $qb->select('DISTINCT m')->from('IliosCoreBundle:MeshDescriptor', 'm');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 

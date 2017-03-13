@@ -202,4 +202,11 @@ interface LearningMaterialInterface extends
      * @return SchoolInterface|null
      */
     public function getOwningSchool();
+
+    /**
+     * Use the data in the object to determine which validation
+     * groups should be applied
+     * @return array
+     */
+    public function getValidationGroups();
 }

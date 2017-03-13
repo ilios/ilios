@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,8 +20,7 @@ use Ilios\CoreBundle\Traits\StewardedEntity;
  * @ORM\Table(name="department")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Department implements DepartmentInterface
 {
@@ -40,8 +39,9 @@ class Department implements DepartmentInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -56,8 +56,8 @@ class Department implements DepartmentInterface
      *      max = 90
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $title;
 
@@ -70,8 +70,8 @@ class Department implements DepartmentInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $school;
 
@@ -80,8 +80,8 @@ class Department implements DepartmentInterface
      *
      * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="department")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $stewards;
 

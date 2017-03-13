@@ -1,0 +1,89 @@
+Curriculuminventoryreport:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  name:
+   description: Name
+   type: string
+  description:
+   description: Description
+   type: string
+  year:
+   description: Year
+   type: integer
+  startDate:
+   description: Startdate
+   type: string
+   format: date-time
+  endDate:
+   description: Enddate
+   type: string
+   format: date-time
+  export:
+   description: Export
+   type: string
+  sequence:
+   description: Sequence
+   type: string
+  sequenceBlocks:
+   description: Sequenceblocks
+   type: array
+   items:
+    type: string
+  program:
+   description: Program
+   type: string
+  academicLevels:
+   description: Academiclevels
+   type: array
+   items:
+    type: string
+DecoratedCurriculuminventoryreport:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  name:
+   description: Name
+   type: string
+  description:
+   description: Description
+   type: string
+  year:
+   description: Year
+   type: integer
+  startDate:
+   description: Startdate
+   type: string
+   format: date-time
+  endDate:
+   description: Enddate
+   type: string
+   format: date-time
+  export:
+   description: Export
+   type: string
+  sequence:
+   description: Sequence
+   type: string
+  sequenceBlocks:
+   description: Sequenceblocks
+   type: array
+   items:
+    type: string
+  program:
+   description: Program
+   type: string
+  academicLevels:
+   description: Academiclevels
+   type: array
+   items:
+    type: string
+  absoluteFileUri:
+   description: Link to the downloadable report
+   type: string

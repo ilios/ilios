@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\UsersEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Role\RoleInterface;
@@ -22,8 +22,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
  * @ORM\Table(name="user_role")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class UserRole implements UserRoleInterface
 {
@@ -41,8 +40,9 @@ class UserRole implements UserRoleInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -56,8 +56,8 @@ class UserRole implements UserRoleInterface
      *      max = 60
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $title;
 
@@ -66,9 +66,8 @@ class UserRole implements UserRoleInterface
      *
      * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
      *
-     * Don't put users in the UserRoel API it takes too long to load
-     * @JMS\Exclude
-     * @JMS\Type("array<string>")
+     * Don't put users in the UserRole API it takes too long to load
+     * @IS\Type("entityCollection")
      */
     protected $users;
 

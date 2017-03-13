@@ -21,7 +21,7 @@ class TermData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->text(100),
+            'title' => 'second term',
             'description' => $this->faker->text(200),
             'vocabulary' => '1',
             'parent' => '1',
@@ -35,7 +35,7 @@ class TermData extends AbstractDataLoader
         $arr[] = array(
             'id' => 3,
             'title' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
+            'description' => 'third description',
             'vocabulary' => '1',
             'parent' => '1',
             'children' => [],

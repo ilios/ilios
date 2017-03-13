@@ -32,7 +32,7 @@ class CompetencyData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 3,
-            'title' => $this->faker->text,
+            'title' => 'third competency',
             'active' => true,
             'school' => "1",
             'objectives' => ['1'],

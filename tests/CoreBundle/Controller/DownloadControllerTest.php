@@ -2,13 +2,14 @@
 namespace Tests\CoreBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use FOS\RestBundle\Util\Codes;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
  * Download controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
+ * @group other
  */
 class DownloadControllerTest extends WebTestCase
 {
@@ -26,9 +27,6 @@ class DownloadControllerTest extends WebTestCase
     {
     }
 
-    /**
-     * @group controllers_a
-     */
     public function testDownloadLearningMaterial()
     {
         $client = $this->createClient();
@@ -43,15 +41,15 @@ class DownloadControllerTest extends WebTestCase
             $client,
             'GET',
             $this->getUrl(
-                'get_learningmaterials',
-                ['id' => $learningMaterial['id']]
+                'ilios_api_learningmaterial_get',
+                ['version' => 'v1', 'object' => 'learningmaterials', 'id' => $learningMaterial['id']]
             ),
             null,
             $this->getAuthenticatedUserToken()
         );
         $response = $client->getResponse();
 
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $data = json_decode($response->getContent(), true)['learningMaterials'][0];
 
         $client->request(
@@ -61,14 +59,11 @@ class DownloadControllerTest extends WebTestCase
         
         $response = $client->getResponse();
         
-        $this->assertEquals(CODES::HTTP_OK, $response->getStatusCode(), $response->getContent());
+        $this->assertEquals(RESPONSE::HTTP_OK, $response->getStatusCode(), $response->getContent());
         $learningMaterialLoaderPath = realpath(__DIR__ . '/../Fixture/LoadLearningMaterialData.php');
         $this->assertEquals(file_get_contents($learningMaterialLoaderPath), $response->getContent());
     }
 
-    /**
-     * @group controllers_a
-     */
     public function testBadLearningMaterialToken()
     {
         $client = $this->createClient();
@@ -80,7 +75,7 @@ class DownloadControllerTest extends WebTestCase
         
         $response = $client->getResponse();
         $this->assertEquals(
-            CODES::HTTP_NOT_FOUND,
+            RESPONSE::HTTP_NOT_FOUND,
             $response->getStatusCode()
         );
     }

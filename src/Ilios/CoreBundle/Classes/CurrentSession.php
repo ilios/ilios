@@ -2,12 +2,12 @@
 
 namespace Ilios\CoreBundle\Classes;
 
-use Ilios\CoreBundle\Entity\User;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 class CurrentSession
 {
     /**
-     * @var User
+     * @var UserInterface
      */
     protected $user;
 
@@ -15,7 +15,7 @@ class CurrentSession
      * Constructor
      * @param  User $user
      */
-    public function __construct(User $user)
+    public function __construct(UserInterface $user)
     {
         $this->user = $user;
     }
@@ -27,6 +27,6 @@ class CurrentSession
      */
     public function getUserId()
     {
-        return $this->user->getUserId();
+        return $this->user->getId();
     }
 }

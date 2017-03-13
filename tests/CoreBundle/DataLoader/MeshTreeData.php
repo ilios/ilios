@@ -9,12 +9,12 @@ class MeshTreeData extends AbstractDataLoader
         $arr = array();
         $arr[] = array(
             'id' => '1',
-            'treeNumber' => $this->faker->word,
+            'treeNumber' => $this->faker->text(31),
             'descriptor' => 'abc1'
         );
         $arr[] = array(
             'id' => '2',
-            'treeNumber' => $this->faker->word,
+            'treeNumber' => 'tree2',
             'descriptor' => 'abc1'
         );
 

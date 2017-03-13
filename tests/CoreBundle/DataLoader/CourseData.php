@@ -10,7 +10,7 @@ class CourseData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'title' => 'firstCourse' . $this->faker->text(25),
+            'title' => 'firstCourse',
             'level' => 1,
             'year' => 2016,
             'startDate' => "2016-09-04T00:00:00+00:00",
@@ -65,7 +65,7 @@ class CourseData extends AbstractDataLoader
             'year' => 2012,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",
-            'externalId' => $this->faker->text(10),
+            'externalId' => 'course3',
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,
@@ -107,13 +107,37 @@ class CourseData extends AbstractDataLoader
             'descendants' => []
         );
 
+        $arr[] = array(
+            'id' => 5,
+            'title' => $this->faker->text(25),
+            'level' => 3,
+            'year' => 2013,
+            'startDate' => "2017-02-14T00:00:00+00:00",
+            'endDate' => "2017-02-17T00:00:00+00:00",
+            'externalId' => $this->faker->text(10),
+            'locked' => true,
+            'archived' => true,
+            'publishedAsTbd' => true,
+            'published' => true,
+            'school' => "2",
+            'directors' => [],
+            'administrators' => [],
+            'cohorts' => ["3"],
+            'terms' => [],
+            'objectives' => [],
+            'meshDescriptors' => [],
+            'learningMaterials' => [],
+            'sessions' => [],
+            'descendants' => []
+        );
+
         return $arr;
     }
 
     public function create()
     {
         return [
-            'id' => 5,
+            'id' => 6,
             'title' => $this->faker->text(25),
             'level' => 1,
             'year' => 2013,

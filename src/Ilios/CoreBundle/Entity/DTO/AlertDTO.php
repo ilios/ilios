@@ -2,64 +2,70 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class AlertDTO
  * Data transfer object for an alert
  * @package Ilios\CoreBundle\Entity\DTO
+ *
+ * @IS\DTO
  */
 class AlertDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var int
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("tableRowId")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $tableRowId;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("tableName")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $tableName;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("additionalText")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $additionalText;
 
     /**
      * @var int
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $dispatched;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("changeTypes")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $changeTypes;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $instigators;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $recipients;
 

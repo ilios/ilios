@@ -1,0 +1,49 @@
+Offering:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  room:
+   description: Room
+   type: string
+  site:
+   description: Site
+   type: string
+  startDate:
+   description: Startdate
+   type: string
+   format: date-time
+  endDate:
+   description: Enddate
+   type: string
+   format: date-time
+  updatedAt:
+   description: Updatedat
+   type: string
+   format: date-time
+   readOnly: true
+  session:
+   description: Session
+   type: string
+  learnerGroups:
+   description: Learnergroups
+   type: array
+   items:
+    type: string
+  instructorGroups:
+   description: Instructorgroups
+   type: array
+   items:
+    type: string
+  learners:
+   description: Learners
+   type: array
+   items:
+    type: string
+  instructors:
+   description: Instructors
+   type: array
+   items:
+    type: string

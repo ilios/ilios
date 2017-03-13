@@ -2,8 +2,6 @@
 
 namespace Tests\CoreBundle\DataLoader;
 
-use DateTime;
-
 class OfferingData extends AbstractDataLoader
 {
     protected function getData()
@@ -38,7 +36,7 @@ class OfferingData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 3,
-            'room' => $this->faker->text(10),
+            'room' => 'room 3',
             'site' => $this->faker->text(10),
             'startDate' => "2014-10-15T15:00:00+00:00",
             'endDate' => "2014-10-15T17:00:00+00:00",
@@ -52,7 +50,7 @@ class OfferingData extends AbstractDataLoader
         $arr[] = array(
             'id' => 4,
             'room' => $this->faker->text(10),
-            'site' => $this->faker->text(10),
+            'site' => 'site 4',
             'startDate' => "2014-11-15T15:00:00+00:00",
             'endDate' => "2014-11-15T17:00:00+00:00",
             'session' => '2',

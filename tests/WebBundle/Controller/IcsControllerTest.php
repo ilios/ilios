@@ -2,7 +2,7 @@
 namespace Tests\WebBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use FOS\RestBundle\Util\Codes;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ConfigControllerTest
@@ -33,7 +33,7 @@ class IcsControllerTest extends WebTestCase
 
 
         $this->assertEquals(
-            Codes::HTTP_OK,
+            Response::HTTP_OK,
             $response->getStatusCode(),
             "Status Code: {$response->getStatusCode()} is not OK"
         );
@@ -77,7 +77,7 @@ class IcsControllerTest extends WebTestCase
         $content = $response->getContent();
 
         $this->assertEquals(
-            Codes::HTTP_OK,
+            Response::HTTP_OK,
             $response->getStatusCode(),
             "Status Code: {$response->getStatusCode()} is not OK"
         );

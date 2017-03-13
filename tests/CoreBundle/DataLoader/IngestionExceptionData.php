@@ -14,7 +14,7 @@ class IngestionExceptionData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 2,
-            'uid' => $this->faker->text(12),
+            'uid' => 'second exception',
             'user' => '2'
         );
 

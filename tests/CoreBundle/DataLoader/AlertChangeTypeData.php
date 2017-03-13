@@ -18,7 +18,7 @@ class AlertChangeTypeData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_LOCATION,
-            'title' => $this->faker->text(25),
+            'title' => 'second title',
             'alerts' => []
         );
 

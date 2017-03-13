@@ -1,0 +1,24 @@
+/curriculuminventorydownloads/{token}:
+  get:
+    summary: Download a curriculum inventory report
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: token
+      in: path
+      required: true
+      description: download token
+      type: string
+    tags:
+      - Curriculuminventorydownloads
+    responses:
+      200:
+        description: A single Curriculuminventorydownload
+        schema:
+          type: string
+      404:
+        description: Not found

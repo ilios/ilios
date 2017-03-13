@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -17,8 +17,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  * @ORM\Table(name="curriculum_inventory_sequence")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
@@ -35,8 +34,9 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -55,8 +55,8 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      *   )
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $report;
 
@@ -70,8 +70,8 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $description;
 

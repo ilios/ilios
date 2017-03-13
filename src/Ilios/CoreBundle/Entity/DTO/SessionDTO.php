@@ -2,133 +2,140 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class SessionDTO
  * Data transfer object for a session.
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class SessionDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $title;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("attireRequired")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $attireRequired;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("equipmentRequired")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $equipmentRequired;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $supplemental;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publishedAsTbd")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $publishedAsTbd;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $published;
 
     /**
      * @var \DateTime
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("updatedAt")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     public $updatedAt;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("sessionType")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $sessionType;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $course;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("ilmSession")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $ilmSession;
 
-
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $terms;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $objectives;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("meshDescriptors")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $meshDescriptors;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("sessionDescription")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $sessionDescription;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learningMaterials")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $learningMaterials;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $administrators;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $offerings;
 

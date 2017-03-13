@@ -55,9 +55,6 @@ services:
     ilioscore.curriculum_inventory_report_decorator.factory:
             class: Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory
             arguments: [ "@router", Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator ]
-    ilioscore.form.transformer.html_purifier:
-        class: Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer
-        arguments: ["@exercise_html_purifier.default"]
     ilioscore.courserollover:
         class: Ilios\CoreBundle\Classes\CourseRollover
         arguments: ["@ilioscore.course.manager","@ilioscore.learningmaterial.manager","@ilioscore.courselearningmaterial.manager","@ilioscore.session.manager","@ilioscore.sessiondescription.manager","@ilioscore.sessionlearningmaterial.manager","@ilioscore.offering.manager", "@ilioscore.objective.manager", "@ilioscore.ilmsession.manager"]
@@ -74,3 +71,9 @@ services:
             class:     Doctrine\Common\Cache\Cache
             factory: ['Ilios\CoreBundle\Service\CacheFactory', createCache]
             arguments: ["%kernel.environment%"]
+    ilioscore.entitymetadata:
+        class: Ilios\CoreBundle\Service\EntityMetadata
+        arguments: [ "@ilioscore.cache", "@kernel" ]
+    ilioscore.exception_controller:
+            class: Ilios\CoreBundle\Controller\ExceptionController
+            arguments: ['@twig', '%kernel.environment%']

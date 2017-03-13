@@ -18,8 +18,9 @@ class AlertData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 2,
-            'tableRowId' => 1,
+            'tableRowId' => 2,
             'tableName' => 'course',
+            'additionalText' => 'second text',
             'dispatched' => true,
             'changeTypes' => ['1'],
             'instigators' => ['2'],
@@ -28,7 +29,7 @@ class AlertData extends AbstractDataLoader
         $arr[] = array(
             'id' => 3,
             'tableRowId' => 1,
-            'tableName' => 'course',
+            'tableName' => 'session',
             'dispatched' => false,
             'changeTypes' => [],
             'instigators' => [],
@@ -46,8 +47,8 @@ class AlertData extends AbstractDataLoader
             'tableName' => 'course',
             'dispatched' => '1',
             'changeTypes' => ['1'],
-            'instigators' => [],
-            'recipients' => []
+            'instigators' => ['1'],
+            'recipients' => ['1']
         ];
     }
 

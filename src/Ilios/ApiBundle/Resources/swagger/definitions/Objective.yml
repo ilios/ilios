@@ -1,0 +1,51 @@
+Objective:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  competency:
+   description: Competency
+   type: string
+  courses:
+   description: Courses
+   type: array
+   items:
+    type: string
+  programYears:
+   description: Programyears
+   type: array
+   items:
+    type: string
+  sessions:
+   description: Sessions
+   type: array
+   items:
+    type: string
+  parents:
+   description: Parents
+   type: array
+   items:
+    type: string
+  children:
+   description: Children
+   type: array
+   items:
+    type: string
+  meshDescriptors:
+   description: Meshdescriptors
+   type: array
+   items:
+    type: string
+  ancestor:
+   description: Ancestor
+   type: string
+  descendants:
+   description: Descendants
+   type: array
+   items:
+    type: string

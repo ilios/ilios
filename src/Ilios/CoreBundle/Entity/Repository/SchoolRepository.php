@@ -55,6 +55,7 @@ class SchoolRepository extends EntityRepository
             $schoolDTOs[$arr['id']] = new SchoolDTO(
                 $arr['id'],
                 $arr['title'],
+                $arr['templatePrefix'],
                 $arr['iliosAdministratorEmail'],
                 $arr['changeAlertRecipients']
             );

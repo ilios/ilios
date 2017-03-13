@@ -1,0 +1,31 @@
+Curriculuminventoryinstitution:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  name:
+   description: Name
+   type: string
+  aamcCode:
+   description: Aamccode
+   type: string
+  addressStreet:
+   description: Addressstreet
+   type: string
+  addressCity:
+   description: Addresscity
+   type: string
+  addressStateOrProvince:
+   description: Addressstateorprovince
+   type: string
+  addressZipCode:
+   description: Addresszipcode
+   type: string
+  addressCountryCode:
+   description: Addresscountrycode
+   type: string
+  school:
+   description: School
+   type: string

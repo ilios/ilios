@@ -1,0 +1,15 @@
+Alertchangetype:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  alerts:
+   description: Alerts
+   type: array
+   items:
+    type: string

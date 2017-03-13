@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\IlmSessionsEntity;
 use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
 use Ilios\CoreBundle\Traits\UsersEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,8 +24,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @ORM\Table(name="instructor_group")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\InstructorGroupRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class InstructorGroup implements InstructorGroupInterface
 {
@@ -47,8 +46,9 @@ class InstructorGroup implements InstructorGroupInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -63,8 +63,8 @@ class InstructorGroup implements InstructorGroupInterface
      *      max = 60
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $title;
 
@@ -77,8 +77,8 @@ class InstructorGroup implements InstructorGroupInterface
      *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $school;
 
@@ -87,9 +87,8 @@ class InstructorGroup implements InstructorGroupInterface
      *
      * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructorGroups")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learnerGroups")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $learnerGroups;
 
@@ -98,9 +97,8 @@ class InstructorGroup implements InstructorGroupInterface
      *
      * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="instructorGroups")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("ilmSessions")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $ilmSessions;
 
@@ -117,8 +115,8 @@ class InstructorGroup implements InstructorGroupInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $users;
 
@@ -127,8 +125,8 @@ class InstructorGroup implements InstructorGroupInterface
      *
      * @ORM\ManyToMany(targetEntity="Offering", mappedBy="instructorGroups")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $offerings;
 

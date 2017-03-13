@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,8 +20,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * @ORM\Table(name="mesh_qualifier")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class MeshQualifier implements MeshQualifierInterface
 {
@@ -39,8 +38,8 @@ class MeshQualifier implements MeshQualifierInterface
      *
      * @Assert\Type(type="string")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $id;
 
@@ -56,28 +55,26 @@ class MeshQualifier implements MeshQualifierInterface
      *      max = 60
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $name;
 
     /**
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("createdAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $createdAt;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("updatedAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $updatedAt;
 
@@ -94,8 +91,8 @@ class MeshQualifier implements MeshQualifierInterface
     *   }
     * )
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $descriptors;
 

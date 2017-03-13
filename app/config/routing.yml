@@ -3,9 +3,14 @@ IliosAuthenticationBundle:
     prefix:   /auth
     schemes:  ["%forceProtocol%"]
 
-NelmioApiDocBundle:
-    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /api/doc
+al_swagger_ui:
+    resource: "@ALSwaggerUIBundle/Resources/config/routing.yml"
+    prefix: /api/doc
+    schemes:  ["%forceProtocol%"]
+
+IliosApiBundle:
+    resource: "@IliosApiBundle/Resources/config/routing.yml"
+    prefix:   /api
     schemes:  ["%forceProtocol%"]
 
 IliosCoreBundle:

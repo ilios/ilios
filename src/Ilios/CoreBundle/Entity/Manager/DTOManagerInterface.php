@@ -9,7 +9,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
  * Interface ManagerInterface
  * @package Ilios\CoreBundle\Entity\Manager
  */
-interface DTOManagerInterface
+interface DTOManagerInterface extends ManagerInterface
 {
     /**
      * Searches the data store for all objects matching the given criteria.

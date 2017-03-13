@@ -1,0 +1,24 @@
+Curriculuminventoryacademiclevel:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  name:
+   description: Name
+   type: string
+  description:
+   description: Description
+   type: string
+  level:
+   description: Level
+   type: integer
+  report:
+   description: Report
+   type: string
+  sequenceBlocks:
+   description: Sequenceblocks
+   type: array
+   items:
+    type: string

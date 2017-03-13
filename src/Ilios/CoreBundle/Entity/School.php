@@ -12,7 +12,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\InstructorGroupsEntity;
 use Ilios\CoreBundle\Traits\SessionTypesEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,8 +33,7 @@ use Ilios\CoreBundle\Traits\StewardedEntity;
  * )
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\SchoolRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class School implements SchoolInterface
 {
@@ -60,8 +59,9 @@ class School implements SchoolInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -77,8 +77,8 @@ class School implements SchoolInterface
      *      max = 60
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -92,6 +92,9 @@ class School implements SchoolInterface
      *      min = 1,
      *      max = 8
      * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $templatePrefix;
 
@@ -107,9 +110,8 @@ class School implements SchoolInterface
      *      max = 100
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("iliosAdministratorEmail")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $iliosAdministratorEmail;
 
@@ -119,9 +121,8 @@ class School implements SchoolInterface
      *
      * @ORM\Column(name="change_alert_recipients", type="text", nullable=true)
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("changeAlertRecipients")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $changeAlertRecipients;
 
@@ -131,8 +132,7 @@ class School implements SchoolInterface
      * @ORM\ManyToMany(targetEntity="Alert", mappedBy="recipients")
      *
      * Don't put alerts in the school API it takes forever to load them all
-     * @JMS\Exclude
-     * @JMS\Type("array<string>")
+     * @IS\Type("entityCollection")
      */
     protected $alerts;
 
@@ -141,8 +141,8 @@ class School implements SchoolInterface
      *
      * @ORM\OneToMany(targetEntity="Competency", mappedBy="school")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $competencies;
 
@@ -151,8 +151,8 @@ class School implements SchoolInterface
      *
      * @ORM\OneToMany(targetEntity="Course", mappedBy="school")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $courses;
 
@@ -161,8 +161,8 @@ class School implements SchoolInterface
      *
      * @ORM\OneToMany(targetEntity="Program", mappedBy="school")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $programs;
 
@@ -171,8 +171,8 @@ class School implements SchoolInterface
      *
      * @ORM\OneToMany(targetEntity="Department", mappedBy="school")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $departments;
 
@@ -181,8 +181,8 @@ class School implements SchoolInterface
      *
      * @ORM\OneToMany(targetEntity="Vocabulary", mappedBy="school")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $vocabularies;
 
@@ -191,9 +191,8 @@ class School implements SchoolInterface
     *
     * @ORM\OneToMany(targetEntity="InstructorGroup", mappedBy="school")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("instructorGroups")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $instructorGroups;
 
@@ -202,12 +201,8 @@ class School implements SchoolInterface
     *
     * @ORM\OneToOne(targetEntity="CurriculumInventoryInstitution", mappedBy="school")
     *
-    * @JMS\Expose
-    * @JMS\Type("string")
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
-    * @JMS\SerializedName("curriculumInventoryInstitution")
+    * @IS\Expose
+    * @IS\Type("entity")
     */
     protected $curriculumInventoryInstitution;
 
@@ -216,9 +211,8 @@ class School implements SchoolInterface
     *
     * @ORM\OneToMany(targetEntity="SessionType", mappedBy="school")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("sessionTypes")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $sessionTypes;
 
@@ -227,8 +221,8 @@ class School implements SchoolInterface
      *
      * @ORM\OneToMany(targetEntity="ProgramYearSteward", mappedBy="school")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $stewards;
 
@@ -245,8 +239,8 @@ class School implements SchoolInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $directors;
 
@@ -263,8 +257,8 @@ class School implements SchoolInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $administrators;
 
@@ -273,8 +267,8 @@ class School implements SchoolInterface
      *
      * @ORM\OneToMany(targetEntity="SchoolConfig", mappedBy="school")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $configurations;
 

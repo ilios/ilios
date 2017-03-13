@@ -3,10 +3,10 @@
 namespace Tests\AuthenticationBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use FOS\RestBundle\Util\Codes;
 use Firebase\JWT\JWT;
 use DateTime;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
 use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
@@ -38,7 +38,7 @@ class AuthenticationControllerTest extends WebTestCase
 
         $response = $client->getResponse();
 
-        $this->assertJsonResponse($response, Codes::HTTP_BAD_REQUEST);
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
         
         $content = $response->getContent();
         $data = json_decode($content);
@@ -51,14 +51,14 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'legacyuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
@@ -71,15 +71,15 @@ class AuthenticationControllerTest extends WebTestCase
     public function testAuthenticateUser()
     {
         $client = static::createClient();
-    
-        $client->request('POST', '/auth/login', array(
+
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'newuser',
             'password' => 'newuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         
         $content = $response->getContent();
         $data = json_decode($content);
@@ -95,14 +95,14 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'LEGACYUSER',
             'password' => 'legacyuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
@@ -117,14 +117,13 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'NEWUSER',
             'password' => 'newuserpass'
-        ));
-    
+        ]));
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
@@ -139,14 +138,14 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'wronglegacyuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_UNAUTHORIZED);
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
         
         $content = $response->getContent();
         $data = json_decode($content);
@@ -158,14 +157,14 @@ class AuthenticationControllerTest extends WebTestCase
     {
         $client = static::createClient();
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'newuser',
             'password' => 'wrongnewuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
     
-        $this->assertJsonResponse($response, Codes::HTTP_UNAUTHORIZED);
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
         
         $content = $response->getContent();
         $data = json_decode($content);
@@ -188,21 +187,21 @@ class AuthenticationControllerTest extends WebTestCase
         $this->assertEmpty($authentication->getPasswordBcrypt());
     
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'legacyuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
     
-        $client->request('POST', '/auth/login', array(
+        $client->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'legacyuser',
             'password' => 'legacyuserpass'
-        ));
+        ]));
     
         $response = $client->getResponse();
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = $response->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
@@ -231,7 +230,7 @@ class AuthenticationControllerTest extends WebTestCase
             $jwt
         );
         $response = $client->getResponse();
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $response = json_decode($response->getContent(), true);
     
         $this->assertTrue(
@@ -321,21 +320,21 @@ class AuthenticationControllerTest extends WebTestCase
             $jwt
         );
         $response = $client->getResponse();
-        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $client = static::createClient();
         $this->makeJsonRequest(
             $client,
             'GET',
             $this->getUrl(
-                'get_users',
-                ['id' => 1]
+                'ilios_api_get',
+                ['object' => 'users', 'version' => 'v1', 'id' => 1]
             ),
             null,
             $jwt
         );
         $response2 = $client->getResponse();
-        $this->assertEquals(Codes::HTTP_UNAUTHORIZED, $response2->getStatusCode());
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response2->getStatusCode());
         $this->assertRegExp('/Invalid JSON Web Token: Not issued after/', $response2->getContent());
     }
 }

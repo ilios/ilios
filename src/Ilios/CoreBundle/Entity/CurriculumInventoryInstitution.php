@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
@@ -18,8 +18,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @ORM\Table(name="curriculum_inventory_institution")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
@@ -37,8 +36,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -54,8 +54,8 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      max = 100
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $name;
 
@@ -71,9 +71,8 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      max = 10
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("aamcCode")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $aamcCode;
 
@@ -89,9 +88,8 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      max = 10
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("addressStreet")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $addressStreet;
 
@@ -107,9 +105,8 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      max = 100
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("addressCity")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $addressCity;
 
@@ -125,9 +122,8 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      max = 50
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("addressStateOrProvince")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $addressStateOrProvince;
 
@@ -143,9 +139,8 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      max = 10
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("addressZipCode")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $addressZipCode;
 
@@ -162,9 +157,8 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      max = 2
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("addressCountryCode")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $addressCountryCode;
 
@@ -176,8 +170,8 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @ORM\OneToOne(targetEntity="School", inversedBy="curriculumInventoryInstitution")
      * @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", unique=true, nullable=false)
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $school;
 

@@ -1,0 +1,14 @@
+Aamcmethod:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: string
+  description:
+   description: Description
+   type: string
+  sessionTypes:
+   description: Sessiontypes
+   type: array
+   items:
+    type: string

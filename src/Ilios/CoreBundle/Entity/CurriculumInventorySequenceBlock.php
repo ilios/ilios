@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\SessionsEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,8 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="curriculum_inventory_sequence_block")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
@@ -41,8 +40,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -57,8 +57,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $title;
 
@@ -72,8 +72,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $description;
 
@@ -86,8 +86,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @Assert\Type(type="integer")
      *
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $required;
 
@@ -103,9 +103,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\Column(name="child_sequence_order", type="smallint")
      *
-     * @JMS\Expose
-     * @JMS\SerializedName("childSequenceOrder")
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $childSequenceOrder;
 
@@ -117,9 +116,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\Column(name="order_in_sequence", type="integer")
      *
-     * @JMS\Expose
-     * @JMS\SerializedName("orderInSequence")
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $orderInSequence;
 
@@ -131,8 +129,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\Column(name="minimum", type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $minimum;
 
@@ -144,8 +142,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\Column(name="maximum", type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $maximum;
 
@@ -157,8 +155,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      *
      * this field is currently tinyint data type in the db but used like a boolean
      */
@@ -169,9 +167,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\Column(name="start_date", type="date", nullable=true)
      *
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("startDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     protected $startDate;
 
@@ -180,9 +177,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\Column(name="end_date", type="date", nullable=true)
      *
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("endDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     protected $endDate;
 
@@ -194,8 +190,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $duration;
 
@@ -212,9 +208,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *   )
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("academicLevel")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $academicLevel;
 
@@ -226,8 +221,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $course;
 
@@ -243,8 +238,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *   )
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $parent;
 
@@ -253,8 +248,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="parent")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $children;
 
@@ -267,8 +262,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", onDelete="cascade")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $report;
 
@@ -285,8 +280,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sessions;
 

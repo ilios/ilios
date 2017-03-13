@@ -1,0 +1,39 @@
+Competency:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  school:
+   description: School
+   type: string
+  objectives:
+   description: Objectives
+   type: array
+   items:
+    type: string
+  parent:
+   description: Parent
+   type: string
+  children:
+   description: Children
+   type: array
+   items:
+    type: string
+  aamcPcrses:
+   description: Aamcpcrses
+   type: array
+   items:
+    type: string
+  programYears:
+   description: Programyears
+   type: array
+   items:
+    type: string
+  active:
+   description: Active
+   type: boolean

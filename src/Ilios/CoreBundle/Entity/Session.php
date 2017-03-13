@@ -9,11 +9,11 @@ use Ilios\CoreBundle\Traits\MeshDescriptorsEntity;
 use Ilios\CoreBundle\Traits\ObjectivesEntity;
 use Ilios\CoreBundle\Traits\PublishableEntity;
 use Ilios\CoreBundle\Traits\SequenceBlocksEntity;
-use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Ilios\ApiBundle\Annotation as IS;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\TimestampableEntity;
@@ -33,9 +33,8 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  * )
  *
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\SessionRepository")
-
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ *
+ * @IS\Entity
  */
 class Session implements SessionInterface
 {
@@ -60,8 +59,9 @@ class Session implements SessionInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -76,8 +76,8 @@ class Session implements SessionInterface
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -89,9 +89,8 @@ class Session implements SessionInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("attireRequired")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $attireRequired;
 
@@ -103,9 +102,8 @@ class Session implements SessionInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("equipmentRequired")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $equipmentRequired;
 
@@ -117,8 +115,8 @@ class Session implements SessionInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $supplemental;
 
@@ -130,9 +128,8 @@ class Session implements SessionInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publishedAsTbd")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $publishedAsTbd;
 
@@ -144,8 +141,8 @@ class Session implements SessionInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $published;
 
@@ -156,10 +153,9 @@ class Session implements SessionInterface
      *
      * @Assert\NotBlank()
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("updatedAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $updatedAt;
 
@@ -173,9 +169,8 @@ class Session implements SessionInterface
      *   @ORM\JoinColumn(name="session_type_id", referencedColumnName="session_type_id", nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("sessionType")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $sessionType;
 
@@ -189,8 +184,8 @@ class Session implements SessionInterface
      *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", nullable=false, onDelete="CASCADE")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $course;
 
@@ -199,9 +194,8 @@ class Session implements SessionInterface
      *
      * @ORM\OneToOne(targetEntity="IlmSession", mappedBy="session")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("ilmSession")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $ilmSession;
 
@@ -218,8 +212,8 @@ class Session implements SessionInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $terms;
 
@@ -236,8 +230,8 @@ class Session implements SessionInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $objectives;
 
@@ -254,9 +248,8 @@ class Session implements SessionInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("meshDescriptors")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $meshDescriptors;
 
@@ -265,9 +258,8 @@ class Session implements SessionInterface
      *
      * @ORM\OneToOne(targetEntity="SessionDescription", mappedBy="session")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("sessionDescription")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $sessionDescription;
 
@@ -276,9 +268,8 @@ class Session implements SessionInterface
     *
     * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="session")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    * @JMS\SerializedName("learningMaterials")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $learningMaterials;
 
@@ -287,11 +278,8 @@ class Session implements SessionInterface
     *
     * @ORM\OneToMany(targetEntity="Offering", mappedBy="session")
     *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
-    *
-    * @JMS\Expose
-    * @JMS\Type("array<string>")
+    * @IS\Expose
+    * @IS\Type("entityCollection")
     */
     protected $offerings;
 
@@ -316,8 +304,8 @@ class Session implements SessionInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $administrators;
     

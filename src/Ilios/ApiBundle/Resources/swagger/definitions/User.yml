@@ -1,0 +1,149 @@
+User:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  lastName:
+   description: Lastname
+   type: string
+  firstName:
+   description: Firstname
+   type: string
+  middleName:
+   description: Middlename
+   type: string
+  phone:
+   description: Phone
+   type: string
+  email:
+   description: Email
+   type: string
+  enabled:
+   description: Enabled
+   type: boolean
+  campusId:
+   description: Campusid
+   type: string
+  otherId:
+   description: Otherid
+   type: string
+  userSyncIgnore:
+   description: Usersyncignore
+   type: boolean
+  icsFeedKey:
+   description: Icsfeedkey
+   type: string
+  authentication:
+   description: Authentication
+   type: string
+  reminders:
+   description: Reminders
+   type: array
+   items:
+    type: string
+  reports:
+   description: Reports
+   type: array
+   items:
+    type: string
+  school:
+   description: School
+   type: string
+  directedCourses:
+   description: Directedcourses
+   type: array
+   items:
+    type: string
+  administeredCourses:
+   description: Administeredcourses
+   type: array
+   items:
+    type: string
+  administeredSessions:
+   description: Administeredsessions
+   type: array
+   items:
+    type: string
+  learnerGroups:
+   description: Learnergroups
+   type: array
+   items:
+    type: string
+  instructedLearnerGroups:
+   description: Instructedlearnergroups
+   type: array
+   items:
+    type: string
+  instructorGroups:
+   description: Instructorgroups
+   type: array
+   items:
+    type: string
+  instructorIlmSessions:
+   description: Instructorilmsessions
+   type: array
+   items:
+    type: string
+  learnerIlmSessions:
+   description: Learnerilmsessions
+   type: array
+   items:
+    type: string
+  offerings:
+   description: Offerings
+   type: array
+   items:
+    type: string
+  instructedOfferings:
+   description: Instructedofferings
+   type: array
+   items:
+    type: string
+  programYears:
+   description: Programyears
+   type: array
+   items:
+    type: string
+  roles:
+   description: Roles
+   type: array
+   items:
+    type: string
+  cohorts:
+   description: Cohorts
+   type: array
+   items:
+    type: string
+  primaryCohort:
+   description: Primarycohort
+   type: string
+  pendingUserUpdates:
+   description: Pendinguserupdates
+   type: array
+   items:
+    type: string
+  permissions:
+   description: Permissions
+   type: array
+   items:
+    type: string
+  directedSchools:
+   description: Directedschools
+   type: array
+   items:
+    type: string
+  administeredSchools:
+   description: Administeredschools
+   type: array
+   items:
+    type: string
+  directedPrograms:
+   description: Directedprograms
+   type: array
+   items:
+    type: string
+  root:
+   description: Root
+   type: boolean

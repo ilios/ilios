@@ -1,0 +1,32 @@
+services:
+    ilios_api.normalizer.entity:
+        class: Ilios\ApiBundle\Normalizer\Entity
+        parent: serializer.normalizer.object
+        calls:
+          - [setEntityMetadata, ['@ilioscore.entitymetadata']]
+          - [setRegistry, ['@doctrine']]
+          - [setPurifier, ['@exercise_html_purifier.default']]
+        tags:
+          - { name: serializer.normalizer }
+
+    ilios_api.normalizer.dto:
+        class: Ilios\ApiBundle\Normalizer\DTO
+        parent: serializer.normalizer.object
+        calls:
+          - [setEntityMetadata, ['@ilioscore.entitymetadata']]
+        tags:
+          - { name: serializer.normalizer }
+
+    ilios_api.valid_object_listener:
+            class: Ilios\ApiBundle\EventListener\ValidApiObjectListener
+            arguments: ['%ilios_api_valid_endpoints%']
+            tags:
+                - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    ilios_api.endpoint_response_namer:
+        class: Ilios\ApiBundle\Service\EndpointResponseNamer
+        arguments: ["@kernel"]
+
+    ilios_api.swagger_doc_builder:
+        class: Ilios\ApiBundle\Service\SwaggerDocBuilder
+        arguments: ["@kernel", "@templating", "@router", "%forceProtocol%"]

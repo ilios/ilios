@@ -1,0 +1,52 @@
+UserMaterial:
+ type: object
+ properties:
+  id:
+   description: ID of the material
+   type: string
+  session:
+   description: ID of the session the material belongs to
+   type: string
+  course:
+   description: ID of the course the material belongs to
+   type: string
+  publicNotes:
+   description: Notes attached to the material
+   type: string
+  required:
+   description: Is the material required
+   type: boolean
+  title:
+   description: Title of the material
+   type: string
+  description:
+   description: Description of the material
+   type: string
+  originalAuthor:
+   description: The creator of this material
+   type: string
+  absoluteFileUri:
+   description: URI to download the material
+   type: string
+  citation:
+   description: Citation attached to material
+   type: string
+  link:
+   description: Link attached to material
+   type: string
+  filename:
+   description: Filename attached to material
+   type: string
+  mimetype:
+   description: Mimetype attached to material
+   type: string
+  sessionTitle:
+   description: Title of the Session where this material is linked
+   type: string
+  courseTitle:
+   description: Title of the Course where this material is linked
+   type: string
+  firstOfferingDate:
+   description: The first appearance of this material
+   type: string
+   format: date-time

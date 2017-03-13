@@ -32,6 +32,7 @@ class LoadUserMadeReminderData extends AbstractFixture implements
             $entity = new UserMadeReminder();
             $entity->setId($arr['id']);
             $entity->setNote($arr['note']);
+            $entity->setClosed($arr['closed']);
             $entity->setDueDate(new \DateTime($arr['dueDate']));
             $entity->setUser($this->getReference('users' . $arr['user']));
             

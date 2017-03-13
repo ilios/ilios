@@ -1,0 +1,34 @@
+Alert:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  tableRowId:
+   description: Tablerowid
+   type: integer
+  tableName:
+   description: Tablename
+   type: string
+  additionalText:
+   description: Additionaltext
+   type: string
+  dispatched:
+   description: Dispatched
+   type: boolean
+  changeTypes:
+   description: Changetypes
+   type: array
+   items:
+    type: string
+  instigators:
+   description: Instigators
+   type: array
+   items:
+    type: string
+  recipients:
+   description: Recipients
+   type: array
+   items:
+    type: string

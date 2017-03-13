@@ -27,4 +27,11 @@ interface DataLoaderInterface
        * @return array
        */
     public function createInvalid();
+
+      /**
+       * Create multiple samples of this item
+       * @param integer $count
+       * @return array
+       */
+    public function createMany($count);
 }

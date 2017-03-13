@@ -15,14 +15,14 @@ class SchoolConfigData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 2,
-            'name' => '2' . $this->faker->text(50),
+            'name' => 'second config',
             'value' => $this->faker->text(100),
             'school' => '1',
         );
         $arr[] = array(
             'id' => 3,
             'name' => '3' . $this->faker->text(50),
-            'value' => $this->faker->text(100),
+            'value' => 'third value',
             'school' => '2',
         );
         return $arr;

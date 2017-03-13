@@ -41,13 +41,13 @@ class FormAuthenticationTest extends TestCase
             $tokenStorage,
             $jwtManager
         );
-        
-        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
-            ->shouldReceive('get')->with('username')->andReturn(null)
-            ->shouldReceive('get')->with('password')->andReturn(null)
-            ->mock();
+
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
-        $request->request = $parameterBag;
+        $arr = [
+            'username' => null,
+            'password' => null
+        ];
+        $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
         
         $result = $obj->login($request);
         
@@ -71,14 +71,14 @@ class FormAuthenticationTest extends TestCase
             $tokenStorage,
             $jwtManager
         );
-        
-        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
-            ->shouldReceive('get')->with('username')->andReturn('abc')
-            ->shouldReceive('get')->with('password')->andReturn('123')
-            ->mock();
+
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
-        $request->request = $parameterBag;
-        
+        $arr = [
+            'username' => 'abc',
+            'password' => '123'
+        ];
+        $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
+
         $authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn(null);
         $result = $obj->login($request);
@@ -102,14 +102,15 @@ class FormAuthenticationTest extends TestCase
             $tokenStorage,
             $jwtManager
         );
-        
-        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
-            ->shouldReceive('get')->with('username')->andReturn('abc')
-            ->shouldReceive('get')->with('password')->andReturn('123')
-            ->mock();
+
+        $arr = [
+            'username' => 'abc',
+            'password' => '123'
+        ];
+
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
-        $request->request = $parameterBag;
-        
+        $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
+
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
@@ -139,12 +140,13 @@ class FormAuthenticationTest extends TestCase
             $jwtManager
         );
 
-        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
-            ->shouldReceive('get')->with('username')->andReturn('abc')
-            ->shouldReceive('get')->with('password')->andReturn('123')
-            ->mock();
+        $arr = [
+            'username' => 'abc',
+            'password' => '123'
+        ];
+
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
-        $request->request = $parameterBag;
+        $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('isEnabled')->andReturn(false)->mock();
@@ -173,13 +175,14 @@ class FormAuthenticationTest extends TestCase
             $tokenStorage,
             $jwtManager
         );
-        
-        $parameterBag = m::mock('Symfony\Component\HttpFoundation\ParameterBag')
-            ->shouldReceive('get')->with('username')->andReturn('abc')
-            ->shouldReceive('get')->with('password')->andReturn('123')
-            ->mock();
+
+        $arr = [
+            'username' => 'abc',
+            'password' => '123'
+        ];
+
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
-        $request->request = $parameterBag;
+        $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
         
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();

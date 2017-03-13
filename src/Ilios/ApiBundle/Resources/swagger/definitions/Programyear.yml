@@ -1,0 +1,53 @@
+Programyear:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  startYear:
+   description: Startyear
+   type: integer
+  locked:
+   description: Locked
+   type: boolean
+  archived:
+   description: Archived
+   type: boolean
+  publishedAsTbd:
+   description: Publishedastbd
+   type: boolean
+  published:
+   description: Published
+   type: boolean
+  program:
+   description: Program
+   type: string
+  cohort:
+   description: Cohort
+   type: string
+  directors:
+   description: Directors
+   type: array
+   items:
+    type: string
+  competencies:
+   description: Competencies
+   type: array
+   items:
+    type: string
+  terms:
+   description: Terms
+   type: array
+   items:
+    type: string
+  objectives:
+   description: Objectives
+   type: array
+   items:
+    type: string
+  stewards:
+   description: Stewards
+   type: array
+   items:
+    type: string

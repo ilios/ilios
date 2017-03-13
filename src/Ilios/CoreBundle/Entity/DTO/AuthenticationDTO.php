@@ -1,32 +1,34 @@
 <?php
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class Authentication
  * @package Ilios\CoreBundle\Entity\DTO
  *
+ * @IS\DTO
  */
 class AuthenticationDTO
 {
     /**
      * @var int
-     *
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     public $user;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
     */
     public $username;
 
     /**
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("invalidateTokenIssuedBefore")
+     * @IS\Type("dateTime")
+     * @IS\Expose
      */
     protected $invalidateTokenIssuedBefore;
 

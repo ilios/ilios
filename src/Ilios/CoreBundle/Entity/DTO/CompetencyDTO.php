@@ -2,70 +2,78 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class CompetencyDTO
  * Data transfer object for a competency
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class CompetencyDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     public $title;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $school;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $objectives;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $parent;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $children;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("aamcPcrses")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $aamcPcrses;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $programYears;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      *
      */
     public $active;

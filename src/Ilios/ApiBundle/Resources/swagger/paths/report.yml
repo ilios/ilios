@@ -1,0 +1,174 @@
+/reports:
+  get:
+    summary: Fetch all Reports
+    parameters:
+      - name: X-JWT-Authorization
+        in: header
+        description: API JWT Token
+        required: true
+        type: string
+        default: Token XXX
+      - name: offset
+        in: query
+        description: Offset
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        description: Limit Results
+        required: false
+        type: integer
+        default: 20
+      - name: order_by
+        in: query
+        description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+        required: false
+        type: array
+        items:
+          type: string
+      - name: filters
+        in: query
+        description: Filter by fields. Must be an array ie. &filters[id]=3
+        required: false
+        type: array
+        items:
+          type: string
+    tags:
+      - Reports
+    responses:
+      200:
+        description: An array of reports
+        schema:
+          type: object
+          properties:
+            reports:
+              type: array
+              items:
+                $ref: '#/definitions/Report'
+  post:
+    summary: Create Reports
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            reports:
+              type: array
+              items:
+                $ref: '#/definitions/Report'
+    tags:
+      - Reports
+    responses:
+      201:
+        description: An array of newly created reports
+        schema:
+          type: object
+          properties:
+            reports:
+              type: array
+              items:
+                $ref: '#/definitions/Report'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+/reports/{id}:
+  get:
+    summary: Fetch a single Report
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
+    tags:
+      - Reports
+    responses:
+      200:
+        description: A single Report
+        schema:
+          type: object
+          properties:
+            reports:
+              type: array
+              items:
+                $ref: '#/definitions/Report'
+      404:
+        description: Not found
+  put:
+    summary: Edit a Report
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            report:
+              $ref: '#/definitions/Report'
+    tags:
+      - Reports
+    responses:
+      200:
+        description: A single Report
+        schema:
+          type: object
+          properties:
+            report:
+              $ref: '#/definitions/Report'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
+  delete:
+    summary: Delete a Report
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
+    tags:
+      - Reports
+    responses:
+      204:
+        description: Deleted Report
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
+      500:
+        description: Failed to delete entity (usually caused by non-cascading relationships)

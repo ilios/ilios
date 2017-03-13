@@ -1,0 +1,33 @@
+Report:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  createdAt:
+   description: Createdat
+   type: string
+   format: date-time
+   readOnly: true
+  school:
+   description: School
+   type: string
+  subject:
+   description: Subject
+   type: string
+  prepositionalObject:
+   description: Prepositionalobject
+   type: string
+  prepositionalObjectTableRowId:
+   description: Prepositionalobjecttablerowid
+   type: string
+  user:
+   description: User
+   type: string
+  absoluteFileUri:
+    description: The URL where the report can be downloaded
+    type: string

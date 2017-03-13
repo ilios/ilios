@@ -12,7 +12,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'name' => $this->faker->text(25),
             'aamcCode' => "{$this->faker->randomDigit}",
             'addressStreet' => '221 West',
-            'addressCity' => $this->faker->city,
+            'addressCity' => 'first city',
             'addressStateOrProvince' => $this->faker->stateAbbr,
             'addressZipCode' => $this->faker->postcode,
             'addressCountryCode' => 'UK',
@@ -20,12 +20,12 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
         );
         $arr[] = array(
             'id' => 2,
-            'name' => $this->faker->text(25),
-            'aamcCode' => "{$this->faker->randomDigit}",
+            'name' => 'second institution',
+            'aamcCode' => "14",
             'addressStreet' => '221 East',
             'addressCity' => $this->faker->city,
-            'addressStateOrProvince' => $this->faker->stateAbbr,
-            'addressZipCode' => $this->faker->postcode,
+            'addressStateOrProvince' => 'CA',
+            'addressZipCode' => '90210',
             'addressCountryCode' => 'BC',
             'school' => '2'
         );

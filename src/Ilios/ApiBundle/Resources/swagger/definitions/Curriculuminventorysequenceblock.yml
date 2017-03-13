@@ -1,0 +1,64 @@
+Curriculuminventorysequenceblock:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  description:
+   description: Description
+   type: string
+  required:
+   description: Required
+   type: integer
+  childSequenceOrder:
+   description: Childsequenceorder
+   type: integer
+  orderInSequence:
+   description: Orderinsequence
+   type: integer
+  minimum:
+   description: Minimum
+   type: integer
+  maximum:
+   description: Maximum
+   type: integer
+  track:
+   description: Track
+   type: boolean
+  startDate:
+   description: Startdate
+   type: string
+   format: date-time
+  endDate:
+   description: Enddate
+   type: string
+   format: date-time
+  duration:
+   description: Duration
+   type: integer
+  academicLevel:
+   description: Academiclevel
+   type: string
+  course:
+   description: Course
+   type: string
+  parent:
+   description: Parent
+   type: string
+  children:
+   description: Children
+   type: array
+   items:
+    type: string
+  report:
+   description: Report
+   type: string
+  sessions:
+   description: Sessions
+   type: array
+   items:
+    type: string

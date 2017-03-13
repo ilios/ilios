@@ -1,0 +1,13 @@
+Sessiondescription:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  session:
+   description: Session
+   type: string
+  description:
+   description: Description
+   type: string

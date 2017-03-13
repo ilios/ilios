@@ -2,7 +2,6 @@
 
 namespace Ilios\WebBundle\Controller;
 
-use FOS\RestBundle\Util\Codes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +19,6 @@ class ErrorController extends Controller
             $logger->error(json_encode($error));
         }
 
-        return new Response('', Codes::HTTP_NO_CONTENT);
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }

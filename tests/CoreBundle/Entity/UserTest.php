@@ -806,4 +806,31 @@ class UserTest extends EntityBase
     {
         $this->booleanSetTest('root');
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\User::setAuthentication()
+     * @covers \Ilios\CoreBundle\Entity\User::getAuthentication()
+     */
+    public function testSetAuthentication()
+    {
+        $this->assertTrue(method_exists($this->object, 'getAuthentication'), "Method getAuthentication missing");
+        $this->assertTrue(method_exists($this->object, 'setAuthentication'), "Method setAuthentication missing");
+        $obj = m::mock('Ilios\CoreBundle\Entity\Authentication');
+        $obj->shouldReceive('setUser')->with($this->object)->once();
+        $this->object->setAuthentication($obj);
+        $this->assertSame($obj, $this->object->getAuthentication());
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\User::setAuthentication()
+     */
+    public function testSetAuthenticationNull()
+    {
+        $obj = m::mock('Ilios\CoreBundle\Entity\Authentication');
+        $obj->shouldReceive('setUser')->with($this->object)->once();
+        $this->object->setAuthentication($obj);
+        $this->assertSame($obj, $this->object->getAuthentication());
+        $this->object->setAuthentication(null);
+        $this->assertSame(null, $this->object->getAuthentication());
+    }
 }

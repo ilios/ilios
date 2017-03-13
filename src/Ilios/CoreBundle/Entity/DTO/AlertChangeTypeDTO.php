@@ -2,31 +2,36 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class AlertChangeTypeDTO
  * Data transfer object for a alertChangeType
  * @package Ilios\CoreBundle\Entity\DTO
+ *
+ * @IS\DTO
  */
 class AlertChangeTypeDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     public $title;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $alerts;
 

@@ -1,0 +1,17 @@
+{{ entity | capitalize }}:
+ type: object
+ properties:
+{% for property in properties %}
+  {{ property.name }}:
+   description: {{ property.name | capitalize }}
+{% if property.type == 'entityCollection' %}
+   type: array
+   items:
+    type: string
+{%  else %}
+   type: {{ property.type }}
+{% endif %}
+{% if property.readOnly %}
+   readOnly: true
+{% endif %}
+{% endfor %}

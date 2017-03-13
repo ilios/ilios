@@ -1,0 +1,74 @@
+School:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  iliosAdministratorEmail:
+   description: Iliosadministratoremail
+   type: string
+  changeAlertRecipients:
+   description: Changealertrecipients
+   type: string
+  competencies:
+   description: Competencies
+   type: array
+   items:
+    type: string
+  courses:
+   description: Courses
+   type: array
+   items:
+    type: string
+  programs:
+   description: Programs
+   type: array
+   items:
+    type: string
+  departments:
+   description: Departments
+   type: array
+   items:
+    type: string
+  vocabularies:
+   description: Vocabularies
+   type: array
+   items:
+    type: string
+  instructorGroups:
+   description: Instructorgroups
+   type: array
+   items:
+    type: string
+  curriculumInventoryInstitution:
+   description: Curriculuminventoryinstitution
+   type: string
+  sessionTypes:
+   description: Sessiontypes
+   type: array
+   items:
+    type: string
+  stewards:
+   description: Stewards
+   type: array
+   items:
+    type: string
+  directors:
+   description: Directors
+   type: array
+   items:
+    type: string
+  administrators:
+   description: Administrators
+   type: array
+   items:
+    type: string
+  configurations:
+   description: Configurations
+   type: array
+   items:
+    type: string

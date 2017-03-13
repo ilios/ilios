@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\ConceptsEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,8 +26,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * )
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class MeshTerm implements MeshTermInterface
 {
@@ -46,8 +45,9 @@ class MeshTerm implements MeshTermInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -63,9 +63,8 @@ class MeshTerm implements MeshTermInterface
      *      max = 9
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("meshTermUid")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $meshTermUid;
 
@@ -81,8 +80,8 @@ class MeshTerm implements MeshTermInterface
      *      max = 192
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $name;
 
@@ -97,9 +96,8 @@ class MeshTerm implements MeshTermInterface
      *      max = 12
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("lexicalTag")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $lexicalTag;
 
@@ -110,9 +108,8 @@ class MeshTerm implements MeshTermInterface
      *
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("conceptPreferred")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $conceptPreferred;
 
@@ -123,9 +120,8 @@ class MeshTerm implements MeshTermInterface
      *
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("recordPreferred")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $recordPreferred;
 
@@ -136,8 +132,8 @@ class MeshTerm implements MeshTermInterface
      *
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $permuted;
 
@@ -148,28 +144,26 @@ class MeshTerm implements MeshTermInterface
      *
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $printable;
 
     /**
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("createdAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $createdAt;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("updatedAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $updatedAt;
 
@@ -186,8 +180,8 @@ class MeshTerm implements MeshTermInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $concepts;
 

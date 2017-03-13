@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Classes;
 
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
@@ -14,145 +14,136 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
  * Class UserEvent
  * @package Ilios\CoreBundle\Classes
  *
- * @JMS\ExclusionPolicy("all")
+ * @IS\DTO
  */
 class LearningMaterialDecorator
 {
     /**
      * @var int
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("id")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $description;
 
     /**
      * @var \DateTime
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("uploadDate")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $uploadDate;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("originalAuthor")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $originalAuthor;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("userRole")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $userRole;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $status;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("owningUser")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $owningUser;
 
     /**
      * @var string[]
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionLearningMaterials")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sessionLearningMaterials;
 
     /**
      * @var string[]
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("courseLearningMaterials")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $courseLearningMaterials;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $citation;
 
     /**
      * @var boolean
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("copyrightPermission")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $copyrightPermission;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("copyrightRationale")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $copyrightRationale;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $filename;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $mimetype;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $filesize;
 
@@ -160,8 +151,8 @@ class LearningMaterialDecorator
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $link;
 
@@ -169,9 +160,8 @@ class LearningMaterialDecorator
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("absoluteFileUri")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $absoluteFileUri;
 
@@ -217,5 +207,149 @@ class LearningMaterialDecorator
                 return (string) $lm;
             });
         $this->sessionLearningMaterials = $sessionLearningMaterialIds->toArray();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUploadDate()
+    {
+        return $this->uploadDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalAuthor()
+    {
+        return $this->originalAuthor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserRole()
+    {
+        return $this->userRole;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOwningUser()
+    {
+        return $this->owningUser;
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getSessionLearningMaterials()
+    {
+        return $this->sessionLearningMaterials;
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getCourseLearningMaterials()
+    {
+        return $this->courseLearningMaterials;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCitation()
+    {
+        return $this->citation;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCopyrightPermission()
+    {
+        return $this->copyrightPermission;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCopyrightRationale()
+    {
+        return $this->copyrightRationale;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMimetype()
+    {
+        return $this->mimetype;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilesize()
+    {
+        return $this->filesize;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAbsoluteFileUri()
+    {
+        return $this->absoluteFileUri;
     }
 }

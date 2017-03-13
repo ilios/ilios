@@ -2,116 +2,112 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class MeshDescriptorDTO
  * Data transfer object for a MeSH descriptor.
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class MeshDescriptorDTO
 {
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $name;
 
     /**
      * @var string
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $annotation;
 
     /**
      * @var \DateTime
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("createdAt")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     public $createdAt;
 
     /**
      * @var \DateTime
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("updatedAt")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     public $updatedAt;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $courses;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $objectives;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $sessions;
 
     /**
      * @var string[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $concepts;
 
     /**
      * @var string[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $qualifiers;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $trees;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionLearningMaterials")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $sessionLearningMaterials;
 
     /**
      * @var int[]
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("courseLearningMaterials")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $courseLearningMaterials;
 
     /**
      * @var int
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("previousIndexing")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $previousIndexing;
 

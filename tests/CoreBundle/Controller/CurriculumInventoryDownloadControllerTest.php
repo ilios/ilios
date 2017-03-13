@@ -2,7 +2,7 @@
 
 namespace Tests\CoreBundle\Controller;
 
-use FOS\RestBundle\Util\Codes;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
@@ -33,7 +33,6 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
 
     /**
      * @covers \Ilios\CoreBundle\Controller\CurriculumInventoryDownloadController::getAction
-     * @group controllers_a
      */
     public function testGetCurriculumInventoryDownload()
     {
@@ -47,8 +46,12 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
             $client,
             'GET',
             $this->getUrl(
-                'get_curriculuminventoryreports',
-                ['id' => $curriculumInventoryExport['report']]
+                'ilios_api_get',
+                [
+                    'version' => 'v1',
+                    'object' => 'curriculuminventoryreports',
+                    'id' => $curriculumInventoryExport['report']
+                ]
             ),
             null,
             $this->getAuthenticatedUserToken()
@@ -56,7 +59,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
 
         $response = $client->getResponse();
 
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $data = json_decode($response->getContent(), true)['curriculumInventoryReports'][0];
 
         $client->request(
@@ -66,7 +69,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
 
         $response = $client->getResponse();
         $this->assertEquals($curriculumInventoryExport['document'], $response->getContent());
-        $this->assertEquals(Codes::HTTP_OK, $response->getStatusCode(), $response->getContent());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), $response->getContent());
         $downloadCookie = null;
         $cookieName = 'report-download-' . $curriculumInventoryExport['report'];
         foreach ($response->headers->getCookies() as $cookie) {

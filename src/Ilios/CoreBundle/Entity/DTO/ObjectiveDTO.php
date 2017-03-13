@@ -2,90 +2,100 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class ObjectiveDTO
  * Data transfer object for a Objective
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class ObjectiveDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     public $title;
 
     /**
      * @var integer
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     public $competency;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $courses;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $programYears;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $sessions;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $parents;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $children;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("meshDescriptors")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $meshDescriptors;
 
     /**
      * @var integer
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     public $ancestor;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $descendants;

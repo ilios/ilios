@@ -2,114 +2,133 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class SchoolDTO
  * Data transfer object for a school.
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class SchoolDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $title;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("iliosAdministratorEmail")
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $templatePrefix;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $iliosAdministratorEmail;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("changeAlertRecipients")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $changeAlertRecipients;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $competencies;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $courses;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $programs;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $departments;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $vocabularies;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("instructorGroups")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $instructorGroups;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("curriculumInventoryInstitution")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $curriculumInventoryInstitution;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sessionTypes")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $sessionTypes;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $directors;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $administrators;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $stewards;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $configurations;
 
@@ -117,11 +136,13 @@ class SchoolDTO
     public function __construct(
         $id,
         $title,
+        $templatePrefix,
         $iliosAdministratorEmail,
         $changeAlertRecipients
     ) {
         $this->id = $id;
         $this->title = $title;
+        $this->templatePrefix = $templatePrefix;
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
         $this->changeAlertRecipients = $changeAlertRecipients;
 

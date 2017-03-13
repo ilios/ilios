@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Interface AlertInterface

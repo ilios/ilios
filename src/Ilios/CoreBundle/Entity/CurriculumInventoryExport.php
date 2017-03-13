@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
@@ -22,7 +22,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *   }
  * )
  * @ORM\Entity
- * @JMS\ExclusionPolicy("all")
+ * @IS\Entity
  */
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
@@ -38,8 +38,9 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -51,9 +52,8 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true, nullable=false)
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("report")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $report;
 
@@ -68,7 +68,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *      min = 1,
      *      max = 16000000
      * )
-     * @JMS\Type("string")
+     * @IS\Type("string")
      */
     protected $document;
 
@@ -80,9 +80,8 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *   @ORM\JoinColumn(name="created_by", referencedColumnName="user_id")
      * })
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("createdBy")
+     * @IS\Expose
+     * @IS\Type("entity")
      */
     protected $createdBy;
 
@@ -92,9 +91,9 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      * @ORM\Column(name="created_on", type="datetime")
      *
      * @Assert\NotBlank()
-     * @JMS\Expose
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("createdAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $createdAt;
     

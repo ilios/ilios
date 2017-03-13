@@ -11,7 +11,7 @@ class ProgramData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => $this->faker->title(15),
-            'shortTitle' => $this->faker->title(5),
+            'shortTitle' => 'fp',
             'duration' => 3,
             'publishedAsTbd' => false,
             'published' => true,
@@ -23,7 +23,7 @@ class ProgramData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->title(15),
+            'title' => 'second program',
             'shortTitle' => $this->faker->title(5),
             'duration' => 4,
             'publishedAsTbd' => true,

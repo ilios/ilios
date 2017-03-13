@@ -11,12 +11,12 @@ class AamcMethodData extends AbstractDataLoader
         $arr[] = array(
             'id' => "AM001",
             'description' => $this->faker->text,
-            'sessionTypes' => ['1','2']
+            'sessionTypes' => ['1', '2']
         );
 
         $arr[] = array(
             'id' => "AM002",
-            'description' => $this->faker->text,
+            'description' => 'filterable description',
             'sessionTypes' => []
         );
 
@@ -26,7 +26,7 @@ class AamcMethodData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => $this->faker->text(9),
+            'id' => 'FK',
             'description' => $this->faker->text,
             'sessionTypes' => ['1']
         ];
@@ -35,5 +35,20 @@ class AamcMethodData extends AbstractDataLoader
     public function createInvalid()
     {
         return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createMany($count)
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] . $i;
+            $data[] = $arr;
+        }
+
+        return $data;
     }
 }

@@ -43,7 +43,7 @@ class SchoolDTOVoterTest extends AbstractVoterTestCase
     {
         $data = [];
         $roles = ['Faculty', 'Student', 'Former Student', 'Developer', 'Course Director'];
-        $school = new SchoolDTO(1, 'Test', '', '');
+        $school = new SchoolDTO(1, 'Test', '', '', '');
 
         $i = 0;
         foreach ($roles as $role) {

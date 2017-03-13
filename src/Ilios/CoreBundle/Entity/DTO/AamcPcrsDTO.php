@@ -2,31 +2,36 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class AamcPcrsDTO
  * Data transfer object for a aamcPcrs
  * @package Ilios\CoreBundle\Entity\DTO
+ *
+ * @IS\DTO
  */
 class AamcPcrsDTO
 {
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     public $description;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $competencies;
 

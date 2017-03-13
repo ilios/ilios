@@ -15,7 +15,7 @@ class SessionDescriptionData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'session' => '2',
-            'description' => $this->faker->text
+            'description' => 'second description'
         );
 
         return $arr;

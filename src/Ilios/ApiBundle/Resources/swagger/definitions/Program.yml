@@ -1,0 +1,40 @@
+Program:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  shortTitle:
+   description: Shorttitle
+   type: string
+  duration:
+   description: Duration
+   type: integer
+  publishedAsTbd:
+   description: Publishedastbd
+   type: boolean
+  published:
+   description: Published
+   type: boolean
+  school:
+   description: School
+   type: string
+  programYears:
+   description: Programyears
+   type: array
+   items:
+    type: string
+  curriculumInventoryReports:
+   description: Curriculuminventoryreports
+   type: array
+   items:
+    type: string
+  directors:
+   description: Directors
+   type: array
+   items:
+    type: string

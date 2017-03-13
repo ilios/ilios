@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\ConceptsEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
@@ -22,8 +22,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * @ORM\Table(name="mesh_semantic_type")
  * @ORM\Entity
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class MeshSemanticType implements MeshSemanticTypeInterface
 {
@@ -46,8 +45,8 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      *      max = 9
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $id;
 
@@ -63,28 +62,26 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      *
      * @ORM\Column(type="string", length=192)
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
     */
     protected $name;
 
     /**
      * @ORM\Column(name="created_at", type="datetime")
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("createdAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $createdAt;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("updatedAt")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $updatedAt;
 
@@ -93,8 +90,8 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      *
      * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="semanticTypes")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $concepts;
 

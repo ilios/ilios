@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
@@ -14,119 +14,113 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
  * Class CurriculumInventoryReportDecorator
  * @package Ilios\CoreBundle\Classes
  *
- * @JMS\ExclusionPolicy("all")
+ * @IS\DTO
  */
 class CurriculumInventoryReportDecorator
 {
     /**
      * @var int
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("id")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $id;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $name;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $description;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $sequence;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $year;
 
     /**
      * @var \DateTime
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("startDate")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $startDate;
 
     /**
      * @var \DateTime
      *
-     * @JMS\Expose
-     * @JMS\ReadOnly
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("endDate")
+     * @IS\Expose
+     * @IS\ReadOnly
+     * @IS\Type("dateTime")
      */
     protected $endDate;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $program;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $report;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $export;
 
     /**
      * @var string[]
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("academicLevels")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $academicLevels;
 
     /**
      * @var string[]
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("sequenceBlocks")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $sequenceBlocks;
 
     /**
      * @var string
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("absoluteFileUri")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $absoluteFileUri;
 
@@ -149,9 +143,9 @@ class CurriculumInventoryReportDecorator
         $this->year = $report->getYear();
         $this->startDate = $report->getStartDate();
         $this->endDate = $report->getEndDate();
-        $this->export = (string) $report->getExport();
-        $this->sequence = (string) $report->getSequence();
-        $this->program = (string) $report->getProgram();
+        $this->export = $report->getExport()?(string) $report->getExport():null;
+        $this->sequence = $report->getSequence()?(string) $report->getSequence():null;
+        $this->program = $report->getProgram()?(string) $report->getProgram():null;
 
         $sequenceBlockIds = $report->getSequenceBlocks()
             ->map(function (CurriculumInventorySequenceBlockInterface $block) {
@@ -164,5 +158,109 @@ class CurriculumInventoryReportDecorator
                 return (string) $level;
             });
         $this->academicLevels = $academicLevelIds->toArray();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSequence()
+    {
+        return $this->sequence;
+    }
+
+    /**
+     * @return string
+     */
+    public function getYear()
+    {
+        return $this->year;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProgram()
+    {
+        return $this->program;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReport()
+    {
+        return $this->report;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExport()
+    {
+        return $this->export;
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getAcademicLevels()
+    {
+        return $this->academicLevels;
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getSequenceBlocks()
+    {
+        return $this->sequenceBlocks;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAbsoluteFileUri()
+    {
+        return $this->absoluteFileUri;
     }
 }

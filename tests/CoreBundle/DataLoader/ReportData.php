@@ -17,19 +17,19 @@ class ReportData extends AbstractDataLoader
         
         $arr[] = array(
             'id' => 2,
-            'title' => $this->faker->title(25),
+            'title' => 'second report',
             'subject' => $this->faker->title(25),
             'prepositionalObject' => $this->faker->title(5),
-            'prepositionalObjectTableRowId' => $this->faker->randomDigitNotNull(),
+            'prepositionalObjectTableRowId' => '14',
             'user' => '2'
         );
 
         $arr[] = array(
             'id' => 3,
             'title' => $this->faker->title(25),
-            'subject' => $this->faker->title(25),
-            'prepositionalObject' => $this->faker->title(5),
-            'prepositionalObjectTableRowId' => $this->faker->randomDigitNotNull(),
+            'subject' => 'subject3',
+            'prepositionalObject' => 'object3',
+            'prepositionalObjectTableRowId' => (string) $this->faker->randomDigitNotNull(),
             'user' => '2',
             'school' => '1',
         );
@@ -44,7 +44,7 @@ class ReportData extends AbstractDataLoader
             'title' => $this->faker->title(25),
             'subject' => $this->faker->title(25),
             'prepositionalObject' => $this->faker->title(5),
-            'prepositionalObjectTableRowId' => $this->faker->randomDigitNotNull(),
+            'prepositionalObjectTableRowId' => (string) $this->faker->randomDigitNotNull(),
             'user' => '2'
         );
     }

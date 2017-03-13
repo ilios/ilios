@@ -105,3 +105,18 @@ services:
         arguments: [ "@ilioscore.user.manager" ]
         tags:
             -  { name: console.command }
+    ilioscli.command.generate_swagger_path:
+        class: Ilios\CliBundle\Command\GenerateSwaggerApiPathYamlCommand
+        arguments: ["@templating"]
+        tags:
+            -  { name: console.command }
+    ilioscli.command.generate_swagger_definition:
+        class: Ilios\CliBundle\Command\GenerateSwaggerApiDefinitionYamlCommand
+        arguments: ["@templating", "@doctrine", "@ilioscore.entitymetadata"]
+        tags:
+            -  { name: console.command }
+    ilioscli.command.generate_endpoint_test:
+        class: Ilios\CliBundle\Command\GenerateEndpointTestCommand
+        arguments: ["@templating", "@doctrine", "@ilioscore.entitymetadata"]
+        tags:
+            -  { name: console.command }

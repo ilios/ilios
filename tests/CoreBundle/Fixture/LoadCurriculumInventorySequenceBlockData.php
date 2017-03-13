@@ -32,6 +32,9 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
             $entity = new CurriculumInventorySequenceBlock();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
+            if (array_key_exists('description', $arr)) {
+                $entity->setDescription($arr['description']);
+            }
             $entity->setTrack($arr['track']);
             $entity->setChildSequenceOrder($arr['childSequenceOrder']);
             $entity->setOrderInSequence($arr['orderInSequence']);

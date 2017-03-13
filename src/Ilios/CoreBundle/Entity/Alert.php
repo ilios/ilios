@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,8 +18,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Table(name="alert")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AlertRepository")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class Alert implements AlertInterface
 {
@@ -35,8 +34,9 @@ class Alert implements AlertInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
+     * @IS\ReadOnly
      */
     protected $id;
 
@@ -48,9 +48,8 @@ class Alert implements AlertInterface
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
-     * @JMS\Expose
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("tableRowId")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     protected $tableRowId;
 
@@ -66,9 +65,8 @@ class Alert implements AlertInterface
      *      max = 30
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("tableName")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $tableName;
 
@@ -83,9 +81,8 @@ class Alert implements AlertInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
-     * @JMS\SerializedName("additionalText")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $additionalText;
 
@@ -97,8 +94,8 @@ class Alert implements AlertInterface
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     protected $dispatched;
 
@@ -115,9 +112,8 @@ class Alert implements AlertInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("changeTypes")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $changeTypes;
 
@@ -134,8 +130,8 @@ class Alert implements AlertInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $instigators;
 
@@ -152,8 +148,8 @@ class Alert implements AlertInterface
      *   }
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $recipients;
 

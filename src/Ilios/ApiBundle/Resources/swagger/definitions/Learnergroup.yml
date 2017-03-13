@@ -1,0 +1,49 @@
+Learnergroup:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  location:
+   description: Location
+   type: string
+  cohort:
+   description: Cohort
+   type: string
+  parent:
+   description: Parent
+   type: string
+  children:
+   description: Children
+   type: array
+   items:
+    type: string
+  ilmSessions:
+   description: Ilmsessions
+   type: array
+   items:
+    type: string
+  offerings:
+   description: Offerings
+   type: array
+   items:
+    type: string
+  instructorGroups:
+   description: Instructorgroups
+   type: array
+   items:
+    type: string
+  users:
+   description: Users
+   type: array
+   items:
+    type: string
+  instructors:
+   description: Instructors
+   type: array
+   items:
+    type: string

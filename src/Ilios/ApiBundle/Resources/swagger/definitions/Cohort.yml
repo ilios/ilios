@@ -1,0 +1,28 @@
+Cohort:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  programYear:
+   description: Programyear
+   type: string
+  courses:
+   description: Courses
+   type: array
+   items:
+    type: string
+  learnerGroups:
+   description: Learnergroups
+   type: array
+   items:
+    type: string
+  users:
+   description: Users
+   type: array
+   items:
+    type: string

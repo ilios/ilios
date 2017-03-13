@@ -3,7 +3,7 @@ namespace Tests\WebBundle\Controller;
 
 use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use FOS\RestBundle\Util\Codes;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
@@ -21,7 +21,7 @@ class ConfigControllerTest extends WebTestCase
 
         $response = $client->getResponse();
 
-        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_OK);
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('config', $content);
         $data = $content['config'];

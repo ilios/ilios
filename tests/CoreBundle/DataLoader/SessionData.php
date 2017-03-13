@@ -10,7 +10,7 @@ class SessionData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'title' => 'session1Title' . $this->faker->text(10),
+            'title' => 'session1Title',
             'attireRequired' => false,
             'equipmentRequired' => false,
             'supplemental' => false,
@@ -31,10 +31,10 @@ class SessionData extends AbstractDataLoader
             'id' => 2,
             'title' => $this->faker->text(10),
             'attireRequired' => true,
-            'equipmentRequired' => false,
+            'equipmentRequired' => true,
             'supplemental' => true,
-            'publishedAsTbd' => false,
-            'published' => false,
+            'publishedAsTbd' => true,
+            'published' => true,
             'sessionType' => '2',
             'course' => '1',
             'sessionDescription' => '2',

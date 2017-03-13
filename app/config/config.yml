@@ -25,7 +25,7 @@ framework:
     fragments:       ~
     http_method_override: true
     serializer:
-        enabled: false
+        enabled: true
     assets: ~
 
 # Twig Configuration
@@ -34,6 +34,7 @@ twig:
     strict_variables: "%kernel.debug%"
     paths:
         "%kernel.root_dir%/../custom/email_templates": custom_email_templates
+    exception_controller:  ilioscore.exception_controller:showAction
 
 # Doctrine Configuration
 doctrine:
@@ -71,32 +72,6 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-fos_rest:
-    routing_loader:
-        default_format: json
-    param_fetcher_listener: true
-    body_listener: true
-    body_converter:
-        enabled: true
-    format_listener: true
-    view:
-        view_response_listener: force
-        formats:
-            xml: true
-            json : true
-        failed_validation: HTTP_BAD_REQUEST
-        default_engine: twig
-    exception:
-        enabled: true
-        codes:
-            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': 404
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
-            'Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException': 400
-            'Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException': 500
-        messages:
-            'Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException': true
-
-
 nelmio_cors:
     defaults:
         allow_credentials: true
@@ -108,30 +83,10 @@ nelmio_cors:
     paths:
         '^/':
 
-nelmio_api_doc:
-    name: Ilios API
-    sandbox:
-        body_format:
-            formats:
-                - form
-                - json
-            default_format: json
-        request_format:
-            formats:
-                json: application/json
-                xml: application/xml
-            method: format_param
-            default_format: json
-
 sensio_framework_extra:
     request: { converters: true }
     view:    { annotations: false }
     router:  { annotations: true }
-
-jms_di_extra:
-    locations:
-        all_bundles: false
-        bundles: ["@IliosCoreBundle"]
 
 security:
     encoders:
@@ -196,3 +151,6 @@ httplug:
 happyr_google_analytics:
     tracking_id: "%ilios_core.tracking_code%"
     http_message_factory: 'httplug.message_factory'
+
+al_swagger_ui:
+    resource_list: ilios_swagger_file

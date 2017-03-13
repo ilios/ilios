@@ -1,0 +1,15 @@
+Courseclerkshiptype:
+ type: object
+ properties:
+  id:
+   description: Id
+   type: integer
+   readOnly: true
+  title:
+   description: Title
+   type: string
+  courses:
+   description: Courses
+   type: array
+   items:
+    type: string

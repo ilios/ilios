@@ -1,0 +1,174 @@
+/curriculuminventorysequenceblocks:
+  get:
+    summary: Fetch all Curriculuminventorysequenceblocks
+    parameters:
+      - name: X-JWT-Authorization
+        in: header
+        description: API JWT Token
+        required: true
+        type: string
+        default: Token XXX
+      - name: offset
+        in: query
+        description: Offset
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        description: Limit Results
+        required: false
+        type: integer
+        default: 20
+      - name: order_by
+        in: query
+        description: Order by fields.  Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC
+        required: false
+        type: array
+        items:
+          type: string
+      - name: filters
+        in: query
+        description: Filter by fields. Must be an array ie. &filters[id]=3
+        required: false
+        type: array
+        items:
+          type: string
+    tags:
+      - Curriculuminventorysequenceblocks
+    responses:
+      200:
+        description: An array of curriculuminventorysequenceblocks
+        schema:
+          type: object
+          properties:
+            curriculuminventorysequenceblocks:
+              type: array
+              items:
+                $ref: '#/definitions/Curriculuminventorysequenceblock'
+  post:
+    summary: Create Curriculuminventorysequenceblocks
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            curriculuminventorysequenceblocks:
+              type: array
+              items:
+                $ref: '#/definitions/Curriculuminventorysequenceblock'
+    tags:
+      - Curriculuminventorysequenceblocks
+    responses:
+      201:
+        description: An array of newly created curriculuminventorysequenceblocks
+        schema:
+          type: object
+          properties:
+            curriculuminventorysequenceblocks:
+              type: array
+              items:
+                $ref: '#/definitions/Curriculuminventorysequenceblock'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+/curriculuminventorysequenceblocks/{id}:
+  get:
+    summary: Fetch a single Curriculuminventorysequenceblock
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
+    tags:
+      - Curriculuminventorysequenceblocks
+    responses:
+      200:
+        description: A single Curriculuminventorysequenceblock
+        schema:
+          type: object
+          properties:
+            curriculuminventorysequenceblocks:
+              type: array
+              items:
+                $ref: '#/definitions/Curriculuminventorysequenceblock'
+      404:
+        description: Not found
+  put:
+    summary: Edit a Curriculuminventorysequenceblock
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
+    - name: body
+      in: body
+      required: true
+      schema:
+          type: object
+          properties:
+            curriculuminventorysequenceblock:
+              $ref: '#/definitions/Curriculuminventorysequenceblock'
+    tags:
+      - Curriculuminventorysequenceblocks
+    responses:
+      200:
+        description: A single Curriculuminventorysequenceblock
+        schema:
+          type: object
+          properties:
+            curriculuminventorysequenceblock:
+              $ref: '#/definitions/Curriculuminventorysequenceblock'
+      400:
+        description: Bad Request Data
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
+  delete:
+    summary: Delete a Curriculuminventorysequenceblock
+    parameters:
+    - name: X-JWT-Authorization
+      in: header
+      description: API JWT Token
+      required: true
+      type: string
+      default: Token XXX
+    - name: id
+      in: path
+      required: true
+      description: id
+      type: integer
+    tags:
+      - Curriculuminventorysequenceblocks
+    responses:
+      204:
+        description: Deleted Curriculuminventorysequenceblock
+      403:
+        description: Access Denied
+      404:
+        description: Not Found
+      500:
+        description: Failed to delete entity (usually caused by non-cascading relationships)

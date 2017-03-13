@@ -2,20 +2,20 @@
 
 namespace Ilios\CoreBundle\Classes;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class UserEvent
  * @package Ilios\CoreBundle\Classes
  *
- * @JMS\ExclusionPolicy("all")
+ * @IS\DTO
  */
 class UserEvent extends CalendarEvent
 {
     /**
      * @var int
-     * @JMS\Expose
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $user;
 }

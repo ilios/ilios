@@ -15,7 +15,7 @@ class MeshPreviousIndexingData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'descriptor' => 'abc2',
-            'previousIndexing' => $this->faker->text,
+            'previousIndexing' => 'second previous indexing',
         );
 
         return $arr;

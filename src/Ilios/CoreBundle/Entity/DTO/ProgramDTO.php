@@ -2,83 +2,90 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class ProgramDTO
  * Data transfer object for a Program
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class ProgramDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     public $title;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("shortTitle")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     public $shortTitle;
 
     /**
      * @var integer
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     public $duration;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publishedAsTbd")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $publishedAsTbd;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $published;
 
     /**
      * @var integer
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      *
      */
     public $school;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("programYears")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $programYears;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("curriculumInventoryReports")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      *
      */
     public $curriculumInventoryReports;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $directors;
 

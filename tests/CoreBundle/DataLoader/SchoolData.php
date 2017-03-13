@@ -10,10 +10,10 @@ class SchoolData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'title' => '1' . $this->faker->word,
+            'title' => '1' . $this->faker->text(59),
+            'templatePrefix' => $this->faker->text(8),
             'iliosAdministratorEmail' => $this->faker->email,
             'changeAlertRecipients' => $this->faker->email,
-            'alerts' => [1],
             'competencies' => ['1', '2', '3'],
             'courses' => ["1", "2"],
             'programs' => ['1', '2'],
@@ -31,13 +31,13 @@ class SchoolData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'title' => '2' . $this->faker->word,
-            'iliosAdministratorEmail' => $this->faker->email,
+            'templatePrefix' => $this->faker->text(8),
+            'iliosAdministratorEmail' => 'info@example.com',
             'changeAlertRecipients' => $this->faker->email,
-            'alerts' => ['3'],
             'competencies' => [],
-            'courses' => ["3", "4"],
+            'courses' => ["3", "4", "5"],
             'programs' => ["3"],
-            'departments' => [],
+            'departments' => ['3'],
             'instructorGroups' => ['4'],
             'curriculumInventoryInstitution' => "2",
             'sessionTypes' => [],
@@ -50,10 +50,9 @@ class SchoolData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 3,
-            'title' => '3' . $this->faker->word,
+            'title' => 'third school',
             'iliosAdministratorEmail' => $this->faker->email,
-            'changeAlertRecipients' => $this->faker->email,
-            'alerts' => [],
+            'changeAlertRecipients' => 'info@example.com',
             'competencies' => [],
             'courses' => [],
             'programs' => [],
@@ -76,6 +75,7 @@ class SchoolData extends AbstractDataLoader
         return array(
             'id' => 4,
             'title' => '4' . $this->faker->word,
+            'templatePrefix' => $this->faker->text(8),
             'iliosAdministratorEmail' => $this->faker->email,
             'changeAlertRecipients' => $this->faker->email,
             'competencies' => [],
@@ -97,5 +97,22 @@ class SchoolData extends AbstractDataLoader
         return [
             'id' => 'lkjdsf'
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createMany($count)
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] + $i;
+            $arr['title'] = $arr['id'] . $this->faker->word;
+            unset($arr['templatePrefix']);
+            $data[] = $arr;
+        }
+
+        return $data;
     }
 }

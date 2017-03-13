@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -20,8 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AamcResourceTypeRepository")
  * @ORM\Table(name="aamc_resource_type")
  *
- * @JMS\ExclusionPolicy("all")
- * @JMS\AccessType("public_method")
+ * @IS\Entity
  */
 class AamcResourceType implements AamcResourceTypeInterface
 {
@@ -45,8 +44,8 @@ class AamcResourceType implements AamcResourceTypeInterface
      *      max = 21
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $id;
 
@@ -62,8 +61,8 @@ class AamcResourceType implements AamcResourceTypeInterface
      *      max = 200
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $title;
 
@@ -78,8 +77,8 @@ class AamcResourceType implements AamcResourceTypeInterface
      *      max = 65000
      * )
      *
-     * @JMS\Expose
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $description;
 
@@ -88,8 +87,8 @@ class AamcResourceType implements AamcResourceTypeInterface
      *
      * @ORM\ManyToMany(targetEntity="Term", mappedBy="aamcResourceTypes")
      *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("entityCollection")
      */
     protected $terms;
 

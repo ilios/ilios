@@ -3,96 +3,108 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class ProgramYearDTO
  * Data transfer object for a programYear
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class ProgramYearDTO
 {
 
     /**
     * @var int
-    * @JMS\Type("integer")
+     * @IS\Expose
+    * @IS\Type("integer")
     */
     public $id;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("startYear")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $startYear;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $locked;
 
     /**
      * @var boolean
      *
-     * @JMS\Expose
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $archived;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publishedAsTbd")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $publishedAsTbd;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $published;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $program;
 
     /**
     * @var int
-    * @JMS\Type("string")
+     * @IS\Expose
+    * @IS\Type("string")
     */
     public $cohort;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $directors;
 
     /**
      * @var ArrayCollection|CompetencyInterface[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $competencies;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $terms;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $objectives;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $stewards;
 

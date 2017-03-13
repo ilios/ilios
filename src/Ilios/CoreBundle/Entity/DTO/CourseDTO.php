@@ -2,159 +2,175 @@
 
 namespace Ilios\CoreBundle\Entity\DTO;
 
-use JMS\Serializer\Annotation as JMS;
+use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class CourseDTO
  * Data transfer object for a course
  * @package Ilios\CoreBundle\Entity\DTO
-
+ *
+ * @IS\DTO
  */
 class CourseDTO
 {
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $id;
 
     /**
      * @var string
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $title;
 
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $level;
 
     /**
      * @var int
-     * @JMS\Type("integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      */
     public $year;
 
     /**
+     * @IS\Expose
      * @var \DateTime
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("startDate")
+     * @IS\Type("dateTime")
      */
     public $startDate;
 
     /**
      * @var \DateTime
-     * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("endDate")
+     * @IS\Expose
+     * @IS\Type("dateTime")
      */
     public $endDate;
 
     /**
      * @var string
-     * @JMS\Type("string")
-     * @JMS\SerializedName("externalId")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $externalId;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $locked;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $archived;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
-     * @JMS\SerializedName("publishedAsTbd")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $publishedAsTbd;
 
     /**
      * @var boolean
-     * @JMS\Type("boolean")
+     * @IS\Expose
+     * @IS\Type("boolean")
      */
     public $published;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("clerkshipType")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $clerkshipType;
 
     /**
      * @var int
-     * @JMS\Type("string")
-     * @JMS\SerializedName("school")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $school;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $directors;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $administrators;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $cohorts;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $terms;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $objectives;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("meshDescriptors")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $meshDescriptors;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
-     * @JMS\SerializedName("learningMaterials")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $learningMaterials;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $sessions;
 
     /**
      * @var int
-     * @JMS\Type("string")
+     * @IS\Expose
+     * @IS\Type("string")
      */
     public $ancestor;
 
     /**
      * @var int[]
-     * @JMS\Type("array<string>")
+     * @IS\Expose
+     * @IS\Type("array<string>")
      */
     public $descendants;
 
