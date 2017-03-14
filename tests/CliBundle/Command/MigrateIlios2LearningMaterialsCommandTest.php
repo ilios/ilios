@@ -65,7 +65,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
             ->shouldReceive('getSymfonyFileForPath')->with('path/pathtofile')->andReturn($file)->once()
             ->shouldReceive('storeLearningMaterialFile')->with($file)->andReturn('newrelativepath')->once()
         ;
-        $this->sayYesWhenAsked();
+        $this->commandTester->setInputs(['Yes']);
         
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -99,7 +99,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
             ->shouldReceive('flushAndClear')->once()
         ;
 
-        $this->sayYesWhenAsked();
+        $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'pathToIlios2'         => 'path'
@@ -130,15 +130,5 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
     {
         $this->setExpectedException('RuntimeException');
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
-    }
-
-    protected function sayYesWhenAsked()
-    {
-        $stream = fopen('php://memory', 'r+', false);
-        
-        fputs($stream, 'Yes\\n');
-        rewind($stream);
-        
-        $this->questionHelper->setInputStream($stream);
     }
 }

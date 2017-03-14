@@ -88,7 +88,7 @@ class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('update')
             ->with($role);
         
-        $this->sayYesWhenAsked();
+        $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute(array(
             'command'   => self::COMMAND_NAME,
             'filter'    => 'FILTER'
@@ -122,15 +122,5 @@ class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('RuntimeException');
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
-    }
-
-    protected function sayYesWhenAsked()
-    {
-        $stream = fopen('php://memory', 'r+', false);
-        
-        fputs($stream, 'Yes\\n');
-        rewind($stream);
-        
-        $this->questionHelper->setInputStream($stream);
     }
 }

@@ -108,7 +108,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     public function testAskForMissingSchools()
     {
         $this->getReadyForInput();
-        $this->answerQuestion(['0', 'Yes']);
+        $this->commandTester->setInputs(['0', 'Yes']);
         $this->commandTester->execute(array(
             'command' => self::COMMAND_NAME,
             '--email' => 'email@example.com',
@@ -119,7 +119,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     public function testAskForMissingEmail()
     {
         $this->getReadyForInput();
-        $this->answerQuestion(['email@example.com', 'Yes']);
+        $this->commandTester->setInputs(['email@example.com', 'Yes']);
         $this->commandTester->execute(array(
             'command' => self::COMMAND_NAME,
             '--school' => '1',
@@ -176,16 +176,5 @@ class InstallFirstUserCommandTest extends KernelTestCase
     {
         $output = $this->commandTester->getDisplay();
         $this->assertContains('Success!', $output);
-    }
-
-    protected function answerQuestion(array $input)
-    {
-        $stream = fopen('php://memory', 'r+', false);
-        foreach ($input as $value) {
-            fputs($stream, $value . "\n");
-        }
-        rewind($stream);
-
-        $this->questionHelper->setInputStream($stream);
     }
 }
