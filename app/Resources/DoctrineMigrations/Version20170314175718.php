@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Adds position column to objective table.
  */
-class Version20170309175718 extends AbstractMigration
+class Version20170314175718 extends AbstractMigration
 {
     /**
      * @inheritdoc
