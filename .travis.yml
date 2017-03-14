@@ -90,7 +90,6 @@ before_install:
   then wget http://get.sensiolabs.org/security-checker.phar -O security-checker.phar;
   fi
 install:
-- SYMFONY_ENV=prod composer install --no-interaction --no-dev --prefer-dist
 - composer install --no-interaction --prefer-dist -d ${TRAVIS_BUILD_DIR}
 before_script:
 - bin/console doctrine:database:drop --force --env=dev
