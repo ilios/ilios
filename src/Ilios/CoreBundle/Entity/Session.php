@@ -84,9 +84,8 @@ class Session implements SessionInterface
     /**
      * @var boolean
      *
-     * @ORM\Column(name="attire_required", type="boolean")
+     * @ORM\Column(name="attire_required", type="boolean", nullable=true)
      *
-     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @IS\Expose
@@ -97,9 +96,8 @@ class Session implements SessionInterface
     /**
      * @var boolean
      *
-     * @ORM\Column(name="equipment_required", type="boolean")
+     * @ORM\Column(name="equipment_required", type="boolean", nullable=true)
      *
-     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @IS\Expose
@@ -110,15 +108,26 @@ class Session implements SessionInterface
     /**
      * @var boolean
      *
-     * @ORM\Column(name="supplemental", type="boolean")
+     * @ORM\Column(name="supplemental", type="boolean", nullable=true)
      *
-     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @IS\Expose
      * @IS\Type("boolean")
      */
     protected $supplemental;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="attendance_required", type="boolean", nullable=true)
+     *
+     * @Assert\Type(type="bool")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    protected $attendanceRequired;
 
     /**
      * @var boolean
@@ -314,9 +323,10 @@ class Session implements SessionInterface
      */
     public function __construct()
     {
-        $this->attireRequired = false;
-        $this->equipmentRequired = false;
-        $this->supplemental = false;
+        $this->attireRequired = null;
+        $this->equipmentRequired = null;
+        $this->supplemental = null;
+        $this->attendanceRequired = null;
         $this->publishedAsTbd = false;
         $this->published = false;
         $this->terms = new ArrayCollection();
@@ -376,6 +386,22 @@ class Session implements SessionInterface
     public function isSupplemental()
     {
         return $this->supplemental;
+    }
+
+    /**
+     * @param boolean $attendanceRequired
+     */
+    public function setAttendanceRequired($attendanceRequired)
+    {
+        $this->attendanceRequired = $attendanceRequired;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAttendanceRequired()
+    {
+        return $this->attendanceRequired;
     }
 
     /**

@@ -98,6 +98,15 @@ class SessionTest extends EntityBase
     }
 
     /**
+     * @covers \Ilios\CoreBundle\Entity\Session::setAttendanceRequired
+     * @covers \Ilios\CoreBundle\Entity\Session::isAttendanceRequired
+     */
+    public function testSetAttendanceRequired()
+    {
+        $this->booleanSetTest('attendanceRequired');
+    }
+
+    /**
      * @covers \Ilios\CoreBundle\Entity\Session::setPublishedAsTbd
      * @covers \Ilios\CoreBundle\Entity\Session::isPublishedAsTbd
      */

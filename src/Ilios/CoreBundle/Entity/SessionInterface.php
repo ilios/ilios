@@ -66,6 +66,16 @@ interface SessionInterface extends
     public function isSupplemental();
 
     /**
+     * @param boolean $attendanceRequired
+     */
+    public function setAttendanceRequired($attendanceRequired);
+
+    /**
+     * @return boolean
+     */
+    public function isAttendanceRequired();
+
+    /**
      * @param SessionTypeInterface $sessionType
      */
     public function setSessionType(SessionTypeInterface $sessionType);

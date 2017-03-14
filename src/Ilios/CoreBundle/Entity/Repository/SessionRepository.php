@@ -52,6 +52,7 @@ class SessionRepository extends EntityRepository
                 $arr['attireRequired'],
                 $arr['equipmentRequired'],
                 $arr['supplemental'],
+                $arr['attendanceRequired'],
                 $arr['publishedAsTbd'],
                 $arr['published'],
                 $arr['updatedAt']
