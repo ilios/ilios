@@ -92,7 +92,7 @@ class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
             'username' => 'abc123'
         ];
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
-        $this->sayYesWhenAsked();
+        $this->commandTester->setInputs(['Yes']);
         
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
@@ -155,15 +155,5 @@ class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',
         ));
-    }
-
-    protected function sayYesWhenAsked()
-    {
-        $stream = fopen('php://memory', 'r+', false);
-        
-        fputs($stream, 'Yes\\n');
-        rewind($stream);
-        
-        $this->questionHelper->setInputStream($stream);
     }
 }

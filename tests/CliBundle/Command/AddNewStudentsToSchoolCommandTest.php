@@ -128,7 +128,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
         $this->authenticationManager->shouldReceive('create')->andReturn($authentication);
         $this->authenticationManager->shouldReceive('update')->with($authentication, false);
         
-        $this->sayYesWhenAsked();
+        $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute(array(
             'command'   => self::COMMAND_NAME,
             'schoolId'    => 1,
@@ -186,16 +186,5 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
             'command'      => self::COMMAND_NAME,
             'filter'         => '1',
         ));
-    }
-    
-
-    protected function sayYesWhenAsked()
-    {
-        $stream = fopen('php://memory', 'r+', false);
-        
-        fputs($stream, 'Yes\\n');
-        rewind($stream);
-        
-        $this->questionHelper->setInputStream($stream);
     }
 }

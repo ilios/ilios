@@ -58,7 +58,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $this->getReadyForInput();
-        $this->answerQuestion(['Yes']);
+        $this->commandTester->setInputs(['Yes']);
 
         $this->commandTester->execute(array(
             'command'           => self::COMMAND_NAME,
@@ -91,7 +91,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->getReadyForInput();
 
-        $this->answerQuestion(['first', 'Yes']);
+        $this->commandTester->setInputs(['first', 'Yes']);
 
         $this->commandTester->execute(array(
             'command'           => self::COMMAND_NAME,
@@ -112,7 +112,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->getReadyForInput();
 
-        $this->answerQuestion(['last', 'Yes']);
+        $this->commandTester->setInputs(['last', 'Yes']);
 
         $this->commandTester->execute(array(
             'command'             => self::COMMAND_NAME,
@@ -133,7 +133,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->getReadyForInput();
 
-        $this->answerQuestion(['email@example.com', 'Yes']);
+        $this->commandTester->setInputs(['email@example.com', 'Yes']);
 
         $this->commandTester->execute(array(
             'command'             => self::COMMAND_NAME,
@@ -154,7 +154,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->getReadyForInput();
 
-        $this->answerQuestion(['phone', 'Yes']);
+        $this->commandTester->setInputs(['phone', 'Yes']);
 
         $this->commandTester->execute(array(
             'command'             => self::COMMAND_NAME,
@@ -175,7 +175,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->getReadyForInput();
 
-        $this->answerQuestion(['abc', 'Yes']);
+        $this->commandTester->setInputs(['abc', 'Yes']);
 
         $this->commandTester->execute(array(
             'command'             => self::COMMAND_NAME,
@@ -196,7 +196,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->getReadyForInput();
 
-        $this->answerQuestion(['abc123', 'Yes']);
+        $this->commandTester->setInputs(['abc123', 'Yes']);
 
         $this->commandTester->execute(array(
             'command'             => self::COMMAND_NAME,
@@ -217,7 +217,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->getReadyForInput();
 
-        $this->answerQuestion(['abc123pass', 'Yes']);
+        $this->commandTester->setInputs(['abc123pass', 'Yes']);
 
         $this->commandTester->execute(array(
             'command'             => self::COMMAND_NAME,
@@ -280,16 +280,5 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
             '/Success! New user #1 Test Person created./',
             $output
         );
-    }
-
-    protected function answerQuestion(array $input)
-    {
-        $stream = fopen('php://memory', 'r+', false);
-        foreach ($input as $value) {
-            fputs($stream, $value . "\n");
-        }
-        rewind($stream);
-
-        $this->questionHelper->setInputStream($stream);
     }
 }
