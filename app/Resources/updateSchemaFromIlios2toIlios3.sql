@@ -1,3 +1,4 @@
+SET SQL_MODE = '';
 DROP PROCEDURE IF EXISTS drop_index_if_exists;
 DROP PROCEDURE IF EXISTS drop_key_if_exists;
 DROP PROCEDURE IF EXISTS drop_fk_if_exists;
