@@ -128,13 +128,16 @@ legacy_password_salt: null
 file_system_storage_path: /web/ilios3/file_uploads
  
 # Curriculum Inventory Reporting:
-# This is the name of the institution as it will appear in the Curriculum Inventory Export
+# This is the name of the institution as it will appear in the Curriculum
+# Inventory Export
 institution_domain: ucsf.edu
  
-# This should be the link to where your Curriculum Inventory Export may be viewed:
+# This should be the link to where your Curriculum Inventory Export may
+# be viewed:
 supporting_link: null
  
-# if you are using LDAP to authenticate users logging into Ilios, you should fill these in, otherwise leave 'null'
+# if you are using LDAP to authenticate users logging into Ilios, you should
+# fill these in, otherwise leave 'null'
 ldap_authentication_host: null
 ldap_authentication_port: null
 ldap_authentication_bind_template: null
@@ -171,7 +174,8 @@ forceProtocol: https
 # command.
 keep_frontend_updated: true
  
-# Enter the following values only if you are using CAS to authenticate users logging into Ilios, otherwise leave default or null
+# Enter the following values only if you are using CAS to authenticate 
+# users logging into Ilios, otherwise leave default or null
 cas_authentication_server: null
 cas_authentication_version: 3
 cas_authentication_verify_ssl: true
