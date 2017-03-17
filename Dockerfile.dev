@@ -27,9 +27,9 @@ COPY docker/ilios.ini /etc/php/7.0/apache2/conf.d/
 COPY docker/ilios.ini /etc/php/7.0/cli/conf.d/
 COPY docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
 
-ENV SYMFONY_ENV=prod \
-  ILIOS_API_ENVIRONMENT=prod \
-  ILIOS_API_DEBUG=false \
+ENV SYMFONY_ENV=dev \
+  ILIOS_API_ENVIRONMENT=dev \
+  ILIOS_API_DEBUG=true \
   ILIOS_DATABASE_DRIVER=pdo_mysql \
   ILIOS_DATABASE_HOST=ilios-demo-db \
   ILIOS_DATABASE_PORT=~ \
@@ -89,10 +89,8 @@ USER www-data
 RUN /usr/bin/composer install \
   --working-dir /var/www/ilios \
   --prefer-dist \
-  --no-dev \
   --no-progress \
   --optimize-autoloader
-RUN /var/www/ilios/bin/console ilios:maintenance:update-frontend  -env=prod
 
 USER root
 
