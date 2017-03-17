@@ -176,7 +176,7 @@ sudo -u apache bin/console cache:clear --env=prod
 
 6. Lastly, update the auto-loader to account for any new classes/classmap packages:
 ```
-sudo -u apache SYMFONY_ENV=prod composer dump-autoload --optimize --no-dev --classmap-authoritative
+sudo -u apache SYMFONY_ENV=prod composer dump-autoload --no-dev --classmap-authoritative
 ```
 
 Congratulations! Once you've the completed the above steps, the latest codebase will have been built and deployed!
