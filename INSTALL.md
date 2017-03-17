@@ -88,18 +88,20 @@ database_driver: pdo_mysql
 #Set this to your database host's IP address or hostname
 database_host: 127.0.0.1
  
- 
-#3306 is the default for MySQL, but your db port may be different
+#3306 is the default for MySQL but your db port may be different
 database_port: 3306
-
+ 
 #enter the name of your database where your Ilios data resides 
-database_name: ilios3
-
+database_name: ilios
+ 
 #enter the name of the user login name you use for accessing the database 
 database_user: ilios_user
-
+ 
 #this should be set to YOUR database password
 database_password: 3x@mp73P@$$w0rd
+ 
+# Set the version of your MySQL database server software
+database_mysql_version: 5.6
  
 #default values, set to your values if different
 mailer_transport: smtp
@@ -109,43 +111,92 @@ mailer_password: null
  
 #en = 'english', enter your desired language ISO abbreviation, if different
 locale: en
-
-#this should be a long string of random characters and letters of your choosing.  If you are 
+ 
+#The value for 'secret' should be a long string of random characters and letters of your choosing.  If you are 
 #running in a load-balanced environment, these need to be the same on all the webservers in
 #the group. IMPORTANT:  You MUST change this to your own value as using the default value would
 #be EXTREMELY dangerous in a production enviroment!
 secret: ThisCanBeWhateverYouLike,JustMakeSureYouChangeIt!
-
-# can currently be 'form' (default),'ldap', or 'shibboleth' depeding on your institution
+ 
+# Authenticaion_type can currently be 'form' (default),'ldap', 'shibboleth',
+# and 'cas' depending on your institution
 authentication_type: form
-
-#legacy_password_salt should be your old Ilios2 password salt, if upgrading from ilios 2, otherwise, leave as 'null' (default):
+ 
+#legacy_password_salt should be your old Ilios2 password salt, if upgrading
+# from ilios 2, otherwise, leave as 'null' (default):
 legacy_password_salt: null
-
-#file_system_storage_path is where you plan to put your uploadable files, like learning materials
+ 
+#file_system_storage_path is where you plan to put your uploadable files, like
+#learning materials
 file_system_storage_path: /web/ilios3/file_uploads
-
-
-# if you are using LDAP to authenticate users on the system, you should fill these in, otherwise leave 'null'
+ 
+# Curriculum Inventory Reporting:
+# This is the name of the institution as it will appear in the Curriculum
+# Inventory Export
+institution_domain: ucsf.edu
+ 
+# This should be the link to where your Curriculum Inventory Export may
+# be viewed:
+supporting_link: null
+ 
+# if you are using LDAP to authenticate users logging into Ilios, you should
+# fill these in, otherwise leave 'null'
 ldap_authentication_host: null
 ldap_authentication_port: null
 ldap_authentication_bind_template: null
+
+# if you connect to a directory to pull user info and attributes via an LDAP
+# connection, fill in these LDAP values. Otherwise leave null
 ldap_directory_url: null
 ldap_directory_user: null
 ldap_directory_password: null
 ldap_directory_search_base: null
 ldap_directory_campus_id_property: null
 ldap_directory_username_property: null
+ 
+# if you use Shibboleth to authenticate users logging into Ilios, you should
+# fill in the appropriate values here, otherwise null or default values 
+# should be fine
+shibboleth_authentication_login_path: /Shibboleth.sso/Login
+shibboleth_authentication_logout_path: /Shibboleth.sso/Logout
+shibboleth_authentication_user_id_attribute: eppn
 
-# This is for the curriculum inventory reporting
-# This is the name of the institution as it will appear in the Curriculum Inventory Export
-institution_domain: ucsf.edu
-# This should be the link to where your Curriculum Inventory Export may be viewed:
-supporting_link: null
+# Setting the appropriate timezone value is VERY IMPORTANT.
+# Set this value to the appropriate timezone as selected from 
+# the list at http://php.net/manual/en/timezones.php
+timezone: America/Los_Angeles
 
-#and finally, the current mysql database version
-database_mysql_version: 5.1
-```   
+# The Ilios Project always recommends you only connect to your Ilios
+# application over https, but you may need to set this value to force 'http
+# connections if your configuration requires it (behind an already-encrypted
+# load-balancer, etc)
+forceProtocol: https
+  
+# Keeping the frontend updated ensures that you will receive the latest
+# frontend whenever you run the 'ilios:maintenance:update-frontend' console
+# command.
+keep_frontend_updated: true
+ 
+# Enter the following values only if you are using CAS to authenticate 
+# users logging into Ilios, otherwise leave default or null
+cas_authentication_server: null
+cas_authentication_version: 3
+cas_authentication_verify_ssl: true
+cas_authentication_certificate_path: null
+```
+
+That should complete the first-time configuration of the parameters.yml file.  If you need to update these values, you can do so at anytime by editing the file directly, but you will need to clear the Symfony cache after making any changes by running the following console command from the root of the Ilios application:
+```
+sudo -u apache bin/console cache:clear --env=prod
+```
+
+
+6. Lastly, update the auto-loader to account for any new classes/classmap packages:
+```
+sudo -u apache SYMFONY_ENV=prod composer dump-autoload --no-dev --classmap-authoritative
+```
+
+Congratulations! Once you've the completed the above steps, the latest codebase will have been built and deployed!
 
 ## Database
 
