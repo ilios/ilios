@@ -1,4 +1,8 @@
-# Change Log
+# Release Notes
+In order to standardize and improve our release process, the Ilios team has discontinued the use of this change log
+and will instead publish changes in our [Release Notes](https://github.com/ilios/ilios/releases)
+
+# Change Log (for previous releases)
 
 ## [v3.28.1](https://github.com/ilios/ilios/tree/v3.28.1)
 
