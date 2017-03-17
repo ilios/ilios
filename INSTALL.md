@@ -139,7 +139,8 @@ ldap_authentication_host: null
 ldap_authentication_port: null
 ldap_authentication_bind_template: null
 
-# if you connect to a directory to pull user info and attributes via an LDAP connection, fill in these LDAP values. Otherwise leave null
+# if you connect to a directory to pull user info and attributes via an LDAP
+# connection, fill in these LDAP values. Otherwise leave null
 ldap_directory_url: null
 ldap_directory_user: null
 ldap_directory_password: null
@@ -147,18 +148,27 @@ ldap_directory_search_base: null
 ldap_directory_campus_id_property: null
 ldap_directory_username_property: null
  
-# if you use Shibboleth to authenticate users logging into Ilios, you should fill in the appropriate values here, otherwise null or default values will be fine
+# if you use Shibboleth to authenticate users logging into Ilios, you should
+# fill in the appropriate values here, otherwise null or default values 
+# should be fine
 shibboleth_authentication_login_path: /Shibboleth.sso/Login
 shibboleth_authentication_logout_path: /Shibboleth.sso/Logout
 shibboleth_authentication_user_id_attribute: eppn
 
-# Setting the appropriate timezone value is VERY IMPORTANT.  Set this value to the appropriate timezone as selected from the list [here](http://php.net/manual/en/timezones.php)
+# Setting the appropriate timezone value is VERY IMPORTANT.
+# Set this value to the appropriate timezone as selected from 
+# the list at http://php.net/manual/en/timezones.php
 timezone: America/Los_Angeles
 
-# The Ilios Project always recommends you only connect to your Ilios application over https, but you may need to set this value to force 'http' connections if your configuration requires it (behind an already-encrypted load-balancer, etc)
+# The Ilios Project always recommends you only connect to your Ilios
+# application over https, but you may need to set this value to force 'http
+# connections if your configuration requires it (behind an already-encrypted
+# load-balancer, etc)
 forceProtocol: https
   
-# Keeping the frontend updated ensures that you will receive the latest frontend whenever you run the 'ilios:maintenance:update-frontend' console command.
+# Keeping the frontend updated ensures that you will receive the latest
+# frontend whenever you run the 'ilios:maintenance:update-frontend' console
+# command.
 keep_frontend_updated: true
  
 # Enter the following values only if you are using CAS to authenticate users logging into Ilios, otherwise leave default or null
