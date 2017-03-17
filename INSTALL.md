@@ -118,13 +118,16 @@ locale: en
 #be EXTREMELY dangerous in a production enviroment!
 secret: ThisCanBeWhateverYouLike,JustMakeSureYouChangeIt!
  
-# Authenticaion_type can currently be 'form' (default),'ldap', 'shibboleth', and 'cas' depending on your institution
+# Authenticaion_type can currently be 'form' (default),'ldap', 'shibboleth',
+# and 'cas' depending on your institution
 authentication_type: form
  
-#legacy_password_salt should be your old Ilios2 password salt, if upgrading from ilios 2, otherwise, leave as 'null' (default):
+#legacy_password_salt should be your old Ilios2 password salt, if upgrading
+# from ilios 2, otherwise, leave as 'null' (default):
 legacy_password_salt: null
  
-#file_system_storage_path is where you plan to put your uploadable files, like learning materials
+#file_system_storage_path is where you plan to put your uploadable files, like
+#learning materials
 file_system_storage_path: /web/ilios3/file_uploads
  
 # Curriculum Inventory Reporting:
