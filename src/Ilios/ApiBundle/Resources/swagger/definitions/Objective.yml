@@ -8,6 +8,9 @@ Objective:
   title:
    description: Title
    type: string
+  position:
+   description: Sort order position
+   type: integer
   competency:
    description: Competency
    type: string

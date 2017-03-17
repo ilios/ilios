@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\MeshDescriptorsEntityInterface;
+use Ilios\CoreBundle\Traits\SortableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\CoursesEntityInterface;
 use Ilios\CoreBundle\Traits\SessionsEntityInterface;
@@ -22,7 +23,8 @@ interface ObjectiveInterface extends
     SessionsEntityInterface,
     ProgramYearsEntityInterface,
     LoggableEntityInterface,
-    MeshDescriptorsEntityInterface
+    MeshDescriptorsEntityInterface,
+    SortableEntityInterface
 {
     /**
      * @param CompetencyInterface $competency

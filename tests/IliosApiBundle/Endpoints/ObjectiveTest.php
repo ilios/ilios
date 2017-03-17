@@ -39,6 +39,7 @@ class ObjectiveTest extends AbstractEndpointTest
     {
         return [
             'title' => ['title', $this->getFaker()->text],
+            'position' => ['position', $this->getFaker()->randomDigit],
             'competency' => ['competency', 1],
             'courses' => ['courses', [3]],
             'programYears' => ['programYears', [2]],
@@ -69,6 +70,7 @@ class ObjectiveTest extends AbstractEndpointTest
         return [
             'id' => [[0], ['id' => 1]],
             'title' => [[1], ['title' => 'second objective']],
+            'position' => [[0, 1, 2, 3, 4, 5, 6], ['position' => 0]],
             'competency' => [[0], ['competency' => 3]],
             'courses' => [[1, 3], ['courses' => [2]]],
             'programYears' => [[0, 1], ['programYears' => [1]]],

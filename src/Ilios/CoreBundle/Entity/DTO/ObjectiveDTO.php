@@ -100,13 +100,23 @@ class ObjectiveDTO
      */
     public $descendants;
 
+    /**
+     * @var int
+     * @IS\Expose
+     * @IS\Type("integer")
+     *
+     */
+    public $position;
+
 
     public function __construct(
         $id,
-        $title
+        $title,
+        $position
     ) {
         $this->id = $id;
         $this->title = $title;
+        $this->position = $position;
 
         $this->courses = [];
         $this->programYears = [];

@@ -262,4 +262,13 @@ class ObjectiveTest extends EntityBase
     {
         $this->entityCollectionSetTest('descendant', 'Objective');
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Objective::setPosition
+     * @covers \Ilios\CoreBundle\Entity\Objective::getPosition
+     */
+    public function testSetPosition()
+    {
+        $this->basicSetTest('position', 'integer');
+    }
 }
