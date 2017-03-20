@@ -36,7 +36,13 @@ class LoggerQueue
      */
     public function add($action, $entity, $changes)
     {
-        $this->queue[] = ['action' => $action, 'entity' => $entity, 'changes' => $changes];
+        $this->queue[] = [
+            'action' => $action,
+            'entity' => $entity,
+            //deleted entities lose their ID before they can be logged so we must record it here
+            'id' => (string)$entity,
+            'changes' => $changes
+        ];
     }
 
     /**
@@ -51,10 +57,11 @@ class LoggerQueue
             while (count($this->queue)) {
                 $item = array_pop($this->queue);
                 $action = $item['action'];
-                $entity = $item['entity'];
-                $id = (string)$entity;
+                //New entities don't have an ID until this point
+                $objectId = $action === 'delete'?$item['id']:(string)$item['entity'];
+                $objectClass = get_class($item['entity']);
                 $changes = $item['changes'];
-                $this->logger->log($action, $id, get_class($entity), $changes, false);
+                $this->logger->log($action, $objectId, $objectClass, $changes, false);
             }
             $this->logger->flush(); // explicitly flush the logger.
         } catch (\Exception $e) {
