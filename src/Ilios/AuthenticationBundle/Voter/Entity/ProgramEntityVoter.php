@@ -69,14 +69,11 @@ class ProgramEntityVoter extends AbstractVoter
                     (
                         $this->userHasRole($user, ['Course Director', 'Developer'])
                         && (
-                            $this->schoolsAreIdentical($program->getSchool(), $user->getSchool())
-                            || $this->permissionManager->userHasWritePermissionToSchool(
-                                $user,
-                                $program->getSchool()->getId()
-                            )
+                            $user->isThePrimarySchool($program->getSchool())
+                            || $user->hasWritePermissionToSchool($program->getSchool()->getId())
                         )
                     )
-                    || $this->permissionManager->userHasWritePermissionToProgram($user, $program)
+                    || $user->hasWritePermissionToProgram($program->getId())
                 );
                 break;
         }

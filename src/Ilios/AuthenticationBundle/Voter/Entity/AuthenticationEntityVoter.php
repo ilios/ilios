@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
+use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -43,6 +44,7 @@ class AuthenticationEntityVoter extends AbstractVoter
      */
     protected function voteOnAttribute($attribute, $authentication, TokenInterface $token)
     {
+        /** @var SessionUserInterface $user */
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
             return false;
@@ -66,14 +68,14 @@ class AuthenticationEntityVoter extends AbstractVoter
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
+                $allSchoolIds = $authentication->getUser()->getAllSchools()->map(function (SchoolInterface $school) {
+                   return $school->getId();
+                });
                 return (
                     $this->userHasRole($user, ['Developer'])
                     && (
-                        $authentication->getUser()->getAllSchools()->contains($user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchools(
-                            $user,
-                            $authentication->getUser()->getAllSchools()
-                        )
+                        $allSchoolIds->contains($user->getSchoolId())
+                        || $user->hasWritePermissionToSchools($allSchoolIds->toArray())
                     )
                 );
                 break;

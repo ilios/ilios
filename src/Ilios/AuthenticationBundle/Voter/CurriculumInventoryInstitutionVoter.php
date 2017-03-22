@@ -69,11 +69,8 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical($user->getSchool(), $institution->getSchool())
-                        || $this->permissionManager->userHasReadPermissionToSchool(
-                            $user,
-                            $institution->getSchool()->getId()
-                        )
+                        $user->isThePrimarySchool($institution->getSchool())
+                        || $user->hasReadPermissionToSchool($institution->getSchool()->getId())
                     )
                 );
                 break;
@@ -90,11 +87,8 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical($user->getSchool(), $institution->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $institution->getSchool()->getId()
-                        )
+                        $user->isThePrimarySchool($institution->getSchool())
+                        || $user->hasWritePermissionToSchool($institution->getSchool()->getId())
                     )
                 );
                 break;

@@ -77,7 +77,7 @@ class ProgramYearEntityVoter extends AbstractVoter
 
     /**
      * @param ProgramYearInterface $programYear
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @return bool
      */
     protected function isViewGranted($programYear, $user)
@@ -88,7 +88,7 @@ class ProgramYearEntityVoter extends AbstractVoter
 
     /**
      * @param ProgramYearInterface $programYear
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @return bool
      */
     protected function isWriteGranted(ProgramYearInterface $programYear, $user)
@@ -107,15 +107,11 @@ class ProgramYearEntityVoter extends AbstractVoter
             (
                 $this->userHasRole($user, ['Course Director', 'Developer'])
                 && (
-                    $this->schoolsAreIdentical($programYear->getSchool(), $user->getSchool())
-                    || $this->permissionManager->userHasWritePermissionToSchool(
-                        $user,
-                        $programYear->getSchool()->getId()
-                    )
-                    || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
+                    $user->isThePrimarySchool($programYear->getSchool())
+                    || $user->hasWritePermissionToSchool($programYear->getSchool()->getId())
                 )
             )
-            || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
+            || $user->hasWritePermissionToProgram($programYear->getProgram()->getId())
         );
     }
 }

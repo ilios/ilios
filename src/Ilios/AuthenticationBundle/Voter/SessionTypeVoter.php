@@ -68,11 +68,8 @@ class SessionTypeVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Developer'])
                     && (
-                        $this->schoolsAreIdentical($sessionType->getSchool(), $user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $sessionType->getSchool()->getId()
-                        )
+                        $user->isThePrimarySchool($sessionType->getSchool())
+                        || $user->hasWritePermissionToSchool($sessionType->getSchool()->getId())
                     )
                 );
                 break;

@@ -70,8 +70,8 @@ class SchoolEntityVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Developer'])
                     && (
-                        $this->schoolsAreIdentical($school, $user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $school->getId())
+                        $user->isThePrimarySchool($school)
+                        || $user->hasWritePermissionToSchool($school->getId())
                     )
                 );
                 break;

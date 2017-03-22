@@ -64,21 +64,12 @@ class ProgramYearStewardVoter extends AbstractVoter
                     (
                         $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
                         && (
-                            $this->schoolsAreIdentical(
-                                $steward->getProgramOwningSchool(),
-                                $user->getSchool()
-                            )
-                            || $this->permissionManager->userHasReadPermissionToSchool(
-                                $user,
-                                $steward->getProgramOwningSchool()->getId()
-                            )
-                            || $this->schoolsAreIdentical($steward->getSchool(), $user->getSchool())
+                            $user->isThePrimarySchool($steward->getProgramOwningSchool())
+                            || $user->hasReadPermissionToSchool($steward->getProgramOwningSchool()->getId())
+                            || $user->isThePrimarySchool($steward->getSchool())
                         )
                     )
-                    || $this->permissionManager->userHasReadPermissionToProgram(
-                        $user,
-                        $steward->getProgram()
-                    )
+                    || $user->hasReadPermissionToProgram($steward->getProgram()->getId())
                 );
                 break;
             case self::CREATE:
@@ -97,21 +88,12 @@ class ProgramYearStewardVoter extends AbstractVoter
                     (
                         $this->userHasRole($user, ['Course Director', 'Developer'])
                         && (
-                            $this->schoolsAreIdentical(
-                                $steward->getProgramOwningSchool(),
-                                $user->getSchool()
-                            )
-                            || $this->permissionManager->userHasWritePermissionToSchool(
-                                $user,
-                                $steward->getProgramOwningSchool()->getId()
-                            )
-                            || $this->schoolsAreIdentical($steward->getSchool(), $user->getSchool())
+                            $user->isThePrimarySchool($steward->getProgramOwningSchool())
+                            || $user->hasWritePermissionToSchool($steward->getProgramOwningSchool()->getId())
+                            || $user->isThePrimarySchool($steward->getSchool())
                         )
                     )
-                    || $this->permissionManager->userHasWritePermissionToProgram(
-                        $user,
-                        $steward->getProgram()
-                    )
+                    || $user->hasWritePermissionToProgram($steward->getProgram()->getId())
                 );
                 break;
         }

@@ -64,6 +64,15 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function hasReadPermissionToSchool($schoolId);
 
     /**
+     * Check if a user can read a program
+     *
+     * @param $programId
+     *
+     * @return boolean
+     */
+    public function hasReadPermissionToProgram($programId);
+
+    /**
      * Check if a user can read a course
      *
      * @param $courseId
@@ -80,6 +89,24 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return boolean
      */
     public function hasWritePermissionToSchool($schoolId);
+
+    /**
+     * Check if a user can write a school
+     *
+     * @param array $schoolIds
+     *
+     * @return boolean
+     */
+    public function hasWritePermissionToSchools(array $schoolIds);
+
+    /**
+     * Check if a user can write a program
+     *
+     * @param $programId
+     *
+     * @return boolean
+     */
+    public function hasWritePermissionToProgram($programId);
 
     /**
      * Check if a user can write a course

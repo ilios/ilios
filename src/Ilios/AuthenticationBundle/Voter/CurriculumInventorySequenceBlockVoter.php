@@ -2,6 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -35,7 +37,7 @@ class CurriculumInventorySequenceBlockVoter extends CurriculumInventoryReportVot
     /**
      * {@inheritdoc}
      */
-    protected function isCreateGranted($report, $user)
+    protected function isCreateGranted(CurriculumInventoryReportInterface $report, SessionUserInterface $user)
     {
         // HALT!
         // Cannot create a sequence block once the parent report has been exported.

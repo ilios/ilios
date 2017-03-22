@@ -67,11 +67,8 @@ class CompetencyEntityVoter extends AbstractVoter
                 // via the permissions system.
                 return ($this->userHasRole($user, ['Developer'])
                     && (
-                        $this->schoolsAreIdentical($competency->getSchool(), $user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $competency->getSchool()->getId()
-                        )
+                        $user->isThePrimarySchool($competency->getSchool())
+                        || $user->hasWritePermissionToSchool($competency->getSchool()->getId())
                     )
                 );
                 break;

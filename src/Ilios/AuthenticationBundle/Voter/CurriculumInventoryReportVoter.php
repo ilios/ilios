@@ -68,10 +68,10 @@ class CurriculumInventoryReportVoter extends AbstractVoter
 
     /**
      * @param CurriculumInventoryReportInterface $report
-     * @param UserInterface $user
+     * @param SessionUserInterface $sessionUser
      * @return bool
      */
-    protected function isViewGranted($report, $user)
+    protected function isViewGranted(CurriculumInventoryReportInterface $report, SessionUserInterface $sessionUser)
     {
         // Only grant VIEW permissions to users with at least one of
         // 'Course Director' and 'Developer' roles.
@@ -81,38 +81,35 @@ class CurriculumInventoryReportVoter extends AbstractVoter
         //     - or - by READ rights for the school
         // via the permissions system.
         return (
-            $this->userHasRole($user, ['Course Director', 'Developer'])
+            $this->userHasRole($sessionUser, ['Course Director', 'Developer'])
             && (
-                $this->schoolsAreIdentical($user->getSchool(), $report->getSchool())
-                || $this->permissionManager->userHasReadPermissionToSchool(
-                    $user,
-                    $report->getSchool()->getId()
-                )
+                $sessionUser->isThePrimarySchool($report->getSchool())
+                || $sessionUser->hasReadPermissionToSchool($report->getSchool()->getId())
             )
         );
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
-     * @param UserInterface $user
+     * @param SessionUserInterface $sessionUser
      * @return bool
      */
-    protected function isEditGranted($report, $user)
+    protected function isEditGranted(CurriculumInventoryReportInterface $report, SessionUserInterface $sessionUser)
     {
         // HALT!
         // Reports cannot be edited once they have been exported.
         if ($report->getExport()) {
             return false;
         }
-        return $this->isCreateGranted($report, $user);
+        return $this->isCreateGranted($report, $sessionUser);
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
-     * @param UserInterface $user
+     * @param SessionUserInterface $sessionUser
      * @return bool
      */
-    protected function isCreateGranted($report, $user)
+    protected function isCreateGranted(CurriculumInventoryReportInterface $report, SessionUserInterface $sessionUser)
     {
         // Only grant CREATE, permissions to users with at least one of
         // 'Course Director' and 'Developer' roles.
@@ -122,23 +119,21 @@ class CurriculumInventoryReportVoter extends AbstractVoter
         //     - or - by WRITE rights for the school
         // via the permissions system.
         return (
-            $this->userHasRole($user, ['Course Director', 'Developer'])
+            $this->userHasRole($sessionUser, ['Course Director', 'Developer'])
             && (
-                $this->schoolsAreIdentical($user->getSchool(), $report->getSchool())
-                || $this->permissionManager->userHasWritePermissionToSchool(
-                    $user,
-                    $report->getSchool()->getId()
-                ))
+                $sessionUser->isThePrimarySchool($report->getSchool())
+                || $sessionUser->hasWritePermissionToSchool($report->getSchool()->getId())
+            )
         );
     }
 
     /**
      * @param CurriculumInventoryReportInterface $report
-     * @param UserInterface $user
+     * @param SessionUserInterface $sessionUser
      * @return bool
      */
-    protected function isDeleteGranted($report, $user)
+    protected function isDeleteGranted(CurriculumInventoryReportInterface $report, SessionUserInterface $sessionUser)
     {
-        return $this->isEditGranted($report, $user);
+        return $this->isEditGranted($report, $sessionUser);
     }
 }

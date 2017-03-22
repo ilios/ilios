@@ -92,10 +92,10 @@ class ObjectiveEntityVoter extends AbstractVoter
 
     /**
      * @param ObjectiveInterface $objective
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @return bool
      */
-    protected function isCreateEditDeleteGrantedForProgramYearObjective($objective, $user)
+    protected function isCreateEditDeleteGrantedForProgramYearObjective(ObjectiveInterface $objective, SessionUserInterface $user)
     {
 
         /* @var ProgramYearInterface $programYear */
@@ -110,21 +110,18 @@ class ObjectiveEntityVoter extends AbstractVoter
             (
                 $this->userHasRole($user, ['Course Director', 'Developer'])
                 && (
-                    $this->schoolsAreIdentical($programYear->getSchool(), $user->getSchool())
-                    || $this->permissionManager->userHasWritePermissionToSchool(
-                        $user,
-                        $programYear->getSchool()->getId()
-                    )
+                    $user->isThePrimarySchool($programYear->getSchool())
+                    || $user->hasWritePermissionToSchool($programYear->getSchool()->getId())
                     || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
                 )
             )
-            || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
+            || $user->hasWritePermissionToProgram($programYear->getProgram()->getId())
         );
     }
 
     /**
      * @param ObjectiveInterface $objective
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @return bool
      */
     protected function isCreateEditDeleteGrantedForSessionObjective($objective, $user)
@@ -145,16 +142,16 @@ class ObjectiveEntityVoter extends AbstractVoter
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
             && (
-                $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool()->getId())
+                $user->isThePrimarySchool($course->getSchool())
+                || $user->hasWritePermissionToSchool($course->getSchool()->getId())
             )
-            || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
+            || $user->hasWritePermissionToCourse($course->getId())
         );
     }
 
     /**
      * @param ObjectiveInterface $objective
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @return bool
      */
     protected function isCreateEditDeleteGrantedForCourseObjective($objective, $user)
@@ -172,10 +169,10 @@ class ObjectiveEntityVoter extends AbstractVoter
         return (
             $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
             && (
-                $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool()->getId())
+                $user->isThePrimarySchool($course->getSchool())
+                || $user->hasWritePermissionToSchool($course->getSchool()->getId())
             )
-            || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
+            || $user->hasWritePermissionToCourse($course->getId())
         );
     }
 }

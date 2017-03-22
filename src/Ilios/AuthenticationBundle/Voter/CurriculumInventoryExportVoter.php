@@ -14,19 +14,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class CurriculumInventoryExportVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
@@ -61,11 +48,9 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical($user->getSchool(), $export->getReport()->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $export->getReport()->getSchool()->getId()
-                        ))
+                        $user->isThePrimarySchool($export->getReport()->getSchool())
+                        || $user->hasWritePermissionToSchool($export->getReport()->getSchool()->getId())
+                    )
                 );
             case self::VIEW:
                 // Only grant VIEW permissions to users with at least one of
@@ -78,11 +63,9 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical($user->getSchool(), $export->getReport()->getSchool())
-                        || $this->permissionManager->userHasReadPermissionToSchool(
-                            $user,
-                            $export->getReport()->getSchool()->getId()
-                        ))
+                        $user->isThePrimarySchool($export->getReport()->getSchool())
+                        || $user->hasReadPermissionToSchool($export->getReport()->getSchool()->getId())
+                    )
                 );
                 break;
         }

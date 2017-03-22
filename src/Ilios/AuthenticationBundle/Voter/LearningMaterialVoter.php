@@ -54,7 +54,7 @@ class LearningMaterialVoter extends AbstractVoter
                 // 1. the user owns the learning material
                 // 2. the user has at least one of 'Faculty', 'Course Director' or 'Developer' roles.
                 return (
-                    $this->usersAreIdentical($user, $material->getOwningUser())
+                    $user->isTheUser($material->getOwningUser())
                     || $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
                 );
                 break;

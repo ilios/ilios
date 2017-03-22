@@ -261,6 +261,14 @@ class SessionUser implements SessionUserInterface
     /**
      * @inheritdoc
      */
+    public function hasReadPermissionToProgram($programId)
+    {
+        return $this->canRead('program', $programId);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function hasReadPermissionToCourse($courseId)
     {
         return $this->canRead('course', $courseId);
@@ -272,6 +280,28 @@ class SessionUser implements SessionUserInterface
     public function hasWritePermissionToSchool($schoolId)
     {
         return $this->canWrite('school', $schoolId);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasWritePermissionToSchools(array $schoolIds)
+    {
+        foreach ($schoolIds as $id ) {
+            if ($this->canWrite('school', $id)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasWritePermissionToProgram($programId)
+    {
+        return $this->canWrite('program', $programId);
     }
 
     /**

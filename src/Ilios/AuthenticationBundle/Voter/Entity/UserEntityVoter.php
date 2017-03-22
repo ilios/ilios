@@ -88,7 +88,7 @@ class UserEntityVoter extends AbstractVoter
         /**
          * Temporary mitigation for #1762
          */
-        if ($this->usersAreIdentical($user, $requestedUser)) {
+        if ($user->isTheUser($requestedUser)) {
             return false;
         }
 

@@ -42,34 +42,4 @@ abstract class AbstractVoter extends Voter
     {
         return $user->hasRole($eligibleRoles);
     }
-
-    /**
-     * Checks if two given schools are the same.
-     * @param SchoolInterface|null $schoolA
-     * @param SchoolInterface|null $schoolB
-     * @return bool
-     */
-    public function schoolsAreIdentical(SchoolInterface $schoolA = null, SchoolInterface $schoolB = null)
-    {
-        return (
-            $schoolA instanceof SchoolInterface
-            && $schoolB instanceof SchoolInterface
-            && $schoolA->getId() === $schoolB->getId()
-        );
-    }
-
-    /**
-     * Checks if two given users are the same.
-     * @param UserInterface|null $userA
-     * @param UserInterface|null $userB
-     * @return bool
-     */
-    public function usersAreIdentical(UserInterface $userA = null, UserInterface $userB = null)
-    {
-        return (
-            $userA instanceof UserInterface
-            && $userB instanceof UserInterface
-            && $userA->getId() === $userB->getId()
-        );
-    }
 }

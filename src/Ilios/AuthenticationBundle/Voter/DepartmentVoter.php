@@ -67,11 +67,8 @@ class DepartmentVoter extends AbstractVoter
                 return (
                     $this->userHasRole($user, ['Developer'])
                     && (
-                        $this->schoolsAreIdentical($department->getSchool(), $user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $department->getSchool()->getId()
-                        )
+                        $user->isThePrimarySchool($department->getSchool())
+                        || $user->hasWritePermissionToSchool($department->getSchool()->getId())
                     )
                 );
                 break;
