@@ -32,7 +32,7 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbGlvcyIsImF1ZCI6ImlsaW9zIiwiaWF
 then the header attribute sent should look like this:
 
 ```
-X-JWT Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbGlvcyIsImF1ZCI6ImlsaW9zIiwiaWF0IjoiMTQ3OTE2NDIxNSIsImV4cCI6IjE0ODA0MDY0MDAiLCJ1c2VyX2lkIjoxNn0.45RN1Tw9bd_dgeiGVTJCm8sy_x4UD_a9xE4hHYS6H08
+X-JWT-Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbGlvcyIsImF1ZCI6ImlsaW9zIiwiaWF0IjoiMTQ3OTE2NDIxNSIsImV4cCI6IjE0ODA0MDY0MDAiLCJ1c2VyX2lkIjoxNn0.45RN1Tw9bd_dgeiGVTJCm8sy_x4UD_a9xE4hHYS6H08
 ```
 (Note the space between the word 'Token' and the token value itself!)
 
