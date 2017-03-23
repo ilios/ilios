@@ -67,6 +67,7 @@ class UsereventController extends Controller
         }
 
         $result = $manager->addInstructorsToEvents($events);
+        $result = $manager->addMaterialsToEvents($result);
 
         $response['userEvents'] = $result ? array_values($result) : [];
         $serializer = $this->get('ilios_api.serializer');
