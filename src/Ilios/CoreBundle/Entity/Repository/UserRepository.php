@@ -291,7 +291,8 @@ class UserRepository extends EntityRepository
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.sessionTypeCssClass, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
-            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
+            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
 
         $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
@@ -301,6 +302,8 @@ class UserRepository extends EntityRepository
         $qb->leftJoin('o.session', 's');
         $qb->leftJoin('s.course', 'c');
         $qb->leftJoin('s.sessionType', 'st');
+        $qb->leftJoin('s.sessionDescription', 'sd');
+
 
         $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
         $qb->andWhere($qb->expr()->orX(
@@ -335,14 +338,18 @@ class UserRepository extends EntityRepository
         $what = 'ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.sessionTypeCssClass, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
-            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
+            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+
         $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
+
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
         $qb->leftJoin('ilm.session', 's');
         $qb->leftJoin('s.course', 'c');
         $qb->leftJoin('s.sessionType', 'st');
+        $qb->leftJoin('s.sessionDescription', 'sd');
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('u.id', ':user_id'),
@@ -379,6 +386,9 @@ class UserRepository extends EntityRepository
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
             $event->courseTitle = $arr['courseTitle'];
+            $event->sessionTypeTitle = $arr['sessionTypeTitle'];
+            $event->courseExternalId = $arr['courseExternalId'];
+            $event->sessionDescription = $arr['sessionDescription'];
             return $event;
         }, $results);
     }
@@ -406,6 +416,9 @@ class UserRepository extends EntityRepository
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
             $event->courseTitle = $arr['courseTitle'];
+            $event->sessionTypeTitle = $arr['sessionTypeTitle'];
+            $event->courseExternalId = $arr['courseExternalId'];
+            $event->sessionDescription = $arr['sessionDescription'];
             return $event;
         }, $results);
     }
