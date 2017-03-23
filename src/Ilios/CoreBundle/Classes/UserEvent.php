@@ -18,4 +18,44 @@ class UserEvent extends CalendarEvent
      * @IS\Type("integer")
      */
     public $user;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $courseExternalId;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $sessionTitle;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $sessionDescription;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    public $sessionTypeTitle;
+
+    /**
+     * @inheritdoc
+     */
+    public function clearDataForScheduledEvent()
+    {
+        parent::clearDataForScheduledEvent();
+        $this->courseExternalId = null;
+        $this->sessionDescription = null;
+        $this->sessionTitle = null;
+        $this->sessionTypeTitle = null;
+    }
 }

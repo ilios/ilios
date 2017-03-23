@@ -27,34 +27,6 @@ abstract class CalendarEvent
     public $courseTitle;
 
     /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     */
-    public $courseExternalId;
-
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     */
-    public $sessionTitle;
-
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     */
-    public $sessionDescription;
-
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     */
-    public $sessionTypeTitle;
-
-    /**
      * @var \DateTime
      * @IS\Expose
      * @IS\Type("dateTime")
@@ -134,10 +106,6 @@ abstract class CalendarEvent
         if ($this->isScheduled) {
             $this->name = 'Scheduled';
             $this->courseTitle = null;
-            $this->courseExternalId = null;
-            $this->sessionDescription = null;
-            $this->sessionTitle = null;
-            $this->sessionTypeTitle = null;
             $this->offering = null;
             $this->ilmSession = null;
             $this->eventClass = null;
