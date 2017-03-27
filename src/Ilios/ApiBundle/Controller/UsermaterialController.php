@@ -51,7 +51,7 @@ class UsermaterialController extends Controller
 
         //If there are no matches return an empty array
         $response['userMaterials'] = $materials ? array_values($materials) : [];
-        $serializer = $this->get('ilios_api.serializer');
+        $serializer = $this->get('serializer');
         return new Response(
             $serializer->serialize($response, 'json'),
             Response::HTTP_OK,
