@@ -66,7 +66,7 @@ class SchooleventController extends Controller
         $result = $userManager->addInstructorsToEvents($events);
 
         $response['events'] = $result ? array_values($result) : [];
-        $serializer = $this->get('serializer');
+        $serializer = $this->get('ilios_api.serializer');
         return new Response(
             $serializer->serialize($response, 'json'),
             Response::HTTP_OK,
