@@ -3,21 +3,31 @@
 namespace Ilios\CoreBundle\Classes;
 
 use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\ApiBundle\Annotation as IS;
 
+/**
+ * Class CurrentSession
+ * @package Ilios\CoreBundle\Classes
+ *
+ * @IS\DTO
+ */
 class CurrentSession
 {
     /**
-     * @var UserInterface
+     * @var integer
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
-    protected $user;
+    protected $userId;
 
     /**
      * Constructor
-     * @param  User $user
+     * @param  UserInterface $user
      */
     public function __construct(UserInterface $user)
     {
-        $this->user = $user;
+        $this->userId = $user->getId();
     }
 
     /**
@@ -27,6 +37,6 @@ class CurrentSession
      */
     public function getUserId()
     {
-        return $this->user->getId();
+        return $this->userId;
     }
 }
