@@ -57,20 +57,18 @@ class EntityMetadata
         );
 
         $entityKey = self::CACH_KEY_PREFIX . 'entities';
-        if (!$cache->contains($entityKey) || !$entities = $cache->fetch($entityKey)) {
-            $entities = $this->findIliosEntities($kernel);
-            $cache->save($entityKey, $entities);
+        if (!$cache->contains($entityKey)) {
+            $cache->save($entityKey, $this->findIliosEntities($kernel));
         }
 
-        $this->iliosEntities = $entities;
+        $this->iliosEntities = $cache->fetch($entityKey);
 
         $dtoKey = self::CACH_KEY_PREFIX . 'dtos';
-        if (!$cache->contains($dtoKey) || !$dtos = $cache->fetch($entityKey)) {
-            $dtos = $this->findIliosDtos($kernel);
-            $cache->save($entityKey, $dtos);
+        if (!$cache->contains($dtoKey)) {
+            $cache->save($dtoKey, $this->findIliosDtos($kernel));
         }
 
-        $this->iliosDtos = $dtos;
+        $this->iliosDtos = $cache->fetch($dtoKey);
     }
 
     /**

@@ -30,7 +30,7 @@ class CurrentSessionController extends Controller
         }
         $currentSession = new CurrentSession($user);
 
-        $serializer = $this->get('ilios_api.serializer');
+        $serializer = $this->get('serializer');
         return new Response(
             $serializer->serialize($currentSession, 'json'),
             Response::HTTP_OK,

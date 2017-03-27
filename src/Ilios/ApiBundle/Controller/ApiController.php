@@ -502,6 +502,6 @@ class ApiController extends Controller implements ApiControllerInterface
      */
     protected function getSerializer()
     {
-        return $this->get('ilios_api.serializer');
+        return $this->get('serializer');
     }
 }
