@@ -15,10 +15,10 @@ class CacheFactory
      */
     public static function createCache($environment)
     {
-        if ($environment === 'prod') {
-            $cache = new ApcuCache();
-        } else {
+        if ($environment === 'dev') {
             $cache = new ArrayCache();
+        } else {
+            $cache = new ApcuCache();
         }
 
         return $cache;
