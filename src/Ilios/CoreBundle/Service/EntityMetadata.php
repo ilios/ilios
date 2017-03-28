@@ -65,9 +65,9 @@ class EntityMetadata
         $this->iliosEntities = $entities;
 
         $dtoKey = self::CACH_KEY_PREFIX . 'dtos';
-        if (!$cache->contains($dtoKey) || !$dtos = $cache->fetch($entityKey)) {
+        if (!$cache->contains($dtoKey) || !$dtos = $cache->fetch($dtoKey)) {
             $dtos = $this->findIliosDtos($kernel);
-            $cache->save($entityKey, $dtos);
+            $cache->save($dtoKey, $dtos);
         }
 
         $this->iliosDtos = $dtos;

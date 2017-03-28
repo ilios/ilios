@@ -31,6 +31,6 @@ class CacheFactoryTest extends TestCase
     public function testCreateTest()
     {
         $cache = CacheFactory::createCache('test');
-        $this->assertInstanceOf(ArrayCache::class, $cache);
+        $this->assertInstanceOf(ApcuCache::class, $cache);
     }
 }
