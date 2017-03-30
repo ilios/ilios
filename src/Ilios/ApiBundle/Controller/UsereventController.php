@@ -58,6 +58,9 @@ class UsereventController extends Controller
             return $authChecker->isGranted('view', $entity);
         });
 
+        $result = $manager->addInstructorsToEvents($events);
+        $result = $manager->addMaterialsToEvents($result);
+
         //Un-privileged users get less data
         if (!$user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
             /* @var UserEvent $event */
@@ -65,9 +68,6 @@ class UsereventController extends Controller
                 $event->clearDataForScheduledEvent();
             }
         }
-
-        $result = $manager->addInstructorsToEvents($events);
-        $result = $manager->addMaterialsToEvents($result);
 
         $response['userEvents'] = $result ? array_values($result) : [];
         $serializer = $this->get('ilios_api.serializer');
