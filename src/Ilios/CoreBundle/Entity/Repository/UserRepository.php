@@ -288,8 +288,8 @@ class UserRepository extends EntityRepository
     ) {
 
         $qb = $this->_em->createQueryBuilder();
-        $what = 'c.id as courseId, s.id AS sessionId, o.id, o.startDate, o.endDate, o.room, o.updatedAt AS offeringUpdatedAt, ' .
-            's.updatedAt AS sessionUpdatedAt, s.title, st.sessionTypeCssClass, ' .
+        $what = 'c.id as courseId, s.id AS sessionId, o.id, o.startDate, o.endDate, o.room, ' .
+            'o.updatedAt AS offeringUpdatedAt, s.updatedAt AS sessionUpdatedAt, s.title, st.sessionTypeCssClass, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
@@ -1043,7 +1043,7 @@ class UserRepository extends EntityRepository
             $groupedCourseLms[$id][] = $lm;
         }
 
-        for($i =0, $n = count($events); $i < $n; $i++) {
+        for ($i =0, $n = count($events); $i < $n; $i++) {
             $event = $events[$i];
             $sessionId = $event->sessionId;
             $courseId = $event->courseId;
@@ -1051,7 +1051,6 @@ class UserRepository extends EntityRepository
             $courseLms = array_key_exists($courseId, $groupedCourseLms) ? $groupedCourseLms[$courseId] : [];
             $lms = array_merge($sessionLms, $courseLms);
             $event->learningMaterials = $lms;
-
         }
         return $events;
     }
