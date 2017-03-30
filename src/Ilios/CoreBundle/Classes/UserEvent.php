@@ -70,9 +70,12 @@ class UserEvent extends CalendarEvent
     public function clearDataForScheduledEvent()
     {
         parent::clearDataForScheduledEvent();
-        $this->courseExternalId = null;
-        $this->sessionDescription = null;
-        $this->sessionTitle = null;
-        $this->sessionTypeTitle = null;
+        if ($this->isScheduled) {
+            $this->courseExternalId = null;
+            $this->sessionDescription = null;
+            $this->sessionTitle = null;
+            $this->sessionTypeTitle = null;
+            $this->learningMaterials = [];
+        }
     }
 }
