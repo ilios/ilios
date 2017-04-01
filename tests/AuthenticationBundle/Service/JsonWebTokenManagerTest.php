@@ -40,24 +40,24 @@ class JsonWebTokenManagerTest extends TestCase
     
     public function testCreateJwtFromUser()
     {
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('getId')->andReturn(42)
             ->mock();
         $obj = new JsonWebTokenManager('secret');
         
-        $jwt = $obj->createJwtFromUser($user);
+        $jwt = $obj->createJwtFromUser($sessionUser);
         
         $this->assertSame(42, $obj->getUserIdFromToken($jwt));
     }
     
     public function testCreateJwtFromUserWhichExpiresNextWeek()
     {
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('getId')->andReturn(42)
             ->mock();
         $obj = new JsonWebTokenManager('secret');
         
-        $jwt = $obj->createJwtFromUser($user, 'P1W');
+        $jwt = $obj->createJwtFromUser($sessionUser, 'P1W');
         $now = new DateTime();
         $expiresAt = $obj->getExpiresAtFromToken($jwt);
         
@@ -66,12 +66,12 @@ class JsonWebTokenManagerTest extends TestCase
     
     public function testCreateJwtFromUserWhichExpiresAfterMaximumTime()
     {
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('getId')->andReturn(42)
             ->mock();
         $obj = new JsonWebTokenManager('secret');
         
-        $jwt = $obj->createJwtFromUser($user, 'P400D');
+        $jwt = $obj->createJwtFromUser($sessionUser, 'P400D');
         $now = new DateTime();
         $expiresAt = $obj->getExpiresAtFromToken($jwt);
 

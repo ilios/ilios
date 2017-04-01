@@ -320,7 +320,7 @@ class AuthenticationControllerTest extends WebTestCase
             $jwt
         );
         $response = $client->getResponse();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), $response->getContent());
 
         $client = static::createClient();
         $this->makeJsonRequest(

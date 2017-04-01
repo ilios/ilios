@@ -111,13 +111,13 @@ class FormAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('getUser')->andReturn($user)->mock();
+            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
         $authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
-        $encoder->shouldReceive('isPasswordValid')->with($user, '123')->andReturn(false);
+        $encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(false);
         $result = $obj->login($request);
         
         $this->assertTrue($result instanceof JsonResponse);
@@ -148,10 +148,10 @@ class FormAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(false)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('getUser')->andReturn($user)->mock();
+            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
         $authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $result = $obj->login($request);
@@ -183,18 +183,16 @@ class FormAuthenticationTest extends TestCase
 
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
-        
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('getUser')->andReturn($user)
+            ->shouldReceive('getSessionUser')->andReturn($sessionUser)
             ->shouldReceive('isLegacyAccount')->andReturn(false)->mock();
         $authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
-        $encoder->shouldReceive('isPasswordValid')->with($user, '123')->andReturn(true);
-        $newToken = m::mock('Ilios\AuthenticationBundle\Jwt\Token')
-            ->shouldReceive('getJwt')->andReturn('jwt123Test')->mock();
-        $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
+        $encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(true);
+        $jwtManager->shouldReceive('createJwtFromUser')->with($sessionUser)->andReturn('jwt123Test');
         
         
         $result = $obj->login($request);

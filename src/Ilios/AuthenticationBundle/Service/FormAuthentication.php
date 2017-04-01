@@ -142,7 +142,8 @@ class FormAuthentication implements AuthenticationInterface
             $this->tokenStorage->setToken($authenticatedToken);
             
             $authEntity->setPasswordSha256(null);
-            $encodedPassword = $this->encoder->encodePassword($authEntity->getUser(), $password);
+            $sessionUser = $authEntity->getSessionUser();
+            $encodedPassword = $this->encoder->encodePassword($sessionUser, $password);
             $authEntity->setPasswordBcrypt($encodedPassword);
             $this->authManager->update($authEntity);
         }

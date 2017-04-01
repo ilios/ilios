@@ -2,12 +2,12 @@
 
 namespace Ilios\AuthenticationBundle\Controller;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
-use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\AuthenticationBundle\Jwt\Token as JwtToken;
 
 class AuthenticationController extends Controller
 {
@@ -37,9 +37,10 @@ class AuthenticationController extends Controller
     {
         $token = $this->get('security.token_storage')->getToken();
         if ($token->isAuthenticated()) {
-            $user = $token->getUser();
-            if ($user instanceof UserInterface) {
-                return new JsonResponse(array('userId' => $user->getId()), JsonResponse::HTTP_OK);
+            /** @var SessionUserInterface $sessionUser */
+            $sessionUser = $token->getUser();
+            if ($sessionUser instanceof SessionUserInterface) {
+                return new JsonResponse(array('userId' => $sessionUser->getId()), JsonResponse::HTTP_OK);
             }
         }
 
@@ -58,11 +59,12 @@ class AuthenticationController extends Controller
     {
         $token = $this->get('security.token_storage')->getToken();
         if ($token->isAuthenticated()) {
-            $user = $token->getUser();
-            if ($user instanceof UserInterface) {
+            $sessionUser = $token->getUser();
+            if ($sessionUser instanceof SessionUserInterface) {
+                /** @var JsonWebTokenManager $jwtManager */
                 $jwtManager = $this->container->get('ilios_authentication.jwt.manager');
                 $ttl = $request->get('ttl')?$request->get('ttl'):'PT8H';
-                $jwt = $jwtManager->createJwtFromUser($user, $ttl);
+                $jwt = $jwtManager->createJwtFromUser($sessionUser, $ttl);
                 return new JsonResponse(array('jwt' => $jwt), JsonResponse::HTTP_OK);
             }
         }
@@ -97,21 +99,25 @@ class AuthenticationController extends Controller
         $now = new \DateTime();
         $token = $this->get('security.token_storage')->getToken();
         if ($token->isAuthenticated()) {
-            $user = $token->getUser();
-            if ($user instanceof UserInterface) {
-                $authentication = $user->getAuthentication();
+            /** @var SessionUserInterface $sessionUser */
+            $sessionUser = $token->getUser();
+            if ($sessionUser instanceof SessionUserInterface) {
+                $userManager = $this->container->get('ilioscore.user.manager');
+                /** @var UserInterface $user */
+                $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
+                $authenticationManager = $this->container->get('ilioscore.authentication.manager');
+                $authentication = $authenticationManager->findOneBy(['user' => $user->getId()]);
                 if (!$authentication) {
-                    $authentication = $this->authenticationManager->create();
+                    $authentication = $authenticationManager->create();
                     $authentication->setUser($user);
                 }
-                $authenticationManager = $this->container->get('ilioscore.authentication.manager');
 
                 $authentication->setInvalidateTokenIssuedBefore($now);
                 $authenticationManager->update($authentication);
 
                 sleep(1);
                 $jwtManager = $this->container->get('ilios_authentication.jwt.manager');
-                $jwt = $jwtManager->createJwtFromUser($user);
+                $jwt = $jwtManager->createJwtFromUser($sessionUser);
 
                 return new JsonResponse(array('jwt' => $jwt), JsonResponse::HTTP_OK);
             }
