@@ -46,8 +46,8 @@ abstract class AbstractVoterTestCase extends \PHPUnit_Framework_TestCase
     protected function createMockSessionUserWithUserRoles(array $roles)
     {
         $mock = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface');
-        $mock->shouldReceive('hasRole')->with(\Mockery::on(function($wantedRoles) use ($roles) {
-            $roleTitles = array_map(function(UserRoleInterface $role) {
+        $mock->shouldReceive('hasRole')->with(\Mockery::on(function ($wantedRoles) use ($roles) {
+            $roleTitles = array_map(function (UserRoleInterface $role) {
                 return $role->getTitle();
             }, $roles);
             $intersection = array_intersect($wantedRoles, $roleTitles);

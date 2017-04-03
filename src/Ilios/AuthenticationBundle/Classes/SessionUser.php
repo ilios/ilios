@@ -260,7 +260,7 @@ class SessionUser implements SessionUserInterface
      */
     public function hasReadPermissionToSchools(array $schoolIds)
     {
-        foreach ($schoolIds as $id ) {
+        foreach ($schoolIds as $id) {
             if ($this->canRead('school', $id)) {
                 return true;
             }
@@ -298,7 +298,7 @@ class SessionUser implements SessionUserInterface
      */
     public function hasWritePermissionToSchools(array $schoolIds)
     {
-        foreach ($schoolIds as $id ) {
+        foreach ($schoolIds as $id) {
             if ($this->canWrite('school', $id)) {
                 return true;
             }

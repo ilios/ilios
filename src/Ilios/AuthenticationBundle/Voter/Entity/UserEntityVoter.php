@@ -79,7 +79,7 @@ class UserEntityVoter extends AbstractVoter
             return false;
         }
         $schoolIds = $requestedUser->getAllSchools()->map(function (SchoolInterface $school) {
-           return $school->getId();
+            return $school->getId();
         });
 
         // current user must have developer role and share the same school affiliations than the requested user.

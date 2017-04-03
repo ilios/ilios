@@ -117,8 +117,10 @@ class ObjectiveEntityVoter extends AbstractVoter
      * @param SessionUserInterface $user
      * @return bool
      */
-    protected function isCreateEditDeleteGrantedForSessionObjective(ObjectiveInterface $objective, SessionUserInterface $sessionUser)
-    {
+    protected function isCreateEditDeleteGrantedForSessionObjective(
+        ObjectiveInterface $objective,
+        SessionUserInterface $sessionUser
+    ) {
         /* @var SessionInterface $session */
         $session = $objective->getSessions()->first(); // there should ever only be one
 

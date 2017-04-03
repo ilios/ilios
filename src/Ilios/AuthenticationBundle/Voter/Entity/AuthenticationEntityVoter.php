@@ -58,7 +58,7 @@ class AuthenticationEntityVoter extends AbstractVoter
             case self::EDIT:
             case self::DELETE:
                 $allSchoolIds = $authentication->getUser()->getAllSchools()->map(function (SchoolInterface $school) {
-                   return $school->getId();
+                    return $school->getId();
                 });
                 return (
                     $user->hasRole(['Developer'])
