@@ -87,6 +87,8 @@ class SessionUser implements SessionUserInterface
         $authentication = $user->getAuthentication();
         if ($authentication) {
             $this->tokenNotValidBefore = $authentication->getInvalidateTokenIssuedBefore();
+            $this->password = $authentication->getPassword();
+            $this->isLegacyAccount = $authentication->isLegacyAccount();
         }
 
         $permissions = [];
@@ -111,11 +113,6 @@ class SessionUser implements SessionUserInterface
         }
 
         $this->permissions = $permissions;
-        $authentication = $user->getAuthentication();
-        if ($authentication) {
-            $this->password = $authentication->getPassword();
-            $this->isLegacyAccount = $authentication->isLegacyAccount();
-        }
     }
 
     /**
