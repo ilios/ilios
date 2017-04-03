@@ -36,7 +36,7 @@ class IngestionExceptionVoter extends AbstractVoter
         switch ($attribute) {
             case self::VIEW:
                 // Grant VIEW access only to users with the Developer role.
-                return $this->userHasRole($user, ['Developer']);
+                return $user->hasRole(['Developer']);
                 break;
         }
 

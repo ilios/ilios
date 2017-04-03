@@ -67,7 +67,7 @@ abstract class CourseVoter extends AbstractVoter
         //    and the user has at least one of the 'Faculty', 'Course Director' and 'Developer' roles.
         // 3. the user has WRITE rights on the course via the permissions system
         return (
-            $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
+            $user->hasRole(['Faculty', 'Course Director', 'Developer'])
             && (
                 $owningSchoolId === $user->getSchoolId()
                 || $user->hasWritePermissionToSchool($owningSchoolId)

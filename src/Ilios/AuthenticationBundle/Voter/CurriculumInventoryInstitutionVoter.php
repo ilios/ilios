@@ -53,7 +53,7 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
             case self::VIEW:
             case self::EDIT:
             case self::DELETE:
-                return $this->userHasRole($user, ['Course Director', 'Developer']);
+                return $user->hasRole(['Course Director', 'Developer']);
                 break;
         }
 
@@ -67,7 +67,7 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                 //     - or - by READ rights for the school
                 // via the permissions system.
                 return (
-                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    $user->hasRole(['Course Director', 'Developer'])
                     && (
                         $user->isThePrimarySchool($institution->getSchool())
                         || $user->hasReadPermissionToSchool($institution->getSchool()->getId())
@@ -85,7 +85,7 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                 //     - or - by WRITE rights for the school
                 // via the permissions system.
                 return (
-                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    $user->hasRole(['Course Director', 'Developer'])
                     && (
                         $user->isThePrimarySchool($institution->getSchool())
                         || $user->hasWritePermissionToSchool($institution->getSchool()->getId())

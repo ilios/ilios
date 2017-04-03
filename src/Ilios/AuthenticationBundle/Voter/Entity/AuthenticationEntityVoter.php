@@ -57,7 +57,7 @@ class AuthenticationEntityVoter extends AbstractVoter
             case self::VIEW:
                 return (
                     $user->getId() === $authentication->getUser()->getId()
-                    || $this->userHasRole($user, ['Developer'])
+                    || $user->hasRole(['Developer'])
                 );
                 break;
             // at least one of these must be true.
@@ -72,7 +72,7 @@ class AuthenticationEntityVoter extends AbstractVoter
                    return $school->getId();
                 });
                 return (
-                    $this->userHasRole($user, ['Developer'])
+                    $user->hasRole(['Developer'])
                     && (
                         $allSchoolIds->contains($user->getSchoolId())
                         || $user->hasWritePermissionToSchools($allSchoolIds->toArray())

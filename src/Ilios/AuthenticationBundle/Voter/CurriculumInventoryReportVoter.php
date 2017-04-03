@@ -81,7 +81,7 @@ class CurriculumInventoryReportVoter extends AbstractVoter
         //     - or - by READ rights for the school
         // via the permissions system.
         return (
-            $this->userHasRole($sessionUser, ['Course Director', 'Developer'])
+            $sessionUser->hasRole(['Course Director', 'Developer'])
             && (
                 $sessionUser->isThePrimarySchool($report->getSchool())
                 || $sessionUser->hasReadPermissionToSchool($report->getSchool()->getId())
@@ -119,7 +119,7 @@ class CurriculumInventoryReportVoter extends AbstractVoter
         //     - or - by WRITE rights for the school
         // via the permissions system.
         return (
-            $this->userHasRole($sessionUser, ['Course Director', 'Developer'])
+            $sessionUser->hasRole(['Course Director', 'Developer'])
             && (
                 $sessionUser->isThePrimarySchool($report->getSchool())
                 || $sessionUser->hasWritePermissionToSchool($report->getSchool()->getId())

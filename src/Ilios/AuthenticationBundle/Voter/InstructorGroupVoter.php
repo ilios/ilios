@@ -63,7 +63,7 @@ class InstructorGroupVoter extends AbstractVoter
                 // 2. the user has WRITE rights on the group's owning school via the permissions system
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
                 return (
-                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    $user->hasRole(['Course Director', 'Developer'])
                     && (
                         $user->isThePrimarySchool($group->getSchool())
                         || $user->hasWritePermissionToSchool($group->getSchool()->getId())

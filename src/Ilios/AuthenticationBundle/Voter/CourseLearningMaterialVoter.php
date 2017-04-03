@@ -46,7 +46,7 @@ class CourseLearningMaterialVoter extends CourseVoter
                 $granted =  $this->isViewGranted($course->getId(), $course->getSchool()->getId(), $user);
                 // prevent access if associated LM is in draft, and the current user has no elevated privileges.
                 if ($granted) {
-                    $granted = $this->userHasRole($token->getUser(), ['Faculty', 'Course Director', 'Developer'])
+                    $granted = $user->hasRole(['Faculty', 'Course Director', 'Developer'])
                     || LearningMaterialStatusInterface::IN_DRAFT !== $material->getLearningMaterial()
                             ->getStatus()->getId();
                 }

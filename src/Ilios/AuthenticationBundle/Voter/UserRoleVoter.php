@@ -44,7 +44,7 @@ class UserRoleVoter extends AbstractVoter
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
-                return $this->userHasRole($user, ['Developer']);
+                return $user->hasRole(['Developer']);
                 break;
         }
         return false;

@@ -108,7 +108,7 @@ class ObjectiveEntityVoter extends AbstractVoter
         }
         return (
             (
-                $this->userHasRole($user, ['Course Director', 'Developer'])
+                $user->hasRole(['Course Director', 'Developer'])
                 && (
                     $user->isThePrimarySchool($programYear->getSchool())
                     || $user->hasWritePermissionToSchool($programYear->getSchool()->getId())
@@ -140,7 +140,7 @@ class ObjectiveEntityVoter extends AbstractVoter
             return false;
         }
         return (
-            $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
+            $user->hasRole(['Faculty', 'Course Director', 'Developer'])
             && (
                 $user->isThePrimarySchool($course->getSchool())
                 || $user->hasWritePermissionToSchool($course->getSchool()->getId())
@@ -167,7 +167,7 @@ class ObjectiveEntityVoter extends AbstractVoter
             return false;
         }
         return (
-            $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
+            $user->hasRole(['Faculty', 'Course Director', 'Developer'])
             && (
                 $user->isThePrimarySchool($course->getSchool())
                 || $user->hasWritePermissionToSchool($course->getSchool()->getId())

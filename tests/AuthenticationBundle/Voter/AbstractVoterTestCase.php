@@ -39,7 +39,7 @@ abstract class AbstractVoterTestCase extends \PHPUnit_Framework_TestCase
      * Have to mock two hasRole methods in order to check the arguments.  If
      * this is a role we should have then the first gets called and TRUE is returned
      * otherwise with second shouldReceive returns false
-     * 
+     *
      * @param array $roles A list of (mock) user-role entities.
      * @return \Mockery\Mock
      */

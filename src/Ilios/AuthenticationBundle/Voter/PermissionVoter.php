@@ -42,14 +42,14 @@ class PermissionVoter extends AbstractVoter
             case self::VIEW:
                 return (
                     $user->isTheUser($permission->getUser())
-                    || $this->userHasRole($user, ['Developer'])
+                    || $user->hasRole(['Developer'])
                 );
                 break;
             // the current user must have 'developer' role in order to create, update or delete permissions.
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
-                return $this->userHasRole($user, ['Developer']);
+                return $user->hasRole(['Developer']);
                 break;
         }
         return false;

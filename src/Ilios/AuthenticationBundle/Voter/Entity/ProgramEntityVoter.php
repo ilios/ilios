@@ -67,7 +67,7 @@ class ProgramEntityVoter extends AbstractVoter
                 // 3. The user has WRITE permissions on the program.
                 return (
                     (
-                        $this->userHasRole($user, ['Course Director', 'Developer'])
+                        $user->hasRole(['Course Director', 'Developer'])
                         && (
                             $user->isThePrimarySchool($program->getSchool())
                             || $user->hasWritePermissionToSchool($program->getSchool()->getId())

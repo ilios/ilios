@@ -63,7 +63,7 @@ class LearnerGroupEntityVoter extends AbstractVoter
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
                 // 3. the user has WRITE rights to the group's owning program.
                 return (
-                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    $user->hasRole(['Course Director', 'Developer'])
                     && (
                         $user->isThePrimarySchool($group->getSchool())
                         || $this->permissionManager->userHasWritePermissionToSchool(

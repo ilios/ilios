@@ -38,7 +38,7 @@ class UserDTOVoter extends UserEntityVoter
             case self::VIEW:
                 return (
                     $user->getId() === $requestedUser->id
-                    || $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
+                    || $user->hasRole(['Course Director', 'Faculty', 'Developer'])
                 );
                 break;
         }

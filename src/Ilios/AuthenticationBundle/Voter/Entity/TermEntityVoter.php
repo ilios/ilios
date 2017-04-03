@@ -47,7 +47,7 @@ class TermEntityVoter extends AbstractVoter
             case self::DELETE:
                 // grant CREATE, EDIT and DELETE privileges
                 // if the user has the 'Developer' role
-                return $this->userHasRole($user, ['Developer']);
+                return $user->hasRole(['Developer']);
                 break;
         }
 

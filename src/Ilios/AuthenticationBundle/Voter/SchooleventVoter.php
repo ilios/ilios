@@ -63,7 +63,7 @@ class SchooleventVoter extends AbstractVoter
                 // then do not grant access to view un-published events.
                 /* @var SchoolInterface $eventOwningSchool */
                 $eventOwningSchool = $this->schoolManager->findOneBy(['id' => $event->school]);
-                if ($this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])) {
+                if ($user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
                     return $user->isThePrimarySchool($eventOwningSchool)
                     || $user->hasReadPermissionToSchool($eventOwningSchool->getId());
                 } else {

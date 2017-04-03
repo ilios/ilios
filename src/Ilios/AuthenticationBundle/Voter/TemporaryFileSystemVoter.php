@@ -37,7 +37,7 @@ class TemporaryFileSystemVoter extends AbstractVoter
             // only user with Faculty/Course Director/Developer roles
             // have CREATE permissions to the temporary file system.
             case self::CREATE:
-                return ($this->userHasRole($user, ['Faculty', 'Course Director','Developer']));
+                return ($user->hasRole(['Faculty', 'Course Director', 'Developer']));
                 break;
         }
 

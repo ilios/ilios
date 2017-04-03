@@ -61,7 +61,7 @@ class UserEntityVoter extends AbstractVoter
             case self::VIEW:
                 return (
                     $user->getId() === $requestedUser->getId()
-                    || $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
+                    || $user->hasRole(['Course Director', 'Faculty', 'Developer'])
                 );
                 break;
             case self::CREATE:
@@ -93,7 +93,7 @@ class UserEntityVoter extends AbstractVoter
         }
 
         // current user must have developer role and share the same school affiliations than the requested user.
-        if ($this->userHasRole($user, ['Developer'])
+        if ($user->hasRole(['Developer'])
             && ($requestedUser->getAllSchools()->contains($user->getSchool())
                 || $this->permissionManager->userHasReadPermissionToSchools($user, $requestedUser->getAllSchools()))) {
             return true;

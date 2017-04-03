@@ -31,15 +31,4 @@ abstract class AbstractVoter extends Voter
      * @var string
      */
     const CREATE = 'create';
-
-    /**
-     * Utility method, determines if a given user has any of the given roles.
-     * @param SessionUserInterface $user the user object
-     * @param array $eligibleRoles a list of role names
-     * @return bool TRUE if the user has at least one of the roles, FALSE otherwise.
-     */
-    public function userHasRole(SessionUserInterface $user, array $eligibleRoles = [])
-    {
-        return $user->hasRole($eligibleRoles);
-    }
 }

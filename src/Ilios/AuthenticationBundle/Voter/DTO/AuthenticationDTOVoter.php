@@ -43,7 +43,7 @@ class AuthenticationDTOVoter extends AbstractVoter
             case self::VIEW:
                 return (
                     $user->getId() === $authenticationDTO->user
-                    || $this->userHasRole($user, ['Developer'])
+                    || $user->hasRole(['Developer'])
                 );
                 break;
         }

@@ -57,7 +57,7 @@ class SchoolEntityVoter extends AbstractVoter
                 break;
             case self::CREATE:
                 // only developers can create schools.
-                return $this->userHasRole($user, ['Developer']);
+                return $user->hasRole(['Developer']);
                 break;
             case self::EDIT:
             case self::DELETE:
@@ -68,7 +68,7 @@ class SchoolEntityVoter extends AbstractVoter
                 //     - or - by WRITE rights for the school
                 // via the permissions system.
                 return (
-                    $this->userHasRole($user, ['Developer'])
+                    $user->hasRole(['Developer'])
                     && (
                         $user->isThePrimarySchool($school)
                         || $user->hasWritePermissionToSchool($school->getId())

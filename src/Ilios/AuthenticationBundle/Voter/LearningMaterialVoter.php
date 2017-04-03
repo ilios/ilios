@@ -41,11 +41,11 @@ class LearningMaterialVoter extends AbstractVoter
                 // Deny access to LMs that are 'in draft' if the current user
                 // does not have elevated privileges.
                 return LearningMaterialStatusInterface::IN_DRAFT !== $material->getStatus()->getId()
-                    || $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer']);
+                    || $user->hasRole(['Faculty', 'Course Director', 'Developer']);
                 break;
             case self::CREATE:
                 // users with 'Faculty', 'Course director' or 'Developer' role can create materials.
-                return $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer']);
+                return $user->hasRole(['Faculty', 'Course Director', 'Developer']);
                 break;
             case self::EDIT:
             case self::DELETE:
@@ -55,7 +55,7 @@ class LearningMaterialVoter extends AbstractVoter
                 // 2. the user has at least one of 'Faculty', 'Course Director' or 'Developer' roles.
                 return (
                     $user->isTheUser($material->getOwningUser())
-                    || $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
+                    || $user->hasRole(['Faculty', 'Course Director', 'Developer'])
                 );
                 break;
         }

@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\Entity\SessionEntityVoter;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
@@ -35,12 +36,16 @@ class SessionLearningMaterialVoter extends SessionEntityVoter
         if (! $session) {
             return false;
         }
+        $user = $token->getUser();
+        if (!$user instanceof SessionUserInterface) {
+            return false;
+        }
         // grant perms based on the owning session
         $granted = parent::voteOnAttribute($attribute, $session, $token);
 
         // prevent access if associated LM is in draft, and the current user has no elevated privileges.
         if ($granted && self::VIEW === $attribute) {
-            $granted = $this->userHasRole($token->getUser(), ['Faculty', 'Course Director', 'Developer'])
+            $granted = $user->hasRole(['Faculty', 'Course Director', 'Developer'])
                 || LearningMaterialStatusInterface::IN_DRAFT !== $material->getLearningMaterial()->getStatus()->getId();
         }
 
