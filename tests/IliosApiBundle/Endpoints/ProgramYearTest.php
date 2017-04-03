@@ -157,6 +157,16 @@ class ProgramYearTest extends AbstractEndpointTest
         return $fetchedResponseData;
     }
 
+    /**
+     * Delete ProgramYear 3 explicitly as ProgramYear 1 is linked
+     * to Program 1.  Since sqlite doesn't cascade this doesn't work
+     * @inheritdoc
+     */
+    public function testDelete()
+    {
+        $this->deleteTest(3);
+    }
+
     public function testRejectUnprivilegedPost()
     {
         $dataLoader = $this->getDataLoader();
