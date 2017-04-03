@@ -100,7 +100,7 @@ class CasAuthentication implements AuthenticationInterface
         if ($authEntity) {
             $sessionUser = $authEntity->getSessionUser();
             if ($sessionUser->isEnabled()) {
-                $jwt = $this->jwtManager->createJwtFromUser($sessionUser);
+                $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
 
                 return $this->createSuccessResponseFromJWT($jwt);
             }

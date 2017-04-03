@@ -198,7 +198,7 @@ class LdapAuthenticationTest extends TestCase
             ->with('abc')->andReturn($authenticationEntity);
         $newToken = m::mock('Ilios\AuthenticationBundle\Jwt\Token')
             ->shouldReceive('getJwt')->andReturn('jwt123Test')->mock();
-        $jwtManager->shouldReceive('createJwtFromUser')->with($sessionUser)->andReturn('jwt123Test');
+        $jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
 
         $result = $obj->login($request);
         

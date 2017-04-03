@@ -62,16 +62,27 @@ class JsonWebTokenManager
         $decoded = JWT::decode($jwt, $this->jwtKey, array('HS256'));
         return (array) $decoded;
     }
-    
+
     /**
      * Build a token from a user
      * @param  SessionUserInterface $sessionUser
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
      * @return string
      */
-    public function createJwtFromUser(SessionUserInterface $sessionUser, $timeToLive = 'PT8H')
+    public function createJwtFromSessionUser(SessionUserInterface $sessionUser, $timeToLive = 'PT8H')
     {
         return $this->createJwtFromUserId($sessionUser->getId(), $timeToLive);
+    }
+
+    /**
+     * Build a token from a user
+     * @param  UserInterface $user
+     * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
+     * @return string
+     */
+    public function createJwtFromUser(UserInterface $user, $timeToLive = 'PT8H')
+    {
+        return $this->createJwtFromUserId($user->getId(), $timeToLive);
     }
     
     /**

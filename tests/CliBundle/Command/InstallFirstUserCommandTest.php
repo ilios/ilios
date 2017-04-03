@@ -133,9 +133,11 @@ class InstallFirstUserCommandTest extends KernelTestCase
             ->shouldReceive('getId')->andReturn(1)
             ->shouldReceive('getTitle')->andReturn('Big School Title')
             ->mock();
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface');
         $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
             ->shouldReceive('setUsername')->with('first_user')
             ->shouldReceive('setPasswordBcrypt')->with('hashBlurb')
+            ->shouldReceive('getSessionUser')->andReturn($sessionUser)
             ->shouldReceive('setUser')
             ->mock();
         $developerRole = m::mock('Ilios\CoreBundle\Entity\UserRoleInterface');
@@ -168,7 +170,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->userManager->shouldReceive('update')->with($user);
         $this->authenticationManager->shouldReceive('create')->andReturn($authentication);
         $this->authenticationManager->shouldReceive('update')->with($authentication);
-        $this->encoder->shouldReceive('encodePassword')->with($user, 'Ch4nge_m3')->andReturn('hashBlurb');
+        $this->encoder->shouldReceive('encodePassword')->with($sessionUser, 'Ch4nge_m3')->andReturn('hashBlurb');
         $this->userManager->shouldReceive('update');
     }
 

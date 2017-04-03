@@ -192,7 +192,7 @@ class FormAuthenticationTest extends TestCase
         $authManager->shouldReceive('findAuthenticationByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(true);
-        $jwtManager->shouldReceive('createJwtFromUser')->with($sessionUser)->andReturn('jwt123Test');
+        $jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
         
         
         $result = $obj->login($request);

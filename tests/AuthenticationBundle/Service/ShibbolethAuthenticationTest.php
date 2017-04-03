@@ -146,7 +146,7 @@ class ShibbolethAuthenticationTest extends TestCase
             ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
         $authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
-        $jwtManager->shouldReceive('createJwtFromUser')->with($sessionUser)->andReturn('jwt123Test');
+        $jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
         
         
         $result = $obj->login($request);
@@ -185,7 +185,7 @@ class ShibbolethAuthenticationTest extends TestCase
             ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
         $authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
-        $jwtManager->shouldReceive('createJwtFromUser')->with($sessionUser)->andReturn('jwt123Test');
+        $jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
 
 
         $result = $obj->login($request);

@@ -98,7 +98,7 @@ class LdapAuthentication implements AuthenticationInterface
                 if ($sessionUser->isEnabled()) {
                     $passwordValid = $this->checkLdapPassword($username, $password);
                     if ($passwordValid) {
-                        $jwt = $this->jwtManager->createJwtFromUser($sessionUser);
+                        $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
 
                         return $this->createSuccessResponseFromJWT($jwt);
                     }

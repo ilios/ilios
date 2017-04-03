@@ -45,7 +45,7 @@ class JsonWebTokenManagerTest extends TestCase
             ->mock();
         $obj = new JsonWebTokenManager('secret');
         
-        $jwt = $obj->createJwtFromUser($sessionUser);
+        $jwt = $obj->createJwtFromSessionUser($sessionUser);
         
         $this->assertSame(42, $obj->getUserIdFromToken($jwt));
     }
@@ -57,7 +57,7 @@ class JsonWebTokenManagerTest extends TestCase
             ->mock();
         $obj = new JsonWebTokenManager('secret');
         
-        $jwt = $obj->createJwtFromUser($sessionUser, 'P1W');
+        $jwt = $obj->createJwtFromSessionUser($sessionUser, 'P1W');
         $now = new DateTime();
         $expiresAt = $obj->getExpiresAtFromToken($jwt);
         
@@ -71,7 +71,7 @@ class JsonWebTokenManagerTest extends TestCase
             ->mock();
         $obj = new JsonWebTokenManager('secret');
         
-        $jwt = $obj->createJwtFromUser($sessionUser, 'P400D');
+        $jwt = $obj->createJwtFromSessionUser($sessionUser, 'P400D');
         $now = new DateTime();
         $expiresAt = $obj->getExpiresAtFromToken($jwt);
 

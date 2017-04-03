@@ -64,7 +64,7 @@ class AuthenticationController extends Controller
                 /** @var JsonWebTokenManager $jwtManager */
                 $jwtManager = $this->container->get('ilios_authentication.jwt.manager');
                 $ttl = $request->get('ttl')?$request->get('ttl'):'PT8H';
-                $jwt = $jwtManager->createJwtFromUser($sessionUser, $ttl);
+                $jwt = $jwtManager->createJwtFromSessionUser($sessionUser, $ttl);
                 return new JsonResponse(array('jwt' => $jwt), JsonResponse::HTTP_OK);
             }
         }
@@ -117,7 +117,7 @@ class AuthenticationController extends Controller
 
                 sleep(1);
                 $jwtManager = $this->container->get('ilios_authentication.jwt.manager');
-                $jwt = $jwtManager->createJwtFromUser($sessionUser);
+                $jwt = $jwtManager->createJwtFromSessionUser($sessionUser);
 
                 return new JsonResponse(array('jwt' => $jwt), JsonResponse::HTTP_OK);
             }
