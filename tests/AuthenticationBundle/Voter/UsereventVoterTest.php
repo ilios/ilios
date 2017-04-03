@@ -69,7 +69,7 @@ class UsereventVoterTest extends AbstractVoterTestCase
     {
         $currentUserId = 1;
         $currentUser = $this->createUserInRoles($currentUserId, ['Developer']);
-        $token = $this->createMockTokenWithUser($currentUser);
+        $token = $this->createMockTokenWithSessionUser($currentUser);
 
         $otherUserId = $currentUserId + 1;
 
@@ -105,7 +105,7 @@ class UsereventVoterTest extends AbstractVoterTestCase
     {
         $currentUserId = 1;
         $currentUser = $this->createUserInRoles($currentUserId, ['Faculty']);
-        $token = $this->createMockTokenWithUser($currentUser);
+        $token = $this->createMockTokenWithSessionUser($currentUser);
 
         $otherUserId = $currentUserId + 1;
 
@@ -136,7 +136,7 @@ class UsereventVoterTest extends AbstractVoterTestCase
     {
         $currentUserId = 1;
         $currentUser = $this->createUserInRoles($currentUserId, ['Course Director']);
-        $token = $this->createMockTokenWithUser($currentUser);
+        $token = $this->createMockTokenWithSessionUser($currentUser);
 
         $otherUserId = $currentUserId + 1;
 
@@ -167,7 +167,7 @@ class UsereventVoterTest extends AbstractVoterTestCase
     {
         $currentUserId = 1;
         $currentUser = $this->createUserInRoles($currentUserId, ['Student', 'Former Student']);
-        $token = $this->createMockTokenWithUser($currentUser);
+        $token = $this->createMockTokenWithSessionUser($currentUser);
 
         $otherUserId = $currentUserId + 1;
         return [
@@ -226,8 +226,8 @@ class UsereventVoterTest extends AbstractVoterTestCase
         $roles = array_map(function ($role) {
                 return $this->createMockUserRole($role);
         }, $roles);
-        $user = $this->createMockUserWithUserRoles($roles);
-        $user->shouldReceive('getId')->withNoArgs()->andReturn($id);
-        return $user;
+        $sessionUser = $this->createMockSessionUserWithUserRoles($roles);
+        $sessionUser->shouldReceive('getId')->withNoArgs()->andReturn($id);
+        return $sessionUser;
     }
 }

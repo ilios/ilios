@@ -162,6 +162,8 @@ class AamcResourceTypeEntityVoterTest extends AbstractVoterTestCase
      */
     protected function createTokenForUserWithRole($role)
     {
-        return $this->createMockTokenWithUser($this->createMockUserWithUserRoles([$this->createMockUserRole($role)]));
+        return $this->createMockTokenWithSessionUser(
+            $this->createMockSessionUserWithUserRoles([$this->createMockUserRole($role)])
+        );
     }
 }
