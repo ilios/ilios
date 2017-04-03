@@ -38,6 +38,7 @@ class OfferingTest extends AbstractEndpointTest
     {
         return [
             'room' => ['room', $this->getFaker()->text, AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
+            'site' => ['site', $this->getFaker()->text, AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
             'startDate' => ['startDate', '1980-12-31T21:12:32+00:00', AlertChangeTypeInterface::CHANGE_TYPE_TIME],
             'endDate' => ['endDate', '1981-05-06T21:12:32+00:00', AlertChangeTypeInterface::CHANGE_TYPE_TIME],
             'learnerGroups' => ['learnerGroups', [1], AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP],
@@ -50,7 +51,6 @@ class OfferingTest extends AbstractEndpointTest
     public function putsToTest()
     {
         return [
-            'site' => ['site', $this->getFaker()->text],
             'session' => ['session', 2, AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
         ];
     }
@@ -110,7 +110,7 @@ class OfferingTest extends AbstractEndpointTest
      * @dataProvider changeTypePutsToTest
      * @inheritdoc
      */
-    public function testPut($key, $value, $changeType)
+    public function testPutTriggerChangeType($key, $value, $changeType)
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
@@ -142,7 +142,7 @@ class OfferingTest extends AbstractEndpointTest
             'filters[tableName]' => 'offering',
             'filters[dispatched]' => '0'
         ]);
-        $this->assertEquals(1, count($alerts));
+        $this->assertEquals(1, count($alerts), 'Alert was not created');
         $alertData = $alerts[0];
 
         $this->assertEquals(count($alertData['changeTypes']), 1);
