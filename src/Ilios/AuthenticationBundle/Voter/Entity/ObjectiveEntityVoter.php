@@ -3,7 +3,6 @@
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
@@ -19,24 +18,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class ObjectiveEntityVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
      * @var ProgramYearStewardManager
      */
     protected $stewardManager;
 
     /**
-     * @param PermissionManager $permissionManager
      * @param ProgramYearStewardManager $stewardManager
      */
     public function __construct(
-        PermissionManager $permissionManager,
         ProgramYearStewardManager $stewardManager
     ) {
-        $this->permissionManager = $permissionManager;
         $this->stewardManager = $stewardManager;
     }
 
@@ -95,8 +86,10 @@ class ObjectiveEntityVoter extends AbstractVoter
      * @param SessionUserInterface $user
      * @return bool
      */
-    protected function isCreateEditDeleteGrantedForProgramYearObjective(ObjectiveInterface $objective, SessionUserInterface $user)
-    {
+    protected function isCreateEditDeleteGrantedForProgramYearObjective(
+        ObjectiveInterface $objective,
+        SessionUserInterface $sessionUser
+    ) {
 
         /* @var ProgramYearInterface $programYear */
         $programYear = $objective->getProgramYears()->first(); // there should ever only be one
@@ -108,14 +101,14 @@ class ObjectiveEntityVoter extends AbstractVoter
         }
         return (
             (
-                $user->hasRole(['Course Director', 'Developer'])
+                $sessionUser->hasRole(['Course Director', 'Developer'])
                 && (
                     $user->isThePrimarySchool($programYear->getSchool())
                     || $user->hasWritePermissionToSchool($programYear->getSchool()->getId())
-                    || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
+                    || $this->stewardManager->schoolIsStewardingProgramYear($sessionUser->getSchoolId(), $programYear)
                 )
             )
-            || $user->hasWritePermissionToProgram($programYear->getProgram()->getId())
+            || $sessionUser->hasWritePermissionToProgram($programYear->getProgram()->getId())
         );
     }
 

@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
+use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -14,19 +14,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class UserEntityVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -91,11 +78,14 @@ class UserEntityVoter extends AbstractVoter
         if ($user->isTheUser($requestedUser)) {
             return false;
         }
+        $schoolIds = $requestedUser->getAllSchools()->map(function (SchoolInterface $school) {
+           return $school->getId();
+        });
 
         // current user must have developer role and share the same school affiliations than the requested user.
         if ($user->hasRole(['Developer'])
             && ($requestedUser->getAllSchools()->contains($user->getSchool())
-                || $this->permissionManager->userHasReadPermissionToSchools($user, $requestedUser->getAllSchools()))) {
+                || $user->hasReadPermissionToSchools($schoolIds))) {
             return true;
         }
 

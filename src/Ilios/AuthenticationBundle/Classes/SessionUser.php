@@ -261,6 +261,20 @@ class SessionUser implements SessionUserInterface
     /**
      * @inheritdoc
      */
+    public function hasReadPermissionToSchools(array $schoolIds)
+    {
+        foreach ($schoolIds as $id ) {
+            if ($this->canRead('school', $id)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function hasReadPermissionToProgram($programId)
     {
         return $this->canRead('program', $programId);

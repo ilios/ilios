@@ -3,7 +3,6 @@
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\CompetencyInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -14,19 +13,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class CompetencyEntityVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */

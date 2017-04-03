@@ -3,7 +3,6 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 

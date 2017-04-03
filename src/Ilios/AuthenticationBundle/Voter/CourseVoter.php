@@ -4,7 +4,6 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 
 /**
  * Class CourseVoter
@@ -19,7 +18,6 @@ abstract class CourseVoter extends AbstractVoter
 
     /**
      * @param CourseManager $courseManager
-     * @param PermissionManager $permissionManager
      */
     public function __construct(CourseManager $courseManager)
     {

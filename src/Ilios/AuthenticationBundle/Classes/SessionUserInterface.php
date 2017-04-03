@@ -64,6 +64,15 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
     public function hasReadPermissionToSchool($schoolId);
 
     /**
+     * Check if a user can read a school
+     *
+     * @param array $schoolIds
+     *
+     * @return boolean
+     */
+    public function hasReadPermissionToSchools(array $schoolIds);
+
+    /**
      * Check if a user can read a program
      *
      * @param $programId

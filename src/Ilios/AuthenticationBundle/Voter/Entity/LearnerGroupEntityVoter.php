@@ -3,7 +3,6 @@
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
@@ -14,16 +13,6 @@ use Ilios\AuthenticationBundle\Voter\AbstractVoter;
  */
 class LearnerGroupEntityVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -66,15 +55,9 @@ class LearnerGroupEntityVoter extends AbstractVoter
                     $user->hasRole(['Course Director', 'Developer'])
                     && (
                         $user->isThePrimarySchool($group->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $group->getSchool()->getId()
-                        )
+                        || $user->hasWritePermissionToSchool($group->getSchool()->getId())
                     )
-                    || $this->permissionManager->userHasWritePermissionToProgram(
-                        $user,
-                        $group->getProgram()
-                    )
+                    || $user->hasWritePermissionToProgram($group->getProgram()->getId())
                 );
                 break;
         }

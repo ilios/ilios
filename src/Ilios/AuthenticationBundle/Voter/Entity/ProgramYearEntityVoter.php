@@ -5,7 +5,6 @@ namespace Ilios\AuthenticationBundle\Voter\Entity;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 
 use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -17,24 +16,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class ProgramYearEntityVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
      * @var ProgramYearStewardManager
      */
     protected $stewardManager;
 
     /**
-     * @param PermissionManager $permissionManager
      * @param ProgramYearStewardManager $stewardManager
      */
     public function __construct(
-        PermissionManager $permissionManager,
         ProgramYearStewardManager $stewardManager
     ) {
-        $this->permissionManager = $permissionManager;
         $this->stewardManager = $stewardManager;
     }
 
