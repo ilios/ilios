@@ -2,6 +2,7 @@
 
 namespace Tests\WebBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
@@ -148,8 +149,31 @@ class DirectoryControllerTest extends WebTestCase
             'campusId' => 'abc',
         ];
 
+        $mockDeveloperRole = m::mock('Ilios\CoreBundle\Entity\UserRole')
+            ->shouldReceive('getTitle')->once()->andReturn('Developer')
+            ->mock();
+
+        $mockSchool = m::mock('Ilios\CoreBundle\Entity\School')
+            ->shouldReceive('getId')->twice()->andReturn('1')
+            ->mock();
+
+        $mockAuthentication = m::mock('Ilios\CoreBundle\Entity\Authentication')
+            ->shouldReceive('getInvalidateTokenIssuedBefore')->once()->andReturn(null)
+            ->shouldReceive('getPassword')->once()->andReturn('hash')
+            ->shouldReceive('isLegacyAccount')->once()->andReturn(false)
+            ->mock();
+
         $mockUser = m::mock('Ilios\CoreBundle\Entity\User')
-            ->shouldReceive('getCampusId')->once()->andReturn('abc')->mock();
+            ->shouldReceive('getId')->once()->andReturn('2')
+            ->shouldReceive('isRoot')->once()->andReturn(false)
+            ->shouldReceive('isEnabled')->once()->andReturn(true)
+            ->shouldReceive('getCampusId')->once()->andReturn('abc')
+            ->shouldReceive('getSchool')->once()->andReturn($mockSchool)
+            ->shouldReceive('getAuthentication')->once()->andReturn($mockAuthentication)
+            ->shouldReceive('getRoles')->once()->andReturn(new ArrayCollection([$mockDeveloperRole]))
+            ->shouldReceive('getAllSchools')->once()->andReturn(new ArrayCollection([$mockSchool]))
+            ->shouldReceive('getPermissions')->once()->andReturn(new ArrayCollection([]))
+            ->mock();
 
         $container->mock('ilioscore.directory', 'Ilios\CoreBundle\Service\Directory')
             ->shouldReceive('findByCampusId')
@@ -157,10 +181,10 @@ class DirectoryControllerTest extends WebTestCase
             ->once()
             ->andReturn($fakeDirectoryUser);
 
-        $container->mock('ilioscore.user.manager', 'Ilios\CoreBundle\Entity\Manager\User')
+        $container->mock('ilioscore.user.manager', 'Ilios\CoreBundle\Entity\Manager\UserManager')
             ->shouldReceive('findOneBy')
             ->with(['id' => 1])
-            ->once()
+            ->twice()
             ->andReturn($mockUser);
 
         $this->makeJsonRequest(
@@ -171,7 +195,7 @@ class DirectoryControllerTest extends WebTestCase
                 ['id' => '1']
             ),
             null,
-            $this->getAuthenticatedUserToken()
+            $this->getTokenForUser(1)
         );
 
         $response = $this->client->getResponse();
