@@ -83,7 +83,7 @@ class ObjectiveEntityVoter extends AbstractVoter
 
     /**
      * @param ObjectiveInterface $objective
-     * @param SessionUserInterface $user
+     * @param SessionUserInterface $sessionUser
      * @return bool
      */
     protected function isCreateEditDeleteGrantedForProgramYearObjective(
@@ -103,8 +103,8 @@ class ObjectiveEntityVoter extends AbstractVoter
             (
                 $sessionUser->hasRole(['Course Director', 'Developer'])
                 && (
-                    $user->isThePrimarySchool($programYear->getSchool())
-                    || $user->hasWritePermissionToSchool($programYear->getSchool()->getId())
+                    $sessionUser->isThePrimarySchool($programYear->getSchool())
+                    || $sessionUser->hasWritePermissionToSchool($programYear->getSchool()->getId())
                     || $this->stewardManager->schoolIsStewardingProgramYear($sessionUser->getSchoolId(), $programYear)
                 )
             )
@@ -117,7 +117,7 @@ class ObjectiveEntityVoter extends AbstractVoter
      * @param SessionUserInterface $user
      * @return bool
      */
-    protected function isCreateEditDeleteGrantedForSessionObjective($objective, $user)
+    protected function isCreateEditDeleteGrantedForSessionObjective(ObjectiveInterface $objective, SessionUserInterface $sessionUser)
     {
         /* @var SessionInterface $session */
         $session = $objective->getSessions()->first(); // there should ever only be one
@@ -133,12 +133,12 @@ class ObjectiveEntityVoter extends AbstractVoter
             return false;
         }
         return (
-            $user->hasRole(['Faculty', 'Course Director', 'Developer'])
+            $sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])
             && (
-                $user->isThePrimarySchool($course->getSchool())
-                || $user->hasWritePermissionToSchool($course->getSchool()->getId())
+                $sessionUser->isThePrimarySchool($course->getSchool())
+                || $sessionUser->hasWritePermissionToSchool($course->getSchool()->getId())
             )
-            || $user->hasWritePermissionToCourse($course->getId())
+            || $sessionUser->hasWritePermissionToCourse($course->getId())
         );
     }
 
