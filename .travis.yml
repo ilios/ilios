@@ -101,7 +101,7 @@ script:
   then (vendor/bin/phpcs --standard=app/phpcs.xml src && vendor/bin/phpcs --standard=app/phpcs.xml tests);
   fi
 - if [ "$CHECK_CODING_STANDARDS" = true ];
-  then (vendor/bin/security-checker security:check);
+  then (bin/console security:check --end-point=http://security.sensiolabs.org/check_lock);
   fi
 - if [ "$TEST_PHPUNIT_MESH_DATA_IMPORT" = true ];
   then (vendor/bin/phpunit -c phpunit.xml.dist --group mesh_data_import);
