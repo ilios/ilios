@@ -288,10 +288,11 @@ class UserRepository extends EntityRepository
     ) {
 
         $qb = $this->_em->createQueryBuilder();
-        $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt AS offeringUpdatedAt, ' .
-            's.updatedAt AS sessionUpdatedAt, s.title, st.sessionTypeCssClass, ' .
+        $what = 'c.id as courseId, s.id AS sessionId, o.id, o.startDate, o.endDate, o.room, ' .
+            'o.updatedAt AS offeringUpdatedAt, s.updatedAt AS sessionUpdatedAt, s.title, st.sessionTypeCssClass, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
-            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
+            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
 
         $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
@@ -301,6 +302,8 @@ class UserRepository extends EntityRepository
         $qb->leftJoin('o.session', 's');
         $qb->leftJoin('s.course', 'c');
         $qb->leftJoin('s.sessionType', 'st');
+        $qb->leftJoin('s.sessionDescription', 'sd');
+
 
         $qb->andWhere($qb->expr()->eq('u.id', ':user_id'));
         $qb->andWhere($qb->expr()->orX(
@@ -332,17 +335,21 @@ class UserRepository extends EntityRepository
     protected function getIlmSessionEventsFor($id, \DateTime $from, \DateTime $to, array $joins)
     {
         $qb = $this->_em->createQueryBuilder();
-        $what = 'ilm.id, ilm.dueDate, ' .
+        $what = 'c.id as courseId, s.id AS sessionId, ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.sessionTypeCssClass, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
-            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
+            'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
+            'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
+
         $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
+
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
         $qb->leftJoin('ilm.session', 's');
         $qb->leftJoin('s.course', 'c');
         $qb->leftJoin('s.sessionType', 'st');
+        $qb->leftJoin('s.sessionDescription', 'sd');
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->eq('u.id', ':user_id'),
@@ -379,6 +386,11 @@ class UserRepository extends EntityRepository
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
             $event->courseTitle = $arr['courseTitle'];
+            $event->sessionTypeTitle = $arr['sessionTypeTitle'];
+            $event->courseExternalId = $arr['courseExternalId'];
+            $event->sessionDescription = $arr['sessionDescription'];
+            $event->sessionId = $arr['sessionId'];
+            $event->courseId = $arr['courseId'];
             return $event;
         }, $results);
     }
@@ -406,6 +418,11 @@ class UserRepository extends EntityRepository
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
             $event->courseTitle = $arr['courseTitle'];
+            $event->sessionTypeTitle = $arr['sessionTypeTitle'];
+            $event->courseExternalId = $arr['courseExternalId'];
+            $event->sessionDescription = $arr['sessionDescription'];
+            $event->sessionId = $arr['sessionId'];
+            $event->courseId = $arr['courseId'];
             return $event;
         }, $results);
     }
@@ -967,6 +984,75 @@ class UserRepository extends EntityRepository
         });
 
         return $userMaterials;
+    }
+
+    /**
+     * Finds and adds learning materials to a given list of user events.
+     *
+     * @param UserEvent[] $events
+     * @param UserMaterialFactory $factory
+     * @return UserEvent[]
+     */
+    public function addMaterialsToEvents(array $events, UserMaterialFactory $factory)
+    {
+        $sessionIds = array_map(function (UserEvent $event) {
+            return $event->sessionId;
+        }, $events);
+
+        $sessionIds = array_values(array_unique($sessionIds));
+
+        $sessionMaterials = $this->getLearningMaterialsForSessions($sessionIds);
+
+        $sessionUserMaterials = array_map(function (array $arr) use ($factory) {
+            return $factory->create($arr);
+        }, $sessionMaterials);
+
+        $courseMaterials = $this->getLearningMaterialsForCourses($sessionIds);
+
+        $courseUserMaterials = array_map(function (array $arr) use ($factory) {
+            return $factory->create($arr);
+        }, $courseMaterials);
+
+
+
+        //sort materials by id for consistency
+        $sortFn = function (UserMaterial $a, UserMaterial $b) {
+            return $a->id - $b->id;
+        };
+
+        usort($sessionUserMaterials, $sortFn);
+        usort($courseUserMaterials, $sortFn);
+
+        // group materials by session or course
+        $groupedSessionLms = [];
+        $groupedCourseLms = [];
+        for ($i = 0, $n = count($sessionUserMaterials); $i < $n; $i++) {
+            $lm = $sessionUserMaterials[$i];
+            $id = $lm->session;
+            if (! array_key_exists($id, $groupedSessionLms)) {
+                $groupedSessionLms[$id] = [];
+            }
+            $groupedSessionLms[$id][] = $lm;
+        }
+        for ($i = 0, $n = count($courseUserMaterials); $i < $n; $i++) {
+            $lm = $courseUserMaterials[$i];
+            $id = $lm->course;
+            if (! array_key_exists($id, $groupedCourseLms)) {
+                $groupedCourseLms[$id] = [];
+            }
+            $groupedCourseLms[$id][] = $lm;
+        }
+
+        for ($i =0, $n = count($events); $i < $n; $i++) {
+            $event = $events[$i];
+            $sessionId = $event->sessionId;
+            $courseId = $event->courseId;
+            $sessionLms = array_key_exists($sessionId, $groupedSessionLms) ? $groupedSessionLms[$sessionId] : [];
+            $courseLms = array_key_exists($courseId, $groupedCourseLms) ? $groupedCourseLms[$courseId] : [];
+            $lms = array_merge($sessionLms, $courseLms);
+            $event->learningMaterials = $lms;
+        }
+        return $events;
     }
 
     /**

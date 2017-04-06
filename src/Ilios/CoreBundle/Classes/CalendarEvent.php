@@ -110,6 +110,7 @@ abstract class CalendarEvent
             $this->ilmSession = null;
             $this->eventClass = null;
             $this->location = null;
+
             $this->instructors = [];
         }
     }

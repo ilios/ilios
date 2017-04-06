@@ -127,4 +127,15 @@ class UserManager extends DTOManager
     {
         return $this->getRepository()->findMaterialsForUser($userId, $this->factory, $criteria);
     }
+
+    /**
+     * Finds and adds learning materials to a given list of user events.
+     *
+     * @param UserEvent[] $events
+     * @return UserEvent[]
+     */
+    public function addMaterialsToEvents(array $events)
+    {
+        return $this->getRepository()->addMaterialsToEvents($events, $this->factory);
+    }
 }
