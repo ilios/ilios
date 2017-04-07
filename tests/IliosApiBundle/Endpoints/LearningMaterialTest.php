@@ -123,6 +123,7 @@ class LearningMaterialTest extends AbstractEndpointTest
             ['2', [1]],
             ['desc', [0, 1, 2]],
             ['nada', []],
+            ['author1', [0]],
         ];
     }
 
