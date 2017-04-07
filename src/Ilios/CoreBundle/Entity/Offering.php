@@ -348,6 +348,7 @@ class Offering implements OfferingInterface
         })->toArray();
         sort($learnerGroupIds);
         $room = $this->getRoom();
+        $site = $this->getSite();
         $startDate = $this->getStartDate()->getTimestamp();
         $endDate = $this->getEndDate()->getTimestamp();
 
@@ -359,6 +360,7 @@ class Offering implements OfferingInterface
             'startDate' => $startDate,
             'endDate' => $endDate,
             'room' => $room,
+            'site' => $site,
         ];
     }
 
