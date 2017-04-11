@@ -95,6 +95,7 @@ class Entity extends ObjectNormalizer
         $type = $this->entityMetadata->getTypeOfProperty($exposedProperties[$property]);
 
         if ($type === 'dateTime') {
+            /** @var \DateTime $value */
             $value = $this->propertyAccessor->getValue($object, $property);
             if ($value) {
                 return $value->format('c');
@@ -253,7 +254,9 @@ class Entity extends ObjectNormalizer
         }
 
         if (null !== $value and $type === 'dateTime') {
+            $defaultTimezone = new \DateTimeZone(date_default_timezone_get());
             $value = new \DateTime($value);
+            $value->setTimezone($defaultTimezone);
         }
 
         if (null !== $value and $type === 'boolean') {
