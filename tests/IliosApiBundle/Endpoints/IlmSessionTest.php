@@ -95,4 +95,37 @@ class IlmSessionTest extends AbstractEndpointTest
 
         $this->postManyTest($data);
     }
+
+    public function testDueDateInSystemTimeZone()
+    {
+        $systemTimeZone = new \DateTimeZone(date_default_timezone_get());
+        $now = new \DateTime('now', $systemTimeZone);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['dueDate'] = $now->format('c');
+        $postData = $data;
+        $this->postTest($data, $postData);
+    }
+
+    public function testDueDateConvertedToSystemTimeZone()
+    {
+        $americaLa = new \DateTimeZone('America/Los_Angeles');
+        $utc = new \DateTimeZone('UTC');
+        $systemTimeZone = date_default_timezone_get();
+        if ($systemTimeZone === 'UTC') {
+            $systemTime = $utc;
+            $now = new \DateTime('now', $americaLa);
+        } else {
+            $systemTime = $americaLa;
+            $now = new \DateTime('now', $utc);
+        }
+
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $postData['dueDate'] = $now->format('c');
+        $data['dueDate'] = $now->setTimezone($systemTime)->format('c');
+
+        $this->postTest($data, $postData);
+    }
 }

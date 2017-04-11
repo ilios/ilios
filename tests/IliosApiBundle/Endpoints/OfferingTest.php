@@ -16,6 +16,16 @@ class OfferingTest extends AbstractEndpointTest
     use EndpointTestsTrait;
 
     protected $testName =  'offerings';
+    protected $skipDates = false;
+
+    /**
+     * Reset date skipping for each test
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->skipDates = false;
+    }
 
     /**
      * @inheritdoc
@@ -93,17 +103,29 @@ class OfferingTest extends AbstractEndpointTest
     }
 
     /**
-     * Some of the offering time stamps are dynamic so we can't really test them
+     * Allow dates to be skipped if required for a test
      * @inheritdoc
      */
     protected function compareData(array $expected, array $result)
     {
-        unset($expected['startDate']);
-        unset($expected['endDate']);
-        unset($result['startDate']);
-        unset($result['endDate']);
+        if ($this->skipDates) {
+            unset($expected['startDate']);
+            unset($expected['endDate']);
+            unset($result['startDate']);
+            unset($result['endDate']);
+        }
 
         return parent::compareData($expected, $result);
+    }
+
+    /**
+     * Some of the offering time stamps are dynamic so we can't really test them
+     * We have to skip that instead.
+     */
+    public function testGetAll()
+    {
+        $this->skipDates = true;
+        $this->getAllTest();
     }
 
     /**
@@ -206,5 +228,71 @@ class OfferingTest extends AbstractEndpointTest
         $data = $dataLoader->getOne();
         $data['learners'] = ['1'];
         $this->relatedTimeStampUpdateTest($data['id'], 'offerings', 'offering', $data);
+    }
+
+    public function testStartDateInSystemTimeZone()
+    {
+        $systemTimeZone = new \DateTimeZone(date_default_timezone_get());
+        $now = new \DateTime('now', $systemTimeZone);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['startDate'] = $now->format('c');
+        $postData = $data;
+        $this->postTest($data, $postData);
+    }
+
+    public function testStartDateConvertedToSystemTimeZone()
+    {
+        $americaLa = new \DateTimeZone('America/Los_Angeles');
+        $utc = new \DateTimeZone('UTC');
+        $systemTimeZone = date_default_timezone_get();
+        if ($systemTimeZone === 'UTC') {
+            $systemTime = $utc;
+            $now = new \DateTime('now', $americaLa);
+        } else {
+            $systemTime = $americaLa;
+            $now = new \DateTime('now', $utc);
+        }
+
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $postData['startDate'] = $now->format('c');
+        $data['startDate'] = $now->setTimezone($systemTime)->format('c');
+
+        $this->postTest($data, $postData);
+    }
+
+    public function testEndDateInSystemTimeZone()
+    {
+        $systemTimeZone = new \DateTimeZone(date_default_timezone_get());
+        $now = new \DateTime('now', $systemTimeZone);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['endDate'] = $now->format('c');
+        $postData = $data;
+        $this->postTest($data, $postData);
+    }
+
+    public function testEndDateConvertedToSystemTimeZone()
+    {
+        $americaLa = new \DateTimeZone('America/Los_Angeles');
+        $utc = new \DateTimeZone('UTC');
+        $systemTimeZone = date_default_timezone_get();
+        if ($systemTimeZone === 'UTC') {
+            $systemTime = $utc;
+            $now = new \DateTime('now', $americaLa);
+        } else {
+            $systemTime = $americaLa;
+            $now = new \DateTime('now', $utc);
+        }
+
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $postData['endDate'] = $now->format('c');
+        $data['endDate'] = $now->setTimezone($systemTime)->format('c');
+
+        $this->postTest($data, $postData);
     }
 }
