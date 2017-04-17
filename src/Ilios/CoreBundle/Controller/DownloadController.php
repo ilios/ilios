@@ -34,7 +34,7 @@ class DownloadController extends Controller
             ->getFile($learningMaterial->getRelativePath());
         
         if (false === $file) {
-            throw new \Exception('File not found for learning material #' . $learningMaterial->getId());
+            throw new NotFoundHttpException('File not found for learning material #' . $learningMaterial->getId());
         }
         
         $headers = array(
