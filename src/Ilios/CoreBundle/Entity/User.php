@@ -23,13 +23,12 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * Class User
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_school", columns={"school_id"})})
+ * @ORM\Table(name="not_the_user_table", indexes={@ORM\Index(name="fkey_user_school", columns={"school_id"})})
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserRepository")
  *
  * @IS\Entity
  */
-class User implements UserInterface
-{
+class User implements UserInterface {
     use IdentifiableEntity;
     use StringableIdEntity;
     use OfferingsEntity;
