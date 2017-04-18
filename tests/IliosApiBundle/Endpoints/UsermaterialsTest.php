@@ -26,7 +26,7 @@ class UsermaterialsTest extends AbstractEndpointTest
         ];
     }
 
-    public function testGetMaterials()
+    public function testGetAllMaterials()
     {
         $userId = 5;
         $materials = $this->getMaterials($userId);
@@ -43,6 +43,7 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertEquals('1', $materials[0]['course']);
         $this->assertRegExp('/^firstCourse/', $materials[0]['courseTitle']);
         $this->assertEquals('2016-09-08T15:00:00+00:00', $materials[0]['firstOfferingDate']);
+        $this->assertEquals(['first first'], $materials[0]['instructors']);
 
         $this->assertEquals('1', $materials[1]['id']);
         $this->assertEquals('1', $materials[1]['course']);
