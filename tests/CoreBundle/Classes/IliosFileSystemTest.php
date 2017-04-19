@@ -34,7 +34,7 @@ class IliosFileSystemTest extends TestCase
         if (!$fs->exists($this->fakeTestFileDir)) {
             $fs->mkdir($this->fakeTestFileDir);
         }
-        
+
         $this->mockFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
         $this->mockFileSystem->shouldReceive('exists')->with($this->fakeTestFileDir)->andReturn(true);
         
@@ -147,8 +147,7 @@ class IliosFileSystemTest extends TestCase
         $this->assertTrue($this->iliosFileSystem->checkLearningMaterialFilePath($goodLm));
         $this->assertFalse($this->iliosFileSystem->checkLearningMaterialFilePath($badLm));
     }
-    
-    
+
     protected function getTestFilePath($path)
     {
         $hash = md5_file($path);
@@ -186,5 +185,64 @@ class IliosFileSystemTest extends TestCase
         $this->assertSame(file_get_contents($file->getPathname()), $someJunk);
 
         $fs->remove($this->fakeTestFileDir . '/learning_materials');
+    }
+
+    protected function getTestFileLock($name)
+    {
+        $parts = [
+            $this->fakeTestFileDir,
+            IliosFileSystem::LOCK_FILE_DIRECTORY,
+            $name
+        ];
+        return implode($parts, '/');
+    }
+
+    public function testCreateLock()
+    {
+        $name = 'test.lock';
+        $lockFilePath = $this->getTestFileLock($name);
+        $lockFileDir = dirname($lockFilePath);
+        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(true);
+        $this->mockFileSystem->shouldReceive('touch')->with($lockFilePath);
+        $this->mockFileSystem->shouldReceive('mkdir')->with($lockFileDir);
+        $this->iliosFileSystem->createLock($name);
+    }
+
+    public function testReleaseLock()
+    {
+        $name = 'test.lock';
+        $lockFilePath = $this->getTestFileLock($name);
+        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(true);
+        $this->mockFileSystem->shouldReceive('remove')->with($lockFilePath);
+        $this->iliosFileSystem->releaseLock($name);
+    }
+
+    public function testHasLock()
+    {
+        $name = 'test.lock';
+        $lockFilePath = $this->getTestFileLock($name);
+        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(true);
+        $status = $this->iliosFileSystem->hasLock($name);
+        $this->assertTrue($status);
+    }
+
+    public function testDoesNotHaveLock()
+    {
+        $name = 'test.lock';
+        $lockFilePath = $this->getTestFileLock($name);
+        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(false);
+        $status = $this->iliosFileSystem->hasLock($name);
+        $this->assertFalse($status);
+    }
+
+    public function testConvertsUnsafeFileNames()
+    {
+        $name = 'test && file .lock';
+        $lockFilePath = $this->getTestFileLock('test-file-.lock');
+        $lockFileDir = dirname($lockFilePath);
+        $this->mockFileSystem->shouldReceive('exists')->with($lockFilePath)->andReturn(true);
+        $this->mockFileSystem->shouldReceive('touch')->with($lockFilePath);
+        $this->mockFileSystem->shouldReceive('mkdir')->with($lockFileDir);
+        $this->iliosFileSystem->createLock($name);
     }
 }

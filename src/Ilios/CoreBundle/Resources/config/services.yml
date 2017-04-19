@@ -77,3 +77,8 @@ services:
     ilioscore.exception_controller:
             class: Ilios\CoreBundle\Controller\ExceptionController
             arguments: ['@twig', '%kernel.environment%']
+    ilioscore.crossing_gurad:
+        class: Ilios\CoreBundle\Service\CrossingGuard
+        arguments: [ "@ilioscore.filesystem"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 256 }

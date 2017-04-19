@@ -120,3 +120,8 @@ services:
         arguments: ["@templating", "@doctrine", "@ilioscore.entitymetadata"]
         tags:
             -  { name: console.command }
+    ilioscli.command.crossing_guard:
+        class: Ilios\CliBundle\Command\CrossingGuardCommand
+        arguments: ["@ilioscore.crossing_gurad"]
+        tags:
+            -  { name: console.command }
