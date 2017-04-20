@@ -65,7 +65,7 @@ class TemporaryFileSystem
     /**
      * Get a File from a hash
      * @param string $hash
-     * @return File
+     * @return File|boolean
      */
     public function getFile($hash)
     {

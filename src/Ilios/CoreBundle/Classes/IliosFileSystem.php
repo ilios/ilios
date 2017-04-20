@@ -23,6 +23,12 @@ class IliosFileSystem
     const HASHED_LM_DIRECTORY = 'learning_materials/lm';
 
     /**
+     * Lock files are stored in this directory
+     * @var string
+     */
+    const LOCK_FILE_DIRECTORY = 'locks';
+
+    /**
      * @var string
      */
     protected $iliosFileStorePath;
@@ -93,7 +99,7 @@ class IliosFileSystem
     /**
      * Get a File from a hash
      * @param  [string] $relativePath
-     * @return File
+     * @return File|boolean
      */
     public function getFile($relativePath)
     {
@@ -136,5 +142,63 @@ class IliosFileSystem
     protected function getPath($relativePath)
     {
         return $this->iliosFileStorePath . '/' . $relativePath;
+    }
+
+    /**
+     * Get the path for a lock file
+     * @param string $name
+     * @return string $relativePath
+     */
+    protected function getLockFilePath($name)
+    {
+        $safeName = preg_replace('/[^a-z0-9\._-]+/i', '-', $name);
+        return self::LOCK_FILE_DIRECTORY . '/' . $safeName;
+    }
+
+    /**
+     * Create a lock file
+     * @param string $name
+     */
+    public function createLock($name)
+    {
+        if ($this->hasLock($name)) {
+            return;
+        }
+        $relativePath = $this->getLockFilePath($name);
+        $fullPath = $this->getPath($relativePath);
+        $dir = dirname($fullPath);
+        $this->fileSystem->mkdir($dir);
+        if (!$this->fileSystem->exists($fullPath)) {
+            $this->fileSystem->touch($fullPath);
+        }
+    }
+
+    /**
+     * Remove a lock file
+     * @param string $name
+     */
+    public function releaseLock($name)
+    {
+        if (!$this->hasLock($name)) {
+            return;
+        }
+        $relativePath = $this->getLockFilePath($name);
+        $fullPath = $this->getPath($relativePath);
+        if ($this->fileSystem->exists($fullPath)) {
+            $this->fileSystem->remove($fullPath);
+        }
+    }
+
+    /**
+     * Check if a lock file exists
+     * @param string $name
+     * @return boolean
+     */
+    public function hasLock($name)
+    {
+        $relativePath = $this->getLockFilePath($name);
+        $fullPath = $this->getPath($relativePath);
+
+        return $this->fileSystem->exists($fullPath);
     }
 }
