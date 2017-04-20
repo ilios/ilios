@@ -79,11 +79,11 @@ class ShibbolethAuthentication implements AuthenticationInterface
     {
         $applicationId = $request->server->get('Shib-Application-ID');
         if (!$applicationId) {
-            return new JsonResponse(array(
+            return new JsonResponse([
                 'status' => 'redirect',
                 'errors' => [],
                 'jwt' => null,
-            ), JsonResponse::HTTP_OK);
+            ], JsonResponse::HTTP_OK);
         }
         $userId = $request->server->get($this->userIdAttribute);
         if (!$userId) {
@@ -107,22 +107,22 @@ class ShibbolethAuthentication implements AuthenticationInterface
             throw new \Exception($msg);
         }
         /* @var \Ilios\CoreBundle\Entity\AuthenticationInterface $authEntity */
-        $authEntity = $this->authManager->findOneBy(array('username' => $userId));
+        $authEntity = $this->authManager->findOneBy(['username' => $userId]);
         if ($authEntity) {
-            $user = $authEntity->getUser();
-            if ($user->isEnabled()) {
-                $jwt = $this->jwtManager->createJwtFromUser($user);
+            $sessionUser = $authEntity->getSessionUser();
+            if ($sessionUser->isEnabled()) {
+                $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
 
                 return $this->createSuccessResponseFromJWT($jwt);
             }
         }
 
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'noAccountExists',
             'userId' => $userId,
             'errors' => [],
             'jwt' => null,
-        ), JsonResponse::HTTP_OK);
+        ], JsonResponse::HTTP_OK);
     }
 
     /**
@@ -138,10 +138,10 @@ class ShibbolethAuthentication implements AuthenticationInterface
         if (session_status() !== PHP_SESSION_NONE) {
             session_destroy();
         }
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'redirect',
             'logoutUrl' => $logoutUrl
 
-        ), JsonResponse::HTTP_OK);
+        ], JsonResponse::HTTP_OK);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Classes;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\ApiBundle\Annotation as IS;
 
@@ -23,9 +24,9 @@ class CurrentSession
 
     /**
      * Constructor
-     * @param  UserInterface $user
+     * @param  SessionUserInterface $user
      */
-    public function __construct(UserInterface $user)
+    public function __construct(SessionUserInterface $user)
     {
         $this->userId = $user->getId();
     }

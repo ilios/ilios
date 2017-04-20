@@ -4,7 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -32,7 +32,7 @@ class LearningMaterialVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $material, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -41,11 +41,11 @@ class LearningMaterialVoter extends AbstractVoter
                 // Deny access to LMs that are 'in draft' if the current user
                 // does not have elevated privileges.
                 return LearningMaterialStatusInterface::IN_DRAFT !== $material->getStatus()->getId()
-                    || $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer']);
+                    || $user->hasRole(['Faculty', 'Course Director', 'Developer']);
                 break;
             case self::CREATE:
                 // users with 'Faculty', 'Course director' or 'Developer' role can create materials.
-                return $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer']);
+                return $user->hasRole(['Faculty', 'Course Director', 'Developer']);
                 break;
             case self::EDIT:
             case self::DELETE:
@@ -54,8 +54,8 @@ class LearningMaterialVoter extends AbstractVoter
                 // 1. the user owns the learning material
                 // 2. the user has at least one of 'Faculty', 'Course Director' or 'Developer' roles.
                 return (
-                    $this->usersAreIdentical($user, $material->getOwningUser())
-                    || $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
+                    $user->isTheUser($material->getOwningUser())
+                    || $user->hasRole(['Faculty', 'Course Director', 'Developer'])
                 );
                 break;
         }

@@ -2,6 +2,8 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\AuthenticationBundle\Classes\SessionUser;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -67,6 +69,7 @@ class CreateUserTokenCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $userId = $input->getArgument('userId');
+        /** @var UserInterface $user */
         $user = $this->userManager->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new \Exception(

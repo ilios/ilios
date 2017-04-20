@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\SchoolConfigInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -31,7 +31,7 @@ class SchoolConfigVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $schoolConfig, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -45,7 +45,7 @@ class SchoolConfigVoter extends AbstractVoter
             case self::DELETE:
                 // grant CREATE, EDIT and DELETE privileges
                 // if the user has the 'Developer' role
-                return $this->userHasRole($user, ['Developer']);
+                return $user->hasRole(['Developer']);
                 break;
         }
 

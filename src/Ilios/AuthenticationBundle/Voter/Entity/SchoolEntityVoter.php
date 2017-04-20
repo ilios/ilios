@@ -2,9 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -14,19 +13,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class SchoolEntityVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -46,7 +32,7 @@ class SchoolEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $school, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -57,7 +43,7 @@ class SchoolEntityVoter extends AbstractVoter
                 break;
             case self::CREATE:
                 // only developers can create schools.
-                return $this->userHasRole($user, ['Developer']);
+                return $user->hasRole(['Developer']);
                 break;
             case self::EDIT:
             case self::DELETE:
@@ -68,10 +54,10 @@ class SchoolEntityVoter extends AbstractVoter
                 //     - or - by WRITE rights for the school
                 // via the permissions system.
                 return (
-                    $this->userHasRole($user, ['Developer'])
+                    $user->hasRole(['Developer'])
                     && (
-                        $this->schoolsAreIdentical($school, $user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $school->getId())
+                        $user->isThePrimarySchool($school)
+                        || $user->hasWritePermissionToSchool($school->getId())
                     )
                 );
                 break;

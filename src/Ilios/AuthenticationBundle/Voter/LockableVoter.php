@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Traits\LockableEntityInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -41,7 +41,7 @@ class LockableVoter extends Voter
     {
         if (self::UNLOCK === $attribute) {
             $user = $token->getUser();
-            if (!$user instanceof UserInterface) {
+            if (!$user instanceof SessionUserInterface) {
                 return false;
             }
 

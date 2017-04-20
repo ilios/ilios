@@ -2,9 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\ProgramInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -14,19 +13,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ProgramEntityVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -46,7 +32,7 @@ class ProgramEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $program, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -67,16 +53,13 @@ class ProgramEntityVoter extends AbstractVoter
                 // 3. The user has WRITE permissions on the program.
                 return (
                     (
-                        $this->userHasRole($user, ['Course Director', 'Developer'])
+                        $user->hasRole(['Course Director', 'Developer'])
                         && (
-                            $this->schoolsAreIdentical($program->getSchool(), $user->getSchool())
-                            || $this->permissionManager->userHasWritePermissionToSchool(
-                                $user,
-                                $program->getSchool()->getId()
-                            )
+                            $user->isThePrimarySchool($program->getSchool())
+                            || $user->hasWritePermissionToSchool($program->getSchool()->getId())
                         )
                     )
-                    || $this->permissionManager->userHasWritePermissionToProgram($user, $program)
+                    || $user->hasWritePermissionToProgram($program->getId())
                 );
                 break;
         }

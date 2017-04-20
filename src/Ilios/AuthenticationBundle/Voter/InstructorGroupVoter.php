@@ -3,8 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\InstructorGroupInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -13,16 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class InstructorGroupVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -42,7 +31,7 @@ class InstructorGroupVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $group, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -63,10 +52,10 @@ class InstructorGroupVoter extends AbstractVoter
                 // 2. the user has WRITE rights on the group's owning school via the permissions system
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
                 return (
-                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    $user->hasRole(['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical($user->getSchool(), $group->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool($user, $group->getSchool()->getId())
+                        $user->isThePrimarySchool($group->getSchool())
+                        || $user->hasWritePermissionToSchool($group->getSchool()->getId())
                     )
                 );
                 break;

@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Classes\TemporaryFileSystem;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -29,7 +29,7 @@ class TemporaryFileSystemVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $fileSystem, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -37,7 +37,7 @@ class TemporaryFileSystemVoter extends AbstractVoter
             // only user with Faculty/Course Director/Developer roles
             // have CREATE permissions to the temporary file system.
             case self::CREATE:
-                return ($this->userHasRole($user, ['Faculty', 'Course Director','Developer']));
+                return ($user->hasRole(['Faculty', 'Course Director', 'Developer']));
                 break;
         }
 

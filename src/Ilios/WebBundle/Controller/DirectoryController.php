@@ -16,8 +16,8 @@ class DirectoryController extends Controller
 {
     public function searchAction(Request $request)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        if (!$user->hasRole(['Developer'])) {
+        $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
+        if (!$sessionUser->hasRole(['Developer'])) {
             throw new AccessDeniedException();
         }
         $results = [];
@@ -58,8 +58,8 @@ class DirectoryController extends Controller
 
     public function findAction($id)
     {
-        $currentUser = $this->get('security.token_storage')->getToken()->getUser();
-        if (!$currentUser->hasRole(['Developer'])) {
+        $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
+        if (!$sessionUser->hasRole(['Developer'])) {
             throw new AccessDeniedException();
         }
 

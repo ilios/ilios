@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\Classes\SessionUser;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -57,12 +58,13 @@ class UsereventController extends Controller
         $events = array_filter($events, function ($entity) use ($authChecker) {
             return $authChecker->isGranted('view', $entity);
         });
+        $sessionUser = new SessionUser($user);
 
         $result = $manager->addInstructorsToEvents($events);
         $result = $manager->addMaterialsToEvents($result);
 
         //Un-privileged users get less data
-        if (!$user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+        if (!$sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])) {
             /* @var UserEvent $event */
             foreach ($events as $event) {
                 $event->clearDataForScheduledEvent();

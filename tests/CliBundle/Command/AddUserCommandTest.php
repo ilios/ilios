@@ -239,9 +239,11 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $school = m::mock('Ilios\CoreBundle\Entity\SchoolInterface');
         $school->shouldReceive('getTitle')->andReturn('Big School Title');
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface');
         $authentication = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
             ->shouldReceive('setUsername')->with('abc123')
             ->shouldReceive('setPasswordBcrypt')->with('hashBlurb')
+            ->shouldReceive('getSessionUser')->andReturn($sessionUser)
             ->mock();
         $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
             ->shouldReceive('setFirstName')->with('first')
@@ -258,7 +260,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('getFirstAndLastName')->andReturn('Test Person')
             ->shouldReceive('setAuthentication')->with($authentication)
             ->mock();
-        $this->encoder->shouldReceive('encodePassword')->with($user, 'abc123pass')->andReturn('hashBlurb');
+        $this->encoder->shouldReceive('encodePassword')->with($sessionUser, 'abc123pass')->andReturn('hashBlurb');
 
         $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 'abc'))->andReturn(false);
         $this->userManager->shouldReceive('findOneBy')->with(array('email' => 'email@example.com'))->andReturn(false);

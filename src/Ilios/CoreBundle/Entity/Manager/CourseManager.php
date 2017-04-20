@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
+use Ilios\CoreBundle\Entity\Repository\CourseRepository;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -14,23 +15,25 @@ class CourseManager extends DTOManager
     /**
      * Retrieves all courses associated with the given user.
      *
-     * @param UserInterface $user
+     * @param integer $user
      * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
      * @return CourseInterface[]
      *
-     * @see Ilios\CoreBundle\Entity\Repository\CourseRepository::findByUser()
+     * @see Ilios\CoreBundle\Entity\Repository\CourseRepository::findByUserId()
      */
-    public function findCoursesByUser(
-        UserInterface $user,
+    public function findCoursesByUserId(
+        $userId,
         array $criteria,
         array $orderBy = null,
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findByUser($user, $criteria, $orderBy, $limit, $offset);
+        /** @var CourseRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findByUserId($userId, $criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -44,12 +47,12 @@ class CourseManager extends DTOManager
     /**
      * Checks if a given user is assigned as instructor to ILMs or offerings in a given course.
      *
-     * @param UserInterface $user
+     * @param int $userId
      * @param int $courseId
      * @return boolean TRUE if the user instructs at least one offering or ILM, FALSE otherwise.
      */
-    public function isUserInstructingInCourse(UserInterface $user, $courseId)
+    public function isUserInstructingInCourse($userId, $courseId)
     {
-        return $this->getRepository()->isUserInstructingInCourse($user, $courseId);
+        return $this->getRepository()->isUserInstructingInCourse($userId, $courseId);
     }
 }

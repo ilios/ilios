@@ -25,7 +25,10 @@ class ExceptionController
      */
     protected $showException;
 
-
+    /**
+     * @var bool
+     */
+    protected $limitExceptionMessage;
 
     /**
      * Only show exceptions in the dev environment
@@ -37,6 +40,7 @@ class ExceptionController
     {
         $this->twig = $twig;
         $this->showException = $environment === 'dev';
+        $this->limitExceptionMessage = $environment === 'production';
     }
 
 
@@ -82,9 +86,11 @@ class ExceptionController
             $safeMessage = $exception->getMessage();
         }
 
+        $message = $this->limitExceptionMessage?$safeMessage:$exception->getMessage();
+
         $json = json_encode([
             'code' => $code,
-            'message' => $safeMessage
+            'message' => $message
         ]);
 
         $response->setContent($json);

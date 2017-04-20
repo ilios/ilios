@@ -3,8 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 
@@ -14,16 +13,6 @@ use Ilios\AuthenticationBundle\Voter\AbstractVoter;
  */
 class LearnerGroupEntityVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -43,7 +32,7 @@ class LearnerGroupEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $group, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -63,21 +52,12 @@ class LearnerGroupEntityVoter extends AbstractVoter
                 //    and the user has at least one of the 'Course Director' and 'Developer' roles.
                 // 3. the user has WRITE rights to the group's owning program.
                 return (
-                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    $user->hasRole(['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical(
-                            $user->getSchool(),
-                            $group->getSchool()
-                        )
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $group->getSchool()->getId()
-                        )
+                        $user->isThePrimarySchool($group->getSchool())
+                        || $user->hasWritePermissionToSchool($group->getSchool()->getId())
                     )
-                    || $this->permissionManager->userHasWritePermissionToProgram(
-                        $user,
-                        $group->getProgram()
-                    )
+                    || $user->hasWritePermissionToProgram($group->getProgram()->getId())
                 );
                 break;
         }

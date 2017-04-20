@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
@@ -119,11 +120,14 @@ class OfferingController extends NonDtoApiController
     {
         // create new alert for this offering
         $alertManager = $this->container->get('ilioscore.alert.manager');
+        $userManager = $this->container->get('ilioscore.user.manager');
         $alertChangeTypeManager = $this->container->get('ilioscore.alertchangetype.manager');
         $alert = $alertManager->create();
         $alert->addChangeType($alertChangeTypeManager->findOneBy([
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING]));
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        /** @var SessionUserInterface $sessionUser */
+        $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
         $alert->addInstigator($user);
         $alert->addRecipient($offering->getSession()->getCourse()->getSchool());
         $alert->setTableName('offering');
@@ -206,7 +210,11 @@ class OfferingController extends NonDtoApiController
             $alert->addRecipient($recipient);
             $alert->setTableName('offering');
             $alert->setTableRowId($offering->getId());
-            $user = $this->get('security.token_storage')->getToken()->getUser();
+
+            $userManager = $this->container->get('ilioscore.user.manager');
+            /** @var SessionUserInterface $sessionUser */
+            $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
+            $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
             $alert->addInstigator($user);
         }
 

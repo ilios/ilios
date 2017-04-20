@@ -13,34 +13,31 @@ security:
             stateless: true
             simple_preauth:
                 authenticator: ilios_authentication.jwt.authenticator
-            provider: ilios_user_entity
+            provider: session_user
         authenticated_application:
             pattern:    ^/application
             stateless: true
             simple_preauth:
                 authenticator: ilios_authentication.jwt.authenticator
-            provider: ilios_user_entity
+            provider: session_user
         upload:
             pattern:    ^/upload
             stateless: true
             simple_preauth:
                 authenticator: ilios_authentication.jwt.authenticator
-            provider: ilios_user_entity
+            provider: session_user
         errors:
             pattern:    ^/errors
             stateless: true
             simple_preauth:
                 authenticator: ilios_authentication.jwt.authenticator
-            provider: ilios_user_entity
+            provider: session_user
         default:
             pattern:    ^/api
             stateless: true
             simple_preauth:
                 authenticator: ilios_authentication.jwt.authenticator
-            provider: ilios_user_entity
-
+            provider: session_user
     providers:
-        ilios_user_entity:
-            entity:
-                class: IliosCoreBundle:User
-                property: id
+        session_user:
+            id: ilios_authentication.session_user_provider

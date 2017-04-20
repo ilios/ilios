@@ -4,7 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter\DTO;
 
 use Ilios\AuthenticationBundle\Voter\Entity\TermEntityVoter;
 use Ilios\CoreBundle\Entity\DTO\TermDTO;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -30,7 +30,7 @@ class TermDTOVoter extends TermEntityVoter
     protected function voteOnAttribute($attribute, $requestedTerm, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 

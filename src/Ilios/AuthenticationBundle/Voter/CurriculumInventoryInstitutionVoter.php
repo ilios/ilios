@@ -3,8 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -13,19 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class CurriculumInventoryInstitutionVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -45,7 +31,7 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $institution, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -53,7 +39,7 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
             case self::VIEW:
             case self::EDIT:
             case self::DELETE:
-                return $this->userHasRole($user, ['Course Director', 'Developer']);
+                return $user->hasRole(['Course Director', 'Developer']);
                 break;
         }
 
@@ -67,13 +53,10 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                 //     - or - by READ rights for the school
                 // via the permissions system.
                 return (
-                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    $user->hasRole(['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical($user->getSchool(), $institution->getSchool())
-                        || $this->permissionManager->userHasReadPermissionToSchool(
-                            $user,
-                            $institution->getSchool()->getId()
-                        )
+                        $user->isThePrimarySchool($institution->getSchool())
+                        || $user->hasReadPermissionToSchool($institution->getSchool()->getId())
                     )
                 );
                 break;
@@ -88,13 +71,10 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
                 //     - or - by WRITE rights for the school
                 // via the permissions system.
                 return (
-                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    $user->hasRole(['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical($user->getSchool(), $institution->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $institution->getSchool()->getId()
-                        )
+                        $user->isThePrimarySchool($institution->getSchool())
+                        || $user->hasWritePermissionToSchool($institution->getSchool()->getId())
                     )
                 );
                 break;

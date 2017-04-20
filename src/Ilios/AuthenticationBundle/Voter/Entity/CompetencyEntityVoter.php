@@ -3,8 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\CompetencyInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -14,19 +13,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class CompetencyEntityVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -46,7 +32,7 @@ class CompetencyEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $competency, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -65,13 +51,10 @@ class CompetencyEntityVoter extends AbstractVoter
                 //   - or -
                 //   if the user has WRITE rights on the competency's owning school
                 // via the permissions system.
-                return ($this->userHasRole($user, ['Developer'])
+                return ($user->hasRole(['Developer'])
                     && (
-                        $this->schoolsAreIdentical($competency->getSchool(), $user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $competency->getSchool()->getId()
-                        )
+                        $user->isThePrimarySchool($competency->getSchool())
+                        || $user->hasWritePermissionToSchool($competency->getSchool()->getId())
                     )
                 );
                 break;

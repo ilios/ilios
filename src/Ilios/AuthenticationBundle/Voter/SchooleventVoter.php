@@ -3,10 +3,9 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Classes\SchoolEvent;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -16,22 +15,15 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class SchooleventVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
      * @var SchoolManager
      */
     protected $schoolManager;
 
     /**
-     * @param PermissionManager $permissionManager
      * @param SchoolManager $schoolManager
      */
-    public function __construct(PermissionManager $permissionManager, SchoolManager $schoolManager)
+    public function __construct(SchoolManager $schoolManager)
     {
-        $this->permissionManager = $permissionManager;
         $this->schoolManager = $schoolManager;
     }
 
@@ -52,7 +44,7 @@ class SchooleventVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $event, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -63,16 +55,13 @@ class SchooleventVoter extends AbstractVoter
                 // then do not grant access to view un-published events.
                 /* @var SchoolInterface $eventOwningSchool */
                 $eventOwningSchool = $this->schoolManager->findOneBy(['id' => $event->school]);
-                if ($this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])) {
-                    return $this->schoolsAreIdentical($eventOwningSchool, $user->getSchool())
-                    || $this->permissionManager->userHasReadPermissionToSchool($user, $eventOwningSchool->getId());
+                if ($user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
+                    return $user->isThePrimarySchool($eventOwningSchool)
+                    || $user->hasReadPermissionToSchool($eventOwningSchool->getId());
                 } else {
                     return ((
-                            $this->schoolsAreIdentical($eventOwningSchool, $user->getSchool())
-                            || $this->permissionManager->userHasReadPermissionToSchool(
-                                $user,
-                                $eventOwningSchool->getId()
-                            )
+                            $user->isThePrimarySchool($eventOwningSchool)
+                            || $user->hasReadPermissionToSchool($eventOwningSchool->getId())
                         ) && $event->isPublished);
                 }
                 break;

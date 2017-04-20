@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -14,7 +15,6 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bridge\Doctrine\Security\User\EntityUserProvider;
 
 /**
  * Class JsonWebTokenAuthenticator
@@ -63,10 +63,10 @@ class JsonWebTokenAuthenticator implements SimplePreAuthenticatorInterface, Auth
      */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
-        if (!$userProvider instanceof EntityUserProvider) {
+        if (!$userProvider instanceof SessionUserProvider) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    'The user provider must be an instance of EntityUserProvider (%s was given).',
+                    'The user provider must be an instance of SessionUserProvider (%s was given).',
                     get_class($userProvider)
                 )
             );
@@ -82,24 +82,21 @@ class JsonWebTokenAuthenticator implements SimplePreAuthenticatorInterface, Auth
             throw new BadCredentialsException('Invalid JSON Web Token');
         }
 
-        /* @var UserInterface $user */
+        /* @var SessionUserInterface $user */
         $user = $userProvider->loadUserByUsername($username);
         if (!$user->isEnabled()) {
             throw new BadCredentialsException(
                 'Invalid JSON Web Token: user is disabled'
             );
         }
-        /* @var AuthenticationEntityInterface $authentication */
-        $authentication = $user->getAuthentication();
-        if ($authentication) {
-            $tokenNotValidBefore = $authentication->getInvalidateTokenIssuedBefore();
-            if ($tokenNotValidBefore) {
-                if ($tokenNotValidBefore > $issuedAt) {
-                    throw new BadCredentialsException(
-                        'Invalid JSON Web Token: Not issued after ' . $tokenNotValidBefore->format('c') .
-                        ' issued on ' . $issuedAt->format('c')
-                    );
-                }
+
+        $tokenNotValidBefore = $user->tokenNotValidBefore();
+        if ($tokenNotValidBefore) {
+            if ($tokenNotValidBefore > $issuedAt) {
+                throw new BadCredentialsException(
+                    'Invalid JSON Web Token: Not issued after ' . $tokenNotValidBefore->format('c') .
+                    ' issued on ' . $issuedAt->format('c')
+                );
             }
         }
         

@@ -139,14 +139,14 @@ class ShibbolethAuthenticationTest extends TestCase
             ->mock();
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->server = $serverBag;
-        
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('getUser')->andReturn($user)->mock();
+            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
         $authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
-        $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
+        $jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
         
         
         $result = $obj->login($request);
@@ -178,14 +178,14 @@ class ShibbolethAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->server = $serverBag;
 
-        $user = m::mock('Ilios\CoreBundle\Entity\UserInterface')
+        $sessionUser = m::mock('Ilios\AuthenticationBundle\Classes\SessionUserInterface')
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
 
         $authenticationEntity = m::mock('Ilios\CoreBundle\Entity\AuthenticationInterface')
-            ->shouldReceive('getUser')->andReturn($user)->mock();
+            ->shouldReceive('getSessionUser')->andReturn($sessionUser)->mock();
         $authManager->shouldReceive('findOneBy')
             ->with(array('username' => 'userid1'))->andReturn($authenticationEntity);
-        $jwtManager->shouldReceive('createJwtFromUser')->with($user)->andReturn('jwt123Test');
+        $jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
 
 
         $result = $obj->login($request);

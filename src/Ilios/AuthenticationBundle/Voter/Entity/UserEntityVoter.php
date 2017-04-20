@@ -2,7 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -13,19 +14,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class UserEntityVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -45,7 +33,7 @@ class UserEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $requestedUser, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -60,7 +48,7 @@ class UserEntityVoter extends AbstractVoter
             case self::VIEW:
                 return (
                     $user->getId() === $requestedUser->getId()
-                    || $this->userHasRole($user, ['Course Director', 'Faculty', 'Developer'])
+                    || $user->hasRole(['Course Director', 'Faculty', 'Developer'])
                 );
                 break;
             case self::CREATE:
@@ -73,11 +61,11 @@ class UserEntityVoter extends AbstractVoter
     }
 
     /**
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @param UserInterface $requestedUser
      * @return bool
      */
-    protected function canCreateEditDeleteUser(UserInterface $user, UserInterface $requestedUser)
+    protected function canCreateEditDeleteUser(SessionUserInterface $user, UserInterface $requestedUser)
     {
         // only root users can edit/delete/create root users
         if (! $user->isRoot() && $requestedUser->isRoot()) {
@@ -87,14 +75,17 @@ class UserEntityVoter extends AbstractVoter
         /**
          * Temporary mitigation for #1762
          */
-        if ($this->usersAreIdentical($user, $requestedUser)) {
+        if ($user->isTheUser($requestedUser)) {
             return false;
         }
+        $schoolIds = $requestedUser->getAllSchools()->map(function (SchoolInterface $school) {
+            return $school->getId();
+        });
 
         // current user must have developer role and share the same school affiliations than the requested user.
-        if ($this->userHasRole($user, ['Developer'])
+        if ($user->hasRole(['Developer'])
             && ($requestedUser->getAllSchools()->contains($user->getSchool())
-                || $this->permissionManager->userHasReadPermissionToSchools($user, $requestedUser->getAllSchools()))) {
+                || $user->hasReadPermissionToSchools($schoolIds))) {
             return true;
         }
 

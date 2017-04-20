@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\IngestionException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -29,14 +29,14 @@ class IngestionExceptionVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $exception, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
         switch ($attribute) {
             case self::VIEW:
                 // Grant VIEW access only to users with the Developer role.
-                return $this->userHasRole($user, ['Developer']);
+                return $user->hasRole(['Developer']);
                 break;
         }
 

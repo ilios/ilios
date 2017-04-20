@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Ilios\CoreBundle\Entity\Repository\AuditLogRepository;
+
 /**
  * Class AuditLogManager
  * @package Ilios\CoreBundle\Entity\Manager
@@ -41,5 +43,16 @@ class AuditLogManager extends BaseManager
     public function getFieldNames()
     {
         return $this->em->getClassMetadata($this->getClass())->getFieldNames();
+    }
+
+    /**
+     * Write logs to the databse
+     * @param array $entries
+     */
+    public function writeLogs(array $entries)
+    {
+        /** @var AuditLogRepository $repository */
+        $repository = $this->getRepository();
+        $repository->writeLogs($entries);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -173,12 +174,14 @@ class AddUserCommand extends Command
             $user->setUserSyncIgnore(false);
             $this->userManager->update($user);
 
+            /** @var AuthenticationInterface $authentication */
             $authentication = $this->authenticationManager->create();
             $authentication->setUsername($userRecord['username']);
 
             $user->setAuthentication($authentication);
+            $sessionUser = $authentication->getSessionUser();
 
-            $encodedPassword = $this->encoder->encodePassword($user, $userRecord['password']);
+            $encodedPassword = $this->encoder->encodePassword($sessionUser, $userRecord['password']);
             $authentication->setPasswordBcrypt($encodedPassword);
 
             $this->authenticationManager->update($authentication);

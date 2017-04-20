@@ -2,9 +2,8 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -13,19 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ProgramYearStewardVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -45,7 +31,7 @@ class ProgramYearStewardVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $steward, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -62,23 +48,14 @@ class ProgramYearStewardVoter extends AbstractVoter
                 // 4. The user has READ permissions on the owning program.
                 return (
                     (
-                        $this->userHasRole($user, ['Course Director', 'Developer', 'Faculty'])
+                        $user->hasRole(['Course Director', 'Developer', 'Faculty'])
                         && (
-                            $this->schoolsAreIdentical(
-                                $steward->getProgramOwningSchool(),
-                                $user->getSchool()
-                            )
-                            || $this->permissionManager->userHasReadPermissionToSchool(
-                                $user,
-                                $steward->getProgramOwningSchool()->getId()
-                            )
-                            || $this->schoolsAreIdentical($steward->getSchool(), $user->getSchool())
+                            $user->isThePrimarySchool($steward->getProgramOwningSchool())
+                            || $user->hasReadPermissionToSchool($steward->getProgramOwningSchool()->getId())
+                            || $user->isThePrimarySchool($steward->getSchool())
                         )
                     )
-                    || $this->permissionManager->userHasReadPermissionToProgram(
-                        $user,
-                        $steward->getProgram()
-                    )
+                    || $user->hasReadPermissionToProgram($steward->getProgram()->getId())
                 );
                 break;
             case self::CREATE:
@@ -95,23 +72,14 @@ class ProgramYearStewardVoter extends AbstractVoter
                 // 4. The user has WRITE permissions on the parent program.
                 return (
                     (
-                        $this->userHasRole($user, ['Course Director', 'Developer'])
+                        $user->hasRole(['Course Director', 'Developer'])
                         && (
-                            $this->schoolsAreIdentical(
-                                $steward->getProgramOwningSchool(),
-                                $user->getSchool()
-                            )
-                            || $this->permissionManager->userHasWritePermissionToSchool(
-                                $user,
-                                $steward->getProgramOwningSchool()->getId()
-                            )
-                            || $this->schoolsAreIdentical($steward->getSchool(), $user->getSchool())
+                            $user->isThePrimarySchool($steward->getProgramOwningSchool())
+                            || $user->hasWritePermissionToSchool($steward->getProgramOwningSchool()->getId())
+                            || $user->isThePrimarySchool($steward->getSchool())
                         )
                     )
-                    || $this->permissionManager->userHasWritePermissionToProgram(
-                        $user,
-                        $steward->getProgram()
-                    )
+                    || $user->hasWritePermissionToProgram($steward->getProgram()->getId())
                 );
                 break;
         }

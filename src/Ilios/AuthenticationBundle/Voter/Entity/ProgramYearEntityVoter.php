@@ -5,9 +5,8 @@ namespace Ilios\AuthenticationBundle\Voter\Entity;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 
 use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -17,24 +16,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class ProgramYearEntityVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
      * @var ProgramYearStewardManager
      */
     protected $stewardManager;
 
     /**
-     * @param PermissionManager $permissionManager
      * @param ProgramYearStewardManager $stewardManager
      */
     public function __construct(
-        PermissionManager $permissionManager,
         ProgramYearStewardManager $stewardManager
     ) {
-        $this->permissionManager = $permissionManager;
         $this->stewardManager = $stewardManager;
     }
 
@@ -57,7 +48,7 @@ class ProgramYearEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $programYear, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -77,7 +68,7 @@ class ProgramYearEntityVoter extends AbstractVoter
 
     /**
      * @param ProgramYearInterface $programYear
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @return bool
      */
     protected function isViewGranted($programYear, $user)
@@ -88,7 +79,7 @@ class ProgramYearEntityVoter extends AbstractVoter
 
     /**
      * @param ProgramYearInterface $programYear
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @return bool
      */
     protected function isWriteGranted(ProgramYearInterface $programYear, $user)
@@ -105,17 +96,13 @@ class ProgramYearEntityVoter extends AbstractVoter
         // 4. The user has WRITE permissions on the parent program.
         return (
             (
-                $this->userHasRole($user, ['Course Director', 'Developer'])
+                $user->hasRole(['Course Director', 'Developer'])
                 && (
-                    $this->schoolsAreIdentical($programYear->getSchool(), $user->getSchool())
-                    || $this->permissionManager->userHasWritePermissionToSchool(
-                        $user,
-                        $programYear->getSchool()->getId()
-                    )
-                    || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
+                    $user->isThePrimarySchool($programYear->getSchool())
+                    || $user->hasWritePermissionToSchool($programYear->getSchool()->getId())
                 )
             )
-            || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
+            || $user->hasWritePermissionToProgram($programYear->getProgram()->getId())
         );
     }
 }

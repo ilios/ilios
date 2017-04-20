@@ -3,9 +3,9 @@
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
+use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -14,16 +14,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class AuthenticationEntityVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -43,8 +33,9 @@ class AuthenticationEntityVoter extends AbstractVoter
      */
     protected function voteOnAttribute($attribute, $authentication, TokenInterface $token)
     {
+        /** @var SessionUserInterface $user */
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -55,7 +46,7 @@ class AuthenticationEntityVoter extends AbstractVoter
             case self::VIEW:
                 return (
                     $user->getId() === $authentication->getUser()->getId()
-                    || $this->userHasRole($user, ['Developer'])
+                    || $user->hasRole(['Developer'])
                 );
                 break;
             // at least one of these must be true.
@@ -66,14 +57,14 @@ class AuthenticationEntityVoter extends AbstractVoter
             case self::CREATE:
             case self::EDIT:
             case self::DELETE:
+                $allSchoolIds = $authentication->getUser()->getAllSchools()->map(function (SchoolInterface $school) {
+                    return $school->getId();
+                });
                 return (
-                    $this->userHasRole($user, ['Developer'])
+                    $user->hasRole(['Developer'])
                     && (
-                        $authentication->getUser()->getAllSchools()->contains($user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchools(
-                            $user,
-                            $authentication->getUser()->getAllSchools()
-                        )
+                        $allSchoolIds->contains($user->getSchoolId())
+                        || $user->hasWritePermissionToSchools($allSchoolIds->toArray())
                     )
                 );
                 break;

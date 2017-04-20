@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter\DTO;
 
 use Ilios\CoreBundle\Entity\DTO\AuthenticationDTO;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -32,7 +32,7 @@ class AuthenticationDTOVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $authenticationDTO, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -43,7 +43,7 @@ class AuthenticationDTOVoter extends AbstractVoter
             case self::VIEW:
                 return (
                     $user->getId() === $authenticationDTO->user
-                    || $this->userHasRole($user, ['Developer'])
+                    || $user->hasRole(['Developer'])
                 );
                 break;
         }

@@ -3,12 +3,11 @@
 namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -19,24 +18,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class ObjectiveEntityVoter extends AbstractVoter
 {
     /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
      * @var ProgramYearStewardManager
      */
     protected $stewardManager;
 
     /**
-     * @param PermissionManager $permissionManager
      * @param ProgramYearStewardManager $stewardManager
      */
     public function __construct(
-        PermissionManager $permissionManager,
         ProgramYearStewardManager $stewardManager
     ) {
-        $this->permissionManager = $permissionManager;
         $this->stewardManager = $stewardManager;
     }
 
@@ -59,7 +50,7 @@ class ObjectiveEntityVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $objective, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -92,11 +83,13 @@ class ObjectiveEntityVoter extends AbstractVoter
 
     /**
      * @param ObjectiveInterface $objective
-     * @param UserInterface $user
+     * @param SessionUserInterface $sessionUser
      * @return bool
      */
-    protected function isCreateEditDeleteGrantedForProgramYearObjective($objective, $user)
-    {
+    protected function isCreateEditDeleteGrantedForProgramYearObjective(
+        ObjectiveInterface $objective,
+        SessionUserInterface $sessionUser
+    ) {
 
         /* @var ProgramYearInterface $programYear */
         $programYear = $objective->getProgramYears()->first(); // there should ever only be one
@@ -108,27 +101,26 @@ class ObjectiveEntityVoter extends AbstractVoter
         }
         return (
             (
-                $this->userHasRole($user, ['Course Director', 'Developer'])
+                $sessionUser->hasRole(['Course Director', 'Developer'])
                 && (
-                    $this->schoolsAreIdentical($programYear->getSchool(), $user->getSchool())
-                    || $this->permissionManager->userHasWritePermissionToSchool(
-                        $user,
-                        $programYear->getSchool()->getId()
-                    )
-                    || $this->stewardManager->schoolIsStewardingProgramYear($user, $programYear)
+                    $sessionUser->isThePrimarySchool($programYear->getSchool())
+                    || $sessionUser->hasWritePermissionToSchool($programYear->getSchool()->getId())
+                    || $this->stewardManager->schoolIsStewardingProgramYear($sessionUser->getSchoolId(), $programYear)
                 )
             )
-            || $this->permissionManager->userHasWritePermissionToProgram($user, $programYear->getProgram())
+            || $sessionUser->hasWritePermissionToProgram($programYear->getProgram()->getId())
         );
     }
 
     /**
      * @param ObjectiveInterface $objective
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @return bool
      */
-    protected function isCreateEditDeleteGrantedForSessionObjective($objective, $user)
-    {
+    protected function isCreateEditDeleteGrantedForSessionObjective(
+        ObjectiveInterface $objective,
+        SessionUserInterface $sessionUser
+    ) {
         /* @var SessionInterface $session */
         $session = $objective->getSessions()->first(); // there should ever only be one
 
@@ -143,18 +135,18 @@ class ObjectiveEntityVoter extends AbstractVoter
             return false;
         }
         return (
-            $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
+            $sessionUser->hasRole(['Faculty', 'Course Director', 'Developer'])
             && (
-                $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool()->getId())
+                $sessionUser->isThePrimarySchool($course->getSchool())
+                || $sessionUser->hasWritePermissionToSchool($course->getSchool()->getId())
             )
-            || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
+            || $sessionUser->hasWritePermissionToCourse($course->getId())
         );
     }
 
     /**
      * @param ObjectiveInterface $objective
-     * @param UserInterface $user
+     * @param SessionUserInterface $user
      * @return bool
      */
     protected function isCreateEditDeleteGrantedForCourseObjective($objective, $user)
@@ -170,12 +162,12 @@ class ObjectiveEntityVoter extends AbstractVoter
             return false;
         }
         return (
-            $this->userHasRole($user, ['Faculty', 'Course Director', 'Developer'])
+            $user->hasRole(['Faculty', 'Course Director', 'Developer'])
             && (
-                $this->schoolsAreIdentical($course->getSchool(), $user->getSchool())
-                || $this->permissionManager->userHasWritePermissionToSchool($user, $course->getSchool()->getId())
+                $user->isThePrimarySchool($course->getSchool())
+                || $user->hasWritePermissionToSchool($course->getSchool()->getId())
             )
-            || $this->permissionManager->userHasWritePermissionToCourse($user, $course)
+            || $user->hasWritePermissionToCourse($course->getId())
         );
     }
 }

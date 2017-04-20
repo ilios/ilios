@@ -3,7 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\VocabularyInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -32,7 +32,7 @@ class VocabularyVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $vocabulary, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -46,7 +46,7 @@ class VocabularyVoter extends AbstractVoter
             case self::DELETE:
                 // grant CREATE, EDIT and DELETE privileges
                 // if the user has the 'Developer' role
-                return $this->userHasRole($user, ['Developer']);
+                return $user->hasRole(['Developer']);
                 break;
         }
 

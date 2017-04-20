@@ -31,7 +31,6 @@ services:
             - { name: security.voter }
     security.access.entity.authentication_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\AuthenticationEntityVoter
-        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -43,7 +42,6 @@ services:
             - { name: security.voter }
     security.access.entity.competency_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\CompetencyEntityVoter
-        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -55,7 +53,6 @@ services:
             - { name: security.voter }
     security.access.entity.learner_group_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\LearnerGroupEntityVoter
-        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -66,25 +63,23 @@ services:
             - { name: security.voter }
     security.access.entity.objective_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\ObjectiveEntityVoter
-        arguments: [ "@ilioscore.permission.manager", "@ilioscore.programyearsteward.manager" ]
+        arguments: [  "@ilioscore.programyearsteward.manager" ]
         public: false
         tags:
             - { name: security.voter }
     security.access.entity.program_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\ProgramEntityVoter
-        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
     security.access.entity.program_year_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\ProgramYearEntityVoter
-        arguments: [ "@ilioscore.permission.manager", "@ilioscore.programyearsteward.manager" ]
+        arguments: [  "@ilioscore.programyearsteward.manager" ]
         public: false
         tags:
             - { name: security.voter }
     security.access.entity.school_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\SchoolEntityVoter
-        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
@@ -96,13 +91,11 @@ services:
             - { name: security.voter }
     security.access.entity.term_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\TermEntityVoter
-        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }
     security.access.entity.user_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\UserEntityVoter
-        arguments: [ "@ilioscore.permission.manager" ]
         public: false
         tags:
             - { name: security.voter }

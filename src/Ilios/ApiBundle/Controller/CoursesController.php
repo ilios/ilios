@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
@@ -29,9 +30,10 @@ class CoursesController extends ApiController
         $manager = $this->getManager($object);
 
         if (null !== $my) {
+            /** @var SessionUserInterface $currentUser */
             $currentUser = $this->get('security.token_storage')->getToken()->getUser();
-            $result = $manager->findCoursesByUser(
-                $currentUser,
+            $result = $manager->findCoursesByUserId(
+                $currentUser->getId(),
                 $parameters['criteria'],
                 $parameters['orderBy'],
                 $parameters['limit'],

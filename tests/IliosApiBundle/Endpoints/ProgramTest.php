@@ -88,6 +88,16 @@ class ProgramTest extends AbstractEndpointTest
         ];
     }
 
+    /**
+     * Delete Program 2 explicitly as Program 1 is linked
+     * to School 1.  Since sqlite doesn't cascade this doesn't work
+     * @inheritdoc
+     */
+    public function testDelete()
+    {
+        $this->deleteTest(2);
+    }
+
     public function testRejectUnprivilegedPostProgram()
     {
         $dataLoader = $this->getDataLoader();

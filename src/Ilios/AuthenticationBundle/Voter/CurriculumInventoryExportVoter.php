@@ -3,8 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -13,19 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class CurriculumInventoryExportVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -45,7 +31,7 @@ class CurriculumInventoryExportVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $export, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -59,13 +45,11 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                 //     - or - by WROTE rights for the school
                 // via the permissions system.
                 return (
-                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    $user->hasRole(['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical($user->getSchool(), $export->getReport()->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $export->getReport()->getSchool()->getId()
-                        ))
+                        $user->isThePrimarySchool($export->getReport()->getSchool())
+                        || $user->hasWritePermissionToSchool($export->getReport()->getSchool()->getId())
+                    )
                 );
             case self::VIEW:
                 // Only grant VIEW permissions to users with at least one of
@@ -76,13 +60,11 @@ class CurriculumInventoryExportVoter extends AbstractVoter
                 //     - or - by READ rights for the school
                 // via the permissions system.
                 return (
-                    $this->userHasRole($user, ['Course Director', 'Developer'])
+                    $user->hasRole(['Course Director', 'Developer'])
                     && (
-                        $this->schoolsAreIdentical($user->getSchool(), $export->getReport()->getSchool())
-                        || $this->permissionManager->userHasReadPermissionToSchool(
-                            $user,
-                            $export->getReport()->getSchool()->getId()
-                        ))
+                        $user->isThePrimarySchool($export->getReport()->getSchool())
+                        || $user->hasReadPermissionToSchool($export->getReport()->getSchool()->getId())
+                    )
                 );
                 break;
         }

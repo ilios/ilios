@@ -3,8 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter;
 
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
-use Ilios\CoreBundle\Entity\Manager\PermissionManager;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -13,19 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class SessionTypeVoter extends AbstractVoter
 {
-    /**
-     * @var PermissionManager
-     */
-    protected $permissionManager;
-
-    /**
-     * @param PermissionManager $permissionManager
-     */
-    public function __construct(PermissionManager $permissionManager)
-    {
-        $this->permissionManager = $permissionManager;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -45,7 +31,7 @@ class SessionTypeVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $sessionType, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -66,13 +52,10 @@ class SessionTypeVoter extends AbstractVoter
                 //   if the user has WRITE rights on the session type's owning school
                 // via the permissions system.
                 return (
-                    $this->userHasRole($user, ['Developer'])
+                    $user->hasRole(['Developer'])
                     && (
-                        $this->schoolsAreIdentical($sessionType->getSchool(), $user->getSchool())
-                        || $this->permissionManager->userHasWritePermissionToSchool(
-                            $user,
-                            $sessionType->getSchool()->getId()
-                        )
+                        $user->isThePrimarySchool($sessionType->getSchool())
+                        || $user->hasWritePermissionToSchool($sessionType->getSchool()->getId())
                     )
                 );
                 break;

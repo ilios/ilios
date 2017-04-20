@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,18 +32,20 @@ class CurriculumInventoryExportController extends NonDtoApiController
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
+        $userManager = $this->container->get('ilioscore.user.manager');
         $class = $manager->getClass() . '[]';
 
         $json = $this->extractJsonFromRequest($request, $object, 'POST');
         $serializer = $this->getSerializer();
         $entities = $serializer->deserialize($json, $class, 'json');
 
-        /** @var UserInterface $currentUser */
-        $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+        /** @var SessionUserInterface $sessionUser */
+        $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
         $exporter = $this->container->get('ilioscore.curriculum_inventory.exporter');
         /** @var CurriculumInventoryExportInterface $export */
         foreach ($entities as $export) {
-            $export->setCreatedBy($currentUser);
+            $export->setCreatedBy($user);
             $this->authorizeEntity($export, 'create');
 
             // generate and set the report document

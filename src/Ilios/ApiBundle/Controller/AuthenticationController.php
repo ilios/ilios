@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\Classes\SessionUser;
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,7 +69,8 @@ class AuthenticationController extends ApiController
             if (!empty($obj->password) && !empty($obj->user)) {
                 $user = $users[$obj->user];
                 if ($user) {
-                    $encodedPassword = $encoder->encodePassword($user, $obj->password);
+                    $sessionUser = new SessionUser($user);
+                    $encodedPassword = $encoder->encodePassword($sessionUser, $obj->password);
                     $encodedPasswords[$user->getId()] = $encodedPassword;
                 }
             }
@@ -129,7 +131,8 @@ class AuthenticationController extends ApiController
                 //set the password to null to reset the encoder
                 //so we don't use the legacy one
                 $entity->setPasswordSha256(null);
-                $encodedPassword = $encoder->encodePassword($user, $authObject->password);
+                $sessionUser = new SessionUser($user);
+                $encodedPassword = $encoder->encodePassword($sessionUser, $authObject->password);
             }
         }
         unset($authObject->password);

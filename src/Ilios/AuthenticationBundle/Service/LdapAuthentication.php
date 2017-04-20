@@ -94,11 +94,11 @@ class LdapAuthentication implements AuthenticationInterface
         if ($username && $password) {
             $authEntity = $this->authManager->findAuthenticationByUsername($username);
             if ($authEntity) {
-                $user = $authEntity->getUser();
-                if ($user->isEnabled()) {
+                $sessionUser = $authEntity->getSessionUser();
+                if ($sessionUser->isEnabled()) {
                     $passwordValid = $this->checkLdapPassword($username, $password);
                     if ($passwordValid) {
-                        $jwt = $this->jwtManager->createJwtFromUser($user);
+                        $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
 
                         return $this->createSuccessResponseFromJWT($jwt);
                     }
@@ -108,11 +108,11 @@ class LdapAuthentication implements AuthenticationInterface
             $code = JsonResponse::HTTP_UNAUTHORIZED;
         }
 
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'error',
             'errors' => $errors,
             'jwt' => null,
-        ), $code);
+        ], $code);
     }
 
     /**
@@ -123,9 +123,9 @@ class LdapAuthentication implements AuthenticationInterface
      */
     public function logout(Request $request)
     {
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'success'
-        ), JsonResponse::HTTP_OK);
+        ], JsonResponse::HTTP_OK);
     }
     
     /**

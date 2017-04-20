@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Classes\UserEvent;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -29,7 +29,7 @@ class UsereventVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $event, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 
@@ -37,12 +37,12 @@ class UsereventVoter extends AbstractVoter
             case self::VIEW:
                 // users with developer roles can see their own events, regardless of publication status.
                 // and any other published events that are not theirs.
-                if ($this->userHasRole($user, ['Developer'])) {
+                if ($user->hasRole(['Developer'])) {
                     return ($user->getId() === $event->user || $event->isPublished);
                 }
 
                 // faculty and course directors can see their own events, regardless of publication status.
-                if ($this->userHasRole($user, ['Faculty', 'Course Director'])) {
+                if ($user->hasRole(['Faculty', 'Course Director'])) {
                     return $user->getId() === $event->user;
                 }
 

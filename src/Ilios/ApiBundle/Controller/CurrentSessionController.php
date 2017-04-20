@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Classes\CurrentSession;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,11 +25,11 @@ class CurrentSessionController extends Controller
      */
     public function getAction($version)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        if (!$user instanceof UserInterface) {
+        $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
+        if (!$sessionUser instanceof SessionUserInterface) {
             throw new NotFoundHttpException('No current session');
         }
-        $currentSession = new CurrentSession($user);
+        $currentSession = new CurrentSession($sessionUser);
 
         $serializer = $this->get('ilios_api.serializer');
         return new Response(

@@ -48,6 +48,7 @@ class CasAuthentication implements AuthenticationInterface
      * @param AuthenticationManager $authManager
      * @param JsonWebTokenManager $jwtManager
      * @param LoggerInterface $logger
+     * @param Router $router
      * @param CasManager $casManager
      */
     public function __construct(
@@ -81,11 +82,11 @@ class CasAuthentication implements AuthenticationInterface
         $ticket = $request->query->get('ticket');
 
         if (!$ticket) {
-            return new JsonResponse(array(
+            return new JsonResponse([
                 'status' => 'redirect',
                 'errors' => [],
                 'jwt' => null,
-            ), JsonResponse::HTTP_OK);
+            ], JsonResponse::HTTP_OK);
         }
 
         $userId = $this->casManager->getUserId($service, $ticket);
@@ -95,22 +96,22 @@ class CasAuthentication implements AuthenticationInterface
             throw new \Exception($msg);
         }
         /* @var \Ilios\CoreBundle\Entity\AuthenticationInterface $authEntity */
-        $authEntity = $this->authManager->findOneBy(array('username' => $userId));
+        $authEntity = $this->authManager->findOneBy(['username' => $userId]);
         if ($authEntity) {
-            $user = $authEntity->getUser();
-            if ($user->isEnabled()) {
-                $jwt = $this->jwtManager->createJwtFromUser($user);
+            $sessionUser = $authEntity->getSessionUser();
+            if ($sessionUser->isEnabled()) {
+                $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
 
                 return $this->createSuccessResponseFromJWT($jwt);
             }
         }
 
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'noAccountExists',
             'userId' => $userId,
             'errors' => [],
             'jwt' => null,
-        ), JsonResponse::HTTP_OK);
+        ], JsonResponse::HTTP_OK);
     }
 
     /**
@@ -122,9 +123,9 @@ class CasAuthentication implements AuthenticationInterface
     public function logout(Request $request)
     {
         $logoutUrl = $this->casManager->getLogoutUrl();
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'redirect',
             'logoutUrl' => $logoutUrl
-        ), JsonResponse::HTTP_OK);
+        ], JsonResponse::HTTP_OK);
     }
 }

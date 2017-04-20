@@ -4,7 +4,7 @@ namespace Ilios\AuthenticationBundle\Voter\DTO;
 
 use Ilios\CoreBundle\Entity\DTO\AlertChangeTypeDTO;
 use Ilios\AuthenticationBundle\Voter\AbstractVoter;
-use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -30,7 +30,7 @@ class AlertChangeTypeDTOVoter extends AbstractVoter
     protected function voteOnAttribute($attribute, $alertChangeTypeDto, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        if (!$user instanceof SessionUserInterface) {
             return false;
         }
 

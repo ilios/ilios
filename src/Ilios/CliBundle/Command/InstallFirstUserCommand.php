@@ -2,6 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Entity\AuthenticationInterface;
 use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 
 use Ilios\CoreBundle\Entity\SchoolInterface;
@@ -184,12 +185,14 @@ class InstallFirstUserCommand extends Command
         $user->setSchool($school);
         $this->userManager->update($user);
 
+        /** @var AuthenticationInterface $authentication */
         $authentication = $this->authenticationManager->create();
 
         $authentication->setUser($user);
         $user->setAuthentication($authentication);
+        $sessionUser = $authentication->getSessionUser();
 
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, self::PASSWORD);
+        $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, self::PASSWORD);
 
         $authentication->setUsername(self::USERNAME);
         $authentication->setPasswordBcrypt($encodedPassword);

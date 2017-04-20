@@ -49,16 +49,16 @@ class SchoolDTOVoterTest extends AbstractVoterTestCase
         foreach ($roles as $role) {
             ++$i;
             $currentUser = $this->createUserInRoles($i, [$role]);
-            $token = $this->createMockTokenWithUser($currentUser);
+            $token = $this->createMockTokenWithSessionUser($currentUser);
             $data[] = [$token, $school, VoterInterface::ACCESS_GRANTED, "${role} can view school."];
         }
 
-        $currentUser = $this->createMockUserWithUserRoles([]);
-        $token = $this->createMockTokenWithUser($currentUser);
+        $currentUser = $this->createMockSessionUserWithUserRoles([]);
+        $token = $this->createMockTokenWithSessionUser($currentUser);
         $data[] = [$token, $school, VoterInterface::ACCESS_GRANTED, "User without roles can view school."];
 
 
-        $token = $this->createMockTokenWithUser(null);
+        $token = $this->createMockTokenWithSessionUser(null);
         $data[] = [$token, $school, VoterInterface::ACCESS_DENIED, "Unauthorized user cannot view school."];
 
         return $data;
@@ -87,7 +87,7 @@ class SchoolDTOVoterTest extends AbstractVoterTestCase
         $roles = array_map(function ($role) {
             return $this->createMockUserRole($role);
         }, $roles);
-        $user = $this->createMockUserWithUserRoles($roles);
+        $user = $this->createMockSessionUserWithUserRoles($roles);
         $user->shouldReceive('getId')->withNoArgs()->andReturn($id);
         return $user;
     }
