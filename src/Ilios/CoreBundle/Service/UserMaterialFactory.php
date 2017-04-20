@@ -30,7 +30,7 @@ class UserMaterialFactory
 
     /**
      * @param array $material
-     * @return UserMaterial[]
+     * @return UserMaterial
      */
     public function create(
         array $material
@@ -51,6 +51,7 @@ class UserMaterialFactory
         $obj->sessionTitle = isset($material['sessionTitle'])?$material['sessionTitle']:null;
         $obj->courseTitle = isset($material['courseTitle'])?$material['courseTitle']:null;
         $obj->firstOfferingDate = isset($material['firstOfferingDate'])?$material['firstOfferingDate']:null;
+        $obj->instructors = isset($material['instructors'])?$material['instructors']:[];
         if ($material['publicNotes']) {
             $obj->publicNotes = $material['notes'];
         }
@@ -63,7 +64,6 @@ class UserMaterialFactory
         $obj->link = $material['link'];
         $obj->filename = $material['filename'];
         $obj->mimetype = $material['mimetype'];
-
 
         return $obj;
     }

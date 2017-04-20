@@ -123,4 +123,11 @@ class UserMaterial
      * @IS\Type("dateTime")
      */
     public $firstOfferingDate;
+
+    /**
+     * @var array
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    public $instructors = [];
 }

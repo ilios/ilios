@@ -900,7 +900,7 @@ class UserRepository extends EntityRepository
         $groupOfferingQb->andWhere($groupOfferingQb->expr()->eq('groupU.id', ':user_id'));
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('s.id, o.startDate');
+        $qb->select('s.id, o.startDate, o.id as offeringId');
         $qb->from('IliosCoreBundle:Offering', 'o');
         $qb->join('o.session', 's');
         $qb->where($qb->expr()->orX(
@@ -931,7 +931,7 @@ class UserRepository extends EntityRepository
         $groupIlmSessionQb->andWhere($groupIlmSessionQb->expr()->eq('groupU.id', ':user_id'));
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('s.id, ilm.dueDate');
+        $qb->select('s.id, ilm.dueDate, ilm.id AS ilmId');
         $qb->from('IliosCoreBundle:IlmSession', 'ilm');
         $qb->join('ilm.session', 's');
         $qb->where($qb->expr()->orX(
@@ -949,15 +949,42 @@ class UserRepository extends EntityRepository
         $qb->setParameter('user_id', $id);
 
         $ilmSessions = $qb->getQuery()->getArrayResult();
+        $offeringIds = array_map(function (array $arr) {
+            return $arr['offeringId'];
+        }, $offeringSessions);
+        $ilmIds = array_map(function (array $arr) {
+            return $arr['ilmId'];
+        }, $ilmSessions);
+        $offeringInstructors = $this->getInstructorsForOfferings($offeringIds);
+        $ilmInstructors = $this->getInstructorsForIlmSessions($ilmIds);
+
         $sessions = [];
         foreach ($offeringSessions as $arr) {
-            if (!array_key_exists($arr['id'], $sessions) || $arr['startDate'] < $sessions[$arr['id']]) {
-                $sessions[$arr['id']] = $arr['startDate'];
+            if (!array_key_exists($arr['id'], $sessions)) {
+                $sessions[$arr['id']] = [
+                    'firstOfferingDate' => $arr['startDate'],
+                    'instructors' => []
+                ];
+            }
+            if ($arr['startDate'] < $sessions[$arr['id']]['firstOfferingDate']) {
+                $sessions[$arr['id']]['firstOfferingDate'] = $arr['startDate'];
+            }
+            if (array_key_exists($arr['offeringId'], $offeringInstructors)) {
+                $sessions[$arr['id']]['instructors'] = array_values($offeringInstructors[$arr['offeringId']]);
             }
         }
         foreach ($ilmSessions as $arr) {
-            if (!array_key_exists($arr['id'], $sessions) || $arr['dueDate'] < $sessions[$arr['id']]) {
-                $sessions[$arr['id']] = $arr['dueDate'];
+            if (!array_key_exists($arr['id'], $sessions)) {
+                $sessions[$arr['id']] = [
+                    'firstOfferingDate' => $arr['dueDate'],
+                    'instructors' => []
+                ];
+            }
+            if ($arr['dueDate'] < $sessions[$arr['id']]['firstOfferingDate']) {
+                $sessions[$arr['id']]['firstOfferingDate'] = $arr['dueDate'];
+            }
+            if (array_key_exists($arr['ilmId'], $ilmInstructors)) {
+                $sessions[$arr['id']]['instructors'] = array_values($ilmInstructors[$arr['ilmId']]);
             }
         }
         $sessionIds = array_keys($sessions);
@@ -966,7 +993,8 @@ class UserRepository extends EntityRepository
         $sessionMaterials = $this->getLearningMaterialsForSessions($sessionIds);
 
         $sessionUserMaterials = array_map(function (array $arr) use ($factory, $sessions) {
-            $arr['firstOfferingDate'] = $sessions[$arr['sessionId']];
+            $arr['firstOfferingDate'] = $sessions[$arr['sessionId']]['firstOfferingDate'];
+            $arr['instructors'] = $sessions[$arr['sessionId']]['instructors'];
             return $factory->create($arr);
         }, $sessionMaterials);
 
