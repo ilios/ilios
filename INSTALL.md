@@ -242,6 +242,6 @@ sudo -u apache bin/console ilios:setup:first-user --env=prod
 
 After that, visit the url of your new Ilios 3 site and you should see a login form.  Enter 'first_user' in the login field and 'Ch4nge_m3' (without the quotes!) in the password field and submit!
 
-If everything went correctly, you're ready to go!  Congratulations on installing Ilios!
+If everything went correctly, you're ready to go!  Congratulations on installing Ilios!  For information about customizing the look and feel of the Ilios frontend for your respective institution, please visit https://github.com/ilios/ilios/blob/master/ILIOS_CUSTOM_THEMING.md for more information.
 
 Please feel free to contact us support@iliosproject.org if you have any questions, comments, or suggestions!
