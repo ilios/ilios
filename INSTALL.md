@@ -25,6 +25,10 @@ Though you will probably never need to deploy the Ilios 3 Frontend on your own s
 
 Currently, there is no Frontend deployment documentation available so, if you feel that you must manage the frontend files yourself, please contact the [Ilios Project Support Team](https://iliosproject.org) at support@iliosproject.org or refer back to the Ilios Frontend [README.md](https://github.com/ilios/frontend/blob/master/README.md) file at a later time for instructions on how to do so.
 
+## Frontend Theming
+
+For information about customizing the look and feel of the Ilios frontend for your respective institution, please visit https://github.com/ilios/ilios/blob/master/ILIOS_CUSTOM_THEMING.md for more information.
+
 ## Backend
 To build/deploy the Ilios 3 backend, you will need to install the default Ilios database schema and then follow the steps for deploying code to your webserver(s) and configuring them to connect to the database and serve the API.
 
@@ -242,6 +246,6 @@ sudo -u apache bin/console ilios:setup:first-user --env=prod
 
 After that, visit the url of your new Ilios 3 site and you should see a login form.  Enter 'first_user' in the login field and 'Ch4nge_m3' (without the quotes!) in the password field and submit!
 
-If everything went correctly, you're ready to go!  Congratulations on installing Ilios!
+If everything went correctly, you're ready to go!  Congratulations on installing Ilios! 
 
 Please feel free to contact us support@iliosproject.org if you have any questions, comments, or suggestions!
