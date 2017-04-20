@@ -1,0 +1,12 @@
+/* Custom Theming */
+/* Any of the default Ilios CSS styles can be overridden in this web/theme-overrides/custom.css file */
+
+/*  Customize the background color of the header banner here  */
+.ilios-header {
+    //background-color: #ff1493;
+}
+
+/* Add a custom logo to the theme-overrides directory and point to it here */
+.ilios-header .logo .image {
+    //background-image: url('custom_logo.png');
+}
