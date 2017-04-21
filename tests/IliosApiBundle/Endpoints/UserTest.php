@@ -445,4 +445,21 @@ class UserTest extends AbstractEndpointTest
 
         $this->postTest($data, $postData);
     }
+
+    public function testUpdateOwnIcsFeedKey()
+    {
+        $dataLoader = $this->getDataLoader();
+        $user = $dataLoader->getOne();
+
+        //root users have too much permission
+        $this->assertFalse($user['root']);
+        $userId = $user['id'];
+        $user['icsFeedKey'] = str_repeat('x', 64);
+
+        $this->putOne('users', 'user', $userId, $user, false, $userId);
+        //re-fetch the data to test persistence
+        $responseData = $this->getOne('users', 'users', $userId);
+
+        $this->compareData($user, $responseData);
+    }
 }
