@@ -72,20 +72,14 @@ class UserEntityVoter extends AbstractVoter
             return false;
         }
 
-        /**
-         * Temporary mitigation for #1762
-         */
-        if ($user->isTheUser($requestedUser)) {
-            return false;
-        }
         $schoolIds = $requestedUser->getAllSchools()->map(function (SchoolInterface $school) {
             return $school->getId();
         });
 
         // current user must have developer role and share the same school affiliations than the requested user.
         if ($user->hasRole(['Developer'])
-            && ($requestedUser->getAllSchools()->contains($user->getSchool())
-                || $user->hasReadPermissionToSchools($schoolIds))) {
+            && ($user->isThePrimarySchool($requestedUser->getSchool())
+                || $user->hasWritePermissionToSchools($schoolIds))) {
             return true;
         }
 
