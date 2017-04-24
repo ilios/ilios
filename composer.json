@@ -30,7 +30,7 @@
         "doctrine/doctrine-migrations-bundle": "^1.0",
         "doctrine/doctrine-fixtures-bundle": "~2.3",
         "dreamscapes/ldap-core": "^3.1",
-        "eluceo/ical": "0.8.0",
+        "eluceo/ical": "0.10.1",
         "exercise/htmlpurifier-bundle": "@stable",
         "ocramius/proxy-manager": "^1.0",
         "paragonie/random_compat": "^2.0",

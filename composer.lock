@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4f4ca67a94b7d070724a42944455668",
+    "content-hash": "eefa8a18131d2e2b9793be59ac5fa554",
     "packages": [
         {
             "name": "activelamp/swagger-ui-bundle",
@@ -1514,16 +1514,16 @@
         },
         {
             "name": "eluceo/ical",
-            "version": "0.8.0",
+            "version": "0.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markuspoerschke/iCal.git",
-                "reference": "a291711851d1538e2726ffe95862aa5e340ddb9a"
+                "reference": "2dd99c12c0aa961c541380ab0c113135e14af33e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/a291711851d1538e2726ffe95862aa5e340ddb9a",
-                "reference": "a291711851d1538e2726ffe95862aa5e340ddb9a",
+                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/2dd99c12c0aa961c541380ab0c113135e14af33e",
+                "reference": "2dd99c12c0aa961c541380ab0c113135e14af33e",
                 "shasum": ""
             },
             "require": {
@@ -1563,7 +1563,7 @@
                 "ics",
                 "php calendar"
             ],
-            "time": "2015-07-12T18:19:30+00:00"
+            "time": "2016-06-09T09:08:55+00:00"
         },
         {
             "name": "exercise/htmlpurifier-bundle",
