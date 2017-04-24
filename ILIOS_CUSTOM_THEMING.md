@@ -30,11 +30,11 @@ To change the header color, find the line that reads:
 
 ```//background-color: #ff1493;```
 
-and uncomment the style declaration.  Then explicitly change the '#ff1493' value to the desired new hexadecimal color (eg, '#54bfe2'). After removning the comment lines and making the change, the line should now look like this:
+and uncomment the style declaration.  Then explicitly change the '#ff1493' value to the desired new hexadecimal color (eg, '#54bfe2'). After removing the comment lines and making the change, the line should now look like this:
 
 ```background-color: #54bfe2;```
 
-To point the logo graphic source to the one with the new filename, make sure you have uploaded your new file (eg, 'custom_logo.png') to the 'web/theme-overrides/' folder on your API server and then find the line in 'school.css' that reads:
+To point the logo graphic source to the one with the new filename, make sure you have uploaded your new file (eg, 'custom_logo.png') to the 'web/theme-overrides/' folder on your API server and then find the line in 'custom.css' that reads:
 
 ```//background-image: url('custom_logo.png');```
 
