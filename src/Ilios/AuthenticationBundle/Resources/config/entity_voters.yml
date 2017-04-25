@@ -61,6 +61,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.department_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\DepartmentEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.learner_group_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\LearnerGroupEntityVoter
         public: false

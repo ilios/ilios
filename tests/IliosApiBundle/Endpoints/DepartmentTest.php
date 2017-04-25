@@ -60,7 +60,7 @@ class DepartmentTest extends AbstractEndpointTest
             'ids' => [[0, 1], ['id' => [1, 2]]],
             'title' => [[1], ['title' => 'second department']],
             'school' => [[0, 1], ['school' => 1]],
-            'stewards' => [[0], ['stewards' => [1]], $skipped = true],
+            'stewards' => [[0], ['stewards' => [1]]],
         ];
     }
 }
