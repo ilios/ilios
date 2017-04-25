@@ -50,13 +50,12 @@ class IcsController extends Controller
         /* @var UserEvent $event */
         foreach ($publishedEvents as $event) {
             $vEvent = new ICS\Event();
-            $vEvent
-                ->setDtStart($event->startDate)
-                ->setDtEnd($event->endDate)
-                ->setSummary($event->name)
-                ->setDescription($this->getDescriptionForEvent($event))
-                ->setCategories([$event->eventClass])
-                ->setLocation($event->location);
+            $vEvent->setDtStart($event->startDate);
+            $vEvent->setDtEnd($event->endDate);
+            $vEvent->setSummary($event->name);
+            $vEvent->setLocation($event->location);
+            $vEvent->setCategories([$event->eventClass]);
+            $vEvent->setDescription($this->getDescriptionForEvent($event));
             $calendar->addComponent($vEvent);
         }
 
