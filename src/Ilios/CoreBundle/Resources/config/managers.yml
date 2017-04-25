@@ -52,7 +52,7 @@ services:
         class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Competency]
     ilioscore.courseclerkshiptype.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CourseClerkshipType]
     ilioscore.courselearningmaterial.manager:
         class: "%ilioscore.courselearningmaterial.manager.class%"

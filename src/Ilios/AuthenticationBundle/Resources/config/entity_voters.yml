@@ -56,6 +56,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.entity.course_clerkship_type_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CourseClerkshipTypeEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.learner_group_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\LearnerGroupEntityVoter
         public: false

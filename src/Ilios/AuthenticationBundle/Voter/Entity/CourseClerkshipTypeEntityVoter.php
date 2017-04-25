@@ -1,25 +1,26 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class CourseClerkshipTypeVoter
+ * Class CourseClerkshipTypeEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class CourseClerkshipTypeVoter extends AbstractVoter
+class CourseClerkshipTypeEntityVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof CourseClerkshipTypeInterface && in_array($attribute, array(
+        return $subject instanceof CourseClerkshipTypeInterface && in_array($attribute, [
             self::CREATE, self::VIEW, self::EDIT, self::DELETE
-        ));
+        ]);
     }
 
     /**
@@ -35,7 +36,7 @@ class CourseClerkshipTypeVoter extends AbstractVoter
             return false;
         }
 
-        // all authenticated users can clerkship types,
+        // all authenticated users can view clerkship types,
         // but only developers can create/modify/delete them directly.
         switch ($attribute) {
             case self::VIEW:
