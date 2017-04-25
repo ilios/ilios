@@ -34,7 +34,7 @@ services:
         class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Alert]
     ilioscore.applicationconfig.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\ApplicationConfig]
     ilioscore.assessmentoption.manager:
         class: "%ilioscore.dtomanager.class%"

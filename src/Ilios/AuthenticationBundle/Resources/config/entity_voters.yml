@@ -24,6 +24,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.application_config_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\ApplicationConfigEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.assessment_option_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\AssessmentOptionEntityVoter
         public: false

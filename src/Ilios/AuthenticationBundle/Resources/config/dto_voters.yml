@@ -24,6 +24,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.dto.application_config_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\ApplicationConfigDTOVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.dto.assessment_option_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\AssessmentOptionDTOVoter
         public: false
