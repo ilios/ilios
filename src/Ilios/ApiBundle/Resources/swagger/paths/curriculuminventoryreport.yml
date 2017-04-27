@@ -1,6 +1,6 @@
 /curriculuminventoryreports:
   get:
-    summary: Fetch all Curriculuminventoryreports
+    summary: Fetch all curriculum inventory reports
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -37,7 +37,7 @@
       - Curriculuminventoryreports
     responses:
       200:
-        description: An array of curriculuminventoryreports
+        description: An array of curriculum inventory reports
         schema:
           type: object
           properties:
@@ -46,7 +46,7 @@
               items:
                 $ref: '#/definitions/DecoratedCurriculuminventoryreport'
   post:
-    summary: Create Curriculuminventoryreports
+    summary: Create curriculum inventory reports
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -68,7 +68,7 @@
       - Curriculuminventoryreports
     responses:
       201:
-        description: An array of newly created curriculuminventoryreports
+        description: An array of newly created curriculum inventory reports
         schema:
           type: object
           properties:
@@ -82,7 +82,7 @@
         description: Access Denied
 /curriculuminventoryreports/{id}:
   get:
-    summary: Fetch a single Curriculuminventoryreport
+    summary: Fetch a single curriculum inventory report
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -99,7 +99,7 @@
       - Curriculuminventoryreports
     responses:
       200:
-        description: A single Curriculuminventoryreport
+        description: A single curriculum inventory report
         schema:
           type: object
           properties:
@@ -110,7 +110,7 @@
       404:
         description: Not found
   put:
-    summary: Edit a Curriculuminventoryreport
+    summary: Edit a curriculum inventory report
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -135,7 +135,7 @@
       - Curriculuminventoryreports
     responses:
       200:
-        description: A single Curriculuminventoryreport
+        description: A single curriculum inventory report
         schema:
           type: object
           properties:
@@ -148,7 +148,7 @@
       404:
         description: Not Found
   delete:
-    summary: Delete a Curriculuminventoryreport
+    summary: Delete a curriculum inventory report
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -165,7 +165,7 @@
       - Curriculuminventoryreports
     responses:
       204:
-        description: Deleted Curriculuminventoryreport
+        description: Deleted curriculum inventory report
       403:
         description: Access Denied
       404:
