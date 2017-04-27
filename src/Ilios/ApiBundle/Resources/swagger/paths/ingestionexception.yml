@@ -1,6 +1,6 @@
 /ingestionexceptions:
   get:
-    summary: Fetch all Ingestionexceptions
+    summary: Fetch all ingestion exceptions
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -37,18 +37,18 @@
       - Ingestionexceptions
     responses:
       200:
-        description: An array of ingestionexceptions
+        description: An array of ingestion exceptions
         schema:
           type: object
           properties:
-            ingestionexceptions:
+            ingestionExceptions:
               type: array
               items:
                 $ref: '#/definitions/Ingestionexception'
 
 /ingestionexceptions/{id}:
   get:
-    summary: Fetch a single Ingestionexception
+    summary: Fetch a single ingestion exception
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -65,11 +65,11 @@
       - Ingestionexceptions
     responses:
       200:
-        description: A single Ingestionexception
+        description: A single ingestion exception
         schema:
           type: object
           properties:
-            ingestionexceptions:
+            ingestionExceptions:
               type: array
               items:
                 $ref: '#/definitions/Ingestionexception'
