@@ -1,6 +1,6 @@
 /curriculuminventoryexports:
   post:
-    summary: Create Curriculuminventoryexports
+    summary: Create a curriculum inventory export
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -22,7 +22,7 @@
       - Curriculuminventoryexports
     responses:
       201:
-        description: An array of newly created curriculuminventoryexports
+        description: An array of newly created curriculum inventory exports
         schema:
           type: object
           properties:
