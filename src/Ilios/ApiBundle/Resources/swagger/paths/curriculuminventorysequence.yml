@@ -1,6 +1,6 @@
 /curriculuminventorysequences:
   get:
-    summary: Fetch all Curriculuminventorysequences
+    summary: Fetch all curriculum inventory sequences
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -37,16 +37,16 @@
       - Curriculuminventorysequences
     responses:
       200:
-        description: An array of curriculuminventorysequences
+        description: An array of curriculum inventory sequences
         schema:
           type: object
           properties:
-            curriculuminventorysequences:
+            curriculumInventorySequences:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventorysequence'
   post:
-    summary: Create Curriculuminventorysequences
+    summary: Create curriculum inventory sequences
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            curriculuminventorysequences:
+            curriculumInventorySequences:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventorysequence'
@@ -68,11 +68,11 @@
       - Curriculuminventorysequences
     responses:
       201:
-        description: An array of newly created curriculuminventorysequences
+        description: An array of newly created curriculum inventory sequences
         schema:
           type: object
           properties:
-            curriculuminventorysequences:
+            curriculumInventorySequences:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventorysequence'
@@ -82,7 +82,7 @@
         description: Access Denied
 /curriculuminventorysequences/{id}:
   get:
-    summary: Fetch a single Curriculuminventorysequence
+    summary: Fetch a single curriculum inventory sequence
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -99,18 +99,18 @@
       - Curriculuminventorysequences
     responses:
       200:
-        description: A single Curriculuminventorysequence
+        description: A single curriculum inventory sequence
         schema:
           type: object
           properties:
-            curriculuminventorysequences:
+            curriculumInventorySequences:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventorysequence'
       404:
         description: Not found
   put:
-    summary: Edit a Curriculuminventorysequence
+    summary: Edit a curriculum inventory sequence
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -129,17 +129,17 @@
       schema:
           type: object
           properties:
-            curriculuminventorysequence:
+            curriculumInventorySequence:
               $ref: '#/definitions/Curriculuminventorysequence'
     tags:
       - Curriculuminventorysequences
     responses:
       200:
-        description: A single Curriculuminventorysequence
+        description: A single curriculum inventory sequence
         schema:
           type: object
           properties:
-            curriculuminventorysequence:
+            curriculumInventorySequence:
               $ref: '#/definitions/Curriculuminventorysequence'
       400:
         description: Bad Request Data
@@ -148,7 +148,7 @@
       404:
         description: Not Found
   delete:
-    summary: Delete a Curriculuminventorysequence
+    summary: Delete a curriculum inventory sequence
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -165,7 +165,7 @@
       - Curriculuminventorysequences
     responses:
       204:
-        description: Deleted Curriculuminventorysequence
+        description: Deleted curriculum inventory sequence
       403:
         description: Access Denied
       404:
