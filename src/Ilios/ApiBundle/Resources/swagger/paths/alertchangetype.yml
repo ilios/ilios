@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            alertchangetypes:
+            alertChangeTypes:
               type: array
               items:
                 $ref: '#/definitions/Alertchangetype'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            alertchangetype:
+            alertChangeType:
               $ref: '#/definitions/Alertchangetype'
     tags:
       - Alertchangetypes

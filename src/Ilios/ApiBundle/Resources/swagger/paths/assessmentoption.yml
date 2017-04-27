@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            assessmentoptions:
+            assessmentOptions:
               type: array
               items:
                 $ref: '#/definitions/Assessmentoption'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            assessmentoption:
+            assessmentOption:
               $ref: '#/definitions/Assessmentoption'
     tags:
       - Assessmentoptions
