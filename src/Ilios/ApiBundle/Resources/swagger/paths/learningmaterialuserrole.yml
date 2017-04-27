@@ -1,6 +1,6 @@
 /learningmaterialuserroles:
   get:
-    summary: Fetch all Learningmaterialuserroles
+    summary: Fetch all learning material user roles
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -37,16 +37,16 @@
       - Learningmaterialuserroles
     responses:
       200:
-        description: An array of learningmaterialuserroles
+        description: An array of learning material user roles
         schema:
           type: object
           properties:
-            learningmaterialuserroles:
+            learningMaterialUserRoles:
               type: array
               items:
                 $ref: '#/definitions/Learningmaterialuserrole'
   post:
-    summary: Create Learningmaterialuserroles
+    summary: Create learning material user roles
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            learningmaterialuserroles:
+            learningMaterialUserRoles:
               type: array
               items:
                 $ref: '#/definitions/Learningmaterialuserrole'
@@ -68,11 +68,11 @@
       - Learningmaterialuserroles
     responses:
       201:
-        description: An array of newly created learningmaterialuserroles
+        description: An array of newly created learning material user roles
         schema:
           type: object
           properties:
-            learningmaterialuserroles:
+            learningMaterialUserRoles:
               type: array
               items:
                 $ref: '#/definitions/Learningmaterialuserrole'
@@ -82,7 +82,7 @@
         description: Access Denied
 /learningmaterialuserroles/{id}:
   get:
-    summary: Fetch a single Learningmaterialuserrole
+    summary: Fetch a single learning material user role
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -99,18 +99,18 @@
       - Learningmaterialuserroles
     responses:
       200:
-        description: A single Learningmaterialuserrole
+        description: A single learning material user role
         schema:
           type: object
           properties:
-            learningmaterialuserroles:
+            learningMaterialUserRoles:
               type: array
               items:
                 $ref: '#/definitions/Learningmaterialuserrole'
       404:
         description: Not found
   put:
-    summary: Edit a Learningmaterialuserrole
+    summary: Edit a learning material user role
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -129,17 +129,17 @@
       schema:
           type: object
           properties:
-            learningmaterialuserrole:
+            learningMaterialUserRole:
               $ref: '#/definitions/Learningmaterialuserrole'
     tags:
       - Learningmaterialuserroles
     responses:
       200:
-        description: A single Learningmaterialuserrole
+        description: A single learning material user role
         schema:
           type: object
           properties:
-            learningmaterialuserrole:
+            learningMaterialUserRole:
               $ref: '#/definitions/Learningmaterialuserrole'
       400:
         description: Bad Request Data
@@ -148,7 +148,7 @@
       404:
         description: Not Found
   delete:
-    summary: Delete a Learningmaterialuserrole
+    summary: Delete a learning material user role
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -165,7 +165,7 @@
       - Learningmaterialuserroles
     responses:
       204:
-        description: Deleted Learningmaterialuserrole
+        description: Deleted learning material user role
       403:
         description: Access Denied
       404:
