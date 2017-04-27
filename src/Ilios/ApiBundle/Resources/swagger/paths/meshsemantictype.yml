@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            meshsemantictypes:
+            meshSemanticTypes:
               type: array
               items:
                 $ref: '#/definitions/Meshsemantictype'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            meshsemantictype:
+            meshSemanticType:
               $ref: '#/definitions/Meshsemantictype'
     tags:
       - Meshsemantictypes

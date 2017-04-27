@@ -41,7 +41,7 @@
         schema:
           type: object
           properties:
-            meshqualifiers:
+            meshQualifiers:
               type: array
               items:
                 $ref: '#/definitions/Meshqualifier'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            meshqualifier:
+            meshQualifier:
               $ref: '#/definitions/Meshqualifier'
     tags:
       - Meshqualifiers

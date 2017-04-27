@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            pendinguserupdates:
+            pendingUserUpdates:
               type: array
               items:
                 $ref: '#/definitions/Pendinguserupdate'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            pendinguserupdate:
+            pendingUserUpdate:
               $ref: '#/definitions/Pendinguserupdate'
     tags:
       - Pendinguserupdates

@@ -65,7 +65,7 @@
       schema:
           type: object
           properties:
-            meshdescriptors:
+            meshDescriptors:
               type: array
               items:
                 $ref: '#/definitions/Meshdescriptor'
@@ -134,7 +134,7 @@
       schema:
           type: object
           properties:
-            meshdescriptor:
+            meshDescriptor:
               $ref: '#/definitions/Meshdescriptor'
     tags:
       - Meshdescriptors
