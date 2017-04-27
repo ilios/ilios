@@ -1,6 +1,6 @@
 /instructorgroups:
   get:
-    summary: Fetch all Instructorgroups
+    summary: Fetch all instructor groups
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -37,16 +37,16 @@
       - Instructorgroups
     responses:
       200:
-        description: An array of instructorgroups
+        description: An array of instructor groups
         schema:
           type: object
           properties:
-            instructorgroups:
+            instructorGroups:
               type: array
               items:
                 $ref: '#/definitions/Instructorgroup'
   post:
-    summary: Create Instructorgroups
+    summary: Create instructor groups
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            instructorgroups:
+            instructorGroups:
               type: array
               items:
                 $ref: '#/definitions/Instructorgroup'
@@ -68,11 +68,11 @@
       - Instructorgroups
     responses:
       201:
-        description: An array of newly created instructorgroups
+        description: An array of newly created instructor groups
         schema:
           type: object
           properties:
-            instructorgroups:
+            instructorGroups:
               type: array
               items:
                 $ref: '#/definitions/Instructorgroup'
@@ -82,7 +82,7 @@
         description: Access Denied
 /instructorgroups/{id}:
   get:
-    summary: Fetch a single Instructorgroup
+    summary: Fetch a single instructor group
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -99,18 +99,18 @@
       - Instructorgroups
     responses:
       200:
-        description: A single Instructorgroup
+        description: A single instructor group
         schema:
           type: object
           properties:
-            instructorgroups:
+            instructorGroups:
               type: array
               items:
                 $ref: '#/definitions/Instructorgroup'
       404:
         description: Not found
   put:
-    summary: Edit a Instructorgroup
+    summary: Edit an instructor group
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -129,17 +129,17 @@
       schema:
           type: object
           properties:
-            instructorgroup:
+            instructorGroup:
               $ref: '#/definitions/Instructorgroup'
     tags:
       - Instructorgroups
     responses:
       200:
-        description: A single Instructorgroup
+        description: A single instructor group
         schema:
           type: object
           properties:
-            instructorgroup:
+            instructorGroup:
               $ref: '#/definitions/Instructorgroup'
       400:
         description: Bad Request Data
@@ -148,7 +148,7 @@
       404:
         description: Not Found
   delete:
-    summary: Delete a Instructorgroup
+    summary: Delete an instructor group
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -165,7 +165,7 @@
       - Instructorgroups
     responses:
       204:
-        description: Deleted Instructorgroup
+        description: Deleted instructor group
       403:
         description: Access Denied
       404:
