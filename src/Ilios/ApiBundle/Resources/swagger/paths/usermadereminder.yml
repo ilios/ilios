@@ -41,7 +41,7 @@
         schema:
           type: object
           properties:
-            usermadereminders:
+            userMadeReminders:
               type: array
               items:
                 $ref: '#/definitions/Usermadereminder'
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            usermadereminders:
+            userMadeReminders:
               type: array
               items:
                 $ref: '#/definitions/Usermadereminder'
@@ -72,7 +72,7 @@
         schema:
           type: object
           properties:
-            usermadereminders:
+            userMadeReminders:
               type: array
               items:
                 $ref: '#/definitions/Usermadereminder'
@@ -103,7 +103,7 @@
         schema:
           type: object
           properties:
-            usermadereminders:
+            userMadeReminders:
               type: array
               items:
                 $ref: '#/definitions/Usermadereminder'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            usermadereminder:
+            userMadeReminder:
               $ref: '#/definitions/Usermadereminder'
     tags:
       - Usermadereminders
@@ -139,7 +139,7 @@
         schema:
           type: object
           properties:
-            usermadereminder:
+            userMadeReminder:
               $ref: '#/definitions/Usermadereminder'
       400:
         description: Bad Request Data

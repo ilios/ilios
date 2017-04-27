@@ -41,7 +41,7 @@
         schema:
           type: object
           properties:
-            schoolconfigs:
+            schoolConfigs:
               type: array
               items:
                 $ref: '#/definitions/Schoolconfig'
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            schoolconfigs:
+            schoolConfigs:
               type: array
               items:
                 $ref: '#/definitions/Schoolconfig'
@@ -72,7 +72,7 @@
         schema:
           type: object
           properties:
-            schoolconfigs:
+            schoolConfigs:
               type: array
               items:
                 $ref: '#/definitions/Schoolconfig'
@@ -103,7 +103,7 @@
         schema:
           type: object
           properties:
-            schoolconfigs:
+            schoolConfigs:
               type: array
               items:
                 $ref: '#/definitions/Schoolconfig'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            schoolconfig:
+            schoolConfig:
               $ref: '#/definitions/Schoolconfig'
     tags:
       - Schoolconfigs
@@ -139,7 +139,7 @@
         schema:
           type: object
           properties:
-            schoolconfig:
+            schoolConfig:
               $ref: '#/definitions/Schoolconfig'
       400:
         description: Bad Request Data
