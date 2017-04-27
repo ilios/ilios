@@ -37,7 +37,9 @@ class CourseClerkshipTypeRepository extends EntityRepository
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('IliosCoreBundle:CourseClerkshipType', 'x');
+        $qb = $this->_em->createQueryBuilder()
+            ->select('x')->distinct()
+            ->from('IliosCoreBundle:CourseClerkshipType', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
         $courseClerkshipTypeDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -52,7 +54,8 @@ class CourseClerkshipTypeRepository extends EntityRepository
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS courseClerkshipTypeId')->from('IliosCoreBundle:CourseClerkshipType', 'x')
+                ->select('r.id AS relId, x.id AS courseClerkshipTypeId')
+                ->from('IliosCoreBundle:CourseClerkshipType', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':courseClerkshipTypeIds'))
                 ->orderBy('relId')
