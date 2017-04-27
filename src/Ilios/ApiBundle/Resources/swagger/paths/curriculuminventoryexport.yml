@@ -1,6 +1,6 @@
 /curriculuminventoryexports:
   post:
-    summary: Create a curriculum inventory export
+    summary: Create curriculum inventory exports
     parameters:
     - name: X-JWT-Authorization
       in: header
