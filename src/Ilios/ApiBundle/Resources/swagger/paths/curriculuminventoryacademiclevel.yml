@@ -46,7 +46,7 @@
               items:
                 $ref: '#/definitions/Curriculuminventoryacademiclevel'
   post:
-    summary: Create a curriculum inventory academic levels
+    summary: Create curriculum inventory academic levels
     parameters:
     - name: X-JWT-Authorization
       in: header
