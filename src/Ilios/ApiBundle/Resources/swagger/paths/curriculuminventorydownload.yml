@@ -2,12 +2,6 @@
   get:
     summary: Download a curriculum inventory report
     parameters:
-    - name: X-JWT-Authorization
-      in: header
-      description: API JWT Token
-      required: true
-      type: string
-      default: Token XXX
     - name: token
       in: path
       required: true
