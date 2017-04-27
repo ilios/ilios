@@ -41,7 +41,7 @@
         schema:
           type: object
           properties:
-            curriculuminventoryreports:
+            curriculumInventoryReports:
               type: array
               items:
                 $ref: '#/definitions/DecoratedCurriculuminventoryreport'
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            curriculuminventoryreports:
+            curriculumInventoryReports:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryreport'
@@ -72,7 +72,7 @@
         schema:
           type: object
           properties:
-            curriculuminventoryreports:
+            curriculumInventoryReports:
               type: array
               items:
                 $ref: '#/definitions/DecoratedCurriculuminventoryreport'
@@ -103,7 +103,7 @@
         schema:
           type: object
           properties:
-            curriculuminventoryreports:
+            curriculumInventoryReports:
               type: array
               items:
                 $ref: '#/definitions/DecoratedCurriculuminventoryreport'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            curriculuminventoryreport:
+            curriculumInventoryReport:
               $ref: '#/definitions/Curriculuminventoryreport'
     tags:
       - Curriculuminventoryreports
@@ -139,7 +139,7 @@
         schema:
           type: object
           properties:
-            curriculuminventoryreport:
+            curriculumInventoryReport:
               $ref: '#/definitions/DecoratedCurriculuminventoryreport'
       400:
         description: Bad Request Data

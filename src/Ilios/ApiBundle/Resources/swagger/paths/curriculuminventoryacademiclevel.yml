@@ -41,7 +41,7 @@
         schema:
           type: object
           properties:
-            curriculuminventoryacademiclevels:
+            curriculumInventoryAcademicLevels:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryacademiclevel'
@@ -72,7 +72,7 @@
         schema:
           type: object
           properties:
-            curriculuminventoryacademiclevels:
+            curriculumInventoryAcademicLevels:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryacademiclevel'
@@ -103,7 +103,7 @@
         schema:
           type: object
           properties:
-            curriculuminventoryacademiclevels:
+            curriculumInventoryAcademicLevels:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryacademiclevel'
@@ -139,7 +139,7 @@
         schema:
           type: object
           properties:
-            curriculuminventoryacademiclevel:
+            curriculumInventoryAcademicLevel:
               $ref: '#/definitions/Curriculuminventoryacademiclevel'
       400:
         description: Bad Request Data
