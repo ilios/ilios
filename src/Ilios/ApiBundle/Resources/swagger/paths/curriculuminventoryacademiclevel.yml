@@ -1,6 +1,6 @@
 /curriculuminventoryacademiclevels:
   get:
-    summary: Fetch all Curriculuminventoryacademiclevels
+    summary: Fetch all curriculum inventory academic levels
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -37,7 +37,7 @@
       - Curriculuminventoryacademiclevels
     responses:
       200:
-        description: An array of curriculuminventoryacademiclevels
+        description: An array of curriculum inventory academic levels
         schema:
           type: object
           properties:
@@ -46,7 +46,7 @@
               items:
                 $ref: '#/definitions/Curriculuminventoryacademiclevel'
   post:
-    summary: Create Curriculuminventoryacademiclevels
+    summary: Create a curriculum inventory academic levels
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -68,7 +68,7 @@
       - Curriculuminventoryacademiclevels
     responses:
       201:
-        description: An array of newly created curriculuminventoryacademiclevels
+        description: An array of newly created curriculum inventory academic levels
         schema:
           type: object
           properties:
@@ -82,7 +82,7 @@
         description: Access Denied
 /curriculuminventoryacademiclevels/{id}:
   get:
-    summary: Fetch a single Curriculuminventoryacademiclevel
+    summary: Fetch a single curriculum inventory academiclevel
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -99,7 +99,7 @@
       - Curriculuminventoryacademiclevels
     responses:
       200:
-        description: A single Curriculuminventoryacademiclevel
+        description: A single curriculum inventory academic level
         schema:
           type: object
           properties:
@@ -110,7 +110,7 @@
       404:
         description: Not found
   put:
-    summary: Edit a Curriculuminventoryacademiclevel
+    summary: Edit a curriculum inventory academic level
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -135,7 +135,7 @@
       - Curriculuminventoryacademiclevels
     responses:
       200:
-        description: A single Curriculuminventoryacademiclevel
+        description: A single curriculum inventory academic level
         schema:
           type: object
           properties:
@@ -148,7 +148,7 @@
       404:
         description: Not Found
   delete:
-    summary: Delete a Curriculuminventoryacademiclevel
+    summary: Delete a curriculum inventory academic level
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -165,7 +165,7 @@
       - Curriculuminventoryacademiclevels
     responses:
       204:
-        description: Deleted Curriculuminventoryacademiclevel
+        description: Deleted curriculum inventory academic level
       403:
         description: Access Denied
       404:
