@@ -1,4 +1,4 @@
-/curriculuminventorydownloads/{token}:
+/ci-report-dl/{token}:
   get:
     summary: Download a curriculum inventory report
     parameters:
@@ -11,14 +11,16 @@
     - name: token
       in: path
       required: true
-      description: download token
+      description: Download token
       type: string
+    produces:
+    - 'application/xml'
     tags:
       - Curriculuminventorydownloads
     responses:
       200:
-        description: A single Curriculuminventorydownload
+        description: A single curriculum inventory report as file attachment.
         schema:
-          type: string
+          type: file
       404:
         description: Not found
