@@ -34,7 +34,7 @@ class CourseClerkshipTypeTest extends AbstractEndpointTest
     {
         return [
             'title' => ['title', $this->getFaker()->text(20)],
-            'courses' => ['courses', [1], $skipped = true],
+            'courses' => ['courses', [3]],
         ];
     }
 
@@ -57,7 +57,7 @@ class CourseClerkshipTypeTest extends AbstractEndpointTest
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
             'title' => [[1], ['title' => 'second clerkship type']],
-            'courses' => [[0], ['courses' => [1]], $skipped = true],
+            'courses' => [[0], ['courses' => [1]]],
         ];
     }
 }

@@ -24,6 +24,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.application_config_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\ApplicationConfigEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.assessment_option_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\AssessmentOptionEntityVoter
         public: false
@@ -48,6 +53,16 @@ services:
     security.access.entity.course_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\CourseEntityVoter
         parent: security.access.course_voter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.entity.course_clerkship_type_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CourseClerkshipTypeEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.department_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\DepartmentEntityVoter
         public: false
         tags:
             - { name: security.voter }

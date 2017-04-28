@@ -1,25 +1,26 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\DepartmentInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class DepartmentVoter
+ * Class DepartmentEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class DepartmentVoter extends AbstractVoter
+class DepartmentEntityVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof DepartmentInterface && in_array($attribute, array(
+        return $subject instanceof DepartmentInterface && in_array($attribute, [
             self::VIEW, self::CREATE, self::EDIT, self::DELETE
-        ));
+        ]);
     }
 
     /**

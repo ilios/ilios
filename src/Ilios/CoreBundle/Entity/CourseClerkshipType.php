@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Traits\CoursesEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="course_clerkship_type")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CourseClerkshipTypeRepository")
  *
  * @IS\Entity
  */
@@ -73,5 +73,27 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     public function __construct()
     {
         $this->courses = new ArrayCollection();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addCourse(CourseInterface $course)
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+            $course->setClerkshipType($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeCourse(CourseInterface $course)
+    {
+        if ($this->courses->contains($course)) {
+            $this->courses->removeElement($course);
+            $course->setClerkshipType(null);
+        }
     }
 }

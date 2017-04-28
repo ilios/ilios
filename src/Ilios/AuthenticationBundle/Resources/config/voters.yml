@@ -1,16 +1,6 @@
 services:
-    security.access.application_config_voter:
-        class: Ilios\AuthenticationBundle\Voter\ApplicationConfigVoter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.archivable_voter:
         class: Ilios\AuthenticationBundle\Voter\ArchivableVoter
-        public: false
-        tags:
-            - { name: security.voter }
-    security.access.course_clerkship_type_voter:
-        class: Ilios\AuthenticationBundle\Voter\CourseClerkshipTypeVoter
         public: false
         tags:
             - { name: security.voter }
@@ -54,11 +44,6 @@ services:
     security.access.curriculum_sequence_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceVoter
         parent: security.access.curriculum_inventory_report_voter
-        public: false
-        tags:
-            - { name: security.voter }
-    security.access.department_voter:
-        class: Ilios\AuthenticationBundle\Voter\DepartmentVoter
         public: false
         tags:
             - { name: security.voter }

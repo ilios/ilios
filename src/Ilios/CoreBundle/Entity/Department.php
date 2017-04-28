@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Traits\StewardedEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="department")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\DepartmentRepository")
  *
  * @IS\Entity
  */

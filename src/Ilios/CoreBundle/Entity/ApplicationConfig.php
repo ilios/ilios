@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Traits\NameableEntity;
  *     @ORM\UniqueConstraint(name="app_conf_uniq", columns={"name"})
  *   }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ApplicationConfigRepository")
  * @IS\Entity
  */
 class ApplicationConfig implements ApplicationConfigInterface

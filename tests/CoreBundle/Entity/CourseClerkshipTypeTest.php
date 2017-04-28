@@ -51,15 +51,15 @@ class CourseClerkshipTypeTest extends EntityBase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\Entity\CourseClerkshipType::addCourse
+     * @covers \Ilios\CoreBundle\Entity\Objective::addCourse
      */
     public function testAddCourse()
     {
-        $this->entityCollectionAddTest('course', 'Course');
+        $this->entityCollectionAddTest('course', 'Course', false, false, 'setClerkshipType');
     }
 
     /**
-     * @covers \Ilios\CoreBundle\Entity\CourseClerkshipType::removeCourse
+     * @covers \Ilios\CoreBundle\Entity\Objective::removeCourse
      */
     public function testRemoveCourse()
     {
@@ -67,10 +67,10 @@ class CourseClerkshipTypeTest extends EntityBase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\Entity\CourseClerkshipType::getCourses
+     * @covers \Ilios\CoreBundle\Entity\Objective::getCourses
      */
     public function testGetCourses()
     {
-        $this->entityCollectionSetTest('course', 'Course');
+        $this->entityCollectionSetTest('course', 'Course', false, false, 'setClerkshipType');
     }
 }
