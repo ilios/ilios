@@ -66,6 +66,13 @@ abstract class CalendarEvent
      * @IS\Expose
      * @IS\Type("string")
      **/
+    public $color;
+
+    /**
+     * @var string
+     * @IS\Expose
+     * @IS\Type("string")
+     **/
     public $location;
 
     /**
@@ -108,7 +115,7 @@ abstract class CalendarEvent
             $this->courseTitle = null;
             $this->offering = null;
             $this->ilmSession = null;
-            $this->eventClass = null;
+            $this->color = null;
             $this->location = null;
 
             $this->instructors = [];

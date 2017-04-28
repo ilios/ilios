@@ -42,11 +42,11 @@ class LoadSessionTypeDataTest extends AbstractDataFixtureTest
      */
     protected function assertDataEquals(array $data, $entity)
     {
-        // `session_type_id`,`title`,`school_id`,`session_type_css_class`,`assessment`,`assessment_option_id`
+        // `session_type_id`,`title`,`school_id`,`calendar_color`,`assessment`,`assessment_option_id`
         $this->assertEquals($data[0], $entity->getId());
         $this->assertEquals($data[1], $entity->getTitle());
         $this->assertEquals($data[2], $entity->getSchool()->getId());
-        $this->assertEquals($data[3], $entity->getSessionTypeCssClass());
+        $this->assertEquals($data[3], $entity->getCalendarColor());
         $this->assertEquals((boolean) $data[4], $entity->isAssessment());
         if (empty($data[5])) {
             $this->assertNull($entity->getAssessmentOption());

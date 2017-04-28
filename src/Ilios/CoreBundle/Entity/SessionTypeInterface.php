@@ -21,14 +21,14 @@ interface SessionTypeInterface extends
     LoggableEntityInterface
 {
     /**
-     * @param string $sessionTypeCssClass
+     * @param string $color
      */
-    public function setSessionTypeCssClass($sessionTypeCssClass);
+    public function setCalendarColor($color);
 
     /**
      * @return string
      */
-    public function getSessionTypeCssClass();
+    public function getCalendarColor();
 
     /**
      * Set assessment

@@ -31,6 +31,11 @@ CalendarEvent:
    description: CSS class to apply to an event
    type: string
    readOnly: true
+   deprecated: true
+  color:
+   description: Color to apply to an event
+   type: string
+   readOnly: true
   location:
    description: Location where the event will take place
    type: string

@@ -69,15 +69,13 @@ class SessionType implements SessionTypeInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="session_type_css_class", type="string", length=64, nullable=true)
+     * @ORM\Column(name="calendar_color", type="string", length=6, nullable=false)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 64
-     * )
+     * Validate that this is a valid hex colof #000 or #faFAfa
+     * @Assert\Regex("/^(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$/")
      */
-    protected $sessionTypeCssClass;
+    protected $calendarColor;
 
     /**
      * @var boolean
@@ -156,19 +154,19 @@ class SessionType implements SessionTypeInterface
     }
 
     /**
-     * @param string $sessionTypeCssClass
+     * @inheritdoc
      */
-    public function setSessionTypeCssClass($sessionTypeCssClass)
+    public function setCalendarColor($color)
     {
-        $this->sessionTypeCssClass = $sessionTypeCssClass;
+        $this->calendarColor = $color;
     }
 
     /**
      * @return string
      */
-    public function getSessionTypeCssClass()
+    public function getCalendarColor()
     {
-        return $this->sessionTypeCssClass;
+        return $this->calendarColor;
     }
 
     /**
