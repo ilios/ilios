@@ -89,6 +89,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.dto.session_type_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\SessionTypeDTOVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.dto.term_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\TermDTOVoter
         parent: security.access.entity.term_voter
