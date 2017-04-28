@@ -2,11 +2,28 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\AbstractQuery;
+use Ilios\CoreBundle\Entity\DTO\SessionTypeDTO;
 
 class SessionTypeRepository extends EntityRepository
 {
+
     /**
-     * Custom findBy so we can filter by related entities
+     * @inheritdoc
+     */
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('DISTINCT st')->from('IliosCoreBundle:SessionType', 'st');
+
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find and hydrate as DTOs
      *
      * @param array $criteria
      * @param array|null $orderBy
@@ -15,23 +32,68 @@ class SessionTypeRepository extends EntityRepository
      *
      * @return array
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->_em->createQueryBuilder()
+            ->select('st')
+            ->distinct()
+            ->from('IliosCoreBundle:SessionType', 'st');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
+        $sessionTypeDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $sessionTypeDTOs[$arr['id']] = new SessionTypeDTO(
+                $arr['id'],
+                $arr['title']
+            );
+        }
+        $sessionTypeIds = array_keys($sessionTypeDTOs);
 
-        $qb->select('DISTINCT st')->from('IliosCoreBundle:SessionType', 'st');
+        $qb = $this->_em->createQueryBuilder()
+            ->select('st.id as sessionTypeId, s.id as schoolId, a.id as assessmentOptionId')
+            ->from('IliosCoreBundle:SessionType', 'st')
+            ->join('st.school', 's')
+            ->leftJoin('st.assessmentOption', 'a')
+            ->where($qb->expr()->in('st.id', ':ids'))
+            ->setParameter('ids', $sessionTypeIds);
 
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $sessionTypeDTOs[$arr['sessionTypeId']]->school = (int) $arr['schoolId'];
+            $sessionTypeDTOs[$arr['sessionTypeId']]->assessmentOption =
+                $arr['assessmentOptionId']?(int)$arr['assessmentOptionId']:null;
         }
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('st.'.$sort, $order);
+        $related = [
+            'aamcMethods'
+        ];
+
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, x.id AS sessionTypeId')->from('IliosCoreBundle:SessionType', 'x')
+                ->join("x.{$rel}", 'r')
+                ->where($qb->expr()->in('x.id', ':sessionTypeIds'))
+                ->orderBy('relId')
+                ->setParameter('sessionTypeIds', $sessionTypeIds);
+
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $sessionTypeDTOs[$arr['sessionTypeId']]->{$rel}[] = $arr['relId'];
             }
         }
 
+        return array_values($sessionTypeDTOs);
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param array $criteria
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return QueryBuilder
+     */
+    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
+    {
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
             $qb->join('st.sessions', 'se_session');
@@ -181,7 +243,6 @@ class SessionTypeRepository extends EntityRepository
         unset($criteria['learningMaterials']);
         unset($criteria['terms']);
 
-
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
@@ -189,6 +250,16 @@ class SessionTypeRepository extends EntityRepository
                 $qb->setParameter(":{$key}", $values);
             }
         }
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('st.'.$sort, $order);
+            }
+        }
+
         if ($offset) {
             $qb->setFirstResult($offset);
         }
@@ -197,6 +268,6 @@ class SessionTypeRepository extends EntityRepository
             $qb->setMaxResults($limit);
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }
