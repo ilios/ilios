@@ -50,6 +50,7 @@ class SessionTypeTest extends AbstractEndpointTest
             'assessmentOption' => ['assessmentOption', '2'],
             'school' => ['school', '2'],
             'aamcMethods' => ['aamcMethods', ['AM002']],
+            'calendarColor' => ['calendarColor', $this->getFaker()->hexColor],
         ];
     }
 
@@ -84,6 +85,7 @@ class SessionTypeTest extends AbstractEndpointTest
             'competencies' => [[0, 1], ['competencies' => [1]]],
             'meshDescriptors' => [[1], ['meshDescriptors' => ['abc2', 'abc3']]],
             'terms' => [[0 , 1], ['terms' => [1, 2]]],
+            'calendarColor' => [[1], ['calendarColor' => '#0a1b2c']],
         ];
     }
 }

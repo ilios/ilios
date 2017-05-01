@@ -56,6 +56,9 @@ abstract class CalendarEvent
 
     /**
      * @var string
+     *
+     * @deprecated use color instead
+     *
      * @IS\Expose
      * @IS\Type("string")
      **/

@@ -44,7 +44,8 @@ class SessionTypeRepository extends EntityRepository
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $sessionTypeDTOs[$arr['id']] = new SessionTypeDTO(
                 $arr['id'],
-                $arr['title']
+                $arr['title'],
+                $arr['calendarColor']
             );
         }
         $sessionTypeIds = array_keys($sessionTypeDTOs);

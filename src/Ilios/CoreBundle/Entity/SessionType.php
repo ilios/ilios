@@ -72,8 +72,14 @@ class SessionType implements SessionTypeInterface
      * @ORM\Column(name="calendar_color", type="string", length=6, nullable=false)
      *
      * @Assert\Type(type="string")
-     * Validate that this is a valid hex colof #000 or #faFAfa
-     * @Assert\Regex("/^(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$/")
+     * Validate that this is a valid hex color #000 or #faFAfa
+     * @Assert\Regex(
+     *     pattern = "/^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$/",
+     *     message = "This not a valid HTML hex color code. Eg #aaa of #a1B2C3"
+     * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $calendarColor;
 

@@ -29,6 +29,14 @@ class SessionTypeDTO
     public $title;
 
     /**
+     * @var string
+     *
+     * @IS\Expose
+     * @IS\Type("string")
+    */
+    public $calendarColor;
+
+    /**
      * @var integer
      *
      * @IS\Expose
@@ -56,11 +64,13 @@ class SessionTypeDTO
      * SessionTypeDTO constructor.
      * @param $id
      * @param $title
+     * @param $calendarColor
      */
-    public function __construct($id, $title)
+    public function __construct($id, $title, $calendarColor)
     {
         $this->id = $id;
         $this->title = $title;
+        $this->calendarColor = $calendarColor;
 
         $this->aamcMethods = [];
     }

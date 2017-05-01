@@ -169,7 +169,7 @@ class SchoolRepository extends EntityRepository
     ) {
         $qb = $this->_em->createQueryBuilder();
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
-          's.updatedAt AS sessionUpdatedAt, s.title, st.sessionTypeCssClass, ' .
+          's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, ' .
           's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
           'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
@@ -213,7 +213,7 @@ class SchoolRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder();
 
         $what = 'ilm.id, ilm.dueDate, ' .
-            's.updatedAt, s.title, st.sessionTypeCssClass, ' .
+            's.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
@@ -255,7 +255,7 @@ class SchoolRepository extends EntityRepository
             $event->endDate = $arr['endDate'];
             $event->offering = $arr['id'];
             $event->location = $arr['room'];
-            $event->eventClass = $arr['sessionTypeCssClass'];
+            $event->color = $arr['calendarColor'];
             $event->lastModified = max($arr['offeringUpdatedAt'], $arr['sessionUpdatedAt']);
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
@@ -283,7 +283,7 @@ class SchoolRepository extends EntityRepository
             $endDate->setTimestamp($event->startDate->getTimestamp());
             $event->endDate = $endDate->modify('+15 minutes');
             $event->ilmSession = $arr['id'];
-            $event->eventClass = $arr['sessionTypeCssClass'];
+            $event->color = $arr['calendarColor'];
             $event->lastModified = $arr['updatedAt'];
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];

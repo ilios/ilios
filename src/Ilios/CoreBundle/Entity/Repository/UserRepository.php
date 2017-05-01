@@ -289,7 +289,7 @@ class UserRepository extends EntityRepository
 
         $qb = $this->_em->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, o.id, o.startDate, o.endDate, o.room, ' .
-            'o.updatedAt AS offeringUpdatedAt, s.updatedAt AS sessionUpdatedAt, s.title, st.sessionTypeCssClass, ' .
+            'o.updatedAt AS offeringUpdatedAt, s.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
@@ -336,7 +336,7 @@ class UserRepository extends EntityRepository
     {
         $qb = $this->_em->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, ilm.id, ilm.dueDate, ' .
-            's.updatedAt, s.title, st.sessionTypeCssClass, ' .
+            's.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
@@ -381,7 +381,7 @@ class UserRepository extends EntityRepository
             $event->endDate = $arr['endDate'];
             $event->offering = $arr['id'];
             $event->location = $arr['room'];
-            $event->eventClass = $arr['sessionTypeCssClass'];
+            $event->color = $arr['calendarColor'];
             $event->lastModified = max($arr['offeringUpdatedAt'], $arr['sessionUpdatedAt']);
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
@@ -413,7 +413,7 @@ class UserRepository extends EntityRepository
             $endDate->setTimestamp($event->startDate->getTimestamp());
             $event->endDate = $endDate->modify('+15 minutes');
             $event->ilmSession = $arr['id'];
-            $event->eventClass = $arr['sessionTypeCssClass'];
+            $event->color = $arr['calendarColor'];
             $event->lastModified = $arr['updatedAt'];
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
