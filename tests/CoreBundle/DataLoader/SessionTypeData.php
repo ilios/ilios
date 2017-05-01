@@ -14,6 +14,7 @@ class SessionTypeData extends AbstractDataLoader
             'assessmentOption' => '1',
             'school' => '1',
             'aamcMethods' => ['AM001'],
+            'sessions' => ['1', '5', '6', '7', '8'],
             'calendarColor' => $this->faker->hexColor,
         );
 
@@ -23,6 +24,7 @@ class SessionTypeData extends AbstractDataLoader
             'assessmentOption' => '2',
             'school' => '1',
             'aamcMethods' => ['AM001'],
+            'sessions' => ['2', '3', '4'],
             'calendarColor' => '#0a1b2c',
         );
 
@@ -36,7 +38,8 @@ class SessionTypeData extends AbstractDataLoader
             'id' => 3,
             'title' => $this->faker->text(50),
             'school' => '1',
-            'aamcMethods' => [],
+            'aamcMethods' => ['AM001'],
+            'sessions' => ['1'],
             'calendarColor' => $this->faker->hexColor,
         );
     }

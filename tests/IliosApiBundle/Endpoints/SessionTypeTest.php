@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -36,7 +37,8 @@ class SessionTypeTest extends AbstractEndpointTest
             'Tests\CoreBundle\Fixture\LoadProgramYearData',
             'Tests\CoreBundle\Fixture\LoadProgramData',
             'Tests\CoreBundle\Fixture\LoadVocabularyData',
-            'Tests\CoreBundle\Fixture\LoadTermData'
+            'Tests\CoreBundle\Fixture\LoadTermData',
+            'Tests\CoreBundle\Fixture\LoadSessionData'
         ];
     }
 
@@ -50,6 +52,7 @@ class SessionTypeTest extends AbstractEndpointTest
             'assessmentOption' => ['assessmentOption', '2'],
             'school' => ['school', '2'],
             'aamcMethods' => ['aamcMethods', ['AM002']],
+            'sessions' => ['sessions', ['1', '2' , '5', '6', '7', '8']],
             'calendarColor' => ['calendarColor', $this->getFaker()->hexColor],
         ];
     }
@@ -87,5 +90,40 @@ class SessionTypeTest extends AbstractEndpointTest
             'terms' => [[0 , 1], ['terms' => [1, 2]]],
             'calendarColor' => [[1], ['calendarColor' => '#0a1b2c']],
         ];
+    }
+
+    public function removingSessionThrowsError(array $data)
+    {
+        $data = $this->getDataLoader()->getOne();
+        $data['sessions'] = [];
+        $this->badPostTest($data, Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+
+    /**
+     * We need to create additional sessions to
+     * go with each new sessionType otherwise only the last one created will have any sessions
+     * attached to it.
+     * @inheritdoc
+     */
+    public function testPostMany()
+    {
+        $count = 51;
+        $sessionDataLoader = $this->container->get('ilioscore.dataloader.session');
+        $sessions = $sessionDataLoader->createMany($count);
+        $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
+
+        $dataLoader = $this->getDataLoader();
+        $data = [];
+
+        foreach ($savedSessions as $i => $session) {
+            $arr = $dataLoader->create();
+            $arr['id'] += $i;
+            $arr['sessions'] = [$session['id']];
+
+            $data[] = $arr;
+        }
+
+        $this->postManyTest($data);
     }
 }

@@ -124,7 +124,7 @@ class SessionTypeTest extends EntityBase
      */
     public function testAddSession()
     {
-        $this->entityCollectionAddTest('session', 'Session');
+        $this->entityCollectionAddTest('session', 'Session', false, false, 'setSessionType');
     }
 
     /**
@@ -132,6 +132,7 @@ class SessionTypeTest extends EntityBase
      */
     public function testRemoveSession()
     {
+        $this->expectException(\Exception::class);
         $this->entityCollectionRemoveTest('session', 'Session');
     }
 
@@ -140,7 +141,7 @@ class SessionTypeTest extends EntityBase
      */
     public function testSetSessions()
     {
-        $this->entityCollectionSetTest('session', 'Session');
+        $this->entityCollectionSetTest('session', 'Session', false, false, 'setSessionType');
     }
 
     public function testValidHexCodes()

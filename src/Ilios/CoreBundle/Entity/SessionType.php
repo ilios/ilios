@@ -144,7 +144,7 @@ class SessionType implements SessionTypeInterface
      *
      * @ORM\OneToMany(targetEntity="Session", mappedBy="sessionType")
      *
-     * Don't put sessions in the sessionType API it takes forever to load them all
+     * @IS\Expose
      * @IS\Type("entityCollection")
      */
     protected $sessions;
@@ -247,5 +247,28 @@ class SessionType implements SessionTypeInterface
     public function getAamcMethods()
     {
         return $this->aamcMethods;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addSession(SessionInterface $session)
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->setSessionType($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeSession(SessionInterface $session)
+    {
+        $sessionId = $session->getId();
+        throw new \Exception(
+            'Sessions can not be removed from sessionTypes.' .
+            "You must modify session #{$sessionId} directly."
+        );
     }
 }

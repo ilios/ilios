@@ -65,7 +65,8 @@ class SessionTypeRepository extends EntityRepository
         }
 
         $related = [
-            'aamcMethods'
+            'aamcMethods',
+            'sessions'
         ];
 
         foreach ($related as $rel) {

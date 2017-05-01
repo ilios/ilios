@@ -390,8 +390,9 @@ abstract class AbstractEndpointTest extends WebTestCase
     /**
      * Test POSTing bad data to the API
      * @param array $data
+     * @param string $error code
      */
-    protected function badPostTest(array $data)
+    protected function badPostTest(array $data, $code = Response::HTTP_BAD_REQUEST)
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -404,7 +405,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         $response = $this->client->getResponse();
 
-        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
+        $this->assertJsonResponse($response, $code);
     }
 
     /**

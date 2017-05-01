@@ -61,6 +61,14 @@ class SessionTypeDTO
     public $aamcMethods;
 
     /**
+     * @var array
+     *
+     * @IS\Expose
+     * @IS\Type("array<string>")
+     */
+    public $sessions;
+
+    /**
      * SessionTypeDTO constructor.
      * @param $id
      * @param $title
@@ -73,5 +81,6 @@ class SessionTypeDTO
         $this->calendarColor = $calendarColor;
 
         $this->aamcMethods = [];
+        $this->sessions = [];
     }
 }

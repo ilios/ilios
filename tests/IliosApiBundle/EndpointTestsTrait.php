@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle;
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\DataLoader\DataLoaderInterface;
 
 /**
@@ -237,7 +238,7 @@ trait EndpointTestsTrait
     abstract protected function postTest(array $data, array $postData);
     abstract protected function postManyTest(array $data);
     abstract protected function getAllTest();
-    abstract protected function badPostTest(array $data);
+    abstract protected function badPostTest(array $data, $code = Response::HTTP_BAD_REQUEST);
 
     abstract public function fail($message = '');
     abstract protected function markTestSkipped($message = '');
