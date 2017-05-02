@@ -33,6 +33,7 @@ class LoadSessionTypeData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
             $entity->setCalendarColor($arr['calendarColor']);
+            $entity->setAssessment($arr['assessment']);
             $entity->setAssessmentOption(
                 $this->getReference('assessmentOptions' . $arr['assessmentOption'])
             );
