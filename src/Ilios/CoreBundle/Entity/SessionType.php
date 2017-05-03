@@ -69,7 +69,7 @@ class SessionType implements SessionTypeInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="calendar_color", type="string", length=6, nullable=false)
+     * @ORM\Column(name="calendar_color", type="string", length=7, nullable=false)
      *
      * @Assert\Type(type="string")
      * Validate that this is a valid hex color #000 or #faFAfa

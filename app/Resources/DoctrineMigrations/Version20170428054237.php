@@ -17,7 +17,7 @@ class Version20170428054237 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE session_type ADD calendar_color VARCHAR(6) NOT NULL');
+        $this->addSql('ALTER TABLE session_type ADD calendar_color VARCHAR(7) NOT NULL');
         $this->addSql("UPDATE session_type SET calendar_color='#32edfc' WHERE session_type_css_class='clerkship'");
         $this->addSql("UPDATE session_type SET calendar_color='#ceccfe' WHERE session_type_css_class='exam'");
         $this->addSql("UPDATE session_type SET calendar_color='#fff' WHERE session_type_css_class='holiday'");
@@ -87,7 +87,7 @@ class Version20170428054237 extends AbstractMigration
         $this->addSql("UPDATE session_type SET calendar_color='#ddd' WHERE session_type_css_class='ward-rounds'");
         $this->addSql("UPDATE session_type SET calendar_color='#fe7a78' WHERE session_type_css_class='discussion-small'");
         $this->addSql("UPDATE session_type SET calendar_color='#fe7a78' WHERE session_type_css_class='workshop'");
-        $this->addSql("UPDATE session_type SET calendar_color='#fff' WHERE calendar_color='#'");
+        $this->addSql("UPDATE session_type SET calendar_color='#fff' WHERE calendar_color=''");
 
         $this->addSql('ALTER TABLE session_type DROP session_type_css_class');
     }
