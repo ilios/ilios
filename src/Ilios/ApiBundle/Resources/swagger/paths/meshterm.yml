@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            meshterms:
+            meshTerms:
               type: array
               items:
                 $ref: '#/definitions/Meshterm'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            meshterm:
+            meshTerm:
               $ref: '#/definitions/Meshterm'
     tags:
       - Meshterms

@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            applicationconfigs:
+            applicationConfigs:
               type: array
               items:
                 $ref: '#/definitions/Applicationconfig'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            applicationconfig:
+            applicationConfig:
               $ref: '#/definitions/Applicationconfig'
     tags:
       - Applicationconfigs

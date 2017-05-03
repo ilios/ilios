@@ -41,7 +41,7 @@
         schema:
           type: object
           properties:
-            userroles:
+            userRoles:
               type: array
               items:
                 $ref: '#/definitions/Userrole'
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            userroles:
+            userRoles:
               type: array
               items:
                 $ref: '#/definitions/Userrole'
@@ -72,7 +72,7 @@
         schema:
           type: object
           properties:
-            userroles:
+            userRoles:
               type: array
               items:
                 $ref: '#/definitions/Userrole'
@@ -103,7 +103,7 @@
         schema:
           type: object
           properties:
-            userroles:
+            userRoles:
               type: array
               items:
                 $ref: '#/definitions/Userrole'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            userrole:
+            userRole:
               $ref: '#/definitions/Userrole'
     tags:
       - Userroles
@@ -139,7 +139,7 @@
         schema:
           type: object
           properties:
-            userrole:
+            userRole:
               $ref: '#/definitions/Userrole'
       400:
         description: Bad Request Data

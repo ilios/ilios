@@ -1,6 +1,6 @@
 /learningmaterialstatuses:
   get:
-    summary: Fetch all Learningmaterialstatuses
+    summary: Fetch all learning material statuses
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -37,16 +37,16 @@
       - Learningmaterialstatuses
     responses:
       200:
-        description: An array of learningmaterialstatuses
+        description: An array of learning material statuses
         schema:
           type: object
           properties:
-            learningmaterialstatuses:
+            learningMaterialStatuses:
               type: array
               items:
                 $ref: '#/definitions/Learningmaterialstatus'
   post:
-    summary: Create Learningmaterialstatuses
+    summary: Create learning material statuses
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            learningmaterialstatuses:
+            learningMaterialStatuses:
               type: array
               items:
                 $ref: '#/definitions/Learningmaterialstatus'
@@ -68,11 +68,11 @@
       - Learningmaterialstatuses
     responses:
       201:
-        description: An array of newly created learningmaterialstatuses
+        description: An array of newly created learning material statuses
         schema:
           type: object
           properties:
-            learningmaterialstatuses:
+            learningMaterialStatuses:
               type: array
               items:
                 $ref: '#/definitions/Learningmaterialstatus'
@@ -82,7 +82,7 @@
         description: Access Denied
 /learningmaterialstatuses/{id}:
   get:
-    summary: Fetch a single Learningmaterialstatus
+    summary: Fetch a single learning material status
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -99,18 +99,18 @@
       - Learningmaterialstatuses
     responses:
       200:
-        description: A single Learningmaterialstatus
+        description: A single learning material status
         schema:
           type: object
           properties:
-            learningmaterialstatuses:
+            learningMaterialStatuses:
               type: array
               items:
                 $ref: '#/definitions/Learningmaterialstatus'
       404:
         description: Not found
   put:
-    summary: Edit a Learningmaterialstatus
+    summary: Edit a learning material status
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -129,17 +129,17 @@
       schema:
           type: object
           properties:
-            learningmaterialstatus:
+            learningMaterialStatus:
               $ref: '#/definitions/Learningmaterialstatus'
     tags:
       - Learningmaterialstatuses
     responses:
       200:
-        description: A single Learningmaterialstatus
+        description: A single learning material status
         schema:
           type: object
           properties:
-            learningmaterialstatus:
+            learningMaterialStatus:
               $ref: '#/definitions/Learningmaterialstatus'
       400:
         description: Bad Request Data

@@ -41,7 +41,7 @@
         schema:
           type: object
           properties:
-            programyearstewards:
+            programYearStewards:
               type: array
               items:
                 $ref: '#/definitions/Programyearsteward'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            programyearsteward:
+            programYearSteward:
               $ref: '#/definitions/Programyearsteward'
     tags:
       - Programyearstewards

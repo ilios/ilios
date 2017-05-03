@@ -1,6 +1,6 @@
 /learnergroups:
   get:
-    summary: Fetch all Learnergroups
+    summary: Fetch all learner groups
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -37,16 +37,16 @@
       - Learnergroups
     responses:
       200:
-        description: An array of learnergroups
+        description: An array of learner groups
         schema:
           type: object
           properties:
-            learnergroups:
+            learnerGroups:
               type: array
               items:
                 $ref: '#/definitions/Learnergroup'
   post:
-    summary: Create Learnergroups
+    summary: Create learner groups
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            learnergroups:
+            learnerGroups:
               type: array
               items:
                 $ref: '#/definitions/Learnergroup'
@@ -68,11 +68,11 @@
       - Learnergroups
     responses:
       201:
-        description: An array of newly created learnergroups
+        description: An array of newly created learner groups
         schema:
           type: object
           properties:
-            learnergroups:
+            learnerGroups:
               type: array
               items:
                 $ref: '#/definitions/Learnergroup'
@@ -82,7 +82,7 @@
         description: Access Denied
 /learnergroups/{id}:
   get:
-    summary: Fetch a single Learnergroup
+    summary: Fetch a single learner group
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -99,18 +99,18 @@
       - Learnergroups
     responses:
       200:
-        description: A single Learnergroup
+        description: A single learner group
         schema:
           type: object
           properties:
-            learnergroups:
+            learnerGroups:
               type: array
               items:
                 $ref: '#/definitions/Learnergroup'
       404:
         description: Not found
   put:
-    summary: Edit a Learnergroup
+    summary: Edit a learner group
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -129,17 +129,17 @@
       schema:
           type: object
           properties:
-            learnergroup:
+            learnerGroup:
               $ref: '#/definitions/Learnergroup'
     tags:
       - Learnergroups
     responses:
       200:
-        description: A single Learnergroup
+        description: A single learner group
         schema:
           type: object
           properties:
-            learnergroup:
+            learnerGroup:
               $ref: '#/definitions/Learnergroup'
       400:
         description: Bad Request Data
@@ -148,7 +148,7 @@
       404:
         description: Not Found
   delete:
-    summary: Delete a Learnergroup
+    summary: Delete a learner group
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -165,7 +165,7 @@
       - Learnergroups
     responses:
       204:
-        description: Deleted Learnergroup
+        description: Deleted learner group
       403:
         description: Access Denied
       404:

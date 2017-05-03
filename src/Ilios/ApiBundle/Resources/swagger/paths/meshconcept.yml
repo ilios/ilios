@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            meshconcepts:
+            meshConcepts:
               type: array
               items:
                 $ref: '#/definitions/Meshconcept'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            meshconcept:
+            meshConcept:
               $ref: '#/definitions/Meshconcept'
     tags:
       - Meshconcepts

@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            meshpreviousindexings:
+            meshPreviousIndexings:
               type: array
               items:
                 $ref: '#/definitions/Meshpreviousindexing'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            meshpreviousindexing:
+            meshPreviousIndexing:
               $ref: '#/definitions/Meshpreviousindexing'
     tags:
       - Meshpreviousindexings

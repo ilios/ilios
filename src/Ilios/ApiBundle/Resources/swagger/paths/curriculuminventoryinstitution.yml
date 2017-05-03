@@ -1,6 +1,6 @@
 /curriculuminventoryinstitutions:
   get:
-    summary: Fetch all Curriculuminventoryinstitutions
+    summary: Fetch all curriculum inventory institutions
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -37,16 +37,16 @@
       - Curriculuminventoryinstitutions
     responses:
       200:
-        description: An array of curriculuminventoryinstitutions
+        description: An array of curriculum inventory institutions
         schema:
           type: object
           properties:
-            curriculuminventoryinstitutions:
+            curriculumInventoryInstitutions:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryinstitution'
   post:
-    summary: Create Curriculuminventoryinstitutions
+    summary: Create curriculum inventory institutions
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            curriculuminventoryinstitutions:
+            curriculumInventoryInstitutions:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryinstitution'
@@ -68,11 +68,11 @@
       - Curriculuminventoryinstitutions
     responses:
       201:
-        description: An array of newly created curriculuminventoryinstitutions
+        description: An array of newly created curriculum inventory institutions
         schema:
           type: object
           properties:
-            curriculuminventoryinstitutions:
+            curriculumInventoryInstitutions:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryinstitution'
@@ -82,7 +82,7 @@
         description: Access Denied
 /curriculuminventoryinstitutions/{id}:
   get:
-    summary: Fetch a single Curriculuminventoryinstitution
+    summary: Fetch a single curriculum inventory institution
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -99,18 +99,18 @@
       - Curriculuminventoryinstitutions
     responses:
       200:
-        description: A single Curriculuminventoryinstitution
+        description: A single curriculum inventory institution
         schema:
           type: object
           properties:
-            curriculuminventoryinstitutions:
+            curriculumInventoryInstitutions:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryinstitution'
       404:
         description: Not found
   put:
-    summary: Edit a Curriculuminventoryinstitution
+    summary: Edit a curriculum inventory institution
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -129,17 +129,17 @@
       schema:
           type: object
           properties:
-            curriculuminventoryinstitution:
+            curriculumInventoryInstitution:
               $ref: '#/definitions/Curriculuminventoryinstitution'
     tags:
       - Curriculuminventoryinstitutions
     responses:
       200:
-        description: A single Curriculuminventoryinstitution
+        description: A single curriculum inventory institution
         schema:
           type: object
           properties:
-            curriculuminventoryinstitution:
+            curriculumInventoryInstitution:
               $ref: '#/definitions/Curriculuminventoryinstitution'
       400:
         description: Bad Request Data
@@ -148,7 +148,7 @@
       404:
         description: Not Found
   delete:
-    summary: Delete a Curriculuminventoryinstitution
+    summary: Delete a curriculum inventory institution
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -165,7 +165,7 @@
       - Curriculuminventoryinstitutions
     responses:
       204:
-        description: Deleted Curriculuminventoryinstitution
+        description: Deleted curriculum inventory institution
       403:
         description: Access Denied
       404:

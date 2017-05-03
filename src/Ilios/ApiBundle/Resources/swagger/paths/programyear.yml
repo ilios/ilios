@@ -41,7 +41,7 @@
         schema:
           type: object
           properties:
-            programyears:
+            programYears:
               type: array
               items:
                 $ref: '#/definitions/Programyear'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            programyear:
+            programYear:
               $ref: '#/definitions/Programyear'
     tags:
       - Programyears

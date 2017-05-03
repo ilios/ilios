@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            aamcpcrses:
+            aamcPcrses:
               type: array
               items:
                 $ref: '#/definitions/Aamcpcrs'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            aamcpcrs:
+            aamcPcrs:
               $ref: '#/definitions/Aamcpcrs'
     tags:
       - Aamcpcrses

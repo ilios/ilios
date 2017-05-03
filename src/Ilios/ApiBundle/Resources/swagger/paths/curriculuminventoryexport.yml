@@ -1,6 +1,6 @@
 /curriculuminventoryexports:
   post:
-    summary: Create Curriculuminventoryexports
+    summary: Create curriculum inventory exports
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -14,7 +14,7 @@
       schema:
           type: object
           properties:
-            curriculuminventoryexports:
+            curriculumInventoryExports:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryexport'
@@ -22,11 +22,11 @@
       - Curriculuminventoryexports
     responses:
       201:
-        description: An array of newly created curriculuminventoryexports
+        description: An array of newly created curriculum inventory exports
         schema:
           type: object
           properties:
-            curriculuminventoryexports:
+            curriculumInventoryExports:
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryexport'

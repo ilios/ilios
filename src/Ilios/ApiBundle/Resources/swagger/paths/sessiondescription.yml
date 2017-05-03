@@ -41,7 +41,7 @@
         schema:
           type: object
           properties:
-            sessiondescriptions:
+            sessionDescriptions:
               type: array
               items:
                 $ref: '#/definitions/Sessiondescription'
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            sessiondescriptions:
+            sessionDescriptions:
               type: array
               items:
                 $ref: '#/definitions/Sessiondescription'
@@ -72,7 +72,7 @@
         schema:
           type: object
           properties:
-            sessiondescriptions:
+            sessionDescriptions:
               type: array
               items:
                 $ref: '#/definitions/Sessiondescription'
@@ -103,7 +103,7 @@
         schema:
           type: object
           properties:
-            sessiondescriptions:
+            sessionDescriptions:
               type: array
               items:
                 $ref: '#/definitions/Sessiondescription'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            sessiondescription:
+            sessionDescription:
               $ref: '#/definitions/Sessiondescription'
     tags:
       - Sessiondescriptions
@@ -139,7 +139,7 @@
         schema:
           type: object
           properties:
-            sessiondescription:
+            sessionDescription:
               $ref: '#/definitions/Sessiondescription'
       400:
         description: Bad Request Data

@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            courseclerkshiptypes:
+            courseClerkshipTypes:
               type: array
               items:
                 $ref: '#/definitions/Courseclerkshiptype'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            courseclerkshiptype:
+            courseClerkshipType:
               $ref: '#/definitions/Courseclerkshiptype'
     tags:
       - Courseclerkshiptypes

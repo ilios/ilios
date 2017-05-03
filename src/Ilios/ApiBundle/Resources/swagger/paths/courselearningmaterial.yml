@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            courselearningmaterials:
+            courseLearningMaterials:
               type: array
               items:
                 $ref: '#/definitions/Courselearningmaterial'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            courselearningmaterial:
+            courseLearningMaterial:
               $ref: '#/definitions/Courselearningmaterial'
     tags:
       - Courselearningmaterials

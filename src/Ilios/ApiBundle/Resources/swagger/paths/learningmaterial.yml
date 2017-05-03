@@ -1,6 +1,6 @@
 /learningmaterials:
   get:
-    summary: Fetch all Learningmaterials
+    summary: Fetch all learning materials
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -37,16 +37,16 @@
       - Learningmaterials
     responses:
       200:
-        description: An array of learningmaterials
+        description: An array of learning materials
         schema:
           type: object
           properties:
-            learningmaterials:
+            learningMaterials:
               type: array
               items:
                 $ref: '#/definitions/DecoratedLearningmaterial'
   post:
-    summary: Create Learningmaterials
+    summary: Create learning materials
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            learningmaterials:
+            learningMaterials:
               type: array
               items:
                 $ref: '#/definitions/Learningmaterial'
@@ -68,11 +68,11 @@
       - Learningmaterials
     responses:
       201:
-        description: An array of newly created learningmaterials
+        description: An array of newly created learning materials
         schema:
           type: object
           properties:
-            learningmaterials:
+            learningMaterials:
               type: array
               items:
                 $ref: '#/definitions/DecoratedLearningmaterial'
@@ -82,7 +82,7 @@
         description: Access Denied
 /learningmaterials/{id}:
   get:
-    summary: Fetch a single Learningmaterial
+    summary: Fetch a single learning material
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -99,18 +99,18 @@
       - Learningmaterials
     responses:
       200:
-        description: A single Learningmaterial
+        description: A single learning material
         schema:
           type: object
           properties:
-            learningmaterials:
+            learningMaterials:
               type: array
               items:
                 $ref: '#/definitions/DecoratedLearningmaterial'
       404:
         description: Not found
   put:
-    summary: Edit a Learningmaterial
+    summary: Edit a learning material
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -129,17 +129,17 @@
       schema:
           type: object
           properties:
-            learningmaterial:
+            learningMaterial:
               $ref: '#/definitions/Learningmaterial'
     tags:
       - Learningmaterials
     responses:
       200:
-        description: A single Learningmaterial
+        description: A single learning material
         schema:
           type: object
           properties:
-            learningmaterial:
+            learningMaterial:
               $ref: '#/definitions/DecoratedLearningmaterial'
       400:
         description: Bad Request Data
@@ -148,7 +148,7 @@
       404:
         description: Not Found
   delete:
-    summary: Delete a Learningmaterial
+    summary: Delete a learning material
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -165,7 +165,7 @@
       - Learningmaterials
     responses:
       204:
-        description: Deleted Learningmaterial
+        description: Deleted learning material
       403:
         description: Access Denied
       404:

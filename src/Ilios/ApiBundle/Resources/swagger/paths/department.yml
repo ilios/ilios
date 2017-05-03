@@ -1,6 +1,6 @@
 /departments:
   get:
-    summary: Fetch all Departments
+    summary: Fetch all departments
     parameters:
       - name: X-JWT-Authorization
         in: header
@@ -46,7 +46,7 @@
               items:
                 $ref: '#/definitions/Department'
   post:
-    summary: Create Departments
+    summary: Create departments
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -82,7 +82,7 @@
         description: Access Denied
 /departments/{id}:
   get:
-    summary: Fetch a single Department
+    summary: Fetch a single department
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -99,7 +99,7 @@
       - Departments
     responses:
       200:
-        description: A single Department
+        description: A single department
         schema:
           type: object
           properties:
@@ -110,7 +110,7 @@
       404:
         description: Not found
   put:
-    summary: Edit a Department
+    summary: Edit a department
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -135,7 +135,7 @@
       - Departments
     responses:
       200:
-        description: A single Department
+        description: A single department
         schema:
           type: object
           properties:
@@ -148,7 +148,7 @@
       404:
         description: Not Found
   delete:
-    summary: Delete a Department
+    summary: Delete a department
     parameters:
     - name: X-JWT-Authorization
       in: header
@@ -165,7 +165,7 @@
       - Departments
     responses:
       204:
-        description: Deleted Department
+        description: Deleted department
       403:
         description: Access Denied
       404:
