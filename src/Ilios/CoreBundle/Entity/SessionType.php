@@ -74,7 +74,7 @@ class SessionType implements SessionTypeInterface
      * @Assert\Type(type="string")
      * Validate that this is a valid hex color #000 or #faFAfa
      * @Assert\Regex(
-     *     pattern = "/^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$/",
+     *     pattern = "/^#[0-9a-fA-F]{6}$/",
      *     message = "This not a valid HTML hex color code. Eg #aaa of #a1B2C3"
      * )
      *

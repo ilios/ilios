@@ -148,17 +148,29 @@ class SessionTypeTest extends EntityBase
     {
         $this->object->setTitle('test');
         $this->object->setSchool(m::mock('Ilios\CoreBundle\Entity\SchoolInterface'));
-        $this->object->setCalendarColor('#123');
+        $this->object->setCalendarColor('#123abc');
+        $this->validate(0);
+
+        $this->object->setCalendarColor('#111AaA');
+        $this->validate(0);
+
+        $this->object->setCalendarColor('#000000');
+        $this->validate(0);
+
+        $this->object->setCalendarColor('#ffffff');
+        $this->validate(0);
+
+        $this->object->setCalendarColor('#ABCDEF');
         $this->validate(0);
 
         $this->object->setCalendarColor('123');
         $this->validate(1);
 
-        $this->object->setCalendarColor('#111aaa');
-        $this->validate(0);
+        $this->object->setCalendarColor('123abc');
+        $this->validate(1);
 
         $this->object->setCalendarColor('#fff');
-        $this->validate(0);
+        $this->validate(1);
 
         $this->object->setCalendarColor('#ff');
         $this->validate(1);
