@@ -364,6 +364,8 @@ class EntityBase extends \PHPUnit_Framework_TestCase
                 return $faker->randomFloat();
             case 'string':
                 return $faker->text;
+            case 'hexcolor':
+                return $faker->hexColor;
             case 'email':
                 return $faker->email;
             case 'phone':

@@ -54,7 +54,6 @@ class IcsController extends Controller
             $vEvent->setDtEnd($event->endDate);
             $vEvent->setSummary($event->name);
             $vEvent->setLocation($event->location);
-            $vEvent->setCategories([$event->eventClass]);
             $vEvent->setDescription($this->getDescriptionForEvent($event));
             $calendar->addComponent($vEvent);
         }

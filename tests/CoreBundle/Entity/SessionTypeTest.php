@@ -68,12 +68,12 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
-     * @covers \Ilios\CoreBundle\Entity\SessionType::setSessionTypeCssClass
-     * @covers \Ilios\CoreBundle\Entity\SessionType::getSessionTypeCssClass
+     * @covers \Ilios\CoreBundle\Entity\SessionType::setCalendarColor()
+     * @covers \Ilios\CoreBundle\Entity\SessionType::getCalendarColor()
      */
-    public function testSetSessionTypeCssClass()
+    public function testSetSessionTypeCalendarColor()
     {
-        $this->basicSetTest('sessionTypeCssClass', 'string');
+        $this->basicSetTest('calendarColor', 'hexcolor');
     }
 
     /**
@@ -124,7 +124,7 @@ class SessionTypeTest extends EntityBase
      */
     public function testAddSession()
     {
-        $this->entityCollectionAddTest('session', 'Session');
+        $this->entityCollectionAddTest('session', 'Session', false, false, 'setSessionType');
     }
 
     /**
@@ -132,6 +132,7 @@ class SessionTypeTest extends EntityBase
      */
     public function testRemoveSession()
     {
+        $this->expectException(\Exception::class);
         $this->entityCollectionRemoveTest('session', 'Session');
     }
 
@@ -140,6 +141,41 @@ class SessionTypeTest extends EntityBase
      */
     public function testSetSessions()
     {
-        $this->entityCollectionSetTest('session', 'Session');
+        $this->entityCollectionSetTest('session', 'Session', false, false, 'setSessionType');
+    }
+
+    public function testValidHexCodes()
+    {
+        $this->object->setTitle('test');
+        $this->object->setSchool(m::mock('Ilios\CoreBundle\Entity\SchoolInterface'));
+        $this->object->setCalendarColor('#123abc');
+        $this->validate(0);
+
+        $this->object->setCalendarColor('#111AaA');
+        $this->validate(0);
+
+        $this->object->setCalendarColor('#000000');
+        $this->validate(0);
+
+        $this->object->setCalendarColor('#ffffff');
+        $this->validate(0);
+
+        $this->object->setCalendarColor('#ABCDEF');
+        $this->validate(0);
+
+        $this->object->setCalendarColor('123');
+        $this->validate(1);
+
+        $this->object->setCalendarColor('123abc');
+        $this->validate(1);
+
+        $this->object->setCalendarColor('#fff');
+        $this->validate(1);
+
+        $this->object->setCalendarColor('#ff');
+        $this->validate(1);
+
+        $this->object->setCalendarColor('#0');
+        $this->validate(1);
     }
 }

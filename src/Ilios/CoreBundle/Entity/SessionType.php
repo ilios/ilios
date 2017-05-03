@@ -69,15 +69,19 @@ class SessionType implements SessionTypeInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="session_type_css_class", type="string", length=64, nullable=true)
+     * @ORM\Column(name="calendar_color", type="string", length=7, nullable=false)
      *
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 64
+     * Validate that this is a valid hex color #000 or #faFAfa
+     * @Assert\Regex(
+     *     pattern = "/^#[0-9a-fA-F]{6}$/",
+     *     message = "This not a valid HTML hex color code. Eg #aaa of #a1B2C3"
      * )
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
-    protected $sessionTypeCssClass;
+    protected $calendarColor;
 
     /**
      * @var boolean
@@ -86,6 +90,9 @@ class SessionType implements SessionTypeInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
+     *
+     * @IS\Expose
+     * @IS\Type("string")
      */
     protected $assessment;
 
@@ -140,7 +147,7 @@ class SessionType implements SessionTypeInterface
      *
      * @ORM\OneToMany(targetEntity="Session", mappedBy="sessionType")
      *
-     * Don't put sessions in the sessionType API it takes forever to load them all
+     * @IS\Expose
      * @IS\Type("entityCollection")
      */
     protected $sessions;
@@ -156,19 +163,19 @@ class SessionType implements SessionTypeInterface
     }
 
     /**
-     * @param string $sessionTypeCssClass
+     * @inheritdoc
      */
-    public function setSessionTypeCssClass($sessionTypeCssClass)
+    public function setCalendarColor($color)
     {
-        $this->sessionTypeCssClass = $sessionTypeCssClass;
+        $this->calendarColor = $color;
     }
 
     /**
      * @return string
      */
-    public function getSessionTypeCssClass()
+    public function getCalendarColor()
     {
-        return $this->sessionTypeCssClass;
+        return $this->calendarColor;
     }
 
     /**
@@ -194,7 +201,7 @@ class SessionType implements SessionTypeInterface
     /**
      * @param AssessmentOptionInterface $assessmentOption
      */
-    public function setAssessmentOption(AssessmentOptionInterface $assessmentOption)
+    public function setAssessmentOption(AssessmentOptionInterface $assessmentOption = null)
     {
         $this->assessmentOption = $assessmentOption;
     }
@@ -243,5 +250,28 @@ class SessionType implements SessionTypeInterface
     public function getAamcMethods()
     {
         return $this->aamcMethods;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addSession(SessionInterface $session)
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->setSessionType($this);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeSession(SessionInterface $session)
+    {
+        $sessionId = $session->getId();
+        throw new \Exception(
+            'Sessions can not be removed from sessionTypes.' .
+            "You must modify session #{$sessionId} directly."
+        );
     }
 }
