@@ -60,7 +60,7 @@
       schema:
           type: object
           properties:
-            aamcResourcetypes:
+            aamcResourceTypes:
               type: array
               items:
                 $ref: '#/definitions/Aamcresourcetype'
@@ -129,7 +129,7 @@
       schema:
           type: object
           properties:
-            aamcResourcetype:
+            aamcResourceType:
               $ref: '#/definitions/Aamcresourcetype'
     tags:
       - Aamcresourcetypes
