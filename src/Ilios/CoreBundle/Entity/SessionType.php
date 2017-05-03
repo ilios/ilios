@@ -201,7 +201,7 @@ class SessionType implements SessionTypeInterface
     /**
      * @param AssessmentOptionInterface $assessmentOption
      */
-    public function setAssessmentOption(AssessmentOptionInterface $assessmentOption)
+    public function setAssessmentOption(AssessmentOptionInterface $assessmentOption = null)
     {
         $this->assessmentOption = $assessmentOption;
     }

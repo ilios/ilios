@@ -47,7 +47,7 @@ interface SessionTypeInterface extends
     /**
      * @param AssessmentOptionInterface $assessmentOption
      */
-    public function setAssessmentOption(AssessmentOptionInterface $assessmentOption);
+    public function setAssessmentOption(AssessmentOptionInterface $assessmentOption = null);
 
     /**
      * @return AssessmentOptionInterface

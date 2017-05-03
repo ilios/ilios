@@ -50,6 +50,7 @@ class SessionTypeTest extends AbstractEndpointTest
         return [
             'title' => ['title', $this->getFaker()->text(100)],
             'assessmentOption' => ['assessmentOption', '2'],
+            'removeAssessmentOption' => ['assessmentOption', null],
             'school' => ['school', '2'],
             'aamcMethods' => ['aamcMethods', ['AM002']],
             'sessions' => ['sessions', ['1', '2' , '5', '6', '7', '8']],
