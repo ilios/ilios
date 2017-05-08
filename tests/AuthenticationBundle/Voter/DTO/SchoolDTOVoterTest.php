@@ -75,20 +75,4 @@ class SchoolDTOVoterTest extends AbstractVoterTestCase
         $attributes = [AbstractVoter::VIEW];
         $this->assertEquals($expectedOutcome, $this->voter->vote($token, $object, $attributes), $message);
     }
-
-    /**
-     * Creates a mock object for a user with a given user-roles and user id.
-     * @param int $id The user id.
-     * @param array $roles A list of user-role titles.
-     * @return \Mockery\Mock The user mock object.
-     */
-    protected function createUserInRoles($id, array $roles)
-    {
-        $roles = array_map(function ($role) {
-            return $this->createMockUserRole($role);
-        }, $roles);
-        $user = $this->createMockSessionUserWithUserRoles($roles);
-        $user->shouldReceive('getId')->withNoArgs()->andReturn($id);
-        return $user;
-    }
 }
