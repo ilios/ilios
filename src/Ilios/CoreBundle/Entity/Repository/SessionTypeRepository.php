@@ -46,7 +46,8 @@ class SessionTypeRepository extends EntityRepository
                 $arr['id'],
                 $arr['title'],
                 $arr['calendarColor'],
-                $arr['assessment']
+                $arr['assessment'],
+                $arr['active']
             );
         }
         $sessionTypeIds = array_keys($sessionTypeDTOs);

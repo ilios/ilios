@@ -42,6 +42,14 @@ class SessionTypeDTO
      * @IS\Expose
      * @IS\Type("boolean")
     */
+    public $active;
+
+    /**
+     * @var boolean
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
+    */
     public $assessment;
 
     /**
@@ -82,13 +90,15 @@ class SessionTypeDTO
      * @param $title
      * @param $calendarColor
      * @param $assessment
+     * @param $active
      */
-    public function __construct($id, $title, $calendarColor, $assessment)
+    public function __construct($id, $title, $calendarColor, $assessment, $active)
     {
         $this->id = $id;
         $this->title = $title;
         $this->calendarColor = $calendarColor;
         $this->assessment = $assessment;
+        $this->active = $active;
 
         $this->aamcMethods = [];
         $this->sessions = [];

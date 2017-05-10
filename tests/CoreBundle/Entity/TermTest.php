@@ -190,4 +190,13 @@ class TermTest extends EntityBase
     {
         $this->entityCollectionSetTest('child', 'Term', 'getChildren', 'setChildren');
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Term::setActive
+     * @covers \Ilios\CoreBundle\Entity\Term::isActive
+     */
+    public function testIsActive()
+    {
+        $this->booleanSetTest('active');
+    }
 }

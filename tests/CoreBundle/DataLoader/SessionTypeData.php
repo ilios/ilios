@@ -17,6 +17,7 @@ class SessionTypeData extends AbstractDataLoader
             'sessions' => ['1', '5', '6', '7', '8'],
             'calendarColor' => $this->faker->hexColor,
             'assessment' => false,
+            'active' => false,
         );
 
         $arr[] = array(
@@ -28,6 +29,7 @@ class SessionTypeData extends AbstractDataLoader
             'sessions' => ['2', '3', '4'],
             'calendarColor' => '#0a1b2c',
             'assessment' => true,
+            'active' => true,
         );
 
 
@@ -44,6 +46,7 @@ class SessionTypeData extends AbstractDataLoader
             'sessions' => ['1'],
             'calendarColor' => $this->faker->hexColor,
             'assessment' => false,
+            'active' => false,
         );
     }
 

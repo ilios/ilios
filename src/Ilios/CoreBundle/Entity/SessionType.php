@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\ActivatableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
 use Ilios\ApiBundle\Annotation as IS;
 use Doctrine\Common\Collections\Collection;
@@ -34,6 +35,7 @@ class SessionType implements SessionTypeInterface
     use SessionsEntity;
     use SchoolEntity;
     use StringableIdEntity;
+    use ActivatableEntity;
 
     /**
      * @var integer
@@ -82,6 +84,19 @@ class SessionType implements SessionTypeInterface
      * @IS\Type("string")
      */
     protected $calendarColor;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     *
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    protected $active;
 
     /**
      * @var boolean
@@ -160,6 +175,7 @@ class SessionType implements SessionTypeInterface
         $this->aamcMethods = new ArrayCollection();
         $this->sessions = new ArrayCollection();
         $this->assessment = false;
+        $this->active = true;
     }
 
     /**
