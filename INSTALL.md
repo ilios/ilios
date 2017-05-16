@@ -254,9 +254,9 @@ If everything went correctly, you're ready to go!  Congratulations on installing
 
 ## <a name="troubleshooting"></a>Troubleshooting
 
-If you followed all of the instructions in this document and STILL cannot get Ilios to work correctly, here are some things to verify/try:
+If you've followed all of the instructions in this document and are still unable to get Ilios work properly, here are some things to try and/or verify:
 
-1. Using SELinux? - If you're attempting to run Ilios on a system that has SELinux enabled and running, you may need to run the following commands in order to allow your webserver to connect to your database:
+1. Using SELinux? - If you are attempting to run Ilios on a system that has SELinux enabled and running, you may need to run the following commands in order to allow your webserver to connect to your database:
  ```bash
  setsebool -P httpd_can_network_connect 1
  setsebool -P httpd_can_network_connect_db 1
@@ -266,4 +266,4 @@ If you followed all of the instructions in this document and STILL cannot get Il
 sudo -u apache bin/console cache:clear --env=prod
 ```
 
-If you have tried these steps without any luck, of if you think we should add another troubleshooting suggestion/solution, please feel free to contact us at support@iliosproject.org if you have any questions, comments, or suggestions!
+If you have tried the above steps without any luck, of if you think we should add another troubleshooting suggestion/solution, please feel free to contact us at support@iliosproject.org if you have any questions, comments, or suggestions!
