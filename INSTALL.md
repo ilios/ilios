@@ -51,6 +51,10 @@ PHP should configured with a 'memory_limit' setting of at least 386MB and have t
 * php-pdo - DB connectivity
 * php-zip - for native zip package [de]compression during the composer installation process
 
+##### A note about SELinux
+ 
+CentOS, RedHat, and Fedora Linux distributions come with SELinux installed and enabled by default.  SELinux, aka "Security-Enhanced Linux", greatly limits many actions typically allowed out-of-the-box on most Linux distros so, if you seem to be having issues with your Ilios installation not working correctly and you have SELinux installed and enabled, we recommend you review your SELinux settings and/or check out our [Troubleshooting](#troubleshooting) section below.
+
 ### URL Rewriting
 Users should enable URL-rewriting on their webserver if at all possible. For those using Apache, this can be done by installing and enabling the 'mod_rewrite' module. In IIS, this is handled via the [Microsoft IIS URL Rewrite extension](https://www.iis.net/downloads/microsoft/url-rewrite)
 
@@ -246,6 +250,20 @@ sudo -u apache bin/console ilios:setup:first-user --env=prod
 
 After that, visit the url of your new Ilios 3 site and you should see a login form.  Enter 'first_user' in the login field and 'Ch4nge_m3' (without the quotes!) in the password field and submit!
 
-If everything went correctly, you're ready to go!  Congratulations on installing Ilios! 
+If everything went correctly, you're ready to go!  Congratulations on installing Ilios! If not, please see some of our troubleshooting suggestions below.
 
-Please feel free to contact us support@iliosproject.org if you have any questions, comments, or suggestions!
+## <a name="troubleshooting"></a>Troubleshooting
+
+If you've followed all of the instructions in this document and are still unable to get Ilios work properly, here are some things to try and/or verify:
+
+1. Using SELinux? - If you are attempting to run Ilios on a system that has SELinux enabled and running, you may need to run the following commands in order to allow your webserver to connect to your database:
+ ```bash
+ setsebool -P httpd_can_network_connect 1
+ setsebool -P httpd_can_network_connect_db 1
+ ```
+2. If you are making changes to your parameters.yml configuration file and your changes do not seem to be taking effect, remember to clear your Symfony cache any time you make a change to the file. This command must be run from the root directory of your Ilios application, in the context of the user running your web services (eg, 'apache' or 'nginx'):
+```bash
+sudo -u apache bin/console cache:clear --env=prod
+```
+
+If you have tried the above steps without any luck, of if you think we should add another troubleshooting suggestion/solution, please feel free to contact us at support@iliosproject.org if you have any questions, comments, or suggestions!
