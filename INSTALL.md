@@ -53,8 +53,7 @@ PHP should configured with a 'memory_limit' setting of at least 386MB and have t
 
 ##### A note about SELinux
  
-CentOS, RedHat, and Fedora Linux distributions come with SELinux installed and enabled by default.  SELinux, aka "Security-Enhanced Linux", greatly limits
-most of the actions typically allowed out of the box on most systems so, if your Ilios system is running SELinux and you seem to be having issues with your Ilios installation not working correctly, we recommend you review your SELinux settings and/or check out our [Troubleshooting](#troubleshooting) section below.
+CentOS, RedHat, and Fedora Linux distributions come with SELinux installed and enabled by default.  SELinux, aka "Security-Enhanced Linux", greatly limits most of the actions typically allowed out of the box on most Linux distros so, if your Ilios system is running SELinux and you seem to be having issues with your Ilios installation not working correctly, we recommend you review your SELinux settings and/or check out our [Troubleshooting](#troubleshooting) section below.
 
 ### URL Rewriting
 Users should enable URL-rewriting on their webserver if at all possible. For those using Apache, this can be done by installing and enabling the 'mod_rewrite' module. In IIS, this is handled via the [Microsoft IIS URL Rewrite extension](https://www.iis.net/downloads/microsoft/url-rewrite)
