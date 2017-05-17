@@ -176,4 +176,13 @@ class CompetencyTest extends EntityBase
     {
         $this->entityCollectionSetTest('child', 'Competency', 'getChildren', 'setChildren');
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Competency::setActive
+     * @covers \Ilios\CoreBundle\Entity\Competency::isActive
+     */
+    public function testIsActive()
+    {
+        $this->booleanSetTest('active');
+    }
 }

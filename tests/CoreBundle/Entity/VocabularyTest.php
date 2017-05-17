@@ -71,4 +71,13 @@ class VocabularyTest extends EntityBase
     {
         $this->entityCollectionSetTest('term', 'Term');
     }
+
+    /**
+     * @covers \Ilios\CoreBundle\Entity\Vocabulary::setActive
+     * @covers \Ilios\CoreBundle\Entity\Vocabulary::isActive
+     */
+    public function testIsActive()
+    {
+        $this->booleanSetTest('active');
+    }
 }

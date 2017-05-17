@@ -56,6 +56,7 @@ class SessionTypeTest extends AbstractEndpointTest
             'sessions' => ['sessions', ['1', '2' , '5', '6', '7', '8']],
             'calendarColor' => ['calendarColor', $this->getFaker()->hexColor],
             'assessment' => ['assessment', true],
+            'active' => ['active', true],
         ];
     }
 
@@ -93,6 +94,8 @@ class SessionTypeTest extends AbstractEndpointTest
             'calendarColor' => [[1], ['calendarColor' => '#0a1b2c']],
             'assessment' => [[1], ['assessment' => true]],
             'notAssessment' => [[0], ['assessment' => false]],
+            'active' => [[1], ['active' => true]],
+            'notActive' => [[0], ['active' => false]],
         ];
     }
 

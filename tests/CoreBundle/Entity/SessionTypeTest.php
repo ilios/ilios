@@ -77,6 +77,15 @@ class SessionTypeTest extends EntityBase
     }
 
     /**
+     * @covers \Ilios\CoreBundle\Entity\SessionType::setActive
+     * @covers \Ilios\CoreBundle\Entity\SessionType::isActive
+     */
+    public function testIsActive()
+    {
+        $this->booleanSetTest('active');
+    }
+
+    /**
      * @covers \Ilios\CoreBundle\Entity\SessionType::setAssessment
      * @covers \Ilios\CoreBundle\Entity\SessionType::isAssessment
      */

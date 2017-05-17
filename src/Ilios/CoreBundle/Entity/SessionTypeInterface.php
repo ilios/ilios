@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\ActivatableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
@@ -18,6 +19,7 @@ interface SessionTypeInterface extends
     TitledEntityInterface,
     SessionsEntityInterface,
     SchoolEntityInterface,
+    ActivatableEntityInterface,
     LoggableEntityInterface
 {
     /**
