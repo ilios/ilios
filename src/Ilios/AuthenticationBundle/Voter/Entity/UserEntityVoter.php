@@ -79,7 +79,7 @@ class UserEntityVoter extends AbstractVoter
         // current user must have developer role and share the same school affiliations than the requested user.
         if ($user->hasRole(['Developer'])
             && ($user->isThePrimarySchool($requestedUser->getSchool())
-                || $user->hasWritePermissionToSchools($schoolIds))) {
+                || $user->hasWritePermissionToSchools($schoolIds->toArray()))) {
             return true;
         }
 
