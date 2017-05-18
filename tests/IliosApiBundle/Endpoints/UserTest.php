@@ -462,4 +462,98 @@ class UserTest extends AbstractEndpointTest
 
         $this->compareData($user, $responseData);
     }
+
+    public function testPostUserInDifferentPrimarySchool()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $user = $all[0];
+        $this->assertEquals($user['school'], 1, 'User #1 should be in school 1 or this test is garbage');
+        $this->assertFalse($user['root'], 'User #1 should not be root or this test is garbage');
+        $this->assertContains(
+            1,
+            $user['roles'],
+            'User #1 should be a developer or this test is garbage'
+        );
+
+        $newUserSchool = 2;
+
+        $permissionDataLoader = $this->container->get('ilioscore.dataloader.permission');
+        $permission = $permissionDataLoader->create();
+        $permission['user'] = $user['id'];
+        $permission['canRead'] = true;
+        $permission['canWrite'] = true;
+        $permission['tableRowId'] = $newUserSchool;
+        $permission['tableName'] = 'school';
+        $this->postOne('permissions', 'permission', 'permissions', $permission);
+
+        $data = $dataLoader->create();
+        $data['school'] = $newUserSchool;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('ilios_api_post', ['version' => 'v1', 'object' => 'users']),
+            json_encode(['user' => $data]),
+            $this->getTokenForUser($user['id'])
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_CREATED);
+
+        $responseData = json_decode($response->getContent(), true)['users'][0];
+
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne('users', 'users', $responseData['id']);
+
+        $this->compareData($data, $fetchedResponseData);
+    }
+
+    public function testAddRoleInDifferentPrimarySchool()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $user = $all[0];
+        $this->assertEquals($user['school'], 1, 'User #1 should be in school 1 or this test is garbage');
+        $this->assertFalse($user['root'], 'User #1 should not be root or this test is garbage');
+        $this->assertContains(
+            1,
+            $user['roles'],
+            'User #1 should be a developer or this test is garbage'
+        );
+        $permissionDataLoader = $this->container->get('ilioscore.dataloader.permission');
+        $permission = $permissionDataLoader->create();
+        $permission['user'] = $user['id'];
+        $permission['canRead'] = true;
+        $permission['canWrite'] = true;
+        $permission['tableRowId'] = 2;
+        $permission['tableName'] = 'school';
+        $this->postOne('permissions', 'permission', 'permissions', $permission);
+
+        $data = $all[3];
+        $this->assertNotContains(
+            1,
+            $data['roles'],
+            'User #4 should Not be a developer or this test is garbage'
+        );
+        $this->assertNotEquals(
+            1,
+            $data['school'],
+            'User #4 should Not be in school 1 or this test is garbage'
+        );
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl('ilios_api_put', ['version' => 'v1', 'object' => 'users', 'id' => $data['id']]),
+            json_encode(['user' => $data]),
+            $this->getTokenForUser($user['id'])
+        );
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+
+        $responseData = json_decode($response->getContent(), true)['user'];
+
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne('users', 'users', $responseData['id']);
+
+        $this->compareData($data, $fetchedResponseData);
+    }
 }
