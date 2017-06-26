@@ -107,6 +107,34 @@ abstract class CalendarEvent
     public $instructors = array();
 
     /**
+     * @var bool
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public $attireRequired;
+
+    /**
+     * @var bool
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public $equipmentRequired;
+
+    /**
+     * @var bool
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public $supplemental;
+
+    /**
+     * @var bool
+     * @IS\Expose
+     * @IS\Type("boolean")
+     */
+    public $attendanceRequired;
+
+    /**
      * Clean out all the data for scheduled events
      *
      * This information is not available to un-privileged users
@@ -120,6 +148,10 @@ abstract class CalendarEvent
             $this->ilmSession = null;
             $this->color = null;
             $this->location = null;
+            $this->attireRequired = null;
+            $this->equipmentRequired = null;
+            $this->supplemental = null;
+            $this->attendanceRequired = null;
 
             $this->instructors = [];
         }

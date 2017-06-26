@@ -171,6 +171,7 @@ class SchoolRepository extends EntityRepository
         $what = 'o.id, o.startDate, o.endDate, o.room, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
           's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, ' .
           's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+          's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
           'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
         $qb->join('school.courses', 'c');
@@ -202,7 +203,7 @@ class SchoolRepository extends EntityRepository
      * @param \DateTime $from
      * @param \DateTime $to
      *
-     * @return UserEvent[]
+     * @return SchoolEvent[]
      */
     protected function getIlmSessionEventsFor(
         $id,
@@ -215,6 +216,7 @@ class SchoolRepository extends EntityRepository
         $what = 'ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+            's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
 
@@ -243,7 +245,7 @@ class SchoolRepository extends EntityRepository
      * @param integer $schoolId
      * @param array $results
      *
-     * @return UserEvent[]
+     * @return SchoolEvent[]
      */
     protected function createEventObjectsForOfferings($schoolId, array $results)
     {
@@ -260,6 +262,10 @@ class SchoolRepository extends EntityRepository
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
             $event->courseTitle = $arr['courseTitle'];
+            $event->attireRequired = $arr['attireRequired'];
+            $event->equipmentRequired = $arr['equipmentRequired'];
+            $event->supplemental = $arr['supplemental'];
+            $event->attendanceRequired = $arr['attendanceRequired'];
             return $event;
         }, $results);
     }
@@ -270,7 +276,7 @@ class SchoolRepository extends EntityRepository
      * @param integer $schoolId
      * @param array $results
      *
-     * @return UserEvent[]
+     * @return SchoolEvent[]
      */
     protected function createEventObjectsForIlmSessions($schoolId, array $results)
     {
@@ -288,6 +294,10 @@ class SchoolRepository extends EntityRepository
             $event->isPublished = $arr['sessionPublished']  && $arr['coursePublished'];
             $event->isScheduled = $arr['sessionPublishedAsTbd'] || $arr['coursePublishedAsTbd'];
             $event->courseTitle = $arr['courseTitle'];
+            $event->attireRequired = $arr['attireRequired'];
+            $event->equipmentRequired = $arr['equipmentRequired'];
+            $event->supplemental = $arr['supplemental'];
+            $event->attendanceRequired = $arr['attendanceRequired'];
             return $event;
         }, $results);
     }

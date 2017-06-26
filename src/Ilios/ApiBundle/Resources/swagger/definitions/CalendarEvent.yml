@@ -59,3 +59,19 @@ CalendarEvent:
    readOnly: true
    items:
     type: integer
+  attireRequired:
+   description: Is attireRequired
+   type: boolean
+   readOnly: true
+  equipmentRequired:
+   description: Is equipmentRequired
+   type: boolean
+   readOnly: true
+  supplemental:
+   description: Is supplemental
+   type: boolean
+   readOnly: true
+  attendanceRequired:
+   description: Is attendanceRequired
+   type: boolean
+   readOnly: true
