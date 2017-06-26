@@ -1,4 +1,4 @@
-term_id,resource_type_id
+`term_id`,`resource_type_id`
 136,RE001
 137,RE002
 138,RE003
