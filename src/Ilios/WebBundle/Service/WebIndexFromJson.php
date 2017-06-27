@@ -11,7 +11,7 @@ class WebIndexFromJson
      * @var string
      */
     const DEFAULT_TEMPLATE_NAME = 'webindex.html.twig';
-    const API_VERSION = 'v1.19';
+    const API_VERSION = 'v1.20';
     const AWS_BUCKET = 'https://s3-us-west-2.amazonaws.com/frontend-json-config/';
 
     const PRODUCTION = 'prod';

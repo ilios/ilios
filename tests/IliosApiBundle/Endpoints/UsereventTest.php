@@ -81,6 +81,22 @@ class UsereventTest extends AbstractEndpointTest
             3,
             'Event 0 has the correct number of learning materials'
         );
+        $this->assertTrue(
+            $events[0]['attireRequired'],
+            'attire is correct for event 0'
+        );
+        $this->assertTrue(
+            $events[0]['equipmentRequired'],
+            'equipmentRequired is correct for event 0'
+        );
+        $this->assertTrue(
+            $events[0]['supplemental'],
+            'supplemental is correct for event 0'
+        );
+        $this->assertTrue(
+            $events[0]['attendanceRequired'],
+            'attendanceRequired is correct for event 0'
+        );
 
         $this->assertEquals($events[1]['offering'], 4, 'offering is correct for event 1');
         $this->assertEquals(
@@ -109,6 +125,22 @@ class UsereventTest extends AbstractEndpointTest
             count($events[1]['learningMaterials']),
             3,
             'Event 1 has the correct number of learning materials'
+        );
+        $this->assertTrue(
+            $events[1]['attireRequired'],
+            'attire is correct for event 1'
+        );
+        $this->assertTrue(
+            $events[1]['equipmentRequired'],
+            'equipmentRequired is correct for event 1'
+        );
+        $this->assertTrue(
+            $events[1]['supplemental'],
+            'supplemental is correct for event 1'
+        );
+        $this->assertTrue(
+            $events[1]['attendanceRequired'],
+            'attendanceRequired is correct for event 1'
         );
 
         $this->assertEquals($events[2]['offering'], 5, 'offering is correct for event 2');
@@ -139,6 +171,22 @@ class UsereventTest extends AbstractEndpointTest
             3,
             'Event 2 has the correct number of learning materials'
         );
+        $this->assertTrue(
+            $events[2]['attireRequired'],
+            'attire is correct for event 2'
+        );
+        $this->assertTrue(
+            $events[2]['equipmentRequired'],
+            'equipmentRequired is correct for event 2'
+        );
+        $this->assertTrue(
+            $events[2]['supplemental'],
+            'supplemental is correct for event 2'
+        );
+        $this->assertTrue(
+            $events[2]['attendanceRequired'],
+            'attendanceRequired is correct for event 2'
+        );
 
         $this->assertEquals($events[3]['offering'], 6, 'offering is correct for event 3');
         $this->assertEquals($events[3]['startDate'], $offerings[5]['startDate'], 'startDate is correct for event 3');
@@ -156,6 +204,24 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(count($events[3]['learningMaterials']), 0, 'Event 3 has no learning materials');
 
+        $this->assertFalse(
+            $events[3]['attireRequired'],
+            'attire is correct for event 3'
+        );
+        $this->assertFalse(
+            $events[3]['equipmentRequired'],
+            'equipmentRequired is correct for event 3'
+        );
+        $this->assertTrue(
+            $events[3]['supplemental'],
+            'supplemental is correct for event 3'
+        );
+        $this->assertArrayNotHasKey(
+            'attendanceRequired',
+            $events[3],
+            'attendanceRequired is correct for event 3'
+        );
+
         $this->assertEquals($events[4]['offering'], 7, 'offering is correct for event 4');
         $this->assertEquals($events[4]['startDate'], $offerings[6]['startDate'], 'startDate is correct for event 4');
         $this->assertEquals($events[4]['endDate'], $offerings[6]['endDate'], 'endDate is correct for event 4');
@@ -172,6 +238,24 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(count($events[4]['learningMaterials']), 0, 'Event 4 has no learning materials');
 
+        $this->assertFalse(
+            $events[4]['attireRequired'],
+            'attire is correct for event 4'
+        );
+        $this->assertFalse(
+            $events[4]['equipmentRequired'],
+            'equipmentRequired is correct for event 4'
+        );
+        $this->assertTrue(
+            $events[4]['supplemental'],
+            'supplemental is correct for event 4'
+        );
+        $this->assertArrayNotHasKey(
+            'attendanceRequired',
+            $events[4],
+            'attendanceRequired is correct for event 4'
+        );
+
         $this->assertEquals($events[5]['ilmSession'], 1, 'ilmSession is correct for 5');
         $this->assertEquals($events[5]['startDate'], $ilmSessions[0]['dueDate'], 'dueDate is correct for 5');
         $this->assertEquals($events[5]['courseTitle'], $courses[1]['title'], 'title is correct for 5');
@@ -187,6 +271,24 @@ class UsereventTest extends AbstractEndpointTest
         );
         $this->assertEquals(count($events[5]['learningMaterials']), 0, 'Event 5 has no learning materials');
 
+        $this->assertFalse(
+            $events[5]['attireRequired'],
+            'attire is correct for event 5'
+        );
+        $this->assertFalse(
+            $events[5]['equipmentRequired'],
+            'equipmentRequired is correct for event 5'
+        );
+        $this->assertFalse(
+            $events[5]['supplemental'],
+            'supplemental is correct for event 5'
+        );
+        $this->assertArrayNotHasKey(
+            'attendanceRequired',
+            $events[5],
+            'attendanceRequired is correct for event 5'
+        );
+
         $this->assertEquals($events[6]['ilmSession'], 2, 'ilmSession is correct for event 6');
         $this->assertEquals($events[6]['startDate'], $ilmSessions[1]['dueDate'], 'dueDate is correct for event 6');
         $this->assertEquals($events[6]['courseTitle'], $courses[1]['title'], 'ilmSession is correct for event 6');
@@ -201,6 +303,23 @@ class UsereventTest extends AbstractEndpointTest
             'session type title is correct for event 6'
         );
         $this->assertEquals(count($events[6]['learningMaterials']), 0, 'Event 6 has no learning materials');
+        $this->assertFalse(
+            $events[6]['attireRequired'],
+            'attire is correct for event 6'
+        );
+        $this->assertFalse(
+            $events[6]['equipmentRequired'],
+            'equipmentRequired is correct for event 6'
+        );
+        $this->assertFalse(
+            $events[6]['supplemental'],
+            'supplemental is correct for event 6'
+        );
+        $this->assertArrayNotHasKey(
+            'attendanceRequired',
+            $events[6],
+            'attendanceRequired is correct for event 6'
+        );
 
         $this->assertEquals($events[7]['ilmSession'], 3, 'ilmSession is correct for event 7');
         $this->assertEquals($events[7]['startDate'], $ilmSessions[2]['dueDate'], 'dueDate is correct for event 7');
@@ -216,6 +335,23 @@ class UsereventTest extends AbstractEndpointTest
             'session type title is correct for event 7'
         );
         $this->assertEquals(count($events[7]['learningMaterials']), 0, 'Event 7 has no learning materials');
+        $this->assertFalse(
+            $events[7]['attireRequired'],
+            'attire is correct for event 7'
+        );
+        $this->assertFalse(
+            $events[7]['equipmentRequired'],
+            'equipmentRequired is correct for event 7'
+        );
+        $this->assertFalse(
+            $events[7]['supplemental'],
+            'supplemental is correct for event 7'
+        );
+        $this->assertArrayNotHasKey(
+            'attendanceRequired',
+            $events[7],
+            'attendanceRequired is correct for event 7'
+        );
 
         $this->assertEquals($events[8]['ilmSession'], 4, 'ilmSession is correct for event 8');
         $this->assertEquals($events[8]['startDate'], $ilmSessions[3]['dueDate'], 'dueDate is correct for event 8');
@@ -231,6 +367,23 @@ class UsereventTest extends AbstractEndpointTest
             'session type title is correct for event 8'
         );
         $this->assertEquals(count($events[8]['learningMaterials']), 0, 'Event 8 has no learning materials');
+        $this->assertFalse(
+            $events[8]['attireRequired'],
+            'attire is correct for event 8'
+        );
+        $this->assertFalse(
+            $events[8]['equipmentRequired'],
+            'equipmentRequired is correct for event 8'
+        );
+        $this->assertFalse(
+            $events[8]['supplemental'],
+            'supplemental is correct for event 8'
+        );
+        $this->assertArrayNotHasKey(
+            'attendanceRequired',
+            $events[8],
+            'attendanceRequired is correct for event 8'
+        );
 
         $this->assertEquals($events[9]['startDate'], $offerings[0]['startDate'], 'startDate is correct for event 9');
         $this->assertEquals($events[9]['endDate'], $offerings[0]['endDate'], 'endDate is correct for event 9');
@@ -253,6 +406,24 @@ class UsereventTest extends AbstractEndpointTest
             count($events[9]['learningMaterials']),
             4,
             'Event 6 has the correct number of learning materials'
+        );
+        $this->assertFalse(
+            $events[9]['attireRequired'],
+            'attire is correct for event 9'
+        );
+        $this->assertArrayNotHasKey(
+            'equipmentRequired',
+            $events[9],
+            'equipmentRequired is correct for event 9'
+        );
+        $this->assertFalse(
+            $events[9]['supplemental'],
+            'supplemental is correct for event 9'
+        );
+        $this->assertArrayNotHasKey(
+            'attendanceRequired',
+            $events[9],
+            'attendanceRequired is correct for event 9'
         );
 
         /** @var OfferingInterface $offering */
@@ -277,6 +448,23 @@ class UsereventTest extends AbstractEndpointTest
             $events[10]['courseExternalId'],
             $courses[1]['externalId'],
             'course external id correct for event 10'
+        );
+        $this->assertFalse(
+            $events[10]['attireRequired'],
+            'attire is correct for event 10'
+        );
+        $this->assertFalse(
+            $events[10]['equipmentRequired'],
+            'equipmentRequired is correct for event 10'
+        );
+        $this->assertTrue(
+            $events[10]['supplemental'],
+            'supplemental is correct for event 10'
+        );
+        $this->assertArrayNotHasKey(
+            'attendanceRequired',
+            $events[10],
+            'attendanceRequired is correct for event 10'
         );
 
         foreach ($events as $event) {

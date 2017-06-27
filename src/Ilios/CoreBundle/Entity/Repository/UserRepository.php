@@ -291,6 +291,7 @@ class UserRepository extends EntityRepository
         $what = 'c.id as courseId, s.id AS sessionId, o.id, o.startDate, o.endDate, o.room, ' .
             'o.updatedAt AS offeringUpdatedAt, s.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+            's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title AS courseTitle, ' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
         $qb->add('select', $what)->from('IliosCoreBundle:School', 'school');
@@ -338,6 +339,7 @@ class UserRepository extends EntityRepository
         $what = 'c.id as courseId, s.id AS sessionId, ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
+            's.attireRequired, s.equipmentRequired, s.supplemental, s.attendanceRequired, ' .
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
             'sd.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
 
@@ -391,6 +393,10 @@ class UserRepository extends EntityRepository
             $event->sessionDescription = $arr['sessionDescription'];
             $event->sessionId = $arr['sessionId'];
             $event->courseId = $arr['courseId'];
+            $event->attireRequired = $arr['attireRequired'];
+            $event->equipmentRequired = $arr['equipmentRequired'];
+            $event->supplemental = $arr['supplemental'];
+            $event->attendanceRequired = $arr['attendanceRequired'];
             return $event;
         }, $results);
     }
@@ -423,6 +429,10 @@ class UserRepository extends EntityRepository
             $event->sessionDescription = $arr['sessionDescription'];
             $event->sessionId = $arr['sessionId'];
             $event->courseId = $arr['courseId'];
+            $event->attireRequired = $arr['attireRequired'];
+            $event->equipmentRequired = $arr['equipmentRequired'];
+            $event->supplemental = $arr['supplemental'];
+            $event->attendanceRequired = $arr['attendanceRequired'];
             return $event;
         }, $results);
     }
