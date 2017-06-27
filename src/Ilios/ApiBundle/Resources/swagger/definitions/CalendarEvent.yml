@@ -60,18 +60,18 @@ CalendarEvent:
    items:
     type: integer
   attireRequired:
-   description: Is attireRequired
+   description: Is special attire required by the attendee of this session
    type: boolean
    readOnly: true
   equipmentRequired:
-   description: Is equipmentRequired
+   description: Is special equipment required by the attendee of this session
    type: boolean
    readOnly: true
   supplemental:
-   description: Is supplemental
+   description: Is this a supplemental session
    type: boolean
    readOnly: true
   attendanceRequired:
-   description: Is attendanceRequired
+   description: Is attendance required at this session
    type: boolean
    readOnly: true
