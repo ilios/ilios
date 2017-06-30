@@ -5,60 +5,42 @@ matrix:
   fast_finish: true
   allow_failures: 
   exclude:
-  - php: '5.6'
   - php: '7'
   - php: '7.1'
   include:
-  - php: '5.6'
-    env: TEST_PHPUNIT_OTHERS=true
   - php: '7'
     env: TEST_PHPUNIT_OTHERS=true
   - php: '7.1'
     env: TEST_PHPUNIT_OTHERS=true
-  - php: '5.6'
-    env: TEST_PHPUNIT_API1=true
   - php: '7'
     env: TEST_PHPUNIT_API1=true
   - php: '7.1'
     env: TEST_PHPUNIT_API1=true
-  - php: '5.6'
-    env: TEST_PHPUNIT_API2=true
   - php: '7'
     env: TEST_PHPUNIT_API2=true
   - php: '7.1'
     env: TEST_PHPUNIT_API2=true
-  - php: '5.6'
-    env: TEST_PHPUNIT_API3=true
   - php: '7'
     env: TEST_PHPUNIT_API3=true
   - php: '7.1'
     env: TEST_PHPUNIT_API3=true
-  - php: '5.6'
-    env: TEST_PHPUNIT_API4=true
   - php: '7'
     env: TEST_PHPUNIT_API4=true
   - php: '7.1'
     env: TEST_PHPUNIT_API4=true
-  - php: '5.6'
-    env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
   - php: '7'
     env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
   - php: '7.1'
     env: TEST_PHPUNIT_MESH_DATA_IMPORT=true
-  - php: '5.6'
-    env: VALIDATE_SCHEMA=true
   - php: '7'
     env: VALIDATE_SCHEMA=true
   - php: '7.1'
     env: VALIDATE_SCHEMA=true
-  - php: '5.6'
-    env: CHECK_CODING_STANDARDS=true
   - php: '7'
     env: CHECK_CODING_STANDARDS=true
   - php: '7.1'
     env: CHECK_CODING_STANDARDS=true
 php:
-- '5.6'
 - '7'
 - '7.1'
 env:
