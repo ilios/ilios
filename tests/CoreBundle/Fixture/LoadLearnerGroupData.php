@@ -26,7 +26,7 @@ class LoadLearnerGroupData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.learnerGroup')
+            ->get('ilioscore.dataloader.learnergroup')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new LearnerGroup();

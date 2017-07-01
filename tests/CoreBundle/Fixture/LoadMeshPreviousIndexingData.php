@@ -26,7 +26,7 @@ class LoadMeshPreviousIndexingData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.meshPreviousIndexing')
+            ->get('ilioscore.dataloader.meshpreviousindexing')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshPreviousIndexing();

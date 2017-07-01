@@ -26,7 +26,7 @@ class LoadMeshTermData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.meshTerm')
+            ->get('ilioscore.dataloader.meshterm')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshTerm();

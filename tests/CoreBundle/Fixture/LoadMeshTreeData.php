@@ -26,7 +26,7 @@ class LoadMeshTreeData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.MeshTree')
+            ->get('ilioscore.dataloader.meshtree')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshTree();

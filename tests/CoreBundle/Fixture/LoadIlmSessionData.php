@@ -26,7 +26,7 @@ class LoadIlmSessionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.ilmSession')
+            ->get('ilioscore.dataloader.ilmsession')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new IlmSession();
