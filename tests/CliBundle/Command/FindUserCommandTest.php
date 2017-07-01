@@ -5,8 +5,9 @@ use Ilios\CliBundle\Command\FindUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class FindUserCommandTest extends \PHPUnit_Framework_TestCase
+class FindUserCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:directory:find-user';
     

@@ -3,12 +3,13 @@ namespace Tests\AuthenticationBundle\DependencyInjection;
 
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use Ilios\AuthenticationBundle\DependencyInjection\Configuration;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ConfigurationTest
  * @package Tests\AuthenticationBundle\\DependencyInjection
  */
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 

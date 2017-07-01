@@ -5,8 +5,9 @@ use Ilios\CliBundle\Command\CreateUserTokenCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
+class CreateUserTokenCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:maintenance:create-user-token';
     

@@ -6,12 +6,13 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class SyncAllUsersCommandTest
  * @package Tests\CliBundle\\Command
  */
-class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
+class SyncAllUsersCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:directory:sync-users';
     

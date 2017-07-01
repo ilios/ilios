@@ -5,12 +5,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
 use Ilios\CoreBundle\Traits\StewardedEntity;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \Ilios\CoreBundle\Traits\StewardedEntity
  */
 
-class StewardedEntityTest extends \PHPUnit_Framework_TestCase
+class StewardedEntityTest extends TestCase
 {
     /**
      * @var StewardedEntity

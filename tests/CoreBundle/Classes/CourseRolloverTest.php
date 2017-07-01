@@ -28,12 +28,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 use \DateTime;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class CourseRolloverTest
  * @package Tests\CliBundle\\Command
  */
-class CourseRolloverTest extends \PHPUnit_Framework_TestCase
+class CourseRolloverTest extends TestCase
 {
     /**
      * @var m\MockInterface

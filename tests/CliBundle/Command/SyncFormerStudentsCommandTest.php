@@ -7,8 +7,9 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
+class SyncFormerStudentsCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:directory:sync-former-students';
     

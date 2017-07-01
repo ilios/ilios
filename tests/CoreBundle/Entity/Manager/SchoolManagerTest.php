@@ -3,12 +3,13 @@ namespace Tests\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class SchoolManagerTest
  * @package Tests\CoreBundle\\Entity\Manager
  */
-class SchoolManagerTest extends \PHPUnit_Framework_TestCase
+class SchoolManagerTest extends TestCase
 {
     /**
      * Remove all mock objects

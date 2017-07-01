@@ -5,12 +5,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\MeshConcept;
 use Ilios\CoreBundle\Traits\ConceptsEntity;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \Ilios\CoreBundle\Traits\ConceptsEntity
  */
 
-class ConceptsEntityTest extends \PHPUnit_Framework_TestCase
+class ConceptsEntityTest extends TestCase
 {
     /**
      * @var ConceptsEntity

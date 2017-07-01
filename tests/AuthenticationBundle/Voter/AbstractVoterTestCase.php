@@ -2,17 +2,16 @@
 
 namespace Tests\AuthenticationBundle\Voter;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class AbstractVoterTestCase
  * @package Tests\AuthenticationBundle\\Voter
  */
-abstract class AbstractVoterTestCase extends \PHPUnit_Framework_TestCase
+abstract class AbstractVoterTestCase extends TestCase
 {
     /**
      * @inheritdoc

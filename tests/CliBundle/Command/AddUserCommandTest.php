@@ -5,12 +5,13 @@ use Ilios\CliBundle\Command\AddUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class AddUserCommandTest
  * @package Tests\CliBundle\\Command
  */
-class AddUserCommandTest extends \PHPUnit_Framework_TestCase
+class AddUserCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:maintenance:add-user';
     

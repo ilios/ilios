@@ -7,11 +7,12 @@ use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\Offering;
 use Ilios\CoreBundle\Entity\Session;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for Entity AamcMethod
  */
-class OfferingManagerTest extends \PHPUnit_Framework_TestCase
+class OfferingManagerTest extends TestCase
 {
     /**
      * Remove all mock objects

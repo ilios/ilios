@@ -6,12 +6,13 @@ use Faker\Factory;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
 use Symfony\Component\Validator\Validation;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class EntityBase
  * @package Tests\CoreBundle\\Entity
  */
-class EntityBase extends \PHPUnit_Framework_TestCase
+class EntityBase extends TestCase
 {
 
     /**

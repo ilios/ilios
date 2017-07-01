@@ -5,6 +5,7 @@ use Ilios\CliBundle\Command\RemoveRootUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Remove Root User command.
@@ -12,7 +13,7 @@ use Mockery as m;
  * Class RemoveRootUserCommandTest
  * @package Tests\CliBundle\Command
  */
-class RemoveRootUserCommandTest extends \PHPUnit_Framework_TestCase
+class RemoveRootUserCommandTest extends TestCase
 {
     /**
      * @var m\MockInterface

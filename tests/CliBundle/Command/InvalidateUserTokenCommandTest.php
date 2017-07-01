@@ -7,12 +7,13 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use \DateTime;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class InvalidateUserTokenCommandTest
  * @package Tests\CliBundle\\Command
  */
-class InvalidateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
+class InvalidateUserTokenCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:maintenance:invalidate-user-tokens';
     

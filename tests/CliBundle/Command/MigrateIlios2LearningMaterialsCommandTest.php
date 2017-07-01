@@ -5,8 +5,9 @@ use Ilios\CliBundle\Command\MigrateIlios2LearningMaterialsCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestCase
+class MigrateIlios2LearningMaterialsCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:setup:migrate-learning-materials';
     

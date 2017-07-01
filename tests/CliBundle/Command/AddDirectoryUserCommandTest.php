@@ -5,12 +5,13 @@ use Ilios\CliBundle\Command\AddDirectoryUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class AddDirectoryUserCommandTest
  * @package Tests\CliBundle\\Command
  */
-class AddDirectoryUserCommandTest extends \PHPUnit_Framework_TestCase
+class AddDirectoryUserCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:directory:add-user';
     

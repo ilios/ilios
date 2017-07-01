@@ -5,6 +5,7 @@ use Ilios\CliBundle\Command\AddRootUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Add Root User command.
@@ -12,7 +13,7 @@ use Mockery as m;
  * Class AddRootUserCommandTest
  * @package Tests\CliBundle\Command
  */
-class AddRootUserCommandTest extends \PHPUnit_Framework_TestCase
+class AddRootUserCommandTest extends TestCase
 {
     /**
      * @var m\MockInterface

@@ -5,12 +5,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\Program;
 use Ilios\CoreBundle\Traits\ProgramsEntity;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \Ilios\CoreBundle\Traits\ProgramsEntity
  */
 
-class ProgramsEntityTest extends \PHPUnit_Framework_TestCase
+class ProgramsEntityTest extends TestCase
 {
     /**
      * @var ProgramsEntity

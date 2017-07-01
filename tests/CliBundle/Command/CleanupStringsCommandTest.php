@@ -5,8 +5,9 @@ use Ilios\CliBundle\Command\CleanupStringsCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
+class CleanupStringsCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:maintenance:cleanup-strings';
     

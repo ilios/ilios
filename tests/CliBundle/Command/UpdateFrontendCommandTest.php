@@ -6,8 +6,9 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class UpdateFrontendCommandTest extends \PHPUnit_Framework_TestCase
+class UpdateFrontendCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:maintenance:update-frontend';
     

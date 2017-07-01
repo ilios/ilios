@@ -5,12 +5,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\LearningMaterial;
 use Ilios\CoreBundle\Traits\LearningMaterialsEntity;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \Ilios\CoreBundle\Traits\LearningMaterialsEntity
  */
 
-class LearningMaterialsEntityTest extends \PHPUnit_Framework_TestCase
+class LearningMaterialsEntityTest extends TestCase
 {
     /**
      * @var LearningMaterialsEntity

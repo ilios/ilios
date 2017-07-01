@@ -6,12 +6,13 @@ use Ilios\CoreBundle\Service\CrossingGuard;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class CrossingGuardCommandTest
  * @package Tests\CliBundle\\Command
  */
-class CrossingGuardCommandTest extends \PHPUnit_Framework_TestCase
+class CrossingGuardCommandTest extends TestCase
 {
     const COMMAND_NAME = 'ilios:maintenance:crossing-guard';
 
