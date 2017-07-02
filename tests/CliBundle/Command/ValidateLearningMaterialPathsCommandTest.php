@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ValidateLearningMaterialPathsCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:validate-learning-materials';
     
     protected $iliosFileSystem;
@@ -37,7 +38,6 @@ class ValidateLearningMaterialPathsCommandTest extends TestCase
     {
         unset($this->iliosFileSystem);
         unset($this->learningMaterialManager);
-        m::close();
     }
     
     public function testExecute()

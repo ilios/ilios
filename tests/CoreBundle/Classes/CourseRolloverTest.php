@@ -28,7 +28,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 use \DateTime;
-use PHPUnit\Framework\TestCase;
+use Tests\CoreBundle\TestCase;
 
 /**
  * Class CourseRolloverTest
@@ -129,7 +129,6 @@ class CourseRolloverTest extends TestCase
         unset($this->objectiveManager);
         unset($this->ilmSessionManager);
         unset($this->service);
-        m::close();
     }
 
     public function testRolloverWithEverything()

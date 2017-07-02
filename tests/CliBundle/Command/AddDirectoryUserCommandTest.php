@@ -13,6 +13,8 @@ use PHPUnit\Framework\TestCase;
  */
 class AddDirectoryUserCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     const COMMAND_NAME = 'ilios:directory:add-user';
     
     protected $userManager;
@@ -53,7 +55,6 @@ class AddDirectoryUserCommandTest extends TestCase
         unset($this->directory);
         unset($this->commandTester);
         unset($this->questionHelper);
-        m::close();
     }
     
     public function testExecute()

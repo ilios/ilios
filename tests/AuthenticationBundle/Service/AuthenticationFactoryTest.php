@@ -8,10 +8,7 @@ use Ilios\AuthenticationBundle\Service\AuthenticationFactory;
 
 class AuthenticationFactoryTest extends TestCase
 {
-    public function tearDown()
-    {
-        m::close();
-    }
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     public function testConstructor()
     {

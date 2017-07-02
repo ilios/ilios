@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class SyncUserCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:sync-user';
     
     protected $userManager;
@@ -44,7 +45,6 @@ class SyncUserCommandTest extends TestCase
         unset($this->authenticationManager);
         unset($this->directory);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testExecute()

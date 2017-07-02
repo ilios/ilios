@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class AddNewStudentsToSchoolCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:add-students';
     
     protected $userManager;
@@ -57,7 +58,6 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
         unset($this->authenticationManager);
         unset($this->directory);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testExecute()

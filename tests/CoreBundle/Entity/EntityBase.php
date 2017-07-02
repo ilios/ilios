@@ -6,7 +6,7 @@ use Faker\Factory;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
 use Symfony\Component\Validator\Validation;
-use PHPUnit\Framework\TestCase;
+use Tests\CoreBundle\TestCase;
 
 /**
  * Class EntityBase
@@ -20,7 +20,6 @@ class EntityBase extends TestCase
      */
     public function tearDown()
     {
-        m::close();
         unset($this->object);
     }
 

@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class UpdateFrontendCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:update-frontend';
     
     protected $commandTester;
@@ -45,7 +46,6 @@ class UpdateFrontendCommandTest extends TestCase
         unset($this->builder);
         unset($this->builder);
         unset($this->fs);
-        m::close();
     }
     
     public function testExecute()

@@ -30,6 +30,7 @@ use Mockery as m;
  */
 class SendTeachingRemindersCommandTest extends KernelTestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:messaging:send-teaching-reminders';
 
     /**
@@ -87,7 +88,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     public function tearDown()
     {
         unset($this->fakeOfferingManager);
-        m::close();
     }
 
     /**

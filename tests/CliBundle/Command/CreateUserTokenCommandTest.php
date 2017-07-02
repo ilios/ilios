@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CreateUserTokenCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:create-user-token';
     
     protected $userManager;
@@ -33,7 +34,6 @@ class CreateUserTokenCommandTest extends TestCase
     {
         unset($this->userManager);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testNewDefaultToken()

@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 class RolloverCurriculumInventoryReportCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:rollover-ci-report';
 
     /**
@@ -55,7 +56,6 @@ class RolloverCurriculumInventoryReportCommandTest extends TestCase
         unset($this->service);
         unset($this->reportManager);
         unset($this->commandTester);
-        m::close();
     }
 
     public function testCommandFailsWithoutArguments()

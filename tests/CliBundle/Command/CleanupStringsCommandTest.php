@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CleanupStringsCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:cleanup-strings';
     
     protected $purifier;
@@ -64,7 +65,6 @@ class CleanupStringsCommandTest extends TestCase
         unset($this->sessionLearningMaterialManager);
         unset($this->sessionDescriptionManager);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testObjectiveTitle()

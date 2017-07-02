@@ -15,6 +15,7 @@ use Mockery as m;
  */
 class InstallFirstUserCommandTest extends KernelTestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:setup:first-user';
 
     protected $userManager;
@@ -68,7 +69,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
         unset($this->userRoleManager);
         unset($this->commandTester);
         unset($this->formHelper);
-        m::close();
     }
 
     public function testExecute()

@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ListRootUsersCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     /**
      * @var m\MockInterface
      */
@@ -47,7 +48,6 @@ class ListRootUsersCommandTest extends TestCase
     {
         unset($this->userManager);
         unset($this->commandTester);
-        m::close();
     }
 
     /**

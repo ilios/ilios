@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class MigrateIlios2LearningMaterialsCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:setup:migrate-learning-materials';
     
     protected $symfonyFileSystem;
@@ -42,7 +43,6 @@ class MigrateIlios2LearningMaterialsCommandTest extends TestCase
         unset($this->iliosFileSystem);
         unset($this->directory);
         unset($this->learningMaterialManager);
-        m::close();
     }
     
     public function testExecute()

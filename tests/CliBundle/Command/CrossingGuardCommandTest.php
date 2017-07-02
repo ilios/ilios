@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CrossingGuardCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:crossing-guard';
 
     protected $crossingGuard;
@@ -39,7 +40,6 @@ class CrossingGuardCommandTest extends TestCase
     {
         unset($this->crossingGuard);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testEnable()

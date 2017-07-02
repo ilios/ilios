@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class AddUserCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:add-user';
     
     protected $userManager;
@@ -53,7 +54,6 @@ class AddUserCommandTest extends TestCase
         unset($this->schoolManager);
         unset($this->commandTester);
         unset($this->questionHelper);
-        m::close();
     }
     
     public function testExecute()

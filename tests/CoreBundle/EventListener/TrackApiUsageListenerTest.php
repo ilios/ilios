@@ -1,10 +1,10 @@
 <?php
 namespace Tests\CoreBundle\EventListener;
 
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 
 use Ilios\CoreBundle\EventListener\TrackApiUsageListener;
+use Tests\CoreBundle\TestCase;
 
 /**
  * Class TrackApiUsageListenerTest
@@ -63,7 +63,6 @@ class TrackApiUsageListenerTest extends TestCase
         unset($this->mockEvent);
         unset($this->mockRequest);
         unset($this->mockLogger);
-        m::close();
     }
 
     /**

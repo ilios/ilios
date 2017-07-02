@@ -33,6 +33,7 @@ use Mockery as m;
  */
 class SendChangeAlertsCommandTest extends KernelTestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:messaging:send-change-alerts';
 
     /**
@@ -93,7 +94,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         unset($this->offeringManager);
         unset($this->alertManager);
         unset($this->auditLogManager);
-        m::close();
     }
 
     /**

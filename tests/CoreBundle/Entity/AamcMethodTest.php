@@ -2,7 +2,6 @@
 namespace Tests\CoreBundle\Entity;
 
 use Ilios\CoreBundle\Entity\AamcMethod;
-use Mockery as m;
 
 /**
  * Tests for Entity AamcMethod

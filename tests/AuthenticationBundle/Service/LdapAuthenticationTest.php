@@ -9,10 +9,7 @@ use Ilios\AuthenticationBundle\Service\LdapAuthentication;
 
 class LdapAuthenticationTest extends TestCase
 {
-    public function tearDown()
-    {
-        m::close();
-    }
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     
     public function testConstructor()
     {

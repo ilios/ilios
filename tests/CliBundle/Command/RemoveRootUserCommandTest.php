@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 class RemoveRootUserCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     /**
      * @var m\MockInterface
      */
@@ -46,7 +47,6 @@ class RemoveRootUserCommandTest extends TestCase
     {
         unset($this->userManager);
         unset($this->commandTester);
-        m::close();
     }
 
     /**

@@ -3,7 +3,7 @@ namespace Tests\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
+use Tests\CoreBundle\TestCase;
 
 /**
  * Class SchoolManagerTest
@@ -11,13 +11,6 @@ use PHPUnit\Framework\TestCase;
  */
 class SchoolManagerTest extends TestCase
 {
-    /**
-     * Remove all mock objects
-     */
-    public function tearDown()
-    {
-        m::close();
-    }
     
     /**
      * @covers \Ilios\CoreBundle\Entity\Manager\SchoolManager::delete

@@ -3,15 +3,10 @@ namespace Tests\CoreBundle\Service;
 
 use Ilios\CoreBundle\Service\CrossingGuard;
 use Mockery as m;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
+use Tests\CoreBundle\TestCase;
 
 class CrossingGuardTest extends TestCase
 {
-    public function tearDown()
-    {
-        m::close();
-    }
-
     /**
      * @covers \Ilios\CoreBundle\Service\CrossingGuard::__construct
      */

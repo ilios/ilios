@@ -3,8 +3,8 @@ namespace Tests\CoreBundle\Service;
 
 use Ilios\CoreBundle\Service\LoggerQueue;
 use Ilios\CoreBundle\Entity\School;
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
+use Tests\CoreBundle\TestCase;
 
 /**
  * Class LoggerQueueTest
@@ -12,12 +12,6 @@ use Mockery as m;
  */
 class LoggerQueueTest extends TestCase
 {
-
-    public function tearDown()
-    {
-        m::close();
-    }
-
     public function testFlush()
     {
         $action = 'create';

@@ -13,13 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractVoterTestCase extends TestCase
 {
-    /**
-     * @inheritdoc
-     */
-    protected function tearDown()
-    {
-        m::close();
-    }
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     /**
      * Creates a mock user-role entity that has the given title.

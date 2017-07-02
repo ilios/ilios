@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 class InvalidateUserTokenCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:invalidate-user-tokens';
     
     protected $userManager;
@@ -41,7 +42,6 @@ class InvalidateUserTokenCommandTest extends TestCase
         unset($this->userManager);
         unset($this->authenticationManager);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testHappyPathExecute()

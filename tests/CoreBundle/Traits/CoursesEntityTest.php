@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Traits\CoursesEntity;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
+use Tests\CoreBundle\TestCase;
 
 /**
  * @coversDefaultClass \Ilios\CoreBundle\Traits\CoursesEntity
@@ -25,7 +25,6 @@ class CoursesEntityTest extends TestCase
 
     public function tearDown()
     {
-        m::close();
         unset($this->object);
     }
 

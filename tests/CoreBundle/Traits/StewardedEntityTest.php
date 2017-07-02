@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
 use Ilios\CoreBundle\Traits\StewardedEntity;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
+use Tests\CoreBundle\TestCase;
 
 /**
  * @coversDefaultClass \Ilios\CoreBundle\Traits\StewardedEntity
@@ -25,7 +25,6 @@ class StewardedEntityTest extends TestCase
 
     public function tearDown()
     {
-        m::close();
         unset($this->object);
     }
 

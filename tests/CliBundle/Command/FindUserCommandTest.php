@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class FindUserCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:find-user';
     
     protected $commandTester;
@@ -31,7 +32,6 @@ class FindUserCommandTest extends TestCase
     {
         unset($this->directory);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testExecute()

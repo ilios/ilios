@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\MeshConcept;
 use Ilios\CoreBundle\Traits\ConceptsEntity;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
+use Tests\CoreBundle\TestCase;
 
 /**
  * @coversDefaultClass \Ilios\CoreBundle\Traits\ConceptsEntity
@@ -25,7 +25,6 @@ class ConceptsEntityTest extends TestCase
 
     public function tearDown()
     {
-        m::close();
         unset($this->object);
     }
 
