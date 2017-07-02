@@ -120,7 +120,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends TestCase
     public function testBadIlios2Path()
     {
         $this->symfonyFileSystem->shouldReceive('exists')->with('badpath')->andReturn(false);
-        $this->setExpectedException('Exception', "'badpath' does not exist");
+        $this->expectException(\Exception::class, "'badpath' does not exist");
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'pathToIlios2'         => 'badpath'
@@ -129,7 +129,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends TestCase
     
     public function testIlios2PathRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
     }
 }

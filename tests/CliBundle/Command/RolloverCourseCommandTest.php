@@ -54,7 +54,7 @@ class RolloverCourseCommandTest extends TestCase
 
     public function testCommandFailsWithoutArguments()
     {
-        $this->setExpectedException('RuntimeException', 'Not enough arguments (missing: "courseId, newAcademicYear").');
+        $this->expectException(\RuntimeException::class, 'Not enough arguments (missing: "courseId, newAcademicYear").');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
         ));

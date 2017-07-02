@@ -60,7 +60,7 @@ class RolloverCurriculumInventoryReportCommandTest extends TestCase
 
     public function testCommandFailsWithoutArguments()
     {
-        $this->setExpectedException('RuntimeException', 'Not enough arguments (missing: "reportId").');
+        $this->expectException(\RuntimeException::class, 'Not enough arguments (missing: "reportId").');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
         ));

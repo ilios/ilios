@@ -120,7 +120,7 @@ class AddDirectoryUserCommandTest extends TestCase
             ->shouldReceive('getId')->andReturn(1)
             ->mock();
         $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn($user);
-        $this->setExpectedException('Exception', 'User #1 with campus id 1 already exists.');
+        $this->expectException(\Exception::class, 'User #1 with campus id 1 already exists.');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',
@@ -132,7 +132,7 @@ class AddDirectoryUserCommandTest extends TestCase
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn(null);
         $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
-        $this->setExpectedException('Exception', 'School with id 1 could not be found.');
+        $this->expectException(\Exception::class, 'School with id 1 could not be found.');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',
@@ -142,7 +142,7 @@ class AddDirectoryUserCommandTest extends TestCase
     
     public function testUserRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'schoolId'         => '1'
@@ -151,7 +151,7 @@ class AddDirectoryUserCommandTest extends TestCase
     
     public function testSchoolRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',

@@ -105,7 +105,7 @@ class InvalidateUserTokenCommandTest extends TestCase
     public function testBadUserId()
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
-        $this->setExpectedException('Exception', 'No user with id #1');
+        $this->expectException(\Exception::class, 'No user with id #1');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -114,7 +114,7 @@ class InvalidateUserTokenCommandTest extends TestCase
     
     public function testUserRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
     }
 }

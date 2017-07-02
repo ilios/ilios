@@ -60,7 +60,7 @@ class FindUserCommandTest extends TestCase
     
     public function testTermRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
     }
 }

@@ -121,7 +121,7 @@ class SyncFormerStudentsCommandTest extends TestCase
     
     public function testFilterRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
     }
 }

@@ -87,7 +87,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     {
         $this->userManager->shouldReceive('findOneBy')->with([])->andReturn(new User());
         $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->setExpectedException('Exception', 'Sorry, at least one user record already exists.');
+        $this->expectException(\Exception::class, 'Sorry, at least one user record already exists.');
         $this->commandTester->execute(array(
             'command' => self::COMMAND_NAME,
             '--school' => '1'
@@ -98,7 +98,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     {
         $this->userManager->shouldReceive('findOneBy')->with([])->andReturn(null);
         $this->schoolManager->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([]);
-        $this->setExpectedException('Exception', 'No schools found.');
+        $this->expectException(\Exception::class, 'No schools found.');
         $this->commandTester->execute(array(
             'command' => self::COMMAND_NAME,
             '--school' => '1'

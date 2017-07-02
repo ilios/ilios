@@ -81,7 +81,7 @@ class AddUserCommandTest extends TestCase
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn(null);
         $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
-        $this->setExpectedException('Exception', 'School with id 1 could not be found.');
+        $this->expectException(\Exception::class, 'School with id 1 could not be found.');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             '--schoolId'         => '1'

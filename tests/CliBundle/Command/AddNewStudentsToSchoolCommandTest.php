@@ -163,7 +163,7 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
     public function testBadSchoolId()
     {
         $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
-        $this->setExpectedException('Exception', 'School with id 1 could not be found.');
+        $this->expectException(\Exception::class, 'School with id 1 could not be found.');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'filter'         => 'FILTER',
@@ -173,7 +173,7 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
     
     public function testFilterRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'schoolId'         => '1'
@@ -182,7 +182,7 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
     
     public function testSchoolRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'filter'         => '1',

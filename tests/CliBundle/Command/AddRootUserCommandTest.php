@@ -79,7 +79,7 @@ class AddRootUserCommandTest extends TestCase
      */
     public function testMissingInput()
     {
-        $this->setExpectedException('RuntimeException', 'Not enough arguments (missing: "userId").');
+        $this->expectException(\RuntimeException::class, 'Not enough arguments (missing: "userId").');
         $this->commandTester->execute([
             'command' => AddRootUserCommand::COMMAND_NAME
         ]);
@@ -93,7 +93,7 @@ class AddRootUserCommandTest extends TestCase
         $userId = 0;
         $this->userManager->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn(null);
 
-        $this->setExpectedException('Exception', "No user with id #{$userId} was found.");
+        $this->expectException(\Exception::class, "No user with id #{$userId} was found.");
         $this->commandTester->execute([
             'command' => AddRootUserCommand::COMMAND_NAME,
             'userId' => $userId

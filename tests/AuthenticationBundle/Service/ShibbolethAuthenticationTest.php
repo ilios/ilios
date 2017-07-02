@@ -84,7 +84,7 @@ class ShibbolethAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->server = $serverBag;
         $logger->shouldReceive('error')->once();
-        $this->setExpectedException('Exception');
+        $this->expectException(\Exception::class);
         $obj->login($request);
     }
     
