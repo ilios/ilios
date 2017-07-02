@@ -11,7 +11,7 @@
     tags:
       - Academicyears
     responses:
-      200:
+      '200':
         description: An array of academicyears
         schema:
           type: object
@@ -38,7 +38,7 @@
     tags:
       - Academicyears
     responses:
-      200:
+      '200':
         description: A single Academicyear
         schema:
           type: object
@@ -47,5 +47,5 @@
               type: array
               items:
                 $ref: '#/definitions/Academicyear'
-      404:
+      '404':
         description: Not found

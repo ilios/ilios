@@ -27,7 +27,7 @@
     tags:
       - Schoolevents
     responses:
-      200:
+      '200':
         description: Events for the School
         schema:
           type: object
@@ -36,5 +36,5 @@
               type: array
               items:
                 $ref: '#/definitions/Schoolevent'
-      404:
+      '404':
         description: Not found

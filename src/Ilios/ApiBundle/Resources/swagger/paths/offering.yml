@@ -36,7 +36,7 @@
     tags:
       - Offerings
     responses:
-      200:
+      '200':
         description: An array of offerings
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Offerings
     responses:
-      201:
+      '201':
         description: An array of newly created offerings
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Offering'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /offerings/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Offerings
     responses:
-      200:
+      '200':
         description: A single Offering
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Offering'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Offering
@@ -134,18 +134,18 @@
     tags:
       - Offerings
     responses:
-      200:
+      '200':
         description: A single Offering
         schema:
           type: object
           properties:
             offering:
               $ref: '#/definitions/Offering'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Offering
@@ -164,11 +164,11 @@
     tags:
       - Offerings
     responses:
-      204:
+      '204':
         description: Deleted Offering
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

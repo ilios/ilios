@@ -36,7 +36,7 @@
     tags:
       - Reports
     responses:
-      200:
+      '200':
         description: An array of reports
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Reports
     responses:
-      201:
+      '201':
         description: An array of newly created reports
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Report'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /reports/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Reports
     responses:
-      200:
+      '200':
         description: A single Report
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Report'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Report
@@ -134,18 +134,18 @@
     tags:
       - Reports
     responses:
-      200:
+      '200':
         description: A single Report
         schema:
           type: object
           properties:
             report:
               $ref: '#/definitions/Report'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Report
@@ -164,11 +164,11 @@
     tags:
       - Reports
     responses:
-      204:
+      '204':
         description: Deleted Report
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

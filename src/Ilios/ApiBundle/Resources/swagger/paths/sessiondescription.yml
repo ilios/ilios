@@ -36,7 +36,7 @@
     tags:
       - Sessiondescriptions
     responses:
-      200:
+      '200':
         description: An array of sessiondescriptions
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Sessiondescriptions
     responses:
-      201:
+      '201':
         description: An array of newly created sessiondescriptions
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Sessiondescription'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /sessiondescriptions/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Sessiondescriptions
     responses:
-      200:
+      '200':
         description: A single Sessiondescription
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Sessiondescription'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Sessiondescription
@@ -134,18 +134,18 @@
     tags:
       - Sessiondescriptions
     responses:
-      200:
+      '200':
         description: A single Sessiondescription
         schema:
           type: object
           properties:
             sessionDescription:
               $ref: '#/definitions/Sessiondescription'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Sessiondescription
@@ -164,11 +164,11 @@
     tags:
       - Sessiondescriptions
     responses:
-      204:
+      '204':
         description: Deleted Sessiondescription
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

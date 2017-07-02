@@ -36,7 +36,7 @@
     tags:
       - Curriculuminventorysequenceblocks
     responses:
-      200:
+      '200':
         description: An array of curriculum inventory sequence blocks
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Curriculuminventorysequenceblocks
     responses:
-      201:
+      '201':
         description: An array of newly created curriculum inventory sequence blocks
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventorysequenceblock'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /curriculuminventorysequenceblocks/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Curriculuminventorysequenceblocks
     responses:
-      200:
+      '200':
         description: A single curriculum inventory sequence block
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventorysequenceblock'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a curriculum inventory sequence block
@@ -134,18 +134,18 @@
     tags:
       - Curriculuminventorysequenceblocks
     responses:
-      200:
+      '200':
         description: A single curriculum inventory sequence block
         schema:
           type: object
           properties:
             curriculumInventorySequenceBlock:
               $ref: '#/definitions/Curriculuminventorysequenceblock'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a curriculum inventory sequence block
@@ -164,11 +164,11 @@
     tags:
       - Curriculuminventorysequenceblocks
     responses:
-      204:
+      '204':
         description: Deleted curriculum inventory sequence block
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

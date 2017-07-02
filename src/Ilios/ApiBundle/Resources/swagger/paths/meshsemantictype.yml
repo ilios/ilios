@@ -36,7 +36,7 @@
     tags:
       - Meshsemantictypes
     responses:
-      200:
+      '200':
         description: An array of meshsemantictypes
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Meshsemantictypes
     responses:
-      201:
+      '201':
         description: An array of newly created meshsemantictypes
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Meshsemantictype'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /meshsemantictypes/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Meshsemantictypes
     responses:
-      200:
+      '200':
         description: A single Meshsemantictype
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Meshsemantictype'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Meshsemantictype
@@ -134,18 +134,18 @@
     tags:
       - Meshsemantictypes
     responses:
-      200:
+      '200':
         description: A single Meshsemantictype
         schema:
           type: object
           properties:
             meshsemantictype:
               $ref: '#/definitions/Meshsemantictype'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Meshsemantictype
@@ -164,11 +164,11 @@
     tags:
       - Meshsemantictypes
     responses:
-      204:
+      '204':
         description: Deleted Meshsemantictype
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

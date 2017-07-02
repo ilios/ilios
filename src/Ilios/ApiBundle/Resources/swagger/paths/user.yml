@@ -36,7 +36,7 @@
     tags:
       - Users
     responses:
-      200:
+      '200':
         description: An array of users
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Users
     responses:
-      201:
+      '201':
         description: An array of newly created users
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/User'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /users/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Users
     responses:
-      200:
+      '200':
         description: A single User
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/User'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a User
@@ -134,18 +134,18 @@
     tags:
       - Users
     responses:
-      200:
+      '200':
         description: A single User
         schema:
           type: object
           properties:
             user:
               $ref: '#/definitions/User'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a User
@@ -164,11 +164,11 @@
     tags:
       - Users
     responses:
-      204:
+      '204':
         description: Deleted User
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

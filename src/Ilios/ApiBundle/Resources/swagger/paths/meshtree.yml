@@ -36,7 +36,7 @@
     tags:
       - Meshtrees
     responses:
-      200:
+      '200':
         description: An array of meshtrees
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Meshtrees
     responses:
-      201:
+      '201':
         description: An array of newly created meshtrees
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Meshtree'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /meshtrees/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Meshtrees
     responses:
-      200:
+      '200':
         description: A single Meshtree
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Meshtree'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Meshtree
@@ -134,18 +134,18 @@
     tags:
       - Meshtrees
     responses:
-      200:
+      '200':
         description: A single Meshtree
         schema:
           type: object
           properties:
             meshtree:
               $ref: '#/definitions/Meshtree'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Meshtree
@@ -164,11 +164,11 @@
     tags:
       - Meshtrees
     responses:
-      204:
+      '204':
         description: Deleted Meshtree
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

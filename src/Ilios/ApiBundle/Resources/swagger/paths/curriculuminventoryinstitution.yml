@@ -36,7 +36,7 @@
     tags:
       - Curriculuminventoryinstitutions
     responses:
-      200:
+      '200':
         description: An array of curriculum inventory institutions
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Curriculuminventoryinstitutions
     responses:
-      201:
+      '201':
         description: An array of newly created curriculum inventory institutions
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryinstitution'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /curriculuminventoryinstitutions/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Curriculuminventoryinstitutions
     responses:
-      200:
+      '200':
         description: A single curriculum inventory institution
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryinstitution'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a curriculum inventory institution
@@ -134,18 +134,18 @@
     tags:
       - Curriculuminventoryinstitutions
     responses:
-      200:
+      '200':
         description: A single curriculum inventory institution
         schema:
           type: object
           properties:
             curriculumInventoryInstitution:
               $ref: '#/definitions/Curriculuminventoryinstitution'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a curriculum inventory institution
@@ -164,11 +164,11 @@
     tags:
       - Curriculuminventoryinstitutions
     responses:
-      204:
+      '204':
         description: Deleted curriculum inventory institution
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

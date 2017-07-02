@@ -36,7 +36,7 @@
     tags:
       - Applicationconfigs
     responses:
-      200:
+      '200':
         description: An array of applicationconfigs
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Applicationconfigs
     responses:
-      201:
+      '201':
         description: An array of newly created applicationconfigs
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Applicationconfig'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /applicationconfigs/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Applicationconfigs
     responses:
-      200:
+      '200':
         description: A single Applicationconfig
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Applicationconfig'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Applicationconfig
@@ -134,18 +134,18 @@
     tags:
       - Applicationconfigs
     responses:
-      200:
+      '200':
         description: A single Applicationconfig
         schema:
           type: object
           properties:
             applicationconfig:
               $ref: '#/definitions/Applicationconfig'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Applicationconfig
@@ -164,11 +164,11 @@
     tags:
       - Applicationconfigs
     responses:
-      204:
+      '204':
         description: Deleted Applicationconfig
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

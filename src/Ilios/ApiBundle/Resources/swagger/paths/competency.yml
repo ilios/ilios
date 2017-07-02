@@ -36,7 +36,7 @@
     tags:
       - Competencies
     responses:
-      200:
+      '200':
         description: An array of competencies
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Competencies
     responses:
-      201:
+      '201':
         description: An array of newly created competencies
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Competency'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /competencies/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Competencies
     responses:
-      200:
+      '200':
         description: A single Competency
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Competency'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Competency
@@ -134,18 +134,18 @@
     tags:
       - Competencies
     responses:
-      200:
+      '200':
         description: A single Competency
         schema:
           type: object
           properties:
             competency:
               $ref: '#/definitions/Competency'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Competency
@@ -164,11 +164,11 @@
     tags:
       - Competencies
     responses:
-      204:
+      '204':
         description: Deleted Competency
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)
