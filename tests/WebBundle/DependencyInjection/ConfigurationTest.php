@@ -2,10 +2,12 @@
 namespace Tests\WebBundle\DependencyInjection;
 
 use Ilios\WebBundle\DependencyInjection\Configuration;
-use Matthias\SymfonyConfigTest\PhpUnit\AbstractConfigurationTestCase;
+use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 
-class ConfigurationTest extends AbstractConfigurationTestCase
+class ConfigurationTest
 {
+    use ConfigurationTestCaseTrait;
+
     protected function getConfiguration()
     {
         return new Configuration();
