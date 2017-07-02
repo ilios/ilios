@@ -98,7 +98,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     /**
      * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
-     * @dataProvider testExecuteProvider
+     * @dataProvider executeProvider
      *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
@@ -180,7 +180,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     /**
      * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
-     * @dataProvider testExecuteProvider
+     * @dataProvider executeProvider
      *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
@@ -217,7 +217,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
     /**
      * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
-     * @dataProvider testExecuteNoRecipientsConfiguredProvider
+     * @dataProvider executeNoRecipientsConfiguredProvider
      *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
@@ -240,7 +240,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     /**
      * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
-     * @dataProvider testExecuteRecipientWithoutEmailProvider
+     * @dataProvider executeRecipientWithoutEmailProvider
      *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
@@ -263,7 +263,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     /**
      * @covers \Ilios\CliBundle\Command\SendChangeAlertsCommand::execute
-     * @dataProvider testExecuteDeletedOfferingProvider
+     * @dataProvider executeDeletedOfferingProvider
      *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
@@ -288,7 +288,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * @return array
      */
-    public function testExecuteProvider()
+    public function executeProvider()
     {
         $schoolA = new School();
         $schoolA->setId(1);
@@ -399,7 +399,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * @return array
      */
-    public function testExecuteRecipientWithoutEmailProvider()
+    public function executeRecipientWithoutEmailProvider()
     {
         $school = new School();
         $course = new Course();
@@ -422,7 +422,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * @return array
      */
-    public function testExecuteNoRecipientsConfiguredProvider()
+    public function executeNoRecipientsConfiguredProvider()
     {
         $school = new School();
         $course = new Course();
@@ -444,7 +444,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * @return array
      */
-    public function testExecuteDeletedOfferingProvider()
+    public function executeDeletedOfferingProvider()
     {
         $course = new Course();
         $session = new Session();
