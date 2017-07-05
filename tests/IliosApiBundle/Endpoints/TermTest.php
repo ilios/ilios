@@ -94,7 +94,7 @@ class TermTest extends AbstractEndpointTest
             'competencies' => [[0, 1, 2, 3, 4, 5], ['competencies' => [1, 2]]],
             'meshDescriptors' => [[0, 1, 2, 3, 4, 5], ['meshDescriptors' => ['abc1', 'abc2', 'abc3']]],
             'programs' => [[0, 3], ['programs' => [1]]],
-            'schools' => [[0, 1, 2, 3, 4, 5], ['schools' => [1]]],
+            'schools' => [[0, 1, 2], ['schools' => [1]]],
         ];
     }
 }

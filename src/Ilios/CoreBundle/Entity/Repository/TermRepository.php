@@ -272,9 +272,8 @@ class TermRepository extends EntityRepository
 
         if (array_key_exists('schools', $criteria)) {
             $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
-            $qb->join('t.sessions', 'sc_session');
-            $qb->join('sc_session.course', 'sc_course');
-            $qb->join('sc_course.school', 'sc_school');
+            $qb->join('t.vocabulary', 'sc_vocabulary');
+            $qb->join('sc_vocabulary.school', 'sc_school');
             $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
             $qb->setParameter(':schools', $ids);
         }
