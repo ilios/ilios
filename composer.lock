@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb17586c3183a51ed5634c47d3c8551f",
+    "content-hash": "c018034da6fa32b1f91b0c1e4817c6e5",
     "packages": [
         {
             "name": "activelamp/swagger-ui-bundle",
@@ -49,7 +49,7 @@
                 }
             ],
             "description": "Creates a Swagger UI page in your Symfony2 application",
-            "time": "2016-12-16 17:13:25"
+            "time": "2016-12-16T17:13:25+00:00"
         },
         {
             "name": "cache/adapter-common",
@@ -6097,7 +6097,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~7.0.0",
+        "php": ">= 7.0",
         "ext-apcu": "*"
     },
     "platform-dev": []
