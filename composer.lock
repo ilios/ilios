@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "325c4eee5faae1ff84f3ea4f8a836577",
+    "content-hash": "309f0b672bdae7d4ec64019c7be2287a",
     "packages": [
         {
             "name": "activelamp/swagger-ui-bundle",
@@ -6312,5 +6312,8 @@
         "php": ">= 7.0",
         "ext-apcu": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.0"
+    }
 }
