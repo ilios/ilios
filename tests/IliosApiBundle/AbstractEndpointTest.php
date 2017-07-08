@@ -53,7 +53,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     public function setUp()
     {
-        parent::tearDown();
+        parent::setUp();
         $this->client = $this->makeClient();
         $this->client->followRedirects();
         $this->container = $this->client->getContainer();
