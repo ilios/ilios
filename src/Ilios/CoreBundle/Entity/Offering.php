@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Traits\LearnerGroupsEntity;
 use Ilios\CoreBundle\Traits\LearnersEntity;
 use Ilios\CoreBundle\Traits\SessionConsolidationEntity;
 use Ilios\ApiBundle\Annotation as IS;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,7 +26,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  *     @ORM\Index(name="offering_dates_session_k", columns={"offering_id", "session_id", "start_date", "end_date"})
  *   }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\OfferingRepository")
  *
  * @IS\Entity
  */
