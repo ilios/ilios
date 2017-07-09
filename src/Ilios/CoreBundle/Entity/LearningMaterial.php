@@ -79,7 +79,7 @@ class LearningMaterial implements LearningMaterialInterface
      *
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\RemoveMarkup
+     * @IS\AllowCleanMarkup
      */
     protected $description;
 

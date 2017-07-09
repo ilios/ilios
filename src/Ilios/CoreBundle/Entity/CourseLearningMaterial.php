@@ -57,7 +57,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\RemoveMarkup
+     * @IS\AllowCleanMarkup
      */
     protected $notes;
 

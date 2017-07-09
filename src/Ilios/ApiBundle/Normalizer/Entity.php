@@ -267,9 +267,19 @@ class Entity extends ObjectNormalizer
             $value = intval($value);
         }
 
-        if ($this->entityMetadata->isPropertyRemoveMarkup($property)) {
-            $value = $this->purifier->purify($value);
+        if (null !== $value and $type === 'float') {
+            $value = floatval($value);
         }
+
+
+        if (null !== $value and $type === 'string') {
+            if ($this->entityMetadata->isPropertyAllowCleanMarkup($property)) {
+                $value = $this->purifier->purify($value);
+            } else {
+                $value = htmlentities($value);
+            }
+        }
+        
 
         return $value;
     }

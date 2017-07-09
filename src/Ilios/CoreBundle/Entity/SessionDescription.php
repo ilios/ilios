@@ -76,7 +76,7 @@ class SessionDescription implements SessionDescriptionInterface
      *
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\RemoveMarkup
+     * @IS\AllowCleanMarkup
      *
     */
     protected $description;

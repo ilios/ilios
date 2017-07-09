@@ -67,7 +67,7 @@ class Objective implements ObjectiveInterface
      *
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\RemoveMarkup
+     * @IS\AllowCleanMarkup
      */
     protected $title;
 

@@ -254,18 +254,18 @@ class EntityMetadata
     }
 
     /**
-     * Check if a property has the RemoveMarkup annotation
+     * Check if a property has the AllowCleanMarkup annotation
      *
      * @param \ReflectionProperty $property
      *
      * @return bool
      */
-    public function isPropertyRemoveMarkup(\ReflectionProperty $property)
+    public function isPropertyAllowCleanMarkup(\ReflectionProperty $property)
     {
         /** @var ReadOnly $annotation */
         $annotation = $this->annotationReader->getPropertyAnnotation(
             $property,
-            'Ilios\ApiBundle\Annotation\RemoveMarkup'
+            'Ilios\ApiBundle\Annotation\AllowCleanMarkup'
         );
 
         return !is_null($annotation);
