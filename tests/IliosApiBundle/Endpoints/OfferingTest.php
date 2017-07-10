@@ -90,6 +90,7 @@ class OfferingTest extends AbstractEndpointTest
             'endDate' => [[0], ['endDate' => 'test'], $skipped = true],
             'updatedAt' => [[0], ['updatedAt' => 'test'], $skipped = true],
             'session' => [[2, 3, 4], ['session' => 2]],
+            'sessions' => [[2, 3, 4], ['sessions' => [2]]],
             'learnerGroups' => [[0], ['learnerGroups' => [1]], $skipped = true],
             'instructorGroups' => [[0], ['instructorGroups' => [1]], $skipped = true],
             'learners' => [[0], ['learners' => [1]], $skipped = true],

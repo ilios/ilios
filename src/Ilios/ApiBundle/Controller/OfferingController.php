@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @package Ilios\ApiBundle\Controller
  */
-class OfferingController extends NonDtoApiController
+class OfferingController extends ApiController
 {
     /**
      * Create alerts when adding offerings
@@ -58,6 +58,7 @@ class OfferingController extends NonDtoApiController
     public function putAction($version, $object, $id, Request $request)
     {
         $manager = $this->getManager($object);
+        /** @var OfferingInterface $entity */
         $entity = $manager->findOneBy(['id'=> $id]);
 
         if ($entity) {
