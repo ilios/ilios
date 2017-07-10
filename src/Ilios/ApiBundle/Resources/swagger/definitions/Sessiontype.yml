@@ -8,6 +8,15 @@ Sessiontype:
   title:
    description: Title
    type: string
+  calendarColor:
+   description: The HTML hex code for this session type in the calendar
+   type: string
+  active:
+   description: Is this active?
+   type: boolean
+  assessment:
+   description: Is this an assessment?
+   type: boolean
   assessmentOption:
    description: Assessmentoption
    type: string

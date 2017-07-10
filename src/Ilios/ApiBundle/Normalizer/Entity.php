@@ -271,12 +271,16 @@ class Entity extends ObjectNormalizer
             $value = floatval($value);
         }
 
+        if (null !== $value and $type === 'email') {
+            $value = filter_var($value, FILTER_SANITIZE_EMAIL);
+        }
+
 
         if (null !== $value and $type === 'string') {
             if ($this->entityMetadata->isPropertyAllowCleanMarkup($property)) {
                 $value = $this->purifier->purify($value);
             } else {
-                $value = htmlentities($value);
+                $value = htmlentities($value, ENT_COMPAT | ENT_HTML5, 'UTF-8', false);
             }
         }
         
