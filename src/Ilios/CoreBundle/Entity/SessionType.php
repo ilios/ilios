@@ -107,7 +107,7 @@ class SessionType implements SessionTypeInterface
      * @Assert\Type(type="bool")
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("boolean")
      */
     protected $assessment;
 
