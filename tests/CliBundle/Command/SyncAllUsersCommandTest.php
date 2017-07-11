@@ -6,13 +6,15 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class SyncAllUsersCommandTest
  * @package Tests\CliBundle\\Command
  */
-class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
+class SyncAllUsersCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:sync-users';
     
     protected $userManager;
@@ -59,7 +61,6 @@ class SyncAllUsersCommandTest extends \PHPUnit_Framework_TestCase
         unset($this->directory);
         unset($this->em);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testExecuteUserWithNoChanges()

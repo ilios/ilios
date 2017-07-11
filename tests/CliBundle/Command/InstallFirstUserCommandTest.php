@@ -15,6 +15,7 @@ use Mockery as m;
  */
 class InstallFirstUserCommandTest extends KernelTestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:setup:first-user';
 
     protected $userManager;
@@ -68,7 +69,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
         unset($this->userRoleManager);
         unset($this->commandTester);
         unset($this->formHelper);
-        m::close();
     }
 
     public function testExecute()
@@ -87,7 +87,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     {
         $this->userManager->shouldReceive('findOneBy')->with([])->andReturn(new User());
         $this->schoolManager->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->setExpectedException('Exception', 'Sorry, at least one user record already exists.');
+        $this->expectException(\Exception::class, 'Sorry, at least one user record already exists.');
         $this->commandTester->execute(array(
             'command' => self::COMMAND_NAME,
             '--school' => '1'
@@ -98,7 +98,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     {
         $this->userManager->shouldReceive('findOneBy')->with([])->andReturn(null);
         $this->schoolManager->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([]);
-        $this->setExpectedException('Exception', 'No schools found.');
+        $this->expectException(\Exception::class, 'No schools found.');
         $this->commandTester->execute(array(
             'command' => self::COMMAND_NAME,
             '--school' => '1'

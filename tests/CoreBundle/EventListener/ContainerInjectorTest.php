@@ -1,17 +1,13 @@
 <?php
 namespace Tests\CoreBundle\EventListener;
 
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 
 use Ilios\CoreBundle\EventListener\ContainerInjector;
+use Tests\CoreBundle\TestCase;
 
 class ContainerInjectorTest extends TestCase
 {
-    public function tearDown()
-    {
-        m::close();
-    }
     
     /**
      *

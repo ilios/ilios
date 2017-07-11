@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Client;
 
 class DirectoryControllerTest extends WebTestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     use JsonControllerTest;
 
     /**
@@ -32,8 +33,6 @@ class DirectoryControllerTest extends WebTestCase
         foreach ($this->client->getContainer()->getMockedServices() as $id => $service) {
             $this->client->getContainer()->unmock($id);
         }
-
-        m::close();
 
         parent::tearDown();
     }

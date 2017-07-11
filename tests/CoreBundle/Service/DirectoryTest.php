@@ -1,18 +1,13 @@
 <?php
 namespace Tests\CoreBundle\Service;
 
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 
 use Ilios\CoreBundle\Service\Directory;
+use Tests\CoreBundle\TestCase;
 
 class DirectoryTest extends TestCase
 {
-    public function tearDown()
-    {
-        m::close();
-    }
-
     /**
      * @covers \Ilios\CoreBundle\Service\Directory::__construct
      */

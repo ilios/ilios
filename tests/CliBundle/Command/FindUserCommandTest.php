@@ -5,9 +5,11 @@ use Ilios\CliBundle\Command\FindUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class FindUserCommandTest extends \PHPUnit_Framework_TestCase
+class FindUserCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:find-user';
     
     protected $commandTester;
@@ -30,7 +32,6 @@ class FindUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->directory);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testExecute()
@@ -59,7 +60,7 @@ class FindUserCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testTermRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
     }
 }

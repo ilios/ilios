@@ -5,13 +5,15 @@ use Ilios\CliBundle\Command\SyncUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class SyncUserCommandTest
  * @package Tests\CliBundle\\Command
  */
-class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
+class SyncUserCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:sync-user';
     
     protected $userManager;
@@ -43,7 +45,6 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
         unset($this->authenticationManager);
         unset($this->directory);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testExecute()
@@ -97,7 +98,7 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
     public function testBadUserId()
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
-        $this->setExpectedException('Exception', 'No user with id #1');
+        $this->expectException(\Exception::class, 'No user with id #1');
         $this->commandTester->execute(array(
             'command' => self::COMMAND_NAME,
             'userId' => '1'
@@ -106,7 +107,7 @@ class SyncUserCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testUserRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
     }
 }

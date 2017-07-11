@@ -41,7 +41,7 @@
     tags:
       - Courses
     responses:
-      200:
+      '200':
         description: An array of courses
         schema:
           type: object
@@ -72,7 +72,7 @@
     tags:
       - Courses
     responses:
-      201:
+      '201':
         description: An array of newly created courses
         schema:
           type: object
@@ -81,9 +81,9 @@
               type: array
               items:
                 $ref: '#/definitions/Course'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /courses/{id}:
   get:
@@ -103,7 +103,7 @@
     tags:
       - Courses
     responses:
-      200:
+      '200':
         description: A single Course
         schema:
           type: object
@@ -112,7 +112,7 @@
               type: array
               items:
                 $ref: '#/definitions/Course'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Course
@@ -139,18 +139,18 @@
     tags:
       - Courses
     responses:
-      200:
+      '200':
         description: A single Course
         schema:
           type: object
           properties:
             course:
               $ref: '#/definitions/Course'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Course
@@ -169,11 +169,11 @@
     tags:
       - Courses
     responses:
-      204:
+      '204':
         description: Deleted Course
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

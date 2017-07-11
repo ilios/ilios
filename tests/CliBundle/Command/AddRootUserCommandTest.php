@@ -5,6 +5,7 @@ use Ilios\CliBundle\Command\AddRootUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Add Root User command.
@@ -12,8 +13,9 @@ use Mockery as m;
  * Class AddRootUserCommandTest
  * @package Tests\CliBundle\Command
  */
-class AddRootUserCommandTest extends \PHPUnit_Framework_TestCase
+class AddRootUserCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     /**
      * @var m\MockInterface
      */
@@ -45,7 +47,6 @@ class AddRootUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->userManager);
         unset($this->commandTester);
-        m::close();
     }
 
     /**
@@ -78,7 +79,7 @@ class AddRootUserCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testMissingInput()
     {
-        $this->setExpectedException('RuntimeException', 'Not enough arguments (missing: "userId").');
+        $this->expectException(\RuntimeException::class, 'Not enough arguments (missing: "userId").');
         $this->commandTester->execute([
             'command' => AddRootUserCommand::COMMAND_NAME
         ]);
@@ -92,7 +93,7 @@ class AddRootUserCommandTest extends \PHPUnit_Framework_TestCase
         $userId = 0;
         $this->userManager->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn(null);
 
-        $this->setExpectedException('Exception', "No user with id #{$userId} was found.");
+        $this->expectException(\Exception::class, "No user with id #{$userId} was found.");
         $this->commandTester->execute([
             'command' => AddRootUserCommand::COMMAND_NAME,
             'userId' => $userId

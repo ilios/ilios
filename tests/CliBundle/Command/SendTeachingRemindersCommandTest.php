@@ -30,6 +30,7 @@ use Mockery as m;
  */
 class SendTeachingRemindersCommandTest extends KernelTestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:messaging:send-teaching-reminders';
 
     /**
@@ -87,7 +88,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     public function tearDown()
     {
         unset($this->fakeOfferingManager);
-        m::close();
     }
 
     /**
@@ -251,10 +251,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
      */
     public function testExecuteWithMissingInput()
     {
-        $this->setExpectedException('RuntimeException', 'Not enough arguments');
+        $this->expectException(\RuntimeException::class, 'Not enough arguments');
         $this->commandTester->execute([]);
 
-        $this->setExpectedException('RuntimeException', 'Not enough arguments');
+        $this->expectException(\RuntimeException::class, 'Not enough arguments');
         $this->commandTester->execute([
             'sender' => 'foo@bar.com',
             'base_url' => null,

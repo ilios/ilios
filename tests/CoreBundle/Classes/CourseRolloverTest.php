@@ -28,12 +28,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 use \DateTime;
+use Tests\CoreBundle\TestCase;
 
 /**
  * Class CourseRolloverTest
  * @package Tests\CliBundle\\Command
  */
-class CourseRolloverTest extends \PHPUnit_Framework_TestCase
+class CourseRolloverTest extends TestCase
 {
     /**
      * @var m\MockInterface
@@ -128,7 +129,6 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         unset($this->objectiveManager);
         unset($this->ilmSessionManager);
         unset($this->service);
-        m::close();
     }
 
     public function testRolloverWithEverything()
@@ -925,7 +925,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
             ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
             ->andReturn(new Course());
 
-        $this->setExpectedException(
+        $this->expectException(
             \Exception::class,
             "Another course with the same title and academic year already exists."
             . " If the year is correct, consider setting a new course title with '--new-course-title' option."
@@ -941,7 +941,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $pastDate->add(\DateInterval::createFromDateString('-2 year'));
         $year = $pastDate->format('Y');
 
-        $this->setExpectedException(
+        $this->expectException(
             \Exception::class,
             "Courses cannot be rolled over to a new year before"
         );
@@ -957,7 +957,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $year = $futureDate->format('Y');
         $this->courseManager->shouldReceive('findOneBy')->withArgs([['id' => $courseId]])->andReturn(false);
 
-        $this->setExpectedException(\Exception::class, "There are no courses with courseId {$courseId}.");
+        $this->expectException(\Exception::class, "There are no courses with courseId {$courseId}.");
 
         $this->service->rolloverCourse($courseId, $year, []);
     }
@@ -980,7 +980,7 @@ class CourseRolloverTest extends \PHPUnit_Framework_TestCase
         $newStartDate = clone $course->getStartDate();
         $newStartDate->add(new \DateInterval('P1Y2D'));
 
-        $this->setExpectedException(
+        $this->expectException(
             \Exception::class,
             "The new start date must take place on the same day of the week as the original course start date"
         );

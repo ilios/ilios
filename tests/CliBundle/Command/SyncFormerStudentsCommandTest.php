@@ -7,9 +7,11 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
+class SyncFormerStudentsCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:sync-former-students';
     
     protected $userManager;
@@ -41,7 +43,6 @@ class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
         unset($this->userRoleManager);
         unset($this->directory);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testExecute()
@@ -120,7 +121,7 @@ class SyncFormerStudentsCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testFilterRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
     }
 }

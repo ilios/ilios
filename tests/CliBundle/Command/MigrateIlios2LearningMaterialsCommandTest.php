@@ -5,9 +5,11 @@ use Ilios\CliBundle\Command\MigrateIlios2LearningMaterialsCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestCase
+class MigrateIlios2LearningMaterialsCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:setup:migrate-learning-materials';
     
     protected $symfonyFileSystem;
@@ -41,7 +43,6 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
         unset($this->iliosFileSystem);
         unset($this->directory);
         unset($this->learningMaterialManager);
-        m::close();
     }
     
     public function testExecute()
@@ -119,7 +120,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
     public function testBadIlios2Path()
     {
         $this->symfonyFileSystem->shouldReceive('exists')->with('badpath')->andReturn(false);
-        $this->setExpectedException('Exception', "'badpath' does not exist");
+        $this->expectException(\Exception::class, "'badpath' does not exist");
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'pathToIlios2'         => 'badpath'
@@ -128,7 +129,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends \PHPUnit_Framework_TestC
     
     public function testIlios2PathRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
     }
 }

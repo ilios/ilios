@@ -6,6 +6,7 @@ use Ilios\CoreBundle\Entity\DTO\UserDTO;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the List Root Users command.
@@ -13,8 +14,9 @@ use Mockery as m;
  * Class ListRootUsersCommandTest
  * @package Tests\CliBundle\Command
  */
-class ListRootUsersCommandTest extends \PHPUnit_Framework_TestCase
+class ListRootUsersCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     /**
      * @var m\MockInterface
      */
@@ -46,7 +48,6 @@ class ListRootUsersCommandTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->userManager);
         unset($this->commandTester);
-        m::close();
     }
 
     /**

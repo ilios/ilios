@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use DateTime;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
@@ -52,7 +53,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     public function setUp()
     {
-        $this->client = static::createClient();
+        parent::setUp();
+        $this->client = $this->makeClient();
         $this->client->followRedirects();
         $this->container = $this->client->getContainer();
 
@@ -67,10 +69,14 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     public function tearDown()
     {
+        parent::tearDown();
         unset($this->client);
         unset($this->container);
         unset($this->fixtures);
         unset($this->faker);
+        // Until https://github.com/doctrine/annotations/pull/135
+        // is merged we need to keep the registry clean ourselves
+        AnnotationRegistry::reset();
     }
 
     /**

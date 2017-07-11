@@ -5,13 +5,15 @@ use Ilios\CliBundle\Command\AddUserCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class AddUserCommandTest
  * @package Tests\CliBundle\\Command
  */
-class AddUserCommandTest extends \PHPUnit_Framework_TestCase
+class AddUserCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:add-user';
     
     protected $userManager;
@@ -52,7 +54,6 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
         unset($this->schoolManager);
         unset($this->commandTester);
         unset($this->questionHelper);
-        m::close();
     }
     
     public function testExecute()
@@ -80,7 +81,7 @@ class AddUserCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('campusId' => 1))->andReturn(null);
         $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
-        $this->setExpectedException('Exception', 'School with id 1 could not be found.');
+        $this->expectException(\Exception::class, 'School with id 1 could not be found.');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             '--schoolId'         => '1'

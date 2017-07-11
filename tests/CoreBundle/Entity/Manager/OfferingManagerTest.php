@@ -7,20 +7,13 @@ use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\Offering;
 use Ilios\CoreBundle\Entity\Session;
 use Mockery as m;
+use Tests\CoreBundle\TestCase;
 
 /**
  * Tests for Entity AamcMethod
  */
-class OfferingManagerTest extends \PHPUnit_Framework_TestCase
+class OfferingManagerTest extends TestCase
 {
-    /**
-     * Remove all mock objects
-     */
-    public function tearDown()
-    {
-        m::close();
-    }
-    
     /**
      * @covers \Ilios\CoreBundle\Entity\Manager\OfferingManager::delete
      */

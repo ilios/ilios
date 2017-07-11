@@ -26,7 +26,7 @@ class LoadIngestionExceptionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.IngestionException')
+            ->get('ilioscore.dataloader.ingestionexception')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new IngestionException();

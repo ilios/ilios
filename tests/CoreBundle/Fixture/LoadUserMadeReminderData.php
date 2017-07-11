@@ -26,7 +26,7 @@ class LoadUserMadeReminderData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.userMadeReminder')
+            ->get('ilioscore.dataloader.usermadereminder')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new UserMadeReminder();

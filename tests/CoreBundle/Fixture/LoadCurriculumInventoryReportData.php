@@ -26,7 +26,7 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.curriculumInventoryReport')
+            ->get('ilioscore.dataloader.curriculuminventoryreport')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryReport();

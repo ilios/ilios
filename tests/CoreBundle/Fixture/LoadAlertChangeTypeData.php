@@ -24,7 +24,7 @@ class LoadAlertChangeTypeData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.alertChangeType')
+            ->get('ilioscore.dataloader.alertchangetype')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new AlertChangeType();

@@ -26,7 +26,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.curriculumInventorySequenceBlock')
+            ->get('ilioscore.dataloader.curriculuminventorysequenceblock')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequenceBlock();

@@ -7,13 +7,15 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class RolloverCourseCommandTest
  * @package Tests\CliBundle\\Command
  */
-class RolloverCourseCommandTest extends \PHPUnit_Framework_TestCase
+class RolloverCourseCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:rollover-course';
 
     /**
@@ -48,12 +50,14 @@ class RolloverCourseCommandTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->service);
         unset($this->commandTester);
-        m::close();
     }
 
     public function testCommandFailsWithoutArguments()
     {
-        $this->setExpectedException('RuntimeException', 'Not enough arguments (missing: "courseId, newAcademicYear").');
+        $this->expectException(
+            \RuntimeException::class,
+            'Not enough arguments (missing: "courseId, newAcademicYear").'
+        );
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
         ));

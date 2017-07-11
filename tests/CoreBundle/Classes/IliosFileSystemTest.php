@@ -1,12 +1,12 @@
 <?php
 namespace Tests\CoreBundle\Classes;
 
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use \Symfony\Component\HttpFoundation\File\File;
 
 use Ilios\CoreBundle\Classes\IliosFileSystem;
+use Tests\CoreBundle\TestCase;
 
 class IliosFileSystemTest extends TestCase
 {
@@ -46,7 +46,6 @@ class IliosFileSystemTest extends TestCase
         unset($this->mockFileSystem);
         unset($this->iliosFileSystem);
         unset($this->fakeTestFileDir);
-        m::close();
     }
 
     public function testStoreLeaningMaterialFile()

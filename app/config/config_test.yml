@@ -15,7 +15,6 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
-#    delivery_address: me@example.com
 
 doctrine:
     dbal:
@@ -26,15 +25,6 @@ doctrine:
                 path:     "%kernel.cache_dir%/test.db"
                 logging: false
                 profiling: false
-monolog:
-    handlers:
-        main:
-            type:   stream
-            path:   "%kernel.logs_dir%/%kernel.environment%.log"
-            level:  debug
-        console:
-            type:   console
-            bubble: false
 
 liip_functional_test:
     cache_sqlite_db: true

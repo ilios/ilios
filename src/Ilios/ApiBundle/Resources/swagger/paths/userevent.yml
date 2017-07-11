@@ -27,7 +27,7 @@
     tags:
       - Userevents
     responses:
-      200:
+      '200':
         description: Events for the User
         schema:
           type: object
@@ -36,5 +36,5 @@
               type: array
               items:
                 $ref: '#/definitions/Userevent'
-      404:
+      '404':
         description: Not found

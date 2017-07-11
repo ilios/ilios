@@ -5,12 +5,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\LearningMaterial;
 use Ilios\CoreBundle\Traits\LearningMaterialsEntity;
 use Mockery as m;
+use Tests\CoreBundle\TestCase;
 
 /**
  * @coversDefaultClass \Ilios\CoreBundle\Traits\LearningMaterialsEntity
  */
 
-class LearningMaterialsEntityTest extends \PHPUnit_Framework_TestCase
+class LearningMaterialsEntityTest extends TestCase
 {
     /**
      * @var LearningMaterialsEntity
@@ -24,7 +25,6 @@ class LearningMaterialsEntityTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        m::close();
         unset($this->object);
     }
 

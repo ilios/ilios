@@ -36,7 +36,7 @@
     tags:
       - Programyearstewards
     responses:
-      200:
+      '200':
         description: An array of programyearstewards
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Programyearstewards
     responses:
-      201:
+      '201':
         description: An array of newly created programyearstewards
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Programyearsteward'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /programyearstewards/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Programyearstewards
     responses:
-      200:
+      '200':
         description: A single Programyearsteward
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Programyearsteward'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Programyearsteward
@@ -134,18 +134,18 @@
     tags:
       - Programyearstewards
     responses:
-      200:
+      '200':
         description: A single Programyearsteward
         schema:
           type: object
           properties:
             programyearsteward:
               $ref: '#/definitions/Programyearsteward'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Programyearsteward
@@ -164,11 +164,11 @@
     tags:
       - Programyearstewards
     responses:
-      204:
+      '204':
         description: Deleted Programyearsteward
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

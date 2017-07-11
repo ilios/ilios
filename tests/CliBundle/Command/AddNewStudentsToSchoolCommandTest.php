@@ -6,13 +6,15 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class AddNewStudentsToSchoolCommandTest
  * @package Tests\CliBundle\\Command
  */
-class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
+class AddNewStudentsToSchoolCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:directory:add-students';
     
     protected $userManager;
@@ -56,7 +58,6 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
         unset($this->authenticationManager);
         unset($this->directory);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testExecute()
@@ -162,7 +163,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
     public function testBadSchoolId()
     {
         $this->schoolManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
-        $this->setExpectedException('Exception', 'School with id 1 could not be found.');
+        $this->expectException(\Exception::class, 'School with id 1 could not be found.');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'filter'         => 'FILTER',
@@ -172,7 +173,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testFilterRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'schoolId'         => '1'
@@ -181,7 +182,7 @@ class AddNewStudentsToSchoolCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testSchoolRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'filter'         => '1',

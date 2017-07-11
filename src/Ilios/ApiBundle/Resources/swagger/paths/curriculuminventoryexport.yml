@@ -21,7 +21,7 @@
     tags:
       - Curriculuminventoryexports
     responses:
-      201:
+      '201':
         description: An array of newly created curriculum inventory exports
         schema:
           type: object
@@ -30,7 +30,7 @@
               type: array
               items:
                 $ref: '#/definitions/Curriculuminventoryexport'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied

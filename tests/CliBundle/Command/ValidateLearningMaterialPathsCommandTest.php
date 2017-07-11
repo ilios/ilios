@@ -5,9 +5,11 @@ use Ilios\CliBundle\Command\ValidateLearningMaterialPathsCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class ValidateLearningMaterialPathsCommandTest extends \PHPUnit_Framework_TestCase
+class ValidateLearningMaterialPathsCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:validate-learning-materials';
     
     protected $iliosFileSystem;
@@ -36,7 +38,6 @@ class ValidateLearningMaterialPathsCommandTest extends \PHPUnit_Framework_TestCa
     {
         unset($this->iliosFileSystem);
         unset($this->learningMaterialManager);
-        m::close();
     }
     
     public function testExecute()

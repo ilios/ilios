@@ -24,7 +24,7 @@ class LoadLearningMaterialStatusData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.learningMaterialStatus')
+            ->get('ilioscore.dataloader.learningmaterialstatus')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new LearningMaterialStatus();

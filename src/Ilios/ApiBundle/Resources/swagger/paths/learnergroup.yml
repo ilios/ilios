@@ -36,7 +36,7 @@
     tags:
       - Learnergroups
     responses:
-      200:
+      '200':
         description: An array of learner groups
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Learnergroups
     responses:
-      201:
+      '201':
         description: An array of newly created learner groups
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Learnergroup'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /learnergroups/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Learnergroups
     responses:
-      200:
+      '200':
         description: A single learner group
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Learnergroup'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a learner group
@@ -134,18 +134,18 @@
     tags:
       - Learnergroups
     responses:
-      200:
+      '200':
         description: A single learner group
         schema:
           type: object
           properties:
             learnerGroup:
               $ref: '#/definitions/Learnergroup'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a learner group
@@ -164,11 +164,11 @@
     tags:
       - Learnergroups
     responses:
-      204:
+      '204':
         description: Deleted learner group
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

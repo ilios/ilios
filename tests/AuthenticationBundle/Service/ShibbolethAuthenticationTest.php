@@ -9,10 +9,7 @@ use Ilios\AuthenticationBundle\Service\ShibbolethAuthentication;
 
 class ShibbolethAuthenticationTest extends TestCase
 {
-    public function tearDown()
-    {
-        m::close();
-    }
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     public function testConstructor()
     {
@@ -84,7 +81,7 @@ class ShibbolethAuthenticationTest extends TestCase
         $request = m::mock('Symfony\Component\HttpFoundation\Request');
         $request->server = $serverBag;
         $logger->shouldReceive('error')->once();
-        $this->setExpectedException('Exception');
+        $this->expectException(\Exception::class);
         $obj->login($request);
     }
     

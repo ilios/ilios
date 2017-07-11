@@ -9,6 +9,7 @@ use Ilios\WebBundle\Service\WebIndexFromJson;
 
 class WebIndexFromJsonTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     protected $sampleJson;
 
     public function setup()
@@ -17,11 +18,6 @@ class WebIndexFromJsonTest extends TestCase
             '"content":"test-config"}],"link":[{"rel":"stylesheet","href":"first.css"},{"rel":"stylesheet",' .
             '"href":"second.css"}],"script":[{"src":"first.js"},{"src":"second.js"},{"src":"third.js"}, ' .
             '{"content": "<script></script>"}]}';
-    }
-
-    public function tearDown()
-    {
-        m::close();
     }
 
     public function testGetIndex()

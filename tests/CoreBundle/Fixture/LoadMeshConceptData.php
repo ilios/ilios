@@ -26,7 +26,7 @@ class LoadMeshConceptData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.meshConcept')
+            ->get('ilioscore.dataloader.meshconcept')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshConcept();

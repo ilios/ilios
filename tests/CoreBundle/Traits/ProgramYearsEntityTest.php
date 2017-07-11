@@ -5,12 +5,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\ProgramYear;
 use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 use Mockery as m;
+use Tests\CoreBundle\TestCase;
 
 /**
  * @coversDefaultClass \Ilios\CoreBundle\Traits\ProgramYearsEntity
  */
 
-class ProgramYearsEntityTest extends \PHPUnit_Framework_TestCase
+class ProgramYearsEntityTest extends TestCase
 {
     /**
      * @var ProgramYearsEntity
@@ -24,7 +25,6 @@ class ProgramYearsEntityTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        m::close();
         unset($this->object);
     }
 

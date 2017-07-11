@@ -36,7 +36,7 @@
     tags:
       - Programs
     responses:
-      200:
+      '200':
         description: An array of programs
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Programs
     responses:
-      201:
+      '201':
         description: An array of newly created programs
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Program'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /programs/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Programs
     responses:
-      200:
+      '200':
         description: A single Program
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Program'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Program
@@ -134,18 +134,18 @@
     tags:
       - Programs
     responses:
-      200:
+      '200':
         description: A single Program
         schema:
           type: object
           properties:
             program:
               $ref: '#/definitions/Program'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Program
@@ -164,11 +164,11 @@
     tags:
       - Programs
     responses:
-      204:
+      '204':
         description: Deleted Program
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

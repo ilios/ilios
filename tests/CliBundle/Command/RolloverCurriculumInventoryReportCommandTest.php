@@ -7,13 +7,15 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class RolloverCurriculumInventoryReportCommandTest
  * @package Tests\CliBundle\\Command
  */
-class RolloverCurriculumInventoryReportCommandTest extends \PHPUnit_Framework_TestCase
+class RolloverCurriculumInventoryReportCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:rollover-ci-report';
 
     /**
@@ -54,12 +56,11 @@ class RolloverCurriculumInventoryReportCommandTest extends \PHPUnit_Framework_Te
         unset($this->service);
         unset($this->reportManager);
         unset($this->commandTester);
-        m::close();
     }
 
     public function testCommandFailsWithoutArguments()
     {
-        $this->setExpectedException('RuntimeException', 'Not enough arguments (missing: "reportId").');
+        $this->expectException(\RuntimeException::class, 'Not enough arguments (missing: "reportId").');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
         ));

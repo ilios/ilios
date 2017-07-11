@@ -1,11 +1,11 @@
 <?php
 namespace Tests\CoreBundle\Classes;
 
-use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
 use Ilios\CoreBundle\Classes\TemporaryFileSystem;
+use Tests\CoreBundle\TestCase;
 
 class TemporaryFileSystemTest extends TestCase
 {
@@ -17,7 +17,7 @@ class TemporaryFileSystemTest extends TestCase
     
     /**
      * Mock File System
-     * @var FileSystem
+     * @var SymfonyFileSystem
      */
     private $mockFileSystem;
     
@@ -50,7 +50,6 @@ class TemporaryFileSystemTest extends TestCase
     {
         unset($this->mockFileSystem);
         unset($this->iliosFileSystem);
-        m::close();
         
         $fs = new SymfonyFileSystem();
         $fs->remove($this->fakeTestFileDir);

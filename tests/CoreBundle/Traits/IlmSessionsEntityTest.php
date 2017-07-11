@@ -5,12 +5,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\IlmSession;
 use Ilios\CoreBundle\Traits\IlmSessionsEntity;
 use Mockery as m;
+use Tests\CoreBundle\TestCase;
 
 /**
  * @coversDefaultClass \Ilios\CoreBundle\Traits\IlmSessionsEntity
  */
 
-class IlmSessionsEntityTest extends \PHPUnit_Framework_TestCase
+class IlmSessionsEntityTest extends TestCase
 {
     /**
      * @var IlmSessionsEntity
@@ -24,7 +25,6 @@ class IlmSessionsEntityTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        m::close();
         unset($this->object);
     }
 

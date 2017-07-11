@@ -36,7 +36,7 @@
     tags:
       - Learningmaterials
     responses:
-      200:
+      '200':
         description: An array of learning materials
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Learningmaterials
     responses:
-      201:
+      '201':
         description: An array of newly created learning materials
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/DecoratedLearningmaterial'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /learningmaterials/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Learningmaterials
     responses:
-      200:
+      '200':
         description: A single learning material
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/DecoratedLearningmaterial'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a learning material
@@ -134,18 +134,18 @@
     tags:
       - Learningmaterials
     responses:
-      200:
+      '200':
         description: A single learning material
         schema:
           type: object
           properties:
             learningMaterial:
               $ref: '#/definitions/DecoratedLearningmaterial'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a learning material
@@ -164,11 +164,11 @@
     tags:
       - Learningmaterials
     responses:
-      204:
+      '204':
         description: Deleted learning material
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

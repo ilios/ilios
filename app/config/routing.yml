@@ -1,45 +1,45 @@
 IliosAuthenticationBundle:
-    resource: "@IliosAuthenticationBundle/Resources/config/routing.yml"
+    resource: '@IliosAuthenticationBundle/Resources/config/routing.yml'
     prefix:   /auth
-    schemes:  ["%forceProtocol%"]
+    schemes:  ['%forceProtocol%']
 
 al_swagger_ui:
-    resource: "@ALSwaggerUIBundle/Resources/config/routing.yml"
+    resource: '@ALSwaggerUIBundle/Resources/config/routing.yml'
     prefix: /api/doc
-    schemes:  ["%forceProtocol%"]
+    schemes:  ['%forceProtocol%']
 
 IliosApiBundle:
-    resource: "@IliosApiBundle/Resources/config/routing.yml"
+    resource: '@IliosApiBundle/Resources/config/routing.yml'
     prefix:   /api
-    schemes:  ["%forceProtocol%"]
+    schemes:  ['%forceProtocol%']
 
 IliosCoreBundle:
-    resource: "@IliosCoreBundle/Resources/config/routing.yml"
+    resource: '@IliosCoreBundle/Resources/config/routing.yml'
     prefix:   /api
-    schemes:  ["%forceProtocol%"]
+    schemes:  ['%forceProtocol%']
     
 ilios_core_uploadfile:
     path: /upload
     defaults:  { _controller: IliosCoreBundle:Upload:upload }
-    schemes:  ["%forceProtocol%"]
+    schemes:  ['%forceProtocol%']
 
 ilios_core_downloadlearningmaterial:
     path:     /lm/{token}
     defaults:
         _controller: IliosCoreBundle:Download:learningMaterial
     requirements:
-        token: "^[a-zA-Z0-9]{64}$"
-    schemes:  ["%forceProtocol%"]
+        token: '^[a-zA-Z0-9]{64}$'
+    schemes:  ['%forceProtocol%']
 
 ilios_core_downloadcurriculuminventoryreport:
     path:     /ci-report-dl/{token}
     defaults:
         _controller: IliosCoreBundle:CurriculumInventoryDownload:get
     requirements:
-        token: "^[a-zA-Z0-9]{64}$"
-    schemes:  ["%forceProtocol%"]
+        token: '^[a-zA-Z0-9]{64}$'
+    schemes:  ['%forceProtocol%']
 
 ilios_web:
-    resource: "@IliosWebBundle/Resources/config/routing.yml"
+    resource: '@IliosWebBundle/Resources/config/routing.yml'
     prefix:   /
-    schemes:  ["%forceProtocol%"]
+    schemes:  ['%forceProtocol%']

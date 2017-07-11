@@ -36,7 +36,7 @@
     tags:
       - Sessions
     responses:
-      200:
+      '200':
         description: An array of sessions
         schema:
           type: object
@@ -67,7 +67,7 @@
     tags:
       - Sessions
     responses:
-      201:
+      '201':
         description: An array of newly created sessions
         schema:
           type: object
@@ -76,9 +76,9 @@
               type: array
               items:
                 $ref: '#/definitions/Session'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
 /sessions/{id}:
   get:
@@ -98,7 +98,7 @@
     tags:
       - Sessions
     responses:
-      200:
+      '200':
         description: A single Session
         schema:
           type: object
@@ -107,7 +107,7 @@
               type: array
               items:
                 $ref: '#/definitions/Session'
-      404:
+      '404':
         description: Not found
   put:
     summary: Edit a Session
@@ -134,18 +134,18 @@
     tags:
       - Sessions
     responses:
-      200:
+      '200':
         description: A single Session
         schema:
           type: object
           properties:
             session:
               $ref: '#/definitions/Session'
-      400:
+      '400':
         description: Bad Request Data
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
   delete:
     summary: Delete a Session
@@ -164,11 +164,11 @@
     tags:
       - Sessions
     responses:
-      204:
+      '204':
         description: Deleted Session
-      403:
+      '403':
         description: Access Denied
-      404:
+      '404':
         description: Not Found
-      500:
+      '500':
         description: Failed to delete entity (usually caused by non-cascading relationships)

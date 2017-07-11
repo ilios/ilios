@@ -5,9 +5,11 @@ use Ilios\CliBundle\Command\CreateUserTokenCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
+class CreateUserTokenCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:create-user-token';
     
     protected $userManager;
@@ -32,7 +34,6 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->userManager);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testNewDefaultToken()
@@ -77,7 +78,7 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     public function testBadUserId()
     {
         $this->userManager->shouldReceive('findOneBy')->with(array('id' => 1))->andReturn(null);
-        $this->setExpectedException('Exception', 'No user with id #1');
+        $this->expectException(\Exception::class, 'No user with id #1');
         $this->commandTester->execute(array(
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -86,7 +87,7 @@ class CreateUserTokenCommandTest extends \PHPUnit_Framework_TestCase
     
     public function testUserRequired()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->commandTester->execute(array('command' => self::COMMAND_NAME));
     }
 }

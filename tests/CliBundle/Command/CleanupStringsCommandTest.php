@@ -5,9 +5,11 @@ use Ilios\CliBundle\Command\CleanupStringsCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
+class CleanupStringsCommandTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
     const COMMAND_NAME = 'ilios:maintenance:cleanup-strings';
     
     protected $purifier;
@@ -63,7 +65,6 @@ class CleanupStringsCommandTest extends \PHPUnit_Framework_TestCase
         unset($this->sessionLearningMaterialManager);
         unset($this->sessionDescriptionManager);
         unset($this->commandTester);
-        m::close();
     }
     
     public function testObjectiveTitle()
