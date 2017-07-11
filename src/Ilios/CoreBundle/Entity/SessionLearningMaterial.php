@@ -61,7 +61,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @IS\Expose
      * @IS\Type("string")
-     * @IS\RemoveMarkup
+     * @IS\AllowCleanMarkup
      */
     protected $notes;
 

@@ -136,7 +136,7 @@ class User implements UserInterface
      * )
      *
      * @IS\Expose
-     * @IS\Type("string")
+     * @IS\Type("email")
      */
     protected $email;
 

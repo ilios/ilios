@@ -16,16 +16,16 @@ Meshterm:
    type: string
   conceptPreferred:
    description: Conceptpreferred
-   type: string
+   type: boolean
   recordPreferred:
    description: Recordpreferred
-   type: string
+   type: boolean
   permuted:
    description: Permuted
-   type: string
+   type: boolean
   printable:
    description: Printable
-   type: string
+   type: boolean
   createdAt:
    description: Createdat
    type: string

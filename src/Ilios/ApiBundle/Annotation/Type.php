@@ -22,7 +22,17 @@ namespace Ilios\ApiBundle\Annotation;
 class Type
 {
     /**
-     * @Enum({"integer", "float", "string", "boolean", "dateTime", "entity", "entityCollection", "array<string>"})
+     * @Enum({
+     *     "integer",
+     *     "float",
+     *     "string",
+     *     "email",
+     *     "boolean",
+     *     "dateTime",
+     *     "entity",
+     *     "entityCollection",
+     *     "array<string>"
+     * })
      */
     public $value;
 }
