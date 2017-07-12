@@ -19,6 +19,8 @@ class DTO extends ObjectNormalizer
      * Set by the DI system.  We don't want to override
      * the constructor so this uses a setter to pass the needed
      * service
+     *
+     * @required
      * @param EntityMetadata $entityMetadata
      */
     public function setEntityMetadata(EntityMetadata $entityMetadata)

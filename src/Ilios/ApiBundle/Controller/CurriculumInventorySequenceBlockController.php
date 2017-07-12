@@ -99,8 +99,7 @@ class CurriculumInventorySequenceBlockController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('delete', $entity)) {
+        if (! $this->authorizationChecker->isGranted('delete', $entity)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 

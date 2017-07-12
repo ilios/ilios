@@ -3,6 +3,8 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
+use Ilios\CoreBundle\Service\CurriculumInventory\ReportRollover;
+use Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -16,6 +18,21 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CurriculumInventoryReportController extends ApiController
 {
+    /**
+     * @var CurriculumInventoryReportDecoratorFactory
+     */
+    protected $factory;
+
+    /**
+     * Inject this here so we don't have to overload the ApiController Constructor
+     * @required
+     * @param CurriculumInventoryReportDecoratorFactory $factory
+     */
+    public function setup(CurriculumInventoryReportDecoratorFactory $factory)
+    {
+        $this->factory = $factory;
+    }
+
     /**
      * Along with the report create the Sequence and Levels that
      * are necessary for a Report to be at all valid
@@ -32,8 +49,8 @@ class CurriculumInventoryReportController extends ApiController
         $entities = $serializer->deserialize($json, $class, 'json');
         $this->validateAndAuthorizeEntities($entities, 'create');
 
-        $levelManager = $this->get('ilioscore.curriculuminventoryacademiclevel.manager');
-        $sequenceManager = $this->get('ilioscore.curriculuminventorysequence.manager');
+        $levelManager = $this->getManager('curriculuminventoryacademiclevels');
+        $sequenceManager = $this->getManager('curriculuminventorysequences');
         /** @var CurriculumInventoryReportInterface $entity */
         foreach ($entities as $entity) {
             // create academic years and sequence while at it.
@@ -73,7 +90,7 @@ class CurriculumInventoryReportController extends ApiController
      */
     protected function createResponse($responseKey, $value, $responseCode)
     {
-        $factory = $this->get('ilioscore.curriculum_inventory_report_decorator.factory');
+        $factory = $this->factory;
         if (is_array($value)) {
             $value = array_map(function ($report) use ($factory) {
                 return $factory->create($report);
@@ -92,9 +109,11 @@ class CurriculumInventoryReportController extends ApiController
      * @param $object
      * @param $id
      * @param Request $request
+     * @param ReportRollover $rollover
+     *
      * @return Response
      */
-    public function rolloverAction($version, $object, $id, Request $request)
+    public function rolloverAction($version, $object, $id, Request $request, ReportRollover $rollover)
     {
         $manager = $this->getManager($object);
         /** @var CurriculumInventoryReportInterface $report */
@@ -104,8 +123,7 @@ class CurriculumInventoryReportController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted(['create'], $report)) {
+        if (! $this->authorizationChecker->isGranted(['create'], $report)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -113,8 +131,7 @@ class CurriculumInventoryReportController extends ApiController
         $description = $request->get('description');
         $year = $request->get('year');
 
-        $service = $this->container->get('ilioscore.curriculum_inventory.rollover');
-        $newReport = $service->rollover($report, $name, $description, $year);
+        $newReport = $rollover->rollover($report, $name, $description, $year);
 
         return $this->resultsToResponse([$newReport], $this->getPluralResponseKey($object), Response::HTTP_CREATED);
     }

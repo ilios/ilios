@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\CoreBundle\Classes\CourseRollover;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
@@ -31,7 +32,7 @@ class CoursesController extends ApiController
 
         if (null !== $my) {
             /** @var SessionUserInterface $currentUser */
-            $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+            $currentUser = $this->tokenStorage->getToken()->getUser();
             $result = $manager->findCoursesByUserId(
                 $currentUser->getId(),
                 $parameters['criteria'],
@@ -60,10 +61,9 @@ class CoursesController extends ApiController
         if ($entity) {
             $code = Response::HTTP_OK;
             $permission = 'edit';
-            $authChecker = $this->get('security.authorization_checker');
             if ($entity->isLocked() && !$data->locked) {
                 //check if the course can be unlocked and unlock it
-                if ($authChecker->isGranted('unlock', $entity)) {
+                if ($this->authorizationChecker->isGranted('unlock', $entity)) {
                     $entity->setLocked(false);
                 }
                 $data->locked = $entity->isLocked();
@@ -90,10 +90,11 @@ class CoursesController extends ApiController
      * @param string $object
      * @param int $id
      * @param Request $request
+     * @param CourseRollover $rolloverCourse
      *
      * @return Response
      */
-    public function rolloverAction($version, $object, $id, Request $request)
+    public function rolloverAction($version, $object, $id, Request $request, CourseRollover $rolloverCourse)
     {
         $manager = $this->getManager($object);
         $course = $manager->findOneBy(['id' => $id]);
@@ -102,9 +103,7 @@ class CoursesController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        $authChecker = $this->get('security.authorization_checker');
-
-        if (! $authChecker->isGranted(['edit'], $course)) {
+        if (! $this->authorizationChecker->isGranted(['edit'], $course)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -125,7 +124,6 @@ class CoursesController extends ApiController
             return $item;
         }, $options);
 
-        $rolloverCourse = $this->container->get('ilioscore.courserollover');
         $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, $options);
 
         //pulling the DTO ensures we get all the new relationships

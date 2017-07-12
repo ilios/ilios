@@ -98,7 +98,7 @@ class UsersController extends ApiController
                  This has to be done here because by the time it reaches the voter the
                  current user object in the session has been modified
                */
-        $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+        $currentUser = $this->tokenStorage->getToken()->getUser();
         if ($obj->root &&
             (!$currentUser->isRoot() && !$entity->isRoot())
         ) {

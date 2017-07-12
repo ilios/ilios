@@ -2,8 +2,11 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\CoreBundle\Classes\IliosFileSystem;
+use Ilios\CoreBundle\Classes\TemporaryFileSystem;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use Ilios\CoreBundle\Service\LearningMaterialDecoratorFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -17,6 +20,42 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class LearningMaterialController extends NonDtoApiController
 {
+    /**
+     * @var TemporaryFileSystem
+     */
+    protected $temporaryFileSystem;
+
+    /**
+     * @var IliosFileSystem
+     */
+    protected $fileSystem;
+
+    /**
+     * @var LearningMaterialDecoratorFactory
+     */
+    protected $learningMaterialDecoratorFactory;
+
+    /**
+     * Inject services
+     *
+     * Since we're inheriting our actions from the ApiController it is easier to just
+     * inject these needed services here
+     *
+     * @required
+     *
+     * @param IliosFileSystem $filesystem
+     * @param TemporaryFileSystem $temporaryFileSystem
+     */
+    public function setup(
+        IliosFileSystem $filesystem,
+        TemporaryFileSystem $temporaryFileSystem,
+        LearningMaterialDecoratorFactory $learningMaterialDecoratorFactory
+    ) {
+        $this->fileSystem = $filesystem;
+        $this->temporaryFileSystem = $temporaryFileSystem;
+        $this->learningMaterialDecoratorFactory = $learningMaterialDecoratorFactory;
+    }
+
     /**
      * Handle 'q' as a special parameter to search with
      * @inheritdoc
@@ -53,8 +92,8 @@ class LearningMaterialController extends NonDtoApiController
         $manager = $this->getManager($object);
 
         $data = $this->extractPostDataFromRequest($request, $object);
-        $temporaryFileSystem = $this->container->get('ilioscore.temporary_filesystem');
-        $fs = $this->container->get('ilioscore.filesystem');
+        $temporaryFileSystem = $this->temporaryFileSystem;
+        $fs = $this->fileSystem;
         $dataWithFilesAttributes = array_map(function ($obj) use ($fs, $temporaryFileSystem) {
             $file = false;
             if (property_exists($obj, 'fileHash')) {
@@ -152,7 +191,7 @@ class LearningMaterialController extends NonDtoApiController
      */
     protected function createResponse($responseKey, $value, $responseCode)
     {
-        $factory = $this->get('ilioscore.learningmaterial_decorator.factory');
+        $factory = $this->learningMaterialDecoratorFactory;
         if (is_array($value)) {
             $value = array_map(function (LearningMaterialInterface $lm) use ($factory) {
                 return $factory->create($lm);
@@ -175,8 +214,7 @@ class LearningMaterialController extends NonDtoApiController
      */
     protected function validateEntity($entity)
     {
-        $validator = $this->container->get('validator');
-        $errors = $validator->validate($entity, null, $entity->getValidationGroups());
+        $errors = $this->validator->validate($entity, null, $entity->getValidationGroups());
         if (count($errors) > 0) {
             $errorsString = (string) $errors;
 

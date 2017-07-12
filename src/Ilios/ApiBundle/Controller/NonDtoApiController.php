@@ -56,17 +56,17 @@ class NonDtoApiController extends ApiController
      * Get a manager which does not handle DTOs and confirm
      * that the endpoint should not be using one that does
      *
-     * @param string $object
+     * @param string $pluralObjectName
      * @return BaseManager
      * @throws \Exception
      */
-    protected function getManager($object)
+    protected function getManager($pluralObjectName)
     {
-        $singularName = $this->getSingularObjectName($object);
+        $singularName = $this->getSingularObjectName($pluralObjectName);
         $name = "ilioscore.{$singularName}.manager";
         if (!$this->container->has($name)) {
             throw new \Exception(
-                sprintf('The manager for \'%s\' does not exist.', $object)
+                sprintf('The manager for \'%s\' does not exist.', $pluralObjectName)
             );
         }
 
