@@ -1,0 +1,20 @@
+version: '2.1'
+services:
+    db:
+        image: ilios/mysql-demo
+    php:
+        image: ilios/php-dev
+        environment:
+            - ILIOS_API_ENVIRONMENT=dev
+            - ILIOS_API_DEBUG=true
+            - ILIOS_DATABASE_HOST=db
+        expose:
+            - "9000"
+        volumes:
+            - ./:/var/www/ilios:delegated
+    web:
+        image: ilios/nginx
+        ports:
+            - "8000:80"
+        volumes_from:
+            - php
