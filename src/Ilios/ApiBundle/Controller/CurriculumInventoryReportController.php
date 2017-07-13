@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * can be rolled over
  * @package Ilios\ApiBundle\Controller
  */
-class CurriculumInventoryReportController extends NonDtoApiController
+class CurriculumInventoryReportController extends ApiController
 {
     /**
      * Along with the report create the Sequence and Levels that
@@ -75,7 +75,7 @@ class CurriculumInventoryReportController extends NonDtoApiController
     {
         $factory = $this->get('ilioscore.curriculum_inventory_report_decorator.factory');
         if (is_array($value)) {
-            $value = array_map(function (CurriculumInventoryReportInterface $report) use ($factory) {
+            $value = array_map(function ($report) use ($factory) {
                 return $factory->create($report);
             }, $value);
         } else {

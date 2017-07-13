@@ -16,7 +16,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="curriculum_inventory_institution")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CurriculumInventoryInstitutionRepository")
  *
  * @IS\Entity
  */
@@ -145,7 +145,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     protected $addressZipCode;
 
     /**
-     * @todo: get country list from SF service/convert to foreign key to a country table
      * @var string
      *
      * @ORM\Column(type="string", length=2, name="address_country_code")

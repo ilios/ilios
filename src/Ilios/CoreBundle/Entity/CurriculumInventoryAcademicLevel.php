@@ -28,7 +28,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  *     @ORM\Index(name="IDX_B4D3296D4BD2A4C0", columns={"report_id"})
  *   }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CurriculumInventoryAcademicLevelRepository")
  *
  * @IS\Entity
  */

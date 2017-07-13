@@ -61,6 +61,40 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.entity.course_learning_material_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CourseLearningMaterialEntityVoter
+        parent: security.access.entity.course_voter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.entity.curriculum_inventory_academic_level_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CurriculumInventoryAcademicLevelEntityVoter
+        parent: security.access.entity.curriculum_inventory_report_voter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.entity.curriculum_inventory_institution_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CurriculumInventoryInstitutionEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.entity.curriculum_inventory_report_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CurriculumInventoryReportEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.entity.curriculum_sequence_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CurriculumInventorySequenceEntityVoter
+        parent: security.access.entity.curriculum_inventory_report_voter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.entity.curriculum_sequence_block_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CurriculumInventorySequenceBlockEntityVoter
+        parent: security.access.entity.curriculum_inventory_report_voter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.department_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\DepartmentEntityVoter
         public: false

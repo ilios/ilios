@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
@@ -8,10 +8,10 @@ use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class SessionVoter
+ * Class CourseLearningMaterialEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class CourseLearningMaterialVoter extends CourseVoter
+class CourseLearningMaterialEntityVoter extends CourseEntityVoter
 {
     /**
      * {@inheritdoc}

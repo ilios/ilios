@@ -1,8 +1,10 @@
 <?php
 namespace Ilios\CoreBundle\Service;
 
+use Ilios\CoreBundle\Entity\DTO\CurriculumInventoryReportDTO;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class CurriculumInventoryReportDecoratorFactory
 {
@@ -15,7 +17,7 @@ class CurriculumInventoryReportDecoratorFactory
     /**
      * @var string
      */
-    protected $decoratorClassName;
+    protected $entityDecoratorClassName;
 
     /**
      * @param Router $router
@@ -24,14 +26,36 @@ class CurriculumInventoryReportDecoratorFactory
     public function __construct($router, $decoratorClassName)
     {
         $this->router = $router;
-        $this->decoratorClassName = $decoratorClassName;
+        $this->entityDecoratorClassName = $decoratorClassName;
     }
 
     public function create(
-        CurriculumInventoryReportInterface $report
+        $report
     ) {
-        $decorator = new $this->decoratorClassName($report, $this->router);
+        if ($report instanceof CurriculumInventoryReportInterface) {
+            return new $this->entityDecoratorClassName($report, $this->router);
+        }
 
-        return $decorator;
+        if ($report instanceof CurriculumInventoryReportDTO) {
+            return $this->decorateDto($report);
+        }
+
+        throw new \Exception(get_class($report) . " cannot be decorated");
+    }
+
+    /**
+     * @param CurriculumInventoryReportDTO $reportDTO
+     *
+     * @return CurriculumInventoryReportDTO
+     */
+    protected function decorateDto(CurriculumInventoryReportDTO $reportDTO)
+    {
+        $reportDTO->absoluteFileUri = $this->router->generate(
+            'ilios_core_downloadcurriculuminventoryreport',
+            ['token' => $reportDTO->token],
+            UrlGenerator::ABSOLUTE_URL
+        );
+
+        return $reportDTO;
     }
 }

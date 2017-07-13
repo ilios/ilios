@@ -3,6 +3,9 @@ namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\AbstractQuery;
+use Ilios\CoreBundle\Entity\DTO\CurriculumInventoryReportDTO;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
@@ -11,6 +14,148 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  */
 class CurriculumInventoryReportRepository extends EntityRepository
 {
+    /**
+     * @inheritdoc
+     */
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('DISTINCT x')->from('IliosCoreBundle:CurriculumInventoryReport', 'x');
+
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('x')
+            ->distinct()->from('IliosCoreBundle:CurriculumInventoryReport', 'x');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        /** @var CurriculumInventoryReportDTO[] $curriculumInventoryReportDTOs */
+        $curriculumInventoryReportDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $curriculumInventoryReportDTOs[$arr['id']] = new CurriculumInventoryReportDTO(
+                $arr['id'],
+                $arr['name'],
+                $arr['description'],
+                $arr['year'],
+                $arr['startDate'],
+                $arr['endDate'],
+                $arr['token']
+            );
+        }
+        $curriculumInventoryReportIds = array_keys($curriculumInventoryReportDTOs);
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select(
+                'x.id as xId, ' .
+                'export.id AS exportId, sequence.id AS sequenceId, program.id AS programId, ' .
+                'school.id AS schoolId'
+            )
+            ->from('IliosCoreBundle:CurriculumInventoryReport', 'x')
+            ->join('x.program', 'program')
+            ->join('program.school', 'school')
+            ->leftJoin('x.sequence', 'sequence')
+            ->leftJoin('x.export', 'export')
+            ->where($qb->expr()->in('x.id', ':ids'))
+            ->setParameter('ids', $curriculumInventoryReportIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $curriculumInventoryReportDTOs[$arr['xId']]->export = $arr['exportId']?(int)$arr['exportId']:null;
+            $curriculumInventoryReportDTOs[$arr['xId']]->sequence = $arr['sequenceId']?(int)$arr['sequenceId']:null;
+            $curriculumInventoryReportDTOs[$arr['xId']]->program = $arr['programId']?(int)$arr['programId']:null;
+            $curriculumInventoryReportDTOs[$arr['xId']]->school = $arr['schoolId']?(int)$arr['schoolId']:null;
+        }
+
+        $related = [
+            'sequenceBlocks',
+            'academicLevels'
+        ];
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, x.id AS curriculumInventoryReportId')
+                ->from('IliosCoreBundle:CurriculumInventoryReport', 'x')
+                ->join("x.{$rel}", 'r')
+                ->where($qb->expr()->in('x.id', ':ids'))
+                ->orderBy('relId')
+                ->setParameter('ids', $curriculumInventoryReportIds);
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $curriculumInventoryReportDTOs[$arr['curriculumInventoryReportId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+        return array_values($curriculumInventoryReportDTOs);
+    }
+
+
+    /**
+     * @param QueryBuilder $qb
+     * @param array $criteria
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return QueryBuilder
+     */
+    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
+    {
+        if (array_key_exists('sequenceBlocks', $criteria)) {
+            $ids = is_array($criteria['sequenceBlocks']) ? $criteria['sequenceBlocks'] : [$criteria['sequenceBlocks']];
+            $qb->join('x.sequenceBlocks', 'sb');
+            $qb->andWhere($qb->expr()->in('sb.id', ':sequenceBlocks'));
+            $qb->setParameter(':sequenceBlocks', $ids);
+        }
+        if (array_key_exists('academicLevels', $criteria)) {
+            $ids = is_array($criteria['academicLevels']) ? $criteria['academicLevels'] : [$criteria['academicLevels']];
+            $qb->join('x.academicLevels', 'al');
+            $qb->andWhere($qb->expr()->in('al.id', ':academicLevels'));
+            $qb->setParameter(':academicLevels', $ids);
+        }
+
+        //cleanup all the possible relationship filters
+        unset($criteria['sequenceBlocks']);
+        unset($criteria['academicLevels']);
+
+        if (count($criteria)) {
+            foreach ($criteria as $key => $value) {
+                $values = is_array($value) ? $value : [$value];
+                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
+                $qb->setParameter(":{$key}", $values);
+            }
+        }
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('x.'.$sort, $order);
+            }
+        }
+
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb;
+    }
+    
     /**
      * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
      * in a given curriculum inventory report.

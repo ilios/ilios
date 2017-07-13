@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  * Class CurriculumInventoryReportManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class CurriculumInventoryReportManager extends BaseManager
+class CurriculumInventoryReportManager extends DTOManager
 {
     /**
      * @param CurriculumInventoryReportInterface $report

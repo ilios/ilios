@@ -1,16 +1,17 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class CurriculumInventoryReportVoter
+ * Class CurriculumInventoryReportEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class CurriculumInventoryReportVoter extends AbstractVoter
+class CurriculumInventoryReportEntityVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}
@@ -97,6 +98,14 @@ class CurriculumInventoryReportVoter extends AbstractVoter
      */
     protected function isCreateGranted(CurriculumInventoryReportInterface $report, SessionUserInterface $sessionUser)
     {
+        // HALT!
+        // Cannot create anything once the report has been exported.
+        // This could never happen for a Report itself,
+        // but lots of the other CI voters depend on this one.
+        if ($report->getExport()) {
+            return false;
+        }
+
         // Only grant CREATE, permissions to users with at least one of
         // 'Course Director' and 'Developer' roles.
         // - and -
