@@ -1,17 +1,15 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class CurriculumInventorySequenceVoter
+ * Class CurriculumInventorySequenceEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class CurriculumInventorySequenceVoter extends CurriculumInventoryReportVoter
+class CurriculumInventorySequenceEntityVoter extends CurriculumInventoryReportEntityVoter
 {
     /**
      * {@inheritdoc}
@@ -32,18 +30,5 @@ class CurriculumInventorySequenceVoter extends CurriculumInventoryReportVoter
     protected function voteOnAttribute($attribute, $sequence, TokenInterface $token)
     {
         return parent::voteOnAttribute($attribute, $sequence->getReport(), $token);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function isCreateGranted(CurriculumInventoryReportInterface $report, SessionUserInterface $user)
-    {
-        // HALT!
-        // Cannot create a sequence once the parent report has been exported.
-        if ($report->getExport()) {
-            return false;
-        }
-        return parent::isCreateGranted($report, $user);
     }
 }

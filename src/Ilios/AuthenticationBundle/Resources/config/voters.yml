@@ -13,18 +13,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.curriculum_sequence_block_voter:
-        class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceBlockVoter
-        parent: security.access.curriculum_inventory_report_voter
-        public: false
-        tags:
-            - { name: security.voter }
-    security.access.curriculum_sequence_voter:
-        class: Ilios\AuthenticationBundle\Voter\CurriculumInventorySequenceVoter
-        parent: security.access.curriculum_inventory_report_voter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.ilm_session_voter:
         class: Ilios\AuthenticationBundle\Voter\IlmSessionVoter
         parent: security.access.entity.session_voter

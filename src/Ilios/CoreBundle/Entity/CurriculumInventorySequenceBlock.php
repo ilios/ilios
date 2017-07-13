@@ -19,7 +19,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="curriculum_inventory_sequence_block")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CurriculumInventorySequenceBlockRepository")
  *
  * @IS\Entity
  */

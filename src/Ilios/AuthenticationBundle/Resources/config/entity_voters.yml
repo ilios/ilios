@@ -83,6 +83,18 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.entity.curriculum_sequence_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CurriculumInventorySequenceEntityVoter
+        parent: security.access.entity.curriculum_inventory_report_voter
+        public: false
+        tags:
+            - { name: security.voter }
+    security.access.entity.curriculum_sequence_block_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CurriculumInventorySequenceBlockEntityVoter
+        parent: security.access.entity.curriculum_inventory_report_voter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.department_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\DepartmentEntityVoter
         public: false

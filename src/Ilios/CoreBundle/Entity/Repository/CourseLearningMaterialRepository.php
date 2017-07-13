@@ -108,7 +108,11 @@ class CourseLearningMaterialRepository extends EntityRepository
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
     {
         if (array_key_exists('meshDescriptors', $criteria)) {
-            $ids = is_array($criteria['meshDescriptors']) ? $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
+            if (is_array($criteria['meshDescriptors'])) {
+                $ids = $criteria['meshDescriptors'];
+            } else {
+                $ids = [$criteria['meshDescriptors']];
+            }
             $qb->join('x.meshDescriptors', 'st');
             $qb->andWhere($qb->expr()->in('st.id', ':meshDescriptors'));
             $qb->setParameter(':meshDescriptors', $ids);

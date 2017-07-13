@@ -73,10 +73,10 @@ services:
         class: "%ilioscore.curriculuminventoryreport.manager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventoryReport]
     ilioscore.curriculuminventorysequenceblock.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock]
     ilioscore.curriculuminventorysequence.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventorySequence]
     ilioscore.department.manager:
         class: "%ilioscore.dtomanager.class%"

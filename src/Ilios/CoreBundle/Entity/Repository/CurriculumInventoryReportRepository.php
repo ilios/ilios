@@ -65,9 +65,9 @@ class CurriculumInventoryReportRepository extends EntityRepository
                 'school.id AS schoolId'
             )
             ->from('IliosCoreBundle:CurriculumInventoryReport', 'x')
+            ->join('x.program', 'program')
+            ->join('program.school', 'school')
             ->leftJoin('x.sequence', 'sequence')
-            ->leftJoin('x.program', 'program')
-            ->leftJoin('program.school', 'school')
             ->leftJoin('x.export', 'export')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $curriculumInventoryReportIds);
