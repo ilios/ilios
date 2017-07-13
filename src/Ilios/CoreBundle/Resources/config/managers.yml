@@ -61,7 +61,7 @@ services:
         class: "%ilioscore.course.manager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\Course]
     ilioscore.curriculuminventoryacademiclevel.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel]
     ilioscore.curriculuminventoryexport.manager:
         class: "%ilioscore.basemanager.class%"

@@ -98,6 +98,14 @@ class CurriculumInventoryReportEntityVoter extends AbstractVoter
      */
     protected function isCreateGranted(CurriculumInventoryReportInterface $report, SessionUserInterface $sessionUser)
     {
+        // HALT!
+        // Cannot create anything once the report has been exported.
+        // This could never happen for a Report itself,
+        // but lots of the other CI voters depend on this one.
+        if ($report->getExport()) {
+            return false;
+        }
+
         // Only grant CREATE, permissions to users with at least one of
         // 'Course Director' and 'Developer' roles.
         // - and -

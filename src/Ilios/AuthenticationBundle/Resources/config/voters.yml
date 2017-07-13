@@ -8,12 +8,6 @@ services:
         class: Ilios\AuthenticationBundle\Voter\CourseVoter
         arguments: [ "@ilioscore.course.manager"]
         public: false
-    security.access.curriculum_inventory_academic_level_voter:
-        class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryAcademicLevelVoter
-        parent: security.access.curriculum_inventory_report_voter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.curriculum_inventory_export_voter:
         class: Ilios\AuthenticationBundle\Voter\CurriculumInventoryExportVoter
         public: false
