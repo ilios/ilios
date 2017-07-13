@@ -67,6 +67,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.dto.curriculum_inventory_report_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\CurriculumInventoryReportDTOVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.dto.department_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\DepartmentDTOVoter
         public: false

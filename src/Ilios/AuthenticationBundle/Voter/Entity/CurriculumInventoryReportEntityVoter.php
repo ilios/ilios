@@ -1,16 +1,17 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class CurriculumInventoryReportVoter
+ * Class CurriculumInventoryReportEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class CurriculumInventoryReportVoter extends AbstractVoter
+class CurriculumInventoryReportEntityVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}
