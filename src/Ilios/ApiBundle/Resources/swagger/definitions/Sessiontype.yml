@@ -8,6 +8,15 @@ Sessiontype:
   title:
    description: Title
    type: string
+  calendarColor:
+   description: Hex color code for use in displaying this on a calendar
+   type: string
+  active:
+   description: Is this acive?
+   type: boolean
+  assessment:
+   description: Is this an assessment?
+   type: boolean
   assessmentOption:
    description: Assessmentoption
    type: string
@@ -16,6 +25,11 @@ Sessiontype:
    type: string
   aamcMethods:
    description: Aamcmethods
+   type: array
+   items:
+    type: string
+  sessions:
+   description: Sessions
    type: array
    items:
     type: string
