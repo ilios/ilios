@@ -1,7 +1,8 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * Class CurriculumInventoryInstitutionVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class CurriculumInventoryInstitutionVoter extends AbstractVoter
+class CurriculumInventoryInstitutionEntityVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}
@@ -33,14 +34,6 @@ class CurriculumInventoryInstitutionVoter extends AbstractVoter
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
             return false;
-        }
-
-        switch ($attribute) {
-            case self::VIEW:
-            case self::EDIT:
-            case self::DELETE:
-                return $user->hasRole(['Course Director', 'Developer']);
-                break;
         }
 
         switch ($attribute) {

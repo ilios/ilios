@@ -73,6 +73,11 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.entity.curriculum_inventory_institution_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\CurriculumInventoryInstitutionEntityVoter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.curriculum_inventory_report_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\CurriculumInventoryReportEntityVoter
         public: false
