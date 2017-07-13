@@ -4,53 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "309f0b672bdae7d4ec64019c7be2287a",
+    "content-hash": "7e406f34f0017c8c38def959c879f924",
     "packages": [
-        {
-            "name": "activelamp/swagger-ui-bundle",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/activelamp/swagger-ui-bundle.git",
-                "reference": "3a080d4b81f48e1d6475a2c1d2a130528f93442b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/activelamp/swagger-ui-bundle/zipball/3a080d4b81f48e1d6475a2c1d2a130528f93442b",
-                "reference": "3a080d4b81f48e1d6475a2c1d2a130528f93442b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "symfony/finder": "~2.1 || ^3.0",
-                "symfony/framework-bundle": "~2.1 || ^3.0",
-                "symfony/twig-bundle": "~2.1 || ^3.0"
-            },
-            "require-dev": {
-                "sensio/framework-extra-bundle": "~2.1 || ^3.0",
-                "symfony/browser-kit": "~2.1 || ^3.0",
-                "symfony/css-selector": "~2.1 || ^3.0",
-                "symfony/yaml": "~2.1 || ^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ActiveLAMP\\Bundle\\SwaggerUIBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bez Hermoso",
-                    "email": "bez@activelamp.com"
-                }
-            ],
-            "description": "Creates a Swagger UI page in your Symfony2 application",
-            "time": "2016-12-16 17:13:25"
-        },
         {
             "name": "cache/adapter-common",
             "version": "0.3.3",
@@ -6294,7 +6249,6 @@
     "stability-flags": {
         "firebase/php-jwt": 0,
         "exercise/htmlpurifier-bundle": 0,
-        "activelamp/swagger-ui-bundle": 20,
         "sensio/generator-bundle": 0,
         "symfony/phpunit-bridge": 0,
         "phpunit/phpunit": 0,

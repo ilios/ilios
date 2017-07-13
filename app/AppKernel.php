@@ -45,7 +45,6 @@ class AppKernel extends Kernel
             new Ilios\ApiBundle\IliosApiBundle(),
             new Http\HttplugBundle\HttplugBundle(),
             new Happyr\GoogleAnalyticsBundle\HappyrGoogleAnalyticsBundle(),
-            new ActiveLAMP\Bundle\SwaggerUIBundle\ALSwaggerUIBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
