@@ -100,6 +100,12 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.dto.ilm_session_voter:
+        class: Ilios\AuthenticationBundle\Voter\DTO\IlmSessionDTOVoter
+        parent: security.access.course_voter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.dto.learner_group_voter:
         class: Ilios\AuthenticationBundle\Voter\DTO\LearnerGroupDTOVoter
         public: false

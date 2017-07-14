@@ -100,6 +100,12 @@ services:
         public: false
         tags:
             - { name: security.voter }
+    security.access.entity.ilm_session_voter:
+        class: Ilios\AuthenticationBundle\Voter\Entity\IlmSessionEntityVoter
+        parent: security.access.entity.session_voter
+        public: false
+        tags:
+            - { name: security.voter }
     security.access.entity.learner_group_voter:
         class: Ilios\AuthenticationBundle\Voter\Entity\LearnerGroupEntityVoter
         public: false

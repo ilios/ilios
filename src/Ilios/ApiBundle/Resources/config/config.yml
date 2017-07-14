@@ -9,5 +9,5 @@ parameters:
     sessionlearningmaterials,sessiondescriptions,sessionlearningmaterials,sessions,sessiontypes,schoolconfigs,schools,
     terms,usermadereminders,userroles,users,vocabularies
   ilios_api_non_dto_controllers: >-
-    (?i)(academicyears|curriculuminventoryexports|ilmsessions|ingestionexceptions|instructorgroups|learningmaterials|learningmaterialstatuses|learningmaterialuserroles|meshconcepts|meshterms|meshpreviousindexings|meshqualifiers|meshsemantictypes|meshterms|meshtrees|objectives|pendinguserupdates|permissions|programyearstewards|reports|schoolconfigs|sessiondescriptions|sessionlearningmaterials|usermadereminders|userroles|vocabularies)
+    (?i)(academicyears|curriculuminventoryexports|ingestionexceptions|instructorgroups|learningmaterials|learningmaterialstatuses|learningmaterialuserroles|meshconcepts|meshterms|meshpreviousindexings|meshqualifiers|meshsemantictypes|meshterms|meshtrees|objectives|pendinguserupdates|permissions|programyearstewards|reports|schoolconfigs|sessiondescriptions|sessionlearningmaterials|usermadereminders|userroles|vocabularies)
   ilios_api_valid_api_versions: 'v1'
