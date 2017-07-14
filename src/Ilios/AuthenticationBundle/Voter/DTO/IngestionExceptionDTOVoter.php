@@ -1,32 +1,33 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\DTO;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
+use Ilios\CoreBundle\Entity\DTO\IngestionExceptionDTO;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\IngestionException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class SchoolVoter
- * @package Ilios\AuthenticationBundle\Voter
+ * Class IngestionExceptionDTOVoter
+ * @package Ilios\AuthenticationBundle\Voter\DTO
  */
-class IngestionExceptionVoter extends AbstractVoter
+class IngestionExceptionDTOVoter extends AbstractVoter
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof IngestionException && in_array($attribute, array(self::VIEW));
+        return $subject instanceof IngestionExceptionDTO && in_array($attribute, array(self::VIEW));
     }
 
     /**
      * @param string $attribute
-     * @param IngestionException $exception
+     * @param IngestionExceptionDTO $ingestionException
      * @param TokenInterface $token
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $exception, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $ingestionException, TokenInterface $token)
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

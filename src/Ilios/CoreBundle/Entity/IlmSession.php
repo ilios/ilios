@@ -21,7 +21,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="ilm_session_facet")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\IlmSessionRepository")
  *
  * @IS\Entity
  */

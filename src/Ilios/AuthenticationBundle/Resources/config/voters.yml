@@ -13,22 +13,6 @@ services:
         public: false
         tags:
             - { name: security.voter }
-    security.access.ilm_session_voter:
-        class: Ilios\AuthenticationBundle\Voter\IlmSessionVoter
-        parent: security.access.entity.session_voter
-        public: false
-        tags:
-            - { name: security.voter }
-    security.access.ingestion_exception_voter:
-        class: Ilios\AuthenticationBundle\Voter\IngestionExceptionVoter
-        public: false
-        tags:
-            - { name: security.voter }
-    security.access.instructor_group_voter:
-        class: Ilios\AuthenticationBundle\Voter\InstructorGroupVoter
-        public: false
-        tags:
-            - { name: security.voter }
     security.access.learning_material_status_voter:
         class: Ilios\AuthenticationBundle\Voter\LearningMaterialStatusVoter
         public: false
