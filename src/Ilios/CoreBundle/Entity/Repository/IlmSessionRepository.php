@@ -121,6 +121,25 @@ class IlmSessionRepository extends EntityRepository
             unset($criteria[$rel]);
         }
 
+        if (array_key_exists('sessions', $criteria) || array_key_exists('courses', $criteria)) {
+            $qb->join('x.session', 'x_session');
+        }
+
+        if (array_key_exists('sessions', $criteria)) {
+            $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
+            $qb->andWhere($qb->expr()->in('x_session.id', ':sessions'));
+            $qb->setParameter(':sessions', $ids);
+            unset($criteria['sessions']);
+        }
+
+        if (array_key_exists('courses', $criteria)) {
+            $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
+            $qb->leftJoin('x_session.course', 'x_course');
+            $qb->andWhere($qb->expr()->in('x_course.id', ':courses'));
+            $qb->setParameter(':courses', $ids);
+            unset($criteria['courses']);
+        }
+
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
