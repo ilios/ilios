@@ -33,6 +33,7 @@ class Entity extends ObjectNormalizer
      * the constructor so this uses a setter to pass the needed
      * service
      *
+     * @required
      * @param EntityMetadata $entityMetadata
      */
     public function setEntityMetadata(EntityMetadata $entityMetadata)
@@ -45,6 +46,7 @@ class Entity extends ObjectNormalizer
      * the constructor so this uses a setter to pass the needed
      * service
      *
+     * @required
      * @param Registry $registry
      */
     public function setRegistry(Registry $registry)
@@ -57,6 +59,7 @@ class Entity extends ObjectNormalizer
      * the constructor so this uses a setter to pass the needed
      * service
      *
+     * @required
      * @param HTMLPurifier $purifier
      */
     public function setPurifier(HTMLPurifier $purifier)

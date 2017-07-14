@@ -2,7 +2,8 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Ilios\ApiBundle\Service\SwaggerDocBuilder;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,8 +14,22 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @package Ilios\ApiBundle\Controller
  */
-class SwaggerDocsController extends Controller
+class SwaggerDocsController extends AbstractController
 {
+    /**
+     * @var SwaggerDocBuilder
+     */
+    protected $builder;
+
+    /**
+     * SwaggerDocsController constructor.
+     * @param SwaggerDocBuilder $builder
+     */
+    public function __construct(SwaggerDocBuilder $builder)
+    {
+        $this->builder = $builder;
+    }
+
     /**
      * Get a single YAML file which documents our endpoints
      *
@@ -23,8 +38,7 @@ class SwaggerDocsController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $builder = $this->container->get('ilios_api.swagger_doc_builder');
-        $yaml = $builder->getDocs($request);
+        $yaml = $this->builder->getDocs($request);
 
         $response = new Response(
             $yaml,

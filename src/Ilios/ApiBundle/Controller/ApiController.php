@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Controller;
 
+use Ilios\ApiBundle\Service\EndpointResponseNamer;
 use Ilios\CoreBundle\Entity\Manager\DTOManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -10,7 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class ApiController
@@ -20,6 +24,45 @@ use Symfony\Component\Serializer\Serializer;
  */
 class ApiController extends Controller implements ApiControllerInterface
 {
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    protected $authorizationChecker;
+
+    /**
+     * @var SerializerInterface
+     */
+    protected $serializer;
+
+    /**
+     * @var ValidatorInterface
+     */
+    protected $validator;
+
+    /**
+     * @var EndpointResponseNamer
+     */
+    protected $endpointResponseNamer;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
+
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator,
+        EndpointResponseNamer $endpointResponseNamer,
+        TokenStorageInterface $tokenStorage
+    ) {
+        $this->authorizationChecker = $authorizationChecker;
+        $this->serializer = $serializer;
+        $this->validator = $validator;
+        $this->endpointResponseNamer = $endpointResponseNamer;
+        $this->tokenStorage = $tokenStorage;
+    }
+
     /**
      * Handles single GET requests for endpoints
      *
@@ -147,8 +190,7 @@ class ApiController extends Controller implements ApiControllerInterface
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('delete', $entity)) {
+        if (! $this->authorizationChecker->isGranted('delete', $entity)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -164,7 +206,7 @@ class ApiController extends Controller implements ApiControllerInterface
     /**
      * Get the manager for this request by name
      *
-     * @param string $object
+     * @param string $pluralObjectName
      *
      * @return DTOManagerInterface
      *
@@ -172,13 +214,13 @@ class ApiController extends Controller implements ApiControllerInterface
      * if the manager does not support operations that this default
      * controller needs.
      */
-    protected function getManager($object)
+    protected function getManager($pluralObjectName)
     {
-        $singularName = $this->getSingularObjectName($object);
+        $singularName = $this->getSingularObjectName($pluralObjectName);
         $name = "ilioscore.{$singularName}.manager";
         if (!$this->container->has($name)) {
             throw new \Exception(
-                sprintf('The manager for \'%s\' does not exist.', $object)
+                sprintf('The manager for \'%s\' does not exist.', $pluralObjectName)
             );
         }
 
@@ -331,9 +373,7 @@ class ApiController extends Controller implements ApiControllerInterface
      */
     protected function getSingularObjectName($object)
     {
-        $namer = $this->container->get('ilios_api.endpoint_response_namer');
-
-        return strtolower($namer->getSingularName($object));
+        return strtolower($this->endpointResponseNamer->getSingularName($object));
     }
 
     /**
@@ -345,9 +385,7 @@ class ApiController extends Controller implements ApiControllerInterface
      */
     protected function getPluralResponseKey($object)
     {
-        $namer = $this->container->get('ilios_api.endpoint_response_namer');
-
-        return $namer->getPluralName($object);
+        return $this->endpointResponseNamer->getPluralName($object);
     }
 
     /**
@@ -360,9 +398,7 @@ class ApiController extends Controller implements ApiControllerInterface
      */
     protected function getSingularResponseKey($object)
     {
-        $namer = $this->container->get('ilios_api.endpoint_response_namer');
-
-        return $namer->getSingularName($object);
+        return $this->endpointResponseNamer->getSingularName($object);
     }
 
     /**
@@ -408,7 +444,7 @@ class ApiController extends Controller implements ApiControllerInterface
      */
     protected function resultsToResponse(array $results, $responseKey, $responseCode)
     {
-        $authChecker = $this->get('security.authorization_checker');
+        $authChecker = $this->authorizationChecker;
         $filteredResults = array_filter($results, function ($object) use ($authChecker) {
             return $authChecker->isGranted('view', $object);
         });
@@ -465,8 +501,7 @@ class ApiController extends Controller implements ApiControllerInterface
      */
     protected function validateEntity($entity)
     {
-        $validator = $this->container->get('validator');
-        $errors = $validator->validate($entity);
+        $errors = $this->validator->validate($entity);
         if (count($errors) > 0) {
             $errorsString = (string) $errors;
 
@@ -485,8 +520,7 @@ class ApiController extends Controller implements ApiControllerInterface
      */
     protected function authorizeEntity($entity, $permission)
     {
-        $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted($permission, $entity)) {
+        if (! $this->authorizationChecker->isGranted($permission, $entity)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
     }
@@ -498,10 +532,10 @@ class ApiController extends Controller implements ApiControllerInterface
      * to build a custom implementation this will make it easier to use it
      * in this controller
      *
-     * @return Serializer
+     * @return SerializerInterface
      */
     protected function getSerializer()
     {
-        return $this->get('ilios_api.serializer');
+        return $this->serializer;
     }
 }

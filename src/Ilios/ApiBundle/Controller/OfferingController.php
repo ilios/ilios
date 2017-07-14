@@ -120,14 +120,14 @@ class OfferingController extends ApiController
     protected function createAlertForNewOffering(OfferingInterface $offering)
     {
         // create new alert for this offering
-        $alertManager = $this->container->get('ilioscore.alert.manager');
-        $userManager = $this->container->get('ilioscore.user.manager');
-        $alertChangeTypeManager = $this->container->get('ilioscore.alertchangetype.manager');
+        $alertManager = $this->getManager('alerts');
+        $userManager = $this->getManager('users');
+        $alertChangeTypeManager = $this->getManager('alertchangetypes');
         $alert = $alertManager->create();
         $alert->addChangeType($alertChangeTypeManager->findOneBy([
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING]));
         /** @var SessionUserInterface $sessionUser */
-        $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
+        $sessionUser = $this->tokenStorage->getToken()->getUser();
         $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
         $alert->addInstigator($user);
         $alert->addRecipient($offering->getSession()->getCourse()->getSchool());
@@ -193,8 +193,8 @@ class OfferingController extends ApiController
         }
         array_unique($changeTypes);
 
-        $alertManager = $this->container->get('ilioscore.alert.manager');
-        $alertChangeTypeManager = $this->container->get('ilioscore.alertchangetype.manager');
+        $alertManager = $this->getManager('alerts');
+        $alertChangeTypeManager = $this->getManager('alertchangetypes');
 
         $alert = $alertManager->findOneBy([
             'dispatched' => false,
@@ -212,9 +212,9 @@ class OfferingController extends ApiController
             $alert->setTableName('offering');
             $alert->setTableRowId($offering->getId());
 
-            $userManager = $this->container->get('ilioscore.user.manager');
+            $userManager = $this->getManager('users');
             /** @var SessionUserInterface $sessionUser */
-            $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
+            $sessionUser = $this->tokenStorage->getToken()->getUser();
             $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
             $alert->addInstigator($user);
         }

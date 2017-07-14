@@ -4,18 +4,22 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUser;
 use Ilios\CoreBundle\Classes\UserEvent;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTime;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class UsereventController
  * @package Ilios\ApiBundle\Controller
  */
-class UsereventController extends Controller
+class UsereventController extends AbstractController
 {
     /**
      * Get events for a user
@@ -23,21 +27,28 @@ class UsereventController extends Controller
      * @param string $version
      * @param int $id of the user
      * @param Request $request
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param UserManager $manager
+     * @param SerializerInterface $serializer
      *
      * @return Response
      */
-    public function getAction($version, $id, Request $request)
-    {
-        $manager = $this->container->get('ilioscore.user.manager');
-
+    public function getAction(
+        $version,
+        $id,
+        Request $request,
+        AuthorizationCheckerInterface $authorizationChecker,
+        UserManager $manager,
+        SerializerInterface $serializer
+    ) {
+        /** @var UserInterface $user */
         $user = $manager->findOneBy(['id' => $id]);
 
         if (!$user) {
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
         }
 
-        $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('view', $user)) {
+        if (! $authorizationChecker->isGranted('view', $user)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -54,9 +65,8 @@ class UsereventController extends Controller
         }
         $events = $manager->findEventsForUser($user->getId(), $from, $to);
 
-        $authChecker = $this->get('security.authorization_checker');
-        $events = array_filter($events, function ($entity) use ($authChecker) {
-            return $authChecker->isGranted('view', $entity);
+        $events = array_filter($events, function ($entity) use ($authorizationChecker) {
+            return $authorizationChecker->isGranted('view', $entity);
         });
         $sessionUser = new SessionUser($user);
 
@@ -72,7 +82,6 @@ class UsereventController extends Controller
         }
 
         $response['userEvents'] = $result ? array_values($result) : [];
-        $serializer = $this->get('ilios_api.serializer');
         return new Response(
             $serializer->serialize($response, 'json'),
             Response::HTTP_OK,

@@ -4,7 +4,9 @@ namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\CoreBundle\Service\CurriculumInventory\Exporter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -16,6 +18,28 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CurriculumInventoryExportController extends NonDtoApiController
 {
+    /**
+     * @var Exporter
+     */
+    protected $exporter;
+
+    /**
+     * @var UserManager
+     */
+    protected $userManager;
+
+    /**
+     * Register injections here so we don't have to override the ApiController constructor
+     *
+     * @required
+     * @param Exporter $exporter
+     */
+    public function setup(Exporter $exporter, UserManager $userManager)
+    {
+        $this->exporter = $exporter;
+        $this->userManager = $userManager;
+    }
+
     /**
      * Return a 404 response
      */
@@ -32,7 +56,6 @@ class CurriculumInventoryExportController extends NonDtoApiController
     public function postAction($version, $object, Request $request)
     {
         $manager = $this->getManager($object);
-        $userManager = $this->container->get('ilioscore.user.manager');
         $class = $manager->getClass() . '[]';
 
         $json = $this->extractJsonFromRequest($request, $object, 'POST');
@@ -40,16 +63,16 @@ class CurriculumInventoryExportController extends NonDtoApiController
         $entities = $serializer->deserialize($json, $class, 'json');
 
         /** @var SessionUserInterface $sessionUser */
-        $sessionUser = $this->get('security.token_storage')->getToken()->getUser();
-        $user = $userManager->findOneBy(['id' => $sessionUser->getId()]);
-        $exporter = $this->container->get('ilioscore.curriculum_inventory.exporter');
+        $sessionUser = $this->tokenStorage->getToken()->getUser();
+        /** @var UserInterface $user */
+        $user = $this->userManager->findOneBy(['id' => $sessionUser->getId()]);
         /** @var CurriculumInventoryExportInterface $export */
         foreach ($entities as $export) {
             $export->setCreatedBy($user);
             $this->authorizeEntity($export, 'create');
 
             // generate and set the report document
-            $document = $exporter->getXmlReport($export->getReport());
+            $document = $this->exporter->getXmlReport($export->getReport());
             $export->setDocument($document->saveXML());
 
             $this->validateEntity($export);

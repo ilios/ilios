@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 /**
  * Class AuthenticationController
@@ -18,6 +19,21 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AuthenticationController extends ApiController
 {
+    /**
+     * @var UserPasswordEncoder
+     */
+    protected $passwordEncoder;
+
+    /**
+     * Inject dependancies without overriding ApiControllers constructor
+     * @required
+     * @param UserPasswordEncoder $passwordEncoder
+     */
+    public function setup(UserPasswordEncoder $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     /**
      * @inheritdoc
      */
@@ -48,7 +64,7 @@ class AuthenticationController extends ApiController
 
         $arr = $this->extractPostDataFromRequest($request, $object);
 
-        $userManager = $this->container->get('ilioscore.user.manager');
+        $userManager = $this->getManager('users');
         $needingHashedPassword = array_filter($arr, function ($obj) {
             return (!empty($obj->password) && !empty($obj->user));
         });
@@ -64,13 +80,12 @@ class AuthenticationController extends ApiController
 
 
         $encodedPasswords = [];
-        $encoder = $this->container->get('security.password_encoder');
         foreach ($arr as $obj) {
             if (!empty($obj->password) && !empty($obj->user)) {
                 $user = $users[$obj->user];
                 if ($user) {
                     $sessionUser = new SessionUser($user);
-                    $encodedPassword = $encoder->encodePassword($sessionUser, $obj->password);
+                    $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $obj->password);
                     $encodedPasswords[$user->getId()] = $encodedPassword;
                 }
             }
@@ -122,17 +137,17 @@ class AuthenticationController extends ApiController
         }
 
         $authObject = $this->extractPutDataFromRequest($request, $object);
-        $userManager = $this->container->get('ilioscore.user.manager');
-        $encoder = $this->container->get('security.password_encoder');
+        $userManager = $this->getManager('users');
 
         if (!empty($authObject->password) && !empty($authObject->user)) {
+            /** @var UserInterface $user */
             $user = $userManager->findOneBy(['id' => $authObject->user]);
             if ($user) {
                 //set the password to null to reset the encoder
                 //so we don't use the legacy one
                 $entity->setPasswordSha256(null);
                 $sessionUser = new SessionUser($user);
-                $encodedPassword = $encoder->encodePassword($sessionUser, $authObject->password);
+                $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
             }
         }
         unset($authObject->password);
@@ -163,8 +178,7 @@ class AuthenticationController extends ApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $userId));
         }
 
-        $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('delete', $entity)) {
+        if (! $this->authorizationChecker->isGranted('delete', $entity)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 

@@ -3,12 +3,17 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\CoreBundle\Classes\SchoolEvent;
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTime;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class SchooleventController
@@ -22,14 +27,24 @@ class SchooleventController extends Controller
      * @param string $version of the API requested
      * @param string $id of the school
      * @param Request $request
+     * @param SchoolManager $schoolManager
+     * @param UserManager $userManager
+     * @param AuthorizationCheckerInterface $authorizationChecker,
+     * @param TokenStorageInterface $tokenStorage,
+     * @param SerializerInterface $serializer
      *
      * @return Response
      */
-    public function getAction($version, $id, Request $request)
-    {
-        $schoolManager = $this->container->get('ilioscore.school.manager');
-        $userManager = $this->container->get('ilioscore.user.manager');
-
+    public function getAction(
+        $version,
+        $id,
+        Request $request,
+        SchoolManager $schoolManager,
+        UserManager $userManager,
+        AuthorizationCheckerInterface $authorizationChecker,
+        TokenStorageInterface $tokenStorage,
+        SerializerInterface $serializer
+    ) {
         $school = $schoolManager->findOneBy(['id' => $id]);
 
         if (!$school) {
@@ -49,14 +64,13 @@ class SchooleventController extends Controller
         }
         $events = $schoolManager->findEventsForSchool($school->getId(), $from, $to);
 
-        $authChecker = $this->get('security.authorization_checker');
-        $events = array_filter($events, function ($entity) use ($authChecker) {
-            return $authChecker->isGranted('view', $entity);
+        $events = array_filter($events, function ($entity) use ($authorizationChecker) {
+            return $authorizationChecker->isGranted('view', $entity);
         });
 
         $result = $userManager->addInstructorsToEvents($events);
 
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $tokenStorage->getToken()->getUser();
 
         //Un-privileged users get less data
         if (!$user->hasRole(['Faculty', 'Course Director', 'Developer'])) {
@@ -67,7 +81,6 @@ class SchooleventController extends Controller
         }
 
         $response['events'] = $result ? array_values($result) : [];
-        $serializer = $this->get('ilios_api.serializer');
         return new Response(
             $serializer->serialize($response, 'json'),
             Response::HTTP_OK,

@@ -3,6 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\CoreBundle\Classes\AcademicYear;
+use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -16,7 +17,8 @@ class AcademicYearController extends ApiController
 {
     public function getAction($version, $object, $id)
     {
-        $courseManager = $this->container->get('ilioscore.course.manager');
+        /** @var CourseManager $courseManager */
+        $courseManager = $this->getManager('courses');
         $years = $courseManager->getYears();
 
         if (!in_array($id, $years)) {
@@ -28,7 +30,8 @@ class AcademicYearController extends ApiController
 
     public function getAllAction($version, $object, Request $request)
     {
-        $courseManager = $this->container->get('ilioscore.course.manager');
+        /** @var CourseManager $courseManager */
+        $courseManager = $this->getManager('courses');
 
         $years = array_map(function ($year) {
             return new AcademicYear($year);

@@ -53,10 +53,9 @@ class ProgramYearController extends ApiController
         if ($entity) {
             $code = Response::HTTP_OK;
             $permission = 'edit';
-            $authChecker = $this->get('security.authorization_checker');
             if ($entity->isLocked() && !$data->locked) {
                 //check if the programYear can be unlocked and unlock it
-                if ($authChecker->isGranted('unlock', $entity)) {
+                if ($this->authorizationChecker->isGranted('unlock', $entity)) {
                     $entity->setLocked(false);
                 }
                 $data->locked = $entity->isLocked();
@@ -86,7 +85,7 @@ class ProgramYearController extends ApiController
      */
     protected function createCohort(ProgramYearInterface $programYear)
     {
-        $cohortManager = $this->container->get('ilioscore.cohort.manager');
+        $cohortManager = $this->getManager('cohorts');
 
         $program = $programYear->getProgram();
         $graduationYear = $programYear->getStartYear() + $program->getDuration();
