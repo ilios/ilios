@@ -86,15 +86,13 @@ class OfferingTest extends AbstractEndpointTest
             'ids' => [[3, 4], ['id' => [4, 5]]],
             'room' => [[2], ['room' => 'room 3']],
             'site' => [[3], ['site' => 'site 4']],
-            'startDate' => [[0], ['startDate' => 'test'], $skipped = true],
-            'endDate' => [[0], ['endDate' => 'test'], $skipped = true],
-            'updatedAt' => [[0], ['updatedAt' => 'test'], $skipped = true],
             'session' => [[2, 3, 4], ['session' => 2]],
             'sessions' => [[2, 3, 4], ['sessions' => [2]]],
-            'learnerGroups' => [[0], ['learnerGroups' => [1]], $skipped = true],
-            'instructorGroups' => [[0], ['instructorGroups' => [1]], $skipped = true],
-            'learners' => [[0], ['learners' => [1]], $skipped = true],
-            'instructors' => [[0], ['instructors' => [1]], $skipped = true],
+            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
+            'instructorGroups' => [[0], ['instructorGroups' => [1]]],
+            'learners' => [[3], ['learners' => [2]]],
+            'instructors' => [[5, 7], ['instructors' => [1]]],
+            'courses' => [[0, 1, 2, 3, 4], ['courses' => [1]]],
         ];
     }
 
@@ -127,6 +125,16 @@ class OfferingTest extends AbstractEndpointTest
     {
         $this->skipDates = true;
         $this->getAllTest();
+    }
+
+    /**
+     * Some of the offering time stamps are dynamic so we can't really test them
+     * We have to skip that instead.
+     */
+    public function filterTest(array $filters, array $expectedData)
+    {
+        $this->skipDates = true;
+        parent::filterTest($filters, $expectedData);
     }
 
     /**
