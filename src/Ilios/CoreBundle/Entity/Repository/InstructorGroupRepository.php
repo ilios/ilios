@@ -2,6 +2,9 @@
 namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\AbstractQuery;
+use Ilios\CoreBundle\Entity\DTO\InstructorGroupDTO;
 
 /**
  * Class InstructorGroupRepository
@@ -9,30 +12,115 @@ use Doctrine\ORM\EntityRepository;
  */
 class InstructorGroupRepository extends EntityRepository
 {
+
     /**
      * @inheritdoc
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
+        $qb->select('DISTINCT x')->from('IliosCoreBundle:InstructorGroup', 'x');
 
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        $qb->select('DISTINCT i')->from('IliosCoreBundle:InstructorGroup', 'i');
+        return $qb->getQuery()->getResult();
+    }
 
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
+    /**
+     * Find and hydrate as DTOs
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return array
+     */
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('x')
+            ->distinct()->from('IliosCoreBundle:InstructorGroup', 'x');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        /** @var InstructorGroupDTO[] $instructorGroupDTOs */
+        $instructorGroupDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $instructorGroupDTOs[$arr['id']] = new InstructorGroupDTO(
+                $arr['id'],
+                $arr['title']
+            );
+        }
+        $instructorGroupIds = array_keys($instructorGroupDTOs);
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select(
+                'x.id as xId, school.id AS schoolId'
+            )
+            ->from('IliosCoreBundle:InstructorGroup', 'x')
+            ->join('x.school', 'school')
+            ->where($qb->expr()->in('x.id', ':ids'))
+            ->setParameter('ids', $instructorGroupIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $instructorGroupDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
         }
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('i.'.$sort, $order);
+        $related = [
+            'learnerGroups',
+            'ilmSessions',
+            'users',
+            'offerings',
+        ];
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, x.id AS instructorGroupId')
+                ->from('IliosCoreBundle:InstructorGroup', 'x')
+                ->join("x.{$rel}", 'r')
+                ->where($qb->expr()->in('x.id', ':ids'))
+                ->orderBy('relId')
+                ->setParameter('ids', $instructorGroupIds);
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $instructorGroupDTOs[$arr['instructorGroupId']]->{$rel}[] = $arr['relId'];
             }
+        }
+        return array_values($instructorGroupDTOs);
+    }
+
+
+    /**
+     * @param QueryBuilder $qb
+     * @param array $criteria
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return QueryBuilder
+     */
+    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
+    {
+        $related = [
+            'learnerGroups',
+            'ilmSessions',
+            'users',
+            'offerings',
+        ];
+        foreach ($related as $rel) {
+            if (array_key_exists($rel, $criteria)) {
+                $ids = is_array($criteria[$rel]) ?
+                    $criteria[$rel] : [$criteria[$rel]];
+                $alias = "alias_${rel}";
+                $param = ":${rel}";
+                $qb->join("x.${rel}", $alias);
+                $qb->andWhere($qb->expr()->in("${alias}.id", $param));
+                $qb->setParameter($param, $ids);
+            }
+            unset($criteria[$rel]);
         }
 
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
-            $qb->leftJoin('i.ilmSessions', 'c_ilm');
-            $qb->leftJoin('i.offerings', 'c_offering');
+            $qb->leftJoin('x.ilmSessions', 'c_ilm');
+            $qb->leftJoin('x.offerings', 'c_offering');
             $qb->leftJoin('c_ilm.session', 'c_session');
             $qb->leftJoin('c_offering.session', 'c_session2');
             $qb->leftJoin('c_session.course', 'c_course');
@@ -48,8 +136,8 @@ class InstructorGroupRepository extends EntityRepository
 
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->leftJoin('i.ilmSessions', 'se_ilm');
-            $qb->leftJoin('i.offerings', 'se_offering');
+            $qb->leftJoin('x.ilmSessions', 'se_ilm');
+            $qb->leftJoin('x.offerings', 'se_offering');
             $qb->leftJoin('se_ilm.session', 'se_session');
             $qb->leftJoin('se_offering.session', 'se_session2');
             $qb->andWhere(
@@ -63,8 +151,8 @@ class InstructorGroupRepository extends EntityRepository
 
         if (array_key_exists('sessionTypes', $criteria)) {
             $ids = is_array($criteria['sessionTypes']) ? $criteria['sessionTypes'] : [$criteria['sessionTypes']];
-            $qb->leftJoin('i.ilmSessions', 'st_ilm');
-            $qb->leftJoin('i.offerings', 'st_offering');
+            $qb->leftJoin('x.ilmSessions', 'st_ilm');
+            $qb->leftJoin('x.offerings', 'st_offering');
             $qb->leftJoin('st_ilm.session', 'st_session');
             $qb->leftJoin('st_offering.session', 'st_session2');
             $qb->leftJoin('st_session.sessionType', 'st_sessionType');
@@ -80,7 +168,7 @@ class InstructorGroupRepository extends EntityRepository
 
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
-            $qb->join('i.users', 'i_instructor');
+            $qb->join('x.users', 'i_instructor');
             $qb->andWhere($qb->expr()->in('i_instructor.id', ':instructors'));
             $qb->setParameter(':instructors', $ids);
         }
@@ -88,8 +176,8 @@ class InstructorGroupRepository extends EntityRepository
         if (array_key_exists('learningMaterials', $criteria)) {
             $ids = is_array($criteria['learningMaterials'])
                 ? $criteria['learningMaterials'] : [$criteria['learningMaterials']];
-            $qb->leftJoin('i.ilmSessions', 'lm_ilm');
-            $qb->leftJoin('i.offerings', 'lm_offering');
+            $qb->leftJoin('x.ilmSessions', 'lm_ilm');
+            $qb->leftJoin('x.offerings', 'lm_offering');
             $qb->leftJoin('lm_ilm.session', 'lm_session');
             $qb->leftJoin('lm_offering.session', 'lm_session2');
             $qb->leftJoin('lm_session.learningMaterials', 'lm_slm');
@@ -106,8 +194,8 @@ class InstructorGroupRepository extends EntityRepository
         if (array_key_exists('terms', $criteria)) {
             $ids = is_array($criteria['terms'])
                 ? $criteria['terms'] : [$criteria['terms']];
-            $qb->leftJoin('i.ilmSessions', 't_ilm');
-            $qb->leftJoin('i.offerings', 't_offering');
+            $qb->leftJoin('x.ilmSessions', 't_ilm');
+            $qb->leftJoin('x.offerings', 't_offering');
             $qb->leftJoin('t_ilm.session', 't_session');
             $qb->leftJoin('t_offering.session', 't_session2');
             $qb->leftJoin('t_session.terms', 't_term');
@@ -123,7 +211,7 @@ class InstructorGroupRepository extends EntityRepository
 
         if (array_key_exists('schools', $criteria)) {
             $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
-            $qb->join('i.school', 'sc_school');
+            $qb->join('x.school', 'sc_school');
             $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
             $qb->setParameter(':schools', $ids);
         }
@@ -135,14 +223,26 @@ class InstructorGroupRepository extends EntityRepository
         unset($criteria['instructors']);
         unset($criteria['learningMaterials']);
         unset($criteria['terms']);
+        
 
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("i.{$key}", ":{$key}"));
+                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
                 $qb->setParameter(":{$key}", $values);
             }
         }
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('x.'.$sort, $order);
+            }
+        }
+
         if ($offset) {
             $qb->setFirstResult($offset);
         }
@@ -151,6 +251,6 @@ class InstructorGroupRepository extends EntityRepository
             $qb->setMaxResults($limit);
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }

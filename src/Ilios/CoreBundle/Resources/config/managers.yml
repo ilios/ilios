@@ -88,7 +88,7 @@ services:
         class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\IngestionException]
     ilioscore.instructorgroup.manager:
-        class: "%ilioscore.basemanager.class%"
+        class: "%ilioscore.dtomanager.class%"
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\InstructorGroup]
     ilioscore.learnergroup.manager:
         class: "%ilioscore.dtomanager.class%"
