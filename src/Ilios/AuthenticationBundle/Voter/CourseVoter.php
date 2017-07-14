@@ -43,6 +43,7 @@ abstract class CourseVoter extends AbstractVoter
         return (
             $owningSchoolId === $user->getSchoolId()
             || $this->courseManager->isUserInstructingInCourse($user->getId(), $courseId)
+            || $user->isDirectingCourse($courseId)
             || $user->hasReadPermissionToSchool($owningSchoolId)
             || $user->hasReadPermissionToCourse($courseId)
         );

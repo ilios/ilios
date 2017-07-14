@@ -141,4 +141,13 @@ interface SessionUserInterface extends UserInterface, EquatableInterface, Encode
      * @return bool
      */
     public function isThePrimarySchool(SchoolInterface $school);
+
+    /**
+     * Check if a user is a director of a course
+     *
+     * @param $courseId
+     *
+     * @return boolean
+     */
+    public function isDirectingCourse($courseId);
 }

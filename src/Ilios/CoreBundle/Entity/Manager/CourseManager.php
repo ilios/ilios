@@ -53,6 +53,8 @@ class CourseManager extends DTOManager
      */
     public function isUserInstructingInCourse($userId, $courseId)
     {
-        return $this->getRepository()->isUserInstructingInCourse($userId, $courseId);
+        /** @var CourseRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->isUserInstructingInCourse($userId, $courseId);
     }
 }
