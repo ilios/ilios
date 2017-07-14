@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * IngestionExceptions can only be GETed nothing else
  * @package Ilios\ApiBundle\Controller
  */
-class IngestionExceptionController extends NonDtoApiController
+class IngestionExceptionController extends ApiController
 {
     /**
      * Send a 404 header to the user
