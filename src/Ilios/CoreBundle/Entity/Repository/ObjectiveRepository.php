@@ -47,7 +47,8 @@ class ObjectiveRepository extends EntityRepository
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $objectiveDTOs[$arr['id']] = new ObjectiveDTO(
                 $arr['id'],
-                $arr['title']
+                $arr['title'],
+                $arr['position']
             );
         }
         $objectiveIds = array_keys($objectiveDTOs);
