@@ -95,7 +95,7 @@ security:
         Ilios\AuthenticationBundle\Classes\SessionUserInterface:
             algorithm: bcrypt
         ilios_legacy_encoder:
-            id: ilios_authentication.form.legacy_encoder
+            id: Ilios\AuthenticationBundle\Form\Encoder
             
 doctrine_migrations:
     dir_name: '%kernel.root_dir%/Resources/DoctrineMigrations'

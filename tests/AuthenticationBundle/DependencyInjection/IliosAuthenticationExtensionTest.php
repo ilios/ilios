@@ -44,7 +44,7 @@ class IliosAuthenticationExtensionTest extends AbstractExtensionTestCase
         ));
         $parameters = array(
             'ilios_authentication.legacy_salt' => $legacySalt,
-            'ilios_authentication.authenticatorservice' => 'ilios_authentication.form.authentication',
+            'ilios_authentication.authenticatorservice' => 'Ilios\AuthenticationBundle\Service\FormAuthentication',
             'ilios_authentication.ldap.host' => $ldapHost,
             'ilios_authentication.ldap.port' => $ldapPort,
             'ilios_authentication.shibboleth.login_path' => $shibbLoginPath,
@@ -57,22 +57,6 @@ class IliosAuthenticationExtensionTest extends AbstractExtensionTestCase
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);
-        }
-        $services = array(
-            'ilios_authentication.jwt.authenticator',
-            'ilios_authentication.jwt.add_header',
-            'ilios_authentication.jwt.manager',
-            'ilios_authentication.form.legacy_encoder',
-            'ilios_authentication.form.authentication',
-            'ilios_authentication.shibboleth.authentication',
-            'ilios_authentication.ldap.authentication',
-            'ilios_authentication.cas.authentication',
-            'ilios_authentication.authenticator_factory',
-            'ilios_authentication.authenticator',
-            'ilios_authentication.cas.manager',
-        );
-        foreach ($services as $service) {
-            $this->assertContainerBuilderHasService($service);
         }
     }
 
@@ -92,7 +76,7 @@ class IliosAuthenticationExtensionTest extends AbstractExtensionTestCase
             'cas_authentication_certificate_path' => null,
         ));
         $parameters = array(
-            'ilios_authentication.authenticatorservice' => 'ilios_authentication.shibboleth.authentication',
+            'ilios_authentication.authenticatorservice' => 'Ilios\AuthenticationBundle\Service\ShibbolethAuthentication',
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);
@@ -115,7 +99,7 @@ class IliosAuthenticationExtensionTest extends AbstractExtensionTestCase
             'cas_authentication_certificate_path' => null,
         ));
         $parameters = array(
-            'ilios_authentication.authenticatorservice' => 'ilios_authentication.ldap.authentication',
+            'ilios_authentication.authenticatorservice' => 'Ilios\AuthenticationBundle\Service\LdapAuthentication',
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);
@@ -138,7 +122,7 @@ class IliosAuthenticationExtensionTest extends AbstractExtensionTestCase
             'cas_authentication_certificate_path' => null,
         ));
         $parameters = array(
-            'ilios_authentication.authenticatorservice' => 'ilios_authentication.cas.authentication',
+            'ilios_authentication.authenticatorservice' => 'Ilios\AuthenticationBundle\Service\CasAuthentication',
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);

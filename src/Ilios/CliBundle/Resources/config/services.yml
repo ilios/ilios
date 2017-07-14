@@ -6,7 +6,7 @@ services:
             -  { name: console.command }
     ilioscli.command.create_user_token:
         class: Ilios\CliBundle\Command\CreateUserTokenCommand
-        arguments: ["@ilioscore.user.manager", "@ilios_authentication.jwt.manager"]
+        arguments: ["@ilioscore.user.manager", '@Ilios\AuthenticationBundle\Service\JsonWebTokenManager']
         tags:
             -  { name: console.command }
     ilioscli.command.sync_user:

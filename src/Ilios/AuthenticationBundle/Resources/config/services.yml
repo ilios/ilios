@@ -1,40 +1,60 @@
 services:
-    ilios_authentication.jwt.authenticator:
-        class:  Ilios\AuthenticationBundle\Service\JsonWebTokenAuthenticator
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true
+        autoconfigure: true
         public: false
-        arguments: ["@ilios_authentication.jwt.manager"]
-    ilios_authentication.jwt.add_header:
-        class: Ilios\AuthenticationBundle\Listener\AddJwtHeader
-        arguments: ["@security.token_storage"]
+
+    Ilios\AuthenticationBundle\:
+            resource: '../../*'
+
+    Ilios\AuthenticationBundle\Controller\:
+        resource: '../../Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
+    Ilios\AuthenticationBundle\Listener\AddJwtHeader:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-    ilios_authentication.jwt.manager:
-        class: Ilios\AuthenticationBundle\Service\JsonWebTokenManager
-        arguments: ["%kernel.secret%"]
-    ilios_authentication.form.legacy_encoder:
-        class: Ilios\AuthenticationBundle\Form\Encoder
-        arguments: ["%ilios_authentication.legacy_salt%"]
-    ilios_authentication.form.authentication:
-        class: Ilios\AuthenticationBundle\Service\FormAuthentication
-        arguments: ["@ilioscore.authentication.manager", "@security.password_encoder", "@security.token_storage", "@ilios_authentication.jwt.manager"]
-    ilios_authentication.shibboleth.authentication:
-        class: Ilios\AuthenticationBundle\Service\ShibbolethAuthentication
-        arguments: ["@ilioscore.authentication.manager","@ilios_authentication.jwt.manager", "@logger", "%ilios_authentication.shibboleth.logout_path%", "%ilios_authentication.shibboleth.user_id_attribute%"]
-    ilios_authentication.ldap.authentication:
-        class: Ilios\AuthenticationBundle\Service\LdapAuthentication
-        arguments: ["@ilioscore.authentication.manager", "@ilios_authentication.jwt.manager", '%ilios_authentication.ldap.host%', '%ilios_authentication.ldap.port%', '%ilios_authentication.ldap.bind_template%']
-    ilios_authentication.cas.authentication:
-        class: Ilios\AuthenticationBundle\Service\CasAuthentication
-        arguments: ["@ilioscore.authentication.manager", "@ilios_authentication.jwt.manager", "@logger", "@router", '@ilios_authentication.cas.manager']
-    ilios_authentication.authenticator_factory:
-        class: Ilios\AuthenticationBundle\Service\AuthenticationFactory
-        arguments: ['@service_container', '%ilios_authentication.authenticatorservice%']
-    ilios_authentication.authenticator:
-        class:   Ilios\AuthenticationBundle\Service\AuthenticationInterface
-        factory: ["@ilios_authentication.authenticator_factory", createAuthenticationService]
-    ilios_authentication.cas.manager:
-        class: Ilios\AuthenticationBundle\Service\CasManager
-        arguments: ['%ilios_authentication.cas.server%', '%ilios_authentication.cas.version%', '%ilios_authentication.cas.verifySSL%', '%ilios_authentication.cas.certificatepath%']
-    ilios_authentication.session_user_provider:
-        class: Ilios\AuthenticationBundle\Service\SessionUserProvider
-        arguments: ["@ilioscore.user.manager"]
+
+    Ilios\AuthenticationBundle\Service\JsonWebTokenManager:
+        public: true
+        arguments:
+          $secretKey: '%kernel.secret%'
+
+    Ilios\AuthenticationBundle\Form\Encoder:
+        arguments:
+          $salt: '%ilios_authentication.legacy_salt%'
+
+    Ilios\AuthenticationBundle\Service\CasAuthentication:
+        public: true
+
+    Ilios\AuthenticationBundle\Service\FormAuthentication:
+        public: true
+
+    Ilios\AuthenticationBundle\Service\ShibbolethAuthentication:
+        public: true
+        arguments:
+          $logoutPath: '%ilios_authentication.shibboleth.logout_path%'
+          $userIdAttribute: '%ilios_authentication.shibboleth.user_id_attribute%'
+
+    Ilios\AuthenticationBundle\Service\LdapAuthentication:
+        public: true
+        arguments:
+          $ldapHost: '%ilios_authentication.ldap.host%'
+          $ldapPort: '%ilios_authentication.ldap.port%'
+          $ldapBindTemplate: '%ilios_authentication.ldap.bind_template%'
+
+    Ilios\AuthenticationBundle\Service\AuthenticationFactory:
+        arguments:
+          $authenticationServiceName: '%ilios_authentication.authenticatorservice%'
+
+    Ilios\AuthenticationBundle\Service\AuthenticationInterface:
+        factory: ['@Ilios\AuthenticationBundle\Service\AuthenticationFactory', createAuthenticationService]
+
+    Ilios\AuthenticationBundle\Service\CasManager:
+        arguments:
+          $casServer: '%ilios_authentication.cas.server%'
+          $casVersion: '%ilios_authentication.cas.version%'
+          $casVerifySSL: '%ilios_authentication.cas.verifySSL%'
+          $casCertificatePath: '%ilios_authentication.cas.certificatepath%'

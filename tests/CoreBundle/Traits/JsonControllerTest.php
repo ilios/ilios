@@ -80,7 +80,7 @@ trait JsonControllerTest
             $container = $client->getContainer();
 
             /** @var JsonWebTokenManager $jwtManager **/
-            $jwtManager = $container->get('ilios_authentication.jwt.manager');
+            $jwtManager = $container->get('Ilios\AuthenticationBundle\Service\JsonWebTokenManager');
             $token = $jwtManager->createJwtFromUserId($userId);
 
             $tokens[$userId] = $token;

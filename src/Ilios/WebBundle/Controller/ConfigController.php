@@ -26,7 +26,7 @@ class ConfigController extends Controller
             $configuration['loginUrl'] = $url . $loginPath;
         }
         if ($authenticationType === 'cas') {
-            $cas = $this->container->get('ilios_authentication.cas.manager');
+            $cas = $this->container->get('Ilios\AuthenticationBundle\Service\CasManager');
 
             $configuration['casLoginUrl'] = $cas->getLoginUrl();
         }
