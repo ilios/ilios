@@ -56,7 +56,7 @@ class CasAuthentication implements AuthenticationInterface
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger,
         Router $router,
-        $casManager
+        CasManager $casManager
     ) {
         $this->authManager = $authManager;
         $this->jwtManager = $jwtManager;

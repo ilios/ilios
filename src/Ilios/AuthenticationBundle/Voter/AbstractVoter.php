@@ -1,9 +1,6 @@
 <?php
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\SchoolInterface;
-use Ilios\CoreBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**

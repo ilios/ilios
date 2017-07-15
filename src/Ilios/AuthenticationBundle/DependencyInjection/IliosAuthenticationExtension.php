@@ -52,33 +52,30 @@ class IliosAuthenticationExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-        $loader->load('voters.yml');
-        $loader->load('entity_voters.yml');
-        $loader->load('dto_voters.yml');
 
         switch ($config['type']) {
             case 'form':
                 $container->setParameter(
                     'ilios_authentication.authenticatorservice',
-                    'ilios_authentication.form.authentication'
+                    'Ilios\AuthenticationBundle\Service\FormAuthentication'
                 );
                 break;
             case 'shibboleth':
                 $container->setParameter(
                     'ilios_authentication.authenticatorservice',
-                    'ilios_authentication.shibboleth.authentication'
+                    'Ilios\AuthenticationBundle\Service\ShibbolethAuthentication'
                 );
                 break;
             case 'ldap':
                 $container->setParameter(
                     'ilios_authentication.authenticatorservice',
-                    'ilios_authentication.ldap.authentication'
+                    'Ilios\AuthenticationBundle\Service\LdapAuthentication'
                 );
                 break;
             case 'cas':
                 $container->setParameter(
                     'ilios_authentication.authenticatorservice',
-                    'ilios_authentication.cas.authentication'
+                    'Ilios\AuthenticationBundle\Service\CasAuthentication'
                 );
                 break;
         }
