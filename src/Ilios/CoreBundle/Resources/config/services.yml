@@ -111,6 +111,10 @@ services:
         public: true
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Alert'
+    Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\ApplicationConfig'
     Ilios\CoreBundle\Entity\Manager\AuditLogManager:
         public: true
         arguments:
