@@ -17,6 +17,9 @@ class LoadLearningMaterialData extends AbstractFixture implements
     ContainerAwareInterface
 {
 
+    /**
+     * @var ContainerInterface
+     */
     private $container;
 
     public function setContainer(ContainerInterface $container = null)
@@ -36,7 +39,8 @@ class LoadLearningMaterialData extends AbstractFixture implements
             $fs->mkdir($fakeTestFileDir);
         }
         $fs->copy(__FILE__, $fakeTestFileDir . '/TESTFILE.txt');
-        $storePath = $this->container->getParameter('ilios_core.file_store_path');
+        $applicationConfiguration = $this->container->get('Ilios\CoreBundle\Service\ApplicationConfiguration');
+        $storePath = $applicationConfiguration->get('file_system_storage_path');
 
         foreach ($data as $arr) {
             $entity = new LearningMaterial();

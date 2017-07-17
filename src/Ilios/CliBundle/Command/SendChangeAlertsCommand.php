@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
 use Ilios\CoreBundle\Entity\Manager\AlertManager;
 use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Service\ApplicationConfiguration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -62,7 +63,7 @@ class SendChangeAlertsCommand extends Command
      * @param OfferingManager $offeringManager
      * @param EngineInterface $templatingEngine
      * @param \Swift_Mailer $mailer
-     * @param string $timezone
+     * @param ApplicationConfiguration $applicationConfiguration
      */
     public function __construct(
         AlertManager $alertManager,
@@ -70,7 +71,7 @@ class SendChangeAlertsCommand extends Command
         OfferingManager $offeringManager,
         EngineInterface $templatingEngine,
         \Swift_Mailer $mailer,
-        $timezone
+        ApplicationConfiguration $applicationConfiguration
     ) {
         parent::__construct();
         $this->alertManager = $alertManager;
@@ -78,7 +79,7 @@ class SendChangeAlertsCommand extends Command
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
         $this->mailer = $mailer;
-        $this->timezone = $timezone;
+        $this->timezone = $applicationConfiguration->get('timezone');
     }
 
     /**

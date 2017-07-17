@@ -2,6 +2,7 @@
 namespace Ilios\CoreBundle\EventListener;
 
 use Happyr\GoogleAnalyticsBundle\Service\Tracker;
+use Ilios\CoreBundle\Service\ApplicationConfiguration;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
@@ -33,9 +34,12 @@ class TrackApiUsageListener
      * @param Tracker $tracker
      * @param LoggerInterface $logger
      */
-    public function __construct($isTrackingEnabled, Tracker $tracker, LoggerInterface $logger)
-    {
-        $this->isTrackingEnabled = $isTrackingEnabled;
+    public function __construct(
+        ApplicationConfiguration $applicationConfiguration,
+        Tracker $tracker,
+        LoggerInterface $logger
+    ) {
+        $this->isTrackingEnabled = $applicationConfiguration->get('enable_tracking');
         $this->tracker = $tracker;
         $this->logger = $logger;
     }

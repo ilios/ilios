@@ -1,6 +1,8 @@
 <?php
 namespace Tests\CoreBundle\Service;
 
+use Ilios\CoreBundle\Service\Config;
+use Ilios\CoreBundle\Service\LdapManager;
 use Mockery as m;
 
 use Ilios\CoreBundle\Service\Directory;
@@ -8,14 +10,35 @@ use Tests\CoreBundle\TestCase;
 
 class DirectoryTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
+    protected $ldapManager;
+    protected $config;
+    protected $obj;
+
+    public function setup()
+    {
+        $this->ldapManager = m::mock(LdapManager::class);
+        $this->config = m::mock(Config::class);
+        $this->obj = new Directory(
+            $this->ldapManager,
+            $this->config
+        );
+    }
+
+    public function tearDown()
+    {
+        unset($this->obj);
+        unset($this->ldapManager);
+        unset($this->config);
+    }
+
     /**
      * @covers \Ilios\CoreBundle\Service\Directory::__construct
      */
     public function testConstructor()
     {
-        $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
-        $obj = new Directory($ldapManager, 'campusId');
-        $this->assertTrue($obj instanceof Directory);
+        $this->assertTrue($this->obj instanceof Directory);
     }
 
     /**
@@ -23,11 +46,10 @@ class DirectoryTest extends TestCase
      */
     public function testFindByCampusId()
     {
-        $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
-        $obj = new Directory($ldapManager, 'campusId');
-        $ldapManager->shouldReceive('search')->with('(campusId=1234)')->andReturn(array(1));
+        $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
+        $this->ldapManager->shouldReceive('search')->with('(campusId=1234)')->andReturn(array(1));
 
-        $result = $obj->findByCampusId(1234);
+        $result = $this->obj->findByCampusId(1234);
         $this->assertSame($result, 1);
     }
 
@@ -36,11 +58,10 @@ class DirectoryTest extends TestCase
      */
     public function testFindByCampusIds()
     {
-        $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
-        $obj = new Directory($ldapManager, 'campusId');
-        $ldapManager->shouldReceive('search')->with('(|(campusId=1234)(campusId=1235))')->andReturn(array(1));
+        $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
+        $this->ldapManager->shouldReceive('search')->with('(|(campusId=1234)(campusId=1235))')->andReturn(array(1));
 
-        $result = $obj->findByCampusIds([1234, 1235]);
+        $result = $this->obj->findByCampusIds([1234, 1235]);
         $this->assertSame($result, [1]);
     }
 
@@ -49,12 +70,11 @@ class DirectoryTest extends TestCase
      */
     public function testFindByCampusIdsOnlyUseUnique()
     {
-        $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
-        $obj = new Directory($ldapManager, 'campusId');
-        $ldapManager->shouldReceive('search')
+        $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
+        $this->ldapManager->shouldReceive('search')
             ->with(m::mustBe('(|(campusId=1234)(campusId=1235))'))->andReturn(array(1));
 
-        $result = $obj->findByCampusIds([1234, 1235, 1234, 1235]);
+        $result = $this->obj->findByCampusIds([1234, 1235, 1234, 1235]);
         $this->assertSame($result, [1]);
     }
 
@@ -63,12 +83,11 @@ class DirectoryTest extends TestCase
      */
     public function testFind()
     {
-        $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
-        $obj = new Directory($ldapManager, 'campusId');
+        $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $filter= '(&(|(sn=a*)(givenname=a*)(mail=a*)(campusId=a*))(|(sn=b*)(givenname=b*)(mail=b*)(campusId=b*)))';
-        $ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
 
-        $result = $obj->find(array('a', 'b'));
+        $result = $this->obj->find(array('a', 'b'));
         $this->assertSame($result, array(1,2));
     }
 
@@ -77,12 +96,11 @@ class DirectoryTest extends TestCase
      */
     public function testFindOutputEscaping()
     {
-        $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
-        $obj = new Directory($ldapManager, 'campusId');
+        $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $filter= '(|(sn=a\**)(givenname=a\**)(mail=a\**)(campusId=a\**))';
-        $ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
 
-        $result = $obj->find(array('a*'));
+        $result = $this->obj->find(array('a*'));
         $this->assertSame($result, array(1,2));
     }
 
@@ -91,12 +109,10 @@ class DirectoryTest extends TestCase
      */
     public function testFindByLdapFilter()
     {
-        $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
-        $obj = new Directory($ldapManager, 'campusId');
         $filter= '(one)(two)';
-        $ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
 
-        $result = $obj->findByLdapFilter($filter);
+        $result = $this->obj->findByLdapFilter($filter);
         $this->assertSame($result, array(1,2));
     }
 }

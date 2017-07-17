@@ -16,13 +16,13 @@ class Directory
 
     /**
      * Constructor
-     * @param LdapManager   $ldapManager
-     * @param string        $ldapCampusIdProperty  injected from configuration
+     * @param LdapManager $ldapManager
+     * @param ApplicationConfiguration $applicationConfiguration
      */
-    public function __construct(LdapManager $ldapManager, $ldapCampusIdProperty)
+    public function __construct(LdapManager $ldapManager, ApplicationConfiguration $applicationConfiguration)
     {
         $this->ldapManager = $ldapManager;
-        $this->ldapCampusIdProperty = $ldapCampusIdProperty;
+        $this->ldapCampusIdProperty = $applicationConfiguration->get('ldap_directory_campus_id_property');
     }
 
     /**

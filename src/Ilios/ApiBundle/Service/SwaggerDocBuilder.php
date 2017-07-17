@@ -2,6 +2,7 @@
 
 namespace Ilios\ApiBundle\Service;
 
+use Ilios\CoreBundle\Service\ApplicationConfiguration;
 use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -45,11 +46,11 @@ class SwaggerDocBuilder
         KernelInterface $kernel,
         EngineInterface $templatingEngine,
         Router $router,
-        $forceProtocol
+        ApplicationConfiguration $applicationConfiguration
     ) {
         $this->swaggerDir = $kernel->locateResource("@IliosApiBundle/Resources/swagger");
         $this->environment = $kernel->getEnvironment();
-        $this->forceProtocol = $forceProtocol;
+        $this->forceProtocol = $applicationConfiguration->get('forceProtocol');
         $this->templatingEngine = $templatingEngine;
         $this->router = $router;
     }

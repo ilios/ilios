@@ -8,17 +8,9 @@ services:
     Ilios\CliBundle\:
             resource: '../../*'
 
-    Ilios\CliBundle\Command\SendTeachingRemindersCommand:
-        arguments:
-            $timezone: '%ilios_core.timezone%'
-    Ilios\CliBundle\Command\SendChangeAlertsCommand:
-        arguments:
-            $timezone: '%ilios_core.timezone%'
     Ilios\CliBundle\Command\UpdateFrontendCommand:
         arguments:
             $kernelCacheDir: '%kernel.cache_dir%'
-            $releaseVersion: '%ilios_web.frontend_release_version%'
-            $keepFrontendUpdated: '%ilios_web.keep_frontend_updated%'
             $environment: '%kernel.environment%'
     Ilios\CliBundle\Command\UpdateServiceWorkerCommand:
         arguments:

@@ -107,38 +107,6 @@ exercise_html_purifier:
         Cache.SerializerPath: '%kernel.cache_dir%/htmlpurifier'
         HTML.Allowed: 'a[href],br,div,dd,dl,dt,em,li,ol,p,strong,sub,sup,ul,u'
 
-ilios_core:
-    file_system_storage_path: '%file_system_storage_path%'
-    ldap_directory_url: '%ldap_directory_url%'
-    ldap_directory_user: '%ldap_directory_user%'
-    ldap_directory_password: '%ldap_directory_password%'
-    ldap_directory_search_base: '%ldap_directory_search_base%'
-    ldap_directory_campus_id_property: '%ldap_directory_campus_id_property%'
-    ldap_directory_username_property: '%ldap_directory_username_property%'
-    institution_domain: '%institution_domain%'
-    supporting_link: '%supporting_link%'
-    timezone: '%timezone%'
-    enable_tracking: '%enable_tracking%'
-    tracking_code: '%tracking_code%'
-
-ilios_web:
-    frontend_release_version: 80f4118be5ab8d22742f0112e27eb5d6
-    keep_frontend_updated: '%keep_frontend_updated%'
-
-ilios_authentication:
-    legacy_salt: '%legacy_password_salt%'
-    type: '%authentication_type%'
-    ldap_authentication_host: '%ldap_authentication_host%'
-    ldap_authentication_port: '%ldap_authentication_port%'
-    ldap_authentication_bind_template: '%ldap_authentication_bind_template%'
-    shibboleth_authentication_login_path: '%shibboleth_authentication_login_path%'
-    shibboleth_authentication_logout_path: '%shibboleth_authentication_logout_path%'
-    shibboleth_authentication_user_id_attribute: '%shibboleth_authentication_user_id_attribute%'
-    cas_authentication_server: '%cas_authentication_server%'
-    cas_authentication_version: '%cas_authentication_version%'
-    cas_authentication_verify_ssl: '%cas_authentication_verify_ssl%'
-    cas_authentication_certificate_path: '%cas_authentication_certificate_path%'
-
 httplug:
     plugins:
         logger: ~

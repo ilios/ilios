@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
+use Ilios\CoreBundle\Service\ApplicationConfiguration;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -41,22 +42,18 @@ class LdapAuthentication implements AuthenticationInterface
      * Constructor
      * @param AuthenticationManager $authManager
      * @param JsonWebTokenManager            $jwtManager
-     * @param string                         $ldapHost         injected from configuration
-     * @param string                         $ldapPort         injected from configuration
-     * @param string                         $ldapBindTemplate injected from configuration
+     * @param ApplicationConfiguration $applicationConfiguration
      */
     public function __construct(
         AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
-        $ldapHost,
-        $ldapPort,
-        $ldapBindTemplate
+        ApplicationConfiguration $applicationConfiguration
     ) {
         $this->authManager = $authManager;
         $this->jwtManager = $jwtManager;
-        $this->ldapHost = $ldapHost;
-        $this->ldapPort = $ldapPort;
-        $this->ldapBindTemplate = $ldapBindTemplate;
+        $this->ldapHost = $applicationConfiguration->get('ldap_authentication_host');
+        $this->ldapPort = $applicationConfiguration->get('ldap_authentication_port');;
+        $this->ldapBindTemplate = $applicationConfiguration->get('ldap_authentication_bind_template');;
     }
     
     /**

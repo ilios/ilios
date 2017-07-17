@@ -9,11 +9,11 @@ services:
         public: false
 
     Ilios\CoreBundle\:
-            resource: '../../*'
-            exclude: '../../{Entity,Exception,Controller}'
+        resource: '../../*'
+        exclude: '../../{Entity,Exception,Controller}'
 
     Ilios\CoreBundle\Entity\Manager\:
-            resource: '../../Entity/Manager'
+        resource: '../../Entity/Manager'
 
     Ilios\CoreBundle\Controller\:
         resource: '../../Controller'
@@ -33,70 +33,48 @@ services:
     Ilios\CoreBundle\EventListener\TrackApiUsageListener:
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-        arguments:
-          $isTrackingEnabled: '%ilios_core.enable_tracking%'
 
     Ilios\CoreBundle\EventListener\TimestampEntityChanges:
         tags:
           - { name: doctrine.event_listener, event: onFlush }
 
     Ilios\CoreBundle\Service\DataimportFileLocator:
-      public: true
+        public: true
 
     Ilios\CoreBundle\Service\Filesystem:
-      public: true
-
-    Ilios\CoreBundle\Service\TemporaryFileSystem:
-      arguments:
-        $kernelRootDirectory: '%kernel.root_dir%'
-
-    Ilios\CoreBundle\Service\IliosFileSystem:
-      arguments:
-        $iliosFileStorePath: '%ilios_core.file_store_path%'
-
-    Ilios\CoreBundle\Service\LoggerQueue:
-      public: true
-      tags:
-          - { name: kernel.event_listener, event: kernel.response, method: flush }
-          - { name: kernel.event_listener, event: console.terminate, method: flush }
-
-    Ilios\CoreBundle\Service\LdapManager:
-      arguments:
-        $ldapUrl: '%ilios_core.ldap.url%'
-        $ldapBindUser: '%ilios_core.ldap.user%'
-        $ldapBindPassword: '%ilios_core.ldap.password%'
-        $ldapSearchBase: '%ilios_core.ldap.search_base%'
-        $ldapCampusIdProperty: '%ilios_core.ldap.campus_id_property%'
-        $ldapUsernameProperty: '%ilios_core.ldap.username_property%'
+        public: true
 
     Ilios\CoreBundle\Service\Directory:
       public: true
-      arguments:
-        $ldapCampusIdProperty: '%ilios_core.ldap.campus_id_property%'
 
-    Ilios\CoreBundle\Service\CurriculumInventory\Exporter:
-      arguments:
-        $institutionDomain: '%ilios_core.institution_domain%'
-        $supportingLink: '%ilios_core.supporting_link%'
+    Ilios\CoreBundle\Service\TemporaryFileSystem:
+        arguments:
+          $kernelRootDirectory: '%kernel.root_dir%'
+
+    Ilios\CoreBundle\Service\LoggerQueue:
+        public: true
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: flush }
+            - { name: kernel.event_listener, event: console.terminate, method: flush }
 
     Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory:
-      arguments:
-        $decoratorClassName: '\Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator'
+        arguments:
+            $decoratorClassName: '\Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator'
 
     Ilios\CoreBundle\Service\Timestamper:
-      tags:
-          - { name: kernel.event_listener, event: kernel.response, method: flush }
-          - { name: kernel.event_listener, event: console.terminate, method: flush }
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: flush }
+            - { name: kernel.event_listener, event: console.terminate, method: flush }
 
     Ilios\CoreBundle\Service\UserMaterialFactory:
-      arguments:
-        $decoratorClassName: '\Ilios\CoreBundle\Classes\UserMaterial'
+        arguments:
+            $decoratorClassName: '\Ilios\CoreBundle\Classes\UserMaterial'
 
     ilios.cache:
-      class: 'Doctrine\Common\Cache\Cache'
-      factory: ['Ilios\CoreBundle\Service\CacheFactory', 'createCache']
-      arguments:
-        $environment: '%kernel.environment%'
+        class: 'Doctrine\Common\Cache\Cache'
+        factory: ['Ilios\CoreBundle\Service\CacheFactory', 'createCache']
+        arguments:
+            $environment: '%kernel.environment%'
 
     Ilios\CoreBundle\Controller\ExceptionController:
         public: true

@@ -22,40 +22,11 @@ services:
         arguments:
           $secretKey: '%kernel.secret%'
 
-    Ilios\AuthenticationBundle\Form\Encoder:
-        arguments:
-          $salt: '%ilios_authentication.legacy_salt%'
-
-    Ilios\AuthenticationBundle\Service\CasAuthentication:
-        public: true
-
-    Ilios\AuthenticationBundle\Service\FormAuthentication:
-        public: true
-
-    Ilios\AuthenticationBundle\Service\ShibbolethAuthentication:
-        public: true
-        arguments:
-          $logoutPath: '%ilios_authentication.shibboleth.logout_path%'
-          $userIdAttribute: '%ilios_authentication.shibboleth.user_id_attribute%'
-
-    Ilios\AuthenticationBundle\Service\LdapAuthentication:
-        public: true
-        arguments:
-          $ldapHost: '%ilios_authentication.ldap.host%'
-          $ldapPort: '%ilios_authentication.ldap.port%'
-          $ldapBindTemplate: '%ilios_authentication.ldap.bind_template%'
-
     Ilios\AuthenticationBundle\Service\AuthenticationFactory:
-        arguments:
-          $authenticationServiceName: '%ilios_authentication.authenticatorservice%'
+        public: true
 
     Ilios\AuthenticationBundle\Service\AuthenticationInterface:
         factory: ['@Ilios\AuthenticationBundle\Service\AuthenticationFactory', createAuthenticationService]
 
     Ilios\AuthenticationBundle\Service\CasManager:
         public: true
-        arguments:
-          $casServer: '%ilios_authentication.cas.server%'
-          $casVersion: '%ilios_authentication.cas.version%'
-          $casVerifySSL: '%ilios_authentication.cas.verifySSL%'
-          $casCertificatePath: '%ilios_authentication.cas.certificatepath%'

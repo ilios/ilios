@@ -17,6 +17,7 @@ use Ilios\CoreBundle\Entity\Session;
 use Ilios\CoreBundle\Entity\SessionType;
 use Ilios\CoreBundle\Entity\User;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Ilios\CoreBundle\Service\ApplicationConfiguration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -68,13 +69,16 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $kernel->boot();
         $application = new Application($kernel);
 
-        $this->timezone = $kernel->getContainer()->getParameter('ilios_core.timezone');
+
+        $this->timezone = 'UTC';
+        $applicationConfiguration = m::mock(ApplicationConfiguration::class);
+        $applicationConfiguration->shouldReceive('get')->with('timezone')->andReturn($this->timezone);
 
         $command = new SendTeachingRemindersCommand(
             $this->fakeOfferingManager,
             $kernel->getContainer()->get('templating'),
             $kernel->getContainer()->get('mailer'),
-            $this->timezone
+            $applicationConfiguration
         );
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);

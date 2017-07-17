@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Service;
 
+use Ilios\CoreBundle\Service\ApplicationConfiguration;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
@@ -38,11 +39,14 @@ class IliosFileSystem
      */
     protected $fileSystem;
     
-    public function __construct(SymfonyFileSystem $fs, $iliosFileStorePath)
+    public function __construct(SymfonyFileSystem $fs, ApplicationConfiguration $applicationConfiguration)
     {
-        $this->iliosFileStorePath = $iliosFileStorePath;
+        $this->iliosFileStorePath = $applicationConfiguration->get('file_system_storage_path');
         $this->fileSystem = $fs;
-        if (!$this->fileSystem->exists($this->iliosFileStorePath)) {
+        if (
+            !$this->fileSystem->exists($this->iliosFileStorePath) &&
+            is_writable($this->iliosFileStorePath)
+        ) {
             $this->fileSystem->mkdir($this->iliosFileStorePath);
         }
     }

@@ -2,6 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
+use Ilios\CoreBundle\Service\ApplicationConfiguration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -56,16 +57,15 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     public function __construct(
         WebIndexFromJson $builder,
         Filesystem $fs,
+        ApplicationConfiguration $applicationConfiguration,
         $kernelCacheDir,
-        $releaseVersion,
-        $keepFrontendUpdated,
         $environment
     ) {
         $this->builder = $builder;
         $this->fs = $fs;
         $this->cacheDir = $kernelCacheDir;
-        $this->releaseVersion = $releaseVersion;
-        $this->keepFrontendUpdated = $keepFrontendUpdated;
+        $this->releaseVersion = $applicationConfiguration->get('frontend_release_version');
+        $this->keepFrontendUpdated = $applicationConfiguration->get('keep_frontend_updated');
         $this->environment = $environment;
 
         parent::__construct();
