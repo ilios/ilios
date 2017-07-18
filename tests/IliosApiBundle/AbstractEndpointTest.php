@@ -155,8 +155,8 @@ abstract class AbstractEndpointTest extends WebTestCase
      */
     protected function getDataLoader()
     {
-        $name = $this->getSingularName();
-        $service = "ilioscore.dataloader.{$name}";
+        $name = ucfirst($this->getCamelCasedSingularName());
+        $service = "Tests\\CoreBundle\\DataLoader\\{$name}Data";
 
         /** @var DataLoaderInterface $dataLoader */
         $dataLoader = $this->container->get($service);

@@ -1,24 +1,26 @@
 <?php
 namespace Ilios\CoreBundle\Controller;
 
+use Ilios\CoreBundle\Service\TemporaryFileSystem;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Class UploadController
  * @package Ilios\CoreBundle\Controller
  */
-class UploadController extends Controller
+class UploadController extends AbstractController
 {
 
-    public function uploadAction(Request $request)
-    {
-        $fs = $this->container->get('ilioscore.temporary_filesystem');
-
-        $authChecker = $this->get('security.authorization_checker');
-        if (! $authChecker->isGranted('create', $fs)) {
+    public function uploadAction(
+        Request $request,
+        TemporaryFileSystem $temporaryFileSystem,
+        AuthorizationCheckerInterface $authorizationChecker
+    ) {
+        if (! $authorizationChecker->isGranted('create', $temporaryFileSystem)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -33,7 +35,7 @@ class UploadController extends Controller
         if (!$uploadedFile->isValid()) {
             return new JsonResponse(array('errors' => 'File failed to upload'), JsonResponse::HTTP_BAD_REQUEST);
         }
-        $hash = $fs->storeFile($uploadedFile);
+        $hash = $temporaryFileSystem->storeFile($uploadedFile);
         $response = array(
             'filename' => $uploadedFile->getClientOriginalName(),
             'fileHash' => $hash

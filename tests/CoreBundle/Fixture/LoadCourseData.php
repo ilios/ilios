@@ -26,7 +26,7 @@ class LoadCourseData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.course')
+            ->get('Tests\CoreBundle\DataLoader\CourseData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Course();

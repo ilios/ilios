@@ -15,7 +15,7 @@ class LoadMeshTreeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.meshtree.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\MeshTreeManager';
     }
 
     /**

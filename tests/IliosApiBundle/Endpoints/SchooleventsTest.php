@@ -28,10 +28,10 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testGetEvents()
     {
-        $school = $this->container->get('ilioscore.dataloader.school')->getOne();
-        $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
-        $ilmSessions = $this->container->get('ilioscore.dataloader.ilmsession')->getAll();
-        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+        $school = $this->container->get('Tests\CoreBundle\DataLoader\SchoolData')->getOne();
+        $offerings = $this->container->get('Tests\CoreBundle\DataLoader\OfferingData')->getAll();
+        $ilmSessions = $this->container->get('Tests\CoreBundle\DataLoader\IlmSessionData')->getAll();
+        $courses = $this->container->get('Tests\CoreBundle\DataLoader\CourseData')->getAll();
 
         $events = $this->getEvents($school['id'], 0, 100000000000);
 
@@ -141,8 +141,8 @@ class SchooleventsTest extends AbstractEndpointTest
 
     public function testMultidayEvent()
     {
-        $school = $this->container->get('ilioscore.dataloader.school')->getOne();
-        $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
+        $school = $this->container->get('Tests\CoreBundle\DataLoader\SchoolData')->getOne();
+        $offerings = $this->container->get('Tests\CoreBundle\DataLoader\OfferingData')->getAll();
         $from = new DateTime('2015-01-30 00:00:00');
         $to = new DateTime('2015-01-30 23:59:59');
 

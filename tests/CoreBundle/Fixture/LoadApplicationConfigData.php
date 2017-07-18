@@ -24,7 +24,7 @@ class LoadApplicationConfigData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.applicationconfig')
+            ->get('Tests\CoreBundle\DataLoader\ApplicationConfigData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new ApplicationConfig();

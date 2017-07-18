@@ -24,7 +24,7 @@ class LoadUserRoleData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.userrole')
+            ->get('Tests\CoreBundle\DataLoader\UserRoleData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new UserRole();

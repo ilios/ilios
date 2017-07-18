@@ -26,7 +26,7 @@ class LoadSessionTypeData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.sessiontype')
+            ->get('Tests\CoreBundle\DataLoader\SessionTypeData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new SessionType();

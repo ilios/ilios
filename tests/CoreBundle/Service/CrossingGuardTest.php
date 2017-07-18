@@ -2,6 +2,7 @@
 namespace Tests\CoreBundle\Service;
 
 use Ilios\CoreBundle\Service\CrossingGuard;
+use Ilios\CoreBundle\Service\IliosFileSystem;
 use Mockery as m;
 use Tests\CoreBundle\TestCase;
 
@@ -12,7 +13,7 @@ class CrossingGuardTest extends TestCase
      */
     public function testConstructor()
     {
-        $fs = m::mock('Ilios\CoreBundle\Classes\IliosFileSystem');
+        $fs = m::mock(IliosFileSystem::class);
         $obj = new CrossingGuard($fs);
         $this->assertTrue($obj instanceof CrossingGuard);
     }
@@ -22,7 +23,7 @@ class CrossingGuardTest extends TestCase
      */
     public function testNotStoppedWhenNoLock()
     {
-        $fs = m::mock('Ilios\CoreBundle\Classes\IliosFileSystem');
+        $fs = m::mock(IliosFileSystem::class);
         $fs->shouldReceive('hasLock')->with(CrossingGuard::GUARD)->once()->andReturn(false);
         $obj = new CrossingGuard($fs);
         $this->assertFalse($obj->isStopped());
@@ -33,7 +34,7 @@ class CrossingGuardTest extends TestCase
      */
     public function testStoppedWhenLockFileExists()
     {
-        $fs = m::mock('Ilios\CoreBundle\Classes\IliosFileSystem');
+        $fs = m::mock(IliosFileSystem::class);
         $fs->shouldReceive('hasLock')->with(CrossingGuard::GUARD)->once()->andReturn(true);
         $obj = new CrossingGuard($fs);
         $this->assertTrue($obj->isStopped());
@@ -44,7 +45,7 @@ class CrossingGuardTest extends TestCase
      */
     public function testEnable()
     {
-        $fs = m::mock('Ilios\CoreBundle\Classes\IliosFileSystem');
+        $fs = m::mock(IliosFileSystem::class);
         $fs->shouldReceive('createLock')->with(CrossingGuard::GUARD)->once();
         $fs->shouldReceive('hasLock')->with(CrossingGuard::GUARD)->once()->andReturn(true);
         $obj = new CrossingGuard($fs);
@@ -57,7 +58,7 @@ class CrossingGuardTest extends TestCase
      */
     public function testDisable()
     {
-        $fs = m::mock('Ilios\CoreBundle\Classes\IliosFileSystem');
+        $fs = m::mock(IliosFileSystem::class);
         $fs->shouldReceive('releaseLock')->with(CrossingGuard::GUARD)->once();
         $fs->shouldReceive('hasLock')->with(CrossingGuard::GUARD)->once()->andReturn(false);
         $obj = new CrossingGuard($fs);

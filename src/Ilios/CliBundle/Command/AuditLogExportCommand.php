@@ -66,7 +66,7 @@ class AuditLogExportCommand extends ContainerAwareCommand
 
         $delete = $input->getOption('delete');
 
-        $em = $this->getContainer()->get('ilioscore.auditlog.manager');
+        $em = $this->getContainer()->get('Ilios\CoreBundle\Entity\Manager\AuditLogManager');
 
         $headers = ['id', 'userId', 'action', 'createdAt', 'objectId', 'objectClass', 'valuesChanged'];
 

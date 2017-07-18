@@ -16,7 +16,7 @@ class LoadMeshDescriptorQualifierDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.meshdescriptor.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager';
     }
 
     /**

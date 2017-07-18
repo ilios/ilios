@@ -72,7 +72,7 @@ class MeshPreviousIndexingTest extends AbstractEndpointTest
     public function testPostMany()
     {
         $count = 51;
-        $descriptorDataLoader = $this->container->get('ilioscore.dataloader.meshdescriptor');
+        $descriptorDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\MeshDescriptorData');
         $descriptors = $descriptorDataLoader->createMany($count);
         $savedDescriptors = $this->postMany('meshdescriptors', 'meshDescriptors', $descriptors);
 

@@ -15,7 +15,7 @@ class LoadCourseClerkshipTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.courseclerkshiptype.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManager';
     }
 
     /**

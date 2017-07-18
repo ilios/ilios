@@ -26,7 +26,7 @@ class LoadDepartmentData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.department')
+            ->get('Tests\CoreBundle\DataLoader\DepartmentData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Department();

@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Ilios\CoreBundle\Service\DataimportFileLocator;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -73,7 +74,7 @@ abstract class AbstractFixture extends DataFixture implements
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
 
         $fileName = $this->getKey() . '.csv';
-        $path = $this->container->get('ilioscore.dataimport_filelocator')->getDataFilePath($fileName);
+        $path = $this->container->get(DataimportFileLocator::class)->getDataFilePath($fileName);
 
         // honor the given entity identifiers.
         // @link http://www.ens.ro/2012/07/03/symfony2-doctrine-force-entity-id-on-persist/

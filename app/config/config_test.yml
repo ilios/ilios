@@ -1,6 +1,7 @@
 imports:
     - { resource: config.yml }
     - { resource: security.yml }
+    - { resource: test-data-loaders.yml }
 
 framework:
     test: ~

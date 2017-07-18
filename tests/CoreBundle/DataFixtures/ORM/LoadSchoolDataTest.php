@@ -15,7 +15,7 @@ class LoadSchoolDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.school.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\SchoolManager';
     }
 
     /**

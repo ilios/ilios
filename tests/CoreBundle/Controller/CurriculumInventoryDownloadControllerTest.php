@@ -38,7 +38,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $curriculumInventoryExport = $client->getContainer()
-            ->get('ilioscore.dataloader.curriculuminventoryexport')
+            ->get('Tests\CoreBundle\DataLoader\CurriculumInventoryExportData')
             ->getOne()
         ;
 

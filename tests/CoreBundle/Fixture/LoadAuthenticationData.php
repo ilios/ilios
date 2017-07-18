@@ -26,7 +26,7 @@ class LoadAuthenticationData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.authentication')
+            ->get('Tests\CoreBundle\DataLoader\AuthenticationData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Authentication();

@@ -62,8 +62,8 @@ class NonDtoApiController extends ApiController
      */
     protected function getManager($pluralObjectName)
     {
-        $singularName = $this->getSingularObjectName($pluralObjectName);
-        $name = "ilioscore.{$singularName}.manager";
+        $entityName = $this->getEntityName($pluralObjectName);
+        $name = "Ilios\\CoreBundle\\Entity\\Manager\\${entityName}Manager";
         if (!$this->container->has($name)) {
             throw new \Exception(
                 sprintf('The manager for \'%s\' does not exist.', $pluralObjectName)

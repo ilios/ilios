@@ -2,10 +2,13 @@
 
 namespace Ilios\CoreBundle\Controller;
 
+use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryExportManager;
+use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
+use Ilios\CoreBundle\Service\CurriculumInventory\Exporter;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
@@ -13,25 +16,32 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
  * Class CurriculumInventoryDownloadController
  * @package Ilios\CoreBundle\Controller
  */
-class CurriculumInventoryDownloadController extends Controller
+class CurriculumInventoryDownloadController extends AbstractController
 {
     /**
      * Downloads the curriculum inventory report document for a given report.
      *
+     * @param $token
+     * @param CurriculumInventoryReportManager $reportManager
+     * @param CurriculumInventoryExportManager $exportManager
+     * @param Exporter $exporter
      *
      * @return Response
      */
-    public function getAction($token)
-    {
-        $manager = $this->container->get('ilioscore.curriculuminventoryreport.manager');
+    public function getAction(
+        $token,
+        CurriculumInventoryReportManager $reportManager,
+        CurriculumInventoryExportManager $exportManager,
+        Exporter $exporter
+    ) {
         /* @var CurriculumInventoryReportInterface $curriculumInventoryReport */
-        $curriculumInventoryReport = $manager->findOneBy(['token' => $token]);
+        $curriculumInventoryReport = $reportManager->findOneBy(['token' => $token]);
 
         if (! $curriculumInventoryReport) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $token));
         }
 
-        $document = $this->getExportedDocument($curriculumInventoryReport);
+        $document = $this->getExportedDocument($curriculumInventoryReport, $exportManager, $exporter);
 
         $response = new Response($document);
         $response->headers->set('Content-Type', 'application/xml; charset="utf-8"');
@@ -56,20 +66,24 @@ class CurriculumInventoryDownloadController extends Controller
      * Retrieves the report document for a given curriculum inventory report.
      *
      * @param CurriculumInventoryReportInterface $report
+     * @param CurriculumInventoryExportManager $manager
+     * @param Exporter $exporter
      * @return string
      */
-    protected function getExportedDocument(CurriculumInventoryReportInterface $report)
-    {
+    protected function getExportedDocument(
+        CurriculumInventoryReportInterface $report,
+        CurriculumInventoryExportManager $manager,
+        Exporter $exporter
+    ) {
         // check if the report has been exported.
         // if so, pull the document from the database.
-        $manager = $this->container->get('ilioscore.curriculuminventoryexport.manager');
         $export = $manager->findOneBy(['report' => $report->getId()]);
         if ($export) {
             return $export->getDocument();
         }
 
         // otherwise, generate a document on the fly.
-        return $this->generateReportDocument($report);
+        return $this->generateReportDocument($report, $exporter);
     }
 
     /**
@@ -78,9 +92,11 @@ class CurriculumInventoryDownloadController extends Controller
      * @param CurriculumInventoryReportInterface $report
      * @return string The report document.
      */
-    protected function generateReportDocument(CurriculumInventoryReportInterface $report)
-    {
-        $xml = $this->container->get('ilioscore.curriculum_inventory.exporter')->getXmlReport($report);
+    protected function generateReportDocument(
+        CurriculumInventoryReportInterface $report,
+        Exporter $exporter
+    ) {
+        $xml = $exporter->getXmlReport($report);
         return $xml->saveXML();
     }
 }

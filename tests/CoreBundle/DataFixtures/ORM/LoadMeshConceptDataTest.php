@@ -15,7 +15,7 @@ class LoadMeshConceptDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.meshconcept.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\MeshConceptManager';
     }
 
     /**

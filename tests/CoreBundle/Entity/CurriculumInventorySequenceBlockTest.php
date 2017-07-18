@@ -213,7 +213,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithOrderedStrategy
-     * @dataProvider testCompareSequenceBlocksWithOrderedStrategyProvider
+     * @dataProvider compareSequenceBlocksWithOrderedStrategyProvider
      *
      * @param CurriculumInventorySequenceBlockInterface $blockA
      * @param CurriculumInventorySequenceBlockInterface $blockB
@@ -233,7 +233,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @return array
      */
-    public function testCompareSequenceBlocksWithOrderedStrategyProvider()
+    public function compareSequenceBlocksWithOrderedStrategyProvider()
     {
         $rhett = [];
 
@@ -264,7 +264,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy
-     * @dataProvider testCompareSequenceBlocksWithDefaultStrategyProvider
+     * @dataProvider compareSequenceBlocksWithDefaultStrategyProvider
      *
      * @param CurriculumInventorySequenceBlockInterface $blockA
      * @param CurriculumInventorySequenceBlockInterface $blockB
@@ -284,7 +284,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @return array
      */
-    public function testCompareSequenceBlocksWithDefaultStrategyProvider()
+    public function compareSequenceBlocksWithDefaultStrategyProvider()
     {
         $rhett = [];
 

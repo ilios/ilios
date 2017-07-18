@@ -7,8 +7,8 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
+use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 
 /**
@@ -30,7 +30,7 @@ class Exporter
     protected $reportManager;
 
     /**
-     * @var ManagerInterface
+     * @var CurriculumInventoryInstitutionManager
      */
     protected $institutionManager;
 
@@ -42,13 +42,13 @@ class Exporter
 
     /**
      * @param CurriculumInventoryReportManager $reportManager
-     * @param ManagerInterface $institutionManager
+     * @param CurriculumInventoryInstitutionManager $institutionManager
      * @param string $institutionDomain
      * @param string $supportingLink
      */
     public function __construct(
         CurriculumInventoryReportManager $reportManager,
-        ManagerInterface $institutionManager,
+        CurriculumInventoryInstitutionManager $institutionManager,
         $institutionDomain,
         $supportingLink = ''
     ) {

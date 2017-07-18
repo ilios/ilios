@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Tests\CoreBundle\DataLoader\IlmSessionData;
 
 class LoadIlmSessionData extends AbstractFixture implements
     FixtureInterface,
@@ -26,7 +27,7 @@ class LoadIlmSessionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.ilmsession')
+            ->get(IlmSessionData::class)
             ->getAll();
         foreach ($data as $arr) {
             $entity = new IlmSession();

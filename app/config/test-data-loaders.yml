@@ -1,0 +1,9 @@
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Tests\CoreBundle\DataLoader\:
+            resource: '../../tests/CoreBundle/DataLoader/*'

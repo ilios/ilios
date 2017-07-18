@@ -26,7 +26,7 @@ class LoadCompetencyData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.competency')
+            ->get('Tests\CoreBundle\DataLoader\CompetencyData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Competency();

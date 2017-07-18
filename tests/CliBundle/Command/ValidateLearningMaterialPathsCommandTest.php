@@ -2,6 +2,7 @@
 namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\ValidateLearningMaterialPathsCommand;
+use Ilios\CoreBundle\Service\IliosFileSystem;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -18,7 +19,7 @@ class ValidateLearningMaterialPathsCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->iliosFileSystem = m::mock('Ilios\CoreBundle\Classes\IliosFileSystem');
+        $this->iliosFileSystem = m::mock(IliosFileSystem::class);
         $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManager');
 
         $command = new ValidateLearningMaterialPathsCommand(

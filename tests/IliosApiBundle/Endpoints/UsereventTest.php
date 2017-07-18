@@ -33,12 +33,12 @@ class UsereventTest extends AbstractEndpointTest
 
     public function testGetEvents()
     {
-        $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
-        $sessionTypes = $this->container->get('ilioscore.dataloader.sessiontype')->getAll();
-        $learningMaterials = $this->container->get('ilioscore.dataloader.learningmaterial')->getAll();
-        $sessionDescriptions = $this->container->get('ilioscore.dataloader.sessiondescription')->getAll();
-        $ilmSessions = $this->container->get('ilioscore.dataloader.ilmsession')->getAll();
-        $courses = $this->container->get('ilioscore.dataloader.course')->getAll();
+        $offerings = $this->container->get('Tests\CoreBundle\DataLoader\OfferingData')->getAll();
+        $sessionTypes = $this->container->get('Tests\CoreBundle\DataLoader\SessionTypeData')->getAll();
+        $learningMaterials = $this->container->get('Tests\CoreBundle\DataLoader\LearningMaterialData')->getAll();
+        $sessionDescriptions = $this->container->get('Tests\CoreBundle\DataLoader\SessionDescriptionData')->getAll();
+        $ilmSessions = $this->container->get('Tests\CoreBundle\DataLoader\IlmSessionData')->getAll();
+        $courses = $this->container->get('Tests\CoreBundle\DataLoader\CourseData')->getAll();
 
         $userId = 2;
 
@@ -474,7 +474,7 @@ class UsereventTest extends AbstractEndpointTest
 
     public function testMultidayEvent()
     {
-        $offerings = $this->container->get('ilioscore.dataloader.offering')->getAll();
+        $offerings = $this->container->get('Tests\CoreBundle\DataLoader\OfferingData')->getAll();
         $userId = 2;
         $from = new DateTime('2015-01-30 00:00:00');
         $to = new DateTime('2015-01-30 23:59:59');

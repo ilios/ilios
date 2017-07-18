@@ -71,7 +71,7 @@ class CurriculumInventorySequenceTest extends AbstractEndpointTest
     public function testPostMany()
     {
         $count = 4;
-        $reportDataLoader = $this->container->get('ilioscore.dataloader.curriculuminventoryreport');
+        $reportDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\CurriculumInventoryReportData');
         $reports = $reportDataLoader->createMany($count);
         $savedReports = $this->postMany('curriculuminventoryreports', 'curriculumInventoryReports', $reports);
 

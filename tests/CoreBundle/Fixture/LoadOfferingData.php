@@ -26,7 +26,7 @@ class LoadOfferingData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.offering')
+            ->get('Tests\CoreBundle\DataLoader\OfferingData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Offering();

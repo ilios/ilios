@@ -15,7 +15,7 @@ class LoadAamcPcrsDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.aamcpcrs.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\AamcPcrsManager';
     }
 
     /**

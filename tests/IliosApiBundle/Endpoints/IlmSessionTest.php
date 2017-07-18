@@ -80,7 +80,7 @@ class IlmSessionTest extends AbstractEndpointTest
     public function testPostMany()
     {
         $count = 51;
-        $sessionDataLoader = $this->container->get('ilioscore.dataloader.session');
+        $sessionDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\SessionData');
         $sessions = $sessionDataLoader->createMany($count);
         $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
 

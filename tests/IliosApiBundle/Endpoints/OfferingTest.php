@@ -209,7 +209,7 @@ class OfferingTest extends AbstractEndpointTest
 
     public function testUpdatingLearnerGroupUpdatesOfferingStamp()
     {
-        $dataLoader = $this->container->get('ilioscore.dataloader.learnergroup');
+        $dataLoader = $this->container->get('Tests\CoreBundle\DataLoader\LearnerGroupData');
         $data = $dataLoader->getOne();
         $data['title'] = $this->getFaker()->text(20);
         $this->relatedTimeStampUpdateTest($data['offerings'][0], 'learnergroups', 'learnerGroup', $data);
@@ -217,7 +217,7 @@ class OfferingTest extends AbstractEndpointTest
 
     public function testUpdatingInstructorGroupUpdatesOfferingStamp()
     {
-        $dataLoader = $this->container->get('ilioscore.dataloader.instructorgroup');
+        $dataLoader = $this->container->get('Tests\CoreBundle\DataLoader\InstructorGroupData');
         $data = $dataLoader->getOne();
         $data['title'] = $this->getFaker()->text(20);
         $this->relatedTimeStampUpdateTest($data['offerings'][0], 'instructorgroups', 'instructorGroup', $data);

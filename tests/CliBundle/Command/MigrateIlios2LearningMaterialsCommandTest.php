@@ -2,6 +2,7 @@
 namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\MigrateIlios2LearningMaterialsCommand;
+use Ilios\CoreBundle\Service\IliosFileSystem;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
@@ -19,7 +20,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends TestCase
     public function setUp()
     {
         $this->symfonyFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
-        $this->iliosFileSystem = m::mock('Ilios\CoreBundle\Classes\IliosFileSystem');
+        $this->iliosFileSystem = m::mock(IliosFileSystem::class);
         $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\LearningMaterialManager');
 
         $command = new MigrateIlios2LearningMaterialsCommand(

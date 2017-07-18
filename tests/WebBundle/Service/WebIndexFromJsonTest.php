@@ -1,8 +1,7 @@
 <?php
-namespace Tests\CoreBundle\Service;
+namespace Tests\WebBundle\Service;
 
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Mockery as m;
 
 use Ilios\WebBundle\Service\WebIndexFromJson;

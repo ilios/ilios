@@ -30,7 +30,7 @@ class LoadPermissionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.permission')
+            ->get('Tests\CoreBundle\DataLoader\PermissionData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Permission();

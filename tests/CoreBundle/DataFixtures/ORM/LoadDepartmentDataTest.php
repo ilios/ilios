@@ -15,7 +15,7 @@ class LoadDepartmentDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.department.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\DepartmentManager';
     }
 
     /**

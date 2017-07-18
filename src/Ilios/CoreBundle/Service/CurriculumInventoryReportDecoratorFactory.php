@@ -23,7 +23,7 @@ class CurriculumInventoryReportDecoratorFactory
      * @param Router $router
      * @param string $decoratorClassName
      */
-    public function __construct($router, $decoratorClassName)
+    public function __construct(Router $router, $decoratorClassName)
     {
         $this->router = $router;
         $this->entityDecoratorClassName = $decoratorClassName;

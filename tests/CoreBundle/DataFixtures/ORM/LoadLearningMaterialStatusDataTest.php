@@ -15,7 +15,7 @@ class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.learningmaterialstatus.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager';
     }
 
     /**

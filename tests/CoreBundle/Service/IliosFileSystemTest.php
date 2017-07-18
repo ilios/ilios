@@ -1,5 +1,5 @@
 <?php
-namespace Tests\CoreBundle\Classes;
+namespace Tests\CoreBundle\Service;
 
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
@@ -18,7 +18,7 @@ class IliosFileSystemTest extends TestCase
     
     /**
      * Mock File System
-     * @var FileSystem
+     * @var SymfonyFileSystem
      */
     private $mockFileSystem;
     
@@ -35,7 +35,7 @@ class IliosFileSystemTest extends TestCase
             $fs->mkdir($this->fakeTestFileDir);
         }
 
-        $this->mockFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
+        $this->mockFileSystem = m::mock(SymfonyFileSystem::class);
         $this->mockFileSystem->shouldReceive('exists')->with($this->fakeTestFileDir)->andReturn(true);
         
         $this->iliosFileSystem = new IliosFileSystem($this->mockFileSystem, $this->fakeTestFileDir);

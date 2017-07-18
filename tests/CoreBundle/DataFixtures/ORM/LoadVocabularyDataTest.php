@@ -15,7 +15,7 @@ class LoadVocabularyDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.vocabulary.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\VocabularyManager';
     }
 
     /**

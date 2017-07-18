@@ -75,7 +75,7 @@ class PermissionTest extends AbstractEndpointTest
 
     public function testPostMany()
     {
-        $userDataLoader = $this->container->get('ilioscore.dataloader.user');
+        $userDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\UserData');
         $users = $userDataLoader->createMany(51);
         $savedUsers = $this->postMany('users', 'users', $users);
 

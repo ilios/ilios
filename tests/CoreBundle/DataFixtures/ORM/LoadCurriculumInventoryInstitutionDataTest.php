@@ -15,7 +15,7 @@ class LoadCurriculumInventoryInstitutionDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.curriculuminventoryinstitution.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager';
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Service;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
@@ -10,6 +9,7 @@ use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\ObjectiveManager;
 use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager;
 use Ilios\CoreBundle\Entity\Manager\SessionManager;
@@ -65,7 +65,7 @@ class CourseRollover
     protected $offeringManager;
 
     /**
-     * @var ObjectManager
+     * @var ObjectiveManager
      */
     protected $objectiveManager;
 
@@ -84,7 +84,7 @@ class CourseRollover
      * @param SessionDescriptionManager $sessionDescriptionManager,
      * @param SessionLearningMaterialManager $sessionLearningMaterialManager,
      * @param OfferingManager $offeringManager,
-     * @param ObjectManager $objectiveManager,
+     * @param ObjectiveManager $objectiveManager,
      * @param IlmSessionManager $ilmSessionManager
      */
     public function __construct(
@@ -95,7 +95,7 @@ class CourseRollover
         SessionDescriptionManager $sessionDescriptionManager,
         SessionLearningMaterialManager $sessionLearningMaterialManager,
         OfferingManager $offeringManager,
-        ObjectManager $objectiveManager,
+        ObjectiveManager $objectiveManager,
         IlmSessionManager $ilmSessionManager
     ) {
         $this->courseManager = $courseManager;

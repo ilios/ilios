@@ -1,10 +1,10 @@
 <?php
-namespace Tests\CoreBundle\Classes;
+namespace Tests\CoreBundle\Service;
 
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
-use Ilios\CoreBundle\Classes\TemporaryFileSystem;
+use Ilios\CoreBundle\Service\TemporaryFileSystem;
 use Tests\CoreBundle\TestCase;
 
 class TemporaryFileSystemTest extends TestCase
@@ -40,7 +40,7 @@ class TemporaryFileSystemTest extends TestCase
         $fs->mkdir($kernelRootDirectory);
         $fs->mkdir($this->uploadDirectory);
         
-        $this->mockFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
+        $this->mockFileSystem = m::mock(SymfonyFileSystem::class);
         $this->mockFileSystem->shouldReceive('exists')->with($this->uploadDirectory)->andReturn(true);
         
         $this->tempFileSystem = new TemporaryFileSystem($this->mockFileSystem, $kernelRootDirectory);

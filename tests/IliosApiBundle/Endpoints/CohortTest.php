@@ -207,7 +207,7 @@ class CohortTest extends AbstractEndpointTest
      */
     protected function getProgramYear($id)
     {
-        $programYearDataLoader = $this->container->get('ilioscore.dataloader.programyear');
+        $programYearDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\ProgramYearData');
         $allProgramYears = $programYearDataLoader->getAll();
         $programYearsById = [];
         foreach ($allProgramYears as $arr) {

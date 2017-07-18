@@ -1,23 +1,26 @@
 <?php
 namespace Ilios\CoreBundle\Controller;
 
+use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use Ilios\CoreBundle\Service\IliosFileSystem;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 use Exception;
 
 /**
  * Class DownloadController
  * @package Ilios\CoreBundle\Controller
  */
-class DownloadController extends Controller
+class DownloadController extends AbstractController
 {
 
-    public function learningMaterialAction($token)
-    {
-        $learningMaterial = $this->container->get('ilioscore.learningmaterial.manager')
-            ->findOneBy(['token' => $token]);
+    public function learningMaterialAction(
+        $token,
+        LearningMaterialManager $learningMaterialManager,
+        IliosFileSystem $iliosFileSystem
+    ) {
+        $learningMaterial = $learningMaterialManager->findOneBy(['token' => $token]);
         
         if (!$learningMaterial) {
             throw new NotFoundHttpException();
@@ -30,11 +33,10 @@ class DownloadController extends Controller
             );
         }
         
-        $file = $this->container->get('ilioscore.filesystem')
-            ->getFile($learningMaterial->getRelativePath());
+        $file = $iliosFileSystem->getFile($learningMaterial->getRelativePath());
         
         if (false === $file) {
-            throw new \Exception('File not found for learning material #' . $learningMaterial->getId());
+            throw new Exception('File not found for learning material #' . $learningMaterial->getId());
         }
         
         $headers = array(

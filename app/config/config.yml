@@ -36,7 +36,7 @@ twig:
     strict_variables: '%kernel.debug%'
     paths:
         '%kernel.root_dir%/../custom/email_templates': custom_email_templates
-    exception_controller:  ilioscore.exception_controller:showAction
+    exception_controller:  Ilios\CoreBundle\Controller\ExceptionController:showAction
 
 # Doctrine Configuration
 doctrine:
@@ -58,13 +58,13 @@ doctrine:
       auto_mapping: true
       metadata_cache_driver:
         type: service
-        id: ilioscore.cache
+        id: ilios.cache
       result_cache_driver:
         type: service
-        id: ilioscore.cache
+        id: ilios.cache
       query_cache_driver:
         type: service
-        id: ilioscore.cache
+        id: ilios.cache
 
 # Swiftmailer Configuration
 swiftmailer:

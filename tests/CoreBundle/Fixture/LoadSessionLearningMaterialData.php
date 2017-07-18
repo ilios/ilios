@@ -26,7 +26,7 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.sessionlearningmaterial')
+            ->get('Tests\CoreBundle\DataLoader\SessionLearningMaterialData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new SessionLearningMaterial();

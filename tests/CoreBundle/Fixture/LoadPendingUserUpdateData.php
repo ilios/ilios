@@ -29,7 +29,7 @@ class LoadPendingUserUpdateData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.pendinguserupdate')
+            ->get('Tests\CoreBundle\DataLoader\PendingUserUpdateData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new PendingUserUpdate();

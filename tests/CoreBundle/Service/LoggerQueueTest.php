@@ -12,6 +12,8 @@ use Tests\CoreBundle\TestCase;
  */
 class LoggerQueueTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     public function testFlush()
     {
         $action = 'create';

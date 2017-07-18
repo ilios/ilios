@@ -15,7 +15,7 @@ class LoadAssessmentOptionDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.assessmentoption.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager';
     }
 
     /**

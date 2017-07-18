@@ -24,7 +24,7 @@ class LoadMeshSemanticTypeData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.meshsemantictype')
+            ->get('Tests\CoreBundle\DataLoader\MeshSemanticTypeData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshSemanticType();

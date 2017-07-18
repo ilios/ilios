@@ -3,6 +3,8 @@
 namespace Tests\WebBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Service\Directory;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\CoreBundle\Traits\JsonControllerTest;
@@ -33,7 +35,6 @@ class DirectoryControllerTest extends WebTestCase
         foreach ($this->client->getContainer()->getMockedServices() as $id => $service) {
             $this->client->getContainer()->unmock($id);
         }
-
         parent::tearDown();
     }
 
@@ -49,7 +50,7 @@ class DirectoryControllerTest extends WebTestCase
             'campusId' => 'abc',
         ];
 
-        $container->mock('ilioscore.directory', 'Ilios\CoreBundle\Service\Directory')
+        $container->mock(Directory::class, Directory::class)
             ->shouldReceive('find')
             ->with(array('a', 'b'))
             ->once()
@@ -98,7 +99,7 @@ class DirectoryControllerTest extends WebTestCase
             'campusId' => '1111@school.edu',
         ];
 
-        $container->mock('ilioscore.directory', 'Ilios\CoreBundle\Service\Directory')
+        $container->mock(Directory::class, Directory::class)
             ->shouldReceive('find')
             ->with(array('a', 'b'))
             ->once()
@@ -175,13 +176,13 @@ class DirectoryControllerTest extends WebTestCase
             ->shouldReceive('getDirectedCourses')->once()->andReturn(new ArrayCollection([]))
             ->mock();
 
-        $container->mock('ilioscore.directory', 'Ilios\CoreBundle\Service\Directory')
+        $container->mock(Directory::class, Directory::class)
             ->shouldReceive('findByCampusId')
             ->with('abc')
             ->once()
             ->andReturn($fakeDirectoryUser);
 
-        $container->mock('ilioscore.user.manager', 'Ilios\CoreBundle\Entity\Manager\UserManager')
+        $container->mock(UserManager::class, UserManager::class)
             ->shouldReceive('findOneBy')
             ->with(['id' => 1])
             ->twice()

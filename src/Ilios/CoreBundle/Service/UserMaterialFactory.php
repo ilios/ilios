@@ -22,7 +22,7 @@ class UserMaterialFactory
      * @param Router $router
      * @param string $decoratorClassName
      */
-    public function __construct($router, $decoratorClassName)
+    public function __construct(Router $router, $decoratorClassName)
     {
         $this->router = $router;
         $this->decoratorClassName = $decoratorClassName;

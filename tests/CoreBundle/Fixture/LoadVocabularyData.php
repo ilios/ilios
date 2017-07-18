@@ -26,7 +26,7 @@ class LoadVocabularyData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.vocabulary')
+            ->get('Tests\CoreBundle\DataLoader\VocabularyData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Vocabulary();

@@ -15,7 +15,7 @@ class LoadAamcResourceTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.aamcresourcetype.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\AamcResourceTypeManager';
     }
 
     /**

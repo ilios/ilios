@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Voter;
 
-use Ilios\CoreBundle\Classes\TemporaryFileSystem;
+use Ilios\CoreBundle\Service\TemporaryFileSystem;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
