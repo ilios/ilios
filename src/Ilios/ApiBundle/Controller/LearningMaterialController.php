@@ -2,8 +2,8 @@
 
 namespace Ilios\ApiBundle\Controller;
 
-use Ilios\CoreBundle\Classes\IliosFileSystem;
-use Ilios\CoreBundle\Classes\TemporaryFileSystem;
+use Ilios\CoreBundle\Service\IliosFileSystem;
+use Ilios\CoreBundle\Service\TemporaryFileSystem;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
 use Ilios\CoreBundle\Service\LearningMaterialDecoratorFactory;

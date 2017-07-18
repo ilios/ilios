@@ -1,7 +1,7 @@
 <?php
 namespace Ilios\WebBundle\Service;
 
-use Ilios\CoreBundle\Classes\Filesystem;
+use Ilios\CoreBundle\Service\Filesystem;
 use Symfony\Component\Templating\EngineInterface;
 use Exception;
 

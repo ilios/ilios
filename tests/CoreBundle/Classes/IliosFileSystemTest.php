@@ -5,7 +5,7 @@ use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use \Symfony\Component\HttpFoundation\File\File;
 
-use Ilios\CoreBundle\Classes\IliosFileSystem;
+use Ilios\CoreBundle\Service\IliosFileSystem;
 use Tests\CoreBundle\TestCase;
 
 class IliosFileSystemTest extends TestCase

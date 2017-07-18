@@ -1,5 +1,5 @@
 <?php
-namespace Ilios\CoreBundle\Classes;
+namespace Ilios\CoreBundle\Service;
 
 use Symfony\Component\Config\FileLocator;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Classes;
+namespace Ilios\CoreBundle\Service;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
@@ -8,7 +8,7 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 
 /**
- * Class FileSystem
+ * Class IliosFileSystem
  * @package Ilios\CoreBundle\Classes
  *
  */

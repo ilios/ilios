@@ -2,7 +2,7 @@
 namespace Tests\CoreBundle\Classes;
 
 use Ilios\CliBundle\Command\RolloverCourseCommand;
-use Ilios\CoreBundle\Classes\CourseRollover;
+use Ilios\CoreBundle\Service\CourseRollover;
 use Ilios\CoreBundle\Entity\Cohort;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CourseClerkshipType;
