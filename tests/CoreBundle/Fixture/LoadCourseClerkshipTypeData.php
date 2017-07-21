@@ -24,7 +24,7 @@ class LoadCourseClerkshipTypeData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.courseclerkshiptype')
+            ->get('Tests\CoreBundle\DataLoader\CourseClerkshipTypeData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CourseClerkshipType();

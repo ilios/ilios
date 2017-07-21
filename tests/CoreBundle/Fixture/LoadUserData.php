@@ -26,7 +26,7 @@ class LoadUserData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.user')
+            ->get('Tests\CoreBundle\DataLoader\UserData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new User();

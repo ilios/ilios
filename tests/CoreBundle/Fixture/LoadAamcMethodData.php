@@ -24,7 +24,7 @@ class LoadAamcMethodData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.aamcmethod')
+            ->get('Tests\CoreBundle\DataLoader\AamcMethodData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new AamcMethod();

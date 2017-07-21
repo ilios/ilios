@@ -15,7 +15,7 @@ class LoadLearningMaterialUserRoleDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.learningmaterialuserrole.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager';
     }
 
     /**

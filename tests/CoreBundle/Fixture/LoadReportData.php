@@ -26,7 +26,7 @@ class LoadReportData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.report')
+            ->get('Tests\CoreBundle\DataLoader\ReportData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Report();

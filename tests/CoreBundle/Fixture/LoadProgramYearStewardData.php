@@ -26,7 +26,7 @@ class LoadProgramYearStewardData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.programyearsteward')
+            ->get('Tests\CoreBundle\DataLoader\ProgramYearStewardData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new ProgramYearSteward();

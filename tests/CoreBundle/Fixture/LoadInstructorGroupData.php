@@ -26,7 +26,7 @@ class LoadInstructorGroupData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.instructorgroup')
+            ->get('Tests\CoreBundle\DataLoader\InstructorGroupData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new InstructorGroup();

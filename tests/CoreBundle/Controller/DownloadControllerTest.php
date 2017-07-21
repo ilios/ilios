@@ -31,7 +31,7 @@ class DownloadControllerTest extends WebTestCase
     {
         $client = $this->createClient();
         $learningMaterials = $client->getContainer()
-            ->get('ilioscore.dataloader.learningmaterial')
+            ->get('Tests\CoreBundle\DataLoader\LearningMaterialData')
             ->getAll();
         $fileLearningMaterials = array_filter($learningMaterials, function ($arr) {
             return !empty($arr['filesize']);

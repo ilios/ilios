@@ -3,7 +3,7 @@
 namespace Ilios\ApiBundle\Controller;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Classes\CourseRollover;
+use Ilios\CoreBundle\Service\CourseRollover;
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;

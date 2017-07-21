@@ -24,7 +24,7 @@ class LoadAssessmentOptionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.assessmentoption')
+            ->get('Tests\CoreBundle\DataLoader\AssessmentOptionData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new AssessmentOption();

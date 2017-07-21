@@ -15,7 +15,7 @@ class LoadCompetencyDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.competency.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\CompetencyManager';
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Service;
 
-use Ilios\CoreBundle\Classes\IliosFileSystem;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class CrossingGuard
@@ -13,6 +12,8 @@ class CrossingGuard
 
     /**
      * CrossingGuard constructor.
+     *
+     * @param IliosFileSystem $fs
      */
     public function __construct(IliosFileSystem $fs)
     {

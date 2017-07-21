@@ -1,84 +1,204 @@
+imports:
+    - { resource: non-dto-managers.yml }
+    - { resource: dto-managers.yml }
+
 services:
-    filesystem:
-        class: Symfony\Component\Filesystem\Filesystem
-    ilioscore.listener.logentitychanges:
-        class: Ilios\CoreBundle\EventListener\LogEntityChanges
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ilios\CoreBundle\:
+            resource: '../../*'
+            exclude: '../../{Entity,Exception,Controller}'
+
+    Ilios\CoreBundle\Entity\Manager\:
+            resource: '../../Entity/Manager'
+
+    Ilios\CoreBundle\Controller\:
+        resource: '../../Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
+    Ilios\CoreBundle\Service\EntityMetadata:
+        arguments:
+          $cache: '@ilios.cache'
+
+    Ilios\CoreBundle\EventListener\LogEntityChanges:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
         calls:
             - [ setContainer, ['@service_container'] ]
-    ilioscore.listener.trackapiusage:
-        class: Ilios\CoreBundle\EventListener\TrackApiUsageListener
+
+    Ilios\CoreBundle\EventListener\TrackApiUsageListener:
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-        arguments: ['%ilios_core.enable_tracking%', '@happyr.google_analytics.tracker', '@logger']
-    ilioscore.listener.timestampentity:
-        class: Ilios\CoreBundle\EventListener\TimestampEntityChanges
-        arguments: ['@ilioscore.timestamper']
+        arguments:
+          $isTrackingEnabled: '%ilios_core.enable_tracking%'
+
+    Ilios\CoreBundle\EventListener\TimestampEntityChanges:
         tags:
-            - { name: doctrine.event_listener, event: onFlush }
-    ilioscore.dataimport_filelocator:
-        class: Ilios\CoreBundle\Classes\DataimportFileLocator
-        arguments: [ '@file_locator' ]
-    ilioscore.temporary_filesystem:
-        class: Ilios\CoreBundle\Classes\TemporaryFileSystem
-        arguments: ['@filesystem', "%kernel.root_dir%"]
-    ilioscore.filesystem:
-        class: Ilios\CoreBundle\Classes\IliosFileSystem
-        arguments: ['@filesystem', "%ilios_core.file_store_path%"]
-    ilioscore.symfonyfilesystem:
-        class: Ilios\CoreBundle\Classes\Filesystem
-    ilioscore.logger:
-        class: Ilios\CoreBundle\Service\Logger
-        arguments: ['@security.token_storage', '@ilioscore.auditlog.manager', '@logger']
-    ilioscore.logger.queue:
-        class: Ilios\CoreBundle\Service\LoggerQueue
-        arguments: ['@ilioscore.logger']
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: flush }
-            - { name: kernel.event_listener, event: console.terminate, method: flush }
-    ilioscore.ldapmanager:
-        class: Ilios\CoreBundle\Service\LdapManager
-        arguments: ['%ilios_core.ldap.url%', '%ilios_core.ldap.user%', '%ilios_core.ldap.password%', '%ilios_core.ldap.search_base%', '%ilios_core.ldap.campus_id_property%', '%ilios_core.ldap.username_property%']
-    ilioscore.directory:
-        class: Ilios\CoreBundle\Service\Directory
-        arguments: ['@ilioscore.ldapmanager', '%ilios_core.ldap.campus_id_property%']
-    ilioscore.curriculum_inventory.exporter:
-        class: Ilios\CoreBundle\Service\CurriculumInventory\Exporter
-        arguments: [ "@ilioscore.curriculuminventoryreport.manager", "@ilioscore.curriculuminventoryinstitution.manager", "%ilios_core.institution_domain%", "%ilios_core.supporting_link%" ]
-    ilioscore.curriculum_inventory.rollover:
-        class: Ilios\CoreBundle\Service\CurriculumInventory\ReportRollover
-        arguments: [ "@ilioscore.curriculuminventoryreport.manager", "@ilioscore.curriculuminventoryacademiclevel.manager", "@ilioscore.curriculuminventorysequence.manager", "@ilioscore.curriculuminventorysequenceblock.manager"]
-    ilioscore.learningmaterial_decorator.factory:
-        class: Ilios\CoreBundle\Service\LearningMaterialDecoratorFactory
-        arguments: [ "@router", Ilios\CoreBundle\Classes\LearningMaterialDecorator ]
-    ilioscore.curriculum_inventory_report_decorator.factory:
-            class: Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory
-            arguments: [ "@router", Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator ]
-    ilioscore.courserollover:
-        class: Ilios\CoreBundle\Classes\CourseRollover
-        arguments: ["@ilioscore.course.manager","@ilioscore.learningmaterial.manager","@ilioscore.courselearningmaterial.manager","@ilioscore.session.manager","@ilioscore.sessiondescription.manager","@ilioscore.sessionlearningmaterial.manager","@ilioscore.offering.manager", "@ilioscore.objective.manager", "@ilioscore.ilmsession.manager"]
-    ilioscore.usermaterial.factory:
-        class: Ilios\CoreBundle\Service\UserMaterialFactory
-        arguments: [ "@router", Ilios\CoreBundle\Classes\UserMaterial ]
-    ilioscore.timestamper:
-        class: Ilios\CoreBundle\Service\Timestamper
-        arguments: [ "@doctrine" ]
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: flush }
-            - { name: kernel.event_listener, event: console.terminate, method: flush }
-    ilioscore.cache:
-            class:     Doctrine\Common\Cache\Cache
-            factory: ['Ilios\CoreBundle\Service\CacheFactory', createCache]
-            arguments: ["%kernel.environment%"]
-    ilioscore.entitymetadata:
-        class: Ilios\CoreBundle\Service\EntityMetadata
-        arguments: [ "@ilioscore.cache", "@kernel" ]
-    ilioscore.exception_controller:
-            class: Ilios\CoreBundle\Controller\ExceptionController
-            arguments: ['@twig', '%kernel.environment%']
-    ilioscore.crossing_gurad:
-        class: Ilios\CoreBundle\Service\CrossingGuard
-        arguments: [ "@ilioscore.filesystem"]
+          - { name: doctrine.event_listener, event: onFlush }
+
+    Ilios\CoreBundle\Service\DataimportFileLocator:
+      public: true
+
+    Ilios\CoreBundle\Service\Filesystem:
+      public: true
+
+    Ilios\CoreBundle\Service\TemporaryFileSystem:
+      arguments:
+        $kernelRootDirectory: '%kernel.root_dir%'
+
+    Ilios\CoreBundle\Service\IliosFileSystem:
+      arguments:
+        $iliosFileStorePath: '%ilios_core.file_store_path%'
+
+    Ilios\CoreBundle\Service\LoggerQueue:
+      public: true
+      tags:
+          - { name: kernel.event_listener, event: kernel.response, method: flush }
+          - { name: kernel.event_listener, event: console.terminate, method: flush }
+
+    Ilios\CoreBundle\Service\LdapManager:
+      arguments:
+        $ldapUrl: '%ilios_core.ldap.url%'
+        $ldapBindUser: '%ilios_core.ldap.user%'
+        $ldapBindPassword: '%ilios_core.ldap.password%'
+        $ldapSearchBase: '%ilios_core.ldap.search_base%'
+        $ldapCampusIdProperty: '%ilios_core.ldap.campus_id_property%'
+        $ldapUsernameProperty: '%ilios_core.ldap.username_property%'
+
+    Ilios\CoreBundle\Service\Directory:
+      public: true
+      arguments:
+        $ldapCampusIdProperty: '%ilios_core.ldap.campus_id_property%'
+
+    Ilios\CoreBundle\Service\CurriculumInventory\Exporter:
+      arguments:
+        $institutionDomain: '%ilios_core.institution_domain%'
+        $supportingLink: '%ilios_core.supporting_link%'
+
+    Ilios\CoreBundle\Service\LearningMaterialDecoratorFactory:
+      arguments:
+        $decoratorClassName: '\Ilios\CoreBundle\Classes\LearningMaterialDecorator'
+
+    Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory:
+      arguments:
+        $decoratorClassName: '\Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator'
+
+    Ilios\CoreBundle\Service\Timestamper:
+      tags:
+          - { name: kernel.event_listener, event: kernel.response, method: flush }
+          - { name: kernel.event_listener, event: console.terminate, method: flush }
+
+    Ilios\CoreBundle\Service\UserMaterialFactory:
+      arguments:
+        $decoratorClassName: '\Ilios\CoreBundle\Classes\UserMaterial'
+
+    ilios.cache:
+      class: 'Doctrine\Common\Cache\Cache'
+      factory: ['Ilios\CoreBundle\Service\CacheFactory', 'createCache']
+      arguments:
+        $environment: '%kernel.environment%'
+
+    Ilios\CoreBundle\Controller\ExceptionController:
+        public: true
+        arguments:
+            $environment: '%kernel.environment%'
+
+    Ilios\CoreBundle\Service\CrossingGuard:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 256 }
+
+    Ilios\CoreBundle\Entity\Manager\AuditLogManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\AuditLog'
+    Ilios\CoreBundle\Entity\Manager\AuthenticationManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Authentication'
+    Ilios\CoreBundle\Entity\Manager\CourseManager:
+        public: true
+        class: Ilios\CoreBundle\Entity\Manager\CourseManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Course'
+    Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\CourseLearningMaterial'
+    Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel'
+    Ilios\CoreBundle\Entity\Manager\CurriculumInventoryExportManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\CurriculumInventoryExport'
+    Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\CurriculumInventoryInstitution'
+    Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\CurriculumInventoryReport'
+    Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock'
+    Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\CurriculumInventorySequence'
+    Ilios\CoreBundle\Entity\Manager\IlmSessionManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\IlmSession'
+    Ilios\CoreBundle\Entity\Manager\LearningMaterialManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\LearningMaterial'
+    Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\MeshDescriptor'
+    Ilios\CoreBundle\Entity\Manager\ObjectiveManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Objective'
+    Ilios\CoreBundle\Entity\Manager\OfferingManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Offering'
+    Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\PendingUserUpdate'
+    Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\ProgramYearSteward'
+    Ilios\CoreBundle\Entity\Manager\SchoolManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\School'
+    Ilios\CoreBundle\Entity\Manager\SessionManager:
+        public: true
+        class: Ilios\CoreBundle\Entity\Manager\SessionManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Session'
+    Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\SessionDescription'
+    Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\SessionLearningMaterial'
+    Ilios\CoreBundle\Entity\Manager\UserManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\User'

@@ -142,7 +142,7 @@ class AcademicYearTest extends AbstractEndpointTest
 
     protected function getYears()
     {
-        $loader = $this->container->get('ilioscore.dataloader.course');
+        $loader = $this->container->get('Tests\CoreBundle\DataLoader\CourseData');
         $data = $loader->getAll();
         $academicYears = array_map(function ($arr) {
             return $arr['year'];

@@ -6,6 +6,9 @@ use Ilios\CoreBundle\Classes\UserEvent;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
+use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
+use Ilios\CoreBundle\Entity\Manager\OfferingManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
@@ -23,7 +26,7 @@ class IcsController extends Controller
 
     public function indexAction(Request $request, $key)
     {
-        $manager = $this->container->get('ilioscore.user.manager');
+        $manager = $this->container->get(UserManager::class);
         $user = $manager->findOneBy(array('icsFeedKey' => $key));
 
         if (!$user) {
@@ -85,13 +88,13 @@ class IcsController extends Controller
     protected function getDescriptionForEvent(UserEvent $event)
     {
         if ($event->offering) {
-            $offeringManager = $this->container->get('ilioscore.offering.manager');
+            $offeringManager = $this->container->get(OfferingManager::class);
             $offering = $offeringManager->findOneBy(['id' => $event->offering]);
             /* @var SessionInterface $session */
             $session = $offering->getSession();
         }
         if ($event->ilmSession) {
-            $ilmSessionManager = $this->container->get('ilioscore.ilmsession.manager');
+            $ilmSessionManager = $this->container->get(IlmSessionManager::class);
             $ilmSession = $ilmSessionManager->findOneBy(['id' => $event->ilmSession]);
             $session = $ilmSession->getSession();
         }

@@ -4,6 +4,8 @@ namespace Tests\WebBundle\Controller;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\CoreBundle\DataLoader\SessionData;
+use Tests\CoreBundle\DataLoader\UserData;
 use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
@@ -76,7 +78,7 @@ class IcsControllerTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
 
-        $users = $container->get('ilioscore.dataloader.user')->getAll();
+        $users = $container->get(UserData::class)->getAll();
         $studentUser = $users[4];
         $this->assertEmpty($studentUser['roles']);
 
@@ -100,7 +102,7 @@ class IcsControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        $session = $container->get('ilioscore.dataloader.session')->getOne();
+        $session = $container->get(SessionData::class)->getOne();
         $session['attireRequired'] = true;
         $session['equipmentRequired'] = true;
         $session['attendanceRequired'] = true;
@@ -166,7 +168,7 @@ class IcsControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        $session = $container->get('ilioscore.dataloader.session')->getOne();
+        $session = $container->get(SessionData::class)->getOne();
         $session['attireRequired'] = false;
         $session['equipmentRequired'] = false;
         $session['attendanceRequired'] = false;

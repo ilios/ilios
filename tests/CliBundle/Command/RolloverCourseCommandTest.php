@@ -3,6 +3,7 @@ namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\RolloverCourseCommand;
 use Ilios\CoreBundle\Entity\Course;
+use Ilios\CoreBundle\Service\CourseRollover;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -34,7 +35,7 @@ class RolloverCourseCommandTest extends TestCase
      */
     public function setUp()
     {
-        $this->service = m::mock('Ilios\CoreBundle\Classes\CourseRollover');
+        $this->service = m::mock(CourseRollover::class);
 
         $command = new RolloverCourseCommand($this->service);
         $application = new Application();

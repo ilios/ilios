@@ -15,7 +15,7 @@ class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.alertchangetype.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager';
     }
 
     /**

@@ -26,7 +26,7 @@ class LoadProgramYearData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.programyear')
+            ->get('Tests\CoreBundle\DataLoader\ProgramYearData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new ProgramYear();

@@ -15,7 +15,7 @@ class LoadUserRoleDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.userrole.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\UserRoleManager';
     }
 
     /**

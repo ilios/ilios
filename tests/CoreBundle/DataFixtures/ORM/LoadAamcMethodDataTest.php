@@ -15,7 +15,7 @@ class LoadAamcMethodDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.aamcmethod.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\AamcMethodManager';
     }
 
     /**

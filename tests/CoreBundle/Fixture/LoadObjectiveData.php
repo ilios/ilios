@@ -26,7 +26,7 @@ class LoadObjectiveData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.objective')
+            ->get('Tests\CoreBundle\DataLoader\ObjectiveData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Objective();

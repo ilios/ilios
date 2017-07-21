@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Classes;
+namespace Ilios\CoreBundle\Service;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;

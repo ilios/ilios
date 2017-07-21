@@ -15,7 +15,7 @@ class LoadTermDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.term.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\TermManager';
     }
 
     /**

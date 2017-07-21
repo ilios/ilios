@@ -6,8 +6,10 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceInterface;
+use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManager;
+use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager;
 
 /**
  * Service-class for rolling over a given curriculum inventory report.
@@ -23,31 +25,31 @@ class ReportRollover
     protected $reportManager;
 
     /**
-     * @var ManagerInterface $academicLevelManager
+     * @var CurriculumInventoryAcademicLevelManager $academicLevelManager
      */
     protected $academicLevelManager;
 
     /**
-     * @var ManagerInterface $sequenceManager
+     * @var CurriculumInventorySequenceManager $sequenceManager
      */
     protected $sequenceManager;
 
     /**
-     * @var ManagerInterface $sequenceBlockManager
+     * @var CurriculumInventorySequenceBlockManager $sequenceBlockManager
      */
     protected $sequenceBlockManager;
 
     /**
      * @param CurriculumInventoryReportManager $reportManager
-     * @param ManagerInterface $academicLevelManager
-     * @param ManagerInterface $sequenceManager
-     * @param ManagerInterface $sequenceBlockManager
+     * @param CurriculumInventoryAcademicLevelManager $academicLevelManager
+     * @param CurriculumInventorySequenceManager $sequenceManager
+     * @param CurriculumInventorySequenceBlockManager $sequenceBlockManager
      */
     public function __construct(
         CurriculumInventoryReportManager $reportManager,
-        ManagerInterface $academicLevelManager,
-        ManagerInterface $sequenceManager,
-        ManagerInterface $sequenceBlockManager
+        CurriculumInventoryAcademicLevelManager $academicLevelManager,
+        CurriculumInventorySequenceManager $sequenceManager,
+        CurriculumInventorySequenceBlockManager $sequenceBlockManager
     ) {
         $this->reportManager = $reportManager;
         $this->academicLevelManager = $academicLevelManager;

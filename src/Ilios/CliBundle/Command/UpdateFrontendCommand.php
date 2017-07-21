@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 use Ilios\WebBundle\Service\WebIndexFromJson;
-use Ilios\CoreBundle\Classes\Filesystem;
+use Ilios\CoreBundle\Service\Filesystem;
 
 /**
  * Build the index file from a published frontend release

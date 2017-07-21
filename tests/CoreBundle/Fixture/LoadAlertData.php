@@ -26,7 +26,7 @@ class LoadAlertData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.alert')
+            ->get('Tests\CoreBundle\DataLoader\AlertData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Alert();

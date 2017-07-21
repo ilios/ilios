@@ -13,6 +13,6 @@ class IndexControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         //ensure we have a 60 second max age
-        $this->assertSame(60, $response->getMaxAge());
+        $this->assertSame(60, $response->getMaxAge(), substr($response->getContent(), 0, 500));
     }
 }

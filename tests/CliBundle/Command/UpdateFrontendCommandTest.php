@@ -2,6 +2,7 @@
 namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\UpdateFrontendCommand;
+use Ilios\CoreBundle\Service\Filesystem;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
@@ -27,7 +28,7 @@ class UpdateFrontendCommandTest extends TestCase
         }
 
         $this->builder = m::mock('Ilios\WebBundle\Service\WebIndexFromJson');
-        $this->fs = m::mock('Ilios\CoreBundle\Classes\Filesystem');
+        $this->fs = m::mock(Filesystem::class);
         $command = new UpdateFrontendCommand($this->builder, $this->fs, $this->fakeTestFileDir, 'blank', true, 'prod');
         $application = new Application();
         $application->add($command);

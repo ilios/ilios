@@ -26,7 +26,7 @@ class LoadSchoolConfigData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.schoolconfig')
+            ->get('Tests\CoreBundle\DataLoader\SchoolConfigData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new SchoolConfig();

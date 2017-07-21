@@ -26,7 +26,7 @@ class LoadProgramData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.program')
+            ->get('Tests\CoreBundle\DataLoader\ProgramData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Program();

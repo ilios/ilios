@@ -26,7 +26,7 @@ class LoadSessionDescriptionData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.sessiondescription')
+            ->get('Tests\CoreBundle\DataLoader\SessionDescriptionData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new SessionDescription();

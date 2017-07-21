@@ -15,7 +15,7 @@ class LoadMeshPreviousIndexingDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.meshpreviousindexing.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\MeshPreviousIndexingManager';
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
-use Ilios\CoreBundle\Classes\CourseRollover;
+use Ilios\CoreBundle\Service\CourseRollover;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

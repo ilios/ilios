@@ -87,7 +87,7 @@ class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
             'This seems like too much of a pain to test this right now.'
         );
         $count = 26;
-        $schoolDataLoader = $this->container->get('ilioscore.dataloader.school');
+        $schoolDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\SchoolData');
         $schools = $schoolDataLoader->createMany($count);
         $savedSchools = $this->postMany('schools', 'schools', $schools);
 

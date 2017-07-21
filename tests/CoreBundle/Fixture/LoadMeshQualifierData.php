@@ -26,7 +26,7 @@ class LoadMeshQualifierData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.meshqualifier')
+            ->get('Tests\CoreBundle\DataLoader\MeshQualifierData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshQualifier();

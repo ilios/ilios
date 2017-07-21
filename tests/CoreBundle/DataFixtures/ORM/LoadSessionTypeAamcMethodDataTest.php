@@ -16,7 +16,7 @@ class LoadSessionTypeAamcMethodDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.sessiontype.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\SessionTypeManager';
     }
 
     /**

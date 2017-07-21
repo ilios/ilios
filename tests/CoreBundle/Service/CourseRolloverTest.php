@@ -1,8 +1,16 @@
 <?php
-namespace Tests\CoreBundle\Classes;
+namespace Tests\CoreBundle\Service;
 
-use Ilios\CliBundle\Command\RolloverCourseCommand;
-use Ilios\CoreBundle\Classes\CourseRollover;
+use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\CourseManager;
+use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
+use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\ObjectiveManager;
+use Ilios\CoreBundle\Entity\Manager\OfferingManager;
+use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager;
+use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\SessionManager;
+use Ilios\CoreBundle\Service\CourseRollover;
 use Ilios\CoreBundle\Entity\Cohort;
 use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\CourseClerkshipType;
@@ -22,10 +30,7 @@ use Ilios\CoreBundle\Entity\SessionLearningMaterial;
 use Ilios\CoreBundle\Entity\SessionType;
 use Ilios\CoreBundle\Entity\Term;
 use Ilios\CoreBundle\Entity\User;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
 use \DateTime;
 use Tests\CoreBundle\TestCase;
@@ -92,15 +97,15 @@ class CourseRolloverTest extends TestCase
      */
     public function setUp()
     {
-        $this->courseManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
-        $this->learningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
-        $this->courseLearningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
-        $this->sessionManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
-        $this->sessionDescriptionManager = m::mock('Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager');
-        $this->sessionLearningMaterialManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
-        $this->offeringManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
-        $this->objectiveManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
-        $this->ilmSessionManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
+        $this->courseManager = m::mock(CourseManager::class);
+        $this->learningMaterialManager = m::mock(LearningMaterialManager::class);
+        $this->courseLearningMaterialManager = m::mock(CourseLearningMaterialManager::class);
+        $this->sessionManager = m::mock(SessionManager::class);
+        $this->sessionDescriptionManager = m::mock(SessionDescriptionManager::class);
+        $this->sessionLearningMaterialManager = m::mock(SessionLearningMaterialManager::class);
+        $this->offeringManager = m::mock(OfferingManager::class);
+        $this->objectiveManager = m::mock(ObjectiveManager::class);
+        $this->ilmSessionManager = m::mock(IlmSessionManager::class);
         $this->service = new CourseRollover(
             $this->courseManager,
             $this->learningMaterialManager,

@@ -2,6 +2,8 @@
 
 namespace Ilios\WebBundle\Controller;
 
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Service\Directory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +27,7 @@ class DirectoryController extends Controller
         if ($request->query->has('searchTerms')) {
             $searchTerms = explode(' ', $request->query->get('searchTerms'));
 
-            $directory = $this->container->get('ilioscore.directory');
+            $directory = $this->container->get(Directory::class);
             $searchResults = $directory->find($searchTerms);
 
             if (is_array($searchResults)) {
@@ -39,7 +41,7 @@ class DirectoryController extends Controller
         $campusIds = array_map(function ($arr) {
             return $arr['campusId'];
         }, $results);
-        $userManager = $this->get('ilioscore.user.manager');
+        $userManager = $this->get(UserManager::class);
         $dtos = $userManager->findAllMatchingDTOsByCampusIds($campusIds);
 
         $usersIdsByCampusId = [];
@@ -63,13 +65,13 @@ class DirectoryController extends Controller
             throw new AccessDeniedException();
         }
 
-        $userManager = $this->container->get('ilioscore.user.manager');
+        $userManager = $this->container->get(UserManager::class);
         $user = $userManager->findOneBy(['id' => $id]);
         if (! $user) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        $directory = $this->container->get('ilioscore.directory');
+        $directory = $this->container->get(Directory::class);
         $userRecord = $directory->findByCampusId($user->getCampusId());
         if (!$userRecord) {
             throw new \Exception('Unable to find ' . $user->getCampusId() . ' in the directory.');

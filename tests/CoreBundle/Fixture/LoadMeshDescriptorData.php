@@ -24,7 +24,7 @@ class LoadMeshDescriptorData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.meshdescriptor')
+            ->get('Tests\CoreBundle\DataLoader\MeshDescriptorData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new MeshDescriptor();

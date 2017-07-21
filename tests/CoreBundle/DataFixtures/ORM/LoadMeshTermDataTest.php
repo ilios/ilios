@@ -15,7 +15,7 @@ class LoadMeshTermDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.meshterm.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\MeshTermManager';
     }
 
     /**

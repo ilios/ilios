@@ -15,7 +15,7 @@ class LoadMeshSemanticTypeDataTest extends AbstractDataFixtureTest
      */
     public function getEntityManagerServiceKey()
     {
-        return 'ilioscore.meshsemantictype.manager';
+        return 'Ilios\CoreBundle\Entity\Manager\MeshSemanticTypeManager';
     }
 
     /**

@@ -5,6 +5,8 @@ namespace Ilios\CoreBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture as DataFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager;
+use Ilios\CoreBundle\Service\DataimportFileLocator;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -50,9 +52,9 @@ abstract class AbstractMeshFixture extends DataFixture implements
     {
         // Ignore the entity manager that gets passed in.
         // Instead, grab the one we need from the DI container.
-        $em = $this->container->get('ilioscore.meshdescriptor.manager');
+        $em = $this->container->get(MeshDescriptorManager::class);
 
-        $path = $this->container->get('ilioscore.dataimport_filelocator')->getDataFilePath($this->filename);
+        $path = $this->container->get(DataimportFileLocator::class)->getDataFilePath($this->filename);
 
         $i = 0;
 

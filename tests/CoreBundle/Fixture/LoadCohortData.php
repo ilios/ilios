@@ -26,7 +26,7 @@ class LoadCohortData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.cohort')
+            ->get('Tests\CoreBundle\DataLoader\CohortData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Cohort();

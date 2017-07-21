@@ -125,7 +125,7 @@ class ObjectiveTest extends AbstractEndpointTest
      */
     public function testInputSanitation($input, $output)
     {
-        $postData = $this->container->get('ilioscore.dataloader.objective')
+        $postData = $this->container->get('Tests\CoreBundle\DataLoader\ObjectiveData')
             ->create();
         $postData['title'] = $input;
         unset($postData['id']);
@@ -173,7 +173,7 @@ class ObjectiveTest extends AbstractEndpointTest
      */
     public function testInputSanitationFailure()
     {
-        $postData = $this->container->get('ilioscore.dataloader.objective')
+        $postData = $this->container->get('Tests\CoreBundle\DataLoader\ObjectiveData')
             ->create();
         // this markup will get stripped out, leaving a blank string as input.
         // which in turn will cause the form validation to fail.

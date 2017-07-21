@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\EventListener;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
 use Ilios\CoreBundle\Entity\LoggableEntityInterface;
+use Ilios\CoreBundle\Service\LoggerQueue;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
@@ -83,7 +84,7 @@ class LogEntityChanges
                 $updates[$entityClass]['changes'][] = 'Ref:' . $ref->getShortName();
             }
         }
-        $loggerQueue = $this->container->get('ilioscore.logger.queue');
+        $loggerQueue = $this->container->get('Ilios\CoreBundle\Service\LoggerQueue');
         foreach ($updates as $arr) {
             $valuesChanged = implode($arr['changes'], ',');
             $loggerQueue->add($arr['action'], $arr['entity'], $valuesChanged);

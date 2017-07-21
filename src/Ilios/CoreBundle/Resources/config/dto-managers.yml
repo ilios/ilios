@@ -1,0 +1,78 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Ilios\CoreBundle\Entity\Manager\AamcMethodManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\AamcMethod'
+    Ilios\CoreBundle\Entity\Manager\AamcPcrsManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\AamcPcrs'
+    Ilios\CoreBundle\Entity\Manager\AamcResourceTypeManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\AamcResourceType'
+    Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\AlertChangeType'
+    Ilios\CoreBundle\Entity\Manager\AlertManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Alert'
+    Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\ApplicationConfig'
+    Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\AssessmentOption'
+    Ilios\CoreBundle\Entity\Manager\CohortManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Cohort'
+    Ilios\CoreBundle\Entity\Manager\CompetencyManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Competency'
+    Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\CourseClerkshipType'
+    Ilios\CoreBundle\Entity\Manager\DepartmentManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Department'
+    Ilios\CoreBundle\Entity\Manager\IngestionExceptionManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\IngestionException'
+    Ilios\CoreBundle\Entity\Manager\InstructorGroupManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\InstructorGroup'
+    Ilios\CoreBundle\Entity\Manager\LearnerGroupManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\LearnerGroup'
+    Ilios\CoreBundle\Entity\Manager\ProgramManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Program'
+    Ilios\CoreBundle\Entity\Manager\ProgramYearManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\ProgramYear'
+    Ilios\CoreBundle\Entity\Manager\SessionTypeManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\SessionType'
+    Ilios\CoreBundle\Entity\Manager\TermManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Term'

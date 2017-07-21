@@ -1,9 +1,9 @@
 <?php
 
-namespace Ilios\CoreBundle\Classes;
+namespace Ilios\CoreBundle\Service;
 
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
-use \IOError;
 
 /**
  * Class Filesystem
@@ -24,13 +24,13 @@ class Filesystem extends SymfonyFileSystem
      *
      * @return string
      *
-     * @throws IOError
+     * @throws IOException
      */
     public function readFile($filename)
     {
         $contents = file_get_contents($filename);
         if (false === $contents) {
-            throw new IOError("Unable to read file " . $filename);
+            throw new IOException("Unable to read file " . $filename);
         }
 
         return $contents;

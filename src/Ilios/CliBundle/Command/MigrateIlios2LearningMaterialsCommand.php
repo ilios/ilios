@@ -11,7 +11,7 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
-use Ilios\CoreBundle\Classes\IliosFileSystem;
+use Ilios\CoreBundle\Service\IliosFileSystem;
 
 /**
  * Sync a user with their directory information

@@ -26,7 +26,7 @@ class LoadTermData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.term')
+            ->get('Tests\CoreBundle\DataLoader\TermData')
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Term();

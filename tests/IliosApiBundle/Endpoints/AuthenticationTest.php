@@ -73,7 +73,7 @@ class AuthenticationTest extends AbstractEndpointTest
 
     protected function createMany($count)
     {
-        $userDataLoader = $this->container->get('ilioscore.dataloader.user');
+        $userDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\UserData');
         $users = $userDataLoader->createMany($count);
         $savedUsers = $this->postMany('users', 'users', $users);
 

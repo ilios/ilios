@@ -1,11 +1,18 @@
 <?php
 
-namespace Ilios\CoreBundle\Classes;
+namespace Ilios\CoreBundle\Service;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\IlmSessionInterface;
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\CourseManager;
+use Ilios\CoreBundle\Entity\Manager\IlmSessionManager;
+use Ilios\CoreBundle\Entity\Manager\LearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\ObjectiveManager;
+use Ilios\CoreBundle\Entity\Manager\OfferingManager;
+use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager;
+use Ilios\CoreBundle\Entity\Manager\SessionManager;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SessionInterface;
 use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager;
@@ -14,31 +21,31 @@ use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
 /**
- * Class CourseRollover Rolls over an existing course and its components to a new Academic Year
+ * CourseRollover Rolls over an existing course and its components to a new Academic Year
  *
- * @category Class
- * @package Ilios\CoreBundle\Classes
+ * @category Service
+ * @package Ilios\CoreBundle\Service
  */
 class CourseRollover
 {
 
     /**
-     * @var ManagerInterface
+     * @var CourseManager
      */
     protected $courseManager;
 
     /**
-     * @var ManagerInterface
+     * @var LearningMaterialManager
      */
     protected $learningMaterialManager;
 
     /**
-     * @var ManagerInterface
+     * @var CourseLearningMaterialManager
      */
     protected $courseLearningMaterialManager;
 
     /**
-     * @var ManagerInterface
+     * @var SessionManager
      */
     protected $sessionManager;
 
@@ -48,47 +55,48 @@ class CourseRollover
     protected $sessionDescriptionManager;
 
     /**
-     * @var ManagerInterface;
+     * @var SessionLearningMaterialManager;
      */
     protected $sessionLearningMaterialManager;
 
     /**
-     * @var ManagerInterface
+     * @var OfferingManager
      */
     protected $offeringManager;
 
     /**
-     * @var ManagerInterface
+     * @var ObjectiveManager
      */
     protected $objectiveManager;
 
     /**
-     * @var ManagerInterface
+     * @var IlmSessionManager
      */
     protected $ilmSessionManager;
 
     /**
      * CourseRollover constructor.
-     * @param ManagerInterface $courseManager
-     * @param ManagerInterface $learningMaterialManager
-     * @param ManagerInterface $courseLearningMaterialManager
-     * @param ManagerInterface $sessionManager
-     * @param SessionDescriptionManager $sessionDescriptionManager
-     * @param ManagerInterface $sessionLearningMaterialManager
-     * @param ManagerInterface $offeringManager
-     * @param ManagerInterface $objectiveManager
-     * @param ManagerInterface $ilmSessionManager
+     *
+     * @param CourseManager $courseManager,
+     * @param LearningMaterialManager $learningMaterialManager,
+     * @param CourseLearningMaterialManager $courseLearningMaterialManager,
+     * @param SessionManager $sessionManager,
+     * @param SessionDescriptionManager $sessionDescriptionManager,
+     * @param SessionLearningMaterialManager $sessionLearningMaterialManager,
+     * @param OfferingManager $offeringManager,
+     * @param ObjectiveManager $objectiveManager,
+     * @param IlmSessionManager $ilmSessionManager
      */
     public function __construct(
-        ManagerInterface $courseManager,
-        ManagerInterface $learningMaterialManager,
-        ManagerInterface $courseLearningMaterialManager,
-        ManagerInterface $sessionManager,
+        CourseManager $courseManager,
+        LearningMaterialManager $learningMaterialManager,
+        CourseLearningMaterialManager $courseLearningMaterialManager,
+        SessionManager $sessionManager,
         SessionDescriptionManager $sessionDescriptionManager,
-        ManagerInterface $sessionLearningMaterialManager,
-        ManagerInterface $offeringManager,
-        ManagerInterface $objectiveManager,
-        ManagerInterface $ilmSessionManager
+        SessionLearningMaterialManager $sessionLearningMaterialManager,
+        OfferingManager $offeringManager,
+        ObjectiveManager $objectiveManager,
+        IlmSessionManager $ilmSessionManager
     ) {
         $this->courseManager = $courseManager;
         $this->learningMaterialManager = $learningMaterialManager;
