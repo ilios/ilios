@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e406f34f0017c8c38def959c879f924",
+    "content-hash": "dde755f14c70498baf86ba6e5f72cdf0",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -3457,6 +3457,63 @@
             "time": "2017-03-31T14:50:32+00:00"
         },
         {
+            "name": "swagger-api/swagger-ui",
+            "version": "v3.0.19",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swagger-api/swagger-ui.git",
+                "reference": "a72fc240753987746ff75e0633b8bde68e549b85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/a72fc240753987746ff75e0633b8bde68e549b85",
+                "reference": "a72fc240753987746ff75e0633b8bde68e549b85",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Anna Bodnia",
+                    "email": "anna.bodnia@gmail.com"
+                },
+                {
+                    "name": "Buu Nguyen",
+                    "email": "buunguyen@gmail.com"
+                },
+                {
+                    "name": "Josh Ponelat",
+                    "email": "jponelat@gmail.com"
+                },
+                {
+                    "name": "Kyle Shockey",
+                    "email": "kyleshockey1@gmail.com"
+                },
+                {
+                    "name": "Robert Barnwell",
+                    "email": "robert@robertismy.name"
+                },
+                {
+                    "name": "Sahar Jafari",
+                    "email": "shr.jafari@gmail.com"
+                }
+            ],
+            "description": " Swagger UI is a collection of HTML, Javascript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API.",
+            "homepage": "http://swagger.io",
+            "keywords": [
+                "api",
+                "documentation",
+                "openapi",
+                "specification",
+                "swagger",
+                "ui"
+            ],
+            "time": "2017-07-15T04:53:08+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v5.4.8",
             "source": {
@@ -6247,8 +6304,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "firebase/php-jwt": 0,
         "exercise/htmlpurifier-bundle": 0,
+        "firebase/php-jwt": 0,
         "sensio/generator-bundle": 0,
         "symfony/phpunit-bridge": 0,
         "phpunit/phpunit": 0,

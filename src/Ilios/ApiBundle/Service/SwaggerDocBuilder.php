@@ -136,7 +136,7 @@ class SwaggerDocBuilder
     protected function getDescription()
     {
         $apiDocsUrl = $this->router->generate(
-            'al_swagger_ui_home',
+            'ilios_swagger_index',
             [],
             UrlGenerator::ABSOLUTE_URL
         );
