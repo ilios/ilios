@@ -22,4 +22,13 @@ interface AuthenticationInterface
      * @return JsonResponse
      */
     public function logout(Request $request);
+
+    /**
+     * Get public configuration information for this authentication type
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function getPublicConfigurationInformation(Request $request);
 }

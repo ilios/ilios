@@ -40,6 +40,11 @@ class ShibbolethAuthentication implements AuthenticationInterface
     /**
      * @var String
      */
+    protected $loginPath;
+
+    /**
+     * @var String
+     */
     protected $userIdAttribute;
 
     /**
@@ -59,6 +64,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
         $this->jwtManager = $jwtManager;
         $this->logger = $logger;
         $this->logoutPath = $applicationConfiguration->get('shibboleth_authentication_logout_path');
+        $this->loginPath = $applicationConfiguration->get('shibboleth_authentication_login_path');
         $this->userIdAttribute = $applicationConfiguration->get('shibboleth_authentication_user_id_attribute');
     }
 
@@ -141,5 +147,17 @@ class ShibbolethAuthentication implements AuthenticationInterface
             'logoutUrl' => $logoutUrl
 
         ], JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPublicConfigurationInformation(Request $request)
+    {
+        $configuration = [];
+        $url = $request->getSchemeAndHttpHost();
+        $configuration['loginUrl'] = $url . $this->loginPath;
+
+        return $configuration;
     }
 }

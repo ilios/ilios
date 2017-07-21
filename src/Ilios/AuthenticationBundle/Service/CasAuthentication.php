@@ -127,4 +127,15 @@ class CasAuthentication implements AuthenticationInterface
             'logoutUrl' => $logoutUrl
         ], JsonResponse::HTTP_OK);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPublicConfigurationInformation(Request $request)
+    {
+        $configuration = [];
+        $configuration['casLoginUrl'] = $this->casManager->getLoginUrl();
+
+        return $configuration;
+    }
 }

@@ -145,4 +145,12 @@ class LdapAuthentication implements AuthenticationInterface
         
         return false;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPublicConfigurationInformation(Request $request)
+    {
+        return [];
+    }
 }
