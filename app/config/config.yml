@@ -119,5 +119,5 @@ httplug:
                 timeout: 10
 
 happyr_google_analytics:
-    tracking_id: '%ilios_core.tracking_code%'
+    tracking_id: 'INJECTED FROM DB IN ParameterCompiler'
     http_message_factory: 'httplug.message_factory'
