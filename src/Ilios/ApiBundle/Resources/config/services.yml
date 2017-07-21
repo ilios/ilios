@@ -19,8 +19,13 @@ services:
         tags: [{ name: kernel.event_listener, event: kernel.controller, method: onKernelController }]
 
     Ilios\ApiBundle\Service\SwaggerDocBuilder:
-            arguments:
-                $forceProtocol: '%forceProtocol%'
+        arguments:
+            $forceProtocol: '%forceProtocol%'
+
+    Ilios\ApiBundle\Controller\SwaggerDocsController:
+        public: true
+        arguments:
+            $kernelRootDir: '%kernel.root_dir%'
 
     Symfony\Component\Serializer\SerializerInterface:
           factory:   ['Ilios\ApiBundle\Service\SerializerFactory', createSerializer]

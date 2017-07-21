@@ -1,6 +1,18 @@
+ilios_swagger_index:
+    path:     /doc/
+    defaults: { _controller: IliosApiBundle:SwaggerDocs:index }
+    methods:  [GET]
+
 ilios_swagger_file:
     path:     /doc/swagger.yml
-    defaults: { _controller: IliosApiBundle:SwaggerDocs:index }
+    defaults: { _controller: IliosApiBundle:SwaggerDocs:yaml }
+    methods:  [GET]
+
+ilios_swagger_ui:
+    path:     /doc/{fileName}
+    requirements:
+      fileName: .*
+    defaults: { _controller: IliosApiBundle:SwaggerDocs:ui }
     methods:  [GET]
 
 ilios_api_non_entity_routes:
