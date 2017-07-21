@@ -2,6 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Classes;
 
+use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Ilios\CoreBundle\Entity\UserInterface as IliosUserInterface;
@@ -68,6 +69,11 @@ class SessionUser implements SessionUserInterface
      */
     protected $password;
 
+    /**
+     * @var array
+     */
+    protected $directedCourseIds;
+
 
     public function __construct(IliosUserInterface $user)
     {
@@ -77,6 +83,10 @@ class SessionUser implements SessionUserInterface
 
         $this->schoolIds = $user->getAllSchools()->map(function (SchoolInterface $school) {
             return $school->getId();
+        })->toArray();
+
+        $this->directedCourseIds = $user->getDirectedCourses()->map(function (CourseInterface $course) {
+            return $course->getId();
         })->toArray();
 
         $this->userId = $user->getId();
@@ -378,5 +388,13 @@ class SessionUser implements SessionUserInterface
         }
 
         return null; // use the default encoder
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isDirectingCourse($courseId)
+    {
+        return in_array($courseId, $this->directedCourseIds);
     }
 }

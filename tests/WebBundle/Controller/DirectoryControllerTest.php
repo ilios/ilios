@@ -172,6 +172,7 @@ class DirectoryControllerTest extends WebTestCase
             ->shouldReceive('getRoles')->once()->andReturn(new ArrayCollection([$mockDeveloperRole]))
             ->shouldReceive('getAllSchools')->once()->andReturn(new ArrayCollection([$mockSchool]))
             ->shouldReceive('getPermissions')->once()->andReturn(new ArrayCollection([]))
+            ->shouldReceive('getDirectedCourses')->once()->andReturn(new ArrayCollection([]))
             ->mock();
 
         $container->mock('ilioscore.directory', 'Ilios\CoreBundle\Service\Directory')
