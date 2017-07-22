@@ -13,29 +13,5 @@ parameters:
     mailer_password: null
     locale: en
     secret: ThisTokenIsNotSoSecretChangeIt
-    authentication_type: form
-    legacy_password_salt: null
-    file_system_storage_path: /tmp
 
-    institution_domain: "loremipsum.edu"
-    supporting_link: null
-
-    ldap_authentication_host: null
-    ldap_authentication_port: null
-    ldap_authentication_bind_template: null
-    ldap_directory_url: null
-    ldap_directory_user: null
-    ldap_directory_password: null
-    ldap_directory_search_base: null
-    ldap_directory_campus_id_property: null
-    ldap_directory_username_property: null
-    shibboleth_authentication_login_path: null
-    shibboleth_authentication_logout_path: null
-    shibboleth_authentication_user_id_attribute: null
-    forceProtocol: http
-    keep_frontend_updated: true
-    cas_authentication_server: null
-    cas_authentication_version: null
-    cas_authentication_certificate_path: null
-    enable_tracking: false
-    tracking_code: UA-XXXXXXXX-1
+    forceProtocol: https
