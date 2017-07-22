@@ -10,6 +10,9 @@
     <php>
         <ini name="error_reporting" value="-1" />
         <server name="KERNEL_CLASS" value="AppKernel" />
+        <server name="ILIOS_ENABLE_TRACKING" value="0" />
+        <server name="ILIOS_FILE_SYSTEM_STORAGE_PATH" value="/tmp" />
+        <server name="ILIOS_AUTHENTICATION_TYPE" value="form" />
     </php>
 
     <testsuites>

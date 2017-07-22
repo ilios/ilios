@@ -38,6 +38,9 @@ services:
         tags:
           - { name: doctrine.event_listener, event: onFlush }
 
+    Ilios\CoreBundle\Service\Config:
+        public: true
+
     Ilios\CoreBundle\Service\DataimportFileLocator:
         public: true
 

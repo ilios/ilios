@@ -1,7 +1,8 @@
 <?php
 namespace Ilios\CoreBundle\Service;
 
-
+use Doctrine\DBAL\Exception\ConnectionException;
+use Doctrine\DBAL\Exception\ServerException;
 use Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager;
 
 class Config
@@ -32,15 +33,56 @@ class Config
     }
 
     /**
+     * Look in ENV varialbes first, if this is set there then
+     * go ahead and ignore the DB
+     *
      * @param $name
      *
      * @return string | null
      */
     public function get($name)
     {
-        $result = $this->applicationConfigManager->getValue($name);
+        $result = $this->getValueFromEnv($name);
+        if (null == $result) {
+            $result = $this->getValueFromDb($name);
+        }
 
         return $this->castResult($name, $result);
+    }
+
+    /**
+     * See if there is an environmental variable for this var
+     *
+     * @param $name
+     * @return string | null
+     */
+    protected function getValueFromEnv($name)
+    {
+        $envName = 'ILIOS_' . strtoupper($name);
+        if (isset($_SERVER[$envName])) {
+            return $_SERVER[$envName];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the value from the database.
+     * If there is a problem connecting to the DB or with the tables we
+     * just return null
+     *
+     * @param $name
+     * @return string | null
+     */
+    protected function getValueFromDb($name)
+    {
+        try {
+            return $this->applicationConfigManager->getValue($name);
+        } catch (ServerException $e) {
+            return null;
+        } catch (ConnectionException $e) {
+            return null;
+        }
     }
 
     /**

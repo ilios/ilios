@@ -10,6 +10,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Tests\CoreBundle\DataLoader\LearningMaterialData;
 
 class LoadLearningMaterialData extends AbstractFixture implements
     FixtureInterface,
@@ -30,7 +31,7 @@ class LoadLearningMaterialData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('Tests\CoreBundle\DataLoader\LearningMaterialData')
+            ->get(LearningMaterialData::class)
             ->getAll();
 
         $fs = new Filesystem();
