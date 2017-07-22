@@ -1,7 +1,8 @@
 <?php
 
 namespace Ilios\AuthenticationBundle\Service;
-use Ilios\CoreBundle\Service\ApplicationConfiguration;
+
+use Ilios\CoreBundle\Service\Config;
 
 /**
  * Class CasManager
@@ -30,13 +31,14 @@ class CasManager
 
     /**
      * Constructor
-     * @param ApplicationConfiguration $applicationConfiguration
+     * @param Config $config
      */
-    public function __construct(ApplicationConfiguration $applicationConfiguration) {
-        $this->casServer = $applicationConfiguration->get('cas_authentication_server');
-        $this->casVersion = $applicationConfiguration->get('cas_authentication_version');
-        $this->casVerifySSL = $applicationConfiguration->get('cas_authentication_verify_ssl');
-        $this->casCertificatePath = $applicationConfiguration->get('cas_authentication_certificate_path');
+    public function __construct(Config $config)
+    {
+        $this->casServer = $config->get('cas_authentication_server');
+        $this->casVersion = $config->get('cas_authentication_version');
+        $this->casVerifySSL = $config->get('cas_authentication_verify_ssl');
+        $this->casCertificatePath = $config->get('cas_authentication_certificate_path');
     }
 
     public function getLoginUrl()

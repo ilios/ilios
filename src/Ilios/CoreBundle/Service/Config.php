@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Service;
 
 use Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager;
 
-class ApplicationConfiguration
+class Config
 {
     const BOOLEAN_NAMES = [
         'keep_frontend_updated',
@@ -19,7 +19,7 @@ class ApplicationConfiguration
     protected $applicationConfigManager;
 
     /**
-     * ApplicationConfiguration constructor.
+     * Config constructor.
      * @param string $kernelRootDir
      * @param ApplicationConfigManager $applicationConfigManager
      *

@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Form;
 
-use Ilios\CoreBundle\Service\ApplicationConfiguration;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Security\Core\Encoder\BasePasswordEncoder;
 
 /**
@@ -18,9 +18,9 @@ class Encoder extends BasePasswordEncoder
     /**
      * @param string $salt
      */
-    public function __construct(ApplicationConfiguration $applicationConfiguration)
+    public function __construct(Config $config)
     {
-        $this->salt = $applicationConfiguration->get('legacy_password_salt');
+        $this->salt = $config->get('legacy_password_salt');
     }
 
     public function encodePassword($raw, $salt)

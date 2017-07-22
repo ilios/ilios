@@ -51,16 +51,16 @@ class LdapManager
 
     /**
      * Constructor
-     * @param ApplicationConfiguration $applicationConfiguration
+     * @param Config $config
      */
-    public function __construct(ApplicationConfiguration $applicationConfiguration)
+    public function __construct(Config $config)
     {
-        $this->ldapUrl = $applicationConfiguration->get('ldap_directory_url');
-        $this->ldapBindUser = $applicationConfiguration->get('ldap_directory_user');
-        $this->ldapBindPassword = $applicationConfiguration->get('ldap_directory_password');
-        $this->ldapSearchBase = $applicationConfiguration->get('ldap_directory_search_base');
-        $this->ldapCampusIdProperty = $applicationConfiguration->get('ldap_directory_campus_id_property');
-        $this->ldapUsernameProperty = $applicationConfiguration->get('ldap_directory_username_property');
+        $this->ldapUrl = $config->get('ldap_directory_url');
+        $this->ldapBindUser = $config->get('ldap_directory_user');
+        $this->ldapBindPassword = $config->get('ldap_directory_password');
+        $this->ldapSearchBase = $config->get('ldap_directory_search_base');
+        $this->ldapCampusIdProperty = $config->get('ldap_directory_campus_id_property');
+        $this->ldapUsernameProperty = $config->get('ldap_directory_username_property');
 
         $this->ldap = null;
         $this->connectionCreatedAt = null;

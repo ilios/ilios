@@ -134,6 +134,7 @@ class CasAuthentication implements AuthenticationInterface
     public function getPublicConfigurationInformation(Request $request)
     {
         $configuration = [];
+        $configuration['type'] = 'cas';
         $configuration['casLoginUrl'] = $this->casManager->getLoginUrl();
 
         return $configuration;

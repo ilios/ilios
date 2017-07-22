@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Entity\UserInterface;
-use Ilios\CoreBundle\Service\ApplicationConfiguration;
+use Ilios\CoreBundle\Service\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -55,19 +55,19 @@ class SendTeachingRemindersCommand extends Command
      * @param \Ilios\CoreBundle\Entity\Manager\OfferingManager $offeringManager
      * @param \Symfony\Component\Templating\EngineInterface
      * @param \Swift_Mailer $mailer
-     * @param ApplicationConfiguration $applicationConfiguration
+     * @param Config $config
      */
     public function __construct(
         OfferingManager $offeringManager,
         EngineInterface $templatingEngine,
         \Swift_Mailer $mailer,
-        ApplicationConfiguration $applicationConfiguration
+        Config $config
     ) {
         parent::__construct();
         $this->offeringManager = $offeringManager;
         $this->templatingEngine = $templatingEngine;
         $this->mailer = $mailer;
-        $this->timezone = $applicationConfiguration->get('timezone');
+        $this->timezone = $config->get('timezone');
     }
 
     /**

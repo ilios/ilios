@@ -2,8 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
-use Ilios\CoreBundle\Service\ApplicationConfiguration;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Ilios\CoreBundle\Service\Config;
 
 class AuthenticationFactory
 {
@@ -33,13 +32,13 @@ class AuthenticationFactory
     protected $shibbolethAuthentication;
     
     public function __construct(
-        ApplicationConfiguration $applicationConfiguration,
+        Config $config,
         CasAuthentication $casAuthentication,
         FormAuthentication $formAuthentication,
         LdapAuthentication $ldapAuthentication,
         ShibbolethAuthentication $shibbolethAuthentication
     ) {
-        $this->config = $applicationConfiguration;
+        $this->config = $config;
         $this->casAuthentication = $casAuthentication;
         $this->ldapAuthentication = $ldapAuthentication;
         $this->formAuthentication = $formAuthentication;

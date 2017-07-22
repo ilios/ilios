@@ -154,6 +154,9 @@ class FormAuthentication implements AuthenticationInterface
      */
     public function getPublicConfigurationInformation(Request $request)
     {
-        return [];
+        $configuration = [];
+        $configuration['type'] = 'form';
+
+        return $configuration;
     }
 }

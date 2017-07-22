@@ -18,9 +18,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class ParameterCompiler implements CompilerPassInterface {
     public function process(ContainerBuilder $container)
     {
-        $applicationConfiguration = $container->get('Ilios\CoreBundle\Service\ApplicationConfiguration');
+        $config = $container->get('Ilios\CoreBundle\Service\Config');
 
-        $trackingCode = $applicationConfiguration->get('tracking_code');
+        $trackingCode = $config->get('tracking_code');
         $trackerDef = $container->getDefinition('happyr.google_analytics.tracker');
         $arguments = $trackerDef->getArguments();
         $trackingIdArgument = array_search('INJECTED FROM DB IN ParameterCompiler', $arguments);

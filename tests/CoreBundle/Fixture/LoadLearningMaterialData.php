@@ -39,8 +39,8 @@ class LoadLearningMaterialData extends AbstractFixture implements
             $fs->mkdir($fakeTestFileDir);
         }
         $fs->copy(__FILE__, $fakeTestFileDir . '/TESTFILE.txt');
-        $applicationConfiguration = $this->container->get('Ilios\CoreBundle\Service\ApplicationConfiguration');
-        $storePath = $applicationConfiguration->get('file_system_storage_path');
+        $config = $this->container->get('Ilios\CoreBundle\Service\Config');
+        $storePath = $config->get('file_system_storage_path');
 
         foreach ($data as $arr) {
             $entity = new LearningMaterial();

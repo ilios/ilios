@@ -2,7 +2,7 @@
 
 namespace Ilios\AuthenticationBundle\Service;
 
-use Ilios\CoreBundle\Service\ApplicationConfiguration;
+use Ilios\CoreBundle\Service\Config;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -52,20 +52,20 @@ class ShibbolethAuthentication implements AuthenticationInterface
      * @param AuthenticationManager $authManager
      * @param JsonWebTokenManager $jwtManager
      * @param LoggerInterface $logger
-     * @param ApplicationConfiguration $applicationConfiguration
+     * @param Config $config
      */
     public function __construct(
         AuthenticationManager $authManager,
         JsonWebTokenManager $jwtManager,
         LoggerInterface $logger,
-        ApplicationConfiguration $applicationConfiguration
+        Config $config
     ) {
         $this->authManager = $authManager;
         $this->jwtManager = $jwtManager;
         $this->logger = $logger;
-        $this->logoutPath = $applicationConfiguration->get('shibboleth_authentication_logout_path');
-        $this->loginPath = $applicationConfiguration->get('shibboleth_authentication_login_path');
-        $this->userIdAttribute = $applicationConfiguration->get('shibboleth_authentication_user_id_attribute');
+        $this->logoutPath = $config->get('shibboleth_authentication_logout_path');
+        $this->loginPath = $config->get('shibboleth_authentication_login_path');
+        $this->userIdAttribute = $config->get('shibboleth_authentication_user_id_attribute');
     }
 
     /**
@@ -155,6 +155,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
     public function getPublicConfigurationInformation(Request $request)
     {
         $configuration = [];
+        $configuration['type'] = 'shibboleth';
         $url = $request->getSchemeAndHttpHost();
         $configuration['loginUrl'] = $url . $this->loginPath;
 
