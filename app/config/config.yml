@@ -5,7 +5,7 @@ imports:
 framework:
     #esi:             ~
     #translator:      { fallbacks: ['%locale%'] }
-    secret:          '%secret%'
+    secret:          '%env(ILIOS_SECRET)%'
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'
         strict_requirements: ~
@@ -15,7 +15,7 @@ framework:
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
-    default_locale:  '%locale%'
+    default_locale:  '%env(ILIOS_LOCALE)%'
     trusted_hosts:   ~
     trusted_proxies: ~
     session:
@@ -41,17 +41,14 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   '%database_driver%'
-        host:     '%database_host%'
-        port:     '%database_port%'
-        dbname:   '%database_name%'
-        user:     '%database_user%'
-        password: '%database_password%'
+        driver:   'pdo_mysql'
+        host:     '%env(ILIOS_DATABASE_HOST)%'
+        port:     '%env(ILIOS_DATABASE_PORT)%'
+        dbname:   '%env(ILIOS_DATABASE_NAME)%'
+        user:     '%env(ILIOS_DATABASE_USER)%'
+        password: '%env(ILIOS_DATABASE_PASSWORD)%'
         charset:  UTF8
-        server_version: '%database_mysql_version%'
-        # if using pdo_sqlite as your database driver, add the path in parameters.yml
-        # e.g. database_path: '%kernel.root_dir%/data/data.db3'
-        # path:     '%database_path%'
+        server_version: '%env(ILIOS_DATABASE_MYSQL_VERSION)%'
 
     orm:
       auto_generate_proxy_classes: '%kernel.debug%'
@@ -68,10 +65,10 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: '%mailer_transport%'
-    host:      '%mailer_host%'
-    username:  '%mailer_user%'
-    password:  '%mailer_password%'
+    transport: '%env(ILIOS_MAILER_TRANSPORT)%'
+    host:      '%env(ILIOS_MAILER_HOST)%'
+    username:  '%env(ILIOS_MAILER_USER)%'
+    password:  '%env(ILIOS_MAILER_PASSWORD)%'
     spool:     { type: memory }
 
 nelmio_cors:

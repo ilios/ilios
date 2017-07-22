@@ -90,22 +90,7 @@
         "symfony-cache-warmup": true,
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
-            "file": "app/config/parameters.yml",
-            "env-map": {
-                "database_driver": "ILIOS_DATABASE_DRIVER",
-                "database_host": "ILIOS_DATABASE_HOST",
-                "database_port": "ILIOS_DATABASE_PORT",
-                "database_name": "ILIOS_DATABASE_NAME",
-                "database_user": "ILIOS_DATABASE_USER",
-                "database_password": "ILIOS_DATABASE_PASSWORD",
-                "database_mysql_version": "ILIOS_DATABASE_MYSQL_VERSION",
-                "mailer_transport": "ILIOS_MAILER_TRANSPORT",
-                "mailer_host": "ILIOS_MAILER_HOST",
-                "mailer_user": "ILIOS_MAILER_USER",
-                "mailer_password": "ILIOS_MAILER_PASSWORD",
-                "locale": "ILIOS_LOCALE",
-                "secret": "ILIOS_SECRET"
-            }
+            "file": "app/config/parameters.yml"
         }
     }
 }

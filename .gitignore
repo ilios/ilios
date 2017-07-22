@@ -18,3 +18,4 @@
 .vagrant
 sauce_connect.log
 FakeTestFiles
+.env

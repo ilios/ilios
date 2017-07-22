@@ -21,7 +21,7 @@ class ConfigController extends Controller
         AuthenticationInterface $authenticationSystem
     ) {
         $configuration = $authenticationSystem->getPublicConfigurationInformation($request);
-        $configuration['locale'] = $this->container->getParameter('locale');
+        $configuration['locale'] = $this->container->getParameter('kernel.default_locale');
 
         $ldapUrl = $config->get('ldap_directory_url');
         if (!empty($ldapUrl)) {
