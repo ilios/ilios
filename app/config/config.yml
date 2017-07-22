@@ -116,5 +116,5 @@ httplug:
                 timeout: 10
 
 happyr_google_analytics:
-    tracking_id: 'INJECTED FROM DB IN ParameterCompiler'
+    tracking_id: 'INJECTED FROM Config IN TrackApiUsageListener'
     http_message_factory: 'httplug.message_factory'

@@ -20,6 +20,11 @@ class TrackApiUsageListener
     protected $isTrackingEnabled;
 
     /**
+     * @var string
+     */
+    protected $trackingCode;
+
+    /**
      * @var Tracker
      */
     protected $tracker;
@@ -40,6 +45,7 @@ class TrackApiUsageListener
         LoggerInterface $logger
     ) {
         $this->isTrackingEnabled = $config->get('enable_tracking');
+        $this->trackingCode = $config->get('tracking_code');
         $this->tracker = $tracker;
         $this->logger = $logger;
     }
@@ -70,6 +76,7 @@ class TrackApiUsageListener
             $host = $request->getHost();
             $title = get_class($controller);
             $data = [
+                'tid' => $this->trackingCode,
                 'dh' => $host,
                 'dp' => $path,
                 'dt' => $title
