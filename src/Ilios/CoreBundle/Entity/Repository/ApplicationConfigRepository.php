@@ -5,6 +5,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use Ilios\CoreBundle\Entity\ApplicationConfig;
 use Ilios\CoreBundle\Entity\DTO\ApplicationConfigDTO;
 
 /**
@@ -52,7 +53,10 @@ class ApplicationConfigRepository extends EntityRepository implements DTOReposit
     }
 
     /**
-     * @inheritdoc
+     * Get a value from the application_config table by name
+     *
+     * @param $name
+     * @return mixed|null
      */
     public function getValue($name)
     {
@@ -69,7 +73,6 @@ class ApplicationConfigRepository extends EntityRepository implements DTOReposit
 
         return $result;
     }
-
 
     /**
      * @param QueryBuilder $qb
