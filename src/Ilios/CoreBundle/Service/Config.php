@@ -12,6 +12,7 @@ class Config
         'cas_authentication_verify_ssl',
         'enable_tracking',
         'keep_frontend_updated',
+        'requireSecureConnection',
     ];
 
     /**

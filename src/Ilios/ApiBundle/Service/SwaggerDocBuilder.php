@@ -2,7 +2,6 @@
 
 namespace Ilios\ApiBundle\Service;
 
-use Ilios\CoreBundle\Service\Config;
 use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -17,15 +16,11 @@ use Symfony\Component\Templating\EngineInterface;
 class SwaggerDocBuilder
 {
     const CACHE_NAME = 'swagger-doc-builder.yaml';
-    /**
-     * @var string
-     */
-    protected $swaggerPaths;
 
     /**
      * @var string
      */
-    protected $forceProtocol;
+    protected $swaggerPaths;
 
     /**
      * @var string
@@ -45,12 +40,10 @@ class SwaggerDocBuilder
     public function __construct(
         KernelInterface $kernel,
         EngineInterface $templatingEngine,
-        Router $router,
-        Config $config
+        Router $router
     ) {
         $this->swaggerDir = $kernel->locateResource("@IliosApiBundle/Resources/swagger");
         $this->environment = $kernel->getEnvironment();
-        $this->forceProtocol = $config->get('forceProtocol');
         $this->templatingEngine = $templatingEngine;
         $this->router = $router;
     }
@@ -127,7 +120,7 @@ class SwaggerDocBuilder
         ];
 
         $arr['host'] = $request->getHttpHost();
-        $arr['schemes'] = [$this->forceProtocol];
+        $arr['schemes'] = ['https'];
         $arr['basePath'] = '/api/v1';
         $arr['produces'] = ['application/json'];
 

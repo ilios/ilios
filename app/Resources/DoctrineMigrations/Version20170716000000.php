@@ -69,8 +69,11 @@ class Version20170716000000 extends AbstractMigration
     }
 
     /**
-     * Cleanup our parameters to remove defaults and null values, and convert booleans to integers
+     * Cleanup our parameters to remove defaults and null values,
+     * convert booleans to integers, and modify requirements for forceProtocol
+     * which is now a boolean called requireSecureConnection
      * @param array $parameters
+     *
      * @return array
      */
     protected function cleanup(array $parameters)
@@ -86,6 +89,13 @@ class Version20170716000000 extends AbstractMigration
                 $parameters[$key] = null;
             }
         }
+        if (array_key_exists('forceProtocol', $parameters) and $parameters['forceProtocol'] === 'http') {
+            $parameters['requireSecureConnection'] = 0;
+        } else {
+            $parameters['requireSecureConnection'] = 1;
+        }
+        unset($parameters['forceProtocol']);
+
         $mapped = array_map(function ($name, $value) {
             if (is_bool($value)) {
                 $value = (integer) $value;

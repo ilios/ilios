@@ -16,5 +16,3 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     env(ILIOS_SECRET):                  ThisTokenIsNotSoSecretChangeIt
-
-    forceProtocol: https

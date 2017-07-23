@@ -12,5 +12,3 @@ parameters:
     env(ILIOS_MAILER_PASSWORD): null
     env(ILIOS_LOCALE): en
     env(ILIOS_SECRET): ThisTokenIsNotSoSecretChangeIt
-
-    forceProtocol: https
