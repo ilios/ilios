@@ -1,13 +1,29 @@
 <?php
 namespace Ilios\CoreBundle\Entity\Repository;
 
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Ilios\CoreBundle\Entity\DTO\LearningMaterialDTO;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 
 class LearningMaterialRepository extends EntityRepository
 {
     /**
-     * Custom findBy so we can filter by related entities
+     * @inheritdoc
+     */
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('DISTINCT x')->from('IliosCoreBundle:LearningMaterial', 'x');
+
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find and hydrate as DTOs
      *
      * @param array $criteria
      * @param array|null $orderBy
@@ -16,25 +32,163 @@ class LearningMaterialRepository extends EntityRepository
      *
      * @return array
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        $qb = $this->_em->createQueryBuilder()->select('x')
+            ->distinct()->from('IliosCoreBundle:LearningMaterial', 'x');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        /** @var LearningMaterialDTO[] $learningMaterialDTOs */
+        $learningMaterialDTOs = [];
+        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+            $learningMaterialDTOs[$arr['id']] = new LearningMaterialDTO(
+                $arr['id'],
+                $arr['title'],
+                $arr['description'],
+                $arr['uploadDate'],
+                $arr['originalAuthor'],
+                $arr['citation'],
+                $arr['copyrightPermission'],
+                $arr['copyrightRationale'],
+                $arr['filename'],
+                $arr['mimetype'],
+                $arr['filesize'],
+                $arr['link'],
+                $arr['token']
+            );
+        }
+        $learningMaterialIds = array_keys($learningMaterialDTOs);
+
+        $qb = $this->_em->createQueryBuilder()
+            ->select(
+                'x.id as xId, userRole.id as userRoleId, owningUser.id as owningUserId, status.id as statusId'
+            )
+            ->from('IliosCoreBundle:LearningMaterial', 'x')
+            ->join('x.userRole', 'userRole')
+            ->join('x.owningUser', 'owningUser')
+            ->join('x.status', 'status')
+            ->where($qb->expr()->in('x.id', ':ids'))
+            ->setParameter('ids', $learningMaterialIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $learningMaterialDTOs[$arr['xId']]->userRole = (int) $arr['userRoleId'];
+            $learningMaterialDTOs[$arr['xId']]->owningUser = (int) $arr['owningUserId'];
+            $learningMaterialDTOs[$arr['xId']]->status = (int) $arr['statusId'];
+        }
+
+        $related = [
+            'courseLearningMaterials',
+            'sessionLearningMaterials',
+        ];
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, x.id AS learningMaterialId')
+                ->from('IliosCoreBundle:LearningMaterial', 'x')
+                ->join("x.{$rel}", 'r')
+                ->where($qb->expr()->in('x.id', ':ids'))
+                ->orderBy('relId')
+                ->setParameter('ids', $learningMaterialIds);
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $learningMaterialDTOs[$arr['learningMaterialId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+        return array_values($learningMaterialDTOs);
+    }
+    
+    /**
+     * Find all the file type learning materials
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return LearningMaterialInterface[]
+     */
+    public function findFileLearningMaterials($limit, $offset)
     {
         $qb = $this->_em->createQueryBuilder();
+        $qb->select('DISTINCT x')->from('IliosCoreBundle:LearningMaterial', 'x');
+        $qb->where($qb->expr()->isNotNull('x.relativePath'));
 
-        $qb->select('DISTINCT lm')->from('IliosCoreBundle:LearningMaterial', 'lm');
+        $qb->setFirstResult($offset);
+        $qb->setMaxResults($limit);
 
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find by a string query
+     * @param string $q
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     * @return LearningMaterialInterface[]
+     */
+    public function findByQ($q, $orderBy, $limit, $offset)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('DISTINCT x')->from('IliosCoreBundle:LearningMaterial', 'x');
+        $terms = explode(' ', $q);
+        $terms = array_filter($terms, 'strlen');
+        if (empty($terms)) {
+            return [];
+        }
+
+        foreach ($terms as $key => $term) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('x.title', "?{$key}"),
+                $qb->expr()->like('x.description', "?{$key}"),
+                $qb->expr()->like('x.originalAuthor', "?{$key}")
+            ))
+            ->setParameter($key, '%' . $term . '%');
         }
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('lm.' . $sort, $order);
+                $qb->addOrderBy('x.' . $sort, $order);
             }
+        }
+
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param array $criteria
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return QueryBuilder
+     */
+    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
+    {
+        $related = [
+            'courseLearningMaterials',
+            'sessionLearningMaterials',
+        ];
+        foreach ($related as $rel) {
+            if (array_key_exists($rel, $criteria)) {
+                $ids = is_array($criteria[$rel]) ?
+                    $criteria[$rel] : [$criteria[$rel]];
+                $alias = "alias_${rel}";
+                $param = ":${rel}";
+                $qb->join("x.${rel}", $alias);
+                $qb->andWhere($qb->expr()->in("${alias}.id", $param));
+                $qb->setParameter($param, $ids);
+            }
+            unset($criteria[$rel]);
         }
 
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->leftJoin('lm.sessionLearningMaterials', 'se_slm');
+            $qb->leftJoin('x.sessionLearningMaterials', 'se_slm');
             $qb->leftJoin('se_slm.session', 'se_session');
             $qb->andWhere($qb->expr()->in('se_session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
@@ -42,7 +196,7 @@ class LearningMaterialRepository extends EntityRepository
 
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
-            $qb->leftJoin('lm.courseLearningMaterials', 'c_clm');
+            $qb->leftJoin('x.courseLearningMaterials', 'c_clm');
             $qb->leftJoin('c_clm.course', 'c_course');
             $qb->andWhere($qb->expr()->in('c_course.id', ':courses'));
             $qb->setParameter(':courses', $ids);
@@ -50,7 +204,7 @@ class LearningMaterialRepository extends EntityRepository
 
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
-            $qb->leftJoin('lm.sessionLearningMaterials', 'i_slm');
+            $qb->leftJoin('x.sessionLearningMaterials', 'i_slm');
             $qb->leftJoin('i_slm.session', 'i_session');
             $qb->leftJoin('i_session.offerings', 'i_offering');
             $qb->leftJoin('i_offering.instructors', 'i_user');
@@ -72,7 +226,7 @@ class LearningMaterialRepository extends EntityRepository
         if (array_key_exists('instructorGroups', $criteria)) {
             $ids = is_array($criteria['instructorGroups']) ?
                 $criteria['instructorGroups'] : [$criteria['instructorGroups']];
-            $qb->leftJoin('lm.sessionLearningMaterials', 'ig_slm');
+            $qb->leftJoin('x.sessionLearningMaterials', 'ig_slm');
             $qb->leftJoin('ig_slm.session', 'ig_session');
             $qb->leftJoin('ig_session.offerings', 'ig_offering');
             $qb->leftJoin('ig_offering.instructorGroups', 'ig_igroup');
@@ -89,8 +243,8 @@ class LearningMaterialRepository extends EntityRepository
 
         if (array_key_exists('terms', $criteria)) {
             $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
-            $qb->leftJoin('lm.sessionLearningMaterials', 't_slm');
-            $qb->leftJoin('lm.courseLearningMaterials', 't_clm');
+            $qb->leftJoin('x.sessionLearningMaterials', 't_slm');
+            $qb->leftJoin('x.courseLearningMaterials', 't_clm');
             $qb->leftJoin('t_slm.session', 't_session');
             $qb->leftJoin('t_session.terms', 't_sessionTerm');
             $qb->leftJoin('t_clm.course', 't_course');
@@ -105,8 +259,8 @@ class LearningMaterialRepository extends EntityRepository
         if (array_key_exists('meshDescriptors', $criteria)) {
             $ids = is_array($criteria['meshDescriptors']) ?
                 $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
-            $qb->leftJoin('lm.sessionLearningMaterials', 'm_slm');
-            $qb->leftJoin('lm.courseLearningMaterials', 'm_clm');
+            $qb->leftJoin('x.sessionLearningMaterials', 'm_slm');
+            $qb->leftJoin('x.courseLearningMaterials', 'm_clm');
             $qb->leftJoin('m_slm.meshDescriptors', 'm_slmMeshDescriptor');
             $qb->leftJoin('m_clm.meshDescriptors', 'm_clmMeshDescriptor');
             $qb->leftJoin('m_slm.session', 'm_session');
@@ -130,7 +284,7 @@ class LearningMaterialRepository extends EntityRepository
 
         if (array_key_exists('sessionTypes', $criteria)) {
             $ids = is_array($criteria['sessionTypes']) ? $criteria['sessionTypes'] : [$criteria['sessionTypes']];
-            $qb->leftJoin('lm.sessionLearningMaterials', 'st_slm');
+            $qb->leftJoin('x.sessionLearningMaterials', 'st_slm');
             $qb->leftJoin('st_slm.session', 'st_session');
             $qb->leftJoin('st_session.sessionType', 'st_sessionType');
             $qb->andWhere($qb->expr()->in('st_sessionType.id', ':sessionTypes'));
@@ -149,70 +303,18 @@ class LearningMaterialRepository extends EntityRepository
         if (count($criteria)) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("lm.{$key}", ":{$key}"));
+                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
                 $qb->setParameter(":{$key}", $values);
             }
         }
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
 
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb->getQuery()->getResult();
-    }
-    
-    /**
-     * Find all the file type learning materials
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return LearningMaterialInterface[]
-     */
-    public function findFileLearningMaterials($limit, $offset)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'lm')->from('IliosCoreBundle:LearningMaterial', 'lm');
-        $qb->where($qb->expr()->isNotNull('lm.relativePath'));
-
-        $qb->setFirstResult($offset);
-        $qb->setMaxResults($limit);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * Find by a string query
-     * @param string $q
-     * @param integer $orderBy
-     * @param integer $limit
-     * @param integer $offset
-     * @return LearningMaterialInterface[]
-     */
-    public function findByQ($q, $orderBy, $limit, $offset)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->add('select', 'lm')->from('IliosCoreBundle:LearningMaterial', 'lm');
-        $terms = explode(' ', $q);
-        $terms = array_filter($terms, 'strlen');
-        if (empty($terms)) {
-            return [];
-        }
-
-        foreach ($terms as $key => $term) {
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('lm.title', "?{$key}"),
-                $qb->expr()->like('lm.description', "?{$key}"),
-                $qb->expr()->like('lm.originalAuthor', "?{$key}")
-            ))
-            ->setParameter($key, '%' . $term . '%');
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
         }
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('lm.' . $sort, $order);
+                $qb->addOrderBy('x.'.$sort, $order);
             }
         }
 
@@ -224,6 +326,6 @@ class LearningMaterialRepository extends EntityRepository
             $qb->setMaxResults($limit);
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }
