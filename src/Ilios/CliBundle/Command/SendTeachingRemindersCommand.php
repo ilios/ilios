@@ -60,7 +60,7 @@ class SendTeachingRemindersCommand extends Command
     public function __construct(
         OfferingManager $offeringManager,
         EngineInterface $templatingEngine,
-        $mailer,
+        \Swift_Mailer $mailer,
         $timezone
     ) {
         parent::__construct();

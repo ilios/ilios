@@ -3,8 +3,12 @@
 namespace Ilios\CliBundle\Command;
 
 use Ilios\CoreBundle\Entity\AuthenticationInterface;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
 use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
 
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,22 +47,22 @@ class InstallFirstUserCommand extends Command
     const LAST_NAME = 'User';
 
     /**
-     * @var ManagerInterface
+     * @var UserManager
      */
     protected $userManager;
 
     /**
-     * @var ManagerInterface
+     * @var SchoolManager
      */
     protected $schoolManager;
 
     /**
-     * @var ManagerInterface
+     * @var UserRoleManager
      */
     protected $userRoleManager;
 
     /**
-     * @var  ManagerInterface
+     * @var  AuthenticationManager
      */
     protected $authenticationManager;
 
@@ -69,17 +73,17 @@ class InstallFirstUserCommand extends Command
 
     /**
      * Constructor.
-     * @param ManagerInterface $userManager
-     * @param ManagerInterface $schoolManager
-     * @param ManagerInterface $userRoleManager
-     * @param ManagerInterface $authenticationManager
+     * @param UserManager $userManager
+     * @param SchoolManager $schoolManager
+     * @param UserRoleManager $userRoleManager
+     * @param AuthenticationManager $authenticationManager
      * @param UserPasswordEncoderInterface $passwordEncoder
      */
     public function __construct(
-        ManagerInterface $userManager,
-        ManagerInterface $schoolManager,
-        ManagerInterface $userRoleManager,
-        ManagerInterface $authenticationManager,
+        UserManager $userManager,
+        SchoolManager $schoolManager,
+        UserRoleManager $userRoleManager,
+        AuthenticationManager $authenticationManager,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
         $this->userManager = $userManager;

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Ilios\CoreBundle\Entity\Manager\UserManager;
 use Ilios\CoreBundle\Entity\UserInterface;
 use Ilios\CoreBundle\Service\Directory;
@@ -29,7 +29,7 @@ class SyncFormerStudentsCommand extends Command
     protected $userManager;
     
     /**
-     * @var ManagerInterface
+     * @var UserRoleManager
      */
     protected $userRoleManager;
     
@@ -40,7 +40,7 @@ class SyncFormerStudentsCommand extends Command
     
     public function __construct(
         UserManager $userManager,
-        ManagerInterface $userRoleManager,
+        UserRoleManager $userRoleManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;

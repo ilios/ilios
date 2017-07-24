@@ -2,12 +2,17 @@
 namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\InstallFirstUserCommand;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Ilios\CoreBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use Mockery as m;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class InstallFirstUserCommandTest
@@ -35,12 +40,11 @@ class InstallFirstUserCommandTest extends KernelTestCase
      */
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
-        $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManager');
-        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\BaseManager');
-        $this->encoder = m::mock('Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface');
-
+        $this->userManager = m::mock(UserManager::class);
+        $this->authenticationManager = m::mock(AuthenticationManager::class);
+        $this->schoolManager = m::mock(SchoolManager::class);
+        $this->userRoleManager = m::mock(UserRoleManager::class);
+        $this->encoder = m::mock(UserPasswordEncoderInterface::class);
 
         $command = new InstallFirstUserCommand(
             $this->userManager,

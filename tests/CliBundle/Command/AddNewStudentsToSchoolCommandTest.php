@@ -2,6 +2,10 @@
 namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\AddNewStudentsToSchoolCommand;
+use Ilios\CoreBundle\Entity\Manager\AuthenticationManager;
+use Ilios\CoreBundle\Entity\Manager\SchoolManager;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -27,10 +31,10 @@ class AddNewStudentsToSchoolCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
-        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
-        $this->schoolManager = m::mock('Ilios\CoreBundle\Entity\Manager\SchoolManager');
-        $this->authenticationManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuthenticationManager');
+        $this->userManager = m::mock(UserManager::class);
+        $this->userRoleManager = m::mock(UserRoleManager::class);
+        $this->schoolManager = m::mock(SchoolManager::class);
+        $this->authenticationManager = m::mock(AuthenticationManager::class);
         $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
         
         $command = new AddNewStudentsToSchoolCommand(

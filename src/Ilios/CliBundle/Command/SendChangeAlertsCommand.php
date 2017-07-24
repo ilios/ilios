@@ -5,7 +5,7 @@ namespace Ilios\CliBundle\Command;
 use Ilios\CoreBundle\Entity\AlertInterface;
 use Ilios\CoreBundle\Entity\AuditLogInterface;
 use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\AlertManager;
 use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Symfony\Component\Console\Command\Command;
@@ -28,7 +28,7 @@ class SendChangeAlertsCommand extends Command
     const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
 
     /**
-     * @var ManagerInterface
+     * @var AlertManager
      */
     protected $alertManager;
 
@@ -58,7 +58,7 @@ class SendChangeAlertsCommand extends Command
     protected $timezone;
 
     /**
-     * @param ManagerInterface $alertManager
+     * @param AlertManager $alertManager
      * @param AuditLogManager $auditLogManager
      * @param OfferingManager $offeringManager
      * @param EngineInterface $templatingEngine
@@ -66,11 +66,11 @@ class SendChangeAlertsCommand extends Command
      * @param string $timezone
      */
     public function __construct(
-        ManagerInterface $alertManager,
+        AlertManager $alertManager,
         AuditLogManager $auditLogManager,
         OfferingManager $offeringManager,
         EngineInterface $templatingEngine,
-        $mailer,
+        \Swift_Mailer $mailer,
         $timezone
     ) {
         parent::__construct();

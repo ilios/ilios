@@ -2,6 +2,9 @@
 namespace Tests\CliBundle\Command;
 
 use Ilios\CliBundle\Command\SyncFormerStudentsCommand;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
+use Ilios\CoreBundle\Service\Directory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,9 +25,9 @@ class SyncFormerStudentsCommandTest extends TestCase
     
     public function setUp()
     {
-        $this->userManager = m::mock('Ilios\CoreBundle\Entity\Manager\UserManager');
-        $this->userRoleManager = m::mock('Ilios\CoreBundle\Entity\Manager\BaseManager');
-        $this->directory = m::mock('Ilios\CoreBundle\Service\Directory');
+        $this->userManager = m::mock(UserManager::class);
+        $this->userRoleManager = m::mock(UserRoleManager::class);
+        $this->directory = m::mock(Directory::class);
         
         $command = new SyncFormerStudentsCommand($this->userManager, $this->userRoleManager, $this->directory);
         $application = new Application();
