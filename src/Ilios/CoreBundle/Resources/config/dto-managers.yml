@@ -60,6 +60,10 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\LearnerGroup'
+    Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager:
+            class: Ilios\CoreBundle\Entity\Manager\DTOManager
+            arguments:
+                $class: 'Ilios\CoreBundle\Entity\LearningMaterialStatus'
     Ilios\CoreBundle\Entity\Manager\ProgramManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
