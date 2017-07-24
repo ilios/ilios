@@ -6,6 +6,7 @@ use Ilios\AuthenticationBundle\Voter\Entity\MeshEntityVoter;
 use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
+use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshTermDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -23,7 +24,8 @@ class MeshDTOVoter extends MeshEntityVoter
         return (
                 $subject instanceof MeshDescriptorDTO ||
                 $subject instanceof MeshConceptDTO ||
-                $subject instanceof MeshTermDTO
+                $subject instanceof MeshTermDTO ||
+                $subject instanceof MeshPreviousIndexingDTO
             ) && in_array($attribute, [self::VIEW]);
     }
 
