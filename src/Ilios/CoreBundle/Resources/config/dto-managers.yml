@@ -80,6 +80,10 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshQualifier'
+    Ilios\CoreBundle\Entity\Manager\MeshSemanticTypeManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\MeshSemanticType'
     Ilios\CoreBundle\Entity\Manager\MeshTermManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:

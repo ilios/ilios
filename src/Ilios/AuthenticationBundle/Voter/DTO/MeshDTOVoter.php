@@ -8,6 +8,7 @@ use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshQualifierDTO;
+use Ilios\CoreBundle\Entity\DTO\MeshSemanticTypeDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshTermDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -27,7 +28,8 @@ class MeshDTOVoter extends MeshEntityVoter
                 $subject instanceof MeshConceptDTO ||
                 $subject instanceof MeshTermDTO ||
                 $subject instanceof MeshPreviousIndexingDTO ||
-                $subject instanceof MeshQualifierDTO
+                $subject instanceof MeshQualifierDTO ||
+                $subject instanceof MeshSemanticTypeDTO
             ) && in_array($attribute, [self::VIEW]);
     }
 
