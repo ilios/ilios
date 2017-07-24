@@ -3,12 +3,13 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Entity\Repository\LearningMaterialRepository;
 
 /**
  * Class LearningMaterialManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class LearningMaterialManager extends BaseManager
+class LearningMaterialManager extends DTOManager
 {
     /**
      * Use a query term to find learning materials
@@ -26,7 +27,9 @@ class LearningMaterialManager extends BaseManager
         $limit = null,
         $offset = null
     ) {
-        return $this->getRepository()->findByQ($q, $orderBy, $limit, $offset);
+        /** @var LearningMaterialRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findByQ($q, $orderBy, $limit, $offset);
     }
 
     /**
@@ -38,7 +41,9 @@ class LearningMaterialManager extends BaseManager
      */
     public function findFileLearningMaterials($limit, $offset)
     {
-        return $this->getRepository()->findFileLearningMaterials($limit, $offset);
+        /** @var LearningMaterialRepository $repository */
+        $repository = $this->getRepository();
+        return $repository->findFileLearningMaterials($limit, $offset);
     }
 
     /**

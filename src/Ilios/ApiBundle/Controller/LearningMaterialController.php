@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  * so it needs its own controller
  * @package Ilios\ApiBundle\Controller
  */
-class LearningMaterialController extends NonDtoApiController
+class LearningMaterialController extends ApiController
 {
     /**
      * @var TemporaryFileSystem
@@ -45,6 +45,7 @@ class LearningMaterialController extends NonDtoApiController
      *
      * @param IliosFileSystem $filesystem
      * @param TemporaryFileSystem $temporaryFileSystem
+     * @param LearningMaterialDecoratorFactory $learningMaterialDecoratorFactory
      */
     public function setup(
         IliosFileSystem $filesystem,
@@ -193,7 +194,7 @@ class LearningMaterialController extends NonDtoApiController
     {
         $factory = $this->learningMaterialDecoratorFactory;
         if (is_array($value)) {
-            $value = array_map(function (LearningMaterialInterface $lm) use ($factory) {
+            $value = array_map(function ($lm) use ($factory) {
                 return $factory->create($lm);
             }, $value);
         } else {

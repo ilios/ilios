@@ -80,10 +80,6 @@ services:
         $institutionDomain: '%ilios_core.institution_domain%'
         $supportingLink: '%ilios_core.supporting_link%'
 
-    Ilios\CoreBundle\Service\LearningMaterialDecoratorFactory:
-      arguments:
-        $decoratorClassName: '\Ilios\CoreBundle\Classes\LearningMaterialDecorator'
-
     Ilios\CoreBundle\Service\CurriculumInventoryReportDecoratorFactory:
       arguments:
         $decoratorClassName: '\Ilios\CoreBundle\Classes\CurriculumInventoryReportDecorator'
