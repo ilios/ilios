@@ -10,8 +10,9 @@ set_time_limit(0);
 
 require __DIR__.'/../vendor/autoload.php';
 
-$dotEnv = new Dotenv();
-$dotEnv->load(__DIR__.'/../.env');
+if (file_exists($env = __DIR__ . '/../.env')) {
+    (new Dotenv())->load($env);
+}
 
 $input = new ArgvInput();
 $env = $input->getParameterOption(['--env', '-e'], getenv('SYMFONY_ENV') ?: 'dev');

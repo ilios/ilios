@@ -5,8 +5,9 @@ use Symfony\Component\Dotenv\Dotenv;
 
 require __DIR__.'/../vendor/autoload.php';
 
-$dotEnv = new Dotenv();
-$dotEnv->load(__DIR__.'/../.env');
+if (file_exists($env = __DIR__ . '/../.env')) {
+    (new Dotenv())->load($env);
+}
 
 $kernel = AppKernel::fromEnvironment();
 
