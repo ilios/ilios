@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="learning_material_user_role")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\LearningMaterialUserRoleRepository")
  *
  * @IS\Entity
  */

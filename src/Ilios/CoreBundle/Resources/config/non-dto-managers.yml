@@ -4,10 +4,6 @@ services:
         autoconfigure: true
         public: true
 
-    Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\LearningMaterialUserRole'
     Ilios\CoreBundle\Entity\Manager\MeshConceptManager:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
