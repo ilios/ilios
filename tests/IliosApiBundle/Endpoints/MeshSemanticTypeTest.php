@@ -58,7 +58,7 @@ class MeshSemanticTypeTest extends AbstractEndpointTest
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
             'name' => [[1], ['name' => 'second type']],
-            'concepts' => [[0], ['concepts' => [1]], $skipped = true],
+            'concepts' => [[0, 1], ['concepts' => [1]]],
         ];
     }
 

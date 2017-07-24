@@ -17,7 +17,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *  uniqueConstraints={
  *      @ORM\UniqueConstraint(name="descriptor_previous", columns={"mesh_descriptor_uid"})
  *  })
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\MeshPreviousIndexingRepository")
  *
  * @IS\Entity
  */

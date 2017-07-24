@@ -4,30 +4,6 @@ services:
         autoconfigure: true
         public: true
 
-    Ilios\CoreBundle\Entity\Manager\MeshConceptManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\MeshConcept'
-    Ilios\CoreBundle\Entity\Manager\MeshPreviousIndexingManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\MeshPreviousIndexing'
-    Ilios\CoreBundle\Entity\Manager\MeshQualifierManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\MeshQualifier'
-    Ilios\CoreBundle\Entity\Manager\MeshSemanticTypeManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\MeshSemanticType'
-    Ilios\CoreBundle\Entity\Manager\MeshTermManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\MeshTerm'
-    Ilios\CoreBundle\Entity\Manager\MeshTreeManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\MeshTree'
     Ilios\CoreBundle\Entity\Manager\PermissionManager:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:

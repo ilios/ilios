@@ -72,9 +72,9 @@ class MeshConceptTest extends AbstractEndpointTest
             'scopeNote' => [[0], ['scopeNote' => 'first scopeNote']],
             'casn1Name' => [[1], ['casn1Name' => 'second casn']],
             'registryNumber' => [[1], ['registryNumber' => 'abcd']],
-            'semanticTypes' => [[0], ['semanticTypes' => [1]], $skipped = true],
-            'terms' => [[0], ['terms' => [1]], $skipped = true],
-            'descriptors' => [[0, 1], ['descriptors' => ['abc1']], $skipped = true],
+            'semanticTypes' => [[0], ['semanticTypes' => [1]]],
+            'terms' => [[0], ['terms' => [1]]],
+            'descriptors' => [[0, 1], ['descriptors' => ['abc1']]],
         ];
     }
 

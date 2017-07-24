@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  * @deprecated
  *
  * @ORM\Table(name="mesh_semantic_type")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\MeshSemanticTypeRepository")
  *
  * @IS\Entity
  */
