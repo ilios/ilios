@@ -88,6 +88,10 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshTerm'
+    Ilios\CoreBundle\Entity\Manager\MeshTreeManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\MeshTree'
     Ilios\CoreBundle\Entity\Manager\ProgramManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
