@@ -16,10 +16,6 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshSemanticType'
-    Ilios\CoreBundle\Entity\Manager\MeshTermManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\MeshTerm'
     Ilios\CoreBundle\Entity\Manager\MeshTreeManager:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:

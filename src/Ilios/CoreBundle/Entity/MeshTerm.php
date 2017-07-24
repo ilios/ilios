@@ -24,7 +24,7 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
  *      @ORM\UniqueConstraint(name="mesh_term_uid_name", columns={"mesh_term_uid","name"})
  *  }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\MeshTermRepository")
  *
  * @IS\Entity
  */
