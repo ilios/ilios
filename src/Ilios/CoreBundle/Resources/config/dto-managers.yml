@@ -68,6 +68,10 @@ services:
             class: Ilios\CoreBundle\Entity\Manager\DTOManager
             arguments:
                 $class: 'Ilios\CoreBundle\Entity\LearningMaterialUserRole'
+    Ilios\CoreBundle\Entity\Manager\MeshConceptManager:
+            class: Ilios\CoreBundle\Entity\Manager\DTOManager
+            arguments:
+                $class: 'Ilios\CoreBundle\Entity\MeshConcept'
     Ilios\CoreBundle\Entity\Manager\ProgramManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:

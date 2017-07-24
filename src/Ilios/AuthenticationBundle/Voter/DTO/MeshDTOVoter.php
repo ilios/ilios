@@ -3,6 +3,7 @@
 namespace Ilios\AuthenticationBundle\Voter\DTO;
 
 use Ilios\AuthenticationBundle\Voter\Entity\MeshEntityVoter;
+use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
 use Ilios\CoreBundle\Entity\DTO\MeshDescriptorDTO;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -11,19 +12,22 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * Class MeshDescriptorDTOVoter
  * @package Ilios\AuthenticationBundle\Voter\DTO
  */
-class MeshDescriptorDTOVoter extends MeshEntityVoter
+class MeshDTOVoter extends MeshEntityVoter
 {
     /**
      * @inheritdoc
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof MeshDescriptorDTO && in_array($attribute, array(self::VIEW));
+        return (
+                $subject instanceof MeshDescriptorDTO ||
+                $subject instanceof MeshConceptDTO
+            ) && in_array($attribute, [self::VIEW]);
     }
 
     /**
      * @param string $attribute
-     * @param MeshDescriptorDTO $requestedDescriptor
+     * @param $requestedDescriptor
      * @param TokenInterface $token
      * @return bool
      */
