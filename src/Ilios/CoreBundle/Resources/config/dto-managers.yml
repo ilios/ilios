@@ -76,6 +76,10 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshPreviousIndexing'
+    Ilios\CoreBundle\Entity\Manager\MeshQualifierManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\MeshQualifier'
     Ilios\CoreBundle\Entity\Manager\MeshTermManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
