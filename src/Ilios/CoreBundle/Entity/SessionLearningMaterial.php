@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   @ORM\Index(name="learning_material_id_k", columns={"learning_material_id"}),
  *   @ORM\Index(name="IDX_9BE2AF8D613FECDF", columns={"session_id"})
  * })
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\SessionLearningMaterialRepository")
  *
  * @IS\Entity
  */

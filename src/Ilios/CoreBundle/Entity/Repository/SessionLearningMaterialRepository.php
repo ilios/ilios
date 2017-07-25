@@ -4,13 +4,13 @@ namespace Ilios\CoreBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-use Ilios\CoreBundle\Entity\DTO\CourseLearningMaterialDTO;
+use Ilios\CoreBundle\Entity\DTO\SessionLearningMaterialDTO;
 
 /**
- * Class CourseLearningMaterialRepository
+ * Class SessionLearningMaterialRepository
  * @package Ilios\CoreBundle\Entity\Repository
  */
-class CourseLearningMaterialRepository extends EntityRepository
+class SessionLearningMaterialRepository extends EntityRepository
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class CourseLearningMaterialRepository extends EntityRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('IliosCoreBundle:CourseLearningMaterial', 'x');
+        $qb->select('DISTINCT x')->from('IliosCoreBundle:SessionLearningMaterial', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -38,12 +38,12 @@ class CourseLearningMaterialRepository extends EntityRepository
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('IliosCoreBundle:CourseLearningMaterial', 'x');
+            ->distinct()->from('IliosCoreBundle:SessionLearningMaterial', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-        /** @var CourseLearningMaterialDTO[] $courseLearningMaterialDTOs */
-        $courseLearningMaterialDTOs = [];
+        /** @var SessionLearningMaterialDTO[] $sessionLearningMaterialDTOs */
+        $sessionLearningMaterialDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $courseLearningMaterialDTOs[$arr['id']] = new CourseLearningMaterialDTO(
+            $sessionLearningMaterialDTOs[$arr['id']] = new SessionLearningMaterialDTO(
                 $arr['id'],
                 $arr['notes'],
                 $arr['required'],
@@ -51,29 +51,31 @@ class CourseLearningMaterialRepository extends EntityRepository
                 $arr['position']
             );
         }
-        $courseLearningMaterialIds = array_keys($courseLearningMaterialDTOs);
+        $sessionLearningMaterialIds = array_keys($sessionLearningMaterialDTOs);
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
-                'x.id as xId, learningMaterial.id AS learningMaterialId, ' .
+                'x.id as xId, learningMaterial.id AS learningMaterialId, session.id AS sessionId, ' .
                 'course.id AS courseId, course.locked AS courseIsLocked, course.archived AS courseIsArchived, ' .
                 'status.id as statusId, school.id AS schoolId'
             )
-            ->from('IliosCoreBundle:CourseLearningMaterial', 'x')
-            ->join('x.course', 'course')
+            ->from('IliosCoreBundle:SessionLearningMaterial', 'x')
+            ->join('x.session', 'session')
+            ->join('session.course', 'course')
             ->join('course.school', 'school')
             ->join('x.learningMaterial', 'learningMaterial')
             ->leftJoin('learningMaterial.status', 'status')
             ->where($qb->expr()->in('x.id', ':ids'))
-            ->setParameter('ids', $courseLearningMaterialIds);
+            ->setParameter('ids', $sessionLearningMaterialIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $courseLearningMaterialDTOs[$arr['xId']]->course = (int) $arr['courseId'];
-            $courseLearningMaterialDTOs[$arr['xId']]->courseIsLocked = (bool) $arr['courseIsLocked'];
-            $courseLearningMaterialDTOs[$arr['xId']]->courseIsArchived = (bool) $arr['courseIsArchived'];
-            $courseLearningMaterialDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
-            $courseLearningMaterialDTOs[$arr['xId']]->learningMaterial = (int) $arr['learningMaterialId'];
-            $courseLearningMaterialDTOs[$arr['xId']]->status = (int) $arr['statusId'];
+            $sessionLearningMaterialDTOs[$arr['xId']]->session = (int) $arr['sessionId'];
+            $sessionLearningMaterialDTOs[$arr['xId']]->courseIsLocked = (bool) $arr['courseIsLocked'];
+            $sessionLearningMaterialDTOs[$arr['xId']]->courseIsArchived = (bool) $arr['courseIsArchived'];
+            $sessionLearningMaterialDTOs[$arr['xId']]->course = (int) $arr['courseId'];
+            $sessionLearningMaterialDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
+            $sessionLearningMaterialDTOs[$arr['xId']]->learningMaterial = (int) $arr['learningMaterialId'];
+            $sessionLearningMaterialDTOs[$arr['xId']]->status = (int) $arr['statusId'];
         }
 
         $related = [
@@ -81,17 +83,17 @@ class CourseLearningMaterialRepository extends EntityRepository
         ];
         foreach ($related as $rel) {
             $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS courseLearningMaterialId')
-                ->from('IliosCoreBundle:CourseLearningMaterial', 'x')
+                ->select('r.id AS relId, x.id AS sessionLearningMaterialId')
+                ->from('IliosCoreBundle:SessionLearningMaterial', 'x')
                 ->join("x.{$rel}", 'r')
                 ->where($qb->expr()->in('x.id', ':ids'))
                 ->orderBy('relId')
-                ->setParameter('ids', $courseLearningMaterialIds);
+                ->setParameter('ids', $sessionLearningMaterialIds);
             foreach ($qb->getQuery()->getResult() as $arr) {
-                $courseLearningMaterialDTOs[$arr['courseLearningMaterialId']]->{$rel}[] = $arr['relId'];
+                $sessionLearningMaterialDTOs[$arr['sessionLearningMaterialId']]->{$rel}[] = $arr['relId'];
             }
         }
-        return array_values($courseLearningMaterialDTOs);
+        return array_values($sessionLearningMaterialDTOs);
     }
 
 

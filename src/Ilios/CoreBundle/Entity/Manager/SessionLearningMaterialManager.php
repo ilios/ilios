@@ -6,7 +6,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
  * Class SessionLearningMaterialManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class SessionLearningMaterialManager extends BaseManager
+class SessionLearningMaterialManager extends DTOManager
 {
     /**
      * @return int
