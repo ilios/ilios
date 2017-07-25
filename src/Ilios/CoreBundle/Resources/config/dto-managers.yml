@@ -92,6 +92,10 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshTree'
+    Ilios\CoreBundle\Entity\Manager\PermissionManager:
+            class: Ilios\CoreBundle\Entity\Manager\DTOManager
+            arguments:
+                $class: 'Ilios\CoreBundle\Entity\Permission'
     Ilios\CoreBundle\Entity\Manager\ProgramManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
