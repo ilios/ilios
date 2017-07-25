@@ -6,7 +6,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
  * Class SessionDescriptionManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class SessionDescriptionManager extends BaseManager
+class SessionDescriptionManager extends DTOManager
 {
     /**
      * @return int

@@ -4,13 +4,13 @@ namespace Ilios\CoreBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-use Ilios\CoreBundle\Entity\DTO\PendingUserUpdateDTO;
+use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
 
 /**
- * Class PendingUserUpdateRepository
+ * Class VocabularyRepository
  * @package Ilios\CoreBundle\Entity\Repository
  */
-class PendingUserUpdateRepository extends EntityRepository
+class VocabularyRepository extends EntityRepository
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class PendingUserUpdateRepository extends EntityRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('IliosCoreBundle:PendingUserUpdate', 'x');
+        $qb->select('DISTINCT x')->from('IliosCoreBundle:Vocabulary', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -38,35 +38,49 @@ class PendingUserUpdateRepository extends EntityRepository
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('IliosCoreBundle:PendingUserUpdate', 'x');
+            ->distinct()->from('IliosCoreBundle:Vocabulary', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        /** @var PendingUserUpdateDTO[] $pendingUserUpdateDTOs */
-        $pendingUserUpdateDTOs = [];
+        /** @var VocabularyDTO[] $vocabularyDTOs */
+        $vocabularyDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $pendingUserUpdateDTOs[$arr['id']] = new PendingUserUpdateDTO(
+            $vocabularyDTOs[$arr['id']] = new VocabularyDTO(
                 $arr['id'],
-                $arr['type'],
-                $arr['property'],
-                $arr['value']
+                $arr['title'],
+                $arr['active']
             );
         }
-        $pendingUserUpdateIds = array_keys($pendingUserUpdateDTOs);
+        $vocabularyIds = array_keys($vocabularyDTOs);
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
-                'x.id as xId, user.id AS userId'
+                'x.id as xId, school.id AS schoolId'
             )
-            ->from('IliosCoreBundle:PendingUserUpdate', 'x')
-            ->join('x.user', 'user')
+            ->from('IliosCoreBundle:Vocabulary', 'x')
+            ->join('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
-            ->setParameter('ids', $pendingUserUpdateIds);
+            ->setParameter('ids', $vocabularyIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $pendingUserUpdateDTOs[$arr['xId']]->user = (int) $arr['userId'];
+            $vocabularyDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
         }
 
-        return array_values($pendingUserUpdateDTOs);
+        $related = [
+            'terms',
+        ];
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, x.id AS vocabularyId')
+                ->from('IliosCoreBundle:Vocabulary', 'x')
+                ->join("x.{$rel}", 'r')
+                ->where($qb->expr()->in('x.id', ':ids'))
+                ->orderBy('relId')
+                ->setParameter('ids', $vocabularyIds);
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $vocabularyDTOs[$arr['vocabularyId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+        return array_values($vocabularyDTOs);
     }
 
 
@@ -81,22 +95,20 @@ class PendingUserUpdateRepository extends EntityRepository
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
     {
-        if (array_key_exists('schools', $criteria)) {
-            $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
-            $qb->join('x.user', 's_user');
-            $qb->join('s_user.school', 'school');
-            $qb->andWhere($qb->expr()->in('school.id', ':schools'));
-            $qb->setParameter(':schools', $ids);
-            unset($criteria['schools']);
-        }
-
-
-        if (array_key_exists('users', $criteria)) {
-            $ids = is_array($criteria['users']) ? $criteria['users'] : [$criteria['users']];
-            $qb->join('x.user', 'user');
-            $qb->andWhere($qb->expr()->in('user.id', ':users'));
-            $qb->setParameter(':users', $ids);
-            unset($criteria['users']);
+        $related = [
+            'terms',
+        ];
+        foreach ($related as $rel) {
+            if (array_key_exists($rel, $criteria)) {
+                $ids = is_array($criteria[$rel]) ?
+                    $criteria[$rel] : [$criteria[$rel]];
+                $alias = "alias_${rel}";
+                $param = ":${rel}";
+                $qb->join("x.${rel}", $alias);
+                $qb->andWhere($qb->expr()->in("${alias}.id", $param));
+                $qb->setParameter($param, $ids);
+            }
+            unset($criteria[$rel]);
         }
 
         if (count($criteria)) {
@@ -126,15 +138,5 @@ class PendingUserUpdateRepository extends EntityRepository
         }
 
         return $qb;
-    }
-
-    /**
-     * Remove all pending user updates from the database
-     */
-    public function removeAllPendingUserUpdates()
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->delete('IliosCoreBundle:PendingUserUpdate', 'p');
-        $qb->getQuery()->execute();
     }
 }

@@ -23,7 +23,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  *     @ORM\UniqueConstraint(name="unique_vocabulary_title", columns={"school_id", "title"})
  *   }
  * )
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\VocabularyRepository")
  *
  * @IS\Entity
  */

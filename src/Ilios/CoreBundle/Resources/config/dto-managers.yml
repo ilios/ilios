@@ -92,6 +92,10 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\MeshTree'
+    Ilios\CoreBundle\Entity\Manager\PermissionManager:
+            class: Ilios\CoreBundle\Entity\Manager\DTOManager
+            arguments:
+                $class: 'Ilios\CoreBundle\Entity\Permission'
     Ilios\CoreBundle\Entity\Manager\ProgramManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
@@ -100,6 +104,14 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\ProgramYear'
+    Ilios\CoreBundle\Entity\Manager\ReportManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Report'
+    Ilios\CoreBundle\Entity\Manager\SchoolConfigManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\SchoolConfig'
     Ilios\CoreBundle\Entity\Manager\SessionTypeManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
@@ -108,3 +120,15 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Term'
+    Ilios\CoreBundle\Entity\Manager\UserMadeReminderManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\UserMadeReminder'
+    Ilios\CoreBundle\Entity\Manager\UserRoleManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\UserRole'
+    Ilios\CoreBundle\Entity\Manager\VocabularyManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Vocabulary'

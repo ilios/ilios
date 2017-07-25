@@ -1,16 +1,15 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
 use Ilios\CoreBundle\Entity\PendingUserUpdateInterface;
-use Ilios\AuthenticationBundle\Voter\Entity\UserEntityVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class PendingUserUpdateVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class PendingUserUpdateVoter extends UserEntityVoter
+class PendingUserUpdateEntityVoter extends UserEntityVoter
 {
     /**
      * {@inheritdoc}

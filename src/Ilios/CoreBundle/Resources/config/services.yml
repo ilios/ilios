@@ -1,5 +1,4 @@
 imports:
-    - { resource: non-dto-managers.yml }
     - { resource: dto-managers.yml }
 
 services:

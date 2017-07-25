@@ -1,34 +1,35 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
+use Ilios\CoreBundle\Entity\UserMadeReminderInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\ReportInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class ReportVoter
+ * Class UserMadeReminderVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class ReportVoter extends AbstractVoter
+class UserMadeReminderEntityVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof ReportInterface && in_array($attribute, array(
-            self::VIEW, self::CREATE, self::EDIT, self::DELETE
+        return $subject instanceof UserMadeReminderInterface && in_array($attribute, array(
+            self::CREATE, self::VIEW, self::EDIT, self::DELETE
         ));
     }
 
     /**
      * @param string $attribute
-     * @param ReportInterface $report
+     * @param UserMadeReminderInterface $reminder
      * @param TokenInterface $token
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $report, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $reminder, TokenInterface $token)
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -36,13 +37,13 @@ class ReportVoter extends AbstractVoter
         }
 
         switch ($attribute) {
-            // Users can perform any CRUD operations on their own reports.
-            // Check if the given report's owning user is the given user.
+            // Users can perform any CRUD operations on their own reminders.
+            // Check if the given reminder's owning user is the given user.
             case self::CREATE:
             case self::VIEW:
             case self::EDIT:
             case self::DELETE:
-                return $user->isTheUser($report->getUser());
+                return $user->isTheUser($reminder->getUser());
                 break;
         }
 

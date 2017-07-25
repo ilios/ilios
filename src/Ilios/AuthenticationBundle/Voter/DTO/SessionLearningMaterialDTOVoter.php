@@ -3,27 +3,27 @@
 namespace Ilios\AuthenticationBundle\Voter\DTO;
 
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
-use Ilios\CoreBundle\Entity\DTO\CourseLearningMaterialDTO;
+use Ilios\CoreBundle\Entity\DTO\SessionLearningMaterialDTO;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class CourseLearningMaterialDTOVoter
+ * Class SessionLearningMaterialDTOVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class CourseLearningMaterialDTOVoter extends CourseDTOVoter
+class SessionLearningMaterialDTOVoter extends CourseDTOVoter
 {
     /**
      * {@inheritdoc}
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof CourseLearningMaterialDTO && in_array($attribute, array(self::VIEW));
+        return $subject instanceof SessionLearningMaterialDTO && in_array($attribute, array(self::VIEW));
     }
 
     /**
      * @param string $attribute
-     * @param CourseLearningMaterialDTO $material
+     * @param SessionLearningMaterialDTO $material
      * @param TokenInterface $token
      * @return bool
      */

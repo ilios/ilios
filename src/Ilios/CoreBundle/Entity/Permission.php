@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *     @ORM\UniqueConstraint(name="user_table_k", columns={"user_id", "table_name", "table_row_id"})
  *   }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\PermissionRepository")
  *
  * @IS\Entity
  */

@@ -1,16 +1,15 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
-use Ilios\AuthenticationBundle\Voter\Entity\SessionEntityVoter;
 use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * Class SessionDescriptionVoter
+ * Class SessionDescriptionEntityVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class SessionDescriptionVoter extends SessionEntityVoter
+class SessionDescriptionEntityVoter extends SessionEntityVoter
 {
     /**
      * {@inheritdoc}

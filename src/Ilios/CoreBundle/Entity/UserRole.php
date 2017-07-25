@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="user_role")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserRoleRepository")
  *
  * @IS\Entity
  */
