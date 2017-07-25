@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
+use Ilios\CoreBundle\Entity\ProgramYearSteward;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 use Ilios\CoreBundle\Traits\SchoolEntityInterface;
@@ -11,7 +12,7 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
  * Class ProgramYearStewardManager
  * @package Ilios\CoreBundle\Entity\Manager
  */
-class ProgramYearStewardManager extends BaseManager
+class ProgramYearStewardManager extends DTOManager
 {
     /**
      * Checks if a given entity's school (co-)stewards a given program year.
@@ -25,7 +26,8 @@ class ProgramYearStewardManager extends BaseManager
         ProgramYearInterface $programYear
     ) {
         $criteria = ['programYear' => $programYear->getId()];
-        $stewards = $this->findProgramYearStewardsBy($criteria);
+        /** @var ProgramYearSteward[] $stewards */
+        $stewards = $this->findBy($criteria);
         foreach ($stewards as $steward) {
             $stewardingSchool = $steward->getSchool();
             if ($stewardingSchool instanceof SchoolInterface

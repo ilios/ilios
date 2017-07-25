@@ -25,7 +25,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *     )
  *   },
  *   indexes={@ORM\Index(name="IDX_program_year_school", columns={"program_year_Id", "school_Id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ProgramYearStewardRepository")
  *
  * @IS\Entity
  */
