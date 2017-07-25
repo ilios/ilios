@@ -120,3 +120,7 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Term'
+    Ilios\CoreBundle\Entity\Manager\UserMadeReminderManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\UserMadeReminder'

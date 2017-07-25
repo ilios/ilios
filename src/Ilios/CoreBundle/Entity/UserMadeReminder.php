@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *     @ORM\Index(name="due_closed_user_k", columns={"due_date", "closed", "user_id"})
  *   }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserMadeReminderRepository")
  *
  * @IS\Entity
  */
