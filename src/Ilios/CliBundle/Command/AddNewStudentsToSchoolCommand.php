@@ -2,7 +2,7 @@
 
 namespace Ilios\CliBundle\Command;
 
-use Ilios\CoreBundle\Entity\Manager\ManagerInterface;
+use Ilios\CoreBundle\Entity\Manager\UserRoleManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,7 +39,7 @@ class AddNewStudentsToSchoolCommand extends Command
     protected $authenticationManager;
     
     /**
-     * @var ManagerInterface
+     * @var UserRoleManager
      */
     protected $userRoleManager;
     
@@ -52,7 +52,7 @@ class AddNewStudentsToSchoolCommand extends Command
         UserManager $userManager,
         SchoolManager $schoolManager,
         AuthenticationManager $authenticationManager,
-        ManagerInterface $userRoleManager,
+        UserRoleManager $userRoleManager,
         Directory $directory
     ) {
         $this->userManager = $userManager;

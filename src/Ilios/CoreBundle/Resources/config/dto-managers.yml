@@ -20,10 +20,6 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\AlertChangeType'
-    Ilios\CoreBundle\Entity\Manager\AlertManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\Alert'
     Ilios\CoreBundle\Entity\Manager\ApplicationConfigManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
@@ -124,10 +120,6 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\UserMadeReminder'
-    Ilios\CoreBundle\Entity\Manager\UserRoleManager:
-        class: Ilios\CoreBundle\Entity\Manager\DTOManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\UserRole'
     Ilios\CoreBundle\Entity\Manager\VocabularyManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:

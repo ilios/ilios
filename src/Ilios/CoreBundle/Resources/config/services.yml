@@ -107,6 +107,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 256 }
 
+    Ilios\CoreBundle\Entity\Manager\AlertManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Alert'
     Ilios\CoreBundle\Entity\Manager\AuditLogManager:
         public: true
         arguments:
@@ -197,3 +201,7 @@ services:
         public: true
         arguments:
             $class: 'Ilios\CoreBundle\Entity\User'
+    Ilios\CoreBundle\Entity\Manager\UserRoleManager:
+        public: true
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\UserRole'

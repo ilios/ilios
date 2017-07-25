@@ -1,127 +1,22 @@
 services:
-    ilioscli.command.invalidate_user_tokens:
-        class: Ilios\CliBundle\Command\InvalidateUserTokenCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\UserManager', '@Ilios\CoreBundle\Entity\Manager\AuthenticationManager']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.create_user_token:
-        class: Ilios\CliBundle\Command\CreateUserTokenCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\UserManager', '@Ilios\AuthenticationBundle\Service\JsonWebTokenManager']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.sync_user:
-        class: Ilios\CliBundle\Command\SyncUserCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\UserManager', '@Ilios\CoreBundle\Entity\Manager\AuthenticationManager', '@Ilios\CoreBundle\Service\Directory']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.find_directory_user:
-        class: Ilios\CliBundle\Command\FindUserCommand
-        arguments: ['@Ilios\CoreBundle\Service\Directory']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.add_directory_user:
-        class: Ilios\CliBundle\Command\AddDirectoryUserCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\UserManager', '@Ilios\CoreBundle\Entity\Manager\AuthenticationManager', '@Ilios\CoreBundle\Entity\Manager\SchoolManager', '@Ilios\CoreBundle\Service\Directory']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.sync_former_students:
-        class: Ilios\CliBundle\Command\SyncFormerStudentsCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\UserManager', '@Ilios\CoreBundle\Entity\Manager\UserRoleManager', '@Ilios\CoreBundle\Service\Directory']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.add_new_students_to_school:
-        class: Ilios\CliBundle\Command\AddNewStudentsToSchoolCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\UserManager', '@Ilios\CoreBundle\Entity\Manager\SchoolManager', '@Ilios\CoreBundle\Entity\Manager\AuthenticationManager', '@Ilios\CoreBundle\Entity\Manager\UserRoleManager', '@Ilios\CoreBundle\Service\Directory']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.sync_all_users:
-        class: Ilios\CliBundle\Command\SyncAllUsersCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\UserManager', '@Ilios\CoreBundle\Entity\Manager\AuthenticationManager', '@Ilios\CoreBundle\Entity\Manager\PendingUserUpdateManager', '@Ilios\CoreBundle\Service\Directory', '@doctrine.orm.entity_manager']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.migrate_learningmaterials:
-        class: Ilios\CliBundle\Command\MigrateIlios2LearningMaterialsCommand
-        arguments: ['@filesystem', '@Ilios\CoreBundle\Service\IliosFileSystem', '@Ilios\CoreBundle\Entity\Manager\LearningMaterialManager']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.send_teaching_reminders:
-        class: Ilios\CliBundle\Command\SendTeachingRemindersCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\OfferingManager', '@templating', '@mailer', '%ilios_core.timezone%']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.send_change_alerts:
-        class: Ilios\CliBundle\Command\SendChangeAlertsCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\AlertManager', '@Ilios\CoreBundle\Entity\Manager\AuditLogManager', '@Ilios\CoreBundle\Entity\Manager\OfferingManager', '@templating', '@mailer', '%ilios_core.timezone%']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.cleanup_strings:
-        class: Ilios\CliBundle\Command\CleanupStringsCommand
-        arguments: ['@exercise_html_purifier.default', '@doctrine.orm.entity_manager', '@Ilios\CoreBundle\Entity\Manager\ObjectiveManager', '@Ilios\CoreBundle\Entity\Manager\LearningMaterialManager', '@Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager', '@Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager', '@Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.validate_learning_material_paths:
-        class: Ilios\CliBundle\Command\ValidateLearningMaterialPathsCommand
-        arguments: ['@Ilios\CoreBundle\Service\IliosFileSystem', '@Ilios\CoreBundle\Entity\Manager\LearningMaterialManager']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.add_user:
-        class: Ilios\CliBundle\Command\AddUserCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\UserManager', '@Ilios\CoreBundle\Entity\Manager\AuthenticationManager', '@Ilios\CoreBundle\Entity\Manager\SchoolManager', '@security.password_encoder']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.update_frontend:
-        class: Ilios\CliBundle\Command\UpdateFrontendCommand
-        arguments: ['@iliosweb.jsonindex', '@Ilios\CoreBundle\Service\Filesystem', '%kernel.cache_dir%', '%ilios_web.frontend_release_version%', '%ilios_web.keep_frontend_updated%', '%kernel.environment%']
-        tags:
-            -  { name: console.command }
-            -  { name: kernel.cache_warmer }
-    ilioscli.command.rollover_course:
-        class: Ilios\CliBundle\Command\RolloverCourseCommand
-        arguments: ['@Ilios\CoreBundle\Service\CourseRollover']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.install_first_uer:
-        class: Ilios\CliBundle\Command\InstallFirstUserCommand
-        arguments: ['@Ilios\CoreBundle\Entity\Manager\UserManager', '@Ilios\CoreBundle\Entity\Manager\SchoolManager', '@Ilios\CoreBundle\Entity\Manager\UserRoleManager', '@Ilios\CoreBundle\Entity\Manager\AuthenticationManager', '@security.password_encoder']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.curriculum_inventory_report_rollover:
-        class: Ilios\CliBundle\Command\RolloverCurriculumInventoryReportCommand
-        arguments: [ '@Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager', '@Ilios\CoreBundle\Service\CurriculumInventory\ReportRollover' ]
-        tags:
-            -  { name: console.command }
-    ilioscli.command.list_root_users:
-        class: Ilios\CliBundle\Command\ListRootUsersCommand
-        arguments: [ '@Ilios\CoreBundle\Entity\Manager\UserManager' ]
-        tags:
-            -  { name: console.command }
-    ilioscli.command.add_root_user:
-        class: Ilios\CliBundle\Command\AddRootUserCommand
-        arguments: [ '@Ilios\CoreBundle\Entity\Manager\UserManager' ]
-        tags:
-            -  { name: console.command }
-    ilioscli.command.remove_root_user:
-        class: Ilios\CliBundle\Command\RemoveRootUserCommand
-        arguments: [ '@Ilios\CoreBundle\Entity\Manager\UserManager' ]
-        tags:
-            -  { name: console.command }
-    ilioscli.command.generate_swagger_path:
-        class: Ilios\CliBundle\Command\GenerateSwaggerApiPathYamlCommand
-        arguments: ['@templating']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.generate_swagger_definition:
-        class: Ilios\CliBundle\Command\GenerateSwaggerApiDefinitionYamlCommand
-        arguments: ['@templating', '@doctrine', '@Ilios\CoreBundle\Service\EntityMetadata']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.generate_endpoint_test:
-        class: Ilios\CliBundle\Command\GenerateEndpointTestCommand
-        arguments: ['@templating', '@doctrine', '@Ilios\CoreBundle\Service\EntityMetadata']
-        tags:
-            -  { name: console.command }
-    ilioscli.command.crossing_guard:
-        class: Ilios\CliBundle\Command\CrossingGuardCommand
-        arguments: ['@Ilios\CoreBundle\Service\CrossingGuard']
-        tags:
-            -  { name: console.command }
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ilios\CliBundle\:
+            resource: '../../*'
+
+    Ilios\CliBundle\Command\SendTeachingRemindersCommand:
+        arguments:
+            $timezone: '%ilios_core.timezone%'
+    Ilios\CliBundle\Command\SendChangeAlertsCommand:
+        arguments:
+            $timezone: '%ilios_core.timezone%'
+    Ilios\CliBundle\Command\UpdateFrontendCommand:
+        arguments:
+            $kernelCacheDir: '%kernel.cache_dir%'
+            $releaseVersion: '%ilios_web.frontend_release_version%'
+            $keepFrontendUpdated: '%ilios_web.keep_frontend_updated%'
+            $environment: '%kernel.environment%'

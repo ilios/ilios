@@ -12,6 +12,9 @@ use Ilios\CoreBundle\Entity\Course;
 use Ilios\CoreBundle\Entity\InstructorGroup;
 use Ilios\CoreBundle\Entity\LearnerGroup;
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
+use Ilios\CoreBundle\Entity\Manager\AlertManager;
+use Ilios\CoreBundle\Entity\Manager\AuditLogManager;
+use Ilios\CoreBundle\Entity\Manager\OfferingManager;
 use Ilios\CoreBundle\Entity\Offering;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Ilios\CoreBundle\Entity\School;
@@ -63,9 +66,9 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     public function setUp()
     {
-        $this->offeringManager = m::mock('Ilios\CoreBundle\Entity\Manager\OfferingManager');
-        $this->alertManager = m::mock('Ilios\CoreBundle\Entity\Manager\ManagerInterface');
-        $this->auditLogManager = m::mock('Ilios\CoreBundle\Entity\Manager\AuditLogManager');
+        $this->offeringManager = m::mock(OfferingManager::class);
+        $this->alertManager = m::mock(AlertManager::class);
+        $this->auditLogManager = m::mock(AuditLogManager::class);
 
         $kernel = $this->createKernel();
         $kernel->boot();
