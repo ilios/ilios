@@ -1,10 +1,12 @@
 <?php
 namespace Tests\WebBundle\Service;
 
+use Ilios\CoreBundle\Service\Fetch;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Mockery as m;
 
 use Ilios\WebBundle\Service\WebIndexFromJson;
+use Symfony\Component\Templating\EngineInterface;
 
 class WebIndexFromJsonTest extends TestCase
 {
@@ -21,13 +23,12 @@ class WebIndexFromJsonTest extends TestCase
 
     public function testGetIndex()
     {
-        $mockTemplating = m::mock('Symfony\Component\Templating\EngineInterface');
+        $mockTemplating = m::mock(EngineInterface::class);
+        $mockFetch = m::mock(Fetch::class);
 
-        $obj = m::mock(WebIndexFromJson::class . '[getIndexFromAWS]', array($mockTemplating));
-        $obj->shouldAllowMockingProtectedMethods()
-            ->shouldReceive('getIndexFromAWS')->once()->andReturn($this->sampleJson);
-        $this->assertTrue($obj instanceof WebIndexFromJson);
+        $obj = new WebIndexFromJson($mockTemplating, $mockFetch);
 
+        $mockFetch->shouldReceive('get')->once()->andReturn($this->sampleJson);
         $mockTemplating->shouldReceive('exists')
             ->with('@custom_webindex_templates/webindex.html.twig')->andReturn(false);
         $mockTemplating->shouldReceive('exists')

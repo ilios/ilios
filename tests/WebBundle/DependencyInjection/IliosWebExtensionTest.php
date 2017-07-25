@@ -2,6 +2,7 @@
 
 namespace Tests\WebBundle\DependencyInjection;
 
+use Ilios\WebBundle\Service\WebIndexFromJson;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Ilios\WebBundle\DependencyInjection\IliosWebExtension;
 
@@ -48,7 +49,7 @@ class IliosWebExtensionTest extends AbstractExtensionTestCase
     public function testServicesSet()
     {
         $services = array(
-            'iliosweb.jsonindex',
+            WebIndexFromJson::class,
         );
         $this->load();
         foreach ($services as $service) {

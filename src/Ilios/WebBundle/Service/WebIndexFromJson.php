@@ -1,7 +1,7 @@
 <?php
 namespace Ilios\WebBundle\Service;
 
-use Ilios\CoreBundle\Service\Filesystem;
+use Ilios\CoreBundle\Service\Fetch;
 use Symfony\Component\Templating\EngineInterface;
 use Exception;
 
@@ -25,16 +25,21 @@ class WebIndexFromJson
     protected $templatingEngine;
 
     /**
+     * @var Fetch
+     */
+    protected $fetch;
+
+    /**
      * Construct
      * @param EngineInterface $templatingEngine
-     * @param string $kernelCacheDir
+     * @param Fetch $fetch
      *
      */
-    public function __construct(EngineInterface $templatingEngine)
+    public function __construct(EngineInterface $templatingEngine, Fetch $fetch)
     {
         $this->templatingEngine = $templatingEngine;
+        $this->fetch = $fetch;
     }
-
 
     /**
      * Get the index file as a string
@@ -52,7 +57,8 @@ class WebIndexFromJson
             $fileName .= ':' . $version;
         }
 
-        $content = $this->getIndexFromAWS($fileName);
+        $url = self::AWS_BUCKET . $fileName;
+        $content = $this->fetch->get($url);
 
         $json = json_decode($content);
 
@@ -110,30 +116,5 @@ class WebIndexFromJson
             }
         }
         return 'IliosWebBundle:WebIndex:' .self::DEFAULT_TEMPLATE_NAME;
-    }
-
-    /**
-     * Get the string contents of a remote file
-     * @param  string $fileName the file we are fetching
-     *
-     * @return string
-     *
-     * @throws Exception when the file cannot be pulled from the server
-     */
-    protected function getIndexFromAWS($fileName)
-    {
-        $opts = array(
-            'http'=>array(
-                'method'=>"GET"
-            )
-        );
-        $context = stream_context_create($opts);
-        $url = self::AWS_BUCKET . $fileName;
-        $fileContents = @file_get_contents($url, false, $context);
-        if (empty($fileContents)) {
-            throw new \Exception('Failed to load index configuration from ' . $url);
-        }
-
-        return $fileContents;
     }
 }
