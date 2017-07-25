@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\OfferingDTO;
 
 /**
  * Class OfferingRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class OfferingRepository extends EntityRepository
 {

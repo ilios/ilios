@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
 /**
  * Class LoadSessionTypeData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadSessionTypeData extends AbstractFixture implements DependentFixtureInterface
 {

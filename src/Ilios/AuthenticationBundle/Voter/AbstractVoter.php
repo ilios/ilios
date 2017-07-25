@@ -5,7 +5,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Class AbstractVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 abstract class AbstractVoter extends Voter
 {

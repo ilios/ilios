@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface VocabularyInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface VocabularyInterface extends
     IdentifiableEntityInterface,

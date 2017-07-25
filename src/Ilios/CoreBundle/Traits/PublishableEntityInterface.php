@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Interface PublishableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface PublishableEntityInterface
 {

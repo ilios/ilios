@@ -8,7 +8,6 @@ use Tests\CoreBundle\TestCase;
 
 /**
  * Class LoggerQueueTest
- * @package Tests\CoreBundle\\Classes
  */
 class LoggerQueueTest extends TestCase
 {

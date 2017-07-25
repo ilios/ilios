@@ -12,7 +12,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class LoadProgramData
- * @package Tests\CoreBundle\\Fixture
  */
 class LoadPermissionData extends AbstractFixture implements
     FixtureInterface,

@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\IngestionExceptionDTO;
 
 /**
  * Class IngestionExceptionRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class IngestionExceptionRepository extends EntityRepository
 {

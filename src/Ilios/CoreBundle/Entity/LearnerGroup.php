@@ -19,7 +19,6 @@ use Ilios\CoreBundle\Traits\OfferingsEntity;
 
 /**
  * Class LearnerGroup
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="`group`")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\LearnerGroupRepository")

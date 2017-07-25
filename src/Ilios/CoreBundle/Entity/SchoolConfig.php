@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class SchoolConfig
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="school_config",
  *   uniqueConstraints={

@@ -8,7 +8,6 @@ use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 /**
  * Class CohortController
  * Cohorts cannot be created, we need to reject any attempts to do so.
- * @package Ilios\ApiBundle\Controller
  */
 class CohortController extends ApiController
 {

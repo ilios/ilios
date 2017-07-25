@@ -11,7 +11,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class LoadAuditLogData
- * @package Tests\CliBundle\\Fixture
  */
 class LoadAuditLogData extends AbstractFixture implements
     FixtureInterface,

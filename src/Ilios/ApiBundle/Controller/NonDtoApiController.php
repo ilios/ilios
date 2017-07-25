@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * These have to be found differently
  *
- * @package Ilios\ApiBundle\Controller
  */
 class NonDtoApiController extends ApiController
 {

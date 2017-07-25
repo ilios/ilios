@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class RolloverCourseCommandTest
- * @package Tests\CliBundle\\Command
  */
 class RolloverCourseCommandTest extends TestCase
 {

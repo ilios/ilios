@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * MeshTree API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_4
  */
 class MeshTreeTest extends AbstractEndpointTest

@@ -19,7 +19,6 @@ use Symfony\Component\Serializer\SerializerInterface;
  * Class SchooleventController
  *
  * Search for events happening in a school
- * @package Ilios\ApiBundle\Controller
  */
 class SchooleventController extends Controller
 {

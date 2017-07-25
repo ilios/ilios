@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Revokes root-level privileges from a given user.
  *
  * Class RemoveRootUserCommand
- * @package Ilios\CliBundle\Command
  */
 class RemoveRootUserCommand extends Command
 {

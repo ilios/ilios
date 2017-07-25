@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\CompetencyDTO;
 
 /**
  * Class CompetencyRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class CompetencyRepository extends EntityRepository
 {

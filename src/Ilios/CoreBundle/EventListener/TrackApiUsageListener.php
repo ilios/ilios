@@ -10,7 +10,6 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
  * Pre-controller event listener that will send tracking data.
  *
  * Class TrackApiUsageListener
- * @package Ilios\CoreBundle\EventListener
  */
 class TrackApiUsageListener
 {

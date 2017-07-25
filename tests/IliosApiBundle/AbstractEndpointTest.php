@@ -17,7 +17,6 @@ use Faker\Generator as FakerGenerator;
 
 /**
  * Abstract Testing glue for endpoints
- * @package Tests\IliosApiBundle
  */
 abstract class AbstractEndpointTest extends WebTestCase
 {

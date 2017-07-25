@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
  * We have to handle a special 'q' parameter
  * as well as special handling for ICS feed keys
  * so users needs its own controller
- * @package Ilios\ApiBundle\Controller
  */
 class UsersController extends ApiController
 {

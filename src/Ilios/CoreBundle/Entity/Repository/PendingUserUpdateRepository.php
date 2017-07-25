@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\PendingUserUpdateDTO;
 
 /**
  * Class PendingUserUpdateRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class PendingUserUpdateRepository extends EntityRepository
 {

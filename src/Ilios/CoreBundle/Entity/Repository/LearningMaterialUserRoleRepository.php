@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\LearningMaterialUserRoleDTO;
 
 /**
  * Class LearningMaterialUserRoleRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class LearningMaterialUserRoleRepository extends EntityRepository
 {

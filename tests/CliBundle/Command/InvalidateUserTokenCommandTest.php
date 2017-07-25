@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class InvalidateUserTokenCommandTest
- * @package Tests\CliBundle\\Command
  */
 class InvalidateUserTokenCommandTest extends TestCase
 {

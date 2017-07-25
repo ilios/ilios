@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface IngestionExceptionInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface IngestionExceptionInterface extends IdentifiableEntityInterface
 {

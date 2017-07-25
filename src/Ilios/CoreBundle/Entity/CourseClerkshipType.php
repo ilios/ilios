@@ -15,7 +15,6 @@ use Ilios\CoreBundle\Traits\CoursesEntity;
 
 /**
  * Class CourseClerkshipType
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="course_clerkship_type")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CourseClerkshipTypeRepository")

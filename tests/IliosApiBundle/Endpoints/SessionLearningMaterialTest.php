@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * SessionLearningMaterial API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
 class SessionLearningMaterialTest extends AbstractEndpointTest

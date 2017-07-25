@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\TermInterface;
 
 /**
  * Class LoadTermData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadTermData extends AbstractFixture implements DependentFixtureInterface
 {

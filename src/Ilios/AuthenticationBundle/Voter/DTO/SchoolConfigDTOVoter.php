@@ -7,7 +7,6 @@ use Ilios\AuthenticationBundle\Voter\Entity\SchoolConfigEntityVoter;
 
 /**
  * Class SchoolConfigDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class SchoolConfigDTOVoter extends SchoolConfigEntityVoter
 {

@@ -7,7 +7,6 @@ use Symfony\Component\Config\FileLocator;
  * Service class for locating dataimport files.
  *
  * Class DataimportFileLocator
- * @package Ilios\CoreBundle\Classes
  */
 class DataimportFileLocator
 {

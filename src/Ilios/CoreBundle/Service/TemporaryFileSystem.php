@@ -7,7 +7,6 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
 /**
  * Class FileSystem
- * @package Ilios\CoreBundle\Classes
  *
  */
 class TemporaryFileSystem

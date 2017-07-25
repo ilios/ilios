@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\MeshConceptDTO;
 
 /**
  * Class MeshConceptRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class MeshConceptRepository extends EntityRepository
 {

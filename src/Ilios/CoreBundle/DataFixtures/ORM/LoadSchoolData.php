@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
  * Class LoadSchoolData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadSchoolData extends AbstractFixture
 {

@@ -19,7 +19,6 @@ use Ilios\CoreBundle\Traits\ProgramYearsEntity;
 
 /**
  * Class Objective
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="objective")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ObjectiveRepository")

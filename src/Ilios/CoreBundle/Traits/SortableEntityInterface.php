@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Interface SortableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface SortableEntityInterface
 {

@@ -15,7 +15,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class MeshEntityVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class MeshEntityVoter extends AbstractVoter
 {

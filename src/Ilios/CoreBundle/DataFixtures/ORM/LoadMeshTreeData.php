@@ -6,7 +6,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
  * Class LoadMeshTreeData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadMeshTreeData extends AbstractMeshFixture implements DependentFixtureInterface
 {

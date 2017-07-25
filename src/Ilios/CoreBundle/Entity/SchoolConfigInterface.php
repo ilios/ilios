@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
  * Interface SchoolConfigInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface SchoolConfigInterface extends
     SchoolEntityInterface,

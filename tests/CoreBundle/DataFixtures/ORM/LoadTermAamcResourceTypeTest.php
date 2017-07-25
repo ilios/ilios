@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\TermInterface;
 
 /**
  * Class LoadTermAamcResourceTypeTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadTermAamcResourceTypeTest extends AbstractDataFixtureTest
 {

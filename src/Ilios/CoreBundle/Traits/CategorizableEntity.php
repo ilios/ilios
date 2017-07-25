@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\TermInterface;
 
 /**
  * Class CategorizableEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait CategorizableEntity
 {

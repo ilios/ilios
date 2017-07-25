@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\MeshSemanticTypeDTO;
 
 /**
  * Class MeshSemanticTypeRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class MeshSemanticTypeRepository extends EntityRepository
 {

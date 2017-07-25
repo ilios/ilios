@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\ApplicationConfigDTO;
 
 /**
  * Class ApplicationConfigRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class ApplicationConfigRepository extends EntityRepository
 {

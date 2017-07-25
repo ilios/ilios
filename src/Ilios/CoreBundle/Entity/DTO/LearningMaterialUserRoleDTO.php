@@ -7,7 +7,6 @@ use Ilios\ApiBundle\Annotation as IS;
 /**
  * Class LearningMaterialUserRoleDTO
  * Data transfer object for a learning material user role
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

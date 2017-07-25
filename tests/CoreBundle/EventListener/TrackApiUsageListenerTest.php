@@ -8,7 +8,6 @@ use Tests\CoreBundle\TestCase;
 
 /**
  * Class TrackApiUsageListenerTest
- * @package Tests\CoreBundle\EventListener
  */
 class TrackApiUsageListenerTest extends TestCase
 {

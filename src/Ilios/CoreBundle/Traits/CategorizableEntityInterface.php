@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\TermInterface;
 
 /**
  * Interface CategorizableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface CategorizableEntityInterface
 {

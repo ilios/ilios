@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Traits\NameableEntity;
 
 /**
  * Class ApplicationConfig
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="application_config",
  *   uniqueConstraints={

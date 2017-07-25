@@ -12,7 +12,6 @@ use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
 /**
  * Class CasAuthentication
- * @package Ilios\AuthenticationBundle\Service
  */
 class CasAuthentication implements AuthenticationInterface
 {

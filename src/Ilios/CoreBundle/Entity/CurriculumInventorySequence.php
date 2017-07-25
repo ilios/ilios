@@ -12,7 +12,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * Class CurriculumInventorySequence
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="curriculum_inventory_sequence")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CurriculumInventorySequenceRepository")

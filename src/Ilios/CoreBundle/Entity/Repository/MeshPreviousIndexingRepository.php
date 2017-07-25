@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\MeshPreviousIndexingDTO;
 
 /**
  * Class MeshPreviousIndexingRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class MeshPreviousIndexingRepository extends EntityRepository
 {

@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\TermInterface;
 
 /**
  * Class TermRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class TermRepository extends EntityRepository
 {

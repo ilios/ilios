@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 
 /**
  * Class LoadAlertChangeTypeDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadAlertChangeTypeDataTest extends AbstractDataFixtureTest
 {

@@ -12,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 /**
  * Class CurriculumInventoryReportDecorator
- * @package Ilios\CoreBundle\Classes
  *
  * @IS\DTO
  */

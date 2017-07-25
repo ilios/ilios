@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager;
 
 /**
  * Class ExporterTest
- * @package Tests\CoreBundle\\Service\CurriculumInventory
  */
 class ExporterTest extends TestCase
 {

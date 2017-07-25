@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
  * the value our api expects like 'userrole' to what we may need
  * to return like 'userRoles'
  *
- * @package Ilios\ApiBundle\Service
  */
 class EndpointResponseNamer
 {

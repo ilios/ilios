@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Grants root-level privileges to a given user.
  *
  * Class AddRootUserCommand
- * @package Ilios\CliBundle\Command
  */
 class AddRootUserCommand extends Command
 {

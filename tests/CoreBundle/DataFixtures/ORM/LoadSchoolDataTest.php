@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
  * Class LoadSchoolDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadSchoolDataTest extends AbstractDataFixtureTest
 {

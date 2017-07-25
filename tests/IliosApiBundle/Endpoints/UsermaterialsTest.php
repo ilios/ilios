@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 
 /**
  * UsermaterialsTest API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_3
  */
 class UsermaterialsTest extends AbstractEndpointTest

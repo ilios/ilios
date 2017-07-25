@@ -3,7 +3,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * interface StringableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface StringableEntityInterface
 {

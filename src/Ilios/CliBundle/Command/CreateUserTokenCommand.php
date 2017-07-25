@@ -17,7 +17,6 @@ use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
  * Create a new token for a user
  *
  * Class CreateUserTokenCommand
- * @package Ilios\CliBUndle\Command
  */
 class CreateUserTokenCommand extends Command
 {

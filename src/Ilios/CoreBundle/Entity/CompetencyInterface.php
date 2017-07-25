@@ -18,7 +18,6 @@ use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
 
 /**
  * Interface CompetencyInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface CompetencyInterface extends
     IdentifiableEntityInterface,

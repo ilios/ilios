@@ -15,7 +15,6 @@ use Ilios\CoreBundle\Traits\StewardedEntity;
 
 /**
  * Class Department
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="department")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\DepartmentRepository")

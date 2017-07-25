@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\DataFixtures\ORM;
 
 /**
  * Class LoadMeshConceptData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadMeshConceptData extends AbstractMeshFixture
 {

@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\CohortInterface;
 
 /**
  * Class CohortsEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait CohortsEntity
 {

@@ -17,7 +17,6 @@ use Symfony\Component\Templating\EngineInterface;
  * Sends teaching reminders to educators for their upcoming session offerings.
  *
  * Class SendTeachingRemindersCommand
- * @package Ilios\CliBUndle\Command
  */
 class SendTeachingRemindersCommand extends Command
 {

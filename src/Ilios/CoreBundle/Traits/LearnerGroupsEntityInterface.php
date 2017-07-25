@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 
 /**
  * Interface LearnerGroupsEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface LearnerGroupsEntityInterface
 {

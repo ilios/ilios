@@ -12,7 +12,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class DirectoryController
- * @package Ilios\WebBundle\Controller
  */
 class DirectoryController extends Controller
 {

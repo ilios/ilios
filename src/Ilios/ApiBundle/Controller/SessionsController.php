@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class SessionsController
- * @package Ilios\ApiBundle\Controller
  */
 class SessionsController extends ApiController
 {

@@ -19,7 +19,6 @@ use Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager;
  * Cleans up all the strings in the database
  *
  * Class CleanupStringsCommand
- * @package Ilios\CliBUndle\Command
  */
 class CleanupStringsCommand extends Command
 {

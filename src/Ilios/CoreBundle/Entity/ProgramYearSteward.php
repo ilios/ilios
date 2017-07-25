@@ -12,7 +12,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class ProgramYearSteward
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="program_year_steward",
  *   uniqueConstraints={

@@ -7,7 +7,6 @@ use Ilios\AuthenticationBundle\Voter\Entity\CourseClerkshipTypeEntityVoter;
 
 /**
  * Class CourseClerkshipTypeDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class CourseClerkshipTypeDTOVoter extends CourseClerkshipTypeEntityVoter
 {

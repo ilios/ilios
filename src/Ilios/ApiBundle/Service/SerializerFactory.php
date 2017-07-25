@@ -14,7 +14,6 @@ use Symfony\Component\Serializer\Serializer;
  * Ensures that we only serialize the things we want to
  * and don't fall back to any defaults.
  *
- * @package Ilios\ApiBundle\Service
  */
 class SerializerFactory
 {

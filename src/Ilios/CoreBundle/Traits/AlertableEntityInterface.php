@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\AlertInterface;
 
 /**
  * Interface AlertableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface AlertableEntityInterface
 {

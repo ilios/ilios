@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\VocabularyInterface;
 
 /**
  * Class LoadVocabularyData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadVocabularyData extends AbstractFixture implements DependentFixtureInterface
 {

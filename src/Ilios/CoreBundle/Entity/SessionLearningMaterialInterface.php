@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Traits\SortableEntityInterface;
 
 /**
  * Interface SessionLearningMaterialInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface SessionLearningMaterialInterface extends
     IdentifiableEntityInterface,

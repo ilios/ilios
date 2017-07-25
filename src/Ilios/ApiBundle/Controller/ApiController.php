@@ -20,7 +20,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * Class ApiController
  *
  * Default Controller for all API endpoints.
- * @package Ilios\ApiBundle\Controller
  */
 class ApiController extends Controller implements ApiControllerInterface
 {

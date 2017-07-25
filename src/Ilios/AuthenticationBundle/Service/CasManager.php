@@ -4,7 +4,6 @@ namespace Ilios\AuthenticationBundle\Service;
 
 /**
  * Class CasManager
- * @package Ilios\AuthenticationBundle\Service
  */
 class CasManager
 {

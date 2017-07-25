@@ -19,7 +19,6 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class InstructorGroup
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="instructor_group")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\InstructorGroupRepository")

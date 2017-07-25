@@ -17,7 +17,6 @@ use Ilios\CoreBundle\Service\IliosFileSystem;
  * Sync a user with their directory information
  *
  * Class SyncUserCommand
- * @package Ilios\CliBUndle\Command
  */
 class MigrateIlios2LearningMaterialsCommand extends Command
 {

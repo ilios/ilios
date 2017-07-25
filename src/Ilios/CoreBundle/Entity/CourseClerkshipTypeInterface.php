@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Traits\CoursesEntityInterface;
 
 /**
  * Interface CourseClerkshipTypeInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface CourseClerkshipTypeInterface extends
     IdentifiableEntityInterface,

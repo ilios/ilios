@@ -16,7 +16,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class CurriculumInventoryReport
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(
  *   name="curriculum_inventory_report",

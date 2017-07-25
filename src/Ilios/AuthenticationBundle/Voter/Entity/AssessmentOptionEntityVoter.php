@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class AssessmentOptionEntityVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class AssessmentOptionEntityVoter extends AbstractVoter
 {

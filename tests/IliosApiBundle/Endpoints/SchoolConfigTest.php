@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * SchoolConfig API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_5
  */
 class SchoolConfigTest extends AbstractEndpointTest

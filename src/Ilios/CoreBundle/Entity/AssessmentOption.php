@@ -16,7 +16,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class AssessmentOption
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="assessment_option",uniqueConstraints={@ORM\UniqueConstraint(name="name", columns={"name"})})
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AssessmentOptionRepository")

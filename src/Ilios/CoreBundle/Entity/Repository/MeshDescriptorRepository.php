@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 
 /**
  * Class MeshDescriptorRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class MeshDescriptorRepository extends EntityRepository
 {

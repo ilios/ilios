@@ -15,7 +15,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class MeshDescriptorDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class MeshDTOVoter extends MeshEntityVoter
 {

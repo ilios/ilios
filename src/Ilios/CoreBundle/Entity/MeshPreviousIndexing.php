@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class MeshPreviousIndexing
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="mesh_previous_indexing",
  *  uniqueConstraints={

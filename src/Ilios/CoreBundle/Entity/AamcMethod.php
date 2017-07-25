@@ -17,7 +17,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class AamcMethod
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="aamc_method")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AamcMethodRepository")

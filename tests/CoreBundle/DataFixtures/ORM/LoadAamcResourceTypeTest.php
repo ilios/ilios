@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\AamcResourceTypeInterface;
 
 /**
  * Class LoadAamcResourceTypeDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadAamcResourceTypeDataTest extends AbstractDataFixtureTest
 {

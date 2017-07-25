@@ -6,7 +6,6 @@ use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class UserMaterial
- * @package Ilios\CoreBundle\Classes
  *
  * @IS\DTO
  */

@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputArgument;
  * RolloverCourse Rolls over a course using original course_id and specified year.
  *
  * Class RolloverCourseCommand
- * @package Ilios\CoreBundle\Command
  */
 class RolloverCourseCommand extends Command
 {

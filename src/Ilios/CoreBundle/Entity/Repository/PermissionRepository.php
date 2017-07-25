@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\PermissionDTO;
 
 /**
  * Class PermissionRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class PermissionRepository extends EntityRepository
 {

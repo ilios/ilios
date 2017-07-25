@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Traits\LearnersEntityInterface;
 
 /**
  * Interface IlmSessionInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface IlmSessionInterface extends
     IdentifiableEntityInterface,

@@ -14,7 +14,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * A data-loader base-class for importing MeSH records from data files.
  *
  * Class AbstractMeshFixture
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 abstract class AbstractMeshFixture extends DataFixture implements
     FixtureInterface,

@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
  * Class MeshDescriptorController
  * We have to handle a special 'q' parameter on meshDescriptors
  * so it needs its own controller
- * @package Ilios\ApiBundle\Controller
  */
 class MeshDescriptorController extends ApiController
 {

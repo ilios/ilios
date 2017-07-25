@@ -8,7 +8,6 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Replaces the existing sequence-block/session join table with a streamlined equivalent.
  * Class Version20160812180141
- * @package Ilios\Migrations
  */
 class Version20160812180141 extends AbstractMigration
 {

@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 
 /**
  * Class MeshDescriptorsEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait MeshDescriptorsEntity
 {

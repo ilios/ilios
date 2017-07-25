@@ -14,7 +14,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Reports require special handling.  They are decorated
  * for GET request, create levels when POSTed and
  * can be rolled over
- * @package Ilios\ApiBundle\Controller
  */
 class CurriculumInventoryReportController extends ApiController
 {

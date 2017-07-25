@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 
 /**
  * Class LoadAamcPcrsDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadAamcPcrsDataTest extends AbstractDataFixtureTest
 {

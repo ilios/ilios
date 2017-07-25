@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Lists all users with root-level privileges.
  *
  * Class ListRootUsersCommand
- * @package Ilios\CliBundle\Command
  */
 class ListRootUsersCommand extends Command
 {

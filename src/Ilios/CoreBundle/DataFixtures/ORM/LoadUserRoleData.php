@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\UserRoleInterface;
 
 /**
  * Class LoadUserRoleData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadUserRoleData extends AbstractFixture
 {

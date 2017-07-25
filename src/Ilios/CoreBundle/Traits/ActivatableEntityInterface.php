@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Interface ActivatableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface ActivatableEntityInterface
 {

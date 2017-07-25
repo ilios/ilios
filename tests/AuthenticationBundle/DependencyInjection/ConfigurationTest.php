@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ConfigurationTest
- * @package Tests\AuthenticationBundle\\DependencyInjection
  */
 class ConfigurationTest extends TestCase
 {

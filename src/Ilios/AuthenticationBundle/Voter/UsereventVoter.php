@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class SchoolVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class UsereventVoter extends AbstractVoter
 {

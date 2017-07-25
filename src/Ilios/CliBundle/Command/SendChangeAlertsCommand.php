@@ -18,7 +18,6 @@ use Symfony\Component\Templating\EngineInterface;
  * Sends change alerts emails.
  *
  * Class SendChangeAlertsCommand
- * @package Ilios\CliBUndle\Command
  */
 class SendChangeAlertsCommand extends Command
 {

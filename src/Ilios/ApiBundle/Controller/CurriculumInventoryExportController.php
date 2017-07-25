@@ -14,7 +14,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Class CurriculumInventoryExport
  * CurriculumInventoryExports can only be POSTed nothing else
- * @package Ilios\ApiBundle\Controller
  */
 class CurriculumInventoryExportController extends NonDtoApiController
 {

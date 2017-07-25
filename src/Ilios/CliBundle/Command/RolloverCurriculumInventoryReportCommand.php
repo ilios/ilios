@@ -15,7 +15,6 @@ use Symfony\Component\Console\Input\InputArgument;
  * Rolls over (copies) a given curriculum inventory report.
  *
  * Class RolloverCurriculumInventoryReportCommand
- * @package Ilios\CoreBundle\Command
  */
 class RolloverCurriculumInventoryReportCommand extends Command
 {

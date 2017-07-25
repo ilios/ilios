@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class TermDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class TermDTOVoter extends TermEntityVoter
 {

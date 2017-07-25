@@ -15,7 +15,6 @@ use Ilios\CoreBundle\Service\Filesystem;
  * Build the index file from a published frontend release
  *
  * Class UpdateFrontendCommand
- * @package Ilios\CliBUndle\Command
  */
 class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 {

@@ -9,7 +9,6 @@ use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 
 /**
  * Class LearnerGroupEntityVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class LearnerGroupEntityVoter extends AbstractVoter
 {

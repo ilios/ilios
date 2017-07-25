@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * PendingUserUpdate API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_3
  */
 class PendingUserUpdateTest extends AbstractEndpointTest

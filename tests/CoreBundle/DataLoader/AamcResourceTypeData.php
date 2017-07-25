@@ -4,7 +4,6 @@ namespace Tests\CoreBundle\DataLoader;
 
 /**
  * Class AamcResourceTypeData
- * @package Tests\CoreBundle\\DataLoader
  */
 class AamcResourceTypeData extends AbstractDataLoader
 {

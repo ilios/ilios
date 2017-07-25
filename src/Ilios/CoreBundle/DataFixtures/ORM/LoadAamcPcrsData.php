@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 
 /**
  * Class LoadAamcPcrsData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadAamcPcrsData extends AbstractFixture
 {

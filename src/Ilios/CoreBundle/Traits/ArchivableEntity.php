@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Class ArchivableEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait ArchivableEntity
 {

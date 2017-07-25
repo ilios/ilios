@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class IngestionExceptionDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class IngestionExceptionDTOVoter extends AbstractVoter
 {

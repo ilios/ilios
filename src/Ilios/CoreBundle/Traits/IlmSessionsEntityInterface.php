@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\IlmSessionInterface;
 
 /**
  * Interface IlmSessionsEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface IlmSessionsEntityInterface
 {

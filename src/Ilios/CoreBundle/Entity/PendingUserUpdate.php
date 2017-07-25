@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class PendingUserUpdate
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="pending_user_update")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\PendingUserUpdateRepository")

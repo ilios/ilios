@@ -10,7 +10,6 @@ use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
  * Upload controller Test.
- * @package Ilios\CoreBundle\Test\Controller;
  */
 class UploadControllerTest extends WebTestCase
 {

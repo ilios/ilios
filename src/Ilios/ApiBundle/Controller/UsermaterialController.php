@@ -13,7 +13,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class UsermaterialController
- * @package Ilios\ApiBundle\Controller
  */
 class UsermaterialController extends AbstractController
 {

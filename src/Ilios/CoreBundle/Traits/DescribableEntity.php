@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class DescribableEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait DescribableEntity
 {

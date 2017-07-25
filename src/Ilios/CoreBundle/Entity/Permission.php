@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class Permission
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="permission",
  *   uniqueConstraints={

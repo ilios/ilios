@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Class LoadAamcResourceTypeData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadAamcResourceTypeData extends AbstractFixture
 {

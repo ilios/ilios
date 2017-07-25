@@ -17,7 +17,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class UsereventController
- * @package Ilios\ApiBundle\Controller
  */
 class UsereventController extends AbstractController
 {

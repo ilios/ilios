@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class ConfigController
- * @package Ilios\WebBundle\Controller
  */
 class ConfigController extends Controller
 {

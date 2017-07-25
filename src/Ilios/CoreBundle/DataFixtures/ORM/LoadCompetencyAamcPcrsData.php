@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**
  * Class LoadCompetencyAamcPcrsData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadCompetencyAamcPcrsData extends AbstractFixture implements DependentFixtureInterface
 {

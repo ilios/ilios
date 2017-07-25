@@ -7,7 +7,6 @@ use Ilios\ApiBundle\Annotation as IS;
 /**
  * Class AlertDTO
  * Data transfer object for an alert
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

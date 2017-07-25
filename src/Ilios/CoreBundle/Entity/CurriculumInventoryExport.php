@@ -14,7 +14,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class CurriculumInventoryExport
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="curriculum_inventory_export",
  *   indexes={

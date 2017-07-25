@@ -7,7 +7,6 @@ use Ilios\ApiBundle\Annotation as IS;
 /**
  * Class SessionTypeDTO
  * Data transfer object for a session type
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

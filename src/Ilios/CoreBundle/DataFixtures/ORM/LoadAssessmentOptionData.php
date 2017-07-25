@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
 
 /**
  * Class LoadAssessmentOptionData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadAssessmentOptionData extends AbstractFixture
 {

@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class UsereventVoterTest
- * @package Tests\AuthenticationBundle\\Voter
  */
 class UsereventVoterTest extends AbstractVoterTestCase
 {

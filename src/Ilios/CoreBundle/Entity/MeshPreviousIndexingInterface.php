@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
  * Interface MeshPreviousIndexingInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface MeshPreviousIndexingInterface extends
     IdentifiableEntityInterface,

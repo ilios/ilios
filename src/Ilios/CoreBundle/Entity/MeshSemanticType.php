@@ -16,7 +16,6 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class MeshSemanticType
- * @package Ilios\CoreBundle\Entity
  * @deprecated
  *
  * @ORM\Table(name="mesh_semantic_type")

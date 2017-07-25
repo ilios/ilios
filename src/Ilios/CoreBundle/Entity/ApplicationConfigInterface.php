@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Traits\NameableEntityInterface;
 
 /**
  * Interface SchoolConfigInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface ApplicationConfigInterface extends IdentifiableEntityInterface, NameableEntityInterface
 {

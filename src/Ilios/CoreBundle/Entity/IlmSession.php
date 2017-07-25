@@ -18,7 +18,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class IlmSession
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="ilm_session_facet")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\IlmSessionRepository")

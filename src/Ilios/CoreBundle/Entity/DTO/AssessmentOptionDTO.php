@@ -7,7 +7,6 @@ use Ilios\ApiBundle\Annotation as IS;
 /**
  * Class AssessmentOptionDTO
  * Data transfer object for an assessmentOption
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

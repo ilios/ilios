@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CohortEntityVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class CohortEntityVoter extends ProgramYearEntityVoter
 {

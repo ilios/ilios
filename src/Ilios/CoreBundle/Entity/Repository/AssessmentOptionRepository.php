@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\AssessmentOptionDTO;
 
 /**
  * Class AssessmentOptionRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class AssessmentOptionRepository extends EntityRepository
 {

@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class Alert
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="alert")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AlertRepository")

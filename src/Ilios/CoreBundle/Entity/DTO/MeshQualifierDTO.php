@@ -6,7 +6,6 @@ use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class MeshQualifierDTO
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

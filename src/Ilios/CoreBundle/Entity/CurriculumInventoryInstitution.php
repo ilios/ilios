@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class CurriculumInventoryInstitution
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="curriculum_inventory_institution")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CurriculumInventoryInstitutionRepository")

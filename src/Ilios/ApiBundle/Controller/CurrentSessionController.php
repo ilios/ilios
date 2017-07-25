@@ -13,7 +13,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * Class CurrentSessionController
  * Current session reflects back the user from the token
- * @package Ilios\ApiBundle\Controller
  */
 class CurrentSessionController extends AbstractController
 {

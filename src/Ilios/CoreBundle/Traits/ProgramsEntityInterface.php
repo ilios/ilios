@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Entity\ProgramInterface;
 
 /**
  * Interface ProgramsEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface ProgramsEntityInterface
 {

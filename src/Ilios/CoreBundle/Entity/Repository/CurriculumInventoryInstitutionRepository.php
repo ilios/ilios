@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\CurriculumInventoryInstitutionDTO;
 
 /**
  * Class CurriculumInventoryInstitutionRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class CurriculumInventoryInstitutionRepository extends EntityRepository
 {

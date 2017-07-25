@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\MeshTermDTO;
 
 /**
  * Class MeshTermRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class MeshTermRepository extends EntityRepository
 {

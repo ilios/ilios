@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Class LockableEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait LockableEntity
 {

@@ -4,7 +4,6 @@ namespace Tests\CoreBundle\DataLoader;
 
 /**
  * Class PermissionData
- * @package Tests\CoreBundle\\DataLoader
  */
 class PermissionData extends AbstractDataLoader
 {

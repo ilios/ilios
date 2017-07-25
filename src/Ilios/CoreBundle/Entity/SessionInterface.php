@@ -19,7 +19,6 @@ use Ilios\CoreBundle\Traits\OfferingsEntityInterface;
 
 /**
  * Interface SessionInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface SessionInterface extends
     IdentifiableEntityInterface,

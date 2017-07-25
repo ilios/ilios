@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface PendingUserUpdateInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface PendingUserUpdateInterface extends
     IdentifiableEntityInterface

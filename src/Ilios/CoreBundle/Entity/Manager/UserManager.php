@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Service\UserMaterialFactory;
 
 /**
  * Class UserManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class UserManager extends DTOManager
 {

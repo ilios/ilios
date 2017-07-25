@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class SessionDescription
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="session_description")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\SessionDescriptionRepository")

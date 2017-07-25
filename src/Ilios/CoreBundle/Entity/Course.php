@@ -25,7 +25,6 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class Course
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="course", indexes={
  *   @ORM\Index(name="title_course_k", columns={"course_id", "title"}),

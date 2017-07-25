@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Interface DescribableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface DescribableEntityInterface
 {

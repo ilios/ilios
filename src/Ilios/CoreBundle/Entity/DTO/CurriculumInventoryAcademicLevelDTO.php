@@ -6,7 +6,6 @@ use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class CurriculumInventoryAcademicLevelDTO
- * @package Ilios\CoreBundle\Entity
  *
  * @IS\DTO
  */

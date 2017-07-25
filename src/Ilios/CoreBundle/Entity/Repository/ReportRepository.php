@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\ReportDTO;
 
 /**
  * Class ReportRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class ReportRepository extends EntityRepository
 {

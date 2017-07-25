@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\AamcPcrsDTO;
 
 /**
  * Class AamcPcrsRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class AamcPcrsRepository extends EntityRepository
 {

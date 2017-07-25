@@ -9,7 +9,6 @@ use Doctrine\ORM\Id\AssignedGenerator;
 
 /**
  * Class BaseManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class BaseManager implements ManagerInterface
 {

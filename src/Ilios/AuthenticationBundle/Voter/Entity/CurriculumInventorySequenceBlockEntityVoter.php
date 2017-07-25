@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CurriculumInventorySequenceBlockVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class CurriculumInventorySequenceBlockEntityVoter extends CurriculumInventoryReportEntityVoter
 {

@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 
 /**
  * AamcMethod API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_5
  */
 class AcademicYearTest extends AbstractEndpointTest

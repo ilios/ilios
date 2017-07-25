@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Classes\SchoolEvent;
 
 /**
  * Class SchoolManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class SchoolManager extends DTOManager
 {

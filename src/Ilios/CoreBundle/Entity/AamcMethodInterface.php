@@ -12,7 +12,6 @@ use Ilios\CoreBundle\Traits\SessionTypesEntityInterface;
 
 /**
  * Interface AamcMethodInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface AamcMethodInterface extends
     IdentifiableEntityInterface,

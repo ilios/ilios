@@ -6,7 +6,6 @@ use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class MeshSemanticTypeDTO
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

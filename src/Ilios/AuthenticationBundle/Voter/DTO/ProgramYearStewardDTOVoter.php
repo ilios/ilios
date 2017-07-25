@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class ProgramYearStewardDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class ProgramYearStewardDTOVoter extends CourseVoter
 {

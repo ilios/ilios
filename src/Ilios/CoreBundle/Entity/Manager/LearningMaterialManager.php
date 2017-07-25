@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\Repository\LearningMaterialRepository;
 
 /**
  * Class LearningMaterialManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class LearningMaterialManager extends DTOManager
 {

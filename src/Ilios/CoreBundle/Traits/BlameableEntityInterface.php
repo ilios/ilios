@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Model\UserInterface;
 
 /**
  * interface BlameableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface BlameableEntityInterface
 {

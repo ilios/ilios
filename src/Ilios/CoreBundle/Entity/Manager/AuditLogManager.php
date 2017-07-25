@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\Repository\AuditLogRepository;
 
 /**
  * Class AuditLogManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class AuditLogManager extends BaseManager
 {

@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\Repository\AuthenticationRepository;
 
 /**
  * Class AuthenticationManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class AuthenticationManager extends DTOManager
 {

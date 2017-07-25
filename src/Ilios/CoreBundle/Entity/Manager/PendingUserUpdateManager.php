@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\Repository\PendingUserUpdateRepository;
 
 /**
  * Class PendingUserUpdateManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class PendingUserUpdateManager extends DTOManager
 {

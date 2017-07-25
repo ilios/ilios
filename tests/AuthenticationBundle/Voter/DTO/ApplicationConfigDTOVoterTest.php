@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class ApplicationConfigDTOVoterTest
- * @package Tests\AuthenticationBundle\\Voter\DTO
  */
 class ApplicationConfigDTOVoterTest extends AbstractVoterTestCase
 {

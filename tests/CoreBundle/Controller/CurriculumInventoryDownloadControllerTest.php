@@ -8,7 +8,6 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**
  * Class CurriculumInventoryDownloadControllerTest
- * @package Tests\CoreBundle\\Controller
  */
 class CurriculumInventoryDownloadControllerTest extends WebTestCase
 {

@@ -16,7 +16,6 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
  * Class Vocabulary
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="vocabulary",
  *   uniqueConstraints={

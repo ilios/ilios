@@ -18,7 +18,6 @@ use Ilios\CoreBundle\Service\Directory;
  * Add a user by looking them up in the directory
  *
  * Class AddDirectoryUserCommand
- * @package Ilios\CliBUndle\Command
  */
 class AddDirectoryUserCommand extends Command
 {

@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class Authentication
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="authentication")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AuthenticationRepository")

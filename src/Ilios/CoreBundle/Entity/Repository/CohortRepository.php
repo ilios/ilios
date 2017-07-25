@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\CohortDTO;
 
 /**
  * Class CohortRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class CohortRepository extends EntityRepository
 {

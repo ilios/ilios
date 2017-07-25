@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Entity\TermInterface;
 
 /**
  * Class LoadSessionTypeAamcMethodData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadTermAamcResourceTypeData extends AbstractFixture implements DependentFixtureInterface
 {

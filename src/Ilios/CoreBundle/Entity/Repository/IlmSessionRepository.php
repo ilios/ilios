@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\IlmSessionDTO;
 
 /**
  * Class IlmSessionRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class IlmSessionRepository extends EntityRepository
 {

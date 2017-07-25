@@ -7,7 +7,6 @@ use Tests\CoreBundle\TestCase;
 
 /**
  * Class SchoolManagerTest
- * @package Tests\CoreBundle\\Entity\Manager
  */
 class SchoolManagerTest extends TestCase
 {

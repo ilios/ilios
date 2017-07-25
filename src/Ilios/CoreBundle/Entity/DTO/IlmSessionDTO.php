@@ -7,7 +7,6 @@ use Ilios\ApiBundle\Annotation as IS;
 /**
  * Class IlmSessionDTO
  * Data transfer object for a ilmSession
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

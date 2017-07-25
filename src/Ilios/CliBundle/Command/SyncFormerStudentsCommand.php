@@ -19,7 +19,6 @@ use Ilios\CoreBundle\Service\Directory;
  * Syncs former students from the directory.
  *
  * Class SyncFormerStudentsCommand
- * @package Ilios\CliBUndle\Command
  */
 class SyncFormerStudentsCommand extends Command
 {

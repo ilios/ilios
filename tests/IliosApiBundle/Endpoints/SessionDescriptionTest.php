@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * SessionDescription API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_5
  */
 class SessionDescriptionTest extends AbstractEndpointTest

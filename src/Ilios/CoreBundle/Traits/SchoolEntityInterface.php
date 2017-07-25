@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
  * Interface SchoolEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface SchoolEntityInterface
 {

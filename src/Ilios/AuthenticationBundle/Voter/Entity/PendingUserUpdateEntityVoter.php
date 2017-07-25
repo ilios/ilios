@@ -7,7 +7,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class PendingUserUpdateVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class PendingUserUpdateEntityVoter extends UserEntityVoter
 {

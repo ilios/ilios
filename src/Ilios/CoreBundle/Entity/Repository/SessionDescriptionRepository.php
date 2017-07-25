@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\SessionDescriptionDTO;
 
 /**
  * Class SessionDescriptionRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class SessionDescriptionRepository extends EntityRepository
 {

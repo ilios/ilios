@@ -10,7 +10,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class LearningMaterialEntityVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class LearningMaterialEntityVoter extends AbstractVoter
 {

@@ -16,7 +16,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class Alert
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="alert_change_type")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AlertChangeTypeRepository")

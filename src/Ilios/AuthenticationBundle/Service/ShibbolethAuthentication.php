@@ -11,7 +11,6 @@ use Ilios\AuthenticationBundle\Traits\AuthenticationService;
 
 /**
  * Class ShibbolethAuthentication
- * @package Ilios\AuthenticationBundle\Service
  */
 class ShibbolethAuthentication implements AuthenticationInterface
 {

@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Class LockableVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class LockableVoter extends Voter
 {

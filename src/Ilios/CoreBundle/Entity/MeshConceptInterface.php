@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface MeshConceptInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface MeshConceptInterface extends
     IdentifiableEntityInterface,

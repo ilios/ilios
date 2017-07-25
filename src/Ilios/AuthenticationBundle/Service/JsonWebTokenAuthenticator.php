@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class JsonWebTokenAuthenticator
- * @package Ilios\AuthenticationBundle\Service
  */
 class JsonWebTokenAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {

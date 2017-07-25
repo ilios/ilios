@@ -18,7 +18,6 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
  * Class CurriculumInventoryAcademicLevel
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="curriculum_inventory_academic_level",
  *   uniqueConstraints={

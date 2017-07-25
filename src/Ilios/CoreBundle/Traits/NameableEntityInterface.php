@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Interface NameableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface NameableEntityInterface
 {

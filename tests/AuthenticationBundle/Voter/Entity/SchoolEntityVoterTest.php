@@ -11,7 +11,6 @@ use Mockery as m;
 
 /**
  * Class SchoolEntityVoterTest
- * @package Tests\AuthenticationBundle\\Voter\Entity
  * @todo Test voting on create, edit and delete operations. [ST 2016/05/17]
  */
 class SchoolEntityVoterTest extends AbstractVoterTestCase

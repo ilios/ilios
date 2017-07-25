@@ -17,7 +17,6 @@ use Ilios\CoreBundle\Traits\StewardedEntityInterface;
 
 /**
  * Interface ProgramYearInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface ProgramYearInterface extends
     IdentifiableEntityInterface,

@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface MeshTermInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface MeshTermInterface extends
     IdentifiableEntityInterface,

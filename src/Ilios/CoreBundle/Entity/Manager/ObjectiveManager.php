@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 /**
  * Class ObjectiveManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 
 class ObjectiveManager extends DTOManager

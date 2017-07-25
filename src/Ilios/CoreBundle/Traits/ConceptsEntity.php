@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\MeshConceptInterface;
 
 /**
  * Class ConceptsEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait ConceptsEntity
 {

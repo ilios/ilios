@@ -19,7 +19,6 @@ use Ilios\CoreBundle\Service\Directory;
  * Adds all the users in the directory to a school with the student role
  *
  * Class AddNewStudentsToSchoolCommand
- * @package Ilios\CliBUndle\Command
  */
 class AddNewStudentsToSchoolCommand extends Command
 {

@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
  * Class CurriculumInventoryReportRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class CurriculumInventoryReportRepository extends EntityRepository
 {

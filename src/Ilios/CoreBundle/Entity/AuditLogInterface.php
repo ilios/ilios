@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
  * Class AuditLogInterface
- * @package Ilios\CoreBundle\Entity
  *
  */
 interface AuditLogInterface extends
