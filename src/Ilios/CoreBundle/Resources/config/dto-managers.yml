@@ -124,3 +124,7 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\UserMadeReminder'
+    Ilios\CoreBundle\Entity\Manager\UserRoleManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\UserRole'
