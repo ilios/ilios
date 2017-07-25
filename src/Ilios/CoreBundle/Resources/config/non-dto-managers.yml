@@ -4,10 +4,6 @@ services:
         autoconfigure: true
         public: true
 
-    Ilios\CoreBundle\Entity\Manager\SchoolConfigManager:
-        class: Ilios\CoreBundle\Entity\Manager\BaseManager
-        arguments:
-            $class: 'Ilios\CoreBundle\Entity\SchoolConfig'
     Ilios\CoreBundle\Entity\Manager\UserMadeReminderManager:
         class: Ilios\CoreBundle\Entity\Manager\BaseManager
         arguments:

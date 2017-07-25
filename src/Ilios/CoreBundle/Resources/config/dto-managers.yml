@@ -108,6 +108,10 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\Report'
+    Ilios\CoreBundle\Entity\Manager\SchoolConfigManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\SchoolConfig'
     Ilios\CoreBundle\Entity\Manager\SessionTypeManager:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:

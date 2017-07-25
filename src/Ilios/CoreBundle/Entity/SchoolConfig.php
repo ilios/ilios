@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
  *     @ORM\UniqueConstraint(name="school_conf_uniq", columns={"school_id", "name"})
  *   }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\SchoolConfigRepository")
  * @IS\Entity
  */
 class SchoolConfig implements SchoolConfigInterface
