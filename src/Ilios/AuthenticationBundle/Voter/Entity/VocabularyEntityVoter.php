@@ -1,7 +1,8 @@
 <?php
 
-namespace Ilios\AuthenticationBundle\Voter;
+namespace Ilios\AuthenticationBundle\Voter\Entity;
 
+use Ilios\AuthenticationBundle\Voter\AbstractVoter;
 use Ilios\CoreBundle\Entity\VocabularyInterface;
 use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * Class VocabularyVoter
  * @package Ilios\AuthenticationBundle\Voter
  */
-class VocabularyVoter extends AbstractVoter
+class VocabularyEntityVoter extends AbstractVoter
 {
     /**
      * {@inheritdoc}

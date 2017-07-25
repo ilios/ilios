@@ -128,3 +128,7 @@ services:
         class: Ilios\CoreBundle\Entity\Manager\DTOManager
         arguments:
             $class: 'Ilios\CoreBundle\Entity\UserRole'
+    Ilios\CoreBundle\Entity\Manager\VocabularyManager:
+        class: Ilios\CoreBundle\Entity\Manager\DTOManager
+        arguments:
+            $class: 'Ilios\CoreBundle\Entity\Vocabulary'

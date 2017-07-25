@@ -4,13 +4,13 @@ namespace Ilios\CoreBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-use Ilios\CoreBundle\Entity\DTO\UserRoleDTO;
+use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
 
 /**
- * Class UserRoleRepository
+ * Class VocabularyRepository
  * @package Ilios\CoreBundle\Entity\Repository
  */
-class UserRoleRepository extends EntityRepository
+class VocabularyRepository extends EntityRepository
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class UserRoleRepository extends EntityRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('IliosCoreBundle:UserRole', 'x');
+        $qb->select('DISTINCT x')->from('IliosCoreBundle:Vocabulary', 'x');
 
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
@@ -38,19 +38,49 @@ class UserRoleRepository extends EntityRepository
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('IliosCoreBundle:UserRole', 'x');
+            ->distinct()->from('IliosCoreBundle:Vocabulary', 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        /** @var UserRoleDTO[] $userRoleDTOs */
-        $userRoleDTOs = [];
+        /** @var VocabularyDTO[] $vocabularyDTOs */
+        $vocabularyDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $userRoleDTOs[$arr['id']] = new UserRoleDTO(
+            $vocabularyDTOs[$arr['id']] = new VocabularyDTO(
                 $arr['id'],
-                $arr['title']
+                $arr['title'],
+                $arr['active']
             );
         }
+        $vocabularyIds = array_keys($vocabularyDTOs);
 
-        return array_values($userRoleDTOs);
+        $qb = $this->_em->createQueryBuilder()
+            ->select(
+                'x.id as xId, school.id AS schoolId'
+            )
+            ->from('IliosCoreBundle:Vocabulary', 'x')
+            ->join('x.school', 'school')
+            ->where($qb->expr()->in('x.id', ':ids'))
+            ->setParameter('ids', $vocabularyIds);
+
+        foreach ($qb->getQuery()->getResult() as $arr) {
+            $vocabularyDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
+        }
+
+        $related = [
+            'terms',
+        ];
+        foreach ($related as $rel) {
+            $qb = $this->_em->createQueryBuilder()
+                ->select('r.id AS relId, x.id AS vocabularyId')
+                ->from('IliosCoreBundle:Vocabulary', 'x')
+                ->join("x.{$rel}", 'r')
+                ->where($qb->expr()->in('x.id', ':ids'))
+                ->orderBy('relId')
+                ->setParameter('ids', $vocabularyIds);
+            foreach ($qb->getQuery()->getResult() as $arr) {
+                $vocabularyDTOs[$arr['vocabularyId']]->{$rel}[] = $arr['relId'];
+            }
+        }
+        return array_values($vocabularyDTOs);
     }
 
 
@@ -66,7 +96,7 @@ class UserRoleRepository extends EntityRepository
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
     {
         $related = [
-            'users',
+            'terms',
         ];
         foreach ($related as $rel) {
             if (array_key_exists($rel, $criteria)) {
