@@ -14,7 +14,6 @@ use Ilios\CoreBundle\Service\UserMaterialFactory;
 
 /**
  * Class UserRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class UserRepository extends EntityRepository
 {

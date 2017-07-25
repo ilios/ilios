@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\VocabularyInterface;
 
 /**
  * Class LoadVocabularyDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadVocabularyDataTest extends AbstractDataFixtureTest
 {

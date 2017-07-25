@@ -14,7 +14,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class CourseLearningMaterial
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="course_learning_material")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CourseLearningMaterialRepository")

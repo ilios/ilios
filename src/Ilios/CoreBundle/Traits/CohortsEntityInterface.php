@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\CohortInterface;
 
 /**
  * Interface DescribableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface CohortsEntityInterface
 {

@@ -18,7 +18,6 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
  * Class Term
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="term",
  *   uniqueConstraints={

@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
  * Class ProgramYearController
  * When program years are created cohorts
  * must be created at the same time
- * @package Ilios\ApiBundle\Controller
  */
 class ProgramYearController extends ApiController
 {

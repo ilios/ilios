@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Interface DirectorsEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface DirectorsEntityInterface
 {

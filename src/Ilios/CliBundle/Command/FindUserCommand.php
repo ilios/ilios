@@ -14,7 +14,6 @@ use Ilios\CoreBundle\Service\Directory;
  * Find a user in the directory
  *
  * Class FindUserCommand
- * @package Ilios\CliBUndle\Command
  */
 class FindUserCommand extends Command
 {

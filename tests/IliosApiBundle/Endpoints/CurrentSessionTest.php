@@ -11,7 +11,6 @@ use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
  * AamcMethod API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_3
  */
 class CurrentSessionTest extends WebTestCase

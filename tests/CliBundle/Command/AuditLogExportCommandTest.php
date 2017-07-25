@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class AuditLogExportCommandTest
- * @package Tests\CliBundle\\Command
  *
  * @link http://symfony.com/doc/current/components/console/introduction.html#testing-commands
  * @link http://symfony.com/doc/current/cookbook/console/console_command.html#testing-commands

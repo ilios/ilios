@@ -11,7 +11,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Class CurriculumInventorySequenceBlockController
  * Sequence Blocks need to support some re-ordering when saved
- * @package Ilios\ApiBundle\Controller
  */
 class CurriculumInventorySequenceBlockController extends ApiController
 {

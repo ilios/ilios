@@ -22,7 +22,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * Creates a first user account with Course Director privileges.
  *
  * Class InstallFirstUserCommand
- * @package Ilios\CoreBundle\Command
  */
 class InstallFirstUserCommand extends Command
 {

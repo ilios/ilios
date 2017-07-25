@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Interface IdentifiableTraitIntertface
- * @package Ilios\CoreBundle\Traits
  */
 interface IdentifiableEntityInterface
 {

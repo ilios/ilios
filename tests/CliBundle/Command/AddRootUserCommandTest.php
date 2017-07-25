@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
  * Tests the Add Root User command.
  *
  * Class AddRootUserCommandTest
- * @package Tests\CliBundle\Command
  */
 class AddRootUserCommandTest extends TestCase
 {

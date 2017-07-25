@@ -7,7 +7,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class IlmSessionVoter
- * @package IlmSessionEntityVoter\AuthenticationBundle\Voter
  */
 class IlmSessionEntityVoter extends SessionEntityVoter
 {

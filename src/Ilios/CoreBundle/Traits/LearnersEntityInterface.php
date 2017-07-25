@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Interface LearnersEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface LearnersEntityInterface
 {

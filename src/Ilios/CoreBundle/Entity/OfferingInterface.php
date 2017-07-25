@@ -15,7 +15,6 @@ use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 
 /**
  * Interface OfferingInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface OfferingInterface extends
     IdentifiableEntityInterface,

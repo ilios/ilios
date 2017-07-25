@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class TemporaryFileSystemVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class TemporaryFileSystemVoter extends AbstractVoter
 {

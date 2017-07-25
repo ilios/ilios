@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\DepartmentDTO;
 
 /**
  * Class DepartmentRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class DepartmentRepository extends EntityRepository
 {

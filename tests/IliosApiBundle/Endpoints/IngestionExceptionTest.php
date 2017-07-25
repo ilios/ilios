@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\AbstractEndpointTest;
 
 /**
  * IngestionException API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_4
  */
 class IngestionExceptionTest extends AbstractEndpointTest

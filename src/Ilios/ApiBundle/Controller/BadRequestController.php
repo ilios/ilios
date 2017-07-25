@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class BadRequestController
- * @package Ilios\ApiBundle\Controller
  */
 class BadRequestController extends Controller
 {

@@ -8,7 +8,6 @@ use Ilios\AuthenticationBundle\Service\JsonWebTokenManager;
 
 /**
  * Class JsonControllerTest
- * @package Tests\CoreBundle\\Traits
  */
 trait JsonControllerTest
 {

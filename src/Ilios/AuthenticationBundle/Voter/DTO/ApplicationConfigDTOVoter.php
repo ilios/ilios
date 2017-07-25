@@ -7,7 +7,6 @@ use Ilios\AuthenticationBundle\Voter\Entity\ApplicationConfigEntityVoter;
 
 /**
  * Class ApplicationConfigDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class ApplicationConfigDTOVoter extends ApplicationConfigEntityVoter
 {

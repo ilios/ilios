@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 
 /**
  * Class IliosFileSystem
- * @package Ilios\CoreBundle\Classes
  *
  */
 class IliosFileSystem

@@ -16,7 +16,6 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class MeshTerm
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(
  *  name="mesh_term",

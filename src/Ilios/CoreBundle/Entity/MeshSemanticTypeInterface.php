@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface MeshSemanticTypeInterface
- * @package Ilios\CoreBundle\Entity
  * @deprecated
  */
 interface MeshSemanticTypeInterface extends

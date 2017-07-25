@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
  * Interface UserRoleInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface UserRoleInterface extends
     IdentifiableEntityInterface,

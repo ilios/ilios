@@ -8,7 +8,6 @@ use Ilios\ApiBundle\Annotation as IS;
 /**
  * Class TitledEntity
  * @todo should also contain the $title property, but Doctrine doesn't read teh length properly
- * @package Ilios\CoreBundle\Traits
  */
 trait TitledEntity
 {

@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\MeshQualifierDTO;
 
 /**
  * Class MeshQualifierRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class MeshQualifierRepository extends EntityRepository
 {

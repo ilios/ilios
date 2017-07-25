@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
 /**
  * Class LoadLearningMaterialStatusData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadLearningMaterialStatusData extends AbstractFixture
 {

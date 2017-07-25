@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
 /**
  * Class LoadMeshQualifierDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadMeshQualifierDataTest extends AbstractDataFixtureTest
 {

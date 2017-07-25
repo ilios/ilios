@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Interface ArchivableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface ArchivableEntityInterface
 {

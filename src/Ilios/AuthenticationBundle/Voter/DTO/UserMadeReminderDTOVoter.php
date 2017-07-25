@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class UserMadeReminderDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class UserMadeReminderDTOVoter extends AbstractVoter
 {

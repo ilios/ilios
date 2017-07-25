@@ -22,7 +22,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * Class Session
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="session",
  *   indexes={

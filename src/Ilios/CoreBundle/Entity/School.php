@@ -24,7 +24,6 @@ use Ilios\CoreBundle\Traits\StewardedEntity;
 
 /**
  * Class School
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="school",
  *   uniqueConstraints={

@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Entity\CourseInterface;
 
 /**
  * Class CoursesEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait CoursesEntity
 {

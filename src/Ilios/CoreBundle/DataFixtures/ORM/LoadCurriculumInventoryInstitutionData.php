@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 
 /**
  * Class LoadCurriculumInventoryInstitutionData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements DependentFixtureInterface
 {

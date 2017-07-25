@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class UserMadeReminderVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class UserMadeReminderEntityVoter extends AbstractVoter
 {

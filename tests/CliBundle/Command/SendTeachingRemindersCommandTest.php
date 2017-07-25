@@ -26,7 +26,6 @@ use Mockery as m;
  * Send Teaching Reminder command test.
  *
  * Class SendTeachingRemindersCommandTest
- * @package Tests\CliBundle\\Command
  */
 class SendTeachingRemindersCommandTest extends KernelTestCase
 {

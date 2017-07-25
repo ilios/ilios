@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
 
 /**
  * Class OfferingManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class OfferingManager extends DTOManager
 {

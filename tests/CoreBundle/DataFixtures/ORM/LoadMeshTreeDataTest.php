@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\MeshTreeInterface;
 
 /**
  * Class LoadMeshTreeDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadMeshTreeDataTest extends AbstractDataFixtureTest
 {

@@ -7,7 +7,6 @@ use JMS\Serializer\Annotation as JMS;
 
 /**
  * Class SortableEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait SortableEntity
 {

@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Entity\ProgramYearInterface;
 
 /**
  * Interface ProgramYearsEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface ProgramYearsEntityInterface
 {

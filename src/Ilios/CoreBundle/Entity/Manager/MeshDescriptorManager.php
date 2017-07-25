@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository;
 
 /**
  * Class MeshDescriptorManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class MeshDescriptorManager extends DTOManager
 {

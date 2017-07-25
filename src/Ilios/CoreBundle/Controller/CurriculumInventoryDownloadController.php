@@ -14,7 +14,6 @@ use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
  * Class CurriculumInventoryDownloadController
- * @package Ilios\CoreBundle\Controller
  */
 class CurriculumInventoryDownloadController extends AbstractController
 {

@@ -19,7 +19,6 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class Program
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="program")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ProgramRepository")

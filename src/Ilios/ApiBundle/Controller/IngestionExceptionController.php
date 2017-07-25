@@ -7,7 +7,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Class IngestionExceptionController
  * IngestionExceptions can only be GETed nothing else
- * @package Ilios\ApiBundle\Controller
  */
 class IngestionExceptionController extends ApiController
 {

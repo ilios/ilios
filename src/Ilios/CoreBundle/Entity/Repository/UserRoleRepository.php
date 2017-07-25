@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\UserRoleDTO;
 
 /**
  * Class UserRoleRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class UserRoleRepository extends EntityRepository
 {

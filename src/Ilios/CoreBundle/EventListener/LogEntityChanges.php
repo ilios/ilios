@@ -12,7 +12,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
  * Listen for every change to an entity and log it.
  *
  * Class LogEntityChanges
- * @package Ilios\CoreBundle\EventListener
  */
 class LogEntityChanges
 {

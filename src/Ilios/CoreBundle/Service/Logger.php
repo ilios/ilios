@@ -12,7 +12,6 @@ use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 
 /**
  * Class Logger
- * @package Ilios\CoreBundle\Service
  */
 class Logger
 {

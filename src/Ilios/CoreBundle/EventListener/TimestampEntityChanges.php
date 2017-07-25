@@ -12,7 +12,6 @@ use Ilios\CoreBundle\Entity\SessionStampableInterface;
  * Listen for every change to an entity and timestamp it if appropriate.
  *
  * Class TimestampEntityChanges
- * @package Ilios\CoreBundle\EventListener
  */
 class TimestampEntityChanges
 {

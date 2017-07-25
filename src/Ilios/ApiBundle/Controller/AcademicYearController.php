@@ -11,7 +11,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Class AcademicYearController
  * Academic years cannot be created, we need to reject any attempts to do so.
- * @package Ilios\ApiBundle\Controller
  */
 class AcademicYearController extends ApiController
 {

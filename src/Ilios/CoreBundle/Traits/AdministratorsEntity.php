@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class AdministratorsEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait AdministratorsEntity
 {

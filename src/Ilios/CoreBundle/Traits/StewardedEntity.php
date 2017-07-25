@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
 
 /**
  * Class StewardedEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait StewardedEntity
 {

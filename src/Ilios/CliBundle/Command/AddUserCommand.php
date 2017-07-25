@@ -21,7 +21,6 @@ use Ilios\CoreBundle\Entity\Manager\SchoolManager;
  * Add a user by looking them up in the directory
  *
  * Class AddUserCommand
- * @package Ilios\CliBUndle\Command
  */
 class AddUserCommand extends Command
 {

@@ -13,7 +13,6 @@ use Symfony\Component\Templating\EngineInterface;
  * Generates the YAML file for the swagger path docs
  *
  * Class GenerateSwaggerApiPathYamlCommand
- * @package Ilios\CliBUndle\Command
  */
 class GenerateSwaggerApiPathYamlCommand extends Command
 {

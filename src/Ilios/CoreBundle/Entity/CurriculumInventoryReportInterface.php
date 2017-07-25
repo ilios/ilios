@@ -12,7 +12,6 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
  * Interface CurriculumInventoryReportInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface CurriculumInventoryReportInterface extends
     IdentifiableEntityInterface,

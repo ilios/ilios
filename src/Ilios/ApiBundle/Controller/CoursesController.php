@@ -15,7 +15,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Class CoursesController
  * We have to handle a special 'my' parameter on courses
  * so it needs its own controller
- * @package Ilios\ApiBundle\Controller
  */
 class CoursesController extends ApiController
 {

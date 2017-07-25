@@ -7,7 +7,6 @@ namespace Ilios\CoreBundle\Entity\Manager;
  * All query results from these methods are returned as Data Transfer Objects (DTO).
   *
  * Class DTOManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class DTOManager extends BaseManager implements DTOManagerInterface
 {

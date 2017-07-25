@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class AlertChangeTypeEntityVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class AlertChangeTypeEntityVoter extends AbstractVoter
 {

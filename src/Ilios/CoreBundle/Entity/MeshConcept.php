@@ -15,7 +15,6 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class MeshConcept
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="mesh_concept")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\MeshConceptRepository")

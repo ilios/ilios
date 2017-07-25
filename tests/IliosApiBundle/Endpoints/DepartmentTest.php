@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * Department API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_2
  */
 class DepartmentTest extends AbstractEndpointTest

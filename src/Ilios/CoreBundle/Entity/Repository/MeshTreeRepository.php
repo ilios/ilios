@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\MeshTreeDTO;
 
 /**
  * Class MeshTreeRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class MeshTreeRepository extends EntityRepository
 {

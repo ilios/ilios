@@ -15,7 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class AamcResourceType
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\AamcResourceTypeRepository")
  * @ORM\Table(name="aamc_resource_type")

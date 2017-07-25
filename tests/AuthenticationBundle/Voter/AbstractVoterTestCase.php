@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class AbstractVoterTestCase
- * @package Tests\AuthenticationBundle\\Voter
  */
 abstract class AbstractVoterTestCase extends TestCase
 {

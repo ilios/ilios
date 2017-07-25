@@ -13,7 +13,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class ObjectiveEntityVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class ObjectiveEntityVoter extends AbstractVoter
 {

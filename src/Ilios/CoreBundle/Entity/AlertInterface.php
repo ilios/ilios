@@ -10,7 +10,6 @@ use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Interface AlertInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInterface
 {

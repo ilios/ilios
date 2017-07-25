@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CurriculumInventorySequenceBlockDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class CurriculumInventorySequenceBlockDTOVoter extends CurriculumInventoryReportDTOVoter
 {

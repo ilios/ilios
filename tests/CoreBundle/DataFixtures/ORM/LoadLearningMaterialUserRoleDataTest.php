@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 
 /**
  * Class LoadLearningMaterialUserRoleDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadLearningMaterialUserRoleDataTest extends AbstractDataFixtureTest
 {

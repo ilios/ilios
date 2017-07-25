@@ -14,7 +14,6 @@ use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager;
 /**
  * Service-class for rolling over a given curriculum inventory report.
  *
- * @package Ilios\CoreBundle\Service\CurriculumInventory
  * @category Service
  */
 class ReportRollover

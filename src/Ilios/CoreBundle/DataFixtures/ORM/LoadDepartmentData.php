@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Class LoadDepartmentData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadDepartmentData extends AbstractFixture implements DependentFixtureInterface
 {

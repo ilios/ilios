@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface MeshQualifierInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface MeshQualifierInterface extends
     IdentifiableEntityInterface,

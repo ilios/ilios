@@ -6,7 +6,6 @@ use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class PermissionDTO
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

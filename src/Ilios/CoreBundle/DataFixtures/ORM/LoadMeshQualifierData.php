@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\DataFixtures\ORM;
 
 /**
  * Class LoadMeshQualifierData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadMeshQualifierData extends AbstractMeshFixture
 {

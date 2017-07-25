@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
  * Tests the List Root Users command.
  *
  * Class ListRootUsersCommandTest
- * @package Tests\CliBundle\Command
  */
 class ListRootUsersCommandTest extends TestCase
 {

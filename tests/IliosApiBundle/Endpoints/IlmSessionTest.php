@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * IlmSession API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_3
  */
 class IlmSessionTest extends AbstractEndpointTest

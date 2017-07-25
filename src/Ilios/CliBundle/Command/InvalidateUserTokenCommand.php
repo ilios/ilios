@@ -15,7 +15,6 @@ use Ilios\CoreBundle\Entity\Manager\UserManager;
  * Invalidate all user tokens issued before now
  *
  * Class InvalidateUserTokenCommand
- * @package Ilios\CliBUndle\Command
  */
 class InvalidateUserTokenCommand extends Command
 {

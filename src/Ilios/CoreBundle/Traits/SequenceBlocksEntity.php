@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 
 /**
  * Class SequenceBlocksEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait SequenceBlocksEntity
 {

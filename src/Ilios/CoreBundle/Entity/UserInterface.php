@@ -18,7 +18,6 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 
 /**
  * Interface UserInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface UserInterface extends
     IdentifiableEntityInterface,

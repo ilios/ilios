@@ -18,7 +18,6 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class Competency
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="competency", indexes={@ORM\Index(name="parent_competency_id_k", columns={"parent_competency_id"})})
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CompetencyRepository")

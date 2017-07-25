@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
  *
  * Produce the YAML files that document our endpoints
  *
- * @package Ilios\ApiBundle\Controller
  */
 class SwaggerDocsController extends AbstractController
 {

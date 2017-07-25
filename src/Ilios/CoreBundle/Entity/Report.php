@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class Report
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="report")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ReportRepository")

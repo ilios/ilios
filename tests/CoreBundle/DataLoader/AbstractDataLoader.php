@@ -7,7 +7,6 @@ use Faker\Factory as FakerFactory;
 /**
  * Abstract utilities for loading data
  *
- * @package Tests\CoreBundle\\DataLoader
  *
  */
 abstract class AbstractDataLoader implements DataLoaderInterface

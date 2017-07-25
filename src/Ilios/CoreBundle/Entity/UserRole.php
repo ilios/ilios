@@ -17,7 +17,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class UserRole
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="user_role")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserRoleRepository")

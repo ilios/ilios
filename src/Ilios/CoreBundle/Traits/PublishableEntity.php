@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Class PublishableEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait PublishableEntity
 {

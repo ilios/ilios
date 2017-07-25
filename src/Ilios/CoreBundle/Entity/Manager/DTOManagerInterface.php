@@ -7,7 +7,6 @@ namespace Ilios\CoreBundle\Entity\Manager;
  * All query results are returned as Data Transfer Objects (DTO).
  *
  * Interface ManagerInterface
- * @package Ilios\CoreBundle\Entity\Manager
  */
 interface DTOManagerInterface extends ManagerInterface
 {

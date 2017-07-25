@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**
  * Class CompetenciesEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait CompetenciesEntity
 {

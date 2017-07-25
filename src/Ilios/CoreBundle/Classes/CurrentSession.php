@@ -8,7 +8,6 @@ use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class CurrentSession
- * @package Ilios\CoreBundle\Classes
  *
  * @IS\DTO
  */

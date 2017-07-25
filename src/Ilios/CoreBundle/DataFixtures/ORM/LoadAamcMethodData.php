@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\AamcMethodInterface;
 
 /**
  * Class LoadAamcMethodData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadAamcMethodData extends AbstractFixture
 {

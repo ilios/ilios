@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * UserRole API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_4
  */
 class UserRoleTest extends AbstractEndpointTest

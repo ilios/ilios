@@ -7,7 +7,6 @@ use Ilios\ApiBundle\Annotation as IS;
 /**
  * Class MeshPreviousIndexingDTO
  * Data transfer object for a MeSH descriptor.
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

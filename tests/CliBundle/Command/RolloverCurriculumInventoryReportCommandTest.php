@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class RolloverCurriculumInventoryReportCommandTest
- * @package Tests\CliBundle\\Command
  */
 class RolloverCurriculumInventoryReportCommandTest extends TestCase
 {

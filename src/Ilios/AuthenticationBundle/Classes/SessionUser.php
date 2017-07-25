@@ -15,7 +15,6 @@ use DateTime;
  * A session user is a static serializable representation
  * of a single user.  It is used in our authentication system
  * to avoid issues with a user beign able to update their own data.
- * @package Ilios\CoreBundle\Classes
  */
 class SessionUser implements SessionUserInterface
 {

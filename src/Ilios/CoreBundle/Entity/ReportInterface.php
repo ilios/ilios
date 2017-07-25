@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface ReportInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface ReportInterface extends
     IdentifiableEntityInterface,

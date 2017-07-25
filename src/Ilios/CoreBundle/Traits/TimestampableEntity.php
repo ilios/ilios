@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Trait TimestampableEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait TimestampableEntity
 {

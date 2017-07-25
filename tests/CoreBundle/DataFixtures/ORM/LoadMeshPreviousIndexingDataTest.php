@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
 
 /**
  * Class LoadMeshPreviousIndexingDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadMeshPreviousIndexingDataTest extends AbstractDataFixtureTest
 {

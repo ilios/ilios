@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
  * When an offering is created or modified alerts get
  * recorded to let users know about the change
  *
- * @package Ilios\ApiBundle\Controller
  */
 class OfferingController extends ApiController
 {

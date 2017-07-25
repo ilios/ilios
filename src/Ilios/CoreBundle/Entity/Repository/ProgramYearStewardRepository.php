@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\ProgramYearStewardDTO;
 
 /**
  * Class ProgramYearStewardRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class ProgramYearStewardRepository extends EntityRepository
 {

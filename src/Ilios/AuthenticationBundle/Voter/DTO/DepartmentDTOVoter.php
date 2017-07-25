@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class DepartmentDTOVoter
- * @package Ilios\AuthenticationBundle\Voter\DTO
  */
 class DepartmentDTOVoter extends AbstractVoter
 {

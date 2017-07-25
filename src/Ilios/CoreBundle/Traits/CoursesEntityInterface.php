@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\CourseInterface;
 
 /**
  * Interface DescribableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface CoursesEntityInterface
 {

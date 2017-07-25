@@ -10,7 +10,6 @@ use Tests\CoreBundle\TestCase;
 
 /**
  * Class EntityBase
- * @package Tests\CoreBundle\\Entity
  */
 class EntityBase extends TestCase
 {

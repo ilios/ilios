@@ -6,7 +6,6 @@ use Ilios\AuthenticationBundle\Classes\SessionUserInterface;
 
 /**
  * Interface AuthenticationInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface AuthenticationInterface extends LoggableEntityInterface
 {

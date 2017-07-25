@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class SessionLearningMaterial
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="session_learning_material", indexes={
  *   @ORM\Index(name="session_lm_k", columns={"session_id", "learning_material_id"}),

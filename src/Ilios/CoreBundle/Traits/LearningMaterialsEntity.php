@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 
 /**
  * Class LearningMaterialsEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait LearningMaterialsEntity
 {

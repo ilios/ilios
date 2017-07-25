@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * ProgramYearSteward API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_2
  */
 class ProgramYearStewardTest extends AbstractEndpointTest

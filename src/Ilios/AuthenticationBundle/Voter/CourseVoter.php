@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\Manager\CourseManager;
 
 /**
  * Class CourseVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 abstract class CourseVoter extends AbstractVoter
 {

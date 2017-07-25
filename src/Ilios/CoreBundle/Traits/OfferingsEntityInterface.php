@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Entity\OfferingInterface;
 
 /**
  * Interface OfferingsEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface OfferingsEntityInterface
 {

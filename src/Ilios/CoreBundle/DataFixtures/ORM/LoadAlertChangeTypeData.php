@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 
 /**
  * Class LoadAlertChangeTypeData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadAlertChangeTypeData extends AbstractFixture
 {

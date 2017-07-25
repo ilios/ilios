@@ -17,7 +17,6 @@ use Ilios\ApiBundle\Annotation as IS;
  * Learning materials are not serialized like other entities.  They are decorated by the controller and
  * then sent as plain php objects in order to insert the absolute path to the file
  *
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\LearningMaterialRepository")
  * @ORM\Table(

@@ -14,7 +14,6 @@ use Ilios\CoreBundle\Traits\ProgramYearsEntityInterface;
 
 /**
  * Interface ProgramInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface ProgramInterface extends
     IdentifiableEntityInterface,

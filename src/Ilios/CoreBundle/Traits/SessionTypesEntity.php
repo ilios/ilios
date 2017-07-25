@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
 /**
  * Class SessionTypesEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait SessionTypesEntity
 {

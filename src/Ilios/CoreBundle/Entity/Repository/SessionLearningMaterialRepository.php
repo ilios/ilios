@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\SessionLearningMaterialDTO;
 
 /**
  * Class SessionLearningMaterialRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class SessionLearningMaterialRepository extends EntityRepository
 {

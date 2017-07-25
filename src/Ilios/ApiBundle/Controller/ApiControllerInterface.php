@@ -9,7 +9,6 @@ namespace Ilios\ApiBundle\Controller;
  * authorized against a white list of possible endpoints in
  * ValidApiObjectListener
  *
- * @package Ilios\ApiBundle\Controller
  */
 interface ApiControllerInterface
 {

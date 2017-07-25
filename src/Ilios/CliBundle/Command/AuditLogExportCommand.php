@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Exports audit log entries in a given time range and, optionally, deletes them.
  *
  * Class AuditLogExportCommand
- * @package Ilios\CoreBundle\Command
  *
  * @link http://symfony.com/doc/current/cookbook/console/logging.html
  * @link http://symfony.com/doc/current/components/console/helpers/table.html

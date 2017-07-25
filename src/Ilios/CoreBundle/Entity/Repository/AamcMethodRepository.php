@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\AamcMethodDTO;
 
 /**
  * Class AamcMethodRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class AamcMethodRepository extends EntityRepository
 {

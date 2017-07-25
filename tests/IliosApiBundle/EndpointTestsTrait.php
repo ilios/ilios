@@ -8,7 +8,6 @@ use Tests\CoreBundle\DataLoader\DataLoaderInterface;
 /**
  * Set of tests that will run packaged as a trait
  *
- * @package Tests\IliosApiBundle
  */
 trait EndpointTestsTrait
 {

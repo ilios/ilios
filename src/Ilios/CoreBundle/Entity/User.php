@@ -21,7 +21,6 @@ use Ilios\CoreBundle\Traits\SchoolEntity;
 
 /**
  * Class User
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_school", columns={"school_id"})})
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserRepository")

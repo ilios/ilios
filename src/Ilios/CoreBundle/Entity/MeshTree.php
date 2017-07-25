@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class MeshTree
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="mesh_tree")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\MeshTreeRepository")

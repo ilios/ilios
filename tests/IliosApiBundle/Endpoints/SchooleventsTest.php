@@ -9,7 +9,6 @@ use DateTime;
 
 /**
  * SchooleventsTest API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_2
  */
 class SchooleventsTest extends AbstractEndpointTest

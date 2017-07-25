@@ -15,7 +15,6 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface TermInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface TermInterface extends
     DescribableEntityInterface,

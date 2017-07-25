@@ -22,7 +22,6 @@ use Ilios\CoreBundle\Traits\SessionsEntityInterface;
 
 /**
  * Interface CourseInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface CourseInterface extends
     IdentifiableEntityInterface,

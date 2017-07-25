@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\VocabularyDTO;
 
 /**
  * Class VocabularyRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class VocabularyRepository extends EntityRepository
 {

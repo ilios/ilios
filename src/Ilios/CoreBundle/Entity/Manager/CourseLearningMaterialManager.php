@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 /**
  * Class CourseLearningMaterialManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class CourseLearningMaterialManager extends DTOManager
 {

@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 
 /**
  * Class ProgramYearStewardManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class ProgramYearStewardManager extends DTOManager
 {

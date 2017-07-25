@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\AamcMethodInterface;
 
 /**
  * Class LoadAamcMethodDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadAamcMethodDataTest extends AbstractDataFixtureTest
 {

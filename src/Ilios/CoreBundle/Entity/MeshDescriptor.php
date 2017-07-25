@@ -20,7 +20,6 @@ use Ilios\CoreBundle\Traits\SessionsEntity;
 
 /**
  * Class MeshDescriptor
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="mesh_descriptor")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\MeshDescriptorRepository")

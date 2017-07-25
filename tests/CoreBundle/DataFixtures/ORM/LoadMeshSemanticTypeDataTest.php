@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 
 /**
  * Class LoadMeshSemanticTypeDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadMeshSemanticTypeDataTest extends AbstractDataFixtureTest
 {

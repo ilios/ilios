@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
 /**
  * Class LoadLearningMaterialStatusDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadLearningMaterialStatusDataTest extends AbstractDataFixtureTest
 {

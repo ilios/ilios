@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\AlertChangeTypeDTO;
 
 /**
  * Class AlertChangeTypeRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class AlertChangeTypeRepository extends EntityRepository
 {

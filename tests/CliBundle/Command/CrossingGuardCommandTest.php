@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class CrossingGuardCommandTest
- * @package Tests\CliBundle\\Command
  */
 class CrossingGuardCommandTest extends TestCase
 {

@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class AddUserCommandTest
- * @package Tests\CliBundle\\Command
  */
 class AddUserCommandTest extends TestCase
 {

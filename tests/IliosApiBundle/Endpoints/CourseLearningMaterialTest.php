@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * CourseLearningMaterial API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_1
  */
 class CourseLearningMaterialTest extends AbstractEndpointTest

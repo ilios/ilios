@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
  * Class MeshTreeInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface MeshTreeInterface extends
     StringableEntityInterface,

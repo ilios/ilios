@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class CourseLearningMaterialDTOVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class CourseLearningMaterialDTOVoter extends CourseDTOVoter
 {

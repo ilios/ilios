@@ -12,7 +12,6 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
  * Prevent some forms of URL injection by validating API
  * endpoints against a white list
  *
- * @package Ilios\ApiBundle\EventListener
  */
 class ValidApiObjectListener
 {

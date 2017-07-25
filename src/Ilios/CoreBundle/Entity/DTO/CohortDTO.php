@@ -7,7 +7,6 @@ use Ilios\ApiBundle\Annotation as IS;
 /**
  * Class CohortDTO
  * Data transfer object for a cohort
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

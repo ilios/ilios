@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class ProgramYearStewardVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class ProgramYearStewardEntityVoter extends AbstractVoter
 {

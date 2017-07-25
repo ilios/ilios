@@ -7,7 +7,6 @@ use Ilios\ApiBundle\Annotation as IS;
 /**
  * Class ProgramDTO
  * Data transfer object for a Program
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

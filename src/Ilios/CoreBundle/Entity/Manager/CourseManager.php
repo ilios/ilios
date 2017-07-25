@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Class CourseManager
- * @package Ilios\CoreBundle\Entity\Manager
  */
 class CourseManager extends DTOManager
 {

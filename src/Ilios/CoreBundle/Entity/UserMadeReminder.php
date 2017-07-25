@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class UserMadeReminder
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="user_made_reminder",
  *   indexes={

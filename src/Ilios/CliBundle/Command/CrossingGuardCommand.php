@@ -13,7 +13,6 @@ use Ilios\CoreBundle\Service\CrossingGuard;
  * Enable, disable, and check the status of the crossing guard service
  *
  * Class CrossingGuardCommand
- * @package Ilios\CliBUndle\Command
  */
 class CrossingGuardCommand extends Command
 {

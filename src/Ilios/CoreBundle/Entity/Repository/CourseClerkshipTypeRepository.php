@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\CourseClerkshipTypeDTO;
 
 /**
  * Class CourseClerkshipTypeRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class CourseClerkshipTypeRepository extends EntityRepository
 {

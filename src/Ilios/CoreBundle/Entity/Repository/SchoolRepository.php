@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Entity\DTO\SchoolDTO;
 
 /**
  * Class SchoolRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class SchoolRepository extends EntityRepository
 {

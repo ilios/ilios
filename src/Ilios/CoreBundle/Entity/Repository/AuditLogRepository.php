@@ -5,7 +5,6 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  * Class AuditLogRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class AuditLogRepository extends EntityRepository
 {

@@ -8,7 +8,6 @@ use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
  * Download controller Test.
- * @package Ilios\CoreBundle\Test\Controller;
  * @group other
  */
 class DownloadControllerTest extends WebTestCase

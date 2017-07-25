@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * A generic data-loader base-class for importing entities from data files.
  *
  * Class AbstractFixture
- * @package Ilios\CoreBundle\DataFixtures\ORM
  *
  * @link http://docs.doctrine-project.org/en/latest/reference/batch-processing.html#bulk-inserts
  */

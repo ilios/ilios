@@ -6,7 +6,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
  * Class LoadMeshPreviousIndexingData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadMeshPreviousIndexingData extends AbstractMeshFixture implements DependentFixtureInterface
 {

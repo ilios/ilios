@@ -8,7 +8,6 @@ use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
  * Class ConfigControllerTest
- * @package Tests\WebBundle\\Controller
  */
 class ConfigControllerTest extends WebTestCase
 {

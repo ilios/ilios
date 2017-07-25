@@ -7,7 +7,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * Class SessionDescriptionEntityVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class SessionDescriptionEntityVoter extends SessionEntityVoter
 {

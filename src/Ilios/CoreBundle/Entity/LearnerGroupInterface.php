@@ -16,7 +16,6 @@ use Ilios\CoreBundle\Traits\UsersEntityInterface;
 
 /**
  * Interface GroupInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface LearnerGroupInterface extends
     IdentifiableEntityInterface,

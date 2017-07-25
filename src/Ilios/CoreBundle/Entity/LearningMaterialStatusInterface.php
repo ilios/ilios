@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface LearningMaterialStatusInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface LearningMaterialStatusInterface extends
     IdentifiableEntityInterface,

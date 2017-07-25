@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**
  * Class LoadCompetencyAmcPcrsDataTest
- * @package Tests\CoreBundle\\DataFixtures\ORM
  */
 class LoadCompetencyAmcPcrsDataTest extends AbstractDataFixtureTest
 {

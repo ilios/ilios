@@ -37,7 +37,6 @@ use Tests\CoreBundle\TestCase;
 
 /**
  * Class CourseRolloverTest
- * @package Tests\CliBundle\\Command
  */
 class CourseRolloverTest extends TestCase
 {

@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 
 /**
  * Class LoadLearningMaterialUserRoleData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadLearningMaterialUserRoleData extends AbstractFixture
 {

@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 
 /**
  * Class LoadCourseClerkshipTypeData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadCourseClerkshipTypeData extends AbstractFixture
 {

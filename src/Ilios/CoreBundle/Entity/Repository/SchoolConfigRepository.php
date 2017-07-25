@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\SchoolConfigDTO;
 
 /**
  * Class SchoolConfigRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class SchoolConfigRepository extends EntityRepository
 {

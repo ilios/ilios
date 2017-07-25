@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Traits\SortableEntityInterface;
 
 /**
  * Interface CourseLearningMaterialInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface CourseLearningMaterialInterface extends
     IdentifiableEntityInterface,

@@ -21,7 +21,6 @@ use Ilios\CoreBundle\Traits\StewardedEntity;
 
 /**
  * Class ProgramYear
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="program_year")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\ProgramYearRepository")

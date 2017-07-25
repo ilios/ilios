@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\UserMadeReminderDTO;
 
 /**
  * Class UserMadeReminderRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class UserMadeReminderRepository extends EntityRepository
 {

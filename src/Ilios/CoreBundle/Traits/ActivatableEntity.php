@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Class ActivatableEntity
- * @package Ilios\CoreBundle\Traits
  */
 trait ActivatableEntity
 {

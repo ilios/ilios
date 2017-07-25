@@ -10,7 +10,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Class ApplicationConfigEntityVoterTest
- * @package Tests\AuthenticationBundle\\Voter
  */
 class ApplicationConfigEntityVoterTest extends AbstractVoterTestCase
 {

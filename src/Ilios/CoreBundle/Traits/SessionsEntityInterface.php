@@ -10,7 +10,6 @@ use Ilios\CoreBundle\Entity\SessionInterface;
 
 /**
  * Interface SessionsEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface SessionsEntityInterface
 {

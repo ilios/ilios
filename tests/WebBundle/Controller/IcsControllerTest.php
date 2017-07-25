@@ -10,7 +10,6 @@ use Tests\CoreBundle\Traits\JsonControllerTest;
 
 /**
  * Class ConfigControllerTest
- * @package Tests\WebBundle\\Controller
  */
 class IcsControllerTest extends WebTestCase
 {

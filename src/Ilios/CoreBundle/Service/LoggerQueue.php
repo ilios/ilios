@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Service\Logger;
  * FIFO queue for tracking and logging operations on entities.
  *
  * Class LoggerQueue
- * @package Ilios\CoreBundle\Classes
  */
 class LoggerQueue
 {

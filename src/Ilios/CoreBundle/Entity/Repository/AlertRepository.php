@@ -8,7 +8,6 @@ use Ilios\CoreBundle\Entity\DTO\AlertDTO;
 
 /**
  * Class AlertRepository
- * @package Ilios\CoreBundle\Entity\Repository
  */
 class AlertRepository extends EntityRepository
 {

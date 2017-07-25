@@ -7,7 +7,6 @@ use Tests\IliosApiBundle\EndpointTestsTrait;
 
 /**
  * Alert API endpoint Test.
- * @package Tests\IliosApiBundle\Endpoints
  * @group api_5
  */
 class AlertTest extends AbstractEndpointTest

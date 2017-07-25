@@ -6,7 +6,6 @@ use Tests\CoreBundle\DataLoader\AbstractDataLoader;
 
 /**
  * Class AuditLogData
- * @package Tests\CliBundle\\DataLoader
  */
 class AuditLogData extends AbstractDataLoader
 {

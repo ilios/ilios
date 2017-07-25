@@ -9,7 +9,6 @@ use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
  * Interface AdministratorsEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface AdministratorsEntityInterface
 {

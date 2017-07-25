@@ -6,7 +6,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface UserMadeReminderInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface UserMadeReminderInterface extends
     IdentifiableEntityInterface,

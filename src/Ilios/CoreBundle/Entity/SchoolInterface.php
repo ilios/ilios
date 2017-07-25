@@ -20,7 +20,6 @@ use Ilios\CoreBundle\Traits\StewardedEntityInterface;
 
 /**
  * Interface SchoolInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface SchoolInterface extends
     IdentifiableEntityInterface,

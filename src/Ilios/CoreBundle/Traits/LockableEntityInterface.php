@@ -4,7 +4,6 @@ namespace Ilios\CoreBundle\Traits;
 
 /**
  * Interface LockableEntityInterface
- * @package Ilios\CoreBundle\Traits
  */
 interface LockableEntityInterface
 {

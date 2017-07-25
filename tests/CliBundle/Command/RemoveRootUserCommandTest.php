@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
  * Tests the Remove Root User command.
  *
  * Class RemoveRootUserCommandTest
- * @package Tests\CliBundle\Command
  */
 class RemoveRootUserCommandTest extends TestCase
 {

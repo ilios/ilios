@@ -18,7 +18,6 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class Offering
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="offering",
  *   indexes={

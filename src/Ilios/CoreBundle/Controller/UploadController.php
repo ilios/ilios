@@ -10,7 +10,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Class UploadController
- * @package Ilios\CoreBundle\Controller
  */
 class UploadController extends AbstractController
 {

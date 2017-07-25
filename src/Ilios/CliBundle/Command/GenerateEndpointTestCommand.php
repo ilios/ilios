@@ -15,7 +15,6 @@ use Symfony\Component\Templating\EngineInterface;
  * Generates the test for an endpoint
  *
  * Class GenerateEndpointTestCommand
- * @package Ilios\CliBUndle\Command
  */
 class GenerateEndpointTestCommand extends Command
 {

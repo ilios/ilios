@@ -10,7 +10,6 @@ use Exception;
 
 /**
  * Class DownloadController
- * @package Ilios\CoreBundle\Controller
  */
 class DownloadController extends AbstractController
 {

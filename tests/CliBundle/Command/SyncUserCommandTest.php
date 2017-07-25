@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class SyncUserCommandTest
- * @package Tests\CliBundle\\Command
  */
 class SyncUserCommandTest extends TestCase
 {

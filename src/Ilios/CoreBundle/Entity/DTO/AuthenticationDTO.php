@@ -5,7 +5,6 @@ use Ilios\ApiBundle\Annotation as IS;
 
 /**
  * Class Authentication
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

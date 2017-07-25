@@ -6,7 +6,6 @@ use Symfony\Component\Security\Core\Encoder\BasePasswordEncoder;
 
 /**
  * Class Encoder
- * @package Ilios\AuthenticationBundle\Form
  */
 class Encoder extends BasePasswordEncoder
 {

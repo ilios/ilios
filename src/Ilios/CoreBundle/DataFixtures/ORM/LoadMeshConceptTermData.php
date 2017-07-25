@@ -6,7 +6,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
  * Class LoadMeshConceptTermData
- * @package Ilios\CoreBundle\DataFixtures\ORM
  */
 class LoadMeshConceptTermData extends AbstractMeshFixture implements DependentFixtureInterface
 {

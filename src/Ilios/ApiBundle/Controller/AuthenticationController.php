@@ -15,7 +15,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
  * Authentication uses 'user' as the primary key and
  * needs to encode passwords
  * so we have to handle that specially.
- * @package Ilios\ApiBundle\Controller
  */
 class AuthenticationController extends ApiController
 {

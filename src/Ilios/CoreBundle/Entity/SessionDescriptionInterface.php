@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface SessionDescriptionInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface SessionDescriptionInterface extends
     DescribableEntityInterface,

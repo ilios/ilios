@@ -11,7 +11,6 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class IngestionException
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\IngestionExceptionRepository")
  * @ORM\Table(name="ingestion_exception")

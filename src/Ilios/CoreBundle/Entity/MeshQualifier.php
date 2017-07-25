@@ -15,7 +15,6 @@ use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class MeshQualifier
- * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="mesh_qualifier")
  * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\MeshQualifierRepository")

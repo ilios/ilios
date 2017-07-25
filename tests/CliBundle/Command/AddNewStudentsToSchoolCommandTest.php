@@ -14,7 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class AddNewStudentsToSchoolCommandTest
- * @package Tests\CliBundle\\Command
  */
 class AddNewStudentsToSchoolCommandTest extends TestCase
 {

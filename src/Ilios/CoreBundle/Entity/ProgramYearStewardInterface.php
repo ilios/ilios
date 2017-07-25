@@ -7,7 +7,6 @@ use Ilios\CoreBundle\Traits\SchoolEntityInterface;
 
 /**
  * Interface ProgramYearStewardInterface
- * @package Ilios\CoreBundle\Entity
  */
 interface ProgramYearStewardInterface extends
     IdentifiableEntityInterface,

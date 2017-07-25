@@ -24,7 +24,6 @@ use Ilios\CoreBundle\Entity\ObjectiveInterface;
  * CourseRollover Rolls over an existing course and its components to a new Academic Year
  *
  * @category Service
- * @package Ilios\CoreBundle\Service
  */
 class CourseRollover
 {

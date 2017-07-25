@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Class ArchivableVoter
- * @package Ilios\AuthenticationBundle\Voter
  */
 class ArchivableVoter extends Voter
 {

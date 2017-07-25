@@ -7,7 +7,6 @@ use Ilios\ApiBundle\Annotation as IS;
 /**
  * Class IngestionExceptionDTO
  * Data transfer object for an ingestionException
- * @package Ilios\CoreBundle\Entity\DTO
  *
  * @IS\DTO
  */

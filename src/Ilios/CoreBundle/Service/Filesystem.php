@@ -11,7 +11,6 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
  * Extends Symfonys built in file system to add a read method which symfony core devs
  * do not wish to include in the base class.
  *
- * @package Ilios\CoreBundle\Classes
  *
  */
 class Filesystem extends SymfonyFileSystem
