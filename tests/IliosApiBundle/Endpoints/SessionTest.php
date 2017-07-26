@@ -216,4 +216,13 @@ class SessionTest extends AbstractEndpointTest
         $data['description'] = 'new description';
         $this->relatedTimeStampUpdateTest($data['session'], 'sessiondescriptions', 'sessionDescription', $data);
     }
+
+    public function testSendingNullForSessionDescription()
+    {
+      $dataLoader = $this->getDataLoader();
+      $data = $dataLoader->create();
+      $postData = $data;
+      $postData['sessionDescription'] = null;
+      $this->postTest($data, $postData);
+    }
 }

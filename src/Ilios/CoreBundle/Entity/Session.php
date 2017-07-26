@@ -457,10 +457,12 @@ class Session implements SessionInterface
     /**
      * @param SessionDescriptionInterface $sessionDescription
      */
-    public function setSessionDescription(SessionDescriptionInterface $sessionDescription)
+    public function setSessionDescription(SessionDescriptionInterface $sessionDescription = null)
     {
         $this->sessionDescription = $sessionDescription;
-        $sessionDescription->setSession($this);
+        if ($sessionDescription) {
+            $sessionDescription->setSession($this);
+        }
     }
 
     /**
