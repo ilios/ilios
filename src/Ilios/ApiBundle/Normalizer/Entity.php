@@ -4,6 +4,7 @@ namespace Ilios\ApiBundle\Normalizer;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidInputWithSafeUserMessageException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Ilios\CoreBundle\Service\EntityMetadata;
 use HTMLPurifier;
@@ -27,6 +28,11 @@ class Entity extends ObjectNormalizer
      * @var HTMLPurifier
      */
     protected $purifier;
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     /**
      * Set by the DI system.  We don't want to override
@@ -68,7 +74,20 @@ class Entity extends ObjectNormalizer
     }
 
     /**
-     * Overridden in order to filter our null values
+     * Set by the DI system.  We don't want to override
+     * the constructor so this uses a setter to pass the needed
+     * service
+     *
+     * @required
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * Overridden in order to filter out null values
      *
      * {@inheritdoc}
      */
@@ -156,7 +175,7 @@ class Entity extends ObjectNormalizer
                 );
                 try {
                     $this->setAttributeValue($object, $attribute, $denormalizedValue, $format, $context);
-                } catch (\InvalidArgumentException $exception) {
+                } catch (\TypeError $exception) {
                     $type = $this->entityMetadata->getTypeOfProperty($writableProperties[$attribute]);
                     if (null !== $denormalizedValue or 'entity' !== $type) {
                         throw $exception;
@@ -164,6 +183,12 @@ class Entity extends ObjectNormalizer
 
                     // we ignore attempts to set entities to NULL when they are type hinted otherwise
                     // This will get caught in the validator with a much nicer message
+                    $errorValue = null == $value?'null':$value;
+                    $this->logger->error(
+                        'Denormalization error ' . self::class . ' line ' . __LINE__ . ': ' .
+                        "Unable to set '${attribute}' to '${errorValue}' on '${class}'.  Message: " .
+                        $exception->getMessage()
+                    );
                 }
             } else {
                 if (!array_key_exists($attribute, $exposedProperties)) {
