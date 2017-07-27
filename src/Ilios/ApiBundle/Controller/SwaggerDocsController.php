@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class SwaggerDocsController
@@ -49,7 +49,7 @@ class SwaggerDocsController extends AbstractController
         $yamlRoute = $this->generateUrl(
             'ilios_swagger_file',
             [],
-            UrlGenerator::ABSOLUTE_URL
+            UrlGeneratorInterface::NETWORK_PATH
         );
         return $this->render('@IliosApi/swagger/index.html.twig', array('yamlRoute' => $yamlRoute));
     }
