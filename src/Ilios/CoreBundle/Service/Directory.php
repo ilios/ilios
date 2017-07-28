@@ -24,7 +24,7 @@ class Directory
         $this->ldapManager = $ldapManager;
         $this->ldapCampusIdProperty = $ldapCampusIdProperty;
     }
-    
+
     /**
      * Get directory information for a single user
      * @param  string $campusId
@@ -38,10 +38,10 @@ class Directory
         if (count($users)) {
             return $users[0];
         }
-        
+
         return false;
     }
-    
+
     /**
      * Get directory information for a list of users
      * @param  array $campusIds
@@ -56,15 +56,15 @@ class Directory
         }, $campusIds);
         $filterTermsString = implode($filterTerms, '');
         $filter = "(|{$filterTermsString})";
-        
+
         $users = $this->ldapManager->search($filter);
         if (count($users)) {
             return $users;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Find everyone in the directory matching these terms
      * @param  array $searchTerms
@@ -74,6 +74,7 @@ class Directory
     public function find(array $searchTerms)
     {
         $filterTerms = array_map(function ($term) {
+            $term = ldap_escape($term, null, LDAP_ESCAPE_FILTER);
             return "(|(sn={$term}*)(givenname={$term}*)(mail={$term}*)({$this->ldapCampusIdProperty}={$term}*))";
         }, $searchTerms);
         $filterTermsString = implode($filterTerms, '');
@@ -83,10 +84,10 @@ class Directory
         if (count($users)) {
             return $users;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Find all users matching LDAP filter
      * @param  string $filter
@@ -99,7 +100,7 @@ class Directory
         if (count($users)) {
             return $users;
         }
-        
+
         return false;
     }
 }
