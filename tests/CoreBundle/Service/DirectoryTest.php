@@ -26,7 +26,7 @@ class DirectoryTest extends TestCase
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
         $obj = new Directory($ldapManager, 'campusId');
         $ldapManager->shouldReceive('search')->with('(campusId=1234)')->andReturn(array(1));
-        
+
         $result = $obj->findByCampusId(1234);
         $this->assertSame($result, 1);
     }
@@ -39,7 +39,7 @@ class DirectoryTest extends TestCase
         $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
         $obj = new Directory($ldapManager, 'campusId');
         $ldapManager->shouldReceive('search')->with('(|(campusId=1234)(campusId=1235))')->andReturn(array(1));
-        
+
         $result = $obj->findByCampusIds([1234, 1235]);
         $this->assertSame($result, [1]);
     }
@@ -53,7 +53,7 @@ class DirectoryTest extends TestCase
         $obj = new Directory($ldapManager, 'campusId');
         $ldapManager->shouldReceive('search')
             ->with(m::mustBe('(|(campusId=1234)(campusId=1235))'))->andReturn(array(1));
-        
+
         $result = $obj->findByCampusIds([1234, 1235, 1234, 1235]);
         $this->assertSame($result, [1]);
     }
@@ -67,8 +67,22 @@ class DirectoryTest extends TestCase
         $obj = new Directory($ldapManager, 'campusId');
         $filter= '(&(|(sn=a*)(givenname=a*)(mail=a*)(campusId=a*))(|(sn=b*)(givenname=b*)(mail=b*)(campusId=b*)))';
         $ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
-        
+
         $result = $obj->find(array('a', 'b'));
+        $this->assertSame($result, array(1,2));
+    }
+
+    /**
+     * @covers \Ilios\CoreBundle\Service\Directory::find
+     */
+    public function testFindOutputEscaping()
+    {
+        $ldapManager = m::mock('Ilios\CoreBundle\Service\LdapManager');
+        $obj = new Directory($ldapManager, 'campusId');
+        $filter= '(|(sn=a\**)(givenname=a\**)(mail=a\**)(campusId=a\**))';
+        $ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
+
+        $result = $obj->find(array('a*'));
         $this->assertSame($result, array(1,2));
     }
 
@@ -81,7 +95,7 @@ class DirectoryTest extends TestCase
         $obj = new Directory($ldapManager, 'campusId');
         $filter= '(one)(two)';
         $ldapManager->shouldReceive('search')->with($filter)->andReturn(array(1,2));
-        
+
         $result = $obj->findByLdapFilter($filter);
         $this->assertSame($result, array(1,2));
     }
