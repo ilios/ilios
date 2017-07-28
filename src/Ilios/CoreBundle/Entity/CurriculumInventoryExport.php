@@ -95,7 +95,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      * @IS\Type("dateTime")
      */
     protected $createdAt;
-    
+
     /**
      * Constructor
      */

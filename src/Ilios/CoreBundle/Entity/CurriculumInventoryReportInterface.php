@@ -54,7 +54,7 @@ interface CurriculumInventoryReportInterface extends
     /**
      * @param CurriculumInventoryExportInterface $export
      */
-    public function setExport(CurriculumInventoryExportInterface $export);
+    public function setExport(CurriculumInventoryExportInterface $export = null);
 
     /**
      * @return CurriculumInventoryExportInterface
@@ -64,7 +64,7 @@ interface CurriculumInventoryReportInterface extends
     /**
      * @param CurriculumInventorySequenceInterface $sequence
      */
-    public function setSequence(CurriculumInventorySequenceInterface $sequence);
+    public function setSequence(CurriculumInventorySequenceInterface $sequence = null);
 
     /**
      * @return CurriculumInventorySequenceInterface

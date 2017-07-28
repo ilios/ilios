@@ -246,9 +246,9 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     }
 
     /**
-     * @param CurriculumInventoryExportInterface $export
+     * @param CurriculumInventoryExportInterface|null $export
      */
-    public function setExport(CurriculumInventoryExportInterface $export)
+    public function setExport(CurriculumInventoryExportInterface $export = null)
     {
         $this->export = $export;
     }
@@ -262,9 +262,9 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     }
 
     /**
-     * @param CurriculumInventorySequenceInterface $sequence
+     * @param CurriculumInventorySequenceInterface|null $sequence
      */
-    public function setSequence(CurriculumInventorySequenceInterface $sequence)
+    public function setSequence(CurriculumInventorySequenceInterface $sequence = null)
     {
         $this->sequence = $sequence;
     }
