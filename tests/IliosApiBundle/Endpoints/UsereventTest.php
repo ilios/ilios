@@ -4,6 +4,12 @@ namespace Tests\IliosApiBundle\Endpoints;
 
 use Ilios\CoreBundle\Entity\OfferingInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\CoreBundle\DataLoader\CourseData;
+use Tests\CoreBundle\DataLoader\IlmSessionData;
+use Tests\CoreBundle\DataLoader\LearningMaterialData;
+use Tests\CoreBundle\DataLoader\OfferingData;
+use Tests\CoreBundle\DataLoader\SessionDescriptionData;
+use Tests\CoreBundle\DataLoader\SessionTypeData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use DateTime;
 
@@ -32,12 +38,12 @@ class UsereventTest extends AbstractEndpointTest
 
     public function testGetEvents()
     {
-        $offerings = $this->container->get('Tests\CoreBundle\DataLoader\OfferingData')->getAll();
-        $sessionTypes = $this->container->get('Tests\CoreBundle\DataLoader\SessionTypeData')->getAll();
-        $learningMaterials = $this->container->get('Tests\CoreBundle\DataLoader\LearningMaterialData')->getAll();
-        $sessionDescriptions = $this->container->get('Tests\CoreBundle\DataLoader\SessionDescriptionData')->getAll();
-        $ilmSessions = $this->container->get('Tests\CoreBundle\DataLoader\IlmSessionData')->getAll();
-        $courses = $this->container->get('Tests\CoreBundle\DataLoader\CourseData')->getAll();
+        $offerings = $this->container->get(OfferingData::class)->getAll();
+        $sessionTypes = $this->container->get(SessionTypeData::class)->getAll();
+        $learningMaterials = $this->container->get(LearningMaterialData::class)->getAll();
+        $sessionDescriptions = $this->container->get(SessionDescriptionData::class)->getAll();
+        $ilmSessions = $this->container->get(IlmSessionData::class)->getAll();
+        $courses = $this->container->get(CourseData::class)->getAll();
 
         $userId = 2;
 
@@ -473,7 +479,7 @@ class UsereventTest extends AbstractEndpointTest
 
     public function testMultidayEvent()
     {
-        $offerings = $this->container->get('Tests\CoreBundle\DataLoader\OfferingData')->getAll();
+        $offerings = $this->container->get(OfferingData::class)->getAll();
         $userId = 2;
         $from = new DateTime('2015-01-30 00:00:00');
         $to = new DateTime('2015-01-30 23:59:59');

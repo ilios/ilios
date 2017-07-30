@@ -3,6 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
+use Tests\CoreBundle\DataLoader\ProgramYearData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -206,7 +207,7 @@ class CohortTest extends AbstractEndpointTest
      */
     protected function getProgramYear($id)
     {
-        $programYearDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\ProgramYearData');
+        $programYearDataLoader = $this->container->get(ProgramYearData::class);
         $allProgramYears = $programYearDataLoader->getAll();
         $programYearsById = [];
         foreach ($allProgramYears as $arr) {

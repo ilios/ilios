@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\CoreBundle\DataLoader\SchoolData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -86,7 +87,7 @@ class CurriculumInventoryInstitutionTest extends AbstractEndpointTest
             'This seems like too much of a pain to test this right now.'
         );
         $count = 26;
-        $schoolDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\SchoolData');
+        $schoolDataLoader = $this->container->get(SchoolData::class);
         $schools = $schoolDataLoader->createMany($count);
         $savedSchools = $this->postMany('schools', 'schools', $schools);
 

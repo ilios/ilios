@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\CoreBundle\DataLoader\DepartmentData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -70,7 +71,7 @@ class ProgramYearStewardTest extends AbstractEndpointTest
      */
     public function testPostMany()
     {
-        $departmentDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\DepartmentData');
+        $departmentDataLoader = $this->container->get(DepartmentData::class);
         $departments = $departmentDataLoader->createMany(51);
         $savedDepartments = $this->postMany('departments', 'departments', $departments);
 

@@ -2,6 +2,7 @@
 
 namespace Tests\IliosApiBundle\Endpoints;
 
+use Tests\CoreBundle\DataLoader\CurriculumInventoryReportData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -70,7 +71,7 @@ class CurriculumInventorySequenceTest extends AbstractEndpointTest
     public function testPostMany()
     {
         $count = 4;
-        $reportDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\CurriculumInventoryReportData');
+        $reportDataLoader = $this->container->get(CurriculumInventoryReportData::class);
         $reports = $reportDataLoader->createMany($count);
         $savedReports = $this->postMany('curriculuminventoryreports', 'curriculumInventoryReports', $reports);
 

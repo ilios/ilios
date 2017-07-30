@@ -2,6 +2,7 @@
 
 namespace Ilios\WebBundle\Controller;
 
+use Ilios\AuthenticationBundle\Service\CasManager;
 use Ilios\WebBundle\Service\WebIndexFromJson;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,7 +26,7 @@ class ConfigController extends Controller
             $configuration['loginUrl'] = $url . $loginPath;
         }
         if ($authenticationType === 'cas') {
-            $cas = $this->container->get('Ilios\AuthenticationBundle\Service\CasManager');
+            $cas = $this->container->get(CasManager::class);
 
             $configuration['casLoginUrl'] = $cas->getLoginUrl();
         }

@@ -3,6 +3,7 @@
 namespace Tests\IliosApiBundle\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
+use Tests\CoreBundle\DataLoader\SessionData;
 use Tests\IliosApiBundle\AbstractEndpointTest;
 use Tests\IliosApiBundle\EndpointTestsTrait;
 
@@ -115,7 +116,7 @@ class SessionTypeTest extends AbstractEndpointTest
     public function testPostMany()
     {
         $count = 51;
-        $sessionDataLoader = $this->container->get('Tests\CoreBundle\DataLoader\SessionData');
+        $sessionDataLoader = $this->container->get(SessionData::class);
         $sessions = $sessionDataLoader->createMany($count);
         $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
 
